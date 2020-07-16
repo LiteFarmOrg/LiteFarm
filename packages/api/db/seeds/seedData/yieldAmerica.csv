@@ -1,0 +1,247 @@
+country,crop_id,value,is_average
+Canada,4,20977.52128,TRUE
+Canada,5,8995,FALSE
+Canada,7,248193,FALSE
+Canada,8,69707,FALSE
+Canada,17,37249,FALSE
+Canada,105,149702.6633,TRUE
+Canada,120,76165,FALSE
+Canada,161,17130,FALSE
+Canada,169,93719,FALSE
+Canada,179,273645,FALSE
+Canada,180,7520.279265,TRUE
+Canada,203,26179.47154,TRUE
+Canada,205,409020,FALSE
+Canada,208,84004.18102,TRUE
+Canada,219,101225,FALSE
+Canada,221,124245,FALSE
+Canada,229,16244.65912,TRUE
+Canada,231,74536,FALSE
+Canada,235,126285,FALSE
+Canada,254,26952.37295,TRUE
+Canada,84,9355.713607,TRUE
+Canada,267,9372.487582,TRUE
+Canada,282,649630,FALSE
+Canada,286,760050.6713,TRUE
+Canada,289,19455,FALSE
+Canada,316,72255.87156,TRUE
+Canada,317,404783,FALSE
+Canada,318,32917,FALSE
+Canada,18,22570,FALSE
+Canada,19,61907,FALSE
+Canada,33,30270.38924,TRUE
+Canada,40,263889,FALSE
+Canada,49,454186,FALSE
+Canada,54,179453,FALSE
+Canada,58,91862,FALSE
+Canada,59,22326.21725,TRUE
+Canada,63,280514,FALSE
+Canada,90,242843,FALSE
+Canada,94,61002.28577,TRUE
+Canada,101,138512.4356,TRUE
+Canada,112,16043,FALSE
+Canada,138,17125.18189,TRUE
+Canada,152,184718,FALSE
+Canada,154,96782.90416,TRUE
+Canada,158,261510,FALSE
+Canada,200,32572,FALSE
+Canada,202,85300.04797,TRUE
+Canada,206,183393.7134,TRUE
+Canada,218,47433,FALSE
+Canada,238,192888,FALSE
+Canada,243,112174.5654,TRUE
+Canada,259,29160,FALSE
+Canada,276,26602,FALSE
+Canada,279,94255,FALSE
+Canada,298,120463.1286,TRUE
+Canada,305,27898,FALSE
+Canada,306,722309,FALSE
+Canada,11,178064.2799,TRUE
+Canada,16,74389.59543,TRUE
+Canada,48,27222.34375,TRUE
+Canada,60,17876,FALSE
+Canada,63,280514,FALSE
+Canada,121,115777.4722,TRUE
+Canada,128,9353.124815,TRUE
+Canada,156,14867,FALSE
+Canada,217,27169,FALSE
+Canada,248,23057,FALSE
+Canada,270,9151.63574,TRUE
+Canada,52,72720.10141,TRUE
+Canada,74,4541.36112,TRUE
+Canada,75,47178.96176,TRUE
+Canada,80,107898,FALSE
+Canada,301,113987.8459,TRUE
+Canada,319,89190.44102,TRUE
+Canada,51,26504.47085,TRUE
+Canada,53,6581.96824,TRUE
+Canada,77,5993.147024,TRUE
+Canada,213,124295.9159,TRUE
+Canada,228,133880.2683,TRUE
+Canada,269,15171.62496,TRUE
+Canada,296,43692.55808,TRUE
+Canada,175,70802.39066,TRUE
+Canada,12,51585,FALSE
+Canada,13,74728.86082,TRUE
+Canada,108,12577.92841,TRUE
+Canada,165,14797.07017,TRUE
+Canada,215,105585.0293,TRUE
+Canada,261,8946.089355,TRUE
+Canada,281,76226,FALSE
+Canada,302,27087.34387,TRUE
+Canada,310,36133,TRUE
+Canada,106,13595.99028,TRUE
+Canada,30,32776,FALSE
+Canada,91,126485.3041,TRUE
+Canada,192,3780098.195,TRUE
+Canada,249,52185,FALSE
+Canada,308,30977,FALSE
+Canada,116,98484.54468,TRUE
+Canada,234,8162.890747,TRUE
+Canada,88,216577,FALSE
+Canada,227,9358.848173,TRUE
+Canada,8,69707,FALSE
+Canada,115,186672.4488,TRUE
+Canada,146,28645.96233,TRUE
+Canada,257,14862.84549,TRUE
+Canada,39,10329,FALSE
+Canada,61,218943.5096,TRUE
+Canada,76,100326.9844,TRUE
+Canada,268,27005.25,TRUE
+Canada,194,12096,FALSE
+Canada,198,5299.135169,TRUE
+Canada,245,11957.75,TRUE
+Canada,86,15341.61704,TRUE
+Canada,247,27947.125,TRUE
+Canada,15,5922.875,TRUE
+Canada,135,5719.346191,TRUE
+Canada,65,4252.65625,TRUE
+Canada,70,8796.273438,TRUE
+Canada,314,4472.643433,TRUE
+Canada,133,6124.625,TRUE
+Canada,240,4373.4375,TRUE
+Canada,148,23186,TRUE
+Canada,31,5157,TRUE
+United States of America,4,52648,FALSE
+United States of America,5,7484.490489,TRUE
+United States of America,7,356128,FALSE
+United States of America,8,163185,FALSE
+United States of America,17,41913,FALSE
+United States of America,105,127987,FALSE
+United States of America,120,173138,FALSE
+United States of America,161,14845,FALSE
+United States of America,169,109604,FALSE
+United States of America,179,298080,FALSE
+United States of America,180,17040,FALSE
+United States of America,203,112680,FALSE
+United States of America,205,563970,FALSE
+United States of America,208,231241,FALSE
+United States of America,219,197305,FALSE
+United States of America,221,394284,FALSE
+United States of America,229,42044,FALSE
+United States of America,231,135942,FALSE
+United States of America,235,490203,FALSE
+United States of America,254,81121,FALSE
+United States of America,84,26117,FALSE
+United States of America,267,9372.487582,TRUE
+United States of America,282,734112,FALSE
+United States of America,286,807660,FALSE
+United States of America,289,19397,FALSE
+United States of America,316,47681,FALSE
+United States of America,317,396598,FALSE
+United States of America,318,35390,FALSE
+United States of America,18,20134,FALSE
+United States of America,19,36752,FALSE
+United States of America,33,30270.38924,TRUE
+United States of America,40,443182,FALSE
+United States of America,49,404407,FALSE
+United States of America,54,193988,FALSE
+United States of America,58,77736,FALSE
+United States of America,59,22326.21725,TRUE
+United States of America,63,27668,FALSE
+United States of America,90,167025,FALSE
+United States of America,94,75807,FALSE
+United States of America,101,388176,FALSE
+United States of America,112,168211,FALSE
+United States of America,138,19205,FALSE
+United States of America,152,119704.6269,TRUE
+United States of America,154,372705,FALSE
+United States of America,158,357390,FALSE
+United States of America,200,23681,FALSE
+United States of America,202,76071,FALSE
+United States of America,206,183393.7134,TRUE
+United States of America,218,54163,FALSE
+United States of America,238,241390,FALSE
+United States of America,243,112174.5654,TRUE
+United States of America,259,20393,FALSE
+United States of America,276,35006,FALSE
+United States of America,279,168377,FALSE
+United States of America,298,288323,FALSE
+United States of America,305,22045,FALSE
+United States of America,306,902874,FALSE
+United States of America,11,162618,FALSE
+United States of America,16,147456,FALSE
+United States of America,48,27222.34375,TRUE
+United States of America,60,15173,FALSE
+United States of America,63,27668,FALSE
+United States of America,121,280648,FALSE
+United States of America,128,41186,FALSE
+United States of America,156,13707,FALSE
+United States of America,217,19439,FALSE
+United States of America,248,20448,FALSE
+United States of America,270,48912,FALSE
+United States of America,52,72720.10141,TRUE
+United States of America,74,4541.36112,TRUE
+United States of America,75,47178.96176,TRUE
+United States of America,80,171748,FALSE
+United States of America,301,106260,FALSE
+United States of America,319,89190.44102,TRUE
+United States of America,51,26504.47085,TRUE
+United States of America,53,6581.96824,TRUE
+United States of America,77,11121,FALSE
+United States of America,213,124295.9159,TRUE
+United States of America,228,282528,FALSE
+United States of America,269,15171.62496,TRUE
+United States of America,296,216508,FALSE
+United States of America,175,187347,FALSE
+United States of America,12,35933,FALSE
+United States of America,13,74278,FALSE
+United States of America,108,12577.92841,TRUE
+United States of America,165,14797.07017,TRUE
+United States of America,215,170399,FALSE
+United States of America,261,15978,FALSE
+United States of America,281,668755,FALSE
+United States of America,302,27087.34387,TRUE
+United States of America,310,36133,TRUE
+United States of America,106,23023,FALSE
+United States of America,30,71697,FALSE
+United States of America,91,126485.3041,TRUE
+United States of America,192,3780098.195,TRUE
+United States of America,249,157249,FALSE
+United States of America,308,35296.76443,TRUE
+United States of America,116,98484.54468,TRUE
+United States of America,234,8162.890747,TRUE
+United States of America,88,238022,FALSE
+United States of America,227,9358.848173,TRUE
+United States of America,8,163185,FALSE
+United States of America,115,337228,FALSE
+United States of America,146,28645.96233,TRUE
+United States of America,257,14862.84549,TRUE
+United States of America,39,10464,FALSE
+United States of America,61,218943.5096,TRUE
+United States of America,76,100326.9844,TRUE
+United States of America,268,27005.25,TRUE
+United States of America,194,10989,FALSE
+United States of America,198,5299.135169,TRUE
+United States of America,245,11957.75,TRUE
+United States of America,86,18350,FALSE
+United States of America,247,27947.125,TRUE
+United States of America,15,5922.875,TRUE
+United States of America,135,5719.346191,TRUE
+United States of America,65,4252.65625,TRUE
+United States of America,70,8796.273438,TRUE
+United States of America,314,4472.643433,TRUE
+United States of America,133,6124.625,TRUE
+United States of America,240,4373.4375,TRUE
+United States of America,148,23186,TRUE
+United States of America,31,5157,TRUE

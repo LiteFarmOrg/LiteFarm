@@ -1,0 +1,338 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (styles.scss) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.logContainer{
+  width: 100%;
+  max-width: 1024px;
+  min-height: 100vh;
+  height: auto;
+  padding: 60px 5% 0 5%;
+  display:flex;
+  flex-direction: column;
+}
+
+.date{
+  input {
+    font-size: 15px;
+    border: 1px solid #D3D3D3;
+    width: 100%;
+    border-radius: 5px;
+    background-color: hsl(0,0%,98%);
+  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ::placeholder{
+    color:#00756A;
+  }
+}
+
+.buttonContainer{
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2%;
+  button{
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+.pullLeft {
+  label {
+    line-height: 4.5rem;
+    font-size: 15px;
+    margin-right: 7px;
+  }
+  padding-top: 10px;
+  width: 45%;
+  margin: 0;
+  float: left;
+}
+
+.pullRight {
+  label {
+    line-height: 4.5rem;
+    font-size: 15px;
+    margin-right: 7px;
+  }
+  padding-top: 10px;
+  width: 45%;
+  float: right;
+  margin: 0;
+}
+
+.table {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  :global(.ReactTable) {
+    :global(.rt-td) {
+      white-space: pre-wrap;
+      background-color: white;
+      border: none;
+    }
+    :global(.rt-thead) {
+      background-color: #CBCDD5;
+    }
+    :global(.rt-th) {
+      border:none;
+    }
+  }
+}
+
+.labelContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 5%;
+  label{
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+    width: 100px;
+    margin-right: 10px;
+  }
+  input{
+    height: 30px;
+    line-height: 1.1;
+  }
+}
+
+.defaultFormDropDown {
+  width: 100%;
+  padding-bottom: 15px;
+  label{
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+    width: 75px;
+    margin-right: 10px;
+  }
+  input{
+    height: 30px;
+    line-height: 1.1;
+  }
+}
+
+.targetDropDown {
+  width: 100%;
+  padding-bottom: 15px;
+  label{
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+    width: 75px;
+    margin-right: 10px;
+  }
+  input{
+    width:100%;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 1.1;
+  }
+}
+
+input:disabled {
+  background: #D3D3D3;
+}
+
+.textContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 5%;
+  label{
+    font-weight: 300;
+    font-size: 1.8rem;
+    width: 75px;
+    margin-right: 10px;
+  }
+
+  input{
+    color: var(--typePrimary);
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: hsl(0,0%,98%);
+    border-color: hsl(0,0%,80%);
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    cursor: default;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    min-height: 38px;
+    outline: 0 !important;
+    position: relative;
+    -webkit-transition: all 100ms;
+    transition: all 100ms;
+    box-sizing: border-box;
+    font-size: 1.8rem;
+  }
+}
+
+.textContainerColumn{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 5%;
+  label{
+    font-weight: 300;
+    font-size: 18px;
+  }
+
+  input{
+    color: var(--typePrimary);
+    border: 1px solid #858b85;
+    padding: 0.5% 3%;
+    width: 100%;
+    margin-right: 3%;
+    height: 40px;
+  }
+}
+
+.inputNunit{
+  display:flex;
+  width: calc(100% - 80px);
+  input {
+    margin-right: 10px;
+  }
+}
+
+.formContainer{
+  margin-top: 5%;
+  font-size: 18px;
+  padding-bottom: 15%;
+  width: 100%;
+  select{
+    width: 100px;
+    color: #349289;
+    border: 1px solid #ECF1ED;
+    box-shadow: 0 2px 5px #CECCCC;
+    padding: 0.5% 3%;
+    background-image:
+            linear-gradient(45deg, transparent 50%, #349289 50%),
+            linear-gradient(135deg, #349289 50%, transparent 50%);
+    background-position:
+            calc(100% - 20px) calc(0.8em),
+            calc(100% - 15px) calc(0.8em);
+    background-size:
+            5px 5px,
+            5px 5px,
+            1px 1.5em;
+    background-repeat: no-repeat;
+    background-color: white;
+  }
+}
+
+.noteTitle{
+  font-weight: 600;
+  margin-bottom: 2%;
+}
+
+.noteContainer{
+  textarea{
+    width: 100%;
+    height: 15vh;
+    min-height: 80px;
+    max-height: 400px;
+    background: #EFEFEF;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 5%;
+  }
+}
+
+.chemContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 5%;
+  label{
+    color: #B1B5BE;
+    font-weight: 600;
+    font-size: 18px;
+    width: 40%;
+    line-height: 1.1;
+  }
+
+  input{
+    color: var(--typePrimary);
+    border: 1px solid #979797;
+    border-radius: 6px;
+    padding: 0.5% 3%;
+    width: 50%;
+    margin-right: 3%;
+    margin-left: 3%;
+    height: 40px;
+  }
+  span{
+    width: 10%;
+    font-weight: 600;
+    font-size: 20px;
+    color: #737984;
+  }
+}
+
+.popupTitle{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10%;
+}
+
+.close{
+  width: 8%;
+  img{
+    width: 100%;
+    max-width: 40px;
+  }
+  margin-right: 23%;
+}
+
+.modal{
+  width: 95%;
+  max-width: 800px;
+}
+
+.greenTextButton{
+  color:#00756A;
+  margin-bottom: 10px;
+}
+
+.centerButton{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+

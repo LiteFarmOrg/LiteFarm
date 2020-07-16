@@ -1,0 +1,194 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (base.css) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "./default.css";
+
+.time_picker_modal_container {
+}
+
+.time_picker_modal_header,
+.time_picker_modal_footer,
+.timezone_picker_modal_header {
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  margin-bottom: 30px;
+  background-color: #3498db;
+  color: #FFFFFF;
+  font-size: 2.5em;
+  border-radius: 2px 2px 0 0;
+}
+
+.timezone_picker_modal_header {
+  line-height: initial;
+}
+
+.time_picker_header_delivery {
+  opacity: 0.5;
+}
+.time_picker_modal_header .time_picker_header {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.time_picker_modal_header .time_picker_header.active {
+  cursor: default;
+  opacity: 1;
+}
+.time_picker_modal_header .time_picker_header:hover {
+  opacity: 1;
+}
+.time_picker_modal_header .time_picker_header.meridiem {
+  font-size: 0.8em;
+}
+
+.time_picker_modal_footer {
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+.time_picker_modal_footer.clickable {
+  cursor: pointer;
+}
+
+.picker_container {
+  width: 260px;
+  height: 260px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  position: relative;
+}
+
+.picker_pointer_container {
+  opacity: 1;
+  transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -ms-transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -moz-transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -o-transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.picker_pointer_container.animation {
+  opacity: 0;
+  transform: scale3d(0.85, 0.85, 1);
+  -o-transform: scale3d(0.85, 0.85, 1);
+  -ms-transform: scale3d(0.85, 0.85, 1);
+  -moz-transform: scale3d(0.85, 0.85, 1);
+  -webkit-transform: scale3d(0.85, 0.85, 1);
+}
+
+.picker_center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #3498db;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+
+.picker_point {
+  left: 50%;
+  cursor: pointer;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 50%;
+}
+.picker_point.point_outter {
+  top: 5px;
+  color: #5d5d5d;
+  transform-origin: center 125px;
+  -o-transform-origin: center 125px;
+  -ms-transform-origin: center 125px;
+  -moz-transform-origin: center 125px;
+  -webkit-transform-origin: center 125px;
+}
+
+.picker_point.point_inner {
+  top: 40px;
+  color: #a7a7a7;
+  transform-origin: center 90px;
+  -o-transform-origin: center 90px;
+  -ms-transform-origin: center 90px;
+  -moz-transform-origin: center 90px;
+  -webkit-transform-origin: center 90px;
+}
+
+.picker_minute_point {
+  left: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  color: #5d5d5d;
+  transform-origin: center 115px;
+  -o-transform-origin: center 115px;
+  -ms-transform-origin: center 115px;
+  -moz-transform-origin: center 115px;
+  -webkit-transform-origin: center 115px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background-color: #3498db;
+}
+
+.picker_pointer {
+  position: absolute;
+  width: 4px;
+  height: 110px;
+  left: 50%;
+  top: 20px;
+  background-color: #3498db;
+  transform-origin: center bottom;
+}
+
+.picker_pointer.animation {
+  transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -ms-transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -moz-transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -o-transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  -webkit-transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.picker_pointer .pointer_drag {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  top: -17.5px;
+  left: -15.5px;
+  background-color: #3498db;
+  color: #fff;
+  text-align: center;
+  line-height: 35px;
+}
+
+.picker_pointer .pointer_drag.draggable {
+  cursor: move;
+  touch-action: manipulation;
+}
+
+.buttons_wrapper {
+  float: right;
+  margin-top: 5px;
+}

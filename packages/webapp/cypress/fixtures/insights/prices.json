@@ -1,0 +1,22 @@
+{
+  "preview": 30,
+  "data":
+  [
+    {"Crop 1":
+    [
+      {"crop_date": "2019-01", "crop_price": 1, "network_price":  2},
+      {"crop_date": "2019-02", "crop_price": 3, "network_price": 3},
+      {"crop_date": "2019-03", "crop_price": 4, "network_price": 5}
+    ]},
+    {"Crop 2":
+    [
+      {"crop_date": "2020-04", "crop_price": 3, "network_price": 4},
+      {"crop_date": "2020-05", "crop_price": 4, "network_price": 6},
+      {"crop_date": "2020-06", "crop_price": 5, "network_price": 8}
+    ]},
+    {"Should not render Crop":
+    [
+      {"crop_date": "2020-06", "crop_price": 6, "network_price": 6}
+    ]}
+  ]
+}

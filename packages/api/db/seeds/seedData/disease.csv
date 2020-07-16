@@ -1,0 +1,510 @@
+disease_common_name,disease_scientific_name,disease_group
+Bacterial Soft Rot of Pepper,Pectobacterium carotovorum subsp. carotovorum,Bacteria
+Bacterial Black Spot of Mango,Xanthomonas axonopodis pv. mangiferaeindicae,Bacteria
+Bacterial Blight of Rice,Xanthomonas oryzae pv. oryzae,Bacteria
+Angular Leaf Spot Disease,Pseudomonas syringae,Bacteria
+Bacterial Leaf Streak,Xanthomonas oryzae pv. oryzicola,Bacteria
+Bacterial Spot,Xanthomonas spp.,Bacteria
+Bacterial Canker of Mango,Xanthomonas citri pv. mangiferaeindicae,Bacteria
+Halo Blight,Pseudomonas savastanoi pv. phaseolicola,Bacteria
+Fire Blight,Erwinia amylovora,Bacteria
+Black Rot,Xanthomonas campestris pv. campestris,Bacteria
+Angular Leaf Spot of Strawberry,Xanthomonas fragariae,Bacteria
+Bacterial Canker,Pseudomonas syringae pv. syringae,Bacteria
+Potato Scab,Streptomyces scabies,Bacteria
+Blast of Citrus,Pseudomonas syringae pv. syringae,Bacteria
+Chlorotic Leaf Roll of Apricot,Phytoplasma prunorum,Bacteria
+Sugarcane Ratoon Stunting Disease,Leifsonia xyli,Bacteria
+Holcus Spot,Pseudomonas syringae pv. syringae,Bacteria
+Blackleg,Pectobacterium atrosepticum,Bacteria
+Bacterial Wilt,Ralstonia solanacearum,Bacteria
+Bacterial Leaf Blight of Sugarcane,Acidovorax avenae,Bacteria
+Citrus Stubborn Disease,Spiroplasma citri,Bacteria
+Bacterial Blight of Cotton,Xanthomonas citri subsp. malvacearum,Bacteria
+Citrus Canker,Xanthomonas axonopodis pv. citri,Bacteria
+Banana Xanthomonas Wilt,Xanthomonas musacearum,Bacteria
+Bacterial Spot on Stone Fruits,Xanthomonas arboricola,Bacteria
+Bacterial Spot of Citrus,Xanthomonas alfalfae,Bacteria
+Bacterial Soft Rot of Banana,Pectobacterium carotovorum,Bacteria
+Phony Peach Disease,Xylella fastidiosa,Bacteria
+Bacterial Fruit Blotch,Acidovorax citrulli,Bacteria
+Bacterial Canker of Tomato,Clavibacter michiganensis subs. michiganensis,Bacteria
+Bacterial Speck of Tomato,Pseudomonas syringae pv. tomato,Bacteria
+Bacterial Panicle Blight,Burkholderia spp.,Bacteria
+Crown Gall,Agrobacterium,Bacteria
+Moko Disease,Ralstonia solanacearum,Bacteria
+Cassava Phytoplasma Disease,Phytoplasma spp.,Bacteria
+Goss's Wilt,Clavibacter michiganensis,Bacteria
+Citrus Variegated Chlorosis,Xylella fastidiosa subsp. pauca,Bacteria
+Citrus Greening Disease,Candidatus Liberibacter,Bacteria
+Bacterial Stalk Rot of Maize,Erwinia chrysanthemi,Bacteria
+Olive Knot,Pseudomonas savastanoi pv. savastanoi,Bacteria
+Bacterial Pustule,Xanthomonas axonopodis,Bacteria
+Bacterial Leaf Blight,Xanthomonas phaseoli,Bacteria
+Cassava Bacterial Blight,Xanthomonas axonopodis pv. manihotis,Bacteria
+Tomato Late Blight,Phytophthora infestans,Fungus
+Powdery Mildew of Mango,Oidium mangiferae,Fungus
+Late and Early Leaf Spot,Mycosphaerella spp.,Fungus
+Peanut Rust,Puccinia arachidis,Fungus
+Anthracnose of Soybean,Colletotrichum truncatum,Fungus
+Citrus Scab,Elsinoe fawcettii,Fungus
+Common Rust of Maize,Puccinia sorghi,Fungus
+Brown Spot of Rice,Cochliobolus miyabeanus,Fungus
+Peach Leaf Curl,Taphrina deformans,Fungus
+Yellow  Sigatoka,Mycosphaerella musicola,Fungus
+Blight of Pepper,Phytophthora capsici,Fungus
+Sheath Rot of Rice,Sarocladium oryzae,Fungus
+Turcicum Leaf Blight,Setosphaeria turcica,Fungus
+Bean Rust,Uromyces appendiculatus,Fungus
+Cherry Leaf Spot,Blumeriella jaapii,Fungus
+Corn Grey Leaf Spot,Cercospora zeae-maydis,Fungus
+Early Blight of Potato,Alternaria solani,Fungus
+Anthracnose of Citrus,Colletotrichum gloeosporioides,Fungus
+Anthracnose Leaf Blight,Colletotrichum graminicola,Fungus
+Black Sigatoka,Mycosphaerella fijiensis,Fungus
+False Smut,Villosiclava virens,Fungus
+Anthracnose of Papaya and Mango,Colletotrichum gloeosporioides,Fungus
+Black Spot Disease of Papaya,Asperisporium caricae,Fungus
+Anthracnose of Banana,Colletotrichum musae,Fungus
+Phaeosphaeria Leaf Spot,Phaeosphaeria maydis,Fungus
+Alternaria Brown Spot,Alternaria alternata,Fungus
+Early Blight of Tomato,Alternaria solani,Fungus
+Powdery Mildew,Erysiphaceae,Fungus
+Peach Scab,Venturia carpophila,Fungus
+Frogeye Leaf Spot,Cercospora sojina,Fungus
+Rust of Soybean,Phakopsora pachyrhizi,Fungus
+Apple Scab,Venturia inaequalis,Fungus
+Target Spot of Soybean,Corynespora cassiicola,Fungus
+Eyespot of Corn,Kabatiella zeae,Fungus
+Rust on Blackgram,Uromyces phaseoli,Fungus
+Leaf Scald of Rice,Monographella albescens,Fungus
+Stem rot of Peanut,Athelia rolfsii,Fungus
+Rice Sheath Blight,Rhizoctonia solani,Fungus
+Maize Smut,Ustilago maydis,Fungus
+Verticillium Wilt,Verticillium spp.,Fungus
+Blast of Rice,Magnaporthe oryzae,Fungus
+Anthracnose of Pepper,Glomerella cingulata,Fungus
+Sooty Mold,"Capnodium, Fumago, Scorias spp",Fungus
+Cercospora Leaf Spot of Gram,Cercospora canescens,Fungus
+Phyllosticta Leaf Spot,Phyllosticta arachidis-hypogaea,Fungus
+Downy Mildew,Peronosporales,Fungus
+Phytophthora Root Rot,Phytophthora cactorum,Fungus
+Crown Rot,Phytophthora cactorum,Fungus
+Powdery Mildew of Soybean,Erysiphe diffusa,Fungus
+Phomopsis Cane and Leaf Spot,Phomopsis viticola,Fungus
+Leaf and Glume Blotch of Wheat,Parastagonospora nodorum,Fungus
+Leaf Mold of Tomato,Mycovellosiella fulva,Fungus
+Fusarium Wilt,Fusarium oxysporum,Fungus
+Rough Leaf Spot Of Sorghum,Ascochyta sorghi,Fungus
+Root Rot of Cotton,Macrophomina phaseolina,Fungus
+Head Smut,Sphacelotheca reiliana,Fungus
+Olive Leaf Spot,Fusicladium oleagineum,Fungus
+Anthracnose of Almond,Colletotrichum acutatum,Fungus
+Cercospora Leaf Spot of Cotton,Mycosphaerella gossypina,Fungus
+Common Bunt of Wheat,Tilletia caries,Fungus
+Freckle of Banana,Phyllosticta maculata,Fungus
+Millet Cercospora Leaf Spot,Cercospora penniseti,Fungus
+Tan Spot,Pyrenophora tritici-repentis,Fungus
+Yellow Stripe Rust,Puccinia striiformis,Fungus
+European Pear Rust,Gymnosporangium sabinae,Fungus
+Leek Rust,Puccinia porri,Fungus
+Stem Rot of RIce,Magnaporthe salvinii,Fungus
+Chocolate Spot of Broad Bean,Botrytis fabae,Fungus
+Northern Stem Canker,Diaporthe phaseolorum var. caulivora,Fungus
+Sudden Death Syndrome,Fusarium virguliforme,Fungus
+Blossom Blight,Monilinia fructicola,Fungus
+Angular Leaf Spot,Mycosphaerella angulata,Fungus
+Leaf Spot of Citrus,Pseudocercospora angolensis,Fungus
+Zonate Leaf Spot,Gloeocercospora sorghi,Fungus
+Leaf Spot of Beet,Cercospora beticola,Fungus
+Leaf Blight of Cucurbits,Alternaria cucumerina,Fungus
+Ergot,Claviceps fusiformis,Fungus
+Didymella Stem Rot of Tomato,Didymella lycopersici,Fungus
+Black Scurf,Rhizoctonia solani,Fungus
+Black Spot Disease,Colletotrichum lindemuthianum,Fungus
+Constriction Canker of Peach,Phomopsis amygdali,Fungus
+Lettuce Big-Vein Disease,Olpidium brassicae,Fungus
+Cercospora Leaf Spot of Eggplant,Cercospora melongenae,Fungus
+Pea Rust,Uromyces pisi-sativi,Fungus
+Bottom Rot,Thanatephorus cucumeris,Fungus
+Bud Necrosis,Unknown Pathogen,Fungus
+Esca,Togninia minima,Fungus
+Jacket Rot,Monilinia spp,Fungus
+Armillaria Root Rot,Armillaria mellea,Fungus
+Brown Rot,Monilinia laxa,Fungus
+Pear Scab,Venturia pyrina,Fungus
+Anthracnose of Cotton,Glomerella gossypii,Fungus
+Angular Leaf Scorch,Pseudopezicula tetraspora,Fungus
+Silver Scurf,Helminthosporium solani,Fungus
+American Gooseberry Mildew,Podosphaera mors-uvae,Fungus
+Gummy Stem Blight of Cucurbits,Stagonosporopsis cucurbitacearum,Fungus
+Cucumber Scab,Cladosporium cucumerinum,Fungus
+White Rot,Stromatinia cepivora,Fungus
+Plum Rust,Tranzschelia pruni spinosae,Fungus
+Karnal Bunt of Wheat,Tilletia indica,Fungus
+Eyespot,Oculimacula yallundae,Fungus
+Downy Mildew on Grape,Plasmopara viticola,Fungus
+Clubroot of Canola,Plasmodiophora brassicae,Fungus
+Common Leaf Spot,Mycosphaerella fragariae,Fungus
+Raspberry Spur Blight,Didymella applanata,Fungus
+White Leaf Spot,Phaeoramularia manihotis,Fungus
+Southern Rust of Maize,Puccinia polysora,Fungus
+Botrytis Blight in Lettuce,Botrytis  cinerea,Fungus
+Pocket Plum Gall,Taphrina pruni,Fungus
+Brown Rust of Barley,Puccinia hordei,Fungus
+Pomegranate Wilt,Ceratocystis fimbriata,Fungus
+Stem and Root Rot of Soybean,Phytophthora sojae,Fungus
+White Pine Blister Rust,Cronartium ribicola,Fungus
+Phoma Blight,Peyronellaea glomerata,Fungus
+Lentil Rust,Uromyces viciae-fabae,Fungus
+Brown Rot of Fruits,Monilinia fructigena,Fungus
+Pear Leaf Spot,Diplocarpon maculatum,Fungus
+Dieback of Stone Fruit,Valsa cincta,Fungus
+Powdery Mildew of Strawberry,Podosphaera aphanis,Fungus
+Black Mold,Alternaria brassicae,Fungus
+Botrytis Leaf Blight,Botryotinia squamosa,Fungus
+Ascochyta Blight of Lentil,Didymella fabae,Fungus
+Anthracnose of Lentil,Colletotrichum truncatum,Fungus
+Soreshin,Rhizoctonia solani,Fungus
+Cherry Leaf Scorch,Apiognomonia erythrostoma,Fungus
+Bitter Rot on Apple,Glomerella cingulata,Fungus
+Powdery Scab,Spongospora subterranea,Fungus
+Dead Arm,Eutypa lata,Fungus
+Valsa Disease,Valsa leucostoma,Fungus
+Fruit Tree Canker,Neonectria ditissima,Fungus
+Sclerotium Rot,Athelia rolfsii,Fungus
+Constriction Canker,Phomopsis amygdali,Fungus
+Powdery Mildew of Grape,Erysiphe necator,Fungus
+Net Blotch,Pyrenophora teres,Fungus
+Black Leg of Rapeseed,Plenodomus lingam,Fungus
+Potato Late Blight,Phytophthora infestans,Fungus
+Black Shank,Phytophthora nicotianae,Fungus
+Brown Spot of Soybean,Septoria glycines,Fungus
+Root Rot of Lentil,Rhizoctonia solani,Fungus
+Pyricularia Leaf Spot,Magnaporthe oryzae,Fungus
+Ramularia Leaf Spot of Beet,Ramularia beticola,Fungus
+Tropical Rust,Physopella zeae,Fungus
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Fungus
+Shothole Disease,Wilsonomyces carpophilus,Fungus
+Anthracnose of Pomegranate,Glomerella cingulata,Fungus
+Fusarium Head Blight,Fusarium graminearum,Fungus
+Alternaria Black Spot and Fruit Rot,Alternaria alternata,Fungus
+Cercospora Fruit and Leaf Spot,Pseudocercospora punicae,Fungus
+Anthracnose of Currant & Gooseberry,Drepanopeziza ribis,Fungus
+Ergot of Sorghum,Claviceps africana,Fungus
+Bakanae and Foot Rot,Gibberella fujikuroi,Fungus
+Septoria Spot,Septoria citri,Fungus
+Alternaria Leaf Spot of Peanut,Alternaria spp.,Fungus
+Anthracnose of Apple,Neofabraea malicorticis,Fungus
+Ashy Stem Blight of Bean,Macrophomina phaseolina,Fungus
+Silver Leaf,Chondrostereum purpureum,Fungus
+Cigar End Rot,Trachysphaera fructigena,Fungus
+Chilli Damping-off,Pythium aphanidermatum,Fungus
+Narrow Brown Leaf Spot of Rice,Sphaerulina oryzina,Fungus
+Downy Mildew on Cucurbits,Pseudoperonospora cubensis,Fungus
+Black Leaf Spot of Banana,Deightoniella torulosa,Fungus
+Papaya Brown Spot,Corynespora cassiicola,Fungus
+Rhizoctonia Root Rot of Olive,Rhizoctonia solani,Fungus
+Northern Corn Leaf Spot,Cochliobolus carbonum,Fungus
+Greasy Spot of Citrus,Mycosphaerella citri,Fungus
+Charcoal Stalk Rot,Macrophomina phaseolina,Fungus
+Loose Smut,Ustilago tritici,Fungus
+Alternaria Leaf Spot of Cotton,Alternaria macrospora,Fungus
+Brown leaf spot,Mycosphaerella henningsii,Fungus
+Phoma Sorghina in Rice,Epicoccum sorghi,Fungus
+Leaf Stripe of Barley,Pyrenophora graminea,Fungus
+Phytophthora Blight,Phytophthora drechsleri,Fungus
+Sugarcane Common Rust,Puccinia melanocephala,Fungus
+Powdery Mildew of Papaya,Oidium caricae-papayae,Fungus
+Rose Mildew,Podosphaera pannosa,Fungus
+Take All,Gaeumannomyces graminis,Fungus
+Rhizoctonia Aerial Blight,Rhizoctonia solani,Fungus
+Sugarcane Pineapple Disease,Ceratocystis paradoxa,Fungus
+Purple Seed Stain of Soybean,Cercospora kikuchii,Fungus
+Anthracnose of Blackgram,Colletotrichum lindemuthianum,Fungus
+Gummosis,Botryosphaeria dothidea,Fungus
+Millet Rust,Puccinia substriata,Fungus
+Chilli Cercospora Leaf Spot,Cercospora capsici,Fungus
+Powdery Mildew of Cereals,Blumeria graminis,Fungus
+Septoria Leaf Spot,Septoria lycopersici,Fungus
+Melanose,Diaporthe citri,Fungus
+Brown Rust of Rye,Puccinia recondita,Fungus
+Damping-Off,Pythium aphanidermatum,Fungus
+Vascular Wilt of Banana,Fusarium oxysporum,Fungus
+Chickpea Rust,Uromyces ciceris-arietini,Fungus
+Mal Secco,Phoma tracheiphila,Fungus
+Snow Mold of Cereals,Monographella nivalis,Fungus
+Leaf Blotch of Banana,Cordana musae,Fungus
+Penicillium ear rot,Penicillium spp.,Fungus
+Charcoal Rot of Soybean,Macrophomina phaseolina,Fungus
+Almond Red Leaf Blotch,Polystigma ochraceum,Fungus
+Grey Mildew of Cotton,Mycosphaerella areola,Fungus
+Wilt Disease of Sugarcane,Gibberella fujikuroi,Fungus
+Southern Corn Leaf Blight,Cochliobolus heterostrophus,Fungus
+Wheat Leaf  Rust,Puccinia triticina,Fungus
+Crown Rust of Grasses,Puccinia coronata,Fungus
+Septoria Tritici Blotch,Mycosphaerella graminicola,Fungus
+Red Stripe Disease,Gonatophragmium sp.,Fungus
+Ascochyta Blight,Ascochyta rabiei,Fungus
+Phytophthora Gummosis,Phytophthora,Fungus
+Anthracnose of Cucurbits,Glomerella lagenarium,Fungus
+Anthracnose of Lime,Glomerella acutata,Fungus
+Smut of Sugarcane,Sporisorium scitamineum,Fungus
+Botrytis Blight,Botrytis cinerea,Fungus
+Anthracnose of Grape,Elsinoe ampelina,Fungus
+Dry Root Rot of Bean,Fusarium solani f. sp. phaseoli,Fungus
+Wheat Stem Rust,Puccinia graminis,Fungus
+Cercospora Leaf Spot of Olive,Pseudocercospora cladosporioides,Fungus
+Rhynchosporium,Rhynchosporium secalis,Fungus
+Citrus Black Spot,Phyllosticta citricarpa,Fungus
+Mango Dieback Disease,Botryosphaeria rhodina,Fungus
+Botryosphaeria Dieback,Botryosphaeriaceae,Fungus
+Fusarium Ear Rot,Fusarium verticillioides,Fungus
+Ramularia Leaf Spot,Ramularia collo-cygni,Fungus
+Wheat Blast,Magnaporthe oryzae,Fungus
+Clubroot,Plasmodiophora brassicae,Fungus
+Udbatta Disease of Rice,Balansia oryzae-sativae,Fungus
+Mealybug on Papaya,Paracoccus marginatus,Insect
+Aphid,Aphidoidea family,Insect
+Rice Leafroller,Cnaphalocrocis medinalis,Insect
+Green Peach Aphid,Myzus persicae,Insect
+Potato Beetle,Leptinotarsa decemlineata,Insect
+Jassids on Eggplant,Hishimonus phycitis,Insect
+Woolly Aphid,Eriosoma lanigerum,Insect
+Spotted Stemborer,Chilo partellus,Insect
+Rice Hispa,Dicladispa armigera,Insect
+Mango Blister Midge,Procontarinia mangiferae,Insect
+Citrus Leaf Miner,Phyllocnistis citrella,Insect
+Papaya Fruit Fly,Toxotrypana curvicauda,Insect
+Bean Leaf Beetle,Cerotoma trifurcata,Insect
+Citrus Whitefly,Dialeurodes citri,Insect
+Leaf Miner Flies,Agromyzidae spp.,Insect
+Apple Leaf Miner,Lyonetia clerkella,Insect
+Yellow Stem Borer,Scirpophaga incertulas,Insect
+Violet Stem Borer,Sesamia inferens,Insect
+European Corn Borer,Ostrinia nubilalis,Insect
+Corn Earworm,Helicoverpa zea,Insect
+Jassids on Peanut,Empoasca kerri,Insect
+Mealybug,Pseudococcidae,Insect
+Cottony Cushion Scale,Icerya purchasi,Insect
+Mango Fruit Fly,Ceratitis cosyra,Insect
+Flea Beetle,Psylliodes,Insect
+Greenhouse Whitefly,Trialeurodes vaporariorum,Insect
+Thrips,Order Thysanoptera,Insect
+African Mole Cricket,Gryllotalpa africana,Insect
+Variegated Grasshopper,Zonocerus variegatus,Insect
+Black Cutworm,Agrotis ipsilon,Insect
+Fall Armyworm,Spodoptera frugiperda,Insect
+Mealybug,Drosicha mangiferae,Insect
+Redcurrant Blister Aphid,Cryptomyzus ribis,Insect
+Cotton Leaf Hopper,Amrasca devastans,Insect
+Sorghum Midge,Stenodiplosis sorghicola,Insect
+Helicoverpa on Soybean,Helicoverpa armigera,Insect
+Semilooper,Autographa nigrisigna,Insect
+Banana Scale Insect,Aspidiotus destructor,Insect
+Pea Blue Butterfly,Lampides boeticus,Insect
+Oriental Fruit Fly,Bactrocera dorsalis,Insect
+Rice Grasshopper,Oxya intricata,Insect
+Red Hairy Caterpillar,Amsacta albistriga,Insect
+Vine Flea Beetle,Altica ampelophaga,Insect
+Pink Bollworm,Pectinophora gossypiella,Insect
+Rice Bug,Leptocorisa spp.,Insect
+Olive Fruit Fly,Bactrocera oleae,Insect
+Rice Skipper,Pelopidas mathias,Insect
+Lesser cornstalk borer,Elasmopalpus lignosellus,Insect
+Black Scale,Saissetia oleae,Insect
+Cassava Root Mealybug,Stictococcus vayssierei,Insect
+Cabbage Moth,Mamestra brassicae,Insect
+Sugarcane White Grub,Lepidiota stigma,Insect
+Cut Worm on Banana,Spodoptera litura,Insect
+Mealy Plum Aphid,Hyalopterus pruni,Insect
+Rice Mealybug,Brevennia rehi,Insect
+Banana Fruit-Scarring Beetle,Colaspis hypochlora,Insect
+Mango Nut Weevil,Sternochetus mangiferae,Insect
+Green Paddy Leafhoppers,Nephotettix spp.,Insect
+Fruit Tree Leafroller,Archips argyrospila,Insect
+Bean Leaf Webber,Hedylepta indicata,Insect
+Sugarcane Borer,Diatraea saccharalis,Insect
+Mediterranean Fruit Fly,Ceratitis capitata,Insect
+Citrus Wolly Whitefly,Aleurothrixus floccosus,Insect
+Pseudostem Weevil,Odoiporus longicollis,Insect
+Banana Rust Thrips,Chaetanaphothrips signipennis,Insect
+Eggplant Leaf Roller,Eublemma olivacea,Insect
+Grape Bud Moth,Eupoecilia ambiguella,Insect
+Soybean Stalk Weevil,Sternechus subsignatus,Insect
+Bean Leafroller,Urbanus proteus,Insect
+Green Citrus Aphid,Aphis spiraecola,Insect
+Western Flower Thrips,Frankliniella occidentalis,Insect
+Western Plant Bug,Lygus hesperus,Insect
+Black Parlatoria Scale,Parlatoria ziziphi,Insect
+"Stink Bugs on Corn, Millet and Sorghum",Euschistus spp.,Insect
+Whorl Maggot,Hydrellia philippina,Insect
+Greenhorned Caterpillars,Melanitis leda,Insect
+Oriental Fruit Moth,Grapholita molesta,Insect
+Grape Berry Moth,Lobesia botrana,Insect
+Castor Hairy Caterpillar,Pericallia ricini,Insect
+Tomato Fruit Borer,Helicoverpa armigera,Insect
+Thrips in Mango,Scirtothrips  spp.,Insect
+Cherry Fruit Fly,Rhagoletis cerasi,Insect
+Banana Scab Moth,Nacoleia octasema,Insect
+Citrus Thrips,Scirtothrips citri,Insect
+Pea Pod Borer,Etiella zinckenella,Insect
+Small and Large Cabbage White,Pieris,Insect
+Boll Weevil,Anthonomus grandis,Insect
+Citrus Flatid Plant Hopper,Metcalfa pruinosa,Insect
+Mango Fruit Borer,Citripestis eutraphera,Insect
+Onion Leaf Miner,Phytomyza gymnostoma,Insect
+Cucumber Beetle,Diabrotica spp.,Insect
+Banana Moth,Opogona sacchari,Insect
+Black Citrus Aphid,Toxoptera aurantii,Insect
+Olive Borer,Hylesinus toranio,Insect
+Mango Seed Borer,Deanolis albizonalis,Insect
+Velvetbean Caterpillar,Anticarsia gemmatalis,Insect
+Grapevine Leafroller,Sparganothis pilleriana,Insect
+Paddy Swarming Caterpillar,Spodoptera mauritia,Insect
+Rice Ear-Cutting Caterpillar,Mythimna separata,Insect
+Brown Planthopper,Nilaparvata lugens,Insect
+Pomegranate Thrips,Scirtothrips dorsalis,Insect
+Mango Gall Midge,Procontarinia pustulata,Insect
+Asian Rice Gall Midge,Orseolia oryzae,Insect
+Olive Psyllid,Euphyllura olivina,Insect
+Cabbage Whitefly,Aleyrodes proletella,Insect
+Melon Fruit Fly,Zeugodacus cucurbitae,Insect
+Poplar Lace Bug,Monosteira unicostata,Insect
+Rice Case Worm,Parapoynx stagnalis,Insect
+Potato Tuber Moth,Phthorimaea operculella,Insect
+Winter Moth,Operophtera brumata,Insect
+Hairy Caterpillars,Euproctis fraterna,Insect
+Bright Line Brown Eye,Lacanobia oleracea,Insect
+Silverleaf Whitefly,Bemisia tabaci,Insect
+Early Shoot Borer,Chilo infuscatellus,Insect
+Mango Shoot Psyllid,Apsylla cistellata,Insect
+Stem Borer,Coniesta ignefusalis,Insect
+Spotted Pod Borer,Maruca testulalis,Insect
+Bean Shoot Borer,Epinotia aporema,Insect
+Grape Thrips,Drepanothrips reuteri,Insect
+Gram Pod Borer,Helicoverpa armigera,Insect
+Strawberry Whitefly,Trialeurodes packardi,Insect
+Strawberry Blossom Weevil,Anthonomus rubi,Insect
+Fruit Tree Bark Beetle,Scolytus mali,Insect
+Rice Stalk Stinkbug,Tibraca limbativentris,Insect
+Black Cherry Aphid,Myzus cerasi,Insect
+Brinjal Fruit Borer,Leucinodes orbonalis,Insect
+Root Borer,Cosmopolites sordidus,Insect
+Rice Thrips,Stenchaetothrips biformis,Insect
+Cotton Bollworm,Helicoverpa armigera,Insect
+Green Leafhopper,Empoasca decipiens,Insect
+Grape Tortrix Moth,Argyrotaenia ljungiana,Insect
+Banana Lace Wing Bug,Stephanitis typica,Insect
+Carrot Fly,Chamaepsila rosae,Insect
+Olive Scale,Parlatoria oleae,Insect
+Onion Maggots,Delia platura,Insect
+Mango Shoot Borer,Chlumetia transversa,Insect
+Curculio Weevil,Otiorhynchus cribricollis,Insect
+Stink Bug on Cotton,Euschistus servus,Insect
+Almond Bark Beetle,Scolytus amygdali,Insect
+Leafhopper on Grape,Empoasca vitis,Insect
+Olive Bark Beetle,Phloeotribus scarabaeoides,Insect
+Cassava scale,Aonidomytilus albus,Insect
+Ermine Moth,Yponomeutidae,Insect
+Mango Hoppers,Idioscopus spp.,Insect
+Oriental Armyworm,Mythimna separata,Insect
+Southern Armyworm,Spodoptera eridania,Insect
+Head Miner,Heliocheilus albipunctella,Insect
+Peach Twig Borer,Anarsia lineatella,Insect
+Leaf Eating Beetle,Epilachna vigintioctopunctata,Insect
+Codling Moth,Cydia pomonella,Insect
+Tobacco Caterpillar,Spodoptera litura,Insect
+Olive Moth,Prays oleae,Insect
+White Grub on Peanut,Holotrichia spp.,Insect
+Stink Bugs on Soybean,Acrosternum hilare,Insect
+Tuta Absoluta,Tuta Absoluta,Insect
+Jasmine Moth,Palpita unionalis,Insect
+Oleander Scale,Aspidiotus nerii,Insect
+Castor Semilooper,Ophiusa melicerta,Insect
+Cereal Leaf Beetle,Oulema melanopus,Insect
+Bean Bollworm,Helicoverpa armigera,Insect
+European Earwig,Forficula auricularia,Insect
+Eggplant Lace Bug,Gargaphia solani,Insect
+Soybean Looper,Pseudoplusia includens,Insect
+Common Red Spider Mite,Tetranychus urticae,Mite
+European Red Mite,Panonychus ulmi,Mite
+Citrus Red Mite,Panonychus citri,Mite
+Red Palm Mite,Raoiella indica,Mite
+Grape Rust Mite,Calepitrimerus vitis,Mite
+Cassava Green Spider Mite,Mononychellus tanajoa,Mite
+Brown Mite,Bryobia rubrioculus,Mite
+Pear Leaf Blister Mite,Eriophyes pyri,Mite
+Yellow Vine Mite,Eotetranychus carpini,Mite
+Citrus Bud Mite,Aceria sheldoni,Mite
+Rice Panicle Mite,Steneotarsonemus spinki,Mite
+Olive Bud Mite,Oxycenus maxwelli,Mite
+Mango  Spider Mite,Oligonychus mangiferus,Mite
+Rice Leaf Mite,Oligonychus oryzae,Mite
+Grape Blister Mite,Colomerus vitis,Mite
+Gall Mite,Eriophyidae,Mite
+Broad Mite,Polyphagotarsonemus latus,Mite
+Root-Knot Nematode,Meloidogyne spp.,Other
+Root-Knot Nematode in Soybean,Meloidogyne ethiopica,Other
+Slug,Class Gastropoda,Other
+Physiological Leaf Spot,PLS,Other
+Giant Arrowhead,Sagittaria montevidensis,Other
+Alkalinity,Alkalinity,Other
+Ear Cockle Eelworm,Anguina tritici,Other
+Vole,Cricetidae,Other
+Citrus Nematode,Tylenchulus semipenetrans,Other
+Cyst Nematode,Heterodera glycines,Other
+Biomphalaria Snails,Biomphalaria spp.,Other
+Lesion Nematode,Pratylenchus spp.,Other
+Abiotic Sunburn,Abiotic Sunburn,Other
+Abiotic Sunburn in Pistachio,Abiotic Sunburn,Other
+Nematode,Nematoda,Other
+Fertilizer or Pesticide Burn,Fertilizer Burn,Other
+Algal Leaf Spot,Cephaleuros virescens,Other
+Golden Apple Snail,Pomacea canaliculata,Other
+Healthy,Healthy,Other
+Pesticide Burn,Pesticide Burn,Other
+Mungbean Yellow Mosaic Virus,MYMV,Virus
+Urd Bean Leaf Crinkle Virus,ULCV,Virus
+Bean Common Mosaic Virus,BCMV,Virus
+Bud Necrosis Disease,PBND,Virus
+Ring Spot Virus,PRSV,Virus
+Papaya Mosaic Virus,PapMV,Virus
+Cucumber Mosaic Virus,CMV,Virus
+Apple Mosaic Virus,APMV,Virus
+Watermelon mosaic virus,Watermelon mosaic virus,Virus
+Citrus Exocortis Viroid,CEVd,Virus
+Stecklenberger Disease,PNRSV Prunus necrotic ringspot virus,Virus
+Grapevine Leafroll Disease,GLD,Virus
+Potato Y Virus,PVY,Virus
+Citrus Chlorotic Dwarf Virus,CCDV,Virus
+Potato Leafroll Virus,PLRV,Virus
+Bean Golden Mosaic Virus,BGMV,Virus
+Tobacco Streak Virus,Tobacco Streak Virus,Virus
+Cucumber Green Mottle Virus,CGMMV,Virus
+Maize Leaf Streak Virus,MSV,Virus
+Plum Pox Virus,Plum pox virus,Virus
+Banana Streak Virus,Banana Streak Virus,Virus
+Potato X Virus,PVX,Virus
+Cassava Brown Streak Disease,CBSV,Virus
+Tungro,RTBV,Virus
+Papaya Leaf Curl,PaLCV,Virus
+Sterility Mosaic,PPSMV,Virus
+Soybean Mosaic Virus,SMV,Virus
+Wheat Dwarf Virus,WDV,Virus
+Maize Lethal Necrosis Disease,MLND,Virus
+Tomato Yellow Leaf Curl Virus,TYLCV,Virus
+Cucumber Mosaic Virus on Banana,CMV,Virus
+Banana Bract Mosaic Virus,BBrMV,Virus
+Tomato Mosaic Virus,ToMV,Virus
+Bunchy Top Virus,Bunchy Top Virus,Virus
+Cassava Mosaic Disease,ACMV,Virus
+Citrus Psorosis Virus,CPsV,Virus
+Rice Yellow Mottle Virus,RYMV,Virus
+Bean Yellow Mosaic Virus,BYMV,Virus
+Tomato Spotted Wilt Virus,TSWV,Virus
+Onion Yellow Dwarf Virus,OYDV,Virus
+Citrus Tristeza Virus,CTV,Virus
+Sugarcane Mosaic Virus,SCMV,Virus
+Citrus Leprosis,Citrus leprosis virus sensu lato,Virus
+Striga,Striga hermonthica,Weed

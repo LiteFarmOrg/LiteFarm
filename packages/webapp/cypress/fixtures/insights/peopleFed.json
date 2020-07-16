@@ -1,0 +1,10 @@
+{
+  "preview": 20,
+  "data": [
+    {"label": "Calories", "val": 40, "percentage": 100},
+    {"label": "Protein", "val": 10, "percentage":  25},
+    {"label": "Fat", "val": 6, "percentage":  15},
+    {"label": "Vitamin C", "val": 30, "percentage": 75},
+    {"label": "Vitamin A", "val": 2, "percentage":  5}
+  ]
+}

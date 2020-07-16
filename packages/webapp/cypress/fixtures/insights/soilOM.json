@@ -1,0 +1,8 @@
+{
+  "preview": 4,
+  "data": [
+    { "field_name": "Cypress Field 1", "soil_om": 3 },
+    { "field_name": "Cypress Field 2", "soil_om": 1 },
+    { "field_name": "Cypress Field 3", "soil_om": 5}
+  ]
+}

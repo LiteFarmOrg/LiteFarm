@@ -1,0 +1,3112 @@
+country,crop_id,value,is_average
+Albania,7,381.3,FALSE
+Albania,8,732.1,FALSE
+Albania,17,319.7,FALSE
+Albania,18,1661.7,FALSE
+Albania,19,767.5,FALSE
+Albania,40,202.1,FALSE
+Albania,49,377.5,FALSE
+Albania,54,760.9,FALSE
+Albania,58,1169.7,FALSE
+Albania,59,1256.1,FALSE
+Albania,63,317.5,FALSE
+Albania,90,481.7,FALSE
+Albania,94,342.7,FALSE
+Albania,101,487.9,FALSE
+Albania,105,724.5,FALSE
+Albania,112,1623.5,FALSE
+Albania,120,561.8,FALSE
+Albania,152,244.5,FALSE
+Albania,154,729.9,FALSE
+Albania,158,500.6,FALSE
+Albania,169,290.2,FALSE
+Albania,179,361,FALSE
+Albania,200,329.1,FALSE
+Albania,203,1447.8,FALSE
+Albania,205,319.2,FALSE
+Albania,206,456.6,FALSE
+Albania,208,397.7,FALSE
+Albania,219,603.6,FALSE
+Albania,221,674.7,FALSE
+Albania,218,666.2,FALSE
+Albania,231,343.5,FALSE
+Albania,235,293.3,FALSE
+Albania,238,421.7,FALSE
+Albania,243,748.6,FALSE
+Albania,259,430.5,FALSE
+Albania,276,525.5,FALSE
+Albania,279,493.2,FALSE
+Albania,289,839.9,FALSE
+Albania,298,445.3,FALSE
+Albania,305,2291.6,FALSE
+Albania,306,446.2,FALSE
+Albania,317,133.9,FALSE
+Albania,318,296.9,FALSE
+Algeria,7,1690.4,FALSE
+Algeria,17,228.4,FALSE
+Algeria,19,1206.1,FALSE
+Algeria,40,392.9,FALSE
+Algeria,49,356.3,FALSE
+Algeria,54,520.8,FALSE
+Algeria,63,639.6,FALSE
+Algeria,94,3517.8,FALSE
+Algeria,112,3079.2,FALSE
+Algeria,120,1498.5,FALSE
+Algeria,154,1324.9,FALSE
+Algeria,158,520.8,FALSE
+Algeria,179,575.6,FALSE
+Algeria,200,146.2,FALSE
+Algeria,205,392.9,FALSE
+Algeria,206,246.7,FALSE
+Algeria,208,986.8,FALSE
+Algeria,221,1242.7,FALSE
+Algeria,218,968.5,FALSE
+Algeria,235,274.1,FALSE
+Algeria,238,593.9,FALSE
+Algeria,298,834.2,FALSE
+Algeria,306,383.8,FALSE
+Algeria,317,365.5,FALSE
+Algeria,318,411.2,FALSE
+Armenia,7,437.2,FALSE
+Armenia,8,1049.6,FALSE
+Armenia,17,212.9,FALSE
+Armenia,18,2550.4,FALSE
+Armenia,40,153.2,FALSE
+Armenia,49,364,FALSE
+Armenia,58,970.6,FALSE
+Armenia,63,383.8,FALSE
+Armenia,90,358.4,FALSE
+Armenia,91,1645.3,FALSE
+Armenia,101,220.5,FALSE
+Armenia,105,584.8,FALSE
+Armenia,112,2263.1,FALSE
+Armenia,120,395.1,FALSE
+Armenia,156,2497.5,FALSE
+Armenia,192,1342.4,FALSE
+Armenia,205,269.2,FALSE
+Armenia,206,1434.1,FALSE
+Armenia,219,497.2,FALSE
+Armenia,221,638.6,FALSE
+Armenia,218,935.9,FALSE
+Armenia,231,328.7,FALSE
+Armenia,235,196.7,FALSE
+Armenia,243,536.3,FALSE
+Armenia,259,212.6,FALSE
+Armenia,281,1493,FALSE
+Armenia,305,163.2,FALSE
+Armenia,306,184.2,FALSE
+Armenia,316,2440.5,FALSE
+Armenia,317,216.5,FALSE
+Armenia,318,231.1,FALSE
+Australia,4,7143.1,FALSE
+Australia,7,1303.1,FALSE
+Australia,8,2045.8,FALSE
+Australia,13,3632.1,FALSE
+Australia,16,858.6,FALSE
+Australia,17,188.1,FALSE
+Australia,19,2916.3,FALSE
+Australia,40,608.1,FALSE
+Australia,49,492.9,FALSE
+Australia,54,594,FALSE
+Australia,58,6983.3,FALSE
+Australia,60,582.8,FALSE
+Australia,120,559,FALSE
+Australia,154,1777.4,FALSE
+Australia,156,869,FALSE
+Australia,158,994.6,FALSE
+Australia,165,269.1,FALSE
+Australia,169,242.3,FALSE
+Australia,175,2161.7,FALSE
+Australia,179,637.1,FALSE
+Australia,192,4771.7,FALSE
+Australia,200,227.5,FALSE
+Australia,205,591.7,FALSE
+Australia,208,704,FALSE
+Australia,219,1397.5,FALSE
+Australia,221,644.5,FALSE
+Australia,218,628.9,FALSE
+Australia,228,523.3,FALSE
+Australia,231,2042.8,FALSE
+Australia,235,342,FALSE
+Australia,238,622.9,FALSE
+Australia,254,311.5,FALSE
+Australia,84,1807.9,FALSE
+Australia,270,204.4,FALSE
+Australia,281,4763.6,FALSE
+Australia,286,27.5,FALSE
+Australia,298,1182,FALSE
+Australia,306,559,FALSE
+Australia,308,184.4,FALSE
+Australia,318,205.9,FALSE
+Austria,7,386,FALSE
+Austria,8,3910.2,FALSE
+Austria,12,7021.9,FALSE
+Austria,17,99.6,FALSE
+Austria,18,5109.3,FALSE
+Austria,19,1194.6,FALSE
+Austria,33,165.9,FALSE
+Austria,40,282.1,FALSE
+Austria,49,475.6,FALSE
+Austria,54,553.1,FALSE
+Austria,58,4582.8,FALSE
+Austria,63,1451.3,FALSE
+Austria,90,618.3,FALSE
+Austria,91,2639.3,FALSE
+Austria,101,1630.5,FALSE
+Austria,112,4048.5,FALSE
+Austria,120,1080.7,FALSE
+Austria,138,8616.9,FALSE
+Austria,152,1105,FALSE
+Austria,158,691.3,FALSE
+Austria,169,136.1,FALSE
+Austria,192,2765.4,FALSE
+Austria,200,95.1,FALSE
+Austria,205,251.1,FALSE
+Austria,219,1268.8,FALSE
+Austria,221,883.8,FALSE
+Austria,217,161.5,FALSE
+Austria,218,334.1,FALSE
+Austria,231,1636,FALSE
+Austria,234,2077.4,FALSE
+Austria,235,163.7,FALSE
+Austria,238,929.2,FALSE
+Austria,248,355.1,FALSE
+Austria,259,111.7,FALSE
+Austria,276,368.3,FALSE
+Austria,279,712.4,FALSE
+Austria,281,3788.6,FALSE
+Austria,282,28.8,FALSE
+Austria,289,295.3,FALSE
+Austria,306,935.8,FALSE
+Austria,308,104,FALSE
+Austria,316,4117.1,FALSE
+Austria,318,109.5,FALSE
+Azerbaijan,4,1253.4,FALSE
+Azerbaijan,7,263.2,FALSE
+Azerbaijan,8,720.7,FALSE
+Azerbaijan,17,119.1,FALSE
+Azerbaijan,18,1002.7,FALSE
+Azerbaijan,33,626.7,FALSE
+Azerbaijan,40,194.3,FALSE
+Azerbaijan,49,325.9,FALSE
+Azerbaijan,58,564,FALSE
+Azerbaijan,59,2005.4,FALSE
+Azerbaijan,63,376,FALSE
+Azerbaijan,90,350.9,FALSE
+Azerbaijan,91,940,FALSE
+Azerbaijan,101,250.7,FALSE
+Azerbaijan,105,501.3,FALSE
+Azerbaijan,112,626.7,FALSE
+Azerbaijan,120,450,FALSE
+Azerbaijan,106,1566.7,FALSE
+Azerbaijan,154,1253.4,FALSE
+Azerbaijan,156,940,FALSE
+Azerbaijan,169,159.2,FALSE
+Azerbaijan,179,164.2,FALSE
+Azerbaijan,180,94,FALSE
+Azerbaijan,192,689.3,FALSE
+Azerbaijan,200,125.3,FALSE
+Azerbaijan,203,313.3,FALSE
+Azerbaijan,205,156.7,FALSE
+Azerbaijan,206,626.7,FALSE
+Azerbaijan,208,626.7,FALSE
+Azerbaijan,219,501.3,FALSE
+Azerbaijan,221,438.7,FALSE
+Azerbaijan,217,877.3,FALSE
+Azerbaijan,229,940,FALSE
+Azerbaijan,231,225.6,FALSE
+Azerbaijan,235,247.5,FALSE
+Azerbaijan,238,228.1,FALSE
+Azerbaijan,243,470,FALSE
+Azerbaijan,249,940,FALSE
+Azerbaijan,254,1040.3,FALSE
+Azerbaijan,259,125.3,FALSE
+Azerbaijan,84,304.6,FALSE
+Azerbaijan,282,37.6,FALSE
+Azerbaijan,289,481.3,FALSE
+Azerbaijan,298,501.3,FALSE
+Azerbaijan,302,592.2,FALSE
+Azerbaijan,305,128.5,FALSE
+Azerbaijan,306,350.9,FALSE
+Azerbaijan,316,1629.4,FALSE
+Azerbaijan,317,100.3,FALSE
+Azerbaijan,318,173,FALSE
+Bangladesh,8,2868.8,FALSE
+Bangladesh,19,430.4,FALSE
+Bangladesh,60,903.4,FALSE
+Bangladesh,90,251.1,FALSE
+Bangladesh,112,1362.8,FALSE
+Bangladesh,115,831.4,FALSE
+Bangladesh,128,880.9,FALSE
+Bangladesh,156,1134,FALSE
+Bangladesh,161,640.9,FALSE
+Bangladesh,169,212.6,FALSE
+Bangladesh,175,396.5,FALSE
+Bangladesh,205,312.4,FALSE
+Bangladesh,208,121.2,FALSE
+Bangladesh,215,387.3,FALSE
+Bangladesh,235,198.8,FALSE
+Bangladesh,248,561.9,FALSE
+Bangladesh,254,218.2,FALSE
+Bangladesh,267,508.4,FALSE
+Bangladesh,276,459.2,FALSE
+Bangladesh,296,172.9,FALSE
+Bangladesh,306,417.9,FALSE
+Bangladesh,318,255.3,FALSE
+Barbados,16,1515,FALSE
+Barbados,40,2490,FALSE
+Barbados,49,3080,FALSE
+Barbados,52,2055,FALSE
+Barbados,54,3590,FALSE
+Barbados,63,3720,FALSE
+Barbados,90,1515,FALSE
+Barbados,101,1535,FALSE
+Barbados,154,2650,FALSE
+Barbados,179,1835,FALSE
+Barbados,202,2150,FALSE
+Barbados,215,2440,FALSE
+Barbados,238,1325,FALSE
+Barbados,296,2335,FALSE
+Barbados,306,2740,FALSE
+Barbados,319,3665,FALSE
+Belarus,7,456.8,FALSE
+Belarus,17,174.1,FALSE
+Belarus,39,366.9,FALSE
+Belarus,40,281.5,FALSE
+Belarus,49,248.2,FALSE
+Belarus,88,2583.6,FALSE
+Belarus,90,1216,FALSE
+Belarus,108,619.3,FALSE
+Belarus,161,802.9,FALSE
+Belarus,169,559.7,FALSE
+Belarus,200,127.5,FALSE
+Belarus,205,253.8,FALSE
+Belarus,221,844.9,FALSE
+Belarus,217,757.8,FALSE
+Belarus,218,441.8,FALSE
+Belarus,231,709.6,FALSE
+Belarus,235,133.5,FALSE
+Belarus,248,596.4,FALSE
+Belarus,259,145.1,FALSE
+Belarus,281,3089.5,FALSE
+Belarus,282,56.8,FALSE
+Belarus,306,1504.5,FALSE
+Belarus,308,156,FALSE
+Belarus,318,214.1,FALSE
+Belgium,7,395.8,FALSE
+Belgium,12,2290.3,FALSE
+Belgium,17,130.7,FALSE
+Belgium,19,2477.1,FALSE
+Belgium,40,1179.8,FALSE
+Belgium,49,631.3,FALSE
+Belgium,54,1223.8,FALSE
+Belgium,58,2071.4,FALSE
+Belgium,61,553.3,FALSE
+Belgium,63,1415.6,FALSE
+Belgium,90,354.1,FALSE
+Belgium,91,1612.9,FALSE
+Belgium,108,338.5,FALSE
+Belgium,138,5352,FALSE
+Belgium,152,322.9,FALSE
+Belgium,158,346.3,FALSE
+Belgium,192,1640.6,FALSE
+Belgium,200,62,FALSE
+Belgium,205,144.8,FALSE
+Belgium,221,520.6,FALSE
+Belgium,231,964.8,FALSE
+Belgium,235,210.2,FALSE
+Belgium,243,520.6,FALSE
+Belgium,248,215.9,FALSE
+Belgium,249,8236.7,FALSE
+Belgium,259,107.6,FALSE
+Belgium,281,1174.3,FALSE
+Belgium,282,29.1,FALSE
+Belgium,305,2000,FALSE
+Belgium,306,758.4,FALSE
+Belgium,308,63.5,FALSE
+Belgium,318,147.5,FALSE
+Bhutan,7,744.1,FALSE
+Bhutan,12,1771,FALSE
+Bhutan,16,386.9,FALSE
+Bhutan,18,1212.9,FALSE
+Bhutan,19,684.6,FALSE
+Bhutan,39,654.8,FALSE
+Bhutan,40,386.9,FALSE
+Bhutan,49,580.4,FALSE
+Bhutan,54,729.2,FALSE
+Bhutan,63,982.2,FALSE
+Bhutan,101,550.6,FALSE
+Bhutan,112,1116.1,FALSE
+Bhutan,115,639.9,FALSE
+Bhutan,169,878,FALSE
+Bhutan,175,639.9,FALSE
+Bhutan,192,5521.2,FALSE
+Bhutan,194,699.5,FALSE
+Bhutan,219,625,FALSE
+Bhutan,221,759,FALSE
+Bhutan,218,625,FALSE
+Bhutan,228,416.7,FALSE
+Bhutan,231,416.7,FALSE
+Bhutan,235,357.2,FALSE
+Bhutan,254,818.5,FALSE
+Bhutan,276,788.7,FALSE
+Bhutan,286,297.6,FALSE
+Bhutan,306,625,FALSE
+Bhutan,318,565.5,FALSE
+Bolivia (Plurinational State of),7,646.3,FALSE
+Bolivia (Plurinational State of),17,213.6,FALSE
+Bolivia (Plurinational State of),19,752.1,FALSE
+Bolivia (Plurinational State of),49,160.3,FALSE
+Bolivia (Plurinational State of),52,205.7,FALSE
+Bolivia (Plurinational State of),59,683.9,FALSE
+Bolivia (Plurinational State of),63,455,FALSE
+Bolivia (Plurinational State of),74,2075.3,FALSE
+Bolivia (Plurinational State of),77,1325.5,FALSE
+Bolivia (Plurinational State of),90,166,FALSE
+Bolivia (Plurinational State of),112,1330.6,FALSE
+Bolivia (Plurinational State of),120,549.4,FALSE
+Bolivia (Plurinational State of),128,741.6,FALSE
+Bolivia (Plurinational State of),158,273.9,FALSE
+Bolivia (Plurinational State of),169,303.7,FALSE
+Bolivia (Plurinational State of),205,94.8,FALSE
+Bolivia (Plurinational State of),218,620.7,FALSE
+Bolivia (Plurinational State of),235,321.8,FALSE
+Bolivia (Plurinational State of),238,133.6,FALSE
+Bolivia (Plurinational State of),245,1028.8,FALSE
+Bolivia (Plurinational State of),254,269.9,FALSE
+Bolivia (Plurinational State of),270,124.9,FALSE
+Bolivia (Plurinational State of),276,268.2,FALSE
+Bolivia (Plurinational State of),286,97.1,FALSE
+Bolivia (Plurinational State of),289,294.9,FALSE
+Bolivia (Plurinational State of),296,309.8,FALSE
+Bolivia (Plurinational State of),306,213.5,FALSE
+Bolivia (Plurinational State of),318,283.6,FALSE
+Bosnia and Herzegovina,7,401.6,FALSE
+Bosnia and Herzegovina,8,799.7,FALSE
+Bosnia and Herzegovina,17,174.2,FALSE
+Bosnia and Herzegovina,18,2333,FALSE
+Bosnia and Herzegovina,19,977.9,FALSE
+Bosnia and Herzegovina,39,509,FALSE
+Bosnia and Herzegovina,40,148.7,FALSE
+Bosnia and Herzegovina,49,498.8,FALSE
+Bosnia and Herzegovina,58,2174,FALSE
+Bosnia and Herzegovina,63,588.8,FALSE
+Bosnia and Herzegovina,90,519.8,FALSE
+Bosnia and Herzegovina,105,2293.9,FALSE
+Bosnia and Herzegovina,112,2922.8,FALSE
+Bosnia and Herzegovina,120,527.1,FALSE
+Bosnia and Herzegovina,154,1747.6,FALSE
+Bosnia and Herzegovina,158,555.4,FALSE
+Bosnia and Herzegovina,169,154.4,FALSE
+Bosnia and Herzegovina,200,226.2,FALSE
+Bosnia and Herzegovina,205,219.4,FALSE
+Bosnia and Herzegovina,219,696.8,FALSE
+Bosnia and Herzegovina,221,638,FALSE
+Bosnia and Herzegovina,231,535.6,FALSE
+Bosnia and Herzegovina,235,204.2,FALSE
+Bosnia and Herzegovina,243,261.3,FALSE
+Bosnia and Herzegovina,248,369.3,FALSE
+Bosnia and Herzegovina,249,1671.8,FALSE
+Bosnia and Herzegovina,259,194.6,FALSE
+Bosnia and Herzegovina,276,319.5,FALSE
+Bosnia and Herzegovina,281,1193.9,FALSE
+Bosnia and Herzegovina,289,275.4,FALSE
+Bosnia and Herzegovina,298,381.8,FALSE
+Bosnia and Herzegovina,305,1545.1,FALSE
+Bosnia and Herzegovina,306,565,FALSE
+Bosnia and Herzegovina,308,169.7,FALSE
+Bosnia and Herzegovina,316,2554.7,FALSE
+Bosnia and Herzegovina,317,109.2,FALSE
+Bosnia and Herzegovina,318,178.7,FALSE
+Brazil,16,630.6,FALSE
+Brazil,18,1232.4,FALSE
+Brazil,52,86.1,FALSE
+Brazil,77,2235.6,FALSE
+Brazil,169,183.7,FALSE
+Brazil,235,544.6,FALSE
+Brazil,254,258,FALSE
+Brazil,84,1031.8,FALSE
+Brazil,276,343.9,FALSE
+Brazil,286,20.5,FALSE
+Brazil,305,2378.9,FALSE
+Brazil,306,601.9,FALSE
+Bulgaria,7,250.9,FALSE
+Bulgaria,8,343.3,FALSE
+Bulgaria,17,155.6,FALSE
+Bulgaria,18,1238.4,FALSE
+Bulgaria,19,311.1,FALSE
+Bulgaria,40,196,FALSE
+Bulgaria,49,201.9,FALSE
+Bulgaria,58,624.4,FALSE
+Bulgaria,63,309.9,FALSE
+Bulgaria,90,574.5,FALSE
+Bulgaria,101,214.4,FALSE
+Bulgaria,112,1363.1,FALSE
+Bulgaria,120,330.3,FALSE
+Bulgaria,128,1244.3,FALSE
+Bulgaria,138,11204.5,FALSE
+Bulgaria,156,817.9,FALSE
+Bulgaria,169,157.6,FALSE
+Bulgaria,192,1505.1,FALSE
+Bulgaria,200,194,FALSE
+Bulgaria,205,257.1,FALSE
+Bulgaria,219,314.5,FALSE
+Bulgaria,221,656.5,FALSE
+Bulgaria,217,291.6,FALSE
+Bulgaria,218,283.9,FALSE
+Bulgaria,231,226.8,FALSE
+Bulgaria,235,214.7,FALSE
+Bulgaria,238,272.1,FALSE
+Bulgaria,248,385.2,FALSE
+Bulgaria,249,2011.8,FALSE
+Bulgaria,254,341.9,FALSE
+Bulgaria,259,159.5,FALSE
+Bulgaria,84,125.5,TRUE
+Bulgaria,270,153.8,FALSE
+Bulgaria,276,406.1,FALSE
+Bulgaria,281,1403.2,FALSE
+Bulgaria,289,394.2,FALSE
+Bulgaria,305,3115.9,FALSE
+Bulgaria,306,475.7,FALSE
+Bulgaria,308,156.7,FALSE
+Bulgaria,316,1129.5,FALSE
+Bulgaria,317,152.1,FALSE
+Bulgaria,318,155.5,FALSE
+Cabo Verde,16,1195.6,FALSE
+Cabo Verde,19,3948.8,FALSE
+Cabo Verde,40,1816.9,FALSE
+Cabo Verde,49,2272.7,FALSE
+Cabo Verde,52,2231.4,FALSE
+Cabo Verde,90,1562.8,FALSE
+Cabo Verde,112,3553.3,FALSE
+Cabo Verde,158,2875.8,FALSE
+Cabo Verde,169,704.9,FALSE
+Cabo Verde,205,1167.3,FALSE
+Cabo Verde,235,2043.6,FALSE
+Cabo Verde,238,2194.4,FALSE
+Cabo Verde,296,1889.2,FALSE
+Cabo Verde,306,1762.3,FALSE
+Cabo Verde,317,1660.9,FALSE
+Canada,7,421.5,FALSE
+Canada,8,1244.8,FALSE
+Canada,12,3100.6,FALSE
+Canada,17,165.4,FALSE
+Canada,18,654.5,FALSE
+Canada,19,521.4,FALSE
+Canada,30,911.7,FALSE
+Canada,40,358.1,FALSE
+Canada,49,259.5,FALSE
+Canada,54,710.9,FALSE
+Canada,58,2679.6,FALSE
+Canada,60,652.1,FALSE
+Canada,63,666.1,FALSE
+Canada,88,640.2,FALSE
+Canada,90,465.6,FALSE
+Canada,112,8030.5,FALSE
+Canada,120,1171.2,FALSE
+Canada,152,1294.6,FALSE
+Canada,156,624.7,FALSE
+Canada,158,658.1,FALSE
+Canada,161,347.1,FALSE
+Canada,169,146.4,FALSE
+Canada,80,289.6,FALSE
+Canada,179,368.1,FALSE
+Canada,192,2959,FALSE
+Canada,194,675.2,FALSE
+Canada,200,132.7,FALSE
+Canada,205,301.7,FALSE
+Canada,219,1280.5,FALSE
+Canada,221,896.4,FALSE
+Canada,217,265.1,FALSE
+Canada,218,326,FALSE
+Canada,231,1522,FALSE
+Canada,235,211.6,FALSE
+Canada,238,243.4,FALSE
+Canada,248,357.8,FALSE
+Canada,249,2403.4,FALSE
+Canada,259,148.2,FALSE
+Canada,276,341.8,FALSE
+Canada,279,1584.5,FALSE
+Canada,281,3064,FALSE
+Canada,289,433.7,FALSE
+Canada,305,4285.5,FALSE
+Canada,306,172.3,FALSE
+Canada,317,368.1,FALSE
+Canada,318,174.3,FALSE
+Chile,7,650.2,FALSE
+Chile,8,1079.7,FALSE
+Chile,12,2012,FALSE
+Chile,13,2466,FALSE
+Chile,18,1991.9,FALSE
+Chile,19,1249.9,FALSE
+Chile,49,363.2,FALSE
+Chile,58,2279.8,FALSE
+Chile,60,2084.2,FALSE
+Chile,63,1260.5,FALSE
+Chile,88,5169.8,FALSE
+Chile,112,2816.1,FALSE
+Chile,121,730.6,FALSE
+Chile,120,1801,FALSE
+Chile,154,676.2,FALSE
+Chile,156,2189.8,FALSE
+Chile,169,84.7,FALSE
+Chile,205,524.8,FALSE
+Chile,208,626.6,FALSE
+Chile,215,1500.8,FALSE
+Chile,219,1052.4,FALSE
+Chile,221,610.8,FALSE
+Chile,217,2053.3,FALSE
+Chile,218,973.6,FALSE
+Chile,231,638.7,FALSE
+Chile,235,368.9,FALSE
+Chile,238,724.5,FALSE
+Chile,243,789.1,FALSE
+Chile,249,4672.4,FALSE
+Chile,254,15.3,FALSE
+Chile,279,929.8,FALSE
+Chile,281,1713.1,FALSE
+Chile,298,693,FALSE
+Chile,306,758.9,FALSE
+Chile,317,1097.1,FALSE
+Chile,318,84.8,FALSE
+"China, mainland",7,468.4,FALSE
+"China, mainland",40,279,FALSE
+"China, mainland",49,342.8,FALSE
+"China, mainland",54,527.1,FALSE
+"China, mainland",63,571,FALSE
+"China, mainland",90,479.3,FALSE
+"China, mainland",101,524.2,FALSE
+"China, mainland",112,1487.6,FALSE
+"China, mainland",128,967.7,FALSE
+"China, mainland",158,558.2,FALSE
+"China, mainland",169,264.3,FALSE
+"China, mainland",192,1084.8,FALSE
+"China, mainland",206,579.3,FALSE
+"China, mainland",235,325.5,FALSE
+"China, mainland",238,334,FALSE
+"China, mainland",248,682.1,FALSE
+"China, mainland",254,559.9,FALSE
+"China, mainland",276,581.5,FALSE
+"China, mainland",279,630.7,FALSE
+"China, mainland",282,69.8,FALSE
+"China, mainland",306,513.8,FALSE
+"China, mainland",318,385.1,FALSE
+Colombia,13,513.3,FALSE
+Colombia,17,332.9,FALSE
+Colombia,18,1154.1,FALSE
+Colombia,19,629.9,FALSE
+Colombia,49,191.9,FALSE
+Colombia,52,272,FALSE
+Colombia,154,261.5,FALSE
+Colombia,175,224.4,FALSE
+Colombia,205,262.5,FALSE
+Colombia,215,240.9,FALSE
+Colombia,217,770.9,FALSE
+Colombia,218,513.3,FALSE
+Colombia,228,173.5,FALSE
+Colombia,235,262.5,FALSE
+Colombia,254,381.8,FALSE
+Colombia,84,1205.5,FALSE
+Colombia,306,238,FALSE
+Colombia,319,264.1,FALSE
+Costa Rica,16,423.9,FALSE
+Costa Rica,18,1089.5,FALSE
+Costa Rica,49,353.2,FALSE
+Costa Rica,54,771.5,FALSE
+Costa Rica,77,1370.1,FALSE
+Costa Rica,90,393.3,FALSE
+Costa Rica,158,280,FALSE
+Costa Rica,169,493.4,FALSE
+Costa Rica,205,1044.8,FALSE
+Costa Rica,208,50.5,FALSE
+Costa Rica,215,282.2,FALSE
+Costa Rica,235,812.5,FALSE
+Costa Rica,254,552.3,FALSE
+Costa Rica,296,642.5,FALSE
+Costa Rica,305,4999.9,FALSE
+Costa Rica,306,1155.1,FALSE
+Costa Rica,317,378.7,FALSE
+Costa Rica,319,674.6,FALSE
+Croatia,4,2206.4,FALSE
+Croatia,7,329.3,FALSE
+Croatia,8,715.6,FALSE
+Croatia,17,145.5,FALSE
+Croatia,18,1076.9,FALSE
+Croatia,19,1620.2,FALSE
+Croatia,40,185.9,FALSE
+Croatia,49,231.1,FALSE
+Croatia,54,588.9,FALSE
+Croatia,58,2387,FALSE
+Croatia,63,476,FALSE
+Croatia,90,639.1,FALSE
+Croatia,105,2273.3,FALSE
+Croatia,112,3012,FALSE
+Croatia,120,787.9,FALSE
+Croatia,106,3195.8,FALSE
+Croatia,152,687.6,FALSE
+Croatia,154,1105.4,FALSE
+Croatia,158,597.7,FALSE
+Croatia,169,131.9,FALSE
+Croatia,179,389.8,FALSE
+Croatia,192,2452.6,FALSE
+Croatia,200,137.9,FALSE
+Croatia,203,938.6,FALSE
+Croatia,205,211.9,FALSE
+Croatia,206,1156.7,FALSE
+Croatia,208,477.6,FALSE
+Croatia,219,677.4,FALSE
+Croatia,221,505,FALSE
+Croatia,217,293.9,FALSE
+Croatia,218,358.5,FALSE
+Croatia,231,315.7,FALSE
+Croatia,235,200.4,FALSE
+Croatia,248,349.5,FALSE
+Croatia,259,131.5,FALSE
+Croatia,276,341.9,FALSE
+Croatia,281,1959.9,FALSE
+Croatia,282,38.5,FALSE
+Croatia,289,324.9,FALSE
+Croatia,298,254.6,FALSE
+Croatia,305,1292.3,FALSE
+Croatia,306,510.7,FALSE
+Croatia,308,135.3,FALSE
+Croatia,316,2149.2,FALSE
+Croatia,317,183.9,FALSE
+Croatia,318,135,FALSE
+Cyprus,4,1482.2,FALSE
+Cyprus,7,597.3,FALSE
+Cyprus,8,1482.2,FALSE
+Cyprus,11,464.6,FALSE
+Cyprus,13,2013.2,FALSE
+Cyprus,16,442.5,FALSE
+Cyprus,17,199.1,FALSE
+Cyprus,18,2765.4,FALSE
+Cyprus,19,2311.9,FALSE
+Cyprus,33,2057.4,FALSE
+Cyprus,40,542,FALSE
+Cyprus,48,420.3,FALSE
+Cyprus,49,475.6,FALSE
+Cyprus,54,907,FALSE
+Cyprus,58,6260.8,FALSE
+Cyprus,60,2269.8,FALSE
+Cyprus,63,1028.7,FALSE
+Cyprus,86,4175.7,FALSE
+Cyprus,90,724.5,FALSE
+Cyprus,101,519.9,FALSE
+Cyprus,105,1581.8,FALSE
+Cyprus,121,254.4,FALSE
+Cyprus,120,387.2,FALSE
+Cyprus,128,2754.3,FALSE
+Cyprus,106,2754.3,FALSE
+Cyprus,154,365,FALSE
+Cyprus,156,1769.8,FALSE
+Cyprus,158,1327.4,FALSE
+Cyprus,179,320.8,FALSE
+Cyprus,192,2920.2,FALSE
+Cyprus,200,331.8,FALSE
+Cyprus,202,1902.6,FALSE
+Cyprus,203,1039.8,FALSE
+Cyprus,205,298.7,FALSE
+Cyprus,206,2020.9,FALSE
+Cyprus,208,232.3,FALSE
+Cyprus,219,1216.8,FALSE
+Cyprus,221,1194.6,FALSE
+Cyprus,218,1924.7,FALSE
+Cyprus,229,3894.8,FALSE
+Cyprus,231,901.5,FALSE
+Cyprus,235,398.2,FALSE
+Cyprus,238,730.1,FALSE
+Cyprus,243,1105,FALSE
+Cyprus,267,2024.3,FALSE
+Cyprus,279,1155.9,FALSE
+Cyprus,281,1338.4,FALSE
+Cyprus,298,394.9,FALSE
+Cyprus,301,1139.3,FALSE
+Cyprus,306,1095.1,FALSE
+Cyprus,308,210.2,FALSE
+Cyprus,316,5254.2,FALSE
+Cyprus,317,320.8,FALSE
+Cyprus,318,265.5,FALSE
+Czechia,7,267.9,FALSE
+Czechia,8,1131.3,FALSE
+Czechia,17,164,FALSE
+Czechia,40,290.3,FALSE
+Czechia,49,311.3,FALSE
+Czechia,54,631.6,FALSE
+Czechia,58,1703,FALSE
+Czechia,63,806.2,FALSE
+Czechia,90,817.1,FALSE
+Czechia,91,515.8,FALSE
+Czechia,112,5229.6,FALSE
+Czechia,120,800.4,FALSE
+Czechia,138,8567.5,FALSE
+Czechia,158,1296.3,FALSE
+Czechia,161,713.3,FALSE
+Czechia,169,159.6,FALSE
+Czechia,192,1709.6,FALSE
+Czechia,194,627.6,FALSE
+Czechia,200,164.4,FALSE
+Czechia,205,319.2,FALSE
+Czechia,219,777.6,FALSE
+Czechia,221,588.3,FALSE
+Czechia,217,238.8,FALSE
+Czechia,231,469.2,FALSE
+Czechia,234,1365.3,FALSE
+Czechia,235,233.1,FALSE
+Czechia,248,414.4,FALSE
+Czechia,259,153.5,FALSE
+Czechia,281,2775.5,FALSE
+Czechia,282,34.9,FALSE
+Czechia,289,394.9,FALSE
+Czechia,306,1007.2,FALSE
+Czechia,308,138.1,FALSE
+Czechia,318,148.1,FALSE
+Denmark,7,468.5,FALSE
+Denmark,17,151.8,FALSE
+Denmark,40,241.2,FALSE
+Denmark,49,600.3,FALSE
+Denmark,54,1475.6,FALSE
+Denmark,58,4324.3,FALSE
+Denmark,90,1425.9,FALSE
+Denmark,91,112.6,FALSE
+Denmark,152,289.7,FALSE
+Denmark,158,1697,FALSE
+Denmark,192,11015.5,FALSE
+Denmark,200,141.6,FALSE
+Denmark,205,265.8,FALSE
+Denmark,221,844.7,FALSE
+Denmark,217,197.9,FALSE
+Denmark,231,2125,FALSE
+Denmark,235,275.7,FALSE
+Denmark,248,398.3,FALSE
+Denmark,249,10050.9,FALSE
+Denmark,259,136.8,FALSE
+Denmark,281,3424.1,FALSE
+Denmark,282,44.7,FALSE
+Denmark,306,1402,FALSE
+Denmark,308,144.2,FALSE
+Denmark,318,153.9,FALSE
+Ecuador,7,876.7,FALSE
+Ecuador,8,634.5,FALSE
+Ecuador,13,1022.1,FALSE
+Ecuador,16,255.3,FALSE
+Ecuador,17,440.5,FALSE
+Ecuador,18,1610.1,FALSE
+Ecuador,19,675.3,FALSE
+Ecuador,40,105.6,FALSE
+Ecuador,49,162.7,FALSE
+Ecuador,52,187.8,FALSE
+Ecuador,54,326.2,FALSE
+Ecuador,63,612.5,FALSE
+Ecuador,74,2300.3,FALSE
+Ecuador,77,435.8,FALSE
+Ecuador,90,307.2,FALSE
+Ecuador,128,1579.6,FALSE
+Ecuador,158,151,FALSE
+Ecuador,169,1076.8,FALSE
+Ecuador,133,1925.8,FALSE
+Ecuador,179,502.6,FALSE
+Ecuador,205,357.5,FALSE
+Ecuador,206,586.3,FALSE
+Ecuador,208,367.2,FALSE
+Ecuador,215,410,FALSE
+Ecuador,221,797,FALSE
+Ecuador,217,1375.5,FALSE
+Ecuador,228,354.7,FALSE
+Ecuador,231,1896,FALSE
+Ecuador,235,335.4,FALSE
+Ecuador,254,362.7,FALSE
+Ecuador,84,744.3,FALSE
+Ecuador,276,592.8,FALSE
+Ecuador,281,1229.7,FALSE
+Ecuador,286,32.2,FALSE
+Ecuador,302,8333.3,FALSE
+Ecuador,306,507.3,FALSE
+Ecuador,317,500.9,FALSE
+Estonia,7,346.1,FALSE
+Estonia,17,139.7,FALSE
+Estonia,200,112.7,FALSE
+Estonia,235,463,FALSE
+Estonia,248,401.6,FALSE
+Estonia,259,112.1,FALSE
+Estonia,306,1460.8,FALSE
+Estonia,318,151.5,FALSE
+Ethiopia,13,234.1,FALSE
+Ethiopia,16,228.2,FALSE
+Ethiopia,17,346,FALSE
+Ethiopia,18,649.3,FALSE
+Ethiopia,40,170,FALSE
+Ethiopia,49,228.2,FALSE
+Ethiopia,53,432.6,FALSE
+Ethiopia,60,678.2,FALSE
+Ethiopia,63,589.7,FALSE
+Ethiopia,112,1586.3,FALSE
+Ethiopia,115,622.7,FALSE
+Ethiopia,120,146.6,FALSE
+Ethiopia,128,930.6,FALSE
+Ethiopia,138,1163.9,FALSE
+Ethiopia,154,292.3,FALSE
+Ethiopia,156,1431,FALSE
+Ethiopia,158,547.1,FALSE
+Ethiopia,161,988.4,FALSE
+Ethiopia,169,186,FALSE
+Ethiopia,175,259.3,FALSE
+Ethiopia,180,290,FALSE
+Ethiopia,198,620,FALSE
+Ethiopia,200,433.9,FALSE
+Ethiopia,205,414.2,FALSE
+Ethiopia,208,304.3,FALSE
+Ethiopia,215,247,FALSE
+Ethiopia,217,719.4,FALSE
+Ethiopia,218,453.6,FALSE
+Ethiopia,228,303.3,FALSE
+Ethiopia,235,184.2,FALSE
+Ethiopia,238,126.9,FALSE
+Ethiopia,248,710.2,FALSE
+Ethiopia,254,373.4,FALSE
+Ethiopia,267,770.7,FALSE
+Ethiopia,270,261.6,FALSE
+Ethiopia,276,384.4,FALSE
+Ethiopia,279,287.8,FALSE
+Ethiopia,286,125.1,FALSE
+Ethiopia,289,582.8,FALSE
+Ethiopia,296,135.2,FALSE
+Ethiopia,306,301.5,FALSE
+Ethiopia,318,392.7,FALSE
+Finland,7,1622.7,FALSE
+Finland,17,137.2,FALSE
+Finland,49,720.1,FALSE
+Finland,90,1609.5,FALSE
+Finland,91,3140.4,FALSE
+Finland,200,143.8,FALSE
+Finland,205,702.4,FALSE
+Finland,235,221.2,FALSE
+Finland,248,410.4,FALSE
+Finland,259,186.9,FALSE
+Finland,281,5468.8,FALSE
+Finland,282,37.6,FALSE
+Finland,306,1872.7,FALSE
+Finland,318,167,FALSE
+France,7,675.2,FALSE
+France,8,1738,FALSE
+France,11,1173.9,FALSE
+France,17,138.9,FALSE
+France,19,256.7,FALSE
+France,40,730.3,FALSE
+France,49,225.9,FALSE
+France,54,326.1,FALSE
+France,58,3486.8,FALSE
+France,63,2105.4,FALSE
+France,90,869.8,FALSE
+France,120,2320.5,FALSE
+France,106,2363.8,FALSE
+France,158,990.1,FALSE
+France,169,180.3,FALSE
+France,192,1147.3,FALSE
+France,200,172,FALSE
+France,203,1751.1,FALSE
+France,206,220.7,FALSE
+France,219,2339.1,FALSE
+France,221,867.2,FALSE
+France,218,312.1,FALSE
+France,235,404.5,FALSE
+France,248,393.2,FALSE
+France,254,338.9,FALSE
+France,259,188.7,FALSE
+France,276,376.3,FALSE
+France,281,4603.3,FALSE
+France,282,32.2,FALSE
+France,289,436.2,FALSE
+France,305,3792.6,FALSE
+France,306,908.8,FALSE
+France,308,139.8,FALSE
+France,316,3202.3,FALSE
+France,318,159.9,FALSE
+Georgia,7,246.6,FALSE
+Georgia,17,183.3,FALSE
+Georgia,18,1321,FALSE
+Georgia,40,76.6,FALSE
+Georgia,49,186.3,FALSE
+Georgia,58,666.5,FALSE
+Georgia,90,334.2,FALSE
+Georgia,120,389.2,FALSE
+Georgia,106,1880.4,FALSE
+Georgia,169,217.5,FALSE
+Georgia,205,170.1,FALSE
+Georgia,219,182.2,FALSE
+Georgia,221,447.8,FALSE
+Georgia,231,332.2,FALSE
+Georgia,235,181.4,FALSE
+Georgia,243,318.1,FALSE
+Georgia,289,377,FALSE
+Georgia,306,260.3,FALSE
+Georgia,316,1873.5,FALSE
+Georgia,317,91.9,FALSE
+Georgia,318,173.8,FALSE
+Germany,7,495.6,FALSE
+Germany,8,2145.9,FALSE
+Germany,12,5274.1,FALSE
+Germany,17,139.4,FALSE
+Germany,19,1405.9,FALSE
+Germany,30,6686.7,FALSE
+Germany,40,192.5,FALSE
+Germany,49,281,FALSE
+Germany,54,746.7,FALSE
+Germany,58,3178,FALSE
+Germany,90,648.2,FALSE
+Germany,91,2603.9,FALSE
+Germany,116,3335,FALSE
+Germany,138,495.6,FALSE
+Germany,152,710.1,FALSE
+Germany,158,1341.8,FALSE
+Germany,169,168.1,FALSE
+Germany,192,2189.1,FALSE
+Germany,200,157.1,FALSE
+Germany,205,232.3,FALSE
+Germany,219,1806.3,FALSE
+Germany,221,627.2,FALSE
+Germany,218,2538.6,FALSE
+Germany,231,884.9,FALSE
+Germany,235,221.2,FALSE
+Germany,238,838.5,FALSE
+Germany,248,393.8,FALSE
+Germany,249,6979.8,FALSE
+Germany,259,135,FALSE
+Germany,279,1592.9,FALSE
+Germany,281,2563,FALSE
+Germany,282,38.7,FALSE
+Germany,305,5054,FALSE
+Germany,306,1674.7,FALSE
+Germany,308,141.6,FALSE
+Germany,316,4982.1,FALSE
+Germany,318,154.9,FALSE
+Greece,4,3192.1,FALSE
+Greece,7,616.8,FALSE
+Greece,8,862.2,FALSE
+Greece,11,1331.5,FALSE
+Greece,12,6246.9,FALSE
+Greece,17,179.2,FALSE
+Greece,18,3108.4,FALSE
+Greece,19,1818.1,FALSE
+Greece,40,398.5,FALSE
+Greece,48,245.1,FALSE
+Greece,49,877.1,FALSE
+Greece,54,899.3,FALSE
+Greece,58,2689.8,FALSE
+Greece,59,2159.8,FALSE
+Greece,60,2408.3,FALSE
+Greece,61,599.6,FALSE
+Greece,63,612.2,FALSE
+Greece,90,574.6,FALSE
+Greece,91,1221.4,FALSE
+Greece,101,700.5,FALSE
+Greece,105,2228.6,FALSE
+Greece,112,3368.8,FALSE
+Greece,120,778.9,FALSE
+Greece,128,1196.8,FALSE
+Greece,106,4978.7,FALSE
+Greece,152,651.1,FALSE
+Greece,154,625.6,FALSE
+Greece,156,1642.2,FALSE
+Greece,158,901.1,FALSE
+Greece,169,238,FALSE
+Greece,179,563.1,FALSE
+Greece,192,3452.1,FALSE
+Greece,200,187.5,FALSE
+Greece,202,3084.2,FALSE
+Greece,203,2347.7,FALSE
+Greece,205,537.6,FALSE
+Greece,206,832.9,FALSE
+Greece,208,302.4,FALSE
+Greece,219,417.9,FALSE
+Greece,221,1608.3,FALSE
+Greece,218,1005.3,FALSE
+Greece,229,11145.3,FALSE
+Greece,235,545.2,FALSE
+Greece,238,862.4,FALSE
+Greece,254,250,FALSE
+Greece,259,145.5,FALSE
+Greece,84,555,FALSE
+Greece,279,731.8,FALSE
+Greece,281,1776.2,FALSE
+Greece,282,29.2,FALSE
+Greece,289,387.2,FALSE
+Greece,298,434.5,FALSE
+Greece,305,4104.1,FALSE
+Greece,306,498.4,FALSE
+Greece,316,3399.6,FALSE
+Greece,317,245.6,FALSE
+Greece,318,208,FALSE
+Grenada,13,1167.6,FALSE
+Grenada,16,925.7,FALSE
+Grenada,18,2121.3,FALSE
+Grenada,40,1790.2,FALSE
+Grenada,49,2076,FALSE
+Grenada,52,815.8,FALSE
+Grenada,54,2999.7,FALSE
+Grenada,74,2141.5,FALSE
+Grenada,75,1924.8,FALSE
+Grenada,90,885.5,FALSE
+Grenada,115,2868,FALSE
+Grenada,121,620.3,FALSE
+Grenada,154,305.9,FALSE
+Grenada,158,2909.1,FALSE
+Grenada,169,900.8,FALSE
+Grenada,175,525.9,FALSE
+Grenada,179,1536,FALSE
+Grenada,198,3263.2,FALSE
+Grenada,208,573.3,FALSE
+Grenada,215,680.7,FALSE
+Grenada,227,1835.5,FALSE
+Grenada,228,2099,FALSE
+Grenada,231,571.1,FALSE
+Grenada,238,1209.7,FALSE
+Grenada,286,611.8,FALSE
+Grenada,296,1572.1,FALSE
+Grenada,306,1815.7,FALSE
+Grenada,317,1278.9,FALSE
+Grenada,319,1535.7,FALSE
+Guyana,16,468.7,FALSE
+Guyana,40,1474.6,FALSE
+Guyana,52,242.1,FALSE
+Guyana,58,1523,FALSE
+Guyana,63,1635.2,FALSE
+Guyana,75,329.5,FALSE
+Guyana,90,240.7,FALSE
+Guyana,101,719.1,FALSE
+Guyana,115,2257.1,FALSE
+Guyana,154,523.9,FALSE
+Guyana,202,638,FALSE
+Guyana,208,926.5,FALSE
+Guyana,215,777.3,FALSE
+Guyana,228,588.5,FALSE
+Guyana,238,240.2,FALSE
+Guyana,296,437,FALSE
+Guyana,301,353.5,FALSE
+Guyana,306,1510.9,FALSE
+Guyana,317,444.1,FALSE
+Guyana,319,1031.1,FALSE
+Hungary,7,96.1,FALSE
+Hungary,8,576.1,FALSE
+Hungary,12,1935.2,FALSE
+Hungary,17,130.5,FALSE
+Hungary,18,786.6,FALSE
+Hungary,19,261.4,FALSE
+Hungary,30,5940.2,FALSE
+Hungary,40,235,FALSE
+Hungary,49,188.1,FALSE
+Hungary,54,453.7,FALSE
+Hungary,58,968.9,FALSE
+Hungary,59,669.5,FALSE
+Hungary,63,296.1,FALSE
+Hungary,63,296.1,FALSE
+Hungary,90,455.4,FALSE
+Hungary,91,426.2,FALSE
+Hungary,101,529.5,FALSE
+Hungary,112,1941.3,FALSE
+Hungary,116,685.8,FALSE
+Hungary,120,91.7,FALSE
+Hungary,152,843.9,FALSE
+Hungary,158,734.9,FALSE
+Hungary,169,148,FALSE
+Hungary,80,133,FALSE
+Hungary,179,440.9,FALSE
+Hungary,180,271.8,FALSE
+Hungary,192,1193.1,FALSE
+Hungary,200,143,FALSE
+Hungary,205,226.4,FALSE
+Hungary,219,286.6,FALSE
+Hungary,221,372.2,FALSE
+Hungary,217,461.9,FALSE
+Hungary,218,309,FALSE
+Hungary,231,238.9,FALSE
+Hungary,234,1458.8,FALSE
+Hungary,235,285.5,FALSE
+Hungary,238,256.7,FALSE
+Hungary,243,416.6,FALSE
+Hungary,248,390.5,FALSE
+Hungary,249,2185.2,FALSE
+Hungary,259,126.7,FALSE
+Hungary,270,139.7,FALSE
+Hungary,276,374,FALSE
+Hungary,279,81.9,FALSE
+Hungary,281,2297.7,FALSE
+Hungary,289,375.9,FALSE
+Hungary,306,326,FALSE
+Hungary,308,122.4,FALSE
+Hungary,316,572.4,FALSE
+Hungary,317,110.7,FALSE
+Hungary,318,141.9,FALSE
+Iceland,17,249.6,FALSE
+Iceland,40,1278,FALSE
+Iceland,49,3013.8,FALSE
+Iceland,54,2724.1,FALSE
+Iceland,90,2265.5,FALSE
+Iceland,192,5378.6,FALSE
+Iceland,235,903.1,FALSE
+Iceland,306,4521.1,FALSE
+Indonesia,13,581.9,FALSE
+Indonesia,19,816.2,FALSE
+Indonesia,40,376.6,FALSE
+Indonesia,49,627.2,FALSE
+Indonesia,52,198.3,FALSE
+Indonesia,63,2181.2,FALSE
+Indonesia,74,1868.8,FALSE
+Indonesia,77,1488.8,FALSE
+Indonesia,90,350.9,FALSE
+Indonesia,101,356.7,FALSE
+Indonesia,128,1094.4,FALSE
+Indonesia,169,307.7,FALSE
+Indonesia,175,572.9,FALSE
+Indonesia,179,457.4,FALSE
+Indonesia,198,3865.9,FALSE
+Indonesia,208,568,FALSE
+Indonesia,215,283,FALSE
+Indonesia,235,761,FALSE
+Indonesia,254,703.2,FALSE
+Indonesia,257,479.1,FALSE
+Indonesia,276,622.5,FALSE
+Indonesia,279,401.8,FALSE
+Indonesia,296,296.1,FALSE
+Indonesia,306,644.9,FALSE
+Indonesia,317,361.7,FALSE
+Iran (Islamic Republic of),4,4757.6,FALSE
+Iran (Islamic Republic of),7,493.9,FALSE
+Iran (Islamic Republic of),8,983.7,FALSE
+Iran (Islamic Republic of),16,603.7,FALSE
+Iran (Islamic Republic of),17,276.3,FALSE
+Iran (Islamic Republic of),18,1575.7,FALSE
+Iran (Islamic Republic of),49,147.6,FALSE
+Iran (Islamic Republic of),58,1301.2,FALSE
+Iran (Islamic Republic of),60,1330.3,FALSE
+Iran (Islamic Republic of),90,325.3,FALSE
+Iran (Islamic Republic of),94,785.1,FALSE
+Iran (Islamic Republic of),101,233,FALSE
+Iran (Islamic Republic of),105,713.8,FALSE
+Iran (Islamic Republic of),112,1038.1,FALSE
+Iran (Islamic Republic of),121,327.5,FALSE
+Iran (Islamic Republic of),120,327.2,FALSE
+Iran (Islamic Republic of),106,5846.4,FALSE
+Iran (Islamic Republic of),152,233.1,FALSE
+Iran (Islamic Republic of),154,1652.7,FALSE
+Iran (Islamic Republic of),156,1481.4,FALSE
+Iran (Islamic Republic of),158,178.7,FALSE
+Iran (Islamic Republic of),169,377.7,FALSE
+Iran (Islamic Republic of),175,852.7,FALSE
+Iran (Islamic Republic of),179,243.9,FALSE
+Iran (Islamic Republic of),180,468.9,FALSE
+Iran (Islamic Republic of),203,1325,FALSE
+Iran (Islamic Republic of),205,156.1,FALSE
+Iran (Islamic Republic of),208,245.2,FALSE
+Iran (Islamic Republic of),219,695.2,FALSE
+Iran (Islamic Republic of),221,1554.5,FALSE
+Iran (Islamic Republic of),229,7943.1,FALSE
+Iran (Islamic Republic of),231,619.8,FALSE
+Iran (Islamic Republic of),235,136.4,FALSE
+Iran (Islamic Republic of),243,792.6,FALSE
+Iran (Islamic Republic of),254,1158.9,FALSE
+Iran (Islamic Republic of),84,973,FALSE
+Iran (Islamic Republic of),267,1746,FALSE
+Iran (Islamic Republic of),276,712.1,FALSE
+Iran (Islamic Republic of),279,236.9,FALSE
+Iran (Islamic Republic of),281,1223.1,FALSE
+Iran (Islamic Republic of),282,95.6,FALSE
+Iran (Islamic Republic of),286,40.4,FALSE
+Iran (Islamic Republic of),298,297,FALSE
+Iran (Islamic Republic of),302,511.5,FALSE
+Iran (Islamic Republic of),305,3620.9,FALSE
+Iran (Islamic Republic of),306,124.4,FALSE
+Iran (Islamic Republic of),316,6699.8,FALSE
+Iran (Islamic Republic of),317,147.7,FALSE
+Iran (Islamic Republic of),318,401.8,FALSE
+Iraq,7,667.5,FALSE
+Iraq,8,1043.6,FALSE
+Iraq,17,315.4,FALSE
+Iraq,19,1111.1,FALSE
+Iraq,33,1112,FALSE
+Iraq,40,376.1,FALSE
+Iraq,49,362.4,FALSE
+Iraq,54,440.2,FALSE
+Iraq,60,1380.3,FALSE
+Iraq,63,1503.4,FALSE
+Iraq,90,893.2,FALSE
+Iraq,94,388.9,FALSE
+Iraq,101,448.7,FALSE
+Iraq,105,1211.1,FALSE
+Iraq,112,887.2,FALSE
+Iraq,120,805.1,FALSE
+Iraq,154,1448.7,FALSE
+Iraq,156,1117.1,FALSE
+Iraq,158,426.5,FALSE
+Iraq,169,514.5,FALSE
+Iraq,179,393.2,FALSE
+Iraq,180,529.9,FALSE
+Iraq,200,740.2,FALSE
+Iraq,202,1788,FALSE
+Iraq,203,809.4,FALSE
+Iraq,205,360.7,FALSE
+Iraq,206,389.7,FALSE
+Iraq,208,603.4,FALSE
+Iraq,221,606.8,FALSE
+Iraq,231,723.1,FALSE
+Iraq,235,498.3,FALSE
+Iraq,238,947,FALSE
+Iraq,254,542.7,FALSE
+Iraq,270,651.3,FALSE
+Iraq,279,549.6,FALSE
+Iraq,298,676.9,FALSE
+Iraq,306,371.8,FALSE
+Iraq,317,328.2,FALSE
+Iraq,318,407.7,FALSE
+Ireland,40,414.8,FALSE
+Ireland,49,442.5,FALSE
+Ireland,54,663.7,FALSE
+Ireland,158,872.3,FALSE
+Ireland,192,2057.4,FALSE
+Ireland,200,140.8,FALSE
+Ireland,306,1548.6,FALSE
+Israel,4,7057.4,FALSE
+Israel,7,1340.5,FALSE
+Israel,8,3654.3,FALSE
+Israel,11,1076.4,FALSE
+Israel,12,3450.1,FALSE
+Israel,13,2394,FALSE
+Israel,16,1043.7,FALSE
+Israel,17,195.3,FALSE
+Israel,19,2070.1,FALSE
+Israel,33,1088.9,FALSE
+Israel,40,457.7,FALSE
+Israel,49,453.4,FALSE
+Israel,54,735,FALSE
+Israel,58,5692.3,FALSE
+Israel,60,1041.5,FALSE
+Israel,63,989.2,FALSE
+Israel,90,802.5,FALSE
+Israel,94,3779.4,FALSE
+Israel,101,725.1,FALSE
+Israel,105,2773.6,FALSE
+Israel,112,3317.3,FALSE
+Israel,121,768.4,FALSE
+Israel,120,2951.7,FALSE
+Israel,128,1562.3,FALSE
+Israel,154,1258.9,FALSE
+Israel,156,768.1,FALSE
+Israel,158,1564.1,FALSE
+Israel,169,1046.2,FALSE
+Israel,175,2447.8,FALSE
+Israel,179,830.9,FALSE
+Israel,192,6387.1,FALSE
+Israel,203,1093.6,FALSE
+Israel,205,540.2,FALSE
+Israel,206,1223.8,FALSE
+Israel,208,720.7,FALSE
+Israel,215,2551.5,FALSE
+Israel,219,1738.3,FALSE
+Israel,221,1618.7,FALSE
+Israel,217,425.1,FALSE
+Israel,218,1953.4,FALSE
+Israel,228,5015.1,FALSE
+Israel,231,2420.2,FALSE
+Israel,235,532,FALSE
+Israel,238,708.6,FALSE
+Israel,243,2670.7,FALSE
+Israel,261,1562.3,FALSE
+Israel,84,1036.3,TRUE
+Israel,279,3482.3,FALSE
+Israel,281,3981.1,FALSE
+Israel,289,4210.6,FALSE
+Israel,296,1104.5,FALSE
+Israel,298,848.1,FALSE
+Israel,306,942.6,FALSE
+Israel,317,569.6,FALSE
+Israel,318,215.1,FALSE
+Italy,4,1762.9,FALSE
+Italy,7,597.3,FALSE
+Italy,18,2380.9,FALSE
+Italy,106,3555.6,FALSE
+Italy,154,559,FALSE
+Italy,169,203.6,FALSE
+Italy,200,209.9,FALSE
+Italy,208,542.7,FALSE
+Italy,235,454.8,FALSE
+Italy,254,505.2,FALSE
+Italy,306,880.1,FALSE
+Italy,316,3611.3,FALSE
+Italy,318,197.1,FALSE
+Jamaica,18,2472.1,FALSE
+Jamaica,33,2150.9,FALSE
+Jamaica,40,853.5,FALSE
+Jamaica,49,1028.8,FALSE
+Jamaica,52,336.5,FALSE
+Jamaica,54,1742,FALSE
+Jamaica,63,2103.4,FALSE
+Jamaica,86,2641.1,FALSE
+Jamaica,90,704.4,FALSE
+Jamaica,101,1092.3,FALSE
+Jamaica,115,1800.2,FALSE
+Jamaica,128,2223.7,FALSE
+Jamaica,158,1547.3,FALSE
+Jamaica,169,3326.9,FALSE
+Jamaica,80,2907.9,FALSE
+Jamaica,179,1125.7,FALSE
+Jamaica,202,1303.7,FALSE
+Jamaica,205,1537.3,FALSE
+Jamaica,206,791.2,FALSE
+Jamaica,215,1006,FALSE
+Jamaica,217,2813.6,FALSE
+Jamaica,227,2463.2,FALSE
+Jamaica,228,1133.4,FALSE
+Jamaica,235,1082.4,FALSE
+Jamaica,238,704.5,FALSE
+Jamaica,254,1021.3,FALSE
+Jamaica,279,584.2,FALSE
+Jamaica,296,957.5,FALSE
+Jamaica,306,1046.8,FALSE
+Jamaica,317,821.4,FALSE
+Jamaica,319,1141.3,FALSE
+Japan,7,2598.5,FALSE
+Japan,8,2644.5,FALSE
+Japan,12,9140.3,FALSE
+Japan,17,1243.5,FALSE
+Japan,19,5751.3,FALSE
+Japan,39,2974.1,FALSE
+Japan,40,729.8,FALSE
+Japan,49,1308,FALSE
+Japan,58,17331.1,FALSE
+Japan,59,5505.9,FALSE
+Japan,63,3806.3,FALSE
+Japan,90,2693.2,FALSE
+Japan,101,3071.9,FALSE
+Japan,112,14743.6,FALSE
+Japan,115,5520.6,FALSE
+Japan,120,5993,FALSE
+Japan,128,7111.4,FALSE
+Japan,152,3132.6,FALSE
+Japan,158,1615.9,FALSE
+Japan,80,2113.2,FALSE
+Japan,175,26187.4,FALSE
+Japan,179,3668.4,FALSE
+Japan,206,812.6,FALSE
+Japan,208,1105.8,FALSE
+Japan,219,3934.1,FALSE
+Japan,221,2979.1,FALSE
+Japan,218,14513.8,FALSE
+Japan,228,1348.4,FALSE
+Japan,231,3944.3,FALSE
+Japan,235,1314.4,FALSE
+Japan,238,1591.1,FALSE
+Japan,254,1884.3,FALSE
+Japan,276,1331.3,FALSE
+Japan,279,4729.2,FALSE
+Japan,281,10662.5,FALSE
+Japan,282,104.9,FALSE
+Japan,286,199,FALSE
+Japan,296,2103.1,FALSE
+Japan,298,2397.2,FALSE
+Japan,301,3105.9,FALSE
+Japan,302,13907.2,FALSE
+Japan,305,20166.8,FALSE
+Japan,306,2821.9,FALSE
+Japan,317,1500.1,FALSE
+Japan,318,241.7,FALSE
+Japan,319,2755.7,FALSE
+Jordan,7,609.6,FALSE
+Jordan,8,573.8,FALSE
+Jordan,16,747,FALSE
+Jordan,40,148.7,FALSE
+Jordan,49,404.1,FALSE
+Jordan,54,303.7,FALSE
+Jordan,60,727.7,FALSE
+Jordan,63,396.8,FALSE
+Jordan,90,360.1,FALSE
+Jordan,101,271.1,FALSE
+Jordan,112,276.1,FALSE
+Jordan,121,344.8,FALSE
+Jordan,120,911.5,FALSE
+Jordan,154,592.8,FALSE
+Jordan,158,326.2,FALSE
+Jordan,169,360.7,FALSE
+Jordan,179,450,FALSE
+Jordan,202,1901.1,FALSE
+Jordan,205,360.6,FALSE
+Jordan,206,804.2,FALSE
+Jordan,208,566.3,FALSE
+Jordan,219,587.7,FALSE
+Jordan,218,651.1,FALSE
+Jordan,235,364.1,FALSE
+Jordan,238,408.6,FALSE
+Jordan,279,399.4,FALSE
+Jordan,281,1069.3,FALSE
+Jordan,298,430.6,FALSE
+Jordan,306,224.4,FALSE
+Jordan,317,285.8,FALSE
+Kazakhstan,7,366.4,FALSE
+Kazakhstan,8,375.9,FALSE
+Kazakhstan,17,76.6,FALSE
+Kazakhstan,39,222.1,FALSE
+Kazakhstan,40,133.2,FALSE
+Kazakhstan,49,145.5,FALSE
+Kazakhstan,90,574.7,FALSE
+Kazakhstan,120,328.7,FALSE
+Kazakhstan,161,208.8,FALSE
+Kazakhstan,169,114.2,FALSE
+Kazakhstan,179,114.7,FALSE
+Kazakhstan,180,93.4,FALSE
+Kazakhstan,200,58.7,FALSE
+Kazakhstan,205,107.8,FALSE
+Kazakhstan,219,1023.3,FALSE
+Kazakhstan,221,403.8,FALSE
+Kazakhstan,217,153.8,FALSE
+Kazakhstan,231,500.7,FALSE
+Kazakhstan,235,136,FALSE
+Kazakhstan,248,209.1,FALSE
+Kazakhstan,254,178,FALSE
+Kazakhstan,259,91.2,FALSE
+Kazakhstan,261,132.1,FALSE
+Kazakhstan,84,371.5,FALSE
+Kazakhstan,276,220.1,FALSE
+Kazakhstan,281,683.5,FALSE
+Kazakhstan,282,34.6,FALSE
+Kazakhstan,289,247.8,FALSE
+Kazakhstan,305,1238,FALSE
+Kazakhstan,306,638.2,FALSE
+Kazakhstan,317,82.7,FALSE
+Kazakhstan,318,105.1,FALSE
+Kenya,13,158.8,FALSE
+Kenya,16,390,FALSE
+Kenya,18,744.2,FALSE
+Kenya,40,282.9,FALSE
+Kenya,49,171.4,FALSE
+Kenya,51,344.5,FALSE
+Kenya,54,320,FALSE
+Kenya,75,150.7,FALSE
+Kenya,77,4020.7,FALSE
+Kenya,90,250.5,FALSE
+Kenya,128,913.9,FALSE
+Kenya,154,232.8,FALSE
+Kenya,158,183.6,FALSE
+Kenya,169,292.5,FALSE
+Kenya,175,125.9,FALSE
+Kenya,180,830.7,FALSE
+Kenya,205,441,FALSE
+Kenya,208,250.4,FALSE
+Kenya,221,213.7,FALSE
+Kenya,228,145.1,FALSE
+Kenya,231,151,FALSE
+Kenya,235,386.5,FALSE
+Kenya,240,1766.1,FALSE
+Kenya,254,550.5,FALSE
+Kenya,84,413.7,FALSE
+Kenya,269,1917.3,FALSE
+Kenya,270,526.7,FALSE
+Kenya,279,153.3,FALSE
+Kenya,286,32.9,FALSE
+Kenya,302,2436.4,FALSE
+Kenya,306,605,FALSE
+Kenya,317,226.9,FALSE
+Kenya,318,366.3,FALSE
+Kuwait,17,529.5,FALSE
+Kuwait,19,595.7,FALSE
+Kuwait,40,496.4,FALSE
+Kuwait,49,827.3,FALSE
+Kuwait,54,661.9,FALSE
+Kuwait,63,463.3,FALSE
+Kuwait,90,496.4,FALSE
+Kuwait,94,827.3,FALSE
+Kuwait,101,165.5,FALSE
+Kuwait,112,992.8,FALSE
+Kuwait,120,1489.2,FALSE
+Kuwait,154,1323.8,FALSE
+Kuwait,158,496.4,FALSE
+Kuwait,169,992.8,FALSE
+Kuwait,179,661.9,FALSE
+Kuwait,202,661.9,FALSE
+Kuwait,203,1985.6,FALSE
+Kuwait,205,628.8,FALSE
+Kuwait,208,1323.8,FALSE
+Kuwait,235,430.2,FALSE
+Kuwait,238,529.5,FALSE
+Kuwait,261,463.3,FALSE
+Kuwait,279,628.8,FALSE
+Kuwait,281,893.5,FALSE
+Kuwait,306,496.4,FALSE
+Kuwait,317,827.3,FALSE
+Kuwait,318,628.8,FALSE
+Kyrgyzstan,17,118.8,FALSE
+Kyrgyzstan,18,500.5,FALSE
+Kyrgyzstan,39,335.8,FALSE
+Kyrgyzstan,40,147.9,FALSE
+Kyrgyzstan,49,197.1,FALSE
+Kyrgyzstan,90,356,FALSE
+Kyrgyzstan,112,2271.8,FALSE
+Kyrgyzstan,120,700,FALSE
+Kyrgyzstan,169,175.6,FALSE
+Kyrgyzstan,180,268.3,FALSE
+Kyrgyzstan,200,150.8,FALSE
+Kyrgyzstan,205,156.8,FALSE
+Kyrgyzstan,217,197.1,FALSE
+Kyrgyzstan,235,161,FALSE
+Kyrgyzstan,254,1026.2,FALSE
+Kyrgyzstan,270,120.1,FALSE
+Kyrgyzstan,282,45.8,FALSE
+Kyrgyzstan,305,282.4,FALSE
+Kyrgyzstan,306,447.2,FALSE
+Kyrgyzstan,308,136.9,FALSE
+Kyrgyzstan,318,168.7,FALSE
+Latvia,7,403.7,FALSE
+Latvia,17,135,FALSE
+Latvia,18,190.3,FALSE
+Latvia,39,382.7,FALSE
+Latvia,40,192.5,FALSE
+Latvia,49,240,FALSE
+Latvia,54,626.1,FALSE
+Latvia,58,2308.5,FALSE
+Latvia,90,1570.7,FALSE
+Latvia,91,836.3,FALSE
+Latvia,108,190.3,FALSE
+Latvia,112,3079.5,FALSE
+Latvia,116,1165.9,FALSE
+Latvia,152,550.9,FALSE
+Latvia,158,3861.6,FALSE
+Latvia,161,574.1,FALSE
+Latvia,192,1161.5,FALSE
+Latvia,200,136.1,FALSE
+Latvia,205,217.9,FALSE
+Latvia,206,2026.5,FALSE
+Latvia,221,799.7,FALSE
+Latvia,217,241.1,FALSE
+Latvia,218,2259.9,FALSE
+Latvia,231,1257.7,FALSE
+Latvia,235,157.1,FALSE
+Latvia,238,694.7,FALSE
+Latvia,243,1199.1,FALSE
+Latvia,248,387.2,FALSE
+Latvia,249,2791.9,FALSE
+Latvia,259,119.5,FALSE
+Latvia,281,2243.3,FALSE
+Latvia,306,1433.6,FALSE
+Latvia,308,118.4,FALSE
+Latvia,318,149.3,FALSE
+Lithuania,7,405.8,FALSE
+Lithuania,17,141.9,FALSE
+Lithuania,18,200.7,FALSE
+Lithuania,39,430.7,FALSE
+Lithuania,40,197.8,FALSE
+Lithuania,49,252.4,FALSE
+Lithuania,54,572.9,FALSE
+Lithuania,58,3723.4,FALSE
+Lithuania,90,1028.4,FALSE
+Lithuania,91,1972.6,FALSE
+Lithuania,112,3309.2,FALSE
+Lithuania,152,823.1,FALSE
+Lithuania,158,1520,FALSE
+Lithuania,161,584.3,FALSE
+Lithuania,165,232.3,FALSE
+Lithuania,169,136.3,FALSE
+Lithuania,192,1646.6,FALSE
+Lithuania,200,135.1,FALSE
+Lithuania,205,211.7,FALSE
+Lithuania,221,767.2,FALSE
+Lithuania,217,262,FALSE
+Lithuania,231,941.7,FALSE
+Lithuania,235,182.7,FALSE
+Lithuania,248,403.5,FALSE
+Lithuania,249,2905.2,FALSE
+Lithuania,259,121.3,FALSE
+Lithuania,279,4342.6,FALSE
+Lithuania,281,4126.1,FALSE
+Lithuania,282,33.2,FALSE
+Lithuania,306,854.1,FALSE
+Lithuania,308,123.7,FALSE
+Lithuania,318,160.3,FALSE
+Luxembourg,7,1526.5,FALSE
+Luxembourg,17,125,FALSE
+Luxembourg,40,608.4,FALSE
+Luxembourg,49,1438,FALSE
+Luxembourg,58,7134.7,FALSE
+Luxembourg,158,1969,FALSE
+Luxembourg,169,196.3,FALSE
+Luxembourg,200,145.8,FALSE
+Luxembourg,221,1769.8,FALSE
+Luxembourg,217,177.9,FALSE
+Luxembourg,231,1382.7,FALSE
+Luxembourg,235,321.1,FALSE
+Luxembourg,248,372.7,FALSE
+Luxembourg,259,126.5,FALSE
+Luxembourg,281,5309.5,FALSE
+Luxembourg,306,2643.7,FALSE
+Luxembourg,308,126.9,FALSE
+Luxembourg,318,158.7,FALSE
+Malawi,13,282,FALSE
+Malawi,16,497.9,FALSE
+Malawi,18,1010.6,FALSE
+Malawi,40,341.7,FALSE
+Malawi,52,328.5,FALSE
+Malawi,86,691,FALSE
+Malawi,90,302,FALSE
+Malawi,101,380,FALSE
+Malawi,128,563.1,FALSE
+Malawi,169,304.2,FALSE
+Malawi,175,238.9,FALSE
+Malawi,180,616,FALSE
+Malawi,202,335.6,FALSE
+Malawi,205,640.9,FALSE
+Malawi,217,539.8,FALSE
+Malawi,218,690.4,FALSE
+Malawi,227,802,FALSE
+Malawi,228,376.2,FALSE
+Malawi,235,436,FALSE
+Malawi,254,940.1,FALSE
+Malawi,270,558.8,FALSE
+Malawi,276,602.2,FALSE
+Malawi,296,313.9,FALSE
+Malawi,306,550.1,FALSE
+Malaysia,16,433.9,FALSE
+Malaysia,40,361.6,FALSE
+Malaysia,52,313.4,FALSE
+Malaysia,54,1048.6,FALSE
+Malaysia,63,1518.7,FALSE
+Malaysia,74,2017.7,FALSE
+Malaysia,75,241.1,FALSE
+Malaysia,90,325.4,FALSE
+Malaysia,101,578.6,FALSE
+Malaysia,121,554.4,FALSE
+Malaysia,154,771.4,FALSE
+Malaysia,175,1265.6,FALSE
+Malaysia,202,771.4,FALSE
+Malaysia,215,337.5,FALSE
+Malaysia,228,313.4,FALSE
+Malaysia,238,313.4,FALSE
+Malaysia,254,289.3,FALSE
+Malaysia,257,1370.3,FALSE
+Malaysia,279,421.9,FALSE
+Malaysia,286,204.9,FALSE
+Malaysia,296,301.3,FALSE
+Malaysia,306,482.1,FALSE
+Malaysia,317,277.2,FALSE
+Malaysia,319,518.3,FALSE
+Maldives,16,1171.2,FALSE
+Maldives,40,2017.1,FALSE
+Maldives,52,1431.5,FALSE
+Maldives,63,10736.3,FALSE
+Maldives,75,279.8,FALSE
+Maldives,90,1301.4,FALSE
+Maldives,101,1496.6,FALSE
+Maldives,158,1952.1,FALSE
+Maldives,175,4331.6,FALSE
+Maldives,179,1301.4,FALSE
+Maldives,215,979.4,FALSE
+Maldives,238,1106.2,FALSE
+Maldives,296,2212.3,FALSE
+Maldives,301,1431.5,FALSE
+Maldives,317,845.9,FALSE
+Malta,7,508.7,FALSE
+Malta,8,1503.5,FALSE
+Malta,40,130.2,FALSE
+Malta,54,221.7,FALSE
+Malta,105,3191.2,FALSE
+Malta,112,1012.5,FALSE
+Malta,121,1058.3,FALSE
+Malta,120,1194.9,FALSE
+Malta,154,791.9,FALSE
+Malta,179,624.1,FALSE
+Malta,203,614.6,FALSE
+Malta,205,883.9,FALSE
+Malta,208,681.4,FALSE
+Malta,219,1229,FALSE
+Malta,221,994.6,FALSE
+Malta,235,435.1,FALSE
+Malta,238,534.3,FALSE
+Malta,281,2818.4,FALSE
+Malta,298,1227.7,FALSE
+Malta,306,865.2,FALSE
+Mauritius,16,256,FALSE
+Mauritius,19,906.9,FALSE
+Mauritius,40,315.9,FALSE
+Mauritius,49,411.4,FALSE
+Mauritius,52,292.6,FALSE
+Mauritius,54,584.4,FALSE
+Mauritius,63,2639.7,FALSE
+Mauritius,75,450.2,FALSE
+Mauritius,90,509.6,FALSE
+Mauritius,101,448,FALSE
+Mauritius,112,2391.5,FALSE
+Mauritius,115,1362.1,FALSE
+Mauritius,128,1186.1,FALSE
+Mauritius,158,1330.3,FALSE
+Mauritius,202,1209.1,FALSE
+Mauritius,205,604.9,FALSE
+Mauritius,228,540.5,FALSE
+Mauritius,235,619,FALSE
+Mauritius,238,620.4,FALSE
+Mauritius,286,404,FALSE
+Mauritius,296,442.6,FALSE
+Mauritius,301,1441.9,FALSE
+Mauritius,302,408.8,FALSE
+Mauritius,306,893.6,FALSE
+Mexico,5,1147.7,FALSE
+Mexico,7,348.2,FALSE
+Mexico,11,467.6,FALSE
+Mexico,12,1969.2,FALSE
+Mexico,13,858.3,FALSE
+Mexico,17,225.1,FALSE
+Mexico,18,653.1,FALSE
+Mexico,19,335.1,FALSE
+Mexico,30,3047.2,FALSE
+Mexico,33,654.9,FALSE
+Mexico,40,125,FALSE
+Mexico,49,154.8,FALSE
+Mexico,51,263.5,FALSE
+Mexico,52,193.8,FALSE
+Mexico,54,218.6,FALSE
+Mexico,58,3717.7,FALSE
+Mexico,59,1235.9,FALSE
+Mexico,60,618.5,FALSE
+Mexico,63,465.5,FALSE
+Mexico,74,2095.5,FALSE
+Mexico,75,111.8,FALSE
+Mexico,77,294.1,FALSE
+Mexico,90,291.1,FALSE
+Mexico,94,2639,FALSE
+Mexico,101,363.7,FALSE
+Mexico,105,497.3,FALSE
+Mexico,112,835.5,FALSE
+Mexico,115,833.2,FALSE
+Mexico,121,117.5,FALSE
+Mexico,120,870,FALSE
+Mexico,128,594.1,FALSE
+Mexico,154,228.8,FALSE
+Mexico,156,470.4,FALSE
+Mexico,158,180.2,FALSE
+Mexico,161,401.8,FALSE
+Mexico,169,189.2,FALSE
+Mexico,80,116.3,FALSE
+Mexico,175,170.8,FALSE
+Mexico,179,266.5,FALSE
+Mexico,194,2143.2,FALSE
+Mexico,200,224.8,FALSE
+Mexico,202,234.9,FALSE
+Mexico,203,522.8,FALSE
+Mexico,206,258,FALSE
+Mexico,208,91.9,FALSE
+Mexico,215,265,FALSE
+Mexico,219,422.7,FALSE
+Mexico,221,241,FALSE
+Mexico,217,390.9,FALSE
+Mexico,218,412.1,FALSE
+Mexico,228,200.5,FALSE
+Mexico,229,6844.6,FALSE
+Mexico,231,245.6,FALSE
+Mexico,235,322.7,FALSE
+Mexico,238,335.1,FALSE
+Mexico,243,323,FALSE
+Mexico,248,305.6,FALSE
+Mexico,249,1860.1,FALSE
+Mexico,254,205.8,FALSE
+Mexico,257,589.2,FALSE
+Mexico,259,193.5,FALSE
+Mexico,261,326.9,FALSE
+Mexico,84,706.1,FALSE
+Mexico,267,830.1,FALSE
+Mexico,270,165.5,FALSE
+Mexico,276,365.5,FALSE
+Mexico,279,255,FALSE
+Mexico,281,895.7,FALSE
+Mexico,286,29.4,FALSE
+Mexico,289,308.3,FALSE
+Mexico,296,234,FALSE
+Mexico,298,118,FALSE
+Mexico,302,80.1,FALSE
+Mexico,305,1735.8,FALSE
+Mexico,306,381.9,FALSE
+Mexico,308,183.9,FALSE
+Mexico,314,5262.5,FALSE
+Mexico,316,3697.3,FALSE
+Mexico,317,170.9,FALSE
+Mexico,318,196.1,FALSE
+Mexico,76,225.7,FALSE
+Mongolia,17,226.8,FALSE
+Mongolia,40,619.7,FALSE
+Mongolia,49,675.4,FALSE
+Mongolia,90,1694.3,FALSE
+Mongolia,112,4181.2,FALSE
+Mongolia,200,235.2,FALSE
+Mongolia,205,925.1,FALSE
+Mongolia,235,407.5,FALSE
+Mongolia,318,197.9,FALSE
+Morocco,7,832,FALSE
+Morocco,8,1037,FALSE
+Morocco,11,398.7,FALSE
+Morocco,13,2589.9,FALSE
+Morocco,16,736.2,FALSE
+Morocco,17,283.5,FALSE
+Morocco,18,1199.1,FALSE
+Morocco,33,472.1,FALSE
+Morocco,40,240.6,FALSE
+Morocco,49,252.9,FALSE
+Morocco,54,317.1,FALSE
+Morocco,58,2193.2,FALSE
+Morocco,60,1039,FALSE
+Morocco,63,390.5,FALSE
+Morocco,90,342.6,FALSE
+Morocco,101,308.9,FALSE
+Morocco,105,1231.7,FALSE
+Morocco,120,427.2,FALSE
+Morocco,128,1043.1,FALSE
+Morocco,154,615.9,FALSE
+Morocco,156,1012.5,FALSE
+Morocco,169,258,FALSE
+Morocco,179,518,FALSE
+Morocco,200,330.4,FALSE
+Morocco,203,600.6,FALSE
+Morocco,205,463.9,FALSE
+Morocco,206,244.7,FALSE
+Morocco,208,394.6,FALSE
+Morocco,219,1124.7,FALSE
+Morocco,221,1581.4,FALSE
+Morocco,217,752.5,FALSE
+Morocco,218,936,FALSE
+Morocco,228,1706.9,FALSE
+Morocco,231,1009.4,FALSE
+Morocco,235,203.9,FALSE
+Morocco,238,483.3,FALSE
+Morocco,243,451.7,FALSE
+Morocco,270,489.4,FALSE
+Morocco,281,839.2,FALSE
+Morocco,289,557.7,FALSE
+Morocco,298,366,FALSE
+Morocco,306,198.8,FALSE
+Morocco,317,394.6,FALSE
+Morocco,318,272.2,FALSE
+Nepal,4,2767.6,FALSE
+Nepal,7,649.2,FALSE
+Nepal,8,473.6,FALSE
+Nepal,8,516.4,FALSE
+Nepal,16,259.7,FALSE
+Nepal,17,267.1,FALSE
+Nepal,39,425,FALSE
+Nepal,60,866.9,FALSE
+Nepal,75,835.1,FALSE
+Nepal,77,1474.5,FALSE
+Nepal,112,685.7,FALSE
+Nepal,115,406.2,FALSE
+Nepal,146,409.1,FALSE
+Nepal,154,273.7,FALSE
+Nepal,156,866.9,FALSE
+Nepal,161,757.6,FALSE
+Nepal,169,268.4,FALSE
+Nepal,175,296,FALSE
+Nepal,180,300.9,FALSE
+Nepal,194,1011.1,FALSE
+Nepal,198,5801.3,FALSE
+Nepal,205,306.2,FALSE
+Nepal,208,526.9,FALSE
+Nepal,215,299.1,FALSE
+Nepal,219,246.2,FALSE
+Nepal,221,228.6,FALSE
+Nepal,227,855.6,FALSE
+Nepal,228,435.3,FALSE
+Nepal,231,237.6,FALSE
+Nepal,235,281.8,FALSE
+Nepal,254,260.4,FALSE
+Nepal,84,261.6,TRUE
+Nepal,276,910.7,FALSE
+Nepal,286,49.3,FALSE
+Nepal,302,446.5,FALSE
+Nepal,305,1350.4,FALSE
+Nepal,316,1159.5,FALSE
+Nepal,318,267.3,FALSE
+Netherlands,7,538.4,FALSE
+Netherlands,12,3403.1,FALSE
+Netherlands,17,167.1,FALSE
+Netherlands,18,742,FALSE
+Netherlands,40,196.9,FALSE
+Netherlands,49,160,FALSE
+Netherlands,54,1160.7,FALSE
+Netherlands,63,1295.2,FALSE
+Netherlands,90,669.9,FALSE
+Netherlands,101,906.8,FALSE
+Netherlands,152,663.2,FALSE
+Netherlands,158,1724.3,FALSE
+Netherlands,192,1531.5,FALSE
+Netherlands,205,159.7,FALSE
+Netherlands,221,563.6,FALSE
+Netherlands,234,1490.9,FALSE
+Netherlands,235,189.5,FALSE
+Netherlands,248,368.7,FALSE
+Netherlands,281,4212.2,FALSE
+Netherlands,282,38.3,FALSE
+Netherlands,306,669.6,FALSE
+Netherlands,308,150.6,FALSE
+Netherlands,318,161.8,FALSE
+New Zealand,7,591.7,FALSE
+New Zealand,17,229,FALSE
+New Zealand,169,241.6,FALSE
+New Zealand,200,285.4,FALSE
+New Zealand,318,210.9,FALSE
+Norway,7,1276.2,FALSE
+Norway,17,316.4,FALSE
+Norway,19,527.4,FALSE
+Norway,40,1044,FALSE
+Norway,49,957.1,FALSE
+Norway,54,1282.1,FALSE
+Norway,58,8208.3,FALSE
+Norway,90,2175,FALSE
+Norway,91,1183.3,FALSE
+Norway,152,1782.1,FALSE
+Norway,158,3196.4,FALSE
+Norway,200,290.7,FALSE
+Norway,206,801.2,FALSE
+Norway,221,1846.4,FALSE
+Norway,217,413.6,FALSE
+Norway,218,359.5,FALSE
+Norway,231,3776.2,FALSE
+Norway,235,331,FALSE
+Norway,248,610.7,FALSE
+Norway,249,7528.6,FALSE
+Norway,259,310.7,FALSE
+Norway,281,5242.9,FALSE
+Norway,306,2466.7,FALSE
+Norway,318,363.5,FALSE
+Oman,16,709.5,FALSE
+Oman,17,213,FALSE
+Oman,40,305.8,FALSE
+Oman,49,395.3,FALSE
+Oman,54,623.9,FALSE
+Oman,63,652.4,FALSE
+Oman,90,450.5,FALSE
+Oman,101,405.8,FALSE
+Oman,112,3029.4,FALSE
+Oman,154,1342.7,FALSE
+Oman,169,557.9,FALSE
+Oman,175,1709.5,FALSE
+Oman,179,410,FALSE
+Oman,200,234.9,FALSE
+Oman,202,997.1,FALSE
+Oman,205,520.4,FALSE
+Oman,215,517.1,FALSE
+Oman,235,361.2,FALSE
+Oman,238,299.7,FALSE
+Oman,286,96.2,FALSE
+Oman,306,328.8,FALSE
+Oman,317,298.8,FALSE
+Oman,318,929.8,FALSE
+Pakistan,254,192.8,FALSE
+Pakistan,84,668.1,FALSE
+Pakistan,286,39.4,FALSE
+Pakistan,318,286.3,FALSE
+Panama,16,93.1,FALSE
+Panama,18,1183.6,FALSE
+Panama,40,1014.1,FALSE
+Panama,49,948,FALSE
+Panama,52,531.1,FALSE
+Panama,63,1587.3,FALSE
+Panama,75,768.5,FALSE
+Panama,77,4658.7,FALSE
+Panama,90,705.5,FALSE
+Panama,158,1653.4,FALSE
+Panama,169,560.6,FALSE
+Panama,205,1080.3,FALSE
+Panama,208,355,FALSE
+Panama,215,579.8,FALSE
+Panama,228,652.6,FALSE
+Panama,235,992.1,FALSE
+Panama,254,558.6,FALSE
+Panama,306,1300.7,FALSE
+Panama,319,1118.8,FALSE
+Panama,76,1317.7,FALSE
+Paraguay,52,47.1,FALSE
+Paraguay,53,191,FALSE
+Paraguay,169,121.5,FALSE
+Paraguay,248,263.8,FALSE
+Paraguay,254,194,FALSE
+Paraguay,84,388,FALSE
+Paraguay,267,705.4,FALSE
+Paraguay,276,329.4,FALSE
+Paraguay,286,21.2,FALSE
+Paraguay,310,114.6,FALSE
+Paraguay,318,119.6,FALSE
+Peru,5,2408.2,FALSE
+Peru,7,250.8,FALSE
+Peru,8,2320.7,FALSE
+Peru,11,669.2,FALSE
+Peru,12,1240.5,FALSE
+Peru,13,774.1,FALSE
+Peru,17,366.7,FALSE
+Peru,18,1050.9,FALSE
+Peru,19,430.5,FALSE
+Peru,33,608.3,FALSE
+Peru,40,228.6,FALSE
+Peru,49,230.4,FALSE
+Peru,51,186,FALSE
+Peru,52,183,FALSE
+Peru,54,315.2,FALSE
+Peru,58,172.1,FALSE
+Peru,60,1286.6,FALSE
+Peru,63,672.2,FALSE
+Peru,74,2347.9,FALSE
+Peru,75,121.2,FALSE
+Peru,77,1658.9,FALSE
+Peru,86,555.3,FALSE
+Peru,90,215.1,FALSE
+Peru,94,444.1,FALSE
+Peru,101,364.6,FALSE
+Peru,105,649.4,FALSE
+Peru,112,1149.4,FALSE
+Peru,121,172.4,FALSE
+Peru,120,711.5,FALSE
+Peru,128,1087,FALSE
+Peru,152,246.9,FALSE
+Peru,154,248.7,FALSE
+Peru,156,1116.6,FALSE
+Peru,158,246.6,FALSE
+Peru,161,1640.9,FALSE
+Peru,165,1070.7,FALSE
+Peru,169,492.3,FALSE
+Peru,80,320.5,FALSE
+Peru,175,171.5,FALSE
+Peru,179,234.2,FALSE
+Peru,200,482,FALSE
+Peru,203,962.8,FALSE
+Peru,205,148.1,FALSE
+Peru,208,187.2,FALSE
+Peru,215,225.9,FALSE
+Peru,219,645.5,FALSE
+Peru,221,551.5,FALSE
+Peru,217,696.1,FALSE
+Peru,218,476.1,FALSE
+Peru,228,209.1,FALSE
+Peru,231,536.8,FALSE
+Peru,235,310.5,FALSE
+Peru,238,190.4,FALSE
+Peru,243,501.8,FALSE
+Peru,245,1178.7,FALSE
+Peru,254,340.6,FALSE
+Peru,259,365.2,FALSE
+Peru,84,851.6,FALSE
+Peru,267,1207.4,FALSE
+Peru,270,176.8,FALSE
+Peru,276,744,FALSE
+Peru,279,299.3,FALSE
+Peru,281,577.2,FALSE
+Peru,296,190.7,FALSE
+Peru,298,325,FALSE
+Peru,302,200.2,FALSE
+Peru,305,300.1,FALSE
+Peru,306,268.5,FALSE
+Peru,317,180.4,FALSE
+Peru,318,463.4,FALSE
+Peru,76,280,FALSE
+Philippines,12,1351.8,FALSE
+Philippines,13,422.4,FALSE
+Philippines,16,289.4,FALSE
+Philippines,18,1135.5,FALSE
+Philippines,40,409.1,FALSE
+Philippines,49,534.4,FALSE
+Philippines,51,652.1,FALSE
+Philippines,52,132.4,FALSE
+Philippines,54,711.5,FALSE
+Philippines,63,1539.6,FALSE
+Philippines,63,746.4,FALSE
+Philippines,74,2169,FALSE
+Philippines,75,165.1,FALSE
+Philippines,77,1732.3,FALSE
+Philippines,86,520.5,FALSE
+Philippines,90,350.6,FALSE
+Philippines,101,408.3,FALSE
+Philippines,112,1656.3,FALSE
+Philippines,115,823.9,FALSE
+Philippines,121,660.9,FALSE
+Philippines,128,823.3,FALSE
+Philippines,152,808.1,FALSE
+Philippines,158,789.2,FALSE
+Philippines,169,253.5,FALSE
+Philippines,80,253.5,FALSE
+Philippines,175,514.1,FALSE
+Philippines,133,1238.1,FALSE
+Philippines,202,412.7,FALSE
+Philippines,205,1111.5,FALSE
+Philippines,206,529.1,FALSE
+Philippines,215,145.7,FALSE
+Philippines,218,2156.6,FALSE
+Philippines,228,192.5,FALSE
+Philippines,235,784.1,FALSE
+Philippines,238,223.4,FALSE
+Philippines,254,367,FALSE
+Philippines,257,470.2,FALSE
+Philippines,276,490.2,FALSE
+Philippines,286,67.6,TRUE
+Philippines,296,315.6,FALSE
+Philippines,298,280.5,FALSE
+Philippines,301,398.2,FALSE
+Philippines,305,2259.7,FALSE
+Philippines,306,347,FALSE
+Philippines,317,266.4,FALSE
+Philippines,319,537.3,FALSE
+Philippines,76,424.1,FALSE
+Poland,7,148.6,FALSE
+Poland,17,148.1,FALSE
+Poland,18,887.4,FALSE
+Poland,39,403,FALSE
+Poland,40,208.2,FALSE
+Poland,49,98.4,FALSE
+Poland,54,314,FALSE
+Poland,58,1106.1,FALSE
+Poland,61,62.1,FALSE
+Poland,90,357.4,FALSE
+Poland,91,320.1,FALSE
+Poland,116,327.9,FALSE
+Poland,138,4696.7,FALSE
+Poland,161,502.4,FALSE
+Poland,165,210.5,FALSE
+Poland,169,134.9,FALSE
+Poland,180,216.1,FALSE
+Poland,192,1112.2,FALSE
+Poland,200,131.4,FALSE
+Poland,205,216.6,FALSE
+Poland,219,524,FALSE
+Poland,221,494.1,FALSE
+Poland,217,274.2,FALSE
+Poland,231,295.7,FALSE
+Poland,235,97.4,FALSE
+Poland,248,410.1,FALSE
+Poland,249,1351.1,FALSE
+Poland,259,131.4,FALSE
+Poland,281,767.2,FALSE
+Poland,282,29.7,FALSE
+Poland,305,2296.6,FALSE
+Poland,306,361.2,FALSE
+Poland,308,145.6,FALSE
+Poland,318,157.5,FALSE
+Portugal,4,995.3,FALSE
+Portugal,7,708.4,FALSE
+Portugal,8,2066.3,FALSE
+Portugal,13,1361,FALSE
+Portugal,16,417,FALSE
+Portugal,17,210.2,FALSE
+Portugal,19,1786.2,FALSE
+Portugal,30,5233,FALSE
+Portugal,40,465.8,FALSE
+Portugal,48,386.2,FALSE
+Portugal,49,241,FALSE
+Portugal,54,653,FALSE
+Portugal,58,3218.2,FALSE
+Portugal,59,1981,FALSE
+Portugal,90,573.3,FALSE
+Portugal,101,880.4,FALSE
+Portugal,105,2553.4,FALSE
+Portugal,112,2760.5,FALSE
+Portugal,121,694.7,FALSE
+Portugal,120,1891.2,FALSE
+Portugal,106,1935.8,FALSE
+Portugal,138,4756.5,FALSE
+Portugal,152,565.1,FALSE
+Portugal,154,817.4,FALSE
+Portugal,158,605.8,FALSE
+Portugal,169,185.4,FALSE
+Portugal,179,689.4,FALSE
+Portugal,192,3051.7,FALSE
+Portugal,200,182.5,FALSE
+Portugal,203,445.2,FALSE
+Portugal,206,415,FALSE
+Portugal,208,566.1,FALSE
+Portugal,219,1073.9,FALSE
+Portugal,221,1036.1,FALSE
+Portugal,218,2582.6,FALSE
+Portugal,228,2251.8,FALSE
+Portugal,231,896.5,FALSE
+Portugal,235,381.6,FALSE
+Portugal,238,183.2,FALSE
+Portugal,243,807.2,FALSE
+Portugal,249,9065.9,FALSE
+Portugal,254,304.2,FALSE
+Portugal,259,221.2,FALSE
+Portugal,279,1051.2,FALSE
+Portugal,281,2483.5,FALSE
+Portugal,286,298.7,FALSE
+Portugal,289,419.1,FALSE
+Portugal,296,1320,FALSE
+Portugal,298,886.5,FALSE
+Portugal,306,674.9,FALSE
+Portugal,308,184.7,FALSE
+Portugal,316,4019,FALSE
+Portugal,317,410.3,FALSE
+Portugal,318,205.3,FALSE
+Portugal,319,1751.1,FALSE
+Romania,7,654.6,FALSE
+Romania,8,1184.2,FALSE
+Romania,17,196.1,FALSE
+Romania,18,2093.8,FALSE
+Romania,19,1194,FALSE
+Romania,40,340.8,FALSE
+Romania,49,578.6,FALSE
+Romania,54,953.7,FALSE
+Romania,58,1779.9,FALSE
+Romania,63,659.5,FALSE
+Romania,90,615.4,FALSE
+Romania,101,485.4,FALSE
+Romania,112,3307.4,FALSE
+Romania,120,711,FALSE
+Romania,152,939,FALSE
+Romania,158,1635.3,FALSE
+Romania,169,181.4,FALSE
+Romania,179,448.7,FALSE
+Romania,192,2191.8,FALSE
+Romania,200,218.2,FALSE
+Romania,205,522.2,FALSE
+Romania,219,831.1,FALSE
+Romania,221,1174.4,FALSE
+Romania,217,1554.4,FALSE
+Romania,218,1130.2,FALSE
+Romania,231,527.1,FALSE
+Romania,235,338.3,FALSE
+Romania,238,497.7,FALSE
+Romania,248,384.9,FALSE
+Romania,276,340.8,FALSE
+Romania,279,1240.6,FALSE
+Romania,281,1113.1,FALSE
+Romania,282,31.9,FALSE
+Romania,289,370.2,FALSE
+Romania,306,747.8,FALSE
+Romania,316,1721.1,FALSE
+Romania,317,237.8,FALSE
+Romania,318,154.5,FALSE
+Russian Federation,17,115.4,FALSE
+Russian Federation,39,385.8,FALSE
+Russian Federation,40,182.2,FALSE
+Russian Federation,49,184.1,FALSE
+Russian Federation,90,1122.8,FALSE
+Russian Federation,108,337.9,FALSE
+Russian Federation,120,368.8,FALSE
+Russian Federation,169,124.5,FALSE
+Russian Federation,180,96,FALSE
+Russian Federation,200,95.4,FALSE
+Russian Federation,205,144.7,FALSE
+Russian Federation,217,212.5,FALSE
+Russian Federation,235,152.8,FALSE
+Russian Federation,248,336.8,FALSE
+Russian Federation,254,240.7,FALSE
+Russian Federation,259,91.7,FALSE
+Russian Federation,276,349.9,FALSE
+Russian Federation,282,43.5,FALSE
+Russian Federation,289,326.4,FALSE
+Russian Federation,306,929.1,FALSE
+Russian Federation,317,78.4,FALSE
+Russian Federation,318,131.8,FALSE
+Rwanda,13,273.2,FALSE
+Rwanda,18,560.6,FALSE
+Rwanda,19,856.6,FALSE
+Rwanda,40,204.6,FALSE
+Rwanda,49,450.7,FALSE
+Rwanda,52,269.5,FALSE
+Rwanda,63,700.3,FALSE
+Rwanda,101,384.5,FALSE
+Rwanda,128,1290.9,FALSE
+Rwanda,154,806.3,FALSE
+Rwanda,169,364.8,FALSE
+Rwanda,175,753.8,FALSE
+Rwanda,205,736.4,FALSE
+Rwanda,208,701.7,FALSE
+Rwanda,215,463.8,FALSE
+Rwanda,217,1496.5,FALSE
+Rwanda,228,282,FALSE
+Rwanda,235,317.2,FALSE
+Rwanda,238,309.9,FALSE
+Rwanda,254,851.9,FALSE
+Rwanda,270,393.1,FALSE
+Rwanda,276,548.2,FALSE
+Rwanda,286,115.4,FALSE
+Rwanda,296,225.5,FALSE
+Rwanda,301,458.4,FALSE
+Rwanda,306,491.6,FALSE
+Rwanda,318,638,FALSE
+Rwanda,319,358.2,FALSE
+Saint Vincent and the Grenadines,13,1124.4,FALSE
+Saint Vincent and the Grenadines,16,673.2,FALSE
+Saint Vincent and the Grenadines,49,2255,FALSE
+Saint Vincent and the Grenadines,52,2430.2,FALSE
+Saint Vincent and the Grenadines,63,2387.4,FALSE
+Saint Vincent and the Grenadines,74,1629.6,FALSE
+Saint Vincent and the Grenadines,75,543.1,FALSE
+Saint Vincent and the Grenadines,115,2344.6,FALSE
+Saint Vincent and the Grenadines,121,446.1,FALSE
+Saint Vincent and the Grenadines,128,6428.9,FALSE
+Saint Vincent and the Grenadines,154,1416.7,FALSE
+Saint Vincent and the Grenadines,169,1263,FALSE
+Saint Vincent and the Grenadines,175,1535.9,FALSE
+Saint Vincent and the Grenadines,198,5942,FALSE
+Saint Vincent and the Grenadines,208,1833.3,FALSE
+Saint Vincent and the Grenadines,215,1010.4,FALSE
+Saint Vincent and the Grenadines,227,5229.1,FALSE
+Saint Vincent and the Grenadines,238,1625.6,FALSE
+Saint Vincent and the Grenadines,296,1004.3,FALSE
+Saint Vincent and the Grenadines,298,1666.3,FALSE
+Saint Vincent and the Grenadines,319,1393.3,FALSE
+Samoa,13,1939,FALSE
+Samoa,16,1201.5,FALSE
+Samoa,75,213.3,FALSE
+Samoa,154,273.8,FALSE
+Samoa,175,1000.6,FALSE
+Samoa,215,959.2,FALSE
+Samoa,228,2538.3,FALSE
+Samoa,301,1048.8,FALSE
+Samoa,319,1400.6,FALSE
+Serbia,7,414.2,FALSE
+Serbia,8,805.9,FALSE
+Serbia,17,146.9,FALSE
+Serbia,18,1307.3,FALSE
+Serbia,40,153.8,FALSE
+Serbia,49,236.1,FALSE
+Serbia,58,1736.1,FALSE
+Serbia,90,328.9,FALSE
+Serbia,112,2559.8,FALSE
+Serbia,120,566.7,FALSE
+Serbia,169,136.1,FALSE
+Serbia,200,167.2,FALSE
+Serbia,205,221.2,FALSE
+Serbia,219,673.9,FALSE
+Serbia,221,682.3,FALSE
+Serbia,231,418,FALSE
+Serbia,235,181.9,FALSE
+Serbia,248,349.7,FALSE
+Serbia,259,165.4,FALSE
+Serbia,276,338.3,FALSE
+Serbia,281,1534.3,FALSE
+Serbia,282,36.6,FALSE
+Serbia,289,275.7,FALSE
+Serbia,305,2214.5,FALSE
+Serbia,306,458.2,FALSE
+Serbia,316,1941.6,FALSE
+Serbia,317,131.4,FALSE
+Serbia,318,135.3,FALSE
+Sierra Leone,52,222.1,FALSE
+Sierra Leone,75,422.3,FALSE
+Sierra Leone,169,953.1,FALSE
+Sierra Leone,175,1177,FALSE
+Sierra Leone,254,762.1,FALSE
+Sierra Leone,296,1481.8,FALSE
+Sierra Leone,306,948.9,FALSE
+Singapore,158,2423.8,FALSE
+Singapore,192,7238.3,FALSE
+Singapore,306,2170.4,FALSE
+Slovakia,7,384.1,FALSE
+Slovakia,8,1308.2,FALSE
+Slovakia,17,165.2,FALSE
+Slovakia,40,218.6,FALSE
+Slovakia,49,302.7,FALSE
+Slovakia,54,574.7,FALSE
+Slovakia,58,1547.7,FALSE
+Slovakia,63,529.2,FALSE
+Slovakia,63,610.1,FALSE
+Slovakia,90,591.1,FALSE
+Slovakia,91,1033.6,FALSE
+Slovakia,120,838.7,FALSE
+Slovakia,156,725.7,FALSE
+Slovakia,158,1254.5,FALSE
+Slovakia,161,402.1,FALSE
+Slovakia,169,141.9,FALSE
+Slovakia,194,587,FALSE
+Slovakia,200,219.1,FALSE
+Slovakia,205,343.3,FALSE
+Slovakia,219,687.4,FALSE
+Slovakia,221,556.3,FALSE
+Slovakia,217,273.1,FALSE
+Slovakia,231,440,FALSE
+Slovakia,234,1811.8,FALSE
+Slovakia,235,284.6,FALSE
+Slovakia,248,394.6,FALSE
+Slovakia,259,118.2,FALSE
+Slovakia,276,360.3,FALSE
+Slovakia,281,2175.9,FALSE
+Slovakia,282,30.6,FALSE
+Slovakia,289,358.4,FALSE
+Slovakia,306,760.8,FALSE
+Slovakia,317,260.3,FALSE
+Slovakia,318,139.6,FALSE
+Slovenia,7,547.4,FALSE
+Slovenia,12,5819.7,FALSE
+Slovenia,17,147.1,FALSE
+Slovenia,18,4023.3,FALSE
+Slovenia,19,2086.4,FALSE
+Slovenia,39,642.1,FALSE
+Slovenia,40,261.2,FALSE
+Slovenia,49,490.7,FALSE
+Slovenia,54,1053.1,FALSE
+Slovenia,58,3301.2,FALSE
+Slovenia,90,497.9,FALSE
+Slovenia,112,4627.4,FALSE
+Slovenia,120,613.5,FALSE
+Slovenia,138,7310.1,FALSE
+Slovenia,152,1009.7,FALSE
+Slovenia,158,816.2,FALSE
+Slovenia,169,144.5,FALSE
+Slovenia,200,280.7,FALSE
+Slovenia,205,452.7,FALSE
+Slovenia,219,825.6,FALSE
+Slovenia,221,903.7,FALSE
+Slovenia,231,1034.5,FALSE
+Slovenia,235,257.5,FALSE
+Slovenia,248,361.3,FALSE
+Slovenia,259,158,FALSE
+Slovenia,276,348.4,FALSE
+Slovenia,281,3011.7,FALSE
+Slovenia,308,145.6,FALSE
+Slovenia,316,6264.6,FALSE
+Slovenia,318,148,FALSE
+South Africa,7,444.9,FALSE
+South Africa,8,980.7,FALSE
+South Africa,12,5713.5,FALSE
+South Africa,13,667.1,FALSE
+South Africa,16,471.1,FALSE
+South Africa,17,228,FALSE
+South Africa,19,625.8,FALSE
+South Africa,40,153,FALSE
+South Africa,49,251,FALSE
+South Africa,54,539.8,FALSE
+South Africa,58,4858.8,FALSE
+South Africa,61,103.3,FALSE
+South Africa,63,1343.2,FALSE
+South Africa,90,456,FALSE
+South Africa,105,1493.9,FALSE
+South Africa,112,2957.7,FALSE
+South Africa,116,5264.5,FALSE
+South Africa,121,350.4,FALSE
+South Africa,120,886.2,FALSE
+South Africa,128,525,FALSE
+South Africa,152,665.5,FALSE
+South Africa,154,1883.4,FALSE
+South Africa,158,442.2,FALSE
+South Africa,169,226.2,FALSE
+South Africa,80,325.3,FALSE
+South Africa,175,694.7,FALSE
+South Africa,192,1608.5,FALSE
+South Africa,200,186.5,FALSE
+South Africa,205,305.7,FALSE
+South Africa,208,247.2,FALSE
+South Africa,215,558.8,FALSE
+South Africa,219,2044,FALSE
+South Africa,221,445.4,FALSE
+South Africa,218,2623.3,FALSE
+South Africa,228,584.5,FALSE
+South Africa,231,536.2,FALSE
+South Africa,235,319.2,FALSE
+South Africa,238,607,FALSE
+South Africa,243,524.9,FALSE
+South Africa,84,506.4,FALSE
+South Africa,270,233.5,FALSE
+South Africa,276,420.9,FALSE
+South Africa,279,281.4,FALSE
+South Africa,281,2065.7,FALSE
+South Africa,286,38.3,FALSE
+South Africa,289,412.2,FALSE
+South Africa,296,331.3,FALSE
+South Africa,306,276.1,FALSE
+South Africa,317,172.3,FALSE
+South Africa,318,251.5,FALSE
+Spain,4,1911.7,FALSE
+Spain,5,2062.5,FALSE
+Spain,7,475.9,FALSE
+Spain,8,956.6,FALSE
+Spain,11,730.4,FALSE
+Spain,12,2338.6,FALSE
+Spain,13,2341.4,FALSE
+Spain,16,409.4,FALSE
+Spain,17,167.4,FALSE
+Spain,18,1847.3,FALSE
+Spain,19,1508.3,FALSE
+Spain,30,4801.7,FALSE
+Spain,33,230,FALSE
+Spain,40,521.4,FALSE
+Spain,48,266.5,FALSE
+Spain,49,327.9,FALSE
+Spain,54,537.6,FALSE
+Spain,58,2009.1,FALSE
+Spain,59,1641.8,FALSE
+Spain,60,680.4,FALSE
+Spain,61,836.8,FALSE
+Spain,63,3313.9,FALSE
+Spain,63,919.5,FALSE
+Spain,90,572.5,FALSE
+Spain,91,7331.7,FALSE
+Spain,94,3661.4,FALSE
+Spain,101,584.2,FALSE
+Spain,105,1520.5,FALSE
+Spain,112,2226.7,FALSE
+Spain,121,241.3,FALSE
+Spain,120,756.3,FALSE
+Spain,128,774.3,FALSE
+Spain,106,2744.1,FALSE
+Spain,138,4426.8,FALSE
+Spain,152,535,FALSE
+Spain,154,725.9,FALSE
+Spain,156,725,FALSE
+Spain,158,354.2,FALSE
+Spain,165,340.6,FALSE
+Spain,169,186.7,FALSE
+Spain,175,1974.6,FALSE
+Spain,179,375.1,FALSE
+Spain,192,1235.1,FALSE
+Spain,200,174.4,FALSE
+Spain,203,749.3,FALSE
+Spain,205,214.6,FALSE
+Spain,206,922.8,FALSE
+Spain,208,292.8,FALSE
+Spain,215,791.8,FALSE
+Spain,219,661.8,FALSE
+Spain,221,613.1,FALSE
+Spain,217,228.6,FALSE
+Spain,218,549.2,FALSE
+Spain,228,2364.7,FALSE
+Spain,231,604.6,FALSE
+Spain,234,973.4,FALSE
+Spain,235,354.1,FALSE
+Spain,238,427.2,FALSE
+Spain,243,330.8,FALSE
+Spain,248,332.9,FALSE
+Spain,249,6201.1,FALSE
+Spain,254,332.7,FALSE
+Spain,259,148.9,FALSE
+Spain,261,365.8,FALSE
+Spain,84,529.4,FALSE
+Spain,270,176.9,FALSE
+Spain,276,507.8,FALSE
+Spain,279,795.9,FALSE
+Spain,281,1147.3,FALSE
+Spain,282,42.7,FALSE
+Spain,286,38.7,FALSE
+Spain,289,385.2,FALSE
+Spain,296,582.3,FALSE
+Spain,298,261.5,FALSE
+Spain,305,2458.1,FALSE
+Spain,306,311,FALSE
+Spain,308,176.4,FALSE
+Spain,316,3824.4,FALSE
+Spain,317,282,FALSE
+Spain,318,187.8,FALSE
+Sri Lanka,8,899.1,FALSE
+Sri Lanka,19,767.9,FALSE
+Sri Lanka,40,436,FALSE
+Sri Lanka,49,692.4,FALSE
+Sri Lanka,51,1954.4,FALSE
+Sri Lanka,52,283.6,FALSE
+Sri Lanka,63,1601.3,FALSE
+Sri Lanka,65,9354.7,FALSE
+Sri Lanka,70,7562.6,FALSE
+Sri Lanka,74,2041,FALSE
+Sri Lanka,75,306.1,FALSE
+Sri Lanka,77,2437.9,FALSE
+Sri Lanka,86,1201.8,FALSE
+Sri Lanka,90,258.7,FALSE
+Sri Lanka,115,1024.9,FALSE
+Sri Lanka,128,1130.5,FALSE
+Sri Lanka,152,520.8,FALSE
+Sri Lanka,154,1392.1,FALSE
+Sri Lanka,169,281.3,FALSE
+Sri Lanka,175,403.8,FALSE
+Sri Lanka,194,1305.1,FALSE
+Sri Lanka,198,10177.9,FALSE
+Sri Lanka,205,638,FALSE
+Sri Lanka,208,564.8,FALSE
+Sri Lanka,228,513.3,FALSE
+Sri Lanka,235,614.7,FALSE
+Sri Lanka,238,320.3,FALSE
+Sri Lanka,254,264.5,FALSE
+Sri Lanka,267,957.1,FALSE
+Sri Lanka,276,1201.8,FALSE
+Sri Lanka,286,31.6,FALSE
+Sri Lanka,296,331.6,FALSE
+Sri Lanka,302,441.2,FALSE
+Sri Lanka,306,448.9,FALSE
+Suriname,13,1557.3,FALSE
+Suriname,16,401.4,FALSE
+Suriname,19,2724.5,FALSE
+Suriname,40,989,FALSE
+Suriname,52,430.3,FALSE
+Suriname,63,903.9,FALSE
+Suriname,75,632.6,FALSE
+Suriname,90,342,FALSE
+Suriname,101,600.5,FALSE
+Suriname,121,844.5,FALSE
+Suriname,128,1900.9,FALSE
+Suriname,154,3151.6,FALSE
+Suriname,169,1255.5,FALSE
+Suriname,175,314.7,FALSE
+Suriname,202,756.2,FALSE
+Suriname,208,1005,FALSE
+Suriname,215,1054.8,FALSE
+Suriname,228,1083.7,FALSE
+Suriname,238,269.7,FALSE
+Suriname,254,131.7,FALSE
+Suriname,276,2809.6,FALSE
+Suriname,296,486.5,FALSE
+Suriname,298,710.4,FALSE
+Suriname,306,1319.7,FALSE
+Suriname,317,700,FALSE
+Sweden,7,676.4,FALSE
+Sweden,17,137.6,FALSE
+Sweden,40,501.3,FALSE
+Sweden,49,394.4,FALSE
+Sweden,54,1023.5,FALSE
+Sweden,90,1259.4,FALSE
+Sweden,200,128.4,FALSE
+Sweden,205,251.8,FALSE
+Sweden,235,328.8,FALSE
+Sweden,248,389.4,FALSE
+Sweden,259,137.6,FALSE
+Sweden,281,2892.6,FALSE
+Sweden,282,29.7,FALSE
+Sweden,306,1512.8,FALSE
+Sweden,308,131.6,FALSE
+Sweden,318,150.1,FALSE
+Switzerland,8,2588.2,FALSE
+Switzerland,11,5406.8,FALSE
+Switzerland,12,10134.6,FALSE
+Switzerland,17,305.5,FALSE
+Switzerland,19,1140.8,FALSE
+Switzerland,40,1485.9,FALSE
+Switzerland,49,749.1,FALSE
+Switzerland,54,2268.5,FALSE
+Switzerland,58,3614.4,FALSE
+Switzerland,63,4306.6,FALSE
+Switzerland,90,1575.3,FALSE
+Switzerland,91,4834.4,FALSE
+Switzerland,116,4834.4,FALSE
+Switzerland,120,3377.9,FALSE
+Switzerland,138,8515.7,FALSE
+Switzerland,158,2930.3,FALSE
+Switzerland,165,355.2,FALSE
+Switzerland,169,320.7,FALSE
+Switzerland,80,2448.1,FALSE
+Switzerland,179,3097.7,FALSE
+Switzerland,200,288.3,FALSE
+Switzerland,205,708.5,FALSE
+Switzerland,206,3281.4,FALSE
+Switzerland,219,4567.4,FALSE
+Switzerland,218,722.7,FALSE
+Switzerland,231,1853.4,FALSE
+Switzerland,235,513.6,FALSE
+Switzerland,238,1577.3,FALSE
+Switzerland,248,762.3,FALSE
+Switzerland,249,11936.2,FALSE
+Switzerland,259,370.5,FALSE
+Switzerland,279,1088.1,FALSE
+Switzerland,281,6240.1,FALSE
+Switzerland,282,55.8,FALSE
+Switzerland,289,791.7,FALSE
+Switzerland,305,15935.2,FALSE
+Switzerland,306,2621.7,FALSE
+Switzerland,308,310.6,FALSE
+Switzerland,316,3193.1,FALSE
+Switzerland,318,458.8,FALSE
+Thailand,12,2229.4,FALSE
+Thailand,16,364.8,FALSE
+Thailand,40,395.8,FALSE
+Thailand,52,52.1,FALSE
+Thailand,54,587,FALSE
+Thailand,75,325.5,FALSE
+Thailand,77,1767.3,FALSE
+Thailand,90,408.5,FALSE
+Thailand,101,439.1,FALSE
+Thailand,112,2186.6,FALSE
+Thailand,115,650.8,FALSE
+Thailand,121,960.7,FALSE
+Thailand,120,1164.7,FALSE
+Thailand,128,1316.8,FALSE
+Thailand,154,1572.4,FALSE
+Thailand,158,664.7,FALSE
+Thailand,169,194.4,FALSE
+Thailand,175,1027,FALSE
+Thailand,192,2192.9,FALSE
+Thailand,205,374,FALSE
+Thailand,215,167.2,FALSE
+Thailand,218,1265.6,FALSE
+Thailand,228,288.4,FALSE
+Thailand,235,352.2,FALSE
+Thailand,238,416.8,FALSE
+Thailand,254,228.2,FALSE
+Thailand,257,1382.9,FALSE
+Thailand,270,190.1,FALSE
+Thailand,276,410,FALSE
+Thailand,279,913.7,FALSE
+Thailand,281,4136.4,FALSE
+Thailand,286,20.9,FALSE
+Thailand,289,357,FALSE
+Thailand,298,1322.2,FALSE
+Thailand,301,723,FALSE
+Thailand,306,374,FALSE
+The former Yugoslav Republic of Macedonia,7,309.4,FALSE
+The former Yugoslav Republic of Macedonia,8,1070.1,FALSE
+The former Yugoslav Republic of Macedonia,17,161.8,FALSE
+The former Yugoslav Republic of Macedonia,40,209.2,FALSE
+The former Yugoslav Republic of Macedonia,49,263,FALSE
+The former Yugoslav Republic of Macedonia,58,717.7,FALSE
+The former Yugoslav Republic of Macedonia,63,380.6,FALSE
+The former Yugoslav Republic of Macedonia,90,508.5,FALSE
+The former Yugoslav Republic of Macedonia,120,247.5,FALSE
+The former Yugoslav Republic of Macedonia,169,167.3,FALSE
+The former Yugoslav Republic of Macedonia,200,259.3,FALSE
+The former Yugoslav Republic of Macedonia,205,147.6,FALSE
+The former Yugoslav Republic of Macedonia,219,508,FALSE
+The former Yugoslav Republic of Macedonia,221,541.4,FALSE
+The former Yugoslav Republic of Macedonia,231,266.7,FALSE
+The former Yugoslav Republic of Macedonia,235,259,FALSE
+The former Yugoslav Republic of Macedonia,248,569.8,FALSE
+The former Yugoslav Republic of Macedonia,254,298.4,FALSE
+The former Yugoslav Republic of Macedonia,259,168.9,FALSE
+The former Yugoslav Republic of Macedonia,281,920.1,FALSE
+The former Yugoslav Republic of Macedonia,289,349.8,FALSE
+The former Yugoslav Republic of Macedonia,305,3347.3,FALSE
+The former Yugoslav Republic of Macedonia,306,705.9,FALSE
+The former Yugoslav Republic of Macedonia,316,1198.2,FALSE
+The former Yugoslav Republic of Macedonia,317,133.4,FALSE
+The former Yugoslav Republic of Macedonia,318,164.7,FALSE
+Togo,15,640.8,FALSE
+Togo,18,688,FALSE
+Togo,52,204,FALSE
+Togo,128,613.8,FALSE
+Togo,169,288.4,FALSE
+Togo,180,408.1,FALSE
+Togo,208,350.8,FALSE
+Togo,227,367.6,FALSE
+Togo,228,222.6,FALSE
+Togo,254,387.9,FALSE
+Togo,270,392.9,FALSE
+Togo,296,261.4,FALSE
+Togo,301,344,FALSE
+Togo,306,532.9,FALSE
+Togo,319,401.3,FALSE
+Trinidad and Tobago,40,1346,FALSE
+Trinidad and Tobago,52,733.8,FALSE
+Trinidad and Tobago,54,2465.4,FALSE
+Trinidad and Tobago,63,6354.8,FALSE
+Trinidad and Tobago,90,643.7,FALSE
+Trinidad and Tobago,101,1763.1,FALSE
+Trinidad and Tobago,115,2933.6,FALSE
+Trinidad and Tobago,158,5148.4,FALSE
+Trinidad and Tobago,202,2972.6,FALSE
+Trinidad and Tobago,215,693.3,FALSE
+Trinidad and Tobago,227,2435.4,FALSE
+Trinidad and Tobago,228,1035.4,FALSE
+Trinidad and Tobago,238,396.1,FALSE
+Trinidad and Tobago,254,421.7,FALSE
+Trinidad and Tobago,296,1683.6,FALSE
+Trinidad and Tobago,301,1409,FALSE
+Trinidad and Tobago,306,1809.7,FALSE
+Trinidad and Tobago,317,624.2,FALSE
+Trinidad and Tobago,319,1155.4,FALSE
+Tunisia,4,2033.5,FALSE
+Tunisia,7,512.1,FALSE
+Tunisia,8,465.5,FALSE
+Tunisia,11,397,FALSE
+Tunisia,17,185.6,FALSE
+Tunisia,19,745.3,FALSE
+Tunisia,33,460.3,FALSE
+Tunisia,40,145.7,FALSE
+Tunisia,49,159.2,FALSE
+Tunisia,54,111.7,FALSE
+Tunisia,58,2412.4,FALSE
+Tunisia,60,1102.9,FALSE
+Tunisia,63,381.7,FALSE
+Tunisia,90,331,FALSE
+Tunisia,94,1582.4,FALSE
+Tunisia,101,269.1,FALSE
+Tunisia,105,748.1,FALSE
+Tunisia,112,650.8,FALSE
+Tunisia,121,180.6,FALSE
+Tunisia,120,465.1,FALSE
+Tunisia,154,406.9,FALSE
+Tunisia,158,238.8,FALSE
+Tunisia,179,299.8,FALSE
+Tunisia,192,3174.1,FALSE
+Tunisia,203,521.4,FALSE
+Tunisia,206,265.4,FALSE
+Tunisia,208,349.2,FALSE
+Tunisia,219,515.8,FALSE
+Tunisia,221,558.7,FALSE
+Tunisia,218,553.1,FALSE
+Tunisia,231,504.6,FALSE
+Tunisia,235,227.2,FALSE
+Tunisia,238,219.3,FALSE
+Tunisia,243,281.7,FALSE
+Tunisia,279,331.5,FALSE
+Tunisia,281,694.6,FALSE
+Tunisia,298,472.1,FALSE
+Tunisia,305,911.1,FALSE
+Tunisia,306,130.7,FALSE
+Tunisia,308,167.9,FALSE
+Tunisia,317,149.9,FALSE
+Tunisia,318,298.9,FALSE
+Turkey,4,2820.7,FALSE
+Turkey,5,1939.3,FALSE
+Turkey,7,348.3,FALSE
+Turkey,8,758.8,FALSE
+Turkey,11,1182.1,FALSE
+Turkey,13,1446.9,FALSE
+Turkey,16,641,FALSE
+Turkey,17,224.9,FALSE
+Turkey,18,1140.4,FALSE
+Turkey,19,641.7,FALSE
+Turkey,33,611.4,FALSE
+Turkey,40,278.8,FALSE
+Turkey,48,464.6,FALSE
+Turkey,49,229.2,FALSE
+Turkey,54,458.1,FALSE
+Turkey,58,1167.7,FALSE
+Turkey,59,2629.3,FALSE
+Turkey,60,1217.2,FALSE
+Turkey,63,461.6,FALSE
+Turkey,90,383.5,FALSE
+Turkey,94,486.7,FALSE
+Turkey,101,415.7,FALSE
+Turkey,105,986,FALSE
+Turkey,112,1995.3,FALSE
+Turkey,121,195.5,FALSE
+Turkey,120,491.8,FALSE
+Turkey,128,1378.2,FALSE
+Turkey,106,3488.9,FALSE
+Turkey,152,444.6,FALSE
+Turkey,154,449.1,FALSE
+Turkey,156,835.6,FALSE
+Turkey,158,443.3,FALSE
+Turkey,169,219.7,FALSE
+Turkey,179,276,FALSE
+Turkey,180,421.7,FALSE
+Turkey,192,1212.8,FALSE
+Turkey,200,267.7,FALSE
+Turkey,202,1915.2,FALSE
+Turkey,203,1247.1,FALSE
+Turkey,205,250.3,FALSE
+Turkey,208,193.2,FALSE
+Turkey,219,561.2,FALSE
+Turkey,221,605.4,FALSE
+Turkey,217,375,FALSE
+Turkey,218,439.8,FALSE
+Turkey,229,5227.8,FALSE
+Turkey,231,670.2,FALSE
+Turkey,234,2317.8,FALSE
+Turkey,235,212,FALSE
+Turkey,238,574.9,FALSE
+Turkey,243,487.3,FALSE
+Turkey,248,433.2,FALSE
+Turkey,254,505,FALSE
+Turkey,259,220,FALSE
+Turkey,267,2042.9,FALSE
+Turkey,276,380.7,FALSE
+Turkey,279,470.8,FALSE
+Turkey,281,799,FALSE
+Turkey,282,63.2,FALSE
+Turkey,289,698.5,FALSE
+Turkey,298,207.9,FALSE
+Turkey,302,586.1,FALSE
+Turkey,305,4566.1,FALSE
+Turkey,306,509.4,FALSE
+Turkey,308,233.6,FALSE
+Turkey,316,4874.3,FALSE
+Turkey,317,181.3,FALSE
+Turkey,318,265.8,FALSE
+Ukraine,7,177.1,FALSE
+Ukraine,8,482.6,FALSE
+Ukraine,17,117.7,FALSE
+Ukraine,30,1031.5,FALSE
+Ukraine,39,513,FALSE
+Ukraine,40,133.3,FALSE
+Ukraine,49,146.7,FALSE
+Ukraine,58,575.3,FALSE
+Ukraine,90,617.5,FALSE
+Ukraine,91,360.8,FALSE
+Ukraine,108,180.4,FALSE
+Ukraine,112,1713.3,FALSE
+Ukraine,116,764.7,FALSE
+Ukraine,120,246.8,FALSE
+Ukraine,138,4642.5,FALSE
+Ukraine,169,138.2,FALSE
+Ukraine,180,125.1,FALSE
+Ukraine,192,1004.9,FALSE
+Ukraine,194,374.3,FALSE
+Ukraine,200,110.4,FALSE
+Ukraine,205,125,FALSE
+Ukraine,219,380.8,FALSE
+Ukraine,221,345.8,FALSE
+Ukraine,217,252.1,FALSE
+Ukraine,231,273.2,FALSE
+Ukraine,235,103,FALSE
+Ukraine,248,356.8,FALSE
+Ukraine,249,1054.7,FALSE
+Ukraine,254,247.9,FALSE
+Ukraine,259,115.5,FALSE
+Ukraine,276,348.1,FALSE
+Ukraine,281,666.8,FALSE
+Ukraine,282,33.2,FALSE
+Ukraine,289,333.3,FALSE
+Ukraine,306,120.9,FALSE
+Ukraine,317,50.2,FALSE
+Ukraine,318,128.7,FALSE
+United Kingdom,7,930.3,FALSE
+United Kingdom,12,12785,FALSE
+United Kingdom,17,137.7,FALSE
+United Kingdom,18,179.6,FALSE
+United Kingdom,19,2700.4,FALSE
+United Kingdom,40,434.8,FALSE
+United Kingdom,49,523.9,FALSE
+United Kingdom,54,903.3,FALSE
+United Kingdom,58,7161.4,FALSE
+United Kingdom,90,1095,FALSE
+United Kingdom,152,1378.5,FALSE
+United Kingdom,158,2214.3,FALSE
+United Kingdom,200,153.9,FALSE
+United Kingdom,205,484.7,FALSE
+United Kingdom,221,908.7,FALSE
+United Kingdom,217,167.4,FALSE
+United Kingdom,218,2364.2,FALSE
+United Kingdom,231,2210.3,FALSE
+United Kingdom,235,252.5,FALSE
+United Kingdom,248,378.1,FALSE
+United Kingdom,281,3821,FALSE
+United Kingdom,306,664.3,FALSE
+United Kingdom,318,162,FALSE
+United States of America,11,1545,FALSE
+United States of America,12,2491,FALSE
+United States of America,17,227,FALSE
+United States of America,18,666,FALSE
+United States of America,19,569,FALSE
+United States of America,40,481,FALSE
+United States of America,49,765,FALSE
+United States of America,54,1290,FALSE
+United States of America,60,518,FALSE
+United States of America,63,765,FALSE
+United States of America,90,575,FALSE
+United States of America,112,1605,FALSE
+United States of America,121,292,FALSE
+United States of America,128,417,FALSE
+United States of America,154,784,FALSE
+United States of America,156,611,FALSE
+United States of America,158,611,FALSE
+United States of America,161,319,FALSE
+United States of America,169,134,FALSE
+United States of America,80,633,FALSE
+United States of America,179,333,FALSE
+United States of America,180,109,FALSE
+United States of America,192,2778,FALSE
+United States of America,194,723,FALSE
+United States of America,200,138,FALSE
+United States of America,205,306,FALSE
+United States of America,208,250,FALSE
+United States of America,217,238,FALSE
+United States of America,218,284,FALSE
+United States of America,235,196,FALSE
+United States of America,238,589,FALSE
+United States of America,248,556,FALSE
+United States of America,254,231,FALSE
+United States of America,259,203,FALSE
+United States of America,261,456,FALSE
+United States of America,84,856,TRUE
+United States of America,270,106,FALSE
+United States of America,276,349,FALSE
+United States of America,279,1116,FALSE
+United States of America,289,384,FALSE
+United States of America,296,494,FALSE
+United States of America,298,633,FALSE
+United States of America,305,4449,FALSE
+United States of America,306,897,FALSE
+United States of America,317,317,FALSE
+United States of America,318,141,FALSE
+Venezuela (Bolivarian Republic of),13,35727.6,FALSE
+Venezuela (Bolivarian Republic of),16,23449.4,FALSE
+Venezuela (Bolivarian Republic of),18,104546.3,FALSE
+Venezuela (Bolivarian Republic of),40,16436.9,FALSE
+Venezuela (Bolivarian Republic of),49,50997.9,FALSE
+Venezuela (Bolivarian Republic of),52,24640.5,FALSE
+Venezuela (Bolivarian Republic of),54,96178.9,FALSE
+Venezuela (Bolivarian Republic of),63,49736.9,FALSE
+Venezuela (Bolivarian Republic of),74,734342.1,FALSE
+Venezuela (Bolivarian Republic of),75,13930.4,FALSE
+Venezuela (Bolivarian Republic of),77,168851,FALSE
+Venezuela (Bolivarian Republic of),90,20013,FALSE
+Venezuela (Bolivarian Republic of),101,20929.8,FALSE
+Venezuela (Bolivarian Republic of),112,229271.1,FALSE
+Venezuela (Bolivarian Republic of),120,59262.2,FALSE
+Venezuela (Bolivarian Republic of),128,22797.2,FALSE
+Venezuela (Bolivarian Republic of),154,21604.6,FALSE
+Venezuela (Bolivarian Republic of),158,28245.2,FALSE
+Venezuela (Bolivarian Republic of),169,27408.9,FALSE
+Venezuela (Bolivarian Republic of),175,15631.8,FALSE
+Venezuela (Bolivarian Republic of),179,25613.9,FALSE
+Venezuela (Bolivarian Republic of),205,60080,FALSE
+Venezuela (Bolivarian Republic of),206,51837.1,FALSE
+Venezuela (Bolivarian Republic of),208,32426.1,FALSE
+Venezuela (Bolivarian Republic of),215,21169.9,FALSE
+Venezuela (Bolivarian Republic of),219,50148.8,FALSE
+Venezuela (Bolivarian Republic of),217,73470.9,FALSE
+Venezuela (Bolivarian Republic of),227,118532,FALSE
+Venezuela (Bolivarian Republic of),228,29198.3,FALSE
+Venezuela (Bolivarian Republic of),235,47991.4,FALSE
+Venezuela (Bolivarian Republic of),238,16037.5,FALSE
+Venezuela (Bolivarian Republic of),254,15027.3,FALSE
+Venezuela (Bolivarian Republic of),84,4320.9,FALSE
+Venezuela (Bolivarian Republic of),267,37807.8,FALSE
+Venezuela (Bolivarian Republic of),269,12962.7,FALSE
+Venezuela (Bolivarian Republic of),270,12638.6,FALSE
+Venezuela (Bolivarian Republic of),276,728.1,FALSE
+Venezuela (Bolivarian Republic of),279,17494.8,FALSE
+Venezuela (Bolivarian Republic of),281,52551.2,FALSE
+Venezuela (Bolivarian Republic of),282,25591.1,FALSE
+Venezuela (Bolivarian Republic of),286,1600.4,FALSE
+Venezuela (Bolivarian Republic of),289,10262.1,FALSE
+Venezuela (Bolivarian Republic of),296,28830.4,FALSE
+Venezuela (Bolivarian Republic of),298,22423.5,FALSE
+Venezuela (Bolivarian Republic of),305,124243.7,FALSE
+Venezuela (Bolivarian Republic of),306,53474.2,FALSE
+Venezuela (Bolivarian Republic of),317,19088.5,FALSE
+Venezuela (Bolivarian Republic of),319,34139.7,FALSE
+Venezuela (Bolivarian Republic of),76,39645,FALSE
+Viet Nam,16,322.1,FALSE
+Viet Nam,18,1315.9,FALSE
+Viet Nam,40,325.3,FALSE
+Viet Nam,51,1350.7,FALSE
+Viet Nam,52,169.2,FALSE
+Viet Nam,54,483.5,FALSE
+Viet Nam,63,872.1,FALSE
+Viet Nam,65,1058.3,FALSE
+Viet Nam,77,1551.8,FALSE
+Viet Nam,121,844.6,FALSE
+Viet Nam,120,774.8,FALSE
+Viet Nam,128,1071.3,FALSE
+Viet Nam,146,1276.2,FALSE
+Viet Nam,169,324.1,FALSE
+Viet Nam,175,709.3,FALSE
+Viet Nam,192,1782.5,FALSE
+Viet Nam,205,497.8,FALSE
+Viet Nam,208,971.4,FALSE
+Viet Nam,228,388,FALSE
+Viet Nam,235,537.4,FALSE
+Viet Nam,254,280.5,FALSE
+Viet Nam,257,977.8,FALSE
+Viet Nam,267,1961.8,FALSE
+Viet Nam,276,812.6,FALSE
+Viet Nam,286,44.7,FALSE
+Viet Nam,296,354.8,FALSE
+Viet Nam,302,372.6,FALSE
+Viet Nam,305,2214.6,FALSE
+Viet Nam,317,265.3,FALSE
+China,7,468.4,FALSE
+China,40,279,FALSE
+China,49,342.8,FALSE
+China,54,527.1,FALSE
+China,63,571,FALSE
+China,90,479.3,FALSE
+China,101,524.2,FALSE
+China,112,1487.6,FALSE
+China,128,967.7,FALSE
+China,158,558.2,FALSE
+China,169,264.3,FALSE
+China,192,1084.8,FALSE
+China,206,579.3,FALSE
+China,235,325.5,FALSE
+China,238,334,FALSE
+China,248,682.1,FALSE
+China,254,559.9,FALSE
+China,276,581.5,FALSE
+China,279,630.7,FALSE
+China,282,69.8,FALSE
+China,306,513.8,FALSE
+China,318,385.1,FALSE

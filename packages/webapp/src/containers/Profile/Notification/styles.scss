@@ -1,0 +1,31 @@
+.formContainer{
+  margin-top: 5%;
+  label{
+    font-family: 'Avenir', sans-serif;
+    font-weight: normal;
+  }
+  input{
+    width: 10%;
+    height: 20px;
+  }
+}
+.labelContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 3%;
+}
+
+@media only screen and (max-width: 800px) {
+  .formContainer{
+    margin-top: 5%;
+    label{
+      font-family: 'Avenir', sans-serif;
+      font-weight: normal;
+    }
+    input{
+      width: 10%;
+    }
+  }
+}

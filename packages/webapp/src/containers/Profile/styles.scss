@@ -1,0 +1,77 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (styles.scss) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.profileContainer{
+  width: 100%;
+  max-width: 1024px;
+  margin:  0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 70px 5% 0 5%;
+}
+
+.saveButton {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.tabs{
+  display: flex;
+  flex-direction: column;
+}
+
+.tabLinks{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media only screen and (min-width: 800px) {
+  .profileContainer{
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding-top: 70px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.bottomContainer{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 600;
+  align-items: center;
+  padding: 2% 5% 2% 5%;
+  margin-left: -5%;
+  background: white;
+  box-shadow: 0 -5px 5px -5px #333;
+  border-radius: 10px;
+}
+.buttonContainer {
+  margin-left: auto;
+  order: 2;
+}
+
+.cancelButton{
+  width: 40%;
+  font-size: 20px;
+  color: #4D4D4D;
+}

@@ -1,0 +1,66 @@
+# This is the yml file for our CI configuration in GitLab
+image: cypress/browsers:chrome69
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: mock_farm
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: "postgres"
+
+stages:
+  - test
+  - deploy webapp to integration
+  - deploy api to integration
+  - deploy webapp to production
+  - deploy api to production
+
+.test:
+  stage: test
+  script:
+   - npm install knex -g
+   - cd packages/webapp && npm install
+   - npm run test
+   - npm run cypress-gitlab
+   - npm run lint
+   - cd ../api && npm install
+   - knex migrate:rollback --env ci && knex migrate:latest --env ci && knex seed:run --env ci
+   - npm run ci
+   - npm run lint
+
+deploy webapp to integration:
+  stage: deploy webapp to integration
+  script:
+   - git checkout develop
+   - git remote add heroku https://heroku:$HEROKU_DEPLOY_KEY@git.heroku.com/litefarm-webapp-integration.git
+   - git push heroku `git subtree split --prefix packages/webapp develop`:refs/heads/master --force
+  only:
+   - develop
+
+deploy api to integration:
+  stage: deploy api to integration
+  script:
+    - git checkout develop
+    - git remote add heroku https://heroku:$HEROKU_DEPLOY_KEY@git.heroku.com/litefarm-api-integration.git
+    - git push heroku `git subtree split --prefix packages/api develop`:refs/heads/master --force
+  only:
+    - develop
+
+deploy webapp to production:
+  stage: deploy webapp to production
+  script:
+    - git checkout master
+    - git remote add heroku https://heroku:$HEROKU_DEPLOY_KEY@git.heroku.com/litefarm-webapp-production.git
+    - git push heroku `git subtree split --prefix packages/webapp master`:refs/heads/master --force
+  only:
+    - master
+
+deploy api to production:
+  stage: deploy api to production
+  script:
+    - git checkout master
+    - git remote add heroku https://heroku:$HEROKU_DEPLOY_KEY@git.heroku.com/litefarm-api-production.git
+    - git push heroku `git subtree split --prefix packages/api master`:refs/heads/master --force
+  only:
+    - master

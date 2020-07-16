@@ -1,0 +1,41 @@
+@import "../variables";
+
+.rw-box-days{
+  clear:both;
+  display: flex;
+  border-left:solid 1px #ddd;
+  border-right:solid 1px #ddd;
+  border-bottom:solid 1px #ddd;
+  border-radius: 0 0 $rw-box-radius $rw-box-radius;
+  font-size:11px;
+  color:#777;
+  background-color: #fff;
+  .rw-day{
+    width:calc(#{$rw-box-width} / 4);
+    text-align: center;
+    margin:10px;
+  }
+  .rw-day:not(:first-child) {
+    border-left: solid 1px #ddd;
+  }
+  .rw-date{
+    font-size:11px;
+    font-weight: bold;
+  }
+  .rw-desc{
+    margin:10px 0 10px 0;
+    font-size:12px;
+  }
+  .rw-range{
+    font-size:11px;
+  }
+  .rw-info{
+    margin-top:10px;
+    font-size: 12px;
+  }
+  .wicon {
+    margin-top:15px;
+    font-size: $rw-icon-size;
+    color:#4BC4F7;
+  }
+}

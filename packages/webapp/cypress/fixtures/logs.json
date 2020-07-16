@@ -1,0 +1,831 @@
+[
+  {
+    "activity_id": 29,
+    "activity_kind": "fertilizing",
+    "date": "2020-10-11T09:43:28.145Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "fertilizerLog": {
+      "activity_id": 29,
+      "fertilizer_id": 4,
+      "quantity_kg": 25
+    }
+  },
+  {
+    "activity_id": 30,
+    "activity_kind": "pestControl",
+    "date": "2020-10-11T09:48:03.023Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "pestControlLog": {
+      "activity_id": 30,
+      "pesticide_id": 1,
+      "quantity_kg": 17,
+      "type": "handPick",
+      "target_disease_id": 5
+    }
+  },
+  {
+    "activity_id": 31,
+    "activity_kind": "harvest",
+    "date": "2020-10-11T09:50:45.516Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "harvestLog": {
+      "activity_id": 31,
+      "quantity_kg": 10
+    }
+  },
+  {
+    "activity_id": 32,
+    "activity_kind": "seeding",
+    "date": "2020-10-11T09:51:56.998Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "seedLog": {
+      "activity_id": 32,
+      "type": null,
+      "space_depth_cm": 12,
+      "space_length_cm": 15,
+      "space_width_cm": 19,
+      "rate_seeds/m2": 12
+    }
+  },
+  {
+    "activity_id": 33,
+    "activity_kind": "fieldWork",
+    "date": "2020-10-11T09:53:36.844Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "fieldWorkLog": {
+      "activity_id": 33,
+      "type": "plow"
+    }
+  },
+  {
+    "activity_id": 34,
+    "activity_kind": "soilData",
+    "date": "2020-10-11T09:54:51.030Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "soilDataLog": {
+      "activity_id": 34,
+      "texture": "loam",
+      "k": 10,
+      "p": 10,
+      "n": 2,
+      "om": 3,
+      "ph": 4,
+      "bulk_density_kg/m3": 10,
+      "organic_carbon": 4,
+      "inorganic_carbon": 5,
+      "s": 5,
+      "ca": 3,
+      "mg": 2,
+      "zn": 4,
+      "mn": 0,
+      "fe": 0,
+      "cu": 0,
+      "b": 0,
+      "cec": 0,
+      "c": 10,
+      "na": 1,
+      "total_carbon": 4,
+      "depth_cm": 20
+    }
+  },
+  {
+    "activity_id": 35,
+    "activity_kind": "irrigation",
+    "date": "2020-10-11T09:56:20.040Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "irrigationLog": {
+      "activity_id": 35,
+      "type": "drip",
+      "flow_rate_l/min": 2,
+      "flow_rate_unit": "l/min",
+      "hours": 4
+    }
+  },
+  {
+    "activity_id": 36,
+    "activity_kind": "scouting",
+    "date": "2020-10-11T09:57:23.000Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "test",
+    "action_needed": true,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ],
+    "scoutingLog": {
+      "activity_id": 36,
+      "type": "pest"
+    }
+  },
+  {
+    "activity_id": 37,
+    "activity_kind": "other",
+    "date": "2020-10-11T09:58:07.278Z",
+    "user_id": "5d93178e8a968e0e14cd1573",
+    "notes": "Test",
+    "action_needed": false,
+    "photo": null,
+    "fieldCrop": [
+      {
+        "crop_id": 6,
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "variety": "Common",
+        "start_date": "2020-10-01T19:00:00.000Z",
+        "end_date": "2021-03-31T19:00:00.000Z",
+        "area_used": 1405,
+        "estimated_production": 1405,
+        "estimated_revenue": 42150,
+        "is_by_bed": false,
+        "bed_config": null,
+        "field_crop_id": 5,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null
+        }
+      }
+    ],
+    "field": [
+      {
+        "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+        "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+        "field_name": "UBC Farm 3",
+        "area": 7023,
+        "grid_points": [
+          {
+            "lat": 49.25016811759864,
+            "lng": -123.23908262783601
+          },
+          {
+            "lat": 49.24980394317232,
+            "lng": -123.23949032360628
+          },
+          {
+            "lat": 49.249173634932355,
+            "lng": -123.23781662518098
+          },
+          {
+            "lat": 49.2496078481378,
+            "lng": -123.2374947600992
+          }
+        ]
+      }
+    ]
+  }
+]

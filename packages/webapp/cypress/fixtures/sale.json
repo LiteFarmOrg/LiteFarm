@@ -1,0 +1,13 @@
+{
+  "customer_name": "Ned",
+  "sale_date": "2019-10-14T21:03:34.347Z",
+  "cropSale": [
+    {
+      "sale_value": 25,
+      "quantity_kg": 10,
+      "field_crop_id": 8,
+      "sale_id": 2
+    }
+  ],
+  "sale_id": 2
+}

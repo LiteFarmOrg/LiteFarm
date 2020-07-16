@@ -1,0 +1,15 @@
+.dateContainer{
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  ::placeholder{
+    color:#00756A;
+  }
+}
+
+.dateString{
+  font-size: 16px;
+  width: 40%;
+}

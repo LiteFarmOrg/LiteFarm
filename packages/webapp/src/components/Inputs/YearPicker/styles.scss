@@ -1,0 +1,28 @@
+.buttonContainer{
+  width: 45%;
+  margin-bottom: 25px;
+  float: right;
+  .button {
+    display: flex;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 4px;
+    color: var(--primary);
+    padding: 8px 18px;
+    text-decoration: none;
+    width: 100%;
+    margin: 0 auto;
+    border-color: white !important;
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+    p:first-child, p:last-child {
+      flex:1;
+    }
+    p {
+      text-align:center;
+      flex:3;
+      color: black;
+      margin: 0;
+    }
+  }
+}

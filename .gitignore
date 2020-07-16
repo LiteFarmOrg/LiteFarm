@@ -1,0 +1,8 @@
+.idea
+node_modules
+lerna-debug.log
+packages/api/coverage
+packages/api/.env.local
+packages/webapp/cypress/videos
+packages/webapp/cypress/screenshots
+.vscode

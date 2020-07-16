@@ -1,0 +1,213 @@
+.userListContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 5% 0;
+}
+
+.searchFieldContainer {
+  border: 1px solid #CECCCC;
+  border-radius: 8px;
+  height: 40px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3%;
+  padding: 1%;
+}
+
+.searchFieldContainer:focus-within {
+  border: 2px solid #000000;
+}
+
+.searchField {
+  border: 0;
+  outline: none;
+  padding: 0;
+  margin-left: 0.5%;
+  width: 95%;
+}
+
+.searchLabel {
+  margin-bottom: 3%;
+}
+
+.addButton {
+  width: 8em;
+  margin-top: 3%;
+}
+
+.close {
+  width: 30%;
+  img {
+    width: 100%;
+    max-width: 40px;
+  }
+  justify-self: flex-start;
+}
+
+.modal {
+  width: 95%;
+  max-width: 800px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labelContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 3%;
+  align-items: center;
+
+  input{
+    width: 80%;
+    padding: 0 3%;
+    border: 1px solid #CECCCC;
+    border-radius: 8px;
+    height: 40px;
+  }
+}
+
+.selectContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 3%;
+  align-items: center;
+  label{
+    min-width: 16%;
+  }
+  select {
+    background: #EFEFEF;
+    border: none;
+    padding: 2px;
+    border-radius: 5px;
+    height: 40px;
+  }
+  input{
+    width: 30%;
+    margin-right: 5%;
+    padding: 0 3%;
+    border: 1px solid #CECCCC;
+    border-radius: 8px;
+    height: 40px;
+  }
+
+}
+
+.emailInputReminder {
+  margin: -0.5em 0 1em 0;
+  color: #9FAABE;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  input[type='text'], select {
+    height: 2em;
+    background: #FFFFFF;
+    border: 1px solid #D4DAE3;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 0.5em 0 1em 0;
+  }
+
+  input[type='radio'], label {
+    margin: 0;
+  }
+
+  input[type='radio'] {
+    width: 20px;
+    margin-right: 2px;
+  }
+}
+
+.wageContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.wageInputUnit {
+  margin: 0.5em;
+  color: #9FAABE;
+}
+
+.payTypeContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.radioContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.popupTitle{
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10%;
+}
+
+.formContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.removeButton{
+  border: none;
+  border-radius: 5px;
+  background: #dc3545;
+  color: white;
+  width: 250px;
+  margin: 15px auto 0 auto;
+}
+
+.error {
+  color: red;
+}
+
+.errorContainer {
+  color: red;
+  display: flex;
+  align-items: center;
+  margin: -0.5em 0 0.5em 0;
+}
+
+.errorText {
+  margin-left: 2px;
+}
+
+.inviteButton {
+  background: #FED450;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+  border-radius: 4px;
+  border: none;
+  padding: 0.5em 2em;
+  margin: 0 1em;
+}
+
+.inviteButton:disabled {
+  background: #D4DAE3;
+  box-shadow: none;
+}
+
+.cancelButton {
+  background: #FFFFFF;
+  border: 1px solid #9FAABE;
+  border-radius: 4px;
+  color: #9FAABE;
+  padding: 0.5em 2em;
+  margin: 0 1em;
+}

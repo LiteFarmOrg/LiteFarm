@@ -1,0 +1,1751 @@
+disease_common_name,disease_sci_name,crop_genus,crop_specie
+African Mole Cricket,Gryllotalpa africana,Abelmoschus,esculentus  
+Aphid,Aphidoidea family,Abelmoschus,esculentus  
+Boron Deficiency,Boron Deficiency,Abelmoschus,esculentus  
+Common Red Spider Mite,Tetranychus urticae,Abelmoschus,esculentus  
+Flea Beetle,Psylliodes,Abelmoschus,esculentus  
+Magnesium Deficiency,Magnesium Deficiency,Abelmoschus,esculentus  
+Manganese Deficiency,Manganese Deficiency,Abelmoschus,esculentus  
+Nematode,Nematoda,Abelmoschus,esculentus  
+Pesticide Burn,Pesticide Burn,Abelmoschus,esculentus  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Abelmoschus,esculentus  
+Variegated Grasshopper,Zonocerus variegatus,Abelmoschus,esculentus  
+Water Deficiency,Water Deficiency,Abelmoschus,esculentus  
+Zinc Deficiency,Zinc Deficiency,Abelmoschus,esculentus  
+African Mole Cricket,Gryllotalpa africana,Allium,cepa  
+Aphid,Aphidoidea family,Allium,sativum  
+Aphid,Aphidoidea family,Allium,cepa  
+Boron Deficiency,Boron Deficiency,Allium,sativum  
+Boron Deficiency,Boron Deficiency,Allium,cepa  
+Botrytis Blight,Botrytis cinerea,Allium,cepa  
+Botrytis Leaf Blight,Botryotinia squamosa,Allium,sativum  
+Botrytis Leaf Blight,Botryotinia squamosa,Allium,cepa  
+Cabbage Moth,Mamestra brassicae,Allium,sativum  
+Cabbage Moth,Mamestra brassicae,Allium,cepa  
+Calcium Deficiency,Calcium Deficiency,Allium,cepa  
+Common Red Spider Mite,Tetranychus urticae,Allium,sativum  
+Common Red Spider Mite,Tetranychus urticae,Allium,cepa  
+Downy Mildew,Peronosporales,Allium,sativum  
+Downy Mildew,Peronosporales,Allium,cepa  
+Flea Beetle,Psylliodes,Allium,cepa  
+Iron Deficiency,Iron Deficiency,Allium,sativum  
+Iron Deficiency,Iron Deficiency,Allium,cepa  
+Leek Rust,Puccinia porri,Allium,sativum  
+Leek Rust,Puccinia porri,Allium,cepa  
+Magnesium Deficiency,Magnesium Deficiency,Allium,sativum  
+Magnesium Deficiency,Magnesium Deficiency,Allium,cepa  
+Manganese Deficiency,Manganese Deficiency,Allium,sativum  
+Manganese Deficiency,Manganese Deficiency,Allium,cepa  
+Nematode,Nematoda,Allium,sativum  
+Nematode,Nematoda,Allium,cepa  
+Nitrogen Deficiency,Nitrogen Deficiency,Allium,sativum  
+Nitrogen Deficiency,Nitrogen Deficiency,Allium,cepa  
+Onion Leaf Miner,Phytomyza gymnostoma,Allium,sativum  
+Onion Leaf Miner,Phytomyza gymnostoma,Allium,cepa  
+Onion Maggots,Delia platura,Allium,sativum  
+Onion Maggots,Delia platura,Allium,cepa  
+Onion Yellow Dwarf Virus,OYDV,Allium,sativum  
+Onion Yellow Dwarf Virus,OYDV,Allium,cepa  
+Pesticide Burn,Pesticide Burn,Allium,sativum  
+Pesticide Burn,Pesticide Burn,Allium,cepa  
+Phosphorus Deficiency,Phosphorus Deficiency,Allium,sativum  
+Phosphorus Deficiency,Phosphorus Deficiency,Allium,cepa  
+Potassium Deficiency,Potassium Deficiency,Allium,cepa  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Allium,cepa  
+Sclerotium Rot,Athelia rolfsii,Allium,cepa  
+Slug,Class Gastropoda,Allium,sativum  
+Slug,Class Gastropoda,Allium,cepa  
+Thrips,Order Thysanoptera,Allium,sativum  
+Thrips,Order Thysanoptera,Allium,cepa  
+Variegated Grasshopper,Zonocerus variegatus,Allium,cepa  
+Verticillium Wilt,Verticillium spp.,Allium,sativum  
+Vole,Cricetidae,Allium,sativum  
+Vole,Cricetidae,Allium,cepa  
+Water Deficiency,Water Deficiency,Allium,cepa  
+White Rot,Stromatinia cepivora,Allium,sativum  
+White Rot,Stromatinia cepivora,Allium,cepa  
+Zinc Deficiency,Zinc Deficiency,Allium,sativum  
+Zinc Deficiency,Zinc Deficiency,Allium,cepa  
+Alternaria Leaf Spot of Peanut,Alternaria spp.,Arachis,hypogaea  
+Aphid,Aphidoidea family,Arachis,hypogaea  
+Bean Leaf Webber,Hedylepta indicata,Arachis,hypogaea  
+Black Cutworm,Agrotis ipsilon,Arachis,hypogaea  
+Boron Deficiency,Boron Deficiency,Arachis,hypogaea  
+Botrytis Blight,Botrytis cinerea,Arachis,hypogaea  
+Bud Necrosis Disease,PBND,Arachis,hypogaea  
+Calcium Deficiency in Peanut,Calcium Deficiency,Arachis,hypogaea  
+Castor Semilooper,Ophiusa melicerta,Arachis,hypogaea  
+Common Red Spider Mite,Tetranychus urticae,Arachis,hypogaea  
+Fall Armyworm,Spodoptera frugiperda,Arachis,hypogaea  
+Greenhouse Whitefly,Trialeurodes vaporariorum,Arachis,hypogaea  
+Iron Deficiency in Peanut,Iron Deficiency,Arachis,hypogaea  
+Jassids on Peanut,Empoasca kerri,Arachis,hypogaea  
+Late and Early Leaf Spot,Mycosphaerella spp.,Arachis,hypogaea  
+Leaf Miner Flies,Agromyzidae spp.,Arachis,hypogaea  
+Lesser cornstalk borer,Elasmopalpus lignosellus,Arachis,hypogaea  
+Magnesium Deficiency,Magnesium Deficiency,Arachis,hypogaea  
+Manganese Deficiency,Manganese Deficiency,Arachis,hypogaea  
+Pea Pod Borer,Etiella zinckenella,Arachis,hypogaea  
+Peanut Rust,Puccinia arachidis,Arachis,hypogaea  
+Pesticide Burn,Pesticide Burn,Arachis,hypogaea  
+Phosphorus Deficiency in Peanut,Phosphorus Deficiency,Arachis,hypogaea  
+Phyllosticta Leaf Spot,Phyllosticta arachidis-hypogaea,Arachis,hypogaea  
+Potassium Deficiency,Potassium Deficiency,Arachis,hypogaea  
+Red Hairy Caterpillar,Amsacta albistriga,Arachis,hypogaea  
+Stem rot of Peanut,Athelia rolfsii,Arachis,hypogaea  
+Thrips,Order Thysanoptera,Arachis,hypogaea  
+Tobacco Caterpillar,Spodoptera litura,Arachis,hypogaea  
+Velvetbean Caterpillar,Anticarsia gemmatalis,Arachis,hypogaea  
+Water Deficiency,Water Deficiency,Arachis,hypogaea  
+White Grub on Peanut,Holotrichia spp.,Arachis,hypogaea  
+Zinc Deficiency in Peanut,Zinc Deficiency,Arachis,hypogaea  
+Aphid,Aphidoidea family,Beta,vulgaris  
+Bean Leaf Webber,Hedylepta indicata,Beta,vulgaris  
+Boron Deficiency,Boron Deficiency,Beta,vulgaris  
+Botrytis Blight,Botrytis cinerea,Beta,vulgaris  
+Cabbage Moth,Mamestra brassicae,Beta,vulgaris  
+Leaf Spot of Beet,Cercospora beticola,Beta,vulgaris  
+Magnesium Deficiency,Magnesium Deficiency,Beta,vulgaris  
+Manganese Deficiency,Manganese Deficiency,Beta,vulgaris  
+Pesticide Burn,Pesticide Burn,Beta,vulgaris  
+Ramularia Leaf Spot of Beet,Ramularia beticola,Beta,vulgaris  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Beta,vulgaris  
+Zinc Deficiency,Zinc Deficiency,Beta,vulgaris  
+Aphid,Aphidoidea family,Brassica,oleracea  
+Aphid,Aphidoidea family,Brassica,napus  
+Black Cutworm,Agrotis ipsilon,Brassica,oleracea  
+Black Leg of Rapeseed,Plenodomus lingam,Brassica,napus  
+Black Mold,Alternaria brassicae,Brassica,oleracea  
+Black Mold,Alternaria brassicae,Brassica,napus  
+Black Rot,Xanthomonas campestris pv. campestris,Brassica,oleracea  
+Botrytis Blight,Botrytis cinerea,Brassica,oleracea  
+Botrytis Blight,Botrytis cinerea,Brassica,napus  
+Bright Line Brown Eye,Lacanobia oleracea,Brassica,oleracea  
+Cabbage Moth,Mamestra brassicae,Brassica,oleracea  
+Cabbage Whitefly,Aleyrodes proletella,Brassica,oleracea  
+Calcium Deficiency,Calcium Deficiency,Brassica,oleracea  
+Clubroot,Plasmodiophora brassicae,Brassica,oleracea  
+Clubroot of Canola,Plasmodiophora brassicae,Brassica,napus  
+Common Red Spider Mite,Tetranychus urticae,Brassica,oleracea  
+Downy Mildew,Peronosporales,Brassica,oleracea  
+Fall Armyworm,Spodoptera frugiperda,Brassica,oleracea  
+Fertilizer or Pesticide Burn,Fertilizer Burn,Brassica,napus  
+Flea Beetle,Psylliodes,Brassica,oleracea  
+Fusarium Wilt,Fusarium oxysporum,Brassica,napus  
+Green Peach Aphid,Myzus persicae,Brassica,oleracea  
+Iron Deficiency,Iron Deficiency,Brassica,oleracea  
+Leaf Miner Flies,Agromyzidae spp.,Brassica,oleracea  
+Magnesium Deficiency,Magnesium Deficiency,Brassica,oleracea  
+Magnesium Deficiency,Magnesium Deficiency,Brassica,napus  
+Manganese Deficiency,Manganese Deficiency,Brassica,oleracea  
+Manganese Deficiency,Manganese Deficiency,Brassica,napus  
+Nematode,Nematoda,Brassica,oleracea  
+Onion Maggots,Delia platura,Brassica,oleracea  
+Pesticide Burn,Pesticide Burn,Brassica,oleracea  
+Pesticide Burn,Pesticide Burn,Brassica,napus  
+Powdery Mildew,Erysiphaceae,Brassica,oleracea  
+Powdery Mildew,Erysiphaceae,Brassica,napus  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Brassica,oleracea  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Brassica,napus  
+Sclerotium Rot,Athelia rolfsii,Brassica,oleracea  
+Slug,Class Gastropoda,Brassica,oleracea  
+Small and Large Cabbage White,Pieris,Brassica,oleracea  
+Thrips,Order Thysanoptera,Brassica,oleracea  
+Tobacco Caterpillar,Spodoptera litura,Brassica,oleracea  
+Verticillium Wilt,Verticillium spp.,Brassica,oleracea  
+Verticillium Wilt,Verticillium spp.,Brassica,napus  
+Vole,Cricetidae,Brassica,oleracea  
+Water Deficiency,Water Deficiency,Brassica,oleracea  
+Zinc Deficiency,Zinc Deficiency,Brassica,oleracea  
+Zinc Deficiency,Zinc Deficiency,Brassica,napus  
+Abiotic Sunburn,Abiotic Sunburn,Capsicum,spp.  
+African Mole Cricket,Gryllotalpa africana,Capsicum,spp.  
+Anthracnose of Pepper,Glomerella cingulata,Capsicum,spp.  
+Aphid,Aphidoidea family,Capsicum,spp.  
+Bacterial Soft Rot of Pepper,Pectobacterium carotovorum subsp. carotovorum,Capsicum,spp.  
+Bacterial Spot,Xanthomonas spp.,Capsicum,spp.  
+Bacterial Wilt,Ralstonia solanacearum,Capsicum,spp.  
+Black Cutworm,Agrotis ipsilon,Capsicum,spp.  
+Blight of Pepper,Phytophthora capsici,Capsicum,spp.  
+Blossom End Rot,blossom end rot,Capsicum,spp.  
+Boron Deficiency,Boron Deficiency,Capsicum,spp.  
+Botrytis Blight,Botrytis cinerea,Capsicum,spp.  
+Bright Line Brown Eye,Lacanobia oleracea,Capsicum,spp.  
+Broad Mite,Polyphagotarsonemus latus,Capsicum,spp.  
+Calcium Deficiency,Calcium Deficiency,Capsicum,spp.  
+Chilli Cercospora Leaf Spot,Cercospora capsici,Capsicum,spp.  
+Chilli Damping-off,Pythium aphanidermatum,Capsicum,spp.  
+Common Red Spider Mite,Tetranychus urticae,Capsicum,spp.  
+Cotton Bollworm,Helicoverpa armigera,Capsicum,spp.  
+Fall Armyworm,Spodoptera frugiperda,Capsicum,spp.  
+Flea Beetle,Psylliodes,Capsicum,spp.  
+Greenhouse Whitefly,Trialeurodes vaporariorum,Capsicum,spp.  
+Iron Deficiency,Iron Deficiency,Capsicum,spp.  
+Leaf Miner Flies,Agromyzidae spp.,Capsicum,spp.  
+Magnesium Deficiency,Magnesium Deficiency,Capsicum,spp.  
+Manganese Deficiency,Manganese Deficiency,Capsicum,spp.  
+Mealybug,Pseudococcidae,Capsicum,spp.  
+Mediterranean Fruit Fly,Ceratitis capitata,Capsicum,spp.  
+Nematode,Nematoda,Capsicum,spp.  
+Nitrogen Deficiency,Nitrogen Deficiency,Capsicum,spp.  
+Pesticide Burn,Pesticide Burn,Capsicum,spp.  
+Phosphorus Deficiency,Phosphorus Deficiency,Capsicum,spp.  
+Potassium Deficiency,Potassium Deficiency,Capsicum,spp.  
+Potato Y Virus,PVY,Capsicum,spp.  
+Powdery Mildew,Erysiphaceae,Capsicum,spp.  
+Root-Knot Nematode,Meloidogyne spp.,Capsicum,spp.  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Capsicum,spp.  
+Sclerotium Rot,Athelia rolfsii,Capsicum,spp.  
+Slug,Class Gastropoda,Capsicum,spp.  
+Sooty Mold,"Capnodium, Fumago, Scorias spp",Capsicum,spp.  
+Thrips,Order Thysanoptera,Capsicum,spp.  
+Variegated Grasshopper,Zonocerus variegatus,Capsicum,spp.  
+Verticillium Wilt,Verticillium spp.,Capsicum,spp.  
+Vole,Cricetidae,Capsicum,spp.  
+Water Deficiency,Water Deficiency,Capsicum,spp.  
+Zinc Deficiency,Zinc Deficiency,Capsicum,spp.  
+African Mole Cricket,Gryllotalpa africana,Carica,papaya  
+Anthracnose of Papaya and Mango,Colletotrichum gloeosporioides,Carica,papaya  
+Aphid,Aphidoidea family,Carica,papaya  
+Banana Scale Insect,Aspidiotus destructor,Carica,papaya  
+Black Spot Disease of Papaya,Asperisporium caricae,Carica,papaya  
+Boron Deficiency,Boron Deficiency,Carica,papaya  
+Damping-Off,Pythium aphanidermatum,Carica,papaya  
+Green Citrus Aphid,Aphis spiraecola,Carica,papaya  
+Iron Deficiency,Iron Deficiency,Carica,papaya  
+Magnesium Deficiency,Magnesium Deficiency,Carica,papaya  
+Manganese Deficiency,Manganese Deficiency,Carica,papaya  
+Mealybug on Papaya,Paracoccus marginatus,Carica,papaya  
+Mediterranean Fruit Fly,Ceratitis capitata,Carica,papaya  
+Melon Fruit Fly,Zeugodacus cucurbitae,Carica,papaya  
+Nitrogen Deficiency,Nitrogen Deficiency,Carica,papaya  
+Papaya Brown Spot,Corynespora cassiicola,Carica,papaya  
+Papaya Fruit Fly,Toxotrypana curvicauda,Carica,papaya  
+Papaya Leaf Curl,PaLCV,Carica,papaya  
+Papaya Mosaic Virus,PapMV,Carica,papaya  
+Pesticide Burn,Pesticide Burn,Carica,papaya  
+Phosphorus Deficiency,Phosphorus Deficiency,Carica,papaya  
+Powdery Mildew of Papaya,Oidium caricae-papayae,Carica,papaya  
+Ring Spot Virus,PRSV,Carica,papaya  
+Sooty Mold,"Capnodium, Fumago, Scorias spp",Carica,papaya  
+Vole,Cricetidae,Carica,papaya  
+Water Deficiency,Water Deficiency,Carica,papaya  
+Zinc Deficiency,Zinc Deficiency,Carica,papaya  
+Aphid,Aphidoidea family,Cicer,arietinum  
+Ascochyta Blight,Ascochyta rabiei,Cicer,arietinum  
+Ashy Stem Blight of Bean,Macrophomina phaseolina,Cicer,arietinum  
+Black Cutworm,Agrotis ipsilon,Cicer,arietinum  
+Boron Deficiency,Boron Deficiency,Cicer,arietinum  
+Botrytis Blight,Botrytis cinerea,Cicer,arietinum  
+Chickpea Rust,Uromyces ciceris-arietini,Cicer,arietinum  
+Downy Mildew,Peronosporales,Cicer,arietinum  
+Fusarium Wilt,Fusarium oxysporum,Cicer,arietinum  
+Gram Pod Borer,Helicoverpa armigera,Cicer,arietinum  
+Iron Deficiency,Iron Deficiency,Cicer,arietinum  
+Leaf Miner Flies,Agromyzidae spp.,Cicer,arietinum  
+Lentil Rust,Uromyces viciae-fabae,Cicer,arietinum  
+Lesion Nematode,Pratylenchus spp.,Cicer,arietinum  
+Magnesium Deficiency,Magnesium Deficiency,Cicer,arietinum  
+Manganese Deficiency,Manganese Deficiency,Cicer,arietinum  
+Pea Pod Borer,Etiella zinckenella,Cicer,arietinum  
+Pea Rust,Uromyces pisi-sativi,Cicer,arietinum  
+Pesticide Burn,Pesticide Burn,Cicer,arietinum  
+Phosphorus Deficiency,Phosphorus Deficiency,Cicer,arietinum  
+Powdery Mildew,Erysiphaceae,Cicer,arietinum  
+Root-Knot Nematode,Meloidogyne spp.,Cicer,arietinum  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Cicer,arietinum  
+Sclerotium Rot,Athelia rolfsii,Cicer,arietinum  
+Semilooper,Autographa nigrisigna,Cicer,arietinum  
+Verticillium Wilt,Verticillium spp.,Cicer,arietinum  
+Water Deficiency,Water Deficiency,Cicer,arietinum  
+Zinc Deficiency,Zinc Deficiency,Cicer,arietinum  
+Abiotic Sunburn,Abiotic Sunburn,Citrus,  
+Algal Leaf Spot,Cephaleuros virescens,Citrus,  
+Alternaria Brown Spot,Alternaria alternata,Citrus,  
+Anthracnose of Citrus,Colletotrichum gloeosporioides,Citrus,  
+Anthracnose of Lime,Glomerella acutata,Citrus,  
+Aphid,Aphidoidea family,Citrus,  
+Bacterial Spot of Citrus,Xanthomonas alfalfae,Citrus,  
+Banana Scale Insect,Aspidiotus destructor,Citrus,  
+Black Citrus Aphid,Toxoptera aurantii,Citrus,  
+Black Parlatoria Scale,Parlatoria ziziphi,Citrus,  
+Black Scale,Saissetia oleae,Citrus,  
+Black Shank,Phytophthora nicotianae,Citrus,  
+Blast of Citrus,Pseudomonas syringae pv. syringae,Citrus,  
+Boron Deficiency,Boron Deficiency,Citrus,  
+Botrytis Blight,Botrytis cinerea,Citrus,  
+Calcium Deficiency,Calcium Deficiency,Citrus,  
+Castor Semilooper,Ophiusa melicerta,Citrus,  
+Citrus Black Spot,Phyllosticta citricarpa,Citrus,  
+Citrus Bud Mite,Aceria sheldoni,Citrus,  
+Citrus Canker,Xanthomonas axonopodis pv. citri,Citrus,  
+Citrus Chlorotic Dwarf Virus,CCDV,Citrus,  
+Citrus Exocortis Viroid,CEVd,Citrus,  
+Citrus Flatid Plant Hopper,Metcalfa pruinosa,Citrus,  
+Citrus Greening Disease,Candidatus Liberibacter,Citrus,  
+Citrus Leaf Miner,Phyllocnistis citrella,Citrus,  
+Citrus Leprosis,Citrus leprosis virus sensu lato,Citrus,  
+Citrus Nematode,Tylenchulus semipenetrans,Citrus,  
+Citrus Psorosis Virus,CPsV,Citrus,  
+Citrus Red Mite,Panonychus citri,Citrus,  
+Citrus Scab,Elsinoe fawcettii,Citrus,  
+Citrus Stubborn Disease,Spiroplasma citri,Citrus,  
+Citrus Thrips,Scirtothrips citri,Citrus,  
+Citrus Tristeza Virus,CTV,Citrus,  
+Citrus Variegated Chlorosis,Xylella fastidiosa subsp. pauca,Citrus,  
+Citrus Whitefly,Dialeurodes citri,Citrus,  
+Citrus Wolly Whitefly,Aleurothrixus floccosus,Citrus,  
+Common Red Spider Mite,Tetranychus urticae,Citrus,  
+Cottony Cushion Scale,Icerya purchasi,Citrus,  
+Dead Arm,Eutypa lata,Citrus,  
+Greasy Spot of Citrus,Mycosphaerella citri,Citrus,  
+Green Citrus Aphid,Aphis spiraecola,Citrus,  
+Iron Deficiency,Iron Deficiency,Citrus,  
+Leaf Spot of Citrus,Pseudocercospora angolensis,Citrus,  
+Magnesium Deficiency,Magnesium Deficiency,Citrus,  
+Mal Secco,Phoma tracheiphila,Citrus,  
+Manganese Deficiency,Manganese Deficiency,Citrus,  
+Mealybug,Pseudococcidae,Citrus,  
+Mediterranean Fruit Fly,Ceratitis capitata,Citrus,  
+Melanose,Diaporthe citri,Citrus,  
+Melon Fruit Fly,Zeugodacus cucurbitae,Citrus,  
+Nitrogen Deficiency,Nitrogen Deficiency,Citrus,  
+Oleander Scale,Aspidiotus nerii,Citrus,  
+Pesticide Burn,Pesticide Burn,Citrus,  
+Phosphorus Deficiency,Phosphorus Deficiency,Citrus,  
+Phytophthora Gummosis,Phytophthora,Citrus,  
+Phytophthora Root Rot,Phytophthora cactorum,Citrus,  
+Potassium Deficiency,Potassium Deficiency,Citrus,  
+Powdery Mildew,Erysiphaceae,Citrus,  
+Septoria Spot,Septoria citri,Citrus,  
+Sooty Mold,"Capnodium, Fumago, Scorias spp",Citrus,  
+Water Deficiency,Water Deficiency,Citrus,  
+Zinc Deficiency,Zinc Deficiency,Citrus,  
+Abiotic Sunburn,Abiotic Sunburn,Cucumis,melo  
+African Mole Cricket,Gryllotalpa africana,Cucumis,melo  
+Angular Leaf Spot Disease,Pseudomonas syringae,Cucumis,sativus  
+Anthracnose of Cucurbits,Glomerella lagenarium,Cucumis,sativus  
+Anthracnose of Cucurbits,Glomerella lagenarium,Cucumis,melo  
+Aphid,Aphidoidea family,Cucumis,sativus  
+Aphid,Aphidoidea family,Cucumis,melo  
+Bacterial Fruit Blotch,Acidovorax citrulli,Cucumis,sativus  
+Bacterial Fruit Blotch,Acidovorax citrulli,Cucumis,melo  
+Boron Deficiency,Boron Deficiency,Cucumis,sativus  
+Boron Deficiency,Boron Deficiency,Cucumis,melo  
+Botrytis Blight,Botrytis cinerea,Cucumis,sativus  
+Calcium Deficiency in Cucurbits,Calcium Deficiency,Cucumis,sativus  
+Calcium Deficiency in Cucurbits,Calcium Deficiency,Cucumis,melo  
+Common Red Spider Mite,Tetranychus urticae,Cucumis,sativus  
+Cucumber Beetle,Diabrotica spp.,Cucumis,sativus  
+Cucumber Green Mottle Virus,CGMMV,Cucumis,sativus  
+Cucumber Mosaic Virus,CMV,Cucumis,sativus  
+Cucumber Scab,Cladosporium cucumerinum,Cucumis,sativus  
+Downy Mildew,Peronosporales,Cucumis,sativus  
+Downy Mildew on Cucurbits,Pseudoperonospora cubensis,Cucumis,sativus  
+Downy Mildew on Cucurbits,Pseudoperonospora cubensis,Cucumis,melo  
+Flea Beetle,Psylliodes,Cucumis,sativus  
+Fusarium Wilt,Fusarium oxysporum,Cucumis,sativus  
+Green Leafhopper,Empoasca decipiens,Cucumis,sativus  
+Greenhouse Whitefly,Trialeurodes vaporariorum,Cucumis,sativus  
+Gummy Stem Blight of Cucurbits,Stagonosporopsis cucurbitacearum,Cucumis,sativus  
+Gummy Stem Blight of Cucurbits,Stagonosporopsis cucurbitacearum,Cucumis,melo  
+Iron Deficiency,Iron Deficiency,Cucumis,sativus  
+Leaf Blight of Cucurbits,Alternaria cucumerina,Cucumis,sativus  
+Leaf Blight of Cucurbits,Alternaria cucumerina,Cucumis,melo  
+Leaf Miner Flies,Agromyzidae spp.,Cucumis,sativus  
+Magnesium Deficiency in Cucurbits,Magnesium Deficiency,Cucumis,sativus  
+Magnesium Deficiency in Cucurbits,Magnesium Deficiency,Cucumis,melo  
+Manganese Deficiency in Cucurbits,Manganese Deficiency,Cucumis,sativus  
+Manganese Deficiency in Cucurbits,Manganese Deficiency,Cucumis,melo  
+Melon Fruit Fly,Zeugodacus cucurbitae,Cucumis,sativus  
+Melon Fruit Fly,Zeugodacus cucurbitae,Cucumis,melo  
+Nematode,Nematoda,Cucumis,sativus  
+Nitrogen Deficiency in Cucurbits,Nitrogen Deficiency,Cucumis,sativus  
+Nitrogen Deficiency in Cucurbits,Nitrogen Deficiency,Cucumis,melo  
+Pesticide Burn,Pesticide Burn,Cucumis,sativus  
+Pesticide Burn,Pesticide Burn,Cucumis,melo  
+Potassium Deficiency in Cucurbits,Potassium Deficiency,Cucumis,sativus  
+Potassium Deficiency in Cucurbits,Potassium Deficiency,Cucumis,melo  
+Powdery Mildew,Erysiphaceae,Cucumis,sativus  
+Ring Spot Virus,PRSV,Cucumis,sativus  
+Ring Spot Virus,PRSV,Cucumis,melo  
+Root-Knot Nematode,Meloidogyne spp.,Cucumis,sativus  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Cucumis,sativus  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Cucumis,melo  
+Sclerotium Rot,Athelia rolfsii,Cucumis,sativus  
+Sclerotium Rot,Athelia rolfsii,Cucumis,melo  
+Silverleaf Whitefly,Bemisia tabaci,Cucumis,sativus  
+Silverleaf Whitefly,Bemisia tabaci,Cucumis,melo  
+Slug,Class Gastropoda,Cucumis,sativus  
+Thrips,Order Thysanoptera,Cucumis,sativus  
+Variegated Grasshopper,Zonocerus variegatus,Cucumis,melo  
+Verticillium Wilt,Verticillium spp.,Cucumis,sativus  
+Verticillium Wilt,Verticillium spp.,Cucumis,melo  
+Vole,Cricetidae,Cucumis,sativus  
+Water Deficiency,Water Deficiency,Cucumis,sativus  
+Water Deficiency,Water Deficiency,Cucumis,melo  
+Watermelon mosaic virus,Watermelon mosaic virus,Cucumis,sativus  
+Watermelon mosaic virus,Watermelon mosaic virus,Cucumis,melo  
+Zinc Deficiency,Zinc Deficiency,Cucumis,sativus  
+Zinc Deficiency,Zinc Deficiency,Cucumis,melo  
+Angular Leaf Spot Disease,Pseudomonas syringae,Cucurbita,spp.  
+Angular Leaf Spot Disease,Pseudomonas syringae,Cucurbita,pepo  
+Anthracnose of Cucurbits,Glomerella lagenarium,Cucurbita,spp.  
+Anthracnose of Cucurbits,Glomerella lagenarium,Cucurbita,pepo  
+Aphid,Aphidoidea family,Cucurbita,spp.  
+Aphid,Aphidoidea family,Cucurbita,pepo  
+Bacterial Fruit Blotch,Acidovorax citrulli,Cucurbita,spp.  
+Bacterial Fruit Blotch,Acidovorax citrulli,Cucurbita,pepo  
+Boron Deficiency,Boron Deficiency,Cucurbita,spp.  
+Boron Deficiency,Boron Deficiency,Cucurbita,pepo  
+Botrytis Blight,Botrytis cinerea,Cucurbita,spp.  
+Botrytis Blight,Botrytis cinerea,Cucurbita,pepo  
+Calcium Deficiency in Cucurbits,Calcium Deficiency,Cucurbita,spp.  
+Calcium Deficiency in Cucurbits,Calcium Deficiency,Cucurbita,pepo  
+Common Red Spider Mite,Tetranychus urticae,Cucurbita,spp.  
+Common Red Spider Mite,Tetranychus urticae,Cucurbita,pepo  
+Cucumber Beetle,Diabrotica spp.,Cucurbita,spp.  
+Cucumber Beetle,Diabrotica spp.,Cucurbita,pepo  
+Cucumber Green Mottle Virus,CGMMV,Cucurbita,spp.  
+Cucumber Green Mottle Virus,CGMMV,Cucurbita,pepo  
+Cucumber Mosaic Virus,CMV,Cucurbita,spp.  
+Cucumber Mosaic Virus,CMV,Cucurbita,pepo  
+Downy Mildew,Peronosporales,Cucurbita,spp.  
+Downy Mildew,Peronosporales,Cucurbita,pepo  
+Downy Mildew on Cucurbits,Pseudoperonospora cubensis,Cucurbita,spp.  
+Downy Mildew on Cucurbits,Pseudoperonospora cubensis,Cucurbita,pepo  
+Flea Beetle,Psylliodes,Cucurbita,spp.  
+Flea Beetle,Psylliodes,Cucurbita,pepo  
+Fusarium Wilt,Fusarium oxysporum,Cucurbita,spp.  
+Fusarium Wilt,Fusarium oxysporum,Cucurbita,pepo  
+Greenhouse Whitefly,Trialeurodes vaporariorum,Cucurbita,spp.  
+Greenhouse Whitefly,Trialeurodes vaporariorum,Cucurbita,pepo  
+Gummy Stem Blight of Cucurbits,Stagonosporopsis cucurbitacearum,Cucurbita,spp.  
+Gummy Stem Blight of Cucurbits,Stagonosporopsis cucurbitacearum,Cucurbita,pepo  
+Iron Deficiency,Iron Deficiency,Cucurbita,spp.  
+Iron Deficiency,Iron Deficiency,Cucurbita,pepo  
+Leaf Blight of Cucurbits,Alternaria cucumerina,Cucurbita,spp.  
+Leaf Blight of Cucurbits,Alternaria cucumerina,Cucurbita,pepo  
+Leaf Miner Flies,Agromyzidae spp.,Cucurbita,spp.  
+Leaf Miner Flies,Agromyzidae spp.,Cucurbita,pepo  
+Magnesium Deficiency in Cucurbits,Magnesium Deficiency,Cucurbita,spp.  
+Magnesium Deficiency in Cucurbits,Magnesium Deficiency,Cucurbita,pepo  
+Manganese Deficiency in Cucurbits,Manganese Deficiency,Cucurbita,spp.  
+Manganese Deficiency in Cucurbits,Manganese Deficiency,Cucurbita,pepo  
+Melon Fruit Fly,Zeugodacus cucurbitae,Cucurbita,spp.  
+Nematode,Nematoda,Cucurbita,spp.  
+Nematode,Nematoda,Cucurbita,pepo  
+Nitrogen Deficiency in Cucurbits,Nitrogen Deficiency,Cucurbita,spp.  
+Nitrogen Deficiency in Cucurbits,Nitrogen Deficiency,Cucurbita,pepo  
+Pesticide Burn,Pesticide Burn,Cucurbita,spp.  
+Pesticide Burn,Pesticide Burn,Cucurbita,pepo  
+Potassium Deficiency in Cucurbits,Potassium Deficiency,Cucurbita,spp.  
+Potassium Deficiency in Cucurbits,Potassium Deficiency,Cucurbita,pepo  
+Powdery Mildew,Erysiphaceae,Cucurbita,spp.  
+Powdery Mildew,Erysiphaceae,Cucurbita,pepo  
+Ring Spot Virus,PRSV,Cucurbita,pepo  
+Sclerotium Rot,Athelia rolfsii,Cucurbita,spp.  
+Slug,Class Gastropoda,Cucurbita,spp.  
+Slug,Class Gastropoda,Cucurbita,pepo  
+Thrips,Order Thysanoptera,Cucurbita,spp.  
+Thrips,Order Thysanoptera,Cucurbita,pepo  
+Verticillium Wilt,Verticillium spp.,Cucurbita,spp.  
+Verticillium Wilt,Verticillium spp.,Cucurbita,pepo  
+Vole,Cricetidae,Cucurbita,spp.  
+Vole,Cricetidae,Cucurbita,pepo  
+Water Deficiency,Water Deficiency,Cucurbita,spp.  
+Water Deficiency,Water Deficiency,Cucurbita,pepo  
+Watermelon mosaic virus,Watermelon mosaic virus,Cucurbita,spp.  
+Zinc Deficiency,Zinc Deficiency,Cucurbita,spp.  
+Zinc Deficiency,Zinc Deficiency,Cucurbita,pepo  
+Aphid,Aphidoidea family,Daucus,carota ssp. sativa
+Boron Deficiency,Boron Deficiency,Daucus,carota ssp. sativa
+Botrytis Blight,Botrytis cinerea,Daucus,carota ssp. sativa
+Carrot Fly,Chamaepsila rosae,Daucus,carota ssp. sativa
+Common Red Spider Mite,Tetranychus urticae,Daucus,carota ssp. sativa
+Green Citrus Aphid,Aphis spiraecola,Daucus,carota ssp. sativa
+Iron Deficiency,Iron Deficiency,Daucus,carota ssp. sativa
+Magnesium Deficiency,Magnesium Deficiency,Daucus,carota ssp. sativa
+Manganese Deficiency,Manganese Deficiency,Daucus,carota ssp. sativa
+Nematode,Nematoda,Daucus,carota ssp. sativa
+Nitrogen Deficiency,Nitrogen Deficiency,Daucus,carota ssp. sativa
+Pesticide Burn,Pesticide Burn,Daucus,carota ssp. sativa
+Phosphorus Deficiency,Phosphorus Deficiency,Daucus,carota ssp. sativa
+Powdery Mildew,Erysiphaceae,Daucus,carota ssp. sativa
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Daucus,carota ssp. sativa
+Sclerotium Rot,Athelia rolfsii,Daucus,carota ssp. sativa
+Slug,Class Gastropoda,Daucus,carota ssp. sativa
+Thrips,Order Thysanoptera,Daucus,carota ssp. sativa
+Verticillium Wilt,Verticillium spp.,Daucus,carota ssp. sativa
+Vole,Cricetidae,Daucus,carota ssp. sativa
+Water Deficiency,Water Deficiency,Daucus,carota ssp. sativa
+Zinc Deficiency,Zinc Deficiency,Daucus,carota ssp. sativa
+Angular Leaf Spot of Strawberry,Xanthomonas fragariae,Fragaria,spp.  
+Aphid,Aphidoidea family,Fragaria,spp.  
+Boron Deficiency,Boron Deficiency,Fragaria,spp.  
+Botrytis Blight,Botrytis cinerea,Fragaria,spp.  
+Common Leaf Spot,Mycosphaerella fragariae,Fragaria,spp.  
+Common Red Spider Mite,Tetranychus urticae,Fragaria,spp.  
+Crown Rot,Phytophthora cactorum,Fragaria,spp.  
+Iron Deficiency,Iron Deficiency,Fragaria,spp.  
+Magnesium Deficiency,Magnesium Deficiency,Fragaria,spp.  
+Manganese Deficiency,Manganese Deficiency,Fragaria,spp.  
+Nematode,Nematoda,Fragaria,spp.  
+Nitrogen Deficiency,Nitrogen Deficiency,Fragaria,spp.  
+Pesticide Burn,Pesticide Burn,Fragaria,spp.  
+Phosphorus Deficiency,Phosphorus Deficiency,Fragaria,spp.  
+Powdery Mildew of Strawberry,Podosphaera aphanis,Fragaria,spp.  
+Slug,Class Gastropoda,Fragaria,spp.  
+Strawberry Blossom Weevil,Anthonomus rubi,Fragaria,spp.  
+Strawberry Whitefly,Trialeurodes packardi,Fragaria,spp.  
+Thrips,Order Thysanoptera,Fragaria,spp.  
+Verticillium Wilt,Verticillium spp.,Fragaria,spp.  
+Vole,Cricetidae,Fragaria,spp.  
+Water Deficiency,Water Deficiency,Fragaria,spp.  
+Zinc Deficiency,Zinc Deficiency,Fragaria,spp.  
+Anthracnose of Soybean,Colletotrichum truncatum,Glycine,max  
+Aphid,Aphidoidea family,Glycine,max  
+Ascochyta Blight,Ascochyta rabiei,Glycine,max  
+Bacterial Pustule,Xanthomonas axonopodis,Glycine,max  
+Bean Leaf Beetle,Cerotoma trifurcata,Glycine,max  
+Bean Leaf Webber,Hedylepta indicata,Glycine,max  
+Bean Shoot Borer,Epinotia aporema,Glycine,max  
+Bean Yellow Mosaic Virus,BYMV,Glycine,max  
+Boron Deficiency,Boron Deficiency,Glycine,max  
+Brown Spot of Soybean,Septoria glycines,Glycine,max  
+Cabbage Moth,Mamestra brassicae,Glycine,max  
+Calcium Deficiency,Calcium Deficiency,Glycine,max  
+Castor Semilooper,Ophiusa melicerta,Glycine,max  
+Cercospora Leaf Spot of Gram,Cercospora canescens,Glycine,max  
+Charcoal Rot of Soybean,Macrophomina phaseolina,Glycine,max  
+Common Red Spider Mite,Tetranychus urticae,Glycine,max  
+Cottony Cushion Scale,Icerya purchasi,Glycine,max  
+Cucumber Beetle,Diabrotica spp.,Glycine,max  
+Cyst Nematode,Heterodera glycines,Glycine,max  
+Fall Armyworm,Spodoptera frugiperda,Glycine,max  
+Fertilizer or Pesticide Burn,Fertilizer Burn,Glycine,max  
+Frogeye Leaf Spot,Cercospora sojina,Glycine,max  
+Helicoverpa on Soybean,Helicoverpa armigera,Glycine,max  
+Iron Deficiency,Iron Deficiency,Glycine,max  
+Leaf Miner Flies,Agromyzidae spp.,Glycine,max  
+Magnesium Deficiency,Magnesium Deficiency,Glycine,max  
+Manganese Deficiency,Manganese Deficiency,Glycine,max  
+Nitrogen Deficiency,Nitrogen Deficiency,Glycine,max  
+Northern Stem Canker,Diaporthe phaseolorum var. caulivora,Glycine,max  
+Pea Pod Borer,Etiella zinckenella,Glycine,max  
+Pesticide Burn,Pesticide Burn,Glycine,max  
+Phosphorus Deficiency,Phosphorus Deficiency,Glycine,max  
+Phyllosticta Leaf Spot,Phyllosticta arachidis-hypogaea,Glycine,max  
+Potassium Deficiency,Potassium Deficiency,Glycine,max  
+Powdery Mildew of Soybean,Erysiphe diffusa,Glycine,max  
+Purple Seed Stain of Soybean,Cercospora kikuchii,Glycine,max  
+Rhizoctonia Aerial Blight,Rhizoctonia solani,Glycine,max  
+Root-Knot Nematode in Soybean,Meloidogyne ethiopica,Glycine,max  
+Rust of Soybean,Phakopsora pachyrhizi,Glycine,max  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Glycine,max  
+Sclerotium Rot,Athelia rolfsii,Glycine,max  
+Silverleaf Whitefly,Bemisia tabaci,Glycine,max  
+Slug,Class Gastropoda,Glycine,max  
+Southern Armyworm,Spodoptera eridania,Glycine,max  
+Soybean Looper,Pseudoplusia includens,Glycine,max  
+Soybean Mosaic Virus,SMV,Glycine,max  
+Soybean Stalk Weevil,Sternechus subsignatus,Glycine,max  
+Stem and Root Rot of Soybean,Phytophthora sojae,Glycine,max  
+Stink Bugs on Soybean,Acrosternum hilare,Glycine,max  
+Sudden Death Syndrome,Fusarium virguliforme,Glycine,max  
+Target Spot of Soybean,Corynespora cassiicola,Glycine,max  
+Tobacco Caterpillar,Spodoptera litura,Glycine,max  
+Variegated Grasshopper,Zonocerus variegatus,Glycine,max  
+Velvetbean Caterpillar,Anticarsia gemmatalis,Glycine,max  
+Water Deficiency,Water Deficiency,Glycine,max  
+Zinc Deficiency,Zinc Deficiency,Glycine,max  
+Alternaria Leaf Spot of Cotton,Alternaria macrospora,Gossypium,spp.  
+Anthracnose of Cotton,Glomerella gossypii,Gossypium,spp.  
+Aphid,Aphidoidea family,Gossypium,spp.  
+Bacterial Blight of Cotton,Xanthomonas citri subsp. malvacearum,Gossypium,spp.  
+Black Cutworm,Agrotis ipsilon,Gossypium,spp.  
+Boll Weevil,Anthonomus grandis,Gossypium,spp.  
+Boron Deficiency,Boron Deficiency,Gossypium,spp.  
+Cercospora Leaf Spot of Cotton,Mycosphaerella gossypina,Gossypium,spp.  
+Common Red Spider Mite,Tetranychus urticae,Gossypium,spp.  
+Corn Earworm,Helicoverpa zea,Gossypium,spp.  
+Cotton Bollworm,Helicoverpa armigera,Gossypium,spp.  
+Cotton Leaf Hopper,Amrasca devastans,Gossypium,spp.  
+Fall Armyworm,Spodoptera frugiperda,Gossypium,spp.  
+Fertilizer or Pesticide Burn,Fertilizer Burn,Gossypium,spp.  
+Fusarium Wilt,Fusarium oxysporum,Gossypium,spp.  
+Grey Mildew of Cotton,Mycosphaerella areola,Gossypium,spp.  
+Iron Deficiency,Iron Deficiency,Gossypium,spp.  
+Leaf Miner Flies,Agromyzidae spp.,Gossypium,spp.  
+Magnesium Deficiency,Magnesium Deficiency,Gossypium,spp.  
+Manganese Deficiency,Manganese Deficiency,Gossypium,spp.  
+Mealybug,Pseudococcidae,Gossypium,spp.  
+Nitrogen Deficiency,Nitrogen Deficiency,Gossypium,spp.  
+Pesticide Burn,Pesticide Burn,Gossypium,spp.  
+Phosphorus Deficiency,Phosphorus Deficiency,Gossypium,spp.  
+Pink Bollworm,Pectinophora gossypiella,Gossypium,spp.  
+Potassium Deficiency,Potassium Deficiency,Gossypium,spp.  
+Powdery Mildew,Erysiphaceae,Gossypium,spp.  
+Root Rot of Cotton,Macrophomina phaseolina,Gossypium,spp.  
+Root-Knot Nematode,Meloidogyne spp.,Gossypium,spp.  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Gossypium,spp.  
+Silverleaf Whitefly,Bemisia tabaci,Gossypium,spp.  
+Soreshin,Rhizoctonia solani,Gossypium,spp.  
+Stink Bug on Cotton,Euschistus servus,Gossypium,spp.  
+Thrips,Order Thysanoptera,Gossypium,spp.  
+Tobacco Caterpillar,Spodoptera litura,Gossypium,spp.  
+Tobacco Streak Virus,Tobacco Streak Virus,Gossypium,spp.  
+Velvetbean Caterpillar,Anticarsia gemmatalis,Gossypium,spp.  
+Water Deficiency,Water Deficiency,Gossypium,spp.  
+Western Flower Thrips,Frankliniella occidentalis,Gossypium,spp.  
+Zinc Deficiency,Zinc Deficiency,Gossypium,spp.  
+Aphid,Aphidoidea family,Hordeum,vulgare  
+Boron Deficiency in Cereals,Boron Deficiency,Hordeum,vulgare  
+Brown Rust of Barley,Puccinia hordei,Hordeum,vulgare  
+Calcium Deficiency in Wheat,Calcium Deficiency,Hordeum,vulgare  
+Cereal Leaf Beetle,Oulema melanopus,Hordeum,vulgare  
+Common Bunt of Wheat,Tilletia caries,Hordeum,vulgare  
+Crown Rust of Grasses,Puccinia coronata,Hordeum,vulgare  
+Eyespot,Oculimacula yallundae,Hordeum,vulgare  
+Fusarium Head Blight,Fusarium graminearum,Hordeum,vulgare  
+Leaf and Glume Blotch of Wheat,Parastagonospora nodorum,Hordeum,vulgare  
+Leaf Stripe of Barley,Pyrenophora graminea,Hordeum,vulgare  
+Magnesium Deficiency,Magnesium Deficiency,Hordeum,vulgare  
+Manganese Deficiency,Manganese Deficiency,Hordeum,vulgare  
+Net Blotch,Pyrenophora teres,Hordeum,vulgare  
+Pesticide Burn,Pesticide Burn,Hordeum,vulgare  
+Physiological Leaf Spot,PLS,Hordeum,vulgare  
+Potassium Deficiency in Cereals,Potassium Deficiency,Hordeum,vulgare  
+Powdery Mildew of Cereals,Blumeria graminis,Hordeum,vulgare  
+Ramularia Leaf Spot,Ramularia collo-cygni,Hordeum,vulgare  
+Rhynchosporium,Rhynchosporium secalis,Hordeum,vulgare  
+Sulfur Deficiency in Wheat,Sulfur Deficiency,Hordeum,vulgare  
+Violet Stem Borer,Sesamia inferens,Hordeum,vulgare  
+Water Deficiency,Water Deficiency,Hordeum,vulgare  
+Zinc Deficiency in Wheat,Zinc Deficiency,Hordeum,vulgare  
+African Mole Cricket,Gryllotalpa africana,Lactuca,sativa var. capitata
+Aphid,Aphidoidea family,Lactuca,sativa var. capitata
+Boron Deficiency,Boron Deficiency,Lactuca,sativa var. capitata
+Botrytis Blight in Lettuce,Botrytis cinerea,Lactuca,sativa var. capitata
+Bottom Rot,Thanatephorus cucumeris,Lactuca,sativa var. capitata
+Bright Line Brown Eye,Lacanobia oleracea,Lactuca,sativa var. capitata
+Cabbage Moth,Mamestra brassicae,Lactuca,sativa var. capitata
+Calcium Deficiency,Calcium Deficiency,Lactuca,sativa var. capitata
+Common Red Spider Mite,Tetranychus urticae,Lactuca,sativa var. capitata
+Downy Mildew,Peronosporales,Lactuca,sativa var. capitata
+Fall Armyworm,Spodoptera frugiperda,Lactuca,sativa var. capitata
+Flea Beetle,Psylliodes,Lactuca,sativa var. capitata
+Green Citrus Aphid,Aphis spiraecola,Lactuca,sativa var. capitata
+Iron Deficiency,Iron Deficiency,Lactuca,sativa var. capitata
+Leaf Miner Flies,Agromyzidae spp.,Lactuca,sativa var. capitata
+Lettuce Big-Vein Disease,Olpidium brassicae,Lactuca,sativa var. capitata
+Magnesium Deficiency,Magnesium Deficiency,Lactuca,sativa var. capitata
+Manganese Deficiency,Manganese Deficiency,Lactuca,sativa var. capitata
+Nematode,Nematoda,Lactuca,sativa var. capitata
+Nitrogen Deficiency,Nitrogen Deficiency,Lactuca,sativa var. capitata
+Onion Maggots,Delia platura,Lactuca,sativa var. capitata
+Pesticide Burn,Pesticide Burn,Lactuca,sativa var. capitata
+Phosphorus Deficiency,Phosphorus Deficiency,Lactuca,sativa var. capitata
+Potassium Deficiency,Potassium Deficiency,Lactuca,sativa var. capitata
+Powdery Mildew,Erysiphaceae,Lactuca,sativa var. capitata
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Lactuca,sativa var. capitata
+Silverleaf Whitefly,Bemisia tabaci,Lactuca,sativa var. capitata
+Slug,Class Gastropoda,Lactuca,sativa var. capitata
+Thrips,Order Thysanoptera,Lactuca,sativa var. capitata
+Variegated Grasshopper,Zonocerus variegatus,Lactuca,sativa var. capitata
+Verticillium Wilt,Verticillium spp.,Lactuca,sativa var. capitata
+Vole,Cricetidae,Lactuca,sativa var. capitata
+Water Deficiency,Water Deficiency,Lactuca,sativa var. capitata
+Zinc Deficiency,Zinc Deficiency,Lactuca,sativa var. capitata
+Anthracnose of Lentil,Colletotrichum truncatum,Lens,culinaris  
+Aphid,Aphidoidea family,Lens,culinaris  
+Ascochyta Blight of Lentil,Didymella fabae,Lens,culinaris  
+Bean Bollworm,Helicoverpa armigera,Lens,culinaris  
+Boron Deficiency,Boron Deficiency,Lens,culinaris  
+Botrytis Blight,Botrytis cinerea,Lens,culinaris  
+Fusarium Wilt,Fusarium oxysporum,Lens,culinaris  
+Lentil Rust,Uromyces viciae-fabae,Lens,culinaris  
+Magnesium Deficiency,Magnesium Deficiency,Lens,culinaris  
+Manganese Deficiency,Manganese Deficiency,Lens,culinaris  
+Mealybug,Pseudococcidae,Lens,culinaris  
+Pea Pod Borer,Etiella zinckenella,Lens,culinaris  
+Pesticide Burn,Pesticide Burn,Lens,culinaris  
+Phosphorus Deficiency,Phosphorus Deficiency,Lens,culinaris  
+Powdery Mildew,Erysiphaceae,Lens,culinaris  
+Root Rot of Lentil,Rhizoctonia solani,Lens,culinaris  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Lens,culinaris  
+Sclerotium Rot,Athelia rolfsii,Lens,culinaris  
+Zinc Deficiency,Zinc Deficiency,Lens,culinaris  
+African Mole Cricket,Gryllotalpa africana,Lopmoea,batatas  
+Aphid,Aphidoidea family,Lopmoea,batatas  
+Boron Deficiency,Boron Deficiency,Lopmoea,batatas  
+Calcium Deficiency in Potato,Calcium Deficiency,Lopmoea,batatas  
+Iron Deficiency in Potato,Iron Deficiency,Lopmoea,batatas  
+Magnesium Deficiency in Potato,Magnesium Deficiency,Lopmoea,batatas  
+Manganese Deficiency,Manganese Deficiency,Lopmoea,batatas  
+Nitrogen Deficiency in Potato,Nitrogen Deficiency,Lopmoea,batatas  
+Pesticide Burn,Pesticide Burn,Lopmoea,batatas  
+Phosphorus Deficiency in Potato,Phosphorus Deficiency,Lopmoea,batatas  
+Potassium Deficiency in Potato,Potassium Deficiency,Lopmoea,batatas  
+Sclerotium Rot,Athelia rolfsii,Lopmoea,batatas  
+Slug,Class Gastropoda,Lopmoea,batatas  
+Thrips,Order Thysanoptera,Lopmoea,batatas  
+Variegated Grasshopper,Zonocerus variegatus,Lopmoea,batatas  
+Water Deficiency,Water Deficiency,Lopmoea,batatas  
+Zinc Deficiency,Zinc Deficiency,Lopmoea,batatas  
+Abiotic Sunburn,Abiotic Sunburn,Lycopersicon,esculentum  
+African Mole Cricket,Gryllotalpa africana,Lycopersicon,esculentum  
+Aphid,Aphidoidea family,Lycopersicon,esculentum  
+Bacterial Canker of Tomato,Clavibacter michiganensis subs. michiganensis,Lycopersicon,esculentum  
+Bacterial Speck of Tomato,Pseudomonas syringae pv. tomato,Lycopersicon,esculentum  
+Bacterial Spot,Xanthomonas spp.,Lycopersicon,esculentum  
+Bacterial Wilt,Ralstonia solanacearum,Lycopersicon,esculentum  
+Black Cutworm,Agrotis ipsilon,Lycopersicon,esculentum  
+Blossom End Rot,blossom end rot,Lycopersicon,esculentum  
+Boron Deficiency,Boron Deficiency,Lycopersicon,esculentum  
+Botrytis Blight,Botrytis cinerea,Lycopersicon,esculentum  
+Bright Line Brown Eye,Lacanobia oleracea,Lycopersicon,esculentum  
+Cabbage Moth,Mamestra brassicae,Lycopersicon,esculentum  
+Calcium Deficiency in Tomato,Calcium Deficiency,Lycopersicon,esculentum  
+Castor Semilooper,Ophiusa melicerta,Lycopersicon,esculentum  
+Common Red Spider Mite,Tetranychus urticae,Lycopersicon,esculentum  
+Didymella Stem Rot of Tomato,Didymella lycopersici,Lycopersicon,esculentum  
+Early Blight of Tomato,Alternaria solani,Lycopersicon,esculentum  
+Flea Beetle,Psylliodes,Lycopersicon,esculentum  
+Fusarium Wilt,Fusarium oxysporum,Lycopersicon,esculentum  
+Green Leafhopper,Empoasca decipiens,Lycopersicon,esculentum  
+Greenhouse Whitefly,Trialeurodes vaporariorum,Lycopersicon,esculentum  
+Iron Deficiency in Tomato,Iron Deficiency,Lycopersicon,esculentum  
+Leaf Miner Flies,Agromyzidae spp.,Lycopersicon,esculentum  
+Leaf Mold of Tomato,Mycovellosiella fulva,Lycopersicon,esculentum  
+Magnesium Deficiency in Tomato,Magnesium Deficiency,Lycopersicon,esculentum  
+Manganese Deficiency,Manganese Deficiency,Lycopersicon,esculentum  
+Mealybug,Pseudococcidae,Lycopersicon,esculentum  
+Mediterranean Fruit Fly,Ceratitis capitata,Lycopersicon,esculentum  
+Melon Fruit Fly,Zeugodacus cucurbitae,Lycopersicon,esculentum  
+Nematode,Nematoda,Lycopersicon,esculentum  
+Nitrogen Deficiency in Tomato,Nitrogen Deficiency,Lycopersicon,esculentum  
+Pesticide Burn,Pesticide Burn,Lycopersicon,esculentum  
+Phosphorus Deficiency in Tomato,Phosphorus Deficiency,Lycopersicon,esculentum  
+Potassium Deficiency in Tomato,Potassium Deficiency,Lycopersicon,esculentum  
+Powdery Mildew,Erysiphaceae,Lycopersicon,esculentum  
+Root-Knot Nematode,Meloidogyne spp.,Lycopersicon,esculentum  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Lycopersicon,esculentum  
+Sclerotium Rot,Athelia rolfsii,Lycopersicon,esculentum  
+Septoria Leaf Spot,Septoria lycopersici,Lycopersicon,esculentum  
+Silverleaf Whitefly,Bemisia tabaci,Lycopersicon,esculentum  
+Thrips,Order Thysanoptera,Lycopersicon,esculentum  
+Tomato Fruit Borer,Helicoverpa armigera,Lycopersicon,esculentum  
+Tomato Mosaic Virus,ToMV,Lycopersicon,esculentum  
+Tomato Spotted Wilt Virus,TSWV,Lycopersicon,esculentum  
+Tomato Yellow Leaf Curl Virus,TYLCV,Lycopersicon,esculentum  
+Tuta Absoluta,Tuta Absoluta,Lycopersicon,esculentum  
+Variegated Grasshopper,Zonocerus variegatus,Lycopersicon,esculentum  
+Verticillium Wilt,Verticillium spp.,Lycopersicon,esculentum  
+Vole,Cricetidae,Lycopersicon,esculentum  
+Water Deficiency,Water Deficiency,Lycopersicon,esculentum  
+Zinc Deficiency,Zinc Deficiency,Lycopersicon,esculentum  
+Tomato Late Blight,Phytophthora infestans,Lycopersicon esculentum,esculentum  
+Anthracnose of Apple,Neofabraea malicorticis,Malus,sylvestris  
+Aphid,Aphidoidea family,Malus,sylvestris  
+Apple Leaf Miner,Lyonetia clerkella,Malus,sylvestris  
+Apple Mosaic Virus,APMV,Malus,sylvestris  
+Apple Scab,Venturia inaequalis,Malus,sylvestris  
+Bacterial Canker,Pseudomonas syringae pv. syringae,Malus,sylvestris  
+Bitter Rot on Apple,Glomerella cingulata,Malus,sylvestris  
+Boron Deficiency,Boron Deficiency,Malus,sylvestris  
+Botryosphaeria Dieback,Botryosphaeriaceae,Malus,sylvestris  
+Botrytis Blight,Botrytis cinerea,Malus,sylvestris  
+Brown Rot,Monilinia laxa,Malus,sylvestris  
+Brown Rot of Fruits,Monilinia fructigena,Malus,sylvestris  
+Calcium Deficiency,Calcium Deficiency,Malus,sylvestris  
+Codling Moth,Cydia pomonella,Malus,sylvestris  
+Curculio Weevil,Otiorhynchus cribricollis,Malus,sylvestris  
+Dead Arm,Eutypa lata,Malus,sylvestris  
+Ermine Moth,Yponomeutidae,Malus,sylvestris  
+European Red Mite,Panonychus ulmi,Malus,sylvestris  
+Fire Blight,Erwinia amylovora,Malus,sylvestris  
+Fruit Tree Bark Beetle,Scolytus mali,Malus,sylvestris  
+Fruit Tree Canker,Neonectria ditissima,Malus,sylvestris  
+Fruit Tree Leafroller,Archips argyrospila,Malus,sylvestris  
+Gall Mite,Eriophyidae,Malus,sylvestris  
+Grape Tortrix Moth,Argyrotaenia ljungiana,Malus,sylvestris  
+Green Citrus Aphid,Aphis spiraecola,Malus,sylvestris  
+Iron Deficiency,Iron Deficiency,Malus,sylvestris  
+Magnesium Deficiency,Magnesium Deficiency,Malus,sylvestris  
+Manganese Deficiency,Manganese Deficiency,Malus,sylvestris  
+Mediterranean Fruit Fly,Ceratitis capitata,Malus,sylvestris  
+Nematode,Nematoda,Malus,sylvestris  
+Oleander Scale,Aspidiotus nerii,Malus,sylvestris  
+Olive Scale,Parlatoria oleae,Malus,sylvestris  
+Oriental Fruit Moth,Grapholita molesta,Malus,sylvestris  
+Pesticide Burn,Pesticide Burn,Malus,sylvestris  
+Phosphorus Deficiency,Phosphorus Deficiency,Malus,sylvestris  
+Phytophthora Root Rot,Phytophthora cactorum,Malus,sylvestris  
+Potassium Deficiency,Potassium Deficiency,Malus,sylvestris  
+Powdery Mildew,Erysiphaceae,Malus,sylvestris  
+Silver Leaf,Chondrostereum purpureum,Malus,sylvestris  
+Thrips,Order Thysanoptera,Malus,sylvestris  
+Vole,Cricetidae,Malus,sylvestris  
+Water Deficiency,Water Deficiency,Malus,sylvestris  
+Western Plant Bug,Lygus hesperus,Malus,sylvestris  
+Winter Moth,Operophtera brumata,Malus,sylvestris  
+Woolly Aphid,Eriosoma lanigerum,Malus,sylvestris  
+Zinc Deficiency,Zinc Deficiency,Malus,sylvestris  
+African Mole Cricket,Gryllotalpa africana,Mangifera,indica  
+Algal Leaf Spot,Cephaleuros virescens,Mangifera,indica  
+Anthracnose of Papaya and Mango,Colletotrichum gloeosporioides,Mangifera,indica  
+Aphid,Aphidoidea family,Mangifera,indica  
+Bacterial Black Spot of Mango,Xanthomonas axonopodis pv. mangiferaeindicae,Mangifera,indica  
+Bacterial Canker of Mango,Xanthomonas citri pv. mangiferaeindicae,Mangifera,indica  
+Banana Scale Insect,Aspidiotus destructor,Mangifera,indica  
+Black Citrus Aphid,Toxoptera aurantii,Mangifera,indica  
+Boron Deficiency,Boron Deficiency,Mangifera,indica  
+Botrytis Blight,Botrytis cinerea,Mangifera,indica  
+Cottony Cushion Scale,Icerya purchasi,Mangifera,indica  
+Hairy Caterpillars,Euproctis fraterna,Mangifera,indica  
+Iron Deficiency,Iron Deficiency,Mangifera,indica  
+Magnesium Deficiency,Magnesium Deficiency,Mangifera,indica  
+Manganese Deficiency,Manganese Deficiency,Mangifera,indica  
+Mango Blister Midge,Procontarinia mangiferae,Mangifera,indica  
+Mango Dieback Disease,Botryosphaeria rhodina,Mangifera,indica  
+Mango Fruit Borer,Citripestis eutraphera,Mangifera,indica  
+Mango Fruit Fly,Ceratitis cosyra,Mangifera,indica  
+Mango Gall Midge,Procontarinia pustulata,Mangifera,indica  
+Mango Hoppers,Idioscopus spp.,Mangifera,indica  
+Mango Nut Weevil,Sternochetus mangiferae,Mangifera,indica  
+Mango Seed Borer,Deanolis albizonalis,Mangifera,indica  
+Mango Shoot Borer,Chlumetia transversa,Mangifera,indica  
+Mango Shoot Psyllid,Apsylla cistellata,Mangifera,indica  
+Mango Spider Mite,Oligonychus mangiferus,Mangifera,indica  
+Mealybug,Drosicha mangiferae,Mangifera,indica  
+Mediterranean Fruit Fly,Ceratitis capitata,Mangifera,indica  
+Melon Fruit Fly,Zeugodacus cucurbitae,Mangifera,indica  
+Nitrogen Deficiency,Nitrogen Deficiency,Mangifera,indica  
+Oleander Scale,Aspidiotus nerii,Mangifera,indica  
+Pesticide Burn,Pesticide Burn,Mangifera,indica  
+Phoma Blight,Peyronellaea glomerata,Mangifera,indica  
+Phosphorus Deficiency,Phosphorus Deficiency,Mangifera,indica  
+Powdery Mildew of Mango,Oidium mangiferae,Mangifera,indica  
+Sooty Mold,"Capnodium, Fumago, Scorias spp",Mangifera,indica  
+Thrips in Mango,Scirtothrips spp.,Mangifera,indica  
+Vole,Cricetidae,Mangifera,indica  
+Water Deficiency,Water Deficiency,Mangifera,indica  
+Zinc Deficiency,Zinc Deficiency,Mangifera,indica  
+African Mole Cricket,Gryllotalpa africana,Manihot,esculenta  
+Aphid,Aphidoidea family,Manihot,esculenta  
+Boron Deficiency,Boron Deficiency,Manihot,esculenta  
+Brown leaf spot,Mycosphaerella henningsii,Manihot,esculenta  
+Bud Necrosis,Unknown Pathogen,Manihot,esculenta  
+Cassava Bacterial Blight,Xanthomonas axonopodis pv. manihotis,Manihot,esculenta  
+Cassava Brown Streak Disease,CBSV,Manihot,esculenta  
+Cassava Green Spider Mite,Mononychellus tanajoa,Manihot,esculenta  
+Cassava Mosaic Disease,ACMV,Manihot,esculenta  
+Cassava Phytoplasma Disease,Phytoplasma spp.,Manihot,esculenta  
+Cassava Root Mealybug,Stictococcus vayssierei,Manihot,esculenta  
+Cassava scale,Aonidomytilus albus,Manihot,esculenta  
+Magnesium Deficiency,Magnesium Deficiency,Manihot,esculenta  
+Manganese Deficiency,Manganese Deficiency,Manihot,esculenta  
+Mealybug,Pseudococcidae,Manihot,esculenta  
+Pesticide Burn,Pesticide Burn,Manihot,esculenta  
+Variegated Grasshopper,Zonocerus variegatus,Manihot,esculenta  
+Water Deficiency,Water Deficiency,Manihot,esculenta  
+White Leaf Spot,Phaeoramularia manihotis,Manihot,esculenta  
+Zinc Deficiency,Zinc Deficiency,Manihot,esculenta  
+African Mole Cricket,Gryllotalpa africana,Musa,paradisiaca  
+Anthracnose of Banana,Colletotrichum musae,Musa,paradisiaca  
+Aphid,Aphidoidea family,Musa,paradisiaca  
+Bacterial Soft Rot of Banana,Pectobacterium carotovorum,Musa,paradisiaca  
+Banana Bract Mosaic Virus,BBrMV,Musa,paradisiaca  
+Banana Fruit-Scarring Beetle,Colaspis hypochlora,Musa,paradisiaca  
+Banana Lace Wing Bug,Stephanitis typica,Musa,paradisiaca  
+Banana Moth,Opogona sacchari,Musa,paradisiaca  
+Banana Rust Thrips,Chaetanaphothrips signipennis,Musa,paradisiaca  
+Banana Scab Moth,Nacoleia octasema,Musa,paradisiaca  
+Banana Scale Insect,Aspidiotus destructor,Musa,paradisiaca  
+Banana Streak Virus,Banana Streak Virus,Musa,paradisiaca  
+Banana Xanthomonas Wilt,Xanthomonas musacearum,Musa,paradisiaca  
+Black Leaf Spot of Banana,Deightoniella torulosa,Musa,paradisiaca  
+Black Sigatoka,Mycosphaerella fijiensis,Musa,paradisiaca  
+Boron Deficiency in Banana,Boron Deficiency,Musa,paradisiaca  
+Bunchy Top Virus,Bunchy Top Virus,Musa,paradisiaca  
+Calcium Deficiency,Calcium Deficiency,Musa,paradisiaca  
+Castor Hairy Caterpillar,Pericallia ricini,Musa,paradisiaca  
+Cigar End Rot,Trachysphaera fructigena,Musa,paradisiaca  
+Cucumber Mosaic Virus on Banana,CMV,Musa,paradisiaca  
+Cut Worm on Banana,Spodoptera litura,Musa,paradisiaca  
+Downy Mildew,Peronosporales,Musa,paradisiaca  
+Freckle of Banana,Phyllosticta maculata,Musa,paradisiaca  
+Leaf Blotch of Banana,Cordana musae,Musa,paradisiaca  
+Magnesium Deficiency,Magnesium Deficiency,Musa,paradisiaca  
+Manganese Deficiency,Manganese Deficiency,Musa,paradisiaca  
+Mealybug,Pseudococcidae,Musa,paradisiaca  
+Moko Disease,Ralstonia solanacearum,Musa,paradisiaca  
+Nematode,Nematoda,Musa,paradisiaca  
+Nitrogen Deficiency,Nitrogen Deficiency,Musa,paradisiaca  
+Oriental Fruit Fly,Bactrocera dorsalis,Musa,paradisiaca  
+Pesticide Burn,Pesticide Burn,Musa,paradisiaca  
+Phosphorus Deficiency,Phosphorus Deficiency,Musa,paradisiaca  
+Potassium Deficiency,Potassium Deficiency,Musa,paradisiaca  
+Powdery Mildew,Erysiphaceae,Musa,paradisiaca  
+Pseudostem Weevil,Odoiporus longicollis,Musa,paradisiaca  
+Red Palm Mite,Raoiella indica,Musa,paradisiaca  
+Root Borer,Cosmopolites sordidus,Musa,paradisiaca  
+Vascular Wilt of Banana,Fusarium oxysporum,Musa,paradisiaca  
+Vole,Cricetidae,Musa,paradisiaca  
+Water Deficiency,Water Deficiency,Musa,paradisiaca  
+Yellow Sigatoka,Mycosphaerella musicola,Musa,paradisiaca  
+Zinc Deficiency,Zinc Deficiency,Musa,paradisiaca  
+Aphid,Aphidoidea family,Olea,europaea  
+Black Scale,Saissetia oleae,Olea,europaea  
+Boron Deficiency,Boron Deficiency,Olea,europaea  
+Botryosphaeria Dieback,Botryosphaeriaceae,Olea,europaea  
+Cercospora Leaf Spot of Olive,Pseudocercospora cladosporioides,Olea,europaea  
+Crown Gall,Agrobacterium,Olea,europaea  
+Curculio Weevil,Otiorhynchus cribricollis,Olea,europaea  
+Dead Arm,Eutypa lata,Olea,europaea  
+Grape Berry Moth,Lobesia botrana,Olea,europaea  
+Jasmine Moth,Palpita unionalis,Olea,europaea  
+Magnesium Deficiency,Magnesium Deficiency,Olea,europaea  
+Manganese Deficiency,Manganese Deficiency,Olea,europaea  
+Mediterranean Fruit Fly,Ceratitis capitata,Olea,europaea  
+Nitrogen Deficiency,Nitrogen Deficiency,Olea,europaea  
+Oleander Scale,Aspidiotus nerii,Olea,europaea  
+Olive Bark Beetle,Phloeotribus scarabaeoides,Olea,europaea  
+Olive Borer,Hylesinus toranio,Olea,europaea  
+Olive Bud Mite,Oxycenus maxwelli,Olea,europaea  
+Olive Fruit Fly,Bactrocera oleae,Olea,europaea  
+Olive Knot,Pseudomonas savastanoi pv. savastanoi,Olea,europaea  
+Olive Leaf Spot,Fusicladium oleagineum,Olea,europaea  
+Olive Moth,Prays oleae,Olea,europaea  
+Olive Psyllid,Euphyllura olivina,Olea,europaea  
+Olive Scale,Parlatoria oleae,Olea,europaea  
+Pesticide Burn,Pesticide Burn,Olea,europaea  
+Phosphorus Deficiency,Phosphorus Deficiency,Olea,europaea  
+Potassium Deficiency,Potassium Deficiency,Olea,europaea  
+Rhizoctonia Root Rot of Olive,Rhizoctonia solani,Olea,europaea  
+Thrips,Order Thysanoptera,Olea,europaea  
+Verticillium Wilt,Verticillium spp.,Olea,europaea  
+Water Deficiency,Water Deficiency,Olea,europaea  
+Zinc Deficiency,Zinc Deficiency,Olea,europaea  
+African Mole Cricket,Gryllotalpa africana,Oryza,sativa  
+Alkalinity,Alkalinity,Oryza,sativa  
+Aphid,Aphidoidea family,Oryza,sativa  
+Asian Rice Gall Midge,Orseolia oryzae,Oryza,sativa  
+Bacterial Blight of Rice,Xanthomonas oryzae pv. oryzae,Oryza,sativa  
+Bacterial Leaf Streak,Xanthomonas oryzae pv. oryzicola,Oryza,sativa  
+Bacterial Panicle Blight,Burkholderia spp.,Oryza,sativa  
+Bakanae and Foot Rot,Gibberella fujikuroi,Oryza,sativa  
+Biomphalaria Snails,Biomphalaria spp.,Oryza,sativa  
+Black Cutworm,Agrotis ipsilon,Oryza,sativa  
+Blast of Rice,Magnaporthe oryzae,Oryza,sativa  
+Boron Deficiency in Rice,Boron Deficiency,Oryza,sativa  
+Brown Planthopper,Nilaparvata lugens,Oryza,sativa  
+Brown Spot of Rice,Cochliobolus miyabeanus,Oryza,sativa  
+Fall Armyworm,Spodoptera frugiperda,Oryza,sativa  
+False Smut,Villosiclava virens,Oryza,sativa  
+Golden Apple Snail,Pomacea canaliculata,Oryza,sativa  
+Green Paddy Leafhoppers,Nephotettix spp.,Oryza,sativa  
+Greenhorned Caterpillars,Melanitis leda,Oryza,sativa  
+Iron deficiency in Rice,Iron Deficiency,Oryza,sativa  
+Leaf Scald of Rice,Monographella albescens,Oryza,sativa  
+Magnesium Deficiency,Magnesium Deficiency,Oryza,sativa  
+Manganese Deficiency,Manganese Deficiency,Oryza,sativa  
+Narrow Brown Leaf Spot of Rice,Sphaerulina oryzina,Oryza,sativa  
+Nitrogen Deficiency in Rice,Nitrogen Deficiency,Oryza,sativa  
+Paddy Swarming Caterpillar,Spodoptera mauritia,Oryza,sativa  
+Pesticide Burn,Pesticide Burn,Oryza,sativa  
+Phoma Sorghina in Rice,Epicoccum sorghi,Oryza,sativa  
+Phosphorus Deficiency in Rice,Phosphorus Deficiency,Oryza,sativa  
+Potassium Deficiency in Rice,Potassium Deficiency,Oryza,sativa  
+Red Stripe Disease,Gonatophragmium sp.,Oryza,sativa  
+Rice Bug,Leptocorisa spp.,Oryza,sativa  
+Rice Case Worm,Parapoynx stagnalis,Oryza,sativa  
+Rice Ear-Cutting Caterpillar,Mythimna separata,Oryza,sativa  
+Rice Grasshopper,Oxya intricata,Oryza,sativa  
+Rice Hispa,Dicladispa armigera,Oryza,sativa  
+Rice Leaf Mite,Oligonychus oryzae,Oryza,sativa  
+Rice Leafroller,Cnaphalocrocis medinalis,Oryza,sativa  
+Rice Mealybug,Brevennia rehi,Oryza,sativa  
+Rice Panicle Mite,Steneotarsonemus spinki,Oryza,sativa  
+Rice Sheath Blight,Rhizoctonia solani,Oryza,sativa  
+Rice Skipper,Pelopidas mathias,Oryza,sativa  
+Rice Stalk Stinkbug,Tibraca limbativentris,Oryza,sativa  
+Rice Thrips,Stenchaetothrips biformis,Oryza,sativa  
+Rice Yellow Mottle Virus,RYMV,Oryza,sativa  
+Root-Knot Nematode,Meloidogyne spp.,Oryza,sativa  
+Sheath Rot of Rice,Sarocladium oryzae,Oryza,sativa  
+Stem Rot of RIce,Magnaporthe salvinii,Oryza,sativa  
+Sulfur Deficiency,Sulfur Deficiency,Oryza,sativa  
+Tungro,RTBV,Oryza,sativa  
+Udbatta Disease of Rice,Balansia oryzae-sativae,Oryza,sativa  
+Vole,Cricetidae,Oryza,sativa  
+Water Deficiency,Water Deficiency,Oryza,sativa  
+Whorl Maggot,Hydrellia philippina,Oryza,sativa  
+Yellow Stem Borer,Scirpophaga incertulas,Oryza,sativa  
+Zinc Deficency in Rice,Zinc Deficiency,Oryza,sativa  
+African Mole Cricket,Gryllotalpa africana,Pennisetum,americanum  
+Aphid,Aphidoidea family,Pennisetum,americanum  
+Boron Deficiency in Cereals,Boron Deficiency,Pennisetum,americanum  
+Calcium Deficiency in Wheat,Calcium Deficiency,Pennisetum,americanum  
+Ergot,Claviceps fusiformis,Pennisetum,americanum  
+Fusarium Head Blight,Fusarium graminearum,Pennisetum,americanum  
+Head Miner,Heliocheilus albipunctella,Pennisetum,americanum  
+Holcus Spot,Pseudomonas syringae pv. syringae,Pennisetum,americanum  
+Magnesium Deficiency,Magnesium Deficiency,Pennisetum,americanum  
+Manganese Deficiency,Manganese Deficiency,Pennisetum,americanum  
+Millet Cercospora Leaf Spot,Cercospora penniseti,Pennisetum,americanum  
+Millet Rust,Puccinia substriata,Pennisetum,americanum  
+Pesticide Burn,Pesticide Burn,Pennisetum,americanum  
+Phosphorus Deficiency,Phosphorus Deficiency,Pennisetum,americanum  
+Potassium Deficiency in Cereals,Potassium Deficiency,Pennisetum,americanum  
+Pyricularia Leaf Spot,Magnaporthe oryzae,Pennisetum,americanum  
+Spotted Stemborer,Chilo partellus,Pennisetum,americanum  
+Stem Borer,Coniesta ignefusalis,Pennisetum,americanum  
+"Stink Bugs on Corn, Millet and Sorghum",Euschistus spp.,Pennisetum,americanum  
+Violet Stem Borer,Sesamia inferens,Pennisetum,americanum  
+Vole,Cricetidae,Pennisetum,americanum  
+Water Deficiency,Water Deficiency,Pennisetum,americanum  
+Zinc Deficiency,Zinc Deficiency,Pennisetum,americanum  
+Zonate Leaf Spot,Gloeocercospora sorghi,Pennisetum,americanum  
+Aphid,Aphidoidea family,Phaseolus,vulgaris  
+Ashy Stem Blight of Bean,Macrophomina phaseolina,Phaseolus,vulgaris  
+Bean Bollworm,Helicoverpa armigera,Phaseolus,vulgaris  
+Bean Common Mosaic Virus,BCMV,Phaseolus,vulgaris  
+Bean Golden Mosaic Virus,BGMV,Phaseolus,vulgaris  
+Bean Leaf Beetle,Cerotoma trifurcata,Phaseolus,vulgaris  
+Bean Leaf Webber,Hedylepta indicata,Phaseolus,vulgaris  
+Bean Leafroller,Urbanus proteus,Phaseolus,vulgaris  
+Bean Rust,Uromyces appendiculatus,Phaseolus,vulgaris  
+Bean Shoot Borer,Epinotia aporema,Phaseolus,vulgaris  
+Bean Yellow Mosaic Virus,BYMV,Phaseolus,vulgaris  
+Black Cutworm,Agrotis ipsilon,Phaseolus,vulgaris  
+Black Spot Disease,Colletotrichum lindemuthianum,Phaseolus,vulgaris  
+Boron Deficiency,Boron Deficiency,Phaseolus,vulgaris  
+Botrytis Blight,Botrytis cinerea,Phaseolus,vulgaris  
+Broad Mite,Polyphagotarsonemus latus,Phaseolus,vulgaris  
+Cabbage Moth,Mamestra brassicae,Phaseolus,vulgaris  
+Calcium Deficiency,Calcium Deficiency,Phaseolus,vulgaris  
+Cercospora Leaf Spot of Gram,Cercospora canescens,Phaseolus,vulgaris  
+Chocolate Spot of Broad Bean,Botrytis fabae,Phaseolus,vulgaris  
+Common Red Spider Mite,Tetranychus urticae,Phaseolus,vulgaris  
+Cucumber Beetle,Diabrotica spp.,Phaseolus,vulgaris  
+Downy Mildew,Peronosporales,Phaseolus,vulgaris  
+Dry Root Rot of Bean,Fusarium solani f. sp. phaseoli,Phaseolus,vulgaris  
+Fall Armyworm,Spodoptera frugiperda,Phaseolus,vulgaris  
+Flea Beetle,Psylliodes,Phaseolus,vulgaris  
+Fusarium Wilt,Fusarium oxysporum,Phaseolus,vulgaris  
+Green Leafhopper,Empoasca decipiens,Phaseolus,vulgaris  
+Halo Blight,Pseudomonas savastanoi pv. phaseolicola,Phaseolus,vulgaris  
+Iron Deficiency,Iron Deficiency,Phaseolus,vulgaris  
+Leaf Miner Flies,Agromyzidae spp.,Phaseolus,vulgaris  
+Lesion Nematode,Pratylenchus spp.,Phaseolus,vulgaris  
+Magnesium Deficiency,Magnesium Deficiency,Phaseolus,vulgaris  
+Manganese Deficiency,Manganese Deficiency,Phaseolus,vulgaris  
+Onion Maggots,Delia platura,Phaseolus,vulgaris  
+Pesticide Burn,Pesticide Burn,Phaseolus,vulgaris  
+Phosphorus Deficiency,Phosphorus Deficiency,Phaseolus,vulgaris  
+Potassium Deficiency,Potassium Deficiency,Phaseolus,vulgaris  
+Powdery Mildew,Erysiphaceae,Phaseolus,vulgaris  
+Root-Knot Nematode,Meloidogyne spp.,Phaseolus,vulgaris  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Phaseolus,vulgaris  
+Sclerotium Rot,Athelia rolfsii,Phaseolus,vulgaris  
+Silverleaf Whitefly,Bemisia tabaci,Phaseolus,vulgaris  
+Slug,Class Gastropoda,Phaseolus,vulgaris  
+Soybean Stalk Weevil,Sternechus subsignatus,Phaseolus,vulgaris  
+Thrips,Order Thysanoptera,Phaseolus,vulgaris  
+Velvetbean Caterpillar,Anticarsia gemmatalis,Phaseolus,vulgaris  
+Verticillium Wilt,Verticillium spp.,Phaseolus,vulgaris  
+Vole,Cricetidae,Phaseolus,vulgaris  
+Water Deficiency,Water Deficiency,Phaseolus,vulgaris  
+Zinc Deficiency,Zinc Deficiency,Phaseolus,vulgaris  
+Aphid,Aphidoidea family,Pisum,sativum  
+Bean Leaf Beetle,Cerotoma trifurcata,Pisum,sativum  
+Bean Leaf Webber,Hedylepta indicata,Pisum,sativum  
+Bean Shoot Borer,Epinotia aporema,Pisum,sativum  
+Boron Deficiency,Boron Deficiency,Pisum,sativum  
+Botrytis Blight,Botrytis cinerea,Pisum,sativum  
+Bright Line Brown Eye,Lacanobia oleracea,Pisum,sativum  
+Cabbage Moth,Mamestra brassicae,Pisum,sativum  
+Calcium Deficiency,Calcium Deficiency,Pisum,sativum  
+Common Red Spider Mite,Tetranychus urticae,Pisum,sativum  
+Downy Mildew,Peronosporales,Pisum,sativum  
+Flea Beetle,Psylliodes,Pisum,sativum  
+Fusarium Wilt,Fusarium oxysporum,Pisum,sativum  
+Green Leafhopper,Empoasca decipiens,Pisum,sativum  
+Iron Deficiency,Iron Deficiency,Pisum,sativum  
+Leaf Miner Flies,Agromyzidae spp.,Pisum,sativum  
+Lentil Rust,Uromyces viciae-fabae,Pisum,sativum  
+Magnesium Deficiency,Magnesium Deficiency,Pisum,sativum  
+Manganese Deficiency,Manganese Deficiency,Pisum,sativum  
+Mealybug,Pseudococcidae,Pisum,sativum  
+Nematode,Nematoda,Pisum,sativum  
+Nitrogen Deficiency,Nitrogen Deficiency,Pisum,sativum  
+Onion Maggots,Delia platura,Pisum,sativum  
+Pea Rust,Uromyces pisi-sativi,Pisum,sativum  
+Pesticide Burn,Pesticide Burn,Pisum,sativum  
+Phosphorus Deficiency,Phosphorus Deficiency,Pisum,sativum  
+Potassium Deficiency,Potassium Deficiency,Pisum,sativum  
+Powdery Mildew,Erysiphaceae,Pisum,sativum  
+Root-Knot Nematode,Meloidogyne spp.,Pisum,sativum  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Pisum,sativum  
+Sclerotium Rot,Athelia rolfsii,Pisum,sativum  
+Slug,Class Gastropoda,Pisum,sativum  
+Thrips,Order Thysanoptera,Pisum,sativum  
+Velvetbean Caterpillar,Anticarsia gemmatalis,Pisum,sativum  
+Verticillium Wilt,Verticillium spp.,Pisum,sativum  
+Vole,Cricetidae,Pisum,sativum  
+Water Deficiency,Water Deficiency,Pisum,sativum  
+Zinc Deficiency,Zinc Deficiency,Pisum,sativum  
+Almond Bark Beetle,Scolytus amygdali,Prunus,dulcis  
+Almond Red Leaf Blotch,Polystigma ochraceum,Prunus,dulcis  
+Anthracnose of Almond,Colletotrichum acutatum,Prunus,dulcis  
+Anthracnose of Almond,Colletotrichum acutatum,Prunus,armeniaca  
+Aphid,Aphidoidea family,Prunus,dulcis  
+Aphid,Aphidoidea family,Prunus,armeniaca  
+Aphid,Aphidoidea family,Prunus,spp.  
+Aphid,Aphidoidea family,Prunus,persica  
+Aphid,Aphidoidea family,Prunus,domestica  
+Apple Leaf Miner,Lyonetia clerkella,Prunus,armeniaca  
+Apple Leaf Miner,Lyonetia clerkella,Prunus,spp.  
+Apple Leaf Miner,Lyonetia clerkella,Prunus,persica  
+Apple Leaf Miner,Lyonetia clerkella,Prunus,domestica  
+Armillaria Root Rot,Armillaria mellea,Prunus,armeniaca  
+Bacterial Canker,Pseudomonas syringae pv. syringae,Prunus,armeniaca  
+Bacterial Canker,Pseudomonas syringae pv. syringae,Prunus,spp.  
+Bacterial Canker,Pseudomonas syringae pv. syringae,Prunus,persica  
+Bacterial Canker,Pseudomonas syringae pv. syringae,Prunus,domestica  
+Bacterial Spot on Stone Fruits,Xanthomonas arboricola,Prunus,dulcis  
+Bacterial Spot on Stone Fruits,Xanthomonas arboricola,Prunus,armeniaca  
+Bacterial Spot on Stone Fruits,Xanthomonas arboricola,Prunus,spp.  
+Bacterial Spot on Stone Fruits,Xanthomonas arboricola,Prunus,persica  
+Bacterial Spot on Stone Fruits,Xanthomonas arboricola,Prunus,domestica  
+Bitter Rot on Apple,Glomerella cingulata,Prunus,spp.  
+Black Cherry Aphid,Myzus cerasi,Prunus,spp.  
+Black Scale,Saissetia oleae,Prunus,armeniaca  
+Black Scale,Saissetia oleae,Prunus,domestica  
+Blossom Blight,Monilinia fructicola,Prunus,dulcis  
+Blossom Blight,Monilinia fructicola,Prunus,armeniaca  
+Blossom Blight,Monilinia fructicola,Prunus,spp.  
+Blossom Blight,Monilinia fructicola,Prunus,persica  
+Blossom Blight,Monilinia fructicola,Prunus,domestica  
+Boron Deficiency,Boron Deficiency,Prunus,dulcis  
+Boron Deficiency,Boron Deficiency,Prunus,armeniaca  
+Boron Deficiency,Boron Deficiency,Prunus,spp.  
+Boron Deficiency,Boron Deficiency,Prunus,persica  
+Boron Deficiency,Boron Deficiency,Prunus,domestica  
+Botryosphaeria Dieback,Botryosphaeriaceae,Prunus,dulcis  
+Botryosphaeria Dieback,Botryosphaeriaceae,Prunus,persica  
+Botrytis Blight,Botrytis cinerea,Prunus,dulcis  
+Botrytis Blight,Botrytis cinerea,Prunus,spp.  
+Botrytis Blight,Botrytis cinerea,Prunus,domestica  
+Brown Mite,Bryobia rubrioculus,Prunus,dulcis  
+Brown Rot,Monilinia laxa,Prunus,dulcis  
+Brown Rot,Monilinia laxa,Prunus,armeniaca  
+Brown Rot,Monilinia laxa,Prunus,spp.  
+Brown Rot,Monilinia laxa,Prunus,persica  
+Brown Rot,Monilinia laxa,Prunus,domestica  
+Brown Rot of Fruits,Monilinia fructigena,Prunus,dulcis  
+Brown Rot of Fruits,Monilinia fructigena,Prunus,armeniaca  
+Brown Rot of Fruits,Monilinia fructigena,Prunus,spp.  
+Brown Rot of Fruits,Monilinia fructigena,Prunus,persica  
+Brown Rot of Fruits,Monilinia fructigena,Prunus,domestica  
+Cherry Fruit Fly,Rhagoletis cerasi,Prunus,spp.  
+Cherry Leaf Scorch,Apiognomonia erythrostoma,Prunus,armeniaca  
+Cherry Leaf Scorch,Apiognomonia erythrostoma,Prunus,spp.  
+Cherry Leaf Scorch,Apiognomonia erythrostoma,Prunus,domestica  
+Cherry Leaf Spot,Blumeriella jaapii,Prunus,dulcis  
+Cherry Leaf Spot,Blumeriella jaapii,Prunus,armeniaca  
+Cherry Leaf Spot,Blumeriella jaapii,Prunus,spp.  
+Cherry Leaf Spot,Blumeriella jaapii,Prunus,domestica  
+Chlorotic Leaf Roll of Apricot,Phytoplasma prunorum,Prunus,armeniaca  
+Chlorotic Leaf Roll of Apricot,Phytoplasma prunorum,Prunus,persica  
+Common Red Spider Mite,Tetranychus urticae,Prunus,dulcis  
+Constriction Canker,Phomopsis amygdali,Prunus,persica  
+Constriction Canker of Peach,Phomopsis amygdali,Prunus,dulcis  
+Constriction Canker of Peach,Phomopsis amygdali,Prunus,persica  
+Crown Gall,Agrobacterium,Prunus,dulcis  
+Crown Gall,Agrobacterium,Prunus,persica  
+Dead Arm,Eutypa lata,Prunus,dulcis  
+Dead Arm,Eutypa lata,Prunus,armeniaca  
+Dead Arm,Eutypa lata,Prunus,spp.  
+Dead Arm,Eutypa lata,Prunus,persica  
+Dead Arm,Eutypa lata,Prunus,domestica  
+Dieback of Stone Fruit,Valsa cincta,Prunus,armeniaca  
+Dieback of Stone Fruit,Valsa cincta,Prunus,spp.  
+Dieback of Stone Fruit,Valsa cincta,Prunus,persica  
+Dieback of Stone Fruit,Valsa cincta,Prunus,domestica  
+Ermine Moth,Yponomeutidae,Prunus,spp.  
+Ermine Moth,Yponomeutidae,Prunus,domestica  
+European Earwig,Forficula auricularia,Prunus,armeniaca  
+European Red Mite,Panonychus ulmi,Prunus,dulcis  
+European Red Mite,Panonychus ulmi,Prunus,armeniaca  
+European Red Mite,Panonychus ulmi,Prunus,spp.  
+European Red Mite,Panonychus ulmi,Prunus,persica  
+European Red Mite,Panonychus ulmi,Prunus,domestica  
+Fruit Tree Bark Beetle,Scolytus mali,Prunus,armeniaca  
+Fruit Tree Bark Beetle,Scolytus mali,Prunus,spp.  
+Fruit Tree Bark Beetle,Scolytus mali,Prunus,persica  
+Fruit Tree Bark Beetle,Scolytus mali,Prunus,domestica  
+Fruit Tree Leafroller,Archips argyrospila,Prunus,armeniaca  
+Fruit Tree Leafroller,Archips argyrospila,Prunus,persica  
+Gall Mite,Eriophyidae,Prunus,armeniaca  
+Gall Mite,Eriophyidae,Prunus,spp.  
+Gall Mite,Eriophyidae,Prunus,persica  
+Gall Mite,Eriophyidae,Prunus,domestica  
+Green Citrus Aphid,Aphis spiraecola,Prunus,domestica  
+Green Peach Aphid,Myzus persicae,Prunus,dulcis  
+Green Peach Aphid,Myzus persicae,Prunus,armeniaca  
+Green Peach Aphid,Myzus persicae,Prunus,persica  
+Gummosis,Botryosphaeria dothidea,Prunus,armeniaca  
+Gummosis,Botryosphaeria dothidea,Prunus,persica  
+Gummosis,Botryosphaeria dothidea,Prunus,domestica  
+Iron Deficiency,Iron Deficiency,Prunus,armeniaca  
+Iron Deficiency,Iron Deficiency,Prunus,persica  
+Jacket Rot,Monilinia spp,Prunus,armeniaca  
+Jacket Rot,Monilinia spp,Prunus,persica  
+Magnesium Deficiency,Magnesium Deficiency,Prunus,dulcis  
+Magnesium Deficiency,Magnesium Deficiency,Prunus,armeniaca  
+Magnesium Deficiency,Magnesium Deficiency,Prunus,spp.  
+Magnesium Deficiency,Magnesium Deficiency,Prunus,persica  
+Magnesium Deficiency,Magnesium Deficiency,Prunus,domestica  
+Manganese Deficiency,Manganese Deficiency,Prunus,dulcis  
+Manganese Deficiency,Manganese Deficiency,Prunus,armeniaca  
+Manganese Deficiency,Manganese Deficiency,Prunus,spp.  
+Manganese Deficiency,Manganese Deficiency,Prunus,persica  
+Manganese Deficiency,Manganese Deficiency,Prunus,domestica  
+Mealy Plum Aphid,Hyalopterus pruni,Prunus,armeniaca  
+Mealy Plum Aphid,Hyalopterus pruni,Prunus,persica  
+Mealy Plum Aphid,Hyalopterus pruni,Prunus,domestica  
+Mediterranean Fruit Fly,Ceratitis capitata,Prunus,dulcis  
+Mediterranean Fruit Fly,Ceratitis capitata,Prunus,armeniaca  
+Mediterranean Fruit Fly,Ceratitis capitata,Prunus,spp.  
+Mediterranean Fruit Fly,Ceratitis capitata,Prunus,persica  
+Mediterranean Fruit Fly,Ceratitis capitata,Prunus,domestica  
+Melon Fruit Fly,Zeugodacus cucurbitae,Prunus,persica  
+Nematode,Nematoda,Prunus,armeniaca  
+Nematode,Nematoda,Prunus,spp.  
+Nematode,Nematoda,Prunus,persica  
+Nematode,Nematoda,Prunus,domestica  
+Olive Scale,Parlatoria oleae,Prunus,dulcis  
+Olive Scale,Parlatoria oleae,Prunus,armeniaca  
+Olive Scale,Parlatoria oleae,Prunus,persica  
+Olive Scale,Parlatoria oleae,Prunus,domestica  
+Oriental Fruit Fly,Bactrocera dorsalis,Prunus,persica  
+Oriental Fruit Moth,Grapholita molesta,Prunus,armeniaca  
+Oriental Fruit Moth,Grapholita molesta,Prunus,spp.  
+Oriental Fruit Moth,Grapholita molesta,Prunus,domestica  
+Peach Leaf Curl,Taphrina deformans,Prunus,dulcis  
+Peach Leaf Curl,Taphrina deformans,Prunus,armeniaca  
+Peach Leaf Curl,Taphrina deformans,Prunus,persica  
+Peach Scab,Venturia carpophila,Prunus,armeniaca  
+Peach Scab,Venturia carpophila,Prunus,persica  
+Peach Twig Borer,Anarsia lineatella,Prunus,dulcis  
+Peach Twig Borer,Anarsia lineatella,Prunus,armeniaca  
+Peach Twig Borer,Anarsia lineatella,Prunus,spp.  
+Peach Twig Borer,Anarsia lineatella,Prunus,persica  
+Peach Twig Borer,Anarsia lineatella,Prunus,domestica  
+Pesticide Burn,Pesticide Burn,Prunus,dulcis  
+Pesticide Burn,Pesticide Burn,Prunus,armeniaca  
+Pesticide Burn,Pesticide Burn,Prunus,spp.  
+Pesticide Burn,Pesticide Burn,Prunus,persica  
+Pesticide Burn,Pesticide Burn,Prunus,domestica  
+Phony Peach Disease,Xylella fastidiosa,Prunus,armeniaca  
+Phony Peach Disease,Xylella fastidiosa,Prunus,persica  
+Phony Peach Disease,Xylella fastidiosa,Prunus,domestica  
+Phosphorus Deficiency,Phosphorus Deficiency,Prunus,armeniaca  
+Phosphorus Deficiency,Phosphorus Deficiency,Prunus,persica  
+Plum Pox Virus,Plum pox virus,Prunus,dulcis  
+Plum Pox Virus,Plum pox virus,Prunus,armeniaca  
+Plum Pox Virus,Plum pox virus,Prunus,persica  
+Plum Pox Virus,Plum pox virus,Prunus,domestica  
+Plum Rust,Tranzschelia pruni spinosae,Prunus,dulcis  
+Plum Rust,Tranzschelia pruni spinosae,Prunus,armeniaca  
+Plum Rust,Tranzschelia pruni spinosae,Prunus,persica  
+Plum Rust,Tranzschelia pruni spinosae,Prunus,domestica  
+Pocket Plum Gall,Taphrina pruni,Prunus,spp.  
+Pocket Plum Gall,Taphrina pruni,Prunus,persica  
+Pocket Plum Gall,Taphrina pruni,Prunus,domestica  
+Poplar Lace Bug,Monosteira unicostata,Prunus,dulcis  
+Potassium Deficiency,Potassium Deficiency,Prunus,armeniaca  
+Potassium Deficiency,Potassium Deficiency,Prunus,persica  
+Powdery Mildew,Erysiphaceae,Prunus,armeniaca  
+Powdery Mildew,Erysiphaceae,Prunus,spp.  
+Powdery Mildew,Erysiphaceae,Prunus,persica  
+Powdery Mildew,Erysiphaceae,Prunus,domestica  
+Rose Mildew,Podosphaera pannosa,Prunus,armeniaca  
+Rose Mildew,Podosphaera pannosa,Prunus,persica  
+Shothole Disease,Wilsonomyces carpophilus,Prunus,dulcis  
+Shothole Disease,Wilsonomyces carpophilus,Prunus,armeniaca  
+Shothole Disease,Wilsonomyces carpophilus,Prunus,spp.  
+Shothole Disease,Wilsonomyces carpophilus,Prunus,persica  
+Shothole Disease,Wilsonomyces carpophilus,Prunus,domestica  
+Silver Leaf,Chondrostereum purpureum,Prunus,armeniaca  
+Silver Leaf,Chondrostereum purpureum,Prunus,spp.  
+Silver Leaf,Chondrostereum purpureum,Prunus,persica  
+Silver Leaf,Chondrostereum purpureum,Prunus,domestica  
+Stecklenberger Disease,PNRSV Prunus necrotic ringspot virus,Prunus,armeniaca  
+Stecklenberger Disease,PNRSV Prunus necrotic ringspot virus,Prunus,spp.  
+Stecklenberger Disease,PNRSV Prunus necrotic ringspot virus,Prunus,persica  
+Stecklenberger Disease,PNRSV Prunus necrotic ringspot virus,Prunus,domestica  
+Thrips,Order Thysanoptera,Prunus,armeniaca  
+Thrips,Order Thysanoptera,Prunus,spp.  
+Thrips,Order Thysanoptera,Prunus,persica  
+Valsa Disease,Valsa leucostoma,Prunus,armeniaca  
+Valsa Disease,Valsa leucostoma,Prunus,spp.  
+Valsa Disease,Valsa leucostoma,Prunus,persica  
+Valsa Disease,Valsa leucostoma,Prunus,domestica  
+Verticillium Wilt,Verticillium spp.,Prunus,armeniaca  
+Vole,Cricetidae,Prunus,armeniaca  
+Vole,Cricetidae,Prunus,spp.  
+Vole,Cricetidae,Prunus,persica  
+Vole,Cricetidae,Prunus,domestica  
+Water Deficiency,Water Deficiency,Prunus,dulcis  
+Water Deficiency,Water Deficiency,Prunus,armeniaca  
+Water Deficiency,Water Deficiency,Prunus,spp.  
+Water Deficiency,Water Deficiency,Prunus,persica  
+Water Deficiency,Water Deficiency,Prunus,domestica  
+Western Flower Thrips,Frankliniella occidentalis,Prunus,persica  
+Western Plant Bug,Lygus hesperus,Prunus,armeniaca  
+Western Plant Bug,Lygus hesperus,Prunus,persica  
+Western Plant Bug,Lygus hesperus,Prunus,domestica  
+Winter Moth,Operophtera brumata,Prunus,spp.  
+Yellow Vine Mite,Eotetranychus carpini,Prunus,persica  
+Zinc Deficiency,Zinc Deficiency,Prunus,dulcis  
+Zinc Deficiency,Zinc Deficiency,Prunus,armeniaca  
+Zinc Deficiency,Zinc Deficiency,Prunus,spp.  
+Zinc Deficiency,Zinc Deficiency,Prunus,persica  
+Zinc Deficiency,Zinc Deficiency,Prunus,domestica  
+Alternaria Black Spot and Fruit Rot,Alternaria alternata,Punica,granatum  
+Anthracnose of Pomegranate,Glomerella cingulata,Punica,granatum  
+Aphid,Aphidoidea family,Punica,granatum  
+Black Scale,Saissetia oleae,Punica,granatum  
+Boron Deficiency,Boron Deficiency,Punica,granatum  
+Castor Semilooper,Ophiusa melicerta,Punica,granatum  
+Cercospora Fruit and Leaf Spot,Pseudocercospora punicae,Punica,granatum  
+Magnesium Deficiency,Magnesium Deficiency,Punica,granatum  
+Manganese Deficiency,Manganese Deficiency,Punica,granatum  
+Mediterranean Fruit Fly,Ceratitis capitata,Punica,granatum  
+Pesticide Burn,Pesticide Burn,Punica,granatum  
+Pomegranate Thrips,Scirtothrips dorsalis,Punica,granatum  
+Pomegranate Wilt,Ceratocystis fimbriata,Punica,granatum  
+Zinc Deficiency,Zinc Deficiency,Punica,granatum  
+Aphid,Aphidoidea family,Pyrus,communis  
+Apple Leaf Miner,Lyonetia clerkella,Pyrus,communis  
+Bacterial Canker,Pseudomonas syringae pv. syringae,Pyrus,communis  
+Black Scale,Saissetia oleae,Pyrus,communis  
+Boron Deficiency,Boron Deficiency,Pyrus,communis  
+Brown Rot,Monilinia laxa,Pyrus,communis  
+Brown Rot of Fruits,Monilinia fructigena,Pyrus,communis  
+Dead Arm,Eutypa lata,Pyrus,communis  
+Ermine Moth,Yponomeutidae,Pyrus,communis  
+European Pear Rust,Gymnosporangium sabinae,Pyrus,communis  
+European Red Mite,Panonychus ulmi,Pyrus,communis  
+Fire Blight,Erwinia amylovora,Pyrus,communis  
+Fruit Tree Bark Beetle,Scolytus mali,Pyrus,communis  
+Fruit Tree Canker,Neonectria ditissima,Pyrus,communis  
+Fruit Tree Leafroller,Archips argyrospila,Pyrus,communis  
+Gall Mite,Eriophyidae,Pyrus,communis  
+Grape Tortrix Moth,Argyrotaenia ljungiana,Pyrus,communis  
+Green Citrus Aphid,Aphis spiraecola,Pyrus,communis  
+Magnesium Deficiency,Magnesium Deficiency,Pyrus,communis  
+Manganese Deficiency,Manganese Deficiency,Pyrus,communis  
+Mediterranean Fruit Fly,Ceratitis capitata,Pyrus,communis  
+Nematode,Nematoda,Pyrus,communis  
+Olive Scale,Parlatoria oleae,Pyrus,communis  
+Oriental Fruit Moth,Grapholita molesta,Pyrus,communis  
+Pear Leaf Blister Mite,Eriophyes pyri,Pyrus,communis  
+Pear Leaf Spot,Diplocarpon maculatum,Pyrus,communis  
+Pear Scab,Venturia pyrina,Pyrus,communis  
+Pesticide Burn,Pesticide Burn,Pyrus,communis  
+Phytophthora Root Rot,Phytophthora cactorum,Pyrus,communis  
+Powdery Mildew,Erysiphaceae,Pyrus,communis  
+Silver Leaf,Chondrostereum purpureum,Pyrus,communis  
+Thrips,Order Thysanoptera,Pyrus,communis  
+Vole,Cricetidae,Pyrus,communis  
+Water Deficiency,Water Deficiency,Pyrus,communis  
+Western Plant Bug,Lygus hesperus,Pyrus,communis  
+Winter Moth,Operophtera brumata,Pyrus,communis  
+Woolly Aphid,Eriosoma lanigerum,Pyrus,communis  
+Zinc Deficiency,Zinc Deficiency,Pyrus,communis  
+Aphid,Aphidoidea family,red,"gram, Cajanus cajan"
+Ashy Stem Blight of Bean,Macrophomina phaseolina,red,"gram, Cajanus cajan"
+Boron Deficiency,Boron Deficiency,red,"gram, Cajanus cajan"
+Botrytis Blight,Botrytis cinerea,red,"gram, Cajanus cajan"
+Cercospora Leaf Spot of Gram,Cercospora canescens,red,"gram, Cajanus cajan"
+Fusarium Wilt,Fusarium oxysporum,red,"gram, Cajanus cajan"
+Gram Pod Borer,Helicoverpa armigera,red,"gram, Cajanus cajan"
+Halo Blight,Pseudomonas savastanoi pv. phaseolicola,red,"gram, Cajanus cajan"
+Iron Deficiency,Iron Deficiency,red,"gram, Cajanus cajan"
+Leaf Miner Flies,Agromyzidae spp.,red,"gram, Cajanus cajan"
+Lesion Nematode,Pratylenchus spp.,red,"gram, Cajanus cajan"
+Magnesium Deficiency,Magnesium Deficiency,red,"gram, Cajanus cajan"
+Manganese Deficiency,Manganese Deficiency,red,"gram, Cajanus cajan"
+Pea Pod Borer,Etiella zinckenella,red,"gram, Cajanus cajan"
+Pea Rust,Uromyces pisi-sativi,red,"gram, Cajanus cajan"
+Pesticide Burn,Pesticide Burn,red,"gram, Cajanus cajan"
+Phosphorus Deficiency,Phosphorus Deficiency,red,"gram, Cajanus cajan"
+Phytophthora Blight,Phytophthora drechsleri,red,"gram, Cajanus cajan"
+Powdery Mildew,Erysiphaceae,red,"gram, Cajanus cajan"
+Root-Knot Nematode,Meloidogyne spp.,red,"gram, Cajanus cajan"
+Sclerotium Rot,Athelia rolfsii,red,"gram, Cajanus cajan"
+Spotted Pod Borer,Maruca testulalis,red,"gram, Cajanus cajan"
+Sterility Mosaic,PPSMV,red,"gram, Cajanus cajan"
+Thrips,Order Thysanoptera,red,"gram, Cajanus cajan"
+Water Deficiency,Water Deficiency,red,"gram, Cajanus cajan"
+Zinc Deficiency,Zinc Deficiency,red,"gram, Cajanus cajan"
+American Gooseberry Mildew,Podosphaera mors-uvae,Ribes,spp.  
+Anthracnose of Currant & Gooseberry,Drepanopeziza ribis,Ribes,spp.  
+Aphid,Aphidoidea family,Ribes,spp.  
+Boron Deficiency,Boron Deficiency,Ribes,spp.  
+Botrytis Blight,Botrytis cinerea,Ribes,spp.  
+Bright Line Brown Eye,Lacanobia oleracea,Ribes,spp.  
+Common Red Spider Mite,Tetranychus urticae,Ribes,spp.  
+European Red Mite,Panonychus ulmi,Ribes,spp.  
+Iron Deficiency,Iron Deficiency,Ribes,spp.  
+Magnesium Deficiency,Magnesium Deficiency,Ribes,spp.  
+Manganese Deficiency,Manganese Deficiency,Ribes,spp.  
+Nematode,Nematoda,Ribes,spp.  
+Nitrogen Deficiency,Nitrogen Deficiency,Ribes,spp.  
+Pesticide Burn,Pesticide Burn,Ribes,spp.  
+Phosphorus Deficiency,Phosphorus Deficiency,Ribes,spp.  
+Redcurrant Blister Aphid,Cryptomyzus ribis,Ribes,spp.  
+Slug,Class Gastropoda,Ribes,spp.  
+Thrips,Order Thysanoptera,Ribes,spp.  
+Verticillium Wilt,Verticillium spp.,Ribes,spp.  
+Vole,Cricetidae,Ribes,spp.  
+Water Deficiency,Water Deficiency,Ribes,spp.  
+White Pine Blister Rust,Cronartium ribicola,Ribes,spp.  
+Winter Moth,Operophtera brumata,Ribes,spp.  
+Zinc Deficiency,Zinc Deficiency,Ribes,spp.  
+Aphid,Aphidoidea family,Rubus,spp.  
+Boron Deficiency,Boron Deficiency,Rubus,spp.  
+Common Red Spider Mite,Tetranychus urticae,Rubus,spp.  
+European Red Mite,Panonychus ulmi,Rubus,spp.  
+Iron Deficiency,Iron Deficiency,Rubus,spp.  
+Magnesium Deficiency,Magnesium Deficiency,Rubus,spp.  
+Manganese Deficiency,Manganese Deficiency,Rubus,spp.  
+Nematode,Nematoda,Rubus,spp.  
+Nitrogen Deficiency,Nitrogen Deficiency,Rubus,spp.  
+Pesticide Burn,Pesticide Burn,Rubus,spp.  
+Phosphorus Deficiency,Phosphorus Deficiency,Rubus,spp.  
+Powdery Mildew,Erysiphaceae,Rubus,spp.  
+Raspberry Spur Blight,Didymella applanata,Rubus,spp.  
+Slug,Class Gastropoda,Rubus,spp.  
+Strawberry Blossom Weevil,Anthonomus rubi,Rubus,spp.  
+Thrips,Order Thysanoptera,Rubus,spp.  
+Verticillium Wilt,Verticillium spp.,Rubus,spp.  
+Vole,Cricetidae,Rubus,spp.  
+Water Deficiency,Water Deficiency,Rubus,spp.  
+Zinc Deficiency,Zinc Deficiency,Rubus,spp.  
+Abiotic Sunburn,Abiotic Sunburn,Saccharum,officinarum  
+Aphid,Aphidoidea family,Saccharum,officinarum  
+Bacterial Leaf Blight of Sugarcane,Acidovorax avenae,Saccharum,officinarum  
+Banana Fruit-Scarring Beetle,Colaspis hypochlora,Saccharum,officinarum  
+Boron Deficiency,Boron Deficiency,Saccharum,officinarum  
+Calcium Deficiency,Calcium Deficiency,Saccharum,officinarum  
+Cucumber Beetle,Diabrotica spp.,Saccharum,officinarum  
+Early Shoot Borer,Chilo infuscatellus,Saccharum,officinarum  
+Fall Armyworm,Spodoptera frugiperda,Saccharum,officinarum  
+Iron Deficiency,Iron Deficiency,Saccharum,officinarum  
+Magnesium Deficiency,Magnesium Deficiency,Saccharum,officinarum  
+Manganese Deficiency,Manganese Deficiency,Saccharum,officinarum  
+Nitrogen Deficiency,Nitrogen Deficiency,Saccharum,officinarum  
+Pesticide Burn,Pesticide Burn,Saccharum,officinarum  
+Phosphorus Deficiency,Phosphorus Deficiency,Saccharum,officinarum  
+Smut of Sugarcane,Sporisorium scitamineum,Saccharum,officinarum  
+Sugarcane Borer,Diatraea saccharalis,Saccharum,officinarum  
+Sugarcane Common Rust,Puccinia melanocephala,Saccharum,officinarum  
+Sugarcane Mosaic Virus,SCMV,Saccharum,officinarum  
+Sugarcane Pineapple Disease,Ceratocystis paradoxa,Saccharum,officinarum  
+Sugarcane Ratoon Stunting Disease,Leifsonia xyli,Saccharum,officinarum  
+Sugarcane White Grub,Lepidiota stigma,Saccharum,officinarum  
+Violet Stem Borer,Sesamia inferens,Saccharum,officinarum  
+Water Deficiency,Water Deficiency,Saccharum,officinarum  
+Wilt Disease of Sugarcane,Gibberella fujikuroi,Saccharum,officinarum  
+Zinc Deficiency,Zinc Deficiency,Saccharum,officinarum  
+Aphid,Aphidoidea family,Secale,cereale  
+Boron Deficiency in Cereals,Boron Deficiency,Secale,cereale  
+Brown Rust of Rye,Puccinia recondita,Secale,cereale  
+Calcium Deficiency in Wheat,Calcium Deficiency,Secale,cereale  
+Cereal Leaf Beetle,Oulema melanopus,Secale,cereale  
+Common Bunt of Wheat,Tilletia caries,Secale,cereale  
+Eyespot,Oculimacula yallundae,Secale,cereale  
+Fusarium Head Blight,Fusarium graminearum,Secale,cereale  
+Leaf and Glume Blotch of Wheat,Parastagonospora nodorum,Secale,cereale  
+Magnesium Deficiency,Magnesium Deficiency,Secale,cereale  
+Manganese Deficiency,Manganese Deficiency,Secale,cereale  
+Pesticide Burn,Pesticide Burn,Secale,cereale  
+Potassium Deficiency in Cereals,Potassium Deficiency,Secale,cereale  
+Powdery Mildew of Cereals,Blumeria graminis,Secale,cereale  
+Rhynchosporium,Rhynchosporium secalis,Secale,cereale  
+Septoria Tritici Blotch,Mycosphaerella graminicola,Secale,cereale  
+Water Deficiency,Water Deficiency,Secale,cereale  
+Wheat Leaf Rust,Puccinia triticina,Secale,cereale  
+Yellow Stripe Rust,Puccinia striiformis,Secale,cereale  
+Zinc Deficiency,Zinc Deficiency,Secale,cereale  
+Zinc Deficiency in Wheat,Zinc Deficiency,Secale,cereale  
+African Mole Cricket,Gryllotalpa africana,Solamum,tuberosum  
+Aphid,Aphidoidea family,Solamum,tuberosum  
+Bacterial Wilt,Ralstonia solanacearum,Solamum,tuberosum  
+Black Cutworm,Agrotis ipsilon,Solamum,tuberosum  
+Black Scurf,Rhizoctonia solani,Solamum,tuberosum  
+Blackleg,Pectobacterium atrosepticum,Solamum,tuberosum  
+Boron Deficiency,Boron Deficiency,Solamum,tuberosum  
+Botrytis Blight,Botrytis cinerea,Solamum,tuberosum  
+Cabbage Moth,Mamestra brassicae,Solamum,tuberosum  
+Calcium Deficiency in Potato,Calcium Deficiency,Solamum,tuberosum  
+Common Red Spider Mite,Tetranychus urticae,Solamum,tuberosum  
+Early Blight of Potato,Alternaria solani,Solamum,tuberosum  
+Fall Armyworm,Spodoptera frugiperda,Solamum,tuberosum  
+Flea Beetle,Psylliodes,Solamum,tuberosum  
+Green Leafhopper,Empoasca decipiens,Solamum,tuberosum  
+Iron Deficiency in Potato,Iron Deficiency,Solamum,tuberosum  
+Leaf Miner Flies,Agromyzidae spp.,Solamum,tuberosum  
+Magnesium Deficiency in Potato,Magnesium Deficiency,Solamum,tuberosum  
+Manganese Deficiency,Manganese Deficiency,Solamum,tuberosum  
+Mealybug,Pseudococcidae,Solamum,tuberosum  
+Nematode,Nematoda,Solamum,tuberosum  
+Nitrogen Deficiency in Potato,Nitrogen Deficiency,Solamum,tuberosum  
+Pesticide Burn,Pesticide Burn,Solamum,tuberosum  
+Phosphorus Deficiency in Potato,Phosphorus Deficiency,Solamum,tuberosum  
+Potassium Deficiency in Potato,Potassium Deficiency,Solamum,tuberosum  
+Potato Beetle,Leptinotarsa decemlineata,Solamum,tuberosum  
+Potato Late Blight,Phytophthora infestans,Solamum,tuberosum  
+Potato Leafroll Virus,PLRV,Solamum,tuberosum  
+Potato Scab,Streptomyces scabies,Solamum,tuberosum  
+Potato Tuber Moth,Phthorimaea operculella,Solamum,tuberosum  
+Potato X Virus,PVX,Solamum,tuberosum  
+Potato Y Virus,PVY,Solamum,tuberosum  
+Powdery Mildew,Erysiphaceae,Solamum,tuberosum  
+Powdery Scab,Spongospora subterranea,Solamum,tuberosum  
+Root-Knot Nematode,Meloidogyne spp.,Solamum,tuberosum  
+Sclerotium Rot,Athelia rolfsii,Solamum,tuberosum  
+Silver Scurf,Helminthosporium solani,Solamum,tuberosum  
+Silverleaf Whitefly,Bemisia tabaci,Solamum,tuberosum  
+Slug,Class Gastropoda,Solamum,tuberosum  
+Thrips,Order Thysanoptera,Solamum,tuberosum  
+Variegated Grasshopper,Zonocerus variegatus,Solamum,tuberosum  
+Verticillium Wilt,Verticillium spp.,Solamum,tuberosum  
+Vole,Cricetidae,Solamum,tuberosum  
+Water Deficiency,Water Deficiency,Solamum,tuberosum  
+Zinc Deficiency,Zinc Deficiency,Solamum,tuberosum  
+African Mole Cricket,Gryllotalpa africana,Solanum,melongena  
+Aphid,Aphidoidea family,Solanum,melongena  
+Blight of Pepper,Phytophthora capsici,Solanum,melongena  
+Boron Deficiency,Boron Deficiency,Solanum,melongena  
+Botrytis Blight,Botrytis cinerea,Solanum,melongena  
+Brinjal Fruit Borer,Leucinodes orbonalis,Solanum,melongena  
+Cercospora Leaf Spot of Eggplant,Cercospora melongenae,Solanum,melongena  
+Common Red Spider Mite,Tetranychus urticae,Solanum,melongena  
+Eggplant Lace Bug,Gargaphia solani,Solanum,melongena  
+Eggplant Leaf Roller,Eublemma olivacea,Solanum,melongena  
+Flea Beetle,Psylliodes,Solanum,melongena  
+Green Leafhopper,Empoasca decipiens,Solanum,melongena  
+Iron Deficiency,Iron Deficiency,Solanum,melongena  
+Jassids on Eggplant,Hishimonus phycitis,Solanum,melongena  
+Leaf Eating Beetle,Epilachna vigintioctopunctata,Solanum,melongena  
+Magnesium Deficiency,Magnesium Deficiency,Solanum,melongena  
+Manganese Deficiency,Manganese Deficiency,Solanum,melongena  
+Mealybug,Pseudococcidae,Solanum,melongena  
+Mediterranean Fruit Fly,Ceratitis capitata,Solanum,melongena  
+Nematode,Nematoda,Solanum,melongena  
+Nitrogen Deficiency,Nitrogen Deficiency,Solanum,melongena  
+Pesticide Burn,Pesticide Burn,Solanum,melongena  
+Phosphorus Deficiency,Phosphorus Deficiency,Solanum,melongena  
+Potassium Deficiency,Potassium Deficiency,Solanum,melongena  
+Powdery Mildew,Erysiphaceae,Solanum,melongena  
+Sclerotinia Stem Rot,Sclerotinia sclerotiorum,Solanum,melongena  
+Sclerotium Rot,Athelia rolfsii,Solanum,melongena  
+Silverleaf Whitefly,Bemisia tabaci,Solanum,melongena  
+Slug,Class Gastropoda,Solanum,melongena  
+Thrips,Order Thysanoptera,Solanum,melongena  
+Variegated Grasshopper,Zonocerus variegatus,Solanum,melongena  
+Verticillium Wilt,Verticillium spp.,Solanum,melongena  
+Vole,Cricetidae,Solanum,melongena  
+Water Deficiency,Water Deficiency,Solanum,melongena  
+Zinc Deficiency,Zinc Deficiency,Solanum,melongena  
+Anthracnose Leaf Blight,Colletotrichum graminicola,Sorghum,bicolor  
+Aphid,Aphidoidea family,Sorghum,bicolor  
+Boron Deficiency,Boron Deficiency,Sorghum,bicolor  
+Charcoal Stalk Rot,Macrophomina phaseolina,Sorghum,bicolor  
+Ergot of Sorghum,Claviceps africana,Sorghum,bicolor  
+Fall Armyworm,Spodoptera frugiperda,Sorghum,bicolor  
+Fusarium Head Blight,Fusarium graminearum,Sorghum,bicolor  
+Head Smut,Sphacelotheca reiliana,Sorghum,bicolor  
+Holcus Spot,Pseudomonas syringae pv. syringae,Sorghum,bicolor  
+Lesser cornstalk borer,Elasmopalpus lignosellus,Sorghum,bicolor  
+Magnesium Deficiency,Magnesium Deficiency,Sorghum,bicolor  
+Manganese Deficiency,Manganese Deficiency,Sorghum,bicolor  
+Nitrogen Deficiency,Nitrogen Deficiency,Sorghum,bicolor  
+Penicillium ear rot,Penicillium spp.,Sorghum,bicolor  
+Pesticide Burn,Pesticide Burn,Sorghum,bicolor  
+Phosphorus Deficiency,Phosphorus Deficiency,Sorghum,bicolor  
+Rough Leaf Spot Of Sorghum,Ascochyta sorghi,Sorghum,bicolor  
+Sorghum Midge,Stenodiplosis sorghicola,Sorghum,bicolor  
+Spotted Stemborer,Chilo partellus,Sorghum,bicolor  
+"Stink Bugs on Corn, Millet and Sorghum",Euschistus spp.,Sorghum,bicolor  
+Turcicum Leaf Blight,Setosphaeria turcica,Sorghum,bicolor  
+Violet Stem Borer,Sesamia inferens,Sorghum,bicolor  
+Water Deficiency,Water Deficiency,Sorghum,bicolor  
+Zinc Deficiency,Zinc Deficiency,Sorghum,bicolor  
+Zonate Leaf Spot,Gloeocercospora sorghi,Sorghum,bicolor  
+Aphid,Aphidoidea family,Triticum,aestivum  
+Boron Deficiency in Cereals,Boron Deficiency,Triticum,aestivum  
+Calcium Deficiency in Wheat,Calcium Deficiency,Triticum,aestivum  
+Cereal Leaf Beetle,Oulema melanopus,Triticum,aestivum  
+Common Bunt of Wheat,Tilletia caries,Triticum,aestivum  
+Ear Cockle Eelworm,Anguina tritici,Triticum,aestivum  
+Eyespot,Oculimacula yallundae,Triticum,aestivum  
+Fall Armyworm,Spodoptera frugiperda,Triticum,aestivum  
+Fusarium Head Blight,Fusarium graminearum,Triticum,aestivum  
+Iron Deficiency,Iron Deficiency,Triticum,aestivum  
+Karnal Bunt of Wheat,Tilletia indica,Triticum,aestivum  
+Leaf and Glume Blotch of Wheat,Parastagonospora nodorum,Triticum,aestivum  
+Lesion Nematode,Pratylenchus spp.,Triticum,aestivum  
+Lesser cornstalk borer,Elasmopalpus lignosellus,Triticum,aestivum  
+Loose Smut,Ustilago tritici,Triticum,aestivum  
+Magnesium Deficiency,Magnesium Deficiency,Triticum,aestivum  
+Manganese Deficiency,Manganese Deficiency,Triticum,aestivum  
+Pesticide Burn,Pesticide Burn,Triticum,aestivum  
+Physiological Leaf Spot,PLS,Triticum,aestivum  
+Potassium Deficiency in Cereals,Potassium Deficiency,Triticum,aestivum  
+Powdery Mildew of Cereals,Blumeria graminis,Triticum,aestivum  
+Septoria Tritici Blotch,Mycosphaerella graminicola,Triticum,aestivum  
+Snow Mold of Cereals,Monographella nivalis,Triticum,aestivum  
+Sulfur Deficiency in Wheat,Sulfur Deficiency,Triticum,aestivum  
+Take All,Gaeumannomyces graminis,Triticum,aestivum  
+Tan Spot,Pyrenophora tritici-repentis,Triticum,aestivum  
+Violet Stem Borer,Sesamia inferens,Triticum,aestivum  
+Water Deficiency,Water Deficiency,Triticum,aestivum  
+Wheat Blast,Magnaporthe oryzae,Triticum,aestivum  
+Wheat Dwarf Virus,WDV,Triticum,aestivum  
+Wheat Leaf Rust,Puccinia triticina,Triticum,aestivum  
+Wheat Stem Rust,Puccinia graminis,Triticum,aestivum  
+Yellow Stripe Rust,Puccinia striiformis,Triticum,aestivum  
+Zinc Deficiency in Wheat,Zinc Deficiency,Triticum,aestivum  
+Anthracnose of Blackgram,Colletotrichum lindemuthianum,Vigna,radiata  
+Aphid,Aphidoidea family,Vigna,radiata  
+Bacterial Leaf Blight,Xanthomonas phaseoli,Vigna,radiata  
+Boron Deficiency,Boron Deficiency,Vigna,radiata  
+Castor Semilooper,Ophiusa melicerta,Vigna,radiata  
+Cercospora Leaf Spot of Gram,Cercospora canescens,Vigna,radiata  
+Common Red Spider Mite,Tetranychus urticae,Vigna,radiata  
+Gram Pod Borer,Helicoverpa armigera,Vigna,radiata  
+Green Leafhopper,Empoasca decipiens,Vigna,radiata  
+Leaf Miner Flies,Agromyzidae spp.,Vigna,radiata  
+Magnesium Deficiency,Magnesium Deficiency,Vigna,radiata  
+Manganese Deficiency,Manganese Deficiency,Vigna,radiata  
+Mealybug,Pseudococcidae,Vigna,radiata  
+Mungbean Yellow Mosaic Virus,MYMV,Vigna,radiata  
+Pea Blue Butterfly,Lampides boeticus,Vigna,radiata  
+Pea Pod Borer,Etiella zinckenella,Vigna,radiata  
+Pesticide Burn,Pesticide Burn,Vigna,radiata  
+Phosphorus Deficiency,Phosphorus Deficiency,Vigna,radiata  
+Powdery Mildew,Erysiphaceae,Vigna,radiata  
+Rust on Blackgram,Uromyces phaseoli,Vigna,radiata  
+Silverleaf Whitefly,Bemisia tabaci,Vigna,radiata  
+Soybean Looper,Pseudoplusia includens,Vigna,radiata  
+Spotted Pod Borer,Maruca testulalis,Vigna,radiata  
+Thrips,Order Thysanoptera,Vigna,radiata  
+Tobacco Caterpillar,Spodoptera litura,Vigna,radiata  
+Urd Bean Leaf Crinkle Virus,ULCV,Vigna,radiata  
+Water Deficiency,Water Deficiency,Vigna,radiata  
+Zinc Deficiency,Zinc Deficiency,Vigna,radiata  
+Abiotic Sunburn,Abiotic Sunburn,Vitis,vinifera  
+Angular Leaf Scorch,Pseudopezicula tetraspora,Vitis,vinifera  
+Angular Leaf Spot,Mycosphaerella angulata,Vitis,vinifera  
+Anthracnose of Grape,Elsinoe ampelina,Vitis,vinifera  
+Aphid,Aphidoidea family,Vitis,vinifera  
+Boron Deficiency,Boron Deficiency,Vitis,vinifera  
+Botryosphaeria Dieback,Botryosphaeriaceae,Vitis,vinifera  
+Botrytis Blight,Botrytis cinerea,Vitis,vinifera  
+Common Red Spider Mite,Tetranychus urticae,Vitis,vinifera  
+Crown Gall,Agrobacterium,Vitis,vinifera  
+Crown Rot,Phytophthora cactorum,Vitis,vinifera  
+Curculio Weevil,Otiorhynchus cribricollis,Vitis,vinifera  
+Dead Arm,Eutypa lata,Vitis,vinifera  
+Downy Mildew on Grape,Plasmopara viticola,Vitis,vinifera  
+Esca,Togninia minima,Vitis,vinifera  
+European Red Mite,Panonychus ulmi,Vitis,vinifera  
+Fusarium Wilt,Fusarium oxysporum,Vitis,vinifera  
+Grape Berry Moth,Lobesia botrana,Vitis,vinifera  
+Grape Blister Mite,Colomerus vitis,Vitis,vinifera  
+Grape Bud Moth,Eupoecilia ambiguella,Vitis,vinifera  
+Grape Rust Mite,Calepitrimerus vitis,Vitis,vinifera  
+Grape Thrips,Drepanothrips reuteri,Vitis,vinifera  
+Grape Tortrix Moth,Argyrotaenia ljungiana,Vitis,vinifera  
+Grapevine Leafroll Disease,GLD,Vitis,vinifera  
+Grapevine Leafroller,Sparganothis pilleriana,Vitis,vinifera  
+Iron Deficiency,Iron Deficiency,Vitis,vinifera  
+Leafhopper on Grape,Empoasca vitis,Vitis,vinifera  
+Magnesium Deficiency,Magnesium Deficiency,Vitis,vinifera  
+Manganese Deficiency,Manganese Deficiency,Vitis,vinifera  
+Mealybug,Pseudococcidae,Vitis,vinifera  
+Mediterranean Fruit Fly,Ceratitis capitata,Vitis,vinifera  
+Nematode,Nematoda,Vitis,vinifera  
+Nitrogen Deficiency,Nitrogen Deficiency,Vitis,vinifera  
+Pesticide Burn,Pesticide Burn,Vitis,vinifera  
+Phomopsis Cane and Leaf Spot,Phomopsis viticola,Vitis,vinifera  
+Phosphorus Deficiency,Phosphorus Deficiency,Vitis,vinifera  
+Potassium Deficiency,Potassium Deficiency,Vitis,vinifera  
+Powdery Mildew of Grape,Erysiphe necator,Vitis,vinifera  
+Verticillium Wilt,Verticillium spp.,Vitis,vinifera  
+Vine Flea Beetle,Altica ampelophaga,Vitis,vinifera  
+Vole,Cricetidae,Vitis,vinifera  
+Water Deficiency,Water Deficiency,Vitis,vinifera  
+Yellow Vine Mite,Eotetranychus carpini,Vitis,vinifera  
+Zinc Deficiency,Zinc Deficiency,Vitis,vinifera  
+Anthracnose Leaf Blight,Colletotrichum graminicola,Zea,mays  
+Aphid,Aphidoidea family,Zea,mays  
+Bacterial Stalk Rot of Maize,Erwinia chrysanthemi,Zea,mays  
+Bean Leaf Webber,Hedylepta indicata,Zea,mays  
+Black Cutworm,Agrotis ipsilon,Zea,mays  
+Boron Deficiency in Maize,Boron Deficiency,Zea,mays  
+Calcium Deficiency,Calcium Deficiency,Zea,mays  
+Charcoal Stalk Rot,Macrophomina phaseolina,Zea,mays  
+Common Red Spider Mite,Tetranychus urticae,Zea,mays  
+Common Rust of Maize,Puccinia sorghi,Zea,mays  
+Corn Earworm,Helicoverpa zea,Zea,mays  
+Corn Grey Leaf Spot,Cercospora zeae-maydis,Zea,mays  
+Cucumber Beetle,Diabrotica spp.,Zea,mays  
+European Corn Borer,Ostrinia nubilalis,Zea,mays  
+Eyespot of Corn,Kabatiella zeae,Zea,mays  
+Fall Armyworm,Spodoptera frugiperda,Zea,mays  
+Flea Beetle,Psylliodes,Zea,mays  
+Fusarium Ear Rot,Fusarium verticillioides,Zea,mays  
+Goss's Wilt,Clavibacter michiganensis,Zea,mays  
+Head Smut,Sphacelotheca reiliana,Zea,mays  
+Holcus Spot,Pseudomonas syringae pv. syringae,Zea,mays  
+Iron Deficiency,Iron Deficiency,Zea,mays  
+Lesion Nematode,Pratylenchus spp.,Zea,mays  
+Lesser cornstalk borer,Elasmopalpus lignosellus,Zea,mays  
+Magnesium Deficiency,Magnesium Deficiency,Zea,mays  
+Maize Leaf Streak Virus,MSV,Zea,mays  
+Maize Lethal Necrosis Disease,MLND,Zea,mays  
+Maize Smut,Ustilago maydis,Zea,mays  
+Manganese Deficiency,Manganese Deficiency,Zea,mays  
+Nematode,Nematoda,Zea,mays  
+Nitrogen Deficiency,Nitrogen Deficiency,Zea,mays  
+Northern Corn Leaf Spot,Cochliobolus carbonum,Zea,mays  
+Onion Maggots,Delia platura,Zea,mays  
+Oriental Armyworm,Mythimna separata,Zea,mays  
+Penicillium ear rot,Penicillium spp.,Zea,mays  
+Pesticide Burn,Pesticide Burn,Zea,mays  
+Phaeosphaeria Leaf Spot,Phaeosphaeria maydis,Zea,mays  
+Phosphorus Deficiency,Phosphorus Deficiency,Zea,mays  
+Potassium Deficiency,Potassium Deficiency,Zea,mays  
+Root-Knot Nematode,Meloidogyne spp.,Zea,mays  
+Sclerotium Rot,Athelia rolfsii,Zea,mays  
+Southern Corn Leaf Blight,Cochliobolus heterostrophus,Zea,mays  
+Southern Rust of Maize,Puccinia polysora,Zea,mays  
+Spotted Stemborer,Chilo partellus,Zea,mays  
+"Stink Bugs on Corn, Millet and Sorghum",Euschistus spp.,Zea,mays  
+Striga,Striga hermonthica,Zea,mays  
+Thrips,Order Thysanoptera,Zea,mays  
+Tropical Rust,Physopella zeae,Zea,mays  
+Turcicum Leaf Blight,Setosphaeria turcica,Zea,mays  
+Verticillium Wilt,Verticillium spp.,Zea,mays  
+Violet Stem Borer,Sesamia inferens,Zea,mays  
+Vole,Cricetidae,Zea,mays  
+Water Deficiency,Water Deficiency,Zea,mays  

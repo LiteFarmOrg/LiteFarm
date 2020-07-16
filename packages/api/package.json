@@ -1,0 +1,65 @@
+{
+  "name": "litefarm-api",
+  "version": "1.0.2",
+  "description": "backend for LiteFarm",
+  "main": "./api/src/server.js",
+  "scripts": {
+    "test": "jest --runInBand",
+    "test-end2end": "jest endToEnd",
+    "jest-w": "jest --watch",
+    "start": "NODE_ENV=development node src/server.js",
+    "production": "NODE_ENV=production node src/server.js",
+    "integration": "NODE_ENV=integration node src/server.js",
+    "lint": "eslint src",
+    "gitlab-server": "NODE_ENV=ci node src/server.js",
+    "ci": "start-server-and-test gitlab-server 5000 test-end2end",
+    "e2e": "start-server-and-test start 5000 test-end2end",
+    "fix-lint": "eslint src --fix"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "testEnvironment": "./tests/testEnvironment.js"
+  },
+  "author": "LiteFarm",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/juice-tn/LiteFarm.git"
+  },
+  "dependencies": {
+    "async-file": "^2.0.2",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "cors": "^2.8.5",
+    "csvtojson": "^2.0.3",
+    "eslint": "^4.19.1",
+    "express": "^4.16.3",
+    "express-jwt": "^5.3.1",
+    "express-jwt-authz": "^1.0.0",
+    "express-promise-router": "^3.0.2",
+    "fs-extra": "^8.1.0",
+    "generate-password": "^1.5.1",
+    "jsdom": "^16.3.0",
+    "json-2-csv": "^3.5.9",
+    "jwks-rsa": "^1.2.1",
+    "knex": "^0.14.6",
+    "lodash": "^4.17.10",
+    "node-schedule": "^1.3.2",
+    "nodemailer": "^6.4.2",
+    "objection": "^1.6.9",
+    "pg": "^7.4.3",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
+    "rimraf": "^2.6.3",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.4.14",
+    "dotenv": "^8.2.0",
+    "jest": "^22.4.3",
+    "start-server-and-test": "^1.4.1"
+  }
+}

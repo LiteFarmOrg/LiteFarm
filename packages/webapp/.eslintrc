@@ -1,0 +1,13 @@
+{
+  "extends": "react-app",
+  "rules": {
+    "no-unused-vars": "error",
+    "eqeqeq": "error",
+    "jsx-a11y/accessible-emoji": "off",
+    "radix": "off"
+  },
+  "globals": {
+    "cy": true,
+    "Cypress": true
+  }
+}

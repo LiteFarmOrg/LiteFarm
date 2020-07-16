@@ -1,0 +1,13 @@
+[{
+  "crop_id": 6,
+  "field_id": "1ef1af12-ceb9-4dcf-bfe9-4c0090a20a23",
+  "variety": "Common",
+  "start_date": "2019-10-01T19:00:00.000Z",
+  "end_date": "2020-03-31T19:00:00.000Z",
+  "area_used": 1405,
+  "estimated_production": 1405,
+  "estimated_revenue": 42150,
+  "is_by_bed": false,
+  "bed_config": null,
+  "field_crop_id": 5
+}]

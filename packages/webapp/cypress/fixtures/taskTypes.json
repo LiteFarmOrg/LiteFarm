@@ -1,0 +1,62 @@
+[
+  {
+    "task_id": 1,
+    "task_name": "Bed Preparation",
+    "farm_id": null
+  },
+  {
+    "task_id": 2,
+    "task_name": "Delivery",
+    "farm_id": null
+  },
+  {
+    "task_id": 3,
+    "task_name": "Sales",
+    "farm_id": null
+  },
+  {
+    "task_id": 4,
+    "task_name": "Social Event",
+    "farm_id": null
+  },
+  {
+    "task_id": 5,
+    "task_name": "Seeding",
+    "farm_id": null
+  },
+  {
+    "task_id": 6,
+    "task_name": "Fertilizing",
+    "farm_id": null
+  },
+  {
+    "task_id": 7,
+    "task_name": "Scouting",
+    "farm_id": null
+  },
+  {
+    "task_id": 8,
+    "task_name": "Harvesting",
+    "farm_id": null
+  },
+  {
+    "task_id": 9,
+    "task_name": "Weeding",
+    "farm_id": null
+  },
+  {
+    "task_id": 10,
+    "task_name": "Wash and Pack",
+    "farm_id": null
+  },
+  {
+    "task_id": 11,
+    "task_name": "Pest Control",
+    "farm_id": null
+  },
+  {
+    "task_id": 12,
+    "task_name": "Other",
+    "farm_id": null
+  }
+]

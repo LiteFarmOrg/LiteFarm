@@ -1,0 +1,178 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (styles.scss) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.financesContainer{
+  width: 100%;
+  max-width: 1024px;
+  min-height: 100vh;
+  height: auto;
+  padding: 60px 5% 50px 5%;
+  display:flex;
+  flex-direction: column;
+}
+
+.topContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.buttonContainer{
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  button{
+    width: 90%;
+    margin: 0.25em;
+  }
+}
+
+.align {
+  h5 {
+    text-align: center;
+  }
+}
+
+.dateContainer {
+  label {
+    line-height: 4.5rem;
+    font-size: 1.8rem;
+    width: 75px;
+    font-weight: 300;
+  }
+  padding-top: 10px;
+  width: 100%;
+  margin: 0 0 18px;
+}
+
+.date{
+  input {
+    font-size: 1.8rem;
+    border: 1px solid #D3D3D3;
+    width: 125px;
+    border-radius: 5px;
+    background-color: hsl(0,0%,98%);
+  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ::placeholder{
+    color:#00756A;
+  }
+}
+
+.balanceTitle{
+  display: inline;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-size: 18px;
+  letter-spacing: 0.131836px;
+  color: #5B6370;
+}
+
+.greyBox{
+  width: 100%;
+  padding: 3% 10%;
+  background: #F3F3F3;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.balanceDetail{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #626464;
+  font-size: 14px;
+}
+
+
+.dropDownContainer{
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rangeContainer{
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+  input{
+    text-align: center;
+  }
+  h5{
+    text-align: center;
+  }
+  margin-bottom: 20px;
+}
+
+.dateText{
+  font-size: 20px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.tipButton{
+  color: #00756A;
+  font-size: 14px;
+}
+
+.leftDiv {
+  display: inline;
+}
+
+.rightDiv {
+  display: inline;
+  float:right;
+}
+
+.expenseContainer {
+
+}
+
+.salesContainer {
+
+}
+
+.balanceContainer {
+
+}
+
+.table {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  :global(.ReactTable) {
+    :global(.rt-td) {
+      white-space: pre-wrap;
+      background-color: white;
+      border: none;
+    }
+    :global(.rt-thead) {
+      background-color: #CBCDD5;
+    }
+    :global(.rt-th) {
+      border:none;
+    }
+  }
+}

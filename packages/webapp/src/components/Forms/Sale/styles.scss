@@ -1,0 +1,43 @@
+.defaultFormDropDown {
+  width: 100%;
+  padding-bottom: 15px;
+  font-size: 1.8rem;
+  label{
+    font-weight: 300;
+    line-height: 20px;
+    font-size: 1.8rem;
+    width: 75px;
+  }
+  input{
+    height: 30px;
+    line-height: 1.1;
+  }
+}
+
+.banner {
+  display: flex;
+  hr {
+    background-color: black;
+    height: 2px;
+  }
+  p:first-child, p:last-child {
+    flex: 1
+  }
+  p {
+    font-size:1.5rem;
+    flex:2;
+    color: black;
+    margin-right: 10px;
+    margin-bottom: 0;
+  }
+}
+
+.thinHr {
+  background-color: lightgrey;
+  height: 1px;
+}
+.thinHr2 {
+  background-color: lightgrey;
+  height: 1px;
+  margin-bottom: 18px;
+}

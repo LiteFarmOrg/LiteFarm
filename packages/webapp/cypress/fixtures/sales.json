@@ -1,0 +1,386 @@
+[
+  {
+    "sale_id": 1,
+    "customer_name": "Sheldon",
+    "sale_date": "2020-10-14T21:02:59.160Z",
+    "cropSale": [
+      {
+        "field_crop_id": 8,
+        "sale_id": 1,
+        "quantity_kg": 10,
+        "sale_value": 25,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null,
+          "price": [
+            {
+              "price_id": 5,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-03-31T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 6,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 7,
+              "crop_id": 6,
+              "value_$/kg": 12,
+              "date": "2020-10-10T00:04:01.489Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 8,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 9,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 10,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 11,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 12,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 13,
+              "crop_id": 6,
+              "value_$/kg": 1,
+              "date": "2020-10-11T09:38:27.923Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            }
+          ],
+          "yield": [
+            {
+              "yield_id": 5,
+              "crop_id": 6,
+              "date": "2020-03-31T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 6,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 7,
+              "crop_id": 6,
+              "date": "2020-10-10T00:04:01.489Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 2
+            },
+            {
+              "yield_id": 8,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 9,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 10,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 11,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 12,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 13,
+              "crop_id": 6,
+              "date": "2020-10-11T09:38:27.923Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "sale_id": 2,
+    "customer_name": "Ned",
+    "sale_date": "2020-10-14T21:03:34.347Z",
+    "cropSale": [
+      {
+        "field_crop_id": 8,
+        "sale_id": 2,
+        "quantity_kg": 10,
+        "sale_value": 25,
+        "crop": {
+          "crop_id": 6,
+          "crop_common_name": "Apple",
+          "crop_genus": "Malus",
+          "crop_specie": "sylvestris",
+          "crop_group": "Fruit and nuts",
+          "crop_subgroup": "Pome fruits and stone fruits",
+          "max_rooting_depth": 0.45,
+          "depletion_fraction": 0.5,
+          "is_avg_depth": false,
+          "initial_kc": 0.5,
+          "mid_kc": 0.3,
+          "end_kc": 0.3,
+          "max_height": 0.8,
+          "is_avg_kc": false,
+          "nutrient_notes": "Apple raw with skin",
+          "percentrefuse": 10,
+          "refuse": "Core and stem",
+          "protein": 0.26,
+          "lipid": 0.17,
+          "energy": 218,
+          "ca": 6,
+          "fe": 0.12,
+          "mg": 5,
+          "ph": 11,
+          "k": 107,
+          "na": 1,
+          "zn": 0.04,
+          "cu": 0.027,
+          "fl": 3.3,
+          "mn": 0.035,
+          "se": 0,
+          "vita_rae": 3,
+          "vite": 0.18,
+          "vitc": 4.6,
+          "thiamin": 0.017,
+          "riboflavin": 0.026,
+          "niacin": 0.091,
+          "pantothenic": 0.061,
+          "vitb6": 0.041,
+          "folate": 3,
+          "vitb12": 0,
+          "vitk": 2.2,
+          "is_avg_nutrient": false,
+          "farm_id": null,
+          "user_added": false,
+          "deleted": false,
+          "nutrient_credits": null,
+          "price": [
+            {
+              "price_id": 5,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-03-31T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 6,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 7,
+              "crop_id": 6,
+              "value_$/kg": 12,
+              "date": "2020-10-10T00:04:01.489Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 8,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 9,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 10,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 11,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 12,
+              "crop_id": 6,
+              "value_$/kg": 30,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            },
+            {
+              "price_id": 13,
+              "crop_id": 6,
+              "value_$/kg": 1,
+              "date": "2020-10-11T09:38:27.923Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c"
+            }
+          ],
+          "yield": [
+            {
+              "yield_id": 5,
+              "crop_id": 6,
+              "date": "2020-03-31T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 6,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 7,
+              "crop_id": 6,
+              "date": "2020-10-10T00:04:01.489Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 2
+            },
+            {
+              "yield_id": 8,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 9,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 10,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 11,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 12,
+              "crop_id": 6,
+              "date": "2020-10-15T19:00:00.000Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            },
+            {
+              "yield_id": 13,
+              "crop_id": 6,
+              "date": "2020-10-11T09:38:27.923Z",
+              "farm_id": "16ce7028-e42b-11e9-9717-9bd9186e761c",
+              "quantity_kg/m2": 1
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

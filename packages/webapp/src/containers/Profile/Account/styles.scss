@@ -1,0 +1,39 @@
+.formContainer{
+  margin-top: 5%;
+  label{
+    font-family: 'Avenir', sans-serif;
+    font-weight: normal;
+  }
+  input{
+    width: 50%;
+    height: 30px;
+    border: 1px solid #C3C0C0;
+    border-radius: 3px;
+    padding: 0 3%;
+  }
+  .center {
+    margin-top: 30px;
+    text-align: center;
+  }
+}
+.labelContainer{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 3%;
+}
+
+@media only screen and (max-width: 800px) {
+  .formContainer{
+    margin-top: 5%;
+    label{
+      font-family: 'Avenir', sans-serif;
+      font-weight: normal;
+    }
+    input{
+      width: 77%;
+      height: 30px;
+    }
+  }
+}

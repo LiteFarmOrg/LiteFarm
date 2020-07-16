@@ -1,0 +1,131 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (styles.scss) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.formContainer{
+  width: 65%;
+  margin: 0 auto;
+  padding-top: 20%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  label{
+    margin-top: 15px;
+  }
+  input{
+    border: 1px solid grey;
+    border-radius: 2px;
+    height: 32px;
+    width: 150px;
+    padding: 10px;
+  }
+}
+
+.next{
+  margin-top: 15px;
+  border: 1px solid var(--buttonPrimary);
+  border-radius: 30px;
+  background-color: var(--buttonPrimary);
+  width: 100px;
+  height: 40px;
+}
+
+.sandbox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 5%;
+  label{
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 20px;
+    font-size: 1.5rem;
+  }
+  input{
+    color: var(--typePrimary);
+    border: 1px solid lightgrey;
+    padding: 0.5% 3%;
+    width: 40px;
+    margin-right: 3%;
+    height: 40px;
+  }
+}
+
+.modal {
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popupTitle {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 10%;
+  margin-top: 5em;
+}
+
+.close {
+  width: 8%;
+  img {
+    width: 100%;
+    max-width: 40px;
+  }
+}
+
+.customContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.bottomContainer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 600;
+  align-items: center;
+  padding: 2% 5% 2% 5%;
+  background: white;
+  box-shadow: 0 -5px 5px -5px #333;
+  border-radius: 10px;
+}
+
+.cancelButton {
+  width: 40%;
+  font-size: 20px;
+  color: #4D4D4D;
+}
+
+.roleButton {
+  margin: 1em;
+  padding: 1em;
+  width: 100%;
+  max-width: 400px;
+}

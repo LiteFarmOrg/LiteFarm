@@ -1,0 +1,130 @@
+.home {
+  margin: 10vh 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleContainer {
+  width: 312px;
+  margin: 1em 0 1em 0;
+}
+
+h3 {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+  color: #282B36;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 312px;
+  input[type='text'], input[type='password'] {
+    height: 2em;
+    background: #FFFFFF;
+    border: 1px solid #D4DAE3;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 0.5em 0 1em 0;
+    padding: 1em;
+    height: 48px;
+    font-size: 16px;
+    color: #282B36;
+  }
+
+  input[type='text']:disabled {
+    background: #F3F6FB;
+    border: 1px solid #D4DAE3;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #282B36;
+  }
+
+  input[type='text']:focus, input[type='password']:focus {
+    border: 1px solid #89D1C7;
+    outline: none;
+  }
+
+  label {
+    margin: 0;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #66738A;
+  }
+}
+
+.errorContainer {
+  color: red;
+  display: flex;
+  align-items: center;
+  margin: -0.5em 0 0.5em 0;
+}
+
+.errorText {
+  margin-left: 2px;
+}
+
+.criteriaContainer {
+  margin: -0.5em 0 1.5em 0;
+}
+
+.criterionContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.satisfiedIcon {
+  color: #41C26B;
+}
+
+.unsatisfiedIcon {
+  color: #D4DAE3;
+}
+
+.satisfiedText, .unsatisfiedText {
+  font-size: 14px;
+}
+
+.satisfiedText {
+  color: #282B36;
+}
+
+.unsatisfiedText {
+  color: #D4DAE3;
+}
+
+.signUpButton {
+  background: #FCE38D;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+  border-radius: 4px;
+  border: none;
+  margin: 0 1em;
+  width: 312px;
+  height: 48px;
+  outline: none;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.4005px;
+  color: #282B36;
+}
+
+.signUpButton:disabled {
+  background: #D4DAE3;
+  box-shadow: none;
+  color: #F3F6FB;
+}

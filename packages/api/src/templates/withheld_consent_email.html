@@ -1,0 +1,63 @@
+<!-- 
+  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+  This file (withheld_consent_email.html) is part of LiteFarm.
+  
+  LiteFarm is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  LiteFarm is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LiteFarm Consent Withheld Email</title>
+    <style>
+      .button {
+        background-color: #028577;
+        border: none;
+        text-decoration: none !important;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+	    	padding: 1%;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+	<p>Dear {{first_name}},</p>
+	<p>Recently, while joining {{farm}} on the LiteFarm application, you decided to withhold your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you won’t be able to access the application. We’re very sorry about this.
+	</p>
+	<p>We’ve de-activated your association to {{farm}}. However, we still have the basic information you shared with us while setting up your user account. If you’re associated with other farms, we also have any information you entered while working with those farms as well.
+	</p>
+	<p> You have the following rights regarding your data:</p>
+<ul>
+         <li>To know what data we have about you and request a copy of it</li> 
+          <li>To update or correct any data we have about you</li>
+          <li>Request that we stop collecting your data (you’ve just done this)</li>
+          <li>Request a transfer of your data</li>
+          <li>Request that we delete your data</li>
+</ul>
+<p>
+To request any of these actions, send an email to <a href="mailto:data@litefarm.org">data@litefarm.org</a> with your request and we’ll take care of you.
+</p>
+<p>
+Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below:
+</p>
+<a style="color:white" href="https://www.litefarm.org"  target="_blank" class="button">Log In</a>
+<p>If you do so, you’ll once again be able to access the LiteFarm system.
+</p>
+<br>
+<p>Cheers,</p>
+<p>The LiteFarm team</p>
+  </body>
+</html>

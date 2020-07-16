@@ -123,7 +123,7 @@ const saveWeatherData = async (dataPoint) => {
   );
   dataPoints.rows.forEach(async (field) => {
     const weatherData = await callOpenWeatherAPI(field.grid_points[0]);
-    saveWeatherToDisk(weatherData, field, farmID)
+    await saveWeatherToDisk(weatherData, field, farmID);
   })
 };
 

@@ -13,8 +13,6 @@ stages:
   - test
   - deploy webapp to integration
   - deploy api to integration
-  - deploy webapp to production
-  - deploy api to production
 
 .test:
   stage: test
@@ -46,21 +44,3 @@ deploy api to integration:
     - git push heroku `git subtree split --prefix packages/api develop`:refs/heads/master --force
   only:
     - develop
-
-deploy webapp to production:
-  stage: deploy webapp to production
-  script:
-    - git checkout master
-    - git remote add heroku https://heroku:$HEROKU_DEPLOY_KEY@git.heroku.com/litefarm-webapp-production.git
-    - git push heroku `git subtree split --prefix packages/webapp master`:refs/heads/master --force
-  only:
-    - master
-
-deploy api to production:
-  stage: deploy api to production
-  script:
-    - git checkout master
-    - git remote add heroku https://heroku:$HEROKU_DEPLOY_KEY@git.heroku.com/litefarm-api-production.git
-    - git push heroku `git subtree split --prefix packages/api master`:refs/heads/master --force
-  only:
-    - master

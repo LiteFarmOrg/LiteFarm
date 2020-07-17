@@ -37,7 +37,7 @@
     "csvtojson": "^2.0.3",
     "eslint": "^4.19.1",
     "express": "^4.16.3",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "express-jwt-authz": "^1.0.0",
     "express-promise-router": "^3.0.2",
     "fs-extra": "^8.1.0",

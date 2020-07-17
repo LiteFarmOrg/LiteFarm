@@ -18,7 +18,6 @@ import {
   SET_FARM_IN_STATE,
   SET_FIELDS_IN_STATE,
   SET_FIELD_CROPS_IN_STATE,
-  SET_CONSENT_VERSION,
 } from './constants';
 
 const initialState = {
@@ -42,10 +41,6 @@ function baseReducer(state = initialState, action) {
     case SET_FIELD_CROPS_IN_STATE:
       return Object.assign({}, state, {
         fieldCrops: action.fieldCrops,
-      });
-    case SET_CONSENT_VERSION:
-      return Object.assign({}, state, {
-        consent_version: action.consent_version,
       });
     default:
       return state

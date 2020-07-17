@@ -30,6 +30,7 @@ if (NODE_ENV === 'development') {
 
 const apiConfig = {
   userUrl: `${URI}/user`,
+  pseudoUserUrl: `${URI}/user/pseudo`,
   farm: `${URI}/farm`,
   createUserUrl: `${URI}/create_user`,
   fieldURL: `${URI}/field`,

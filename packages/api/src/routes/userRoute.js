@@ -29,6 +29,8 @@ router.get('/active/farm/:farm_id', checkScope(['get:users']), userController.ge
 
 router.post('/',   userController.addUser());
 
+router.post('/pseudo',   userController.addPseudoUser());
+
 router.put('/:id', checkScope(['edit:users']), userController.updateUser());
 
 router.delete('/:id', checkScope(['delete:users']), userController.delUser());

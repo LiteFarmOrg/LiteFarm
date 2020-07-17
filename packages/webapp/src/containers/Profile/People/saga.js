@@ -133,7 +133,7 @@ export function* addUser(payload){
 
 export function* addPseudoWorkerSaga(payload){
   let user = payload.user;
-  const { userUrl } = apiConfig;
+  const { pseudoUserUrl } = apiConfig;
   const header = {
     headers: {
       'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export function* addPseudoWorkerSaga(payload){
   };
 
   try{
-    const result = yield call(axios.post, userUrl, user, header);
+    const result = yield call(axios.post, pseudoUserUrl, user, header);
     if(result.data){
       yield put(getAllUsers());
       toastr.success("Successfully added user to farm!");

@@ -58,7 +58,6 @@ class ConsentForm extends Component {
   }
 
   triggerFooterAgree() {
-    console.log(this.props.consent_version, this.props.role.consent_version)
     if ((this.props.role && !this.props.role.has_consent) ||
       (this.state.consent_version && this.state.consent_version !== this.props.role.consent_version)
     ) {
@@ -71,14 +70,14 @@ class ConsentForm extends Component {
   };
 
   isConsentFooterDisplayed = () => {
-    const { role, consent_version } = this.props;
+    const { role } = this.props;
 
-    if (!role || !consent_version) {
+    if (!role) {
       return false;
     }
 
-    return !role.has_consent || consent_version !== role.consent_version;
-  }
+    return !role.has_consent;
+  };
 
 
   render() {
@@ -121,7 +120,6 @@ const mapStateToProps = (state) => {
   return {
     users: userInfoSelector(state),
     role: farmSelector(state),
-    consent_version: consentVersionSelector(state),
   }
 };
 

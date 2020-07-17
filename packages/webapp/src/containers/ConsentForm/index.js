@@ -19,7 +19,7 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import ConsentFooter from '../../components/ConsentFooter';
 import {connect} from 'react-redux';
 import {updateAgreement, getUserInfo} from '../../containers/actions';
-import {userInfoSelector, farmSelector, consentVersionSelector} from '../selector';
+import {userInfoSelector, farmSelector} from '../selector';
 import workerConsentForm from './Versions/WorkerConsentForm.docx';
 import ownerConsentForm from './Versions/OwnerConsentForm.docx';
 const mammoth = require("mammoth");

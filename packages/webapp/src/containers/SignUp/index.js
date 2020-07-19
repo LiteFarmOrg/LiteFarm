@@ -195,7 +195,7 @@ class SignUp extends React.Component {
     const { showPassword } = this.state;
 
     if (key === 'password') {
-      const visibilityIcon = showPassword ? 'visibility_off' : 'visibility';
+      const visibilityIcon = showPassword ? 'visibility' : 'visibility_off';
       const onClickToggleVisibility = () => this.setState({ showPassword: !showPassword });
 
       return (

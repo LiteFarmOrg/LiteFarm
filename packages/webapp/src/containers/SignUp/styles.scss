@@ -41,6 +41,14 @@ h3 {
     color: #282B36;
   }
 
+  input[type='text'].passwordField, input[type='password'].passwordField {
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    height: 45px;
+  }
+
   input[type='text']:disabled {
     background: #F3F6FB;
     border: 1px solid #D4DAE3;
@@ -54,6 +62,11 @@ h3 {
     outline: none;
   }
 
+  input[type='text'].passwordField:focus, input[type='password'].passwordField:focus {
+    border: none;
+    outline: none;
+  }
+
   label {
     margin: 0;
     font-style: normal;
@@ -62,6 +75,34 @@ h3 {
     line-height: 16px;
     color: #66738A;
   }
+}
+
+.passwordFieldContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 2em;
+  background: #FFFFFF;
+  border: 1px solid #D4DAE3;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin: 0.5em 0 1em 0;
+  padding: 1em;
+  height: 48px;
+  font-size: 16px;
+  color: #282B36;
+}
+
+.passwordFieldContainer:focus-within {
+  border: 1px solid #89D1C7;
+  outline: none;
+}
+
+.visibilityIconButton {
+  cursor: pointer;
+  margin-left: 5px;
+  color: #9FAABE;
 }
 
 .errorContainer {

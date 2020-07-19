@@ -14,10 +14,10 @@ const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 const CustomInput = (props) => {
   const { visibilityIcon, onClickToggleVisibility, ...inputProps } = props;
   return (
-    <div>
-      <input {...inputProps} />
+    <div className={styles.passwordFieldContainer}>
+      <input className={styles.passwordField} {...inputProps} />
       <i
-        className="material-icons"
+        className={`material-icons ${styles.visibilityIconButton}`}
         onClick={onClickToggleVisibility}
       >
         {visibilityIcon}

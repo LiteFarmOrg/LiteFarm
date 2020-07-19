@@ -16,7 +16,7 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
-const roleModel = require('../models/roleModel');
+//const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
@@ -29,7 +29,25 @@ const emailSender = require('../templates/sendEmailTemplate');
 
 class userController extends baseController {
   static addUser() {
-    // Add pseudo user endpoint
+    // Add user endpoint
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        await baseController.post(userModel, req.body, trx);
+        await trx.commit();
+        res.sendStatus(201);
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
+  static addPseudoUser() {
+    // Add user endpoint
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {

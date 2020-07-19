@@ -26,7 +26,6 @@ import {
   SET_FIELD_CROPS_IN_STATE,
   SET_FIELDS_IN_STATE,
   UPDATE_AGREEMENT,
-  SET_CONSENT_VERSION,
 } from "./constants";
 
 export const getUserInfo = (loadFromHome=false) => {
@@ -113,13 +112,5 @@ export const updateAgreement = (consent_bool, consent_version) => {
     type: UPDATE_AGREEMENT, 
     consent_bool: consent_bool,
     consent_version,
-  }
-};
-
-
-export const setConsentVersion = (consent_version) => {
-  return {
-    type: SET_CONSENT_VERSION,
-    consent_version
   }
 };

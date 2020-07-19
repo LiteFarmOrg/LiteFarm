@@ -24,7 +24,6 @@ import Auth from '../../Auth/Auth.js';
 import workerConsentForm from '../ConsentForm/Versions/WorkerConsentForm.docx';
 import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
 import {getUserInfo} from "../actions";
-import { setConsentVersion } from '../actions'
 import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
 
@@ -108,7 +107,6 @@ class ChooseFarm extends Component {
         toastr.error('No version number found');
       }
       const latestVersion = versionNumberMatches[0];
-      this.props.dispatch(setConsentVersion(latestVersion));
       this.props.dispatch(getUserInfo(false));
 
       // Need consent if at least one of the following criteria is met:

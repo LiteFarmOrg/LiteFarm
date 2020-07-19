@@ -43,15 +43,10 @@ const cropSelector = createSelector(
   )),
 );
 
-const consentVersionSelector = createSelector(
-  baseSelector,
-  (state) => state.consent_version
-);
 
 export {
   userInfoSelector,
   farmSelector,
   fieldSelector,
   cropSelector,
-  consentVersionSelector,
 };

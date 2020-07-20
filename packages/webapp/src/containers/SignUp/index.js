@@ -300,7 +300,7 @@ class SignUp extends React.Component {
         >
           {
             signUpFields.map(field => {
-              const { key, label, type, validators, isEditable } = field;
+              const { key, label } = field;
               return (
                 <div key={key}>
                   <div className={styles.inputContainer}>

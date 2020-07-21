@@ -23,7 +23,7 @@ class SeedingLog extends Component {
 
     this.state = {
       date: moment(),
-      space_unit: getUnit(farm, 'cm', 'inches'),
+      space_unit: getUnit(farm, 'cm', 'in'),
       rate_unit: getUnit(farm, 'm2', 'ft2')
     };
     this.setDate = this.setDate.bind(this);

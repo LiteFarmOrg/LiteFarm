@@ -10,6 +10,21 @@ import Auth from '../../Auth/Auth';
 
 const auth = new Auth();
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+// MUST pass in component like this per package requirements
+const CustomInput = (props) => {
+  const { visibilityIcon, onClickToggleVisibility, ...inputProps } = props;
+  return (
+    <div className={styles.passwordFieldContainer}>
+      <input className={styles.passwordField} {...inputProps} />
+      <i
+        className={`material-icons ${styles.visibilityIconButton}`}
+        onClick={onClickToggleVisibility}
+      >
+        {visibilityIcon}
+      </i>
+    </div>
+  );
+};
 
 const signUpFields = [
   {
@@ -92,6 +107,7 @@ class SignUp extends React.Component {
       email,
       first_name,
       last_name,
+      showPassword: false,
     };
   }
 
@@ -174,6 +190,41 @@ class SignUp extends React.Component {
     });
   }
 
+  renderControlComponent = (field) => {
+    const { key, type, validators, isEditable } = field;
+    const { showPassword } = this.state;
+
+    if (key === 'password') {
+      const visibilityIcon = showPassword ? 'visibility' : 'visibility_off';
+      const onClickToggleVisibility = () => this.setState({ showPassword: !showPassword });
+
+      return (
+        <Control
+          type={showPassword ? 'text' : 'password'}
+          model={`.signUpInfo.${key}`}
+          validators={validators}
+          defaultValue={this.state[key] || ''}
+          disabled={!isEditable}
+          component={CustomInput}
+          controlProps={{
+            visibilityIcon,
+            onClickToggleVisibility,
+          }}
+        />
+      );
+    }
+
+    return (
+      <Control.text
+        type={type}
+        model={`.signUpInfo.${key}`}
+        validators={validators}
+        defaultValue={this.state[key] || ''}
+        disabled={!isEditable}
+      />
+    );
+  }
+
   renderErrorComponent = (controlledTextComponent) => {
     const { profileForms } = this.props;
     const { signUpInfo } = profileForms;
@@ -249,18 +300,12 @@ class SignUp extends React.Component {
         >
           {
             signUpFields.map(field => {
-              const { key, label, type, validators, isEditable } = field;
+              const { key, label } = field;
               return (
                 <div key={key}>
                   <div className={styles.inputContainer}>
                     <label>{label}</label>
-                    <Control.text
-                      type={type}
-                      model={`.signUpInfo.${key}`}
-                      validators={validators}
-                      defaultValue={this.state[key] || ''}
-                      disabled={!isEditable}
-                    />
+                    { this.renderControlComponent(field) }
                   </div>
                   { this.renderErrorComponent(field) }
                 </div>

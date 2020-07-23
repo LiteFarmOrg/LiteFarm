@@ -2,7 +2,7 @@
   display: block;
   text-align: center;
   padding: 1em;
-  box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
+  //box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
 }
 
 .hyper-link {
@@ -10,3 +10,26 @@
   bottom: 0;
   font-size: 0.6em;
 }
+
+.menu-body div {
+  background: #F3F6FB;
+  color: #282B36;
+  box-shadow: None;
+}
+.menu-body a {
+      box-shadow: None;
+      font-size: 16px;
+      color: #282B36;
+    }
+.menu-body a span {
+  color: #282B36;
+}
+
+.sub-menu a span{
+  display: grid;
+  padding-left: 15%;
+  box-shadow: None;
+  font-size: 14px;
+  color: #282B36;
+}
+

@@ -291,6 +291,7 @@ class createUserController extends baseController {
                 status: 'Active',
                 consent_version: '1.0',
                 role_id: req.body.role_id,
+                wage: req.body.wage,
               });
               trx.commit();
               res.sendStatus(201);

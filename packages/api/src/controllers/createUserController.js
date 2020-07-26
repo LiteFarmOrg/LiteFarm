@@ -143,20 +143,44 @@ class createUserController extends baseController {
 
       const { email, password, user_metadata, farm_id, role_id, wage } = req.body;
       const { first_name, last_name } = user_metadata || {};
+      const { type: wageType, amount: wageAmount } = wage || {};
 
       /* Start of input validation */
-      if (!email || !password || !user_metadata || !farm_id || !role_id || !wage || !first_name || !last_name) {
-        return res.status(400).send('Missing properties');
+      const requiredProps = {
+        email,
+        password,
+        user_metadata,
+        first_name,
+        last_name,
+        farm_id,
+        role_id,
+        wage,
+        wageType,
+        wageAmount,
+      };
+
+      if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
+        const errorMessageTitle = 'Missing Properties: ';
+        const errorMessage = Object.keys(requiredProps).reduce((missingPropMsg, key) => {
+          if (!requiredProps[key]) {
+            const concatMsg = [missingPropMsg, key];
+            return missingPropMsg === errorMessageTitle
+              ? concatMsg.join('') // to avoid prepending first item in list with comma
+              : concatMsg.join(', ');
+          }
+          return missingPropMsg;
+        }, errorMessageTitle);
+        return res.status(400).send(errorMessage);
       }
 
       const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-      const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
       if (!validEmailRegex.test(email)) {
         return res.status(400).send('Invalid email');
       }
 
-      if (!validWageRegex.test(wage)) {
-        return res.status(400).send('Invalid wage');
+      const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
+      if (!validWageRegex.test(wageAmount)) {
+        return res.status(400).send('Invalid wage amount');
       }
 
       try {
@@ -205,6 +229,7 @@ class createUserController extends baseController {
             status: 'Invited',
             consent_version: '1.0',
             role_id: lite_farm_user.role_id,
+            wage: lite_farm_user.wage,
           });
 
           // create invite token

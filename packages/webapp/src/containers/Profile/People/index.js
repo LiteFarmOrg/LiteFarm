@@ -367,9 +367,6 @@ class People extends Component {
       return (
         <div className={styles.modal}>
           <div className={styles.popupTitle}>
-            <a className={styles.close} onClick={this.closeAddModal}>
-              <img src={closeButton} alt="" />
-            </a>
             <h3>Invite a User</h3>
           </div>
           <div className={styles.formContainer}>

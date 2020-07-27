@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (userController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -47,11 +47,59 @@ class userController extends baseController {
   }
 
   static addPseudoUser() {
-    // Add user endpoint
+    // Add pseudo user endpoint
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const { user_id, farm_id, wage } = req.body;
+        const {
+          user_id,
+          farm_id,
+          first_name,
+          last_name,
+          wage,
+          email,
+        } = req.body;
+        const {
+          type: wageType,
+          amount: wageAmount,
+        } = wage || {};
+
+        /* Start of input validation */
+        const requiredProps = {
+          user_id,
+          farm_id,
+          first_name,
+          last_name,
+          wage,
+          email,
+          wageType,
+          wageAmount,
+        };
+
+        if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
+          const errorMessageTitle = 'Missing Properties: ';
+          const errorMessage = Object.keys(requiredProps).reduce((missingPropMsg, key) => {
+            if (!requiredProps[key]) {
+              const concatMsg = [missingPropMsg, key];
+              return missingPropMsg === errorMessageTitle
+                ? concatMsg.join('') // to avoid prepending first item in list with comma
+                : concatMsg.join(', ');
+            }
+            return missingPropMsg;
+          }, errorMessageTitle);
+          return res.status(400).send(errorMessage);
+        }
+
+        if (email !== `${user_id}@pseudo.com`) {
+          return res.status(400).send('Invalid pseudo user email');
+        }
+
+        const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
+        if (!validWageRegex.test(wageAmount)) {
+          return res.status(400).send('Invalid wage amount');
+        }
+        /* End of input validation */
+
         await baseController.post(userModel, req.body, trx);
         await userFarmModel.query(trx).insert({
           user_id,

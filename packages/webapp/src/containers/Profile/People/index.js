@@ -65,7 +65,6 @@ class People extends Component {
       addUser: null,
       isAdmin: false,
       isPseudo: false,
-      title: '',
       editTitle: '',
       currencySymbol: grabCurrencySymbol(this.props.farm),
       searchValue: '',
@@ -100,13 +99,10 @@ class People extends Component {
   };
 
   openAddModal = (isAdmin, isPseudo = false) => {
-    let title = isAdmin ? 'an Admin' : 'a Worker';
-
     this.setState({
       showAdd: true,
       isAdmin,
       isPseudo,
-      title,
     });
   };
 
@@ -507,8 +503,8 @@ class People extends Component {
           contentStyle={{
             display: 'flex',
             width: '100%',
-            minHeight: '100vh',
-            maxHeight: '120vh',
+            // minHeight: '100vh',
+            // maxHeight: '120vh',
             padding: '0 5%',
             justifyContent: 'center'
           }}

@@ -56,41 +56,41 @@ class Profile extends  Component{
     const currentUserRole = (role || '').toLowerCase();
     const isAdmin = currentUserRole === 'owner' || currentUserRole === 'manager';
 
-    return <div className={styles.profileContainer}>
-      <Tabs
-        className={styles.tabs}
-        renderActiveTabContentOnly={true}
-        disableInlineStyles
-      >
-        <div className={styles.tabLinks}>
-          {
-            tabs.map(tab => {
-              const { access, key, path, label } = tab;
-              const isDisplayed = access.some(roleKey => roleKey === 'all' || roleKey === currentUserRole);
-              return isDisplayed
-                ? (
-                  <TabLink
-                    key={key}
-                    className={styles.tabLink}
-                    activeClassName={styles.selectedTabLink}
-                    to={path}
-                  >
-                    {label}
-                  </TabLink>
-                )
-                : null;
-            })
-          }
-        </div>
-
-        <div>
-          <TabContent for="account"><Account /></TabContent>
-          <TabContent for="people"><People isAdmin={isAdmin} /></TabContent>
-          <TabContent for="farm"><Farm /></TabContent>
-        </div>
-
-      </Tabs>
-    </div>
+    return (
+      <div className={styles.profileContainer}>
+        <Tabs
+          className={styles.tabs}
+          renderActiveTabContentOnly={true}
+          disableInlineStyles
+        >
+          <div className={styles.tabLinks}>
+            {
+              tabs.map(tab => {
+                const { access, key, path, label } = tab;
+                const isDisplayed = access.some(roleKey => roleKey === 'all' || roleKey === currentUserRole);
+                return isDisplayed
+                  ? (
+                    <TabLink
+                      key={key}
+                      className={styles.tabLink}
+                      activeClassName={styles.selectedTabLink}
+                      to={path}
+                    >
+                      {label}
+                    </TabLink>
+                  )
+                  : null;
+              })
+            }
+          </div>
+          <div>
+            <TabContent for="account"><Account /></TabContent>
+            <TabContent for="people"><People isAdmin={isAdmin} /></TabContent>
+            <TabContent for="farm"><Farm /></TabContent>
+          </div>
+        </Tabs>
+      </div>
+    );
   }
 }
 

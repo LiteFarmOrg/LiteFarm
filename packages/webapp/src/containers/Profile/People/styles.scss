@@ -33,8 +33,14 @@
 }
 
 .addButton {
-  width: 8em;
-  margin-top: 3%;
+  max-width: 312px;
+  margin: 16px auto 24px auto;
+  background: #FCE38D;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+  border-radius: 4px;
+  border: none;
+  color: #282B36;
+  padding: 12px 107px;
 }
 
 .close {
@@ -46,13 +52,18 @@
   justify-self: flex-start;
 }
 
-.modal {
+.modal, .addUserContainer {
   width: 95%;
   max-width: 800px;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.addUserContainer {
+  width: 100%;
+  margin: auto;
 }
 
 .labelContainer{
@@ -105,16 +116,48 @@
   color: #9FAABE;
 }
 
+.formBodyContainer {
+  width: 100%;
+}
+
 .inputContainer {
   display: flex;
   flex-direction: column;
+  max-width: 312px;
+  margin: auto;
   input[type='text'], select {
     height: 2em;
     background: #FFFFFF;
     border: 1px solid #D4DAE3;
     box-sizing: border-box;
     border-radius: 4px;
-    margin: 0.5em 0 1em 0;
+    margin: 0.25em 0 1em 0;
+    padding: 0.75em 0.5em;
+    height: 48px;
+    font-size: 16px;
+    color: #282B36;
+  }
+
+  input[type='text']:disabled, select:disabled {
+    background: #F3F6FB;
+    border: 1px solid #D4DAE3;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #282B36;
+  }
+
+  input[type='text']:focus, select:focus {
+    border: 1px solid #89D1C7;
+    outline: none;
+  }
+
+  label {
+    margin: 0;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #66738A;
   }
 
   input[type='radio'], label {
@@ -125,6 +168,12 @@
     width: 20px;
     margin-right: 2px;
   }
+}
+
+.addUserTitleContainer {
+  width: 100%;
+  max-width: 312px;
+  margin-bottom: 10px;
 }
 
 .wageContainer {
@@ -163,6 +212,7 @@
 .formContainer{
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .removeButton{
@@ -182,20 +232,37 @@
   color: red;
   display: flex;
   align-items: center;
-  margin: -0.5em 0 0.5em 0;
+  margin: -0.5em auto 0.5em auto;
+  max-width: 312px;
 }
 
 .errorText {
   margin-left: 2px;
 }
 
+.formActionsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 312px;
+  margin: 8px auto 32px auto;
+}
+
+.inviteButton, .cancelButton {
+  padding: 12px 50px;
+  border-radius: 4px;
+  width: 45%;
+  max-width: 152px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+}
+
 .inviteButton {
   background: #FED450;
   box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
-  border-radius: 4px;
   border: none;
-  padding: 0.5em 2em;
-  margin: 0 1em;
+  color: #282B36;
 }
 
 .inviteButton:disabled {
@@ -206,8 +273,5 @@
 .cancelButton {
   background: #FFFFFF;
   border: 1px solid #9FAABE;
-  border-radius: 4px;
   color: #9FAABE;
-  padding: 0.5em 2em;
-  margin: 0 1em;
 }

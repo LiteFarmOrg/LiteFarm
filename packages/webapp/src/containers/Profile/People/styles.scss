@@ -225,7 +225,8 @@
   color: red;
   display: flex;
   align-items: center;
-  margin: -0.5em 0 0.5em 0;
+  margin: -0.5em auto 0.5em auto;
+  max-width: 312px;
 }
 
 .errorText {

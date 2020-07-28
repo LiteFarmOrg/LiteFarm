@@ -358,27 +358,23 @@ class People extends Component {
 
   render() {
     const { isAdmin, roles, profileForms } = this.props;
-    const {isPseudo, editTitle, currencySymbol, searchValue} = this.state;
+    const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
 
     if (this.state.showAdd) {
       return (
-        <div className={styles.modal}>
-          <div className={styles.popupTitle}>
+        <div className={styles.addUserContainer}>
+          <div className={styles.addUserTitleContainer}>
             <h3>Invite a User</h3>
           </div>
-          <div className={styles.formContainer}>
-            <Form
-              model="profileForms"
-              onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
-            >
-              {
-                isPseudo && <Alert bsStyle="warning">
-                  To add multiple workers just change the wage accordingly
-                  </Alert>
-              }
+          <Form
+            className={styles.formContainer}
+            model="profileForms"
+            onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
+          >
+            <div className={styles.formBodyContainer}>
               <div className={styles.inputContainer}>
                 <label>First Name</label>
                 <Control.text
@@ -442,7 +438,12 @@ class People extends Component {
                     roles.map(row => {
                       const { role_id, role } = row;
                       return (
-                        <option value={role_id}>{`Farm ${role}`}</option>
+                        <option
+                          key={role_id}
+                          value={role_id}
+                        >
+                          {`Farm ${role}`}
+                        </option>
                       );
                     })
                   }
@@ -526,23 +527,23 @@ class People extends Component {
                   </div>
                 )
               }
-              <div className={defaultStyles.saveButton}>
-                <button
-                  className={styles.cancelButton}
-                  onClick={() => this.closeAddModal()}
-                >
-                  Cancel
-                  </button>
-                <button
-                  type="submit"
-                  className={styles.inviteButton}
-                  disabled={!isRoleSelected}
-                >
-                  Invite
-                  </button>
-              </div>
-            </Form>
-          </div>
+            </div>
+            <div className={styles.formActionsContainer}>
+              <button
+                className={styles.cancelButton}
+                onClick={() => this.closeAddModal()}
+              >
+                Cancel
+                </button>
+              <button
+                type="submit"
+                className={styles.inviteButton}
+                disabled={!isRoleSelected}
+              >
+                Invite
+                </button>
+            </div>
+          </Form>
         </div>
       );
     }

@@ -59,10 +59,11 @@
 }
 
 .profilePic {
-  border-radius: 30px;
-  position: absolute;
+  border-radius: 16px;
   top: 10px;
   right: 10px;
+  float:right;
+  margin-right: 24px;
 }
 
 .navBarContainer{
@@ -73,6 +74,7 @@
   width:100%;
   align-items: center;
   margin: 0 auto;
+  text-align: -webkit-right;
 }
 
 @media (min-width: 768px) {

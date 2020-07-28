@@ -241,10 +241,13 @@
 }
 
 .inviteButton, .cancelButton {
-  padding: 0.5em 2em;
+  padding: 12px 50px;
   border-radius: 4px;
   width: 45%;
   max-width: 152px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
 }
 
 .inviteButton {

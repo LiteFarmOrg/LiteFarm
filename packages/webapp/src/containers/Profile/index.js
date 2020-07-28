@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -36,15 +36,39 @@ class Profile extends  Component{
     const isAdmin = currentUserRole === 'owner' || currentUserRole === 'manager';
 
     return <div className={styles.profileContainer}>
-      <Tabs className={styles.tabs} renderActiveTabContentOnly={true}>
+      <Tabs
+        className={styles.tabs}
+        renderActiveTabContentOnly={true}
+        disableInlineStyles
+      >
         <div className={styles.tabLinks}>
-          <TabLink to="account">Account</TabLink>
-          <TabLink to="people">People</TabLink>
+          <TabLink
+            className={styles.tabLink}
+            activeClassName={styles.selectedTabLink}
+            to="account"
+          >
+            Account
+          </TabLink>
+          <TabLink
+            className={styles.tabLink}
+            activeClassName={styles.selectedTabLink}
+            to="people"
+          >
+            People
+          </TabLink>
           {
-            isAdmin && <TabLink to="farm">Farm</TabLink>
+            isAdmin
+              && (
+                <TabLink
+                  className={styles.tabLink}
+                  activeClassName={styles.selectedTabLink}
+                  to="farm"
+                >
+                  Farm
+                </TabLink>
+              )
           }
         </div>
-        <hr/>
 
         <div>
           <TabContent for="account"><Account /></TabContent>

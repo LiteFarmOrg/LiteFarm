@@ -23,6 +23,27 @@ import { Tabs, TabLink, TabContent }  from 'react-tabs-redux';
 import { fetchFarmInfo } from '../actions';
 import { farmSelector } from '../selector';
 
+const tabs = [
+  {
+    key: 'account',
+    path: 'account',
+    label: 'Account',
+    access: ['all'],
+  },
+  {
+    key: 'people',
+    path: 'people',
+    label: 'People',
+    access: ['all'],
+  },
+  {
+    key: 'farm',
+    path: 'farm',
+    label: 'Farm',
+    access: ['owner', 'manager'],
+  },
+];
+
 class Profile extends  Component{
 
   componentDidMount() {
@@ -42,31 +63,23 @@ class Profile extends  Component{
         disableInlineStyles
       >
         <div className={styles.tabLinks}>
-          <TabLink
-            className={styles.tabLink}
-            activeClassName={styles.selectedTabLink}
-            to="account"
-          >
-            Account
-          </TabLink>
-          <TabLink
-            className={styles.tabLink}
-            activeClassName={styles.selectedTabLink}
-            to="people"
-          >
-            People
-          </TabLink>
           {
-            isAdmin
-              && (
-                <TabLink
-                  className={styles.tabLink}
-                  activeClassName={styles.selectedTabLink}
-                  to="farm"
-                >
-                  Farm
-                </TabLink>
-              )
+            tabs.map(tab => {
+              const { access, key, path, label } = tab;
+              const isDisplayed = access.some(roleKey => roleKey === 'all' || roleKey === currentUserRole);
+              return isDisplayed
+                ? (
+                  <TabLink
+                    key={key}
+                    className={styles.tabLink}
+                    activeClassName={styles.selectedTabLink}
+                    to={path}
+                  >
+                    {label}
+                  </TabLink>
+                )
+                : null;
+            })
           }
         </div>
 

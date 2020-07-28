@@ -466,9 +466,9 @@ class People extends Component {
                       {
                         addInfo.role === '3'
                         && (
-                          <text className={styles.emailInputReminder}>
+                          <p className={styles.emailInputReminder}>
                             {`Users without an email won't be able to login`}
-                          </text>
+                          </p>
                         )
                       }
                     </div>
@@ -496,9 +496,9 @@ class People extends Component {
                           }}
                           defaultValue=""
                         />
-                        <text className={styles.wageInputUnit}>
+                        <p className={styles.wageInputUnit}>
                           {`${currencySymbol}/hr`}
-                        </text>
+                        </p>
                         {/* <div className={styles.payTypeContainer}>
                               <div className={styles.radioContainer}>
                                 <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />

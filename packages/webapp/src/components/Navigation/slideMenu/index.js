@@ -52,7 +52,7 @@ class slideMenu extends React.Component {
        &&
       <a id="field" className="menu-item" onClick={() => this.handleClick("/Field")}><span>Fields</span></a>
     }
-      <a id="crops" className="menu-item" onClick={() => console.log("clicked crops")}><span>Crops</span></a>
+      <a id="crops" className="menu-item" ><span>Crops</span></a>
       <a id="log" className="menu-item" onClick={() => this.handleClick("/Log")}><span>Logs</span></a>
       <a id="tasks" className="menu-item" ><span>Tasks</span></a>
       <a id="inventory" className="menu-item" ><span>Inventory</span></a>

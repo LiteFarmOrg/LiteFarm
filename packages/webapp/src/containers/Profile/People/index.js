@@ -356,6 +356,13 @@ class People extends Component {
     this.setState({cleaveEmailState: cleave});
   };
 
+  isDisabled = () => {
+    const { profileForms } = this.props;
+    const { forms } = profileForms;
+    const { addInfo } = forms;
+    return !addInfo.$form.valid;
+  }
+
   render() {
     const { isAdmin, roles, profileForms } = this.props;
     const { editTitle, currencySymbol, searchValue } = this.state;
@@ -538,7 +545,7 @@ class People extends Component {
               <button
                 type="submit"
                 className={styles.inviteButton}
-                disabled={!isRoleSelected}
+                disabled={this.isDisabled()}
               >
                 Invite
                 </button>

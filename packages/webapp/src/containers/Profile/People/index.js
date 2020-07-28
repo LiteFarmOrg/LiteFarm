@@ -581,12 +581,12 @@ class People extends Component {
           {
             isAdmin
               ? (
-                <Button
+                <button
                   className={styles.addButton}
                   onClick={() => this.openAddModal(true)}
                 >
-                  Add User
-                </Button>
+                  Invite User
+                </button>
               )
               : null
           }

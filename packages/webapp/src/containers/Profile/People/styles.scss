@@ -33,8 +33,14 @@
 }
 
 .addButton {
-  width: 8em;
+  max-width: 312px;
   margin-top: 3%;
+  background: #FCE38D;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+  border-radius: 4px;
+  border: none;
+  color: #282B36;
+  padding: 12px 107px;
 }
 
 .close {
@@ -256,6 +262,7 @@
   background: #FED450;
   box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
   border: none;
+  color: #282B36;
 }
 
 .inviteButton:disabled {

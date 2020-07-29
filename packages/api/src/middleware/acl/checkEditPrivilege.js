@@ -69,11 +69,15 @@ const checkEditPrivilege = () => {
         if (payload.last_name && payload.last_name.toString().length > 0){
           return res.status(403).send('Last name may not be modified').end();
         }
+
         if (req.body && req.body.email && req.body.email.length > 0 && !req.body.email_needs_update){
           return res.status(403).send('Email may not be modified').end();
-        }else if(userRow.rows[0].role_id && userRow.rows[0].role_id !== 4){
+        }
+
+        if(req.body && req.body.email && userRow.rows[0].role_id && userRow.rows[0].role_id !== 4){
           return res.status(403).send('Email may not be modified').end();
         }
+
         if (payload.wage && payload.wage.amount && (Number(payload.wage.amount) < 0 || Number(payload.wage.amount) > 999999999999.99)){
           return res.status(403).send('Wage must be a valid, non-negative decimal').end();
         }

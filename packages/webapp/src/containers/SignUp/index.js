@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { Control, Errors, Form } from 'react-redux-form';
 import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
-
 import styles from './styles.scss';
 import apiConfig from '../../apiConfig';
 import Auth from '../../Auth/Auth';
+import Callback from '../../components/Callback';
+import InvalidToken from './InvalidToken';
 
 const auth = new Auth();
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
@@ -100,7 +101,7 @@ class SignUp extends React.Component {
     } = params;
 
     this.state = {
-      isTokenValid: true,
+      tokenStatus: null,
       token,
       user_id,
       farm_id,
@@ -112,21 +113,31 @@ class SignUp extends React.Component {
   }
 
   async componentDidMount() {
-    // Make API call to verify token and set isTokenValid's state accordingly
+    // Make API call to verify token and set tokenStatus's state accordingly
     const { signUpUrl } = apiConfig;
-    const { token } = this.state;
+    const { token, farm_id, user_id } = this.state;
     try {
       const header = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
-      const result = await axios.get(signUpUrl + `/verify_token/${token}`, header);
-      if (result && result.status === 200) {
-        this.setState({ isTokenValid: true });
+      const result = await axios.get(signUpUrl + `/verify_token/${token}/farm/${farm_id}/user/${user_id}`, header);
+      if (result) {
+        if(result.status === 200){
+          this.setState({ tokenStatus: 'valid' });
+        }
+        else if(result.status === 202){
+          this.setState({ tokenStatus: 'used' });
+          auth.login();
+        }
+        else if(result.status === 401){
+          this.setState({ tokenStatus: 'invalid' });
+        }
+        
       }
     } catch (error) {
-      this.setState({ isTokenValid: false });
+      this.setState({ tokenStatus: 'invalid' });
       if (error.response) {
         toastr.error(error.response.data);
       } else {
@@ -167,7 +178,7 @@ class SignUp extends React.Component {
       if (result && result.status === 200) {
         toastr.success(result.data);
         auth.login();
-        this.setState({ isTokenValid: false });
+        this.setState({ tokenStatus: 'used' });
       }
     } catch (error) {
       if (error.response) {
@@ -176,7 +187,7 @@ class SignUp extends React.Component {
         toastr.error('Failed to sign up');
       }
     }
-  }
+  };
 
   isDisabled = () => {
     const { profileForms } = this.props;
@@ -188,7 +199,7 @@ class SignUp extends React.Component {
       const textFieldValue = signUpInfo[key];
       return Object.keys(validators).some(validator => !validators[validator](textFieldValue));
     });
-  }
+  };
 
   renderControlComponent = (field) => {
     const { key, type, validators, isEditable } = field;
@@ -223,7 +234,7 @@ class SignUp extends React.Component {
         disabled={!isEditable}
       />
     );
-  }
+  };
 
   renderErrorComponent = (controlledTextComponent) => {
     const { profileForms } = this.props;
@@ -273,55 +284,55 @@ class SignUp extends React.Component {
         )}
       />
     );
-  }
+  };
 
   render() {
-    const { isTokenValid } = this.state;
+    const { tokenStatus } = this.state;
 
-    if (!isTokenValid) {
+    if (tokenStatus === 'invalid') {
+      return (
+        <InvalidToken/>
+      );
+    }
+
+    if(tokenStatus === 'valid'){
       return (
         <div className={styles.home}>
           <div className={styles.titleContainer}>
-            <h3>Invalid Token</h3>
+            <h3>Sign Up</h3>
           </div>
+          <Form
+            model="profileForms"
+            onSubmit={(val) => this.onClickSubmit(val.signUpInfo)}
+            className={styles.formContainer}
+          >
+            {
+              signUpFields.map(field => {
+                const { key, label } = field;
+                return (
+                  <div key={key}>
+                    <div className={styles.inputContainer}>
+                      <label>{label}</label>
+                      { this.renderControlComponent(field) }
+                    </div>
+                    { this.renderErrorComponent(field) }
+                  </div>
+                );
+              })
+            }
+            <button
+              type="submit"
+              className={styles.signUpButton}
+              disabled={this.isDisabled()}
+            >
+              Sign Up
+            </button>
+          </Form>
         </div>
       );
     }
 
-    return (
-      <div className={styles.home}>
-        <div className={styles.titleContainer}>
-          <h3>Sign Up</h3>
-        </div>
-        <Form
-          model="profileForms"
-          onSubmit={(val) => this.onClickSubmit(val.signUpInfo)}
-          className={styles.formContainer}
-        >
-          {
-            signUpFields.map(field => {
-              const { key, label } = field;
-              return (
-                <div key={key}>
-                  <div className={styles.inputContainer}>
-                    <label>{label}</label>
-                    { this.renderControlComponent(field) }
-                  </div>
-                  { this.renderErrorComponent(field) }
-                </div>
-              );
-            })
-          }
-          <button
-            type="submit"
-            className={styles.signUpButton}
-            disabled={this.isDisabled()}
-          >
-            Sign Up
-          </button>
-        </Form>
-      </div>
-    );
+    return <Callback />
   }
 }
 

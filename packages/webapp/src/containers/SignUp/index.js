@@ -139,7 +139,7 @@ class SignUp extends React.Component {
     } catch (error) {
       this.setState({ tokenStatus: 'invalid' });
       if (error.response) {
-        toastr.error(error.response.data);
+        console.error(error.response.data);
       } else {
         toastr.error('Token verification failed');
       }

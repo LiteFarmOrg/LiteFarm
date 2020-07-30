@@ -363,13 +363,34 @@ class People extends Component {
     return !addInfo.$form.valid;
   }
 
+  isTextFieldErrorShown = (key) => {
+    const { profileForms } = this.props;
+    const { forms } = profileForms;
+    const { addInfo } = forms;
+    let field = addInfo[key];
+
+    if (key === 'pay') {
+      field = addInfo[key].amount;
+    }
+
+    // Show error only when it's invalid, touched, and not currently focused on
+    return !field.valid && field.touched && !field.focus;
+  }
+
+  getTextFieldStyle = (key) => {
+    const hasErrors = this.isTextFieldErrorShown(key);
+    if (hasErrors) {
+      return styles.errorInputContainer;
+    }
+    return styles.inputContainer;
+  }
+
   render() {
     const { isAdmin, roles, profileForms } = this.props;
     const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
-    const { forms } = profileForms;
 
     if (this.state.showAdd) {
       return (
@@ -383,7 +404,7 @@ class People extends Component {
             onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
           >
             <div className={styles.formBodyContainer}>
-              <div className={forms.addInfo['first_name'].touched && !forms.addInfo['first_name'].focus && !forms.addInfo['first_name'].valid ? styles.errorInputContainer: styles.inputContainer}>
+              <div className={this.getTextFieldStyle('first_name')}>
                 <label>First Name</label>
                 <Control.text
                   model=".addInfo.first_name"
@@ -405,7 +426,7 @@ class People extends Component {
                   </div>
                 )}
               />
-              <div className={forms.addInfo['last_name'].touched && !forms.addInfo['last_name'].focus && !forms.addInfo['last_name'].valid ? styles.errorInputContainer : styles.inputContainer}>
+              <div className={this.getTextFieldStyle('last_name')}>
                 <label>Last Name</label>
                 <Control.text
                   model=".addInfo.last_name"
@@ -459,7 +480,7 @@ class People extends Component {
                 isRoleSelected
                   && (
                     <div>
-                      <div className={forms.addInfo['email'].touched && !forms.addInfo['email'].focus && !forms.addInfo['email'].valid ? styles.errorInputContainer : styles.inputContainer}>
+                    <div className={this.getTextFieldStyle('email')}>
                         <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
                         <Control.text
                           model=".addInfo.email"
@@ -491,7 +512,7 @@ class People extends Component {
                           </div>
                         )}
                       />
-                      <div className={forms.addInfo['pay'].amount.touched && !forms.addInfo['pay'].amount.focus && !forms.addInfo['pay'].amount.valid ? styles.errorInputContainer : styles.inputContainer}>
+                    <div className={this.getTextFieldStyle('pay')}>
                         <label>Wage (Optional)</label>
                         <div className={styles.wageContainer}>
                           <Control.text

@@ -508,6 +508,9 @@ class People extends Component {
                         ...provided,
                         padding: 0,
                         margin: 0,
+                        borderRadius: '4px',
+                        background: '#FFFFFF',
+                        boxShadow: '0px 1px 2px rgba(102, 115, 138, 0.25)',
                       }),
                       option: (provided, state) => ({
                         display: 'flex',

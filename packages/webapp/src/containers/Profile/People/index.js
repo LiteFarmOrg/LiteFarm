@@ -481,6 +481,52 @@ class People extends Component {
                     isSearchable: false,
                     options: dropDownOptions,
                     placeholder: 'Select role',
+                    styles: {
+                      container: (provided, state) => ({
+                        ...provided,
+                        margin: '0.25em 0 1em 0',
+                        outline: 'none',
+                      }),
+                      control: (provided, state) => ({
+                        background: '#FFFFFF',
+                        border: '1px solid #D4DAE3',
+                        boxSizing: 'border-box',
+                        borderRadius: '4px',
+                        padding: '0.75em 0.5em',
+                        height: '48px',
+                        fontSize: '16px',
+                        color: '#282B36',
+                        outline: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }),
+                      indicatorSeparator: (provided, state) => ({
+                        backgroundColor: 'none',
+                      }),
+                      menuList: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                        margin: 0,
+                      }),
+                      option: (provided, state) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '8px 8px 8px',
+                        backgroundColor: 'transparent',
+                        background: (state.isClicked || state.isFocused) ? 'rgb(223, 244, 232, 0.5)' : 'none',
+                        color: '#282B36',
+                        height: '40px',
+                      }),
+                      valueContainer: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                      }),
+                      singleValue: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                        margin: 0,
+                      }),
+                    }
                   }}
                 />
               </div>

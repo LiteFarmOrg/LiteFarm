@@ -26,6 +26,7 @@ const url  = require('url');
 const emailSender = require('../templates/sendEmailTemplate');
 const farmModel = require('../models/farmModel');
 const uuidv4 = require('uuid/v4');
+const { send } = require('process');
 
 const auth0Uri = findAuth0Uri();
 
@@ -154,9 +155,6 @@ class createUserController extends baseController {
         last_name,
         farm_id,
         role_id,
-        wage,
-        wageType,
-        wageAmount,
       };
 
       if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
@@ -179,8 +177,12 @@ class createUserController extends baseController {
       }
 
       const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
-      if (!validWageRegex.test(wageAmount)) {
+      if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
         return res.status(400).send('Invalid wage amount');
+      }
+
+      if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+        return res.status(400).send('Current app version only allows hourly wage');
       }
 
       try {

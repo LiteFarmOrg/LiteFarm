@@ -457,79 +457,79 @@ class People extends Component {
               </div>
               {
                 isRoleSelected
-                && (
-                  <div>
-                    <div className={forms.addInfo['email'].touched && !forms.addInfo['email'].focus && !forms.addInfo['email'].valid ? styles.errorInputContainer : styles.inputContainer}>
-                      <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
-                      <Control.text
-                        model=".addInfo.email"
-                        validators={{
-                          required: (val) => addInfo.role === '3' ? true : val.length,
-                          validEmail: (val) => validEmailRegex.test(val),
-                        }}
-                        defaultValue=""
-                      />
-                      {
-                        addInfo.role === '3'
-                        && (
-                          <p className={styles.emailInputReminder}>
-                            {`Users without an email won't be able to login`}
-                          </p>
-                        )
-                      }
-                    </div>
-                    <Errors
-                      model=".addInfo.email"
-                      messages={{
-                        required: 'Email cannot be empty for the selected role',
-                        validEmail: 'Email must be valid',
-                      }}
-                      show={field => field.touched && !field.focus}
-                      component={(props) => (
-                        <div className={styles.errorContainer}>
-                          <div className={styles.errorText}>{props.children}</div>
-                        </div>
-                      )}
-                    />
-                    <div className={forms.addInfo['pay'].amount.touched && !forms.addInfo['pay'].amount.focus && !forms.addInfo['pay'].amount.valid ? styles.errorInputContainer : styles.inputContainer}>
-                      <label>Wage (Optional)</label>
-                      <div className={styles.wageContainer}>
+                  && (
+                    <div>
+                      <div className={forms.addInfo['email'].touched && !forms.addInfo['email'].focus && !forms.addInfo['email'].valid ? styles.errorInputContainer : styles.inputContainer}>
+                        <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
                         <Control.text
-                          model=".addInfo.pay.amount"
+                          model=".addInfo.email"
                           validators={{
-                            validWage: (val) => validWageRegex.test(val),
+                            required: (val) => addInfo.role === '3' ? true : val.length,
+                            validEmail: (val) => validEmailRegex.test(val),
                           }}
                           defaultValue=""
                         />
-                        <p className={styles.wageInputUnit}>
-                          {`${currencySymbol}/hr`}
-                        </p>
-                        {/* <div className={styles.payTypeContainer}>
-                              <div className={styles.radioContainer}>
-                                <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
-                                <label htmlFor="hour">Hourly</label>
-                              </div>
-                              <div className={styles.radioContainer}>
-                                <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
-                                <label htmlFor="daily">Daily</label>
-                              </div>
-                            </div> */}
+                        {
+                          addInfo.role === '3'
+                            && (
+                              <p className={styles.emailInputReminder}>
+                                {`Users without an email won't be able to login`}
+                              </p>
+                            )
+                        }
                       </div>
-                    </div>
-                    <Errors
-                      model=".addInfo.pay.amount"
-                      messages={{
-                        validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
-                      }}
-                      show={field => field.touched && !field.focus}
-                      component={(props) => (
-                        <div className={styles.errorContainer}>
-                          <div className={styles.errorText}>{props.children}</div>
+                      <Errors
+                        model=".addInfo.email"
+                        messages={{
+                          required: 'Email cannot be empty for the selected role',
+                          validEmail: 'Email must be valid',
+                        }}
+                        show={field => field.touched && !field.focus}
+                        component={(props) => (
+                          <div className={styles.errorContainer}>
+                            <div className={styles.errorText}>{props.children}</div>
+                          </div>
+                        )}
+                      />
+                      <div className={forms.addInfo['pay'].amount.touched && !forms.addInfo['pay'].amount.focus && !forms.addInfo['pay'].amount.valid ? styles.errorInputContainer : styles.inputContainer}>
+                        <label>Wage (Optional)</label>
+                        <div className={styles.wageContainer}>
+                          <Control.text
+                            model=".addInfo.pay.amount"
+                            validators={{
+                              validWage: (val) => validWageRegex.test(val),
+                            }}
+                            defaultValue=""
+                          />
+                          <p className={styles.wageInputUnit}>
+                            {`${currencySymbol}/hr`}
+                          </p>
+                          {/* <div className={styles.payTypeContainer}>
+                                <div className={styles.radioContainer}>
+                                  <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
+                                  <label htmlFor="hour">Hourly</label>
+                                </div>
+                                <div className={styles.radioContainer}>
+                                  <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
+                                  <label htmlFor="daily">Daily</label>
+                                </div>
+                              </div> */}
                         </div>
-                      )}
-                    />
-                  </div>
-                )
+                      </div>
+                      <Errors
+                        model=".addInfo.pay.amount"
+                        messages={{
+                          validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
+                        }}
+                        show={field => field.touched && !field.focus}
+                        component={(props) => (
+                          <div className={styles.errorContainer}>
+                            <div className={styles.errorText}>{props.children}</div>
+                          </div>
+                        )}
+                      />
+                    </div>
+                  )
               }
             </div>
             <div className={styles.formActionsContainer}>
@@ -538,14 +538,14 @@ class People extends Component {
                 onClick={() => this.closeAddModal()}
               >
                 Cancel
-                </button>
+              </button>
               <button
                 type="submit"
                 className={styles.inviteButton}
                 disabled={this.isDisabled()}
               >
                 Invite
-                </button>
+              </button>
             </div>
           </Form>
         </div>

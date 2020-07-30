@@ -12,6 +12,7 @@ import {
   getRoles,
 } from './actions';
 import Table from '../../../components/Table';
+import DropDown from '../../../components/Inputs/DropDown';
 import Popup from "reactjs-popup";
 import { Control, Errors, Form, actions } from 'react-redux-form';
 import {Button} from 'react-bootstrap';
@@ -170,7 +171,7 @@ class People extends Component {
       last_name,
     } = userInfo;
     // Pseudo worker is a worker with no email filled out
-    const isPseudo = role === '3' && email.trim().length === 0;
+    const isPseudo = role === 3 && email.trim().length === 0;
     const amount = pay.amount && pay.amount.trim().length > 0
       ? Number(pay.amount)
       : 0; // TODO: convert this to null to indicate no wage is entered
@@ -388,12 +389,24 @@ class People extends Component {
     return styles.inputContainer;
   }
 
+  getDropDownOptions = () => {
+    const { roles } = this.props;
+    return roles.map(option => {
+      const { role_id, role } = option;
+      return ({
+        value: role_id,
+        label: `Farm ${role}`,
+      });
+    })
+  }
+
   render() {
-    const { isAdmin, roles, profileForms } = this.props;
+    const { isAdmin, profileForms } = this.props;
     const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
+    const dropDownOptions = this.getDropDownOptions();
 
     if (this.state.showAdd) {
       return (
@@ -453,48 +466,40 @@ class People extends Component {
               />
               <div className={styles.inputContainer}>
                 <label>Role</label>
-                <Control.select
+                <Control.custom
                   model=".addInfo.role"
                   defaultValue="0"
-                  onChange={(e) => {
+                  onChange={(option) => {
+                    this.props.dispatch(actions.change('profileForms.addInfo.role', option.value))
                     this.props.dispatch(actions.validate('profileForms.addInfo.email', {
-                      required: (val) => e.target.value === '3' ? true : val.length,
+                      required: (val) => option.value === 3 ? true : val.length,
                       validEmail: (val) => validEmailRegex.test(val),
                     }));
                   }}
-                >
-                  <option disabled hidden value="0"></option>
-                  {
-                    roles.map(row => {
-                      const { role_id, role } = row;
-                      return (
-                        <option
-                          key={role_id}
-                          value={role_id}
-                        >
-                          {`Farm ${role}`}
-                        </option>
-                      );
-                    })
-                  }
-                </Control.select>
+                  component={DropDown}
+                  mapProps={{
+                    isSearchable: false,
+                    options: dropDownOptions,
+                    placeholder: 'Select role',
+                  }}
+                />
               </div>
               {
                 isRoleSelected
                   && (
                     <div>
                     <div className={this.getTextFieldStyle('email')}>
-                        <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
+                        <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
                         <Control.text
                           model=".addInfo.email"
                           validators={{
-                            required: (val) => addInfo.role === '3' ? true : val.length,
+                            required: (val) => addInfo.role === 3 ? true : val.length,
                             validEmail: (val) => validEmailRegex.test(val),
                           }}
                           defaultValue=""
                         />
                         {
-                          addInfo.role === '3'
+                          addInfo.role === 3
                             && (
                               <p className={styles.emailInputReminder}>
                                 {`Users without an email won't be able to login`}

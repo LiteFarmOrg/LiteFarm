@@ -489,7 +489,8 @@ class People extends Component {
                       }),
                       control: (provided, state) => ({
                         background: '#FFFFFF',
-                        border: '1px solid #D4DAE3',
+                        border: '1px solid',
+                        borderColor: state.isFocused ? '#89D1C7' : '#D4DAE3',
                         boxSizing: 'border-box',
                         borderRadius: '4px',
                         padding: '0.75em 0.5em',

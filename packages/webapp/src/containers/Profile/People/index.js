@@ -374,6 +374,9 @@ class People extends Component {
     }
 
     // Show error only when it's invalid, touched, and not currently focused on
+    // NOTE: Besides the first condition (field.valid), all the following
+    // conditions should follow the show prop in the <Errors /> component to
+    // ensure that the input field's styling is consistent with <Errors />
     return !field.valid && field.touched && !field.focus;
   }
 

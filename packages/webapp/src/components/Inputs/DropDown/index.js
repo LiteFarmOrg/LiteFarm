@@ -4,7 +4,7 @@ import React from 'react';
 
 class DropDown extends React.Component {
   render() {
-    const { className, options, defaultValue, isSearchable, placeholder, onChange, value, isMulti } = this.props;
+    const { className, options, defaultValue, isSearchable, placeholder, onChange, value, isMulti, styles } = this.props;
     return (<Select
       data-test="dropdown"
       isMulti={isMulti}
@@ -15,6 +15,7 @@ class DropDown extends React.Component {
       placeholder={placeholder}
       onChange={onChange}
       value={value}
+      styles={styles}
     />)
   }
 }

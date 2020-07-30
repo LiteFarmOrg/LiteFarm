@@ -120,13 +120,12 @@
   width: 100%;
 }
 
-.inputContainer {
+.inputContainer, .errorInputContainer {
   display: flex;
   flex-direction: column;
   max-width: 312px;
   margin: auto;
   input[type='text'], select {
-    height: 2em;
     background: #FFFFFF;
     border: 1px solid #D4DAE3;
     box-sizing: border-box;
@@ -167,6 +166,12 @@
   input[type='radio'] {
     width: 20px;
     margin-right: 2px;
+  }
+}
+
+.errorInputContainer {
+  input[type='text'] {
+    border: 1px solid #F58282;
   }
 }
 
@@ -229,7 +234,7 @@
 }
 
 .errorContainer {
-  color: red;
+  color: #EC4C47;
   display: flex;
   align-items: center;
   margin: -0.5em auto 0.5em auto;

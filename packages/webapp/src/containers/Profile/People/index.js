@@ -369,6 +369,7 @@ class People extends Component {
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
+    const { forms } = profileForms;
 
     if (this.state.showAdd) {
       return (
@@ -382,7 +383,7 @@ class People extends Component {
             onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
           >
             <div className={styles.formBodyContainer}>
-              <div className={styles.inputContainer}>
+              <div className={forms.addInfo['first_name'].touched && !forms.addInfo['first_name'].focus && !forms.addInfo['first_name'].valid ? styles.errorInputContainer: styles.inputContainer}>
                 <label>First Name</label>
                 <Control.text
                   model=".addInfo.first_name"
@@ -400,12 +401,11 @@ class People extends Component {
                 show={field => field.touched && !field.focus}
                 component={(props) => (
                   <div className={styles.errorContainer}>
-                    <i className="material-icons">error_outline</i>
                     <div className={styles.errorText}>{props.children}</div>
                   </div>
                 )}
               />
-              <div className={styles.inputContainer}>
+              <div className={forms.addInfo['last_name'].touched && !forms.addInfo['last_name'].focus && !forms.addInfo['last_name'].valid ? styles.errorInputContainer : styles.inputContainer}>
                 <label>Last Name</label>
                 <Control.text
                   model=".addInfo.last_name"
@@ -423,7 +423,6 @@ class People extends Component {
                 show={field => field.touched && !field.focus}
                 component={(props) => (
                   <div className={styles.errorContainer}>
-                    <i className="material-icons">error_outline</i>
                     <div className={styles.errorText}>{props.children}</div>
                   </div>
                 )}
@@ -460,7 +459,7 @@ class People extends Component {
                 isRoleSelected
                 && (
                   <div>
-                    <div className={styles.inputContainer}>
+                    <div className={forms.addInfo['email'].touched && !forms.addInfo['email'].focus && !forms.addInfo['email'].valid ? styles.errorInputContainer : styles.inputContainer}>
                       <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
                       <Control.text
                         model=".addInfo.email"
@@ -488,12 +487,11 @@ class People extends Component {
                       show={field => field.touched && !field.focus}
                       component={(props) => (
                         <div className={styles.errorContainer}>
-                          <i className="material-icons">error_outline</i>
                           <div className={styles.errorText}>{props.children}</div>
                         </div>
                       )}
                     />
-                    <div className={styles.inputContainer}>
+                    <div className={forms.addInfo['pay'].amount.touched && !forms.addInfo['pay'].amount.focus && !forms.addInfo['pay'].amount.valid ? styles.errorInputContainer : styles.inputContainer}>
                       <label>Wage (Optional)</label>
                       <div className={styles.wageContainer}>
                         <Control.text
@@ -526,7 +524,6 @@ class People extends Component {
                       show={field => field.touched && !field.focus}
                       component={(props) => (
                         <div className={styles.errorContainer}>
-                          <i className="material-icons">error_outline</i>
                           <div className={styles.errorText}>{props.children}</div>
                         </div>
                       )}

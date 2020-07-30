@@ -26,7 +26,6 @@ const url  = require('url');
 const emailSender = require('../templates/sendEmailTemplate');
 const farmModel = require('../models/farmModel');
 const uuidv4 = require('uuid/v4');
-const { send } = require('process');
 
 const auth0Uri = findAuth0Uri();
 

@@ -412,7 +412,7 @@ class People extends Component {
       return (
         <div className={styles.addUserContainer}>
           <div className={styles.addUserTitleContainer}>
-            <h3>Invite a User</h3>
+            <h3 className={styles.userTitle}>Invite a User</h3>
           </div>
           <Form
             className={styles.formContainer}
@@ -501,6 +501,7 @@ class People extends Component {
                         display: 'flex',
                         alignItems: 'center',
                       }),
+                      placeholder: (provided, state) => ({ color: '#282B36'}),
                       indicatorSeparator: (provided, state) => ({
                         backgroundColor: 'none',
                       }),
@@ -533,7 +534,7 @@ class People extends Component {
                     }
                   }}
                 />
-              </div>
+          </div>
               {
                 isRoleSelected
                   && (

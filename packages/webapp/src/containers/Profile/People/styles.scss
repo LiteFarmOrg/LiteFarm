@@ -181,6 +181,10 @@
   margin-bottom: 10px;
 }
 
+.userTitle {
+  margin-top: 24px;
+}
+
 .wageContainer {
   display: flex;
   flex-direction: row;
@@ -250,7 +254,7 @@
   justify-content: space-between;
   width: 100%;
   max-width: 312px;
-  margin: 8px auto 32px auto;
+  margin: 120px auto 32px auto;
 }
 
 .inviteButton, .cancelButton {
@@ -273,6 +277,7 @@
 
 .inviteButton:disabled {
   background: #D4DAE3;
+  color: #F3F6FB;
   box-shadow: none;
 }
 

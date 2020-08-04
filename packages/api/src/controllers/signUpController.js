@@ -15,15 +15,19 @@ class signUpController extends baseController {
   static isEmailTokenValid() {
     return async (req, res) => {
       try {
-        const { token } = req.params;
+        const { token, farm_id, user_id } = req.params;
         const rows = await emailTokenModel.query()
           .select('*')
           .where('token', token)
-          .andWhere('is_used', false);
+          .andWhere('farm_id', farm_id).andWhere('user_id', user_id);
         if (rows && rows.length === 0) {
-          res.status(401).send('Invalid email token');
+          res.status(401).send('Invalid email, farm_id, or user_id');
         } else {
-          res.status(200).send('Valid email token');
+          if(rows[0].is_used){
+            res.status(202).send('Token Used');
+          }else{
+            res.status(200).send('Valid email token');
+          }
         }
       } catch (error) {
         console.log(error);

@@ -185,13 +185,9 @@ hr{
 
 /* Position and sizing of clickable cross button */
 .bm-cross-button {
-    height: 24px;
-    width: 24px;
-}
-
-/* Color/shape of close button cross */
-.bm-cross {
-    background: #bdc3c7;
+    height: 0px;
+    width: 0px;
+    top:0px;
 }
 
 /* General sidebar styles */
@@ -208,7 +204,7 @@ hr{
 /* Wrapper for item list */
 .bm-item-list {
     color: #b8b7ad;
-    padding-top: 25px;
+    padding-top: 16px;
 }
 
 /* Individual item */

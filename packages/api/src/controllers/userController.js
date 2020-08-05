@@ -70,10 +70,7 @@ class userController extends baseController {
           farm_id,
           first_name,
           last_name,
-          wage,
           email,
-          wageType,
-          wageAmount,
         };
 
         if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
@@ -95,8 +92,12 @@ class userController extends baseController {
         }
 
         const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
-        if (!validWageRegex.test(wageAmount)) {
+        if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
           return res.status(400).send('Invalid wage amount');
+        }
+
+        if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+          return res.status(400).send('Current app version only allows hourly wage');
         }
         /* End of input validation */
 

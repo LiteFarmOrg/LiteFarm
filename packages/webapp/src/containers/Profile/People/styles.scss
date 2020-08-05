@@ -120,13 +120,12 @@
   width: 100%;
 }
 
-.inputContainer {
+.inputContainer, .errorInputContainer {
   display: flex;
   flex-direction: column;
   max-width: 312px;
   margin: auto;
   input[type='text'], select {
-    height: 2em;
     background: #FFFFFF;
     border: 1px solid #D4DAE3;
     box-sizing: border-box;
@@ -170,10 +169,20 @@
   }
 }
 
+.errorInputContainer {
+  input[type='text'] {
+    border: 1px solid #F58282;
+  }
+}
+
 .addUserTitleContainer {
   width: 100%;
   max-width: 312px;
   margin-bottom: 10px;
+}
+
+.userTitle {
+  margin-top: 24px;
 }
 
 .wageContainer {
@@ -229,10 +238,10 @@
 }
 
 .errorContainer {
-  color: red;
+  color: #EC4C47;
   display: flex;
   align-items: center;
-  margin: -0.5em auto 0.5em auto;
+  margin: -0.75em auto 0.5em auto;
   max-width: 312px;
 }
 
@@ -245,7 +254,7 @@
   justify-content: space-between;
   width: 100%;
   max-width: 312px;
-  margin: 8px auto 32px auto;
+  margin: 120px auto 32px auto;
 }
 
 .inviteButton, .cancelButton {
@@ -256,10 +265,11 @@
   font-size: 18px;
   display: flex;
   justify-content: center;
+  height: 48px;
 }
 
 .inviteButton {
-  background: #FED450;
+  background: #FCE38D;
   box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
   border: none;
   color: #282B36;
@@ -267,11 +277,12 @@
 
 .inviteButton:disabled {
   background: #D4DAE3;
+  color: #F3F6FB;
   box-shadow: none;
 }
 
 .cancelButton {
   background: #FFFFFF;
   border: 1px solid #9FAABE;
-  color: #9FAABE;
+  color: #66738A;
 }

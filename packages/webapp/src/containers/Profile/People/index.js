@@ -12,6 +12,7 @@ import {
   getRoles,
 } from './actions';
 import Table from '../../../components/Table';
+import DropDown from '../../../components/Inputs/DropDown';
 import Popup from "reactjs-popup";
 import { Control, Errors, Form, actions } from 'react-redux-form';
 import {Button} from 'react-bootstrap';
@@ -170,7 +171,7 @@ class People extends Component {
       last_name,
     } = userInfo;
     // Pseudo worker is a worker with no email filled out
-    const isPseudo = role === '3' && email.trim().length === 0;
+    const isPseudo = role === 3 && email.trim().length === 0;
     const amount = pay.amount && pay.amount.trim().length > 0
       ? Number(pay.amount)
       : 0; // TODO: convert this to null to indicate no wage is entered
@@ -363,18 +364,55 @@ class People extends Component {
     return !addInfo.$form.valid;
   }
 
+  isTextFieldErrorShown = (key) => {
+    const { profileForms } = this.props;
+    const { forms } = profileForms;
+    const { addInfo } = forms;
+    let field = addInfo[key];
+
+    if (key === 'pay') {
+      field = addInfo[key].amount;
+    }
+
+    // Show error only when it's invalid, touched, and not currently focused on
+    // NOTE: Besides the first condition (field.valid), all the following
+    // conditions should follow the show prop in the <Errors /> component to
+    // ensure that the input field's styling is consistent with <Errors />
+    return !field.valid && field.touched && !field.focus;
+  }
+
+  getTextFieldStyle = (key) => {
+    const hasErrors = this.isTextFieldErrorShown(key);
+    if (hasErrors) {
+      return styles.errorInputContainer;
+    }
+    return styles.inputContainer;
+  }
+
+  getDropDownOptions = () => {
+    const { roles } = this.props;
+    return roles.map(option => {
+      const { role_id, role } = option;
+      return ({
+        value: role_id,
+        label: `Farm ${role}`,
+      });
+    })
+  }
+
   render() {
-    const { isAdmin, roles, profileForms } = this.props;
+    const { isAdmin, profileForms } = this.props;
     const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
+    const dropDownOptions = this.getDropDownOptions();
 
     if (this.state.showAdd) {
       return (
         <div className={styles.addUserContainer}>
           <div className={styles.addUserTitleContainer}>
-            <h3>Invite a User</h3>
+            <h3 className={styles.userTitle}>Invite a User</h3>
           </div>
           <Form
             className={styles.formContainer}
@@ -382,7 +420,7 @@ class People extends Component {
             onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
           >
             <div className={styles.formBodyContainer}>
-              <div className={styles.inputContainer}>
+              <div className={this.getTextFieldStyle('first_name')}>
                 <label>First Name</label>
                 <Control.text
                   model=".addInfo.first_name"
@@ -400,12 +438,11 @@ class People extends Component {
                 show={field => field.touched && !field.focus}
                 component={(props) => (
                   <div className={styles.errorContainer}>
-                    <i className="material-icons">error_outline</i>
                     <div className={styles.errorText}>{props.children}</div>
                   </div>
                 )}
               />
-              <div className={styles.inputContainer}>
+              <div className={this.getTextFieldStyle('last_name')}>
                 <label>Last Name</label>
                 <Control.text
                   model=".addInfo.last_name"
@@ -423,116 +460,156 @@ class People extends Component {
                 show={field => field.touched && !field.focus}
                 component={(props) => (
                   <div className={styles.errorContainer}>
-                    <i className="material-icons">error_outline</i>
                     <div className={styles.errorText}>{props.children}</div>
                   </div>
                 )}
               />
               <div className={styles.inputContainer}>
                 <label>Role</label>
-                <Control.select
+                <Control.custom
                   model=".addInfo.role"
                   defaultValue="0"
-                  onChange={(e) => {
+                  onChange={(option) => {
+                    this.props.dispatch(actions.change('profileForms.addInfo.role', option.value))
                     this.props.dispatch(actions.validate('profileForms.addInfo.email', {
-                      required: (val) => e.target.value === '3' ? true : val.length,
+                      required: (val) => option.value === 3 ? true : val.length,
                       validEmail: (val) => validEmailRegex.test(val),
                     }));
                   }}
-                >
-                  <option disabled hidden value="0"></option>
-                  {
-                    roles.map(row => {
-                      const { role_id, role } = row;
-                      return (
-                        <option
-                          key={role_id}
-                          value={role_id}
-                        >
-                          {`Farm ${role}`}
-                        </option>
-                      );
-                    })
-                  }
-                </Control.select>
-              </div>
+                  component={DropDown}
+                  mapProps={{
+                    isSearchable: false,
+                    options: dropDownOptions,
+                    placeholder: 'Select role',
+                    styles: {
+                      container: (provided, state) => ({
+                        ...provided,
+                        margin: '0.25em 0 1em 0',
+                        outline: 'none',
+                      }),
+                      control: (provided, state) => ({
+                        background: '#FFFFFF',
+                        border: '1px solid',
+                        borderColor: state.isFocused ? '#89D1C7' : '#D4DAE3',
+                        boxSizing: 'border-box',
+                        borderRadius: '4px',
+                        padding: '0.75em 0.5em',
+                        height: '48px',
+                        fontSize: '16px',
+                        color: '#282B36',
+                        outline: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }),
+                      placeholder: (provided, state) => ({ color: '#282B36'}),
+                      indicatorSeparator: (provided, state) => ({
+                        backgroundColor: 'none',
+                      }),
+                      menuList: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                        margin: 0,
+                        borderRadius: '4px',
+                        background: '#FFFFFF',
+                        boxShadow: '0px 1px 2px rgba(102, 115, 138, 0.25)',
+                      }),
+                      option: (provided, state) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '8px 8px 8px',
+                        backgroundColor: 'transparent',
+                        background: (state.isClicked || state.isFocused) ? 'rgb(223, 244, 232, 0.5)' : 'none',
+                        color: '#282B36',
+                        height: '40px',
+                      }),
+                      valueContainer: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                      }),
+                      singleValue: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                        margin: 0,
+                      }),
+                    }
+                  }}
+                />
+          </div>
               {
                 isRoleSelected
-                && (
-                  <div>
-                    <div className={styles.inputContainer}>
-                      <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
-                      <Control.text
-                        model=".addInfo.email"
-                        validators={{
-                          required: (val) => addInfo.role === '3' ? true : val.length,
-                          validEmail: (val) => validEmailRegex.test(val),
-                        }}
-                        defaultValue=""
-                      />
-                      {
-                        addInfo.role === '3'
-                        && (
-                          <p className={styles.emailInputReminder}>
-                            {`Users without an email won't be able to login`}
-                          </p>
-                        )
-                      }
-                    </div>
-                    <Errors
-                      model=".addInfo.email"
-                      messages={{
-                        required: 'Email cannot be empty for the selected role',
-                        validEmail: 'Email must be valid',
-                      }}
-                      show={field => field.touched && !field.focus}
-                      component={(props) => (
-                        <div className={styles.errorContainer}>
-                          <i className="material-icons">error_outline</i>
-                          <div className={styles.errorText}>{props.children}</div>
-                        </div>
-                      )}
-                    />
-                    <div className={styles.inputContainer}>
-                      <label>Wage (Optional)</label>
-                      <div className={styles.wageContainer}>
+                  && (
+                    <div>
+                    <div className={this.getTextFieldStyle('email')}>
+                        <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
                         <Control.text
-                          model=".addInfo.pay.amount"
+                          model=".addInfo.email"
                           validators={{
-                            validWage: (val) => validWageRegex.test(val),
+                            required: (val) => addInfo.role === 3 ? true : val.length,
+                            validEmail: (val) => validEmailRegex.test(val),
                           }}
                           defaultValue=""
                         />
-                        <p className={styles.wageInputUnit}>
-                          {`${currencySymbol}/hr`}
-                        </p>
-                        {/* <div className={styles.payTypeContainer}>
-                              <div className={styles.radioContainer}>
-                                <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
-                                <label htmlFor="hour">Hourly</label>
-                              </div>
-                              <div className={styles.radioContainer}>
-                                <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
-                                <label htmlFor="daily">Daily</label>
-                              </div>
-                            </div> */}
+                        {
+                          addInfo.role === 3
+                            && (
+                              <p className={styles.emailInputReminder}>
+                                {`Users without an email won't be able to login`}
+                              </p>
+                            )
+                        }
                       </div>
-                    </div>
-                    <Errors
-                      model=".addInfo.pay.amount"
-                      messages={{
-                        validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
-                      }}
-                      show={field => field.touched && !field.focus}
-                      component={(props) => (
-                        <div className={styles.errorContainer}>
-                          <i className="material-icons">error_outline</i>
-                          <div className={styles.errorText}>{props.children}</div>
+                      <Errors
+                        model=".addInfo.email"
+                        messages={{
+                          required: 'Email cannot be empty for the selected role',
+                          validEmail: 'Email must be valid',
+                        }}
+                        show={field => field.touched && !field.focus}
+                        component={(props) => (
+                          <div className={styles.errorContainer}>
+                            <div className={styles.errorText}>{props.children}</div>
+                          </div>
+                        )}
+                      />
+                    <div className={this.getTextFieldStyle('pay')}>
+                        <label>Wage (Optional)</label>
+                        <div className={styles.wageContainer}>
+                          <Control.text
+                            model=".addInfo.pay.amount"
+                            validators={{
+                              validWage: (val) => validWageRegex.test(val),
+                            }}
+                            defaultValue=""
+                          />
+                          <p className={styles.wageInputUnit}>
+                            {`${currencySymbol}/hr`}
+                          </p>
+                          {/* <div className={styles.payTypeContainer}>
+                                <div className={styles.radioContainer}>
+                                  <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
+                                  <label htmlFor="hour">Hourly</label>
+                                </div>
+                                <div className={styles.radioContainer}>
+                                  <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
+                                  <label htmlFor="daily">Daily</label>
+                                </div>
+                              </div> */}
                         </div>
-                      )}
-                    />
-                  </div>
-                )
+                      </div>
+                      <Errors
+                        model=".addInfo.pay.amount"
+                        messages={{
+                          validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
+                        }}
+                        show={field => field.touched && !field.focus}
+                        component={(props) => (
+                          <div className={styles.errorContainer}>
+                            <div className={styles.errorText}>{props.children}</div>
+                          </div>
+                        )}
+                      />
+                    </div>
+                  )
               }
             </div>
             <div className={styles.formActionsContainer}>
@@ -541,14 +618,14 @@ class People extends Component {
                 onClick={() => this.closeAddModal()}
               >
                 Cancel
-                </button>
+              </button>
               <button
                 type="submit"
                 className={styles.inviteButton}
                 disabled={this.isDisabled()}
               >
                 Invite
-                </button>
+              </button>
             </div>
           </Form>
         </div>

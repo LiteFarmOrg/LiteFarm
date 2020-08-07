@@ -31,12 +31,12 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
   4. lerna
       - `npm install -g lerna`
   5. clone the repository
-      - `git clone git@github.com:juice-tn/LiteFarm.git`
+      - `git clone https://github.com/LiteFarmOrg/LiteFarm.git`
 
 ### Setting up database/running migrations:  
   1. install postgreSQL on your machine (instructions for MAC)
       - install homebrew
-        - `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
+        - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
       - install postgresql
         - `brew install postgresql`
   2. create user `postgres` and set password to `postgres`
@@ -51,8 +51,9 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
       - `psql postgres -U postgres`
       - `CREATE DATABASE mock_farm;`
   4. install knex globally `npm install -g knex`
-  5. `cd packages/api && knex migrate:latest` to start db migration
-  6. `knex seed:run` to seed database with default data
+  5. `cd packages/api` and `npm install knex@0.14.6`,
+  6. Once complete, run `knex migrate:latest` to start the db migration (if you run into issues here, you can try dropping and recreating the database)
+  6. Optionally, you can run `knex seed:run` to seed database with default data
 
   ### Setting up env vars in webapp and api:
   custom environment variables are used in the application. Env vars containing sensitive information

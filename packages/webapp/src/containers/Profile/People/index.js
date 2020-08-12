@@ -144,8 +144,6 @@ class People extends Component {
       if (!finalUser.role_id) {
         finalUser.role_id = 3;
       }
-      finalUser.first_name = user.first_name;
-      finalUser.last_name = user.last_name;
       finalUser.has_consent = false;
       hasChanged = true;
     }

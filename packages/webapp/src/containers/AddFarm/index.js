@@ -1,21 +1,21 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from "react";
-import {actions, Control, Form} from 'react-redux-form';
-import {connect} from 'react-redux';
+import React, { Component } from "react";
+import { actions, Control, Form } from 'react-redux-form';
+import { connect } from 'react-redux';
 import Popup from "reactjs-popup";
 import { Button } from 'react-bootstrap';
 
@@ -29,11 +29,15 @@ import FarmAddress from "../../components/AddFarm/FarmAddress";
 const allowedRoles = [
   'Owner', 'Manager',
 ];
+
 class AddFarm extends Component {
+  currencyOptions = [];
+
   constructor(props) {
     super(props);
     this.props.dispatch(actions.reset('profileForms.farm'));
-    this.props.dispatch(actions.change('profileForms.farm.unit', {value: "metric", label: "Metric"}));
+    this.props.dispatch(actions.change('profileForms.farm.unit', { value: "metric", label: "Metric" }));
+    this.props.dispatch(actions.change('profileForms.farm.currency', { value: "USD", label: "USD" }));
     this.state = {
       farm: {
         farm_name: '',
@@ -49,6 +53,10 @@ class AddFarm extends Component {
       showRoleModal: false,
       selectedRole: '',
     };
+  }
+
+  componentDidMount() {
+    this.currencyOptions = Object.keys(commonCurrency).map((key) => ({ value: key, label: key }));
   }
 
   handleSubmit = () => {
@@ -74,15 +82,6 @@ class AddFarm extends Component {
   }
 
   render() {
-
-    const currencyOptions = [];
-    for (const key in commonCurrency) {
-      currencyOptions.push({value: key, label: key})
-    }
-
-    const { farm } = this.state;
-    const { farm_name } = farm;
-
     return <div className={styles.formContainer}>
       <Form className={styles.form} model="profileForms" onSubmit={(val) => this.openChooseRoleModal(val)}>
         <label>Your Farm Name</label>
@@ -99,22 +98,22 @@ class AddFarm extends Component {
           <Control
             model=".farm.unit"
             component={DropDown}
-            options={[{value: "metric", label: "Metric"}, {value: "imperial", label: "Imperial"}]}
+            options={[{ value: "metric", label: "Metric" }, { value: "imperial", label: "Imperial" }]}
           />
         </div>
         <label>Currency</label>
         <div>
           <Control model=".farm.currency"
                    component={DropDown}
-                   options={currencyOptions}
+                   options={this.currencyOptions}
           />
         </div>
         <div>
           <Checkbox
-          stylesheet={styles.sandbox}
+            stylesheet={styles.sandbox}
             title="Is this a sandbox account and not a real farm?"
             model=".farm.sandbox"
-            />
+          />
         </div>
         <button className={styles.next}>Next</button>
       </Form>
@@ -128,7 +127,7 @@ class AddFarm extends Component {
         {/* Need a div wrapper to eliminate console warnings from the popup */}
         <div className={styles.modal}>
           <div className={styles.popupTitle}>
-            <h3>{`Choose your role at ${farm_name}`}</h3>
+            <h3>{`Choose your role at ${this.state.farm.farm_name}`}</h3>
           </div>
           <div className={styles.customContainer}>
 

@@ -190,7 +190,7 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
         returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData['max_humidity']);
         break;
       case 'wind_speed':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key]; // this needs to be wrong
+        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
         break;
       case 'field_id':
         returningWeatherData[key] = existingWeatherData[key];

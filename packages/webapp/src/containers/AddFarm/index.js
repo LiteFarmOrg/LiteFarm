@@ -115,7 +115,7 @@ class AddFarm extends Component {
             model=".farm.sandbox"
           />
         </div>
-        <button type={"button"} className={styles.next}>Next</button>
+        <button className={styles.next}>Next</button>
       </Form>
       <Popup
         open={this.state.showRoleModal}
@@ -148,7 +148,6 @@ class AddFarm extends Component {
               Go Back
             </div>
             <button
-              type={"button"}
               className='btn btn-primary'
               onClick={() => this.handleSubmit()}
               disabled={!this.state.selectedRole}

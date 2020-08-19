@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fieldRoute.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -23,7 +23,7 @@ const checkScope = require('../middleware/acl/checkScope');
 // Get the crop on a bed
 router.get('/farm/:farm_id', authFarmId, checkScope(['get:fields']), fieldController.getFieldByFarmID());
 
-router.post('/', checkScope(['add:fields']), fieldController.addField());
+router.post('/', checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
 
 router.put('/:id', checkOwnership('field'), checkScope(['edit:fields']), fieldController.updateField());
 

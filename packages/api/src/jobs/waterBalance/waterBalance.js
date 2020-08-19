@@ -1,18 +1,20 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (waterBalance.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const { from } = require('rxjs');
+const { delay, concatMap } = require('rxjs/operators');
 const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
@@ -25,7 +27,6 @@ const waterBalanceModel = require('../../models/waterBalanceModel');
 const waterBalanceScheduleModel = require('../../models/waterBalanceSchedule');
 const weatherModel = require('../../models/weatherModel');
 const weatherHourlyModel = require('../../models/weatherHourlyModel');
-
 /* eslint-disable no-console */
 
 
@@ -91,6 +92,7 @@ class waterBalanceScheduler {
     console.log('Added a Water Balance')
   }
 
+
   static async registerFarmID(farmID) {
     try {
       await waterBalanceScheduleModel.query().insert({ farm_id: farmID });
@@ -109,25 +111,30 @@ class waterBalanceScheduler {
 }
 
 const grabFarmIDsToRun = async () => {
-  const dataPoints = await knex.raw(`SELECT w.farm_id
-  FROM "waterBalanceSchedule" w`);
+  const dataPoints = await knex.raw('SELECT w.farm_id FROM "waterBalanceSchedule" w');
   return dataPoints.rows
 };
+
 
 const saveWeatherData = async (dataPoint) => {
   const farmID = dataPoint.farm_id;
   const dataPoints = await knex.raw(
-    `SELECT f.field_id, f.grid_points
+    `SELECT DISTINCT f.station_id
     FROM "field" f
     WHERE f.farm_id = '${farmID}'`
   );
-  dataPoints.rows.forEach(async (field) => {
-    const weatherData = await callOpenWeatherAPI(field.grid_points[0]);
-    await saveWeatherToDisk(weatherData, field, farmID);
-  })
+  from(dataPoints.rows)
+    .pipe(
+      concatMap(({ station_id }) =>
+        from(callOpenWeatherAPI(station_id))
+          .pipe(delay(1000))
+      )
+    ).subscribe((weatherData) => {
+      saveWeatherToDisk(weatherData);
+    });
 };
 
-const saveWeatherToDisk = async (weatherData, field) => {
+const saveWeatherToDisk = async (weatherData) => {
   const hourlyWeatherData = {
     created_at: new Date(),
     min_degrees: weatherData['main']['temp_min'],
@@ -136,23 +143,23 @@ const saveWeatherToDisk = async (weatherData, field) => {
     min_humidity: weatherData['main']['humidity'],
     max_humidity: weatherData['main']['humidity'],
     wind_speed: weatherData['wind']['speed'],
-    field_id: field.field_id,
+    station_id: weatherData.id,
     data_points: 1,
   };
   try {
-    const data = await knex.raw (`
+    const data = await knex.raw(`
     SELECT *
     FROM "weatherHourly" w
-    WHERE w.field_id = '${field.field_id}'
+    WHERE w.station_id = '${weatherData.id}'
     `);
     if (data.rows && data.rows.length > 0) {
       const currentWeather = compareWeatherData(data.rows[0], hourlyWeatherData);
       await knex.raw(
-        `UPDATE "weatherHourly"
+        `UPDATE "weatherHourly" w
         SET min_degrees = '${currentWeather.min_degrees}', max_degrees = '${currentWeather.max_degrees}', min_humidity = '${currentWeather.min_humidity}', 
         max_humidity = '${currentWeather.max_humidity}', precipitation = '${currentWeather.precipitation}', wind_speed = '${currentWeather.wind_speed}', 
         data_points = '${currentWeather.data_points}'
-        WHERE field_id = '${currentWeather.field_id}'
+        WHERE station_id  = '${weatherData.id}'
         `)
     } else {
       await weatherHourlyModel.query().insert(hourlyWeatherData).returning('*');
@@ -167,31 +174,31 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
 
   for (const key in existingWeatherData) {
     switch (key) {
-    case 'min_degrees':
-      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
-      break;
-    case 'max_degrees':
-      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
-      break;
-    case 'precipitation':
-      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-      break;
-    case 'min_humidity':
-      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData['min_humidity']);
-      break;
-    case 'max_humidity':
-      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData['max_humidity']);
-      break;
-    case 'wind_speed':
-      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-      break;
-    case 'field_id':
-      returningWeatherData[key] = existingWeatherData[key];
-      break;
-    case 'data_points':
-      returningWeatherData[key] = existingWeatherData[key] + 1;
-      break;
-    default:
+      case 'min_degrees':
+        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
+        break;
+      case 'max_degrees':
+        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
+        break;
+      case 'precipitation':
+        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+        break;
+      case 'min_humidity':
+        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData['min_humidity']);
+        break;
+      case 'max_humidity':
+        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData['max_humidity']);
+        break;
+      case 'wind_speed':
+        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+        break;
+      case 'field_id':
+        returningWeatherData[key] = existingWeatherData[key];
+        break;
+      case 'data_points':
+        returningWeatherData[key] = existingWeatherData[key] + 1;
+        break;
+      default:
       // should be no default case
     }
   }
@@ -204,10 +211,10 @@ const removeWeather = async (farmID) => {
   WHERE weather_hourly_id IN
   (SELECT w.weather_hourly_id
   FROM "field" f, "weatherHourly" w
-  WHERE f.farm_id = '${farmID}' and w.field_id = f.field_id)`);
+  WHERE f.farm_id = '${farmID}' and w.station_id = f.station_id)`);
     console.log('Deleted Weather For FarmID: ', farmID);
     return { farm_id: farmID }
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 };
@@ -319,8 +326,7 @@ const calculateIrrigation = (flow_rate_l, hours, area_used) => {
     const minutes = hours * 60;
     const volume = flow_rate_l * minutes;
     return volume / area_used
-  }
-  else return 0
+  } else return 0
 };
 
 const postWeatherToDB = async (weatherDataMap) => {
@@ -340,7 +346,7 @@ const grabWeatherData = async (farmID) => {
   SELECT f.field_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
   w.max_humidity as max_humidity, w.precipitation as precipitation, w.wind_speed as wind_speed, w.data_points as data_points
   FROM "weatherHourly" w, "field" f
-  WHERE w.field_id = f.field_id and f.farm_id = '${farmID}'
+  WHERE w.station_id = f.station_id and f.farm_id = '${farmID}'
   `);
   if (dataPoints.rows) {
     dataPoints.rows.forEach((field) => {
@@ -475,12 +481,14 @@ const grabDayOfYear = () => {
   return Math.floor(diff / oneDay);
 };
 
-const callOpenWeatherAPI = async (gridPoint) => {
+const callOpenWeatherAPI = async (cityId) => {
   const options = {
     uri: endPoints.openWeatherAPI,
     qs: {
-      lon: gridPoint['lng'],
-      lat: gridPoint['lat'],
+      // Replacing Lat Long Query for city Id query
+      // lon: gridPoint['lng'],
+      // lat: gridPoint['lat'],
+      id: cityId,
       units: 'metric',
       APPID: credentials.OPEN_WEATHER_APP_ID,
     },
@@ -521,7 +529,7 @@ const callDB = (contentFile) => {
 const formatDate = (date, prevDay) => {
   const d = new Date(date), year = d.getFullYear();
   let month = '' + (d.getMonth() + 1);
-  let day = prevDay ? '' + d.getDate() - 1: '' + d.getDate(); // I want to grab the previous dates soilWater so I subtract one
+  let day = prevDay ? '' + d.getDate() - 1 : '' + d.getDate(); // I want to grab the previous dates soilWater so I subtract one
 
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;

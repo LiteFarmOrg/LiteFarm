@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Script from 'react-load-script';
 import {actions, Control} from "react-redux-form";
+import { toastr } from 'react-redux-toastr';
 import {connect} from "react-redux";
 
 class FarmAddress extends Component {
@@ -39,7 +40,9 @@ class FarmAddress extends Component {
     if(!model) {
       model = ".farm"
     }
-
+    if(!place.geometry) {
+      return toastr.error(`No location information found for ${place.name}`)
+    }
     this.props.dispatch(actions.change('profileForms' + model + '.address', place.formatted_address));
     gridPoints['lat'] = place.geometry.location.lat();
     gridPoints['lng'] = place.geometry.location.lng();
@@ -61,8 +64,8 @@ class FarmAddress extends Component {
         onLoad={this.handleScriptLoad}
       />
       <Control.text defaultValue={defaultValue} style={{width: '250px'}} id="autocomplete" model={model + '.address'} validators={{
-        required: (val) => val.length,
-        length: (val) => val.length > 2
+        required: (val) => val && val.length,
+        length: (val) => val && val.length > 2
       }}/>
     </div>)
   }

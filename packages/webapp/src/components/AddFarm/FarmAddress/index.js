@@ -7,8 +7,6 @@ import {connect} from "react-redux";
 class FarmAddress extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
     this.handleScriptLoad = this.handleScriptLoad.bind(this);
     this.handlePlaceSelect = this.handlePlaceSelect.bind(this);
   }
@@ -31,22 +29,29 @@ class FarmAddress extends Component {
     this.autocomplete.setFields(['geometry', 'formatted_address']);
 
     // Fire Event when a suggested name is selected
-    this.autocomplete.addListener('place_changed', this.handlePlaceSelect);
+    this.autocomplete.addListener('place_changed', this.handlePlaceSelect(false));
   }
   handlePlaceSelect() {
-    const place = this.autocomplete.getPlace();
-    const gridPoints = {};
-    let model = this.props.model;
-    if(!model) {
-      model = ".farm"
+    return (blurring) => {
+      const place = this.autocomplete.getPlace();
+      const gridPoints = {};
+      let model = this.props.model;
+      if(!model) {
+        model = ".farm"
+      }
+      if(blurring && Object.keys(this.props.points).length === 0 && !place) {
+        this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
+        return toastr.error(`No location information found for ${place.name}`);
+      }
+      if(!place.geometry) {
+        this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
+        return toastr.error(`No location information found for ${place.name}`)
+      }
+      this.props.dispatch(actions.change('profileForms' + model + '.address', place.formatted_address));
+      gridPoints['lat'] = place.geometry.location.lat();
+      gridPoints['lng'] = place.geometry.location.lng();
+      this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
     }
-    if(!place.geometry) {
-      return toastr.error(`No location information found for ${place.name}`)
-    }
-    this.props.dispatch(actions.change('profileForms' + model + '.address', place.formatted_address));
-    gridPoints['lat'] = place.geometry.location.lat();
-    gridPoints['lng'] = place.geometry.location.lng();
-    this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
   }
 
   render() {
@@ -66,7 +71,7 @@ class FarmAddress extends Component {
       <Control.text defaultValue={defaultValue} style={{width: '250px'}} id="autocomplete" model={model + '.address'} validators={{
         required: (val) => val && val.length,
         length: (val) => val && val.length > 2
-      }}/>
+      }} onBlur={this.handlePlaceSelect(true)} />
     </div>)
   }
 
@@ -77,4 +82,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapDispatchToProps)(FarmAddress);
+const mapStateToProps = (state) => ({
+    points: state.profileForms.farm.gridPoints,
+    address: state.profileForms.farm.address
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FarmAddress);

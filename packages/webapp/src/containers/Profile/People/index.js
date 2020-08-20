@@ -499,7 +499,7 @@ class People extends Component {
                         display: 'flex',
                         alignItems: 'center',
                       }),
-                      placeholder: (provided, state) => ({ color: '#282B36'}),
+                      placeholder: (provided, state) => ({ color: '#9FAABE'}),
                       indicatorSeparator: (provided, state) => ({
                         backgroundColor: 'none',
                       }),

@@ -53,17 +53,11 @@
 }
 
 .modal, .addUserContainer {
-  width: 95%;
-  max-width: 800px;
-  margin-top: 50px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .addUserContainer {
-  width: 100%;
-  margin: auto;
 }
 
 .labelContainer{
@@ -123,14 +117,13 @@
 .inputContainer, .errorInputContainer {
   display: flex;
   flex-direction: column;
-  max-width: 312px;
   margin: auto;
   input[type='text'], select {
     background: #FFFFFF;
     border: 1px solid #D4DAE3;
     box-sizing: border-box;
     border-radius: 4px;
-    margin: 0.25em 0 1em 0;
+    margin: 0.25em 0 16px 0;
     padding: 0.75em 0.5em;
     height: 48px;
     font-size: 16px;
@@ -178,11 +171,11 @@
 .addUserTitleContainer {
   width: 100%;
   max-width: 312px;
-  margin-bottom: 10px;
 }
 
 .userTitle {
-  margin-top: 24px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .wageContainer {
@@ -253,8 +246,9 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 312px;
-  margin: 120px auto 32px auto;
+  margin-top: 100%;
+  position: absolute;
+  bottom: 32px;
 }
 
 .inviteButton, .cancelButton {
@@ -273,6 +267,7 @@
   box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
   border: none;
   color: #282B36;
+  margin-right: 48px;
 }
 
 .inviteButton:disabled {

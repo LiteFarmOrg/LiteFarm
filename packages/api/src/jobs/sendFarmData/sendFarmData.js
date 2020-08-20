@@ -102,7 +102,7 @@ class sendUserFarmDataScheduler {
           const user_data = await knex.raw(
             `
           SELECT uf.user_id, uf.farm_id, uf.role_id, uf.has_consent, u.created_at, u.first_name, u.last_name, u.profile_picture, u.email, u.phone_number,
-          u.wage, u.is_pseudo, uf.status
+          uf.wage, u.is_pseudo, uf.status
           FROM "userFarm" uf
           LEFT JOIN
           "users" u

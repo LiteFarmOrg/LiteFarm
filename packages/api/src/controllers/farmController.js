@@ -109,7 +109,7 @@ class farmController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        if(!!req.body.address || !!req.body.gridPoints) {
+        if(!!req.body.address || !!req.body.grid_points) {
           throw new Error('Not allowed to modify address or gridPoints')
         }
         const updated = await baseController.put(farmModel, req.params.id, req.body, trx);

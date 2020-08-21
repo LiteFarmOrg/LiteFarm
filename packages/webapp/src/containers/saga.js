@@ -142,7 +142,7 @@ export function* updateFarm(payload){
   };
 
   // OC: We should never update address information of a farm.
-  let {address, gridPoints, ...data}  = payload.farm;
+  let {address, grid_points, ...data}  = payload.farm;
 
   if(data.phone_number.number === null || data.phone_number.country === null){
     delete data.phone_number;

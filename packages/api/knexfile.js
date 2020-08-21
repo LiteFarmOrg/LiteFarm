@@ -72,4 +72,19 @@ module.exports = {
     },
     ssl: true,
   },
+  testing: {
+    client: 'postgresql',
+    connection: {
+      host: 'localhost',
+      database: 'mock_farm',
+      user:     'postgres',
+      password: 'postgres',
+    },
+    migrations: {
+      directory: __dirname + '/db/migration',
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds',
+    },
+  },
 };

@@ -26,39 +26,44 @@ const Knex = require('knex')
 const environment = 'testing';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
-
+let checkJwt;
 beforeAll(() => {
     // beforeAll is set before each test
     // global.token is set in testEnvironment.js
     token = global.token;
 });
 
-beforeEach(() => {
-    const checkJwt = require('../src/middleware/acl/checkJwt');
-    sinon.stub(checkJwt, 'checkJwt').callsFake(function (req) {
-        req.user = ''
-    })
 
-})
 describe('Farm Tests', () => {
     async function createUser() {
         let validSignupUser = {
             email: 'test123456_signup@usertest.com',
-            password: 'TEST123password?',
-            user_metadata: {'first_name': 'Test', 'last_name': 'ValidUser'},
-            app_metadata: {emailInvite: true},
-            connection: 'Username-Password-Authentication',
+            first_name: 'Test',
+            last_name: 'User',
+            user_id: 'anifasndoasndoasn'
         }
-        return await knex('Users').insert(validSignupUser)
+        return await knex('users').insert(validSignupUser)
     }
+
+    async function deleteUser() {
+      return await knex('users').where({user_id:'anifasndoasndoasn'}).delete()
+    }
+
     beforeEach(async () => {
         let newUser = await createUser();
-        console.log(newUser)
-        const checkJwt = require('../src/middleware/acl/checkJwt');
-        sinon.stub(checkJwt, 'checkJwt').callsFake(function (req) {
-            req.user = '|' + newUser.user_id;
-            console.log(req.user)
-        })
+        checkJwt = require('../src/middleware/acl/checkJwt');
+        checkJwt = (req,res) => {
+          console.log('OVERRIDEN VERSION')
+          req.user = '|' + newUser.user_id;
+        }
+        // sinon.stub(checkJwt, 'checkJwt').callsFake(function (req) {
+        //     req.user = '|' + newUser.user_id;
+        //     console.log(req.user)
+        // })
+    })
+
+    afterEach(async () => {
+      await deleteUser();
     })
 
     test('Test user', (done) => {

@@ -47,6 +47,9 @@ class FarmAddress extends Component {
         this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
         return toastr.error(`No location information found for ${place.name}`)
       }
+      if(blurring) {
+        return;
+      }
       this.props.dispatch(actions.change('profileForms' + model + '.address', place.formatted_address));
       gridPoints['lat'] = place.geometry.location.lat();
       gridPoints['lng'] = place.geometry.location.lng();

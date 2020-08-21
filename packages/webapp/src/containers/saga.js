@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -141,10 +141,9 @@ export function* updateFarm(payload){
     },
   };
 
-  let data = payload.farm;
-  if(data.address === null){
-    delete data.address;
-  }
+  // OC: We should never update address information of a farm.
+  let {address, gridPoints, ...data}  = payload.farm;
+
   if(data.phone_number.number === null || data.phone_number.country === null){
     delete data.phone_number;
   }

@@ -83,7 +83,11 @@ class AddFarm extends Component {
 
   render() {
     return <div className={styles.formContainer}>
-      <Form className={styles.form} model="profileForms" onSubmit={(val) => this.openChooseRoleModal(val)}>
+      <Form className={styles.form} model="profileForms" onSubmit={(val) => this.openChooseRoleModal(val)} validators={{
+        '': {
+          hasAddress: (form) => form.farm.address !== '' && Object.keys(form.farm.gridPoints).length !== 0
+        }
+      }}>
         <label>Your Farm Name</label>
         <Control.text model=".farm.farm_name" validators={{
           required: (val) => val.length,

@@ -246,9 +246,8 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: 100%;
-  position: absolute;
-  bottom: 32px;
+  margin-bottom: 32px;
+  margin-top: 45%;
 }
 
 .inviteButton, .cancelButton {
@@ -267,7 +266,6 @@
   box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
   border: none;
   color: #282B36;
-  margin-right: 48px;
 }
 
 .inviteButton:disabled {
@@ -280,4 +278,16 @@
   background: #FFFFFF;
   border: 1px solid #9FAABE;
   color: #66738A;
+}
+
+@media (min-height: 667px) {
+  .formActionsContainer {
+    margin-top: 100%;
+    position: absolute;
+    bottom: 32px;
+    margin-bottom: 0;
+  }
+  .inviteButton {
+    margin-right: 48px;
+  }
 }

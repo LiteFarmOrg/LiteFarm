@@ -48,7 +48,7 @@ class AddFarm extends Component {
           date_format: '',
           measurement: '',
         },
-        sandbox_bool: false,
+        sandbox: false,
       },
       showRoleModal: false,
       selectedRole: '',

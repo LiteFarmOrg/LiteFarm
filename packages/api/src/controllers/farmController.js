@@ -126,7 +126,7 @@ class farmController extends baseController {
       catch (error) {
         await trx.rollback();
         res.status(400).json({
-          error,
+          error : error.message ? error.message : error,
         });
       }
     }

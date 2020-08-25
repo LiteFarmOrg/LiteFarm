@@ -176,6 +176,8 @@
 .userTitle {
   margin-top: 16px;
   margin-bottom: 16px;
+  font-size: 20px;
+  line-height: 32px;
 }
 
 .wageContainer {
@@ -254,7 +256,6 @@
   padding: 12px 50px;
   border-radius: 4px;
   width: 45%;
-  max-width: 152px;
   font-size: 18px;
   display: flex;
   justify-content: center;
@@ -280,7 +281,7 @@
   color: #66738A;
 }
 
-@media (min-height: 667px) {
+@media screen and (min-height: 736px) and (min-width: 414px) {
   .formActionsContainer {
     margin-top: 100%;
     position: absolute;
@@ -289,5 +290,39 @@
   }
   .inviteButton {
     margin-right: 48px;
+  }
+}
+
+@media (min-width: 768px) {
+  .formActionsContainer {
+    margin-top: 40px;
+    position: unset;
+  }
+  .inviteButton {
+    margin-right: 0;
+  }
+  .userTitle {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+  .labelContainer {
+    margin-bottom: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .formActionsContainer {
+    position: unset;
+    margin-top: 0;
+  }
+  .inviteButton {
+    margin-right: 0;
+  }
+  .userTitle {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+  .labelContainer {
+    margin-bottom: 24px;
   }
 }

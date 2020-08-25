@@ -66,6 +66,7 @@ class Farm extends Component {
 
   render() {
     const {farm, schedule} = this.props;
+    console.log(farm);
     const {request_text, request_pending_text, enableRequest} = this.state;
     return (
       <div>
@@ -93,7 +94,7 @@ class Farm extends Component {
               )}
               <div className={styles.labelContainer}>
                 <label>Address</label>
-                <FarmAddress model=".farmInfo" defaultValue={farm.address} />
+                <Control model=".farmInfo.address" value={farm.address} disabled/>
               </div>
               <div className={styles.selectContainer}>
                 <label>Units</label>

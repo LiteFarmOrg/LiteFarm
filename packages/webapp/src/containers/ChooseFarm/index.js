@@ -149,7 +149,7 @@ class ChooseFarm extends Component {
       <div className={styles.inputWrapper}>
         {
           farms && farms.length &&
-          <select size={farms.length} className={styles.farmSelection} id="farm_select" onChange={(e)=>this.setSelectedFarm(e)}>
+          <select size={farms.length<=1 ? 2 : farms.length} className={styles.farmSelection} id="farm_select" onChange={(e)=>this.setSelectedFarm(e)}>
             {
               farms.map((farm)=>{
                 const { farm_id, farm_name, status } = farm;

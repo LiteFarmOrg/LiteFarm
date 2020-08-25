@@ -106,6 +106,9 @@ class Farm extends Component {
                 <label>Currency</label>
                 <p style={{marginLeft: '8px'}}>{farm.units.currency}</p>
               </div>
+              <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
+                {request_text}
+              </div>
               <div className={defaultStyles.bottomContainer}>
                 <div className={defaultStyles.buttonContainer}>
                   <Button type='submit' bsStyle='primary'>Save</Button>
@@ -115,9 +118,7 @@ class Farm extends Component {
           )}
         </div>
 
-        <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
-          {request_text}
-        </div>
+
         <Popup
           open={this.state.showData}
           closeOnDocumentClick

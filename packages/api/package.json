@@ -19,7 +19,8 @@
   },
   "jest": {
     "verbose": true,
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "testEnvironment": "./tests/testEnvironment.js"
   },
   "author": "LiteFarm",
   "license": "ISC",

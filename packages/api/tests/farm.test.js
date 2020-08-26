@@ -199,7 +199,7 @@ describe('Farm Tests', () => {
       });
     })
 
-    test('should fail to delete a farm if I am not an owner or manager', async (done) => {
+    xtest('should fail to delete a farm if I am not an owner or manager', async (done) => {
       const [user] = await createUser('test@test.com', 'asfnaosfnaod');
       const [worker] = await createUser('test2@test.com', '12114124m12km4n1o');
       const farm = await createFarm(user.user_id);

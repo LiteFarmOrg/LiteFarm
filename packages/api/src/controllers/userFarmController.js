@@ -17,6 +17,7 @@ const baseController = require('../controllers/baseController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
+const emailTokenModel = require('../models/emailTokenModel');
 const createUserController = require('../controllers/createUserController');
 const {transaction, Model} = require('objection');
 const axios = require('axios');
@@ -29,6 +30,8 @@ const lodash = require('lodash');
 const url = require('url');
 const generator = require('generate-password');
 const emailSender = require('../templates/sendEmailTemplate');
+const uuidv4 = require('uuid/v4');
+
 
 class userFarmController extends baseController {
   constructor() {
@@ -352,9 +355,9 @@ class userFarmController extends baseController {
         }
 
         if (needToConvertWorker) {
-
+          const rows = await userModel.query(trx).select('*').where('user_id', user_id);
           const replacements = {
-            first_name: req.body.first_name,
+            first_name: rows[0].first_name,
             farm: farm_name,
           };
           const subject = "You’ve been invited to join " + farm_name + " on LiteFarm!";
@@ -369,8 +372,8 @@ class userFarmController extends baseController {
             email: req.body.email,
             password: pw,
             user_metadata: {
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
+              first_name: rows[0].first_name,
+              last_name: rows[0].last_name,
             },
             app_metadata: { emailInvite: true, signed_up: true },
             connection: 'Username-Password-Authentication',
@@ -405,9 +408,28 @@ class userFarmController extends baseController {
 
           await userModel.query(trx).where('user_id', new_user_id)
             .patch({email: req.body.email, profile_picture: picture});
-
-          await createUserController.sendResetPassword(req.body.email);
-          await emailSender.sendEmail(template_path, subject, replacements, req.body.email, sender);
+          // create invite token
+          let token = uuidv4();
+          // gets rid of the dashes
+          token = token.replace(/[-]/g, "");
+          // add a row in emailToken table
+          await emailTokenModel.query(trx).insert({
+            user_id: new_user_id,
+            farm_id: farm_id,
+            token,
+            is_used: false,
+          });
+          // the following is to determine the url
+          const environment = process.env.NODE_ENV || 'development';
+          let joinUrl;
+          if(environment === 'integration'){
+            joinUrl = `https://beta.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
+          }else if(environment === 'production'){
+            joinUrl = `https://www.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
+          }else{
+            joinUrl = `localhost:3000/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`
+          }
+          await emailSender.sendEmail(template_path, subject, replacements, req.body.email, sender, true, joinUrl);
 
           const isPatched = await userFarmModel.query(trx).where('user_id', new_user_id).andWhere('farm_id', farm_id)
             .patch(removeAdditionalProperties(userFarmModel, req.body));

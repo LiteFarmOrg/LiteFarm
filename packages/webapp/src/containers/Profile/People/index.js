@@ -688,7 +688,7 @@ class People extends Component {
                     {
                       this.state.editUser.role_id === 4 && <div className={styles.labelContainer}>
                         <label>Convert this worker to a user with account</label>
-                        <input type="checkbox" value={this.state.willConvertWorker}
+                        <input style ={{"appearance": "auto"}} type="checkbox" value={this.state.willConvertWorker}
                                onChange={(e) => this.toggleConvertWorker(e)}/>
                       </div>
                     }

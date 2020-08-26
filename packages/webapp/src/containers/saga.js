@@ -146,10 +146,9 @@ export function* updateFarm(payload){
     },
   };
 
-  let data = payload.farm;
-  if(data.address === null){
-    delete data.address;
-  }
+  // OC: We should never update address information of a farm.
+  let {address, grid_points, ...data}  = payload.farm;
+
   if(data.phone_number.number === null || data.phone_number.country === null){
     delete data.phone_number;
   }
@@ -270,11 +269,12 @@ export function* updateAgreementSaga(payload) {
     if (result) {
       if (payload.consent_bool.consent) {
         console.log('user agreed to consent form/');
-      history.push('/home');
+        history.push('/home');
       } else {
-
-      const auth = new Auth();
-      auth.logout();
+    //did not give consent - log user out
+        const auth = new Auth();
+        auth.logout();
+        history.push('/callback');
       }
     }
   } catch(e) {

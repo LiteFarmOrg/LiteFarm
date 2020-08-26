@@ -66,6 +66,7 @@ class Farm extends Component {
 
   render() {
     const {farm, schedule} = this.props;
+    console.log(farm);
     const {request_text, request_pending_text, enableRequest} = this.state;
     return (
       <div>
@@ -93,7 +94,7 @@ class Farm extends Component {
               )}
               <div className={styles.labelContainer}>
                 <label>Address</label>
-                <FarmAddress model=".farmInfo" defaultValue={farm.address} />
+                <Control model=".farmInfo.address" value={farm.address} disabled/>
               </div>
               <div className={styles.selectContainer}>
                 <label>Units</label>
@@ -106,6 +107,9 @@ class Farm extends Component {
                 <label>Currency</label>
                 <p style={{marginLeft: '8px'}}>{farm.units.currency}</p>
               </div>
+              <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
+                {request_text}
+              </div>
               <div className={defaultStyles.bottomContainer}>
                 <div className={defaultStyles.buttonContainer}>
                   <Button type='submit' bsStyle='primary'>Save</Button>
@@ -115,9 +119,7 @@ class Farm extends Component {
           )}
         </div>
 
-        <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
-          {request_text}
-        </div>
+
         <Popup
           open={this.state.showData}
           closeOnDocumentClick

@@ -130,6 +130,10 @@ describe('Farm Tests', () => {
     test('should successfully create a farm if valid data is provided', (done) => {
       postFarmRequest(validFarm, (err, res) => {
         expect(res.status).toBe(201);
+        const farm = res.body;
+        expect(farm.units.currency).toBe('USD');
+        expect(farm.units.measurement).toBe('metric');
+        expect(farm.sandbox_bool).toBe(false);
         done();
       })
     });

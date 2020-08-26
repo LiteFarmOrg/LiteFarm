@@ -70,7 +70,7 @@ const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 // register API
 const router = promiseRouter();
 
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
@@ -140,18 +140,20 @@ app.use(bodyParser.json())
   });
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-// eslint-disable-next-line no-console
-  console.log('LiteFarm Backend listening on port ' + port + '!');
-});
+if (environment !== 'test') {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log('LiteFarm Backend listening on port ' + port + '!');
+  });
+  waterBalanceScheduler.registerHourlyJob();
+  waterBalanceScheduler.registerDailyJob();
 
-waterBalanceScheduler.registerHourlyJob();
-waterBalanceScheduler.registerDailyJob();
+  nitrogenBalanceScheduler.registerDailyJob();
 
-nitrogenBalanceScheduler.registerDailyJob();
+  farmDataScheduler.registerJob();
+  // eslint-disable-next-line no-console
+  console.log('LiteFarm Water Balance Scheduler Enabled');
+}
 
-farmDataScheduler.registerJob();
 
-// eslint-disable-next-line no-console
-console.log('LiteFarm Water Balance Scheduler Enabled');
 module.exports = app;

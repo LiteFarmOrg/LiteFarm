@@ -19,150 +19,148 @@ chai.use(chaiHttp);
 const chai_assert = chai.assert;    // Using Assert style
 const chai_expect = chai.expect;    // Using Expect style
 const chai_should = chai.should();  // Using Should style
-const server = 'http://localhost:5000';
+const server = require('./../src/server');
 const dummy = require('./dummy');
 const sinon = require('sinon')
 const Knex = require('knex')
-const environment = 'testing';
+const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 let checkJwt;
-beforeAll(() => {
+jest.mock('jsdom')
+jest.mock('../src/middleware/acl/checkJwt')
+
+describe('Farm Tests', () => {
+  let middleware;
+  beforeAll(() => {
     // beforeAll is set before each test
     // global.token is set in testEnvironment.js
     token = global.token;
-});
+  });
 
-
-describe('Farm Tests', () => {
-    async function createUser() {
-        let validSignupUser = {
-            email: 'test123456_signup@usertest.com',
-            first_name: 'Test',
-            last_name: 'User',
-            user_id: 'anifasndoasndoasn'
-        }
-        return await knex('users').insert(validSignupUser)
+  async function createUser() {
+    let validSignupUser = {
+      email: 'test123456_signup@usertest.com',
+      first_name: 'Test',
+      last_name: 'User',
+      user_id: 'anifasndoasndoasn'
     }
+    return await knex('users').insert(validSignupUser).returning('*');
+  }
 
-    async function deleteUser() {
-      return await knex('users').where({user_id:'anifasndoasndoasn'}).delete()
-    }
+  async function deleteUser() {
+    return await knex('users').where({ user_id: 'anifasndoasndoasn' }).delete();
+  }
 
-    beforeEach(async () => {
-        let newUser = await createUser();
-        checkJwt = require('../src/middleware/acl/checkJwt');
-        checkJwt = (req,res) => {
-          console.log('OVERRIDEN VERSION')
-          req.user = '|' + newUser.user_id;
-        }
-        // sinon.stub(checkJwt, 'checkJwt').callsFake(function (req) {
-        //     req.user = '|' + newUser.user_id;
-        //     console.log(req.user)
-        // })
-    })
+  beforeEach(async () => {
+    let [newUser] = await createUser();
+    middleware = require('../src/middleware/acl/checkJwt');
+    middleware.mockImplementation((req,res, next) => {
+      req.user = '|' + newUser.user_id;
 
-    afterEach(async () => {
-      await deleteUser();
-    })
+      next()
+    });
+  })
 
-    test('Test user', (done) => {
-        chai.request(server).post('/farm')
-            .set('content-type', 'application/json')
-            .end((err, res) => {
+  afterEach(async () => {
+    await deleteUser();
+  })
 
-                console.log()
-                done();
-            })
-
-    })
+  test('Test user', (done) => {
+    chai.request(server).post('/farm')
+      .set('content-type', 'application/json')
+      .end((err, res) => {
+        console.log('got through farm')
+        done();
+      })
+  })
 })
 
 
 describe('Testing farm API', () => {
-    let farm_id = null;
+  let farm_id = null;
 
-    test('POST farm happy land to DB', (done) => {
-        chai.request(server).post('/farm')
-            .set('content-type', 'application/json')
-            .set('Authorization', 'Bearer '+token)
-            .send(dummy.mockFarm)
-            .end((err, res) => {
-                chai_expect(err).to.be.null;
-                chai_expect(res.status).to.equal(201);
-                chai.expect(res.body).to.have.property('farm_id');
-                farm_id = res.body.farm_id;
-                done();
-            });
-    });
+  test('POST farm happy land to DB', (done) => {
+    chai.request(server).post('/farm')
+      .set('content-type', 'application/json')
+      .set('Authorization', 'Bearer ' + token)
+      .send(dummy.mockFarm)
+      .end((err, res) => {
+        chai_expect(err).to.be.null;
+        chai_expect(res.status).to.equal(201);
+        chai.expect(res.body).to.have.property('farm_id');
+        farm_id = res.body.farm_id;
+        done();
+      });
+  });
 
-    test('GET farm happy land from DB', (done) => {
-        chai.request(server).get('/farm/' + farm_id)
-            .set('content-type', 'application/json')
-            .set('Authorization', 'Bearer '+token)
-            .end((err, res) => {
-                chai_expect(err).to.be.null;
-                chai_expect(res.status).to.equal(200);
-                done();
-            });
-    });
+  test('GET farm happy land from DB', (done) => {
+    chai.request(server).get('/farm/' + farm_id)
+      .set('content-type', 'application/json')
+      .set('Authorization', 'Bearer ' + token)
+      .end((err, res) => {
+        chai_expect(err).to.be.null;
+        chai_expect(res.status).to.equal(200);
+        done();
+      });
+  });
 
-    test('PUT farm happy land with new name', (done) => {
-        chai.request(server).put('/farm/' + farm_id)
-            .set('Authorization', 'Bearer '+token)
-            .set('content-type', 'application/json')
-            .send(dummy.mockFarmPut)
-            .end((err, res) => {
-                chai_expect(res.status).to.equal(200);
-                chai_expect(res.body[0].farm_name).to.equal('sad land');
-                done();
-            });
-    });
+  test('PUT farm happy land with new name', (done) => {
+    chai.request(server).put('/farm/' + farm_id)
+      .set('Authorization', 'Bearer ' + token)
+      .set('content-type', 'application/json')
+      .send(dummy.mockFarmPut)
+      .end((err, res) => {
+        chai_expect(res.status).to.equal(200);
+        chai_expect(res.body[0].farm_name).to.equal('sad land');
+        done();
+      });
+  });
 
-    test('PUT farm baa15588-4ddb-4ab1-b33e-f3e0a66966ea(does not exist)', (done) => {
-        chai.request(server).put('/farm/baa15588-4ddb-4ab1-b33e-f3e0a66966ea')
-            .set('Authorization', 'Bearer '+token)
-            .set('content-type', 'application/json')
-            .send(dummy.notExistFarm)
-            .end((err, res) => {
-                chai_expect(err).to.be.null;
-                chai_expect(res.status).to.equal(404);
-                done();
-            });
-    });
+  test('PUT farm baa15588-4ddb-4ab1-b33e-f3e0a66966ea(does not exist)', (done) => {
+    chai.request(server).put('/farm/baa15588-4ddb-4ab1-b33e-f3e0a66966ea')
+      .set('Authorization', 'Bearer ' + token)
+      .set('content-type', 'application/json')
+      .send(dummy.notExistFarm)
+      .end((err, res) => {
+        chai_expect(err).to.be.null;
+        chai_expect(res.status).to.equal(404);
+        done();
+      });
+  });
 
-    test('UPDATE test users farm_id to null', (done) => {
-        chai.request(server).put('/user/' + dummy.testUser.user_id)
-            .set('content-type', 'application/json')
-            .set('Authorization', 'Bearer '+token)
-            .send(dummy.testUser)
-            .end((err, res) => {
-                chai_expect(err).to.be.null;
-                chai_expect(res.status).to.equal(200);
-                done();
-            });
-    });
+  test('UPDATE test users farm_id to null', (done) => {
+    chai.request(server).put('/user/' + dummy.testUser.user_id)
+      .set('content-type', 'application/json')
+      .set('Authorization', 'Bearer ' + token)
+      .send(dummy.testUser)
+      .end((err, res) => {
+        chai_expect(err).to.be.null;
+        chai_expect(res.status).to.equal(200);
+        done();
+      });
+  });
 
-    test('DELETE farm sad land should get 200' , (done) => {
-        chai.request(server).del('/farm/' + farm_id)
-            .set('Authorization', 'Bearer '+token)
-            .set('content-type', 'application/json')
-            .end((err, res) => {
-                chai_expect(err).to.be.null;
-                chai_expect(res.status).to.equal(200);
-                done();
-            });
-    });
+  test('DELETE farm sad land should get 200', (done) => {
+    chai.request(server).del('/farm/' + farm_id)
+      .set('Authorization', 'Bearer ' + token)
+      .set('content-type', 'application/json')
+      .end((err, res) => {
+        chai_expect(err).to.be.null;
+        chai_expect(res.status).to.equal(200);
+        done();
+      });
+  });
 
-    test('GET farm sad land should get 401' , (done) => {
-        chai.request(server).get('/farm/' + farm_id)
-            .set('Authorization', 'Bearer '+token)
-            .set('content-type', 'application/json')
-            .end((err, res) => {
-                chai_expect(err).to.be.null;
-                chai_expect(res.status).to.equal(401);
-                done();
-            });
-    });
+  test('GET farm sad land should get 401', (done) => {
+    chai.request(server).get('/farm/' + farm_id)
+      .set('Authorization', 'Bearer ' + token)
+      .set('content-type', 'application/json')
+      .end((err, res) => {
+        chai_expect(err).to.be.null;
+        chai_expect(res.status).to.equal(401);
+        done();
+      });
+  });
 
 });

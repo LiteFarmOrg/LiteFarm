@@ -10,6 +10,7 @@
     "start": "NODE_ENV=development node src/server.js",
     "production": "NODE_ENV=production node src/server.js",
     "integration": "NODE_ENV=integration node src/server.js",
+    "migrate:testing:db": "knex migrate:latest --env=test",
     "lint": "eslint src",
     "gitlab-server": "NODE_ENV=ci node src/server.js",
     "ci": "start-server-and-test gitlab-server 5000 test-end2end",
@@ -55,11 +56,13 @@
     "request-promise": "^4.2.2",
     "rimraf": "^2.6.3",
     "rxjs": "^6.6.2",
+    "sinon": "^9.0.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "adm-zip": "^0.4.14",
     "dotenv": "^8.2.0",
+    "faker": "^5.0.0",
     "jest": "^22.4.3",
     "start-server-and-test": "^1.4.1"
   }

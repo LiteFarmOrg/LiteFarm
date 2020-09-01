@@ -34,19 +34,24 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
       - `git clone https://github.com/LiteFarmOrg/LiteFarm.git`
 
 ### Setting up database/running migrations:  
-  1. install postgreSQL on your machine (instructions for MAC)
+  1. Install postgreSQL 
+    1. Using Homebrew on Mac
       - install homebrew
         - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
       - install postgresql
         - `brew install postgresql`
-  2. create user `postgres` and set password to `postgres`
-      - `brew services start postgresql`
-      - `psql postgres`
-      - `CREATE ROLE postgres WITH PASSWORD 'postgres';`
-      - `ALTER ROLE postgres CREATEDB;`
-      - `ALTER ROLE postgres WITH SUPERUSER;`
-      - `ALTER ROLE postgres WITH LOGIN;`
-      - `\q`
+        - `brew services start postgresql`
+      - create user `postgres` and set password to `postgres`
+        - `psql postgres`
+        - `CREATE ROLE postgres WITH PASSWORD 'postgres';`
+        - `ALTER ROLE postgres CREATEDB;`
+        - `ALTER ROLE postgres WITH SUPERUSER;`
+        - `ALTER ROLE postgres WITH LOGIN;`
+        - `\q`
+    2. Using Docker
+      - install docker from [Install Docker Engine page](https://docs.docker.com/engine/install/)
+      - run postgres image
+        - `docker run --rm --name pg-litefarm -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres`      
   3. create a database called mock_farm
       - `psql postgres -U postgres`
       - `CREATE DATABASE mock_farm;`
@@ -79,11 +84,11 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
         to obtain weather information which is used in the insights module (water balance).
 
 ### Start the application:
-  1. cd litefarm
+  1. cd LiteFarm
   2. `lerna bootstrap` to install dependencies
   3. in separate terminals:
-      - cd packages/webapp && npm start
-      - cd packages/api && npm start
+      - `cd packages/webapp && npm start`
+      - `cd packages/api && npm start`
       - (for hot reloading in api: npm install -g nodemon && nodemon --exec npm start)
   4. webapp will be running on http://localhost:3000 and the api on http://localhost:5000
   5. Since this is a mobile web application, webapp should be viewed in a mobile view in the browser

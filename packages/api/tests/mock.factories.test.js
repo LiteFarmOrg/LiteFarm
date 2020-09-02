@@ -6,7 +6,6 @@ const knex = Knex(config);
 
 describe('Factories tests', () => {
   const factories = Object.keys(mocks).filter(k => k.endsWith('Factory'));
-  console.log(factories);
   const tableNames = factories.map(factoryName =>  factoryName.replace('Factory', ''));
 
   tableNames.map((tableName, i) => {
@@ -21,10 +20,11 @@ describe('Factories tests', () => {
   })
 
   afterAll(() => {
+    tableNames.unshift('userFarm', 'activityLog')
     Promise.all(tableNames.map((table) => {
-      return knex.raw(`DELETE FROM ${table};` )
+      return knex(table).delete()
     })).then(() => {
       console.log('successfully deleted tables')
-    })
+    }).catch(console.log)
   })
 })

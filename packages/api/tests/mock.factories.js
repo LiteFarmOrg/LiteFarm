@@ -49,7 +49,6 @@ async function userFarmFactory({ promisedUser = usersFactory(), promisedFarm = f
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
   const [{ user_id }] = user;
   const [{ farm_id }] = farm;
-  console.log(user);
   return knex('userFarm').insert({ user_id, farm_id, ...userFarm }).returning('*');
 }
 

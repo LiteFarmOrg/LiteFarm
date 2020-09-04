@@ -103,7 +103,6 @@ class Field extends Component {
 
 
     let addListenersOnPolygonAndMarker = function (polygon, fieldObject) {
-        console.log("rerender google map");
         // creates field marker
         var fieldMarker = new maps.Marker({
           position: polygon.getPolygonBounds().getCenter(),
@@ -142,7 +141,6 @@ class Field extends Component {
         this.state.fields[i].grid_points.forEach((grid_point)=>{
           farmBounds.extend(grid_point);
         })
-        // farmBounds.extend(this.state.fields[i].grid_points[0]);
         // creates the polygon to be displayed on the map
         var polygon = new maps.Polygon({
           paths: this.state.fields[i].grid_points,

@@ -368,7 +368,7 @@ class NewField extends Component {
                 <Button disabled={this.state.isSavePlanDisabled} onClick={() => {
                   this.handleModeChange(CREATE_FIELD);
                   this.setState({ step: this.state.step + 1 });
-                }}>Finish and Save Plan</Button>
+                }}>Save Field</Button>
               </div>
             </FormGroup>
           </div>}

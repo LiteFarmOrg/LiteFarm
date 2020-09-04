@@ -55,6 +55,7 @@ class NewField extends Component {
     this.handleYieldChange = this.handleYieldChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
     this.getValidationState = this.getValidationState.bind(this);
+    this.setValidationState = this.setValidationState.bind(this);
   }
 
   componentDidMount() {
@@ -125,6 +126,11 @@ class NewField extends Component {
       return 'error'
     }
   }
+
+  setValidationState() {
+      return 'success';
+  }
+
   handleFieldNameChange(event) {
     this.setState({ fieldName: event.target.value });
   }
@@ -353,12 +359,13 @@ class NewField extends Component {
 
             <FormGroup
               className={styles.centeredForm}
-              validationState={this.getValidationState()}
+              validationState={this.setValidationState()}
             >
               <ControlLabel>Field Name</ControlLabel>
               <FormControl
                 type="text"
                 autoFocus
+                isValid
                 value={this.state.fieldName}
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}

@@ -62,26 +62,17 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
 
   ### Setting up env vars in webapp and api:
   custom environment variables are used in the application. Env vars containing sensitive information
-  is not uploaded to source control. For local development, custom env vars need to be added in a .env.local file.
+  is not uploaded to source control. For local development, custom env vars need to be added in the .env file.
   Not all of these environment variables are necessary to run the applications. Only add them if they are necessary
-  for your development purposes. Do NOT add .env.local files to source control.
+  for your development purposes. Do NOT add .env files to source control.
 
-  1. add a file called .env.local in the root directory: `packages/webapp`
-  2. add these environment variables:
+  1. add these environment variables to the .env file in `packages/webapp`:
      - REACT_APP_GOOGLE_MAPS_API_KEY
         - this env var is a google maps api key obtained from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
         It is used to make the field module work in the application
      - REACT_APP_WEATHER_API_KEY
         - this env var can be obtained from [open weather API](https://openweathermap.org/api). The API is used
         to load current weather information in the application home page after logging in.
-  3. add a file called .env.local in the root directory: `packages/api`
-  4. add these environment variables:
-     - GOOGLE_API_KEY
-        - this env var is a google maps api key obtained from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
-        Google maps is used in the insights module (water balance) to perform operations using location data.
-     - OPEN_WEATHER_APP_ID
-        - this env var can be obtained from [open weather API](https://openweathermap.org/api). The API is used
-        to obtain weather information which is used in the insights module (water balance).
 
 ### Start the application:
   1. cd LiteFarm

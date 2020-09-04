@@ -39,7 +39,7 @@ class Field extends Component {
       fieldFilter: 'all',
       startDate: moment([2009, 0, 1]),
       endDate: moment(),
-      selectedTab: 2,
+      selectedTab: 1,
       map: null, //discuss usage
       isVisible: [],
       maps: null,
@@ -56,6 +56,7 @@ class Field extends Component {
 
   }
   componentDidMount() {
+    this.setState({center: this.props.farm.grid_points});
     const { dispatch } = this.props;
     dispatch(getFields());
     var visArray = [];
@@ -129,7 +130,10 @@ class Field extends Component {
 
       for (i = 0; i < len; i++) {
         // ensure that the map shows this field
-        farmBounds.extend(this.props.fields[i].grid_points[0]);
+        this.props.fields[i].grid_points.forEach((grid_point)=>{
+          farmBounds.extend(grid_point);
+        })
+        // farmBounds.extend(this.props.fields[i].grid_points[0]);
         // creates the polygon to be displayed on the map
         var polygon = new maps.Polygon({
           paths: this.props.fields[i].grid_points,
@@ -140,12 +144,9 @@ class Field extends Component {
           fillOpacity: 0.35
         });
         polygon.setMap(map);
-
         addListenersOnPolygonAndMarker(polygon, this.props.fields[i]);
-
       }
       map.fitBounds(farmBounds);
-      map.setZoom(14);
     }
     this.setState({
       map,
@@ -187,10 +188,6 @@ class Field extends Component {
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
-      center: this.state.center,
-      zoom: DEFAULT_ZOOM,
-      bounds: FARM_BOUNDS,
-      size: { width: 100, height: 100 },
       mapTypeControl: true,
       mapTypeId: maps.MapTypeId.SATELLITE,
       mapTypeControlOptions: {
@@ -234,17 +231,17 @@ class Field extends Component {
                   bootstrapURLKeys={{
                     key: GMAPS_API_KEY,
                     libraries: ['drawing', 'geometry', 'places']}}
-                  center={this.props.center}
-                  zoom={this.props.zoom}
+                  center={this.state.center}
+                  defaultZoom={this.props.zoom}
                   yesIWantToUseGoogleMapApiInternals
                   onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
                   options={this.getMapOptions}
                 >
 
                   <CenterDiv
-                    lat={CENTER.lat}
-                    lng={CENTER.lng}
-                    text={'UBC Farm'}
+                    lat={this.state.center.lat}
+                    lng={this.state.center.lng}
+                    text={'farm_name'}
                   />
                 </GoogleMap>
               </div>

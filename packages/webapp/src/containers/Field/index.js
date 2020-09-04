@@ -39,7 +39,7 @@ class Field extends Component {
       fieldFilter: 'all',
       startDate: moment([2009, 0, 1]),
       endDate: moment(),
-      selectedTab: 2,
+      selectedTab: 1,
       map: null, //discuss usage
       isVisible: [],
       maps: null,
@@ -56,6 +56,7 @@ class Field extends Component {
 
   }
   componentDidMount() {
+    this.setState({center: this.props.farm.grid_points});
     const { dispatch } = this.props;
     dispatch(getFields());
     var visArray = [];
@@ -234,7 +235,7 @@ class Field extends Component {
                   bootstrapURLKeys={{
                     key: GMAPS_API_KEY,
                     libraries: ['drawing', 'geometry', 'places']}}
-                  center={this.props.center}
+                  center={this.state.center}
                   zoom={this.props.zoom}
                   yesIWantToUseGoogleMapApiInternals
                   onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
@@ -242,9 +243,9 @@ class Field extends Component {
                 >
 
                   <CenterDiv
-                    lat={CENTER.lat}
-                    lng={CENTER.lng}
-                    text={'UBC Farm'}
+                    lat={this.state.center.lat}
+                    lng={this.state.center.lng}
+                    text={'farm_name'}
                   />
                 </GoogleMap>
               </div>

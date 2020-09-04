@@ -46,8 +46,8 @@ const summaryColumns = [
     minWidth: 55,
   },
   {
-    id: 'active',
-    Header: 'Active',
+    id: 'status',
+    Header: 'Status',
     accessor: 'status',
     minWidth: 55,
   },

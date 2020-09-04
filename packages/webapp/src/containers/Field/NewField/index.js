@@ -67,6 +67,8 @@ class NewField extends Component {
     if(farm && farm.grid_points && farm.grid_points.lat && farm.grid_points.lng){
       this.setState({center: {lat: farm.grid_points.lat, lng: farm.grid_points.lng}});
     }
+
+    
   }
 
   getMapOptions = (maps) => {
@@ -356,6 +358,7 @@ class NewField extends Component {
               <ControlLabel>Field Name</ControlLabel>
               <FormControl
                 type="text"
+                autoFocus
                 value={this.state.fieldName}
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}
@@ -365,7 +368,9 @@ class NewField extends Component {
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                <Button disabled={this.state.isSavePlanDisabled} onClick={() => {
+                <Button 
+                disabled={this.state.isSavePlanDisabled} 
+                onClick={() => {
                   this.handleModeChange(CREATE_FIELD);
                   this.setState({ step: this.state.step + 1 });
                 }}>Save Field</Button>

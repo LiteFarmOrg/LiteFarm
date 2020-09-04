@@ -237,11 +237,10 @@ class Field extends Component {
                   onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
                   options={this.getMapOptions}
                 >
-
                   <CenterDiv
                     lat={this.state.center.lat}
                     lng={this.state.center.lng}
-                    text={'farm_name'}
+                    text={"" && this.props.farm.farm_name}
                   />
                 </GoogleMap>
               </div>

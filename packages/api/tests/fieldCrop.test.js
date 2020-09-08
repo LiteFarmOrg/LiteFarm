@@ -13,11 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userModel = require('../src/models/userModel');
-const farmModel = require('../src/models/farmModel');
-const fieldModel = require('../src/models/fieldModel');
-const cropModel = require('../src/models/cropModel');
-const fieldCropModel = require('../src/models/fieldCropModel');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -53,7 +48,6 @@ describe('FieldCrop Tests', () => {
   let cropNotInUse;
   beforeAll(() => {
     token = global.token;
-    console.log(token);
   });
 
   function postFieldCropRequest( data, callback, user_id = newOwner.user_id, farm_id = farm.farm_id) {
@@ -112,9 +106,16 @@ describe('FieldCrop Tests', () => {
   const later = async (delay) =>
     new Promise(resolve => setTimeout(resolve, delay));
 
-  let counter = 0;
   beforeEach(async () => {
-    await later(200);
+    await knex.raw(`
+    DELETE FROM "fieldCrop";
+    DELETE FROM "field";
+    DELETE FROM "userFarm";
+    DELETE FROM "crop";
+    DELETE FROM "farm";
+    DELETE FROM "users";
+    DELETE FROM "weather_station";
+    `);
     [newOwner] = await mocks.usersFactory();
     [newManager] = await mocks.usersFactory();
     [newWorker] = await mocks.usersFactory();
@@ -140,7 +141,7 @@ describe('FieldCrop Tests', () => {
     });
   })
 
-  afterEach(async () => {
+  afterAll(async () => {
     await knex.raw(`
     DELETE FROM "fieldCrop";
     DELETE FROM "field";
@@ -149,7 +150,7 @@ describe('FieldCrop Tests', () => {
     DELETE FROM "farm";
     DELETE FROM "users";
     DELETE FROM "weather_station";
-    `)
+    `);
   });
 
   describe('Post fieldCrop', ()=>{
@@ -275,19 +276,6 @@ describe('FieldCrop Tests', () => {
   })
 
   describe('Post fieldCrop authorization',()=>{
-    test('Should return status 403 when an unauthorized user tries to post a valid fieldcrop', (done) => {
-      let fieldCrop = fakeFieldCrop();
-      fieldCrop.estimated_revenue = 1;
-      fieldCrop.area_used = field.area * 0.25;
-      fieldCrop.estimated_production = 1;
-      postFieldCropRequest(fieldCrop, (err, res) => {
-          console.log(fieldCrop,res.error);
-          expect(res.status).toBe(403);
-          done()
-        },
-        newUser.user_id)
-    });
-
     test('Should return status 403 when a worker tries to post a valid fieldcrop', (done) => {
       let fieldCrop = fakeFieldCrop();
       fieldCrop.estimated_revenue = 1;
@@ -299,6 +287,19 @@ describe('FieldCrop Tests', () => {
           done()
         },
         newWorker.user_id)
+    });
+
+    test('Should return status 403 when an unauthorized user tries to post a valid fieldcrop', (done) => {
+      let fieldCrop = fakeFieldCrop();
+      fieldCrop.estimated_revenue = 1;
+      fieldCrop.area_used = field.area * 0.25;
+      fieldCrop.estimated_production = 1;
+      postFieldCropRequest(fieldCrop, (err, res) => {
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(403);
+          done()
+        },
+        newUser.user_id)
     });
   });
 
@@ -384,20 +385,20 @@ describe('FieldCrop Tests', () => {
       })
     });
 
-    test('should return 403 if a worker tries to delete a fieldCrop', (done) => {
-      deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
-        console.log(fieldCrop,res.error, res.body);
-        expect(res.status).toBe(403);
-        done();
-      }, newWorker.user_id)
-    });
-
     test('should return 403 if an unauthorized user tries to delete a fieldCrop', (done) => {
       deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
         console.log(fieldCrop,res.error);
         expect(res.status).toBe(403);
         done();
       }, newUser.user_id)
+    });
+
+    test('should return 403 if a worker tries to delete a fieldCrop', (done) => {
+      deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
+        console.log(fieldCrop,res.error, res.body);
+        expect(res.status).toBe(403);
+        done();
+      }, newWorker.user_id)
     });
   });
 
@@ -429,6 +430,7 @@ describe('FieldCrop Tests', () => {
     });
 
     test('should return 403 if unauthorized user tries to delete a crop that is not in use', (done) => {
+      //TODO User can circumvent authorization by setting user_id and farm_id in header
       deleteRequest(`/crop/${cropNotInUse.crop_id}`, (err, res) => {
         console.log(fieldCrop,res.error);
         expect(res.status).toBe(403);

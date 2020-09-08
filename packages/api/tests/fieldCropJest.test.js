@@ -95,9 +95,8 @@ describe('FieldCrop Tests', () => {
   const later = async (delay) =>
     new Promise(resolve => setTimeout(resolve, delay));
 
-  async function fakeCrop(farm_id = farm.farm_id){
+  function fakeCrop(farm_id = farm.farm_id){
     const crop = mocks.fakeCrop();
-    await later(1000);
     return ({...crop, farm_id});
   }
 
@@ -124,6 +123,7 @@ describe('FieldCrop Tests', () => {
       req.user.sub = '|' + req.get('user_id');
       next()
     });
+    await later(500);
   })
 
   afterEach(async () => {
@@ -135,7 +135,8 @@ describe('FieldCrop Tests', () => {
     DELETE FROM "farm";
     DELETE FROM "users";
     DELETE FROM "weather_station";
-    `)
+    `);
+    await later(500);
   });
 
   describe('Post fieldCrop', ()=>{
@@ -281,16 +282,33 @@ describe('FieldCrop Tests', () => {
       await postFieldCropRequest(fieldCrop, async (err, res) => {
           console.log(fieldCrop,res.error);
           expect(res.status).toBe(403);
-          
+
         },
         newWorker.user_id)
     });
   });
 
+  describe('Post crop1',()=>{
+    test('should post and get a valid crop', async () => {
+      let crop = fakeCrop();
+      crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
+      await postCropRequest(crop, async (err, res) => {
+        console.log(crop,res.error);
+        expect(res.status).toBe(201);
+        await getRequest(`/crop/farm/${farm.farm_id}`,async (err,res)=>{
+          console.log(crop,res.body);
+          expect(res.status).toBe(200);
+          expect(res.body[2].crop_common_name).toBe(crop.crop_common_name);
+
+        })
+      })
+    });
+  })
+
   describe('Post crop', () => {
 
     test('should return 400 status if crop is posted w/o crop_common_name', async () => {
-      let crop = await fakeCrop();
+      let crop = fakeCrop();
       delete crop.crop_common_name;
       await postCropRequest(crop, async (err, res) => {
         console.log(crop,res.error);
@@ -300,7 +318,7 @@ describe('FieldCrop Tests', () => {
     });
 
     test('should return 400 status if crop is posted w/o variety name', async () => {
-      let crop = await fakeCrop();
+      let crop = fakeCrop();
       crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
       await postCropRequest(crop, async (err, res) => {
         console.log(crop,res.error);
@@ -313,23 +331,10 @@ describe('FieldCrop Tests', () => {
       })
     });
 
-    test('should post and get a valid crop', async () => {
-      let crop = await fakeCrop();
-      crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
-      await postCropRequest(crop, async (err, res) => {
-        console.log(crop,res.error);
-        expect(res.status).toBe(201);
-        await getRequest(`/crop/farm/${farm.farm_id}`,async (err,res)=>{
-          console.log(crop,res.body);
-          expect(res.status).toBe(200);
-          expect(res.body[2].crop_common_name).toBe(crop.crop_common_name);
-          
-        })
-      })
-    });
+
 
     test('should return 403 status if crop is posted by unauthorized user', async () => {
-      let crop = await fakeCrop();
+      let crop = fakeCrop();
       crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
       await postCropRequest(crop, async (err, res) => {
         console.log(crop,res.error);
@@ -340,19 +345,19 @@ describe('FieldCrop Tests', () => {
     });
 
     test('should return 403 status if crop is posted by newWorker', async () => {
-      let crop = await fakeCrop();
+      let crop = fakeCrop();
       crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
       await postCropRequest(crop, async (err, res) => {
         console.log(crop,res.error);
         expect(res.status).toBe(403);
         expect(res.error.text).toBe("User does not have the following permission(s): add:crops");
-        
+
       }, newWorker.user_id)
     });
 
   });
 
-  describe('Delete crop', function () {
+  describe('Delete crop1', ()=>{
     test('should return 400 when a crop in use is deleted', async () => {
       await deleteRequest(`/crop/${crop.crop_id}`, async (err, res) => {
         console.log(fieldCrop,res.error);
@@ -361,10 +366,13 @@ describe('FieldCrop Tests', () => {
           console.log(fieldCrop,res.error);
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(2);
-          
+
         });
       })
     });
+  })
+
+  describe('Delete crop', function () {
 
     test('should delete a crop that is not in use', async () => {
       await deleteRequest(`/crop/${cropNotInUse.crop_id}`, async (err, res) => {

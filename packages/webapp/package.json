@@ -2,10 +2,6 @@
   "name": "webapp",
   "version": "1.0.2",
   "private": true,
-  "engines": {
-    "node": "10.x",
-    "npm": "6.x"
-  },
   "dependencies": {
     "auth0-js": "^9.13.2",
     "autoprefixer": "7.1.6",

@@ -133,7 +133,7 @@ function fakeCrop() {
     vitb12: faker.random.number(10),
     vitk: faker.random.number(10),
     is_avg_nutrient: faker.random.boolean(),
-    user_added: faker.random.boolean(),
+    user_added: faker.random.boolean() || true,
     deleted: false,
     nutrient_credits: faker.random.number(10),
   }

@@ -33,7 +33,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.3",
     "eslint": "^4.19.1",

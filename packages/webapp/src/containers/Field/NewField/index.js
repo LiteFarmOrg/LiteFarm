@@ -5,7 +5,7 @@ import styles from './styles.scss';
 import parentStyles from '../styles.scss';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, BACK_TO_STEP_ONE, POLYGON_COMPLETE } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
-import {Button, Glyphicon, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {Button, Glyphicon, FormGroup, FormControl, ControlLabel, Form} from 'react-bootstrap';
 import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
 import { cropSelector } from '../selectors';
@@ -55,7 +55,6 @@ class NewField extends Component {
     this.handleYieldChange = this.handleYieldChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
     this.getValidationState = this.getValidationState.bind(this);
-    this.setValidationState = this.setValidationState.bind(this);
   }
 
   componentDidMount() {
@@ -123,12 +122,8 @@ class NewField extends Component {
       if (!this.state.isSavePlanDisabled) {
         this.setState({ isSavePlanDisabled: true })
       }
-      return 'error'
+      return null;
     }
-  }
-
-  setValidationState() {
-      return 'success';
   }
 
   handleFieldNameChange(event) {
@@ -359,24 +354,26 @@ class NewField extends Component {
 
             <FormGroup
               className={styles.centeredForm}
-              validationState={this.setValidationState()}
+              validationState={this.getValidationState()}
             >
               <ControlLabel>Field Name</ControlLabel>
               <FormControl
                 type="text"
                 autoFocus
-                isValid
                 value={this.state.fieldName}
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
+                // bsPrefix={this.getValidationState()}
               />
             </FormGroup>
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
                 <Button 
-                disabled={this.state.isSavePlanDisabled} 
+                active={this.state.isSavePlanDisabled} 
+                bsStyle="default"
+                disabled={this.state.isSavePlanDisabled}
                 onClick={() => {
                   this.handleModeChange(CREATE_FIELD);
                   this.setState({ step: this.state.step + 1 });

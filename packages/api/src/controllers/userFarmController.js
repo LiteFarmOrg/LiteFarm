@@ -19,6 +19,7 @@ const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
 const emailTokenModel = require('../models/emailTokenModel');
 const createUserController = require('../controllers/createUserController');
+const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const {transaction, Model} = require('objection');
 const axios = require('axios');
 const authExtensionConfig = require('../authExtensionConfig');
@@ -384,9 +385,10 @@ class userFarmController extends baseController {
 
           if(emails.length && emails.length > 0){
             const existing_email = emails[0].email;
+            const data = { ...req.body, status: userFarmStatusEnum.INVITED };
             await emailSender.sendEmail(template_path, subject, replacements, existing_email, sender);
             const isPatched = await userFarmModel.query(trx).where('user_id', emails[0].user_id).andWhere('farm_id', farm_id)
-              .patch(removeAdditionalProperties(userFarmModel, req.body));
+              .patch(removeAdditionalProperties(userFarmModel, data));
 
             if (isPatched) {
               await trx.commit();
@@ -431,8 +433,9 @@ class userFarmController extends baseController {
           }
           await emailSender.sendEmail(template_path, subject, replacements, req.body.email, sender, true, joinUrl);
 
+          const data = { ...req.body, status: userFarmStatusEnum.INVITED };
           const isPatched = await userFarmModel.query(trx).where('user_id', new_user_id).andWhere('farm_id', farm_id)
-            .patch(removeAdditionalProperties(userFarmModel, req.body));
+            .patch(removeAdditionalProperties(userFarmModel, data));
 
           if (isPatched) {
             await trx.commit();

@@ -34,7 +34,7 @@ class Crop extends Model {
       properties: {
         crop_id: { type: 'integer' },
         farm_id: { type : 'string' },
-        crop_common_name: { type: 'string', minLength: 1, maxLength: 255 },
+        crop_common_name: { type: 'string', minLength: 1, maxLength: 255, uniqueItems: true },
         crop_genus: { type: 'string', minLength: 1, maxLength: 255 },
         crop_specie: { type: 'string', minLength: 1, maxLength: 255 },
         crop_group: {

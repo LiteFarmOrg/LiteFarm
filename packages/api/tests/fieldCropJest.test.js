@@ -101,6 +101,7 @@ describe('FieldCrop Tests', () => {
   }
 
   beforeEach(async () => {
+    await later(200);
     [newOwner] = await mocks.usersFactory();
     [newManager] = await mocks.usersFactory();
     [newWorker] = await mocks.usersFactory();
@@ -123,7 +124,6 @@ describe('FieldCrop Tests', () => {
       req.user.sub = '|' + req.get('user_id');
       next()
     });
-    await later(500);
   })
 
   afterEach(async () => {
@@ -136,7 +136,6 @@ describe('FieldCrop Tests', () => {
     DELETE FROM "users";
     DELETE FROM "weather_station";
     `);
-    await later(500);
   });
 
   describe('Post fieldCrop', ()=>{
@@ -298,7 +297,7 @@ describe('FieldCrop Tests', () => {
         await getRequest(`/crop/farm/${farm.farm_id}`,async (err,res)=>{
           console.log(crop,res.body);
           expect(res.status).toBe(200);
-          expect(res.body[2].crop_common_name).toBe(crop.crop_common_name);
+          expect(res.body[1].crop_common_name).toBe(crop.crop_common_name);
 
         })
       })
@@ -360,12 +359,12 @@ describe('FieldCrop Tests', () => {
   describe('Delete crop1', ()=>{
     test('should return 400 when a crop in use is deleted', async () => {
       await deleteRequest(`/crop/${crop.crop_id}`, async (err, res) => {
-        console.log(fieldCrop,res.error);
+        console.log(crop,res.error);
         expect(res.status).toBe(400);
         await getRequest(`/crop/farm/${farm.farm_id}`,async (err,res)=>{
-          console.log(fieldCrop,res.error);
+          console.log(crop,res.error);
           expect(res.status).toBe(200);
-          expect(res.body.length).toBe(2);
+          expect(res.body.length).toBe(1);
 
         });
       })
@@ -398,10 +397,10 @@ describe('FieldCrop Tests', () => {
 
     test('should return 403 if a worker tries to delete a crop that is not in use', async () => {
       await deleteRequest(`/crop/${cropNotInUse.crop_id}`, async (err, res) => {
+        //TODO User can circumvent authorization by setting user_id and farm_id in header
         console.log(fieldCrop,res.error);
         expect(res.status).toBe(403);
-        
-      }, newWorker.user_id)
+      }, newWorker.user_id, farmNewUser.farm_id)
     });
   });
 

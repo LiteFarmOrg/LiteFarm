@@ -339,7 +339,7 @@ describe('FieldCrop Tests', () => {
         getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
           console.log(crop,res.body);
           expect(res.status).toBe(200);
-          expect(res.body[2].crop_common_name).toBe(crop.crop_common_name);
+          expect(res.body[1].crop_common_name).toBe(crop.crop_common_name);
           done();
         })
       })
@@ -403,14 +403,13 @@ describe('FieldCrop Tests', () => {
 
   describe('Delete crop', function () {
     test('should return 400 when a crop in use is deleted', (done) => {
-      console.log(crop);
       deleteRequest(`/crop/${crop.crop_id}`, (err, res) => {
         console.log(crop,res.error);
         expect(res.status).toBe(400);
         getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
           console.log(fieldCrop,res.error,res.body);
           expect(res.status).toBe(200);
-          expect(res.body.length).toBe(2);
+          expect(res.body.length).toBe(1);
           done();
         });
       })

@@ -86,6 +86,12 @@ class baseController {
     const table_id = model.idColumn;
     return await model.query().where(table_id, id)
   }
+
+  static async getNotDeletedIndividual(model, id) {
+    const table_id = model.idColumn;
+    return await model.query().whereNotDeleted().where(table_id, id);
+  }
+
   static async getByFieldId(model, field, fieldId){
     const data = await model.query().where(field, fieldId);
     return data;

@@ -651,4 +651,171 @@ describe('FieldCrop Tests', () => {
 
   })
 
+  describe('Delete fieldCrop', function () {
+
+    test('should delete a fieldCrop', (done) => {
+      deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
+        console.log(fieldCrop.deleted,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/field_crop/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop.deleted,res.body);
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(0);
+          done()
+        });
+      })
+    });
+
+    test('should return 403 if an unauthorized user tries to delete a fieldCrop', (done) => {
+      deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(403);
+        done();
+      }, newUser.user_id)
+    });
+
+    test('should return 403 if a worker tries to delete a fieldCrop', (done) => {
+      deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
+        console.log(fieldCrop,res.error, res.body);
+        expect(res.status).toBe(403);
+        done();
+      }, newWorker.user_id)
+    });
+  });
+
+  describe('Delete crop', function () {
+    test('should delete a crop that is referenced by a fieldCrop', (done) => {
+      deleteRequest(`/crop/${crop.crop_id}`, (err, res) => {
+        console.log(crop,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error,res.body);
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(1);
+          done();
+        });
+      })
+    });
+
+    test('should delete a crop that is not in use', (done) => {
+      deleteRequest(`/crop/${cropNotInUse.crop_id}`, (err, res) => {
+        console.log(cropNotInUse,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(1);
+          done()
+        });
+      })
+    });
+
+    test('should return 403 if unauthorized user tries to delete a crop that is not in use', (done) => {
+      //TODO User can circumvent authorization by setting user_id and farm_id in header
+      deleteRequest(`/crop/${cropNotInUse.crop_id}`, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(403);
+        done();
+      }, newUser.user_id)
+    });
+
+    test('should return 403 if a worker tries to delete a crop that is not in use', (done) => {
+      deleteRequest(`/crop/${cropNotInUse.crop_id}`, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(403);
+        done();
+      }, newWorker.user_id)
+    });
+  });
+
+  describe('Put fieldCrop', ()=>{
+    test('should edit and the area_used field', (done) => {
+      fieldCrop.area_used = field.area * 0.1;
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/field_crop/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(200);
+          expect(Math.floor(res.body[0].area_used)).toBe(Math.floor(fieldCrop.area_used));
+          done()
+        });
+      })
+    });
+
+    test('should edit and the estimated_production field', (done) => {
+      fieldCrop.estimated_production = 1;
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/field_crop/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(200);
+          expect(res.body[0].estimated_production).toBe(1);
+          done()
+        });
+      })
+    });
+
+    test('should edit and the estimated_revenue field', (done) => {
+      fieldCrop.estimated_revenue = 1;
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/field_crop/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(200);
+          expect(res.body[0].estimated_revenue).toBe(1);
+          done()
+        });
+      })
+    });
+
+    test('should change the end_date to a future date', (done) => {
+      fieldCrop.end_date = moment().add(10,'d').toDate();
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/field_crop/expired/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(0);
+          done()
+        });
+      })
+    });
+
+    test('should change the end_date to a historical date', (done) => {
+      fieldCrop.end_date = moment().subtract(10,'d').toDate();
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(200);
+        getRequest(`/field_crop/expired/farm/${farm.farm_id}`,(err,res)=>{
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(1);
+          done()
+        });
+      })
+    });
+
+    test('should return 403 when unauthorized user tries to edit fieldCrop', (done) => {
+      fieldCrop.estimated_revenue = 1;
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(403);
+        done();
+      }, newUser.user_id);
+    });
+
+    test('should return 403 when a worker tries to edit fieldCrop', (done) => {
+      fieldCrop.estimated_revenue = 1;
+      putFieldCropRequest(fieldCrop, (err, res) => {
+        console.log(fieldCrop,res.error);
+        expect(res.status).toBe(403);
+        done();
+      }, newWorker.user_id);
+    });
+
+  });
 });

@@ -130,7 +130,7 @@ class cropController extends baseController {
 
   static async get(farm_id){
     //TODO fix user added flag
-    return await cropModel.query().where('user_added', false).orWhere('farm_id', farm_id);
+    return await cropModel.query().whereNotDeleted().where('user_added', false).orWhere('farm_id', farm_id);
   }
 
   static async del(req, trx){

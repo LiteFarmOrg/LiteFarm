@@ -14,9 +14,14 @@
  */
 
 const lodash = require('lodash');
+// TODO remove tableNames
+const tableNames = ['crop', 'farm','field','disease','pesticide','taskType','fertilizer', 'fieldCrop'];
 
 class baseController {
   static async get(model) {
+    if(tableNames.includes(model.tableName)){
+      return await model.query().whereNotDeleted().skipUndefined();
+    }
     return await model.query().skipUndefined()
   }
 
@@ -84,19 +89,23 @@ class baseController {
 
   static async getIndividual(model, id) {
     const table_id = model.idColumn;
+    if(tableNames.includes(model.tableName)){
+      return await model.query().whereNotDeleted().where(table_id, id);
+    }
     return await model.query().where(table_id, id)
   }
 
-  static async getNotDeletedIndividual(model, id) {
-    const table_id = model.idColumn;
-    return await model.query().whereNotDeleted().where(table_id, id);
-  }
-
   static async getByFieldId(model, field, fieldId){
+    if(tableNames.includes(model.tableName)){
+      return await model.query().whereNotDeleted().where(field, fieldId);
+    }
     const data = await model.query().where(field, fieldId);
     return data;
   }
   static async getByForeignKey(model, field, fieldId){
+    if(tableNames.includes(model.tableName)){
+      return await model.query().whereNotDeleted().where(field, fieldId);
+    }
     const data = await model.query().where(field, fieldId);
     return data;
   }

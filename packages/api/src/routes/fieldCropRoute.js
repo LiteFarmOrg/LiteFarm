@@ -19,6 +19,8 @@ const fieldCropController = require('../controllers/fieldCropController');
 const authFarmId = require('../middleware/acl/authFarmId');
 const checkScope = require('../middleware/acl/checkScope');
 
+router.get('/:field_crop_id', authFarmId, checkScope(['get:field_crops']), fieldCropController.getFieldCropByID());
+
 router.get('/farm/:farm_id', authFarmId, checkScope(['get:field_crops']), fieldCropController.getFieldCropByFarmID());
 
 router.get('/farm/date/:farm_id/:date', authFarmId, checkScope(['get:field_crops']), fieldCropController.getFieldCropsByDate());

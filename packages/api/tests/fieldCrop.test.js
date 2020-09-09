@@ -154,6 +154,15 @@ describe('FieldCrop Tests', () => {
   });
 
   describe('Post fieldCrop', ()=>{
+    test('Workers should get fieldCrop by id', (done)=>{
+      getRequest(`/field_crop/${fieldCrop.field_crop_id}`,(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+        done();
+      },newWorker.user_id);
+    })
+
     test('should return 400 status if fieldCrop is posted w/o crop_id', (done) => {
       let fieldCrop = fakeFieldCrop();
       delete fieldCrop.crop_id;
@@ -396,10 +405,10 @@ describe('FieldCrop Tests', () => {
 
     test('should delete a fieldCrop', (done) => {
       deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, (err, res) => {
-        console.log(fieldCrop,res.error);
+        console.log(fieldCrop.deleted,res.error);
         expect(res.status).toBe(200);
         getRequest(`/field_crop/farm/${farm.farm_id}`,(err,res)=>{
-          console.log(fieldCrop,res.error);
+          console.log(fieldCrop.deleted,res.body);
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(0);
           done()

@@ -104,7 +104,8 @@ class baseController {
   }
   static async getByForeignKey(model, field, fieldId){
     if(tableNames.includes(model.tableName)){
-      return await model.query().whereNotDeleted().where(field, fieldId);
+      const data =await model.query().whereNotDeleted().where(field, fieldId);
+      return data;
     }
     const data = await model.query().where(field, fieldId);
     return data;

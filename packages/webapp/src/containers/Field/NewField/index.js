@@ -369,15 +369,43 @@ class NewField extends Component {
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                <Button 
-                type="primary"
-                active={this.state.isSavePlanDisabled} 
-                bsClass={styles.buttonContainerDisabled}
-                disabled={this.state.isSavePlanDisabled}
-                onClick={() => {
-                  this.handleModeChange(CREATE_FIELD);
-                  this.setState({ step: this.state.step + 1 });
-                }}>Save Field</Button>
+                {this.state.isSavePlanDisabled ? 
+                    <Button style={{
+                      font: "Open Sans",
+                      fontSize: "16px",
+                      lineHeight: "24px",
+                      borderRadius: "4px",
+                      display: "flex",
+                      alignItems: "center",
+                      textAlign: "center",
+                      letterSpacing: "0.4005px",
+                      backgroundColor: "#D4DAE3",
+                      color: "#282B36",
+                      border: "none",
+                      cursor: "default",
+                      boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)",
+                    }} outline>Save Field</Button>
+                    : 
+                    <Button style={{
+                      font: "Open Sans",
+                      fontSize: "16px",
+                      lineHeight: "24px",
+                      borderRadius: "4px",
+                      display: "flex",
+                      alignItems: "center",
+                      textAlign: "center",
+                      letterSpacing: "0.4005px",
+                      backgroundColor: "#FCE38D",
+                      color: "#282B36",
+                      border: "none",
+                      cursor: "default",
+                      boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)",
+                    }} outline
+                    onClick={() => {
+                      this.handleModeChange(CREATE_FIELD);
+                      this.setState({ step: this.state.step + 1 });
+                    }}>Save Field</Button>                 
+                  }
               </div>
             </FormGroup>
           </div>}

@@ -39,6 +39,59 @@
   }
 }
 
+.buttonContainerDisabled{
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.4005px;
+  background-color: #D4DAE3;
+}
+
+.buttonContainerDisabled{
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.4005px;
+  background-color: #D4DAE3;
+}
+
+.buttonContainerDisabled:hover{
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.4005px;
+  background-color: #FED450;
+
+}
+
+
+
 .infoButton {
   position: fixed;
   right: 0;

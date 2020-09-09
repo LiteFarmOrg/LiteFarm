@@ -364,15 +364,15 @@ class NewField extends Component {
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
-                // bsPrefix={this.getValidationState()}
               />
             </FormGroup>
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
                 <Button 
+                type="primary"
                 active={this.state.isSavePlanDisabled} 
-                bsStyle="default"
+                bsClass={styles.buttonContainerDisabled}
                 disabled={this.state.isSavePlanDisabled}
                 onClick={() => {
                   this.handleModeChange(CREATE_FIELD);

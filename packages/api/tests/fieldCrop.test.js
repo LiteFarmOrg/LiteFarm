@@ -434,10 +434,10 @@ describe('FieldCrop Tests', () => {
   });
 
   describe('Delete crop', function () {
-    test('should return 400 when a crop in use is deleted', (done) => {
+    test('should delete a crop that is referenced by a fieldCrop', (done) => {
       deleteRequest(`/crop/${crop.crop_id}`, (err, res) => {
         console.log(crop,res.error);
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(200);
         getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
           console.log(fieldCrop,res.error,res.body);
           expect(res.status).toBe(200);

@@ -355,7 +355,7 @@ describe('FieldCrop Tests', () => {
 
   });
 
-  describe('Variety tests for current implementation. All should fail after variety field is fixed', function(){
+  describe('crop_common_name + genus + species uniqueness tests', function(){
     test('should return 400 status if crop is posted w/o variety name', (done) => {
       let crop = fakeCrop();
       crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;

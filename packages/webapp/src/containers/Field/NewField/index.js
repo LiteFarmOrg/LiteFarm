@@ -398,7 +398,6 @@ class NewField extends Component {
                       backgroundColor: "#FCE38D",
                       color: "#282B36",
                       border: "none",
-                      cursor: "default",
                       boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)",
                     }} outline
                     onClick={() => {

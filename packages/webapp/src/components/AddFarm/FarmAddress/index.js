@@ -31,16 +31,34 @@ class FarmAddress extends Component {
     // Fire Event when a suggested name is selected
     this.autocomplete.addListener('place_changed', this.handlePlaceSelect(false));
   }
-  handlePlaceSelect() {
-    return (blurring) => {
+  handlePlaceSelect(blurring) {
+    return (event) => {
       const place = this.autocomplete.getPlace();
       const gridPoints = {};
+      const coordRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+      const isCoord = coordRegex.test(this.props.address);
       let model = this.props.model;
       if(!model) {
         model = ".farm"
       }
       if(blurring && Object.keys(this.props.points).length === 0 && !place) {
         this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
+        return;
+      }
+      if (isCoord) {
+        // convert input to array of numbers
+        let coords = this.props.address.split(',');
+        coords = coords.map(str => parseFloat(str));
+        // perform check on lat lng values
+        let lat = coords[0];
+        let lng = coords[1];
+        if (lat < -90 || lat > 90) console.log('Received invalid latitude value given');
+        if (lng < -180 || lng > 180) console.log('Received invalid longitude value given');
+
+        this.props.dispatch(actions.change('profileForms' + model + '.address', this.props.address));
+        gridPoints['lat'] = lat;
+        gridPoints['lng'] = lng;
+        this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
         return;
       }
       if(!place.geometry && !blurring) {

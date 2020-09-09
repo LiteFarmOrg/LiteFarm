@@ -39,6 +39,9 @@
   }
 }
 
+.warningClass:focus { border:  1px solid red; }
+.successClass:focus { border:  1px solid green; }
+
 
 .infoButton {
   position: fixed;

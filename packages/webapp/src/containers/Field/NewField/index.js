@@ -122,7 +122,7 @@ class NewField extends Component {
       if (!this.state.isSavePlanDisabled) {
         this.setState({ isSavePlanDisabled: true })
       }
-      return null;
+      return 'warning';
     }
   }
 
@@ -356,15 +356,40 @@ class NewField extends Component {
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
+              {/* <div className={styles.buttonContainer} style={{ bottom: 0 }}>  */}
               <ControlLabel>Field Name</ControlLabel>
-              <FormControl
+              {this.state.isSavePlanDisabled ? 
+                <FormControl
                 type="text"
                 autoFocus
                 value={this.state.fieldName}
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
+                background="#F3F6FB"
+                backgroundColor="#D4DAE3"
+                bsClass="warningClass" 
+                border="1px solid #D4DAE3"
+                border="border-success"
+                box-sizing="border-box"
+                border-radius="4px"
+                />
+              :
+              <FormControl
+                type="text"
+                autoFocus
+                value={this.state.fieldName}
+                onChange={this.handleFieldNameChange}
+                className={styles.buttonContainer}
+                background="#FFFFFF"   
+                backgroundColor="#FCE38D"  
+                bsClass="successClass"        
+                border="11px solid #89D1C7"
+                box-sizing="border-box"
+                border-radius="4px"
               />
+              }
+            {/* </div> */}
             </FormGroup>
             <FormGroup
               className={styles.centeredForm}>

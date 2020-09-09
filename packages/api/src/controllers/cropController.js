@@ -129,6 +129,7 @@ class cropController extends baseController {
   }
 
   static async get(farm_id){
+    //TODO fix user added flag
     return await cropModel.query().where('user_added', false).orWhere('farm_id', farm_id);
   }
 

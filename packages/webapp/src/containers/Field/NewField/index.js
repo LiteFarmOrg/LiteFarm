@@ -68,7 +68,7 @@ class NewField extends Component {
       this.setState({center: {lat: farm.grid_points.lat, lng: farm.grid_points.lng}});
     }
 
-    
+
   }
 
   getMapOptions = (maps) => {
@@ -351,14 +351,13 @@ class NewField extends Component {
               this.handleModeChange(BACK_TO_STEP_ONE);
               this.setState({ step: this.state.step - 1 });
             }} />
-
             <FormGroup
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
               {/* <div className={styles.buttonContainer} style={{ bottom: 0 }}>  */}
               <ControlLabel>Field Name</ControlLabel>
-              {this.state.isSavePlanDisabled ? 
+              {this.state.isSavePlanDisabled ?
                 <FormControl
                 type="text"
                 autoFocus
@@ -366,13 +365,7 @@ class NewField extends Component {
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
-                background="#F3F6FB"
-                backgroundColor="#D4DAE3"
-                bsClass="warningClass" 
-                border="1px solid #D4DAE3"
-                border="border-success"
-                box-sizing="border-box"
-                border-radius="4px"
+                style={{borderColor: '#D4DAE3'}}
                 />
               :
               <FormControl
@@ -380,13 +373,8 @@ class NewField extends Component {
                 autoFocus
                 value={this.state.fieldName}
                 onChange={this.handleFieldNameChange}
-                className={styles.buttonContainer}
-                background="#FFFFFF"   
-                backgroundColor="#FCE38D"  
-                bsClass="successClass"        
-                border="11px solid #89D1C7"
-                box-sizing="border-box"
-                border-radius="4px"
+                className={'randomClass'}
+                style={{borderColor: '#89D1C7'}}
               />
               }
             {/* </div> */}
@@ -394,7 +382,7 @@ class NewField extends Component {
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                {this.state.isSavePlanDisabled ? 
+                {this.state.isSavePlanDisabled ?
                     <Button style={{
                       font: "Open Sans",
                       fontSize: "16px",
@@ -410,7 +398,7 @@ class NewField extends Component {
                       cursor: "default",
                       boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)",
                     }} outline>Save Field</Button>
-                    : 
+                    :
                     <Button style={{
                       font: "Open Sans",
                       fontSize: "16px",
@@ -428,7 +416,7 @@ class NewField extends Component {
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);
                       this.setState({ step: this.state.step + 1 });
-                    }}>Save Field</Button>                 
+                    }}>Save Field</Button>
                   }
               </div>
             </FormGroup>

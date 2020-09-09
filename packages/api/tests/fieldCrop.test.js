@@ -331,6 +331,26 @@ describe('FieldCrop Tests', () => {
       })
     });
 
+    test('should post a crop and its variety', (done) => {
+      let crop = fakeCrop();
+      crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
+      postCropRequest(crop, (err, res) => {
+        console.log(crop,res.error);
+        expect(res.status).toBe(201);
+        crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus} - variety`;
+        postCropRequest(crop, (err, res) => {
+          console.log(crop,res.error);
+          expect(res.status).toBe(201);
+          getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
+            console.log(crop,res.body);
+            expect(res.status).toBe(200);
+            expect(res.body[2].crop_common_name).toBe(crop.crop_common_name);
+            done();
+          })
+        })
+      })
+    });
+
     test('should post and get a valid crop', (done) => {
       let crop = fakeCrop();
       crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;

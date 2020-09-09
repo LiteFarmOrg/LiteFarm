@@ -691,7 +691,7 @@ describe('FieldCrop Tests', () => {
         getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
           console.log(fieldCrop,res.error,res.body);
           expect(res.status).toBe(200);
-          expect(res.body.length).toBe(1);
+          expect(res.body.length).toBe(0);
           done();
         });
       })

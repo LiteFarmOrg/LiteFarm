@@ -48,6 +48,8 @@ class Field extends Component {
       area_unit_label: getUnit(this.props.farm, 'm', 'ft'),
       showListSearchBar: true,
       center: CENTER,
+      fields: this.props.fields,
+      isPropReceived: false,
     };
 
     this.handleSelectTab = this.handleSelectTab.bind(this);
@@ -66,6 +68,13 @@ class Field extends Component {
       }
       this.setState({isVisible: visArray});
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+      this.setState({
+        fields: nextProps.fields,
+        isPropReceived: true,
+      });
   }
 
   handleSelectTab(selectedTab) {
@@ -94,7 +103,6 @@ class Field extends Component {
 
 
     let addListenersOnPolygonAndMarker = function (polygon, fieldObject) {
-
         // creates field marker
         var fieldMarker = new maps.Marker({
           position: polygon.getPolygonBounds().getCenter(),
@@ -124,19 +132,18 @@ class Field extends Component {
 
     }
 
-    if (this.props.fields && this.props.fields.length >= 1) {
-      len = this.props.fields.length;
+    if (this.state.fields && this.state.fields.length >= 1) {
+      len = this.state.fields.length;
       let i;
 
       for (i = 0; i < len; i++) {
         // ensure that the map shows this field
-        this.props.fields[i].grid_points.forEach((grid_point)=>{
+        this.state.fields[i].grid_points.forEach((grid_point)=>{
           farmBounds.extend(grid_point);
         })
-        // farmBounds.extend(this.props.fields[i].grid_points[0]);
         // creates the polygon to be displayed on the map
         var polygon = new maps.Polygon({
-          paths: this.props.fields[i].grid_points,
+          paths: this.state.fields[i].grid_points,
           strokeColor: styles.primaryColor,
           strokeOpacity: 0.8,
           strokeWeight: 3,
@@ -144,7 +151,7 @@ class Field extends Component {
           fillOpacity: 0.35
         });
         polygon.setMap(map);
-        addListenersOnPolygonAndMarker(polygon, this.props.fields[i]);
+        addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
       }
       map.fitBounds(farmBounds);
     }
@@ -158,8 +165,8 @@ class Field extends Component {
   handleSearchTermChange = (e) => {
     const searchTerm = e.target.value;
     var newVisStatus = [];
-    for (var i = 0; i < this.props.fields.length; i++){
-      var field = this.props.fields[i];
+    for (var i = 0; i < this.state.fields.length; i++){
+      var field = this.state.fields[i];
       if (String(field.field_name).toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())) {
         newVisStatus.push(true);
       }else{
@@ -226,12 +233,12 @@ class Field extends Component {
             id="controlled-tab-example"
           >
             <Tab eventKey={1} title="Map">
-              <div style={{ width: "100%", height: "400px" }}>
+              {this.state.isPropReceived && <div style={{ width: "100%", height: "400px" }}>
                 <GoogleMap
                   bootstrapURLKeys={{
                     key: GMAPS_API_KEY,
                     libraries: ['drawing', 'geometry', 'places']}}
-                  center={this.state.center}
+                  defaultCenter={this.state.center}
                   defaultZoom={this.props.zoom}
                   yesIWantToUseGoogleMapApiInternals
                   onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
@@ -243,7 +250,7 @@ class Field extends Component {
                     text={"" && this.props.farm.farm_name}
                   />
                 </GoogleMap>
-              </div>
+              </div>}
             </Tab>
             <Tab eventKey={2} title="List">
               <Table>
@@ -255,7 +262,7 @@ class Field extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.props.fields && (this.props.fields.map((field,index) => {return this.state.isVisible[index] === false ? null : (
+                  {this.state.fields && (this.state.fields.map((field,index) => {return this.state.isVisible[index] === false ? null : (
                     <tr key={field.field_id}>
                       <td>{field.field_name}</td>
                       <td>{roundToTwoDecimal(convertFromMetric(field.area, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup></td>

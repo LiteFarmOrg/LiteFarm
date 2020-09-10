@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Script from 'react-load-script';
-import {actions, Control} from "react-redux-form";
+import { actions, Control } from "react-redux-form";
 import { toastr } from 'react-redux-toastr';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 class FarmAddress extends Component {
+  selectedAddressName = '';
   constructor(props) {
     super(props);
     this.handleScriptLoad = this.handleScriptLoad.bind(this);
-    this.handlePlaceSelect = this.handlePlaceSelect.bind(this);
+    this.handlePlaceChanged = this.handlePlaceChanged.bind(this);
   }
 
   handleScriptLoad() {
@@ -29,22 +30,18 @@ class FarmAddress extends Component {
     this.autocomplete.setFields(['geometry', 'formatted_address']);
 
     // Fire Event when a suggested name is selected
-    this.autocomplete.addListener('place_changed', this.handlePlaceSelect(false));
+    this.autocomplete.addListener('place_changed', this.handlePlaceChanged);
   }
-  handlePlaceSelect(blurring) {
-    return (event) => {
-      const place = this.autocomplete.getPlace();
+
+  handleBlur() {
+    return () => {
       const gridPoints = {};
-      const coordRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
-      const isCoord = coordRegex.test(this.props.address);
       let model = this.props.model;
-      if(!model) {
+      if (!model) {
         model = ".farm"
       }
-      if(blurring && Object.keys(this.props.points).length === 0 && !place) {
-        this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
-        return;
-      }
+      const coordRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+      const isCoord = coordRegex.test(this.props.address);
       if (isCoord) {
         // convert input to array of numbers
         let coords = this.props.address.split(',');
@@ -54,49 +51,77 @@ class FarmAddress extends Component {
         let lng = coords[1];
         if (lat < -90 || lat > 90) console.log('Received invalid latitude value given');
         if (lng < -180 || lng > 180) console.log('Received invalid longitude value given');
-
+        if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+          this.clearModel()
+          toastr.error(`Received invalid latitude or longitude value`);
+          return;
+        }
         this.props.dispatch(actions.change('profileForms' + model + '.address', this.props.address));
         gridPoints['lat'] = lat;
         gridPoints['lng'] = lng;
         this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
-        return;
+      } else {
+        const place = this.autocomplete.getPlace();
+        if(!place || !place.geometry || this.props.address !== this.selectedAddressName) {
+          this.clearModel(model);
+        }
       }
-      if(!place.geometry && !blurring) {
-        this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
-        return toastr.error(`No location information found for ${place.name}`)
-      }
-      if(blurring) {
-        return;
-      }
-      this.props.dispatch(actions.change('profileForms' + model + '.address', place.formatted_address));
-      gridPoints['lat'] = place.geometry.location.lat();
-      gridPoints['lng'] = place.geometry.location.lng();
-      this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
     }
+  }
+
+  handlePlaceChanged() {
+    const gridPoints = {};
+    let model = this.props.model;
+    const place = this.autocomplete.getPlace();
+    const coordRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+    const isCoord = coordRegex.test(this.props.address);
+    if (!model) {
+      model = ".farm"
+    }
+    if(!place.geometry && !isCoord) {
+      this.clearModel(model)
+      return;
+    }
+    if(isCoord){
+      return;
+    }
+    this.props.dispatch(actions.change('profileForms' + model + '.address', place.formatted_address));
+    this.selectedAddressName = place.formatted_address;
+    gridPoints['lat'] = place.geometry.location.lat();
+    gridPoints['lng'] = place.geometry.location.lng();
+    this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
+  }
+
+  clearModel(model) {
+    this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
+    this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', { }));
+    // this.selectedAddressName = '';
   }
 
   render() {
-    let {model, defaultValue} = this.props;
-    if(!model) {
+    let { model, defaultValue } = this.props;
+    if (!model) {
       model = ".farm"
     }
-    if(!defaultValue) {
+    if (!defaultValue) {
       defaultValue = ''
     }
     return (
-    <div>
-      <Script
-        url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places,drawing,geometry`}
-        onLoad={this.handleScriptLoad}
-      />
-      <Control.text defaultValue={defaultValue} style={{width: '250px'}} id="autocomplete" model={model + '.address'} validators={{
-        required: (val) => val && val.length,
-        length: (val) => val && val.length > 2
-      }} onBlur={this.handlePlaceSelect(true)} />
-    </div>)
+      <div>
+        <Script
+          url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places,drawing,geometry`}
+          onLoad={this.handleScriptLoad}
+        />
+        <Control.text defaultValue={defaultValue} style={{ width: '250px' }} id="autocomplete"
+                      model={model + '.address'} validators={{
+          required: (val) => val && val.length,
+          length: (val) => val && val.length > 2
+        }} onBlur={this.handleBlur()}/>
+      </div>)
   }
 
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch
@@ -104,8 +129,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => ({
-    points: state.profileForms.farm.gridPoints,
-    address: state.profileForms.farm.address
+  points: state.profileForms.farm.gridPoints,
+  address: state.profileForms.farm.address
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FarmAddress);

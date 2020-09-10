@@ -49,13 +49,12 @@ class FarmAddress extends Component {
         // perform check on lat lng values
         let lat = coords[0];
         let lng = coords[1];
-        if (lat < -90 || lat > 90) console.log('Received invalid latitude value given');
-        if (lng < -180 || lng > 180) console.log('Received invalid longitude value given');
         if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
-          this.clearModel()
+          this.clearModel(model);
           toastr.error(`Received invalid latitude or longitude value`);
           return;
         }
+        
         this.props.dispatch(actions.change('profileForms' + model + '.address', this.props.address));
         gridPoints['lat'] = lat;
         gridPoints['lng'] = lng;
@@ -95,7 +94,6 @@ class FarmAddress extends Component {
   clearModel(model) {
     this.props.dispatch(actions.change('profileForms' + model + '.address', ''));
     this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', { }));
-    // this.selectedAddressName = '';
   }
 
   render() {

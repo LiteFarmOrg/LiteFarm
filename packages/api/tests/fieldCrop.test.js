@@ -147,7 +147,7 @@ describe('FieldCrop Tests', () => {
     });
   })
 
-  afterEach (async () => {
+  afterAll (async () => {
     await knex.raw(`
     DELETE FROM "fieldCrop";
     DELETE FROM "field";
@@ -157,10 +157,27 @@ describe('FieldCrop Tests', () => {
     DELETE FROM "users";
     DELETE FROM "weather_station";
     `);
-    const test = 0;
   });
 
-  describe('Post fieldCrop', ()=>{
+  describe('Get fieldCrop', ()=>{
+    test('Workers should get fieldCrop by farm id', async (done)=>{
+      getRequest(`/field_crop/farm/${farm.farm_id}`,(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+        done();
+      },newWorker.user_id);
+    })
+
+    test('Workers should get fieldCrop by date', async (done)=>{
+      getRequest(`/field_crop/farm/date/${farm.farm_id}/${moment().format('YYYY-MM-DD')}`,(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+        done();
+      },newWorker.user_id);
+    })
+
     test('Workers should get fieldCrop by id', async (done)=>{
       getRequest(`/field_crop/${fieldCrop.field_crop_id}`,(err,res)=>{
         console.log(res.error,res.body);
@@ -169,7 +186,29 @@ describe('FieldCrop Tests', () => {
         done();
       },newWorker.user_id);
     })
+  })
 
+  describe('Get crop', ()=>{
+    test('Workers should get fieldCrop by farm id', async (done)=>{
+      getRequest(`/crop/farm/${farm.farm_id}`,(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body[0].crop_id).toBe(crop.crop_id);
+        done();
+      },newWorker.user_id);
+    })
+
+    test('Workers should get fieldCrop by id', async (done)=>{
+      getRequest(`/crop/${crop.crop_id}`,(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body[0].crop_id).toBe(crop.crop_id);
+        done();
+      },newWorker.user_id);
+    })
+  })
+
+  describe('Post fieldCrop', ()=>{
     test('should return 400 status if fieldCrop is posted w/o crop_id', async (done) => {
       let fieldCrop = fakeFieldCrop();
       delete fieldCrop.crop_id;
@@ -497,6 +536,7 @@ describe('FieldCrop Tests', () => {
     });
 
     test('Expired route should filter out non-expired fieldCrop', async (done) => {
+      let fieldCrop = mocks.fakeFieldCrop();
       fieldCrop.end_date = moment().add(10,'d').toDate();
       await mocks.fieldCropFactory({},fieldCrop);
       getRequest(`/field_crop/expired/farm/${farm.farm_id}`,(err,res)=>{
@@ -513,7 +553,7 @@ describe('FieldCrop Tests', () => {
         console.log(fieldCrop,res.error);
         expect(res.status).toBe(200);
         const newFieldCrop = await fieldCropModel.query().where('crop_id',crop.crop_id).first();
-        expect(newFieldCrop.end_date).toBe(fieldCrop.end_date);
+        expect(newFieldCrop.end_date.toDateString()).toBe(fieldCrop.end_date.toDateString());
         done();
       })
     });
@@ -524,14 +564,16 @@ describe('FieldCrop Tests', () => {
         console.log(fieldCrop,res.error);
         expect(res.status).toBe(200);
         const newFieldCrop = await fieldCropModel.query().where('crop_id',crop.crop_id).first();
-        expect(newFieldCrop.end_date).toBe(fieldCrop.end_date);
+        console.log(newFieldCrop);
+        expect(newFieldCrop.end_date.toDateString()).toBe(fieldCrop.end_date.toDateString());
         done();
       })
     });
 
     test('Expired route should not filter out non-expired fieldCrop', async (done) => {
+      let fieldCrop = mocks.fakeFieldCrop();
       fieldCrop.end_date = moment().subtract(10,'d').toDate();
-      await mocks.fieldCropFactory({},fieldCrop);
+      await mocks.fieldCropFactory({promisedCrop: [crop], promisedField: [field]},fieldCrop);
       getRequest(`/field_crop/expired/farm/${farm.farm_id}`,(err,res)=>{
         console.log(fieldCrop,res.error);
         expect(res.status).toBe(200);

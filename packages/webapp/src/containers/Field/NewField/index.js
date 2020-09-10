@@ -18,6 +18,27 @@ import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSe
 import history from '../../../history';
 import {fieldSelector} from "../../selector";
 
+const buttonStyles = {
+  font: "Open Sans",
+  fontSize: "16px",
+  lineHeight: "24px",
+  borderRadius: "4px",
+  display: "flex",
+  alignItems: "center",
+  textAlign: "center",
+  letterSpacing: "0.4005px",
+  backgroundColor: "#D4DAE3",
+  color: "#282B36",
+  border: "none",
+  cursor: "default",
+  boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)"
+}
+
+const activeButtonStyles = {
+  backgroundColor: "#FCE38D",
+  cursor: ""
+}
+
 class NewField extends Component {
   static defaultProps = {
     zoom: DEFAULT_ZOOM,
@@ -55,8 +76,6 @@ class NewField extends Component {
     this.handleYieldChange = this.handleYieldChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
     this.getValidationState = this.getValidationState.bind(this);
-    this.getButtonStyles = this.getButtonStyles.bind(this);
-    this.getActiveButtonStyles = this.getActiveButtonStyles.bind(this);
   }
 
   componentDidMount() {
@@ -126,32 +145,6 @@ class NewField extends Component {
       }
       return 'warning';
     }
-  }
-
-  getButtonStyles() {
-    const buttonStyles = {
-        font: "Open Sans",
-        fontSize: "16px",
-        lineHeight: "24px",
-        borderRadius: "4px",
-        display: "flex",
-        alignItems: "center",
-        textAlign: "center",
-        letterSpacing: "0.4005px",
-        backgroundColor: "#D4DAE3",
-        color: "#282B36",
-        border: "none",
-        cursor: "default",
-        boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)"
-    }
-    return buttonStyles;
-  }
-
-  getActiveButtonStyles() {
-    const button = this.getButtonStyles();
-    button.backgroundColor = "#FCE38D";
-    button.cursor = "";
-    return button;
   }
 
   handleFieldNameChange(event) {
@@ -383,7 +376,6 @@ class NewField extends Component {
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
-              {/* <div className={styles.buttonContainer} style={{ bottom: 0 }}>  */}
               <ControlLabel>Field Name</ControlLabel>
               {this.state.isSavePlanDisabled ?
                 <FormControl
@@ -411,12 +403,9 @@ class NewField extends Component {
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
                 { 
                 this.state.isSavePlanDisabled ?
-                <Button style={this.getButtonStyles()} outlinonClick={() => {
-                  this.handleModeChange(CREATE_FIELD);
-                  this.setState({ step: this.state.step + 1 });
-                }}>Save Field</Button>
+                <Button style={{...buttonStyles}} outline>Save Field</Button>
                 :
-                <Button style={this.getActiveButtonStyles()} 
+                <Button style={{...buttonStyles, ...activeButtonStyles}} 
                     outline
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);

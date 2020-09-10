@@ -33,14 +33,12 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 2%;
+
   button{
     margin: 0 auto;
     display:block;
   }
 }
-
-.warningClass:focus { border:  1px solid red; }
-.successClass:focus { border:  1px solid green; }
 
 
 .infoButton {

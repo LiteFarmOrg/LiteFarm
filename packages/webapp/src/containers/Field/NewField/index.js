@@ -55,6 +55,8 @@ class NewField extends Component {
     this.handleYieldChange = this.handleYieldChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
     this.getValidationState = this.getValidationState.bind(this);
+    this.getButtonStyles = this.getButtonStyles.bind(this);
+    this.getActiveButtonStyles = this.getActiveButtonStyles.bind(this);
   }
 
   componentDidMount() {
@@ -124,6 +126,32 @@ class NewField extends Component {
       }
       return 'warning';
     }
+  }
+
+  getButtonStyles() {
+    const buttonStyles = {
+        font: "Open Sans",
+        fontSize: "16px",
+        lineHeight: "24px",
+        borderRadius: "4px",
+        display: "flex",
+        alignItems: "center",
+        textAlign: "center",
+        letterSpacing: "0.4005px",
+        backgroundColor: "#D4DAE3",
+        color: "#282B36",
+        border: "none",
+        cursor: "default",
+        boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)"
+    }
+    return buttonStyles;
+  }
+
+  getActiveButtonStyles() {
+    const button = this.getButtonStyles();
+    button.backgroundColor = "#FCE38D";
+    button.cursor = "";
+    return button;
   }
 
   handleFieldNameChange(event) {
@@ -373,46 +401,23 @@ class NewField extends Component {
                 autoFocus
                 value={this.state.fieldName}
                 onChange={this.handleFieldNameChange}
-                className={'randomClass'}
+                className={styles.buttonContainer}
                 style={{borderColor: '#89D1C7'}}
               />
               }
-            {/* </div> */}
             </FormGroup>
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                {this.state.isSavePlanDisabled ?
-                    <Button style={{
-                      font: "Open Sans",
-                      fontSize: "16px",
-                      lineHeight: "24px",
-                      borderRadius: "4px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                      letterSpacing: "0.4005px",
-                      backgroundColor: "#D4DAE3",
-                      color: "#282B36",
-                      border: "none",
-                      cursor: "default",
-                      boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)",
-                    }} outline>Save Field</Button>
-                    :
-                    <Button style={{
-                      font: "Open Sans",
-                      fontSize: "16px",
-                      lineHeight: "24px",
-                      borderRadius: "4px",
-                      display: "flex",
-                      alignItems: "center",
-                      textAlign: "center",
-                      letterSpacing: "0.4005px",
-                      backgroundColor: "#FCE38D",
-                      color: "#282B36",
-                      border: "none",
-                      boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)",
-                    }} outline
+                { 
+                this.state.isSavePlanDisabled ?
+                <Button style={this.getButtonStyles()} outlinonClick={() => {
+                  this.handleModeChange(CREATE_FIELD);
+                  this.setState({ step: this.state.step + 1 });
+                }}>Save Field</Button>
+                :
+                <Button style={this.getActiveButtonStyles()} 
+                    outline
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);
                       this.setState({ step: this.state.step + 1 });

@@ -3,7 +3,7 @@ import GoogleMap from 'google-map-react';
 import DrawingToolTipBox from '../../../components/Field/DrawingToolTipBox';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
-import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, BACK_TO_STEP_ONE, POLYGON_COMPLETE } from '../constants';
+import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, POLYGON_COMPLETE } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
 import {Button, Glyphicon, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import { createFieldAction } from './actions';
@@ -258,10 +258,6 @@ class NewField extends Component {
       case NEXT_BUTTON:
         this.setState({ step: this.state.step + 1 });
         break;
-      case BACK_TO_STEP_ONE:
-        this.state.drawingManager.setDrawingMode();
-        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null, center: null });
-        break;
       case CREATE_FIELD:
         this.props.dispatch(createFieldAction(
           this.state.fieldName,
@@ -345,7 +341,6 @@ class NewField extends Component {
         {this.state.step === 2 &&
           <div className={parentStyles.logContainer}>
             <PageTitleFragment title="New Field (2 of 2)" onBackButtonClick={() => {
-              this.handleModeChange(BACK_TO_STEP_ONE);
               this.setState({ step: this.state.step - 1 });
             }} />
 

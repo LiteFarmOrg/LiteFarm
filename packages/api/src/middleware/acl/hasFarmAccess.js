@@ -1,9 +1,9 @@
 const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../knexfile')[environment];
+const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
 module.exports = async (req, res, next) => {
-  const data = req.body || req.params;
+  const data = Object.keys(req.body).length === 0 ? req.params:  req.body;
   const headers = req.headers;
   const { farm_id } = headers;
   if(data.field_id) {

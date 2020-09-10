@@ -17,15 +17,16 @@ const express = require('express');
 const router = express.Router();
 const farmController = require('../controllers/farmController');
 const authFarmId = require('../middleware/acl/authFarmId');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
 router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
 router.post('/', farmController.addFarm());
 
-router.put('/:id', checkScope(['edit:farms']), farmController.updateFarm());
+router.put('/:id', hasFarmAccess,  checkScope(['edit:farms']), farmController.updateFarm());
 
-router.delete('/:id', checkScope(['delete:farms']), farmController.deleteFarm());
+router.delete('/:farm_id', hasFarmAccess, checkScope(['delete:farms']), farmController.deleteFarm());
 
 
 module.exports = router;

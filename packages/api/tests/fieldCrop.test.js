@@ -18,24 +18,15 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment =require('moment')
 chai.use(chaiHttp);
-const chai_assert = chai.assert;    // Using Assert style
-const chai_expect = chai.expect;    // Using Expect style
-const chai_should = chai.should();  // Using Should style
 const server = require('./../src/server');
-const dummy = require('./dummy');
-const sinon = require('sinon')
 const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
-let checkJwt;
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
 
-const userModel = require('../src/models/userModel');
-const farmModel = require('../src/models/farmModel');
-const fieldModel = require('../src/models/fieldModel');
 const cropModel = require('../src/models/cropModel');
 const fieldCropModel = require('../src/models/fieldCropModel');
 

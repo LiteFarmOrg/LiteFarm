@@ -3,9 +3,9 @@ import GoogleMap from 'google-map-react';
 import DrawingToolTipBox from '../../../components/Field/DrawingToolTipBox';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
-import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, BACK_TO_STEP_ONE, POLYGON_COMPLETE } from '../constants';
+import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, POLYGON_COMPLETE } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
-import {Button, Glyphicon, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {Button, Glyphicon, FormGroup, FormControl, ControlLabel, Form} from 'react-bootstrap';
 import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
 import { cropSelector } from '../selectors';
@@ -17,6 +17,27 @@ import {
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
 import {fieldSelector} from "../../selector";
+
+const buttonStyles = {
+  font: "Open Sans",
+  fontSize: "16px",
+  lineHeight: "24px",
+  borderRadius: "4px",
+  display: "flex",
+  alignItems: "center",
+  textAlign: "center",
+  letterSpacing: "0.4005px",
+  backgroundColor: "#D4DAE3",
+  color: "#282B36",
+  border: "none",
+  cursor: "default",
+  boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)"
+}
+
+const activeButtonStyles = {
+  backgroundColor: "#FCE38D",
+  cursor: ""
+}
 
 class NewField extends Component {
   static defaultProps = {
@@ -67,6 +88,8 @@ class NewField extends Component {
     if(farm && farm.grid_points && farm.grid_points.lat && farm.grid_points.lng){
       this.setState({center: {lat: farm.grid_points.lat, lng: farm.grid_points.lng}});
     }
+
+
   }
 
   getMapOptions = (maps) => {
@@ -120,9 +143,10 @@ class NewField extends Component {
       if (!this.state.isSavePlanDisabled) {
         this.setState({ isSavePlanDisabled: true })
       }
-      return 'error'
+      return 'warning';
     }
   }
+
   handleFieldNameChange(event) {
     this.setState({ fieldName: event.target.value });
   }
@@ -258,10 +282,6 @@ class NewField extends Component {
       case NEXT_BUTTON:
         this.setState({ step: this.state.step + 1 });
         break;
-      case BACK_TO_STEP_ONE:
-        this.state.drawingManager.setDrawingMode();
-        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null, center: null });
-        break;
       case CREATE_FIELD:
         this.props.dispatch(createFieldAction(
           this.state.fieldName,
@@ -345,30 +365,48 @@ class NewField extends Component {
         {this.state.step === 2 &&
           <div className={parentStyles.logContainer}>
             <PageTitleFragment title="New Field (2 of 2)" onBackButtonClick={() => {
-              this.handleModeChange(BACK_TO_STEP_ONE);
               this.setState({ step: this.state.step - 1 });
             }} />
-
             <FormGroup
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
               <ControlLabel>Field Name</ControlLabel>
-              <FormControl
+              {this.state.isSavePlanDisabled ?
+                <FormControl
                 type="text"
+                autoFocus
                 value={this.state.fieldName}
                 placeholder="Enter Field Name"
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
+                style={{borderColor: '#D4DAE3'}}
+                />
+              :
+              <FormControl
+                type="text"
+                autoFocus
+                value={this.state.fieldName}
+                onChange={this.handleFieldNameChange}
+                className={styles.buttonContainer}
+                style={{borderColor: '#89D1C7'}}
               />
+              }
             </FormGroup>
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                <Button disabled={this.state.isSavePlanDisabled} onClick={() => {
-                  this.handleModeChange(CREATE_FIELD);
-                  this.setState({ step: this.state.step + 1 });
-                }}>Finish and Save Plan</Button>
+                { 
+                this.state.isSavePlanDisabled ?
+                <Button style={{...buttonStyles}} outline>Save Field</Button>
+                :
+                <Button style={{...buttonStyles, ...activeButtonStyles}} 
+                    outline
+                    onClick={() => {
+                      this.handleModeChange(CREATE_FIELD);
+                      this.setState({ step: this.state.step + 1 });
+                    }}>Save Field</Button>
+                  }
               </div>
             </FormGroup>
           </div>}

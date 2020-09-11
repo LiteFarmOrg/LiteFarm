@@ -50,7 +50,7 @@ class FieldCropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldCropModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -70,7 +70,7 @@ class FieldCropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldCropModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);

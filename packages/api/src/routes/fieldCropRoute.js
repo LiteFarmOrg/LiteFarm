@@ -18,6 +18,7 @@ const router = express.Router();
 const fieldCropController = require('../controllers/fieldCropController');
 const authFarmId = require('../middleware/acl/authFarmId');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 router.get('/:field_crop_id', authFarmId, checkScope(['get:field_crops']), fieldCropController.getFieldCropByID());
 
@@ -29,8 +30,8 @@ router.get('/expired/farm/:farm_id', authFarmId, checkScope(['get:field_crops'])
 
 router.post('/', checkScope(['add:field_crops']), fieldCropController.addFieldCrop());
 
-router.put('/:id', checkScope(['edit:field_crops']), fieldCropController.updateFieldCrop());
+router.put('/:field_crop_id', checkScope(['edit:field_crops']), fieldCropController.updateFieldCrop());
 
-router.delete('/:id', checkScope(['delete:field_crops']), fieldCropController.delFieldCrop());
+router.delete('/:field_crop_id', checkScope(['delete:field_crops']), fieldCropController.delFieldCrop());
 
 module.exports = router;

@@ -154,12 +154,12 @@ describe('FieldCrop Tests', () => {
 
     describe('Get fieldCrop', ()=>{
       test('Workers should get fieldCrop by farm id', async (done)=>{
-        getRequest(`/field_crop/farm/${farm.farm_id}`,{},(err,res)=>{
+        getRequest(`/field_crop/farm/${farm.farm_id}`,{user_id:newWorker.user_id},(err,res)=>{
           console.log(res.error,res.body);
           expect(res.status).toBe(200);
           expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
           done();
-        },newWorker.user_id);
+        });
       })
 
       test('Workers should get fieldCrop by date', async (done)=>{
@@ -179,13 +179,97 @@ describe('FieldCrop Tests', () => {
           done();
         });
       })
+
+      describe('Get fieldCrop authorization tests',()=>{
+        let newWorker;
+        let manager;
+        let unAuthorizedUser;
+        let farmunAuthorizedUser;
+
+        beforeEach(async()=>{
+          [newWorker] = await mocks.usersFactory();
+          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+          [manager] = await mocks.usersFactory();
+          const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
+
+
+          [unAuthorizedUser] = await mocks.usersFactory();
+          [farmunAuthorizedUser] = await mocks.farmFactory();
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+        })
+
+        test('Owner should get fieldCrop by farm id', async (done)=>{
+          getRequest(`/field_crop/farm/${farm.farm_id}`,{user_id: newOwner.user_id},(err,res)=>{
+            console.log(res.error,res.body);
+            expect(res.status).toBe(200);
+            expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            done();
+          });
+        })
+
+        test('Manager should get fieldCrop by farm id', async (done)=>{
+          getRequest(`/field_crop/farm/${farm.farm_id}`,{user_id: manager.user_id},(err,res)=>{
+            console.log(res.error,res.body);
+            expect(res.status).toBe(200);
+            expect(res.body[0].field_crop_id).toBe(fieldCrop.field_crop_id);
+            done();
+          });
+        })
+
+        test('Should get status 403 if an unauthorizedUser tries to get fieldCrop by farm id', async (done)=>{
+          getRequest(`/field_crop/farm/${farm.farm_id}`,{user_id: unAuthorizedUser.user_id},(err,res)=>{
+            console.log(res.error,res.body);
+            expect(res.status).toBe(403);
+            done();
+          });
+        })
+
+        test('Circumvent authorization by modifying farm_id', async (done)=>{
+          getRequest(`/field_crop/farm/${farm.farm_id}`,{user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id},(err,res)=>{
+            console.log(res.error,res.body);
+            expect(res.status).toBe(403);
+            done();
+          });
+        })
+
+
+      })
     })
 
 
 
 
     describe('Delete fieldCrop', function () {
-      test('should delete a fieldCrop', async (done) => {
+
+      let newWorker;
+      let manager;
+      let unAuthorizedUser;
+      let farmunAuthorizedUser;
+
+      beforeEach(async()=>{
+        [newWorker] = await mocks.usersFactory();
+        const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+        [manager] = await mocks.usersFactory();
+        const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
+
+
+        [unAuthorizedUser] = await mocks.usersFactory();
+        [farmunAuthorizedUser] = await mocks.farmFactory();
+        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+      })
+
+      test('should delete a fieldCrop by owner', async (done) => {
+        deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`,{}, async (err, res) => {
+          console.log(fieldCrop.deleted,res.error);
+          expect(res.status).toBe(200);
+          const fieldCropRes = await fieldCropModel.query().where('field_crop_id',fieldCrop.field_crop_id);
+          expect(fieldCropRes.length).toBe(1);
+          expect(fieldCropRes[0].deleted).toBe(true);
+          done();
+        })
+      });
+
+      test('should delete a fieldCrop by manager', async (done) => {
         deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`,{}, async (err, res) => {
           console.log(fieldCrop.deleted,res.error);
           expect(res.status).toBe(200);
@@ -206,6 +290,14 @@ describe('FieldCrop Tests', () => {
 
       test('should return 403 if a worker tries to delete a fieldCrop', async (done) => {
         deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`,{user_id: newWorker.user_id}, (err, res) => {
+          console.log(fieldCrop,res.error, res.body);
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
+      test('Circumvent authorization by modifying farm_id', async (done) => {
+        deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`,{user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, (err, res) => {
           console.log(fieldCrop,res.error, res.body);
           expect(res.status).toBe(403);
           done();
@@ -294,23 +386,63 @@ describe('FieldCrop Tests', () => {
         });
       });
 
-      test('should return 403 when unauthorized user tries to edit fieldCrop', async (done) => {
-        fieldCrop.estimated_revenue = 1;
-        putFieldCropRequest(fieldCrop, {user_id: unAuthorizedUser.user_id}, (err, res) => {
-          console.log(fieldCrop,res.error);
-          expect(res.status).toBe(403);
-          done();
-        });
-      });
+      describe('Put fieldCrop authorization tests',()=>{
+        let newWorker;
+        let manager;
+        let unAuthorizedUser;
+        let farmunAuthorizedUser;
 
-      test('should return 403 when a worker tries to edit fieldCrop', async (done) => {
-        fieldCrop.estimated_revenue = 1;
-        putFieldCropRequest(fieldCrop,{user_id: newWorker.user_id}, (err, res) => {
-          console.log(fieldCrop,res.error);
-          expect(res.status).toBe(403);
-          done();
+        beforeEach(async()=>{
+          [newWorker] = await mocks.usersFactory();
+          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+          [manager] = await mocks.usersFactory();
+          const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
+
+
+          [unAuthorizedUser] = await mocks.usersFactory();
+          [farmunAuthorizedUser] = await mocks.farmFactory();
+          const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+        })
+
+        test('should edit and the area_used field by manager', async (done) => {
+          fieldCrop.area_used = field.area * 0.1;
+          putFieldCropRequest(fieldCrop,{user_id: manager.user_id}, async (err, res) => {
+            console.log(fieldCrop,res.error);
+            expect(res.status).toBe(200);
+            const newFieldCrop = await fieldCropModel.query().where('crop_id',crop.crop_id).first();
+            expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
+            done();
+          })
         });
-      });
+
+        test('should return 403 when unauthorized user tries to edit fieldCrop', async (done) => {
+          fieldCrop.estimated_revenue = 1;
+          putFieldCropRequest(fieldCrop, {user_id: unAuthorizedUser.user_id}, (err, res) => {
+            console.log(fieldCrop,res.error);
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+        test('should return 403 when a worker tries to edit fieldCrop', async (done) => {
+          fieldCrop.estimated_revenue = 1;
+          putFieldCropRequest(fieldCrop,{user_id: newWorker.user_id}, (err, res) => {
+            console.log(fieldCrop,res.error);
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+        test('Circumvent authorization by modifying farm_id', async (done) => {
+          fieldCrop.estimated_revenue = 1;
+          putFieldCropRequest(fieldCrop,{user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, (err, res) => {
+            console.log(fieldCrop,res.error);
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+      })
     });
 
 
@@ -535,16 +667,35 @@ describe('FieldCrop Tests', () => {
 
     describe('Post fieldCrop authorization',()=>{
       let newWorker;
+      let manager;
       let unAuthorizedUser;
+      let farmunAuthorizedUser;
 
       beforeEach(async()=>{
         [newWorker] = await mocks.usersFactory();
         const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+        [manager] = await mocks.usersFactory();
+        const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
+
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
       })
+
+      test('Should post then get a valid fieldcrop by a manager', async (done) => {
+        let fieldCrop = fakeFieldCrop(crop);
+        fieldCrop.estimated_revenue = 1;
+        fieldCrop.area_used = field.area * 0.25;
+        fieldCrop.estimated_production = 1;
+        postFieldCropRequest(fieldCrop, {user_id:manager.user_id}, async (err, res) => {
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(201);
+          const newFieldCrop = await fieldCropModel.query().where('crop_id',crop.crop_id).first();
+          expect(newFieldCrop.field_id).toBe(field.field_id);
+          done();
+        })
+      });
 
       test('Should return status 403 when a worker tries to post a valid fieldcrop', async (done) => {
         let fieldCrop = fakeFieldCrop(crop);
@@ -571,6 +722,20 @@ describe('FieldCrop Tests', () => {
           },
           )
       });
+
+      test('Circumvent authorization by modify farm_id', async (done) => {
+        let fieldCrop = fakeFieldCrop(crop);
+        fieldCrop.estimated_revenue = 1;
+        fieldCrop.area_used = field.area * 0.25;
+        fieldCrop.estimated_production = 1;
+        postFieldCropRequest(fieldCrop,{user_id:unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, (err, res) => {
+            console.log(fieldCrop,res.error);
+            expect(res.status).toBe(403);
+            done()
+          },
+        )
+      });
+
     });
 
     describe('crop_common_name + genus + species uniqueness tests', function(){

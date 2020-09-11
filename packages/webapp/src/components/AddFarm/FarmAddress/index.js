@@ -40,12 +40,11 @@ class FarmAddress extends Component {
       if (!model) {
         model = ".farm"
       }
-      const coordRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+      const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
       const isCoord = coordRegex.test(this.props.address);
       if (isCoord) {
         // convert input to array of numbers
-        let coords = this.props.address.split(',');
-        coords = coords.map(str => parseFloat(str));
+        let coords = this.props.address.split(/[,\s]\s*/).map(str => parseFloat(str));
         // perform check on lat lng values
         let lat = coords[0];
         let lng = coords[1];
@@ -72,7 +71,7 @@ class FarmAddress extends Component {
     const gridPoints = {};
     let model = this.props.model;
     const place = this.autocomplete.getPlace();
-    const coordRegex = /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/;
+    const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
     const isCoord = coordRegex.test(this.props.address);
     if (!model) {
       model = ".farm"

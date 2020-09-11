@@ -198,8 +198,9 @@ describe('FieldCrop Tests', () => {
         deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`,{}, async (err, res) => {
           console.log(fieldCrop.deleted,res.error);
           expect(res.status).toBe(200);
-          const crops = await cropModel.query().where('farm_id',farm.farm_id);
-          expect(crops.length).toBe(0);
+          const fieldCropRes = await fieldCropModel.query().where('field_crop_id',fieldCrop.field_crop_id);
+          expect(fieldCropRes.length).toBe(1);
+          expect(fieldCropRes[0].deleted).toBe(true);
           done();
         })
       });
@@ -361,15 +362,17 @@ describe('FieldCrop Tests', () => {
 
 
       beforeEach(async()=>{
-        [cropNotInUse] = await mocks.cropFactory({},{...mocks.fakeCrop(), crop_common_name: "cropNotInUse", user_added: true});
+        [cropNotInUse] = await mocks.cropFactory({promisedFarm:[farm]},{...mocks.fakeCrop(), crop_common_name: "cropNotInUse", user_added: true});
           })
 
       test('should delete a crop that is referenced by a fieldCrop', async (done) => {
         deleteRequest(`/crop/${crop.crop_id}`,{}, async (err, res) => {
           console.log(crop,res.error);
           expect(res.status).toBe(200);
-          const crops = await cropModel.query().where('farm_id',farm.farm_id);
-          expect(crops.length).toBe(0);
+          const crops = await cropModel.query().whereDeleted().where('farm_id',farm.farm_id);
+          expect(crops.length).toBe(1);
+          expect(crops[0].deleted).toBe(true);
+          expect(crops[0].crop_genus).toBe(crop.crop_genus);
           done();
         })
       });
@@ -378,8 +381,10 @@ describe('FieldCrop Tests', () => {
         deleteRequest(`/crop/${cropNotInUse.crop_id}`,{}, async (err, res) => {
           console.log(cropNotInUse,res.error);
           expect(res.status).toBe(200);
-          const crops = await cropModel.query().where('farm_id',farm.farm_id);
-          expect(crops.length).toBe(0);
+          const cropsDeleted = await cropModel.query().whereDeleted().where('farm_id',farm.farm_id);
+          expect(cropsDeleted.length).toBe(1);
+          expect(cropsDeleted[0].deleted).toBe(true);
+          expect(cropsDeleted[0].crop_genus).toBe(cropNotInUse.crop_genus);
           done();
         })
       });

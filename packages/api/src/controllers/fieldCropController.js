@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const fieldCropModel = require('../models/fieldCropModel');
+const fieldModel = require('../models/fieldModel');
 const { transaction, Model } = require('objection');
 const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
@@ -27,6 +28,11 @@ class FieldCropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        // TODO Move validations that involve database queries
+        const field = await fieldModel.query().select('area').where('field_id', '=', req.body.field_id);
+        if(field && field[0] && field[0].area < req.body.area_used){
+          return res.status(400).send('Area needed is greater than the field\'s area');
+        }
         const result = await baseController.postWithResponse(fieldCropModel, req.body, trx);
         await trx.commit();
         res.status(201).send(result);
@@ -81,6 +87,25 @@ class FieldCropController extends baseController {
     }
   }
 
+  static getFieldCropByID() {
+    return async (req, res) => {
+      try {
+        const field_crop_id = req.params.field_crop_id;
+        const rows = await baseController.getIndividual(fieldCropModel, field_crop_id);
+        if (!rows.length) {
+          res.status(404).send('Field crop not found');
+        } else {
+          res.status(200).send(rows);
+        }
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
+
   static getFieldCropByFarmID() {
     return async (req, res) => {
       try {
@@ -102,7 +127,7 @@ class FieldCropController extends baseController {
 
   static async getByForeignKey(farm_id) {
 
-    const fieldCrops = await fieldCropModel.query().select('*').from('fieldCrop').join('field', function () {
+    const fieldCrops = await fieldCropModel.query().whereNotDeleted().select('*').from('fieldCrop').join('field', function () {
       this.on('fieldCrop.field_id', '=', 'field.field_id');
     }).where('field.farm_id', farm_id)
       .join('crop', function () {
@@ -128,7 +153,8 @@ class FieldCropController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "field" f, "fieldCrop" fc, "crop" c
-          WHERE f.farm_id = '${farmID}' and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') >= '${date}'`);
+          WHERE f.farm_id = '${farmID}' and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') >= '${date}'
+          and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`);
 
         if (dataPoints.rows) {
           const body = dataPoints.rows;
@@ -150,7 +176,8 @@ class FieldCropController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "field" f, "fieldCrop" fc, "crop" c
-          WHERE f.farm_id = '${farmID}' and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') < '${date}'`);
+          WHERE f.farm_id = '${farmID}' and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') < '${date}'
+           and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`);
         if (dataPoints.rows) {
           const body = dataPoints.rows;
           res.status(200).send(body);

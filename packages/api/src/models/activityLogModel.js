@@ -145,6 +145,9 @@ class activityLogModel extends Model {
           },
           to: 'fieldCrop.field_crop_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       field:{
         modelClass:require('./fieldModel'),
@@ -157,6 +160,9 @@ class activityLogModel extends Model {
             to: 'activityFields.field_id',
           },
           to: 'field.field_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
     };

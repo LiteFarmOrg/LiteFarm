@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class Field extends Model {
+class Field extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'field';
   }
@@ -33,6 +34,7 @@ class Field extends Model {
       properties: {
         field_id: { type: 'string' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
         field_name: { type: 'string' },
         area: { type: 'number' },
         station_id: { type: 'number' },
@@ -57,6 +59,9 @@ class Field extends Model {
         join: {
           from: 'field.field_id',
           to: 'fieldCrop.field_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
     };

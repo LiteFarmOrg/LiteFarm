@@ -19,15 +19,25 @@ chai.use(chaiHttp);
 const chai_assert = chai.assert;    // Using Assert style
 const chai_expect = chai.expect;    // Using Expect style
 const chai_should = chai.should();  // Using Should style
-const server = 'http://localhost:5000';
+const server = require('./../src/server');
 const dummySignUp = require('./dummySignUp')
 const authConfig = require ('../src/auth0Config')
+const Knex = require('knex')
+const environment = 'test';
+const config = require('../knexfile')[environment];
+const knex = Knex(config);
+jest.mock('jsdom')
 
 
 describe('These are tests for auth0 signup and user creation', () => {
     let testSignUpToken = null;
     let oauth_user_id = null;
     let userID = null;
+
+    afterAll(() => {
+      let email = 'test1234_signup@usertest.com';
+      return knex('users').where({ email }).delete();
+    })
 
     test('POST to signup with oauth to get token', (done) => {
             chai.request(authConfig.token_url).post('/')

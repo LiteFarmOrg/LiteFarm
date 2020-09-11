@@ -55,6 +55,9 @@ class Sale extends Model {
           },
           to: 'crop.crop_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       cropSale: {
         relation: Model.HasManyRelation,

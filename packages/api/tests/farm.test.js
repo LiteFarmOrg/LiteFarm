@@ -16,55 +16,28 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const chai_assert = chai.assert;    // Using Assert style
-const chai_expect = chai.expect;    // Using Expect style
-const chai_should = chai.should();  // Using Should style
 const server = require('./../src/server');
-const dummy = require('./dummy');
-const sinon = require('sinon')
 const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
+let {usersFactory, farmFactory, userFarmFactory} = require('./mock.factories');
 let checkJwt;
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 
 describe('Farm Tests', () => {
   let middleware;
+  let newUser;
   beforeAll(() => {
     // beforeAll is set before each test
     // global.token is set in testEnvironment.js
     token = global.token;
   });
 
-  async function createUser(email, id) {
-    let validSignupUser = {
-      email: email || 'test123456_signup@usertest.com',
-      first_name: 'Test',
-      last_name: 'User',
-      user_id: id ||'anifasndoasndoasn'
-    }
-    return await knex('users').insert(validSignupUser).returning('*');
-  }
-
-  async function createFarm(user) {
-    let farm = {
-      farm_name: '',
-      address: '',
-      grid_points: { lat: 22.33, lng: 33.55 },
-    }
-    const [createdFarm] = await knex('farm').insert(farm).returning('*');
-    await createUserFarm(user, createdFarm.farm_id);
-    return createdFarm;
-  }
-
-  async function createUserFarm(user, farm, role=1) {
-    return await knex('userFarm').insert({ user_id: user, farm_id: farm, role_id: role, consent_version: '3.0', status: 'Active'})
-  }
 
   beforeEach(async () => {
-    let [newUser] = await createUser();
+    [newUser] = await usersFactory();
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
@@ -168,18 +141,18 @@ describe('Farm Tests', () => {
 
   describe('Updating a Farm', () => {
     test('should fail to patch an address on a created farm', async (done) => {
-      const [user] = await createUser('test@test.com', 'asfnaosfnaod');
-      const farm = await createFarm(user.user_id);
-      putFarmRequest({ farm_id: farm.farm_id, address: farm.address + '2222' },user.user_id, (err, res) => {
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
+      putFarmRequest({ farm_id: farm.farm_id, address: farm.address + '2222' },newUser.user_id, (err, res) => {
         expect(res.status).toBe(400);
         done();
       });
     });
 
     test('should succeed to change farm name', async (done) => {
-      const [user] = await createUser('test@test.com', 'asfnaosfnaod');
-      const farm = await createFarm(user.user_id);
-      putFarmRequest({ farm_id: farm.farm_id, farm_name: 'OtherTestFarm' }, user.user_id, async (err,res) => {
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
+      putFarmRequest({ farm_id: farm.farm_id, farm_name: 'OtherTestFarm' }, newUser.user_id, async (err,res) => {
         expect(res.status).toBe(200)
         const [receivedFarm] = res.body;
         expect(receivedFarm.farm_id).toBe(farm.farm_id);
@@ -189,13 +162,23 @@ describe('Farm Tests', () => {
         done();
       })
     })
+
+    test('should fail to update a farm that I dont own or manage' , async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [user], promisedFarm: [farm]}, {role_id: 3, status: 'Active'});
+      putFarmRequest({ farm_id: farm.farm_id, farm_name: 'OtherTestFarm' }, user.user_id, async (err,res) => {
+        expect(res.status).toBe(403)
+        done();
+      })
+    })
   });
 
   describe('Delete a Farm', () => {
     test('should succeed on deleting a farm that I own or manage', async (done) => {
-      const [user] = await createUser('test@test.com', 'asfnaosfnaod');
-      const farm = await createFarm(user.user_id);
-      deleteRequest(farm, user.user_id, async (err,res) => {
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
+      deleteRequest(farm, newUser.user_id, async (err,res) => {
         expect(res.status).toBe(200);
         const farmQuery = await knex.select().from('farm').where({farm_id: farm.farm_id});
         expect(farmQuery.length).toBe(0);
@@ -203,18 +186,46 @@ describe('Farm Tests', () => {
       });
     })
 
-    xtest('should fail to delete a farm if I am not an owner or manager', async (done) => {
-      const [user] = await createUser('test@test.com', 'asfnaosfnaod');
-      const [worker] = await createUser('test2@test.com', '12114124m12km4n1o');
-      const farm = await createFarm(user.user_id);
-      await createUserFarm(worker.user_id, farm.farm_id, 3);
-      deleteRequest(farm, worker.user_id, async (err,res) => {
+    test('should fail to delete a farm if I am not an owner or manager', async (done) => {
+      const [user] = await usersFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [user], promisedFarm: [farm]}, {role_id: 3, status: 'Active'});
+      deleteRequest(farm, user.user_id, async (err,res) => {
         expect(res.status).toBe(403);
         const farmQuery = await knex.select().from('farm').where({farm_id: farm.farm_id});
         expect(farmQuery.length).not.toBe(0);
         done()
       });
     })
+  });
+
+  describe('Ownership checks', () => {
+    test('should fail to update a farm Im not a part of', async (done) => {
+      const [farmImNotPartOf] = await userFarmFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
+      minimalPutFarmRequest( farmImNotPartOf.farm_id)
+        .set('farm_id', farm.farm_id)
+        .set('user_id', newUser.user_id)
+        .send({ farm_id: farmImNotPartOf.farm_id, farm_name: 'OtherTestFarm' })
+        .end((err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+    })
+
+    test('should fail to delete a farm Im not a part of ', async (done) => {
+      const [farmImNotPartOf] = await userFarmFactory();
+      const [farm] = await farmFactory();
+      await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
+      minimalDeleteRequest( farmImNotPartOf.farm_id)
+        .set('farm_id', farm.farm_id)
+        .set('user_id', newUser.user_id)
+        .end((err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+    });
   })
 });
 
@@ -239,10 +250,17 @@ function putFarmRequest(data, user, callback) {
     .end(callback)
 }
 
+function minimalPutFarmRequest(farmId) {
+  return chai.request(server).put(`/farm/${farmId}`)
+}
+
 function deleteRequest(data, user, callback) {
   chai.request(server).delete(`/farm/${data.farm_id}`)
     .set('farm_id', data.farm_id)
     .set('user_id', user)
     .end(callback)
+}
 
+function minimalDeleteRequest(farmId){
+  return chai.request(server).delete(`/farm/${farmId}`);
 }

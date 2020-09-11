@@ -15,7 +15,6 @@
 
 const baseController = require('../controllers/baseController');
 const fieldCropModel = require('../models/fieldCropModel');
-const fieldModel = require('../models/fieldModel');
 const { transaction, Model } = require('objection');
 const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
@@ -28,11 +27,6 @@ class FieldCropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        // TODO Move validations that involve database queries
-        const field = await fieldModel.query().select('area').where('field_id', '=', req.body.field_id);
-        if(field && field[0] && field[0].area < req.body.area_used){
-          return res.status(400).send('Area needed is greater than the field\'s area');
-        }
         const result = await baseController.postWithResponse(fieldCropModel, req.body, trx);
         await trx.commit();
         res.status(201).send(result);

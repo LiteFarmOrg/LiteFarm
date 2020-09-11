@@ -317,7 +317,18 @@ describe('FieldCrop Tests', () => {
         })
       });
 
+      test('should return status 403 and if area_used is bigger than the field', async (done) => {
+        fieldCrop.area_used = field.area + 1;
+        putFieldCropRequest(fieldCrop,{}, async (err, res) => {
+          console.log(fieldCrop,res.error);
+          expect(res.status).toBe(400);
+          expect(res.error.text).toBe('Area needed is greater than the field\'s area');
+          done();
+        })
+      });
+
       test('should edit and the estimated_production field', async (done) => {
+        fieldCrop.area_used = field.area * 0.1;
         fieldCrop.estimated_production = 1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           console.log(fieldCrop,res.error);
@@ -329,6 +340,7 @@ describe('FieldCrop Tests', () => {
       });
 
       test('should edit and the estimated_revenue field', async (done) => {
+        fieldCrop.area_used = field.area * 0.1;
         fieldCrop.estimated_revenue = 1;
         putFieldCropRequest(fieldCrop,{}, async (err, res) => {
           console.log(fieldCrop,res.error);
@@ -341,6 +353,7 @@ describe('FieldCrop Tests', () => {
 
       test('Expired route should filter out non-expired fieldCrop', async (done) => {
         let fieldCrop = mocks.fakeFieldCrop();
+        fieldCrop.area_used = field.area * 0.1;
         fieldCrop.end_date = moment().add(10,'d').toDate();
         await mocks.fieldCropFactory({},fieldCrop);
         getRequest(`/field_crop/expired/farm/${farm.farm_id}`,{},(err,res)=>{
@@ -352,6 +365,7 @@ describe('FieldCrop Tests', () => {
       });
 
       test('should change the end_date to a future date', async (done) => {
+        fieldCrop.area_used = field.area * 0.1;
         fieldCrop.end_date = moment().add(10,'d').toDate();
         putFieldCropRequest(fieldCrop, {},async (err, res) => {
           console.log(fieldCrop,res.error);
@@ -363,6 +377,7 @@ describe('FieldCrop Tests', () => {
       });
 
       test('should change the end_date to a historical date', async (done) => {
+        fieldCrop.area_used = field.area * 0.1;
         fieldCrop.end_date = moment().subtract(10,'d').toDate();
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           console.log(fieldCrop,res.error);
@@ -376,6 +391,7 @@ describe('FieldCrop Tests', () => {
 
       test('Expired route should not filter out non-expired fieldCrop', async (done) => {
         let fieldCrop = mocks.fakeFieldCrop();
+        fieldCrop.area_used = field.area * 0.1;
         fieldCrop.end_date = moment().subtract(10,'d').toDate();
         await mocks.fieldCropFactory({promisedCrop: [crop], promisedField: [field]},fieldCrop);
         getRequest(`/field_crop/expired/farm/${farm.farm_id}`, {},(err,res)=>{

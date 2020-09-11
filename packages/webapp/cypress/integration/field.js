@@ -57,7 +57,7 @@ describe('field', function() {
 
     cy.contains('Confirm').click();
     cy.get("[placeholder='Enter Field Name']").type('UBC Farm 3');
-    cy.contains('Finish and Save Plan').click();
+    cy.contains('Save Field').click();
 
     cy.contains('UBC Farm 3');
   });

@@ -227,8 +227,8 @@ class FertilizingLog extends Component{
                 <label>Quantity</label>
                 <div className={styles.inputNunit}>
                   <Control.input
-                  type="number" step="any" model=".fertLog.quantity_kg"
-                  validators={{required: (val) => val }}
+                  type="number" step="any" model=".fertLog.quantity_kg" min="0" default={0}
+                  validators={{positive: (val) => val>=0 ? undefined:  'Quantity must be positive' }}
                 />
                   {this.state.quantity_unit}
                   </div>

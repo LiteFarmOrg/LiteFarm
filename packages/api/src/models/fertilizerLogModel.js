@@ -33,7 +33,7 @@ class FertilizerLogModel extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
-        fertilizer_id: { type: 'integer' },
+        fertilizer_id: { type: 'integer', minimum: 0 },
         quantity_kg: { type: 'float' },
       },
     };

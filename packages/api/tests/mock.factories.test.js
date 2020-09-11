@@ -1,4 +1,4 @@
-const mocks  = require('./mock.factories');
+const mocks = require('./mock.factories');
 const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
@@ -19,12 +19,13 @@ describe('Factories tests', () => {
       })
   })
 
-  afterAll(() => {
-    tableNames.unshift('userFarm', 'activityLog')
+  afterAll((done) => {
+    tableNames.unshift('userFarm', 'activityLog', 'shiftTask', 'shift')
     Promise.all(tableNames.map((table) => {
       return knex(table).delete()
     })).then(() => {
       console.log('successfully deleted tables')
+      done()
     }).catch(console.log)
   })
 })

@@ -1,13 +1,13 @@
 /* eslint-disable */
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (shiftController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -207,7 +207,9 @@ class shiftController extends baseController {
         const farm_id = req.params.farm_id;
         const data = await knex.raw(
           `
-          SELECT t.task_id, tp.task_name, t.shift_id, t.is_field, t.field_id, x.field_name, t.field_crop_id, t.duration, s.start_time, s.end_time, s.wage_at_moment, u.user_id, u.farm_id, s.mood, u.wage, u.first_name, u.last_name, s.break_duration, x.crop_id, x.crop_common_name, x.variety, x.area_used, x.estimated_production, x.estimated_revenue, x.start_date, x.end_date
+          SELECT t.task_id, tp.task_name, t.shift_id, t.is_field, t.field_id, x.field_name, t.field_crop_id, t.duration, 
+          s.start_time, s.end_time, s.wage_at_moment, u.user_id, u.farm_id, s.mood, uf.wage, u.first_name, u.last_name, 
+          s.break_duration, x.crop_id, x.crop_common_name, x.variety, x.area_used, x.estimated_production, x.estimated_revenue, x.start_date, x.end_date
           FROM "shiftTask" t
           LEFT JOIN (
 	          SELECT f.field_crop_id, c.crop_id, crop_common_name, f.area_used, f.estimated_production, f.estimated_revenue, f.start_date, f.end_date, f.variety, fd.field_name

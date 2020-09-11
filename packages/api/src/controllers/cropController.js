@@ -64,7 +64,7 @@ class cropController extends baseController {
   static getIndividualCrop() {
     return async (req, res) => {
       try {
-        const id = req.params.id;
+        const id = req.params.crop_id;
         const row = await baseController.getIndividual(cropModel, id);
         if (!row.length) {
           res.sendStatus(404)
@@ -109,7 +109,7 @@ class cropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(cropModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(cropModel, req.params.crop_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -134,7 +134,7 @@ class cropController extends baseController {
   }
 
   static async del(req, trx){
-    const id = req.params.id;
+    const id = req.params.crop_id;
     const table_id = cropModel.idColumn;
     return await cropModel.query(trx).where(table_id, id).andWhere('user_added', true).del()
   }

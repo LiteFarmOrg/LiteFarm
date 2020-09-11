@@ -16,16 +16,16 @@
 const cropController = require('../controllers/cropController');
 const express = require('express');
 const router = express.Router();
-const authFarmId = require('../middleware/acl/authFarmId');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
 // get an individual crop
-router.get('/:id', checkScope(['get:crops']), cropController.getIndividualCrop());
+router.get('/:crop_id', hasFarmAccess, checkScope(['get:crops']), cropController.getIndividualCrop());
 // get all crop INCLUDING crops farm added
-router.get('/farm/:farm_id', authFarmId, checkScope(['get:crops']), cropController.getAllCrop());
-router.post('/', checkScope(['add:crops']), cropController.addCropWithFarmID());
-router.put('/:id', checkScope(['edit:crops']), cropController.updateCrop());
+router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:crops']), cropController.getAllCrop());
+router.post('/', hasFarmAccess, checkScope(['add:crops']), cropController.addCropWithFarmID());
+router.put('/:crop_id', hasFarmAccess, checkScope(['edit:crops']), cropController.updateCrop());
 // only user added crop can be deleted
-router.delete('/:id', checkScope(['delete:crops']), cropController.delCrop());
+router.delete('/:crop_id', hasFarmAccess, checkScope(['delete:crops']), cropController.delCrop());
 
 module.exports = router;

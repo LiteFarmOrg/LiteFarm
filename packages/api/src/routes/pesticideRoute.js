@@ -16,10 +16,11 @@
 const express = require('express');
 const router = express.Router();
 const pesticideController = require('../controllers/pesticideController');
-//const authFarmId = require('../middleware/acl/authFarmId');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
-router.get('/farm/:farm_id', checkScope(['get:pesticides']), pesticideController.getPesticide());
-router.post('/', checkScope(['add:pesticides']), pesticideController.addPesticide());
+router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:pesticides']), pesticideController.getPesticide());
+router.post('/', hasFarmAccess, checkScope(['add:pesticides']), pesticideController.addPesticide());
+router.delete('/:pesticide_id', hasFarmAccess, checkScope(['delete:pesticides']), pesticideController.delPesticide());
 
 module.exports = router;

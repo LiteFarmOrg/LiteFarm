@@ -40,7 +40,7 @@ class taskTypeController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await TaskTypeModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
+        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({farm_id, deleted: false});
         if (!rows.length) {
           res.sendStatus(404)
         }

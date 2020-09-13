@@ -107,6 +107,25 @@ describe('taskType Tests', () => {
       [taskType] = await mocks.taskTypeFactory({promisedFarm: [farm]});
     })
 
+    test('Get by farm_id should filter out deleted task types', async (done)=>{
+      await taskTypeModel.query().findById(taskType.task_id).del();
+      getRequest({user_id: newOwner.user_id},(err,res)=>{
+        console.log(res.error,res.body);
+        //TODO fix inconsistent 404 error handling
+        expect(res.status).toBe(404);
+        done();
+      });
+    })
+
+    test('Get by task_id should filter out deleted task types', async (done)=>{
+      await taskTypeModel.query().findById(taskType.task_id).del();
+      getRequest({user_id: newOwner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(404);
+        done();
+      });
+    })
+
       describe('Get fieldCrop authorization tests',()=>{
         let newWorker;
         let manager;

@@ -14,7 +14,7 @@
  */
 
 const baseController = require('../controllers/baseController');
-const FertilizerModel = require('../models/fertilizerModel');
+const fertilizerModel = require('../models/fertilizerModel');
 const { transaction, Model } = require('objection');
 
 class fertilizerController extends baseController {
@@ -22,7 +22,7 @@ class fertilizerController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await FertilizerModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
+        const rows = await fertilizerModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -48,7 +48,7 @@ class fertilizerController extends baseController {
         if(farm_id !== body_farm_id){
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
-        const result = await baseController.postWithResponse(FertilizerModel, req.body, trx);
+        const result = await baseController.postWithResponse(fertilizerModel, req.body, trx);
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -59,6 +59,26 @@ class fertilizerController extends baseController {
         });
       }
     };
+  }
+
+  static delFertilizer() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, trx);
+        await trx.commit();
+        if (isDeleted) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404);
+        }
+      } catch (error) {
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    }
   }
 }
 

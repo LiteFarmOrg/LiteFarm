@@ -27,7 +27,6 @@ jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
 
 const cropModel = require('../src/models/cropModel');
-const fieldCropModel = require('../src/models/fieldCropModel');
 
 describe('Crop Tests', () => {
   let middleware;
@@ -82,7 +81,7 @@ describe('Crop Tests', () => {
 
   beforeEach(async () => {
     await knex.raw(`
-    DELETE FROM "fieldCrop";
+    DELETE FROM "crop";
     DELETE FROM "field";
     DELETE FROM "userFarm";
     DELETE FROM "crop";
@@ -104,7 +103,7 @@ describe('Crop Tests', () => {
 
   afterAll (async () => {
     await knex.raw(`
-    DELETE FROM "fieldCrop";
+    DELETE FROM "crop";
     DELETE FROM "field";
     DELETE FROM "userFarm";
     DELETE FROM "crop";
@@ -127,7 +126,7 @@ describe('Crop Tests', () => {
 
     describe('Get crop', ()=>{
 
-      test('Workers should get fieldCrop by farm id', async (done)=>{
+      test('Workers should get crop by farm id', async (done)=>{
         getRequest(`/crop/farm/${farm.farm_id}`,{user_id: newWorker.user_id},(err,res)=>{
           console.log(res.error,res.body);
           expect(res.status).toBe(200);
@@ -136,11 +135,20 @@ describe('Crop Tests', () => {
         });
       })
 
-      test('Workers should get fieldCrop by id', async (done)=>{
+      test('Workers should get crop by id', async (done)=>{
         getRequest(`/crop/${crop.crop_id}`,{user_id: newWorker.user_id}, (err,res)=>{
           console.log(res.error,res.body);
           expect(res.status).toBe(200);
           expect(res.body[0].crop_id).toBe(crop.crop_id);
+          done();
+        });
+      })
+
+      test('Should filter out deleted crop', async (done)=>{
+        await cropModel.query().findById(crop.crop_id).del();
+        getRequest(`/crop/${crop.crop_id}`,{user_id: newWorker.user_id}, (err,res)=>{
+          console.log(res.error,res.body);
+          expect(res.status).toBe(404);
           done();
         });
       })
@@ -181,7 +189,7 @@ describe('Crop Tests', () => {
           });
         })
 
-        test('Should get status 403 if an unauthorizedUser tries to get fieldCrop by farm id', async (done)=>{
+        test('Should get status 403 if an unauthorizedUser tries to get crop by farm id', async (done)=>{
           getRequest(`/crop/${crop.crop_id}`,{user_id: unAuthorizedUser.user_id},(err,res)=>{
             console.log(res.error,res.body);
             expect(res.status).toBe(403);
@@ -211,7 +219,7 @@ describe('Crop Tests', () => {
         [cropNotInUse] = await mocks.cropFactory({promisedFarm:[farm]},{...mocks.fakeCrop(), crop_common_name: "cropNotInUse", user_added: true});
           })
 
-      test('Owner should delete a crop that is referenced by a fieldCrop', async (done) => {
+      test('Owner should delete a crop that is referenced by a crop', async (done) => {
         deleteRequest(`/crop/${crop.crop_id}`,{}, async (err, res) => {
           console.log(crop,res.error);
           expect(res.status).toBe(200);
@@ -305,7 +313,7 @@ describe('Crop Tests', () => {
           })
         });
 
-        describe('Put fieldCrop authorization tests',()=>{
+        describe('Put crop authorization tests',()=>{
           let newWorker;
           let manager;
           let unAuthorizedUser;

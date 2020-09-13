@@ -60,7 +60,7 @@ class taskTypeController extends baseController {
   static getTypeByID() {
     return async (req, res) => {
       try {
-        const id = req.params.id;
+        const id = req.params.task_type_id;
         const row = await baseController.getIndividual(TaskTypeModel, id);
         if (!row.length) {
           res.sendStatus(404)
@@ -82,7 +82,7 @@ class taskTypeController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(TaskTypeModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, trx);
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);

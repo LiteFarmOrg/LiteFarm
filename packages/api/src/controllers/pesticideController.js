@@ -14,7 +14,7 @@
  */
 
 const baseController = require('../controllers/baseController');
-const PesticideModel = require('../models/pesiticideModel');
+const pesticideModel = require('../models/pesiticideModel');
 const { transaction, Model } = require('objection');
 
 class pesticideController extends baseController {
@@ -22,7 +22,7 @@ class pesticideController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await PesticideModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
+        const rows = await pesticideModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
         res.status(200).send(rows);
       }
       catch (error) {
@@ -37,7 +37,7 @@ class pesticideController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(PesticideModel, req.body, trx);
+        const result = await baseController.postWithResponse(pesticideModel, req.body, trx);
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -48,6 +48,26 @@ class pesticideController extends baseController {
         });
       }
     };
+  }
+
+  static delPesticide() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const isDeleted = await baseController.delete(pesticideModel, req.params.pesticide_id, trx);
+        await trx.commit();
+        if (isDeleted) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404);
+        }
+      } catch (error) {
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    }
   }
 }
 

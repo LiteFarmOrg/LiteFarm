@@ -107,6 +107,16 @@ describe('Pesticide Tests', () => {
       [pesticide] = await mocks.pesticideFactory({promisedFarm: [farm]});
     })
 
+    test('Should filter out deleted pesticides', async (done)=>{
+      await pesiticideModel.query().findById(pesticide.pesticide_id).del();
+      getRequest({user_id: newOwner.user_id},(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(0);
+        done();
+      });
+    })
+
       describe('Get fieldCrop authorization tests',()=>{
         let newWorker;
         let manager;

@@ -107,6 +107,15 @@ describe('Fertilizer Tests', () => {
       [fertilizer] = await mocks.fertilizerFactory({promisedFarm: [farm]});
     })
 
+    test('Should filter out deleted fertilizer', async (done)=>{
+      await fertilizerModel.query().findById(fertilizer.fertilizer_id).del();
+      getRequest({user_id: newOwner.user_id},(err,res)=>{
+        console.log(res.error,res.body);
+        expect(res.status).toBe(404);
+        done();
+      });
+    })
+
       describe('Get fieldCrop authorization tests',()=>{
         let newWorker;
         let manager;

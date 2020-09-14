@@ -34,6 +34,7 @@ class FertilizerLogModel extends Model {
       properties: {
         activity_id: { type: 'integer' },
         fertilizer_id: { type: 'integer', minimum: 0 },
+        deleted: { type: 'boolean' },
         quantity_kg: { type: 'float' },
       },
     };
@@ -51,6 +52,9 @@ class FertilizerLogModel extends Model {
         join: {
           from: 'fertilizerLog.activity_id',
           to: 'activityLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
 

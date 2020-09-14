@@ -32,6 +32,7 @@ class SoilDataLog extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         start_depth: { type: 'integer' },
         end_depth: { type: 'integer' },
         depth_cm: { type: 'string' },
@@ -74,6 +75,9 @@ class SoilDataLog extends Model {
         join: {
           from: 'soilDataLog.activity_id',
           to: 'activityLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
 

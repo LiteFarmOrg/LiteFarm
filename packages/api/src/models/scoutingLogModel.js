@@ -32,6 +32,7 @@ class ScoutingLog extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         type: {
           type: 'string',
           enum:['harvest', 'pest', 'disease', 'weed', 'other'],

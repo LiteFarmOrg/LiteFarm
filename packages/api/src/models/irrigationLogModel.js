@@ -33,6 +33,7 @@ class IrrigationLog extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         type: {
           type: 'string',
           enum:['sprinkler', 'drip', 'subsurface', 'flood'],
@@ -60,6 +61,9 @@ class IrrigationLog extends Model {
         join: {
           from: 'irrigationLog.activity_id',
           to: 'activityLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
 

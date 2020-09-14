@@ -34,6 +34,7 @@ class SeedLogModel extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         space_depth_cm: {
           type: 'float',
         },
@@ -62,6 +63,9 @@ class SeedLogModel extends Model {
         join: {
           from: 'seedLog.activity_id',
           to: 'activityLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
     };

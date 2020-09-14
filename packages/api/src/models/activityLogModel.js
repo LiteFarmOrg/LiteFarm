@@ -34,6 +34,7 @@ class activityLogModel extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         activity_kind: { type: 'string', enum:['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other'] },
         date: { type: 'date-time' },
         notes: { type: 'string' },
@@ -55,6 +56,9 @@ class activityLogModel extends Model {
           from: 'activityLog.activity_id',
           to: 'fertilizerLog.activity_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       pestControlLog: {
         relation: Model.HasOneRelation,
@@ -65,6 +69,9 @@ class activityLogModel extends Model {
         join: {
           from: 'activityLog.activity_id',
           to: 'pestControlLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
       irrigationLog: {
@@ -77,6 +84,9 @@ class activityLogModel extends Model {
           from: 'activityLog.activity_id',
           to: 'irrigationLog.activity_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       scoutingLog:{
         relation: Model.HasOneRelation,
@@ -87,6 +97,9 @@ class activityLogModel extends Model {
         join: {
           from: 'activityLog.activity_id',
           to: 'scoutingLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
       soilDataLog:{
@@ -99,6 +112,9 @@ class activityLogModel extends Model {
           from: 'activityLog.activity_id',
           to: 'soilDataLog.activity_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       fieldWorkLog:{
         relation: Model.HasOneRelation,
@@ -109,6 +125,9 @@ class activityLogModel extends Model {
         join: {
           from: 'activityLog.activity_id',
           to: 'fieldWorkLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
       harvestLog:{
@@ -121,6 +140,9 @@ class activityLogModel extends Model {
           from: 'activityLog.activity_id',
           to: 'harvestLog.activity_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       seedLog:{
         relation: Model.HasOneRelation,
@@ -131,6 +153,9 @@ class activityLogModel extends Model {
         join: {
           from: 'activityLog.activity_id',
           to: 'seedLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
       fieldCrop:{

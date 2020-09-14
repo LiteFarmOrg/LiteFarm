@@ -60,6 +60,9 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'fieldCrop.field_id',
           to: 'field.farm_id',
         },
+        filter: (f) => {
+          f.whereNotDeleted();
+        },
       },
       crop:{
         relation: Model.BelongsToOneRelation,
@@ -70,6 +73,9 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
         join: {
           from: 'fieldCrop.crop_id',
           to: 'crop.crop_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
       activityLog:{
@@ -82,6 +88,9 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
             to:'activityCrops.field_crop_id',
           },
           from:'fieldCrop.field_crop_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
     };

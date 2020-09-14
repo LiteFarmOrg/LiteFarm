@@ -40,6 +40,7 @@ class PestControlLog extends Model {
       properties: {
         activity_id: { type: 'integer' },
         pesticide_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         quantity_kg: { type: 'number' },
         type: {
           type: 'string',

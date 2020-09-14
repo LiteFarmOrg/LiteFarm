@@ -17,10 +17,11 @@ const logController = require('../controllers/logController');
 const express = require('express');
 const router = express.Router();
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-router.post('/', checkScope(['add:logs']), logController.logController.addLog());
-router.get('/', checkScope(['get:logs']), logController.logController.getLog());
-router.put('/:id', checkScope(['edit:logs']), logController.logController.putLog());
-router.delete('/:id', checkScope(['delete:logs']), logController.logController.deleteLog());
+router.post('/', hasFarmAccess, checkScope(['add:logs']), logController.logController.addLog());
+router.get('/', hasFarmAccess, checkScope(['get:logs']), logController.logController.getLog());
+router.put('/:log_id', hasFarmAccess, checkScope(['edit:logs']), logController.logController.putLog());
+router.delete('/:log_id', hasFarmAccess, checkScope(['delete:logs']), logController.logController.deleteLog());
 
 module.exports = router;

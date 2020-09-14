@@ -33,6 +33,7 @@ class PlantingLog extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         type: { type: 'string' },
         space_depth: { type: 'integer' },
         space_length: { type: 'integer' },

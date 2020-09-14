@@ -33,6 +33,7 @@ class HarvestLog extends Model {
 
       properties: {
         quantity_kg: { type: 'float' },
+        deleted: { type: 'boolean' },
       },
     };
   }
@@ -49,6 +50,9 @@ class HarvestLog extends Model {
         join: {
           from: 'harvestLog.activity_id',
           to: 'activityLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
 

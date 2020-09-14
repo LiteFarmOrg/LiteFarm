@@ -32,6 +32,7 @@ class FieldWorkLog extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         type: {
           type: 'string',
           enum:['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'],
@@ -52,6 +53,9 @@ class FieldWorkLog extends Model {
         join: {
           from: 'fieldWorkLog.activity_id',
           to: 'activityLog.activity_id',
+        },
+        filter: (f) => {
+          f.whereNotDeleted();
         },
       },
 

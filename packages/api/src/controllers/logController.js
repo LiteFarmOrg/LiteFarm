@@ -82,8 +82,8 @@ class logController extends baseController {
   static deleteLog(){
     return async (req, res) => {
       try{
-        if(req.params.id){
-          await logServices.deleteLog(req.params.id);
+        if(req.params.log_id){
+          await logServices.deleteLog(req.params.log_id);
           res.sendStatus(200);
         }else{
           throw { code:400, message:'No log id defined' }
@@ -99,9 +99,9 @@ class logController extends baseController {
   static putLog(){
     return async(req, res)=>{
       try{
-        if(req.params.id){
+        if(req.params.log_id){
           const transac = await transaction.start(Model.knex());
-          await logServices.patchLog(req.params.id, transac, req.body);
+          await logServices.patchLog(req.params.log_id, transac, req.body);
           await transac.commit();
           res.sendStatus(200);
         }else{
@@ -143,7 +143,7 @@ class logServices extends baseController {
   }
 
   static async getLogByFarm(farm_id){
-    var logs = await ActivityLogModel.query()
+    var logs = await ActivityLogModel.query().whereNotDeleted()
       .distinct('users.first_name', 'users.last_name', 'activityLog.activity_id', 'activityLog.activity_kind',
         'activityLog.date', 'activityLog.user_id', 'activityLog.notes', 'activityLog.action_needed', 'activityLog.photo')
       .join('userFarm', 'userFarm.user_id', '=', 'activityLog.user_id')

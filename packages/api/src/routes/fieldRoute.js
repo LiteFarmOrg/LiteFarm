@@ -16,8 +16,6 @@
 const express = require('express');
 const router = express.Router();
 const fieldController = require('../controllers/fieldController');
-const authFarmId = require('../middleware/acl/authFarmId');
-const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
@@ -26,8 +24,8 @@ router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:fields']), fieldCon
 
 router.post('/', hasFarmAccess, checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
 
-router.put('/:field_id', hasFarmAccess, checkOwnership('field'), checkScope(['edit:fields']), fieldController.updateField());
+router.put('/:field_id', hasFarmAccess, checkScope(['edit:fields']), fieldController.updateField());
 
-router.delete('/:field_id', hasFarmAccess, checkOwnership('field'), checkScope(['delete:fields']), fieldController.delField());
+router.delete('/:field_id', hasFarmAccess, checkScope(['delete:fields']), fieldController.delField());
 
 module.exports = router;

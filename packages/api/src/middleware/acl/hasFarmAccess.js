@@ -26,11 +26,19 @@ module.exports = async (req, res, next) => {
     const pesticide = await fromPesticide(data.pesticide_id);
     return sameFarm(pesticide, farm_id) ? next() : notAuthorizedResponse(res);
   }
+  if (data.task_type_id) {
+    const task = await fromTask(data.task_type_id);
+    return sameFarm(task, farm_id) ? next() : notAuthorizedResponse(res);
+  }
   if (data.farm_id) {
     return sameFarm(data, farm_id) ? next() : notAuthorizedResponse(res);
   }
   // It doesn't hold farm relationships
   next();
+}
+
+async function fromTask(taskId) {
+  return await knex('taskType').where({ task_id: taskId }).first();
 }
 
 async function fromPesticide(pesticideId) {

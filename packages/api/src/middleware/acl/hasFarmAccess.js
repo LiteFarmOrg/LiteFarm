@@ -11,8 +11,20 @@ module.exports = async (req, res, next) => {
     return sameFarm(field, farm_id) ? next() : notAuthorizedResponse(res);
   }
   if (data.field_crop_id) {
-    const field = await fromFieldCrop(data.field_crop_id)
+    const field = await fromFieldCrop(data.field_crop_id);
     return sameFarm(field, farm_id) ? next() : notAuthorizedResponse(res);
+  }
+  if (data.crop_id) {
+    const crop = await fromCrop(data.crop_id);
+    return sameFarm(crop, farm_id) ? next() : notAuthorizedResponse(res);
+  }
+  if (data.fertilizer_id) {
+    const fertilizer = await fromFertilizer(data.fertilizer_id);
+    return sameFarm(fertilizer, farm_id) ? next() : notAuthorizedResponse(res);
+  }
+  if (data.pesticide_id) {
+    const pesticide = await fromPesticide(data.pesticide_id);
+    return sameFarm(pesticide, farm_id) ? next() : notAuthorizedResponse(res);
   }
   if (data.farm_id) {
     return sameFarm(data, farm_id) ? next() : notAuthorizedResponse(res);
@@ -21,6 +33,17 @@ module.exports = async (req, res, next) => {
   next();
 }
 
+async function fromPesticide(pesticideId) {
+  return await knex('pesticide').where({ pesticide_id: pesticideId }).first();
+}
+
+async function fromCrop(cropId) {
+  return await knex('crop').where({ crop_id: cropId }).first();
+}
+
+async function fromFertilizer(fertilizerId) {
+  return await knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
+}
 
 async function fromField(fieldId) {
   return await knex('field').where({ field_id: fieldId }).first();

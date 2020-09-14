@@ -26,7 +26,7 @@ router.get('/farm/:farm_id', authFarmId, checkScope(['get:fields']), fieldContro
 
 router.post('/', checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
 
-router.put('/:id', hasFarmAccess, checkOwnership('field'), checkScope(['edit:fields']), fieldController.updateField());
+router.put('/:id', hasFarmAccess, checkScope(['edit:fields']), fieldController.updateField());
 
 router.delete('/:id', checkOwnership('field'), checkScope(['delete:fields']), fieldController.delField());
 

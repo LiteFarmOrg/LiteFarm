@@ -65,11 +65,9 @@ class fieldController extends baseController {
   }
 
   static updateField() {
-    console.log("entering field controller's update field fn")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        console.log("entering try block")
         const updated = await baseController.put(fieldModel, req.params.id, req.body, trx);
         await trx.commit();
         if (!updated.length) {

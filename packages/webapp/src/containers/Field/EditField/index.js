@@ -149,8 +149,6 @@ class EditField extends Component {
   };
 
   handleFieldName = (event) => {
-    console.log("entering handle field name fn")
-    console.log("event is " + event.target.value)
     this.setState({
       field_name: event.target.value
     })
@@ -167,14 +165,12 @@ class EditField extends Component {
   };
 
   changeFieldName = ()=>{
-    console.log("entering change field name fn")
     let {selectedField, field_name} = this.state;
     if(field_name === '' || !field_name){
       toastr.error('Field name cannot be empty');
       return;
     }
     selectedField.field_name = field_name;
-    console.log("selected field's name is " + selectedField.field_name)
     this.props.dispatch(updateField(selectedField));
     this.setState({showFieldNameModal: false});
   };

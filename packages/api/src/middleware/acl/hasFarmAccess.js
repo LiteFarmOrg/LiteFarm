@@ -11,14 +11,22 @@ module.exports = async (req, res, next) => {
     return sameFarm(field, farm_id) ? next() : notAuthorizedResponse(res);
   }
   if (data.field_crop_id) {
-    const field = await fromFieldCrop(data.field_crop_id)
+    const field = await fromFieldCrop(data.field_crop_id);
     return sameFarm(field, farm_id) ? next() : notAuthorizedResponse(res);
+  }
+  if (data.crop_id) {
+    const crop = await fromCrop(data.crop_id);
+    return sameFarm(crop, farm_id) ? next() : notAuthorizedResponse(res);
   }
   if (data.farm_id) {
     return sameFarm(data, farm_id) ? next() : notAuthorizedResponse(res);
   }
   // It doesn't hold farm relationships
   next();
+}
+
+async function fromCrop(cropId) {
+  return await knex('crop').where({ crop_id: cropId }).first();
 }
 
 

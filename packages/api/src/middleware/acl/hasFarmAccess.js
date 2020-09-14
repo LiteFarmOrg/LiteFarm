@@ -22,11 +22,19 @@ module.exports = async (req, res, next) => {
     const fertilizer = await fromFertilizer(data.fertilizer_id);
     return sameFarm(fertilizer, farm_id) ? next() : notAuthorizedResponse(res);
   }
+  if (data.pesticide_id) {
+    const pesticide = await fromPesticide(data.pesticide_id);
+    return sameFarm(pesticide, farm_id) ? next() : notAuthorizedResponse(res);
+  }
   if (data.farm_id) {
     return sameFarm(data, farm_id) ? next() : notAuthorizedResponse(res);
   }
   // It doesn't hold farm relationships
   next();
+}
+
+async function fromPesticide(pesticideId) {
+  return await knex('pesticide').where({ pesticide_id: pesticideId }).first();
 }
 
 async function fromCrop(cropId) {

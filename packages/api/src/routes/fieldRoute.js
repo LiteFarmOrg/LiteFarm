@@ -19,13 +19,14 @@ const fieldController = require('../controllers/fieldController');
 const authFarmId = require('../middleware/acl/authFarmId');
 const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 // Get the crop on a bed
 router.get('/farm/:farm_id', authFarmId, checkScope(['get:fields']), fieldController.getFieldByFarmID());
 
 router.post('/', checkScope(['add:fields']), fieldController.addField(), fieldController.mapFieldToStation);
 
-router.put('/:id', checkOwnership('field'), checkScope(['edit:fields']), fieldController.updateField());
+router.put('/:id', hasFarmAccess, checkOwnership('field'), checkScope(['edit:fields']), fieldController.updateField());
 
 router.delete('/:id', checkOwnership('field'), checkScope(['delete:fields']), fieldController.delField());
 

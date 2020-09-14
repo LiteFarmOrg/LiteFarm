@@ -89,7 +89,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
+        const rows = await fieldController.getByForeignKey(farm_id);
         if (!rows.length) {
           res.status(200).send(rows);
         } else {
@@ -102,6 +102,13 @@ class fieldController extends baseController {
         });
       }
     }
+  }
+
+  static async getByForeignKey(farm_id) {
+
+    const fields = await fieldModel.query().whereNotDeleted().select('*').from('field').where('field.farm_id', farm_id);
+
+    return fields;
   }
 
   static async postWithResponse(req, trx) {

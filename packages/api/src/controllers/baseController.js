@@ -102,7 +102,7 @@ class baseController {
   }
   static async getByForeignKey(model, field, fieldId){
     if(model.isSoftDelete){
-      const data =await model.query().whereNotDeleted().where(field, fieldId).orWhere('farm_id', null).orWhere({farm_id, deleted: false});
+      const data =await model.query().whereNotDeleted().where(field, fieldId);
       return data;
     }
     const data = await model.query().where(field, fieldId);

@@ -18,6 +18,10 @@ module.exports = async (req, res, next) => {
     const crop = await fromCrop(data.crop_id);
     return sameFarm(crop, farm_id) ? next() : notAuthorizedResponse(res);
   }
+  if (data.fertilizer_id) {
+    const fertilizer = await fromFertilizer(data.fertilizer_id);
+    return sameFarm(fertilizer, farm_id) ? next() : notAuthorizedResponse(res);
+  }
   if (data.farm_id) {
     return sameFarm(data, farm_id) ? next() : notAuthorizedResponse(res);
   }
@@ -29,6 +33,9 @@ async function fromCrop(cropId) {
   return await knex('crop').where({ crop_id: cropId }).first();
 }
 
+async function fromFertilizer(fertilizerId) {
+  return await knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
+}
 
 async function fromField(fieldId) {
   return await knex('field').where({ field_id: fieldId }).first();

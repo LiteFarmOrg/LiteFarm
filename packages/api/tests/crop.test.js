@@ -80,15 +80,6 @@ describe('Crop Tests', () => {
 
 
   beforeEach(async () => {
-    await knex.raw(`
-    DELETE FROM "crop";
-    DELETE FROM "field";
-    DELETE FROM "userFarm";
-    DELETE FROM "crop";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
     [newOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -103,10 +94,10 @@ describe('Crop Tests', () => {
 
   afterAll (async () => {
     await knex.raw(`
+    DELETE FROM "cropDisease";
     DELETE FROM "crop";
     DELETE FROM "field";
     DELETE FROM "userFarm";
-    DELETE FROM "crop";
     DELETE FROM "farm";
     DELETE FROM "users";
     DELETE FROM "weather_station";

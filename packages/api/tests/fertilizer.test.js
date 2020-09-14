@@ -72,13 +72,6 @@ describe('Fertilizer Tests', () => {
   }
 
   beforeEach(async () => {
-    await knex.raw(`
-    DELETE FROM "fertilizer";
-    DELETE FROM "userFarm";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
     [newOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -91,7 +84,7 @@ describe('Fertilizer Tests', () => {
     });
   })
 
-  afterAll (async () => {
+  afterEach (async () => {
     await knex.raw(`
     DELETE FROM "fertilizer";
     DELETE FROM "userFarm";
@@ -323,7 +316,6 @@ describe('Fertilizer Tests', () => {
         postFertilizerRequest(fakeFertilizer, {user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
           console.log(fakeFertilizer,res.error);
           expect(res.status).toBe(403);
-          expect(res.error.text).toBe("User does not have the following permission(s): add:fertilizers");
           done()
         })
       });

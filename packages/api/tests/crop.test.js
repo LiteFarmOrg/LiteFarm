@@ -92,7 +92,7 @@ describe('Crop Tests', () => {
     });
   })
 
-  afterAll (async () => {
+  afterEach (async () => {
     await knex.raw(`
     DELETE FROM "cropDisease";
     DELETE FROM "crop";

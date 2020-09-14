@@ -336,7 +336,11 @@ export function* updateFieldCropSaga(action) {
   };
 
   try {
+    console.log("attempting to do axios call");
+    console.log("endpoint is " + fieldURL + `/${action.field.field_id}`);
     const result = yield call(axios.put, fieldURL + `/${action.field.field_id}`, action.field, header);
+    console.log("result is ")
+    console.log(result)
     if (result) {
       toastr.success("Successfully changed field name");
 

@@ -223,6 +223,18 @@ function fakePesticide() {
   }
 }
 
+function fakeTaskType() {
+  return {
+    task_name: faker.lorem.word(),
+  }
+}
+
+async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType = fakeTaskType()) {
+  const [farm] = await Promise.all([promisedFarm]);
+  const [{ farm_id }] = farm;
+  return knex('taskType').insert({ farm_id, ...taskType }).returning('*');
+}
+
 async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {
   const [farm] = await Promise.all([promisedFarm]);
   const [{ farm_id }] = farm;
@@ -432,5 +444,6 @@ module.exports = {
   scoutingLogFactory, fakeScoutingLog,
   shiftFactory, fakeShift,
   shiftTaskFactory, fakeShiftTask,
-  saleFactory, fakeSale
+  saleFactory, fakeSale,
+  fakeTaskType, taskTypeFactory
 }

@@ -74,6 +74,8 @@ class fieldController extends baseController {
         console.log(req.params)
         console.log("req params field id is")
         console.log(req.params.field_id)
+        console.log("req body is")
+        console.log(req.body)
         const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
         console.log("updated is")
         console.log(updated)

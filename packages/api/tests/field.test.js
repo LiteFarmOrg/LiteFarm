@@ -28,7 +28,7 @@ const mocks  = require('./mock.factories');
 
 const fieldModel = require('../src/models/fieldModel');
 
-// Describe test suite
+// Test suite
 describe('Field Tests', () => {
     // Global constants
     let middleware;
@@ -53,7 +53,14 @@ describe('Field Tests', () => {
           .set('farm_id', farm_id)
           .send(data)
           .end(callback)
-      }
+    }
+
+    function getRequest({user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+    chai.request(server).get(`/field/farm/${farm_id}`)
+        .set('user_id', user_id)
+        .set('farm_id', farm_id)
+        .end(callback)
+    }
 
     function getFakeField(farm_id = farm.farm_id){
         const field = mocks.fakeFieldForTests();
@@ -68,7 +75,9 @@ describe('Field Tests', () => {
         [newOwner] = await mocks.usersFactory();
         [newManager] = await mocks.usersFactory();
         [newWorker] = await mocks.usersFactory();
+
         [farm] = await mocks.farmFactory();
+
         [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
         [managerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
         [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
@@ -97,7 +106,6 @@ describe('Field Tests', () => {
 
         })
 
-        // Owner post field test
         test('Owner should post and get valid field', async (done) => {
             postFieldRequest(fakeField, {user_id: newOwner.user_id, farm_id: ownerFarm.farm_id}, async (err, res) => {
                 expect(res.status).toBe(201);
@@ -118,13 +126,71 @@ describe('Field Tests', () => {
             })
       });
 
-      test('Worker should not post and get a valid field', async (done) => {
-        postFieldRequest(fakeField, {user_id: newWorker.user_id, farm_id: workerFarm.farm_id}, async (err, res) => {
-            expect(res.status).toBe(403);
-            expect(res.error.text).toBe("User does not have the following permission(s): add:fields");
-            done();
+        test('Worker should not post and get a valid field', async (done) => {
+            postFieldRequest(fakeField, {user_id: newWorker.user_id, farm_id: workerFarm.farm_id}, async (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): add:fields");
+                done();
+            })
+        });
+    })
+
+        // All the get field tests
+        describe('Get field tests', ()=>{
+
+          let field;
+          let unAuthorizedUser;
+          let farmunAuthorizedUser;
+          let ownerFarmunAuthorizedUser;
+
+        beforeEach(async()=>{
+            [field] = await mocks.fieldFactory({promisedFarm: [farm]});
+
+            [unAuthorizedUser] = await mocks.usersFactory();
+            [farmunAuthorizedUser] = await mocks.farmFactory();
+            [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+
         })
-  });
+
+        test('Owner should get field by farm id', async (done)=>{
+            getRequest({user_id: newOwner.user_id},(err,res)=>{
+              expect(res.status).toBe(200);
+              expect(res.body[0].farm_id).toBe(field.farm_id);
+              done();
+            });
+          })
+
+        test('Manager should get field by farm id', async (done)=>{
+          getRequest({user_id: newManager.user_id},(err,res)=>{
+            expect(res.status).toBe(200);
+            expect(res.body[0].farm_id).toBe(field.farm_id);
+            done();
+          });
+        })
+
+        test('Worker should get field by farm id', async (done)=>{
+          getRequest({user_id: newWorker.user_id},(err,res)=>{
+            expect(res.status).toBe(200);
+            expect(res.body[0].farm_id).toBe(field.farm_id);
+            done();
+          });
+        })
+
+        test('Should get status 403 if an unauthorizedUser tries to get field by farm id', async (done)=>{
+          getRequest({user_id: unAuthorizedUser.user_id},(err,res)=>{
+            expect(res.status).toBe(403);
+            done();
+          });
+        })
+      
+      // test('Should filter out deleted field', async (done)=>{
+      //   await fieldModel.query().findById(field.field_id).del();
+      //   getRequest({user_id: newOwner.user_id},(err,res)=>{
+      //     // console.log(res.error,res.body);
+      //     expect(res.status).toBe(404);
+      //     done();
+      //   });
+      // })
     })
 
 })

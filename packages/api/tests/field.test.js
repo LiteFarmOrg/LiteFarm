@@ -62,16 +62,10 @@ describe('Field Tests', () => {
     }
     function deleteRequest(data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
       const {field_id} = data;
-      console.log("data is")
-      console.log(data)
-      console.log("field is is")
-      console.log(field_id)
       chai.request(server).delete(`/field/${field_id}`)
         .set('user_id', user_id)
         .set('farm_id', farm_id)
         .end(callback)
-      console.log("data after deleting is")
-      console.log(data)
     }
     function putFieldRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
       const {field_id} = data;
@@ -221,25 +215,27 @@ describe('Field Tests', () => {
           });
         });
     })
-  //   describe('Delete field tests', ()=>{
-  //     let managerFarm1;
-  //     [managerFarm1] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
-  //     let newManager1;
-  //     [newManager1] = await mocks.usersFactory();
-  //     test.only('Manager should delete their field', async (done)=>{
-  //       let field4;
-  //       [field4] = await mocks.fieldFactory({promisedFarm: [managerFarm1]});
-  //       // delete field4.station_id;
-  //       deleteRequest(field4, {user_id: newManager1.user_id}, async (err,res)=>{
-  //         expect(res.status).toBe(200);
-  //         const fields = await fieldModel.query().where('field_id',field4.field_id);
-  //         // console.log("fields is")
-  //         // console.log(fields)
-  //         // expect(fields.length).toBe(1);
-  //         // expect(fields[0].field_name).toBe(fakeField.field_name);
-  //         done();
-  //       });
-  //     })
-  // })
+  })
+  describe('Delete field tests', ()=>{
+    let testDeleteUser;
+    let testDeleteFarm;
+    let testDeleteUserFarm;
+    let managerFarm1;
+    beforeEach(async () =>{
+      [testDeleteUser] = await mocks.usersFactory();
+      [testDeleteFarm] = await mocks.farmFactory();
+      [testDeleteUserFarm] = await mocks.userFarmFactory({promisedUser: [testDeleteUser], promisedFarm: [testDeleteFarm]}, fakeUserFarm(2));
+    });
+    test('Manager should delete their field', async (done)=>{
+      let fieldToBeDeleted;
+      [fieldToBeDeleted] = await mocks.fieldFactory({promisedFarm: [testDeleteFarm]});
+      deleteRequest(fieldToBeDeleted, {user_id: testDeleteUser.user_id, farm_id: testDeleteFarm.farm_id}, async (err,res)=>{
+        expect(res.status).toBe(200);
+        console.log(fieldToBeDeleted.field_id);
+        const [deletedField] = await fieldModel.query().where('field_id', fieldToBeDeleted.field_id);
+        expect(deletedField.deleted).toBe(true);
+        done();
+      });
+    })
   })
 })

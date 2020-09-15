@@ -268,6 +268,7 @@ export function* updateAgreementSaga(payload) {
     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id +'/user/'+ user_id, data, header);
     if (result) {
       if (payload.consent_bool.consent) {
+        yield put(setFarmInState(data));
         console.log('user agreed to consent form/');
         history.push('/home');
       } else {

@@ -187,6 +187,7 @@ class NewFieldCropModal extends React.Component {
         errors += key + ", "
       }
     }
+
     if(!isValid) {
       toastr.error(errors + ' is not filled');
     } else {
@@ -199,6 +200,14 @@ class NewFieldCropModal extends React.Component {
 
   handlePercentage = (e) => {
     let {fieldCrop} = this.state;
+      if(e.target.value< 0){
+        e.target.value = 0;
+      }
+
+      if(e.target.value > 100){
+        e.target.value = 100;
+      }
+
     let {fieldArea} = this.props;
 
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
@@ -322,6 +331,8 @@ class NewFieldCropModal extends React.Component {
                     <FormControl
                       type="number"
                       placeholder="0"
+                      min={0}
+                      max={100}
                       onChange={(e) => this.handlePercentage(e)}/>
                   </FormGroup>
                   <FormGroup className={newFieldStyles.areaContainer}>

@@ -28,9 +28,8 @@ const mocks  = require('./mock.factories');
 
 const fieldModel = require('../src/models/fieldModel');
 
-// Test suite
 describe('Field Tests', () => {
-    // Global constants
+    // GLOBAL CONSTANTS
     let middleware;
     let newOwner;
     let ownerFarm;
@@ -44,7 +43,7 @@ describe('Field Tests', () => {
       token = global.token;
     });
 
-    // Functions used by tests
+    // FUNCTIONS
 
     function postFieldRequest( data, {user_id = newOwner.user_id, farm_id= farm.field_id}, callback) {
         chai.request(server).post('/field')
@@ -62,25 +61,6 @@ describe('Field Tests', () => {
         .end(callback)
     }
 
-    function deleteRequest(url, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
-      chai.request(server).delete(url)
-        .set('user_id', user_id)
-        .set('farm_id', farm_id)
-        .end(callback)
-    }
-
-    function putFieldRequest(data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
-      console.log("data farm id is " + data.farm_id)
-      console.log("farm id is " + farm.farm_id)
-      // const fieldId = data.field_id;
-      const {field_id} = data;
-      chai.request(server).put(`/field/${field_id}`)
-        .set('farm_id', farm_id)
-        .set('user_id', user_id)
-        .send(data)
-        .end(callback)
-    }
-
     function getFakeField(farm_id = farm.farm_id){
         const field = mocks.fakeFieldForTests();
         return ({...field, farm_id});
@@ -90,10 +70,28 @@ describe('Field Tests', () => {
     return ({...mocks.fakeUserFarm(),role_id:role});
     }
 
+    function deleteRequest(url, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+      chai.request(server).delete(url)
+        .set('user_id', user_id)
+        .set('farm_id', farm_id)
+        .end(callback)
+    }
+
+    function putFieldRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+      const {field_id} = data;
+      console.log("data is " + JSON.stringify(data))
+      chai.request(server).put(`/field/${field_id}`)
+        .set('farm_id', farm_id)
+        .set('user_id', user_id)
+        .send(data)
+        .end(callback)
+    }
+
     beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
         [newManager] = await mocks.usersFactory();
         [newWorker] = await mocks.usersFactory();
+        
 
         [farm] = await mocks.farmFactory();
 
@@ -156,14 +154,32 @@ describe('Field Tests', () => {
 
     describe('Get && delete && put field tests', ()=>{
       let field;
-      let newField;
+      let ownerField;
       let unAuthorizedUser;
       let farmunAuthorizedUser;
       let ownerFarmunAuthorizedUser;
+      let newWorker1;
+      let workerFarm1;
+
+      
+      // let managerField;
+      // let workerField;
 
       beforeEach(async()=>{
         [field] = await mocks.fieldFactory({promisedFarm: [farm]});
-        [newField] = await mocks.fieldFactory({promisedFarm: [farm]});
+        delete field.station_id;
+
+        [ownerField] = await mocks.fieldFactory({promisedFarm: [farm]});
+        delete ownerField.station_id;
+
+        // [managerField] = await mocks.fieldFactory({promisedFarm: [farm]});
+        // delete managerField.station_id;
+
+        // [newWorker1] = await mocks.usersFactory();
+        // [workerFarm1] = await mocks.userFarmFactory({promisedUser:[newWorker1], promisedFarm:[farm]},fakeUserFarm(3));
+
+        // [workerField] = await mocks.fieldFactory({promisedFarm: [farm]});
+        // delete workerField.station_id;
 
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
@@ -201,81 +217,58 @@ describe('Field Tests', () => {
             expect(res.status).toBe(403);
             done();
           });
-        })   
-    })
-
-    describe('Put field tests', ()=>{
-
-      test('should edit the field_name field', async (done) => {
-        console.log("field before field name change")
-        console.log(newField)
-        console.log("field after field name change")
-        newField.field_name = "My new field name";
-        console.log(newField)
-
-        field.field_name = "My new field name";
-        putFieldRequest(newField,{}, async (err, res) => {
-          console.log("error is")
-          console.log(res.error)
-          // console.log(fieldCrop,res.error);
-          expect(res.status).toBe(200);
-          // const newFieldCrop = await fieldCropModel.query().where('crop_id',crop.crop_id).first();
-          // expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
-          done();
         })
-        // done();
-      });
+
+      })
+
+      describe('Put field tests', ()=>{
+
+        test('Owner should update field_name', async (done)=>{
+          field.field_name = "My new field name -- owner";
+            putFieldRequest(field, {},(err,res)=>{
+              expect(res.status).toBe(200);
+              expect(res.body[0].field_name).toBe("My new field name -- owner");
+              done();
+           });
+        })
+
+        test('Manager should update field_name', async (done)=>{
+          let field1;
+          [field1] = await mocks.fieldFactory({promisedFarm: [managerFarm]});
+          delete field1.station_id;
+
+          field1.field_name = "My new field name -- manager";
+          putFieldRequest(field1, {user_id: newManager.user_id},(err,res)=>{
+            expect(res.status).toBe(200);
+            expect(res.body[0].field_name).toBe("My new field name -- manager");
+            done();
+          });
+        })
+        
+        test('should return 403 when a worker tries to edit field_name', async (done) => {
+          let field2;
+          [field2] = await mocks.fieldFactory({promisedFarm: [workerFarm]});
+          delete field2.station_id;
+          field2.field_name = "My new field name -- worker";
+          putFieldRequest(field2,{user_id: newWorker.user_id}, (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
+
+        test('should return 403 when unauthorized user tries to edit field_name', async (done) => {
+          let field3;
+          [field3] = await mocks.fieldFactory({promisedFarm: [farmunAuthorizedUser]});
+          delete field3.station_id;
+          field3.field_name = "My new field name -- unauthorized";
+          putFieldRequest(field3, {user_id: unAuthorizedUser.user_id}, (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          });
+        });
 
     })
 
   })
-
-  // describe('Put field tests', ()=>{
-  //   let fakeField;
-  //   let field;
-  //   let worker;
-  //   let workersFarm
-  //   let manager;
-  //   let managersFarm;
-  //   let unAuthorizedUser;
-  //   let farmunAuthorizedUser;
-  //   let ownersFarmunAuthorizedUser;
-
-    
-
-  //   beforeEach(async()=>{
-  //     fakeField = getFakeField();
-  //     [field] = await mocks.fieldFactory({promisedFarm: [farm]});
-  //     [worker] = await mocks.usersFactory();
-  //     [workersFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
-  //     [manager] = await mocks.usersFactory();
-  //     [managersFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));  
-
-  //     [unAuthorizedUser] = await mocks.usersFactory();
-  //     [farmunAuthorizedUser] = await mocks.farmFactory();
-  //     [ownersFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
-
-      
-  //   })
-
-  //   test('should edit field_name by owner', async (done) => {
-
-  //     field.field_name = "My new field name";
-
-  //     // field[0].field_name = "New Field Name";
-  //     putFieldRequest(field, {user_id: newOwner.user_id, farm_id: ownerFarm.farm_id}, async (err, res) => {
-  //       // console.log(fieldCrop,res.error);
-  //       expect(res.status).toBe(200);
-  //       // const newFieldCrop = await fieldCropModel.query().where('crop_id',crop.crop_id).first();
-  //       // expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
-  //       done();
-  //     })
-  //   });
-
-
-
-
-
-  // })
 
 })

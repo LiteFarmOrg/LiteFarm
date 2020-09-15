@@ -51,7 +51,6 @@ export function* addFertilizerToDB(payload) {
 
   try {
     const result = yield call(axios.post, fertUrl + '/farm/' + farm_id, fert, header);
-    console.log(result);
     if (result) {
       fertConfig.fertilizer_id = result.data.fertilizer_id;
       yield put(getFertilizers());

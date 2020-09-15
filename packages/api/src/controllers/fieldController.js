@@ -65,10 +65,18 @@ class fieldController extends baseController {
   }
 
   static updateField() {
+    console.log("entering update field fn")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldModel, req.params.id, req.body, trx);
+        console.log("entering try block")
+        console.log("req params are")
+        console.log(req.params)
+        console.log("req params field id is")
+        console.log(req.params.field_id)
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
+        console.log("updated is")
+        console.log(updated)
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -77,6 +85,7 @@ class fieldController extends baseController {
         }
 
       } catch (error) {
+        console.log("entering catch block")
         await trx.rollback();
         res.status(400).json({
           error,

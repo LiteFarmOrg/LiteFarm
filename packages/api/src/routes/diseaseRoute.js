@@ -21,6 +21,6 @@ const checkScope = require('../middleware/acl/checkScope');
 
 router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:diseases']), diseaseController.getDisease());
 router.post('/', hasFarmAccess, checkScope(['add:diseases']), diseaseController.addDisease());
-router.delete(':disease_id', hasFarmAccess, checkScope(['delete:diseases']), diseaseController.delDisease());
+router.delete('/:disease_id', hasFarmAccess, checkScope(['delete:diseases']), diseaseController.delDisease());
 
 module.exports = router;

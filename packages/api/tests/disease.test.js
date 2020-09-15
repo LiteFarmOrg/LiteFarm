@@ -80,6 +80,8 @@ describe('Disease Tests', () => {
 
   afterEach(async () => {
     await knex.raw(`
+    DELETE FROM "cropDisease";
+    DELETE FROM "crop";
     DELETE FROM "disease";
     DELETE FROM "userFarm";
     DELETE FROM "farm";
@@ -111,8 +113,9 @@ describe('Disease Tests', () => {
     test('Should fail to get deleted disease', async (done) => {
       await diseaseModel.query().findById(disease.disease_id).del();
       getRequest({user_id: owner.user_id}, (err, res) => {
-        console.log(res.error,res.body);
-        expect(res.status).toBe(404);
+        // console.log(res.error,res.body);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(0);
         done();
       });
     });
@@ -157,9 +160,9 @@ describe('Disease Tests', () => {
     describe('Delete disease authorization tests', () => {
       test('Owner should delete a disease', async (done) => {
         deleteRequest({disease_id: disease.disease_id}, async (err, res) => {
-          console.log(disease.deleted,res.error);
+          // console.log(disease.deleted,res.error);
           expect(res.status).toBe(200);
-          const diseaseRes = await diseaseModel.query().where('disease_id',disease.disease_id);
+          const diseaseRes = await diseaseModel.query().where('disease_id', disease.disease_id);
           expect(diseaseRes.length).toBe(1);
           expect(diseaseRes[0].deleted).toBe(true);
           done();
@@ -168,7 +171,7 @@ describe('Disease Tests', () => {
 
       test('Manager should delete a disease', async (done) => {
         deleteRequest({user_id: manager.user_id, disease_id: disease.disease_id}, async (err, res) => {
-          console.log(disease.deleted,res.error);
+          // console.log(disease.deleted,res.error);
           expect(res.status).toBe(200);
           const diseaseRes = await diseaseModel.query().where('disease_id',disease.disease_id);
           expect(diseaseRes.length).toBe(1);

@@ -233,8 +233,9 @@ class Auth {
               localStorage.setItem('id_token', authResult.idToken);
               localStorage.setItem('expires_at', expiresAt);
             } else if (err) {
+
               console.log(err);
-              return this.logout();
+
             }
           });
         }).then(()=>{

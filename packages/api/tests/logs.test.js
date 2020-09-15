@@ -28,18 +28,16 @@ jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
 
 
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
-const taskTypeModel = require('../src/models/taskTypeModel');
+const activityCropsModel = require('../src/models/activityCropsModel');
+const fertilizerLogModel = require('../src/models/fertilizerLogModel');
+const pestControlLogModel = require('../src/models/pestControlLogModel');
+const scoutingLogModel = require('../src/models/scoutingLogModel');
+const irrigationLogModel = require('../src/models/irrigationLogModel');
+const fieldWorkLogModel = require('../src/models/fieldWorkLogModel');
+const soilDataLogModel = require('../src/models/soilDataLogModel');
+const seedLogModel = require('../src/models/seedLogModel');
+const harvestLogModel = require('../src/models/harvestLogModel');
+
 
 describe('taskType Tests', () => {
   let middleware;
@@ -51,7 +49,7 @@ describe('taskType Tests', () => {
   });
 
   function postRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
-    chai.request(server).post(`/task_type`)
+    chai.request(server).post(`/log`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -59,15 +57,15 @@ describe('taskType Tests', () => {
       .end(callback)
   }
 
-  function getRequest({user_id = newOwner.user_id, farm_id = farm.farm_id, url = `/task_type/farm/${farm.farm_id}`}, callback) {
+  function getRequest({user_id = newOwner.user_id, farm_id = farm.farm_id, url = `/log?${farm.farm_id}`}, callback) {
     chai.request(server).get(url)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback)
   }
 
-  function deleteRequest({user_id = newOwner.user_id, farm_id = farm.farm_id, task_id}, callback) {
-    chai.request(server).delete(`/task_type/${task_id}`)
+  function deleteRequest({user_id = newOwner.user_id, farm_id = farm.farm_id, log_id: log_id}, callback) {
+    chai.request(server).delete(`/log/${log_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback)
@@ -105,7 +103,7 @@ describe('taskType Tests', () => {
     `);
   });
 
-  describe('Get && delete taskType',()=>{
+  describe('Get && delete logs',()=>{
     let taskType;
     beforeEach(async()=>{
       [taskType] = await mocks.taskTypeFactory({promisedFarm: [farm]});
@@ -121,7 +119,7 @@ describe('taskType Tests', () => {
       });
     })
 
-    test('Get by task_id should filter out deleted task types', async (done)=>{
+    test('Get by log_id should filter out deleted task types', async (done)=>{
       await taskTypeModel.query().findById(taskType.task_id).del();
       getRequest({user_id: newOwner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
         console.log(res.error,res.body);
@@ -194,7 +192,7 @@ describe('taskType Tests', () => {
 
 
 
-        test('Owner should get taskType by task_id', async (done)=>{
+        test('Owner should get taskType by log_id', async (done)=>{
           getRequest({user_id: newOwner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
             console.log(res.error,res.body);
             expect(res.status).toBe(200);
@@ -203,7 +201,7 @@ describe('taskType Tests', () => {
           });
         })
 
-        test('Manager should get taskType by task_id', async (done)=>{
+        test('Manager should get taskType by log_id', async (done)=>{
           getRequest({user_id: manager.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
             console.log(res.error,res.body);
             expect(res.status).toBe(200);
@@ -212,7 +210,7 @@ describe('taskType Tests', () => {
           });
         })
 
-        test('Worker should get taskType by task_id', async (done)=>{
+        test('Worker should get taskType by log_id', async (done)=>{
           getRequest({user_id: newWorker.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
             console.log(res.error,res.body);
             expect(res.status).toBe(200);
@@ -222,7 +220,7 @@ describe('taskType Tests', () => {
         })
 
 
-        test('Should get status 403 if an unauthorizedUser tries to get taskType by task_id', async (done)=>{
+        test('Should get status 403 if an unauthorizedUser tries to get taskType by log_id', async (done)=>{
           getRequest({user_id: unAuthorizedUser.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
             console.log(res.error,res.body);
             expect(res.status).toBe(403);
@@ -230,7 +228,7 @@ describe('taskType Tests', () => {
           });
         })
 
-        test('Get taskType by task_id circumvent authorization by modifying farm_id', async (done) => {
+        test('Get taskType by log_id circumvent authorization by modifying farm_id', async (done) => {
           getRequest({user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
             console.log(res.error,res.body);
             expect(res.status).toBe(403);

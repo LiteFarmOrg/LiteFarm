@@ -33,6 +33,7 @@ class NewFieldCropModal extends React.Component {
     this.onStartDateChange = this.onStartDateChange.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.getCropOptions = this.getCropOptions.bind(this);
 
     this.state = {
       show: false,
@@ -62,7 +63,8 @@ class NewFieldCropModal extends React.Component {
         borderRadius: '5px',
         background: '#009485',
         color:'white',
-      }
+      },
+      crop_option: {},
     };
   }
 
@@ -75,8 +77,10 @@ class NewFieldCropModal extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.crops !== prevProps.crops) {
-      this.setState({crops: this.props.crops});
+    const {crops} = this.props;
+    if (crops.length > prevProps.crops.length) {
+      const newCrop = crops[crops.length-1];
+      this.setState(preState => ({crops: crops, fieldCrop:{...preState.fieldCrop, crop_id: newCrop.crop_id}, crop_option: newCrop}));
     }
   }
 
@@ -261,16 +265,15 @@ class NewFieldCropModal extends React.Component {
     let fieldCrop = this.state.fieldCrop;
     if(crop && crop.value && crop.value.crop_id){
       fieldCrop.crop_id = crop.value.crop_id;
-      this.setState({fieldCrop});
+      this.setState({fieldCrop, crop_option: crop.value});
     }else{
       fieldCrop.crop_id = '';
-      this.setState({fieldCrop});
+      this.setState({fieldCrop, crop_option:{}});
     }
   };
 
-  render() {
-    let {fieldArea} = this.props;
-    let {isByArea, crops, clicked, un_clicked, area_unit_label} = this.state;
+  getCropOptions = () =>{
+    const {crops} = this.state;
     let cropOptions = [];
     if(crops && crops.length){
       for(let c of crops){
@@ -279,9 +282,16 @@ class NewFieldCropModal extends React.Component {
           label: c.crop_common_name,
         })
       }
-
       cropOptions.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0));
     }
+    return cropOptions;
+  }
+
+  render() {
+    let {fieldArea} = this.props;
+    let {isByArea, clicked, un_clicked, area_unit_label} = this.state;
+
+
 
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     return (
@@ -301,7 +311,7 @@ class NewFieldCropModal extends React.Component {
               <FormGroup
                 validationState={this.validateNotEmptyLength(this.state.fieldCrop.crop_id)}
                 controlId="crop_id">
-                <Select options={cropOptions} onChange={(selectedOption) => this.handleCropSelect(selectedOption)} required/>
+                <Select options={this.getCropOptions()} value={{value: this.state.crop_option, label: this.state.crop_option.crop_common_name}} onChange={(selectedOption) => this.handleCropSelect(selectedOption)} required/>
               </FormGroup>
 
               <NewCropModal handler={this.handleSaveCustomCrop} isLink={true}/>

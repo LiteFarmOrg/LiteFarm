@@ -13,13 +13,13 @@ exports.up = function (knex, Promise) {
     knex.schema.alterTable('weatherHourly', (t) => {
       t.dropForeign('field_id');
       t.dropColumn('field_id');
-      t.integer('station_id').unsigned().notNullable();
+      t.integer('station_id').unsigned()
       t.foreign('station_id').references('id').inTable('weather_station');
     }),
     knex.schema.alterTable('weather', (t) => {
       t.dropForeign('field_id');
       t.dropColumn('field_id');
-      t.integer('station_id').unsigned().notNullable();
+      t.integer('station_id').unsigned()
       t.foreign('station_id').references('id').inTable('weather_station');
     }),
   ]);

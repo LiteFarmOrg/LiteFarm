@@ -79,6 +79,15 @@ function fakeField() {
   }
 }
 
+function fakeFieldForTests() {
+  return {
+    ...fakeField(), grid_points: [{
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude()
+    }]
+  }
+}
+
 async function cropFactory({ promisedFarm = farmFactory() } = {}, crop = fakeCrop()) {
   const [farm] = await Promise.all([promisedFarm]);
   const [{ farm_id }] = farm;
@@ -445,5 +454,6 @@ module.exports = {
   shiftFactory, fakeShift,
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
-  fakeTaskType, taskTypeFactory
+  fakeTaskType, taskTypeFactory,
+  fakeFieldForTests
 }

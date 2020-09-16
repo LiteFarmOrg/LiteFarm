@@ -1,0 +1,3040 @@
+openapi: 3.0.1
+info:
+  title: Litefarm
+  description: 'REST documentation for Litefarm API.'
+  contact:
+    email: litefarm@litefarm.org
+  version: 1.0.0
+servers:
+  - url: http://beta.litefarm.org/
+  - url: http://litefarm.org/
+tags:
+  - name: contact
+    description: .
+  - name: crop
+    description: Crop reading and creation for your farm
+  - name: farm
+    description: Operations related to a farm
+  - name: users
+    description: User related operations
+  - name: userFarm
+    description: Operations related to the userFarm relationship
+  - name: crop
+    description: Operations related to crops
+  - name: disease
+    description: Operations related to disease
+  - name: expense
+    description: Operations related to expenses
+  - name: TBR
+    description: Operations we might need to review
+  - name: fertilizer
+    description: Operations related to fertilizer
+  - name: fieldCrop
+    description: Operations related to field crops
+  - name: field
+    description: Operations related to fields
+  - name: insight
+    description: Insights and statistis related to a farm
+  - name: log
+    description: Operations related to logs
+  - name: pesticide
+    description: Operations related to pesticides
+  - name: plan
+    description: Operations related to plan relation.
+  - name: price
+    description: Operations related to price relation.
+  - name: roles
+  - name: sale
+    description: Operations related to sales
+  - name: shift
+    description: Operations related to shifts
+  - name: signup
+    description: Signup related operations
+  - name: taskType
+    description: Task type related operations
+  - name: userFarmData
+    description: userFarm data relation operations
+  - name: yield
+    description: yield related operations
+paths:
+  /user:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: successfully created user
+        400:
+          description: Bad Request
+  /user/pseudo:
+    post:
+      tags:
+        - users
+      summary: Creates a pseudo user, frontend sends @pseudo email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: successfully created user
+        400:
+          description: Bad Request
+  /user/deactivate/{userId} :
+    patch:
+      tags:
+        - users
+      summary: Sets user status to INACTIVE
+      operationId: deactivateUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        404:
+          description: User not found
+        200:
+          description: Deactivated User
+        400:
+          description: bad request
+  /user/consent/{userId}:
+    patch:
+      tags:
+        - users
+      summary: Change consent acceptance boolean to user
+      operationId: consentUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        409:
+          description: Update failed
+        200:
+          description: Consent patch successful
+        400:
+          description: bad request
+  /user/{userId}:
+    get:
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uid
+      responses:
+        400:
+          description: Bad Request.
+        200:
+          description: Successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uid
+      summary: Update an existing user. (Only accessible if on the users session)
+      requestBody:
+        description: User object to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+        required: true
+      responses:
+        400:
+          description: Bad request, missing or invalid data.
+        200:
+          description: Successfully updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserRequest'
+    delete:
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uid
+      summary: Soft delete user from DB
+      responses:
+        403:
+          description: Not authorized to delete user
+        201:
+          description: Successfully deleted user
+        404:
+          description: User not found
+  /user/farm/{farmId}:
+    get:
+      tags:
+        - users
+        - farm
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uid
+      summary: Get all users on a particular farm
+      description: Will return all users for a farm.
+      responses:
+        200:
+          description: users successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        400:
+          description: Bad request
+        403:
+          description: Unauthorized to access this farm
+        404:
+          description: no users found for this farm
+  /user/active/farm/{farmId}:
+    get:
+      tags:
+        - users
+        - farm
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uid
+      summary: Get all ACTIVE users on a particular farm
+      description: Will return all Active users for a farm.
+      responses:
+        200:
+          description: users successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        400:
+          description: Bad request
+        403:
+          description: Unauthorized to access this farm
+        404:
+          description: no users found for this farm
+  /farm:
+    post:
+      tags:
+        - farm
+      summary: Creates a farm
+      operationId: postFarm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farm'
+      responses:
+        400:
+          description: Bad Request or invalid data
+        201:
+          description: successfully created a farm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farm'
+  /farm/{farmId}:
+    get:
+      tags:
+        - farm
+      summary: Get a farm by its Id
+      description: Gets farm info by Id if the user is part of it
+      operationId: getFarmById
+      parameters:
+        - name: farmId
+          in: path
+          description: Farm Id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successfully got farm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farm'
+        400:
+          description: Bad Request or invalid data
+    put:
+      tags:
+        - farm
+      summary: Update a particular farm
+      operationId: updateFarmById
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          description: Farm id
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farm'
+      responses:
+        200:
+          description: Successfully update a farm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farm'
+        400:
+          description: Bad request.
+        404:
+          description: Farm not found
+        403:
+          description: User not authorized to access farm, or does not hold permission to update farm info.
+    delete:
+      tags:
+        - farm
+      summary: Delete a particular farm (soft)
+      operationId: deleteFarmById
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Successfully deleted farm
+        400:
+          description: Bad request.
+        404:
+          description: Farm not found
+        403:
+          description: User not authorized to access farm, or does not hold permission to delete farm.
+  /user_farm/user/{userId}:
+    get:
+      tags:
+        - user
+        - userFarm
+      summary: Gets all userFarms a user is in
+      operationId: getUserFarmByUserId
+      parameters:
+        - name: userId
+          in: path
+          description: user id thats part of one or more user farms
+          required: true
+          schema:
+            type: string
+      responses:
+        404:
+          description: This user has no userfarms.
+        400:
+          description: Bad Request
+        200:
+          description: Successfully retrieved UserFarms for this user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Farm'
+                    - $ref:  '#/components/schemas/User'
+                    - $ref: '#/components/schemas/UserFarm'
+  /user_farm/role/permissions:
+    get:
+      tags:
+        - userFarm
+        - TBR
+      summary: Gets all role permissions From Auth0????....
+      operationId: Auth0RolePermission
+      responses:
+        200:
+          description: role permissions retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    role_id:
+                      type: number
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    permissions:
+                      type: array
+                      items:
+                        type: number
+  /user_farm:
+    post:
+      tags:
+        - userFarm
+      summary: Create a relationship between a user and a farm
+      operationId: postUserFarm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserFarm'
+      responses:
+        201:
+          description: User farm created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFarm'
+        400:
+          description: Bad Request
+  /user_farm/consent/farm/{farmId}/user/{userId}:
+    patch:
+      tags:
+        - userFarm
+      summary: Update consent and/or consent version, send email to user confirming consent update (positive or negative)
+      operationId: patchUserFarmConsent
+      parameters:
+        - name: farmId
+          in: path
+          description: farm associated with userFarm
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: user associated with userFarm
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Consent boolean and version
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                has_consent:
+                  type: boolean
+                consent_version:
+                  type: string
+      responses:
+        200:
+          description: successfuly updated consent and or consent version, sent email to user
+        404:
+          description: a userFarm with that user and farm was not found
+        400:
+          description: bad request.
+  /user_farm/role/farm/{farmId}/user/{userId}:
+    patch:
+      tags:
+        - userFarm
+      summary: Update user role
+      operationId: patchUserFarmRole
+      parameters:
+        - name: farmId
+          in: path
+          description: farm associated with userFarm
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: user associated with userFarm
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successfuly updated role for userId
+        404:
+          description: a userFarm with that user and farm was not found
+        400:
+          description: bad request. Role_id not found
+  /user_farm/status/farm/{farmId}/user/{userId}:
+    patch:
+      tags:
+        - userFarm
+      summary: Update user status
+      operationId: patchUserFarmStatus
+      parameters:
+        - name: farmId
+          in: path
+          description: farm associated with userFarm
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: user associated with userFarm
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successfuly updated Status for userId
+        404:
+          description: a userFarm with that user and farm was not found
+        400:
+          description: bad request.
+  /user_farm/update/farm/{farmId}/user/{userId}:
+    patch:
+      tags:
+        - userFarm
+        - TBR
+      summary: Update user Farm
+      description: This endpoint is used to create give a user its id from auth0 as well as to convert a pseudo worker
+      operationId: patchUserFarm
+      parameters:
+        - name: farmId
+          in: path
+          description: farm associated with userFarm
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: user associated with userFarm
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserFarm'
+      responses:
+        200:
+          description: successfuly updated userFarm, added userId or converted pseudo worker
+        404:
+          description: a userFarm with that user and farm was not found
+        400:
+          description: bad request.
+        500:
+          description: add user failed.
+  /user_farm/farm/{farmId}/user/{userId}:
+    get:
+      tags:
+        - userFarm
+      summary: Get a particular userFarm given user and farm ids
+      operationId: getUserFarmByFarmIdUserId
+      parameters:
+        - name: farmId
+          in: path
+          description: farm associated with userFarm
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: userId
+          in: path
+          description: user associated with userFarm
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Successfully retrieved userFarm
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Farm'
+                  - $ref: '#/components/schemas/User'
+                  - $ref: '#/components/schemas/UserFarm'
+  /crop/{cropId}:
+    parameters:
+      - name: cropId
+        in: path
+        required: true
+        schema:
+          type: number
+    get:
+      tags:
+        - crop
+      summary: Get a particular crop
+      operationId: getCropById
+      responses:
+        200:
+          description: returned the crop with the id sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crop'
+        400:
+          description: Bad request
+        403:
+          description: cant access this crop, (crop belongs to a farm you are not part of)
+        404:
+          description: Crop with that id was not found
+    put:
+      tags:
+        - crop
+      summary: Update a particular crop (related to your farm)
+      operationId: updateCropById
+      requestBody:
+        description: crop updated data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Crop'
+      responses:
+        200:
+          description: Updated crop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crop'
+        400:
+          description: Bad Request
+        403:
+          description: unauthorized to update this particular crop
+    delete:
+      tags:
+        - crop
+      summary: Delete a particular crop (that belongs to a farm you are part of)
+      operationId: deleteCropById
+      responses:
+        200:
+          description: (soft) deleted the crop with the id sent
+        400:
+          description: Bad request
+        403:
+          description: cant access this crop, (crop belongs to a farm you are not part of), or you are not allowed to delete it
+        404:
+          description: Crop with that id was not found
+  /crop:
+    post:
+      tags:
+        - crop
+      summary: Create a crop to be linked to your farm
+      operationId: postCrop
+      requestBody:
+        description: crop to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Crop'
+      responses:
+        201:
+          description: created crop.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Crop'
+        400:
+          description: bad request.
+        403:
+          description: not allowed to access this farm or to create a crop
+  /crop/farm/{farmId}:
+    get:
+      tags:
+        - farm
+        - crop
+      summary: Get all crops with no farm relation AND the ones related to my farm
+      operationId: getCropByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Returning all crops related to your farm and with no relation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Crop'
+        400:
+          description: Bad Request.
+        403:
+          description: Unauthorized to get crops from this farm.
+  /disease/farm/{farmId}:
+    get:
+      tags:
+        - farm
+        - disease
+      summary: Get All diseases, including the ones related to your farm
+      operationId: getDiseaseByFarm
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: returns diseases on the system and created by your farm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disease'
+        403:
+          description: you have no permission to see diseases on this farm
+  /disease:
+    post:
+      tags:
+        - disease
+      summary: Disease to be created
+      operationId: postDisease
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Disease'
+      responses:
+        201:
+          description: Created the sent diasease
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disease'
+        400:
+          description: Bad Request
+        403:
+          description: you have no permission to see diseases on this farm
+  /expense:
+    post:
+      tags:
+        - expense
+      summary: Create a new farm expense
+      operationId: postFarmExpense
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FarmExpense'
+      responses:
+        201:
+          description: Created farm expense
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmExpense'
+        400:
+          description: Bad Request
+    put:
+      tags:
+        - expense
+        - TBR
+      summary: Update an existing farm expense. (Its actually deleting, also, no id provided in params? )
+      operationId: putFarmExpense
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FarmExpense'
+      responses:
+        200:
+          description: successfully deleted
+        400:
+          description: Bad request
+  /expense/farm/{farmId}:
+    get:
+      tags:
+        - expense
+      summary: Get expenses on my farm
+      operationId: getExpenseByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        403:
+          description: You have no permission to check expenses on this farm
+        400:
+          description: Bad request
+        200:
+          description: retrieved expenses on your farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FarmExpense'
+  /expense/expense_type:
+    post:
+      tags:
+        - expense
+      summary: Create an expense type linked to you farm
+      operationId: postExpenseType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FarmExpenseType'
+      responses:
+        201:
+          description: returns the recently created expense
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FarmExpenseType'
+        400:
+          description: Bad Request
+        403:
+          description: No permission to add farm expenses
+  /expense/expense_type/farm/{farmId} :
+    get:
+      tags:
+        - expense
+      summary: Get expense types linked to your farm and default ones
+      operationId: getExpenseTypeByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: returns the expense types linked to your farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FarmExpenseType'
+        400:
+          description: Bad request
+        403:
+          description: No permission to get farm expenses
+  /expense/expense_type/default:
+    get:
+      tags:
+        - expense
+      summary: Gets the default expense types
+      operationId: getExpenseTypeDefault
+      responses:
+        200:
+          description: returns the default expense types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FarmExpenseType'
+        400:
+          description: Bad request
+        403:
+          description: No permission to get farm expenses
+  /fertilizer/farm/{farmId}:
+    parameters:
+      - name: farmId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - fertilizer
+      summary: Get all fertilizers linked to your farm and default ones
+      operationId: getFertilizersByFarmId
+      responses:
+        200:
+          description: retrieved list of fertilizers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fertilizer'
+        400:
+          description: Bad request
+        403:
+          description: Can't access fertilizers or you are not allowed to see fertilizers on this farm.
+    post:
+      tags:
+        - fertilizer
+      summary: Create a fertilizer to link to your farm
+      operationId: postFertilizer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fertilizer'
+      responses:
+        201:
+          description: Retrieves the recently created fertilizer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fertilizer'
+        400:
+          description: Bad Request
+        403:
+          description: Not allowed to add fertilizer, or you cant add fertilizers to this farm
+  /fertilizer/{fertilizerId}:
+    delete:
+      tags:
+        - fertilizer
+      summary: Deletes a specific fertilizer
+      operationId: deleteFertilizer
+      parameters:
+        - name: fertilizerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: deleted fertilizer
+        400:
+          description: bad request
+        404:
+          description: fertilizer with that id was not found
+        403:
+          description: not allowed to delete fertilizer.
+  /field_crop/{fieldCropId}:
+    parameters:
+      - name: fieldCropId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - fieldCrop
+      summary: get a specific field crop relation
+      operationId: getFieldCropById
+      responses:
+        200:
+          description: retrieve the specific field crop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldCrop'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to get field crops.
+    put:
+      tags:
+        - fieldCrop
+      summary: modify a specific field crop relation
+      operationId: updateFieldCropById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldCrop'
+      responses:
+        200:
+          description: Modified field crop with id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldCrop'
+        400:
+          description: Bad request
+        404:
+          description: no field crop found with that id
+        403:
+          description: No access to this farm, or permission to update field crops.
+    delete:
+      tags:
+        - fieldCrop
+      summary: (soft) Delete a specific field crop
+      operationId: deleteFieldCropById
+      responses:
+        200:
+          description: success deleting field crop
+        400:
+          description: Bad request
+        404:
+          description: No fieldCrop found with that id
+        403:
+          description: No access to this farm, or permission to delete field crops.
+  /field_crop:
+    post:
+      tags:
+        - fieldCrop
+      summary: Create a field crop
+      operationId: postFieldCrop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldCrop'
+      responses:
+        201:
+          description: retrieves created fieldCrop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldCrop'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to create field crops.
+  /field_crop/farm/{farmId}:
+    get:
+      tags:
+        - fieldCrop
+      summary: Get all fieldCrops related to a farm
+      operationId: getFieldCropByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieve an array with the field crops related to the farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FieldCrop'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to get field crops.
+  /field_crop/farm/date/{farmId}/{date}:
+    get:
+      tags:
+        - fieldCrop
+        - farm
+      summary: Gets Field crops in which end date is greater than the provided date.
+      operationId: getFieldCropByDateAndFarm
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: retrieve a fieldCrop  array that meets criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FieldCrop'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to get field crops.
+  /field_crop/expired/farm/{farmId}:
+    get:
+      tags:
+        - fieldCrop
+        - farm
+      summary: Gets field crops that are expired in a particular farm
+      operationId: getExpiredFieldCrop
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieve a field crop array that meets the criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FieldCrop'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to get field crops.
+  /field/{fieldId}:
+    parameters:
+      - name: fieldId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    put:
+      tags:
+        - field
+      summary: Update a field given its id
+      operationId: updateFieldById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+      responses:
+        200:
+          description: retrieves updated field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to update fields.
+        404:
+          description: No field with that id found
+    delete:
+      tags:
+        - field
+      summary: (soft) delete a field given its id
+      operationId: deleteFieldById
+      responses:
+        200:
+          description: Success deleting a field.
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to delete fields.
+        404:
+          description: No field with that id found.
+  /field:
+    post:
+      tags:
+        - field
+      summary: Creates a field
+      operationId: postField
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Field'
+      responses:
+        201:
+          description: Retrieves created field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Field'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to create fields.
+  /field/farm/{farmId}:
+    get:
+      tags:
+        - farm
+        - field
+      summary: Get all fields within a farm
+      operationId: getFieldsByFarmId
+      parameters:
+        - name: farmId
+          required: true
+          in: path
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves a list of fields linked to the corresponding farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Field'
+        403:
+          description: No access to this farm, or permission to get fields.
+        400:
+          description: Bad Request.
+  /insight/people_fed/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets People fed by farmId
+      operationId: getPeopleFedByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves people fed object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/soil_om/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets Soil data by farmId
+      operationId: getSoilDataByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves insight object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/labour_happiness/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets Labour happines data by farmId
+      operationId: getLabourHappinessByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves insight object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/biodiversity/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets Biodiversity data by farmId
+      operationId: getBioDiversityByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves insight object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/prices/distance/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets Nearby farm prices data by farmId
+      operationId: getPriceDistanceByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves insight object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/waterbalance/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets water balance data by farmId
+      operationId: getWaterBalanceByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves insight object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/waterbalance/schedule/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets water balance schedule by farmId
+      operationId: getWaterBalanceScheduleByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves water balance object (no relevant info displayed right now)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  water_balance_schedule_id:
+                    type: number
+                  farm_id:
+                    type: string
+                    format: uuid
+                  created_at:
+                    type: string
+                    format: date
+        400:
+          description: Bad Request
+  /insight/nitrogenbalance/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets Nitrogen balance data by farmId
+      operationId: getNitrogenBalanceByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves insight object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad Request
+  /insight/nitrogenbalance/schedule/{farmId}:
+    get:
+      tags:
+        - insight
+        - farm
+        - TBR
+      summary: Gets Nitrogen balance schedule by farmId
+      operationId: getNitrogenBalanceScheduleByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves Nitrogen Balance Schedule object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nitrogen_schedule_id:
+                    type: number
+                  created_at:
+                    type: string
+                    format: date
+                  scheduled_at:
+                    type: string
+                    format: date
+                  farm_id:
+                    type: string
+                    format: uuid
+                  frequency:
+                    type: number
+        400:
+          description: Bad Request
+  /insight/waterbalance:
+    post:
+      tags:
+        - insight
+        - TBR
+      summary: Create water balance
+      operationId: postWaterBalance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WaterBalance'
+      responses:
+        201:
+          description: created water balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WaterBalance'
+        400:
+          description: Bad request
+        403:
+          description: No access to this farm, or permission to create water balance.
+  /insight/waterbalance/schedule:
+    post:
+      tags:
+        - insight
+        - TBR
+      summary: Create water balance schedule
+      operationId: postWaterBalanceSchedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                water_balance_schedule_id:
+                  type: number
+                created_at:
+                  type: string
+                  format: date
+                farm_id:
+                  type: string
+                  format: uuid
+      responses:
+        201:
+          description: retrieves Insight Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preview:
+                    type: number
+                  data:
+                    type: array
+        400:
+          description: Bad request
+        403:
+          description: No access to this farm, or permission to create water balance schedule.
+  /insight/nitrogenbalance/schedule:
+    post:
+      tags:
+        - insight
+        - TBR
+      summary: Create nitrogen balance schedule
+      operationId: postNitrogenBalanceSchedule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nitrogen_schedule_id:
+                  type: number
+                created_at:
+                  type: string
+                  format: date
+                scheduled_at:
+                  type: string
+                  format: date
+                farm_id:
+                  type: string
+                  format: uuid
+                frequency:
+                  type: number
+      responses:
+        201:
+          description: created nitrogen balance schedule
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nitrogen_schedule_id:
+                    type: number
+                  created_at:
+                    type: string
+                    format: date
+                  scheduled_at:
+                    type: string
+                    format: date
+                  farm_id:
+                    type: string
+                    format: uuid
+                  frequency:
+                    type: number
+        400:
+          description: Bad request
+        403:
+          description: No access to this farm, or permission to create nitrogen balance schedule.
+  /insight/nitrogenbalance/schedule/{scheduleId}:
+    delete:
+      tags:
+        - insight
+        - TBR
+      summary: Delete nitrogen schedule
+      operationId: deleteNitrogenScheduleById
+      parameters:
+        - name: scheduleId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Success deleting nitrogen schedule
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to delete nitrogen schedule.
+  /log:
+    post:
+      tags:
+        - log
+      summary: Create a log
+      operationId: postLog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Log'
+      responses:
+        201:
+          description: Retrieves created log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+        400:
+          description: Bad Request
+        403:
+          description: no permission to create logs
+    get:
+      tags:
+        - TBR
+        - log
+      summary: Get all logs??
+      operationId: getLogs
+      responses:
+        200:
+          description: retrieved logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Log'
+        400:
+          description: Bad Request
+  /log/{logId}:
+    parameters:
+      - name: logId
+        in: path
+        required: true
+        schema:
+          type: number
+    put:
+      summary: Update a specific log
+      operationId: putLogById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Log'
+      responses:
+        200:
+          description: retrieves updated log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+        400:
+          description: Bad Request
+        403:
+          description: No permission to update logs
+    delete:
+      summary: Delete a specific log
+      operationId: deleteLogById
+      responses:
+        200:
+          description: success deleting crop by id
+        403:
+          description: No permission to delete logs
+        400:
+          description: Bad Request.
+  /notification/user/user_id:
+    get:
+      tags:
+        - TBR
+      summary: Currently Not operative
+      responses:
+        404:
+          description: method not operative
+  /notification/{notificationId}:
+    put:
+      tags:
+        - TBR
+      summary: Currently Not operative
+      responses:
+        404:
+          description: method not operative
+  /notification_setting/{id}:
+    put:
+      tags:
+        - TBR
+      summary: Currently Not operative
+      responses:
+        404:
+          description: method not operative
+  /pesticide/farm/{farmId}:
+    get:
+      tags:
+        - pesticide
+        - farm
+      summary: Get default Pesticides and pesticides from your farm
+      operationId: getPesticideByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Gets all default pesticides and the ones in your farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pesticide'
+        403:
+          description: No access to this farm, or permission to get pesticides.
+        400:
+          description: Bad Request.
+  /pesticide :
+    post:
+      summary: Create a new pesticide linked to your farm
+      operationId: postPesticide
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pesticide'
+      responses:
+        201:
+          description: retrieves created pesticide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pesticide'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to post pesticides.
+  /pesticide/{pesticideId}:
+    delete:
+      summary: Delete pesticide with given id
+      operationId: deletePesticideById
+      parameters:
+        - name: pesticideId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: success deleting pesticide with given id
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to delete pesticide.
+  /plan/farm/{farmId}:
+    get:
+      tags:
+        - plan
+      summary: Get plans by farm id
+      operationId: getPlansByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: All plans related to farm id given
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Plan'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to get plans.
+  /plan:
+    post:
+      tags:
+        - plan
+      summary: Create a plan
+      operationId: postPlan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plan'
+      responses:
+        201:
+          description: retrieves created plan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plan'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to create plans.
+  /plan/{planId}:
+    delete:
+      tags:
+        - plan
+      summary: Delete a plan by its id
+      operationId: deletePlanById
+      parameters:
+        - name: planId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: success deleting a plan
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to delete plans.
+  /price/farm/{farmId}:
+    get:
+      tags:
+        - price
+      summary: Get price by farm id
+      operationId: getPriceByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: All prices related to farm id given
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Price'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to get prices.
+  /price:
+    post:
+      tags:
+        - price
+      summary: Create a price
+      operationId: postPrice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Price'
+      responses:
+        201:
+          description: retrieves created price
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to create prices.
+  /price/{priceId}:
+    parameters:
+      - name: priceId
+        in: path
+        required: true
+        schema:
+          type: number
+    delete:
+      tags:
+        - price
+      summary: Delete a price by its id
+      operationId: deletePriceId
+      responses:
+        200:
+          description: success deleting a price
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to delete prices.
+    put:
+      tags:
+        - price
+      summary: Update a price
+      operationId: putPriceById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Price'
+      responses:
+        200:
+          description: retrieves created price
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Price'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to update prices.
+  /roles:
+    get:
+      tags:
+        - roles
+      summary: Get all roles and permissions
+      operationId: getRoles
+      responses:
+        200:
+          description: all roles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role_id:
+                    type: number
+                  role:
+                    type: string
+  /sale:
+    patch:
+      tags:
+        - sale
+      summary: Update a sale
+      operationId: patchSale
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sale'
+      responses:
+        204:
+          description: retrieves updated sale successfuly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission update a sale.
+    post:
+      tags:
+        - sale
+      summary: Create a sale
+      operationId: postSale
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sale'
+      responses:
+        201:
+          description: Retrieves created sale
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to create sales.
+  /sale/{farmId}:
+    get:
+      tags:
+        - sale
+      summary: Get all sales from a farm
+      operationId: getSalesByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: List of sales related to a farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sale'
+        400:
+           description: Bad Request.
+        403:
+          description: No access to this farm, or permission to get sales.
+  /sale/{saleId}:
+    delete:
+      tags:
+        - sale
+      summary: delete a particular sale by its id
+      operationId: deleteSaleById
+      parameters:
+        - name: saleId
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Success deleting sale by given id
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to delete  a sale.
+  /shift/{shifId}:
+    parameters:
+      - name: shiftId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - shift
+        - TBR
+      summary: Get a shift by its id (what is the relation to tasks?)
+      operationId: getShiftById
+      responses:
+        200:
+          description: retrieved Shift by given id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shift'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to get shift by id
+    put:
+      tags:
+        - shift
+      summary: Update a shift by a given id
+      operationId: updateShiftById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shift'
+      responses:
+        200:
+          description: success updating a shift
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shift'
+        400:
+          description: Bad request. missing tasks?
+        403:
+          description: No access to this farm, or permission to update shift by id
+    delete:
+      tags:
+        - shift
+      summary: Delete a shift by a given id
+      operationId: deleteShiftById
+      responses:
+        200:
+          description: success deleting a shift by id.
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to delete shift by id.
+  /shift:
+    post:
+      tags:
+        - shift
+      summary: Create a shift
+      operationId: postShift
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shift'
+      responses:
+        201:
+          description: retrieve created shift
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shift'
+        400:
+          description: Bad request.
+        403:
+          description: No access to this farm, or permission to create a shift.
+  /shift/multi:
+    post:
+      tags:
+        - shift
+        - TBR
+      summary: Create multiple shifts
+      operationId: postShiftMulti
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tasks:
+                  type: array
+                shift_users:
+                  type: array
+      responses:
+        201:
+          description: receives 201 with no body.?
+        400:
+          description: Bad request.
+        403:
+          description: No access to this farm, or permission to create a multi shift.
+  /shift/user/{userId}:
+    get:
+      tags:
+        - users
+        - shift
+      summary: Get all shifts from a particular user
+      operationId: getShiftByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: All users shifts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shift'
+        400:
+          description: Bad Request.
+        403:
+          description: No permission to get user shifts.
+  /shift/farm/{farmId}:
+    get:
+      tags:
+        - TBR
+        - shift
+      summary: Get all shifts on a particular farm. (no clear return structure)
+      operationId: getShiftsByFarmId
+      responses:
+        400:
+          description: Bad request.
+  /sign_up/verify_token/{token}/farm/{farmId}/user/{userId}:
+    parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: farmId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - signup
+      summary: Validate the token sent through an email to the user for signup
+      operationId: validateToken
+      responses:
+        401:
+          description: Invalid Token
+        202:
+          description: token used
+        200:
+          description: Valid token
+  /sign_up/{userId}:
+    patch:
+      tags:
+        - signup
+        - TBR
+      summary: Used to signup an  invited user to the system
+      operationId: inviteUserSignup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                farm_id:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: signed up successfully
+        500:
+          description: failed to signup.
+  /stats/farm:
+    get:
+      tags:
+        - farm
+        - TBR
+      summary: Get all farm stats?  Open to anyone?
+      operationId: getFarmStats
+      responses:
+        200:
+          description: all farm stats...
+  /task_type/farm/{farmId}:
+    get:
+      tags:
+        - taskType
+      summary: Get task types by farm id and default ones
+      operationId: getTaskTypesById
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: All task types related to farm id given and default ones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskType'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to get task types.
+  /task_type/{taskTypeId}:
+    parameters:
+      - name: farmId
+        in: path
+        required: true
+        schema:
+          type: number
+    get:
+      tags:
+        - taskType
+      summary: get a specific task type
+      operationId: getTaskTypeById
+      responses:
+        200:
+          description: retrieves specific task typew
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskType'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to get task types.
+    delete:
+      tags:
+        - taskType
+      summary: delete a specific task type
+      operationId: deleteTaskType
+      responses:
+        200:
+          description: success deleting task type
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to delete task types.
+  /task_type:
+    post:
+      tags:
+        - taskType
+      summary: Create a task type
+      operationId: postTaskType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskType'
+      responses:
+        201:
+          description: Retrieve created task type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskType'
+        400:
+          description: Bad Request
+        403:
+          description: No access to this farm, or permission to create task types
+  /todo:
+    post:
+      tags:
+        - todo
+        - TBR
+      summary: Create a todo. Reviewing Request data
+      operationId: postTodo
+      responses:
+        200:
+          description: success creating a todo.
+
+    get:
+      tags:
+        - todo
+        - TBR
+      summary: Get all todos. Non functional
+      operationId: getTodos
+      responses:
+        404:
+          description: non functional
+  /todo/{todoId}:
+    parameters:
+      - name: todoId
+        in: path
+        required: true
+        schema:
+          type: number
+    put:
+      tags:
+        - todo
+        - TBR
+      summary: Update a specific todo
+      operationId: updateTodoById
+      responses:
+        200:
+          description: Updated todo successfuly
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  todo_id:
+                    type: number
+                  todo_text:
+                    type: string
+                  farm_id:
+                    type: string
+                    format: uuid
+        401:
+          description: not authorized
+    delete:
+      tags:
+        - todo
+        - TBR
+      summary: Delete Todo by id
+      operationId: deleteTodoById
+      responses:
+        200:
+          description: deleted todo successfuly
+        400:
+          description: Bad request
+        401:
+          description: not authorized
+  /farmdata:
+    post:
+      tags:
+        - TBR
+        - farmData
+      summary: Create farm data entry. (this creates an entry with the user and the farm id into farmDataSchedule)
+      operationId: postFarmData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  format: uuid
+                farm_id:
+                  type: string
+                  format: uuid
+      responses:
+        200:
+          description: farm data schedule registered.
+  /farmdata/{farmId}:
+    get:
+      tags:
+        - TBR
+        - farmData
+      summary: Gets all non processed farmData scheduled with this farm id.
+      operationId: getFarmDataByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: gets farm data for the farm Id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    format: uuid
+                  farm_id:
+                    type: string
+                    format: uuid
+                  request_number:
+                    type: number
+                  is_processed:
+                    type: boolean
+                  created_at:
+                    type: string
+                    format: date
+                  has_failed:
+                    type: boolean
+        400:
+          description: Bad Request.
+  /yield/farm/{farmId}:
+    get:
+      summary: Get crop yields by farm
+      operationId: getYieldByFarmId
+      parameters:
+        - name: farmId
+          required: true
+          in: path
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieved yields by the given farm id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Yield'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to get yields.
+  /yield:
+    post:
+      summary: Create a yield
+      operationId: postYield
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Yield'
+      responses:
+        201:
+          description: retrieve created yield
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Yield'
+        400:
+          description: Bad Request.
+        403:
+          description: No access to this farm, or permission to create yields.
+  /yield/{yieldId}:
+    parameters:
+      - name: yieldId
+        required: true
+        in: path
+        schema:
+          type: number
+    put:
+      summary: Update a particular yield
+      operationId: putYieldById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Yield'
+      responses:
+        200:
+          description: Retrieve updated yield
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Yield'
+        400:
+          description: Bad request.
+        403:
+          description: No access to this farm, or permission to update yields.
+    delete:
+      summary: Delete a particular yield
+      operationId: deleteYieldById
+      responses:
+        200:
+          description: success deleting yield
+        400:
+          description: Bad request.
+        404:
+          description: Yield with that id was not found
+        403:
+          description: No access to this farm, or permission to delete yields.
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+        farm_id:
+          type: string
+        role_id:
+          type: integer
+        has_consent:
+          type: boolean
+        created_at:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        profile_picture:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        status:
+          type: string
+        consent_version:
+          type: string
+        wage:
+          type: integer
+    UpdateUserRequest:
+      type: object
+      properties:
+        user_id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        profile_picture:
+          type: string
+        phone_number:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+          format: email
+        farm_id:
+          type: string
+          format: nullable
+        notification_setting:
+          type: object
+          properties:
+            alert_weather:
+              type: boolean
+            alert_worker_finish:
+              type: boolean
+            alert_action_after_scouting:
+              type: boolean
+            alert_before_planned_date:
+              type: boolean
+            alert_pest:
+              type: boolean
+        created_at:
+          type: string
+          format: 'date-time'
+        updated_at:
+          type: string
+          format: 'date-time'
+    Farm:
+      type: object
+      properties:
+        farm_id:
+          type: string
+          format: uuid
+        deleted:
+          type: boolean
+        farm_name:
+          type: string
+        address:
+          type: string
+        grid_points:
+          $ref: '#/components/schemas/LatLong'
+        phone_number:
+          type: object
+          properties:
+            number:
+              type: string
+            country:
+              type: string
+        units:
+          type: object
+          properties:
+            measurement:
+              type: string
+              enum:
+                - imperial
+                - metric
+            currency:
+              type: string
+            date_format:
+              type: string
+              format: date
+        sandbox_bool:
+          type: boolean
+    LatLong:
+      type: object
+      properties:
+        lat:
+          type: number
+        lng:
+          type: number
+    UserFarm:
+      type: object
+      properties:
+        user_id:
+          type: string
+        farm_id:
+          type: string
+        role_id:
+          type: number
+        has_consent:
+          type: boolean
+        status:
+          type: string
+        created_at:
+          type: string
+        consent_version:
+          type: string
+        wage:
+          type: object
+          properties:
+            type:
+              type: string
+            amount:
+              type: number
+    Crop:
+      type: object
+      properties:
+        farm_id:
+          type: string
+          format: uuid
+        crop_common_name:
+          type: string
+        crop_genus:
+          type: string
+        crop_specie:
+          type: string
+        crop_group:
+          type: string
+        crop_subgroup:
+          type: string
+        is_avg_depth:
+          type: boolean
+        is_avg_nutrient:
+          type: boolean
+        is_avg_kc:
+          type: boolean
+        user_added:
+          type: boolean
+        deleted:
+          type: boolean
+        max_rooting_depth:
+          type: number
+        depletion_fraction:
+          type: number
+        initial_kc:
+          type: number
+        mid_kc:
+          type: number
+        end_kc:
+          type: number
+        max_height:
+          type: number
+        percentrefuse:
+          type: number
+        protein:
+          type: number
+        lipid:
+          type: number
+        energy:
+          type: number
+        ca:
+          type: number
+        fe:
+          type: number
+        mg:
+          type: number
+        ph:
+          type: number
+        k:
+          type: number
+        na:
+          type: number
+        zn:
+          type: number
+        cu:
+          type: number
+        fl:
+          type: number
+        mn:
+          type: number
+        se:
+          type: number
+        vita_rae:
+          type: number
+        vite:
+          type: number
+        vitc:
+          type: number
+        thiamin:
+          type: number
+        riboflavin:
+          type: number
+        niacin:
+          type: number
+        pantothenic:
+          type: number
+        vitb6:
+          type: number
+        folate:
+          type: number
+        vitb12:
+          type: number
+        vitk:
+          type: number
+        nutrient_notes:
+          type: string
+        refuse:
+          type: string
+        nutrient_credits:
+          type: number
+    Disease:
+      type: object
+      properties:
+        disease_scientific_name:
+          type: string
+        disease_common_name:
+          type: string
+        disease_group:
+          type: string
+        farm_id:
+          type: string
+        deleted:
+          type: boolean
+    FarmExpense:
+      type: object
+      properties:
+        farm_expense_id:
+          type: string
+        farm_id:
+          type: string
+        expense_date:
+          type: string
+          format: date
+        value:
+          type: number
+        picture:
+          type: string
+        note:
+          type: string
+        expense_type_id:
+          type: string
+    FarmExpenseType:
+      type: object
+      properties:
+        expense_type_id:
+          type: string
+          format: uuid
+        expense_name:
+          type: string
+        farm_id:
+          type: string
+          format: uuid
+    FieldCrop:
+      type: object
+      properties:
+        field_crop_id:
+          type: number
+        crop_id:
+          type: number
+        field_id:
+          type: string
+          format: uuid
+        deleted:
+          type: boolean
+        variety:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        area_used:
+          type: number
+        estimated_production:
+          type: number
+        estimated_revenue:
+          type: number
+        is_by_bed:
+          type: boolean
+        bed_config:
+          type: object
+    Fertilizer:
+      type: object
+      properties:
+        fertilizer_id:
+          type: string
+        deleted:
+          type: boolean
+        fertilizer_type:
+          type: string
+        moisture_percentage:
+          type: number
+        n_percentage:
+          type: number
+        nh4_n_ppm:
+          type: number
+        p_percentage:
+          type: number
+        k_percentage:
+          type: number
+        farm_id:
+          type: string
+    Field:
+      type: object
+      properties:
+        field_id:
+          type: string
+          format: uuid
+        farm_id:
+          type: string
+          format: uuid
+        deleted:
+          type: boolean
+        field_name:
+          type: string
+        area:
+          type: number
+        station_id:
+          type: number
+        grid_points:
+          type: array
+          items:
+            $ref: '#/components/schemas/LatLong'
+    WaterBalance:
+      type: object
+      properties:
+        water_balance_id:
+          type: number
+        crop_id:
+          type: number
+        field_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date
+        soil_water:
+          type: number
+        plant_available_water:
+          type: number
+    Pesticide:
+      type: object
+      properties:
+        pesticide_name:
+          type: string
+        farm_id:
+          type: string
+          format: uuid
+        deleted:
+          type: boolean
+        active_ingredients:
+          type: string
+        concentration:
+          type: number
+        entry_interval:
+          type: number
+        harvest_interval:
+          type: number
+    Log:
+      type: object
+      properties:
+        activity_id:
+          type: number
+        activity_kind:
+          type: string
+          enum:
+            - fertilizing
+            - pestControl
+            - scouting
+            - irrigation
+            - harvest
+            - seeding
+            - fieldWork
+            - weatherData
+            - soilData
+            - other
+        date:
+          type: string
+          format: date
+        notes:
+          type: string
+        action_needed:
+          type: boolean
+        user_id:
+          type: string
+          format: uuid
+    Plan:
+      type: object
+      properties:
+        plan_id:
+          type: number
+        plan_config:
+          type: object
+        farm_id:
+          type: string
+          format: uuid
+    Price:
+      type: object
+      properties:
+        price_id:
+          type: number
+        crop_id:
+          type: number
+        value_$/kg:
+          type: number
+        date:
+          type: string
+          format: date
+        farm_id:
+          type: string
+          format: uuid
+    Sale:
+      type: object
+      properties:
+        sale_id:
+          type: number
+        customer_name:
+          type: string
+        sale_date:
+          type: string
+          format: date
+        farm_id:
+          type: string
+          format: uuid
+    Shift:
+      type: object
+      properties:
+        shift_id:
+          type: string
+          format: uuid
+        start_time:
+          type: string
+          format: 'date-time'
+        end_time:
+          type: string
+          format: 'date-time'
+        user_id:
+          type: string
+          format: uuid
+        mood:
+          type: string
+        break_duration:
+          type: number
+        wage_at_moment:
+          type: number
+    TaskType:
+      type: object
+      properties:
+        task_id:
+          type: number
+        task_name:
+          type: string
+        farm_id:
+          type: string
+          format: uuid
+        deleted:
+          type: boolean
+    Yield:
+      type: object
+      properties:
+        yield_id:
+          type: number
+        crop_id:
+          type: number
+        'quantity_kg/m2':
+          type: number
+        date:
+          type: string
+          format: date
+        farm_id:
+          type: string
+          format: uuid
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

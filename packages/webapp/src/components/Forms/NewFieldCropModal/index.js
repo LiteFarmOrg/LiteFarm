@@ -148,7 +148,7 @@ class NewFieldCropModal extends React.Component {
     let fieldCrop = this.state.fieldCrop;
     let cropBeingEdited = {
       ...fieldCrop,
-      [event.target.id]: event.target.value,
+      [event.target.id]: Number(event.target.value) >= 0? event.target.value: 0,
     };
     this.setState({
       fieldCrop: cropBeingEdited

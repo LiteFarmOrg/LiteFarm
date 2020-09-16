@@ -49,15 +49,6 @@ describe('FieldCrop Tests', () => {
       .end(callback)
   }
 
-  function postCropRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
-    chai.request(server).post('/crop')
-      .set('Content-Type', 'application/json')
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .send(data)
-      .end(callback)
-  }
-
   function getRequest(url, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).get(url)
       .set('user_id', user_id)
@@ -91,15 +82,6 @@ describe('FieldCrop Tests', () => {
   }
 
   beforeEach(async () => {
-    await knex.raw(`
-    DELETE FROM "fieldCrop";
-    DELETE FROM "field";
-    DELETE FROM "userFarm";
-    DELETE FROM "crop";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
     [newOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -113,8 +95,9 @@ describe('FieldCrop Tests', () => {
     });
   })
 
-  afterAll (async () => {
+  afterEach (async () => {
     await knex.raw(`
+    DELETE FROM "cropDisease";
     DELETE FROM "fieldCrop";
     DELETE FROM "field";
     DELETE FROM "userFarm";

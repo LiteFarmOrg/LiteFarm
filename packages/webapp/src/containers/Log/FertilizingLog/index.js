@@ -122,7 +122,7 @@ class FertilizingLog extends Component{
       fertilizer_type: fertLog.product,
     };
 
-    console.log(fertLog);
+
     this.props.dispatch(addFertilizer(fertConfig));
     this.props.dispatch(actions.reset('logReducer.forms.fertLog.fert_id'));
     this.props.dispatch(actions.reset('logReducer.forms.fertLog.product'));
@@ -227,8 +227,8 @@ class FertilizingLog extends Component{
                 <label>Quantity</label>
                 <div className={styles.inputNunit}>
                   <Control.input
-                  type="number" step="any" model=".fertLog.quantity_kg" min="0" default={0}
-                  validators={{positive: (val) => val>=0 ? undefined:  'Quantity must be positive' }}
+                  type="number" step="any" model=".fertLog.quantity_kg" default={0}
+                  validators={{required: (val) => val, positive: (val)=> val>=0?1: 0 }}
                 />
                   {this.state.quantity_unit}
                   </div>
@@ -239,6 +239,7 @@ class FertilizingLog extends Component{
                 show={{touched: true, focus: false}}
                 messages={{
                   required: 'Required',
+                  positive: 'Quantity must be positive',
                 }} />
               <div className={styles.noteTitle}>
                 Notes

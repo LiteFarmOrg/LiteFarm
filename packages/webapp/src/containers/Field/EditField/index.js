@@ -152,6 +152,7 @@ class EditField extends Component {
     this.setState({
       field_name: event.target.value
     })
+    
   };
 
   deleteField = () => {

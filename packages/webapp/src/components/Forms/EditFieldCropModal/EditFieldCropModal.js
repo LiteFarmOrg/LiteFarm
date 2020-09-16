@@ -132,6 +132,9 @@ class EditFieldCropModal extends React.Component {
   };
 
   handleFieldCropPropertiesChange(event) {
+    if(event.target.value < 0){
+      event.target.value = 0;
+    }
     let fieldCrop = this.state.fieldCrop;
     let cropBeingEdited = {
       ...fieldCrop,

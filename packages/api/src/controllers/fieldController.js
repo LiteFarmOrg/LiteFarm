@@ -48,7 +48,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -65,10 +65,20 @@ class fieldController extends baseController {
   }
 
   static updateField() {
+    console.log("entering update field fn")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldModel, req.params.id, req.body, trx);
+        console.log("entering try block")
+        console.log("req params are")
+        console.log(req.params)
+        console.log("req params field id is")
+        console.log(req.params.field_id)
+        console.log("req body is")
+        console.log(req.body)
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
+        console.log("updated is")
+        console.log(updated)
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -77,6 +87,7 @@ class fieldController extends baseController {
         }
 
       } catch (error) {
+        console.log("entering catch block")
         await trx.rollback();
         res.status(400).json({
           error,
@@ -89,7 +100,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
+        const rows = await fieldController.getByForeignKey(farm_id);
         if (!rows.length) {
           res.status(200).send(rows);
         } else {
@@ -102,6 +113,13 @@ class fieldController extends baseController {
         });
       }
     }
+  }
+
+  static async getByForeignKey(farm_id) {
+
+    const fields = await fieldModel.query().whereNotDeleted().select('*').from('field').where('field.farm_id', farm_id);
+
+    return fields;
   }
 
   static async postWithResponse(req, trx) {

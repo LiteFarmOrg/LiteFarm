@@ -1,6 +1,7 @@
 const mocks = require('./mock.factories');
 const Knex = require('knex')
 const environment = 'test';
+const { tableCleanup } = require('./testEnvironment')
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 
@@ -19,13 +20,7 @@ describe('Factories tests', () => {
       })
   })
 
-  afterAll((done) => {
-    tableNames.unshift('userFarm', 'activityLog', 'shiftTask', 'shift')
-    Promise.all(tableNames.map((table) => {
-      return knex(table).delete()
-    })).then(() => {
-      console.log('successfully deleted tables')
-      done()
-    }).catch(console.log)
+  afterAll(async () => {
+    await tableCleanup(knex)
   })
 })

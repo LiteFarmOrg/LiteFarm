@@ -61,6 +61,8 @@ export function* getUserInfo(action) {
       //   console.log('user has no farm at the moment');
       // }
     } else {
+      const auth = new Auth();
+      auth.getUserInfo(localStorage.getItem('access_token'),localStorage.getItem('id_token'))
       console.log('failed to fetch user from database')
     }
   } catch(e) {

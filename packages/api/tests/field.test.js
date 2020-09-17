@@ -22,6 +22,7 @@ const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
+const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
@@ -87,7 +88,7 @@ describe('Field Tests', () => {
         .end(callback)
     }
 
-   
+
     // GLOBAL BEFOREEACH
     beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
@@ -99,7 +100,6 @@ describe('Field Tests', () => {
         [unAuthorizedUser1] = await mocks.usersFactory();
         [farmunAuthorizedUser1] = await mocks.farmFactory();
         [ownerFarmunAuthorizedUser1] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser1], promisedFarm:[farmunAuthorizedUser1]},fakeUserFarm(1));
-        // [unauthorizedField1] = await mocks.fieldFactory({promisedFarm: [ownerFarmunAuthorizedUser1]});
 
         middleware = require('../src/middleware/acl/checkJwt');
         middleware.mockImplementation((req, res, next) => {
@@ -110,32 +110,52 @@ describe('Field Tests', () => {
       })
 
       afterEach (async () => {
-        await knex.raw(`
-        DELETE FROM "field";
-        DELETE FROM "farm";
-        DELETE FROM "weather_station";
-        `);
+        await tableCleanup(knex);
       });
 
-    
+
       // POST TESTS
       describe('Post field tests', ()=>{
         let fakeField;
+        let fakeField1;
         let ownerFarm;
         let newManager;
         let managerFarm;
         let newWorker;
         let workerFarm;
-        
+
+        let unAuthorizedUser;
+        let farmunAuthorizedUser;
+        let ownerFarmunAuthorizedUser;
+        let unauthorizedField;
 
         beforeEach(async()=>{
             fakeField = getFakeField();
-            
+            fakeField.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+
+            fakeField1 = getFakeField();
             [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
             [newManager] = await mocks.usersFactory();
             [managerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
             [newWorker] = await mocks.usersFactory();
             [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+
+            [unAuthorizedUser] = await mocks.usersFactory();
+            [farmunAuthorizedUser] = await mocks.farmFactory();
+            [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+            [unauthorizedField] = await mocks.fieldFactory({promisedFarm: [ownerFarmunAuthorizedUser]});
+            delete unauthorizedField.station_id;
+            unauthorizedField.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+
+
         })
 
         test('Owner should post and get valid field', async (done) => {
@@ -165,15 +185,44 @@ describe('Field Tests', () => {
                 done();
             })
         });
-     })
 
+        test('should not create field without field name', async (done) => {
+          fakeField.field_name = "";
+          postFieldRequest(fakeField, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+          })
+      });
 
-     
+      test('should not create field without field points', async (done) => {
+        fakeField1.grid_points = [{}];
+        postFieldRequest(fakeField1, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+        })
+      });
+
+      test('should not create field with name and only 2 field points', async (done) => {
+        postFieldRequest(fakeField1, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+        })
+      });
+
+      test('should return 403 when unauthorized user tries to create field with name and 3 points', async (done) => {
+        putFieldRequest(unauthorizedField, {user_id: unAuthorizedUser.user_id}, (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
+
+    })
+
      // PUT TESTS
      describe('Put field tests', ()=>{
       let ownerFarm;
       let ownerField;
-     
+
       let newManager;
       let managerFarm;
       let managerField;
@@ -215,16 +264,15 @@ describe('Field Tests', () => {
           done();
         });
       })
-      
+
       test('should return 403 when a worker tries to edit field_name', async (done) => {
 
         [newWorker] = await mocks.usersFactory();
-        [workerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(3));
+        [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
         [workerField] = await mocks.fieldFactory({promisedFarm: [workerFarm]});
         delete workerField.station_id;
+        workerField.field_name = "My new field name -- worker";
 
-        workerField.field_name = "My new field name -- manager";
-        
         putFieldRequest(workerField,{user_id: newWorker.user_id}, (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -246,8 +294,22 @@ describe('Field Tests', () => {
         });
       });
 
+      test('should return 403 when user changes field name to blank', async (done) => {
+        [newManager] = await mocks.usersFactory();
+        [managerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
+        [managerField] = await mocks.fieldFactory({promisedFarm: [managerFarm]});
+        delete managerField.station_id;
+
+        managerField.field_name = "";
+
+        putFieldRequest(managerField, {user_id: newManager.user_id}, (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
+
     })
-    
+
     // GET TESTS
     describe('Get field tests', ()=>{
       let ownerFarm1;
@@ -282,7 +344,7 @@ describe('Field Tests', () => {
       })
 
       test('Worker should get field by farm id', async (done)=>{
-        
+
           getRequest({user_id: newWorker1.user_id},(err,res)=>{
             expect(res.status).toBe(200);
             expect(res.body[0].farm_id).toBe(workerField1.farm_id);
@@ -316,8 +378,8 @@ describe('Field Tests', () => {
     let unAuthorizedUser2;
     let farmunAuthorizedUser2;
     let ownerFarmunAuthorizedUser2;
-    
-   
+
+
 
     beforeEach(async () =>{
       [managerUser] = await mocks.usersFactory();

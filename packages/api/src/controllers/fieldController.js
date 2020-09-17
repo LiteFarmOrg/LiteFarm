@@ -31,9 +31,19 @@ class fieldController extends baseController {
       try {
         const result = await fieldController.postWithResponse(req, trx);
         await trx.commit();
-        res.status(201).send(result);
-        req.field = { fieldId: result.field_id, point: result.grid_points[0] }
-        next()
+        if (result.field_name == 0) {
+          res.sendStatus(403)
+        }
+
+        else if (Object.keys(result.grid_points).length < 3) {
+          res.sendStatus(403);
+        }
+       
+        else {
+          res.status(201).send(result);
+          req.field = { fieldId: result.field_id, point: result.grid_points[0] }
+          next()
+        }  
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
@@ -65,29 +75,23 @@ class fieldController extends baseController {
   }
 
   static updateField() {
-    console.log("entering update field fn")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        console.log("entering try block")
-        console.log("req params are")
-        console.log(req.params)
-        console.log("req params field id is")
-        console.log(req.params.field_id)
-        console.log("req body is")
-        console.log(req.body)
         const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
-        console.log("updated is")
-        console.log(updated)
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        } else {
+        } 
+        else if (updated[0].field_name.length == 0) {
+          res.sendStatus(403);
+        }
+        
+        else {
           res.status(200).send(updated);
         }
 
       } catch (error) {
-        console.log("entering catch block")
         await trx.rollback();
         res.status(400).json({
           error,

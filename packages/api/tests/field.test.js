@@ -22,6 +22,7 @@ const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
+const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
@@ -87,7 +88,7 @@ describe('Field Tests', () => {
         .end(callback)
     }
 
-   
+
     // GLOBAL BEFOREEACH
     beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
@@ -110,14 +111,10 @@ describe('Field Tests', () => {
       })
 
       afterEach (async () => {
-        await knex.raw(`
-        DELETE FROM "field";
-        DELETE FROM "farm";
-        DELETE FROM "weather_station";
-        `);
+        await tableCleanup(knex);
       });
 
-    
+
       // POST TESTS
       describe('Post field tests', ()=>{
         let fakeField;
@@ -126,11 +123,11 @@ describe('Field Tests', () => {
         let managerFarm;
         let newWorker;
         let workerFarm;
-        
+
 
         beforeEach(async()=>{
             fakeField = getFakeField();
-            
+
             [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
             [newManager] = await mocks.usersFactory();
             [managerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
@@ -168,12 +165,12 @@ describe('Field Tests', () => {
      })
 
 
-     
+
      // PUT TESTS
      describe('Put field tests', ()=>{
       let ownerFarm;
       let ownerField;
-     
+
       let newManager;
       let managerFarm;
       let managerField;
@@ -215,7 +212,7 @@ describe('Field Tests', () => {
           done();
         });
       })
-      
+
       test('should return 403 when a worker tries to edit field_name', async (done) => {
 
         [newWorker] = await mocks.usersFactory();
@@ -224,7 +221,7 @@ describe('Field Tests', () => {
         delete workerField.station_id;
 
         workerField.field_name = "My new field name -- manager";
-        
+
         putFieldRequest(workerField,{user_id: newWorker.user_id}, (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -247,7 +244,7 @@ describe('Field Tests', () => {
       });
 
     })
-    
+
     // GET TESTS
     describe('Get field tests', ()=>{
       let ownerFarm1;
@@ -282,7 +279,7 @@ describe('Field Tests', () => {
       })
 
       test('Worker should get field by farm id', async (done)=>{
-        
+
           getRequest({user_id: newWorker1.user_id},(err,res)=>{
             expect(res.status).toBe(200);
             expect(res.body[0].farm_id).toBe(workerField1.farm_id);
@@ -316,8 +313,8 @@ describe('Field Tests', () => {
     let unAuthorizedUser2;
     let farmunAuthorizedUser2;
     let ownerFarmunAuthorizedUser2;
-    
-   
+
+
 
     beforeEach(async () =>{
       [managerUser] = await mocks.usersFactory();

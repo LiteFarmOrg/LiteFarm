@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (cropRelatedAPI.test.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -28,7 +28,7 @@ beforeAll(() => {
   token = global.token;
 });
 
-describe('This is a test for crop, farm crop and crop bed', () => {
+xdescribe('This is a test for crop, farm crop and crop bed', () => {
   // need farm_id to post to crop
   // need bed_id to post to crop bed
   let farm_id = null, crop_id, farm_crop_id, field_id, bed_id, second_farm_crop_id;

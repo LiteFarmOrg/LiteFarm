@@ -66,7 +66,7 @@ class Account extends Component {
             <Control.text model=".userInfo.phone_number"/>
           </div>
           <div className={styles.labelContainer}>
-            <label>Address</label>
+            <label>User Address</label>
             <Control.text model=".userInfo.address"/>
           </div>
           <div className={defaultStyles.bottomContainer}>

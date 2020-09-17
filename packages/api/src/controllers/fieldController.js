@@ -48,7 +48,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -68,7 +68,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -89,7 +89,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
+        const rows = await fieldController.getByForeignKey(farm_id);
         if (!rows.length) {
           res.status(200).send(rows);
         } else {
@@ -102,6 +102,13 @@ class fieldController extends baseController {
         });
       }
     }
+  }
+
+  static async getByForeignKey(farm_id) {
+
+    const fields = await fieldModel.query().whereNotDeleted().select('*').from('field').where('field.farm_id', farm_id);
+
+    return fields;
   }
 
   static async postWithResponse(req, trx) {

@@ -99,7 +99,6 @@ describe('Field Tests', () => {
         [unAuthorizedUser1] = await mocks.usersFactory();
         [farmunAuthorizedUser1] = await mocks.farmFactory();
         [ownerFarmunAuthorizedUser1] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser1], promisedFarm:[farmunAuthorizedUser1]},fakeUserFarm(1));
-        // [unauthorizedField1] = await mocks.fieldFactory({promisedFarm: [ownerFarmunAuthorizedUser1]});
 
         middleware = require('../src/middleware/acl/checkJwt');
         middleware.mockImplementation((req, res, next) => {
@@ -111,7 +110,11 @@ describe('Field Tests', () => {
 
       afterEach (async () => {
         await knex.raw(`
+        DELETE FROM "cropDisease";
+        DELETE FROM "fieldCrop";
         DELETE FROM "field";
+        DELETE FROM "userFarm";
+        DELETE FROM "crop";
         DELETE FROM "farm";
         DELETE FROM "weather_station";
         `);
@@ -121,21 +124,71 @@ describe('Field Tests', () => {
       // POST TESTS
       describe('Post field tests', ()=>{
         let fakeField;
+        let fakeField1;
         let ownerFarm;
         let newManager;
         let managerFarm;
         let newWorker;
         let workerFarm;
-        
+
+        let unAuthorizedUser;
+        let farmunAuthorizedUser;
+        let ownerFarmunAuthorizedUser;
+        let unauthorizedField;
+
+        let batch1;
+        let batch2;
+        let batch3;
 
         beforeEach(async()=>{
             fakeField = getFakeField();
+            fakeField.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+
+            batch1 = getFakeField();
+            batch1.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+
+            batch2 = getFakeField();
+            batch2.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+
+            batch3 = getFakeField();
+            batch3.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+            
+            fakeField1 = getFakeField();
             
             [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
             [newManager] = await mocks.usersFactory();
             [managerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
             [newWorker] = await mocks.usersFactory();
             [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+
+            [unAuthorizedUser] = await mocks.usersFactory();
+            [farmunAuthorizedUser] = await mocks.farmFactory();
+            [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+            [unauthorizedField] = await mocks.fieldFactory({promisedFarm: [ownerFarmunAuthorizedUser]});
+            delete unauthorizedField.station_id;
+            unauthorizedField.grid_points = [
+              {lat: '49.2578263', lng: '-123.1939439'},
+              {lat: '49.1785762', lng: '-123.2760843'},
+              {lat: '49.2578263', lng: '-123.1939439'}
+            ]
+
+
         })
 
         test('Owner should post and get valid field', async (done) => {
@@ -165,7 +218,38 @@ describe('Field Tests', () => {
                 done();
             })
         });
-     })
+
+        test('should not create field without field name', async (done) => {
+          fakeField.field_name = "";
+          postFieldRequest(fakeField, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+          })
+      });
+
+      test('should not create field without field points', async (done) => {
+        fakeField1.grid_points = [{}];
+        postFieldRequest(fakeField1, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+        })
+      });
+
+      test('should not create field with name and only 2 field points', async (done) => {
+        postFieldRequest(fakeField1, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+        })
+      });
+
+      test('should return 403 when unauthorized user tries to create field with name and 3 points', async (done) => {
+        putFieldRequest(unauthorizedField, {user_id: unAuthorizedUser.user_id}, (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
+
+    })
 
 
      
@@ -241,6 +325,20 @@ describe('Field Tests', () => {
         unauthorizedField.field_name = "My new field name -- unauthorized";
 
         putFieldRequest(unauthorizedField, {user_id: unAuthorizedUser.user_id}, (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
+
+      test('should return 403 when user changes field name to blank', async (done) => {
+        [newManager] = await mocks.usersFactory();
+        [managerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
+        [managerField] = await mocks.fieldFactory({promisedFarm: [managerFarm]});
+        delete managerField.station_id;
+
+        managerField.field_name = "";
+
+        putFieldRequest(managerField, {user_id: newManager.user_id}, (err, res) => {
           expect(res.status).toBe(403);
           done();
         });

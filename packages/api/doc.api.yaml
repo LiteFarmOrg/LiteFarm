@@ -19,8 +19,6 @@ tags:
     description: User related operations
   - name: userFarm
     description: Operations related to the userFarm relationship
-  - name: crop
-    description: Operations related to crops
   - name: disease
     description: Operations related to disease
   - name: expense
@@ -349,7 +347,7 @@ paths:
   /user_farm/user/{userId}:
     get:
       tags:
-        - user
+        - users
         - userFarm
       summary: Gets all userFarms a user is in
       operationId: getUserFarmByUserId
@@ -1225,6 +1223,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/soil_om/{farmId}:
@@ -1254,6 +1254,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/labour_happiness/{farmId}:
@@ -1283,6 +1285,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/biodiversity/{farmId}:
@@ -1312,6 +1316,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/prices/distance/{farmId}:
@@ -1341,6 +1347,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/waterbalance/{farmId}:
@@ -1370,6 +1378,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/waterbalance/schedule/{farmId}:
@@ -1432,6 +1442,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad Request
   /insight/nitrogenbalance/schedule/{farmId}:
@@ -1528,6 +1540,8 @@ paths:
                     type: number
                   data:
                     type: array
+                    items:
+                      type: number
         400:
           description: Bad request
         403:
@@ -1650,6 +1664,8 @@ paths:
         schema:
           type: number
     put:
+      tags:
+        - log
       summary: Update a specific log
       operationId: putLogById
       requestBody:
@@ -1669,6 +1685,8 @@ paths:
         403:
           description: No permission to update logs
     delete:
+      tags:
+        - log
       summary: Delete a specific log
       operationId: deleteLogById
       responses:
@@ -1688,16 +1706,28 @@ paths:
           description: method not operative
   /notification/{notificationId}:
     put:
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: number
       tags:
         - TBR
       summary: Currently Not operative
       responses:
         404:
           description: method not operative
-  /notification_setting/{id}:
+  /notification_setting/{notificationId}:
     put:
       tags:
         - TBR
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: number
       summary: Currently Not operative
       responses:
         404:
@@ -1731,6 +1761,8 @@ paths:
           description: Bad Request.
   /pesticide :
     post:
+      tags:
+        - pesticide
       summary: Create a new pesticide linked to your farm
       operationId: postPesticide
       requestBody:
@@ -1751,6 +1783,8 @@ paths:
           description: No access to this farm, or permission to post pesticides.
   /pesticide/{pesticideId}:
     delete:
+      tags:
+        - pesticide
       summary: Delete pesticide with given id
       operationId: deletePesticideById
       parameters:
@@ -2006,7 +2040,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Sale'
         400:
-           description: Bad Request.
+          description: Bad Request.
         403:
           description: No access to this farm, or permission to get sales.
   /sale/{saleId}:
@@ -2028,7 +2062,7 @@ paths:
           description: Bad Request.
         403:
           description: No access to this farm, or permission to delete  a sale.
-  /shift/{shifId}:
+  /shift/{shiftId}:
     parameters:
       - name: shiftId
         in: path
@@ -2123,8 +2157,12 @@ paths:
               properties:
                 tasks:
                   type: array
+                  items:
+                    type: object
                 shift_users:
                   type: array
+                  items:
+                    type: object
       responses:
         201:
           description: receives 201 with no body.?
@@ -2164,6 +2202,13 @@ paths:
       tags:
         - TBR
         - shift
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       summary: Get all shifts on a particular farm. (no clear return structure)
       operationId: getShiftsByFarmId
       responses:
@@ -2205,6 +2250,13 @@ paths:
       tags:
         - signup
         - TBR
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       summary: Used to signup an  invited user to the system
       operationId: inviteUserSignup
       requestBody:
@@ -2266,7 +2318,7 @@ paths:
           description: No access to this farm, or permission to get task types.
   /task_type/{taskTypeId}:
     parameters:
-      - name: farmId
+      - name: taskTypeId
         in: path
         required: true
         schema:
@@ -2388,7 +2440,7 @@ paths:
     post:
       tags:
         - TBR
-        - farmData
+        - userFarmData
       summary: Create farm data entry. (this creates an entry with the user and the farm id into farmDataSchedule)
       operationId: postFarmData
       requestBody:
@@ -2410,7 +2462,7 @@ paths:
     get:
       tags:
         - TBR
-        - farmData
+        - userFarmData
       summary: Gets all non processed farmData scheduled with this farm id.
       operationId: getFarmDataByFarmId
       parameters:
@@ -2447,6 +2499,8 @@ paths:
           description: Bad Request.
   /yield/farm/{farmId}:
     get:
+      tags:
+        - yield
       summary: Get crop yields by farm
       operationId: getYieldByFarmId
       parameters:
@@ -2471,6 +2525,8 @@ paths:
           description: No access to this farm, or permission to get yields.
   /yield:
     post:
+      tags:
+        - yield
       summary: Create a yield
       operationId: postYield
       requestBody:
@@ -2497,6 +2553,8 @@ paths:
         schema:
           type: number
     put:
+      tags:
+        - yield
       summary: Update a particular yield
       operationId: putYieldById
       requestBody:
@@ -2516,6 +2574,8 @@ paths:
         403:
           description: No access to this farm, or permission to update yields.
     delete:
+      tags:
+        - yield
       summary: Delete a particular yield
       operationId: deleteYieldById
       responses:
@@ -3025,16 +3085,3 @@ components:
         farm_id:
           type: string
           format: uuid
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://petstore.swagger.io/oauth/dialog
-          scopes:
-            write:pets: modify pets in your account
-            read:pets: read your pets
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header

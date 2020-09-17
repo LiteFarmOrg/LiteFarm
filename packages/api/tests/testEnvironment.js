@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (testEnvironment.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -35,4 +35,52 @@ class TestEnvironment extends NodeEnvironment {
   }
 }
 
-module.exports = TestEnvironment;
+function tableCleanup(knex) {
+  return knex.raw(`
+    DELETE FROM "activityFields";
+    DELETE FROM "fieldWorkLog";
+    DELETE FROM "harvestLog";
+    DELETE FROM "irrigationLog";
+    DELETE FROM "activityCrops";
+    DELETE FROM "scoutingLog";
+    DELETE FROM "pestControlLog";
+    DELETE FROM "fertilizerLog"; 
+    DELETE FROM "seedLog";
+    DELETE FROM "soilDataLog";
+    DELETE FROM "userTodo";
+    DELETE FROM "todo";
+    DELETE FROM "activityLog";
+    DELETE FROM "notification";
+    DELETE FROM "yield"; 
+    DELETE FROM "cropCommonName"; 
+    DELETE FROM "cropDisease"; 
+    DELETE FROM "price"; 
+    DELETE FROM "cropSale"; 
+    DELETE FROM "sale"; 
+    DELETE FROM "waterBalance"; 
+    DELETE FROM "nitrogenBalance"; 
+    DELETE FROM "fieldCrop"; 
+    DELETE FROM "crop"; 
+    DELETE FROM "shiftTask";
+    DELETE FROM "shift"; 
+    DELETE FROM "field";  
+    DELETE FROM "fertilizer"; 
+    DELETE FROM "farmExpense"; 
+    DELETE FROM "farmExpenseType"; 
+    DELETE FROM "disease";
+    DELETE FROM "pesticide";
+    DELETE FROM "taskType";
+    DELETE FROM "farmDataSchedule";
+    DELETE FROM "userFarm";
+    DELETE FROM "waterBalanceSchedule";
+    DELETE FROM "plan";
+    DELETE FROM "nitrogenSchedule";
+    DELETE FROM "users";
+    DELETE FROM "farm";
+    DELETE FROM "weatherHourly";
+    DELETE FROM "weather";
+    DELETE FROM "weather_station";
+  `)
+}
+
+module.exports = { TestEnvironment, tableCleanup };

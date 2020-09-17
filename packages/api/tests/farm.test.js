@@ -21,6 +21,7 @@ const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
+const { tableCleanup } = require('./testEnvironment')
 let {usersFactory, farmFactory, userFarmFactory} = require('./mock.factories');
 let checkJwt;
 jest.mock('jsdom')
@@ -48,11 +49,7 @@ describe('Farm Tests', () => {
   })
 
   afterEach(async () => {
-    await knex.raw(`
-    DELETE FROM "userFarm";
-    DELETE FROM farm;
-    DELETE FROM users ;
-    `)
+    await tableCleanup(knex);
   });
 
   describe('Valid and Invalid Inputs', () => {
@@ -180,8 +177,8 @@ describe('Farm Tests', () => {
       await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
       deleteRequest(farm, newUser.user_id, async (err,res) => {
         expect(res.status).toBe(200);
-        const farmQuery = await knex.select().from('farm').where({farm_id: farm.farm_id});
-        expect(farmQuery.length).toBe(0);
+        const [farmQuery] = await knex.select().from('farm').where({farm_id: farm.farm_id});
+        expect(farmQuery.deleted).toBe(true);
         done()
       });
     })

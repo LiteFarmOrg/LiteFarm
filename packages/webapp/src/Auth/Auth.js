@@ -203,7 +203,7 @@ class Auth {
         alert('missing signed up value');
       }
       // if user signed up then don't post to DB;
-      else if(app_metadata.signed_up && (response.status === 200 || response.status === 201)){
+      else if(app_metadata.signed_up && response.data && response.data.length > 0 && (response.status === 200 || response.status === 201)){
         console.log(response)
         this.setUserProfilePic().then(() => {
           if(response.data[0].farm_id){
@@ -353,7 +353,7 @@ class Auth {
       },
     };
     axios.get(apiConfig.userUrl + '/' + user_id, header).then((res) => {
-      if(res.data && res.data[0].profile_picture){
+      if(res.data && res.data[0] && res.data[0].profile_picture){
         localStorage.setItem('profile_picture', res.data[0].profile_picture);
       }
     })

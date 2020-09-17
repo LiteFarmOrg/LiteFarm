@@ -399,18 +399,19 @@ function fakeShift() {
 
 async function shiftTaskFactory({
                                   promisedShift = shiftFactory(),
-                                  promisedFieldCrop = fieldCropFactory(), promisedField = fieldFactory()
+                                  promisedFieldCrop = fieldCropFactory(), promisedField = fieldFactory(),
+                                  promisedTaskType= taskTypeFactory()
                                 }={}, shiftTask = fakeShiftTask()) {
-  const [shift, fieldCrop, field] = await Promise.all([promisedShift, promisedFieldCrop, promisedField]);
+  const [shift, fieldCrop, field, task] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType]);
   const [{ shift_id }] = shift;
   const [{ field_crop_id }] = fieldCrop;
   const [{ field_id }] = field;
-  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, ...shiftTask }).returning('*');
+  const [{task_id}] = task;
+  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, task_id, ...shiftTask }).returning('*');
 }
 
 function fakeShiftTask() {
   return {
-    task_id: faker.random.arrayElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
     is_field: faker.random.boolean(),
     duration: faker.random.number(200)
   }

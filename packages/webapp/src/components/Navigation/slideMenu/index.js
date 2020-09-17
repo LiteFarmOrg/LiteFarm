@@ -23,7 +23,7 @@ class SlideMenu extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
   }
-
+  //TODO: Switch to useEffect
   UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
     if(nextProps.farm && !nextProps.farm.has_consent && this.props.location.pathname!=='/consent' && this.props.location.pathname!=='/farm_selection'){
       history.push('/consent', { role_id: nextProps.farm.role_id });

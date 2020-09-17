@@ -103,7 +103,6 @@ describe('Pesticide Tests', () => {
     test('Should filter out deleted pesticides', async (done)=>{
       await pesiticideModel.query().findById(pesticide.pesticide_id).del();
       getRequest({user_id: newOwner.user_id},(err,res)=>{
-        console.log(res.error,res.body);
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
         done();
@@ -130,7 +129,6 @@ describe('Pesticide Tests', () => {
 
         test('Owner should get pesticide by farm id', async (done)=>{
           getRequest({user_id: newOwner.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -139,7 +137,6 @@ describe('Pesticide Tests', () => {
 
         test('Manager should get pesticide by farm id', async (done)=>{
           getRequest({user_id: manager.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -148,7 +145,6 @@ describe('Pesticide Tests', () => {
 
         test('Worker should get pesticide by farm id', async (done)=>{
           getRequest({user_id: newWorker.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -158,7 +154,6 @@ describe('Pesticide Tests', () => {
 
         test('Should get status 403 if an unauthorizedUser tries to get pesticide by farm id', async (done)=>{
           getRequest({user_id: unAuthorizedUser.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(403);
             done();
           });
@@ -166,7 +161,6 @@ describe('Pesticide Tests', () => {
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           getRequest({user_id: unAuthorizedUser.user_id, header_farm_id: farmunAuthorizedUser.farm_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(403);
             done();
           });
@@ -197,7 +191,6 @@ describe('Pesticide Tests', () => {
 
         test('Owner should delete a fertlizer', async (done) => {
           deleteRequest({pesticide_id: pesticide.pesticide_id}, async (err, res) => {
-            console.log(pesticide.deleted,res.error);
             expect(res.status).toBe(200);
             const pesticideRes = await pesiticideModel.query().where('pesticide_id',pesticide.pesticide_id);
             expect(pesticideRes.length).toBe(1);
@@ -208,7 +201,6 @@ describe('Pesticide Tests', () => {
 
         test('Manager should delete a pesticide', async (done) => {
           deleteRequest({user_id:manager.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
-            console.log(pesticide.deleted,res.error);
             expect(res.status).toBe(200);
             const pesticideRes = await pesiticideModel.query().where('pesticide_id',pesticide.pesticide_id);
             expect(pesticideRes.length).toBe(1);
@@ -219,7 +211,6 @@ describe('Pesticide Tests', () => {
 
         test('should return 403 if an unauthorized user tries to delete a pesticide', async (done) => {
           deleteRequest({user_id:unAuthorizedUser.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
-            console.log(pesticide.deleted,res.error);
             expect(res.status).toBe(403);
             done();
           })
@@ -227,7 +218,6 @@ describe('Pesticide Tests', () => {
 
         test('should return 403 if a worker tries to delete a pesticide', async (done) => {
           deleteRequest({user_id: newWorker.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
-            console.log(pesticide.deleted,res.error);
             expect(res.status).toBe(403);
             done();
           })
@@ -235,7 +225,6 @@ describe('Pesticide Tests', () => {
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           deleteRequest({user_id:unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
-            console.log(pesticide.deleted,res.error);
             expect(res.status).toBe(403);
             done();
           })
@@ -283,7 +272,6 @@ describe('Pesticide Tests', () => {
 
       test('Owner should post and get a valid crop', async (done) => {
         postRequest(fakepesticide, {}, async (err, res) => {
-          console.log(fakepesticide,res.error);
           expect(res.status).toBe(201);
           const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
@@ -294,7 +282,6 @@ describe('Pesticide Tests', () => {
 
       test('Manager should post and get a valid crop', async (done) => {
         postRequest(fakepesticide, {user_id: manager.user_id}, async (err, res) => {
-          console.log(fakepesticide,res.error);
           expect(res.status).toBe(201);
           const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
@@ -305,7 +292,6 @@ describe('Pesticide Tests', () => {
 
       test('should return 403 status if pesticide is posted by worker', async (done) => {
         postRequest(fakepesticide, {user_id: newWorker.user_id}, async (err, res) => {
-          console.log(fakepesticide,res.error);
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:pesticides");
           done()
@@ -314,7 +300,6 @@ describe('Pesticide Tests', () => {
 
       test('should return 403 status if pesticide is posted by unauthorized user', async (done) => {
         postRequest(fakepesticide, {user_id: unAuthorizedUser.user_id}, async (err, res) => {
-          console.log(fakepesticide,res.error);
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:pesticides");
           done()
@@ -323,7 +308,6 @@ describe('Pesticide Tests', () => {
 
       test('Circumvent authorization by modify farm_id', async (done) => {
         postRequest(fakepesticide, {user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
-          console.log(fakepesticide,res.error);
           expect(res.status).toBe(403);
           done()
         })

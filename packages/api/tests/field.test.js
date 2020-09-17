@@ -136,34 +136,9 @@ describe('Field Tests', () => {
         let ownerFarmunAuthorizedUser;
         let unauthorizedField;
 
-        let batch1;
-        let batch2;
-        let batch3;
-
         beforeEach(async()=>{
             fakeField = getFakeField();
             fakeField.grid_points = [
-              {lat: '49.2578263', lng: '-123.1939439'},
-              {lat: '49.1785762', lng: '-123.2760843'},
-              {lat: '49.2578263', lng: '-123.1939439'}
-            ]
-
-            batch1 = getFakeField();
-            batch1.grid_points = [
-              {lat: '49.2578263', lng: '-123.1939439'},
-              {lat: '49.1785762', lng: '-123.2760843'},
-              {lat: '49.2578263', lng: '-123.1939439'}
-            ]
-
-            batch2 = getFakeField();
-            batch2.grid_points = [
-              {lat: '49.2578263', lng: '-123.1939439'},
-              {lat: '49.1785762', lng: '-123.2760843'},
-              {lat: '49.2578263', lng: '-123.1939439'}
-            ]
-
-            batch3 = getFakeField();
-            batch3.grid_points = [
               {lat: '49.2578263', lng: '-123.1939439'},
               {lat: '49.1785762', lng: '-123.2760843'},
               {lat: '49.2578263', lng: '-123.1939439'}
@@ -250,9 +225,7 @@ describe('Field Tests', () => {
       });
 
     })
-
-
-     
+    
      // PUT TESTS
      describe('Put field tests', ()=>{
       let ownerFarm;

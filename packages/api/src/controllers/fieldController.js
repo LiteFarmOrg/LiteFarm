@@ -31,9 +31,19 @@ class fieldController extends baseController {
       try {
         const result = await fieldController.postWithResponse(req, trx);
         await trx.commit();
-        res.status(201).send(result);
-        req.field = { fieldId: result.field_id, point: result.grid_points[0] }
-        next()
+        if (result.field_name == 0) {
+          res.sendStatus(403)
+        }
+
+        else if (Object.keys(result.grid_points).length < 3) {
+          res.sendStatus(403);
+        }
+       
+        else {
+          res.status(201).send(result);
+          req.field = { fieldId: result.field_id, point: result.grid_points[0] }
+          next()
+        }  
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
@@ -72,7 +82,12 @@ class fieldController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        } else {
+        } 
+        else if (updated[0].field_name.length == 0) {
+          res.sendStatus(403);
+        }
+        
+        else {
           res.status(200).send(updated);
         }
 

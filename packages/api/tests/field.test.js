@@ -116,6 +116,7 @@ describe('Field Tests', () => {
         DELETE FROM "userFarm";
         DELETE FROM "crop";
         DELETE FROM "farm";
+        DELETE FROM "users";
         DELETE FROM "weather_station";
         `);
       });
@@ -225,7 +226,7 @@ describe('Field Tests', () => {
       });
 
     })
-    
+
      // PUT TESTS
      describe('Put field tests', ()=>{
       let ownerFarm;
@@ -276,12 +277,12 @@ describe('Field Tests', () => {
       test('should return 403 when a worker tries to edit field_name', async (done) => {
 
         [newWorker] = await mocks.usersFactory();
-        [workerFarm] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(3));
+        [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
         [workerField] = await mocks.fieldFactory({promisedFarm: [workerFarm]});
         delete workerField.station_id;
-
-        workerField.field_name = "My new field name -- manager";
         
+        workerField.field_name = "My new field name -- worker";
+       
         putFieldRequest(workerField,{user_id: newWorker.user_id}, (err, res) => {
           expect(res.status).toBe(403);
           done();

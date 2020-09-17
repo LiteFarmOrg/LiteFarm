@@ -86,6 +86,7 @@ describe('taskType Tests', () => {
 
   afterEach (async () => {
     await knex.raw(`
+    DELETE FROM "pesticide";
     DELETE FROM "taskType";
     DELETE FROM "userFarm";
     DELETE FROM "farm";
@@ -103,8 +104,6 @@ describe('taskType Tests', () => {
     test('Get by farm_id should filter out deleted task types', async (done)=>{
       await taskTypeModel.query().findById(taskType.task_id).del();
       getRequest({user_id: newOwner.user_id},(err,res)=>{
-        console.log(res.error,res.body);
-        //TODO fix inconsistent 404 error handling
         expect(res.status).toBe(404);
         done();
       });
@@ -113,13 +112,12 @@ describe('taskType Tests', () => {
     test('Get by task_id should filter out deleted task types', async (done)=>{
       await taskTypeModel.query().findById(taskType.task_id).del();
       getRequest({user_id: newOwner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
-        console.log(res.error,res.body);
         expect(res.status).toBe(404);
         done();
       });
     })
 
-      describe('Get fieldCrop authorization tests',()=>{
+      describe('Get task type  authorization tests',()=>{
         let newWorker;
         let manager;
         let unAuthorizedUser;
@@ -139,7 +137,6 @@ describe('taskType Tests', () => {
 
         test('Owner should get taskType by farm id', async (done)=>{
           getRequest({user_id: newOwner.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
             done();
@@ -148,7 +145,6 @@ describe('taskType Tests', () => {
 
         test('Manager should get taskType by farm id', async (done)=>{
           getRequest({user_id: manager.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
             done();
@@ -157,7 +153,6 @@ describe('taskType Tests', () => {
 
         test('Worker should get taskType by farm id', async (done)=>{
           getRequest({user_id: newWorker.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
             done();
@@ -167,7 +162,6 @@ describe('taskType Tests', () => {
 
         test('Should get status 403 if an unauthorizedUser tries to get taskType by farm_id', async (done)=>{
           getRequest({user_id: unAuthorizedUser.user_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(403);
             done();
           });
@@ -175,7 +169,6 @@ describe('taskType Tests', () => {
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           getRequest({user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(403);
             done();
           });
@@ -185,7 +178,6 @@ describe('taskType Tests', () => {
 
         test('Owner should get taskType by task_id', async (done)=>{
           getRequest({user_id: newOwner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
             done();
@@ -194,7 +186,6 @@ describe('taskType Tests', () => {
 
         test('Manager should get taskType by task_id', async (done)=>{
           getRequest({user_id: manager.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
             done();
@@ -203,7 +194,6 @@ describe('taskType Tests', () => {
 
         test('Worker should get taskType by task_id', async (done)=>{
           getRequest({user_id: newWorker.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(200);
             expect(res.body[0].task_id).toBe(taskType.task_id);
             done();
@@ -213,7 +203,6 @@ describe('taskType Tests', () => {
 
         test('Should get status 403 if an unauthorizedUser tries to get taskType by task_id', async (done)=>{
           getRequest({user_id: unAuthorizedUser.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(403);
             done();
           });
@@ -221,7 +210,6 @@ describe('taskType Tests', () => {
 
         test('Get taskType by task_id circumvent authorization by modifying farm_id', async (done) => {
           getRequest({user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
-            console.log(res.error,res.body);
             expect(res.status).toBe(403);
             done();
           });
@@ -233,9 +221,9 @@ describe('taskType Tests', () => {
 
       })
 
-    describe('Delete fertlizer', function () {
+    describe('Delete task type', function () {
 
-      describe('Delete fertlizer authorization tests',()=>{
+      describe('Delete task type authorization tests',()=>{
         let newWorker;
         let manager;
         let unAuthorizedUser;
@@ -253,9 +241,8 @@ describe('taskType Tests', () => {
           const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
         })
 
-        test('Owner should delete a fertlizer', async (done) => {
+        test('Owner should delete a task type', async (done) => {
           deleteRequest({task_id: taskType.task_id}, async (err, res) => {
-            console.log(taskType.deleted,res.error);
             expect(res.status).toBe(200);
             const taskTypeRes = await taskTypeModel.query().where('task_id',taskType.task_id);
             expect(taskTypeRes.length).toBe(1);
@@ -266,7 +253,6 @@ describe('taskType Tests', () => {
 
         test('Manager should delete a taskType', async (done) => {
           deleteRequest({user_id:manager.user_id, task_id: taskType.task_id}, async (err, res) => {
-            console.log(taskType.deleted,res.error);
             expect(res.status).toBe(200);
             const taskTypeRes = await taskTypeModel.query().where('task_id',taskType.task_id);
             expect(taskTypeRes.length).toBe(1);
@@ -277,7 +263,6 @@ describe('taskType Tests', () => {
 
         test('should return 403 if an unauthorized user tries to delete a taskType', async (done) => {
           deleteRequest({user_id:unAuthorizedUser.user_id, task_id: taskType.task_id}, async (err, res) => {
-            console.log(taskType.deleted,res.error);
             expect(res.status).toBe(403);
             done();
           })
@@ -285,7 +270,6 @@ describe('taskType Tests', () => {
 
         test('should return 403 if a worker tries to delete a taskType', async (done) => {
           deleteRequest({user_id: newWorker.user_id, task_id: taskType.task_id}, async (err, res) => {
-            console.log(taskType.deleted,res.error);
             expect(res.status).toBe(403);
             done();
           })
@@ -293,7 +277,6 @@ describe('taskType Tests', () => {
 
         test('Circumvent authorization by modifying farm_id', async (done) => {
           deleteRequest({user_id:unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id, task_id: taskType.task_id}, async (err, res) => {
-            console.log(taskType.deleted,res.error);
             expect(res.status).toBe(403);
             done();
           })
@@ -339,9 +322,8 @@ describe('taskType Tests', () => {
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
       })
 
-      test('Owner should post and get a valid crop', async (done) => {
+      test('Owner should post and get a valid taskType', async (done) => {
         postRequest(fakeTaskType, {}, async (err, res) => {
-          console.log(fakeTaskType,res.error);
           expect(res.status).toBe(201);
           const taskTypes = await taskTypeModel.query().where('farm_id',farm.farm_id);
           expect(taskTypes.length).toBe(1);
@@ -350,9 +332,8 @@ describe('taskType Tests', () => {
         })
       });
 
-      test('Manager should post and get a valid crop', async (done) => {
+      test('Manager should post and get a valid taskType', async (done) => {
         postRequest(fakeTaskType, {user_id: manager.user_id}, async (err, res) => {
-          console.log(fakeTaskType,res.error);
           expect(res.status).toBe(201);
           const taskTypes = await taskTypeModel.query().where('farm_id',farm.farm_id);
           expect(taskTypes.length).toBe(1);
@@ -363,7 +344,6 @@ describe('taskType Tests', () => {
 
       test('should return 403 status if taskType is posted by worker', async (done) => {
         postRequest(fakeTaskType, {user_id: newWorker.user_id}, async (err, res) => {
-          console.log(fakeTaskType,res.error);
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:task_types");
           done()
@@ -372,7 +352,6 @@ describe('taskType Tests', () => {
 
       test('should return 403 status if taskType is posted by unauthorized user', async (done) => {
         postRequest(fakeTaskType, {user_id: unAuthorizedUser.user_id}, async (err, res) => {
-          console.log(fakeTaskType,res.error);
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:task_types");
           done()
@@ -381,7 +360,6 @@ describe('taskType Tests', () => {
 
       test('Circumvent authorization by modify farm_id', async (done) => {
         postRequest(fakeTaskType, {user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
-          console.log(fakeTaskType,res.error);
           expect(res.status).toBe(403);
           done()
         })

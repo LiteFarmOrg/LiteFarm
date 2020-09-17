@@ -16,10 +16,11 @@
 const express = require('express');
 const router = express.Router();
 const diseaseController = require('../controllers/diseaseController');
-//const authFarmId = require('../middleware/acl/authFarmId');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
-router.get('/farm/:farm_id', checkScope(['get:diseases']), diseaseController.getDisease());
-router.post('/', checkScope(['add:diseases']), diseaseController.addDisease());
+router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:diseases']), diseaseController.getDisease());
+router.post('/', hasFarmAccess, checkScope(['add:diseases']), diseaseController.addDisease());
+router.delete('/:disease_id', hasFarmAccess, checkScope(['delete:diseases']), diseaseController.delDisease());
 
 module.exports = router;

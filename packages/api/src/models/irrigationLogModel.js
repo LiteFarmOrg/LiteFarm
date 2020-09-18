@@ -45,6 +45,7 @@ class IrrigationLog extends Model {
           type: 'float',
         },
       },
+      additionalProperties: false,
     };
   }
 

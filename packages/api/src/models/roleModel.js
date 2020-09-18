@@ -37,6 +37,7 @@ class Role extends Model {
           enum: ['Owner', 'Manager', 'Worker'],
         },
       },
+      additionalProperties: false,
     };
   }
 }

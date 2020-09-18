@@ -62,6 +62,7 @@ class User extends Model {
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },
       },
+      additionalProperties: false,
     };
   }
 }

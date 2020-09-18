@@ -40,6 +40,7 @@ class activityLogModel extends Model {
         action_needed: { type: 'boolean' },
         user_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {

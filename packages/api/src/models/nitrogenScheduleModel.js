@@ -37,6 +37,7 @@ class NitrogenSchedule extends Model {
         farm_id: { type: 'string' },
         frequency: { type: 'integer' },
       },
+      additionalProperties: false,
     };
   }
 }

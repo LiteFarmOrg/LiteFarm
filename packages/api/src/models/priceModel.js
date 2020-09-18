@@ -37,6 +37,7 @@ class Price extends Model {
         date: { type: 'date-time' },
         farm_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
 }

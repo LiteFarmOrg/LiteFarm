@@ -51,6 +51,7 @@ class Fertilizer extends softDelete({ columnName: 'deleted' })(Model) {
           ],
         },
       },
+      additionalProperties: false,
     };
   }
 }

@@ -47,6 +47,7 @@ class PestControlLog extends Model {
         },
         target_disease_id: { type: 'integer' },
       },
+      additionalProperties: false,
     };
   }
 }

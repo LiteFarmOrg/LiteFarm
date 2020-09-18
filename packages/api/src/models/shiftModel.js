@@ -43,6 +43,7 @@ class Shift extends Model {
         },
         wage_at_moment: { type: 'number' },
       },
+      additionalProperties: false,
     }
   }
 }

@@ -38,6 +38,7 @@ class Sale extends Model {
         sale_date: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
 

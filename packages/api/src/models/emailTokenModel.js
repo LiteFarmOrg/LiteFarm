@@ -24,7 +24,8 @@ class emailTokenModel extends Model {
         is_used: {type: 'boolean'},
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },
-      }
+      },
+      additionalProperties: false,
     };
   }
 }

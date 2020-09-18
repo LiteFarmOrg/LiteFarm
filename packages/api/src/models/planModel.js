@@ -36,6 +36,7 @@ class Plan extends Model {
         plan_config: { type: 'object' },
         farm_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
 }

@@ -2,39 +2,34 @@ const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
-module.exports = async (req, res, next) => {
+const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
+  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id']
+const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
+const entitiesGetters = {
+  fertilizer_id: fromFertilizer,
+  field_id: fromField,
+  field_crop_id: fromFieldCrop,
+  crop_id: fromCrop,
+  pesticide_id: fromPesticide,
+  task_type_id: fromTask,
+  disease_id: fromDisease,
+  farm_id: (farm_id) => ({ farm_id }),
+}
+module.exports = (isGet = false) => async (req, res, next) => {
   const data = Object.keys(req.body).length === 0 ? req.params : req.body;
   const headers = req.headers;
   const { farm_id } = headers;
-  if (data.field_id) {
-    const field = await fromField(data.field_id);
-    return sameFarm(field, farm_id) ? next() : notAuthorizedResponse(res);
+  const entityMatched = orderedEntities.find((k) => !!data[k]);
+  // Has no farm relation
+  if (!entityMatched) {
+    return next()
   }
-  if (data.field_crop_id) {
-    const field = await fromFieldCrop(data.field_crop_id);
-    return sameFarm(field, farm_id) ? next() : notAuthorizedResponse(res);
+  const farmIdObjectFromEntity = await entitiesGetters[entityMatched](data[entityMatched]);
+  // Is getting a seeded table and accessing community data. Go through.
+  if(seededEntities.includes(entityMatched) && isGet && farmIdObjectFromEntity.farm_id === null) {
+    return next();
   }
-  if (data.crop_id) {
-    const crop = await fromCrop(data.crop_id);
-    return sameFarm(crop, farm_id) ? next() : notAuthorizedResponse(res);
-  }
-  if (data.fertilizer_id) {
-    const fertilizer = await fromFertilizer(data.fertilizer_id);
-    return sameFarm(fertilizer, farm_id) ? next() : notAuthorizedResponse(res);
-  }
-  if (data.pesticide_id) {
-    const pesticide = await fromPesticide(data.pesticide_id);
-    return sameFarm(pesticide, farm_id) ? next() : notAuthorizedResponse(res);
-  }
-  if (data.task_type_id) {
-    const task = await fromTask(data.task_type_id);
-    return sameFarm(task, farm_id) ? next() : notAuthorizedResponse(res);
-  }
-  if (data.farm_id) {
-    return sameFarm(data, farm_id) ? next() : notAuthorizedResponse(res);
-  }
-  // It doesn't hold farm relationships
-  next();
+  return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
 }
 
 async function fromTask(taskId) {
@@ -43,6 +38,10 @@ async function fromTask(taskId) {
 
 async function fromPesticide(pesticideId) {
   return await knex('pesticide').where({ pesticide_id: pesticideId }).first();
+}
+
+async function fromDisease(disease_id) {
+  return await knex('disease').where({ disease_id }).first();
 }
 
 async function fromCrop(cropId) {

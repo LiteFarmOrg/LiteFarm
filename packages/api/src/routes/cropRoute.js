@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (cropRoute.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -20,12 +20,12 @@ const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
 // get an individual crop
-router.get('/:crop_id', hasFarmAccess, checkScope(['get:crops']), cropController.getIndividualCrop());
+router.get('/:crop_id', hasFarmAccess(true), checkScope(['get:crops']), cropController.getIndividualCrop());
 // get all crop INCLUDING crops farm added
-router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:crops']), cropController.getAllCrop());
-router.post('/', hasFarmAccess, checkScope(['add:crops']), cropController.addCropWithFarmID());
-router.put('/:crop_id', hasFarmAccess, checkScope(['edit:crops']), cropController.updateCrop());
+router.get('/farm/:farm_id', hasFarmAccess(), checkScope(['get:crops']), cropController.getAllCrop());
+router.post('/', hasFarmAccess(), checkScope(['add:crops']), cropController.addCropWithFarmID());
+router.put('/:crop_id', hasFarmAccess(), checkScope(['edit:crops']), cropController.updateCrop());
 // only user added crop can be deleted
-router.delete('/:crop_id', hasFarmAccess, checkScope(['delete:crops']), cropController.delCrop());
+router.delete('/:crop_id', hasFarmAccess(), checkScope(['delete:crops']), cropController.delCrop());
 
 module.exports = router;

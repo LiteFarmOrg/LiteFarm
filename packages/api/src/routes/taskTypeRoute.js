@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (taskTypeRoute.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,9 +19,9 @@ const TaskTypeController = require('../controllers/taskTypeController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-router.post('/', hasFarmAccess, checkScope(['add:task_types']), TaskTypeController.addType());
-router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:task_types']), TaskTypeController.getAllTypes());
-router.get('/:task_type_id', hasFarmAccess, checkScope(['get:task_types']), TaskTypeController.getTypeByID());
-router.delete('/:task_type_id', hasFarmAccess, checkScope(['delete:task_types']), TaskTypeController.delType());
+router.post('/', hasFarmAccess(), checkScope(['add:task_types']), TaskTypeController.addType());
+router.get('/farm/:farm_id', hasFarmAccess(), checkScope(['get:task_types']), TaskTypeController.getAllTypes());
+router.get('/:task_type_id', hasFarmAccess(true), checkScope(['get:task_types']), TaskTypeController.getTypeByID());
+router.delete('/:task_type_id', hasFarmAccess(), checkScope(['delete:task_types']), TaskTypeController.delType());
 
 module.exports = router;

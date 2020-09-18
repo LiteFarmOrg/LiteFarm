@@ -5,7 +5,7 @@ import styles from './styles.scss';
 import parentStyles from '../styles.scss';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, POLYGON_COMPLETE } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
-import {Button, Glyphicon, FormGroup, FormControl, ControlLabel, Form} from 'react-bootstrap';
+import {Button, Glyphicon, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
 import { cropSelector } from '../selectors';
@@ -396,11 +396,11 @@ class NewField extends Component {
             <FormGroup
               className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                { 
+                {
                 this.state.isSavePlanDisabled ?
                 <Button style={{...buttonStyles}} outline>Save Field</Button>
                 :
-                <Button style={{...buttonStyles, ...activeButtonStyles}} 
+                <Button style={{...buttonStyles, ...activeButtonStyles}}
                     outline
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);

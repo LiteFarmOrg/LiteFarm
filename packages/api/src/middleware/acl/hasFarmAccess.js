@@ -16,6 +16,8 @@ const entitiesGetters = {
   farm_id: (farm_id) => ({ farm_id }),
 }
 module.exports = (isGet = false) => async (req, res, next) => {
+  // TODO: When URL has params, try to circumvent authorization by setting farm_id in body
+  // TODO: Try to add field_id in body to circumvent authorization
   const data = Object.keys(req.body).length === 0 ? req.params : req.body;
   const headers = req.headers;
   const { farm_id } = headers;
@@ -26,6 +28,7 @@ module.exports = (isGet = false) => async (req, res, next) => {
   }
   const farmIdObjectFromEntity = await entitiesGetters[entityMatched](data[entityMatched]);
   // Is getting a seeded table and accessing community data. Go through.
+  // TODO: try to delete seeded data
   if(seededEntities.includes(entityMatched) && isGet && farmIdObjectFromEntity.farm_id === null) {
     return next();
   }

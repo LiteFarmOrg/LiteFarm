@@ -85,6 +85,9 @@ app.use(bodyParser.json())
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
+    }else if((req.method === 'DELETE' || req.method === 'GET') && Object.keys(req.body).length > 0){
+      // TODO: Find new bugs caused by this change
+      return res.sendStatus(400);
     }
     next();
   })

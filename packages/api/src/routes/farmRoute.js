@@ -24,9 +24,9 @@ router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
 router.post('/', farmController.addFarm());
 
-router.put('/:id', hasFarmAccess,  checkScope(['edit:farms']), farmController.updateFarm());
+router.put('/:id', hasFarmAccess(),  checkScope(['edit:farms']), farmController.updateFarm());
 
-router.delete('/:farm_id', hasFarmAccess, checkScope(['delete:farms']), farmController.deleteFarm());
+router.delete('/:farm_id', hasFarmAccess(), checkScope(['delete:farms']), farmController.deleteFarm());
 
 
 module.exports = router;

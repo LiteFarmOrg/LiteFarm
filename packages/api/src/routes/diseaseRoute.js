@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (diseaseRoute.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,8 +19,8 @@ const diseaseController = require('../controllers/diseaseController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
-router.get('/farm/:farm_id', hasFarmAccess, checkScope(['get:diseases']), diseaseController.getDisease());
-router.post('/', hasFarmAccess, checkScope(['add:diseases']), diseaseController.addDisease());
-router.delete('/:disease_id', hasFarmAccess, checkScope(['delete:diseases']), diseaseController.delDisease());
+router.get('/farm/:farm_id', hasFarmAccess(), checkScope(['get:diseases']), diseaseController.getDisease());
+router.post('/', hasFarmAccess(), checkScope(['add:diseases']), diseaseController.addDisease());
+router.delete('/:disease_id', hasFarmAccess(), checkScope(['delete:diseases']), diseaseController.delDisease());
 
 module.exports = router;

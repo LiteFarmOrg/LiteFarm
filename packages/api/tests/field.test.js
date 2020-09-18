@@ -25,6 +25,7 @@ const knex = Knex(config);
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
+jest.mock('../src/jobs/station_sync/mapping')
 const mocks  = require('./mock.factories');
 
 const fieldModel = require('../src/models/fieldModel');

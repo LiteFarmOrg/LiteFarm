@@ -3,7 +3,10 @@ const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
 const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
-  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id']
+  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id' ]
+// fix: the array need to be in certain order to prevent circumventions.
+// const orderedEntities = ['farm_id', 'field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
+//   'pesticide_id', 'task_type_id', 'disease_id' ]
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -16,8 +19,11 @@ const entitiesGetters = {
   farm_id: (farm_id) => ({ farm_id }),
 }
 module.exports = (isGet = false) => async (req, res, next) => {
-  // TODO: When URL has params, try to circumvent authorization by setting farm_id in body
-  // TODO: Try to add field_id in body to circumvent authorization
+  const method = req.method;
+  // Users can circumvent authorization by adding xxx_id in request body.
+  // if((method === 'DELETE' || method === 'GET') && Object.keys(req.body).length > 0){
+  //   return res.sendStatus(400);
+  // }
   const data = Object.keys(req.body).length === 0 ? req.params : req.body;
   const headers = req.headers;
   const { farm_id } = headers;

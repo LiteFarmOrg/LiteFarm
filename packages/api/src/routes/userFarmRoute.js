@@ -18,12 +18,13 @@ const router = express.Router();
 const userFarmController = require('../controllers/userFarmController');
 const checkScope = require('../middleware/acl/checkScope');
 const checkEditPrivilege = require('../middleware/acl/checkEditPrivilege');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 router.get('/user/:id', userFarmController.getUserFarmByUserID());
 
 router.get('/role/permissions', userFarmController.getAllRolePermissions());
 
-router.post('/', userFarmController.addUserFarm());
+router.post('/', hasFarmAccess,  userFarmController.addUserFarm());
 
 router.patch('/consent/farm/:farm_id/user/:user_id', userFarmController.updateConsent());
 

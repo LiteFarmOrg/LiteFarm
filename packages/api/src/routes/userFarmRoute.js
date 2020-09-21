@@ -19,20 +19,45 @@ const userFarmController = require('../controllers/userFarmController');
 const checkScope = require('../middleware/acl/checkScope');
 const checkEditPrivilege = require('../middleware/acl/checkEditPrivilege');
 
-router.get('/user/:id', userFarmController.getUserFarmByUserID());
+// Get all userFarms for a specified user
+// no permission limits
+router.get('/user/:user_id', userFarmController.getUserFarmByUserID());
 
-router.get('/role/permissions', userFarmController.getAllRolePermissions());
+// Get info on all users (userFarm) at a farm
+// TODO: limit permission 123-
+router.get('/farm/:farm_id', userFarmController.getUserFarmsByFarmID());
 
-router.post('/', userFarmController.addUserFarm());
+// Get info on all active users (userFarm) at a farm
+// TODO: limit permission 123-
+router.get('/active/farm/:farm_id', userFarmController.getActiveUserFarmsByFarmID());
 
+// [DEPRECATE] Displays list of permissions for user calling this endpoint
+// router.get('/role/permissions', userFarmController.getAllRolePermissions());
+
+// Create userFarm
+// TODO: limit permission 12--
+router.post('/', checkScope(['add:users']), userFarmController.addUserFarm());
+
+// Update consent status for a userFarm referenced by user_id
+// no permission limits
 router.patch('/consent/farm/:farm_id/user/:user_id', userFarmController.updateConsent());
 
+// Update the role on a userFarm
+// TODO: limit permission 12--
 router.patch('/role/farm/:farm_id/user/:user_id', checkScope(['edit:user_role']), userFarmController.updateRole());
 
+// Update the status on a userFarm
+// TODO: limit permission 12--
 router.patch('/status/farm/:farm_id/user/:user_id', checkScope(['edit:user_status']), userFarmController.updateStatus());
 
-router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
+// [DEPRECATE] Get specific info related to userFarm
+// router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
 
-router.patch('/update/farm/:farm_id/user/:user_id', checkEditPrivilege(), userFarmController.updateUser());
+// [DEPRECATE] Update user_farm
+// router.patch('/update/farm/:farm_id/user/:user_id', checkEditPrivilege(), userFarmController.updateUser());
+
+// Update wage of userFarm
+// TODO: limit permission 12--
+router.patch('/wage/farm/:farm_id/user/:user_id', userFarmController.updateUserFarmWage());
 
 module.exports = router;

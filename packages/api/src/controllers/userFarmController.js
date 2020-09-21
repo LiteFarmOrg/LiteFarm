@@ -42,7 +42,7 @@ class userFarmController extends baseController {
   static getUserFarmByUserID() {
     return async (req, res) => {
       try {
-        const user_id = req.params.id;
+        const user_id = req.params.user_id;
         const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id)
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
@@ -58,7 +58,19 @@ class userFarmController extends baseController {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
+  }
+
+  static getUserFarmsByFarmID() {
+    return async (req, res) => {
+
+    };
+  }
+
+  static getActiveUserFarmsByFarmID() {
+    return async (req, res) => {
+      
+    };
   }
 
   static getFarmInfo() {
@@ -76,7 +88,7 @@ class userFarmController extends baseController {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static addUserFarm() {
@@ -169,7 +181,7 @@ class userFarmController extends baseController {
       } catch (error) {
         res.send(error);
       }
-    }
+    };
   }
 
   static updateConsent() {
@@ -299,6 +311,12 @@ class userFarmController extends baseController {
         await trx.rollback();
         res.status(400).send(error);
       }
+    };
+  }
+
+  static updateUserFarmWage() {
+    return async (req, res) => {
+      
     };
   }
 

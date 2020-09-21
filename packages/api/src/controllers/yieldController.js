@@ -19,6 +19,7 @@ const { transaction, Model } = require('objection');
 
 
 class YieldController extends baseController {
+
   static addYield() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -85,7 +86,7 @@ class YieldController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(yieldModel, 'farm_id', farm_id);
+        const rows = await YieldController.getByForeignKey(yieldModel, 'farm_id', farm_id);
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -100,6 +101,13 @@ class YieldController extends baseController {
         });
       }
     }
+  }
+
+  static async getByForeignKey(farm_id) {
+
+    const yields = await yieldModel.query().whereNotDeleted().select('*').from('yield').where('yield.farm_id', farm_id);
+
+    return fields;
   }
 }
 

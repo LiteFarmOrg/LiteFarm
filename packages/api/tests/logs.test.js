@@ -343,11 +343,11 @@ describe('taskType Tests', () => {
         crops: [ { field_crop_id: 8 } ],
         fields: [ { field_id: 'b2a02944-3f36-4975-86aa-153dabceda9c' } ],
         fertilizer_id: 4,
-        notes: ''
+        notes: 'sequi ut hic'
       }
       let fakeActivityLog = newFakeActivityLog('fertilizing');
       fakefertilizingLog = mocks.fakeFertilizerLog();
-      let fertilizer = await mocks.fertilizerFactory({promisedFarm:[farm]});
+      let [fertilizer] = await mocks.fertilizerFactory({promisedFarm:[farm]});
       let [crop1] = await mocks.cropFactory({promisedFarm: [farm]});
       let [crop2] = await mocks.cropFactory({promisedFarm: [farm]});
       let [field1] = await mocks.fieldFactory({promisedFarm: [farm]});
@@ -358,13 +358,19 @@ describe('taskType Tests', () => {
 
       const data = {...fakeActivityLog, ...fakefertilizingLog, fertilizer_id: fertilizer.fertilizer_id, crops:[fieldCrop1, fieldCrop2, fieldCrop3], fields: [field1, field2]};
 
-      postRequest(data, {}, async (err, res) => {
+
+      sampleInput.user_id = newOwner.user_id;
+      sampleInput.crops = [{field_crop_id: fieldCrop1.field_crop_id}];
+      sampleInput.fields = [{field_id: field1.field_id}];
+      sampleInput.fertilizer_id = fertilizer.fertilizer_id;
+
+      postRequest(sampleInput, {}, async (err, res) => {
         console.log(fakefertilizingLog,res.error);
-        expect(res.status).toBe(201);
+        expect(res.status).toBe(200);
         const activityLog = await activityLogModel.query().where('user_id',newOwner.user_id);
         expect(activityLog.length).toBe(1);
-        expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-        const fertilizerLog = await fertilizerLogModel.query().where('activity_id',activityLog.activity_id);
+        expect(activityLog[0].notes).toBe('sequi ut hic');
+        const fertilizerLog = await fertilizerLogModel.query().where('activity_id',activityLog[0].activity_id);
         expect(fertilizerLog.length).toBe(1);
         expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
         done();

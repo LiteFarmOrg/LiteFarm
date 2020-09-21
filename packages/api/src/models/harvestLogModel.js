@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class HarvestLog extends Model {
+class HarvestLog extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'harvestLog';
   }

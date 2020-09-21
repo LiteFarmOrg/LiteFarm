@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
       t.boolean('deleted').notNullable().defaultTo(false);
     }),
     knex.schema.alterTable('pestControlLog', (t)=>{
-      t.boolean('deleted').notNullable().defaultTo(false).alter();
+      t.boolean('deleted').notNullable().defaultTo(false);
     }),
     knex.schema.alterTable('scoutingLog', (t)=>{
       t.boolean('deleted').notNullable().defaultTo(false);

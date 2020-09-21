@@ -16,17 +16,16 @@
 const express = require('express');
 const router = express.Router();
 const yieldController = require('../controllers/yieldController');
-// const authFarmId = require('../middleware/acl/authFarmId');
-// const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 // Get the crop on a bed
-router.get('/farm/:farm_id', checkScope(['get:yields']), yieldController.getYieldByFarmId());
+router.get('/farm/:farm_id', hasFarmAccess(), checkScope(['get:yields']), yieldController.getYieldByFarmId());
 
-router.post('/', checkScope(['add:yields']), yieldController.addYield());
+router.post('/', hasFarmAccess(), checkScope(['add:yields']), yieldController.addYield());
 
-router.put('/:id', checkScope(['edit:yields']), yieldController.updateYield());
+router.put('/:id', hasFarmAccess(), checkScope(['edit:yields']), yieldController.updateYield());
 
-router.delete('/:id', checkScope(['delete:yields']), yieldController.delYield());
+router.delete('/:id', hasFarmAccess(), checkScope(['delete:yields']), yieldController.delYield());
 
 module.exports = router;

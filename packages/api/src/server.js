@@ -40,7 +40,7 @@ const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
 //const shiftTaskRoutes = require('./routes/shiftTaskRoute');
 const taskTypeRoutes = require('./routes/taskTypeRoute');
-const todoRoutes = require('./routes/todoRoute');
+// const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
 // const notificationRoutes = require('./routes/notificationRoute');
@@ -102,7 +102,7 @@ app.use(bodyParser.json())
   .use('/sale', saleRoutes)
   //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
-  .use('/todo', todoRoutes)
+  // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   // .use('/notification', notificationRoutes)

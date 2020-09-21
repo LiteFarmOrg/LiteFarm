@@ -195,7 +195,8 @@ async function activityLogFactory({ promisedUser = usersFactory() } = {}, activi
 
 function fakeActivityLog() {
   return {
-    activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other']),
+    activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest',
+      'seeding', 'fieldWork', 'weatherData', 'soilData', 'other']),
     date: faker.date.future(),
     notes: faker.lorem.words(),
   }

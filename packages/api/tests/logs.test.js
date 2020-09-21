@@ -26,7 +26,7 @@ const knex = Knex(config);
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
-
+const { tableCleanup } = require('./testEnvironment')
 
 const activityCropsModel = require('../src/models/activityCropsModel');
 const fertilizerLogModel = require('../src/models/fertilizerLogModel');
@@ -37,7 +37,7 @@ const fieldWorkLogModel = require('../src/models/fieldWorkLogModel');
 const soilDataLogModel = require('../src/models/soilDataLogModel');
 const seedLogModel = require('../src/models/seedLogModel');
 const harvestLogModel = require('../src/models/harvestLogModel');
-
+const activityLogModel = require('../src/models/activityLogModel');
 
 describe('taskType Tests', () => {
   let middleware;
@@ -75,12 +75,13 @@ describe('taskType Tests', () => {
     return ({...mocks.fakeUserFarm(),role_id:role});
   }
 
-  function getFakeTaskType(farm_id = farm.farm_id){
-    const taskType = mocks.fakeTaskType();
-    return ({...taskType, farm_id});
+  function newFakeActivityLog(activity_kind, user_id = newOwner.user_id){
+    const activityLog = mocks.fakeActivityLog();
+    return ({...activityLog, user_id, activity_kind});
   }
 
   beforeEach(async () => {
+    // await tableCleanup(knex);
     [newOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -93,14 +94,8 @@ describe('taskType Tests', () => {
     });
   })
 
-  afterEach (async () => {
-    await knex.raw(`
-    DELETE FROM "taskType";
-    DELETE FROM "userFarm";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
+  afterAll (async () => {
+    await tableCleanup(knex);
   });
 
   describe('Get && delete logs',()=>{
@@ -322,14 +317,42 @@ describe('taskType Tests', () => {
 
 
 
-  describe('Post taskType', () => {
-    let fakeTaskType;
-
+  describe('Post log', () => {
+    let fakefertilizingLog;
+    let fakepestControlLog;
+    let fakescoutingLog;
+    let fakeirrigationLog;
+    let fakeharvestLog;
+    let fakeseedingLog;
+    let fakefieldWorkLog;
+    let fakeweatherDataLog;
+    let fakesoilDataLog;
+    let fakeotherLog;
+    let fakeActivityLog;
     beforeEach(async()=>{
-        fakeTaskType = getFakeTaskType();
+
     })
 
-    describe('Post taskType authorization tests', ()=>{
+
+    test('Owner should post and get a valid fertilizingLog', async (done) => {
+      let fakeActivityLog = newFakeActivityLog('fertilizing');
+      fakefertilizingLog = mocks.fakeFertilizerLog();
+      let fertilizer = await mocks.fertilizerFactory({promisedFarm:[farm]});
+      const data = {...fakeActivityLog, ...fakefertilizingLog, fertilizer_id: fertilizer.fertilizer_id};
+      postRequest(data, {}, async (err, res) => {
+        console.log(fakefertilizingLog,res.error);
+        expect(res.status).toBe(201);
+        const activityLog = await activityLogModel.query().where('user_id',newOwner.user_id);
+        expect(activityLog.length).toBe(1);
+        expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
+        const fertilizerLog = await fertilizerLogModel.query().where('activity_id',activityLog.activity_id);
+        expect(fertilizerLog.length).toBe(1);
+        expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
+        done();
+      })
+    });
+
+    describe('Post log authorization tests', ()=>{
 
       let newWorker;
       let manager;

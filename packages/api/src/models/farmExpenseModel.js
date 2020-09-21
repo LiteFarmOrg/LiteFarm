@@ -40,6 +40,7 @@ class Expense extends Model {
         picture: { type: 'string' },
         note: { type: 'string', minLength: 1, maxLength: 255 },
         expense_type_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

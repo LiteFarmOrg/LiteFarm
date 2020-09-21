@@ -36,6 +36,7 @@ class Role extends Model {
           type: 'string',
           enum: ['Owner', 'Manager', 'Worker'],
         },
+        deleted: { type: 'boolean' },
       },
     };
   }

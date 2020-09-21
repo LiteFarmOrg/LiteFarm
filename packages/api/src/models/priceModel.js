@@ -36,6 +36,7 @@ class Price extends Model {
         'value_$/kg': { type: 'integer' },
         date: { type: 'date-time' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

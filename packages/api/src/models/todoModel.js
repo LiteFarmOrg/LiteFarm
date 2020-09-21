@@ -36,6 +36,7 @@ class Todo extends Model {
         todo_id: { type: 'string', minLength: 1, maxLength: 255 },
         todo_text: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
+        deleted: { type: 'boolean' },
       },
     };
   }

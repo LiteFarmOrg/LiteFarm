@@ -36,6 +36,7 @@ class ExpenseType extends Model {
         expense_type_id: { type: 'string' },
         expense_name: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

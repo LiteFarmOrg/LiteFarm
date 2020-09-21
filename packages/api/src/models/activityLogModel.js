@@ -39,6 +39,7 @@ class activityLogModel extends Model {
         notes: { type: 'string' },
         action_needed: { type: 'boolean' },
         user_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

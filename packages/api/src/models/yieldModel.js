@@ -36,6 +36,7 @@ class Yield extends Model {
         'quantity_kg/m2': { type: 'integer' },
         date: { type: 'date-time' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

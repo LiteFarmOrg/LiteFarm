@@ -37,6 +37,7 @@ class Sale extends Model {
         customer_name: { type: 'string', minLength: 1, maxLength: 255 },
         sale_date: { type: 'string', minLength: 1, maxLength: 255 },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

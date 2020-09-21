@@ -35,6 +35,7 @@ class Plan extends Model {
         plan_id: { type: 'string' },
         plan_config: { type: 'object' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

@@ -58,9 +58,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'activityLog.activity_id',
           to: 'fertilizerLog.activity_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
       },
       pestControlLog: {
         relation: Model.HasOneRelation,
@@ -71,9 +68,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
         join: {
           from: 'activityLog.activity_id',
           to: 'pestControlLog.activity_id',
-        },
-        filter: (f) => {
-          f.whereNotDeleted();
         },
       },
       irrigationLog: {
@@ -86,9 +80,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'activityLog.activity_id',
           to: 'irrigationLog.activity_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
       },
       scoutingLog:{
         relation: Model.HasOneRelation,
@@ -99,9 +90,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
         join: {
           from: 'activityLog.activity_id',
           to: 'scoutingLog.activity_id',
-        },
-        filter: (f) => {
-          f.whereNotDeleted();
         },
       },
       soilDataLog:{
@@ -114,9 +102,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'activityLog.activity_id',
           to: 'soilDataLog.activity_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
       },
       fieldWorkLog:{
         relation: Model.HasOneRelation,
@@ -127,9 +112,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
         join: {
           from: 'activityLog.activity_id',
           to: 'fieldWorkLog.activity_id',
-        },
-        filter: (f) => {
-          f.whereNotDeleted();
         },
       },
       harvestLog:{
@@ -142,9 +124,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'activityLog.activity_id',
           to: 'harvestLog.activity_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
       },
       seedLog:{
         relation: Model.HasOneRelation,
@@ -155,9 +134,6 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
         join: {
           from: 'activityLog.activity_id',
           to: 'seedLog.activity_id',
-        },
-        filter: (f) => {
-          f.whereNotDeleted();
         },
       },
       fieldCrop:{

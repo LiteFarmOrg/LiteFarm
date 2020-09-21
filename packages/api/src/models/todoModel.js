@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class Todo extends Model {
+class Todo extends softDelete({columnName: 'deleted'})(Model) {
   static get tableName() {
     return 'todo';
   }
@@ -36,6 +37,7 @@ class Todo extends Model {
         todo_id: { type: 'string', minLength: 1, maxLength: 255 },
         todo_text: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
+        deleted: { type: 'boolean' },
       },
     };
   }

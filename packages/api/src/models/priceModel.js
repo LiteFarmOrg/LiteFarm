@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class Price extends Model {
+class Price extends softDelete({columnName: 'deleted'})(Model) {
   static get tableName() {
     return 'price';
   }
@@ -36,6 +37,7 @@ class Price extends Model {
         'value_$/kg': { type: 'integer' },
         date: { type: 'date-time' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

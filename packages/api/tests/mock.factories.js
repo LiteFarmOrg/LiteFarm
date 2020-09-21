@@ -94,6 +94,13 @@ async function cropFactory({ promisedFarm = farmFactory() } = {}, crop = fakeCro
   return knex('crop').insert({ farm_id, ...crop }).returning('*');
 }
 
+async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield = fakeYield()) {
+  // Get crop & crop_id
+  const [crop] = await Promise.all([promisedCrop]);
+  const [{ crop_id }] = crop;
+  return knex('yield').insert({ crop_id, ...yield }).returning('*');
+}
+
 function fakeCrop() {
   return {
     crop_genus: faker.lorem.words(),
@@ -108,7 +115,7 @@ function fakeCrop() {
     max_rooting_depth: faker.random.number(10),
     depletion_fraction: faker.random.number(10),
     is_avg_depth: faker.random.boolean(),
-    initial_kc: faker.random.number(10),
+    initial_kc: faker.random.number(10),  
     mid_kc: faker.random.number(10),
     end_kc: faker.random.number(10),
     max_height: faker.random.number(10),
@@ -145,6 +152,13 @@ function fakeCrop() {
     user_added: faker.random.boolean(),
     deleted: false,
     nutrient_credits: faker.random.number(10),
+  }
+}
+
+function fakeYield() {
+  return {
+    quantity_kg: faker.random.number(100),
+    deleted: false,
   }
 }
 
@@ -456,5 +470,6 @@ module.exports = {
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
   fakeTaskType, taskTypeFactory,
-  fakeFieldForTests
+  fakeFieldForTests,
+  yieldFactory, fakeYield,
 }

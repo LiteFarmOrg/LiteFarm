@@ -134,6 +134,7 @@ class People extends Component {
     // ADD ROLE CHANGE
     if (editedUser.role_id && editedUser.role_id !== user.role_id) {
       finalUser.role_id = editedUser.role_id;
+      finalUser.has_consent = false;
       hasChanged = true;
     }
 

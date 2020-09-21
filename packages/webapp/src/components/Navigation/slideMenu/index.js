@@ -7,9 +7,11 @@ import vectorDown from '../../../assets/images/vector-down.svg';
 import styles from './styles.scss';
 import history from '../../../history';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+
 import {userInfoSelector, farmSelector} from '../../../containers/selector'
 
-class slideMenu extends React.Component {
+class SlideMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +23,13 @@ class slideMenu extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
   }
+  //TODO: Switch to useEffect
+  UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+    if(nextProps.farm && !nextProps.farm.has_consent && this.props.location.pathname!=='/consent' && this.props.location.pathname!=='/farm_selection'){
+      history.push('/consent', { role_id: nextProps.farm.role_id });
+    }
+  }
+
 
   toggleSupport = () => {
       this.setState({supportOpen : !this.state.supportOpen})
@@ -89,6 +98,9 @@ class slideMenu extends React.Component {
     );
   }
 
+
+
+
   handleStateChange(state) {
     this.setState({menuOpen: state.isOpen})
   }
@@ -97,6 +109,7 @@ class slideMenu extends React.Component {
     this.setState({menuOpen: !this.state.menuOpen})
   }
 }
+const slideMenuWithRoute = withRouter(props => <SlideMenu {...props}/>);
 
 const mapStateToProps = (state) => {
   return {
@@ -111,5 +124,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(slideMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(slideMenuWithRoute);
 

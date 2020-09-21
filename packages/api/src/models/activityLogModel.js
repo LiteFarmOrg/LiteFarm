@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 // const FertilizerLogModel = require('./fertilizerLogModel');
-class activityLogModel extends Model {
+class activityLogModel extends softDelete({columnName: 'deleted'})(Model) {
   static get tableName() {
     return 'activityLog';
   }
@@ -39,6 +40,7 @@ class activityLogModel extends Model {
         notes: { type: 'string' },
         action_needed: { type: 'boolean' },
         user_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
     };
   }

@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class Role extends Model {
+class Role extends softDelete({columnName: 'deleted'})(Model){
   static get tableName() {
     return 'role';
   }

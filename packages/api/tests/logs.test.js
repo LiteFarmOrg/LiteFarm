@@ -335,10 +335,29 @@ describe('taskType Tests', () => {
 
 
     test('Owner should post and get a valid fertilizingLog', async (done) => {
+      let sampleInput = {
+        activity_kind: 'fertilizing',
+        date: '2020-09-21T16:47:38.380Z',
+        user_id: '5f511b66e7ef8c0068e7af1d',
+        quantity_kg: 1,
+        crops: [ { field_crop_id: 8 } ],
+        fields: [ { field_id: 'b2a02944-3f36-4975-86aa-153dabceda9c' } ],
+        fertilizer_id: 4,
+        notes: ''
+      }
       let fakeActivityLog = newFakeActivityLog('fertilizing');
       fakefertilizingLog = mocks.fakeFertilizerLog();
       let fertilizer = await mocks.fertilizerFactory({promisedFarm:[farm]});
-      const data = {...fakeActivityLog, ...fakefertilizingLog, fertilizer_id: fertilizer.fertilizer_id};
+      let [crop1] = await mocks.cropFactory({promisedFarm: [farm]});
+      let [crop2] = await mocks.cropFactory({promisedFarm: [farm]});
+      let [field1] = await mocks.fieldFactory({promisedFarm: [farm]});
+      let [field2] = await mocks.fieldFactory({promisedFarm: [farm]});
+      let [fieldCrop1] = await mocks.fieldCropFactory({promisedCrop: [crop1], promisedField: [field1]});
+      let [fieldCrop2] = await mocks.fieldCropFactory({promisedCrop: [crop2], promisedField: [field1]});
+      let [fieldCrop3] = await mocks.fieldCropFactory({promisedCrop: [crop2], promisedField: [field2]});
+
+      const data = {...fakeActivityLog, ...fakefertilizingLog, fertilizer_id: fertilizer.fertilizer_id, crops:[fieldCrop1, fieldCrop2, fieldCrop3], fields: [field1, field2]};
+
       postRequest(data, {}, async (err, res) => {
         console.log(fakefertilizingLog,res.error);
         expect(res.status).toBe(201);

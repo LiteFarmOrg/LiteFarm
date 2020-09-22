@@ -277,7 +277,7 @@ class NewField extends Component {
       case CLEAR_BUTTON:
         this.state.polygon.overlay.setMap(null);
         this.state.drawingManager.setDrawingMode(this.state.supportedDrawingModes.POLYGON);
-        this.setState({ isMove: false, isDraw: true, gridPoints: null, polygon: null, area: null, center: null });
+        this.setState({ isMove: false, isDraw: true, gridPoints: null, polygon: null, area: null});
         break;
       case NEXT_BUTTON:
         this.setState({ step: this.state.step + 1 });
@@ -288,7 +288,7 @@ class NewField extends Component {
           this.state.gridPoints,
           this.state.area,
           ));
-        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null, center: null });
+        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null});
         break;
       default:
         break;

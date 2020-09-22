@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class Yield extends Model {
+class Yield extends softDelete({columnName: 'deleted'})(Model){
   static get tableName() {
     return 'yield';
   }
@@ -36,6 +37,7 @@ class Yield extends Model {
         'quantity_kg/m2': { type: 'integer' },
         date: { type: 'date-time' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
       },
       additionalProperties: false,
     };

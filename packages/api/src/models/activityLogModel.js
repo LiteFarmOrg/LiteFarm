@@ -148,9 +148,7 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           },
           to: 'fieldCrop.field_crop_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
       field:{
         modelClass:require('./fieldModel'),
@@ -164,9 +162,7 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           },
           to: 'field.field_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
     };
   }

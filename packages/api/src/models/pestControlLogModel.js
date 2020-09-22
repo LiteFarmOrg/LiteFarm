@@ -15,9 +15,8 @@
 
 const Model = require('objection').Model;
 const lodash = require('lodash');
-const softDelete = require('objection-soft-delete');
 
-class PestControlLog extends softDelete({ columnName: 'deleted' })(Model) {
+class PestControlLog extends Model {
   static get tableName() {
     return 'pestControlLog';
   }
@@ -41,7 +40,6 @@ class PestControlLog extends softDelete({ columnName: 'deleted' })(Model) {
       properties: {
         activity_id: { type: 'integer' },
         pesticide_id: { type: 'integer' },
-        deleted: { type: 'boolean' },
         quantity_kg: { type: 'number' },
         type: {
           type: 'string',

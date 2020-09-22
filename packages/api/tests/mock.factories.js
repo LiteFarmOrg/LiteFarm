@@ -217,6 +217,26 @@ function fakeFertilizerLog() {
 
 }
 
+async function activityCropsLogFactory({
+                                      promisedActivityLog = activityLogFactory(),
+                                      promisedFieldCrop = fieldCropFactory()
+                                    } = {}) {
+  const [activityLog, fieldCrop] = await Promise.all([promisedActivityLog, promisedFieldCrop]);
+  const [{ activity_id }] = activityLog;
+  const [{ field_crop_id }] = fieldCrop;
+  return knex('activityCrops').insert({ activity_id, field_crop_id }).returning('*')
+}
+
+async function activityFieldLogFactory({
+                                         promisedActivityLog = activityLogFactory(),
+                                         promisedField = fieldFactory()
+                                       } = {}) {
+  const [activityLog, field] = await Promise.all([promisedActivityLog, promisedField]);
+  const [{ activity_id }] = activityLog;
+  const [{ field_id }] = field;
+  return knex('activityFields').insert({ activity_id, field_id }).returning('*')
+}
+
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
   const [farm] = await Promise.all([promisedFarm]);
   const [{ farm_id }] = farm;
@@ -457,5 +477,6 @@ module.exports = {
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
   fakeTaskType, taskTypeFactory,
-  fakeFieldForTests
+  fakeFieldForTests,
+  activityCropsLogFactory, activityFieldLogFactory,
 }

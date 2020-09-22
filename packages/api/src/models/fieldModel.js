@@ -60,9 +60,7 @@ class Field extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'field.field_id',
           to: 'fieldCrop.field_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
     };
   }

@@ -14,9 +14,8 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
 
-class HarvestLog extends softDelete({ columnName: 'deleted' })(Model) {
+class HarvestLog extends Model {
   static get tableName() {
     return 'harvestLog';
   }
@@ -34,7 +33,6 @@ class HarvestLog extends softDelete({ columnName: 'deleted' })(Model) {
 
       properties: {
         quantity_kg: { type: 'float' },
-        deleted: { type: 'boolean' },
       },
     };
   }
@@ -52,9 +50,7 @@ class HarvestLog extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'harvestLog.activity_id',
           to: 'activityLog.activity_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
 
     };

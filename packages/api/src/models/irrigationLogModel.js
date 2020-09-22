@@ -14,9 +14,8 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
 
-class IrrigationLog extends softDelete({ columnName: 'deleted' })(Model) {
+class IrrigationLog extends Model {
   static get tableName() {
     return 'irrigationLog';
   }
@@ -34,7 +33,6 @@ class IrrigationLog extends softDelete({ columnName: 'deleted' })(Model) {
 
       properties: {
         activity_id: { type: 'integer' },
-        deleted: { type: 'boolean' },
         type: {
           type: 'string',
           enum:['sprinkler', 'drip', 'subsurface', 'flood'],
@@ -63,9 +61,7 @@ class IrrigationLog extends softDelete({ columnName: 'deleted' })(Model) {
           from: 'irrigationLog.activity_id',
           to: 'activityLog.activity_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
 
     };

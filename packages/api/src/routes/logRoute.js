@@ -20,8 +20,10 @@ const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 router.post('/', logController.logController.addLog());
-router.get('/', hasFarmAccess, checkScope(['get:logs']), logController.logController.getLog());
-router.put('/:log_id', hasFarmAccess, checkScope(['edit:logs']), logController.logController.putLog());
-router.delete('/:log_id', hasFarmAccess, checkScope(['delete:logs']), logController.logController.deleteLog());
+//TODO get log by id specification
+router.get('/:activity_id', checkScope(['get:logs']), logController.logController.getLogByActivityId());
+router.get('/farm/:farm_id', checkScope(['get:logs']), logController.logController.getLogByFarmId());
+router.put('/:activity_id', checkScope(['edit:logs']), logController.logController.putLog());
+router.delete('/:activity_id', checkScope(['delete:logs']), logController.logController.deleteLog());
 
 module.exports = router;

@@ -57,9 +57,7 @@ class Sale extends softDelete({columnName: 'deleted'})(Model){
           },
           to: 'crop.crop_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
       cropSale: {
         relation: Model.HasManyRelation,

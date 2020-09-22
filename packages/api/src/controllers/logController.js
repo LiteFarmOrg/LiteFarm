@@ -51,7 +51,7 @@ class logController extends baseController {
   }
 
 
-  static getLog(){
+  static getLog1(){
     return async (req, res) => {
       try{
         const query = req.query;
@@ -59,6 +59,7 @@ class logController extends baseController {
           var logId = (query.logId != null) ? query.logId : query.logid;
 
           var log = await logServices.getLogById(logId);
+          console.log(logId,log);
           res.json(log);
         }else if(query.farmId || query.farmid){
           //find by user id
@@ -79,11 +80,50 @@ class logController extends baseController {
     }
   }
 
+  static getLogByActivityId(){
+    return async (req, res) => {
+      try{
+        if(req.params.activity_id){
+          const activity_id = req.params.activity_id
+          const log = await logServices.getLogById(activity_id);
+          res.json(log);
+        }else{
+          res.status(200).json([]);
+        }
+      }catch(exception){
+        const error = ExceptionHandler.handleException(exception);
+        res.status(error.status).json({ error:error.message });
+      }
+    }
+  }
+
+  static getLogByFarmId(){
+    return async (req, res) => {
+      try{
+        if(req.params.farm_id){
+          const farm_id = req.params.farm_id
+          const logs = await logServices.getLogByFarm(farm_id);
+          if(logs && !logs.length){
+            //TODO: replace [{}] with []
+            res.json([{}]);
+          }else{
+            res.json(logs);
+          }
+        }else{
+          res.status(200).json([]);
+        }
+      }catch(exception){
+        const error = ExceptionHandler.handleException(exception);
+        res.status(error.status).json({ error:error.message });
+      }
+    }
+  }
+
   static deleteLog(){
     return async (req, res) => {
       try{
-        if(req.params.log_id){
-          await logServices.deleteLog(req.params.log_id);
+        if(req.params.activity_id){
+          await logServices.deleteLog(req.params.activity_id);
           res.sendStatus(200);
         }else{
           throw { code:400, message:'No log id defined' }
@@ -99,9 +139,9 @@ class logController extends baseController {
   static putLog(){
     return async(req, res)=>{
       try{
-        if(req.params.log_id){
+        if(req.params.activity_id){
           const transac = await transaction.start(Model.knex());
-          await logServices.patchLog(req.params.log_id, transac, req.body);
+          await logServices.patchLog(req.params.activity_id, transac, req.body);
           await transac.commit();
           res.sendStatus(200);
         }else{

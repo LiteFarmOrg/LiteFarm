@@ -38,6 +38,7 @@ class WaterBalance extends Model {
         soil_water: { type: 'float' },
         plant_available_water: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 }

@@ -39,6 +39,7 @@ class Price extends softDelete({columnName: 'deleted'})(Model) {
         farm_id: { type: 'string' },
         deleted: { type: 'boolean' },
       },
+      additionalProperties: false,
     };
   }
 }

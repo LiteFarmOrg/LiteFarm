@@ -41,6 +41,7 @@ class PlantingLog extends Model {
         space_unit: { type: 'string' },
         rate_unit: { type: 'integer' },
       },
+      additionalProperties: false,
     };
   }
 }

@@ -112,7 +112,7 @@ class farmController extends baseController {
         if(!!req.body.address || !!req.body.grid_points) {
           throw new Error('Not allowed to modify address or gridPoints')
         }
-        const updated = await baseController.put(farmModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx);
 
         await trx.commit();
         if (!updated.length) {

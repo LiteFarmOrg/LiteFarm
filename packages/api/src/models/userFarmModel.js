@@ -55,6 +55,7 @@ class userFarm extends Model {
           },
         },
       },
+      additionalProperties: false,
     };
   }
 

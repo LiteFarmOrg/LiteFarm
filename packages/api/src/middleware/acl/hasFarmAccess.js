@@ -3,7 +3,7 @@ const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
 const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
-  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id']
+  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id' ]
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -15,18 +15,24 @@ const entitiesGetters = {
   disease_id: fromDisease,
   farm_id: (farm_id) => ({ farm_id }),
 }
-module.exports = (isGet = false) => async (req, res, next) => {
-  const data = Object.keys(req.body).length === 0 ? req.params : req.body;
-  const headers = req.headers;
-  const { farm_id } = headers;
-  const entityMatched = orderedEntities.find((k) => !!data[k]);
-  // Has no farm relation
-  if (!entityMatched) {
+module.exports = ({ params = null, body = null }) => async (req, res, next) => {
+  let id_name;
+  let id;
+  if(params){
+    id_name = params;
+    id = req.params[id_name];
+  }else{
+    id_name = body;
+    id = req.body[id_name];
+  }
+  if (!id_name) {
     return next()
   }
-  const farmIdObjectFromEntity = await entitiesGetters[entityMatched](data[entityMatched]);
+  const { farm_id } = req.headers;
+  const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
   // Is getting a seeded table and accessing community data. Go through.
-  if(seededEntities.includes(entityMatched) && isGet && farmIdObjectFromEntity.farm_id === null) {
+  // TODO: try to delete seeded data
+  if(seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
     return next();
   }
   return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);

@@ -40,6 +40,7 @@ class weatherHourly extends Model {
         wind_speed: { type: 'float' },
         station_id: { type: 'integer' },
       },
+      additionalProperties: false,
     };
   }
 }

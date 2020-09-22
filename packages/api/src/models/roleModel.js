@@ -39,6 +39,7 @@ class Role extends softDelete({columnName: 'deleted'})(Model){
         },
         deleted: { type: 'boolean' },
       },
+      additionalProperties: false,
     };
   }
 }

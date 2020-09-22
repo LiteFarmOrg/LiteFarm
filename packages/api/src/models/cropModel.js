@@ -98,6 +98,7 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
         refuse: { type : 'string' },
         nutrient_credits: { type : 'number' },
       },
+      additionalProperties: false,
     };
   }
 

@@ -70,6 +70,13 @@ describe('Yield Tests', () => {
           .end(callback)
       }
 
+    function getRequest({user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+    chai.request(server).get(`/yield/farm/${farm_id}`)
+        .set('user_id', user_id)
+        .set('farm_id', farm_id)
+        .end(callback)
+    }
+
 
     // GLOBAL BEFOREEACH
     beforeEach(async () => {
@@ -234,6 +241,60 @@ describe('Yield Tests', () => {
               })
         })
 
+    })
+
+    // GET TESTS
+    describe('Get yield tests', ()=>{
+  
+        test('Owner should get yield by farm id', async (done)=>{
+            let [ownerFarm1] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
+            let [ownerCrop1] = await mocks.cropFactory({promisedFarm: [ownerFarm1]});
+            let [ownerYield1] = await mocks.yieldFactory({promisedCrop: [ownerCrop1]});
+            getRequest({user_id: newOwner.user_id},(err,res)=>{
+              expect(res.status).toBe(200);
+              expect(res.body[0].farm_id).toBe(ownerYield1.farm_id);
+              done();
+            });
+        })
+
+        test('Manager should get yield by farm id', async (done)=>{
+            let [newManager] = await mocks.usersFactory();
+            let [managerFarm1] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
+            let [managerCrop1] = await mocks.cropFactory({promisedFarm: [managerFarm1]});
+            let [managerYield1] = await mocks.yieldFactory({promisedCrop: [managerCrop1]});
+            getRequest({user_id: newManager.user_id},(err,res)=>{
+              expect(res.status).toBe(200);
+              expect(res.body[0].farm_id).toBe(managerYield1.farm_id);
+              done();
+            });
+        })
+
+        test('Worker should get yield by farm id', async (done)=>{
+            let [newWorker] = await mocks.usersFactory();
+            let [workerFarm1] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(2));
+            let [workerCrop1] = await mocks.cropFactory({promisedFarm: [workerFarm1]});
+            let [workerYield1] = await mocks.yieldFactory({promisedCrop: [workerCrop1]});
+            getRequest({user_id: newWorker.user_id},(err,res)=>{
+              expect(res.status).toBe(200);
+              expect(res.body[0].farm_id).toBe(workerYield1.farm_id);
+              done();
+            });
+        })
+
+        test('Should get status 403 if an unauthorizedUser tries to get yield by farm id', async (done) => {
+            let [unAuthorizedUser] = await mocks.usersFactory();
+            let [farmunAuthorizedUser] = await mocks.farmFactory();
+            let [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+            let [unauthorizedCrop] = await mocks.cropFactory({promisedFarm: [ownerFarmunAuthorizedUser]});
+            let [unauthorizedYield] = await mocks.yieldFactory({promisedCrop: [unauthorizedCrop]});
+
+            getRequest({user_id: unAuthorizedUser.user_id},(err,res)=>{
+                expect(res.status).toBe(403);
+                done();
+              });
+        })
+  
+  
     })
 
 })

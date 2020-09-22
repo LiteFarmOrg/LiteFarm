@@ -209,7 +209,9 @@ class logServices extends baseController {
     const activityLog = await super.updateIndividualById(ActivityLogModel, logId, updatedLog, transaction);
 
     //insert fieldCrops,fields
+    // TODO: change body.crops to body.fieldCrops
     await super.relateModels(activityLog, fieldCrop, updatedLog.crops, transaction);
+    // TODO: Deprecate fields field in req.body
     await super.relateModels(activityLog, field, updatedLog.fields, transaction);
 
     var logKind = getActivityModelKind(log[0].activity_kind);

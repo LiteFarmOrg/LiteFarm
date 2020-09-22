@@ -2,8 +2,6 @@ const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
-const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
-  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id' ]
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -14,10 +12,14 @@ const entitiesGetters = {
   task_type_id: fromTask,
   disease_id: fromDisease,
   farm_id: (farm_id) => ({ farm_id }),
+  fertilizerLog: fromFertilizerLog,
 }
-module.exports = ({ params = null, body = null }) => async (req, res, next) => {
+module.exports = ({ params = null, body = null, customized = null }) => async (req, res, next) => {
   let id_name;
   let id;
+  if(customized){
+    return entitiesGetters[customized](req, res, next);
+  }
   if(params){
     id_name = params;
     id = req.params[id_name];
@@ -73,4 +75,20 @@ function sameFarm(object, farm) {
 
 function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
+}
+
+async function fromFertilizerLog(req, res, next){
+  const { header_user_id, header_farm_id } = req.headers;
+  const { params_farm_id, header_activity_id } = req.params;
+  const body = req.body;
+  if(body.farm_id || body.user_id || body.activity_id || header_farm_id!==params_farm_id){
+    res.sendStatus(400);
+  }
+  const ActivityLogModel = require('../models/activityLogModel');
+  let logs = await ActivityLogModel.query().whereNotDeleted()
+    .distinct('activityLog.activity_id', 'activityLog.user_id')
+    .join('userFarm', {})
+    .join('users', 'users.user_id', '=', 'activityLog.user_id')
+    .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+    .where('farm.farm_id', header_farm_id);
 }

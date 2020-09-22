@@ -20,17 +20,14 @@ const { transaction, Model } = require('objection');
 
 class YieldController extends baseController {
 
+  constructor() {
+    super();
+  }
+
   static addYield() {
-    console.log("enter add yield fn")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const farm_id = req.params.farm_id;
-        const body_farm_id = req.body.farm_id;
-        // another check for farm_id after ACL
-        if(farm_id !== body_farm_id){
-          res.status(400).send({ error: 'farm_id does not match in params and body' });
-        }
         const result = await baseController.postWithResponse(yieldModel, req.body, trx);
         await trx.commit();
         res.status(201).send(result);
@@ -94,8 +91,6 @@ class YieldController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const rows = await YieldController.getByForeignKey(farm_id);
-        console.log("rows is")
-        console.log(rows)
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -113,7 +108,7 @@ class YieldController extends baseController {
   }
 
   static async getByForeignKey(farm_id) {
-    const yields = await yieldModel.query().whereNotDeleted().select('*').from('yield').where('yield.farm_id', farm_id);
+    const yields = await yieldModel.query().select('*').from('yield').where('yield.farm_id', farm_id).and.whereNotDeleted();
 
     return yields;
   }

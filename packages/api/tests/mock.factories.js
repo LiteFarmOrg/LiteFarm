@@ -156,9 +156,13 @@ function fakeCrop() {
 
 function fakeYield() {
   return {
-    date: faker.date.future(),
+    yield_id: faker.random.number(100),
+    'quantity_kg/m2': faker.random.number(10),
+    date: faker.date.future(),  
   }
 }
+
+
 
 async function fieldCropFactory({ promisedField = fieldFactory(), promisedCrop = cropFactory() } = {}, fieldCrop = fakeFieldCrop()) {
   const [field, crop] = await Promise.all([promisedField, promisedCrop]);
@@ -470,4 +474,5 @@ module.exports = {
   fakeTaskType, taskTypeFactory,
   fakeFieldForTests,
   yieldFactory, fakeYield,
+  
 }

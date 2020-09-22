@@ -94,11 +94,10 @@ async function cropFactory({ promisedFarm = farmFactory() } = {}, crop = fakeCro
   return knex('crop').insert({ farm_id, ...crop }).returning('*');
 }
 
-async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield = fakeYield()) {
-  // Get crop & crop_id
+async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield1 = fakeYield()) {
   const [crop] = await Promise.all([promisedCrop]);
   const [{ crop_id }] = crop;
-  return knex('yield').insert({ crop_id, ...yield }).returning('*');
+  return knex('yield').insert({ crop_id, ...yield1 }).returning('*');
 }
 
 function fakeCrop() {
@@ -157,8 +156,7 @@ function fakeCrop() {
 
 function fakeYield() {
   return {
-    quantity_kg: faker.random.number(100),
-    deleted: false,
+    date: faker.date.future(),
   }
 }
 

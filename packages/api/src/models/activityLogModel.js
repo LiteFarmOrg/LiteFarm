@@ -43,6 +43,7 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
         action_needed: { type: 'boolean' },
         user_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {

@@ -34,6 +34,7 @@ class HarvestLog extends Model {
       properties: {
         quantity_kg: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 

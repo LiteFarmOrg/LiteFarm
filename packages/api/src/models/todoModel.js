@@ -37,6 +37,7 @@ class Todo extends Model {
         todo_text: { type: 'string' },
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
       },
+      additionalProperties: false,
     };
   }
 

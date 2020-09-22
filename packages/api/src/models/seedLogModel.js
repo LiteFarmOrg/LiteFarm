@@ -47,6 +47,7 @@ class SeedLogModel extends Model {
           type: 'float',
         },
       },
+      additionalProperties: false,
     };
   }
 

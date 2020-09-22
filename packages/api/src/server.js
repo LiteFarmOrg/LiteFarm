@@ -40,7 +40,7 @@ const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
 //const shiftTaskRoutes = require('./routes/shiftTaskRoute');
 const taskTypeRoutes = require('./routes/taskTypeRoute');
-const todoRoutes = require('./routes/todoRoute');
+// const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
 // const notificationRoutes = require('./routes/notificationRoute');
@@ -85,6 +85,9 @@ app.use(bodyParser.json())
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
+    }else if((req.method === 'DELETE' || req.method === 'GET') && Object.keys(req.body).length > 0){
+      // TODO: Find new bugs caused by this change
+      return res.sendStatus(400);
     }
     next();
   })
@@ -102,7 +105,7 @@ app.use(bodyParser.json())
   .use('/sale', saleRoutes)
   //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
-  .use('/todo', todoRoutes)
+  // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
   // .use('/notification', notificationRoutes)

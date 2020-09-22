@@ -19,8 +19,8 @@ const pesticideController = require('../controllers/pesticideController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 
-router.get('/farm/:farm_id', hasFarmAccess(), checkScope(['get:pesticides']), pesticideController.getPesticide());
-router.post('/', hasFarmAccess(), checkScope(['add:pesticides']), pesticideController.addPesticide());
-router.delete('/:pesticide_id', hasFarmAccess(), checkScope(['delete:pesticides']), pesticideController.delPesticide());
+router.get('/farm/:farm_id', hasFarmAccess({ params:'farm_id' }), checkScope(['get:pesticides']), pesticideController.getPesticide());
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:pesticides']), pesticideController.addPesticide());
+router.delete('/:pesticide_id', hasFarmAccess({ params: 'pesticide_id' }), checkScope(['delete:pesticides']), pesticideController.delPesticide());
 
 module.exports = router;

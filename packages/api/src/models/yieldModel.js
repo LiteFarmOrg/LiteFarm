@@ -37,6 +37,7 @@ class Yield extends Model {
         date: { type: 'date-time' },
         farm_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
 }

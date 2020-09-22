@@ -36,6 +36,7 @@ class NitrogenBalance extends Model {
         field_id: { type: 'string' },
         nitrogen_value: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 }

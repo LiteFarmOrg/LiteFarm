@@ -45,6 +45,7 @@ class Field extends softDelete({ columnName: 'deleted' })(Model) {
           },
         },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {

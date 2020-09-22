@@ -93,6 +93,10 @@ describe('Yield Tests', () => {
 
         let newWorker;
         let workerFarm;
+
+        let unAuthorizedUser;
+        let farmunAuthorizedUser;
+        let ownerFarmunAuthorizedUser;
       
        
 
@@ -107,6 +111,10 @@ describe('Yield Tests', () => {
 
             [newWorker] = await mocks.usersFactory();
             [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+
+            [unAuthorizedUser] = await mocks.usersFactory();
+            [farmunAuthorizedUser] = await mocks.farmFactory();
+            [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
        
 
          
@@ -114,7 +122,7 @@ describe('Yield Tests', () => {
 
         })
 
-        test.only('Owner should post and get valid yield', async (done) => {
+        test('Owner should post and get valid yield', async (done) => {
             let fakeYield1 = getFakeYield();
             fakeYield1.farm_id = ownerFarm.farm_id;
             postYieldRequest(fakeYield1, {user_id: newOwner.user_id, farm_id: ownerFarm.farm_id}, async (err, res) => {
@@ -126,7 +134,7 @@ describe('Yield Tests', () => {
               })
         })
 
-        test.only('Manager should post and get a valid yield', async (done) => {
+        test('Manager should post and get a valid yield', async (done) => {
             let fakeYield2 = getFakeYield();
             fakeYield2.farm_id = managerFarm.farm_id;
             postYieldRequest(fakeYield2, {user_id: newManager.user_id, farm_id: managerFarm.farm_id}, async (err, res) => {
@@ -138,15 +146,24 @@ describe('Yield Tests', () => {
             })
         });
 
-        test.only('Worker should not post and get a valid yield', async (done) => {
+        test('Should return 403 when worker tries to post yield', async (done) => {
             let fakeYield3 = getFakeYield();
             fakeYield3.farm_id = workerFarm.farm_id;
             postYieldRequest(fakeYield3, {user_id: newWorker.user_id, farm_id: workerFarm.farm_id}, async (err, res) => {
                 expect(res.status).toBe(403);
-                expect(res.error.text).toBe("User does not have the following permission(s): add:fields");
+                expect(res.error.text).toBe("User does not have the following permission(s): add:yields");
                 done();
             })
         });
+
+        test('Should return 403 when unauthorized user tries to post yield', async (done) => {
+            let fakeYield4 = getFakeYield();
+            fakeYield4.farm_id = ownerFarmunAuthorizedUser.farm_id;
+            postYieldRequest(fakeYield4, {user_id: unAuthorizedUser.user_id}, (err, res) => {
+              expect(res.status).toBe(403);
+              done();
+            });
+          });
 
     })
 

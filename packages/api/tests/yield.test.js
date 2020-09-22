@@ -77,6 +77,14 @@ describe('Yield Tests', () => {
         .end(callback)
     }
 
+    function deleteRequest(data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+        const {yield_id} = data;
+        chai.request(server).delete(`/yield/${yield_id}`)
+          .set('user_id', user_id)
+          .set('farm_id', farm_id)
+          .end(callback)
+      }
+
 
     // GLOBAL BEFOREEACH
     beforeEach(async () => {
@@ -296,5 +304,69 @@ describe('Yield Tests', () => {
   
   
     })
+
+    // DELETE TESTS
+    describe('Delete yield tests', ()=>{
+
+        test('Owner should delete their yield', async (done)=>{
+            let [ownerFarm1] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
+            let [ownerCrop1] = await mocks.cropFactory({promisedFarm: [ownerFarm1]});
+            let [ownerYield1] = await mocks.yieldFactory({promisedCrop: [ownerCrop1]});
+
+          deleteRequest(ownerYield1, {user_id: newOwner.user_id, farm_id: ownerFarm1.farm_id}, async (err,res)=>{
+            expect(res.status).toBe(200);
+            const [deletedField] = await yieldModel.query().where('yield_id', ownerYield1.yield_id);
+            expect(deletedField.deleted).toBe(true);
+            done();
+          });
+        })
+
+        test('Manager should delete their yield', async (done)=>{
+            let [newManager] = await mocks.usersFactory();
+            let [managerFarm1] = await mocks.userFarmFactory({promisedUser:[newManager], promisedFarm:[farm]},fakeUserFarm(2));
+            let [managerCrop1] = await mocks.cropFactory({promisedFarm: [managerFarm1]});
+            let [managerYield1] = await mocks.yieldFactory({promisedCrop: [managerCrop1]});
+
+          deleteRequest(managerYield1, {user_id: newManager.user_id, farm_id: managerFarm1.farm_id}, async (err,res)=>{
+            expect(res.status).toBe(200);
+            const [deletedField] = await yieldModel.query().where('yield_id', managerYield1.yield_id);
+            expect(deletedField.deleted).toBe(true);
+            done();
+          });
+        })
+
+        test('Should return 403 if a worker tries to delete a yield', async (done)=>{
+            let [newWorker] = await mocks.usersFactory();
+            let [workerFarm1] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+            let [workerCrop1] = await mocks.cropFactory({promisedFarm: [workerFarm1]});
+            let [workerYield1] = await mocks.yieldFactory({promisedCrop: [workerCrop1]});
+
+          deleteRequest(workerYield1, {user_id: newWorker.user_id, farm_id: workerFarm1.farm_id}, async (err,res)=>{
+            expect(res.status).toBe(403);
+            done();
+          });
+        })
+
+        test('Should get status 403 if an unauthorizedUser tries to delete yield', async (done) => {
+            let [unAuthorizedUser] = await mocks.usersFactory();
+            let [farmunAuthorizedUser] = await mocks.farmFactory();
+            let [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
+            let [unauthorizedCrop] = await mocks.cropFactory({promisedFarm: [ownerFarmunAuthorizedUser]});
+            let [unauthorizedYield] = await mocks.yieldFactory({promisedCrop: [unauthorizedCrop]});
+
+            let unAuthorizedUser2;
+            let farmunAuthorizedUser2;
+
+            [unAuthorizedUser2] = await mocks.usersFactory();
+            [farmunAuthorizedUser2] = await mocks.farmFactory();
+
+            deleteRequest(unauthorizedYield, {user_id: unAuthorizedUser2.user_id, farm_id: farmunAuthorizedUser2.farm_id}, async (err,res)=>{
+                expect(res.status).toBe(403);
+                done();
+              });
+        })
+    
+    
+      })
 
 })

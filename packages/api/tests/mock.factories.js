@@ -97,7 +97,8 @@ async function cropFactory({ promisedFarm = farmFactory() } = {}, crop = fakeCro
 async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield1 = fakeYield()) {
   const [crop] = await Promise.all([promisedCrop]);
   const [{ crop_id }] = crop;
-  return knex('yield').insert({ crop_id, ...yield1 }).returning('*');
+  const [{ farm_id }] = crop;
+  return knex('yield').insert({ crop_id, farm_id, ...yield1 }).returning('*');
 }
 
 function fakeCrop() {

@@ -59,6 +59,7 @@ class SoilDataLog extends Model {
         c: { type: 'integer' },
         cec: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 

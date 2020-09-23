@@ -32,6 +32,7 @@ class ActivityFields extends Model {
       properties: {
         activity_id: { type: 'integer' },
         field_id: { type: 'string' },
+        additionalProperties: false,
       },
     };
   }

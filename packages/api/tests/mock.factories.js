@@ -103,6 +103,7 @@ async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield1 = fake
 
 function fakeCrop() {
   return {
+    crop_common_name: faker.lorem.words(),
     crop_genus: faker.lorem.words(),
     crop_specie: faker.lorem.words(),
     crop_group: faker.random.arrayElement(['Fruit and nuts', 'Beverage and spice crops', 'Potatoes and yams', 'Vegetables and melons']),

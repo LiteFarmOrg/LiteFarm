@@ -43,6 +43,7 @@ class Expense extends softDelete({columnName: 'deleted'})(Model){
         expense_type_id: { type: 'string' },
         deleted: { type: 'boolean' },
       },
+      additionalProperties: false,
     };
   }
 }

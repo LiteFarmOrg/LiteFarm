@@ -39,6 +39,7 @@ class Todo extends softDelete({columnName: 'deleted'})(Model) {
         farm_id: { type: 'string', minLength: 1, maxLength: 255 },
         deleted: { type: 'boolean' },
       },
+      additionalProperties: false,
     };
   }
 

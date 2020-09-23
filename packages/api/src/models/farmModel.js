@@ -69,6 +69,7 @@ class Farm extends softDelete({ columnName: 'deleted' })(Model) {
         },
         sandbox_bool: { type: 'boolean' },
       },
+      additionalProperties: false,
     };
   }
 

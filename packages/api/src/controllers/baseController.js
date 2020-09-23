@@ -30,6 +30,7 @@ class baseController {
 
   // send back the resource that was just created
   static async postWithResponse(model, data, transaction) {
+    // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
     return await model.query(transaction).insert(removeAdditionalProperties(model, data)).returning('*');
   }
 

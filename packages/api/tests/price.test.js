@@ -63,6 +63,15 @@ describe('Price Tests', () => {
 			.end(callback);
 	}
 
+	function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+		chai
+			.request(server)
+			.get(`/price/farm/${farm_id}`)
+			.set('user_id', user_id)
+			.set('farm_id', farm_id)
+			.end(callback);
+	}
+
 	function fakeUserFarm(role = 1) {
 		return { ...mocks.fakeUserFarm(), role_id: role };
 	}
@@ -173,8 +182,8 @@ describe('Price Tests', () => {
 		});
 	});
 
-    // PUT TESTS
-    
+	// PUT TESTS
+
 	describe('Put price tests', () => {
 		test('Owner should update value_$/kg', async (done) => {
 			const { mainFarm, user } = await returnUserFarms(1);
@@ -182,7 +191,7 @@ describe('Price Tests', () => {
 
 			price['value_$/kg'] = 8;
 			putPriceRequest(price, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-                expect(res.status).toBe(200);
+				expect(res.status).toBe(200);
 				expect(res.body[0]['value_$/kg']).toBe(8);
 				done();
 			});
@@ -194,7 +203,7 @@ describe('Price Tests', () => {
 
 			price['value_$/kg'] = 22;
 			putPriceRequest(price, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-                expect(res.status).toBe(200);
+				expect(res.status).toBe(200);
 				expect(res.body[0]['value_$/kg']).toBe(22);
 				done();
 			});
@@ -206,8 +215,8 @@ describe('Price Tests', () => {
 
 			price['value_$/kg'] = 100;
 			putPriceRequest(price, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-                expect(res.status).toBe(403);
-                expect(res.error.text).toBe("User does not have the following permission(s): edit:prices");
+				expect(res.status).toBe(403);
+				expect(res.error.text).toBe('User does not have the following permission(s): edit:prices');
 				done();
 			});
 		});
@@ -221,6 +230,53 @@ describe('Price Tests', () => {
 			putPriceRequest(price, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
 				expect(res.status).toBe(403);
 				expect(res.error.text).toBe('user not authorized to access farm');
+				done();
+			});
+		});
+	});
+
+	// GET TESTS
+
+	describe('Get price tests', () => {
+		test('Owner should get price by farm id', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(1);
+			const { price } = await returnPrice(mainFarm);
+
+			getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+				expect(res.status).toBe(200);
+				expect(res.body[0].farm_id).toBe(price.farm_id);
+				done();
+			});
+		});
+
+		test('Manager should get price by farm id', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(2);
+			const { price } = await returnPrice(mainFarm);
+
+			getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+				expect(res.status).toBe(200);
+				expect(res.body[0].farm_id).toBe(price.farm_id);
+				done();
+			});
+		});
+
+		test('Worker should get price by farm id', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(3);
+			const { price } = await returnPrice(mainFarm);
+
+			getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+				expect(res.status).toBe(200);
+				expect(res.body[0].farm_id).toBe(price.farm_id);
+				done();
+			});
+		});
+
+		test('Should get status 403 if an unauthorizedUser tries to get price by farm id', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(1);
+			const [ unAuthorizedUser ] = await mocks.usersFactory();
+			getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+				expect(res.status).toBe(403);
+				expect(res.error.text).toBe('User does not have the following permission(s): get:prices');
 				done();
 			});
 		});

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (insightController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -219,7 +219,7 @@ class insightController extends baseController {
     return async (req, res) => {
       try {
         const body = req.body;
-        waterBalanceScheduler.registerFarmID(body.farm_id);
+        await waterBalanceScheduler.registerFarmID(body.farm_id);
         res.status(200).send({ preview: 0, data: 'Registered Farm ID' })
       } catch (e) {
         res.status(400).json({ e })
@@ -330,7 +330,7 @@ class insightController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

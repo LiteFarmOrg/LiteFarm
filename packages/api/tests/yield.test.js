@@ -31,11 +31,9 @@ const mocks = require('./mock.factories');
 const yieldModel = require('../src/models/yieldModel');
 
 describe('Yield Tests', () => {
-	// GLOBAL CONSTANTS
 	let middleware;
 	let farm;
 	let newOwner;
-	let crop;
 
 	beforeAll(() => {
 		token = global.token;
@@ -54,18 +52,12 @@ describe('Yield Tests', () => {
 			.end(callback);
 	}
 
-	function getFakeYield(crop_id = crop.crop_id) {
-		const yield1 = mocks.fakeYield();
-		return { ...yield1, crop_id };
-	}
-
 	function fakeUserFarm(role = 1) {
 		return { ...mocks.fakeUserFarm(), role_id: role };
 	}
 
 	function putYieldRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
     const { yield_id } = data;
-    console.log("farm id is " + farm_id)
 		chai
 			.request(server)
 			.put(`/yield/${yield_id}`)
@@ -76,7 +68,6 @@ describe('Yield Tests', () => {
 	}
 
 	function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-    
 		chai
 			.request(server)
 			.get(`/yield/farm/${farm_id}`)
@@ -91,9 +82,9 @@ describe('Yield Tests', () => {
 	}
 
 	async function returnUserFarms(role) {
-		let [ mainFarm ] = await mocks.farmFactory();
-		let [ user ] = await mocks.usersFactory();
-		let [ userFarm ] = await mocks.userFarmFactory(
+		const [ mainFarm ] = await mocks.farmFactory();
+		const [ user ] = await mocks.usersFactory();
+		const [ userFarm ] = await mocks.userFarmFactory(
 			{
 				promisedUser: [ user ],
 				promisedFarm: [ mainFarm ]
@@ -101,15 +92,24 @@ describe('Yield Tests', () => {
 			fakeUserFarm(role)
 		);
 		return { mainFarm, user };
-	}
+  }
+  
+  function getFakeYield(crop_id, farm_id) {
+    const cropYield = mocks.fakeYield();
+    return ({ ...cropYield, crop_id, farm_id });
+  }
 
 	async function returnYield(mainFarm) {
-		let [ crop ] = await mocks.cropFactory({ promisedFarm: [ mainFarm ] });
-    let [ crop_yield ] = await mocks.yieldFactory({ promisedCrop: [ crop ] });
+		const [ crop ] = await mocks.cropFactory({ promisedFarm: [ mainFarm ] });
+    const [ crop_yield ] = await mocks.yieldFactory({ promisedCrop: [ crop ] });
     return {crop_yield};
   }
 
-	// GLOBAL BEFOREEACH
+  async function returnCrop(mainFarm) {
+    const [crop] = await mocks.cropFactory({ promisedFarm: [ mainFarm ] });
+    return {crop};
+  }
+  
 	beforeEach(async () => {
 		[ farm ] = await mocks.farmFactory();
 		[ newOwner ] = await mocks.usersFactory();
@@ -127,121 +127,77 @@ describe('Yield Tests', () => {
 		await tableCleanup(knex);
 	});
 
-	// POST TESTS
-	describe('Post yield tests', () => {
-		let ownerFarm;
+  // POST TESTS
+  
+  describe('Post yield tests', () => {
 
-		let newManager;
-		let managerFarm;
+    test('Owner should post yield', async (done) => {
+      
+      const {mainFarm, user} = await returnUserFarms(1);
+      const {crop} = await returnCrop(mainFarm);
+      const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
 
-		let newWorker;
-		let workerFarm;
+      postYieldRequest(cropYield, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(201);
+        const yields = await yieldModel.query().where('farm_id', mainFarm.farm_id);
+        expect(yields.length).toBe(1);
+        expect(yields[0].yield_id).toBe(cropYield.yield_id);
+        done();
+      })
+    })
 
-		let unAuthorizedUser;
-		let farmunAuthorizedUser;
-		let ownerFarmunAuthorizedUser;
+    test('Manager should post yield', async (done) => {
+      
+      const {mainFarm, user} = await returnUserFarms(2);
+      const {crop} = await returnCrop(mainFarm);
+      const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
 
-		beforeEach(async () => {
-			[ ownerFarm ] = await mocks.userFarmFactory(
-				{ promisedUser: [ newOwner ], promisedFarm: [ farm ] },
-				fakeUserFarm(1)
-			);
+      postYieldRequest(cropYield, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(201);
+        const yields = await yieldModel.query().where('farm_id', mainFarm.farm_id);
+        expect(yields.length).toBe(1);
+        expect(yields[0].yield_id).toBe(cropYield.yield_id);
+        done();
+      })
+    })
 
-			[ newManager ] = await mocks.usersFactory();
-			[ managerFarm ] = await mocks.userFarmFactory(
-				{
-					promisedUser: [ newManager ],
-					promisedFarm: [ farm ]
-				},
-				fakeUserFarm(2)
-			);
+    test('Should return 403 when worker tries to post yield', async (done) => {
+      
+      const {mainFarm, user} = await returnUserFarms(3);
+      const {crop} = await returnCrop(mainFarm);
+      const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
 
-			[ newWorker ] = await mocks.usersFactory();
-			[ workerFarm ] = await mocks.userFarmFactory(
-				{ promisedUser: [ newWorker ], promisedFarm: [ farm ] },
-				fakeUserFarm(3)
-			);
+      postYieldRequest(cropYield, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("User does not have the following permission(s): add:yields");
+        done();
+      })
+    })
 
-			[ unAuthorizedUser ] = await mocks.usersFactory();
-			[ farmunAuthorizedUser ] = await mocks.farmFactory();
-			[ ownerFarmunAuthorizedUser ] = await mocks.userFarmFactory(
-				{
-					promisedUser: [ unAuthorizedUser ],
-					promisedFarm: [ farmunAuthorizedUser ]
-				},
-				fakeUserFarm(1)
-			);
-		});
+    test('Should return 403 when unauthorized user tries to post yield', async (done) => {
+      const { mainFarm, user } = await returnUserFarms(1);
+      const {cropYield} = await returnYield(mainFarm);
+			const [unAuthorizedUser] = await mocks.usersFactory();
 
-		test('Owner should post and get valid yield', async (done) => {
-			let fakeYield1 = getFakeYield();
-			fakeYield1.farm_id = ownerFarm.farm_id;
-			postYieldRequest(
-				fakeYield1,
-				{ user_id: newOwner.user_id, farm_id: ownerFarm.farm_id },
-				async (err, res) => {
-					expect(res.status).toBe(201);
-					const yields = await yieldModel.query().where('farm_id', farm.farm_id);
-					expect(yields.length).toBe(1);
-					expect(yields[0].yield_id).toBe(fakeYield1.yield_id);
-					done();
-				}
-			);
-		});
+      postYieldRequest(cropYield, {user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("user not authorized to access farm");
+        done();
+      })
+    })
 
-		test('Manager should post and get a valid yield', async (done) => {
-			let fakeYield2 = getFakeYield();
-			fakeYield2.farm_id = managerFarm.farm_id;
-			postYieldRequest(
-				fakeYield2,
-				{ user_id: newManager.user_id, farm_id: managerFarm.farm_id },
-				async (err, res) => {
-					expect(res.status).toBe(201);
-					const yields = await yieldModel.query().where('farm_id', farm.farm_id);
-					expect(yields.length).toBe(1);
-					expect(yields[0].yield_id).toBe(fakeYield2.yield_id);
-					done();
-				}
-			);
-		});
-
-		test('Should return 403 when worker tries to post yield', async (done) => {
-			let fakeYield3 = getFakeYield();
-			fakeYield3.farm_id = workerFarm.farm_id;
-			postYieldRequest(
-				fakeYield3,
-				{ user_id: newWorker.user_id, farm_id: workerFarm.farm_id },
-				async (err, res) => {
-					expect(res.status).toBe(403);
-					expect(res.error.text).toBe('User does not have the following permission(s): add:yields');
-					done();
-				}
-			);
-		});
-
-		test('Should return 403 when unauthorized user tries to post yield', async (done) => {
-			let fakeYield4 = getFakeYield();
-			fakeYield4.farm_id = ownerFarmunAuthorizedUser.farm_id;
-			postYieldRequest(fakeYield4, { user_id: unAuthorizedUser.user_id }, (err, res) => {
-				expect(res.status).toBe(403);
-				done();
-			});
-		});
-	});
+  })
 
 	// PUT TESTS
   describe('Put yield tests', () => {
 
     test('Owner should update quantity_kg/m2', async (done) => {
-      let [ownerFarm] = await mocks.userFarmFactory({
-        promisedUser: [newOwner],
-        promisedFarm: [farm]
-      }, fakeUserFarm(1));
-      let [ownerCrop] = await mocks.cropFactory({ promisedFarm: [farm] });
-      let [ownerYield] = await mocks.yieldFactory({ promisedCrop: [ownerCrop] });
+      
+      const {mainFarm, user} = await returnUserFarms(1);
+      const {crop_yield} = await returnYield(mainFarm)
 
-      ownerYield["quantity_kg/m2"] = 8;
-      putYieldRequest(ownerYield, {}, async (err, res) => {
+      crop_yield["quantity_kg/m2"] = 8;
+      putYieldRequest(crop_yield, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body[0]["quantity_kg/m2"]).toBe(8);
         done();
@@ -249,16 +205,11 @@ describe('Yield Tests', () => {
     })
 
     test('Manager should update quantity_kg/m2', async (done) => {
-      let [newManager] = await mocks.usersFactory();
-      let [managerFarm] = await mocks.userFarmFactory({
-        promisedUser: [newManager],
-        promisedFarm: [farm]
-      }, fakeUserFarm(2));
-      let [managerCrop] = await mocks.cropFactory({ promisedFarm: [farm] });
-      let [managerYield] = await mocks.yieldFactory({ promisedCrop: [managerCrop] });
+      const {mainFarm, user} = await returnUserFarms(2);
+      const {crop_yield} = await returnYield(mainFarm)
 
-      managerYield["quantity_kg/m2"] = 22;
-      putYieldRequest(managerYield, { user_id: newManager.user_id }, async (err, res) => {
+      crop_yield["quantity_kg/m2"] = 22;
+      putYieldRequest(crop_yield, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body[0]["quantity_kg/m2"]).toBe(22);
         done();
@@ -266,16 +217,11 @@ describe('Yield Tests', () => {
     })
 
     test('Should return 403 when a worker tries to edit quantity_kg/m2', async (done) => {
-      let [newWorker] = await mocks.usersFactory();
-      let [workerFarm] = await mocks.userFarmFactory({
-        promisedUser: [newWorker],
-        promisedFarm: [farm]
-      }, fakeUserFarm(3));
-      let [workerCrop] = await mocks.cropFactory({ promisedFarm: [farm] });
-      let [workerYield] = await mocks.yieldFactory({ promisedCrop: [workerCrop] });
+      const {mainFarm, user} = await returnUserFarms(3);
+      const {crop_yield} = await returnYield(mainFarm)
 
-      workerYield["quantity_kg/m2"] = 4;
-      putYieldRequest(workerYield, { user_id: newWorker.user_id }, async (err, res) => {
+      crop_yield["quantity_kg/m2"] = 4;
+      putYieldRequest(crop_yield, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(403);
         expect(res.error.text).toBe("User does not have the following permission(s): edit:yields");
         done();
@@ -283,18 +229,14 @@ describe('Yield Tests', () => {
     })
 
     test('Should return 403 when a unauthorized user tries to edit quantity_kg/m2', async (done) => {
-      let [unAuthorizedUser] = await mocks.usersFactory();
-      let [farmUnAuthorizedUser] = await mocks.farmFactory();
-      let [ownerFarmUnAuthorizedUser] = await mocks.userFarmFactory({
-        promisedUser: [unAuthorizedUser],
-        promisedFarm: [farmUnAuthorizedUser]
-      }, fakeUserFarm(1));
-      let [unauthorizedCrop] = await mocks.cropFactory({ promisedFarm: [farmUnAuthorizedUser] });
-      let [unauthorizedYield] = await mocks.yieldFactory({ promisedCrop: [unauthorizedCrop] });
+      const { mainFarm, user } = await returnUserFarms(1);
+      const {crop_yield} = await returnYield(mainFarm);
+			const [unAuthorizedUser] = await mocks.usersFactory();
 
-      unauthorizedYield["quantity_kg/m2"] = 4;
-      putYieldRequest(unauthorizedYield, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
+      crop_yield["quantity_kg/m2"] = 4;
+      putYieldRequest(crop_yield, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
         expect(res.status).toBe(403);
+        expect(res.error.text).toBe("user not authorized to access farm");
         done();
       })
     })
@@ -341,7 +283,8 @@ describe('Yield Tests', () => {
 			const { mainFarm, user } = await returnUserFarms(1);
 			const [unAuthorizedUser] = await mocks.usersFactory();
 			getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-				expect(res.status).toBe(403);
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("User does not have the following permission(s): get:yields");
 				done();
 			});
 		});
@@ -383,7 +326,8 @@ describe('Yield Tests', () => {
       const {crop_yield} = await returnYield(mainFarm);
 
 			deleteRequest(crop_yield, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
-				expect(res.status).toBe(403);
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("User does not have the following permission(s): delete:yields");
 				done();
 			});
 		});
@@ -400,7 +344,8 @@ describe('Yield Tests', () => {
 					farm_id: mainFarm.farm_id
 				},
 				async (err, res) => {
-					expect(res.status).toBe(403);
+          expect(res.status).toBe(403);
+          expect(res.error.text).toBe("User does not have the following permission(s): delete:yields");
 					done();
 				}
 			);

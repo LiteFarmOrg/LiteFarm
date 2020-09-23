@@ -3,7 +3,7 @@ const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
 const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
-  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id' ]
+  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id']
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -13,15 +13,16 @@ const entitiesGetters = {
   pesticide_id: fromPesticide,
   task_type_id: fromTask,
   disease_id: fromDisease,
+  yield_id: fromYield,
   farm_id: (farm_id) => ({ farm_id }),
 }
 module.exports = ({ params = null, body = null }) => async (req, res, next) => {
   let id_name;
   let id;
-  if(params){
+  if (params) {
     id_name = params;
     id = req.params[id_name];
-  }else{
+  } else {
     id_name = body;
     id = req.body[id_name];
   }
@@ -32,7 +33,7 @@ module.exports = ({ params = null, body = null }) => async (req, res, next) => {
   const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
   // Is getting a seeded table and accessing community data. Go through.
   // TODO: try to delete seeded data
-  if(seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
+  if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
     return next();
   }
   return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
@@ -65,6 +66,10 @@ async function fromField(fieldId) {
 async function fromFieldCrop(fieldCropId) {
   const { field_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
   return fromField(field_id);
+}
+
+async function fromYield(yieldId) {
+  return await knex('yield').where({ yield_id: yieldId }).first();
 }
 
 function sameFarm(object, farm) {

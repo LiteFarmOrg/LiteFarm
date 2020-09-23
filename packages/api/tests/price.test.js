@@ -52,6 +52,17 @@ describe('Price Tests', () => {
 			.end(callback);
 	}
 
+	function putPriceRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+		const { price_id } = data;
+		chai
+			.request(server)
+			.put(`/price/${price_id}`)
+			.set('farm_id', farm_id)
+			.set('user_id', user_id)
+			.send(data)
+			.end(callback);
+	}
+
 	function fakeUserFarm(role = 1) {
 		return { ...mocks.fakeUserFarm(), role_id: role };
 	}
@@ -76,7 +87,7 @@ describe('Price Tests', () => {
 
 	async function returnPrice(mainFarm) {
 		const [ crop ] = await mocks.cropFactory({ promisedFarm: [ mainFarm ] });
-		const [ price ] = await mocks.yieldFactory({ promisedCrop: [ crop ] });
+		const [ price ] = await mocks.priceFactory({ promisedCrop: [ crop ] });
 		return { price };
 	}
 
@@ -159,6 +170,59 @@ describe('Price Tests', () => {
 					done();
 				}
 			);
+		});
+	});
+
+    // PUT TESTS
+    
+	describe('Put price tests', () => {
+		test('Owner should update value_$/kg', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(1);
+			const { price } = await returnPrice(mainFarm);
+
+			price['value_$/kg'] = 8;
+			putPriceRequest(price, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(200);
+				expect(res.body[0]['value_$/kg']).toBe(8);
+				done();
+			});
+		});
+
+		test('Manager should update value_$/kg', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(2);
+			const { price } = await returnPrice(mainFarm);
+
+			price['value_$/kg'] = 22;
+			putPriceRequest(price, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(200);
+				expect(res.body[0]['value_$/kg']).toBe(22);
+				done();
+			});
+		});
+
+		test('Should return 403 when a worker tries to edit value_$/kg', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(3);
+			const { price } = await returnPrice(mainFarm);
+
+			price['value_$/kg'] = 100;
+			putPriceRequest(price, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): edit:prices");
+				done();
+			});
+		});
+
+		test('Should return 403 when a unauthorized user tries to edit value_$/kg', async (done) => {
+			const { mainFarm, user } = await returnUserFarms(1);
+			const { price } = await returnPrice(mainFarm);
+			const [ unAuthorizedUser ] = await mocks.usersFactory();
+
+			price['quantity_kg/m2'] = 4;
+			putPriceRequest(price, { user_id: unAuthorizedUser.user_id }, async (err, res) => {
+				expect(res.status).toBe(403);
+				expect(res.error.text).toBe('user not authorized to access farm');
+				done();
+			});
 		});
 	});
 });

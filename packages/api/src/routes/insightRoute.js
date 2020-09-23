@@ -44,11 +44,11 @@ router.get('/nitrogenbalance/:farm_id', hasFarmAccess({ params: 'farm_id' }), ch
 router.get('/nitrogenbalance/schedule/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:insights']), insightController.getNitrogenSchedule());
 
 // add calls
-router.post('/waterbalance', checkScope(['add:insights']), insightController.addWaterBalance());
-router.post('/waterbalance/schedule', checkScope(['add:insights']), insightController.addWaterBalanceSchedule());
-router.post('/nitrogenbalance/schedule', checkScope(['add:insights']), insightController.addNitrogenSchedule());
+router.post('/waterbalance', hasFarmAccess({ body: 'field_id' }), checkScope(['add:insights']), insightController.addWaterBalance());
+router.post('/waterbalance/schedule', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:insights']), insightController.addWaterBalanceSchedule());
+router.post('/nitrogenbalance/schedule', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:insights']), insightController.addNitrogenSchedule());
 
 // delete calls
-router.delete('/nitrogenbalance/schedule/:id', checkOwnership('nitrogenSchedule'), checkScope(['delete:insights']), insightController.delNitrogenSchedule());
+router.delete('/nitrogenbalance/schedule/:nitrogen_schedule_id', hasFarmAccess({ params: 'nitrogen_schedule_id' }),  checkOwnership('nitrogenSchedule'), checkScope(['delete:insights']), insightController.delNitrogenSchedule());
 
 module.exports = router;

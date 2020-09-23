@@ -124,7 +124,7 @@ app.use(bodyParser.json())
   .use('/contact', contactRoutes)
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
-  .use('/roles', rolesRoutes)
+  // .use('/roles', rolesRoutes)
 
   // handle errors
   .use((req, res, next) => {

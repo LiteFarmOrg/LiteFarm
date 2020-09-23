@@ -14,6 +14,7 @@ const entitiesGetters = {
   task_type_id: fromTask,
   disease_id: fromDisease,
   yield_id: fromYield,
+  nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
 }
 module.exports = ({ params = null, body = null }) => async (req, res, next) => {
@@ -45,6 +46,10 @@ async function fromTask(taskId) {
 
 async function fromPesticide(pesticideId) {
   return await knex('pesticide').where({ pesticide_id: pesticideId }).first();
+}
+
+async function fromNitrogenSchedule(nitrogenScheduleId) {
+  return await knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
 async function fromDisease(disease_id) {

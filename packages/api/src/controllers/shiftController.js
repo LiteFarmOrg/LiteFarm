@@ -205,8 +205,7 @@ class shiftController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const data = await knex
-          .select([
+        const data = await knex.select([
             'taskType.task_name', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
             'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id',
             'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production',
@@ -222,8 +221,8 @@ class shiftController extends baseController {
           .join('userFarm', 'shift.user_id', 'userFarm.user_id')
           .join('users', 'userFarm.user_id', 'users.user_id')
           .where('userFarm.farm_id', farm_id);
-        if (data.rows) {
-          res.status(200).send(data.rows);
+        if (data) {
+          res.status(200).send(data);
         } else {
           res.status(200).send([]);
         }

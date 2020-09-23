@@ -18,7 +18,7 @@ module.exports = ({ params = null, body = null, customized = null }) => async (r
   let id_name;
   let id;
   if(customized){
-    return entitiesGetters[customized](req, res, next);
+    return await entitiesGetters[customized](req, res, next);
   }
   if(params){
     id_name = params;
@@ -78,17 +78,56 @@ function notAuthorizedResponse(res) {
 }
 
 async function fromFertilizerLog(req, res, next){
-  const { header_user_id, header_farm_id } = req.headers;
-  const { params_farm_id, header_activity_id } = req.params;
+  const { user_id:header_user_id, farm_id:header_farm_id } = req.headers;
+  const { farm_id:params_farm_id, activity_id: params_activity_id } = req.params;
   const body = req.body;
-  if(body.farm_id || body.user_id || body.activity_id || header_farm_id!==params_farm_id){
-    res.sendStatus(400);
+  let test1 = (body.activity_id && params_activity_id && Number(params_activity_id) !==body.activity_id);
+  let test2 = (params_farm_id && header_farm_id!==params_farm_id);
+  if(body.farm_id || (body.user_id && body.user_id !== header_user_id) || (body.activity_id && params_activity_id && Number(params_activity_id) !==body.activity_id) || (params_farm_id && header_farm_id!==params_farm_id)){
+    return res.status(400).send('bad request');
   }
-  const ActivityLogModel = require('../models/activityLogModel');
-  let logs = await ActivityLogModel.query().whereNotDeleted()
-    .distinct('activityLog.activity_id', 'activityLog.user_id')
-    .join('userFarm', {})
-    .join('users', 'users.user_id', '=', 'activityLog.user_id')
-    .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
-    .where('farm.farm_id', header_farm_id);
+  const field_ids = body.fields?body.fields.map((field)=> field.field_id):undefined;
+  const field_crop_ids = body.crops?body.crops.map((crop) => crop.field_crop_id):undefined;
+  const fertilizer_id = body.fertilizer_id;
+  const ActivityLogModel = require('../../models/activityLogModel');
+  let logs;
+  try{
+    logs = await ActivityLogModel.query()
+      .distinct('activityLog.activity_id', 'activityLog.user_id', 'userFarm.user_id', 'userFarm.farm_id', 'field.farm_id')
+      // .join('activityCrops', 'activityCrops.activity_id', 'activityLog.activity_id')
+      // .join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id')
+      // .join('fertilizerLog', 'fertilizerLog.activity_id', 'activityLog.activity_id')
+      .rightJoin('userFarm', 'activityLog.user_id', 'userFarm.user_id')
+      .join('fertilizer', 'fertilizer.farm_id', 'userFarm.farm_id')
+      .join('field', 'field.farm_id', 'userFarm.farm_id')
+      .join('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
+
+      .skipUndefined()
+      .where('activityLog.activity_id', params_activity_id)
+      .where('userFarm.farm_id', header_farm_id)
+      .where('field.farm_id', header_farm_id)
+      .where('fertilizer.farm_id', header_farm_id)
+      .whereIn('field.field_id', field_ids)
+      .whereIn('fieldCrop.field_crop_id', field_crop_ids)
+      .where('userFarm.user_id', header_user_id)
+      .whereIn('fieldCrop.field_id', field_ids)
+      // .where('fieldCrop.field_id = field.field_id') //TODO edge case where there are two different field with only 1 field Crop
+    ;
+  }catch (e){
+    console.log(e);
+  }
+  if(logs.length>0){
+    if(params_activity_id){
+      try{
+        if(Number(params_activity_id)!==logs[0].activity_id){
+        return res.status(403).send('bad request');
+      }}catch (e){
+        console.log(e);
+      }
+
+    }
+    return next();
+  }else{
+    return res.status(403).send('bad request');
+  }
 }

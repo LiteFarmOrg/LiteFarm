@@ -253,20 +253,20 @@ describe('Log Tests', () => {
         })
 
         describe('Get activityLog authorization tests', () => {
-          let newWorker;
           let worker;
+          let manager;
           let unAuthorizedUser;
           let farmunAuthorizedUser;
 
           beforeEach(async () => {
-            [newWorker] = await mocks.usersFactory();
+            [worker] = await mocks.usersFactory();
             const [workerFarm] = await mocks.userFarmFactory({
-              promisedUser: [newWorker],
+              promisedUser: [worker],
               promisedFarm: [farm]
             }, fakeUserFarm(3));
-            [worker] = await mocks.usersFactory();
+            [manager] = await mocks.usersFactory();
             const [managerFarm] = await mocks.userFarmFactory({
-              promisedUser: [worker],
+              promisedUser: [manager],
               promisedFarm: [farm]
             }, fakeUserFarm(2));
 
@@ -293,7 +293,7 @@ describe('Log Tests', () => {
           })
 
           test('Manager should get by farm_id', async (done) => {
-            getRequest({user_id: worker.user_id}, (err, res) => {
+            getRequest({user_id: manager.user_id}, (err, res) => {
               console.log(res.error, res.body);
               expect(res.status).toBe(200);
               expect(res.body.length).toBe(1);
@@ -483,6 +483,7 @@ describe('Log Tests', () => {
 
 
       describe('Put fertilizerLog tests', () => {
+        // TODO update single fields tests
         let sampleRequestBody;
         let fakeActivityLog;
         let fakefertilizingLog;
@@ -745,16 +746,10 @@ describe('Log Tests', () => {
             })
           });
 
-          test('Worker should edit a fertilizerLog', async (done) => {
+          test('Should return 403 if a worker tries to edit a fertilizerLog', async (done) => {
             putRequest(sampleRequestBody, {user_id: worker.user_id}, async (err, res) => {
               console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(200);
-              const activityLog = await activityLogModel.query().where('user_id', owner.user_id);
-              expect(activityLog.length).toBe(1);
-              expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
-              const fertilizerLog = await fertilizerLogModel.query().where('activity_id', activityLog[0].activity_id);
-              expect(fertilizerLog.length).toBe(1);
-              expect(fertilizerLog[0].fertilizer_id).toBe(fertilizer.fertilizer_id);
+              expect(res.status).toBe(403);
               done();
             })
           });

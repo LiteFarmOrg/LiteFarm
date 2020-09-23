@@ -94,6 +94,13 @@ async function cropFactory({ promisedFarm = farmFactory() } = {}, crop = fakeCro
   return knex('crop').insert({ farm_id, ...crop }).returning('*');
 }
 
+async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield1 = fakeYield()) {
+  const [crop] = await Promise.all([promisedCrop]);
+  const [{ crop_id }] = crop;
+  const [{ farm_id }] = crop;
+  return knex('yield').insert({ crop_id, farm_id, ...yield1 }).returning('*');
+}
+
 function fakeCrop() {
   return {
     crop_common_name: faker.lorem.words(),
@@ -148,6 +155,16 @@ function fakeCrop() {
     nutrient_credits: faker.random.number(10),
   }
 }
+
+function fakeYield() {
+  return {
+    yield_id: faker.random.number(100),
+    'quantity_kg/m2': faker.random.number(10),
+    date: faker.date.future(),
+  }
+}
+
+
 
 async function fieldCropFactory({ promisedField = fieldFactory(), promisedCrop = cropFactory() } = {}, fieldCrop = fakeFieldCrop()) {
   const [field, crop] = await Promise.all([promisedField, promisedCrop]);
@@ -485,6 +502,7 @@ module.exports = {
   saleFactory, fakeSale,
   fakeTaskType, taskTypeFactory,
   fakeFieldForTests,
+  yieldFactory, fakeYield,
   fakeWaterBalance, waterBalanceFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory
 }

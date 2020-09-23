@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (yieldController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,6 +19,11 @@ const { transaction, Model } = require('objection');
 
 
 class YieldController extends baseController {
+
+  constructor() {
+    super();
+  }
+
   static addYield() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -40,7 +45,7 @@ class YieldController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(yieldModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(yieldModel, req.params.yield_id, trx);
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);
@@ -85,7 +90,7 @@ class YieldController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(yieldModel, 'farm_id', farm_id);
+        const rows = await YieldController.getByForeignKey(farm_id);
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -94,12 +99,19 @@ class YieldController extends baseController {
         }
       }
       catch (error) {
+        console.log(error);
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
+  }
+
+  static async getByForeignKey(farm_id) {
+    const yields = await yieldModel.query().select('*').from('yield').where('yield.farm_id', farm_id).whereNotDeleted();
+
+    return yields;
   }
 }
 

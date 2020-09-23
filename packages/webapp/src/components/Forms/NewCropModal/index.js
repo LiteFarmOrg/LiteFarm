@@ -100,35 +100,30 @@ class NewCropModal extends React.Component {
     const currentState = this.state;
     let validated = true;
     let errors = '';
+    let varietyError = '';
     if (currentState.crop_common_name === '') {
       errors += 'Crop Common Name, ';
-      console.log(errors)
       validated = false;
     }
     if (currentState.crop_genus === '') {
       errors += 'Crop Genus, ';
-      console.log(errors)
       validated = false;
     }
     if (currentState.crop_specie === '') {
       errors += 'Crop Species, ';
-      console.log(errors)
       validated = false;
     }
     if (currentState.crop_group === '') {
       errors += 'Crop Group, ';
-      console.log(errors)
       validated = false;
 
     }
     if (currentState.crop_subgroup === '') {
       errors += 'Crop Subgroup, ';
-      console.log(errors)
       validated = false;
     }
     if (currentState.variety === '') {
-      errors += 'Crop Variety, ';
-      console.log(errors)
+      varietyError += 'Variety Name is required.';
       validated = false;
     }
     if (currentState.variety === '') {

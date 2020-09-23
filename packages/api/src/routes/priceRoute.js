@@ -26,6 +26,6 @@ router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:prices']),
 
 router.put('/:id', hasFarmAccess({ body: 'farm_id' }), checkScope(['edit:prices']), priceController.updatePrice());
 
-router.delete('/:price_id', hasFarmAccess({ params: 'yield_id' }), checkScope(['delete:prices']), priceController.delPrice());
+router.delete('/:price_id', hasFarmAccess({ params: 'price_id' }), checkScope(['delete:prices']), priceController.delPrice());
 
 module.exports = router;

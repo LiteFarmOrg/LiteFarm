@@ -36,7 +36,7 @@ Model.knex(knex);
 // import routes
 const cropRoutes = require('./routes/cropRoute');
 const fieldRoutes = require('./routes/fieldRoute');
-const planRoutes = require('./routes/planRoute');
+// const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
 //const shiftTaskRoutes = require('./routes/shiftTaskRoute');
 const taskTypeRoutes = require('./routes/taskTypeRoute');
@@ -101,7 +101,7 @@ app.use(bodyParser.json())
   // routes
   .use('/crop', cropRoutes)
   .use('/field', fieldRoutes)
-  .use('/plan', planRoutes)
+  // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
   //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
@@ -124,7 +124,7 @@ app.use(bodyParser.json())
   .use('/contact', contactRoutes)
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
-  .use('/roles', rolesRoutes)
+  // .use('/roles', rolesRoutes)
 
   // handle errors
   .use((req, res, next) => {

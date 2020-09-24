@@ -2,6 +2,8 @@ const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
+const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
+  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id' ]
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -11,6 +13,9 @@ const entitiesGetters = {
   pesticide_id: fromPesticide,
   task_type_id: fromTask,
   disease_id: fromDisease,
+  yield_id: fromYield,
+  price_id: fromPrice,
+  nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
   fields: fromFields,
   activity_id: fromActivity,
@@ -18,7 +23,6 @@ const entitiesGetters = {
 module.exports = ({ params = null, body = null }) => async (req, res, next) => {
   let id_name;
   let id;
-
   if(params){
     id_name = params;
     id = req.params[id_name];
@@ -50,6 +54,10 @@ async function fromTask(taskId) {
 
 async function fromPesticide(pesticideId) {
   return await knex('pesticide').where({ pesticide_id: pesticideId }).first();
+}
+
+async function fromNitrogenSchedule(nitrogenScheduleId) {
+  return await knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
 async function fromDisease(disease_id) {
@@ -91,6 +99,14 @@ async function fromActivity(activity_id){
 async function fromFieldCrop(fieldCropId) {
   const { field_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
   return fromField(field_id);
+}
+
+async function fromYield(yieldId) {
+  return await knex('yield').where({ yield_id: yieldId }).first();
+}
+
+async function fromPrice(priceId) {
+  return await knex('price').where({ price_id: priceId }).first();
 }
 
 function sameFarm(object, farm) {

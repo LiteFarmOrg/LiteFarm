@@ -50,6 +50,7 @@ class Notification extends Model {
         },
         is_read: { type : 'boolean' },
       },
+      additionalProperties: false,
     };
   }
 }

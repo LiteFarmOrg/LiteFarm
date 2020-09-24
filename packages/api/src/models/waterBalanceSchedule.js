@@ -34,6 +34,7 @@ class waterBalanceSchedule extends Model {
         water_balance_schedule_id: { type: 'integer' },
         farm_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
 }

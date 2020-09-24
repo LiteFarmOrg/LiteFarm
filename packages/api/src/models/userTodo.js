@@ -36,6 +36,7 @@ class userTodo extends Model {
         todo_id: { type: 'string' },
         user_id: { type: 'string' },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {

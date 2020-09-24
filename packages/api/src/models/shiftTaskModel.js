@@ -38,6 +38,7 @@ class ShiftTask extends Model {
         field_id: { type: 'string' },
         duration: { type: 'number' },
       },
+      additionalProperties: false,
     };
   }
 }

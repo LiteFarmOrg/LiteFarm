@@ -37,6 +37,7 @@ class ScoutingLog extends Model {
           enum:['harvest', 'pest', 'disease', 'weed', 'other'],
         },
       },
+      additionalProperties: false,
     };
   }
 }

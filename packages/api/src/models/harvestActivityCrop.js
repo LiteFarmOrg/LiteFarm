@@ -37,6 +37,7 @@ class Bed extends Model {
           enu:['lb', 'kg'],
         },
       },
+      additionalProperties: false,
     };
   }
 

@@ -17,12 +17,13 @@ export function* getFertilizerSaga() {
       farm_id: localStorage.getItem('farm_id'),
     },
   };
-
-  const result = yield call(axios.get, fertUrl + '/farm/' + farm_id, header);
-  if (result) {
-    yield put(setFertilizersInState(result.data));
-  } else {
-    console.log('failed to fetch fields from database')
+  try{
+    const result = yield call(axios.get, fertUrl + '/farm/' + farm_id, header);
+    if (result) {
+      yield put(setFertilizersInState(result.data));
+    }
+  }catch (e){
+    console.log('fail to fetch fertilizers');
   }
 }
 

@@ -33,6 +33,7 @@ class ActivityCrops extends Model {
         activity_id: { type: 'integer' },
         field_crop_id: { type: 'integer' },
       },
+      additionalProperties: false,
     };
   }
 }

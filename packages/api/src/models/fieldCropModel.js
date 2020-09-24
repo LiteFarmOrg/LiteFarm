@@ -45,6 +45,7 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
         is_by_bed: { type: 'boolean' },
         bed_config: { type: 'object, null' },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {

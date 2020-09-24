@@ -45,7 +45,7 @@ const pesticideModel = require('../src/models/pesiticideModel');
 const diseaseModel = require('../src/models/diseaseModel');
 
 
-describe('Log Tests', () => {
+describe('Log passing Tests', () => {
   let middleware;
   let owner;
   let farm;
@@ -702,19 +702,6 @@ describe('Log Tests', () => {
             })
           });
 
-          test('Should return 400 if fields, fieldCrops, and fertilizer reference a farm that the user does not have access to', async (done) => {
-            sampleRequestBody.user_id = unAuthorizedUser.user_id;
-            sampleRequestBody.activity_id = unauthorizedActivityLog.activity_id;
-            putRequest(sampleRequestBody, {
-              user_id: unAuthorizedUser.user_id,
-              farm_id: farmunAuthorizedUser.farm_id,
-              activity_id: unauthorizedActivityLog.activity_id
-            }, async (err, res) => {
-              console.log(activityLog.deleted, res.error);
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
 
           test('Should return 400 if activity_id is set to an id that already exists', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
@@ -732,90 +719,6 @@ describe('Log Tests', () => {
 
         })
 
-
-        describe('Put fertilizerLog tests with fertilizer/field/field_crop referencing different farms', () => {
-          let fakefertilizingLog;
-          let fakeActivityLog;
-          let fertilizer1;
-          let crop1;
-          let field1;
-          let fieldCrop1;
-          let sampleRequestBody;
-          let newFarm;
-          let newUserFarm;
-          beforeEach(async () => {
-            [newFarm] = await mocks.farmFactory();
-            [newUserFarm] = await mocks.userFarmFactory({promisedUser: [owner], promisedFarm: [newFarm]})
-            fakeActivityLog = newFakeActivityLog('fertilizing');
-            fakefertilizingLog = mocks.fakeFertilizerLog();
-            [fertilizer1] = await mocks.fertilizerFactory({promisedFarm: [newFarm]});
-            [crop1] = await mocks.cropFactory({promisedFarm: [newFarm]});
-            let [weatherStation] = await mocks.weather_stationFactory();
-            [field1] = await mocks.fieldFactory({promisedFarm: [newFarm], promisedStation: [weatherStation]});
-            [fieldCrop1] = await mocks.fieldCropFactory({promisedCrop: [crop1], promisedField: [field1]});
-
-            sampleRequestBody = {
-              activity_id: activityLog.activity_id,
-              activity_kind: activityLog.activity_kind,
-              date: fakeActivityLog.date,
-              user_id: owner.user_id,
-              notes: fakeActivityLog.notes,
-              quantity_kg: fakefertilizingLog.quantity_kg,
-              crops: [{field_crop_id: fieldCrop.field_crop_id}],
-              fields: [{field_id: field.field_id}],
-              fertilizer_id: fertilizer.fertilizer_id
-            }
-          });
-
-          test('Should return 403 if field references a new farm', async (done) => {
-            sampleRequestBody.fields = [sampleRequestBody.fields[0], {field_id: field1.field_id}];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
-
-          test('Should return 403 if field, fieldCrop, and fertilizer reference a new farm', async (done) => {
-            sampleRequestBody.fields = [{field_id: field1.field_id}];
-            sampleRequestBody.crops = [{field_crop_id: fieldCrop1.field_crop_id}];
-            sampleRequestBody.fertilizer_id = fertilizer1.fertilizer_id;
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
-
-          test('Should return 403 if field and fieldCrop reference 2 farms', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0], {field_crop_id: fieldCrop1.field_crop_id}];
-            sampleRequestBody.fields = [sampleRequestBody.fields[0], {field_id: field1.field_id}];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
-
-          test('Should return 403 if fertilizer references a new farm', async (done) => {
-            sampleRequestBody.fertilizer_id = fertilizer1.fertilizer_id;
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
-
-          test('Should return 403 if field_crop references a new farm', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0], {field_crop_id: fieldCrop1.field_crop_id}];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
-
-        })
 
         describe('Put fertilizerLog tests with multiple field_crop and field', () => {
           let fakefertilizingLog;
@@ -863,62 +766,6 @@ describe('Log Tests', () => {
               const activityCrops = await activityCropsModel.query().where('activity_id', activityLog[0].activity_id);
               expect(activityCrops.length).toBe(2);
               expect(activityCrops[1].field_crop_id).toBe(fieldCrop1.field_crop_id);
-              done();
-            })
-          });
-
-          test('Should return 400 if field_crops reference a field that is not in fields array', async (done) => {
-            sampleRequestBody.field = [sampleRequestBody.fields[0]]
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(400);
-              done();
-            })
-          });
-
-          test('Should return 400 if field_crops reference a field that is not in fields in the database', async (done) => {
-            sampleRequestBody.crops = [{field_crop_id: fieldCrop1.field_crop_id}];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(400);
-              done();
-            })
-          });
-
-          test('Should return 400 if field reference a field that is not in fieldCrop array', async (done) => {
-            sampleRequestBody.crops = [sampleRequestBody.crops[0]]
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(400);
-              done();
-            })
-          });
-
-          test('Should return 400 if field reference a field that is not in fieldCrop in the database', async (done) => {
-            sampleRequestBody.fields = [{field_id: field1.field_id}];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              expect(res.status).toBe(400);
-              done();
-            })
-          });
-
-          test('Should return 400 if body.crops is empty1', async (done) => {
-            sampleRequestBody.crops = [{}];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              //TODO should return 400
-              expect(res.status).toBe(403);
-              done();
-            })
-          });
-
-          test('Should return 400 if body.crops is empty2', async (done) => {
-            sampleRequestBody.crops = [];
-            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-              console.log(fakefertilizingLog, res.error);
-              //TODO should return 400
-              expect(res.status).toBe(403);
               done();
             })
           });
@@ -1490,14 +1337,6 @@ describe('Log Tests', () => {
           })
         });
 
-        test('Should return 400 when fieldCrops is not empty', async (done) => {
-          putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-            console.log(fakefieldWorkLog, res.error);
-            expect(res.status).toBe(400);
-            done();
-          })
-        });
-
 
       })
 
@@ -1618,14 +1457,6 @@ describe('Log Tests', () => {
             expect(activityFieldLog[1].field_id).toBe(field1.field_id);
             const activityCrops = await activityCropsModel.query().where('activity_id', activityLog[0].activity_id);
             expect(activityCrops.length).toBe(0);
-            done();
-          })
-        });
-
-        test('Should return 400 when fieldCrops is not empty', async (done) => {
-          putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-            console.log(fakeSoilDataLog, res.error);
-            expect(res.status).toBe(400);
             done();
           })
         });
@@ -2042,24 +1873,6 @@ describe('Log Tests', () => {
         }
       })
 
-      test('Should return 400 when activity_kind does not fit req.body shape', async (done) => {
-        sampleRequestBody.activity_kind = "soilData";
-        postRequest(sampleRequestBody, {}, async (err, res) => {
-          console.log(fakefertilizingLog, res.error);
-          expect(res.status).toBe(400);
-          done();
-        })
-      });
-
-      test('Should return 400 when activity_kind does not fit req.body shape2', async (done) => {
-        sampleRequestBody.activity_kind = "fieldWork";
-        postRequest(sampleRequestBody, {}, async (err, res) => {
-          console.log(fakefertilizingLog, res.error);
-          expect(res.status).toBe(400);
-          done();
-        })
-      });
-
       test('Should return 400 when pesticide does not exist', async (done) => {
         sampleRequestBody.activity_kind = "pestControl";
         postRequest(sampleRequestBody, {}, async (err, res) => {
@@ -2098,42 +1911,12 @@ describe('Log Tests', () => {
         })
       });
 
-      test('Should return 403 when 1 of the 2 fields references a farm that the user does have access to', async (done) => {
-        const [newField] = await mocks.fieldFactory();
-        sampleRequestBody.fields = [{field_id: newField.field_id}, sampleRequestBody.fields[0]];
-        postRequest(sampleRequestBody, {}, async (err, res) => {
-          console.log(fakefertilizingLog, res.error);
-          //TODO should return 400
-          expect(res.status).toBe(403);
-          done();
-        })
-      });
 
       test('Should return 400 when all fieldCrop do not exist', async (done) => {
         sampleRequestBody.crops = [{field_crop_id: 1111111}];
         postRequest(sampleRequestBody, {}, async (err, res) => {
           console.log(fakefertilizingLog, res.error);
           expect(res.status).toBe(400);
-          done();
-        })
-      });
-
-      test('Should return 400 when 1 fieldCrop references a field that is not in body.fields', async (done) => {
-        const [newFieldCrop] = await mocks.fieldCropFactory({promisedField: mocks.fieldFactory({promisedFarm: [farm]})})
-        sampleRequestBody.crops = [{field_crop_id: newFieldCrop.field_crop_id}, sampleRequestBody.crops[0]];
-        postRequest(sampleRequestBody, {}, async (err, res) => {
-          console.log(fakefertilizingLog, res.error);
-          expect(res.status).toBe(400);
-          done();
-        })
-      });
-
-      test('Should return 403 when 1 fieldCrop references a field that user does not have access to', async (done) => {
-        const [newFieldCrop] = await mocks.fieldCropFactory();
-        sampleRequestBody.crops = [{field_crop_id: newFieldCrop.field_crop_id}, sampleRequestBody.crops[0]];
-        postRequest(sampleRequestBody, {}, async (err, res) => {
-          console.log(fakefertilizingLog, res.error);
-          expect(res.status).toBe(403);
           done();
         })
       });

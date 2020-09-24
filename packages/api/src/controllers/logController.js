@@ -36,7 +36,6 @@ class logController extends baseController {
     return async (req, res) => {
       const transac = await transaction.start(Model.knex());
       try{
-
         if(!lodash.isEmpty(req.body)){
           await logServices.insertLog(req.body, transac);
           await transac.commit();

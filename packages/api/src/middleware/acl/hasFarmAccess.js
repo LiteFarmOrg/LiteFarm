@@ -12,14 +12,13 @@ const entitiesGetters = {
   task_type_id: fromTask,
   disease_id: fromDisease,
   farm_id: (farm_id) => ({ farm_id }),
-  fertilizerLog: fromFertilizerLog,
+  fields: fromFields,
+  activity_id: fromActivity,
 }
-module.exports = ({ params = null, body = null, customized = null }) => async (req, res, next) => {
+module.exports = ({ params = null, body = null }) => async (req, res, next) => {
   let id_name;
   let id;
-  if(customized){
-    return await entitiesGetters[customized](req, res, next);
-  }
+
   if(params){
     id_name = params;
     id = req.params[id_name];
@@ -30,6 +29,11 @@ module.exports = ({ params = null, body = null, customized = null }) => async (r
   if (!id_name) {
     return next()
   }
+
+  if (req.body.user_id && req.body.user_id !== req.get('user_id')){
+    return res.status(403).send('user not authorized to access farm');
+  }
+
   const { farm_id } = req.headers;
   const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
   // Is getting a seeded table and accessing community data. Go through.
@@ -64,6 +68,26 @@ async function fromField(fieldId) {
   return await knex('field').where({ field_id: fieldId }).first();
 }
 
+async function fromFields(fields){
+  // TODO: user_id should be retrieved from jwt
+  if(!fields || !fields.length){
+    return {};
+  }
+  const field_ids = fields?fields.map((field)=> field.field_id):undefined;
+  try{
+    const userFarms = await knex('field').join('userFarm','field.farm_id','userFarm.farm_id').whereIn('field.field_id',field_ids).distinct('field.farm_id');
+    if(userFarms.length!==1) return {};
+    return userFarms[0];
+  }catch (e){
+    return {};
+  }
+}
+
+async function fromActivity(activity_id){
+  const userFarm = await knex('activityLog').join('userFarm','userFarm.user_id','activityLog.user_id').where('activityLog.activity_id',activity_id).first();
+  return userFarm;
+}
+
 async function fromFieldCrop(fieldCropId) {
   const { field_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
   return fromField(field_id);
@@ -75,59 +99,4 @@ function sameFarm(object, farm) {
 
 function notAuthorizedResponse(res) {
   res.status(403).send('user not authorized to access farm');
-}
-
-async function fromFertilizerLog(req, res, next){
-  const { user_id:header_user_id, farm_id:header_farm_id } = req.headers;
-  const { farm_id:params_farm_id, activity_id: params_activity_id } = req.params;
-  const body = req.body;
-  let test1 = (body.activity_id && params_activity_id && Number(params_activity_id) !==body.activity_id);
-  let test2 = (params_farm_id && header_farm_id!==params_farm_id);
-  if(body.farm_id || (body.user_id && body.user_id !== header_user_id) || (body.activity_id && params_activity_id && Number(params_activity_id) !==body.activity_id) || (params_farm_id && header_farm_id!==params_farm_id)){
-    return res.status(400).send('bad request');
-  }
-  const field_ids = body.fields?body.fields.map((field)=> field.field_id):undefined;
-  const field_crop_ids = body.crops?body.crops.map((crop) => crop.field_crop_id):undefined;
-  const fertilizer_id = body.fertilizer_id;
-  const ActivityLogModel = require('../../models/activityLogModel');
-  let logs;
-  try{
-    logs = await ActivityLogModel.query()
-      .distinct('activityLog.activity_id', 'activityLog.user_id', 'userFarm.user_id', 'userFarm.farm_id', 'field.farm_id')
-      // .join('activityCrops', 'activityCrops.activity_id', 'activityLog.activity_id')
-      // .join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id')
-      // .join('fertilizerLog', 'fertilizerLog.activity_id', 'activityLog.activity_id')
-      .rightJoin('userFarm', 'activityLog.user_id', 'userFarm.user_id')
-      .join('fertilizer', 'fertilizer.farm_id', 'userFarm.farm_id')
-      .join('field', 'field.farm_id', 'userFarm.farm_id')
-      .join('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
-
-      .skipUndefined()
-      .where('activityLog.activity_id', params_activity_id)
-      .where('userFarm.farm_id', header_farm_id)
-      .where('field.farm_id', header_farm_id)
-      .where('fertilizer.farm_id', header_farm_id)
-      .whereIn('field.field_id', field_ids)
-      .whereIn('fieldCrop.field_crop_id', field_crop_ids)
-      .where('userFarm.user_id', header_user_id)
-      .whereIn('fieldCrop.field_id', field_ids)
-      // .where('fieldCrop.field_id = field.field_id') //TODO edge case where there are two different field with only 1 field Crop
-    ;
-  }catch (e){
-    console.log(e);
-  }
-  if(logs.length>0){
-    if(params_activity_id){
-      try{
-        if(Number(params_activity_id)!==logs[0].activity_id){
-        return res.status(403).send('bad request');
-      }}catch (e){
-        console.log(e);
-      }
-
-    }
-    return next();
-  }else{
-    return res.status(403).send('bad request');
-  }
 }

@@ -374,7 +374,7 @@ function fakeSoilDataLog() {
     c: faker.random.number(1000),
     na: faker.random.number(1000),
     total_carbon: faker.random.number(1000),
-    depth_cm: faker.random.number(1000)
+    depth_cm: faker.random.arrayElement(['5', '10', '20', '30', '50', '100']),
   }
 }
 
@@ -387,7 +387,8 @@ async function irrigationLogFactory({ promisedActivity = activityLogFactory() }=
 function fakeIrrigationLog() {
   return {
     type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
-    hours: faker.random.number(10)
+    hours: faker.random.number(10),
+    "flow_rate_l/min": faker.random.number(10),
   }
 }
 

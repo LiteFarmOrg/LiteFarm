@@ -23,22 +23,21 @@ const Knex = require('knex')
 const environment = 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
-const { tableCleanup } = require('./testEnvironment')
-jest.mock('jsdom')
-jest.mock('../src/middleware/acl/checkJwt')
+const { tableCleanup } = require('./testEnvironment');
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt');
+jest.mock('../src/templates/sendEmailTemplate');
 const mocks  = require('./mock.factories');
-
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
 
 describe('User Farm Tests', () => {
   let middleware;
-
   let owner;
   let worker;
   let manager;
   let unauthorizedUser;
-  
+
   let farm;
   let unauthorizedFarm;
 
@@ -54,9 +53,10 @@ describe('User Farm Tests', () => {
 
   function updateUserFarmConsentRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).patch(`/user_farm/consent/farm/${farm_id}/user/${user_id}`)
+      .send({has_consent: true, consent_version: '3.0'})
       .end(callback);
   }
-  
+
   function addUserFarmRequest(data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/user_farm`)
       .set('Content-Type', 'application/json')
@@ -127,51 +127,50 @@ describe('User Farm Tests', () => {
   test('Update consent status for user farm', async (done) => {
     [noConsentUser] = await mocks.usersFactory();
     const [noConsentUserFarm] = await mocks.userFarmFactory({promisedUser:[noConsentUser], promisedFarm:[farm]}, fakeUserFarm(3, 'Active', false));
-    let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id);
-    expect(targetUser[0].has_consent).toBe(false);
+    let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
+    expect(targetUser.has_consent).toBe(false);
     updateUserFarmConsentRequest({user_id: noConsentUser.user_id}, async (err, res) => {
       expect(res.status).toBe(200);
-      targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id);
-      expect(targetUser[0].has_consent).toBe(true);
+      targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
+      expect(targetUser.has_consent).toBe(true);
       done();
     });
-    // this is successfully reaching the update consent endpoint and controller function, but something is breaking
   });
 
   xdescribe('Get user farm info by farm: authorization tests', () => {
     describe('Get all user farm info', () => {
       test('Owner should get all user farm info', async (done) => {
-        
+
       });
-  
+
       test('Manager should get all user farm info', async (done) => {
-        
+
       });
 
       test('Worker should get all user farm limited info', async (done) => {
-        
+
       });
-  
+
       test('Return 403 if unauthorized user tries to get all user farm info', async (done) => {
-        
+
       });
     });
 
     describe('Get active user farm info', () => {
       test('Owner should get active user farm info', async (done) => {
-        
+
       });
-  
+
       test('Manager should get active user farm info', async (done) => {
-        
+
       });
 
       test('Worker should get active user farm limited info', async (done) => {
-        
+
       });
-  
+
       test('Return 403 if unauthorized user tries to get active user farm info', async (done) => {
-        
+
       });
     });
   });
@@ -198,55 +197,55 @@ describe('User Farm Tests', () => {
   xdescribe('Update user farm: authorization tests', () => {
     describe('Update user farm role', () => {
       test('Owner should update user farm role', async (done) => {
-        
+
       });
-  
+
       test('Manager should update user farm role', async (done) => {
-        
+
       });
 
       test('Return 403 if worker tries to update user farm role', async (done) => {
-        
+
       });
-  
+
       test('Return 403 if unauthorized user tries to update user farm role', async (done) => {
-        
+
       });
     });
 
     describe('Update user farm status', () => {
       test('Owner should update user farm status', async (done) => {
-        
+
       });
-  
+
       test('Manager should update user farm status', async (done) => {
-        
+
       });
 
       test('Return 403 if worker tries to update user farm status', async (done) => {
-        
+
       });
-  
+
       test('Return 403 if unauthorized user tries to update user farm status', async (done) => {
-        
+
       });
     });
 
     describe('Update user farm wage', () => {
       test('Owner should update user farm wage', async (done) => {
-        
+
       });
-  
+
       test('Manager should update user farm wage', async (done) => {
-        
+
       });
 
       test('Return 403 if worker tries to update user farm wage', async (done) => {
-        
+
       });
-  
+
       test('Return 403 if unauthorized user tries to update user farm wage', async (done) => {
-        
+
       });
     });
   });

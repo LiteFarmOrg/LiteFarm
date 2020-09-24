@@ -539,7 +539,7 @@ module.exports = {
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
   fakeWaterBalance, waterBalanceFactory,
-  fakeNitrogenSchedule, nitrogenScheduleFactory
+  fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFieldForTests,
   activityCropsLogFactory, activityFieldLogFactory,
 }

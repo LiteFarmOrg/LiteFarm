@@ -63,13 +63,35 @@ class userFarmController extends baseController {
 
   static getUserFarmsByFarmID() {
     return async (req, res) => {
-
+      // try {
+      //   const farm_id = req.params.farm_id;
+      //   const rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id)
+      //     .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+      //     .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+      //     .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+      //   res.status(200).send(rows);
+      // }
+      // catch (error) {
+      //   //handle more exceptions
+      //   res.status(400).send(error);
+      // }
     };
   }
 
   static getActiveUserFarmsByFarmID() {
     return async (req, res) => {
-      
+      // try {
+      //   const farm_id = req.params.farm_id;
+      //   const rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+      //     .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+      //     .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+      //     .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+      //   res.status(200).send(rows);
+      // }
+      // catch (error) {
+      //   //handle more exceptions
+      //   res.status(400).send(error);
+      // }
     };
   }
 

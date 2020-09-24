@@ -119,6 +119,7 @@ export function* getFarmInfo(action) {
   }
 
   try {
+    // TODO: TO DEPRECATE
     const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id + '/user/' + user_id, header);
     if (result.data[0]) {
       //console.log(result.data);

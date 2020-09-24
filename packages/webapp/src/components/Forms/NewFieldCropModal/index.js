@@ -78,7 +78,7 @@ class NewFieldCropModal extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {crops} = this.props;
-    if (crops.length > prevProps.crops.length) {
+    if (crops && prevProps.crops && crops.length > prevProps.crops.length) {
       const newCrop = crops[crops.length-1];
       this.setState(preState => ({crops: crops, fieldCrop:{...preState.fieldCrop, crop_id: newCrop.crop_id}, crop_option: newCrop}));
     }

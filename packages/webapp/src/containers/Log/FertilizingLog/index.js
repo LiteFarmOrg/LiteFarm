@@ -149,6 +149,12 @@ class FertilizingLog extends Component{
         }
       }
     }
+
+    const {fertilizers} = this.props;
+    if (fertilizers && prevProps.fertilizers && fertilizers.length > prevProps.fertilizers.length) {
+      const fertilizer = fertilizers[fertilizers.length-1];
+      this.setSelectedFert({value: fertilizer.fertilizer_id});
+    }
   }
 
   compareFert = ( a, b ) => {

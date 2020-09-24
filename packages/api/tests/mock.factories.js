@@ -10,7 +10,7 @@ function weather_stationFactory(station = fakeStation()) {
 
 function fakeStation() {
   return {
-    id: faker.random.number(20000),
+    id: Date.now() & 0x7FFF,
     name: faker.address.country(),
     country: faker.address.countryCode(),
     timezone: faker.random.number(1000)

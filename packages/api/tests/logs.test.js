@@ -111,11 +111,6 @@ describe('Log Tests', () => {
   }
 
   beforeEach(async () => {
-    await knex.raw(`
-    DELETE FROM "fieldCrop";
-    DELETE FROM "field";
-    DELETE FROM "weather_station";
-    `);
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser: [owner], promisedFarm: [farm]}, fakeUserFarm(1));

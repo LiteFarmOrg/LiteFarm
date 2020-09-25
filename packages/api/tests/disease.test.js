@@ -122,6 +122,15 @@ describe('Disease Tests', () => {
       });
     });
 
+    test('Should get seeded disease', async (done)=>{
+      let [seededDisease] = await knex('disease').insert({...mocks.fakeDisease(), farm_id: null}).returning('*');
+      getRequest({user_id: owner.user_id},(err,res)=>{
+        expect(res.status).toBe(200);
+        expect(res.body[1].disease_id).toBe(seededDisease.disease_id);
+        done();
+      });
+    })
+
     describe('Get disease authorization tests', () => {
       test('Owner should get disease by farm id', async (done) => {
         getRequest({user_id: owner.user_id}, (err, res) => {
@@ -155,67 +164,86 @@ describe('Disease Tests', () => {
       });
     });
 
-    describe('Delete disease authorization tests', () => {
-      test('Owner should delete a disease', async (done) => {
-        deleteRequest({disease_id: disease.disease_id}, async (err, res) => {
-          expect(res.status).toBe(200);
-          const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(deletedDisease.length).toBe(1);
-          expect(deletedDisease[0].deleted).toBe(true);
-          done();
-        });
-      });
-
-      test('Manager should delete a disease', async (done) => {
-        deleteRequest({user_id: manager.user_id, disease_id: disease.disease_id}, async (err, res) => {
-          expect(res.status).toBe(200);
-          const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(deletedDisease.length).toBe(1);
-          expect(deletedDisease[0].deleted).toBe(true);
-          done();
-        });
-      });
-
-      test('Return 403 if farm worker tries to delete disease', async (done) => {
-        deleteRequest({user_id: worker.user_id, disease_id: disease.disease_id}, async (err, res) => {
+    describe('Delete disease tests', function () {
+      test('should return 403 if user tries to delete a seeded disease', async (done) => {
+        let [seedDisease] = await knex('disease').insert({...mocks.fakeDisease(), farm_id: null}).returning('*');
+        deleteRequest({disease_id: seedDisease.disease_id}, async (err, res) => {
           expect(res.status).toBe(403);
-          const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(diseaseNotDeleted.length).toBe(1);
-          expect(diseaseNotDeleted[0].deleted).toBe(false);
           done();
+        })
+      });
+      describe('Delete disease authorization tests', () => {
+        test('Owner should delete a disease', async (done) => {
+          deleteRequest({disease_id: disease.disease_id}, async (err, res) => {
+            expect(res.status).toBe(200);
+            const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(deletedDisease.length).toBe(1);
+            expect(deletedDisease[0].deleted).toBe(true);
+            done();
+          });
+        });
+
+        test('Manager should delete a disease', async (done) => {
+          deleteRequest({user_id: manager.user_id, disease_id: disease.disease_id}, async (err, res) => {
+            expect(res.status).toBe(200);
+            const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(deletedDisease.length).toBe(1);
+            expect(deletedDisease[0].deleted).toBe(true);
+            done();
+          });
+        });
+
+        test('Return 403 if farm worker tries to delete disease', async (done) => {
+          deleteRequest({user_id: worker.user_id, disease_id: disease.disease_id}, async (err, res) => {
+            expect(res.status).toBe(403);
+            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(diseaseNotDeleted.length).toBe(1);
+            expect(diseaseNotDeleted[0].deleted).toBe(false);
+            done();
+          });
+        });
+
+        test('Return 403 if unauthorized tries to delete disease', async (done) => {
+          deleteRequest({user_id: unauthorizedUser.user_id, disease_id: disease.disease_id}, async (err, res) => {
+            expect(res.status).toBe(403);
+            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(diseaseNotDeleted.length).toBe(1);
+            expect(diseaseNotDeleted[0].deleted).toBe(false);
+            done();
+          });
+        });
+
+        test('Return 403 if unauthorized tries to delete disease', async (done) => {
+          deleteRequest({
+            user_id: unauthorizedUser.user_id,
+            farm_id: unauthorizedFarm.farm_id,
+            disease_id: disease.disease_id
+          }, async (err, res) => {
+            expect(res.status).toBe(403);
+            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(diseaseNotDeleted.length).toBe(1);
+            expect(diseaseNotDeleted[0].deleted).toBe(false);
+            done();
+          });
         });
       });
 
-      test('Return 403 if unauthorized tries to delete disease', async (done) => {
-        deleteRequest({user_id: unauthorizedUser.user_id, disease_id: disease.disease_id}, async (err, res) => {
-          expect(res.status).toBe(403);
-          const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(diseaseNotDeleted.length).toBe(1);
-          expect(diseaseNotDeleted[0].deleted).toBe(false);
-          done();
-        });
-      });
-
-      test('Return 403 if unauthorized tries to delete disease', async (done) => {
-        deleteRequest({
-          user_id: unauthorizedUser.user_id,
-          farm_id: unauthorizedFarm.farm_id,
-          disease_id: disease.disease_id
-        }, async (err, res) => {
-          expect(res.status).toBe(403);
-          const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(diseaseNotDeleted.length).toBe(1);
-          expect(diseaseNotDeleted[0].deleted).toBe(false);
-          done();
-        });
-      });
     });
+
   });
 
-  describe('Add disease authorization tests', () => {
+  describe('Post disease authorization tests', () => {
     let diseaseToAdd;
     beforeEach(async () => {
       diseaseToAdd = createDiseaseObj();
+    });
+
+    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+      diseaseToAdd.farm_id = null;
+      addRequest(diseaseToAdd, {}, (err, res) => {
+        expect(res.status).toBe(403);
+        done()
+      })
     });
 
     test('Owner should successfully add disease', async (done) => {

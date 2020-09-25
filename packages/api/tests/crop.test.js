@@ -98,27 +98,37 @@ describe('Crop Tests', () => {
 
   describe('Get && delete && put crop', ()=>{
     let crop;
-    let newWorker;
+    let worker;
     let workerFarm;
+    let seededCrop;
 
     beforeEach(async()=>{
       [crop] = await mocks.cropFactory({promisedFarm:[farm]},{...mocks.fakeCrop(), crop_common_name: "crop", user_added: true});
-      [newWorker] = await mocks.usersFactory();
-      [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+      [worker] = await mocks.usersFactory();
+      [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
+      [seededCrop] = await knex('crop').insert({...mocks.fakeCrop(), farm_id: null}).returning('*');
     })
 
     describe('Get crop', ()=>{
 
       test('Workers should get crop by farm id', async (done)=>{
-        getRequest(`/crop/farm/${farm.farm_id}`,{user_id: newWorker.user_id},(err,res)=>{
+        getRequest(`/crop/farm/${farm.farm_id}`,{user_id: worker.user_id},(err,res)=>{
           expect(res.status).toBe(200);
           expect(res.body[0].crop_id).toBe(crop.crop_id);
           done();
         });
       })
 
+      test('Workers should get seeded crops', async (done)=>{
+        getRequest(`/crop/farm/${farm.farm_id}`,{user_id: worker.user_id},(err,res)=>{
+          expect(res.status).toBe(200);
+          expect(res.body[1].crop_id).toBe(seededCrop.crop_id);
+          done();
+        });
+      })
+
       test('Workers should get crop by id', async (done)=>{
-        getRequest(`/crop/${crop.crop_id}`,{user_id: newWorker.user_id}, (err,res)=>{
+        getRequest(`/crop/${crop.crop_id}`,{user_id: worker.user_id}, (err,res)=>{
           expect(res.status).toBe(200);
           expect(res.body[0].crop_id).toBe(crop.crop_id);
           done();
@@ -127,21 +137,21 @@ describe('Crop Tests', () => {
 
       test('Should filter out deleted crop', async (done)=>{
         await cropModel.query().findById(crop.crop_id).del();
-        getRequest(`/crop/${crop.crop_id}`,{user_id: newWorker.user_id}, (err,res)=>{
+        getRequest(`/crop/${crop.crop_id}`,{user_id: worker.user_id}, (err,res)=>{
           expect(res.status).toBe(404);
           done();
         });
       })
 
       describe('Get crop authorization tests',()=>{
-        let newWorker;
+        let worker;
         let manager;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
         beforeEach(async()=>{
-          [newWorker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+          [worker] = await mocks.usersFactory();
+          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
           [manager] = await mocks.usersFactory();
           const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -195,7 +205,7 @@ describe('Crop Tests', () => {
         [cropNotInUse] = await mocks.cropFactory({promisedFarm:[farm]},{...mocks.fakeCrop(), crop_common_name: "cropNotInUse", user_added: true});
           })
 
-      test('Owner should delete a crop that is referenced by a crop', async (done) => {
+      test('Owner should delete a crop that is referenced by a fieldCrop', async (done) => {
         deleteRequest(`/crop/${crop.crop_id}`,{}, async (err, res) => {
           expect(res.status).toBe(200);
           const crops = await cropModel.query().whereDeleted().where('farm_id',farm.farm_id);
@@ -218,15 +228,29 @@ describe('Crop Tests', () => {
         })
       });
 
+      test('should return 403 if user tries to delete a seeded crop', async (done) => {
+        deleteRequest(`/crop/${seededCrop.crop_id}`,{}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
+      test('should return 403 if user tries to delete a seeded crop with farm_id == null', async (done) => {
+        deleteRequest(`/crop/${seededCrop.crop_id}`,{farm_id: null}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
       describe('Delete crop Authorization test', ()=>{
-        let newWorker;
+        let worker;
         let manager;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
         beforeEach(async()=>{
-          [newWorker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+          [worker] = await mocks.usersFactory();
+          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
           [manager] = await mocks.usersFactory();
           const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -262,7 +286,7 @@ describe('Crop Tests', () => {
         });
 
         test('should return 403 if a worker tries to delete a crop that is not in use', async (done) => {
-          deleteRequest(`/crop/${cropNotInUse.crop_id}`, {user_id: newWorker.user_id}, (err, res) => {
+          deleteRequest(`/crop/${cropNotInUse.crop_id}`, {user_id: worker.user_id}, (err, res) => {
             expect(res.status).toBe(403);
             done();
           })
@@ -282,15 +306,23 @@ describe('Crop Tests', () => {
           })
         });
 
+        test('Should return 403 if user tries to edit a seeded crop', async (done) => {
+          let newCrop = {...seededCrop, ...mocks.fakeCrop()}
+          putCropRequest(newCrop,{}, async (err, res) => {
+            expect(res.status).toBe(403);
+            done();
+          })
+        });
+
         describe('Put crop authorization tests',()=>{
-          let newWorker;
+          let worker;
           let manager;
           let unAuthorizedUser;
           let farmunAuthorizedUser;
 
           beforeEach(async()=>{
-            [newWorker] = await mocks.usersFactory();
-            const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+            [worker] = await mocks.usersFactory();
+            const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
             [manager] = await mocks.usersFactory();
             const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -312,7 +344,7 @@ describe('Crop Tests', () => {
 
           test('should return 403 when a worker tries to edit crop', async (done) => {
             let newCrop = {...crop, ...mocks.fakeCrop()}
-            putCropRequest(newCrop,{user_id: newWorker.user_id}, async (err, res) => {
+            putCropRequest(newCrop,{user_id: worker.user_id}, async (err, res) => {
               expect(res.status).toBe(403);
               const cropRes = await cropModel.query().where('crop_id',crop.crop_id).first();
               expect(cropRes.crop_genus).toBe(crop.crop_genus);
@@ -359,6 +391,15 @@ describe('Crop Tests', () => {
       })
     });
 
+    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+      let crop = fakeCrop();
+      crop.farm_id = null;
+      postCropRequest(crop, {}, (err, res) => {
+        expect(res.status).toBe(403);
+        done()
+      })
+    });
+
     test('should post and get a valid crop', async (done) => {
       let crop = fakeCrop();
       crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
@@ -400,14 +441,14 @@ describe('Crop Tests', () => {
     })
 
     describe('Post crop authorization', ()=>{
-      let newWorker;
+      let worker;
       let manager;
       let unAuthorizedUser;
       let farmunAuthorizedUser;
 
       beforeEach(async()=>{
-        [newWorker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+        [worker] = await mocks.usersFactory();
+        const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
         [manager] = await mocks.usersFactory();
         const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -431,7 +472,7 @@ describe('Crop Tests', () => {
       test('should return 403 status if crop is posted by newWorker', async (done) => {
         let crop = fakeCrop();
         crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
-        postCropRequest(crop, {user_id: newWorker.user_id}, (err, res) => {
+        postCropRequest(crop, {user_id: worker.user_id}, (err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:crops");
           done()

@@ -1,15 +1,15 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
 
-    return Promise.all([
-        knex('permissions').insert([
-          { name: 'add:contact', description: 'add contact' },
-        ]),
-      ]);
-  
+  return Promise.all([
+    knex('permissions').insert([
+      { permission_id: 83, name: 'add:contact', description: 'add contact' },
+    ]),
+  ]);
+
 };
 
-exports.down = function(knex, Promise) {
-    return Promise.all([
-        knex('permissions').del(),
-      ]);
+exports.down = function (knex, Promise) {
+  return Promise.all([
+    knex('permissions').del(),
+  ]);
 };

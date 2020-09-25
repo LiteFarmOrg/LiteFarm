@@ -2,8 +2,6 @@ const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../../knexfile')[environment];
 const knex = Knex(config);
-const orderedEntities = ['field_id', 'field_crop_id', 'crop_id', 'fertilizer_id',
-  'pesticide_id', 'task_type_id', 'disease_id', 'farm_id' ]
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
@@ -20,22 +18,21 @@ const entitiesGetters = {
   fields: fromFields,
   activity_id: fromActivity,
 }
-module.exports = ({ params = null, body = null }) => async (req, res, next) => {
+module.exports = ({ params = null, body = null, mixed = null }) => async (req, res, next) => {
   let id_name;
   let id;
   if(params){
     id_name = params;
     id = req.params[id_name];
-  }else{
+  }else if(mixed){
+    id_name = mixed;
+    id = req;
+  } else{
     id_name = body;
     id = req.body[id_name];
   }
   if (!id_name) {
-    return next()
-  }
-
-  if (req.body.user_id && req.body.user_id !== req.get('user_id')){
-    return res.status(403).send('user not authorized to access farm');
+    return next();
   }
 
   const { farm_id } = req.headers;
@@ -77,7 +74,6 @@ async function fromField(fieldId) {
 }
 
 async function fromFields(fields){
-  // TODO: user_id should be retrieved from jwt
   if(!fields || !fields.length){
     return {};
   }
@@ -91,8 +87,36 @@ async function fromFields(fields){
   }
 }
 
-async function fromActivity(activity_id){
-  const userFarm = await knex('activityLog').join('userFarm','userFarm.user_id','activityLog.user_id').where('activityLog.activity_id',activity_id).first();
+async function fromActivity(req){
+  const user_id = req.user.sub.split('|')[1];
+  const {activity_id} = req.params;
+  const {farm_id} = req.headers;
+  let fields;
+  if(req.body.fields){
+    fields = [];
+    for(const field of req.body.fields){
+      if(!field.field_id){
+        return {};
+      }
+      fields.push(field.field_id);
+    }
+    if(fields.length===0){
+      return {};
+    }
+  }
+  const userFarmModel = require('../../models/userFarmModel');
+
+  const userFarm = await userFarmModel.query()
+    .distinct('activityLog.activity_id', 'userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
+    .join('field','userFarm.farm_id','field.farm_id')
+    .join('activityFields', 'activityFields.field_id', 'field.field_id')
+    .join('activityLog','activityFields.activity_id','activityLog.activity_id')
+    .skipUndefined()
+    .where('activityLog.activity_id',activity_id)
+    .where('userFarm.user_id', user_id)
+    .where('userFarm.farm_id', farm_id)
+    .whereIn('field.field_id', fields).first();
+  if(!userFarm) return {};
   return userFarm;
 }
 

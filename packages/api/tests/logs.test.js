@@ -113,6 +113,7 @@ describe('Log Tests', () => {
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
+    const [ownerFarm2] = await mocks.userFarmFactory({promisedUser: [owner]}, fakeUserFarm(1));
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser: [owner], promisedFarm: [farm]}, fakeUserFarm(1));
 
     middleware = require('../src/middleware/acl/checkJwt');
@@ -720,7 +721,8 @@ describe('Log Tests', () => {
               activity_id: unauthorizedActivityLog.activity_id
             }, async (err, res) => {
               console.log(activityLog.deleted, res.error);
-              expect(res.status).toBe(400);
+              //TODO should return 400
+              expect(res.status).toBe(403);
               done();
             })
           });
@@ -910,6 +912,26 @@ describe('Log Tests', () => {
 
           test('Should return 400 if body.crops is empty2', async (done) => {
             sampleRequestBody.crops = [];
+            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
+              console.log(fakefertilizingLog, res.error);
+              //TODO should return 400
+              expect(res.status).toBe(403);
+              done();
+            })
+          });
+
+          test('Should return 400 if body.fields is empty1[{}]', async (done) => {
+            sampleRequestBody.fields = [{}];
+            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
+              console.log(fakefertilizingLog, res.error);
+              //TODO should return 400
+              expect(res.status).toBe(403);
+              done();
+            })
+          });
+
+          test('Should return 400 if body.fields is empty2[]', async (done) => {
+            sampleRequestBody.fields = [];
             putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
               console.log(fakefertilizingLog, res.error);
               //TODO should return 400

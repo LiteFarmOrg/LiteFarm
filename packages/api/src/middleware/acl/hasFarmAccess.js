@@ -17,6 +17,7 @@ const entitiesGetters = {
   price_id: fromPrice,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
+  sale_id: fromSale,
 }
 module.exports = ({ params = null, body = null }) => async (req, res, next) => {
   let id_name;
@@ -80,6 +81,10 @@ async function fromYield(yieldId) {
 
 async function fromPrice(priceId) {
   return await knex('price').where({ price_id: priceId }).first();
+}
+
+async function fromSale(sale_id) {
+  return await knex('sale').where({ sale_id }).first();
 }
 
 function sameFarm(object, farm) {

@@ -35,6 +35,7 @@ describe('User Farm Tests', () => {
   let middleware;
   let owner;
   let worker;
+  let inactiveWorker;
   let manager;
   let unauthorizedUser;
 
@@ -51,6 +52,7 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
+  // note: the object that is sent should be adjusted to not include consent_version
   function updateUserFarmConsentRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).patch(`/user_farm/consent/farm/${farm_id}/user/${user_id}`)
       .send({has_consent: true, consent_version: '3.0'})
@@ -63,6 +65,20 @@ describe('User Farm Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
+      .end(callback);
+  }
+
+  function getUserFarmsOfFarmRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+    chai.request(server).get(`/user_farm/farm/${farm_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
+  function getActiveUserFarmsOfFarmRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+    chai.request(server).get(`/user_farm/active/farm/${farm_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
       .end(callback);
   }
 
@@ -87,10 +103,12 @@ describe('User Farm Tests', () => {
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]}, fakeUserFarm(1));
 
-    [worker] = await mocks.usersFactory();
-    const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]}, fakeUserFarm(3));
     [manager] = await mocks.usersFactory();
     const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]}, fakeUserFarm(2));
+    [worker] = await mocks.usersFactory();
+    const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]}, fakeUserFarm(3));
+    [inactiveWorker] = await mocks.usersFactory();
+    const [inactiveWorkerFarm] = await mocks.userFarmFactory({promisedUser:[inactiveWorker], promisedFarm:[farm]}, fakeUserFarm(3, 'Inactive'));
 
 
     [unauthorizedUser] = await mocks.usersFactory();
@@ -137,40 +155,98 @@ describe('User Farm Tests', () => {
     });
   });
 
-  xdescribe('Get user farm info by farm: authorization tests', () => {
+  describe('Get user farm info by farm: authorization tests', () => {
     describe('Get all user farm info', () => {
       test('Owner should get all user farm info', async (done) => {
-
+        getUserFarmsOfFarmRequest({user_id: owner.user_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(4);
+          // check if sensitive info can be accessed
+          expect(res.body[0].address).toBeDefined();
+          done();
+        });
       });
 
       test('Manager should get all user farm info', async (done) => {
-
+        getUserFarmsOfFarmRequest({user_id: manager.user_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(4);
+          // check if sensitive info can be accessed
+          expect(res.body[0].address).toBeDefined();
+          done();
+        });
       });
 
       test('Worker should get all user farm limited info', async (done) => {
-
+        getUserFarmsOfFarmRequest({user_id: worker.user_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(4);
+          // check if sensitive info can be accessed
+          expect(res.body[0].address).toBeUndefined();
+          // check if worker can view appropriate info
+          expect(res.body[0].first_name).toBeDefined();
+          expect(res.body[0].last_name).toBeDefined();
+          expect(res.body[0].profile_picture).toBeDefined();
+          expect(res.body[0].phone_number).toBeDefined();
+          expect(res.body[0].email).toBeDefined();
+          expect(res.body[0].role).toBeDefined();
+          expect(res.body[0].status).toBeDefined();
+          done();
+        });
       });
 
-      test('Return 403 if unauthorized user tries to get all user farm info', async (done) => {
-
+      test('Return 403 if unauthorized user tries to get any user farm info', async (done) => {
+        getUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
     });
 
     describe('Get active user farm info', () => {
       test('Owner should get active user farm info', async (done) => {
-
+        getActiveUserFarmsOfFarmRequest({user_id: owner.user_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(3);
+          // check if sensitive info can be accessed
+          expect(res.body[0].address).toBeDefined();
+          done();
+        });
       });
 
       test('Manager should get active user farm info', async (done) => {
-
+        getActiveUserFarmsOfFarmRequest({user_id: manager.user_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(3);
+          // check if sensitive info can be accessed
+          expect(res.body[0].address).toBeDefined();
+          done();
+        });
       });
 
       test('Worker should get active user farm limited info', async (done) => {
-
+        getActiveUserFarmsOfFarmRequest({user_id: worker.user_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(3);
+          // check if sensitive info can be accessed
+          expect(res.body[0].address).toBeUndefined();
+          // check if worker can view appropriate info
+          expect(res.body[0].first_name).toBeDefined();
+          expect(res.body[0].last_name).toBeDefined();
+          expect(res.body[0].profile_picture).toBeDefined();
+          expect(res.body[0].phone_number).toBeDefined();
+          expect(res.body[0].email).toBeDefined();
+          expect(res.body[0].role).toBeDefined();
+          expect(res.body[0].status).toBeDefined();
+          done();
+        });
       });
 
       test('Return 403 if unauthorized user tries to get active user farm info', async (done) => {
-
+        getActiveUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
     });
   });

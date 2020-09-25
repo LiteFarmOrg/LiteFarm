@@ -63,35 +63,72 @@ class userFarmController extends baseController {
 
   static getUserFarmsByFarmID() {
     return async (req, res) => {
-      // try {
-      //   const farm_id = req.params.farm_id;
-      //   const rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id)
-      //     .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-      //     .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-      //     .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-      //   res.status(200).send(rows);
-      // }
-      // catch (error) {
-      //   //handle more exceptions
-      //   res.status(400).send(error);
-      // }
+      try {
+        const farm_id = req.params.farm_id;
+        const user_id = req.headers.user_id;
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        console.log(userFarm.role_id);
+        let rows;
+        if (userFarm.role_id == 3) {
+          rows = await userFarmModel.query().select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status'
+          ).where('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+        } else {
+          rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        res.status(200).send(rows);
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).send(error);
+      }
     };
   }
 
   static getActiveUserFarmsByFarmID() {
     return async (req, res) => {
-      // try {
-      //   const farm_id = req.params.farm_id;
-      //   const rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
-      //     .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-      //     .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-      //     .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-      //   res.status(200).send(rows);
-      // }
-      // catch (error) {
-      //   //handle more exceptions
-      //   res.status(400).send(error);
-      // }
+      try {
+        const farm_id = req.params.farm_id;
+        const user_id = req.headers.user_id;
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id == 3) {
+          rows = await userFarmModel.query().select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status'
+          ).where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+        } else {
+          rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        res.status(200).send(rows);
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).send(error);
+      }
     };
   }
 

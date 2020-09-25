@@ -1,30 +1,30 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { fieldSelector, cropSelector, farmSelector } from '../../selector';
-import { fertSelector, fertTypeSelector } from "./selectors";
+import { fertSelector, fertTypeSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import DropDown from '../../../components/Inputs/DropDown';
-import {Control, Errors, Form} from 'react-redux-form';
-import  { getFertilizers, addFertilizer, addFertilizerLog } from './actions';
+import { Control, Errors, Form } from 'react-redux-form';
+import { getFertilizers, addFertilizer, addFertilizerLog } from './actions';
 import { actions } from 'react-redux-form';
-import Popup from "reactjs-popup";
+import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
-import parseCrops from "../Utility/parseCrops";
-import parseFields from "../Utility/parseFields";
+import parseCrops from '../Utility/parseCrops';
+import parseFields from '../Utility/parseFields';
 import { getUnit, convertToMetric } from '../../../util';
 
 
-class FertilizingLog extends Component{
-  constructor(props){
+class FertilizingLog extends Component {
+  constructor(props) {
     super(props);
     this.props.dispatch(actions.reset('logReducer.forms.fertLog'));
-    this.state={
-      date : moment(),
+    this.state = {
+      date: moment(),
       showChem: false,
       showCustomProduct: false,
       quantity_unit: getUnit(this.props.farm, 'kg', 'lb'),
@@ -44,52 +44,55 @@ class FertilizingLog extends Component{
     this.setState({ showCustomProduct: false });
   };
 
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.dispatch(getFertilizers());
   }
 
-  toggleChemInfo(){
+  toggleChemInfo() {
     this.setState({
-      showChem: !this.state.showChem
+      showChem: !this.state.showChem,
     });
   }
 
   // change the chem values on fert select
-  setSelectedFert(option){
-      let fert_id = parseInt(option.value, 10);
-      let fert = null;
+  setSelectedFert(option) {
+    let fert_id = parseInt(option.value, 10);
+    let fert = null;
 
-      for(let fertilizer of this.props.fertilizers){
-        if(fertilizer.fertilizer_id === fert_id){
-          fert = fertilizer;
-        }
+    for (let fertilizer of this.props.fertilizers) {
+      if (fertilizer.fertilizer_id === fert_id) {
+        fert = fertilizer;
       }
-      if(fert === null) {
-        alert('failed to retrieve fertilizer values.');
-        return;
-      }
-      this.props.dispatch(actions.change('logReducer.forms.fertLog.fert_id', {value: fert_id, label: fert.fertilizer_type}));
-      this.props.dispatch(actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage));
-      this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm));
-      this.props.dispatch(actions.change('logReducer.forms.fertLog.k_percentage', fert.k_percentage));
-      this.props.dispatch(actions.change('logReducer.forms.fertLog.p_percentage', fert.p_percentage));
-      this.props.dispatch(actions.change('logReducer.forms.fertLog.moisture_percentage', fert.moisture_percentage));
+    }
+    if (fert === null) {
+      alert('failed to retrieve fertilizer values.');
+      return;
+    }
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.fert_id', {
+      value: fert_id,
+      label: fert.fertilizer_type,
+    }));
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage));
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm));
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.k_percentage', fert.k_percentage));
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.p_percentage', fert.p_percentage));
+    this.props.dispatch(actions.change('logReducer.forms.fertLog.moisture_percentage', fert.moisture_percentage));
   }
 
-  handleSubmit(fertLog){
+  handleSubmit(fertLog) {
     const selectedCrops = parseCrops(fertLog);
     const selectedFields = parseFields(fertLog, this.props.fields);
 
 
     let fertConfig = {
       activity_kind: 'fertilizing',
-      date : this.state.date,
+      date: this.state.date,
       fertilizer_id: fertLog.fert_id.value,
       notes: fertLog.notes,
       quantity_kg: convertToMetric(parseFloat(fertLog.quantity_kg), this.state.quantity_unit, 'kg'),
@@ -107,9 +110,9 @@ class FertilizingLog extends Component{
   }
 
 
-  saveCustomFert(){
+  saveCustomFert() {
     let fertLog = this.props.fertLog;
-    if(!fertLog.product || fertLog.product === ''){
+    if (!fertLog.product || fertLog.product === '') {
       alert('Missing product name');
       return;
     }
@@ -138,8 +141,8 @@ class FertilizingLog extends Component{
     // Typical usage (don't forget to compare props):
     if (this.props.fertilizers !== prevProps.fertilizers) {
       let productName = 'CUSTOM - ' + this.props.fertLog.product;
-      for(let fert of this.props.fertilizers){
-        if(productName === fert.fertilizer_type){
+      for (let fert of this.props.fertilizers) {
+        if (productName === fert.fertilizer_type) {
           this.props.dispatch(actions.change('logReducer.forms.fertLog.fert_id', fert.fertilizer_id));
           this.props.dispatch(actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage));
           this.props.dispatch(actions.change('logReducer.forms.fertLog.nh4_n_ppm', fert.nh4_n_ppm));
@@ -149,13 +152,19 @@ class FertilizingLog extends Component{
         }
       }
     }
+
+    const { fertilizers } = this.props;
+    if (fertilizers && prevProps.fertilizers && fertilizers.length > prevProps.fertilizers.length) {
+      const fertilizer = fertilizers[fertilizers.length - 1];
+      this.setSelectedFert({ value: fertilizer.fertilizer_id });
+    }
   }
 
-  compareFert = ( a, b ) => {
-    if ( a.label.toLowerCase() < b.label.toLowerCase() ){
+  compareFert = (a, b) => {
+    if (a.label.toLowerCase() < b.label.toLowerCase()) {
       return -1;
     }
-    if ( a.label.toLowerCase() > b.label.toLowerCase() ){
+    if (a.label.toLowerCase() > b.label.toLowerCase()) {
       return 1;
     }
     return 0;
@@ -164,15 +173,15 @@ class FertilizingLog extends Component{
   sortFert = (fert) => {
     let fertOptions = [];
     let customOptions = [];
-    if(fert){
-      for(let f of fert){
-        if(f.fertilizer_type.startsWith("CUSTOM")){
+    if (fert) {
+      for (let f of fert) {
+        if (f.fertilizer_type.startsWith('CUSTOM')) {
           customOptions.push(
-            { value: f.fertilizer_id, label: f.fertilizer_type }
+            { value: f.fertilizer_id, label: f.fertilizer_type },
           )
-        }else{
+        } else {
           fertOptions.push(
-            { value: f.fertilizer_id, label: f.fertilizer_type }
+            { value: f.fertilizer_id, label: f.fertilizer_type },
           )
         }
       }
@@ -180,114 +189,124 @@ class FertilizingLog extends Component{
       fertOptions.sort(this.compareFert);
       customOptions.sort(this.compareFert);
 
-      fertOptions= fertOptions.concat(customOptions);
+      fertOptions = fertOptions.concat(customOptions);
     }
 
     return fertOptions;
   };
 
 
-  render(){
+  render() {
     let fields = this.props.fields;
     let fertilizers = this.props.fertilizers;
 
     const fertilizerOptions = this.sortFert(fertilizers);
 
-    return(
-      <div className="page-container" style={{styles}}>
+    return (
+      <div className="page-container" style={{ styles }}>
         <PageTitle backUrl="/new_log" title="Fertilizing Log"/>
         <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
         {
           (
             <div>
-            <Form className={styles.formContainer}  model="logReducer.forms" onSubmit={(val) => this.handleSubmit(val.fertLog)}>
-              <DefaultLogForm model=".fertLog" style={styles.labelContainer} isCropNotRequired={true}/>
-              <div className={styles.defaultFormDropDown}>
-                <label>Product</label>
-                <Control
-                  model=".fertLog.fert_id"
-                  component={DropDown}
-                  options={fertilizerOptions || []}
-                  placeholder="Select Product"
-                  onChange={this.setSelectedFert}
-                  validators={{required: (val) => { return val && val.label && val.value } }}
-                />
-              </div>
-              <Errors
-                className='required'
-                model={`.fertLog.fert_id`}
-                show={{touched: true, focus: false}}
-                messages={{
-                  required: 'Required'
-                }} />
-              <div>
-                <div className={styles.greenTextButton} onClick={()=>this.openEditModal()}> + Add a custom product </div>
-              </div>
-              <div className={styles.textContainer}>
-                <label>Quantity</label>
-                <div className={styles.inputNunit}>
-                  <Control.input
-                  type="number" step="any" model=".fertLog.quantity_kg" default={0}
-                  validators={{required: (val) => val, positive: (val)=> val>=0?1: 0 }}
-                />
-                  {this.state.quantity_unit}
-                  </div>
-              </div>
-              <Errors
-                className='required'
-                model={`.fertLog.quantity_kg`}
-                show={{touched: true, focus: false}}
-                messages={{
-                  required: 'Required',
-                  positive: 'Quantity must be positive',
-                }} />
-              <div className={styles.noteTitle}>
-                Notes
-              </div>
-              <div className={styles.noteContainer}>
-                <Control.textarea model=".fertLog.notes"/>
-              </div>
-              <div className={styles.greenTextButton} onClick={()=>this.toggleChemInfo()}>{this.state.showChem ? 'Hide' : 'Show' } Product Chemical Composition</div>
-              {this.state.showChem && (
-                <div>
-                  <div className={styles.noteTitle}>
-                    Chemical Composition:
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>Nitrate</label>
-                    <Control.text model=".fertLog.n_percentage"  disabled={true} /><span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>Ammonia</label>
-                    <Control.text model=".fertLog.nh4_n_ppm" disabled={true} /><span>ppm</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>Potassium</label>
-                    <Control.text model=".fertLog.k_percentage" disabled={true} /><span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>Phosphate</label>
-                    <Control.text model=".fertLog.p_percentage" disabled={true} /><span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>Water</label>
-                    <Control.text model=".fertLog.moisture_percentage" disabled={true} /><span>%</span>
-                  </div>
-
+              <Form className={styles.formContainer} model="logReducer.forms"
+                    onSubmit={(val) => this.handleSubmit(val.fertLog)}>
+                <DefaultLogForm model=".fertLog" style={styles.labelContainer} isCropNotRequired={true}/>
+                <div className={styles.defaultFormDropDown}>
+                  <label>Product</label>
+                  <Control
+                    model=".fertLog.fert_id"
+                    component={DropDown}
+                    options={fertilizerOptions || []}
+                    placeholder="Select Product"
+                    onChange={this.setSelectedFert}
+                    validators={{
+                      required: (val) => {
+                        return val && val.label && val.value
+                      },
+                    }}
+                  />
                 </div>
-              )}
-              <LogFooter />
-            </Form>
+                <Errors
+                  className='required'
+                  model={`.fertLog.fert_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: 'Required',
+                  }}/>
+                <div>
+                  <div className={styles.greenTextButton} onClick={() => this.openEditModal()}> + Add a custom product
+                  </div>
+                </div>
+                <div className={styles.textContainer}>
+                  <label>Quantity</label>
+                  <div className={styles.inputNunit}>
+                    <Control.input
+                      type="number" step="any" model=".fertLog.quantity_kg" default={0}
+                      validators={{ required: (val) => val === 0 || val, positive: (val) => val >= 0 ? 1 : 0 }}
+                    />
+                    {this.state.quantity_unit}
+                  </div>
+                </div>
+                <Errors
+                  className='required'
+                  model={`.fertLog.quantity_kg`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: 'Required',
+                    positive: 'Quantity must be positive',
+                  }}/>
+                <div className={styles.noteTitle}>
+                  Notes
+                </div>
+                <div className={styles.noteContainer}>
+                  <Control.textarea model=".fertLog.notes"/>
+                </div>
+                <div className={styles.greenTextButton}
+                     onClick={() => this.toggleChemInfo()}>{this.state.showChem ? 'Hide' : 'Show'} Product Chemical
+                  Composition
+                </div>
+                {this.state.showChem && (
+                  <div>
+                    <div className={styles.noteTitle}>
+                      Chemical Composition:
+                    </div>
+                    <div className={styles.chemContainer}>
+                      <label>Nitrate</label>
+                      <Control.text model=".fertLog.n_percentage" disabled={true}/><span>%</span>
+                    </div>
+                    <div className={styles.chemContainer}>
+                      <label>Ammonia</label>
+                      <Control.text model=".fertLog.nh4_n_ppm" disabled={true}/><span>ppm</span>
+                    </div>
+                    <div className={styles.chemContainer}>
+                      <label>Potassium</label>
+                      <Control.text model=".fertLog.k_percentage" disabled={true}/><span>%</span>
+                    </div>
+                    <div className={styles.chemContainer}>
+                      <label>Phosphate</label>
+                      <Control.text model=".fertLog.p_percentage" disabled={true}/><span>%</span>
+                    </div>
+                    <div className={styles.chemContainer}>
+                      <label>Water</label>
+                      <Control.text model=".fertLog.moisture_percentage" disabled={true}/><span>%</span>
+                    </div>
+
+                  </div>
+                )}
+                <LogFooter/>
+              </Form>
 
               <Popup
                 open={this.state.showCustomProduct}
                 closeOnDocumentClick
                 onClose={this.closeEditModal}
-                contentStyle={{display:'flex', width:'100%', height:'100vh', padding:'0 5%'}}
-                overlayStyle={{zIndex: '1060', height:'100vh'}}
+                contentStyle={{ display: 'flex', width: '100%', height: '100vh', padding: '0 5%' }}
+                overlayStyle={{ zIndex: '1060', height: '100vh' }}
               >
 
-                <Form className={styles.formContainer}  model="logReducer.forms" onSubmit={(val) => this.handleSubmit(val.fertLog)}>
+                <Form className={styles.formContainer} model="logReducer.forms"
+                      onSubmit={(val) => this.handleSubmit(val.fertLog)}>
                   <div className={styles.modal}>
                     <div className={styles.popupTitle}>
                       <a className={styles.close} onClick={this.closeEditModal}>
@@ -315,23 +334,28 @@ class FertilizingLog extends Component{
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Nitrate</label>
-                    <Control.input type="number" step="any" model=".fertLog.n_percentage" defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.n_percentage"
+                                   defaultValue={0}/><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Ammonia</label>
-                    <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm" defaultValue={0}/><span>ppm</span>
+                    <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm"
+                                   defaultValue={0}/><span>ppm</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Potassium</label>
-                    <Control.input type="number" step="any" model=".fertLog.k_percentage" defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.k_percentage"
+                                   defaultValue={0}/><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Phosphate</label>
-                    <Control.input type="number" step="any" model=".fertLog.p_percentage" defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.p_percentage"
+                                   defaultValue={0}/><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Water</label>
-                    <Control.input type="number" step="any" model=".fertLog.moisture_percentage" defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.moisture_percentage"
+                                   defaultValue={0}/><span>%</span>
                   </div>
                   <div className={styles.centerButton}>
                     <div className="btn btn-primary" onClick={this.saveCustomFert}>Save</div>
@@ -362,7 +386,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    dispatch,
   }
 };
 

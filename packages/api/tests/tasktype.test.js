@@ -26,7 +26,7 @@ const knex = Knex(config);
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
-
+const { tableCleanup } = require('./testEnvironment');
 
 const taskTypeModel = require('../src/models/taskTypeModel');
 
@@ -85,14 +85,7 @@ describe('taskType Tests', () => {
   })
 
   afterEach (async () => {
-    await knex.raw(`
-    DELETE FROM "taskType";
-    DELETE FROM "taskType";
-    DELETE FROM "userFarm";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
+    await tableCleanup(knex);
   });
 
   describe('Get && delete taskType',()=>{

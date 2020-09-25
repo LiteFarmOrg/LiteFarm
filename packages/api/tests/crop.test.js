@@ -25,7 +25,7 @@ const knex = Knex(config);
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
-const { tableCleanup } = require('./testEnvironment')
+const { tableCleanup } = require('./testEnvironment');
 const cropModel = require('../src/models/cropModel');
 
 describe('Crop Tests', () => {
@@ -92,7 +92,7 @@ describe('Crop Tests', () => {
     });
   })
 
-  afterEach (async () => {
+  afterAll (async () => {
     await tableCleanup(knex);
   });
 

@@ -26,7 +26,7 @@ const knex = Knex(config);
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
-
+const { tableCleanup } = require('./testEnvironment');
 
 const pesiticideModel = require('../src/models/pesiticideModel');
 
@@ -85,13 +85,7 @@ describe('Pesticide Tests', () => {
   })
 
   afterEach (async () => {
-    await knex.raw(`
-    DELETE FROM "pesticide";
-    DELETE FROM "userFarm";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
+    await tableCleanup(knex);
   });
 
   describe('Get && delete pesticide',()=>{

@@ -224,7 +224,6 @@ class NewFieldCropModal extends React.Component {
 
   toggleAreaBed = (isByArea) => {
     let fieldCrop = this.state.fieldCrop;
-    fieldCrop.area_used = 0;
     this.setState({isByArea, fieldCrop});
   };
 

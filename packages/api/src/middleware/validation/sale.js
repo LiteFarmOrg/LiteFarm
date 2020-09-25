@@ -14,12 +14,17 @@
  */
 
 async function validateSale(req, res, next) {
-  let { cropSale } = req.body;
-  if(!(cropSale && cropSale[0] && cropSale[0].crop_id)){
+  // TODO replace upsertGraph
+  const { cropSale } = req.body;
+  if (!(cropSale && cropSale[0])) {
     return res.status(400).send('Crop is required');
-  } else{
-    next();
   }
+  for (const oneCropSale of cropSale) {
+    if (!oneCropSale.crop_id || oneCropSale.fieldCrop || oneCropSale.farm || oneCropSale.crop) {
+      return res.status(400).send('Crop is required');
+    }
+  }
+  return next();
 }
 
 module.exports = validateSale;

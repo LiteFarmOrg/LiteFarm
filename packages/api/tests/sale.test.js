@@ -109,7 +109,8 @@ describe('Sale Tests', () => {
     test('Should filter out deleted sale', async (done) => {
       await saleModel.query().findById(sale.sale_id).del();
       getRequest({ user_id: owner.user_id }, (err, res) => {
-        expect(res.status).toBe(404);
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(0);
         done();
       });
     })
@@ -333,6 +334,16 @@ describe('Sale Tests', () => {
 
     test('Should return 403 if crop_id references a crop that the user does not have access to', async (done) => {
       sampleReqBody.cropSale[0].crop_id = someoneElsecrop.crop_id;
+      postSaleRequest(sampleReqBody, {}, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      })
+    });
+
+    test('Should return 400 if body.cropSale[i].crop exist', async (done) => {
+      delete sampleReqBody.cropSale[0].crop_id;
+      sampleReqBody.cropSale[0].crop={...mocks.fakeCrop(), farm_id: farm.farm_id};
+      // Should not allow upsertGraph to post new farm/crop/fieldCrop through post sale request
       postSaleRequest(sampleReqBody, {}, async (err, res) => {
         expect(res.status).toBe(400);
         done();

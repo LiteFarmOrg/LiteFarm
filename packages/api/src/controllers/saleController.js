@@ -137,7 +137,7 @@ class SaleController extends baseController {
 
   static async getSalesOfFarm(farm_id) {
     return await sale
-      .query()
+      .query().whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')

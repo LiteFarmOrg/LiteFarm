@@ -23,7 +23,7 @@ const server = require('./../src/server');
 const dummySignUp = require('./dummySignUp')
 const authConfig = require ('../src/auth0Config')
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 jest.mock('jsdom')

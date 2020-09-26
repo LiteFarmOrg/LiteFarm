@@ -1,0 +1,8 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:11.5
+    variables:
+      POSTGRES_DB: 'test_farm'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'pipeline'

@@ -1,6 +1,6 @@
 const mocks = require('./mock.factories');
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const { tableCleanup } = require('./testEnvironment')
 const config = require('../knexfile')[environment];
 const knex = Knex(config);

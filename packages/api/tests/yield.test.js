@@ -19,7 +19,7 @@ const moment = require('moment');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex');
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 const { tableCleanup } = require('./testEnvironment');
@@ -93,7 +93,7 @@ describe('Yield Tests', () => {
 		);
 		return { mainFarm, user };
   }
-  
+
   function getFakeYield(crop_id, farm_id) {
     const cropYield = mocks.fakeYield();
     return ({ ...cropYield, crop_id, farm_id });
@@ -109,7 +109,7 @@ describe('Yield Tests', () => {
     const [crop] = await mocks.cropFactory({ promisedFarm: [ mainFarm ] });
     return {crop};
   }
-  
+
 	beforeEach(async () => {
 		[ farm ] = await mocks.farmFactory();
 		[ newOwner ] = await mocks.usersFactory();
@@ -128,11 +128,11 @@ describe('Yield Tests', () => {
 	});
 
   // POST TESTS
-  
+
   describe('Post yield tests', () => {
 
     test('Owner should post yield', async (done) => {
-      
+
       const {mainFarm, user} = await returnUserFarms(1);
       const {crop} = await returnCrop(mainFarm);
       const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
@@ -147,7 +147,7 @@ describe('Yield Tests', () => {
     })
 
     test('Manager should post yield', async (done) => {
-      
+
       const {mainFarm, user} = await returnUserFarms(2);
       const {crop} = await returnCrop(mainFarm);
       const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
@@ -162,7 +162,7 @@ describe('Yield Tests', () => {
     })
 
     test('Should return 403 when worker tries to post yield', async (done) => {
-      
+
       const {mainFarm, user} = await returnUserFarms(3);
       const {crop} = await returnCrop(mainFarm);
       const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
@@ -192,7 +192,7 @@ describe('Yield Tests', () => {
   describe('Put yield tests', () => {
 
     test('Owner should update quantity_kg/m2', async (done) => {
-      
+
       const {mainFarm, user} = await returnUserFarms(1);
       const {crop_yield} = await returnYield(mainFarm)
 
@@ -244,7 +244,7 @@ describe('Yield Tests', () => {
   })
 
   // GET TESTS
-  
+
 	describe('Get yield tests', () => {
 		test('Owner should get yield by farm id', async (done) => {
       const {mainFarm, user} = await returnUserFarms(1);
@@ -291,7 +291,7 @@ describe('Yield Tests', () => {
 	});
 
   // DELETE TESTS
-  
+
 	describe('Delete yield tests', () => {
 		test('Owner should delete their yield', async (done) => {
       const {mainFarm, user} = await returnUserFarms(1);

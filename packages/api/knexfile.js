@@ -21,7 +21,7 @@ module.exports = {
       host: 'localhost',
       database: 'mock_farm',
       user:     'postgres',
-      password: 'postgres',
+      password: '7413246',
     },
     migrations: {
       directory: __dirname + '/db/migration',
@@ -78,7 +78,22 @@ module.exports = {
       host: 'localhost',
       database: 'test_farm',
       user:     'postgres',
-      password: 'postgres',
+      password: 'pipeline',
+    },
+    migrations: {
+      directory: __dirname + '/db/migration',
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds',
+    },
+  },
+  pipeline: {
+    client: 'postgresql',
+    connection: {
+      host: process.env.TEAMCITY_DOCKER_NETWORK,
+      database: 'test_farm',
+      user:     'postgres',
+      password: 'pipeline',
     },
     migrations: {
       directory: __dirname + '/db/migration',

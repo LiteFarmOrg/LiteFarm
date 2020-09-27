@@ -91,6 +91,7 @@ module.exports = {
     client: 'postgresql',
     connection: {
       host: process.env.TEAMCITY_DOCKER_NETWORK,
+      port: 5432,
       database: 'test_farm',
       user:     'postgres',
       password: 'pipeline',

@@ -12,4 +12,4 @@ services:
       test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
       interval: 5s
       timeout: 5s
-      retries: 5'
+      retries: 5

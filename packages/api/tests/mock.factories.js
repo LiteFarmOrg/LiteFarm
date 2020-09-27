@@ -1,5 +1,5 @@
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 let faker = require('faker');
 const knex = Knex(config);

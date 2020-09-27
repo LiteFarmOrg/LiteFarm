@@ -12,6 +12,7 @@
     "production": "NODE_ENV=production node src/server.js",
     "integration": "NODE_ENV=integration node src/server.js",
     "migrate:testing:db": "knex migrate:latest --env=test",
+    "migrate:pipeline:db": "knex migrate:latest --env=pipeline",
     "migrate:testing:seed": "knex seed:run --env=test",
     "migrate:rollback:testing:db": "knex migrate:rollback --env=test",
     "lint": "eslint src",

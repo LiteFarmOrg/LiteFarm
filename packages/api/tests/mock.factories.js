@@ -470,7 +470,7 @@ function fakeWaterBalance() {
   }
 }
 
-async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() }, waterBalance = fakeWaterBalance()) {
+async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() }={}, waterBalance = fakeWaterBalance()) {
   const [fieldCrop] = await Promise.all([promisedFieldCrop]);
   const [{ field_id, crop_id }] = fieldCrop;
   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
@@ -484,7 +484,7 @@ function fakeNitrogenSchedule() {
   }
 }
 
-async function nitrogenScheduleFactory({ promisedFarm = farmFactory() }, nitrogenSchedule = fakeNitrogenSchedule()) {
+async function nitrogenScheduleFactory({ promisedFarm = farmFactory() }={}, nitrogenSchedule = fakeNitrogenSchedule()) {
   const [farm] = await Promise.all([promisedFarm]);
   const [{farm_id}] = farm;
   return knex('nitrogenSchedule').insert({farm_id, ...nitrogenSchedule}).returning('*');

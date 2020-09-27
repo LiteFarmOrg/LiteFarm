@@ -37,6 +37,12 @@ describe('Crop Tests', () => {
     token = global.token;
   });
 
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
+
   function postCropRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post('/crop')
       .set('Content-Type', 'application/json')

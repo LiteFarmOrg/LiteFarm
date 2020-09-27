@@ -5,6 +5,7 @@
   "main": "./api/src/server.js",
   "scripts": {
     "test": "jest --runInBand",
+    "test-ci": "NODE_ENV=pipeline jest --runInBand",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "NODE_ENV=development node src/server.js",

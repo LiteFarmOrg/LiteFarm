@@ -497,7 +497,7 @@ function fakeCropSale() {
   }
 }
 
-async function cropSaleFactory({ promisedFieldCrop = fieldCropFactory(), promisedSale = saleFactory() }, cropSale = fakeCropSale()) {
+async function cropSaleFactory({ promisedFieldCrop = fieldCropFactory(), promisedSale = saleFactory() } = {}, cropSale = fakeCropSale()) {
   const [fieldCrop,sale] = await Promise.all([promisedFieldCrop, promisedSale]);
   const [{crop_id, field_crop_id}] = fieldCrop;
   const [{sale_id}] = sale;

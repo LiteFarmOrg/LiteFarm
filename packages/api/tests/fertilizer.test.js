@@ -40,6 +40,12 @@ describe('Fertilizer Tests', () => {
     token = global.token;
   });
 
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
+
   function postFertilizerRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/fertilizer/farm/${farm_id}`)
       .set('Content-Type', 'application/json')

@@ -20,7 +20,7 @@ describe('Factories tests', () => {
       })
   })
 
-  afterAll(async () => {
-    await tableCleanup(knex)
+  afterEach( (done) => {
+     tableCleanup(knex).then(() => done())
   })
 })

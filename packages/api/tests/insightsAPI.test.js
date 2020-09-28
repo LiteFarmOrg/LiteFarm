@@ -37,6 +37,13 @@ describe('insights test', () => {
       next()
     });
   })
+
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
+
   describe('People Fed', () => {
     test('Should get people fed if Im on my farm as an owner',async  (done) => {
       const [{user_id, farm_id}] = await createUserFarm(1)
@@ -137,7 +144,7 @@ describe('insights test', () => {
     });
   });
 
-  describe('prices distance', () => {
+  xdescribe('prices distance', () => {
     test('Should get prices distance if Im on my farm as an owner',async  (done) => {
       const [{user_id, farm_id}] = await createUserFarm(1)
       getInsight(farm_id, user_id, 'prices/distance', (err, res) => {

@@ -4,13 +4,15 @@
   "description": "backend for LiteFarm",
   "main": "./api/src/server.js",
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "jest --runInBand --forceExit",
+    "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "NODE_ENV=development node src/server.js",
     "production": "NODE_ENV=production node src/server.js",
     "integration": "NODE_ENV=integration node src/server.js",
     "migrate:testing:db": "knex migrate:latest --env=test",
+    "migrate:pipeline:db": "knex migrate:latest --env=pipeline",
     "migrate:testing:seed": "knex seed:run --env=test",
     "migrate:rollback:testing:db": "knex migrate:rollback --env=test",
     "lint": "eslint src",
@@ -21,7 +23,7 @@
   },
   "jest": {
     "verbose": true,
-    "testURL": "http://localhost/"
+    "testEnvironment": "node"
   },
   "author": "LiteFarm",
   "license": "ISC",
@@ -44,6 +46,7 @@
     "express-promise-router": "^3.0.2",
     "fs-extra": "^8.1.0",
     "generate-password": "^1.5.1",
+    "handlebars": "^4.7.6",
     "jsdom": "^16.3.0",
     "json-2-csv": "^3.5.9",
     "jwks-rsa": "^1.2.1",
@@ -65,7 +68,7 @@
     "adm-zip": "^0.4.14",
     "dotenv": "^8.2.0",
     "faker": "^5.0.0",
-    "jest": "^22.4.3",
+    "jest": "^26.4.0",
     "start-server-and-test": "^1.4.1"
   }
 }

@@ -23,7 +23,6 @@ const Knex = require('knex')
 const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
-const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');

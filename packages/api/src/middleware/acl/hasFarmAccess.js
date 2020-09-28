@@ -81,7 +81,8 @@ async function fromFields(fields) {
   }
   const field_ids = fields ? fields.map((field) => field.field_id) : undefined;
   try {
-    const userFarms = await knex('field').join('userFarm', 'field.farm_id', 'userFarm.farm_id').whereIn('field.field_id', field_ids).distinct('field.farm_id');
+    const userFarms = await knex('field').join('userFarm', 'field.farm_id', 'userFarm.farm_id')
+      .whereIn('field.field_id', field_ids).distinct('field.farm_id');
     if (userFarms.length !== 1) return {};
     return userFarms[0];
   } catch (e) {

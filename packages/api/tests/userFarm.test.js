@@ -82,11 +82,21 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
-  function deleteRequest({user_id = owner.user_id, farm_id = farm.farm_id, disease_id}, callback) {
-    chai.request(server).delete(`/disease/${disease_id}`)
+  // TODO: eventually change how role is passed into endpoint
+  function updateRoleRequest(role, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
+    chai.request(server).patch(`/user_farm/role/farm/${farm_id}/user/${target_user_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
+      .send({role})
       .end(callback);
+  }
+
+  function updateStatusRequest(status, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
+    
+  }
+
+  function updateWageRequest(wage, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
+    
   }
 
   function fakeUserFarm(role_id=1, status='Active', has_consent=true) {
@@ -260,7 +270,7 @@ describe('User Farm Tests', () => {
     test('Owner should successfully add user farm', async (done) => {
       addUserFarmRequest(userFarmToAdd, {user_id: owner.user_id}, async (err, res) => {
         expect(res.status).toBe(201);
-        const addedUserFarm = await diseaseModel.query().where('farm_id', farm.farm_id);
+        const addedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id);
         addedUserFarm = addedUserFarm[addedUserFarm.length - 1];
         expect(addedUserFarm.role_id).toBe(userFarmToAdd.role_id);
         expect(addedUserFarm.status).toBe(userFarmToAdd.status);
@@ -270,26 +280,59 @@ describe('User Farm Tests', () => {
     });
   });
 
-  xdescribe('Update user farm: authorization tests', () => {
+  describe('Update user farm: authorization tests', () => {
     describe('Update user farm role', () => {
+      // TODO: eventually change how role is passed into endpoint
       test('Owner should update user farm role', async (done) => {
-
+        const target_role = 'Manager';
+        const target_role_id = 2;
+        const target_user_id = worker.user_id;
+        updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.role_id).toBe(target_role_id);
+          done();
+        });
       });
 
       test('Manager should update user farm role', async (done) => {
-
+        const target_role = 'Manager';
+        const target_role_id = 2;
+        const target_user_id = worker.user_id;
+        updateRoleRequest(target_role, {user_id: manager.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.role_id).toBe(target_role_id);
+          done();
+        });
       });
 
       test('Return 403 if worker tries to update user farm role', async (done) => {
-
+        const target_role = 'Worker';
+        const target_role_id = 3;
+        const target_user_id = manager.user_id;
+        updateRoleRequest(target_role, {user_id: worker.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
 
       test('Return 403 if unauthorized user tries to update user farm role', async (done) => {
+        const target_role = 'Worker';
+        const target_role_id = 3;
+        const target_user_id = manager.user_id;
+        updateRoleRequest(target_role, {user_id: unauthorizedUser.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
+
+      xtest('Return 403 if last owner/Manager tries to set themselves as standard worker', async (done) => {
 
       });
     });
 
-    describe('Update user farm status', () => {
+    xdescribe('Update user farm status', () => {
       test('Owner should update user farm status', async (done) => {
 
       });
@@ -307,7 +350,7 @@ describe('User Farm Tests', () => {
       });
     });
 
-    describe('Update user farm wage', () => {
+    xdescribe('Update user farm wage', () => {
       test('Owner should update user farm wage', async (done) => {
 
       });

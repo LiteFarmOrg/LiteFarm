@@ -327,8 +327,22 @@ describe('User Farm Tests', () => {
         });
       });
 
-      xtest('Return 403 if last owner/Manager tries to set themselves as standard worker', async (done) => {
-
+      test('Return 403 if last owner/Manager tries to set themselves as standard worker', async (done) => {
+        const target_role = 'Worker';
+        const target_role_id = 3;
+        let target_user_id = manager.user_id;
+        // turn manager to worker
+        updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          let updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.role_id).toBe(target_role_id);
+          target_user_id = owner.user_id;
+          // try to turn owner to worker
+          updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+            expect(res.status).toBe(400);
+            done();
+          });
+        });
       });
     });
 

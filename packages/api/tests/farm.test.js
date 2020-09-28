@@ -18,7 +18,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 const { tableCleanup } = require('./testEnvironment')
@@ -35,6 +35,12 @@ describe('Farm Tests', () => {
     // global.token is set in testEnvironment.js
     token = global.token;
   });
+
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
 
 
   beforeEach(async () => {

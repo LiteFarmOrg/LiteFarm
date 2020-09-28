@@ -14,6 +14,7 @@ const entitiesGetters = {
   task_type_id: fromTask,
   disease_id: fromDisease,
   yield_id: fromYield,
+  price_id: fromPrice,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
 }
@@ -75,6 +76,10 @@ async function fromFieldCrop(fieldCropId) {
 
 async function fromYield(yieldId) {
   return await knex('yield').where({ yield_id: yieldId }).first();
+}
+
+async function fromPrice(priceId) {
+  return await knex('price').where({ price_id: priceId }).first();
 }
 
 function sameFarm(object, farm) {

@@ -27,12 +27,16 @@ class farmExpenseController extends baseController {
         if(!Array.isArray(expenses)){
           res.status(400).send('needs to be an array of expense items')
         }
+        const resultArray = [];
         for(let e of expenses){
-          await baseController.post(farmExpenseModel, e, trx);
+          const result = await baseController.post(farmExpenseModel, e, trx);
+          resultArray.push(result)
         }
         await trx.commit();
         res.sendStatus(201);
       } catch (error) {
+        console.log("error is")
+        console.log(error)
         //handle more exceptions
         await trx.rollback();
         res.status(400).send(error)

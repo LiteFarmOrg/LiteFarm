@@ -115,9 +115,9 @@ async function expenseTypeFactory({ promisedFarm = farmFactory() } = {}, expense
 }
 
 async function expenseFactory({ promisedExpenseType = expenseTypeFactory() } = {}, expense = fakeExpense()) {
-  const [expense] = await Promise.all([promisedExpenseType]);
-  const [{ expense_type_id }] = expense;
-  const [{ farm_id }] = expense;
+  const [expense_type] = await Promise.all([promisedExpenseType]);
+  const [{ expense_type_id }] = expense_type;
+  const [{ farm_id }] = expense_type;
   return knex('farmExpense').insert({ expense_type_id, farm_id, ...expense }).returning('*');
 }
 
@@ -194,9 +194,10 @@ function fakePrice() {
 
 function fakeExpense() {
   return {
-    farm_expense_id: faker.random.number(100),
+    farm_expense_id: faker.random.uuid(),
     expense_date: faker.date.future(),
     value: faker.random.number(100),
+    note: faker.helpers.randomize()
   }
 }
 
@@ -485,7 +486,7 @@ function fakeSale() {
 
 function fakeExpenseType  () {
   return {
-    expense_name: faker.commerce.productName()
+    expense_name: faker.finance.transactionType()
   }
 }
 

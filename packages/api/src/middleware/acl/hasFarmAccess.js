@@ -28,7 +28,12 @@ module.exports = ({ params = null, body = null }) => async (req, res, next) => {
     id = req.params[id_name];
   } else {
     id_name = body;
-    id = req.body[id_name];
+    if (Array.isArray(req.body)) {
+      id = req.body[0][id_name];
+    }
+    else {
+      id = req.body[id_name];
+    }
   }
   if (!id_name) {
     return next()

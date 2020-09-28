@@ -20,9 +20,10 @@ const moment =require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
+const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
@@ -39,6 +40,11 @@ describe('taskType Tests', () => {
     token = global.token;
   });
 
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
   function postRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/task_type`)
       .set('Content-Type', 'application/json')
@@ -85,14 +91,7 @@ describe('taskType Tests', () => {
   })
 
   afterEach (async () => {
-    await knex.raw(`
-    DELETE FROM "pesticide";
-    DELETE FROM "taskType";
-    DELETE FROM "userFarm";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
+    await tableCleanup(knex);;
   });
 
   describe('Get && delete taskType',()=>{

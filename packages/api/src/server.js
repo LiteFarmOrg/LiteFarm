@@ -124,7 +124,7 @@ app.use(bodyParser.json())
   .use('/contact', contactRoutes)
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
-  // .use('/roles', rolesRoutes)
+  .use('/roles', rolesRoutes)
 
   // handle errors
   .use((req, res, next) => {
@@ -143,7 +143,7 @@ app.use(bodyParser.json())
   });
 
 const port = process.env.PORT || 5000;
-if (environment !== 'test') {
+if (environment === 'development' || environment === 'production' ) {
   app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log('LiteFarm Backend listening on port ' + port + '!');

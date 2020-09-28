@@ -16,23 +16,13 @@
 const express = require('express');
 const router = express.Router();
 const farmExpenseController = require('../controllers/farmExpenseController');
-const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-router.get('/farm/:farm_id', checkOwnership('farmExpense'), checkScope(['get:expenses']), farmExpenseController.getAllFarmExpense());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expenses']), farmExpenseController.getAllFarmExpense());
 
-// add farm expense takes an array of expense
-router.post('/', checkScope(['add:expenses']), farmExpenseController.addFarmExpense());
+router.post('/farm/:farm_id', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expenses']), farmExpenseController.addFarmExpense());
 
-//takes an array of farm_expense_id
-// this is DELETE
-router.put('/', checkScope(['delete:expenses']), farmExpenseController.delFarmExpense());
-
-router.post('/expense_type', checkScope(['add:expense_types']), farmExpenseController.addFarmExpenseType());
-
-router.get('/expense_type/farm/:farm_id', checkScope(['get:expense_types']), farmExpenseController.getFarmExpenseType());
-
-router.get('/expense_type/default', farmExpenseController.getDefaultTypes());
-
+router.delete('/expense_id', hasFarmAccess({ params: 'expense_id' }), checkScope(['delete:expenses']), farmExpenseController.delFarmExpense());
 
 module.exports = router;

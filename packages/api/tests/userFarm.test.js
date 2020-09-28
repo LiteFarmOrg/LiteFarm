@@ -327,7 +327,7 @@ describe('User Farm Tests', () => {
         });
       });
 
-      test('Return 403 if last owner/Manager tries to set themselves as standard worker', async (done) => {
+      test('Return 400 if last owner/Manager tries to set themselves as standard worker', async (done) => {
         const target_role = 'Worker';
         const target_role_id = 3;
         let target_user_id = manager.user_id;

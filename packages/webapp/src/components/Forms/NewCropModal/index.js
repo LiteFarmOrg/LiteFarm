@@ -81,8 +81,10 @@ class NewCropModal extends React.Component {
 
   componentDidMount() {
     const {
-      dispatch
+      dispatch,
+      crops
     } = this.props;
+    if(!(crops && crops.length))
     dispatch(getCrops());
   }
 

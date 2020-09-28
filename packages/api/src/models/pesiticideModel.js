@@ -40,6 +40,7 @@ class Pesticide extends softDelete({ columnName: 'deleted' })(Model) {
         entry_interval: { type: 'number' },
         harvest_interval: { type: 'number' },
       },
+      additionalProperties: false,
     };
   }
 }

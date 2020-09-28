@@ -16,17 +16,16 @@
 const express = require('express');
 const router = express.Router();
 const priceController = require('../controllers/priceController');
-// const authFarmId = require('../middleware/acl/authFarmId');
-// const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 // Get the crop on a bed
-router.get('/farm/:farm_id', checkScope(['get:prices']), priceController.getPriceByFarmId());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:prices']), priceController.getPriceByFarmId());
 
-router.post('/', checkScope(['add:prices']), priceController.addPrice());
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:prices']), priceController.addPrice());
 
-router.put('/:id', checkScope(['edit:prices']), priceController.updatePrice());
+router.put('/:id', hasFarmAccess({ body: 'farm_id' }), checkScope(['edit:prices']), priceController.updatePrice());
 
-router.delete('/:id', checkScope(['delete:prices']), priceController.delPrice());
+router.delete('/:price_id', hasFarmAccess({ params: 'price_id' }), checkScope(['delete:prices']), priceController.delPrice());
 
 module.exports = router;

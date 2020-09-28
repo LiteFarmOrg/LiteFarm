@@ -205,31 +205,31 @@ class shiftController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const data = await knex.raw(
-          `
-          SELECT t.task_id, tp.task_name, t.shift_id, t.is_field, t.field_id, x.field_name, t.field_crop_id, t.duration, 
-          s.start_time, s.end_time, s.wage_at_moment, u.user_id, u.farm_id, s.mood, uf.wage, u.first_name, u.last_name, 
-          s.break_duration, x.crop_id, x.crop_common_name, x.variety, x.area_used, x.estimated_production, x.estimated_revenue, x.start_date, x.end_date
-          FROM "shiftTask" t
-          LEFT JOIN (
-	          SELECT f.field_crop_id, c.crop_id, crop_common_name, f.area_used, f.estimated_production, f.estimated_revenue, f.start_date, f.end_date, f.variety, fd.field_name
-	          FROM "fieldCrop" f, "crop" c, "field" fd
-	          WHERE f.crop_id = c.crop_id AND f.field_id = fd.field_id
-	          )
-	          x ON x.field_crop_id = t.field_crop_id,
-	        "shift" s, "users" u, "taskType" tp, "userFarm" uf
-          WHERE s.shift_id = t.shift_id AND uf.user_id = u.user_id AND uf.farm_id = '${farm_id}'
-          AND t.task_id = tp.task_id 
-          `
-        );
-        if (data.rows) {
-          res.status(200).send(data.rows);
+        const data = await knex.select([
+            'taskType.task_name', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
+            'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id',
+            'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production',
+            'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.start_time',
+            'shift.end_time', 'shift.wage_at_moment', 'shift.mood', 'shift.break_duration', 'userFarm.user_id',
+            'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name'
+          ]).from('shiftTask', 'taskType')
+          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
+          .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
+          .join('field', 'fieldCrop.field_id', 'field.field_id')
+          .join('crop', 'fieldCrop.crop_id','crop.crop_id')
+          .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
+          .join('userFarm', 'shift.user_id', 'userFarm.user_id')
+          .join('users', 'userFarm.user_id', 'users.user_id')
+          .where('userFarm.farm_id', farm_id);
+        if (data) {
+          res.status(200).send(data);
         } else {
           res.status(200).send([]);
         }
       }
       catch (error) {
         //handle more exceptions
+        console.log(error);
         res.status(400).json({
           error,
         });

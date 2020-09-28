@@ -36,6 +36,7 @@ class FertilizerLogModel extends Model {
         fertilizer_id: { type: 'integer', minimum: 0 },
         quantity_kg: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 

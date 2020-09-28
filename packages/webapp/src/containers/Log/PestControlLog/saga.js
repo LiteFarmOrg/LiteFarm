@@ -17,12 +17,13 @@ export function* getPesticideSaga() {
       farm_id: localStorage.getItem('farm_id'),
     },
   };
-
-  const result = yield call(axios.get, pesticideUrl + '/farm/' + farm_id, header);
-  if (result) {
-    yield put(setPesticideInState(result.data));
-  } else {
-    console.error('failed to fetch disease from database')
+  try{
+    const result = yield call(axios.get, pesticideUrl + '/farm/' + farm_id, header);
+    if (result) {
+      yield put(setPesticideInState(result.data));
+    }
+  }catch (e){
+    console.error('failed to fetch diseases');
   }
 }
 

@@ -15,6 +15,8 @@ const entitiesGetters = {
   disease_id: fromDisease,
   yield_id: fromYield,
   price_id: fromPrice,
+  farm_expense_id: fromFarmExpense,
+  expense_type_id: fromFarmExpenseType,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
 }
@@ -80,6 +82,14 @@ async function fromYield(yieldId) {
 
 async function fromPrice(priceId) {
   return await knex('price').where({ price_id: priceId }).first();
+}
+
+async function fromFarmExpense(farm_expense_id) {
+  return await knex('farmExpense').where({ farm_expense_id: farm_expense_id }).first();
+}
+
+async function fromFarmExpenseType(expense_type_id) {
+  return await knex('farmExpenseType').where({ expense_type_id: expense_type_id }).first();
 }
 
 function sameFarm(object, farm) {

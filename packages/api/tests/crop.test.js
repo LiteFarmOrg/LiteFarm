@@ -37,7 +37,8 @@ describe('Crop Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
+  afterAll(async (done) => {
+    await tableCleanup(knex);
     server.close(() =>{
       done();
     });
@@ -86,6 +87,7 @@ describe('Crop Tests', () => {
 
 
   beforeEach(async () => {
+    await knex.raw('DELETE from crop');
     [newOwner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -98,10 +100,6 @@ describe('Crop Tests', () => {
     });
   })
 
-  afterAll (async () => {
-    await tableCleanup(knex);
-  });
-
   describe('Get && delete && put crop', ()=>{
     let crop;
     let worker;
@@ -112,7 +110,7 @@ describe('Crop Tests', () => {
       [crop] = await mocks.cropFactory({promisedFarm:[farm]},{...mocks.fakeCrop(), crop_common_name: "crop", user_added: true});
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
-      [seededCrop] = await knex('crop').insert({...mocks.fakeCrop(), farm_id: null}).returning('*');
+      [seededCrop] = await knex('crop').insert({...mocks.fakeCrop(), farm_id: null, user_added: false}).returning('*');
     })
 
     describe('Get crop', ()=>{
@@ -128,6 +126,11 @@ describe('Crop Tests', () => {
       test('Workers should get seeded crops', async (done)=>{
         getRequest(`/crop/farm/${farm.farm_id}`,{user_id: worker.user_id},(err,res)=>{
           expect(res.status).toBe(200);
+          if(!res.body[1]){
+            let test2 = res.body;
+            console.log(res.body);
+            let test = res.body;
+          }
           expect(res.body[1].crop_id).toBe(seededCrop.crop_id);
           done();
         });

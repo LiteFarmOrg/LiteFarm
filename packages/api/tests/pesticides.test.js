@@ -39,13 +39,6 @@ describe('Pesticide Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() =>{
-      done();
-    });
-  })
-
-  function postRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
   function postRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/pesticide`)
       .set('Content-Type', 'application/json')
@@ -79,6 +72,7 @@ describe('Pesticide Tests', () => {
   }
 
   beforeEach(async () => {
+    await knex.raw('DELETE from pesticide');
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -91,8 +85,11 @@ describe('Pesticide Tests', () => {
     });
   })
 
-  afterEach (async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    server.close(() =>{
+      done();
+    });
   });
 
   describe('Get && delete pesticide',()=>{

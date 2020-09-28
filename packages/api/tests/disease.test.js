@@ -44,11 +44,6 @@ describe('Disease Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() =>{
-      done();
-    });
-  })
 
   function addRequest(data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/disease`)
@@ -86,6 +81,7 @@ describe('Disease Tests', () => {
   }
 
   beforeEach(async () => {
+    await knex.raw('DELETE from disease');
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]}, fakeUserFarm(1));
@@ -108,8 +104,11 @@ describe('Disease Tests', () => {
     });
   });
 
-  afterEach(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    server.close(() =>{
+      done();
+    });
   });
 
   describe('Get && delete disease', () => {

@@ -16,7 +16,6 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const moment =require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
@@ -27,7 +26,6 @@ const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
-const { tableCleanup } = require('./testEnvironment');
 
 const taskTypeModel = require('../src/models/taskTypeModel');
 
@@ -40,11 +38,6 @@ describe('taskType Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() =>{
-      done();
-    });
-  })
   function postRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/task_type`)
       .set('Content-Type', 'application/json')
@@ -78,6 +71,7 @@ describe('taskType Tests', () => {
   }
 
   beforeEach(async () => {
+    await knex.raw('DELETE from "taskType"');
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -90,8 +84,11 @@ describe('taskType Tests', () => {
     });
   })
 
-  afterEach (async () => {
+  afterAll (async (done) => {
     await tableCleanup(knex);
+    server.close(() =>{
+      done();
+    });
   });
 
   describe('Get && delete taskType',()=>{

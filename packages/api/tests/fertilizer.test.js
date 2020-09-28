@@ -40,12 +40,6 @@ describe('Fertilizer Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => {
-    server.close(() =>{
-      done();
-    });
-  })
-
   function postFertilizerRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/fertilizer/farm/${farm_id}`)
       .set('Content-Type', 'application/json')
@@ -79,6 +73,7 @@ describe('Fertilizer Tests', () => {
   }
 
   beforeEach(async () => {
+    await knex.raw('DELETE from fertilizer');
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]},fakeUserFarm(1));
@@ -91,8 +86,11 @@ describe('Fertilizer Tests', () => {
     });
   })
 
-  afterEach (async () => {
+  afterAll (async (done) => {
     await tableCleanup(knex);
+    server.close(() =>{
+      done();
+    });
   });
 
   describe('Get && delete fertilizer',()=>{

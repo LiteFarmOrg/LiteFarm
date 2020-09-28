@@ -4,6 +4,8 @@ import { actions, Control } from "react-redux-form";
 import { toastr } from 'react-redux-toastr';
 import { connect } from "react-redux";
 
+import styles from './styles.scss';
+
 class FarmAddress extends Component {
   selectedAddressName = '';
   constructor(props) {
@@ -114,7 +116,7 @@ class FarmAddress extends Component {
           required: (val) => val && val.length,
           length: (val) => val && val.length > 2
         }} onBlur={this.handleBlur()}/>
-        <div>Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)</div>
+        <div className={styles.helpText}>Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)</div>
       </div>)
   }
 

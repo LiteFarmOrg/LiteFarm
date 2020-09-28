@@ -19,7 +19,7 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 jest.mock('jsdom')
@@ -36,6 +36,12 @@ describe('Crop Tests', () => {
   beforeAll(() => {
     token = global.token;
   });
+
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
 
   function postCropRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post('/crop')

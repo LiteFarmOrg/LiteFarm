@@ -20,7 +20,7 @@ const moment =require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 jest.mock('jsdom')
@@ -39,6 +39,13 @@ describe('Pesticide Tests', () => {
     token = global.token;
   });
 
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
+
+  function postRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
   function postRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/pesticide`)
       .set('Content-Type', 'application/json')

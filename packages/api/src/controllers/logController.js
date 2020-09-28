@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (logController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -49,36 +49,6 @@ class logController extends baseController {
     };
   }
 
-
-  static getLog1(){
-    return async (req, res) => {
-      try{
-        const query = req.query;
-        if(query.logid || query.logId){
-          var logId = (query.logId != null) ? query.logId : query.logid;
-
-          var log = await logServices.getLogById(logId);
-          console.log(logId,log);
-          res.json(log);
-        }else if(query.farmId || query.farmid){
-          //find by user id
-          var farmId = (query.farmId != null) ? query.farmId : query.farmid;
-          var logs = await logServices.getLogByFarm(farmId);
-          if(logs && !logs.length){
-            res.json([{}]);
-          }else{
-            res.json(logs);
-          }
-        }else{
-          res.status(200).json([]);
-        }
-      }catch(exception){
-        const error = ExceptionHandler.handleException(exception);
-        res.status(error.status).json({ error:error.message });
-      }
-    }
-  }
-
   static getLogByActivityId(){
     return async (req, res) => {
       try{
@@ -103,8 +73,7 @@ class logController extends baseController {
           const farm_id = req.params.farm_id
           const logs = await logServices.getLogByFarm(farm_id);
           if(logs && !logs.length){
-            //TODO: replace [{}] with []
-            res.json([{}]);
+            res.json([]);
           }else{
             res.json(logs);
           }

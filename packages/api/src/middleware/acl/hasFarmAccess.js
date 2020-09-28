@@ -18,16 +18,18 @@ const entitiesGetters = {
   fields: fromFields,
   activity_id: fromActivity,
 }
+const userFarmModel = require('../../models/userFarmModel');
+
 module.exports = ({ params = null, body = null, mixed = null }) => async (req, res, next) => {
   let id_name;
   let id;
-  if(params){
+  if (params) {
     id_name = params;
     id = req.params[id_name];
-  }else if(mixed){
+  } else if (mixed) {
     id_name = mixed;
     id = req;
-  } else{
+  } else {
     id_name = body;
     id = req.body[id_name];
   }
@@ -39,7 +41,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
   // Is getting a seeded table and accessing community data. Go through.
   // TODO: try to delete seeded data
-  if(seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
+  if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
     return next();
   }
   return sameFarm(farmIdObjectFromEntity, farm_id) ? next() : notAuthorizedResponse(res);
@@ -73,50 +75,48 @@ async function fromField(fieldId) {
   return await knex('field').where({ field_id: fieldId }).first();
 }
 
-async function fromFields(fields){
-  if(!fields || !fields.length){
+async function fromFields(fields) {
+  if (!fields || !fields.length) {
     return {};
   }
-  const field_ids = fields?fields.map((field)=> field.field_id):undefined;
-  try{
-    const userFarms = await knex('field').join('userFarm','field.farm_id','userFarm.farm_id').whereIn('field.field_id',field_ids).distinct('field.farm_id');
-    if(userFarms.length!==1) return {};
+  const field_ids = fields ? fields.map((field) => field.field_id) : undefined;
+  try {
+    const userFarms = await knex('field').join('userFarm', 'field.farm_id', 'userFarm.farm_id').whereIn('field.field_id', field_ids).distinct('field.farm_id');
+    if (userFarms.length !== 1) return {};
     return userFarms[0];
-  }catch (e){
+  } catch (e) {
     return {};
   }
 }
 
-async function fromActivity(req){
+async function fromActivity(req) {
   const user_id = req.user.sub.split('|')[1];
-  const {activity_id} = req.params;
-  const {farm_id} = req.headers;
+  const { activity_id } = req.params;
+  const { farm_id } = req.headers;
   let fields;
-  if(req.body.fields){
+  if (req.body.fields) {
     fields = [];
-    for(const field of req.body.fields){
-      if(!field.field_id){
+    for (const field of req.body.fields) {
+      if (!field.field_id) {
         return {};
       }
       fields.push(field.field_id);
     }
-    if(fields.length===0){
+    if (fields.length === 0) {
       return {};
     }
   }
-  const userFarmModel = require('../../models/userFarmModel');
-
   const userFarm = await userFarmModel.query()
     .distinct('activityLog.activity_id', 'userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
-    .join('field','userFarm.farm_id','field.farm_id')
+    .join('field', 'userFarm.farm_id', 'field.farm_id')
     .join('activityFields', 'activityFields.field_id', 'field.field_id')
-    .join('activityLog','activityFields.activity_id','activityLog.activity_id')
+    .join('activityLog', 'activityFields.activity_id', 'activityLog.activity_id')
     .skipUndefined()
-    .where('activityLog.activity_id',activity_id)
+    .where('activityLog.activity_id', activity_id)
     .where('userFarm.user_id', user_id)
     .where('userFarm.farm_id', farm_id)
     .whereIn('field.field_id', fields).first();
-  if(!userFarm) return {};
+  if (!userFarm) return {};
   return userFarm;
 }
 

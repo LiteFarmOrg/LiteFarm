@@ -46,7 +46,7 @@
     "express-promise-router": "^3.0.2",
     "fs-extra": "^8.1.0",
     "generate-password": "^1.5.1",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.5.3",
     "jsdom": "^16.3.0",
     "json-2-csv": "^3.5.9",
     "jwks-rsa": "^1.2.1",

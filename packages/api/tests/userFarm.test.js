@@ -92,7 +92,11 @@ describe('User Farm Tests', () => {
   }
 
   function updateStatusRequest(status, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
-    
+    chai.request(server).patch(`/user_farm/status/farm/${farm_id}/user/${target_user_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send({status})
+      .end(callback);
   }
 
   function updateWageRequest(wage, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
@@ -346,21 +350,68 @@ describe('User Farm Tests', () => {
       });
     });
 
-    xdescribe('Update user farm status', () => {
+    describe.only('Update user farm status', () => {
       test('Owner should update user farm status', async (done) => {
-
+        const target_status = 'Inactive';
+        const target_user_id = worker.user_id;
+        updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.status).toBe(target_status);
+          done();
+        });
       });
 
       test('Manager should update user farm status', async (done) => {
-
+        const target_status = 'Inactive';
+        const target_user_id = worker.user_id;
+        updateStatusRequest(target_status, {user_id: manager.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.status).toBe(target_status);
+          done();
+        });
       });
 
       test('Return 403 if worker tries to update user farm status', async (done) => {
-
+        const target_status = 'Inactive';
+        const target_user_id = manager.user_id;
+        updateStatusRequest(target_status, {user_id: worker.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
 
       test('Return 403 if unauthorized user tries to update user farm status', async (done) => {
+        const target_status = 'Inactive';
+        const target_user_id = manager.user_id;
+        updateStatusRequest(target_status, {user_id: unauthorizedUser.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
+      });
 
+      test('Allowed status change: Inactive -> Active', async (done) => {
+        [inactiveUser] = await mocks.usersFactory();
+        const [inactiveUserFarm] = await mocks.userFarmFactory({promisedUser:[inactiveUser], promisedFarm:[farm]}, fakeUserFarm(3, 'Inactive', true));
+
+        const target_status = 'Active';
+        const target_user_id = inactiveUser.user_id;
+        updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.status).toBe(target_status);
+          done();
+        });
+      });
+
+      test('Forbidden status change: Active -> Invited', async (done) => {
+        const target_status = 'Invited';
+        const target_user_id = worker.user_id;
+        updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
       });
     });
 

@@ -67,7 +67,6 @@ class userFarmController extends baseController {
         const farm_id = req.params.farm_id;
         const user_id = req.headers.user_id;
         const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
-        console.log(userFarm.role_id);
         let rows;
         if (userFarm.role_id == 3) {
           rows = await userFarmModel.query().select(

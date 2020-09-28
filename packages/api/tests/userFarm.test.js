@@ -137,7 +137,7 @@ describe('User Farm Tests', () => {
     });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await tableCleanup(knex);
   });
 
@@ -348,9 +348,19 @@ describe('User Farm Tests', () => {
           });
         });
       });
+
+      test('Return 404 if owner tries to update user farm role that is not part of their farm', async (done) => {
+        const target_role = 'Manager';
+        const target_role_id = 2;
+        const target_user_id = unauthorizedUser.user_id;
+        updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(404);
+          done();
+        });
+      });
     });
 
-    describe.only('Update user farm status', () => {
+    describe('Update user farm status', () => {
       test('Owner should update user farm status', async (done) => {
         const target_status = 'Inactive';
         const target_user_id = worker.user_id;

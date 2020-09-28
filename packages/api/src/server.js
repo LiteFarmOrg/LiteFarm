@@ -143,11 +143,11 @@ app.use(bodyParser.json())
   });
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log('LiteFarm Backend listening on port ' + port + '!');
-});
-if (environment === 'development' || environment === 'production') {
+if (environment === 'development' || environment === 'production' || environment === 'integration') {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log('LiteFarm Backend listening on port ' + port + '!');
+  });
   waterBalanceScheduler.registerHourlyJob();
   waterBalanceScheduler.registerDailyJob();
 

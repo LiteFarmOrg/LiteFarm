@@ -17,7 +17,8 @@ const express = require('express');
 const router = express.Router();
 const contactController = require('../controllers/contactController');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-router.post('/', checkScope(['add:contact']), contactController.sendContactForm());
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:contact']), contactController.sendContactForm());
 
 module.exports = router;

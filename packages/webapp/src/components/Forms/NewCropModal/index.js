@@ -98,7 +98,6 @@ class NewCropModal extends React.Component {
     const currentState = this.state;
     let validated = true;
     let errors = '';
-    let varietyError = '';
     if (currentState.crop_common_name === '') {
       errors += 'Crop Common Name, ';
       validated = false;
@@ -121,19 +120,16 @@ class NewCropModal extends React.Component {
       validated = false;
     }
     if (currentState.variety === '') {
-      varietyError += 'Variety Name is required.';
+      errors += 'Variety Name, ';
       validated = false;
     }
 
 
     if (!validated) {
-      if (varietyError != '') {
-        toastr.error(varietyError)
-      } 
-      if (errors != '') {
+      if (errors !== '') {
         toastr.error(errors + 'is not filled out')
-      }  
-      
+      }
+
     } else {
       toastr.success('Successfully saved Crop')
     }

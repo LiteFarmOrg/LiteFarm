@@ -68,19 +68,11 @@ class NewFieldCropModal extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const {
-      dispatch
-    } = this.props;
-    dispatch(getCrops());
-    this.setState({crops: this.props.crops});
-  }
-
   componentDidUpdate(prevProps) {
     const {crops} = this.props;
     if (crops && prevProps.crops && crops.length > prevProps.crops.length) {
       const newCrop = crops[crops.length-1];
-      this.setState(preState => ({crops: crops, fieldCrop:{...preState.fieldCrop, crop_id: newCrop.crop_id}, crop_option: newCrop}));
+      this.setState(preState => ({fieldCrop:{...preState.fieldCrop, crop_id: newCrop.crop_id}, crop_option: newCrop}));
     }
   }
 
@@ -281,7 +273,7 @@ class NewFieldCropModal extends React.Component {
   };
 
   getCropOptions = () =>{
-    const {crops} = this.state;
+    const {crops} = this.props;
     let cropOptions = [];
     if(crops && crops.length){
       for(let c of crops){

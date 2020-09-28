@@ -321,18 +321,19 @@ class userFarmController extends baseController {
         return;
       }
       try {
-        const ownersManagers = await userFarmModel.query()
-          .where('farm_id', farm_id)
-          .where(builder => builder.where('role_id', 1).orWhere('role_id', 2));
-        if (ownersManagers.length == 1) {
-          res.sendStatus(400);
-          return;
-        }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
             role_id,
           });
         if (isPatched) {
+          const ownersManagers = await userFarmModel.query(trx)
+            .where('farm_id', farm_id)
+            .where(builder => builder.where('role_id', 1).orWhere('role_id', 2));
+          if (ownersManagers.length == 0) {
+            await trx.rollback();
+            res.sendStatus(400);
+            return;
+          }
           res.sendStatus(200);
           await trx.commit();
           return;

@@ -248,7 +248,7 @@ function fakeFertilizerLog() {
 
 }
 
-async function activityCropsLogFactory({
+async function activityCropsFactory({
                                          promisedActivityLog = activityLogFactory(),
                                          promisedFieldCrop = fieldCropFactory()
                                        } = {}) {
@@ -258,7 +258,7 @@ async function activityCropsLogFactory({
   return knex('activityCrops').insert({activity_id, field_crop_id}).returning('*')
 }
 
-async function activityFieldLogFactory({
+async function activityFieldsFactory({
                                          promisedActivityLog = activityLogFactory(),
                                          promisedField = fieldFactory()
                                        } = {}) {
@@ -541,5 +541,5 @@ module.exports = {
   fakeWaterBalance, waterBalanceFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFieldForTests,
-  activityCropsLogFactory, activityFieldLogFactory,
+  activityCropsFactory, activityFieldsFactory,
 }

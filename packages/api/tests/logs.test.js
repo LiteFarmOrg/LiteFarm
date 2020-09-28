@@ -159,11 +159,11 @@ describe('Log Tests', () => {
           promisedActivityLog: [activityLog],
           promisedFertilizer: [fertilizer],
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -207,11 +207,11 @@ describe('Log Tests', () => {
             promisedActivityLog: [activityLog1],
             promisedFertilizer: [fertilizer],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -234,11 +234,11 @@ describe('Log Tests', () => {
             promisedActivityLog: [activityLog1],
             promisedFertilizer: [fertilizer],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -545,11 +545,11 @@ describe('Log Tests', () => {
               promisedActivityLog: [unauthorizedActivityLog],
               promisedFertilizer: [unauthorizedFertilizer],
             });
-            [unauthorizedActivityCropLog] = await mocks.activityCropsLogFactory({
+            [unauthorizedActivityCropLog] = await mocks.activityCropsFactory({
               promisedActivityLog: [unauthorizedActivityLog],
               promisedFieldCrop: [unauthorizedFieldCrop],
             });
-            [unauthorizedActivityFieldLog] = await mocks.activityFieldLogFactory({
+            [unauthorizedActivityFieldLog] = await mocks.activityFieldsFactory({
               promisedActivityLog: [unauthorizedActivityLog],
               promisedField: [unauthorizedField],
             });
@@ -943,11 +943,11 @@ describe('Log Tests', () => {
           promisedPesticide: [pesticide],
           promisedDisease: [disease],
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -977,11 +977,11 @@ describe('Log Tests', () => {
             promisedPesticide: [pesticide],
             promisedDisease: [disease],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1005,11 +1005,11 @@ describe('Log Tests', () => {
             promisedPesticide: [pesticide],
             promisedDisease: [disease],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1108,11 +1108,11 @@ describe('Log Tests', () => {
         [harvestLog] = await mocks.harvestLogFactory({
           promisedActivity: [activityLog],
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1140,11 +1140,11 @@ describe('Log Tests', () => {
           let [harvestLog1] = await mocks.harvestLogFactory({
             promisedActivityLog: [activityLog1],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1233,11 +1233,11 @@ describe('Log Tests', () => {
         [seedLog] = await mocks.seedLogFactory({
           promisedActivity: [activityLog],
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1265,11 +1265,11 @@ describe('Log Tests', () => {
           let [seedLog1] = await mocks.seedLogFactory({
             promisedActivityLog: [activityLog1],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1358,7 +1358,7 @@ describe('Log Tests', () => {
         [fieldWorkLog] = await mocks.fieldWorkLogFactory({
           promisedActivity: [activityLog],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1386,11 +1386,11 @@ describe('Log Tests', () => {
           let [fieldWorkLog1] = await mocks.fieldWorkLogFactory({
             promisedActivityLog: [activityLog1],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1486,7 +1486,7 @@ describe('Log Tests', () => {
         [soilDataLog] = await mocks.soilDataLogFactory({
           promisedActivity: [activityLog],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1514,11 +1514,11 @@ describe('Log Tests', () => {
           let [soilDataLog1] = await mocks.soilDataLogFactory({
             promisedActivityLog: [activityLog1],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1615,11 +1615,11 @@ describe('Log Tests', () => {
         [irrigationLog] = await mocks.irrigationLogFactory({
           promisedActivity: [activityLog],
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1647,11 +1647,11 @@ describe('Log Tests', () => {
           let [irrigationLog1] = await mocks.irrigationLogFactory({
             promisedActivityLog: [activityLog1],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1740,11 +1740,11 @@ describe('Log Tests', () => {
         [scoutingLog] = await mocks.scoutingLogFactory({
           promisedActivity: [activityLog],
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1772,11 +1772,11 @@ describe('Log Tests', () => {
           let [scoutingLog1] = await mocks.scoutingLogFactory({
             promisedActivityLog: [activityLog1],
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
@@ -1861,11 +1861,11 @@ describe('Log Tests', () => {
           ...mocks.fakeActivityLog(),
           activity_kind: 'other',
         });
-        [activityCropLog] = await mocks.activityCropsLogFactory({
+        [activityCropLog] = await mocks.activityCropsFactory({
           promisedActivityLog: [activityLog],
           promisedFieldCrop: [fieldCrop],
         });
-        [activityFieldLog] = await mocks.activityFieldLogFactory({
+        [activityFieldLog] = await mocks.activityFieldsFactory({
           promisedActivityLog: [activityLog],
           promisedField: [field],
         });
@@ -1890,11 +1890,11 @@ describe('Log Tests', () => {
             ...mocks.fakeActivityLog(),
             activity_kind: 'other',
           });
-          let [activityCropLog1] = await mocks.activityCropsLogFactory({
+          let [activityCropLog1] = await mocks.activityCropsFactory({
             promisedActivityLog: [activityLog1],
             promisedFieldCrop: [fieldCrop],
           });
-          let [activityFieldLog1] = await mocks.activityFieldLogFactory({
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });

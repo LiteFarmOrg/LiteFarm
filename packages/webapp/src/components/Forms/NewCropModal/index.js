@@ -119,10 +119,17 @@ class NewCropModal extends React.Component {
       errors += 'Crop Subgroup, ';
       validated = false;
     }
+    if (currentState.variety === '') {
+      errors += 'Variety Name, ';
+      validated = false;
+    }
 
 
     if (!validated) {
-      toastr.error(errors + 'is not filled out')
+      if (errors !== '') {
+        toastr.error(errors + 'is not filled out')
+      }
+
     } else {
       toastr.success('Successfully saved Crop')
     }

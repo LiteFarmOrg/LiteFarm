@@ -20,7 +20,7 @@ const chai_assert = chai.assert;    // Using Assert style
 const chai_expect = chai.expect;    // Using Expect style
 const chai_should = chai.should();  // Using Should style
 const Knex = require('knex')
-const environment = 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 const server = require('./../src/server');
@@ -37,6 +37,13 @@ describe('insights test', () => {
       next()
     });
   })
+
+  afterAll((done) => {
+    server.close(() =>{
+      done();
+    });
+  })
+
   describe('People Fed', () => {
     test('Should get people fed if Im on my farm as an owner',async  (done) => {
       const [{user_id, farm_id}] = await createUserFarm(1)
@@ -137,7 +144,7 @@ describe('insights test', () => {
     });
   });
 
-  describe('prices distance', () => {
+  xdescribe('prices distance', () => {
     test('Should get prices distance if Im on my farm as an owner',async  (done) => {
       const [{user_id, farm_id}] = await createUserFarm(1)
       getInsight(farm_id, user_id, 'prices/distance', (err, res) => {

@@ -40,6 +40,12 @@ describe('Fertilizer Tests', () => {
     token = global.token;
   });
 
+  afterAll((done) => {
+    server.close(() => {
+      done();
+    });
+  })
+
   function postFertilizerRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/fertilizer/farm/${farm_id}`)
       .set('Content-Type', 'application/json')
@@ -88,9 +94,6 @@ describe('Fertilizer Tests', () => {
 
   afterAll (async (done) => {
     await tableCleanup(knex);
-    server.close(() =>{
-      done();
-    });
   });
 
   describe('Get && delete fertilizer',()=>{
@@ -169,7 +172,7 @@ describe('Fertilizer Tests', () => {
 
       })
 
-    describe('Delete fertlizer', async function () {
+    describe('Delete fertlizer', function () {
 
       test('should return 403 if user tries to delete a seeded fertilizer', async (done) => {
         let [seedFertilizer] = await knex('fertilizer').insert({...mocks.fakeFertilizer(), farm_id: null}).returning('*');

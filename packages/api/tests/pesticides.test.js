@@ -39,6 +39,12 @@ describe('Pesticide Tests', () => {
     token = global.token;
   });
 
+  afterAll((done) => {
+    server.close(() => {
+      done();
+    });
+  })
+
   function postRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/pesticide`)
       .set('Content-Type', 'application/json')
@@ -87,9 +93,6 @@ describe('Pesticide Tests', () => {
 
   afterAll(async (done) => {
     await tableCleanup(knex);
-    server.close(() =>{
-      done();
-    });
   });
 
   describe('Get && delete pesticide',()=>{

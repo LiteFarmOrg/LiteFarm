@@ -100,7 +100,11 @@ describe('User Farm Tests', () => {
   }
 
   function updateWageRequest(wage, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
-    
+    chai.request(server).patch(`/user_farm/wage/farm/${farm_id}/user/${target_user_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send({wage})
+      .end(callback);
   }
 
   function fakeUserFarm(role_id=1, status='Active', has_consent=true) {
@@ -425,21 +429,57 @@ describe('User Farm Tests', () => {
       });
     });
 
-    xdescribe('Update user farm wage', () => {
+    describe('Update user farm wage', () => {
       test('Owner should update user farm wage', async (done) => {
-
+        const wage = {
+          type: 'hourly',
+          amount: 23,
+        };
+        const target_user_id = worker.user_id;
+        updateWageRequest(wage, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.wage).toEqual(wage);
+          done();
+        });
       });
 
       test('Manager should update user farm wage', async (done) => {
-
+        const wage = {
+          type: 'annually',
+          amount: 50000,
+        };
+        const target_user_id = worker.user_id;
+        updateWageRequest(wage, {user_id: manager.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.wage).toEqual(wage);
+          done();
+        });
       });
 
       test('Return 403 if worker tries to update user farm wage', async (done) => {
-
+        const wage = {
+          type: 'hourly',
+          amount: 50000,
+        };
+        const target_user_id = worker.user_id;
+        updateWageRequest(wage, {user_id: worker.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
 
       test('Return 403 if unauthorized user tries to update user farm wage', async (done) => {
-
+        const wage = {
+          type: 'hourly',
+          amount: 23,
+        };
+        const target_user_id = worker.user_id;
+        updateWageRequest(wage, {user_id: unauthorizedUser.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        });
       });
     });
   });

@@ -57,7 +57,7 @@ router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm
 // router.patch('/update/farm/:farm_id/user/:user_id', checkEditPrivilege(), userFarmController.updateUser());
 
 // Update wage of userFarm
-// TODO: limit permission 12--, make permission for edit user or edit user wage?
-router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), userFarmController.updateUserFarmWage());
+// TODO: limit permission 12--
+router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), checkScope(['edit:user_wage']), userFarmController.updateWage());
 
 module.exports = router;

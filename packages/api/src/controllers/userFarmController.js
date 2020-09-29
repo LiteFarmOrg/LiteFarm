@@ -380,9 +380,32 @@ class userFarmController extends baseController {
     };
   }
 
-  static updateUserFarmWage() {
+  static updateWage() {
     return async (req, res) => {
-      
+      const trx = await transaction.start(Model.knex());
+      const farm_id = req.params.farm_id;
+      const user_id = req.params.user_id;
+      const { wage } = req.body;
+
+      try {
+        const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
+          .patch({
+            wage,
+          });
+        if (isPatched) {
+          res.sendStatus(200);
+          await trx.commit();
+          return;
+        } else {
+          await trx.rollback();
+          res.sendStatus(404);
+          return;
+        }
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).send(error);
+      }
     };
   }
 

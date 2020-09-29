@@ -55,7 +55,6 @@ describe('Log Tests', () => {
   });
 
   afterAll((done) => {
-    console.log('AFTER ALL');
     server.close(() => {
       done();
     });

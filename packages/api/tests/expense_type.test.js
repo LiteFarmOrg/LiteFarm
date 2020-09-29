@@ -71,12 +71,11 @@ describe('Expense Type Tests', () => {
 			.end(callback);
     }
     
-    function getDefaultRequest({user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+    function getDefaultRequest({user_id = newOwner.user_id}, callback) {
 		chai
 			.request(server)
-			.get(`/expense_type`)
-			.set('user_id', user_id)
-			.set('farm_id', farm_id)
+            .get(`/expense_type`)
+            .set('user_id', user_id)
 			.end(callback);
     }
     
@@ -234,54 +233,53 @@ describe('Expense Type Tests', () => {
 
       // GET DEFAULT TESTS
 
-    //   describe('Get expense type default tests', () => {
+      describe('Get expense type default tests', () => {
         
-    //     test('Owner should get default expense type', async (done) => {
-    //         const {mainFarm, user} = await returnUserFarms(1);
-    //         const expense = await returnDefaultExpenseType(mainFarm);
+        test('Owner should get default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnDefaultExpenseType();
       
-    //         getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-    //             expect(res.status).toBe(200);
+            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+                expect(res.status).toBe(200);
                 
-    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
-    //             done();
-    //         });
-    //     });
-    //     test('manager should get default expense type', async (done) => {
-    //         const {mainFarm, user} = await returnUserFarms(2);
-    //         const expense = await returnDefaultExpenseType(mainFarm);
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+        test('manager should get default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(2);
+            const expense = await returnDefaultExpenseType();
       
-    //         getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-    //             expect(res.status).toBe(200);
+            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+                expect(res.status).toBe(200);
                 
-    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
-    //             done();
-    //         });
-    //     });
-    //     test('Worker should get default expense type', async (done) => {
-    //         const {mainFarm, user} = await returnUserFarms(3);
-    //         const expense = await returnDefaultExpenseType(mainFarm);
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+        test('worker should get default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(3);
+            const expense = await returnDefaultExpenseType();
       
-    //         getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-    //             expect(res.status).toBe(200);
+            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+                expect(res.status).toBe(200);
                 
-    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
-    //             done();
-    //         });
-    //     });
-    //     test('Unauthorized user should get 403 if they try to get expense type by farm id (or null)', async (done) => {
-    //         const {mainFarm, user} = await returnUserFarms(1);
-    //         const expense = await returnDefaultExpenseType(mainFarm);
-    //         const [unAuthorizedUser] = await mocks.usersFactory();
-
-    //         getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
-    //             expect(res.status).toBe(200);
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+        test('Unauthorized user should get default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnDefaultExpenseType();
+      
+            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+                expect(res.status).toBe(200);
                 
-    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
-    //             done();
-    //         });
-    //     })
-    // })
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+    })
 
      // DELETE TESTS
 
@@ -319,7 +317,7 @@ describe('Expense Type Tests', () => {
                 done();
             });
         });
-        test('wUnauthorized user should delete get 403 if they try to delete their expense type', async (done) => {
+        test('Unauthorized user should delete get 403 if they try to delete their expense type', async (done) => {
             const {mainFarm, user} = await returnUserFarms(1);
             const [unAuthorizedUser] = await mocks.usersFactory();
             const expense = await returnExpenseType(mainFarm);

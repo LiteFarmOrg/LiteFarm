@@ -53,7 +53,7 @@ class farmExpenseTypeController extends baseController {
       static getDefaultTypes() {
         return async (req, res) => {
           try {
-            const result = await expenseTypeModel.query().where('farm_id', null);
+            const result = await expenseTypeModel.query().where('farm_id', null).whereNotDeleted();
             res.status(200).send(result);
           } catch (error) {
             res.status(400).json({

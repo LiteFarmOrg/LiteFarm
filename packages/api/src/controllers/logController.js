@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (logController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -36,7 +36,6 @@ class logController extends baseController {
     return async (req, res) => {
       const transac = await transaction.start(Model.knex());
       try{
-
         if(!lodash.isEmpty(req.body)){
           await logServices.insertLog(req.body, transac);
           await transac.commit();
@@ -50,22 +49,31 @@ class logController extends baseController {
     };
   }
 
-
-  static getLog(){
+  static getLogByActivityId(){
     return async (req, res) => {
       try{
-        const query = req.query;
-        if(query.logid || query.logId){
-          var logId = (query.logId != null) ? query.logId : query.logid;
-
-          var log = await logServices.getLogById(logId);
+        if(req.params.activity_id){
+          const activity_id = req.params.activity_id
+          const log = await logServices.getLogById(activity_id);
           res.json(log);
-        }else if(query.farmId || query.farmid){
-          //find by user id
-          var farmId = (query.farmId != null) ? query.farmId : query.farmid;
-          var logs = await logServices.getLogByFarm(farmId);
+        }else{
+          res.status(200).json([]);
+        }
+      }catch(exception){
+        const error = ExceptionHandler.handleException(exception);
+        res.status(error.status).json({ error:error.message });
+      }
+    }
+  }
+
+  static getLogByFarmId(){
+    return async (req, res) => {
+      try{
+        if(req.params.farm_id){
+          const farm_id = req.params.farm_id
+          const logs = await logServices.getLogByFarm(farm_id);
           if(logs && !logs.length){
-            res.json([{}]);
+            res.json([]);
           }else{
             res.json(logs);
           }
@@ -82,8 +90,8 @@ class logController extends baseController {
   static deleteLog(){
     return async (req, res) => {
       try{
-        if(req.params.id){
-          await logServices.deleteLog(req.params.id);
+        if(req.params.activity_id){
+          await logServices.deleteLog(req.params.activity_id);
           res.sendStatus(200);
         }else{
           throw { code:400, message:'No log id defined' }
@@ -99,9 +107,9 @@ class logController extends baseController {
   static putLog(){
     return async(req, res)=>{
       try{
-        if(req.params.id){
+        if(req.params.activity_id){
           const transac = await transaction.start(Model.knex());
-          await logServices.patchLog(req.params.id, transac, req.body);
+          await logServices.patchLog(req.params.activity_id, transac, req.body);
           await transac.commit();
           res.sendStatus(200);
         }else{
@@ -143,7 +151,7 @@ class logServices extends baseController {
   }
 
   static async getLogByFarm(farm_id){
-    var logs = await ActivityLogModel.query()
+    var logs = await ActivityLogModel.query().whereNotDeleted()
       .distinct('users.first_name', 'users.last_name', 'activityLog.activity_id', 'activityLog.activity_kind',
         'activityLog.date', 'activityLog.user_id', 'activityLog.notes', 'activityLog.action_needed', 'activityLog.photo')
       .join('userFarm', 'userFarm.user_id', '=', 'activityLog.user_id')
@@ -169,7 +177,9 @@ class logServices extends baseController {
     const activityLog = await super.updateIndividualById(ActivityLogModel, logId, updatedLog, transaction);
 
     //insert fieldCrops,fields
+    // TODO: change body.crops to body.fieldCrops
     await super.relateModels(activityLog, fieldCrop, updatedLog.crops, transaction);
+    // TODO: Deprecate fields field in req.body
     await super.relateModels(activityLog, field, updatedLog.fields, transaction);
 
     var logKind = getActivityModelKind(log[0].activity_kind);

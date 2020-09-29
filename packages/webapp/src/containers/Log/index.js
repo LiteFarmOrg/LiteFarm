@@ -1,13 +1,13 @@
 /* eslint-disable */
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -60,12 +60,12 @@ class Log extends Component{
   // filter logs in table if an option is chosen from dropdown or date
   filterLogs(logs) {
     const {user} = this.props;
-    if(logs !== null && Object.keys(logs[0]).length>0 && user && user.is_admin){
+    if(logs && logs.length && Object.keys(logs[0]).length>0 && user && user.is_admin){
       const { activityFilter, cropFilter, fieldFilter, startDate, endDate } = this.state;
       const checkFilter = (l = [], attribute, constraint) => l[attribute] === constraint || constraint === 'all' || !constraint;
       return logs.filter((l) => checkFilter(l, 'activity_kind', activityFilter) && checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) && checkFilter(l.field[0], 'field_id', fieldFilter)
         && startDate.isBefore(l.date) && (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')));
-    }else if (logs !== null && Object.keys(logs[0]).length>0 && user && !user.is_admin){
+    }else if (logs && logs.length && Object.keys(logs[0]).length>0 && user && !user.is_admin){
       const { activityFilter, cropFilter, fieldFilter, startDate, endDate } = this.state;
       const checkFilter = (l = [], attribute, constraint) => l[attribute] === constraint || constraint === 'all' || !constraint;
       return logs.filter((l) => checkFilter(l, 'activity_kind', activityFilter) && checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) && checkFilter(l.field[0], 'field_id', fieldFilter)

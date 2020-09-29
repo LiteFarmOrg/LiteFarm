@@ -64,9 +64,10 @@ class farmExpenseTypeController extends baseController {
       }
 
       static delFarmExpenseType(){
+          console.log("enter delete fn")
         return async(req, res) => {
           const trx = await transaction.start(Model.knex());
-          if (req.body.farm_id == null) {
+          if (req.headers.farm_id == null) {
             res.sendStatus(403);
           }
           try{

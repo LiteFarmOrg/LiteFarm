@@ -27,8 +27,6 @@ class farmExpenseTypeController extends baseController {
             await trx.commit();
             res.status(201).send(result);
             } catch (error) {
-                console.log("error is")
-                console.log(error)
             //handle more exceptions
             await trx.rollback();
             res.status(400).json({
@@ -42,7 +40,7 @@ class farmExpenseTypeController extends baseController {
         return async (req, res) => {
           try {
             const farm_id = req.params.farm_id;
-            const result = await expenseTypeModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
+            const result = await expenseTypeModel.query().where('farm_id', null).orWhere('farm_id', farm_id).whereNotDeleted();
             res.status(200).send(result);
           } catch (error) {
             res.status(400).json({
@@ -50,6 +48,41 @@ class farmExpenseTypeController extends baseController {
             });
           }
         };
+      }
+
+      static getDefaultTypes() {
+        return async (req, res) => {
+          try {
+            const result = await expenseTypeModel.query().where('farm_id', null);
+            res.status(200).send(result);
+          } catch (error) {
+            res.status(400).json({
+              error,
+            });
+          }
+        };
+      }
+
+      static delFarmExpenseType(){
+        return async(req, res) => {
+          const trx = await transaction.start(Model.knex());
+          try{
+            const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, trx);
+            await trx.commit();
+            if(isDeleted){
+              res.sendStatus(200);
+            }
+            else{
+              res.sendStatus(404);
+            }
+          }
+          catch (error) {
+            await trx.rollback();
+            res.status(400).json({
+              error,
+            });
+          }
+        }
       }
 
   

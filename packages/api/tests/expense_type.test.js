@@ -69,6 +69,20 @@ describe('Expense Type Tests', () => {
 			.set('user_id', user_id)
 			.set('farm_id', farm_id)
 			.end(callback);
+    }
+    
+    function getDefaultRequest({user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+		chai
+			.request(server)
+			.get(`/expense_type`)
+			.set('user_id', user_id)
+			.set('farm_id', farm_id)
+			.end(callback);
+    }
+    
+    function deleteRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+        const {expense_type_id} = data;
+		chai.request(server).delete(`/expense_type/${expense_type_id}`).set('user_id', user_id).set('farm_id', farm_id).end(callback);
 	}
     
     async function returnUserFarms(role) {
@@ -86,6 +100,13 @@ describe('Expense Type Tests', () => {
 
     async function returnExpenseType(mainFarm) {
         const [expense_type] = await mocks.expenseTypeFactory({ promisedFarm: [ mainFarm ] });
+        return {expense_type};
+    }
+
+    async function returnDefaultExpenseType() {
+        const defaultFarm = mocks.farmFactory();
+        defaultFarm.farm_id = null;
+        const [expense_type] = await mocks.expenseTypeFactory({ promisedFarm: [ defaultFarm ] });
         return {expense_type};
     }
 
@@ -210,6 +231,107 @@ describe('Expense Type Tests', () => {
             });
         })
     })
+
+      // GET DEFAULT TESTS
+
+    //   describe('Get expense type default tests', () => {
+        
+    //     test('Owner should get default expense type', async (done) => {
+    //         const {mainFarm, user} = await returnUserFarms(1);
+    //         const expense = await returnDefaultExpenseType(mainFarm);
+      
+    //         getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+    //             expect(res.status).toBe(200);
+                
+    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+    //             done();
+    //         });
+    //     });
+    //     test('manager should get default expense type', async (done) => {
+    //         const {mainFarm, user} = await returnUserFarms(2);
+    //         const expense = await returnDefaultExpenseType(mainFarm);
+      
+    //         getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+    //             expect(res.status).toBe(200);
+                
+    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+    //             done();
+    //         });
+    //     });
+    //     test('Worker should get default expense type', async (done) => {
+    //         const {mainFarm, user} = await returnUserFarms(3);
+    //         const expense = await returnDefaultExpenseType(mainFarm);
+      
+    //         getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+    //             expect(res.status).toBe(200);
+                
+    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+    //             done();
+    //         });
+    //     });
+    //     test('Unauthorized user should get 403 if they try to get expense type by farm id (or null)', async (done) => {
+    //         const {mainFarm, user} = await returnUserFarms(1);
+    //         const expense = await returnDefaultExpenseType(mainFarm);
+    //         const [unAuthorizedUser] = await mocks.usersFactory();
+
+    //         getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+    //             expect(res.status).toBe(200);
+                
+    //             expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+    //             done();
+    //         });
+    //     })
+    // })
+
+     // DELETE TESTS
+
+     describe('Delete expense type tests', () => {
+        
+        test('Owner should delete their expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnExpenseType(mainFarm);
+      
+            deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(200);
+                const [ deletedField ] = await farmExpenseTypeModel.query().where('expense_type_id', expense.expense_type.expense_type_id);
+                expect(deletedField.deleted).toBe(true);
+                done();
+            });
+        });
+        test('manager should delete their expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(2);
+            const expense = await returnExpenseType(mainFarm);
+      
+            deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(200);
+                const [ deletedField ] = await farmExpenseTypeModel.query().where('expense_type_id', expense.expense_type.expense_type_id);
+                expect(deletedField.deleted).toBe(true);
+                done();
+            });
+        });
+        test('worker should get 403 if they try to delete their expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(3);
+            const expense = await returnExpenseType(mainFarm);
+      
+            deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): delete:expense_types");
+                done();
+            });
+        });
+        test('wUnauthorized user should delete get 403 if they try to delete their expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const [unAuthorizedUser] = await mocks.usersFactory();
+            const expense = await returnExpenseType(mainFarm);
+      
+            deleteRequest(expense.expense_type, { user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): delete:expense_types");
+                done();
+            });
+        });
+
+    });
 
 
 

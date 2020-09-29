@@ -34,15 +34,15 @@ const field = require('../models/fieldModel');
 class logController extends baseController {
   static addLog() {
     return async (req, res) => {
-      const transac = await transaction.start(Model.knex());
+      const trx = await transaction.start(Model.knex());
       try{
         if(!lodash.isEmpty(req.body)){
-          await logServices.insertLog(req.body, transac);
-          await transac.commit();
+          await logServices.insertLog(req.body, trx);
+          await trx.commit();
         }
         res.sendStatus(200);
       }catch(exception){
-        await transac.rollback();
+        await trx.rollback();
         var error = ExceptionHandler.handleException(exception);
         res.status(error.status).json({ error: error.message });
       }
@@ -106,17 +106,18 @@ class logController extends baseController {
 
   static putLog(){
     return async(req, res)=>{
+      const trx = await transaction.start(Model.knex());
       try{
         if(req.params.activity_id){
-          const transac = await transaction.start(Model.knex());
-          await logServices.patchLog(req.params.activity_id, transac, req.body);
-          await transac.commit();
+          await logServices.patchLog(req.params.activity_id, trx, req.body);
+          await trx.commit();
           res.sendStatus(200);
         }else{
           throw { code:400, message:'No log id defined' }
         }
 
       }catch(exception){
+        await trx.rollback();
         const error = ExceptionHandler.handleException(exception);
         res.status(error.status).json({ error: error.message });
       }

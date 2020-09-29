@@ -194,7 +194,6 @@ function fakePrice() {
 
 function fakeExpense() {
   return {
-    farm_expense_id: faker.random.uuid(),
     expense_date: faker.date.future(),
     value: faker.random.number(100),
     note: faker.helpers.randomize()
@@ -484,7 +483,7 @@ function fakeSale() {
   }
 }
 
-function fakeExpenseType  () {
+function fakeExpenseType() {
   return {
     expense_name: faker.finance.transactionType()
   }

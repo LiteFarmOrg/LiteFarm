@@ -72,8 +72,8 @@ describe('Expense Tests', () => {
 	}
 
 	function deleteRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
-        const { expense_id } = data;
-		chai.request(server).delete(`/expense/${expense_id}`).set('user_id', user_id).set('farm_id', farm_id).end(callback);
+        const { farm_expense_id } = data;
+		chai.request(server).delete(`/expense/${farm_expense_id}`).set('user_id', user_id).set('farm_id', farm_id).end(callback);
 	}
 
 	async function returnUserFarms(role) {
@@ -136,7 +136,7 @@ describe('Expense Tests', () => {
                 expect(res.status).toBe(201);
                 const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
                 expect(expenses.length).toBe(1);
-                expect(expenses[0].farm_expense_id).toBe(expense.farm_expense_id);
+                expect(expenses[0].value).toBe(expense.value);
                 done();
             })
         })
@@ -153,7 +153,7 @@ describe('Expense Tests', () => {
             expect(res.status).toBe(201);
             const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
             expect(expenses.length).toBe(1);
-            expect(expenses[0].farm_expense_id).toBe(expense.farm_expense_id);
+            expect(expenses[0].value).toBe(expense.value);
             done();
             })
         })
@@ -170,7 +170,7 @@ describe('Expense Tests', () => {
             expect(res.status).toBe(201);
             const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
             expect(expenses.length).toBe(1);
-            expect(expenses[0].farm_expense_id).toBe(expense.farm_expense_id);
+            expect(expenses[0].value).toBe(expense.value);
             done();
             })
         })
@@ -235,6 +235,56 @@ describe('Expense Tests', () => {
 			done();
 			});
 		});
+
+    });
+
+       // DELETE TESTS
+
+       describe('Delete expense tests', () => {
+        
+        test('Owner should delete their expense', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const {expense} = await returnExpense(mainFarm);
+      
+            deleteRequest(expense, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(200);
+                const [ deletedField ] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+                expect(deletedField.deleted).toBe(true);
+                done();
+            });
+        });
+        test('Manager should delete their expense', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(2);
+            const {expense} = await returnExpense(mainFarm);
+      
+            deleteRequest(expense, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(200);
+                const [ deletedField ] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+                expect(deletedField.deleted).toBe(true);
+                done();
+            });
+        });
+        test('Worker should delete get 403 if they try to delete their expense', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(3);
+            const {expense} = await returnExpense(mainFarm);
+      
+            deleteRequest(expense, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): delete:expenses");
+                done();
+            });
+        });
+        test('Unauthorized user should delete get 403 if they try to delete their expense', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const [unAuthorizedUser] = await mocks.usersFactory();
+            const {expense} = await returnExpense(mainFarm);
+      
+            deleteRequest(expense, { user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): delete:expenses");
+                done();
+            });
+        });
 
     });
 

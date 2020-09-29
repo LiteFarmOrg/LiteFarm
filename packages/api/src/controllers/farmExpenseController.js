@@ -49,8 +49,14 @@ class farmExpenseController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const rows = await farmExpenseController.getByForeignKey(farm_id);
+    
+      if (!rows.length) {
+        res.sendStatus(404)
+      }
+      else {
         res.status(200).send(rows);
       }
+    }
       catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -62,29 +68,56 @@ class farmExpenseController extends baseController {
 
   static async getByForeignKey(farm_id) {
     const expenses = await farmExpenseModel.query().select('*').from('farmExpense').where('farmExpense.farm_id', farm_id).whereNotDeleted();
-
     return expenses;
   }
 
   //takes an array of farm_expense_id
-  static delFarmExpense() {
-    return async (req, res) => {
+  // static delFarmExpense() {
+  //   return async (req, res) => {
+  //     const trx = await transaction.start(Model.knex());
+  //     try {
+  //       console.log("req params is")
+  //       console.log(req.params)
+  //       const farmIDs = req.body;
+  //       console.log("req body is")
+  //       console.log(req.body)
+  //       if(!Array.isArray(farmIDs)){
+  //         res.status(400).send('Needs to be an array of farm id');
+  //       }
+  //       const table_id = farmExpenseModel.idColumn;
+  //       for(let id of farmIDs){
+  //         const deleted = await farmExpenseModel.query(trx).where(table_id, id).del();
+  //         if(!deleted){
+  //           await trx.rollback();
+  //           res.status(400).send('cannot delete expense with id ' + id);
+  //         }
+  //       }
+  //       await trx.commit();
+  //       res.sendStatus(200)
+  //     }
+  //     catch (error) {
+  //       console.log("error is")
+  //       console.log(error)
+  //       await trx.rollback();
+  //       res.status(400).json({
+  //         error,
+  //       });
+  //     }
+  //   }
+  // }
+
+  static delFarmExpense(){
+    return async(req, res) => {
       const trx = await transaction.start(Model.knex());
-      try {
-        const farmIDs = req.body;
-        if(!Array.isArray(farmIDs)){
-          res.status(400).send('Needs to be an array of farm id');
-        }
-        const table_id = farmExpenseModel.idColumn;
-        for(let id of farmIDs){
-          const deleted = await farmExpenseModel.query(trx).where(table_id, id).del();
-          if(!deleted){
-            await trx.rollback();
-            res.status(400).send('cannot delete expense with id ' + id);
-          }
-        }
+      try{
+        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx);
         await trx.commit();
-        res.sendStatus(200)
+        if(isDeleted){
+          res.sendStatus(200);
+        }
+        else{
+          res.sendStatus(404);
+        }
       }
       catch (error) {
         await trx.rollback();

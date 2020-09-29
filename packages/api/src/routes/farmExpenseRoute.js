@@ -23,6 +23,6 @@ router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['
 
 router.post('/farm/:farm_id', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expenses']), farmExpenseController.addFarmExpense());
 
-router.delete('/expense_id', hasFarmAccess({ params: 'expense_id' }), checkScope(['delete:expenses']), farmExpenseController.delFarmExpense());
+router.delete('/:farm_expense_id', hasFarmAccess({ params: 'farm_expense_id'}), checkScope(['delete:expenses']), farmExpenseController.delFarmExpense());
 
 module.exports = router;

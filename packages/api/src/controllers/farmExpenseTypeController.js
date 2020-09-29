@@ -19,22 +19,24 @@ const { transaction, Model } = require('objection');
 
 class farmExpenseTypeController extends baseController {
 
-        static addFarmExpenseType() {
+    static addFarmExpenseType() {
         return async (req, res) => {
-          const trx = await transaction.start(Model.knex());
-          try {
+            const trx = await transaction.start(Model.knex());
+            try {
             const result = await baseController.postWithResponse(expenseTypeModel, req.body, trx);
             await trx.commit();
             res.status(201).send(result);
-          } catch (error) {
+            } catch (error) {
+                console.log("error is")
+                console.log(error)
             //handle more exceptions
             await trx.rollback();
             res.status(400).json({
-              error,
+                error,
             });
-          }
+            }
         };
-      }
+    }
 
   
 }

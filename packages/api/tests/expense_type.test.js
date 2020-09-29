@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const chai = require('chai');
+ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment');
 chai.use(chaiHttp);
@@ -43,11 +43,11 @@ describe('Expense Type Tests', () => {
 		server.close(() =>{
 			done();
 		});
-	})
+    })
 
-	// FUNCTIONS
+    // FUNCTIONS
 
-	function postExpenseTypeRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+    function postExpenseTypeRequest(data, { user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
 		chai
 			.request(server)
 			.post(`/expense_type`)
@@ -56,13 +56,13 @@ describe('Expense Type Tests', () => {
 			.set('farm_id', farm_id)
 			.send(data)
 			.end(callback);
-	}
-
-	function fakeUserFarm(role = 1) {
+    }
+    
+    function fakeUserFarm(role = 1) {
 		return { ...mocks.fakeUserFarm(), role_id: role };
-	}
-
-	async function returnUserFarms(role) {
+    }
+    
+    async function returnUserFarms(role) {
 		const [ mainFarm ] = await mocks.farmFactory();
 		const [ user ] = await mocks.usersFactory();
 		const [ userFarm ] = await mocks.userFarmFactory(
@@ -80,21 +80,21 @@ describe('Expense Type Tests', () => {
         return {expense_type};
     }
 
-	beforeEach(async () => {
-		[ farm ] = await mocks.farmFactory();
-		[ newOwner ] = await mocks.usersFactory();
+   beforeEach(async () => {
+    [ farm ] = await mocks.farmFactory();
+    [ newOwner ] = await mocks.usersFactory();
 
-		middleware = require('../src/middleware/acl/checkJwt');
-		middleware.mockImplementation((req, res, next) => {
-			req.user = {};
-			req.user.sub = '|' + req.get('user_id');
-			next();
-		});
-	});
+    middleware = require('../src/middleware/acl/checkJwt');
+    middleware.mockImplementation((req, res, next) => {
+        req.user = {};
+        req.user.sub = '|' + req.get('user_id');
+        next();
+    });
+});
 
-	afterEach(async () => {
-		await tableCleanup(knex);
-	});
+    afterEach(async () => {
+        await tableCleanup(knex);
+    });
 
     // POST TESTS
 
@@ -105,16 +105,18 @@ describe('Expense Type Tests', () => {
             const {expense_type} = await returnExpenseType(mainFarm);
 
             postExpenseTypeRequest(expense_type, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
-                console.log(res.error)
                 expect(res.status).toBe(201);
-                // const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
-                // expect(expenses.length).toBe(1);
-                // expect(expenses[0].value).toBe(expense.value);
-                done();
+                console.log("error inside test is")
+                console.log(res.error)
+                
+                
+               
             })
         })
+    })
 
-    });
 
-  
-});
+
+
+})
+

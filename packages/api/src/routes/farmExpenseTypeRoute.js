@@ -19,13 +19,11 @@ const farmExpenseTypeController = require('../controllers/farmExpenseTypeControl
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-//router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expense_types']), farmExpenseTypeController.getFarmExpenseType());
-
 router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expense_types']), farmExpenseTypeController.addFarmExpenseType());
 
-module.exports = router;
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expense_types']), farmExpenseTypeController.getFarmExpenseType());
 
-// router.get('/expense_type/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expense_types']), farmExpenseTypeController.getFarmExpenseType());
+module.exports = router;
 
 // router.get('/', hasFarmAccess({ params: 'farm_id' }), farmExpenseTypeController.getDefaultTypes());
 

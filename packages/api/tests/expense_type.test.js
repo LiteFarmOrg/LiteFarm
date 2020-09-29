@@ -61,6 +61,15 @@ describe('Expense Type Tests', () => {
     function fakeUserFarm(role = 1) {
 		return { ...mocks.fakeUserFarm(), role_id: role };
     }
+
+    function getRequest({ user_id = newOwner.user_id, farm_id = farm.farm_id }, callback) {
+		chai
+			.request(server)
+			.get(`/expense_type/farm/${farm_id}`)
+			.set('user_id', user_id)
+			.set('farm_id', farm_id)
+			.end(callback);
+	}
     
     async function returnUserFarms(role) {
 		const [ mainFarm ] = await mocks.farmFactory();
@@ -103,7 +112,7 @@ describe('Expense Type Tests', () => {
 
     // POST TESTS
 
-    describe('Post expense tests', () => {
+    describe('Post expense type tests', () => {
         
         test('Owner should post expense type', async (done) => {
             const {mainFarm, user} = await returnUserFarms(1);
@@ -149,6 +158,56 @@ describe('Expense Type Tests', () => {
                 expect(res.error.text).toBe("User does not have the following permission(s): add:expense_types");
                 done();   
             })
+        })
+    })
+
+    // GET TESTS
+
+    describe('Get expense type tests', () => {
+        
+        test('Owner should get expense type by farm id (or null)', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnExpenseType(mainFarm);
+      
+            getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+                expect(res.status).toBe(200);
+                
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+        test('manager should get expense type by farm id (or null)', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(2);
+            const expense = await returnExpenseType(mainFarm);
+      
+            getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+                expect(res.status).toBe(200);
+                
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+        test('Worker should get expense type by farm id (or null)', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(3);
+            const expense = await returnExpenseType(mainFarm);
+      
+            getRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+                expect(res.status).toBe(200);
+                
+                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+        test('Unauthorized user should get 403 if they try to get expense type by farm id (or null)', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnExpenseType(mainFarm);
+            const [unAuthorizedUser] = await mocks.usersFactory();
+
+            getRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
+                expect(res.status).toBe(403);
+                expect(res.error.text).toBe("User does not have the following permission(s): get:expense_types");
+                done();
+            });
         })
     })
 

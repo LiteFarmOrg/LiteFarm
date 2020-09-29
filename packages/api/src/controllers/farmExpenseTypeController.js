@@ -38,6 +38,20 @@ class farmExpenseTypeController extends baseController {
         };
     }
 
+    static getFarmExpenseType() {
+        return async (req, res) => {
+          try {
+            const farm_id = req.params.farm_id;
+            const result = await expenseTypeModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
+            res.status(200).send(result);
+          } catch (error) {
+            res.status(400).json({
+              error,
+            });
+          }
+        };
+      }
+
   
 }
 

@@ -271,11 +271,55 @@ describe('Expense Type Tests', () => {
         test('Unauthorized user should get default expense type', async (done) => {
             const {mainFarm, user} = await returnUserFarms(1);
             const expense = await returnDefaultExpenseType();
+            const [unAuthorizedUser] = await mocks.usersFactory();
       
-            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+            getDefaultRequest({ user_id: unAuthorizedUser.user_id}, (err, res) => {
                 expect(res.status).toBe(200);
                 
                 expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                done();
+            });
+        });
+    })
+
+    // DELETE DEFAULT TEST
+
+    describe('Delete expense type default tests', () => {
+        
+        test('Owner should get 403 if they try to delete default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnDefaultExpenseType();
+      
+            deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: expense.farm_id}, (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+            });
+        });
+        test('manager should get 403 if they try to delete default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(2);
+            const expense = await returnDefaultExpenseType();
+      
+            deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: expense.farm_id}, (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+            });
+        });
+        test('Worker should get 403 if they try to delete default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(3);
+            const expense = await returnDefaultExpenseType();
+      
+            deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: expense.farm_id}, (err, res) => {
+                expect(res.status).toBe(403);
+                done();
+            });
+        });
+        test('unauthorized user should get 403 if they try to delete default expense type', async (done) => {
+            const {mainFarm, user} = await returnUserFarms(1);
+            const expense = await returnDefaultExpenseType();
+            const [unAuthorizedUser] = await mocks.usersFactory();
+      
+            deleteRequest(expense.expense_type, { user_id: unAuthorizedUser.user_id, farm_id: expense.farm_id}, (err, res) => {
+                expect(res.status).toBe(403);
                 done();
             });
         });

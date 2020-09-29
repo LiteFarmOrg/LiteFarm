@@ -55,7 +55,6 @@ describe('Log Tests', () => {
   });
 
   afterAll((done) => {
-    console.log('AFTER ALL');
     server.close(() => {
       done();
     });
@@ -131,7 +130,7 @@ describe('Log Tests', () => {
     });
   })
 
-  afterEach(async (done) => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
     done();
   });
@@ -786,7 +785,7 @@ describe('Log Tests', () => {
 
         })
 
-        xdescribe('Put fertilizerLog tests with multiple field_crop and field', () => {
+        describe('Put fertilizerLog tests with multiple field_crop and field', () => {
           let fakefertilizingLog;
           let fakeActivityLog1;
           let fertilizer1;
@@ -816,7 +815,7 @@ describe('Log Tests', () => {
             }
           });
 
-          xtest('Owner should put fertilizerLog tests with multiple field_crop and field', async (done) => {
+          test('Owner should put fertilizerLog tests with multiple field_crop and field', async (done) => {
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(200);
               const activityLog = await activityLogModel.query().where('user_id', owner.user_id);
@@ -859,7 +858,7 @@ describe('Log Tests', () => {
           //   })
           // });
 
-          xtest('Should return 403 if field reference a field that is not in fieldCrop in the database', async (done) => {
+          test('Should return 403 if field reference a field that is not in fieldCrop in the database', async (done) => {
             sampleRequestBody.fields = [{ field_id: field1.field_id }];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               expect(res.status).toBe(403);
@@ -885,7 +884,7 @@ describe('Log Tests', () => {
           //   })
           // });
           //TODO fail
-          xtest('Should return 400 if body.fields is empty1[{}]', async (done) => {
+          test('Should return 400 if body.fields is empty1[{}]', async (done) => {
             sampleRequestBody.fields = [{}];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               //TODO should return 400
@@ -894,7 +893,7 @@ describe('Log Tests', () => {
             })
           });
 
-          xtest('Should return 400 if body.fields is empty2[]', async (done) => {
+          test('Should return 400 if body.fields is empty2[]', async (done) => {
             sampleRequestBody.fields = [];
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               //TODO should return 400
@@ -903,7 +902,7 @@ describe('Log Tests', () => {
             })
           });
 
-          xtest('Should return 400 if body.crops is undefined', async (done) => {
+          test('Should return 400 if body.crops is undefined', async (done) => {
             delete sampleRequestBody.crops;
             putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
               //TODO should return 400

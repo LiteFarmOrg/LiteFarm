@@ -37,12 +37,49 @@ class TestEnvironment extends NodeEnvironment {
 
 function tableCleanup(knex) {
   return knex.raw(`
-    TRUNCATE "activityFields", "fieldWorkLog", "harvestLog", "irrigationLog", "activityCrops", "scoutingLog",
-    "pestControlLog", "fertilizerLog", "seedLog", "soilDataLog", "userTodo", "todo", "activityLog", "notification",
-    "yield", "cropCommonName", "cropDisease", "price", "cropSale", "sale", "waterBalance", "nitrogenBalance",
-    "fieldCrop", "crop", "shiftTask", "shift", "field", "fertilizer", "farmExpense", "farmExpenseType", "disease",
-    "pesticide", "taskType", "farmDataSchedule", "userFarm", "waterBalanceSchedule", "plan", "nitrogenSchedule",
-    "users", "farm", "weatherHourly", "weather", "weather_station" CASCADE;
+    DELETE FROM "activityFields";
+    DELETE FROM "fieldWorkLog";
+    DELETE FROM "harvestLog";
+    DELETE FROM "irrigationLog";
+    DELETE FROM "activityCrops";
+    DELETE FROM "scoutingLog";
+    DELETE FROM "pestControlLog";
+    DELETE FROM "fertilizerLog"; 
+    DELETE FROM "seedLog";
+    DELETE FROM "soilDataLog";
+    DELETE FROM "userTodo";
+    DELETE FROM "todo";
+    DELETE FROM "activityLog";
+    DELETE FROM "notification";
+    DELETE FROM "yield"; 
+    DELETE FROM "cropCommonName"; 
+    DELETE FROM "cropDisease"; 
+    DELETE FROM "price"; 
+    DELETE FROM "cropSale"; 
+    DELETE FROM "sale"; 
+    DELETE FROM "waterBalance"; 
+    DELETE FROM "nitrogenBalance"; 
+    DELETE FROM "fieldCrop"; 
+    DELETE FROM "crop"; 
+    DELETE FROM "shiftTask";
+    DELETE FROM "shift"; 
+    DELETE FROM "field";  
+    DELETE FROM "fertilizer"; 
+    DELETE FROM "farmExpense"; 
+    DELETE FROM "farmExpenseType"; 
+    DELETE FROM "disease";
+    DELETE FROM "pesticide";
+    DELETE FROM "taskType";
+    DELETE FROM "farmDataSchedule";
+    DELETE FROM "userFarm";
+    DELETE FROM "waterBalanceSchedule";
+    DELETE FROM "plan";
+    DELETE FROM "nitrogenSchedule";
+    DELETE FROM "users";
+    DELETE FROM "farm";
+    DELETE FROM "weatherHourly";
+    DELETE FROM "weather";
+    DELETE FROM "weather_station";
   `)
 }
 

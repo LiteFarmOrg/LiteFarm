@@ -67,6 +67,7 @@ const signUpRoutes = require('./routes/signUpRoute');
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
 
 // register API
 const router = promiseRouter();

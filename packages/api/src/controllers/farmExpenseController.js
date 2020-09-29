@@ -35,8 +35,6 @@ class farmExpenseController extends baseController {
         await trx.commit();
         res.sendStatus(201);
       } catch (error) {
-        console.log("error is")
-        console.log(error)
         //handle more exceptions
         await trx.rollback();
         res.status(400).send(error)
@@ -109,6 +107,8 @@ class farmExpenseController extends baseController {
   static delFarmExpense(){
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
+      console.log("req is")
+      console.log(req.body)
       try{
         const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx);
         await trx.commit();

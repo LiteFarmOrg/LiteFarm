@@ -85,6 +85,8 @@ module.exports = {
     },
     pool:{
       propagateCreateError: false,
+      min: 0,
+      max: 7,
     },
     seeds: {
       directory: __dirname + '/db/seeds',
@@ -104,6 +106,8 @@ module.exports = {
     },
     pool:{
       propagateCreateError: false,
+      min: 0,
+      max: 7,
     },
     seeds: {
       directory: __dirname + '/db/seeds',

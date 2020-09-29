@@ -117,6 +117,7 @@ describe('Log Tests', () => {
   }
 
   beforeEach(async () => {
+    console.log(environment);
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm2] = await mocks.userFarmFactory({ promisedUser: [owner] }, fakeUserFarm(1));
@@ -130,8 +131,9 @@ describe('Log Tests', () => {
     });
   })
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    done();
   });
 
   describe('Get && delete && put logs tests', () => {

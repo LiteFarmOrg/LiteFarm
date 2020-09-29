@@ -83,6 +83,9 @@ module.exports = {
     migrations: {
       directory: __dirname + '/db/migration',
     },
+    pool:{
+      propagateCreateError: false,
+    },
     seeds: {
       directory: __dirname + '/db/seeds',
     },
@@ -98,6 +101,9 @@ module.exports = {
     },
     migrations: {
       directory: __dirname + '/db/migration',
+    },
+    pool:{
+      propagateCreateError: false,
     },
     seeds: {
       directory: __dirname + '/db/seeds',

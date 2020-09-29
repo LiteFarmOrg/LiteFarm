@@ -17,10 +17,13 @@ const logController = require('../controllers/logController');
 const express = require('express');
 const router = express.Router();
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
-router.post('/', checkScope(['add:logs']), logController.logController.addLog());
-router.get('/', checkScope(['get:logs']), logController.logController.getLog());
-router.put('/:id', checkScope(['edit:logs']), logController.logController.putLog());
-router.delete('/:id', checkScope(['delete:logs']), logController.logController.deleteLog());
+router.post('/', hasFarmAccess({ body: 'fields'}), checkScope(['add:logs']), logController.logController.addLog());
+//TODO get log by id specification
+router.get('/:activity_id', hasFarmAccess({mixed: 'activity_id'}), checkScope(['get:logs']), logController.logController.getLogByActivityId());
+router.get('/farm/:farm_id', hasFarmAccess({params: 'farm_id'}), checkScope(['get:logs']), logController.logController.getLogByFarmId());
+router.put('/:activity_id', hasFarmAccess({mixed: 'activity_id'}), checkScope(['edit:logs']), logController.logController.putLog());
+router.delete('/:activity_id', hasFarmAccess({mixed: 'activity_id'}), checkScope(['delete:logs']), logController.logController.deleteLog());
 
 module.exports = router;

@@ -76,9 +76,7 @@ class userFarm extends Model {
           from: 'userFarm.farm_id',
           to: 'farm.farm_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
       role: {
         modelClass:require('./roleModel'),

@@ -54,8 +54,10 @@ describe('Farm Tests', () => {
     });
   })
 
-  afterEach(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   describe('Valid and Invalid Inputs', () => {

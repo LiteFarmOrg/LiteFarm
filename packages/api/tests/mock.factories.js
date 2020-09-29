@@ -490,6 +490,20 @@ async function nitrogenScheduleFactory({ promisedFarm = farmFactory() }={}, nitr
   return knex('nitrogenSchedule').insert({farm_id, ...nitrogenSchedule}).returning('*');
 }
 
+function fakeCropSale() {
+  return {
+    sale_value: faker.random.number(1000),
+    quantity_kg: faker.random.number(1000),
+  }
+}
+
+async function cropSaleFactory({ promisedFieldCrop = fieldCropFactory(), promisedSale = saleFactory() } = {}, cropSale = fakeCropSale()) {
+  const [fieldCrop,sale] = await Promise.all([promisedFieldCrop, promisedSale]);
+  const [{crop_id, field_crop_id}] = fieldCrop;
+  const [{sale_id}] = sale;
+  return knex('cropSale').insert({ crop_id, field_crop_id , sale_id , ...cropSale}).returning('*');
+}
+
 module.exports = {
   weather_stationFactory, fakeStation,
   usersFactory, fakeUser,
@@ -518,5 +532,6 @@ module.exports = {
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
   fakeWaterBalance, waterBalanceFactory,
-  fakeNitrogenSchedule, nitrogenScheduleFactory
+  fakeNitrogenSchedule, nitrogenScheduleFactory,
+  fakeCropSale, cropSaleFactory
 }

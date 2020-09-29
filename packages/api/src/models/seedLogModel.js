@@ -64,6 +64,7 @@ class SeedLogModel extends Model {
           from: 'seedLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
     };
   }

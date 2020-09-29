@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saleController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -117,7 +117,7 @@ class SaleController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sale, req.params.id, trx);
+        const isDeleted = await baseController.delete(sale, req.params.sale_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -137,7 +137,7 @@ class SaleController extends baseController {
 
   static async getSalesOfFarm(farm_id) {
     return await sale
-      .query()
+      .query().whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')

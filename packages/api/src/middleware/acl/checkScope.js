@@ -47,7 +47,7 @@ const checkScope = (expectedScopes) => {
     if (expectedScopes.length === 0){
       return next();
     }
-
+    //TODO user_id should comes from token. const user_id = req.user.sub.split('|')[1];
     const { headers } = req;
     const { user_id, farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
     if (!user_id) return res.status(400).send('Missing user_id in headers');

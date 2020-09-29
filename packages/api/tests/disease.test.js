@@ -20,13 +20,13 @@ const moment = require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
-const mocks  = require('./mock.factories');
+const mocks = require('./mock.factories');
 
 const diseaseModel = require('../src/models/diseaseModel');
 
@@ -45,12 +45,13 @@ describe('Disease Tests', () => {
   });
 
   afterAll((done) => {
-    server.close(() =>{
+    server.close(() => {
       done();
     });
   })
 
-  function addRequest(data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+
+  function addRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/disease`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
@@ -59,14 +60,14 @@ describe('Disease Tests', () => {
       .end(callback);
   }
 
-  function getRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+  function getRequest({ user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).get(`/disease/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
   }
 
-  function deleteRequest({user_id = owner.user_id, farm_id = farm.farm_id, disease_id}, callback) {
+  function deleteRequest({ user_id = owner.user_id, farm_id = farm.farm_id, disease_id }, callback) {
     chai.request(server).delete(`/disease/${disease_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -76,29 +77,36 @@ describe('Disease Tests', () => {
   function fakeUserFarm(role) {
     return ({
       ...mocks.fakeUserFarm(),
-      role_id: role
+      role_id: role,
     });
   }
 
   function createDiseaseObj(farm_id = farm.farm_id) {
     const disease = mocks.fakeDisease();
-    return ({...disease, farm_id});
+    return ({ ...disease, farm_id });
   }
 
   beforeEach(async () => {
+    await knex.raw('DELETE from disease');
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]}, fakeUserFarm(1));
+    const [ownerFarm] = await mocks.userFarmFactory({ promisedUser: [owner], promisedFarm: [farm] }, fakeUserFarm(1));
 
     [worker] = await mocks.usersFactory();
-    const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]}, fakeUserFarm(3));
+    const [workerFarm] = await mocks.userFarmFactory({ promisedUser: [worker], promisedFarm: [farm] }, fakeUserFarm(3));
     [manager] = await mocks.usersFactory();
-    const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]}, fakeUserFarm(2));
+    const [managerFarm] = await mocks.userFarmFactory({
+      promisedUser: [manager],
+      promisedFarm: [farm],
+    }, fakeUserFarm(2));
 
 
     [unauthorizedUser] = await mocks.usersFactory();
     [unauthorizedFarm] = await mocks.farmFactory();
-    const [unauthorizedUserFarm] = await mocks.userFarmFactory({promisedUser:[unauthorizedUser], promisedFarm:[unauthorizedFarm]}, fakeUserFarm(1));
+    const [unauthorizedUserFarm] = await mocks.userFarmFactory({
+      promisedUser: [unauthorizedUser],
+      promisedFarm: [unauthorizedFarm],
+    }, fakeUserFarm(1));
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -108,29 +116,40 @@ describe('Disease Tests', () => {
     });
   });
 
-  afterEach(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   describe('Get && delete disease', () => {
     let disease;
 
     beforeEach(async () => {
-      [disease] = await mocks.diseaseFactory({promisedFarm: [farm]});
+      [disease] = await mocks.diseaseFactory({ promisedFarm: [farm] });
     });
 
     test('Should fail to get deleted disease', async (done) => {
       await diseaseModel.query().findById(disease.disease_id).del();
-      getRequest({user_id: owner.user_id}, (err, res) => {
+      getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
         done();
       });
     });
 
+    test('Should get seeded disease', async (done) => {
+      let [seededDisease] = await knex('disease').insert({ ...mocks.fakeDisease(), farm_id: null }).returning('*');
+      getRequest({ user_id: owner.user_id }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body[1].disease_id).toBe(seededDisease.disease_id);
+        done();
+      });
+    })
+
     describe('Get disease authorization tests', () => {
       test('Owner should get disease by farm id', async (done) => {
-        getRequest({user_id: owner.user_id}, (err, res) => {
+        getRequest({ user_id: owner.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].disease_id).toBe(disease.disease_id);
           done();
@@ -138,7 +157,7 @@ describe('Disease Tests', () => {
       });
 
       test('Manager should get disease by farm id', async (done) => {
-        getRequest({user_id: manager.user_id}, (err, res) => {
+        getRequest({ user_id: manager.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].disease_id).toBe(disease.disease_id);
           done();
@@ -146,7 +165,7 @@ describe('Disease Tests', () => {
       });
 
       test('Worker should get disease by farm id', async (done) => {
-        getRequest({user_id: worker.user_id}, (err, res) => {
+        getRequest({ user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[0].disease_id).toBe(disease.disease_id);
           done();
@@ -154,78 +173,97 @@ describe('Disease Tests', () => {
       });
 
       test('Return 403 if unauthorized user tries to get disease by farm id', async (done) => {
-        getRequest({user_id: unauthorizedUser.user_id}, (err, res) => {
+        getRequest({ user_id: unauthorizedUser.user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
     });
 
-    describe('Delete disease authorization tests', () => {
-      test('Owner should delete a disease', async (done) => {
-        deleteRequest({disease_id: disease.disease_id}, async (err, res) => {
-          expect(res.status).toBe(200);
-          const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(deletedDisease.length).toBe(1);
-          expect(deletedDisease[0].deleted).toBe(true);
-          done();
-        });
-      });
-
-      test('Manager should delete a disease', async (done) => {
-        deleteRequest({user_id: manager.user_id, disease_id: disease.disease_id}, async (err, res) => {
-          expect(res.status).toBe(200);
-          const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(deletedDisease.length).toBe(1);
-          expect(deletedDisease[0].deleted).toBe(true);
-          done();
-        });
-      });
-
-      test('Return 403 if farm worker tries to delete disease', async (done) => {
-        deleteRequest({user_id: worker.user_id, disease_id: disease.disease_id}, async (err, res) => {
+    describe('Delete disease tests', function () {
+      test('should return 403 if user tries to delete a seeded disease', async (done) => {
+        let [seedDisease] = await knex('disease').insert({ ...mocks.fakeDisease(), farm_id: null }).returning('*');
+        deleteRequest({ disease_id: seedDisease.disease_id }, async (err, res) => {
           expect(res.status).toBe(403);
-          const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(diseaseNotDeleted.length).toBe(1);
-          expect(diseaseNotDeleted[0].deleted).toBe(false);
           done();
+        })
+      });
+      describe('Delete disease authorization tests', () => {
+        test('Owner should delete a disease', async (done) => {
+          deleteRequest({ disease_id: disease.disease_id }, async (err, res) => {
+            expect(res.status).toBe(200);
+            const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(deletedDisease.length).toBe(1);
+            expect(deletedDisease[0].deleted).toBe(true);
+            done();
+          });
+        });
+
+        test('Manager should delete a disease', async (done) => {
+          deleteRequest({ user_id: manager.user_id, disease_id: disease.disease_id }, async (err, res) => {
+            expect(res.status).toBe(200);
+            const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(deletedDisease.length).toBe(1);
+            expect(deletedDisease[0].deleted).toBe(true);
+            done();
+          });
+        });
+
+        test('Return 403 if farm worker tries to delete disease', async (done) => {
+          deleteRequest({ user_id: worker.user_id, disease_id: disease.disease_id }, async (err, res) => {
+            expect(res.status).toBe(403);
+            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(diseaseNotDeleted.length).toBe(1);
+            expect(diseaseNotDeleted[0].deleted).toBe(false);
+            done();
+          });
+        });
+
+        test('Return 403 if unauthorized tries to delete disease', async (done) => {
+          deleteRequest({ user_id: unauthorizedUser.user_id, disease_id: disease.disease_id }, async (err, res) => {
+            expect(res.status).toBe(403);
+            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(diseaseNotDeleted.length).toBe(1);
+            expect(diseaseNotDeleted[0].deleted).toBe(false);
+            done();
+          });
+        });
+
+        test('Return 403 if unauthorized tries to delete disease', async (done) => {
+          deleteRequest({
+            user_id: unauthorizedUser.user_id,
+            farm_id: unauthorizedFarm.farm_id,
+            disease_id: disease.disease_id,
+          }, async (err, res) => {
+            expect(res.status).toBe(403);
+            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            expect(diseaseNotDeleted.length).toBe(1);
+            expect(diseaseNotDeleted[0].deleted).toBe(false);
+            done();
+          });
         });
       });
 
-      test('Return 403 if unauthorized tries to delete disease', async (done) => {
-        deleteRequest({user_id: unauthorizedUser.user_id, disease_id: disease.disease_id}, async (err, res) => {
-          expect(res.status).toBe(403);
-          const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(diseaseNotDeleted.length).toBe(1);
-          expect(diseaseNotDeleted[0].deleted).toBe(false);
-          done();
-        });
-      });
-
-      test('Return 403 if unauthorized tries to delete disease', async (done) => {
-        deleteRequest({
-          user_id: unauthorizedUser.user_id,
-          farm_id: unauthorizedFarm.farm_id,
-          disease_id: disease.disease_id
-        }, async (err, res) => {
-          expect(res.status).toBe(403);
-          const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
-          expect(diseaseNotDeleted.length).toBe(1);
-          expect(diseaseNotDeleted[0].deleted).toBe(false);
-          done();
-        });
-      });
     });
+
   });
 
-  describe('Add disease authorization tests', () => {
+  describe('Post disease authorization tests', () => {
     let diseaseToAdd;
     beforeEach(async () => {
       diseaseToAdd = createDiseaseObj();
     });
 
+    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+      diseaseToAdd.farm_id = null;
+      addRequest(diseaseToAdd, {}, (err, res) => {
+        expect(res.status).toBe(403);
+        done()
+      })
+    });
+
     test('Owner should successfully add disease', async (done) => {
-      addRequest(diseaseToAdd, {user_id: owner.user_id}, async (err, res) => {
+      addRequest(diseaseToAdd, { user_id: owner.user_id }, async (err, res) => {
         expect(res.status).toBe(201);
         const addedDisease = await diseaseModel.query().where('farm_id', farm.farm_id);
         expect(addedDisease.length).toBe(1);
@@ -237,7 +275,7 @@ describe('Disease Tests', () => {
     });
 
     test('Manager should successfully add disease', async (done) => {
-      addRequest(diseaseToAdd, {user_id: manager.user_id}, async (err, res) => {
+      addRequest(diseaseToAdd, { user_id: manager.user_id }, async (err, res) => {
         expect(res.status).toBe(201);
         const addedDisease = await diseaseModel.query().where('farm_id', farm.farm_id);
         expect(addedDisease.length).toBe(1);
@@ -249,17 +287,17 @@ describe('Disease Tests', () => {
     });
 
     test('Return 403 if farm worker tries to add disease', async (done) => {
-      addRequest(diseaseToAdd, {user_id: worker.user_id}, async (err, res) => {
+      addRequest(diseaseToAdd, { user_id: worker.user_id }, async (err, res) => {
         expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): add:diseases");
+        expect(res.error.text).toBe('User does not have the following permission(s): add:diseases');
         done();
       });
     });
 
     test('Return 403 if unauthorized tries to add disease', async (done) => {
-      addRequest(diseaseToAdd, {user_id: unauthorizedUser.user_id}, async (err, res) => {
+      addRequest(diseaseToAdd, { user_id: unauthorizedUser.user_id }, async (err, res) => {
         expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): add:diseases");
+        expect(res.error.text).toBe('User does not have the following permission(s): add:diseases');
         done();
       });
     });

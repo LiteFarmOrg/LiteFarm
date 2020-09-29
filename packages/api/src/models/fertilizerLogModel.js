@@ -53,6 +53,7 @@ class FertilizerLogModel extends Model {
           from: 'fertilizerLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

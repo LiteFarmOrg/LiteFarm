@@ -34,9 +34,11 @@ describe('These are tests for auth0 signup and user creation', () => {
   let oauth_user_id = null;
   let userID = null;
 
-  afterAll(() => {
+  afterAll(async () => {
     let email = 'test1234_signup@usertest.com';
-    return knex('users').where({ email }).delete();
+    await knex('users').where({ email }).delete();
+    await knex.destroy();
+    done();
   })
 
   afterAll((done) => {

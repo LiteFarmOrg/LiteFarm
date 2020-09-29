@@ -32,7 +32,7 @@ export function* getLogsSaga() {
   };
 
   try {
-    const result = yield call(axios.get, logURL + `?farmId=${farmId}`, header);
+    const result = yield call(axios.get, logURL + `/farm/${farmId}`, header);
     if (result) {
       yield put(setLogsInState(result.data));
     }

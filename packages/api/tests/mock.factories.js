@@ -108,13 +108,13 @@ async function priceFactory({ promisedCrop = cropFactory() } = {}, price = fakeP
   return knex('price').insert({ crop_id, farm_id, ...price }).returning('*');
 }
 
-async function expenseTypeFactory({ promisedFarm = farmFactory() } = {}, expense_type = fakeExpenseType()) {
+async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, expense_type = fakeExpenseType()) {
   const [farm] = await Promise.all([promisedFarm]);
   const [{ farm_id }] = farm;
   return knex('farmExpenseType').insert({ farm_id, ...expense_type }).returning('*');
 }
 
-async function expenseFactory({ promisedExpenseType = expenseTypeFactory() } = {}, expense = fakeExpense()) {
+async function farmExpenseFactory({ promisedExpenseType = expenseTypeFactory() } = {}, expense = fakeExpense()) {
   const [expense_type] = await Promise.all([promisedExpenseType]);
   const [{ expense_type_id }] = expense_type;
   const [{ farm_id }] = expense_type;
@@ -546,6 +546,6 @@ module.exports = {
   priceFactory, fakePrice,
   fakeWaterBalance, waterBalanceFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
-  expenseTypeFactory, fakeExpenseType,
-  expenseFactory, fakeExpense,
+  farmExpenseTypeFactory, fakeExpenseType,
+  farmExpenseFactory, fakeExpense,
 }

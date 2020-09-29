@@ -98,14 +98,14 @@ describe('Expense Type Tests', () => {
   }
 
     async function returnExpenseType(mainFarm) {
-        const [expense_type] = await mocks.expenseTypeFactory({ promisedFarm: [ mainFarm ] });
+        const [expense_type] = await mocks.farmExpenseTypeFactory({ promisedFarm: [ mainFarm ] });
         return {expense_type};
     }
 
     async function returnDefaultExpenseType() {
         const defaultFarm = mocks.farmFactory();
         defaultFarm.farm_id = null;
-        const [expense_type] = await mocks.expenseTypeFactory({ promisedFarm: [ defaultFarm ] });
+        const [expense_type] = await mocks.farmExpenseTypeFactory({ promisedFarm: [ defaultFarm ] });
         return {expense_type};
     }
 

@@ -69,46 +69,9 @@ class farmExpenseController extends baseController {
     return expenses;
   }
 
-  //takes an array of farm_expense_id
-  // static delFarmExpense() {
-  //   return async (req, res) => {
-  //     const trx = await transaction.start(Model.knex());
-  //     try {
-  //       console.log("req params is")
-  //       console.log(req.params)
-  //       const farmIDs = req.body;
-  //       console.log("req body is")
-  //       console.log(req.body)
-  //       if(!Array.isArray(farmIDs)){
-  //         res.status(400).send('Needs to be an array of farm id');
-  //       }
-  //       const table_id = farmExpenseModel.idColumn;
-  //       for(let id of farmIDs){
-  //         const deleted = await farmExpenseModel.query(trx).where(table_id, id).del();
-  //         if(!deleted){
-  //           await trx.rollback();
-  //           res.status(400).send('cannot delete expense with id ' + id);
-  //         }
-  //       }
-  //       await trx.commit();
-  //       res.sendStatus(200)
-  //     }
-  //     catch (error) {
-  //       console.log("error is")
-  //       console.log(error)
-  //       await trx.rollback();
-  //       res.status(400).json({
-  //         error,
-  //       });
-  //     }
-  //   }
-  // }
-
   static delFarmExpense(){
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
-      console.log("req is")
-      console.log(req.body)
       try{
         const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx);
         await trx.commit();

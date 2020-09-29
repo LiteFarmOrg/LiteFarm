@@ -106,8 +106,10 @@ describe('FieldCrop Tests', () => {
     });
   })
 
-  afterEach(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   describe('Get && delete && put fieldCrop', () => {

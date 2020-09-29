@@ -45,11 +45,11 @@ function fakeFarm() {
   }
 }
 
-async function userFarmFactory({promisedUser = usersFactory(), promisedFarm = farmFactory()} = {}, userFarm = fakeUserFarm()) {
+async function userFarmFactory({ promisedUser = usersFactory(), promisedFarm = farmFactory() } = {}, userFarm = fakeUserFarm()) {
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
-  const [{user_id}] = user;
-  const [{farm_id}] = farm;
-  return knex('userFarm').insert({user_id, farm_id, ...userFarm}).returning('*');
+  const [{ user_id }] = user;
+  const [{ farm_id }] = farm;
+  return knex('userFarm').insert({ user_id, farm_id, ...userFarm }).returning('*');
 }
 
 function fakeUserFarm() {
@@ -60,11 +60,11 @@ function fakeUserFarm() {
   }
 }
 
-async function fieldFactory({promisedStation = weather_stationFactory(), promisedFarm = farmFactory()} = {}, field = fakeField()) {
+async function fieldFactory({ promisedStation = weather_stationFactory(), promisedFarm = farmFactory() } = {}, field = fakeField()) {
   const [station, farm] = await Promise.all([promisedStation, promisedFarm]);
-  const [{station_id}] = station;
-  const [{farm_id}] = farm;
-  return knex('field').insert({station_id, farm_id, ...field}).returning('*');
+  const [{ station_id }] = station;
+  const [{ farm_id }] = farm;
+  return knex('field').insert({ station_id, farm_id, ...field }).returning('*');
 }
 
 
@@ -88,24 +88,24 @@ function fakeFieldForTests() {
   }
 }
 
-async function cropFactory({promisedFarm = farmFactory()} = {}, crop = fakeCrop()) {
+async function cropFactory({ promisedFarm = farmFactory() } = {}, crop = fakeCrop()) {
   const [farm] = await Promise.all([promisedFarm]);
-  const [{farm_id}] = farm;
-  return knex('crop').insert({farm_id, ...crop}).returning('*');
+  const [{ farm_id }] = farm;
+  return knex('crop').insert({ farm_id, ...crop }).returning('*');
 }
 
-async function yieldFactory({promisedCrop = cropFactory()} = {}, yield1 = fakeYield()) {
+async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield1 = fakeYield()) {
   const [crop] = await Promise.all([promisedCrop]);
-  const [{crop_id}] = crop;
-  const [{farm_id}] = crop;
-  return knex('yield').insert({crop_id, farm_id, ...yield1}).returning('*');
+  const [{ crop_id }] = crop;
+  const [{ farm_id }] = crop;
+  return knex('yield').insert({ crop_id, farm_id, ...yield1 }).returning('*');
 }
 
-async function priceFactory({promisedCrop = cropFactory()} = {}, price = fakePrice()) {
+async function priceFactory({ promisedCrop = cropFactory() } = {}, price = fakePrice()) {
   const [crop] = await Promise.all([promisedCrop]);
-  const [{crop_id}] = crop;
-  const [{farm_id}] = crop;
-  return knex('price').insert({crop_id, farm_id, ...price}).returning('*');
+  const [{ crop_id }] = crop;
+  const [{ farm_id }] = crop;
+  return knex('price').insert({ crop_id, farm_id, ...price }).returning('*');
 }
 
 function fakeCrop() {
@@ -199,10 +199,10 @@ function fakeFieldCrop() {
   }
 }
 
-async function fertilizerFactory({promisedFarm = farmFactory()} = {}, fertilizer = fakeFertilizer()) {
+async function fertilizerFactory({ promisedFarm = farmFactory() } = {}, fertilizer = fakeFertilizer()) {
   const [farm] = await Promise.all([promisedFarm]);
-  const [{farm_id}] = farm;
-  return knex('fertilizer').insert({farm_id, ...fertilizer}).returning('*');
+  const [{ farm_id }] = farm;
+  return knex('fertilizer').insert({ farm_id, ...fertilizer }).returning('*');
 }
 
 function fakeFertilizer() {
@@ -217,10 +217,10 @@ function fakeFertilizer() {
   }
 }
 
-async function activityLogFactory({promisedUser = usersFactory()} = {}, activityLog = fakeActivityLog()) {
+async function activityLogFactory({ promisedUser = usersFactory() } = {}, activityLog = fakeActivityLog()) {
   const [user] = await Promise.all([promisedUser]);
-  const [{user_id}] = user;
-  return knex('activityLog').insert({user_id, ...activityLog}).returning('*');
+  const [{ user_id }] = user;
+  return knex('activityLog').insert({ user_id, ...activityLog }).returning('*');
 
 }
 
@@ -270,8 +270,8 @@ async function activityFieldsFactory({
 
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
   const [farm] = await Promise.all([promisedFarm]);
-  const [{farm_id}] = farm;
-  return knex('pesticide').insert({farm_id, ...pesticide}).returning('*');
+  const [{ farm_id }] = farm;
+  return knex('pesticide').insert({ farm_id, ...pesticide }).returning('*');
 }
 
 function fakePesticide() {
@@ -290,16 +290,16 @@ function fakeTaskType() {
   }
 }
 
-async function taskTypeFactory({promisedFarm = farmFactory()} = {}, taskType = fakeTaskType()) {
+async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType = fakeTaskType()) {
   const [farm] = await Promise.all([promisedFarm]);
-  const [{farm_id}] = farm;
-  return knex('taskType').insert({farm_id, ...taskType}).returning('*');
+  const [{ farm_id }] = farm;
+  return knex('taskType').insert({ farm_id, ...taskType }).returning('*');
 }
 
-async function diseaseFactory({promisedFarm = farmFactory()} = {}, disease = fakeDisease()) {
+async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {
   const [farm] = await Promise.all([promisedFarm]);
-  const [{farm_id}] = farm;
-  return knex('disease').insert({farm_id, ...disease}).returning('*');
+  const [{ farm_id }] = farm;
+  return knex('disease').insert({ farm_id, ...disease }).returning('*');
 }
 
 function fakeDisease() {
@@ -375,10 +375,10 @@ function fakeFieldWorkLog() {
   }
 }
 
-async function soilDataLogFactory({promisedActivity = activityLogFactory()} = {}, soilDataLog = fakeSoilDataLog()) {
+async function soilDataLogFactory({ promisedActivity = activityLogFactory() } = {}, soilDataLog = fakeSoilDataLog()) {
   const [activity] = await Promise.all([promisedActivity]);
-  const [{activity_id}] = activity;
-  return knex('soilDataLog').insert({activity_id, ...soilDataLog}).returning('*');
+  const [{ activity_id }] = activity;
+  return knex('soilDataLog').insert({ activity_id, ...soilDataLog }).returning('*');
 }
 
 function fakeSoilDataLog() {
@@ -408,24 +408,24 @@ function fakeSoilDataLog() {
   }
 }
 
-async function irrigationLogFactory({promisedActivity = activityLogFactory()} = {}, irrigationLog = fakeIrrigationLog()) {
+async function irrigationLogFactory({ promisedActivity = activityLogFactory() } = {}, irrigationLog = fakeIrrigationLog()) {
   const [activity] = await Promise.all([promisedActivity]);
-  const [{activity_id}] = activity;
-  return knex('irrigationLog').insert({activity_id, ...irrigationLog}).returning('*');
+  const [{ activity_id }] = activity;
+  return knex('irrigationLog').insert({ activity_id, ...irrigationLog }).returning('*');
 }
 
 function fakeIrrigationLog() {
   return {
     type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
     hours: faker.random.number(10),
-    "flow_rate_l/min": faker.random.number(10),
+    'flow_rate_l/min': faker.random.number(10),
   }
 }
 
-async function scoutingLogFactory({promisedActivity = activityLogFactory()} = {}, scoutingLog = fakeScoutingLog()) {
+async function scoutingLogFactory({ promisedActivity = activityLogFactory() } = {}, scoutingLog = fakeScoutingLog()) {
   const [activity] = await Promise.all([promisedActivity]);
-  const [{activity_id}] = activity;
-  return knex('scoutingLog').insert({activity_id, ...scoutingLog}).returning('*');
+  const [{ activity_id }] = activity;
+  return knex('scoutingLog').insert({ activity_id, ...scoutingLog }).returning('*');
 }
 
 function fakeScoutingLog() {
@@ -436,8 +436,8 @@ function fakeScoutingLog() {
 
 async function shiftFactory({ promisedUser = usersFactory() } = {}, shift = fakeShift()) {
   const [user] = await Promise.all([promisedUser]);
-  const [{user_id}] = user;
-  return knex('shift').insert({user_id, ...shift}).returning('*');
+  const [{ user_id }] = user;
+  return knex('shift').insert({ user_id, ...shift }).returning('*');
 }
 
 function fakeShift() {
@@ -456,11 +456,11 @@ async function shiftTaskFactory({
   promisedTaskType = taskTypeFactory(),
 } = {}, shiftTask = fakeShiftTask()) {
   const [shift, fieldCrop, field, task] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType]);
-  const [{shift_id}] = shift;
-  const [{field_crop_id}] = fieldCrop;
-  const [{field_id}] = field;
+  const [{ shift_id }] = shift;
+  const [{ field_crop_id }] = fieldCrop;
+  const [{ field_id }] = field;
   const [{ task_id }] = task;
-  return knex('shiftTask').insert({shift_id, field_id, field_crop_id, task_id, ...shiftTask}).returning('*');
+  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, task_id, ...shiftTask }).returning('*');
 }
 
 function fakeShiftTask() {
@@ -472,7 +472,7 @@ function fakeShiftTask() {
 
 async function saleFactory({ promisedFarm = farmFactory() } = {}, sale = fakeSale()) {
   const [farm] = await Promise.all([promisedFarm]);
-  const [{farm_id}] = farm;
+  const [{ farm_id }] = farm;
   return knex('sale').insert({ farm_id, ...sale }).returning('*');
 }
 
@@ -520,10 +520,10 @@ function fakeCropSale() {
 }
 
 async function cropSaleFactory({ promisedFieldCrop = fieldCropFactory(), promisedSale = saleFactory() } = {}, cropSale = fakeCropSale()) {
-  const [fieldCrop,sale] = await Promise.all([promisedFieldCrop, promisedSale]);
-  const [{crop_id, field_crop_id}] = fieldCrop;
-  const [{sale_id}] = sale;
-  return knex('cropSale').insert({ crop_id, field_crop_id , sale_id , ...cropSale}).returning('*');
+  const [fieldCrop, sale] = await Promise.all([promisedFieldCrop, promisedSale]);
+  const [{ crop_id, field_crop_id }] = fieldCrop;
+  const [{ sale_id }] = sale;
+  return knex('cropSale').insert({ crop_id, field_crop_id, sale_id, ...cropSale }).returning('*');
 }
 
 module.exports = {
@@ -556,5 +556,5 @@ module.exports = {
   fakeFieldForTests,
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
-  fakeCropSale, cropSaleFactory
+  fakeCropSale, cropSaleFactory,
 }

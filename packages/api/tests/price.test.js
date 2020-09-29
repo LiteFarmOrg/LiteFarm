@@ -128,8 +128,10 @@ describe('Price Tests', () => {
 		});
 	});
 
-	afterEach(async () => {
+	afterAll(async (done) => {
 		await tableCleanup(knex);
+		await knex.destroy();
+		done();
 	});
 
 	// POST TESTS

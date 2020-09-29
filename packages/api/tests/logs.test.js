@@ -130,8 +130,10 @@ describe('Log Tests', () => {
     });
   })
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   describe('Get && delete && put logs tests', () => {

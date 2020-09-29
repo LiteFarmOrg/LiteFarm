@@ -105,6 +105,8 @@ describe('Authorization Tests', () => {
 
   afterAll (async () => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   describe('Get && delete circumventions',()=>{

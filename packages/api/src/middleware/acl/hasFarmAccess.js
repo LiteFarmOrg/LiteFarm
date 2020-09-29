@@ -15,6 +15,8 @@ const entitiesGetters = {
   price_id: fromPrice,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
+  fields: fromFields,
+  activity_id: fromActivity,
 }
 const userFarmModel = require('../../models/userFarmModel');
 

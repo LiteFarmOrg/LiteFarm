@@ -15,8 +15,6 @@ const entitiesGetters = {
   price_id: fromPrice,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
-  fields: fromFields,
-  activity_id: fromActivity,
 }
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -132,6 +130,10 @@ async function fromYield(yieldId) {
 
 async function fromPrice(priceId) {
   return await knex('price').where({ price_id: priceId }).first();
+}
+
+async function fromSale(sale_id) {
+  return await knex('sale').where({ sale_id }).first();
 }
 
 function sameFarm(object, farm) {

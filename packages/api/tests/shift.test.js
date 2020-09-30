@@ -65,7 +65,6 @@ describe('Shift tests', () => {
       await appendUserFarmAShiftTask({user_id, farm_id: differentFarmForTheSameUser.farm_id})
       getShiftsAtFarm({ user_id, farm_id }, (err, res) => {
         expect(res.status).toBe(200);
-        console.log(res.body);
         expect(res.body.length).toBe(1);
         done();
       })

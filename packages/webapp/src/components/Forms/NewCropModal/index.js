@@ -343,7 +343,6 @@ class NewCropModal extends React.Component {
             validationState={this.validateNotEmptyLength(this.state.variety)}
             >
               <FormControl
-                
                 type="text"
                 placeholder="Variety Name"
                 value={this.state.variety}

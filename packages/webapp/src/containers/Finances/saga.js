@@ -231,7 +231,7 @@ export function* deleteExpensesSaga(action) {
   };
 
   try {
-    const result = yield call(axios.put, expenseUrl, action.ids, header);
+    const result = yield call(axios.put, expenseUrl + actions.expense_id, action.ids, header);
     if (result) {
       toastr.success(`Successfully deleted expenses!`);
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);

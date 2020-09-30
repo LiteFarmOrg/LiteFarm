@@ -100,7 +100,6 @@ class NewCropModal extends React.Component {
     const currentState = this.state;
     let validated = true;
     let errors = '';
-    let varietyError = '';
     if (currentState.crop_common_name === '') {
       errors += 'Crop Common Name, ';
       validated = false;
@@ -123,11 +122,7 @@ class NewCropModal extends React.Component {
       validated = false;
     }
     if (currentState.variety === '') {
-      varietyError += 'Variety Name is required.';
-      validated = false;
-    }
-    if (currentState.variety === '') {
-      errors += 'Variety Name, ';
+      // varietyError += 'Variety Name is required.';
       validated = false;
     }
 
@@ -179,6 +174,11 @@ class NewCropModal extends React.Component {
       subGroups,
     });
   }
+
+  validateNotEmptyLength(state) {
+    if (state.length > 0) return 'success';
+    return 'error'
+  };
 
 
   handleCropChange = (selected) => {
@@ -339,14 +339,18 @@ class NewCropModal extends React.Component {
                 }}/>
             </FormGroup>
 
-            <FormGroup controlId="crop_variety">
+            <FormGroup controlId="crop_variety"
+            validationState={this.validateNotEmptyLength(this.state.variety)}
+            >
               <FormControl
+                
                 type="text"
                 placeholder="Variety Name"
                 value={this.state.variety}
                 onChange={(e) => {
                   this.setState({variety: e.target.value});
-                }}/>
+                }}
+                />
             </FormGroup>
 
             <FormGroup controlId="crop_genus">

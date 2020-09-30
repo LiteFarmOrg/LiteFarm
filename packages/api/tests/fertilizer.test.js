@@ -94,6 +94,7 @@ describe('Fertilizer Tests', () => {
 
   afterAll (async (done) => {
     await tableCleanup(knex);
+    done();
   });
 
   describe('Get && delete fertilizer',()=>{

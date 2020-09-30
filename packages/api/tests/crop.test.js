@@ -141,11 +141,6 @@ describe('Crop Tests', () => {
       test('Workers should get seeded crops', async (done) => {
         getRequest(`/crop/farm/${farm.farm_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          if (!res.body[1]) {
-            let test2 = res.body;
-            console.log(res.body);
-            let test = res.body;
-          }
           expect(res.body[1].crop_id).toBe(seededCrop.crop_id);
           done();
         });

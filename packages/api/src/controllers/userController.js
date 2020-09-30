@@ -125,7 +125,7 @@ class userController extends baseController {
   static getUserByID() {
     return async (req, res) => {
       try {
-        const id = req.params.id;
+        const id = req.params.user_id;
 
         const data = await knex.raw(
           `
@@ -150,116 +150,6 @@ class userController extends baseController {
         //handle more exceptions
         console.log(error);
         res.status(400).send(error);
-      }
-    }
-  }
-
-  static getUserByFarmID() {
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const userFarm = await knex.raw(`
-          SELECT
-            uf.user_id,
-            first_name,
-            last_name,
-            profile_picture,
-            phone_number,
-            address,
-            notification_setting,
-            role,
-            uf.has_consent,
-            status,
-            uf.consent_version,
-            r.role_id,
-            uf.wage,
-          CASE
-            WHEN r.role_id = 4 THEN ''
-            ELSE email END
-          FROM "userFarm" uf, "role" r, "users" u
-          WHERE uf.farm_id='${farm_id}'
-            AND uf.user_id=u.user_id
-            AND uf.role_id=r.role_id
-        `);
-        const { rows } = userFarm;
-        if (!rows || rows.length === 0) {
-          res.sendStatus(404)
-        }
-        else {
-          res.status(200).send(rows);
-        }
-      }
-      catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    }
-  }
-
-  static getActiveUserByFarmID() {
-    // TODO: convert this into get all users by farm id and let front end handle which type of users to display
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const userFarm = await knex.raw(`
-          SELECT
-            uf.user_id,
-            first_name,
-            last_name,
-            profile_picture,
-            email,
-            phone_number,
-            address,
-            notification_setting,
-            wage,
-            role,
-            uf.has_consent,
-            status,
-            uf.consent_version,
-            uf.wage
-          FROM "userFarm" uf, "role" r, "users" u
-          WHERE uf.farm_id='${farm_id}'
-            AND uf.status='Active'
-            AND uf.user_id=u.user_id
-            AND uf.role_id=r.role_id
-        `);
-        const { rows } = userFarm;
-        if (!rows || rows.length === 0) {
-          res.sendStatus(404)
-        }
-        else {
-          res.status(200).send(rows);
-        }
-      }
-      catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    }
-  }
-
-  static delUser() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      try {
-        const isDeleted = await baseController.delete(userModel, req.params.id, trx);
-        await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        }
-        else {
-          res.sendStatus(404);
-        }
-      }
-      catch (error) {
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
       }
     }
   }
@@ -388,7 +278,7 @@ class userController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
 
-        const updated = await baseController.put(userModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);

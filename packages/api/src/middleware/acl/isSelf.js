@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (userRoute.js) is part of LiteFarm.
+ *  This file (authFarmId.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,18 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
-const checkScope = require('../middleware/acl/checkScope');
-const isSelf  = require('../middleware/acl/isSelf');
+async function isSelf(req, res, next) {
+  const user_id = req.user.sub.split('|')[1];
+  if(req.body.user_id && req.body.user_id !== user_id){
+    return res.status(400).send('Bad request');
+  }else if(user_id === req.params.user_id){
+    return next();
+  }else{
+    return res.status(403).send('User is not authorized to access user info');
+  }
+}
 
-router.get('/:user_id', isSelf, userController.getUserByID());
-
-router.post('/',   userController.addUser());
-
-router.post('/pseudo', checkScope(['add:users']), userController.addPseudoUser());
-
-router.put('/:user_id', isSelf, userController.updateUser());
-
-module.exports = router;
+module.exports = isSelf;

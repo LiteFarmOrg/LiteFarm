@@ -108,6 +108,19 @@ async function priceFactory({ promisedCrop = cropFactory() } = {}, price = fakeP
   return knex('price').insert({ crop_id, farm_id, ...price }).returning('*');
 }
 
+async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, expense_type = fakeExpenseType()) {
+  const [farm] = await Promise.all([promisedFarm]);
+  const [{ farm_id }] = farm;
+  return knex('farmExpenseType').insert({ farm_id, ...expense_type }).returning('*');
+}
+
+async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory() } = {}, expense = fakeExpense()) {
+  const [expense_type] = await Promise.all([promisedExpenseType]);
+  const [{ expense_type_id }] = expense_type;
+  const [{ farm_id }] = expense_type;
+  return knex('farmExpense').insert({ expense_type_id, farm_id, ...expense }).returning('*');
+}
+
 function fakeCrop() {
   return {
     crop_common_name: faker.lorem.words(),
@@ -176,6 +189,14 @@ function fakePrice() {
     price_id: Math.floor(Math.random() * Date.now() & 0x7FFFFFFF),
     'value_$/kg': faker.random.number(100),
     date: faker.date.future(),
+  }
+}
+
+function fakeExpense() {
+  return {
+    expense_date: faker.date.future(),
+    value: faker.random.number(100),
+    note: faker.helpers.randomize()
   }
 }
 
@@ -484,6 +505,12 @@ function fakeSale() {
   }
 }
 
+function fakeExpenseType() {
+  return {
+    expense_name: faker.finance.transactionType()
+  }
+}
+
 function fakeWaterBalance() {
   return {
     created_at: faker.date.future(),
@@ -553,8 +580,10 @@ module.exports = {
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
   fakeWaterBalance, waterBalanceFactory,
+  fakeCropSale, cropSaleFactory,
+  farmExpenseTypeFactory, fakeExpenseType,
+  farmExpenseFactory, fakeExpense,
   fakeFieldForTests,
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
-  fakeCropSale, cropSaleFactory,
 }

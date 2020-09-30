@@ -43,6 +43,7 @@ const taskTypeRoutes = require('./routes/taskTypeRoute');
 // const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
+const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
 // const notificationRoutes = require('./routes/notificationRoute');
 const farmRoutes = require('./routes/farmRoute');
 const logRoutes = require('./routes/logRoute');
@@ -66,6 +67,7 @@ const signUpRoutes = require('./routes/signUpRoute');
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
 
 // register API
 const router = promiseRouter();
@@ -108,6 +110,7 @@ app.use(bodyParser.json())
   // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
+  .use('/expense_type', farmExpenseTypeRoute)
   // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)

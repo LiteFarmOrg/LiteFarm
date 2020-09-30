@@ -49,7 +49,7 @@ const apiConfig = {
   cropSalesURL: URI + '/crop_sale',
   farmShiftUrl: URI + '/shift/farm/',
   expenseUrl: URI + '/expense',
-  expenseTypeDefaultUrl: URI + '/expense/expense_type/default',
+  expenseTypeDefaultUrl: URI + '/expense_type',
   contactURL: URI + '/contact',
   farmDataUrl: URI + '/farmdata',
   userFarmUrl: `${URI}/user_farm`,

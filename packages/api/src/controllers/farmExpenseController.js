@@ -15,10 +15,10 @@
 
 const baseController = require('../controllers/baseController');
 const farmExpenseModel = require('../models/farmExpenseModel');
-const expenseTypeModel = require('../models/expenseTypeModel');
 const { transaction, Model } = require('objection');
 
 class farmExpenseController extends baseController {
+
   static addFarmExpense() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -27,16 +27,15 @@ class farmExpenseController extends baseController {
         if(!Array.isArray(expenses)){
           res.status(400).send('needs to be an array of expense items')
         }
-        //fuck lint i wanna use let. LET ME
-        // eslint-disable-next-line
+        const resultArray = [];
         for(let e of expenses){
-          await baseController.post(farmExpenseModel, e, trx);
+          const result = await baseController.post(farmExpenseModel, e, trx);
+          resultArray.push(result)
         }
         await trx.commit();
         res.sendStatus(201);
       } catch (error) {
         //handle more exceptions
-
         await trx.rollback();
         res.status(400).send(error)
       }
@@ -47,9 +46,15 @@ class farmExpenseController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(farmExpenseModel, 'farm_id', farm_id);
+        const rows = await farmExpenseController.getByForeignKey(farm_id);
+    
+      if (!rows.length) {
+        res.sendStatus(404)
+      }
+      else {
         res.status(200).send(rows);
       }
+    }
       catch (error) {
         //handle more exceptions
         res.status(400).json({
@@ -59,26 +64,23 @@ class farmExpenseController extends baseController {
     }
   }
 
-  //takes an array of farm_expense_id
-  static delFarmExpense() {
-    return async (req, res) => {
+  static async getByForeignKey(farm_id) {
+    const expenses = await farmExpenseModel.query().select('*').from('farmExpense').where('farmExpense.farm_id', farm_id).whereNotDeleted();
+    return expenses;
+  }
+
+  static delFarmExpense(){
+    return async(req, res) => {
       const trx = await transaction.start(Model.knex());
-      try {
-        const farmIDs = req.body;
-        if(!Array.isArray(farmIDs)){
-          res.status(400).send('Needs to be an array of farm id');
-        }
-        const table_id = farmExpenseModel.idColumn;
-        // eslint-disable-next-line
-        for(let id of farmIDs){
-          const deleted = await farmExpenseModel.query(trx).where(table_id, id).del();
-          if(!deleted){
-            await trx.rollback();
-            res.status(400).send('cannot delete expense with id ' + id);
-          }
-        }
+      try{
+        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx);
         await trx.commit();
-        res.sendStatus(200)
+        if(isDeleted){
+          res.sendStatus(200);
+        }
+        else{
+          res.sendStatus(404);
+        }
       }
       catch (error) {
         await trx.rollback();
@@ -87,50 +89,6 @@ class farmExpenseController extends baseController {
         });
       }
     }
-  }
-
-  static addFarmExpenseType() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      try {
-        const result = await baseController.postWithResponse(expenseTypeModel, req.body, trx);
-        await trx.commit();
-        res.status(201).send(result);
-      } catch (error) {
-        //handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  }
-
-  static getFarmExpenseType() {
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const result = await expenseTypeModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
-        res.status(200).send(result);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  }
-
-  static getDefaultTypes() {
-    return async (req, res) => {
-      try {
-        const result = await expenseTypeModel.query().where('farm_id', null);
-        res.status(200).send(result);
-      } catch (error) {
-        res.status(400).json({
-          error,
-        });
-      }
-    };
   }
 }
 

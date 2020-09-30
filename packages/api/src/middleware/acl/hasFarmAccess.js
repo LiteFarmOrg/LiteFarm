@@ -13,6 +13,8 @@ const entitiesGetters = {
   disease_id: fromDisease,
   yield_id: fromYield,
   price_id: fromPrice,
+  farm_expense_id: fromFarmExpense,
+  expense_type_id: fromFarmExpenseType,
   nitrogen_schedule_id: fromNitrogenSchedule,
   farm_id: (farm_id) => ({ farm_id }),
   fields: fromFields,
@@ -32,7 +34,12 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
     id = req;
   } else {
     id_name = body;
-    id = req.body[id_name];
+    if (Array.isArray(req.body)) {
+      id = req.body[0][id_name];
+    }
+    else {
+      id = req.body[id_name];
+    }
   }
   if (!id_name) {
     return next();
@@ -133,6 +140,14 @@ async function fromYield(yieldId) {
 
 async function fromPrice(priceId) {
   return await knex('price').where({ price_id: priceId }).first();
+}
+
+async function fromFarmExpense(farm_expense_id) {
+  return await knex('farmExpense').where({ farm_expense_id: farm_expense_id }).first();
+}
+
+async function fromFarmExpenseType(expense_type_id) {
+  return await knex('farmExpenseType').where({ expense_type_id: expense_type_id }).first();
 }
 
 async function fromSale(sale_id) {

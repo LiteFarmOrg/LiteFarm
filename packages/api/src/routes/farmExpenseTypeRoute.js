@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (createUserRoute.js) is part of LiteFarm.
+ *  This file (farmExpenseRoute.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,12 +15,16 @@
 
 const express = require('express');
 const router = express.Router();
-const createUserController = require('../controllers/createUserController');
+const farmExpenseTypeController = require('../controllers/farmExpenseTypeController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expense_types']), farmExpenseTypeController.addFarmExpenseType());
 
-// create auth0 user then post it to DB
-router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), createUserController.createAuth0User());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expense_types']), farmExpenseTypeController.getFarmExpenseType());
+
+router.get('/', checkScope(['get:expense_types']), farmExpenseTypeController.getDefaultTypes());
+
+router.delete('/:expense_type_id', hasFarmAccess({ params: 'expense_type_id' }), checkScope(['delete:expense_types']), farmExpenseTypeController.delFarmExpenseType());
 
 module.exports = router;

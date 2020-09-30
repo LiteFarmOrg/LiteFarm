@@ -22,3 +22,4 @@ const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:contact']), contactController.sendContactForm());
 
 module.exports = router;
+

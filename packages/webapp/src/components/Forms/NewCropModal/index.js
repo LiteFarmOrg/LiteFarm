@@ -122,7 +122,6 @@ class NewCropModal extends React.Component {
       validated = false;
     }
     if (currentState.variety === '') {
-      // varietyError += 'Variety Name is required.';
       validated = false;
     }
 

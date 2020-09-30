@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (checkScope.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -50,6 +50,7 @@ const checkScope = (expectedScopes) => {
     //TODO user_id should comes from token. const user_id = req.user.sub.split('|')[1];
     const { headers } = req;
     const { user_id, farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
+
     if (!user_id) return res.status(400).send('Missing user_id in headers');
     if (!farm_id) return res.status(400).send('Missing farm_id in headers');
 

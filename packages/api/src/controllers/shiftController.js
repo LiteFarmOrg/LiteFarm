@@ -218,8 +218,12 @@ class shiftController extends baseController {
           .join('field', 'fieldCrop.field_id', 'field.field_id')
           .join('crop', 'fieldCrop.crop_id','crop.crop_id')
           .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
-          .join('userFarm', 'shift.user_id', 'userFarm.user_id')
-          .join('users', 'userFarm.user_id', 'users.user_id')
+          .join('userFarm',function(){
+            this
+              .on('field.farm_id', 'userFarm.farm_id')
+              .on('shift.user_id', 'userFarm.user_id')
+          })
+          .join('users', 'shift.user_id', 'users.user_id')
           .where('userFarm.farm_id', farm_id);
         if (data) {
           res.status(200).send(data);

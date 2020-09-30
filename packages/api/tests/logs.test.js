@@ -182,7 +182,7 @@ describe('Log Tests', () => {
           });
         })
 
-        test('Should get status 403 if activity_log is deleted', async (done) => {
+        test('Should get status 404 if activity_log is deleted', async (done) => {
           await activityLogModel.query().findById(activityLog.activity_id).del();
           getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
             expect(res.status).toBe(404);

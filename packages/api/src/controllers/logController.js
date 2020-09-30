@@ -144,6 +144,9 @@ class logServices extends baseController {
 
   static async getLogById(id){
     const log = await super.getIndividual(ActivityLogModel, id);
+    if(!(log && log[0])){
+      throw new Error('Log not found');
+    }
     const logKind = getActivityModelKind(log[0].activity_kind);
     if(logKind !== null){
       await super.getRelated(log[0], logKind);

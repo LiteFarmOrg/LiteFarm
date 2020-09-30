@@ -205,7 +205,7 @@ export function* addExpensesSaga(action) {
   };
 
   try {
-    const result = yield call(axios.post, expenseUrl, action.expenses, header);
+    const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
     if (result) {
       toastr.success(`Successfully added new expenses!`);
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
@@ -245,6 +245,7 @@ export function* deleteExpensesSaga(action) {
 }
 
 export function* addRemoveExpenseSaga(action) {
+  console.log("add remove expenses saga")
   let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
   const header = {

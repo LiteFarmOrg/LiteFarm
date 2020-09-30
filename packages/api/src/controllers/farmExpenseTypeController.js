@@ -92,5 +92,3 @@ class farmExpenseTypeController extends baseController {
 }
 
 module.exports = farmExpenseTypeController;
-
-

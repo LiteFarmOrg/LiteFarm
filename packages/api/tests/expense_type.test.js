@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- const chai = require('chai');
+const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment');
 chai.use(chaiHttp);
@@ -379,4 +379,3 @@ describe('Expense Type Tests', () => {
 
 
 })
-

@@ -97,6 +97,7 @@ module.exports = {
       user: 'postgres',
       password: 'pipeline',
     },
+    pool: { min: 0, max: 100 },
     migrations: {
       directory: __dirname + '/db/migration',
     },

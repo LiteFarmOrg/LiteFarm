@@ -21,7 +21,7 @@ module.exports = {
       host: 'localhost',
       database: 'mock_farm',
       user:     'postgres',
-      password: '7413246',
+      password: 'postgres',
     },
     migrations: {
       directory: __dirname + '/db/migration',
@@ -36,7 +36,7 @@ module.exports = {
     connection: {
       host: 'postgres',
       database: 'mock_farm',
-      user:     'postgres',
+      user: 'postgres',
       password: 'postgres',
     },
     migrations: {
@@ -80,6 +80,7 @@ module.exports = {
       user:     'postgres',
       password: 'postgres',
     },
+    pool: { min: 0, max: 100 },
     migrations: {
       directory: __dirname + '/db/migration',
     },
@@ -93,7 +94,7 @@ module.exports = {
       host: 'postgres',
       port: 5432,
       database: 'test_farm',
-      user:     'postgres',
+      user: 'postgres',
       password: 'pipeline',
     },
     migrations: {

@@ -161,5 +161,8 @@ if (environment === 'development' || environment === 'production' || environment
   console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
+app.on('close', () => {
+  knex.destroy();
+})
 
 module.exports = app;

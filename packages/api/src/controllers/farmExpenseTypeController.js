@@ -56,6 +56,8 @@ class farmExpenseTypeController extends baseController {
             const result = await expenseTypeModel.query().where('farm_id', null).whereNotDeleted();
             res.status(200).send(result);
           } catch (error) {
+              console.log("error is")
+              console.log(error)
             res.status(400).json({
               error,
             });

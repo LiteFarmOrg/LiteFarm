@@ -23,7 +23,7 @@ router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expense_ty
 
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:expense_types']), farmExpenseTypeController.getFarmExpenseType());
 
-router.get('/', hasFarmAccess({ params: 'farm_id' }), farmExpenseTypeController.getDefaultTypes());
+router.get('/', checkScope(['get:expense_types']), farmExpenseTypeController.getDefaultTypes());
 
 router.delete('/:expense_type_id', hasFarmAccess({ params: 'expense_type_id'}), checkScope(['delete:expense_types']), farmExpenseTypeController.delFarmExpenseType());
 

@@ -32,7 +32,8 @@ const farmExpenseTypeModel = require('../src/models/expenseTypeModel');
 
 describe('Expense Type Tests', () => {
 	let middleware;
-	let farm;
+    let farm;
+    let farm1;
 	let newOwner;
 
 	beforeAll(() => {
@@ -71,11 +72,13 @@ describe('Expense Type Tests', () => {
 			.end(callback);
     }
     
-    function getDefaultRequest({user_id = newOwner.user_id}, callback) {
+    function getDefaultRequest({user_id = newOwner.user_id, farm_id = farm1.farm_id}, callback) {
 		chai
 			.request(server)
             .get(`/expense_type`)
             .set('user_id', user_id)
+            .set('farm_id', farm_id)
+            // .send(farm_id)
 			.end(callback);
     }
     
@@ -116,6 +119,7 @@ describe('Expense Type Tests', () => {
 
    beforeEach(async () => {
     [ farm ] = await mocks.farmFactory();
+    [ farm1 ] = await mocks.farmFactory();
     [ newOwner ] = await mocks.usersFactory();
 
     middleware = require('../src/middleware/acl/checkJwt');
@@ -235,14 +239,16 @@ describe('Expense Type Tests', () => {
 
       describe('Get expense type default tests', () => {
         
-        test('Owner should get default expense type', async (done) => {
+        test.only('Owner should get default expense type', async (done) => {
             const {mainFarm, user} = await returnUserFarms(1);
             const expense = await returnDefaultExpenseType();
-      
-            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
-                expect(res.status).toBe(200);
+
+            getDefaultRequest({ user_id: user.user_id, farm_id: expense.expense_type.farm_id}, (err, res) => {
+                // expect(res.status).toBe(200);
+                console.log("error is")
+                console.log(res.error)
                 
-                expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
+                // expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
                 done();
             });
         });
@@ -250,7 +256,7 @@ describe('Expense Type Tests', () => {
             const {mainFarm, user} = await returnUserFarms(2);
             const expense = await returnDefaultExpenseType();
       
-            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+            getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id}, (err, res) => {
                 expect(res.status).toBe(200);
                 
                 expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
@@ -261,7 +267,7 @@ describe('Expense Type Tests', () => {
             const {mainFarm, user} = await returnUserFarms(3);
             const expense = await returnDefaultExpenseType();
       
-            getDefaultRequest({ user_id: user.user_id}, (err, res) => {
+            getDefaultRequest({ user_id: user.user_id, farm_id: mainFarm.farm_id}, (err, res) => {
                 expect(res.status).toBe(200);
                 
                 expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
@@ -273,8 +279,9 @@ describe('Expense Type Tests', () => {
             const expense = await returnDefaultExpenseType();
             const [unAuthorizedUser] = await mocks.usersFactory();
       
-            getDefaultRequest({ user_id: unAuthorizedUser.user_id}, (err, res) => {
+            getDefaultRequest({ user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id}, (err, res) => {
                 expect(res.status).toBe(200);
+                console.log(res.error)
                 
                 expect(res.body[0].farm_id).toBe(expense.expense_type.farm_id);
                 done();
@@ -290,7 +297,7 @@ describe('Expense Type Tests', () => {
             const {mainFarm, user} = await returnUserFarms(1);
             const expense = await returnDefaultExpenseType();
       
-            deleteRequest(expense.expense_type, { user_id: user.user_id}, (err, res) => {
+            deleteRequest(expense.expense_type, { user_id: expense.user_id}, (err, res) => {
                 expect(res.status).toBe(403);
                 done();
             });

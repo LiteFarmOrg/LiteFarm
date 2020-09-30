@@ -30,6 +30,9 @@ const getScopes = async (user_id, farm_id) => {
       and uf.status = 'Active'`
   );
 
+  console.log("finished getting data points")
+  console.log(dataPoints.rows)
+
   return dataPoints.rows;
 };
 
@@ -47,13 +50,17 @@ const checkScope = (expectedScopes) => {
     if (expectedScopes.length === 0){
       return next();
     }
-    //TODO user_id should comes from token. const user_id = req.user.sub.split('|')[1];
+
     const { headers } = req;
     const { user_id, farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
+
     if (!user_id) return res.status(400).send('Missing user_id in headers');
     if (!farm_id) return res.status(400).send('Missing farm_id in headers');
 
     const scopes = await getScopes(user_id, farm_id);
+
+    console.log("scopes is")
+    console.log(scopes)
 
     const allowed = expectedScopes.some(function(expectedScope){
       return scopes.find(permission => permission.name === expectedScope);

@@ -10,6 +10,6 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex, Promise) {
   return Promise.all([
-    knex('permissions').del(),
+    knex('permissions').where({ permission_id: 83 }).del(),
   ]);
 };

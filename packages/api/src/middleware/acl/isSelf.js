@@ -16,8 +16,8 @@
 async function isSelf(req, res, next) {
   const user_id = req.user.sub.split('|')[1];
   if(req.body.user_id && req.body.user_id !== user_id){
-    return res.status(400).send('Bad request');
-  }else if(user_id === req.params.user_id){
+    return res.status(403).send('User is not authorized to access user info');
+  }else if(user_id === req.params.user_id || user_id !== req.headers.user_id){
     return next();
   }else{
     return res.status(403).send('User is not authorized to access user info');

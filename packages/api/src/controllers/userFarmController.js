@@ -61,6 +61,50 @@ class userFarmController extends baseController {
     }
   }
 
+  static getUserFarmsByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const userFarm = await knex.raw(`
+          SELECT
+            uf.user_id,
+            first_name,
+            last_name,
+            profile_picture,
+            phone_number,
+            address,
+            notification_setting,
+            role,
+            uf.has_consent,
+            status,
+            uf.consent_version,
+            r.role_id,
+            uf.wage,
+          CASE
+            WHEN r.role_id = 4 THEN ''
+            ELSE email END
+          FROM "userFarm" uf, "role" r, "users" u
+          WHERE uf.farm_id='${farm_id}'
+            AND uf.user_id=u.user_id
+            AND uf.role_id=r.role_id
+        `);
+        const { rows } = userFarm;
+        if (!rows || rows.length === 0) {
+          res.sendStatus(404)
+        }
+        else {
+          res.status(200).send(rows);
+        }
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
+
   static getFarmInfo() {
     return async (req, res) => {
       try {

@@ -136,7 +136,7 @@ class sendUserFarmDataScheduler {
           template.sales = await SaleController.getSalesOfFarm(farm_id);
           for (const sale of template.sales) {
             // load related prices and yields of this sale
-            await sale.$fetchGraph('cropSale.crop.[price(getFarm), yield(getFarm)]', {
+            await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
               getFarm: (builder) => {
                 builder.where('farm_id', farm_id);
               },

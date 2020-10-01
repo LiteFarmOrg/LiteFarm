@@ -27,6 +27,7 @@ const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
 const config = require('../knexfile')[environment];
 const knex = Knex(config);
 jest.mock('jsdom')
+jest.mock('../src/middleware/acl/isSelf')
 
 
 describe('These are tests for auth0 signup and user creation', () => {
@@ -44,6 +45,13 @@ describe('These are tests for auth0 signup and user creation', () => {
   afterAll((done) => {
     server.close(() => {
       done();
+    });
+  })
+
+  beforeAll(async () => {
+    middleware = require('../src/middleware/acl/isSelf');
+    middleware.mockImplementation((req, res, next) => {
+      return next()
     });
   })
 

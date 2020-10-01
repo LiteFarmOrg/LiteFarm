@@ -25,7 +25,7 @@ const axios = require('axios');
 const url  = require('url');
 const emailSender = require('../templates/sendEmailTemplate');
 const farmModel = require('../models/farmModel');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const auth0Uri = findAuth0Uri();
 

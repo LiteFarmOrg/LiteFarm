@@ -1,5 +1,5 @@
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   return Promise.all([
     knex.schema.alterTable('farm', (t)=>{
       t.boolean('deleted').notNullable().defaultTo(false);
@@ -28,7 +28,7 @@ exports.up = function(knex, Promise) {
   ])
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return Promise.all([
     knex.schema.alterTable('farm', (t)=>{
       t.dropColumn('deleted')

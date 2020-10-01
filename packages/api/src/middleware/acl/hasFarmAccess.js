@@ -48,7 +48,6 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
   const { farm_id } = req.headers;
   const farmIdObjectFromEntity = await entitiesGetters[id_name](id);
   // Is getting a seeded table and accessing community data. Go through.
-  // TODO: try to delete seeded data
   if (seededEntities.includes(id_name) && req.method === 'GET' && farmIdObjectFromEntity.farm_id === null) {
     return next();
   }

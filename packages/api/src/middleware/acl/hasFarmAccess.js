@@ -142,7 +142,6 @@ async function fromPrice(priceId) {
   return await knex('price').where({ price_id: priceId }).first();
 }
 
-
 async function fromFarmExpense(farm_expense_id) {
   return await knex('farmExpense').where({ farm_expense_id: farm_expense_id }).first();
 }
@@ -150,6 +149,7 @@ async function fromFarmExpense(farm_expense_id) {
 async function fromFarmExpenseType(expense_type_id) {
   return await knex('farmExpenseType').where({ expense_type_id: expense_type_id }).first();
 }
+
 async function fromSale(sale_id) {
   return await knex('sale').where({ sale_id }).first();
 }

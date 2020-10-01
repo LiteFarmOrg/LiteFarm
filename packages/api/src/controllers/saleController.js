@@ -50,7 +50,7 @@ class SaleController extends baseController {
 
         if(result){
           const cropSale = req.body.cropSale;
-          const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).del();
+          const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).delete();
 
           if(isExistingDeleted){
             for(const cs of cropSale){

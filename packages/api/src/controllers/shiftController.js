@@ -88,7 +88,7 @@ class shiftController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const sID = (req.params.id).toString();
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).where('shift_id', sID).del();
+        const isShiftTaskDeleted = await shiftTaskModel.query(trx).where('shift_id', sID).delete();
         const isShiftDeleted = await baseController.delete(shiftModel, sID, trx);
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {

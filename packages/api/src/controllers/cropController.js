@@ -136,7 +136,7 @@ class cropController extends baseController {
   static async del(req, trx){
     const id = req.params.crop_id;
     const table_id = cropModel.idColumn;
-    return await cropModel.query(trx).where(table_id, id).andWhere('user_added', true).del()
+    return await cropModel.query(trx).where(table_id, id).andWhere('user_added', true).delete()
   }
 }
 

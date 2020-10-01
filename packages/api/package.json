@@ -62,7 +62,6 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "sinon": "^9.1.0",
-    "update": "^0.7.4",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
@@ -71,5 +70,9 @@
     "faker": "^5.1.0",
     "jest": "^26.4.2",
     "start-server-and-test": "^1.11.5"
+  },
+  "resolutions": {
+    "braces": "^3.0.2",
+    "set-value": "^3.0.2"
   }
 }

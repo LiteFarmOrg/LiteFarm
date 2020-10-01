@@ -112,7 +112,7 @@ export function* getFarmInfo(action) {
       farm_id: localStorage.getItem('farm_id'),
     },
   };
-  
+
   if(!farm_id) {
     history.push('/add_farm');
     return;

@@ -99,6 +99,7 @@
     "build": "node scripts/build.js",
     "test": "jest",
     "lint": "eslint src",
+    "preinstall": "npx npm-force-resolutions",
     "cypress-ui": "./node_modules/.bin/cypress open",
     "record-cypress": "./node_modules/.bin/cypress run --browser chrome --record --key 7651a84f-409b-476d-bff9-3302074dea6a --parallel",
     "cypress": "./node_modules/.bin/cypress run --browser chrome",
@@ -150,5 +151,16 @@
     "cypress": "^3.8.3",
     "postcss-loader": "^2.1.6",
     "start-server-and-test": "^1.11.0"
+  },
+  "resolutions": {
+    "braces": "^3.0.2",
+    "node-fetch": "^2.6.1",
+    "cryptiles": "^4.1.3",
+    "tar": "^6.0.5",
+    "minimist": "^1.2.5",
+    "axios": "^0.20.0",
+    "lodash": "^4.17.20",
+    "yargs-parser": "^20.2.1",
+    "js-yaml": "^3.14.0"
   }
 }

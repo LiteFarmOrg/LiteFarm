@@ -113,7 +113,7 @@ export function* getFarmInfo(action) {
       farm_id: localStorage.getItem('farm_id'),
     },
   };
-  
+
   if(!farm_id) {
     history.push('/add_farm');
     return;
@@ -286,9 +286,13 @@ export function* updateAgreementSaga(payload) {
       console.log(payload);
       console.log(data);
       if (payload.consent_bool.consent) {
-        yield put(updateConsentOfFarm(farm_id));
+        yield put(updateConsentOfFarm(farm_id, data));
         // yield put(setFarmInState(data));
+        const farms = yield select((state) => state.userFarmReducer.farms);
+        const selectedFarm = farms.find((f) => f.farm_id === farm_id);
+        yield put(setFarmInState(selectedFarm))
         console.log('user agreed to consent form/');
+        console.log(selectedFarm);
         history.push('/home');
       } else {
     //did not give consent - log user out

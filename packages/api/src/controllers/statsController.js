@@ -181,7 +181,7 @@ class statsController extends baseController {
           WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
           ) table_2 ON table_2.field_id = f.field_id
           WHERE f.farm_id = ?
-          GROUP BY f.field_id`, [farm_id]
+          GROUP BY f.field_id`, [farm_id, farm_id]
           );
 
           if (data.rows) {

@@ -1087,8 +1087,8 @@ const grabFarmIDsToRun = async () => {
 const getUserEmail = async (user_id) => {
   const data = await knex.raw(`SELECT u.email
   FROM "users" u
-  WHERE u.user_id = ?,[user_id]
-  `);
+  WHERE u.user_id = ?
+  `,[user_id]);
   return data.rows[0].email;
 };
 

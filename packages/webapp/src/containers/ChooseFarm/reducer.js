@@ -14,7 +14,8 @@
  */
 
 import {
- SET_FARMS_BY_USER
+ SET_FARMS_BY_USER,
+ UPDATE_CONSENT_OF_FARM
 } from './constants';
 
 const initialState = {
@@ -27,8 +28,22 @@ function userFarmReducer(state = initialState, action) {
       return Object.assign({}, state, {
         farms: action.farms,
       });
+    case UPDATE_CONSENT_OF_FARM:
+      let result = state.farms.map(farm => {
+        if (farm.farm_id == action.farm_id) {
+          return {
+            ...farm,
+            has_consent: true
+          }
+        } else {
+          return farm;
+        }
+      });
+      return Object.assign({}, state, {
+        farms: result,
+      });
     default:
-      return state
+      return state;
   }
 }
 

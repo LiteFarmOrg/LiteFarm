@@ -14,7 +14,8 @@
  */
 
 import { ADD_FARM } from "./constants";
-import { fetchFarmInfo } from '../../containers/actions';
+// import { fetchFarmInfo } from '../../containers/actions';
+import { getFarms } from '../../containers/ChooseFarm/actions.js';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import history from '../../history';
@@ -70,7 +71,7 @@ export function* addFarm(payload) {
       );
 
       if (updateUserRoleResult.status >= 200) {
-        yield put(fetchFarmInfo());
+        yield put(getFarms());
         history.push('/intro');
       }
     }

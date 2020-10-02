@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GET_FARMS_BY_USER, SET_FARMS_BY_USER } from './constants'
+import { GET_FARMS_BY_USER, SET_FARMS_BY_USER, UPDATE_CONSENT_OF_FARM } from './constants'
 
 export const getFarms = () => {
   return {
@@ -27,3 +27,10 @@ export const setFarms = (farms) => {
     farms
   }
 };
+
+export const updateConsentOfFarm = (farm_id) => {
+  return {
+    type: UPDATE_CONSENT_OF_FARM,
+    farm_id
+  }
+}

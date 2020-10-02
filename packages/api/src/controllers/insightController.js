@@ -249,8 +249,8 @@ class insightController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT f.field_id, f.field_name, AVG(n.nitrogen_value) as nitrogen_value
       FROM "field" f, "nitrogenBalance" n
-      WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= '${prevDate}'
-      GROUP BY f.field_id`, [farmID]);
+      WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
+      GROUP BY f.field_id`, [farmID, prevDate]);
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
           res.status(200).send(body)

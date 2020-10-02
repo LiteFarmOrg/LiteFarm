@@ -238,8 +238,8 @@ class statsController extends baseController {
           const dataPoints = await knex.raw(
             `SELECT f.field_id, f.field_name, AVG(n.nitrogen_value) as nitrogen_value
           FROM "field" f, "nitrogenBalance" n
-          WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= '${prevDate}'
-          GROUP BY f.field_id`, [farm_id]
+          WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= ?
+          GROUP BY f.field_id`, [farm_id, prevDate]
           );
           if (dataPoints.rows) {
             template.nitrogenbalance = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);

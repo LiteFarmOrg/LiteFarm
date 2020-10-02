@@ -34,8 +34,7 @@ class insightController extends baseController {
         const data = await knex.raw(
           `SELECT DISTINCT cs.sale_id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
           FROM "cropSale" cs, "sale" s, "crop" c
-          WHERE cs.sale_id = s.sale_id AND s.farm_id = '${farmID}' AND cs.crop_id = c.crop_id`
-        );
+          WHERE cs.sale_id = s.sale_id AND s.farm_id = ? AND cs.crop_id = c.crop_id`, [farmID]);
 
         if (data.rows) {
           const people_fed_data = insightHelpers.getNutritionalData(data.rows);
@@ -84,12 +83,11 @@ class insightController extends baseController {
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.field_id
           FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl
-          WHERE f.farm_id = '${farmID}' and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
+          WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
           ) table_2 ON table_2.field_id = f.field_id
-          WHERE f.farm_id = '${farmID}'
+          WHERE f.farm_id = ?
           GROUP BY f.field_id
-          ORDER BY f.field_name`
-        );
+          ORDER BY f.field_name`, [farmID, farmID]);
 
         if (data.rows) {
           const body = await insightHelpers.getSoilOM(data.rows);
@@ -112,9 +110,8 @@ class insightController extends baseController {
         const data = await knex.raw(
           `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood
           FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
-          WHERE f.farm_id = '${farmID}' and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and st.shift_id = s.shift_id and s.mood != 'na'
-          ORDER BY s.shift_id`
-        );
+          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and st.shift_id = s.shift_id and s.mood != 'na'
+          ORDER BY s.shift_id`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);
@@ -137,9 +134,8 @@ class insightController extends baseController {
           FROM "field" f
           LEFT JOIN "fieldCrop" fc
           ON fc.field_id = f.field_id
-          WHERE f.farm_id = '${farmID}'
-          GROUP BY f.grid_points`
-        );
+          WHERE f.farm_id = ?
+          GROUP BY f.grid_points`, [farmID]);
         if (dataPoints.rows) {
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);
           res.status(200).send(body);
@@ -167,14 +163,12 @@ class insightController extends baseController {
           JOIN "cropSale" cs on cs.sale_id = s.sale_id
           JOIN "crop" c on c.crop_id = cs.crop_id
           JOIN "farm" fa on fa.farm_id = s.farm_id
-          WHERE s.sale_date >= '${startDate}' and c.crop_id IN (
+          WHERE s.sale_date >= ? and c.crop_id IN (
           SELECT fc.crop_id
           FROM "fieldCrop" fc, "field" f
-          WHERE fc.field_id = f.field_id and f.farm_id = '${farmID}')
+          WHERE fc.field_id = f.field_id and f.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, fa.farm_id, fa.grid_points
-          ORDER BY year_month, c.crop_common_name
-          `
-        );
+          ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
         if (dataPoints.rows) {
           const filtered_datapoints = dataPoints.rows.filter((dataPoint) => {
             const farm_location = dataPoint['grid_points'];
@@ -201,8 +195,8 @@ class insightController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT c.crop_common_name, f.field_name, f.field_id, w.plant_available_water
           FROM "fieldCrop" fc, "field" f, "waterBalance" w, "crop" c
-          WHERE fc.field_id = f.field_id and f.farm_id = '${farmID}' and c.crop_id = w.crop_id and w.field_id = f.field_id and fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = '${prevDate}'`
-        );
+          WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = w.crop_id and w.field_id = f.field_id and
+           fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`, [farmID, prevDate]);
         if (dataPoints.rows) {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
           res.status(200).send(body);
@@ -234,8 +228,7 @@ class insightController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "waterBalanceSchedule" w
-          WHERE w.farm_id = '${farmID}'`
-        );
+          WHERE w.farm_id = ?`, [farmID]);
         if (dataPoints.rows.length > 0) {
           const body = dataPoints.rows[0];
           res.status(200).send(body)
@@ -255,10 +248,9 @@ class insightController extends baseController {
         const prevDate = insightHelpers.formatPreviousDate(new Date(), 'year');
         const dataPoints = await knex.raw(
           `SELECT f.field_id, f.field_name, AVG(n.nitrogen_value) as nitrogen_value
-          FROM "field" f, "nitrogenBalance" n
-          WHERE f.farm_id = '${farmID}' and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= '${prevDate}'
-          GROUP BY f.field_id`
-        );
+      FROM "field" f, "nitrogenBalance" n
+      WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= '${prevDate}'
+      GROUP BY f.field_id`, [farmID]);
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
           res.status(200).send(body)
@@ -278,8 +270,8 @@ class insightController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "nitrogenSchedule" n
-          WHERE n.farm_id = '${farmID}'
-          ORDER BY n.scheduled_at DESC`
+          WHERE n.farm_id = ?
+          ORDER BY n.scheduled_at DESC`, [farmID]
         );
         if (dataPoints.rows) {
           const body = dataPoints.rows[0];

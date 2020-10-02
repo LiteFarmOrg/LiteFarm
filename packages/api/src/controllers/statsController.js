@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (statsController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -120,9 +120,9 @@ class statsController extends baseController {
 	          )
 	          x ON x.field_crop_id = t.field_crop_id,
 	        "shift" s, "users" u, "taskType" tp
-          WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id AND u.farm_id = '${farm_id}'
+          WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id AND u.farm_id = ?
           AND t.task_id = tp.task_id
-          `
+          `, [farm_id]
           );
           template.shifts = get_shifts.rows;
         }
@@ -151,8 +151,8 @@ class statsController extends baseController {
           const data = await knex.raw(
             `SELECT DISTINCT cs.sale_id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
           FROM "cropSale" cs, "fieldCrop" fc, "field" f, "crop" c
-          WHERE cs.field_crop_id = fc.field_crop_id AND f.farm_id = '${farm_id}' AND fc.crop_id = c.crop_id AND f.field_id = fc.field_id
-          ORDER BY cs.sale_id`
+          WHERE cs.field_crop_id = fc.field_crop_id AND f.farm_id = ? AND fc.crop_id = c.crop_id AND f.field_id = fc.field_id
+          ORDER BY cs.sale_id`, [farm_id]
           );
 
           if (data.rows) {
@@ -178,10 +178,10 @@ class statsController extends baseController {
           LEFT JOIN (
           SELECT sdl.om, sdl.organic_carbon, sdl.inorganic_carbon, sdl.total_carbon, af.field_id
           FROM "activityLog" al, "activityFields" af, "field" f, "soilDataLog" sdl
-          WHERE f.farm_id = '${farm_id}' and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
+          WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
           ) table_2 ON table_2.field_id = f.field_id
-          WHERE f.farm_id = '${farm_id}'
-          GROUP BY f.field_id`
+          WHERE f.farm_id = ?
+          GROUP BY f.field_id`, [farm_id]
           );
 
           if (data.rows) {
@@ -193,8 +193,8 @@ class statsController extends baseController {
           const data = await knex.raw(
             `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood
           FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
-          WHERE f.farm_id = '${farm_id}' and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and st.shift_id = s.shift_id and s.mood != 'na'
-          ORDER BY s.shift_id`
+          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and st.shift_id = s.shift_id and s.mood != 'na'
+          ORDER BY s.shift_id`, [farm_id]
           );
 
           if (data.rows) {
@@ -208,8 +208,8 @@ class statsController extends baseController {
           FROM "field" f
           LEFT JOIN "fieldCrop" fc
           ON fc.field_id = f.field_id
-          WHERE f.farm_id = '${farm_id}'
-          GROUP BY f.grid_points`
+          WHERE f.farm_id = ?
+          GROUP BY f.grid_points`, [farm_id]
           );
           if (dataPoints.rows) {
             template.biodiversity = await insightHelpers.getBiodiversityAPI(dataPoints.rows);
@@ -221,7 +221,7 @@ class statsController extends baseController {
           const dataPoints = await knex.raw(
             `SELECT c.crop_common_name, f.field_name, f.field_id, w.plant_available_water
           FROM "fieldCrop" fc, "field" f, "waterBalance" w, "crop" c
-          WHERE fc.field_id = f.field_id and f.farm_id = '${farm_id}' and c.crop_id = w.crop_id and w.field_id = f.field_id and fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = '${prevDate}'`
+          WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = w.crop_id and w.field_id = f.field_id and fc.crop_id = w.crop_id and to_char(date(w.created_at), 'YYYY-MM-DD') = ?`,[farm_id, prevDate]
           );
           if (dataPoints.rows > 0){
             if (await waterBalanceScheduler.checkFarmID(farm_id)) {
@@ -238,8 +238,8 @@ class statsController extends baseController {
           const dataPoints = await knex.raw(
             `SELECT f.field_id, f.field_name, AVG(n.nitrogen_value) as nitrogen_value
           FROM "field" f, "nitrogenBalance" n
-          WHERE f.farm_id = '${farm_id}' and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= '${prevDate}'
-          GROUP BY f.field_id`
+          WHERE f.farm_id = ? and n.field_id = f.field_id and to_char(date(n.created_at), 'YYYY-MM-DD') >= '${prevDate}'
+          GROUP BY f.field_id`, [farm_id]
           );
           if (dataPoints.rows) {
             template.nitrogenbalance = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);

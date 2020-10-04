@@ -139,11 +139,11 @@ describe('Yield Tests', () => {
 
   describe('Post yield tests', () => {
 
-    test('Owner should post yield', async (done) => {
+    test.only('Owner should post yield', async (done) => {
 
       const {mainFarm, user} = await returnUserFarms(1);
       const {crop} = await returnCrop(mainFarm);
-      const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
+	  const cropYield = getFakeYield(crop.crop_id, mainFarm.farm_id)
 
       postYieldRequest(cropYield, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(201);

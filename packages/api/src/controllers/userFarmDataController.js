@@ -25,14 +25,13 @@ class userFarmDataController extends baseController {
   static registerFarm() {
     return async (req, res) => {
       try {
-        const farm_id = req.query.farm_id;
-        const user_id = req.query.user_id;
+        const farm_id = req.body.farm_id;
+        const user_id = req.body.user_id;
         await knex('farmDataSchedule').insert({ farm_id, user_id });
         res.sendStatus(200);
       }
       catch (error) {
         //handle more exceptions
-        console.log(error);
         res.status(400).send(error);
       }
     }

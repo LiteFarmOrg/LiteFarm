@@ -20,6 +20,6 @@ const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_schedules']), userFarmDataController.registerFarm());
-router.get('/:farm_id', hasFarmAccess({ body: 'farm_id' }), checkScope(['get:farm_schedules']), userFarmDataController.getSchedule());
+router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:farm_schedules']), userFarmDataController.getSchedule());
 
 module.exports = router;

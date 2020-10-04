@@ -20,6 +20,7 @@ const entitiesGetters = {
   fields: fromFields,
   activity_id: fromActivity,
   sale_id: fromSale,
+
 }
 const userFarmModel = require('../../models/userFarmModel');
 

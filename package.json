@@ -4,7 +4,8 @@
   },
   "scripts": {
     "test": "lerna run test",
-    "lint": "lerna run lint"
+    "lint": "lerna run lint",
+    "start": "lerna run start"
   },
   "jest": {
     "testPathIgnorePatterns": [

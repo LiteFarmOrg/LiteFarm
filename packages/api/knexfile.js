@@ -57,7 +57,7 @@ module.exports = {
     seeds: {
       directory: __dirname + '/db/seeds',
     },
-    ssl: { rejectUnauthorized: false },
+    ssl: true,
   },
 
   production: {

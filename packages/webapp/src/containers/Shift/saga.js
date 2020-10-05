@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -22,6 +22,7 @@ import {
 import {setTaskTypesInState, getTaskTypes, setShifts} from "./actions";
 import {toastr} from "react-redux-toastr";
 import history from '../../history';
+import moment from 'moment';
 const axios = require('axios');
 
 
@@ -164,11 +165,13 @@ export function* getAllShiftSaga() {
       let sortedShifts = [];
       let dict = {};
       for(let shift of allShifts){
+        let { start_time, end_time } = shift;
+        let duration = moment(end_time).diff(moment(start_time), 'minutes');
         if(!dict.hasOwnProperty(shift.shift_id)){
           dict[shift.shift_id] = shift;
           dict[shift.shift_id] = Object.assign(dict[shift.shift_id], {tasks: [{
               task_id: shift.task_id,
-              duration: shift.duration,
+              duration,
               field_crop_id: shift.field_crop_id,
               field_id: shift.field_id,
               is_field: shift.is_field,
@@ -177,7 +180,7 @@ export function* getAllShiftSaga() {
         }else{
           dict[shift.shift_id].tasks.push({
             task_id: shift.task_id,
-            duration: shift.duration,
+            duration,
             field_crop_id: shift.field_crop_id,
             field_id: shift.field_id,
             is_field: shift.is_field,

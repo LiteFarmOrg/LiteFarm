@@ -4,7 +4,8 @@
   },
   "scripts": {
     "test": "lerna run test",
-    "lint": "lerna run lint"
+    "lint": "lerna run lint",
+    "preinstall": "npx npm-force-resolutions"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -14,25 +15,10 @@
     "testURL": "http://localhost/",
     "testEnvironment": "node"
   },
-  "dependencies": {
-    "express-jwt": "^5.3.1",
-    "express-jwt-authz": "^1.0.0",
-    "google-auth-library": "^6.0.1",
-    "google-map-react": "^1.0.6",
-    "googleapis": "^39.2.0",
-    "jest": "^23.3.0",
-    "jest-cli": "^23.3.0",
-    "jwks-rsa": "^1.2.1",
-    "mammoth": "^1.4.9",
-    "moment": "^2.24.0",
-    "natural-compare": "^1.4.0",
-    "react-burger-menu": "^2.5.2",
-    "react-input-moment": "^1.7.10",
-    "react-player": "^1.12.0",
-    "react-redux": "^5.0.7",
-    "react-times": "^3.1.9",
-    "redux": "^4.0.0",
-    "redux-persist": "^5.10.0",
-    "svg-react-loader": "^0.4.5"
+  "resolutions": {
+    "minimist": "^1.2.5",
+    "yargs-parser": "^20.2.1",
+    "mem": "^7.0.0-1",
+    "dot-prop": "^5.3.0"
   }
 }

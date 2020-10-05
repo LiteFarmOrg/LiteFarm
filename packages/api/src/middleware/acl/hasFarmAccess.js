@@ -134,7 +134,7 @@ async function fromActivity(req) {
       .where('userFarm.user_id', user_id)
       .where('userFarm.farm_id', farm_id)
 
-    if (!sameFarm.length || sameFarm.length < (fieldCrops? fieldCrops.length: 0)) {
+    if (!sameFarm.length || sameFarm.length < (fieldCrops ? fieldCrops.length : 0)) {
       return {};
     }
   }

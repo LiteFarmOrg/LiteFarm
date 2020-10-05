@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 import {userInfoSelector, farmSelector} from '../../../containers/selector'
+const noConsentCheckRoutes = ['/consent','/farm_selection', '/intro']
 
 class SlideMenu extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class SlideMenu extends React.Component {
   }
   //TODO: Switch to useEffect
   UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
-    if(nextProps.farm && !nextProps.farm.has_consent && this.props.location.pathname!=='/consent' && this.props.location.pathname!=='/farm_selection'){
+    if(nextProps.farm && !nextProps.farm.has_consent && !noConsentCheckRoutes.includes(this.props.location.pathname) ){
       history.push('/consent', { role_id: nextProps.farm.role_id });
     }
   }
@@ -61,10 +62,10 @@ class SlideMenu extends React.Component {
        &&
       <a id="field" className="menu-item" onClick={() => this.handleClick("/Field")}><span>Fields</span></a>
     }
-      <a id="crops" className="menu-item" ><span>Crops</span></a>
+      {/* <a id="crops" className="menu-item" ><span>Crops</span></a> */}
       <a id="log" className="menu-item" onClick={() => this.handleClick("/Log")}><span>Logs</span></a>
-      <a id="tasks" className="menu-item" ><span>Tasks</span></a>
-      <a id="inventory" className="menu-item" ><span>Inventory</span></a>
+      {/* <a id="tasks" className="menu-item" ><span>Tasks</span></a> */}
+      {/* <a id="inventory" className="menu-item" ><span>Inventory</span></a> */}
       <a id="profile" className="menu-item" onClick={() => this.handleClick("/Profile")}><span>Users</span></a>
      </div>
           }

@@ -84,13 +84,13 @@ describe('userFarm Tests', () => {
 		return { mainFarm, user };
   }
 
-  async function returnUserFarmData(farm) {
-    const [ user_farm_data ] = await mocks.userFarmFactory({ promisedFarm: [ farm ] });
+  async function returnUserFarmData(user, farm) {
+    const [ user_farm_data ] = await mocks.farmDataScheduleFactory({promisedUser: [user], promisedFarm: [ farm ] });
     return {user_farm_data};
 }
 
   function getFakeUserFarmData(farm_id, user_id) {
-    const userFarmData = mocks.fakeUserFarm();
+    const userFarmData = mocks.fakeFarmDataSchedule();
     return ({ ...userFarmData, farm_id, user_id });
   }
 
@@ -176,7 +176,7 @@ describe('userFarm Tests', () => {
 
 		test('Owner should get user farm data by farm id', async (done) => {
             const {mainFarm, user} = await returnUserFarms(1);
-            const {user_farm_data} = await returnUserFarmData(mainFarm, user);
+            const {user_farm_data} = await returnUserFarmData(user, mainFarm);
 
             getRequest( { user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
                 expect(res.status).toBe(200);
@@ -187,7 +187,7 @@ describe('userFarm Tests', () => {
 
         test('Manager should get user farm data by farm id', async (done) => {
             const {mainFarm, user} = await returnUserFarms(2);
-            const {user_farm_data} = await returnUserFarmData(mainFarm, user);
+            const {user_farm_data} = await returnUserFarmData(user, mainFarm);
 
             getRequest( { user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
                 expect(res.status).toBe(200);
@@ -198,7 +198,7 @@ describe('userFarm Tests', () => {
 
         test('Worker should get 403 if they try to get user farm data by farm id', async (done) => {
             const {mainFarm, user} = await returnUserFarms(3);
-            const {user_farm_data} = await returnUserFarmData(mainFarm, user);
+            const {user_farm_data} = await returnUserFarmData(user, mainFarm);
 
             getRequest( { user_id: user.user_id, farm_id: mainFarm.farm_id }, (err, res) => {
                 expect(res.status).toBe(403);

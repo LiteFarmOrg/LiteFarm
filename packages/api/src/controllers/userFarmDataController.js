@@ -36,26 +36,25 @@ class userFarmDataController extends baseController {
         res.status(400).send(error);
       }
     }
-  }
+  } 
 
-  static getSchedule() {
+  static getSchedule(){
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const result = await userFarmModel.query().where('farm_id', farm_id);
-        if (!result.length) {
+        const data = await knex('farmDataSchedule').where({ farm_id, is_processed: false }).returning('*');
+        if (!data.length) {
           res.sendStatus(404)
         }
         else {
-          res.status(200).send(result);
+          res.status(200).send(data);
         }
+        
       }
       catch (error) {
-        console.log(error);
         //handle more exceptions
-        res.status(400).json({
-          error,
-        });
+        console.log(error);
+        res.status(400).send(error);
       }
     }
   }

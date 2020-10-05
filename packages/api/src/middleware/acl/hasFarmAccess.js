@@ -36,8 +36,7 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
     id_name = body;
     if (Array.isArray(req.body)) {
       id = req.body[0][id_name];
-    }
-    else {
+    } else {
       id = req.body[id_name];
     }
   }
@@ -101,9 +100,10 @@ async function fromActivity(req) {
   const user_id = req.user.sub.split('|')[1];
   const { activity_id } = req.params;
   const { farm_id } = req.headers;
-  let fields;
+
   if (req.body.fields) {
-    fields = [];
+    const fields = [];
+    let fieldCrops;
     for (const field of req.body.fields) {
       if (!field.field_id) {
         return {};
@@ -111,6 +111,30 @@ async function fromActivity(req) {
       fields.push(field.field_id);
     }
     if (fields.length === 0) {
+      return {};
+    }
+
+    if (req.body.crops && req.body.crops.length) {
+      fieldCrops = [];
+      for (const fieldCrop of req.body.crops) {
+        if (!fieldCrop.field_crop_id) {
+          return {};
+        }
+        fieldCrops.push(fieldCrop.field_crop_id);
+      }
+    }
+
+    const sameFarm = await userFarmModel.query()
+      .distinct('userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
+      .join('field', 'userFarm.farm_id', 'field.farm_id')
+      .join('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
+      .skipUndefined()
+      .whereIn('field.field_id', fields)
+      .whereIn('fieldCrop.field_crop_id', fieldCrops)
+      .where('userFarm.user_id', user_id)
+      .where('userFarm.farm_id', farm_id)
+
+    if (!sameFarm.length || sameFarm.length < (fieldCrops? fieldCrops.length: 0)) {
       return {};
     }
   }
@@ -125,13 +149,6 @@ async function fromActivity(req) {
     .where('userFarm.farm_id', farm_id)
     .first();
   if (!userFarm) return {};
-
-  const sameFarm = await userFarmModel.query()
-    .distinct('userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
-    .join('field', 'userFarm.farm_id', 'field.farm_id')
-    .join('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
-    .join('fertilizer',)
-
 
   return userFarm;
 }
@@ -150,11 +167,11 @@ async function fromPrice(priceId) {
 }
 
 async function fromFarmExpense(farm_expense_id) {
-  return await knex('farmExpense').where({ farm_expense_id: farm_expense_id }).first();
+  return await knex('farmExpense').where({ farm_expense_id }).first();
 }
 
 async function fromFarmExpenseType(expense_type_id) {
-  return await knex('farmExpenseType').where({ expense_type_id: expense_type_id }).first();
+  return await knex('farmExpenseType').where({ expense_type_id }).first();
 }
 
 async function fromSale(sale_id) {

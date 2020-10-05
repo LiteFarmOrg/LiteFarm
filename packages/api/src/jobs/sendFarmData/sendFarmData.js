@@ -107,8 +107,8 @@ class sendUserFarmDataScheduler {
           LEFT JOIN
           "users" u
           ON uf.user_id = u.user_id
-          WHERE uf.farm_id = '${farm_id}'
-          `
+          WHERE uf.farm_id = ?
+          `, [farm_id]
           );
           template.users = user_data.rows;
           template.fields = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
@@ -125,9 +125,9 @@ class sendUserFarmDataScheduler {
 	          )
 	          x ON x.field_crop_id = t.field_crop_id,
           "shift" s, "users" u, "taskType" tp, "userFarm" uf
-          WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id  AND uf.user_id = u.user_id AND uf.farm_id = '${farm_id}'
+          WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id  AND uf.user_id = u.user_id AND uf.farm_id = ?
           AND t.task_id = tp.task_id
-          `
+          `, [farm_id]
           );
           template.shifts = get_shifts.rows;
 
@@ -1087,8 +1087,8 @@ const grabFarmIDsToRun = async () => {
 const getUserEmail = async (user_id) => {
   const data = await knex.raw(`SELECT u.email
   FROM "users" u
-  WHERE u.user_id = '${user_id}'
-  `);
+  WHERE u.user_id = ?
+  `,[user_id]);
   return data.rows[0].email;
 };
 

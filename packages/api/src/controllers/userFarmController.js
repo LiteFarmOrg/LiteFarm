@@ -157,7 +157,7 @@ class userFarmController extends baseController {
         let role_id = 0;
 
         const data = await knex.raw(
-          `SELECT * FROM "role" r WHERE r.role='${role}'`
+          `SELECT * FROM "role" r WHERE r.role=?`,[role]
         );
 
         if (data.rows && data.rows.length > 0) {
@@ -308,7 +308,7 @@ class userFarmController extends baseController {
       let role_id = 0;
 
       const data = await knex.raw(
-        `SELECT * FROM "role" r WHERE r.role='${role}'`
+        `SELECT * FROM "role" r WHERE r.role=?`, [role]
       );
 
       if (data.rows && data.rows.length > 0) {

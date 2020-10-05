@@ -102,7 +102,7 @@ describe('taskType Tests', () => {
     })
 
     test('Get by farm_id should filter out deleted task types', async (done)=>{
-      await taskTypeModel.query().findById(taskType.task_id).del();
+      await taskTypeModel.query().findById(taskType.task_id).delete();
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(404);
         done();
@@ -110,7 +110,7 @@ describe('taskType Tests', () => {
     })
 
     test('Get by task_id should filter out deleted task types', async (done)=>{
-      await taskTypeModel.query().findById(taskType.task_id).del();
+      await taskTypeModel.query().findById(taskType.task_id).delete();
       getRequest({user_id: owner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
         expect(res.status).toBe(404);
         done();

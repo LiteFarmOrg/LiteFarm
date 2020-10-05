@@ -28,7 +28,7 @@ const checkEditPrivilege = () => {
       // user id is contained in attribute sub in this format: 'auth0|5b0560215d7d1617fd7ed217'
       const farms = await knex.raw(`SELECT *
       FROM "userFarm" uf
-      WHERE uf.user_id = '${request_user_id}'  AND uf.farm_id = '${farm_id}' `);
+      WHERE uf.user_id = ?  AND uf.farm_id = ?`, [request_user_id, farm_id]);
 
       if(!farms || !farms.rows.length) {
         return res.status(401).send('user not authorized to access farm with specified farm_id').end();
@@ -46,9 +46,9 @@ const checkEditPrivilege = () => {
       const userRow = await knex.raw(
         `SELECT *
       FROM "userFarm" uf
-      WHERE uf.user_id = '${edit_user_id}'
-      AND uf.farm_id = '${farm_id}'
-      `
+      WHERE uf.user_id = ?
+      AND uf.farm_id = ?
+      `, [edit_user_id, farm_id]
       );
 
       if (userRow && userRow.rows && userRow.rows.length) {

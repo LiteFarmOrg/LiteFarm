@@ -17,7 +17,7 @@ const baseController = require('../controllers/baseController');
 const { transaction, Model } = require('objection');
 const fieldModel = require('../models/fieldModel');
 const { mapFieldsToStationId } = require('../jobs/station_sync/mapping')
-const uuidv4 = require('uuid/v4');
+const { v4 : uuidv4 } = require('uuid');
 
 
 class fieldController extends baseController {
@@ -38,12 +38,12 @@ class fieldController extends baseController {
         else if (Object.keys(result.grid_points).length < 3) {
           res.sendStatus(403);
         }
-       
+
         else {
           res.status(201).send(result);
           req.field = { fieldId: result.field_id, point: result.grid_points[0] }
           next()
-        }  
+        }
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
@@ -82,11 +82,11 @@ class fieldController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        } 
+        }
         else if (updated[0].field_name.length == 0) {
           res.sendStatus(403);
         }
-        
+
         else {
           res.status(200).send(updated);
         }

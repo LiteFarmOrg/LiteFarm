@@ -32,7 +32,6 @@ function peopleReducer(state = initialState, action) {
         delete temp_state['worker without accounts'];
       }
 
-      console.log(Object.assign({}, temp_state, users));
       return Object.assign({}, temp_state, users);
     case SET_FARM_ID_IN_PEOPLE:
       return Object.assign({}, state, {

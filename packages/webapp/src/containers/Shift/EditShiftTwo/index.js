@@ -564,6 +564,25 @@ class EditShiftTwo extends Component {
     this.props.dispatch(updateShift(form, this.props.selectedShift.shift_id));
   };
 
+  cropTotalTimeAssign = (event, task_id) => {
+    let {cropDurations} = this.state;
+    if (cropDurations.hasOwnProperty(task_id)) {
+      let cropNum = cropDurations[task_id].length;
+      let totalTime = event.target.value;
+      let indyTime = Math.round(Number(totalTime) / cropNum);
+      let i = 0;
+      for (let cdObj of cropDurations[task_id]) {
+        if(i === cropNum - 1){
+          if(indyTime * cropNum !== (Number(totalTime))){
+            indyTime = Number(totalTime) - indyTime * (cropNum - 1);
+          }
+        }
+        this.changeDuration({target: {value: indyTime}}, task_id, true, cdObj.crop_id);
+        i++;
+      }
+    }
+  };
+
   render() {
     const selectedTasks = this.props.selectedTasks;
     const isRatingEnabled = this.isCurrentUserInShift();
@@ -651,7 +670,9 @@ class EditShiftTwo extends Component {
                         return <div className={styles.durationContainer} key={cd.crop_id}>
                           <div>{cd.crop_name}</div>
                           <div className={styles.durationInput}>
-                            <input type="number" value={cd.duration}
+                            <input type="number" 
+                            placeholder={cd.duration} 
+                            value={cd.duration}
                                    onChange={(event) => this.changeDuration(event, task.task_id, true, cd.crop_id)}/>
                           </div>
                         </div>

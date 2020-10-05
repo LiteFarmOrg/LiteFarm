@@ -103,8 +103,9 @@ describe('Authorization Tests', () => {
     });
   })
 
-  afterAll (async () => {
+  afterAll (async (done) => {
     await tableCleanup(knex);
+    done();
   });
 
   describe('Get && delete circumventions',()=>{

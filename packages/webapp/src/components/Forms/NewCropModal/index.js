@@ -81,8 +81,10 @@ class NewCropModal extends React.Component {
 
   componentDidMount() {
     const {
-      dispatch
+      dispatch,
+      crops
     } = this.props;
+    if(!(crops && crops.length))
     dispatch(getCrops());
   }
 
@@ -120,7 +122,6 @@ class NewCropModal extends React.Component {
       validated = false;
     }
     if (currentState.variety === '') {
-      errors += 'Variety Name, ';
       validated = false;
     }
 
@@ -172,6 +173,11 @@ class NewCropModal extends React.Component {
       subGroups,
     });
   }
+
+  validateNotEmptyLength(state) {
+    if (state.length > 0) return 'success';
+    return 'error'
+  };
 
 
   handleCropChange = (selected) => {
@@ -332,14 +338,17 @@ class NewCropModal extends React.Component {
                 }}/>
             </FormGroup>
 
-            <FormGroup controlId="crop_variety">
+            <FormGroup controlId="crop_variety"
+            validationState={this.validateNotEmptyLength(this.state.variety)}
+            >
               <FormControl
                 type="text"
                 placeholder="Variety Name"
                 value={this.state.variety}
                 onChange={(e) => {
                   this.setState({variety: e.target.value});
-                }}/>
+                }}
+                />
             </FormGroup>
 
             <FormGroup controlId="crop_genus">

@@ -62,6 +62,7 @@ class IrrigationLog extends Model {
           from: 'irrigationLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

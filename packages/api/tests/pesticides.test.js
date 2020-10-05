@@ -26,13 +26,13 @@ const knex = Knex(config);
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
-
+const { tableCleanup } = require('./testEnvironment');
 
 const pesiticideModel = require('../src/models/pesiticideModel');
 
 describe('Pesticide Tests', () => {
   let middleware;
-  let newOwner;
+  let owner;
   let farm;
 
   beforeAll(() => {
@@ -40,12 +40,12 @@ describe('Pesticide Tests', () => {
   });
 
   afterAll((done) => {
-    server.close(() =>{
+    server.close(() => {
       done();
     });
   })
 
-  function postRequest( data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+  function postRequest( data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/pesticide`)
       .set('Content-Type', 'application/json')
       .set('user_id', user_id)
@@ -54,14 +54,14 @@ describe('Pesticide Tests', () => {
       .end(callback)
   }
 
-  function getRequest({user_id = newOwner.user_id, farm_id = farm.farm_id, header_farm_id = farm.farm_id}, callback) {
+  function getRequest({user_id = owner.user_id, farm_id = farm.farm_id, header_farm_id = farm.farm_id}, callback) {
     chai.request(server).get(`/pesticide/farm/${header_farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback)
   }
 
-  function deleteRequest({user_id = newOwner.user_id, farm_id = farm.farm_id, pesticide_id}, callback) {
+  function deleteRequest({user_id = owner.user_id, farm_id = farm.farm_id, pesticide_id}, callback) {
     chai.request(server).delete(`/pesticide/${pesticide_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -72,15 +72,16 @@ describe('Pesticide Tests', () => {
     return ({...mocks.fakeUserFarm(),role_id:role});
   }
 
-  function getFakePesticide(farm_id = farm.farm_id){
+  function getfakePesticide(farm_id = farm.farm_id){
     const pesticide = mocks.fakePesticide();
     return ({...pesticide, farm_id});
   }
 
   beforeEach(async () => {
-    [newOwner] = await mocks.usersFactory();
+    await knex.raw('DELETE from pesticide');
+    [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[newOwner], promisedFarm:[farm]},fakeUserFarm(1));
+    const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]},fakeUserFarm(1));
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -90,14 +91,9 @@ describe('Pesticide Tests', () => {
     });
   })
 
-  afterEach (async () => {
-    await knex.raw(`
-    DELETE FROM "pesticide";
-    DELETE FROM "userFarm";
-    DELETE FROM "farm";
-    DELETE FROM "users";
-    DELETE FROM "weather_station";
-    `);
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    done();
   });
 
   describe('Get && delete pesticide',()=>{
@@ -108,22 +104,31 @@ describe('Pesticide Tests', () => {
 
     test('Should filter out deleted pesticides', async (done)=>{
       await pesiticideModel.query().findById(pesticide.pesticide_id).del();
-      getRequest({user_id: newOwner.user_id},(err,res)=>{
+      getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
         done();
       });
     })
 
-      describe('Get fieldCrop authorization tests',()=>{
-        let newWorker;
+    test('Workers should get seeded pesticide', async (done)=>{
+      let [seedPesticide] = await knex('pesticide').insert({...mocks.fakePesticide(), farm_id: null}).returning('*');
+      getRequest({user_id: owner.user_id},(err,res)=>{
+        expect(res.status).toBe(200);
+        expect(res.body[1].pesticide_id).toBe(seedPesticide.pesticide_id);
+        done();
+      });
+    })
+
+      describe('Get pesticide authorization tests',()=>{
+        let worker;
         let manager;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
         beforeEach(async()=>{
-          [newWorker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+          [worker] = await mocks.usersFactory();
+          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
           [manager] = await mocks.usersFactory();
           const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -134,7 +139,7 @@ describe('Pesticide Tests', () => {
         })
 
         test('Owner should get pesticide by farm id', async (done)=>{
-          getRequest({user_id: newOwner.user_id},(err,res)=>{
+          getRequest({user_id: owner.user_id},(err,res)=>{
             expect(res.status).toBe(200);
             expect(res.body[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -150,7 +155,7 @@ describe('Pesticide Tests', () => {
         })
 
         test('Worker should get pesticide by farm id', async (done)=>{
-          getRequest({user_id: newWorker.user_id},(err,res)=>{
+          getRequest({user_id: worker.user_id},(err,res)=>{
             expect(res.status).toBe(200);
             expect(res.body[0].pesticide_id).toBe(pesticide.pesticide_id);
             done();
@@ -177,15 +182,23 @@ describe('Pesticide Tests', () => {
 
     describe('Delete fertlizer', function () {
 
+      test('should return 403 if user tries to delete a seeded pesticide', async (done) => {
+        let [seedPesticide] = await knex('pesticide').insert({...mocks.fakePesticide(), farm_id: null}).returning('*');
+        deleteRequest({pesticide_id: seedPesticide.pesticide_id}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
       describe('Delete fertlizer authorization tests',()=>{
-        let newWorker;
+        let worker;
         let manager;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
         beforeEach(async()=>{
-          [newWorker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+          [worker] = await mocks.usersFactory();
+          const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
           [manager] = await mocks.usersFactory();
           const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -223,7 +236,7 @@ describe('Pesticide Tests', () => {
         });
 
         test('should return 403 if a worker tries to delete a pesticide', async (done) => {
-          deleteRequest({user_id: newWorker.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
+          deleteRequest({user_id: worker.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
             expect(res.status).toBe(403);
             done();
           })
@@ -251,22 +264,30 @@ describe('Pesticide Tests', () => {
 
 
   describe('Post pesticide', () => {
-    let fakepesticide;
+    let fakePesticide;
 
     beforeEach(async()=>{
-        fakepesticide = getFakePesticide();
+        fakePesticide = getfakePesticide();
     })
+
+    test('should return 403 status if headers.farm_id is set to null', async (done) => {
+      fakePesticide.farm_id = null;
+      postRequest(fakePesticide, {}, (err, res) => {
+        expect(res.status).toBe(403);
+        done()
+      })
+    });
 
     describe('Post pesticide authorization tests', ()=>{
 
-      let newWorker;
+      let worker;
       let manager;
       let unAuthorizedUser;
       let farmunAuthorizedUser;
 
       beforeEach(async()=>{
-        [newWorker] = await mocks.usersFactory();
-        const [workerFarm] = await mocks.userFarmFactory({promisedUser:[newWorker], promisedFarm:[farm]},fakeUserFarm(3));
+        [worker] = await mocks.usersFactory();
+        const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]},fakeUserFarm(3));
         [manager] = await mocks.usersFactory();
         const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]},fakeUserFarm(2));
 
@@ -276,28 +297,28 @@ describe('Pesticide Tests', () => {
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({promisedUser:[unAuthorizedUser], promisedFarm:[farmunAuthorizedUser]},fakeUserFarm(1));
       })
 
-      test('Owner should post and get a valid crop', async (done) => {
-        postRequest(fakepesticide, {}, async (err, res) => {
+      test('Owner should post and get a valid pesticide', async (done) => {
+        postRequest(fakePesticide, {}, async (err, res) => {
           expect(res.status).toBe(201);
           const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
-          expect(pesticides[0].pesticide_name).toBe(fakepesticide.pesticide_name);
+          expect(pesticides[0].pesticide_name).toBe(fakePesticide.pesticide_name);
           done();
         })
       });
 
-      test('Manager should post and get a valid crop', async (done) => {
-        postRequest(fakepesticide, {user_id: manager.user_id}, async (err, res) => {
+      test('Manager should post and get a valid pesticide', async (done) => {
+        postRequest(fakePesticide, {user_id: manager.user_id}, async (err, res) => {
           expect(res.status).toBe(201);
           const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
-          expect(pesticides[0].pesticide_name).toBe(fakepesticide.pesticide_name);
+          expect(pesticides[0].pesticide_name).toBe(fakePesticide.pesticide_name);
           done();
         })
       });
 
       test('should return 403 status if pesticide is posted by worker', async (done) => {
-        postRequest(fakepesticide, {user_id: newWorker.user_id}, async (err, res) => {
+        postRequest(fakePesticide, {user_id: worker.user_id}, async (err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:pesticides");
           done()
@@ -305,7 +326,7 @@ describe('Pesticide Tests', () => {
       });
 
       test('should return 403 status if pesticide is posted by unauthorized user', async (done) => {
-        postRequest(fakepesticide, {user_id: unAuthorizedUser.user_id}, async (err, res) => {
+        postRequest(fakePesticide, {user_id: unAuthorizedUser.user_id}, async (err, res) => {
           expect(res.status).toBe(403);
           expect(res.error.text).toBe("User does not have the following permission(s): add:pesticides");
           done()
@@ -313,7 +334,7 @@ describe('Pesticide Tests', () => {
       });
 
       test('Circumvent authorization by modify farm_id', async (done) => {
-        postRequest(fakepesticide, {user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
+        postRequest(fakePesticide, {user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done()
         })

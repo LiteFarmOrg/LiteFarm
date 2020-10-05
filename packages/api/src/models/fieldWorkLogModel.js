@@ -54,6 +54,7 @@ class FieldWorkLog extends Model {
           from: 'fieldWorkLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

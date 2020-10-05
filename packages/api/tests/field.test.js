@@ -119,8 +119,9 @@ describe('Field Tests', () => {
     });
   })
 
-  afterEach(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    done();
   });
 
 

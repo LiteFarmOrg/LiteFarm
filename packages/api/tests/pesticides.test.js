@@ -103,7 +103,7 @@ describe('Pesticide Tests', () => {
     })
 
     test('Should filter out deleted pesticides', async (done)=>{
-      await pesiticideModel.query().findById(pesticide.pesticide_id).del();
+      await pesiticideModel.query().findById(pesticide.pesticide_id).delete();
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);

@@ -23,11 +23,11 @@ const getScopes = async (user_id, farm_id) => {
   const dataPoints = await knex.raw(
     `SELECT p.name
       FROM "userFarm" uf, "rolePermissions" rp, "permissions" p
-      WHERE uf.farm_id = '${farm_id}'
-      and uf.user_id = '${user_id}'
+      WHERE uf.farm_id = ?
+      and uf.user_id = ?
       and uf.role_id = rp.role_id
       and rp.permission_id = p.permission_id
-      and uf.status = 'Active'`
+      and uf.status = 'Active'`, [farm_id, user_id]
   );
 
   return dataPoints.rows;

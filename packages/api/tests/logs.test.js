@@ -183,7 +183,7 @@ describe('Log Tests', () => {
         })
 
         test('Should get status 404 if activity_log is deleted', async (done) => {
-          await activityLogModel.query().findById(activityLog.activity_id).del();
+          await activityLogModel.query().findById(activityLog.activity_id).delete();
           getRequest({ user_id: owner.user_id, url: `/log/${activityLog.activity_id}` }, (err, res) => {
             expect(res.status).toBe(404);
             done();
@@ -191,7 +191,7 @@ describe('Log Tests', () => {
         })
 
         test('Get by farm_id should filter out deleted activity logs', async (done) => {
-          await activityLogModel.query().findById(activityLog.activity_id).del();
+          await activityLogModel.query().findById(activityLog.activity_id).delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(0);
@@ -243,9 +243,9 @@ describe('Log Tests', () => {
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
-          await fertilizerModel.query().findById(fertilizer.fertilizer_id).del();
-          await fieldCropModel.query().findById(fieldCrop.field_crop_id).del();
-          await fieldModel.query().findById(field.field_id).del();
+          await fertilizerModel.query().findById(fertilizer.fertilizer_id).delete();
+          await fieldCropModel.query().findById(fieldCrop.field_crop_id).delete();
+          await fieldModel.query().findById(field.field_id).delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
@@ -1014,10 +1014,10 @@ describe('Log Tests', () => {
             promisedActivityLog: [activityLog1],
             promisedField: [field],
           });
-          await pesticideModel.query().findById(pesticide.pesticide_id).del();
-          await diseaseModel.query().findById(disease.disease_id).del();
-          await fieldCropModel.query().findById(fieldCrop.field_crop_id).del();
-          await fieldModel.query().findById(field.field_id).del();
+          await pesticideModel.query().findById(pesticide.pesticide_id).delete();
+          await diseaseModel.query().findById(disease.disease_id).delete();
+          await fieldCropModel.query().findById(fieldCrop.field_crop_id).delete();
+          await fieldModel.query().findById(field.field_id).delete();
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
@@ -2057,7 +2057,8 @@ describe('Log Tests', () => {
       test('Should return 400 when all fieldCrop do not exist', async (done) => {
         sampleRequestBody.crops = [{ field_crop_id: 1111111 }];
         postRequest(sampleRequestBody, {}, async (err, res) => {
-          expect(res.status).toBe(400);
+          //TODO error status
+          expect(res.status).toBe(404);
           done();
         })
       });
@@ -2083,7 +2084,8 @@ describe('Log Tests', () => {
       test('Should return 400 when 1 fieldCrop does not exist', async (done) => {
         sampleRequestBody.crops = [{ field_crop_id: 1111111 }, sampleRequestBody.crops[0]];
         postRequest(sampleRequestBody, {}, async (err, res) => {
-          expect(res.status).toBe(400);
+          //TODO error status
+          expect(res.status).toBe(404);
           done();
         })
       });

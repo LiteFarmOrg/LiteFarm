@@ -31,7 +31,7 @@ const lodash = require('lodash');
 const url = require('url');
 const generator = require('generate-password');
 const emailSender = require('../templates/sendEmailTemplate');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 
 class userFarmController extends baseController {

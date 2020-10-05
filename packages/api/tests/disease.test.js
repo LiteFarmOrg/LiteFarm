@@ -129,7 +129,7 @@ describe('Disease Tests', () => {
     });
 
     test('Should fail to get deleted disease', async (done) => {
-      await diseaseModel.query().findById(disease.disease_id).del();
+      await diseaseModel.query().findById(disease.disease_id).delete();
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);

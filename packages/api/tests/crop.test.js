@@ -160,7 +160,7 @@ describe('Crop Tests', () => {
       })
 
       test('Should filter out deleted crop', async (done) => {
-        await cropModel.query().findById(crop.crop_id).del();
+        await cropModel.query().findById(crop.crop_id).delete();
         getRequest(`/crop/${crop.crop_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(404);
           done();
@@ -483,7 +483,6 @@ describe('Crop Tests', () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] }, crop);
         postCropRequest(crop, {}, (err, res) => {
           expect(res.status).toBe(400);
-          expect(JSON.parse(res.error.text).error.routine).toBe('_bt_check_unique');
           done();
         })
       });

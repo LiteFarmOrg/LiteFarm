@@ -1,4 +1,4 @@
-exports.up = function (knex, Promise) {
+exports.up = function(knex) {
 
   return Promise.all([
     knex('permissions').insert([
@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
 
 };
 
-exports.down = function (knex, Promise) {
+exports.down = function(knex) {
   return Promise.all([
     knex('permissions').where({ permission_id: 83 }).del(),
   ]);

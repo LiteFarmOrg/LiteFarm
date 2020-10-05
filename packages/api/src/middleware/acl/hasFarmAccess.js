@@ -124,8 +124,16 @@ async function fromActivity(req) {
     .where('activityLog.activity_id', activity_id)
     .where('userFarm.user_id', user_id)
     .where('userFarm.farm_id', farm_id)
-    .whereIn('field.field_id', fields).first();
+    .first();
   if (!userFarm) return {};
+
+  const sameFarm = await userFarmModel.query()
+    .distinct('userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
+    .join('field', 'userFarm.farm_id', 'field.farm_id')
+    .join('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
+    .join('fertilizer',)
+
+
   return userFarm;
 }
 

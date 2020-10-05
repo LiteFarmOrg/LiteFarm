@@ -165,13 +165,11 @@ export function* getAllShiftSaga() {
       let sortedShifts = [];
       let dict = {};
       for(let shift of allShifts){
-        let { start_time, end_time } = shift;
-        let duration = moment(end_time).diff(moment(start_time), 'minutes');
         if(!dict.hasOwnProperty(shift.shift_id)){
           dict[shift.shift_id] = shift;
           dict[shift.shift_id] = Object.assign(dict[shift.shift_id], {tasks: [{
               task_id: shift.task_id,
-              duration,
+              duration: shift.duration,
               field_crop_id: shift.field_crop_id,
               field_id: shift.field_id,
               is_field: shift.is_field,
@@ -180,7 +178,7 @@ export function* getAllShiftSaga() {
         }else{
           dict[shift.shift_id].tasks.push({
             task_id: shift.task_id,
-            duration,
+            duration: shift.duration,
             field_crop_id: shift.field_crop_id,
             field_id: shift.field_id,
             is_field: shift.is_field,

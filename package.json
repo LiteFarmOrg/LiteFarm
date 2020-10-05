@@ -5,7 +5,8 @@
   "scripts": {
     "test": "lerna run test",
     "lint": "lerna run lint",
-    "preinstall": "npx npm-force-resolutions"
+    "preinstall": "npx npm-force-resolutions",
+    "start": "lerna run start"
   },
   "jest": {
     "testPathIgnorePatterns": [

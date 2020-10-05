@@ -6,7 +6,8 @@
     "test": "lerna run test",
     "lint": "lerna run lint",
     "preinstall": "npx npm-force-resolutions",
-    "start": "lerna run start"
+    "start": "lerna run start",
+    "bootstrap": "lerna bootstrap"
   },
   "jest": {
     "testPathIgnorePatterns": [

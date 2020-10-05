@@ -129,6 +129,7 @@ class FieldCropController extends baseController {
       });
 
     for (const fieldCrop of fieldCrops) {
+      //TODO investigate what this loop does and replace $loadRelated with $fetchGraph
       await fieldCrop.$loadRelated('crop.[price(getFarm), yield(getFarm)]', {
         getFarm: (builder) => {
           builder.where('farm_id', farm_id);

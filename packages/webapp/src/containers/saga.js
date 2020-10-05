@@ -112,13 +112,14 @@ export function* getFarmInfo(action) {
       farm_id: localStorage.getItem('farm_id'),
     },
   };
-  
+
   if(!farm_id) {
     history.push('/add_farm');
     return;
   }
 
   try {
+    // TODO: TO DEPRECATE
     const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id + '/user/' + user_id, header);
     if (result.data[0]) {
       //console.log(result.data);

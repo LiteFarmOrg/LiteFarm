@@ -54,7 +54,7 @@ const apiConfig = {
   farmDataUrl: URI + '/farmdata',
   userFarmUrl: `${URI}/user_farm`,
   weatherAPIKey: process.env.REACT_APP_WEATHER_API_KEY,
-  userFarm: URI + '/user_farm',
+  // userFarm: URI + '/user_farm',
   rolesUrl: URI + '/roles',
   signUpUrl: `${URI}/sign_up`,
 };

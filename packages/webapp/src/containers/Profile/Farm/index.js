@@ -66,7 +66,6 @@ class Farm extends Component {
 
   render() {
     const {farm, schedule} = this.props;
-    console.log(farm);
     const {request_text, request_pending_text, enableRequest} = this.state;
     return (
       <div>

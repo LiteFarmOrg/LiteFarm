@@ -12,4 +12,4 @@ exports.down = function (knex) {
       { role_id: 3, permission_id: 26 },
     ]),
   ]);
-};Î
+};

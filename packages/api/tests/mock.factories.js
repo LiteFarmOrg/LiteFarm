@@ -60,6 +60,19 @@ function fakeUserFarm() {
   }
 }
 
+async function farmDataScheduleFactory({ promisedUser = usersFactory(), promisedFarm = farmFactory() } = {}, farmDataSchedule = fakeFarmDataSchedule()) {
+  const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
+  const [{ user_id }] = user;
+  const [{ farm_id }] = farm;
+  return knex('farmDataSchedule').insert({ user_id, farm_id, ...farmDataSchedule }).returning('*');
+}
+
+function fakeFarmDataSchedule() {
+  return {
+    has_failed: false,
+  }
+}
+
 async function fieldFactory({ promisedStation = weather_stationFactory(), promisedFarm = farmFactory() } = {}, field = fakeField()) {
   const [station, farm] = await Promise.all([promisedStation, promisedFarm]);
   const [{ station_id }] = station;
@@ -586,4 +599,5 @@ module.exports = {
   fakeFieldForTests,
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
+  fakeFarmDataSchedule, farmDataScheduleFactory,
 }

@@ -18,6 +18,7 @@ const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
 const config = require('../../knexfile')[environment];
 const knex = Knex(config);
+const userFarmModel = require('../models/userFarmModel');
 
 /* eslint-disable no-console */
 
@@ -25,25 +26,30 @@ class userFarmDataController extends baseController {
   static registerFarm() {
     return async (req, res) => {
       try {
-        const farm_id = req.query.farm_id;
-        const user_id = req.query.user_id;
+        const farm_id = req.body.farm_id;
+        const user_id = req.body.user_id;
         await knex('farmDataSchedule').insert({ farm_id, user_id });
         res.sendStatus(200);
       }
       catch (error) {
         //handle more exceptions
-        console.log(error);
         res.status(400).send(error);
       }
     }
-  }
+  } 
 
   static getSchedule(){
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const data = await knex('farmDataSchedule').where({ farm_id, is_processed: false }).returning('*');
-        res.status(200).send(data);
+        if (!data.length) {
+          res.sendStatus(404)
+        }
+        else {
+          res.status(200).send(data);
+        }
+        
       }
       catch (error) {
         //handle more exceptions

@@ -19,10 +19,7 @@ chai.use(chaiHttp);
 const chai_assert = chai.assert;    // Using Assert style
 const chai_expect = chai.expect;    // Using Expect style
 const chai_should = chai.should();  // Using Should style
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 const server = require('./../src/server');
 const mocks = require('./mock.factories');
 jest.mock('jsdom')

@@ -29,7 +29,6 @@ class shiftController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const body = req.body;
-        console.log(body);
         if (!body.tasks) {
           res.status(400).send('missing tasks');
           return;
@@ -38,7 +37,6 @@ class shiftController extends baseController {
         let shift_result = await baseController.postWithResponse(shiftModel, body, trx);
         const shift_id = shift_result.shift_id;
         shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
-        console.log(shift_result);
         await trx.commit();
         res.status(201).send(shift_result);
       } catch (error) {
@@ -211,7 +209,7 @@ class shiftController extends baseController {
             'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production',
             'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.start_time',
             'shift.end_time', 'shift.wage_at_moment', 'shift.mood', 'shift.break_duration', 'userFarm.user_id',
-            'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name'
+            'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration'
           ]).from('shiftTask', 'taskType')
           .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
           .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')

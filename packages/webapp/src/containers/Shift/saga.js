@@ -22,7 +22,6 @@ import {
 import {setTaskTypesInState, getTaskTypes, setShifts} from "./actions";
 import {toastr} from "react-redux-toastr";
 import history from '../../history';
-import moment from 'moment';
 const axios = require('axios');
 
 

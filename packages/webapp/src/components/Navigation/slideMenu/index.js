@@ -58,7 +58,7 @@ class SlideMenu extends React.Component {
       {this.state.manageOpen &&
       <div className={styles["sub-menu"]} style={{'display':'grid'}}>
       {
-          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2)
+          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5)
        &&
       <a id="field" className="menu-item" onClick={() => this.handleClick("/Field")}><span>Fields</span></a>
     }
@@ -76,7 +76,7 @@ class SlideMenu extends React.Component {
         <a id="shift" className="menu-item" onClick={() => this.handleClick("/Shift")}><span>Shift</span></a>
 
         {
-          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2) &&
+          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
           <a id="insights" className="menu-item" onClick={() => this.handleClick("/Insights")}><span>Insights</span></a>
         }
       {
@@ -85,7 +85,7 @@ class SlideMenu extends React.Component {
       { this.state.supportOpen &&
          <div className={styles["sub-menu"]} style={{'display':'grid'}}>
           {
-          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2) &&
+          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
           <a id="demo" className="menu-item" onClick={() => this.handleClick("/Intro")}><span>Demos</span></a>
       }
       <a id="contact" className="menu-item" onClick={() => this.handleClick("/Contact")}><span>Contact us</span></a>

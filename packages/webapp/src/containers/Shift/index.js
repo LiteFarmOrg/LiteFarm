@@ -46,7 +46,7 @@ class Shift extends Component {
     dispatch(getCrops());
     dispatch(getFields());
     dispatch(getTaskTypes());
-    if(users.role_id === 1 || users.role_id === 2){
+    if(users.role_id === 1 || users.role_id === 2 || users.role_id === 5){
       dispatch(getAllShifts());
     }else{
       dispatch(getShifts());
@@ -75,7 +75,7 @@ class Shift extends Component {
     const {users} = this.props;
     let columns = [];
     let nameOptions = [];
-    if(shifts && shifts.length > 0 && (users.role_id === 1 || users.role_id === 2)){
+    if(shifts && shifts.length > 0 && (users.role_id === 1 || users.role_id === 2 || users.role_id === 5)){
       columns.push(
         {
           id: 'name',
@@ -149,7 +149,7 @@ class Shift extends Component {
           <h4><b>Shift History</b></h4>
         </div>
         {
-          (users.role_id === 1 || users.role_id === 2)  && <div>
+          (users.role_id === 1 || users.role_id === 2 || users.role_id === 5)  && <div>
             <div className={styles.filterContainer}>
               <div className={styles.nameFilter}>
                 <label>Name</label>

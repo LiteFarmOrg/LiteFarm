@@ -325,10 +325,10 @@ class userFarmController extends baseController {
             role_id,
           });
         if (isPatched) {
-          const ownersManagers = await userFarmModel.query(trx)
+          const ownersManagersExtensionOfficers = await userFarmModel.query(trx)
             .where('farm_id', farm_id)
-            .where(builder => builder.where('role_id', 1).orWhere('role_id', 2));
-          if (ownersManagers.length == 0) {
+            .where(builder => builder.where('role_id', 1).orWhere('role_id', 2).orWhere('role_id', 5));
+          if (ownersManagersExtensionOfficers.length == 0) {
             await trx.rollback();
             res.sendStatus(400);
             return;

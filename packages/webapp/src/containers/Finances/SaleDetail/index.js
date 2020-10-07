@@ -52,7 +52,7 @@ class SaleDetail extends Component {
             <DropdownButton
               data-test='edit-or-delete-sale'
               style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
-              title={'Edit'}
+              title={'Action'}
               key={dropDown}
               id={`dropdown-basic-${dropDown}`}
             >

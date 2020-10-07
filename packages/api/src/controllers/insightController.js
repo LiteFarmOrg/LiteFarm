@@ -13,14 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
+
 const { transaction, Model } = require('objection');
 const waterBalanceModel = require('../models/waterBalanceModel');
 const nitrogenScheduleModel = require('../models/nitrogenScheduleModel');
 const baseController = require('../controllers/baseController');
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+const knex = Model.knex();
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 

@@ -3,10 +3,7 @@ const chaiHttp = require('chai-http');
 const moment = require('moment');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex');
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 jest.mock('jsdom');
 jest.mock('axios');
 jest.mock('../src/middleware/acl/checkJwt');
@@ -29,9 +26,15 @@ describe('Create user', () => {
       next()
     });
   })
-  afterEach(async () => {
+  afterEach(async (done) => {
     await tableCleanup(knex);
+    done();
   })
+
+  afterAll(async (done) => {
+    await knex.destroy();
+    done();
+  });
 
   function postCreateUser({ user_id, farm_id }, data, callback) {
     chai.request(server).post('/create_user')

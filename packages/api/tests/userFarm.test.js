@@ -19,10 +19,7 @@ const chaiHttp = require('chai-http');
 const moment = require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
@@ -42,8 +39,9 @@ describe('User Farm Tests', () => {
   let farm;
   let unauthorizedFarm;
 
-  beforeAll(() => {
+  beforeAll((done) => {
     token = global.token;
+    done();
   });
 
   function getUserFarmsOfUserRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
@@ -116,7 +114,7 @@ describe('User Farm Tests', () => {
     });
   }
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
     const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]}, fakeUserFarm(1));
@@ -139,10 +137,13 @@ describe('User Farm Tests', () => {
       req.user.sub = '|' + req.get('user_id');
       next();
     });
+    done();
   });
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   test('Get all user farms of a user', async (done) => {

@@ -135,8 +135,8 @@ class userController extends baseController {
           LEFT JOIN
           "userFarm" uf
           ON uf.user_id = u.user_id
-          WHERE u.user_id = '${id}'
-          `
+          WHERE u.user_id = ?
+          `, [id]
         );
 
         if (!data && !data.rows) {

@@ -192,6 +192,7 @@ export function* updateUserFarmSaga(payload) {
 
   try {
     delete payload.user.user_id;
+    // TODO: TO BE DEPRECATED
     const result = yield call(axios.patch, apiConfig.userFarmUrl + '/update/' + `farm/${farm_id}/user/${user_id}`, payload.user, header);
     if (result) {
       console.log('user updated');

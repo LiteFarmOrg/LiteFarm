@@ -104,7 +104,7 @@ describe('Fertilizer Tests', () => {
     })
 
     test('Should filter out deleted fertilizer', async (done)=>{
-      await fertilizerModel.query().findById(fertilizer.fertilizer_id).del();
+      await fertilizerModel.query().findById(fertilizer.fertilizer_id).delete();
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(404);
         done();

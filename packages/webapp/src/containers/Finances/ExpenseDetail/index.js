@@ -124,7 +124,7 @@ class ExpenseDetail extends Component {
             id={`dropdown-basic-${dropDown}`}
           >
             <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>
-            <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem>
+            {/* <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem> */}
           </DropdownButton>
         </div>
 

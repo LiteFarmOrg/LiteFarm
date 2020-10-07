@@ -144,6 +144,9 @@ class logServices extends baseController {
 
   static async getLogById(id){
     const log = await super.getIndividual(ActivityLogModel, id);
+    if(!(log && log[0])){
+      throw new Error('Log not found');
+    }
     const logKind = getActivityModelKind(log[0].activity_kind);
     if(logKind !== null){
       await super.getRelated(log[0], logKind);
@@ -161,7 +164,7 @@ class logServices extends baseController {
       .where('farm.farm_id', farm_id);
     for(var log of logs){
       // get fields and fieldCrops associated with log
-      await log.$loadRelated('fieldCrop.crop');
+      await log.$fetchGraph('fieldCrop.crop');
       await super.getRelated(log, field);
 
       // get related models for specialized logs

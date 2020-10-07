@@ -10,7 +10,7 @@ function weather_stationFactory(station = fakeStation()) {
 
 function fakeStation() {
   return {
-    id: Math.floor(Math.random() * Date.now() & 0x7FFFFFFF),
+    id: faker.random.number(0x7FFFFFFF),
     name: faker.address.country(),
     country: faker.address.countryCode(),
     timezone: faker.random.number(1000),
@@ -25,7 +25,7 @@ function fakeUser() {
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
-    email: faker.internet.email(),
+    email: faker.lorem.word() + faker.internet.email(),
     user_id: faker.random.uuid(),
   }
 }
@@ -57,6 +57,19 @@ function fakeUserFarm() {
     role_id: faker.random.arrayElement([1, 2, 3]),
     status: 'Active',
     has_consent: true,
+  }
+}
+
+async function farmDataScheduleFactory({ promisedUser = usersFactory(), promisedFarm = farmFactory() } = {}, farmDataSchedule = fakeFarmDataSchedule()) {
+  const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
+  const [{ user_id }] = user;
+  const [{ farm_id }] = farm;
+  return knex('farmDataSchedule').insert({ user_id, farm_id, ...farmDataSchedule }).returning('*');
+}
+
+function fakeFarmDataSchedule() {
+  return {
+    has_failed: false,
   }
 }
 
@@ -178,7 +191,7 @@ function fakeCrop() {
 
 function fakeYield() {
   return {
-    yield_id: Math.floor(Math.random() * Date.now() & 0x7FFFFFFF),
+    yield_id: faker.random.number(0x7FFFFFFF),
     'quantity_kg/m2': faker.random.number(10),
     date: faker.date.future(),
   }
@@ -186,7 +199,7 @@ function fakeYield() {
 
 function fakePrice() {
   return {
-    price_id: Math.floor(Math.random() * Date.now() & 0x7FFFFFFF),
+    price_id: faker.random.number(0x7FFFFFFF),
     'value_$/kg': faker.random.number(100),
     date: faker.date.future(),
   }
@@ -586,4 +599,5 @@ module.exports = {
   fakeFieldForTests,
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
+  fakeFarmDataSchedule, farmDataScheduleFactory,
 }

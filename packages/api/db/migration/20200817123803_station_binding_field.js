@@ -1,4 +1,4 @@
-exports.up = function (knex, Promise) {
+exports.up = function(knex) {
   return Promise.all([
     knex.schema.createTable('weather_station', (t) => {
       t.integer('id').primary();
@@ -25,7 +25,7 @@ exports.up = function (knex, Promise) {
   ]);
 };
 
-exports.down = function (knex, Promise) {
+exports.down = function(knex) {
   return Promise.all([
     knex.schema.alterTable('field', (t) => {
       t.dropForeign('station_id');

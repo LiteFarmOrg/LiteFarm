@@ -1,9 +1,6 @@
 const mocks = require('./mock.factories');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
 const { tableCleanup } = require('./testEnvironment')
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 
 describe('Factories tests', () => {
   const factories = Object.keys(mocks).filter(k => k.endsWith('Factory'));
@@ -20,13 +17,13 @@ describe('Factories tests', () => {
       })
   })
 
-  beforeEach( async (done) => {
+  afterEach( async (done) => {
      await tableCleanup(knex);
      done();
   })
 
-  afterAll( async (done) => {
-    await tableCleanup(knex);
+  afterAll(async (done) => {
+    await knex.destroy();
     done();
-  })
+  });
 })

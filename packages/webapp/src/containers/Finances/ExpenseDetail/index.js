@@ -124,7 +124,7 @@ class ExpenseDetail extends Component {
           {/*  id={`dropdown-basic-${dropDown}`}*/}
           {/*>*/}
           {/*  <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>*/}
-            {/* <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem> */}
+          {/* <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem> */}
           {/*</DropdownButton>*/}
         </div>
 
@@ -160,14 +160,14 @@ class ExpenseDetail extends Component {
           <div className={styles.greenText} id="total-amount">{this.state.currencySymbol + total}</div>
         </div>
         <ConfirmModal
-            open={this.state.showModal}
-            onClose={() => this.setState({showModal: false})}
-            onConfirm={() => {
-              this.deleteExpenses();
-              this.setState({showModal: false});
-            }}
-            message='Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.'
-          />
+          open={this.state.showModal}
+          onClose={() => this.setState({showModal: false})}
+          onConfirm={() => {
+            this.deleteExpenses();
+            this.setState({showModal: false});
+          }}
+          message='Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.'
+        />
       </div>
     )
   }

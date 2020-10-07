@@ -1,7 +1,5 @@
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 
 module.exports = async (req, res, next) => {
   const data = Object.keys(req.body).length === 0 ? req.params:  req.body;

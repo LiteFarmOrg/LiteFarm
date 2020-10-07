@@ -5,6 +5,7 @@ const entitiesGetters = {
   shift_id: fromShift,
   user_id: (user_id) => ({ user_id }),
 }
+
 module.exports = ({ params = null, body = null }) => async (req, res, next) => {
   const key = params ? params : body;
   const value = params ? req.params[key] : req.body[key];

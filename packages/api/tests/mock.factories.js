@@ -468,10 +468,10 @@ function fakeScoutingLog() {
   }
 }
 
-async function shiftFactory({ promisedUser = usersFactory() } = {}, shift = fakeShift()) {
-  const [user] = await Promise.all([promisedUser]);
-  const [{ user_id }] = user;
-  return knex('shift').insert({ user_id, ...shift }).returning('*');
+async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift = fakeShift()) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ user_id, farm_id }] = userFarm;
+  return knex('shift').insert({ user_id, farm_id, ...shift }).returning('*');
 }
 
 function fakeShift() {

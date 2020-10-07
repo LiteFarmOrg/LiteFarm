@@ -21,7 +21,7 @@ const knex = Knex(config);
 const getScopes = async (user_id, farm_id) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
   const dataPoints = await knex.raw(
-    `SELECT p.name
+    `SELECT uf.role_id, p.name
       FROM "userFarm" uf, "rolePermissions" rp, "permissions" p
       WHERE uf.farm_id = ?
       and uf.user_id = ?
@@ -59,7 +59,7 @@ const checkScope = (expectedScopes) => {
     const allowed = expectedScopes.some(function(expectedScope){
       return scopes.find(permission => permission.name === expectedScope);
     });
-
+    req.role = scopes[0].role_id
     return allowed ?
       next() :
       res.status(403).send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);

@@ -85,7 +85,7 @@ class ExpenseDetail extends Component {
     }
     return 'TYPE_NOT_FOUND';
   }
-  
+
   handledeleteExpenses = () => {
     this.setState({showModal: true});
   }
@@ -102,7 +102,7 @@ class ExpenseDetail extends Component {
       history.push('/other_expense');
     }
   }
-
+  //TODO remove edit expense related functions
   editExpenses(){
     const {filteredExpenses} = this.state;
     this.props.dispatch(setEditExpenses(filteredExpenses));
@@ -117,15 +117,15 @@ class ExpenseDetail extends Component {
         <PageTitle backUrl='/other_expense' title='Expense Detail'/>
         <div className={styles.innerInfo}>
           <h4>{date}</h4>
-          <DropdownButton
-            style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
-            title={'Edit'}
-            key={dropDown}
-            id={`dropdown-basic-${dropDown}`}
-          >
-            <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>
+          {/*<DropdownButton*/}
+          {/*  style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}*/}
+          {/*  title={'Edit'}*/}
+          {/*  key={dropDown}*/}
+          {/*  id={`dropdown-basic-${dropDown}`}*/}
+          {/*>*/}
+          {/*  <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>*/}
             {/* <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem> */}
-          </DropdownButton>
+          {/*</DropdownButton>*/}
         </div>
 
         <div className={styles.itemContainer}>

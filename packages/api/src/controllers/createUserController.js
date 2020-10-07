@@ -245,7 +245,7 @@ class createUserController extends baseController {
             is_used: false,
           });
 
-          trx.commit();
+          await trx.commit();
           res.sendStatus(201);
 
           // the following is to determine the url
@@ -263,6 +263,7 @@ class createUserController extends baseController {
         }).catch(async (err) => {
           console.log(err);
           if(await this.deleteAuth0User(user_id)){
+            //TODO potential hanging knex connection
             await trx.rollback();
             res.status(500).send(err);
           }
@@ -274,8 +275,8 @@ class createUserController extends baseController {
         console.log(addNewUserError.message);
         if (addNewUserError.response.status === 409) {
           // at this point the user exists on Auth0
+          const trx = await transaction.start(Model.knex());
           try {
-            const trx = await transaction.start(Model.knex());
             const authResponse = await this.getAuth0UserByEmail(req.body.email);
             const user_id = authResponse.data[0].user_id.split('|')[1];
             // check if user exists in users table
@@ -294,7 +295,7 @@ class createUserController extends baseController {
                 role_id: req.body.role_id,
                 wage: req.body.wage,
               });
-              trx.commit();
+              await trx.commit();
               res.sendStatus(201);
               const rows = await farmModel.query().select('*').where('farm.farm_id', req.body.farm_id);
               const replacements = {
@@ -305,6 +306,7 @@ class createUserController extends baseController {
               await emailSender.sendEmail(template_path, subject, replacements, authResponse.data[0].email, sender);
             }
           } catch (addExistingUserError) {
+            await trx.rollback();
             console.log(addExistingUserError);
             res.status(500).send(addExistingUserError.message);
           }

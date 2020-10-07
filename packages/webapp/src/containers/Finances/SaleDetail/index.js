@@ -56,7 +56,7 @@ class SaleDetail extends Component {
               key={dropDown}
               id={`dropdown-basic-${dropDown}`}
             >
-              <MenuItem data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</MenuItem>
+              {/*<MenuItem data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</MenuItem>*/}
               <MenuItem data-test='delete-sale' eventKey="1" onClick={() => this.confirmDelete()}>Delete</MenuItem>
             </DropdownButton>
           </div>

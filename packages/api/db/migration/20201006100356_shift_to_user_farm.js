@@ -10,7 +10,7 @@ exports.up = async function (knex) {
     inner join "userFarm" on "field"."farm_id" = "userFarm"."farm_id" and "shift"."user_id" = "userFarm"."user_id" 
     inner join "users" on "shift"."user_id" = "users"."user_id"
     `);
-  const shiftTasks = await knex.select().from('shiftTask');
+  const shiftTasks = await knex.select().from('shiftTask').whereNotNull('field_crop_id');
   await knex('shiftTask').del();
   await knex('shift').del();
   await knex.schema.alterTable('shift', (table) =>

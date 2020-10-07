@@ -35,7 +35,7 @@ class Role extends softDelete({columnName: 'deleted'})(Model){
         role_id: { type: 'integer' },
         role: {
           type: 'string',
-          enum: ['Owner', 'Manager', 'Worker'],
+          enum: ['Owner', 'Manager', 'Worker', 'Extension Officer'],
         },
         deleted: { type: 'boolean' },
       },

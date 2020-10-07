@@ -59,7 +59,9 @@ const checkScope = (expectedScopes) => {
     const allowed = expectedScopes.some(function(expectedScope){
       return scopes.find(permission => permission.name === expectedScope);
     });
-    req.role = scopes[0].role_id
+    if(scopes.length) {
+      req.role = scopes[0].role_id
+    }
     return allowed ?
       next() :
       res.status(403).send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);

@@ -218,7 +218,7 @@ class EditFieldCropModal extends React.Component {
     let {fieldCrop} = this.state;
     let {fieldArea} = this.props;
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
-    fieldCrop.area_used = ((Number(e.target.value) / 100) * fieldArea).toFixed(0);
+    fieldCrop.area_used = Math.floor(((Number(e.target.value) / 100) * fieldArea)).toFixed(0);
     this.setState({
       fieldCrop,
       percentage: Number(e.target.value),

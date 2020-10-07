@@ -18,10 +18,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
@@ -96,8 +93,10 @@ describe('Sale Tests', () => {
     });
   })
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   describe('Get && delete sale', () => {
@@ -112,7 +111,7 @@ describe('Sale Tests', () => {
     })
 
     test('Should filter out deleted sale', async (done) => {
-      await saleModel.query().findById(sale.sale_id).del();
+      await saleModel.query().findById(sale.sale_id).delete();
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);

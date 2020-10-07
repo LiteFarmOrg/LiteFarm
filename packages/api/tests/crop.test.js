@@ -18,10 +18,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
@@ -104,7 +101,9 @@ describe('Crop Tests', () => {
 
   afterAll(async (done) => {
     await tableCleanup(knex);
-  })
+    await knex.destroy();
+    done();
+  });
 
   describe('Get && delete && put crop', () => {
     let crop;
@@ -159,7 +158,7 @@ describe('Crop Tests', () => {
       })
 
       test('Should filter out deleted crop', async (done) => {
-        await cropModel.query().findById(crop.crop_id).del();
+        await cropModel.query().findById(crop.crop_id).delete();
         getRequest(`/crop/${crop.crop_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(404);
           done();
@@ -482,7 +481,6 @@ describe('Crop Tests', () => {
         [crop] = await mocks.cropFactory({ promisedFarm: [farm] }, crop);
         postCropRequest(crop, {}, (err, res) => {
           expect(res.status).toBe(400);
-          expect(JSON.parse(res.error.text).error.routine).toBe('_bt_check_unique');
           done();
         })
       });

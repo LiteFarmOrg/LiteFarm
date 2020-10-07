@@ -15,8 +15,9 @@
 
 const Model = require('objection').Model;
 const softDelete = require('objection-soft-delete');
+
 // const FertilizerLogModel = require('./fertilizerLogModel');
-class activityLogModel extends softDelete({columnName: 'deleted'})(Model) {
+class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'activityLog';
   }
@@ -35,12 +36,12 @@ class activityLogModel extends softDelete({columnName: 'deleted'})(Model) {
 
       properties: {
         activity_id: { type: 'integer' },
+        deleted: { type: 'boolean' },
         activity_kind: { type: 'string', enum:['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other'] },
         date: { type: 'date-time' },
         notes: { type: 'string' },
         action_needed: { type: 'boolean' },
         user_id: { type: 'string' },
-        deleted: { type: 'boolean' },
       },
       additionalProperties: false,
     };
@@ -148,9 +149,7 @@ class activityLogModel extends softDelete({columnName: 'deleted'})(Model) {
           },
           to: 'fieldCrop.field_crop_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
       field:{
         modelClass:require('./fieldModel'),
@@ -164,9 +163,7 @@ class activityLogModel extends softDelete({columnName: 'deleted'})(Model) {
           },
           to: 'field.field_id',
         },
-        filter: (f) => {
-          f.whereNotDeleted();
-        },
+
       },
     };
   }

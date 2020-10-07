@@ -362,7 +362,7 @@ class Finances extends Component {
         <div className={styles.buttonContainer}>
           <Button onClick={() => {
             history.push('/expense_categories')
-          }}>Add New Expense</Button>
+          }}>Add New Expense </Button>
           <Button onClick={() => {
             history.push('add_sale')
           }}>Add New Sale</Button>

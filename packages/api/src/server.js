@@ -19,16 +19,14 @@ require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../knexfile')[environment];
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
 const checkJwt = require('./middleware/acl/checkJwt');
 const cors = require('cors');
 
 // initialize knex
-const knex = Knex(config);
+const knex = require('./util/knex')
 
 // bind all models to a knex instance
 Model.knex(knex);
@@ -43,6 +41,7 @@ const taskTypeRoutes = require('./routes/taskTypeRoute');
 // const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
+const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
 // const notificationRoutes = require('./routes/notificationRoute');
 const farmRoutes = require('./routes/farmRoute');
 const logRoutes = require('./routes/logRoute');
@@ -66,6 +65,7 @@ const signUpRoutes = require('./routes/signUpRoute');
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
 
 // register API
 const router = promiseRouter();
@@ -108,6 +108,7 @@ app.use(bodyParser.json())
   // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
+  .use('/expense_type', farmExpenseTypeRoute)
   // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)
@@ -158,5 +159,8 @@ if (environment === 'development' || environment === 'production' || environment
   console.log('LiteFarm Water Balance Scheduler Enabled');
 }
 
+app.on('close', () => {
+  knex.destroy();
+})
 
 module.exports = app;

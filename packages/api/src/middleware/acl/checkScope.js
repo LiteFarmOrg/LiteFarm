@@ -1,33 +1,31 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (checkScope.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 
 const getScopes = async (user_id, farm_id) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
   const dataPoints = await knex.raw(
     `SELECT p.name
       FROM "userFarm" uf, "rolePermissions" rp, "permissions" p
-      WHERE uf.farm_id = '${farm_id}'
-      and uf.user_id = '${user_id}'
+      WHERE uf.farm_id = ?
+      and uf.user_id = ?
       and uf.role_id = rp.role_id
       and rp.permission_id = p.permission_id
-      and uf.status = 'Active'`
+      and uf.status = 'Active'`, [farm_id, user_id]
   );
 
   return dataPoints.rows;
@@ -47,9 +45,10 @@ const checkScope = (expectedScopes) => {
     if (expectedScopes.length === 0){
       return next();
     }
-
+    //TODO user_id should comes from token. const user_id = req.user.sub.split('|')[1];
     const { headers } = req;
     const { user_id, farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
+
     if (!user_id) return res.status(400).send('Missing user_id in headers');
     if (!farm_id) return res.status(400).send('Missing farm_id in headers');
 

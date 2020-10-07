@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fieldCropController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -16,11 +16,7 @@
 const baseController = require('../controllers/baseController');
 const fieldCropModel = require('../models/fieldCropModel');
 const { transaction, Model } = require('objection');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
-
+const knex = Model.knex();
 
 class FieldCropController extends baseController {
   static addFieldCrop() {
@@ -129,6 +125,7 @@ class FieldCropController extends baseController {
       });
 
     for (const fieldCrop of fieldCrops) {
+      //TODO investigate what this loop does and replace $loadRelated with $fetchGraph
       await fieldCrop.$loadRelated('crop.[price(getFarm), yield(getFarm)]', {
         getFarm: (builder) => {
           builder.where('farm_id', farm_id);
@@ -147,8 +144,8 @@ class FieldCropController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "field" f, "fieldCrop" fc, "crop" c
-          WHERE f.farm_id = '${farmID}' and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') >= '${date}'
-          and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`);
+          WHERE f.farm_id = ? and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') >= '${date}'
+          and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`, [farmID]);
 
         if (dataPoints.rows) {
           const body = dataPoints.rows;
@@ -170,8 +167,8 @@ class FieldCropController extends baseController {
         const dataPoints = await knex.raw(
           `SELECT *
           FROM "field" f, "fieldCrop" fc, "crop" c
-          WHERE f.farm_id = '${farmID}' and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') < '${date}'
-           and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`);
+          WHERE f.farm_id = ? and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') < '${date}'
+           and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`, [farmID]);
         if (dataPoints.rows) {
           const body = dataPoints.rows;
           res.status(200).send(body);

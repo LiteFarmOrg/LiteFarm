@@ -23,15 +23,12 @@ const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const {transaction, Model} = require('objection');
 const axios = require('axios');
 const authExtensionConfig = require('../authExtensionConfig');
-const environment = process.env.NODE_ENV || 'development';
-const Knex = require('knex');
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+const knex = Model.knex();
 const lodash = require('lodash');
 const url = require('url');
 const generator = require('generate-password');
 const emailSender = require('../templates/sendEmailTemplate');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 
 class userFarmController extends baseController {
@@ -42,7 +39,7 @@ class userFarmController extends baseController {
   static getUserFarmByUserID() {
     return async (req, res) => {
       try {
-        const user_id = req.params.id;
+        const user_id = req.params.user_id;
         const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id)
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
@@ -58,7 +55,77 @@ class userFarmController extends baseController {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
+  }
+
+  static getUserFarmsByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const user_id = req.headers.user_id;
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id == 3) {
+          rows = await userFarmModel.query().select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status'
+          ).where('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+        } else {
+          rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        res.status(200).send(rows);
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).send(error);
+      }
+    };
+  }
+
+  static getActiveUserFarmsByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const user_id = req.headers.user_id;
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id == 3) {
+          rows = await userFarmModel.query().select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status'
+          ).where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+        } else {
+          rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        res.status(200).send(rows);
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).send(error);
+      }
+    };
   }
 
   static getFarmInfo() {
@@ -76,7 +143,7 @@ class userFarmController extends baseController {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static addUserFarm() {
@@ -87,7 +154,7 @@ class userFarmController extends baseController {
         let role_id = 0;
 
         const data = await knex.raw(
-          `SELECT * FROM "role" r WHERE r.role='${role}'`
+          `SELECT * FROM "role" r WHERE r.role=?`,[role]
         );
 
         if (data.rows && data.rows.length > 0) {
@@ -169,7 +236,7 @@ class userFarmController extends baseController {
       } catch (error) {
         res.send(error);
       }
-    }
+    };
   }
 
   static updateConsent() {
@@ -238,7 +305,7 @@ class userFarmController extends baseController {
       let role_id = 0;
 
       const data = await knex.raw(
-        `SELECT * FROM "role" r WHERE r.role='${role}'`
+        `SELECT * FROM "role" r WHERE r.role=?`, [role]
       );
 
       if (data.rows && data.rows.length > 0) {
@@ -255,6 +322,14 @@ class userFarmController extends baseController {
             role_id,
           });
         if (isPatched) {
+          const ownersManagers = await userFarmModel.query(trx)
+            .where('farm_id', farm_id)
+            .where(builder => builder.where('role_id', 1).orWhere('role_id', 2));
+          if (ownersManagers.length == 0) {
+            await trx.rollback();
+            res.sendStatus(400);
+            return;
+          }
           res.sendStatus(200);
           await trx.commit();
           return;
@@ -290,6 +365,35 @@ class userFarmController extends baseController {
           return;
         }
         else {
+          await trx.rollback();
+          res.sendStatus(404);
+          return;
+        }
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).send(error);
+      }
+    };
+  }
+
+  static updateWage() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const farm_id = req.params.farm_id;
+      const user_id = req.params.user_id;
+      const { wage } = req.body;
+
+      try {
+        const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
+          .patch({
+            wage,
+          });
+        if (isPatched) {
+          res.sendStatus(200);
+          await trx.commit();
+          return;
+        } else {
           await trx.rollback();
           res.sendStatus(404);
           return;

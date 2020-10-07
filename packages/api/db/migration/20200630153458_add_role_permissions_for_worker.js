@@ -1,19 +1,19 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (20200630153458_add_role_permissions_for_worker.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function (knex, Promise) {
+exports.up = function(knex) {
   return Promise.all([
     knex('rolePermissions').insert([
       { role_id: 3, permission_id: 1 },
@@ -102,8 +102,89 @@ exports.up = function (knex, Promise) {
   ]);
 };
 
-exports.down = function (knex, Promise) {
+exports.down = function(knex) {
   return Promise.all([
-    knex('rolePermissions').where('role_id', 3).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 1 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 2 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 3 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 4 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 5 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 6 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 7 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 8 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 9 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 10 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 11 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 12 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 13 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 14 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 15 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 16 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 17 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 18 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 19 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 20 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 21 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 22 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 23 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 24 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 25 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 26 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 27 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 28 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 29 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 30 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 31 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 32 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 33 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 34 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 35 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 36 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 37 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 38 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 39 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 40 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 41 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 42 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 43 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 44 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 45 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 46 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 47 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 48 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 49 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 50 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 51 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 52 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 53 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 54 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 55 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 56 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 57 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 58 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 59 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 60 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 61 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 62 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 63 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 64 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 65 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 66 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 67 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 68 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 69 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 70 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 71 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 72 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 73 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 74 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 75 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 76 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 77 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 78 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 79 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 80 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 81 }).del(),
+    knex('rolePermissions').where({ role_id: 3, permission_id: 82 }).del(),
   ]);
 };

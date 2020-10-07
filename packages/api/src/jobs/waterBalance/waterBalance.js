@@ -15,10 +15,8 @@
 
 const { from } = require('rxjs');
 const { delay, concatMap } = require('rxjs/operators');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const rp = require('request-promise');
 const credentials = require('../../credentials');
 const endPoints = require('../../endPoints');
@@ -27,6 +25,7 @@ const waterBalanceModel = require('../../models/waterBalanceModel');
 const waterBalanceScheduleModel = require('../../models/waterBalanceSchedule');
 const weatherModel = require('../../models/weatherModel');
 const weatherHourlyModel = require('../../models/weatherHourlyModel');
+
 /* eslint-disable no-console */
 
 
@@ -105,7 +104,7 @@ class waterBalanceScheduler {
   static async checkFarmID(farmID) {
     const dataPoints = await knex.raw(`SELECT w.farm_id 
     FROM "waterBalanceSchedule" w 
-    WHERE w.farm_id = '${farmID}'`);
+    WHERE w.farm_id = ?`, [farmID]);
     return (dataPoints.rows.length === 1)
   }
 }
@@ -121,17 +120,17 @@ const saveWeatherData = async (dataPoint) => {
   const dataPoints = await knex.raw(
     `SELECT DISTINCT f.station_id
     FROM "field" f
-    WHERE f.farm_id = '${farmID}'`
+    WHERE f.farm_id = ?`, [farmID],
   );
   from(dataPoints.rows)
     .pipe(
       concatMap(({ station_id }) =>
         from(callOpenWeatherAPI(station_id))
-          .pipe(delay(1000))
-      )
+          .pipe(delay(1000)),
+      ),
     ).subscribe((weatherData) => {
-      saveWeatherToDisk(weatherData);
-    });
+    saveWeatherToDisk(weatherData);
+  });
 };
 
 const saveWeatherToDisk = async (weatherData) => {
@@ -150,17 +149,17 @@ const saveWeatherToDisk = async (weatherData) => {
     const data = await knex.raw(`
     SELECT *
     FROM "weatherHourly" w
-    WHERE w.station_id = '${weatherData.id}'
-    `);
+    WHERE w.station_id = ?
+    `, [weatherData.id]);
     if (data.rows && data.rows.length > 0) {
       const currentWeather = compareWeatherData(data.rows[0], hourlyWeatherData);
       await knex.raw(
         `UPDATE "weatherHourly" w
-        SET min_degrees = '${currentWeather.min_degrees}', max_degrees = '${currentWeather.max_degrees}', min_humidity = '${currentWeather.min_humidity}', 
-        max_humidity = '${currentWeather.max_humidity}', precipitation = '${currentWeather.precipitation}', wind_speed = '${currentWeather.wind_speed}', 
-        data_points = '${currentWeather.data_points}'
-        WHERE station_id  = '${weatherData.id}'
-        `)
+        SET min_degrees = ?, max_degrees = ?, min_humidity = ?, 
+        max_humidity = ?', precipitation = ?, wind_speed = ?, 
+        data_points = ?
+        WHERE station_id  = ?
+        `, [currentWeather.min_degrees, currentWeather.max_degrees, currentWeather.min_humidity, currentWeather.max_humidity, currentWeather.precipitation, currentWeather.wind_speed, currentWeather.data_points, weatherData.id])
     } else {
       await weatherHourlyModel.query().insert(hourlyWeatherData).returning('*');
     }
@@ -174,31 +173,31 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
 
   for (const key in existingWeatherData) {
     switch (key) {
-      case 'min_degrees':
-        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
-        break;
-      case 'max_degrees':
-        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
-        break;
-      case 'precipitation':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-        break;
-      case 'min_humidity':
-        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData['min_humidity']);
-        break;
-      case 'max_humidity':
-        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData['max_humidity']);
-        break;
-      case 'wind_speed':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-        break;
-      case 'field_id':
-        returningWeatherData[key] = existingWeatherData[key];
-        break;
-      case 'data_points':
-        returningWeatherData[key] = existingWeatherData[key] + 1;
-        break;
-      default:
+    case 'min_degrees':
+      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
+      break;
+    case 'max_degrees':
+      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
+      break;
+    case 'precipitation':
+      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+      break;
+    case 'min_humidity':
+      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData['min_humidity']);
+      break;
+    case 'max_humidity':
+      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData['max_humidity']);
+      break;
+    case 'wind_speed':
+      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+      break;
+    case 'field_id':
+      returningWeatherData[key] = existingWeatherData[key];
+      break;
+    case 'data_points':
+      returningWeatherData[key] = existingWeatherData[key] + 1;
+      break;
+    default:
       // should be no default case
     }
   }
@@ -211,7 +210,7 @@ const removeWeather = async (farmID) => {
   WHERE weather_hourly_id IN
   (SELECT w.weather_hourly_id
   FROM "field" f, "weatherHourly" w
-  WHERE f.farm_id = '${farmID}' and w.station_id = f.station_id)`);
+  WHERE f.farm_id = ? and w.station_id = f.station_id)`, [farmID]);
     console.log('Deleted Weather For FarmID: ', farmID);
     return { farm_id: farmID }
   } catch (e) {
@@ -233,19 +232,18 @@ const waterBalanceDailyCalc = async (dataPoint) => {
     "fieldCrop" fc
     LEFT JOIN (
     SELECT w.field_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
-    WHERE w.field_id = f.field_id and f.farm_id = '${farmID}' and to_char(date(w.created_at), 'YYYY-MM-DD') = '${previousDay}') 
+    WHERE w.field_id = f.field_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) 
     w ON w.field_id = fc.field_id and w.crop_id = fc.crop_id
     LEFT JOIN (
     SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
     FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
     WHERE il.activity_id = ac.activity_id and al.activity_id = il.activity_id
-    and to_char(date(al.date), 'YYYY-MM-DD') = '${currentDay}'
+    and to_char(date(al.date), 'YYYY-MM-DD') = ?
     GROUP BY ac.field_crop_id
     ) il ON il.field_crop_id = fc.field_crop_id
-    WHERE fc.field_id = f.field_id and f.farm_id = '${farmID}' and c.crop_id = fc.crop_id and u.farm_id = '${farmID}' and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
+    WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
     GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
-    `
-  );
+    `, [farmID, previousDay, currentDay, farmID, farmID]);
   if (dataPoints.rows) {
     const weatherDataByField = await grabWeatherData(farmID);
     postWeatherToDB(weatherDataByField);
@@ -346,8 +344,8 @@ const grabWeatherData = async (farmID) => {
   SELECT f.field_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
   w.max_humidity as max_humidity, w.precipitation as precipitation, w.wind_speed as wind_speed, w.data_points as data_points
   FROM "weatherHourly" w, "field" f
-  WHERE w.station_id = f.station_id and f.farm_id = '${farmID}'
-  `);
+  WHERE w.station_id = f.station_id and f.farm_id = ?
+  `, [farmID]);
   if (dataPoints.rows) {
     dataPoints.rows.forEach((field) => {
       field.wind_speed = field.wind_speed / field.data_points;

@@ -20,10 +20,8 @@ const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+
+const knex = Model.knex();
 const emailSender = require('../templates/sendEmailTemplate');
 
 
@@ -135,8 +133,8 @@ class userController extends baseController {
           LEFT JOIN
           "userFarm" uf
           ON uf.user_id = u.user_id
-          WHERE u.user_id = '${id}'
-          `
+          WHERE u.user_id = ?
+          `, [id]
         );
 
         if (!data && !data.rows) {
@@ -177,10 +175,10 @@ class userController extends baseController {
             WHEN r.role_id = 4 THEN ''
             ELSE email END
           FROM "userFarm" uf, "role" r, "users" u
-          WHERE uf.farm_id='${farm_id}'
+          WHERE uf.farm_id=?
             AND uf.user_id=u.user_id
             AND uf.role_id=r.role_id
-        `);
+        `, [farm_id]);
         const { rows } = userFarm;
         if (!rows || rows.length === 0) {
           res.sendStatus(404)
@@ -220,11 +218,11 @@ class userController extends baseController {
             uf.consent_version,
             uf.wage
           FROM "userFarm" uf, "role" r, "users" u
-          WHERE uf.farm_id='${farm_id}'
+          WHERE uf.farm_id=?
             AND uf.status='Active'
             AND uf.user_id=u.user_id
             AND uf.role_id=r.role_id
-        `);
+        `, [farm_id]);
         const { rows } = userFarm;
         if (!rows || rows.length === 0) {
           res.sendStatus(404)

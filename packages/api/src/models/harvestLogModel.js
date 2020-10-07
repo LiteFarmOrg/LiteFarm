@@ -51,6 +51,7 @@ class HarvestLog extends Model {
           from: 'harvestLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

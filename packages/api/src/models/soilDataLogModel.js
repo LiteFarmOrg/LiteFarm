@@ -76,6 +76,7 @@ class SoilDataLog extends Model {
           from: 'soilDataLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

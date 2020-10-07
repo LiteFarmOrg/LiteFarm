@@ -19,6 +19,8 @@ const KEY_NOT_DEFINED = '400';
 const UUID_WRONG_FORMAT = '22P02';
 const MODEL_VALIDATION = 'ModelValidation';
 
+const DUPLICATE_PK = '23505';
+
 class exceptionHandler {
   static handleException(e){
     if(e.type === MODEL_VALIDATION){
@@ -31,6 +33,8 @@ class exceptionHandler {
       return { status:400, message:e.message };
     case UUID_WRONG_FORMAT:
       return { status:400, message:'wrong UUID format' };
+    case DUPLICATE_PK:
+      return { status: 400, message: e.message };
     default:
       return { status:404, message:e.message }
     }

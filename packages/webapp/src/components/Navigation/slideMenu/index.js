@@ -86,10 +86,10 @@ class SlideMenu extends React.Component {
          <div className={styles["sub-menu"]} style={{'display':'grid'}}>
           {
           (Number(farm.role_id) === 1 || Number(farm.role_id) === 2) &&
-          <a id="demo" className="menu-item" onClick={() => this.handleClick("/Intro")}><span>Demos</span></a>
+          <a id="demo" className="menu-item" onClick={() => this.handleClick("/intro")}><span>Demos</span></a>
       }
-      <a id="contact" className="menu-item" onClick={() => this.handleClick("/Contact")}><span>Contact us</span></a>
-          <a id="terms" className="menu-item" onClick={() => this.handleClick("/Consent")}><span>Terms</span></a>
+      <a id="contact" className="menu-item" onClick={() => this.handleClick("/contact")}><span>Contact us</span></a>
+          <a id="terms" className="menu-item" onClick={() => this.handleClick("/consent")}><span>Terms</span></a>
           </div>
        }
       <a onClick={logout} id="logout" className="menu-item"><span>Log out</span></a>

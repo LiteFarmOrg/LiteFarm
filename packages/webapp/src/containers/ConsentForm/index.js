@@ -13,16 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './styles.scss';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import ConsentFooter from '../../components/ConsentFooter';
-import {connect} from 'react-redux';
-import {updateAgreement, getUserInfo} from '../../containers/actions';
-import {userInfoSelector, farmSelector} from '../selector';
+import { connect } from 'react-redux';
+import { updateAgreement, getUserInfo } from '../../containers/actions';
+import { userInfoSelector, farmSelector } from '../selector';
 import workerConsentForm from './Versions/WorkerConsentForm.docx';
 import ownerConsentForm from './Versions/OwnerConsentForm.docx';
-const mammoth = require("mammoth");
+
+const mammoth = require('mammoth');
 
 class ConsentForm extends Component {
   constructor(props) {
@@ -45,15 +46,15 @@ class ConsentForm extends Component {
     let consentForm = role_id === 3 ? workerConsentForm : ownerConsentForm;
 
     let currentComponent = this;
-      fetch(consentForm).then(res => res.arrayBuffer()).then(ab =>
-        mammoth.convertToHtml({ arrayBuffer: ab }).then(function(result) {
+    fetch(consentForm).then(res => res.arrayBuffer()).then(ab =>
+      mammoth.convertToHtml({ arrayBuffer: ab }).then(function (result) {
         const html = result.value;
         const spaceIndex = html.indexOf(' ') + 1;
         const colonIndex = html.indexOf(':');
         const consent_version = html.substring(spaceIndex, colonIndex);
         currentComponent.setState({ consent: html, consent_version })
       })
-      .done(),
+        .done(),
     )
   }
 
@@ -61,7 +62,7 @@ class ConsentForm extends Component {
     if ((this.props.role && !this.props.role.has_consent) ||
       (this.state.consent_version && this.state.consent_version !== this.props.role.consent_version)
     ) {
-      this.setState({enableAgree: true});
+      this.setState({ enableAgree: true });
     }
   }
 
@@ -69,42 +70,31 @@ class ConsentForm extends Component {
     this.props.dispatch(updateAgreement(bool, this.state.consent_version));
   };
 
-  isConsentFooterDisplayed = () => {
-    const { role } = this.props;
-
-    if (!role) {
-      return false;
-    }
-
-    return !role.has_consent;
-  };
-
 
   render() {
-    const isConsentFooterDisplayed = this.isConsentFooterDisplayed();
     return (
       <div className={styles.consentContainer}>
         <div className={styles.fixedHeader}>
           <h3>Consent Form</h3>
         </div>
-         <BottomScrollListener onBottom={() => this.triggerFooterAgree()}>
-           {scrollRef => (
-             <div data-test="consent_form" ref={scrollRef} className={styles.content}>
-             <div dangerouslySetInnerHTML={{ __html:  this.state.consent }} />
-             </div>
-           )}
+        <BottomScrollListener onBottom={() => this.triggerFooterAgree()}>
+          {scrollRef => (
+            <div data-test="consent_form" ref={scrollRef} className={styles.content}>
+              <div dangerouslySetInnerHTML={{ __html: this.state.consent }}/>
+            </div>
+          )}
         </BottomScrollListener>
         <br/>
         {
           this.props.role
-            && (
-              <ConsentFooter
-                ref="footer"
-                updateConsent={this.updateConsent}
-                enableAgree={this.state.enableAgree}
-                hasConsent={this.props.role.has_consent}
-              />
-            )
+          && (
+            <ConsentFooter
+              ref="footer"
+              updateConsent={this.updateConsent}
+              enableAgree={this.state.enableAgree}
+              hasConsent={this.props.role.has_consent}
+            />
+          )
         }
       </div>
     )
@@ -113,7 +103,7 @@ class ConsentForm extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    dispatch,
   }
 };
 

@@ -47,16 +47,16 @@ exports.up = async function(knex) {
 exports.down = function(knex) {
   return Promise.all([
     knex.schema.table('shift', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id', 'user_id')
     }),
     knex.schema.table('userFarm', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id', 'user_id')
     }),
     knex.schema.table('farmDataSchedule', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id', 'user_id')
     }),
     knex.schema.table('activityLog', (table) => {
-      table.dropForeign('user_id')
+      table.dropForeign('user_id', 'user_id')
     }),
   ])
 };

@@ -27,7 +27,7 @@ import Checkbox from '../../components/Inputs/Checkbox';
 import FarmAddress from "../../components/AddFarm/FarmAddress";
 
 const allowedRoles = [
-  'Owner', 'Manager',
+  'Owner', 'Manager', 'Extension Officer'
 ];
 
 class AddFarm extends Component {

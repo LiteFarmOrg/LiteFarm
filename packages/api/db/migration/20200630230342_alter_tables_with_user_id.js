@@ -38,11 +38,6 @@ exports.down = function(knex) {
         .references('user_id')
         .inTable('users').alter();
     }),
-    knex.schema.alterTable('userFarm', (table) => {
-      table.string('user_id')
-        .references('user_id')
-        .inTable('users').alter();
-    }),
     knex.schema.alterTable('farmDataSchedule', (table) => {
       table.string('user_id')
         .references('user_id')

@@ -418,11 +418,50 @@ describe('User Farm Tests', () => {
           done();
         });
       });
+      
+      test('Allowed status change: Invited -> Inactive', async (done) => {
+        [invitedUser] = await mocks.usersFactory();
+        const [invitedUserFarm] = await mocks.userFarmFactory({promisedUser:[invitedUser], promisedFarm:[farm]}, fakeUserFarm(3, 'Invited', true));
 
-      // TODO: test and implement status change flow
-      xtest('Forbidden status change: Active -> Invited', async (done) => {
+        const target_status = 'Inactive';
+        const target_user_id = invitedUser.user_id;
+        updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.status).toBe(target_status);
+          done();
+        });
+      });
+
+      test('Allowed status change: Invited -> Active', async (done) => {
+        [invitedUser] = await mocks.usersFactory();
+        const [invitedUserFarm] = await mocks.userFarmFactory({promisedUser:[invitedUser], promisedFarm:[farm]}, fakeUserFarm(3, 'Invited', true));
+
+        const target_status = 'Active';
+        const target_user_id = invitedUser.user_id;
+        updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(200);
+          const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
+          expect(updatedUserFarm.status).toBe(target_status);
+          done();
+        });
+      });
+
+      test('Forbidden status change: Active -> Invited', async (done) => {
         const target_status = 'Invited';
         const target_user_id = worker.user_id;
+        updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+      });
+
+      test('Forbidden status change: Inactive -> Invited', async (done) => {
+        [inactiveUser] = await mocks.usersFactory();
+        const [inactiveUserFarm] = await mocks.userFarmFactory({promisedUser:[inactiveUser], promisedFarm:[farm]}, fakeUserFarm(3, 'Inactive', true));
+
+        const target_status = 'Invited';
+        const target_user_id = inactiveUser.user_id;
         updateStatusRequest(target_status, {user_id: owner.user_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(400);
           done();

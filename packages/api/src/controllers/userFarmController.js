@@ -33,6 +33,11 @@ const generator = require('generate-password');
 const emailSender = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
 
+const validStatusChanges = {
+  "Active": ["Inactive"],
+  "Inactive": ["Active"],
+  "Invited": ["Inactive", "Active"],
+};
 
 class userFarmController extends baseController {
   constructor() {
@@ -358,6 +363,12 @@ class userFarmController extends baseController {
       const { status } = req.body;
 
       try {
+        const targetUser = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id).first();
+        let currentStatus = targetUser.status;
+        if (!validStatusChanges[currentStatus].includes(status)) {
+          res.sendStatus(400);
+          return;
+        }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
             status,

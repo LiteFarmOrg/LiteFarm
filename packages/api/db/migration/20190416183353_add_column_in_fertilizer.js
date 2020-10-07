@@ -23,7 +23,7 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return Promise.all([
-    knex.schema.table('fieldCrop', (table) => {
+    knex.schema.table('fertilizer', (table) => {
       table.dropColumn('mineralization_rate')
     }),
   ])

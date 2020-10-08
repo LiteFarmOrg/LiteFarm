@@ -224,8 +224,11 @@ class shiftController extends baseController {
           .where(function() {
             role === 3 ? this.where('shift.farm_id', farm_id)
                 .andWhere('shift.user_id', user_id)
-                .andWhere('shift.deleted', false) :
-              this.where('shift.farm_id', farm_id).andWhere('shift.deleted', false);
+                .andWhere('shift.deleted', false)
+                .andWhere('shiftTask.deleted', false) :
+              this.where('shift.farm_id', farm_id)
+                .andWhere('shift.deleted', false)
+                .andWhere('shiftTask.deleted', false);
           });
         if (data) {
           res.status(200).send(data);

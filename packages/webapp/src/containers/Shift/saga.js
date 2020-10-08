@@ -234,7 +234,9 @@ export function* updateShiftSaga(action) {
   };
 
   try {
-    const result = yield call(axios.put, shiftUrl + '/' + shiftID, shiftObj, header);
+    // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
+    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
+    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id: localStorage.getItem('farm_id') }, header);
     if (result) {
       toastr.success('Successfully updated shift!');
       history.push('/shift');

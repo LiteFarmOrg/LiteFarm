@@ -28,7 +28,7 @@ const mocks  = require('./mock.factories');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
 
-describe('User Farm Tests', () => {
+xdescribe('User Farm Tests', () => {
   let middleware;
   let owner;
   let worker;

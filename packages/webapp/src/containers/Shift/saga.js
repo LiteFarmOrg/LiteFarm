@@ -88,7 +88,7 @@ export function* addShift(action) {
   let shiftObj = action.shiftObj;
 
   try {
-    const result = yield call(axios.post, shiftUrl, { shiftObj, farm_id: header.headers.farm_id }, header);
+    const result = yield call(axios.post, shiftUrl, { ...shiftObj, farm_id: header.headers.farm_id }, header);
     if (result) {
       history.push('/shift');
       toastr.success('Successfully added new shift!');

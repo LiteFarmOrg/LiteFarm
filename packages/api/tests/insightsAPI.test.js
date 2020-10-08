@@ -141,17 +141,19 @@ describe('insights test', () => {
     });
   });
 
-  xdescribe('prices distance', () => {
+  describe('prices distance', () => {
     test('Should get prices distance if Im on my farm as an owner',async  (done) => {
-      const [{user_id, farm_id}] = await createUserFarm(1)
-      getInsight(farm_id, user_id, 'prices/distance', (err, res) => {
+      const [{user_id, farm_id}] = await createUserFarm(1);
+      query = mocks.fakePriceInsightForTests();
+
+      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
         expect(res.status).toBe(200);
         done();
       });
     });
     test('Should get prices distance if Im on my farm as a manager',async  (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
-      getInsight(farm_id, user_id, 'prices/distance', (err, res) => {
+      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
         expect(res.status).toBe(200);
         done();
       });
@@ -159,7 +161,7 @@ describe('insights test', () => {
 
     test('Should get prices distance if Im on my farm as a worker',async  (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
-      getInsight(farm_id, user_id, 'prices/distance', (err, res) => {
+      getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
         expect(res.status).toBe(200);
         done();
       });
@@ -408,7 +410,14 @@ function createUserFarm(role) {
 }
 
 function getInsight(farmId, userId, route, callback) {
-    chai.request(server).get(`/insight/${route}/${farmId}`)
+  chai.request(server).get(`/insight/${route}/${farmId}`)
+    .set('farm_id', farmId)
+    .set('user_id', userId)
+    .end(callback)
+}
+
+function getInsightWithQuery(farmId, userId, route, query, callback) {
+    chai.request(server).get(`/insight/${route}/${farmId}?distance=${query.distance}&lat=${query.lat}&long=${query.long}&startdate=Sat Sep 11 2021 16:37:20`)
       .set('farm_id', farmId)
       .set('user_id', userId)
       .end(callback)

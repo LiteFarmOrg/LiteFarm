@@ -1,7 +1,5 @@
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,

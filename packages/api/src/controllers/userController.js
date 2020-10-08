@@ -20,10 +20,8 @@ const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+
+const knex = Model.knex();
 const emailSender = require('../templates/sendEmailTemplate');
 
 

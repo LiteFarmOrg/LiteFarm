@@ -14,13 +14,9 @@
  */
 
 const scheduler = require('node-schedule');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
 const nitrogenBalanceModel = require('../../models/nitrogenBalanceModel');
 const { transaction, Model } = require('objection');
-
+const knex = Model.knex();
 /* eslint-disable no-console*/
 
 class NitrogenBalance {
@@ -163,9 +159,9 @@ const saveToDB = async (nitrogenBalanceByField) => {
     for (const key in nitrogenBalanceByField) {
       await nitrogenBalanceModel.query(trx).insert({ field_id: key, nitrogen_value: nitrogenBalanceByField[key] }).returning('*');
     }
-    trx.commit();
+    await trx.commit();
   } catch (e) {
-    trx.rollback();
+    await trx.rollback();
     console.log(e);
   }
 };

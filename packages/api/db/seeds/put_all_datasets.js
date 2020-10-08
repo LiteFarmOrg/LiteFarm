@@ -126,7 +126,7 @@ function insertTestData(knex, farmData) {
   })
 }
 
-exports.seed = async function (knex, Promise) {
+exports.seed = async function (knex) {
   // Deletes ALL existing entries
   var BASEURL = __dirname + '/seedData/';
   const dependencies = ['fertilizerLog', 'fieldCrop', 'waterBalance',

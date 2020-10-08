@@ -1,14 +1,11 @@
 exports.up = async function (knex) {
   const shifts = await knex.raw(`
-    select distinct shift.shift_id , "shift".start_time, "shift".end_time, "shift".user_id, 
-    "shift".break_duration, "shift".mood, "shift".wage_at_moment, "userFarm"."farm_id" 
-    from "shiftTask" left join "taskType" on "taskType"."task_id" = "shiftTask"."task_id" 
-    left join "fieldCrop" on "fieldCrop"."field_crop_id" = "shiftTask"."field_crop_id" 
-    left join "field" on "fieldCrop"."field_id" = "field"."field_id" OR "field".field_id = "shiftTask".field_id
-    inner join "crop" on "fieldCrop"."crop_id" = "crop"."crop_id" 
-    inner join "shift" on "shiftTask"."shift_id" = "shift"."shift_id"
-    inner join "userFarm" on "field"."farm_id" = "userFarm"."farm_id" and "shift"."user_id" = "userFarm"."user_id" 
-    inner join "users" on "shift"."user_id" = "users"."user_id"
+    SELECT distinct s.shift_id , s.start_time, s.end_time, s.user_id,
+    s.break_duration, s.mood, s.wage_at_moment, uf."farm_id"
+    from shift s, "shiftTask" st, field f, "userFarm" uf, "fieldCrop" fc
+    where s.shift_id=st.shift_id 
+    and (st.field_id=f.field_id or (fc.field_crop_id=st.field_crop_id and fc.field_id = f.field_id)) 
+    and f.farm_id=uf.farm_id
     `);
   const shiftTasks = await knex.select().from('shiftTask');
   await knex('shiftTask').del();

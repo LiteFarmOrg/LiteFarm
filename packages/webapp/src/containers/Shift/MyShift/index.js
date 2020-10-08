@@ -152,11 +152,11 @@ class MyShift extends Component {
             </div>
             <DropdownButton
               style={{background:'#EFEFEF', color:'#4D4D4D', border:'none'}}
-              title={'Edit'}
+              title={'Action'}
               key={dropDown}
               id={`dropdown-basic-${dropDown}`}
             >
-              <MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>
+              {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
               <MenuItem eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</MenuItem>
             </DropdownButton>
           </div>

@@ -671,8 +671,7 @@ class EditShiftTwo extends Component {
                           <div>{cd.crop_name}</div>
                           <div className={styles.durationInput}>
                             <input type="number" 
-                            placeholder={cd.duration} 
-                            value={cd.duration}
+                            placeholder={0} 
                                    onChange={(event) => this.changeDuration(event, task.task_id, true, cd.crop_id)}/>
                           </div>
                         </div>

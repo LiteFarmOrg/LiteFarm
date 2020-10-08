@@ -108,9 +108,9 @@ exports.down = function(knex) {
     knex.schema.dropTable('activityCrops'),
     knex.schema.dropTable('shiftTask'),
     knex.schema.dropTable('cropSale'),
-    knex.schema.dropTable('fieldCrop'),
     knex.schema.dropTable('yield'),
     knex.schema.dropTable('price'),
+    knex.raw('DROP TABLE "fieldCrop" cascade'),
     knex.schema.createTable('farmCrop', (table) => {
       table.increments('farm_crop_id');
       table.integer('crop_id')

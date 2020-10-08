@@ -15,10 +15,8 @@
 
 const { from } = require('rxjs');
 const { delay, concatMap } = require('rxjs/operators');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const rp = require('request-promise');
 const credentials = require('../../credentials');
 const endPoints = require('../../endPoints');

@@ -40,7 +40,7 @@ const tabs = [
     key: 'farm',
     path: 'farm',
     label: 'Farm',
-    access: ['owner', 'manager'],
+    access: ['owner', 'manager', 'extension officer'],
   },
 ];
 
@@ -54,7 +54,7 @@ class Profile extends  Component{
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet
     const { role } = farm;
     const currentUserRole = (role || '').toLowerCase();
-    const isAdmin = currentUserRole === 'owner' || currentUserRole === 'manager';
+    const isAdmin = currentUserRole === 'owner' || currentUserRole === 'manager' || currentUserRole === 'extension officer';
 
     return (
       <div className={styles.profileContainer}>

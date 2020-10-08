@@ -5,7 +5,6 @@ import connect from "react-redux/es/connect/connect";
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
 import {expenseDetailDateSelector, expenseSelector, expenseTypeSelector} from "../selectors";
-import {DropdownButton, MenuItem} from 'react-bootstrap';
 import {deleteExpenses, setEditExpenses} from '../actions'
 import history from '../../../history';
 import {farmSelector} from "../../selector";
@@ -110,7 +109,6 @@ class ExpenseDetail extends Component {
   }
 
   render() {
-    let dropDown = 0;
     const {date, expenseItems, total} = this.state;
     return (
       <div className={defaultStyles.financesContainer}>

@@ -1,5 +1,8 @@
+const Knex = require('knex')
+const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
+const config = require('../knexfile')[environment];
 let faker = require('faker');
-const knex = require('../src/util/knex');
+const knex = Knex(config);
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');
@@ -95,6 +98,15 @@ function fakeFieldForTests() {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }],
+  }
+}
+
+function fakePriceInsightForTests() {
+  return {
+    distance: faker.random.arrayElement([5, 10, 25, 50]),
+    lat: faker.address.latitude(),
+    long: faker.address.latitude(),
+    startdate: faker.date.future(),
   }
 }
 
@@ -465,10 +477,10 @@ function fakeScoutingLog() {
   }
 }
 
-async function shiftFactory({ promisedUser = usersFactory() } = {}, shift = fakeShift()) {
-  const [user] = await Promise.all([promisedUser]);
-  const [{ user_id }] = user;
-  return knex('shift').insert({ user_id, ...shift }).returning('*');
+async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift = fakeShift()) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ user_id, farm_id }] = userFarm;
+  return knex('shift').insert({ user_id, farm_id, ...shift }).returning('*');
 }
 
 function fakeShift() {
@@ -597,4 +609,5 @@ module.exports = {
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFarmDataSchedule, farmDataScheduleFactory,
+  fakePriceInsightForTests
 }

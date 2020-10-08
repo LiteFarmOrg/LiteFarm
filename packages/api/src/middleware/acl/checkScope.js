@@ -18,7 +18,7 @@ const userFarmModel = require('../../models/userFarmModel')
 const getScopes = async (user_id, farm_id) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
 
-  const dataPoints = await userFarmModel.query().distinct('permissions.name')
+  const dataPoints = await userFarmModel.query().distinct('permissions.name', 'userFarm.role_id')
     .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
     .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
     .where('userFarm.farm_id', farm_id)
@@ -53,7 +53,9 @@ const checkScope = (expectedScopes) => {
     const allowed = expectedScopes.some(function(expectedScope){
       return scopes.find(permission => permission.name === expectedScope);
     });
-
+    if(scopes.length) {
+      req.role = scopes[0].role_id
+    }
     return allowed ?
       next() :
       res.status(403).send(`User does not have the following permission(s): ${expectedScopes.join(', ')}`);

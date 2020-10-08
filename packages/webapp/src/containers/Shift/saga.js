@@ -88,7 +88,9 @@ export function* addShift(action) {
   let shiftObj = action.shiftObj;
 
   try {
-    const result = yield call(axios.post, shiftUrl, shiftObj, header);
+    // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
+    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
+    const result = yield call(axios.post, shiftUrl, { ...shiftObj, farm_id: header.headers.farm_id }, header);
     if (result) {
       history.push('/shift');
       toastr.success('Successfully added new shift!');
@@ -232,7 +234,9 @@ export function* updateShiftSaga(action) {
   };
 
   try {
-    const result = yield call(axios.put, shiftUrl + '/' + shiftID, shiftObj, header);
+    // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
+    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
+    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id: localStorage.getItem('farm_id') }, header);
     if (result) {
       toastr.success('Successfully updated shift!');
       history.push('/shift');

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -20,6 +20,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import history from '../../history';
 import {toastr} from "react-redux-toastr";
+import { setFarmInState } from "../actions";
 const axios = require('axios');
 
 export function* addFarm(payload) {
@@ -72,6 +73,7 @@ export function* addFarm(payload) {
 
       if (updateUserRoleResult.status >= 200) {
         yield put(getFarms());
+        yield put(setFarmInState(addFarmResult.data))
         history.push('/intro');
       }
     }

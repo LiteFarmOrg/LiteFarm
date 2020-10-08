@@ -151,6 +151,14 @@ describe('FieldCrop Tests', () => {
         });
       })
 
+      test('Workers should not get fieldCrop using a future date', async (done) => {
+        getRequest(`/field_crop/farm/date/${farm.farm_id}/${moment().add(1000, 'year').format('YYYY-MM-DD')}`, { user_id: newWorker.user_id }, (err, res) => {
+          expect(res.status).toBe(200);
+          expect(res.body.length).toBe(0);
+          done();
+        });
+      })
+
       test('Workers should get fieldCrop by id', async (done) => {
         getRequest(`/field_crop/${fieldCrop.field_crop_id}`, { user_id: newWorker.user_id }, (err, res) => {
           expect(res.status).toBe(200);

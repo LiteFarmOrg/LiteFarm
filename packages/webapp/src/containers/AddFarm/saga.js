@@ -14,7 +14,6 @@
  */
 
 import { ADD_FARM } from "./constants";
-// import { fetchFarmInfo } from '../../containers/actions';
 import { getFarms } from '../../containers/ChooseFarm/actions.js';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';

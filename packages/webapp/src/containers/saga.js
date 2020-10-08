@@ -120,15 +120,6 @@ export function* getFarmInfo(action) {
   }
 
   try {
-    // const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id + '/user/' + user_id, header);
-    // if (result.data[0]) {
-    //   //console.log(result.data);
-    //   if(result.data[0].role_id){
-    //     localStorage.setItem('role_id', result.data[0].role_id);
-    //   };
-    //   yield put(setFarmInState(result.data[0]));
-    //   yield put(getFields());
-    //   yield put(getFieldCrops());
     let userFarmReducer = yield select((state) => state.userFarmReducer);
     console.log(userFarmReducer);
     const result = userFarmReducer.farms.filter(farm => farm.farm_id == farm_id);

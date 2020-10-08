@@ -88,6 +88,8 @@ export function* addShift(action) {
   let shiftObj = action.shiftObj;
 
   try {
+    // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
+    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
     const result = yield call(axios.post, shiftUrl, { ...shiftObj, farm_id: header.headers.farm_id }, header);
     if (result) {
       history.push('/shift');

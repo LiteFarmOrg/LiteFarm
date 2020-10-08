@@ -724,6 +724,7 @@ class People extends Component {
                           <label>Role</label>
                           <Control.select model=".editInfo.role" onChange={this.updateRoleSelection}
                                           defaultValue={this.state.editUser.role_id === 4 ? 3 : this.state.editUser.role_id}>
+                            <option value="5">Extension Officer</option>
                             <option value="3">Farm Worker</option>
                             <option value="2">Farm Manager</option>
                             <option value="1">Farm Owner</option>

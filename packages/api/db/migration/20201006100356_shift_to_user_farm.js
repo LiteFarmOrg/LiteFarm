@@ -4,7 +4,7 @@ exports.up = async function (knex) {
     "shift".break_duration, "shift".mood, "shift".wage_at_moment, "userFarm"."farm_id" 
     from "shiftTask" left join "taskType" on "taskType"."task_id" = "shiftTask"."task_id" 
     left join "fieldCrop" on "fieldCrop"."field_crop_id" = "shiftTask"."field_crop_id" 
-    inner join "field" on "fieldCrop"."field_id" = "field"."field_id" 
+    left join "field" on "fieldCrop"."field_id" = "field"."field_id" OR "field".field_id = "shiftTask".field_id
     inner join "crop" on "fieldCrop"."crop_id" = "crop"."crop_id" 
     inner join "shift" on "shiftTask"."shift_id" = "shift"."shift_id"
     inner join "userFarm" on "field"."farm_id" = "userFarm"."farm_id" and "shift"."user_id" = "userFarm"."user_id" 

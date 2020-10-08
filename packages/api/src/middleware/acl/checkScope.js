@@ -13,22 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Model } = require('objection');
-const knex = Model.knex();
+const userFarmModel = require('../../models/userFarmModel')
 
 const getScopes = async (user_id, farm_id) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
-  const dataPoints = await knex.raw(
-    `SELECT p.name
-      FROM "userFarm" uf, "rolePermissions" rp, "permissions" p
-      WHERE uf.farm_id = ?
-      and uf.user_id = ?
-      and uf.role_id = rp.role_id
-      and rp.permission_id = p.permission_id
-      and uf.status = 'Active'`, [farm_id, user_id]
-  );
 
-  return dataPoints.rows;
+  const dataPoints = await userFarmModel.query().distinct('permissions.name')
+    .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
+    .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
+    .where('userFarm.farm_id', farm_id)
+    .where('userFarm.user_id', user_id)
+
+  return dataPoints;
 };
 
 /**

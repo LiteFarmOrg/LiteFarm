@@ -24,6 +24,7 @@ const dummySignUp = require('./dummySignUp')
 const authConfig = require('../src/auth0Config')
 const knex = require('../src/util/knex');
 jest.mock('jsdom')
+jest.mock('../src/middleware/acl/isSelf')
 
 
 describe('These are tests for auth0 signup and user creation', () => {
@@ -41,6 +42,13 @@ describe('These are tests for auth0 signup and user creation', () => {
   afterAll((done) => {
     server.close(() => {
       done();
+    });
+  })
+
+  beforeAll(async () => {
+    middleware = require('../src/middleware/acl/isSelf');
+    middleware.mockImplementation((req, res, next) => {
+      return next()
     });
   })
 

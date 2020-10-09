@@ -103,16 +103,6 @@ export function* updateUser(payload){
 
 export function* getFarmInfo(action) {
   let farm_id = localStorage.getItem('farm_id');
-  let user_id = localStorage.getItem('user_id');
-  const { userFarmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
 
   if(!farm_id) {
     history.push('/add_farm');
@@ -121,9 +111,7 @@ export function* getFarmInfo(action) {
 
   try {
     let userFarmReducer = yield select((state) => state.userFarmReducer);
-    console.log(userFarmReducer);
-    const result = userFarmReducer.farms.filter(farm => farm.farm_id == farm_id);
-    console.log(result);
+    const result = userFarmReducer.farms.filter(farm => farm.farm_id === farm_id);
     if (result[0]) {
       //console.log(result.data);
       if (result[0].role_id) {

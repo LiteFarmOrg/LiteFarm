@@ -30,30 +30,22 @@ jest.mock('../src/templates/sendEmailTemplate');
 const mocks  = require('./mock.factories');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
+const { farm } = require('../../webapp/src/apiConfig');
 
 describe('User Farm Tests', () => {
   let middleware;
-  let owner;
-  let worker;
-  let inactiveWorker;
-  let manager;
-  let unauthorizedUser;
-
-  let farm;
-  let unauthorizedFarm;
 
   beforeAll(() => {
     token = global.token;
   });
 
-  function getUserFarmsOfUserRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+  function getUserFarmsOfUserRequest({user_id}, callback) {
     chai.request(server).get(`/user_farm/user/${user_id}`)
-      .set('farm_id', farm_id)
       .end(callback);
   }
 
   // note: the object that is sent should be adjusted to not include consent_version
-  function updateUserFarmConsentRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+  function updateUserFarmConsentRequest({user_id, farm_id}, callback) {
     chai.request(server).patch(`/user_farm/consent/farm/${farm_id}/user/${user_id}`)
       .send({has_consent: true, consent_version: '3.0'})
       .end(callback);
@@ -68,14 +60,14 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
-  function getUserFarmsOfFarmRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+  function getUserFarmsOfFarmRequest({user_id, farm_id}, callback) {
     chai.request(server).get(`/user_farm/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
   }
 
-  function getActiveUserFarmsOfFarmRequest({user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
+  function getActiveUserFarmsOfFarmRequest({user_id, farm_id}, callback) {
     chai.request(server).get(`/user_farm/active/farm/${farm_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -116,23 +108,52 @@ describe('User Farm Tests', () => {
     });
   }
 
+  // initialize a user and a farm
+  async function setupUserFarm({role_id=1, status='Active', has_consent=true}) {
+    const userFarmInfo = {
+      role_id,
+      status,
+      has_consent
+    }
+    let [ farm ] = await mocks.farmFactory();
+    let [ user ] = await mocks.usersFactory();
+    await mocks.userFarmFactory({ promisedUser: [user], promisedFarm: [farm]}, userFarmInfo);
+    return {user, farm};
+  }
+
+  // generate user to a given farm
+  async function createUserFarmAtFarm({role_id=1, status='Active', has_consent=true}, farm) {
+    const userFarmInfo = {
+      role_id,
+      status,
+      has_consent
+    }
+    const [ user ] = await mocks.usersFactory();
+    await mocks.userFarmFactory({ promisedUser: [user], promisedFarm: [farm]}, userFarmInfo);
+    return user;
+  }
+
+  // add given user to a newly generated farm
+  async function createUserFarmForUser({role_id=1, status='Active', has_consent=true}, user) {
+    const userFarmInfo = {
+      role_id,
+      status,
+      has_consent
+    }
+    const [ farm ] = await mocks.farmFactory();
+    await mocks.userFarmFactory({ promisedUser: [user], promisedFarm: [farm]}, userFarmInfo);
+    return farm;
+  }
+
+  async function setupFarmWithVariousUsers() {
+    const {user: owner, farm} = await setupUserFarm({role_id: 1});
+    const manager = await createUserFarmAtFarm({role_id: 2}, farm);
+    const worker = await createUserFarmAtFarm({role_id: 3}, farm);
+    const inactiveUser = await createUserFarmAtFarm({role_id: 3, status: 'Inactive'}, farm);
+    return { owner, manager, worker, inactiveUser, farm };
+  }
+
   beforeEach(async () => {
-    [owner] = await mocks.usersFactory();
-    [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory({promisedUser:[owner], promisedFarm:[farm]}, fakeUserFarm(1));
-
-    [manager] = await mocks.usersFactory();
-    const [managerFarm] = await mocks.userFarmFactory({promisedUser:[manager], promisedFarm:[farm]}, fakeUserFarm(2));
-    [worker] = await mocks.usersFactory();
-    const [workerFarm] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm]}, fakeUserFarm(3));
-    [inactiveWorker] = await mocks.usersFactory();
-    const [inactiveWorkerFarm] = await mocks.userFarmFactory({promisedUser:[inactiveWorker], promisedFarm:[farm]}, fakeUserFarm(3, 'Inactive'));
-
-
-    [unauthorizedUser] = await mocks.usersFactory();
-    [unauthorizedFarm] = await mocks.farmFactory();
-    const [unauthorizedUserFarm] = await mocks.userFarmFactory({promisedUser:[unauthorizedUser], promisedFarm:[unauthorizedFarm]}, fakeUserFarm(1));
-
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
@@ -146,11 +167,14 @@ describe('User Farm Tests', () => {
   });
 
   test('Get all user farms of a user', async (done) => {
-    [farm2] = await mocks.farmFactory();
-    [farm3] = await mocks.farmFactory();
-    const [workerFarm2] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm2]}, fakeUserFarm(3));
-    const [workerFarm3] = await mocks.userFarmFactory({promisedUser:[worker], promisedFarm:[farm3]}, fakeUserFarm(3));
-    getUserFarmsOfUserRequest({user_id: worker.user_id}, async (err, res) => {
+    const {user, farm} = await setupUserFarm({});
+    const farm2 = await createUserFarmForUser({}, user);
+    const farm3 = await createUserFarmForUser({}, user);
+    console.log(farm.farm_id);
+    console.log(farm2.farm_id);
+    console.log(farm3.farm_id);
+
+    getUserFarmsOfUserRequest({user_id: user.user_id}, async (err, res) => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(3);
       expect(res.body[0].farm_id).toBe(farm.farm_id);
@@ -161,11 +185,11 @@ describe('User Farm Tests', () => {
   });
 
   test('Update consent status for user farm', async (done) => {
-    [noConsentUser] = await mocks.usersFactory();
-    const [noConsentUserFarm] = await mocks.userFarmFactory({promisedUser:[noConsentUser], promisedFarm:[farm]}, fakeUserFarm(3, 'Active', false));
+    const {user: owner, farm} = await setupUserFarm({});
+    const noConsentUser = await createUserFarmAtFarm({role_id: 3, has_consent: false}, farm);
     let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
     expect(targetUser.has_consent).toBe(false);
-    updateUserFarmConsentRequest({user_id: noConsentUser.user_id}, async (err, res) => {
+    updateUserFarmConsentRequest({user_id: noConsentUser.user_id, farm_id: farm.farm_id}, async (err, res) => {
       expect(res.status).toBe(200);
       targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
       expect(targetUser.has_consent).toBe(true);
@@ -176,7 +200,8 @@ describe('User Farm Tests', () => {
   describe('Get user farm info by farm: authorization tests', () => {
     describe('Get all user farm info', () => {
       test('Owner should get all user farm info', async (done) => {
-        getUserFarmsOfFarmRequest({user_id: owner.user_id}, async (err, res) => {
+        const {owner, farm} = await setupFarmWithVariousUsers();
+        getUserFarmsOfFarmRequest({user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(4);
           // check if sensitive info can be accessed
@@ -186,7 +211,8 @@ describe('User Farm Tests', () => {
       });
 
       test('Manager should get all user farm info', async (done) => {
-        getUserFarmsOfFarmRequest({user_id: manager.user_id}, async (err, res) => {
+        const {manager, farm} = await setupFarmWithVariousUsers();
+        getUserFarmsOfFarmRequest({user_id: manager.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(4);
           // check if sensitive info can be accessed
@@ -196,7 +222,8 @@ describe('User Farm Tests', () => {
       });
 
       test('Worker should get all user farm limited info', async (done) => {
-        getUserFarmsOfFarmRequest({user_id: worker.user_id}, async (err, res) => {
+        const {worker, farm} = await setupFarmWithVariousUsers();
+        getUserFarmsOfFarmRequest({user_id: worker.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(4);
           // check if sensitive info can be accessed
@@ -214,7 +241,9 @@ describe('User Farm Tests', () => {
       });
 
       test('Return 403 if unauthorized user tries to get any user farm info', async (done) => {
-        getUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id}, async (err, res) => {
+        const {farm} = await setupFarmWithVariousUsers();
+        const {user: unauthorizedUser, farm2} = await setupUserFarm({role_id: 1});
+        getUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
@@ -223,7 +252,8 @@ describe('User Farm Tests', () => {
 
     describe('Get active user farm info', () => {
       test('Owner should get active user farm info', async (done) => {
-        getActiveUserFarmsOfFarmRequest({user_id: owner.user_id}, async (err, res) => {
+        const {owner, farm} = await setupFarmWithVariousUsers();
+        getActiveUserFarmsOfFarmRequest({user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(3);
           // check if sensitive info can be accessed
@@ -233,7 +263,8 @@ describe('User Farm Tests', () => {
       });
 
       test('Manager should get active user farm info', async (done) => {
-        getActiveUserFarmsOfFarmRequest({user_id: manager.user_id}, async (err, res) => {
+        const {manager, farm} = await setupFarmWithVariousUsers();
+        getActiveUserFarmsOfFarmRequest({user_id: manager.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(3);
           // check if sensitive info can be accessed
@@ -243,7 +274,8 @@ describe('User Farm Tests', () => {
       });
 
       test('Worker should get active user farm limited info', async (done) => {
-        getActiveUserFarmsOfFarmRequest({user_id: worker.user_id}, async (err, res) => {
+        const {worker, farm} = await setupFarmWithVariousUsers();
+        getActiveUserFarmsOfFarmRequest({user_id: worker.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.length).toBe(3);
           // check if sensitive info can be accessed
@@ -261,7 +293,9 @@ describe('User Farm Tests', () => {
       });
 
       test('Return 403 if unauthorized user tries to get active user farm info', async (done) => {
-        getActiveUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id}, async (err, res) => {
+        const {farm} = await setupFarmWithVariousUsers();
+        const {user: unauthorizedUser, farm2} = await setupUserFarm({role_id: 1});
+        getActiveUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
         });

@@ -89,7 +89,7 @@ class SlideMenu extends React.Component {
               <a id="demo" className="menu-item" onClick={() => this.handleClick("/intro")}><span>Demos</span></a>
             }
             <a id="contact" className="menu-item" onClick={() => this.handleClick("/contact")}><span>Contact us</span></a>
-            <a id="terms" className="menu-item" onClick={() => this.handleClick("/consent")}><span>Terms</span></a>
+            <a id="terms" className="menu-item" onClick={() => this.handleClick("/consent")}><span>Privacy Policy</span></a>
           </div>
           }
           <a onClick={logout} id="logout" className="menu-item"><span>Log out</span></a>

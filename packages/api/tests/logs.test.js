@@ -590,13 +590,13 @@ describe('Log Tests', () => {
           });
 
           //TODO fail
-          // test('Should return 403 if body.user_id is different from header.user_id', async (done) => {
-          //   sampleRequestBody.user_id = worker.user_id;
-          //   putRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
-          //         expect(res.status).toBe(403);
-          //     done();
-          //   })
-          // });
+          xtest('Should return 403 if body.user_id is different from header.user_id', async (done) => {
+            sampleRequestBody.user_id = worker.user_id;
+            putRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
+                  expect(res.status).toBe(403);
+              done();
+            })
+          });
 
           test('should return 403 if an unauthorized user tries to edit a fertilizingLog', async (done) => {
             sampleRequestBody.user_id = unAuthorizedUser.user_id;
@@ -738,13 +738,13 @@ describe('Log Tests', () => {
           });
 
           //TODO fail
-          // test('Should return 403 if field references a new farm', async (done) => {
-          //   sampleRequestBody.fields = [sampleRequestBody.fields[0], { field_id: field1.field_id }];
-          //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-          //         expect(res.status).toBe(403);
-          //     done();
-          //   })
-          // });
+          xtest('Should return 403 if field references a new farm', async (done) => {
+            sampleRequestBody.fields = [sampleRequestBody.fields[0], { field_id: field1.field_id }];
+            putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                  expect(res.status).toBe(403);
+              done();
+            })
+          });
 
           test('Should return 403 if field, fieldCrop, and fertilizer reference a new farm', async (done) => {
             sampleRequestBody.fields = [{ field_id: field1.field_id }];
@@ -766,13 +766,13 @@ describe('Log Tests', () => {
           });
 
           //TODO fail
-          // test('Should return 403 if fertilizer references a new farm', async (done) => {
-          //   sampleRequestBody.fertilizer_id = fertilizer1.fertilizer_id;
-          //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-          //         expect(res.status).toBe(403);
-          //     done();
-          //   })
-          // });
+          xtest('Should return 403 if fertilizer references a new farm', async (done) => {
+            sampleRequestBody.fertilizer_id = fertilizer1.fertilizer_id;
+            putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                  expect(res.status).toBe(403);
+              done();
+            })
+          });
 
           test('Should return 403 if field_crop references a new farm', async (done) => {
             sampleRequestBody.crops = [sampleRequestBody.crops[0], { field_crop_id: fieldCrop1.field_crop_id }];
@@ -856,29 +856,29 @@ describe('Log Tests', () => {
 
           //TODO fail
 
-          // test('Should return 400 if field_crops reference a field that is not in fields array', async (done) => {
-          //   sampleRequestBody.field = [sampleRequestBody.fields[0]]
-          //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-          //         expect(res.status).toBe(400);
-          //     done();
-          //   })
-          // });
-          //
-          // test('Should return 400 if field_crops reference a field that is not in fields in the database', async (done) => {
-          //   sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
-          //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-          //         expect(res.status).toBe(400);
-          //     done();
-          //   })
-          // });
-          //
-          // test('Should return 400 if field reference a field that is not in fieldCrop array', async (done) => {
-          //   sampleRequestBody.crops = [sampleRequestBody.crops[0]]
-          //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-          //         expect(res.status).toBe(400);
-          //     done();
-          //   })
-          // });
+          xtest('Should return 400 if field_crops reference a field that is not in fields array', async (done) => {
+            sampleRequestBody.field = [sampleRequestBody.fields[0]]
+            putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                  expect(res.status).toBe(400);
+              done();
+            })
+          });
+
+          xtest('Should return 400 if field_crops reference a field that is not in fields in the database', async (done) => {
+            sampleRequestBody.crops = [{ field_crop_id: fieldCrop1.field_crop_id }];
+            putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                  expect(res.status).toBe(400);
+              done();
+            })
+          });
+
+          xtest('Should return 400 if field reference a field that is not in fieldCrop array', async (done) => {
+            sampleRequestBody.crops = [sampleRequestBody.crops[0]]
+            putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                  expect(res.status).toBe(400);
+              done();
+            })
+          });
 
           test('Should return 403 if field reference a field that is not in fieldCrop in the database', async (done) => {
             sampleRequestBody.fields = [{ field_id: field1.field_id }];
@@ -897,14 +897,14 @@ describe('Log Tests', () => {
             })
           });
           //TODO fail
-          // xtest('Should return 400 if body.crops is empty2', async (done) => {
-          //   sampleRequestBody.crops = [];
-          //   putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
-          //               //     //TODO should return 400
-          //     expect(res.status).toBe(403);
-          //     done();
-          //   })
-          // });
+          xtest('Should return 400 if body.crops is empty2', async (done) => {
+            sampleRequestBody.crops = [];
+            putRequest(sampleRequestBody, {user_id: owner.user_id}, async (err, res) => {
+                        //     //TODO should return 400
+              expect(res.status).toBe(403);
+              done();
+            })
+          });
 
           test('Should return 400 if body.fields is empty1[{}]', async (done) => {
             sampleRequestBody.fields = [{}];
@@ -1476,12 +1476,12 @@ describe('Log Tests', () => {
           })
         });
         //TODO fail
-        // test('Should return 400 when fieldCrops is not empty', async (done) => {
-        //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-        //         expect(res.status).toBe(400);
-        //     done();
-        //   })
-        // });
+        xtest('Should return 400 when fieldCrops is not empty', async (done) => {
+          putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                expect(res.status).toBe(400);
+            done();
+          })
+        });
 
 
       })
@@ -1605,12 +1605,12 @@ describe('Log Tests', () => {
         });
 
         //TODO fail
-        // test('Should return 400 when fieldCrops is not empty', async (done) => {
-        //   putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
-        //         expect(res.status).toBe(400);
-        //     done();
-        //   })
-        // });
+        xtest('Should return 400 when fieldCrops is not empty', async (done) => {
+          putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+                expect(res.status).toBe(400);
+            done();
+          })
+        });
 
 
       })
@@ -2017,21 +2017,21 @@ describe('Log Tests', () => {
       })
 
       //TODO fail
-      // test('Should return 400 when activity_kind does not fit req.body shape', async (done) => {
-      //   sampleRequestBody.activity_kind = 'soilData';
-      //   postRequest(sampleRequestBody, {}, async (err, res) => {
-      //         expect(res.status).toBe(400);
-      //     done();
-      //   })
-      // });
-      //
-      // test('Should return 400 when activity_kind does not fit req.body shape2', async (done) => {
-      //   sampleRequestBody.activity_kind = 'fieldWork';
-      //   postRequest(sampleRequestBody, {}, async (err, res) => {
-      //         expect(res.status).toBe(400);
-      //     done();
-      //   })
-      // });
+      xtest('Should return 400 when activity_kind does not fit req.body shape', async (done) => {
+        sampleRequestBody.activity_kind = 'soilData';
+        postRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+          done();
+        })
+      });
+
+      xtest('Should return 400 when activity_kind does not fit req.body shape2', async (done) => {
+        sampleRequestBody.activity_kind = 'fieldWork';
+        postRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+          done();
+        })
+      });
 
       test('Should return 400 when pesticide does not exist', async (done) => {
         sampleRequestBody.activity_kind = 'pestControl';
@@ -2067,15 +2067,15 @@ describe('Log Tests', () => {
         })
       });
       //TODO fail
-      // test('Should return 403 when 1 of the 2 fields references a farm that the user does have access to', async (done) => {
-      //   const [newField] = await mocks.fieldFactory();
-      //   sampleRequestBody.fields = [{field_id: newField.field_id}, sampleRequestBody.fields[0]];
-      //   postRequest(sampleRequestBody, {}, async (err, res) => {
-      //           //     //TODO should return 400
-      //     expect(res.status).toBe(403);
-      //     done();
-      //   })
-      // });
+      xtest('Should return 403 when 1 of the 2 fields references a farm that the user does have access to', async (done) => {
+        const [newField] = await mocks.fieldFactory();
+        sampleRequestBody.fields = [{field_id: newField.field_id}, sampleRequestBody.fields[0]];
+        postRequest(sampleRequestBody, {}, async (err, res) => {
+                //     //TODO should return 400
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
 
       test('Should return 400 when all fieldCrop do not exist', async (done) => {
         sampleRequestBody.crops = [{ field_crop_id: 1111111 }];
@@ -2087,23 +2087,23 @@ describe('Log Tests', () => {
       });
 
       //TODO fail
-      // test('Should return 400 when 1 fieldCrop references a field that is not in body.fields', async (done) => {
-      //   const [newFieldCrop] = await mocks.fieldCropFactory({ promisedField: mocks.fieldFactory({ promisedFarm: [farm] }) })
-      //   sampleRequestBody.crops = [{ field_crop_id: newFieldCrop.field_crop_id }, sampleRequestBody.crops[0]];
-      //   postRequest(sampleRequestBody, {}, async (err, res) => {
-      //         expect(res.status).toBe(400);
-      //     done();
-      //   })
-      // });
-      //
-      // test('Should return 403 when 1 fieldCrop references a field that user does not have access to', async (done) => {
-      //   const [newFieldCrop] = await mocks.fieldCropFactory();
-      //   sampleRequestBody.crops = [{ field_crop_id: newFieldCrop.field_crop_id }, sampleRequestBody.crops[0]];
-      //   postRequest(sampleRequestBody, {}, async (err, res) => {
-      //         expect(res.status).toBe(403);
-      //     done();
-      //   })
-      // });
+      xtest('Should return 400 when 1 fieldCrop references a field that is not in body.fields', async (done) => {
+        const [newFieldCrop] = await mocks.fieldCropFactory({ promisedField: mocks.fieldFactory({ promisedFarm: [farm] }) })
+        sampleRequestBody.crops = [{ field_crop_id: newFieldCrop.field_crop_id }, sampleRequestBody.crops[0]];
+        postRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(400);
+          done();
+        })
+      });
+
+      xtest('Should return 403 when 1 fieldCrop references a field that user does not have access to', async (done) => {
+        const [newFieldCrop] = await mocks.fieldCropFactory();
+        sampleRequestBody.crops = [{ field_crop_id: newFieldCrop.field_crop_id }, sampleRequestBody.crops[0]];
+        postRequest(sampleRequestBody, {}, async (err, res) => {
+              expect(res.status).toBe(403);
+          done();
+        })
+      });
 
       test('Should return 400 when 1 fieldCrop does not exist', async (done) => {
         sampleRequestBody.crops = [{ field_crop_id: 1111111 }, sampleRequestBody.crops[0]];
@@ -2211,13 +2211,13 @@ describe('Log Tests', () => {
         });
 
         //TODO fail
-        // test('Should return 403 when a manager tries to post a log for a worker', async (done) => {
-        //   sampleRequestBody.user_id = workder.user_id;
-        //   postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
-        //         expect(res.status).toBe(403);
-        //     done();
-        //   })
-        // });
+        xtest('Should return 403 when a manager tries to post a log for a worker', async (done) => {
+          sampleRequestBody.user_id = workder.user_id;
+          postRequest(sampleRequestBody, { user_id: manager.user_id }, async (err, res) => {
+                expect(res.status).toBe(403);
+            done();
+          })
+        });
 
         test('should return 403 status if fertilizingLog is posted by unauthorized user', async (done) => {
           sampleRequestBody.user_id = unAuthorizedUser.user_id;

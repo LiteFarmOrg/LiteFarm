@@ -1,8 +1,5 @@
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
 let faker = require('faker');
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 
 function weather_stationFactory(station = fakeStation()) {
   return knex('weather_station').insert(station).returning('*');

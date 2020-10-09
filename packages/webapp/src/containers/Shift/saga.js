@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -88,7 +88,9 @@ export function* addShift(action) {
   let shiftObj = action.shiftObj;
 
   try {
-    const result = yield call(axios.post, shiftUrl, shiftObj, header);
+    // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
+    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
+    const result = yield call(axios.post, shiftUrl, { ...shiftObj, farm_id: header.headers.farm_id }, header);
     if (result) {
       history.push('/shift');
       toastr.success('Successfully added new shift!');
@@ -232,7 +234,9 @@ export function* updateShiftSaga(action) {
   };
 
   try {
-    const result = yield call(axios.put, shiftUrl + '/' + shiftID, shiftObj, header);
+    // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
+    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
+    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id: localStorage.getItem('farm_id') }, header);
     if (result) {
       toastr.success('Successfully updated shift!');
       history.push('/shift');

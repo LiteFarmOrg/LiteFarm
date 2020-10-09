@@ -12,16 +12,17 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 module.exports = {
 
   development: {
     client: 'postgresql',
     connection: {
-      host: 'localhost',
-      database: 'mock_farm',
-      user:     'postgres',
-      password: 'postgres',
+      host: process.env.DEV_DATABASE_HOST,
+      database: process.env.DEV_DATABASE,
+      user:     process.env.DEV_DATABASE_USER,
+      password: process.env.DEV_DATABASE_PASSWORD,
     },
     migrations: {
       directory: __dirname + '/db/migration',
@@ -75,10 +76,10 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      host: 'localhost',
-      database: 'test_farm',
-      user:     'postgres',
-      password: 'postgres',
+      host: process.env.TEST_DATABASE_HOST,
+      database: process.env.TEST_DATABASE,
+      user:     process.env.TEST_DATABASE_USER,
+      password: process.env.TEST_DATABASE_PASSWORD,
     },
     pool: { min: 0, max: 100 },
     migrations: {

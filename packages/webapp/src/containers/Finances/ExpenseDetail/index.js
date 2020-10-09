@@ -5,7 +5,6 @@ import connect from "react-redux/es/connect/connect";
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
 import {expenseDetailDateSelector, expenseSelector, expenseTypeSelector} from "../selectors";
-import {DropdownButton, MenuItem} from 'react-bootstrap';
 import {deleteExpenses, setEditExpenses} from '../actions'
 import history from '../../../history';
 import {farmSelector} from "../../selector";
@@ -85,7 +84,7 @@ class ExpenseDetail extends Component {
     }
     return 'TYPE_NOT_FOUND';
   }
-  
+
   handledeleteExpenses = () => {
     this.setState({showModal: true});
   }
@@ -102,7 +101,7 @@ class ExpenseDetail extends Component {
       history.push('/other_expense');
     }
   }
-
+  //TODO remove edit expense related functions
   editExpenses(){
     const {filteredExpenses} = this.state;
     this.props.dispatch(setEditExpenses(filteredExpenses));
@@ -110,22 +109,21 @@ class ExpenseDetail extends Component {
   }
 
   render() {
-    let dropDown = 0;
     const {date, expenseItems, total} = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl='/other_expense' title='Expense Detail'/>
         <div className={styles.innerInfo}>
           <h4>{date}</h4>
-          <DropdownButton
-            style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
-            title={'Edit'}
-            key={dropDown}
-            id={`dropdown-basic-${dropDown}`}
-          >
-            <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>
-            <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem>
-          </DropdownButton>
+          {/*<DropdownButton*/}
+          {/*  style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}*/}
+          {/*  title={'Edit'}*/}
+          {/*  key={dropDown}*/}
+          {/*  id={`dropdown-basic-${dropDown}`}*/}
+          {/*>*/}
+          {/*  <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>*/}
+          {/* <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem> */}
+          {/*</DropdownButton>*/}
         </div>
 
         <div className={styles.itemContainer}>
@@ -160,14 +158,14 @@ class ExpenseDetail extends Component {
           <div className={styles.greenText} id="total-amount">{this.state.currencySymbol + total}</div>
         </div>
         <ConfirmModal
-            open={this.state.showModal}
-            onClose={() => this.setState({showModal: false})}
-            onConfirm={() => {
-              this.deleteExpenses();
-              this.setState({showModal: false});
-            }}
-            message='Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.'
-          />
+          open={this.state.showModal}
+          onClose={() => this.setState({showModal: false})}
+          onConfirm={() => {
+            this.deleteExpenses();
+            this.setState({showModal: false});
+          }}
+          message='Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.'
+        />
       </div>
     )
   }

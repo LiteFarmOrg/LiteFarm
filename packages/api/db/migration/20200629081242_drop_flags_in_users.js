@@ -24,5 +24,16 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-
+  return Promise.all([
+    knex.schema.table('users', (table) => {
+      table.boolean('is_active').notNullable().defaultTo(true);
+      table.boolean('is_pseudo').notNullable().defaultTo(false);
+      table.jsonb('wage').defaultTo(JSON.stringify(
+        {
+          type: 'hourly',
+          amount: 0,
+        },
+      ));
+    }),
+  ])
 };

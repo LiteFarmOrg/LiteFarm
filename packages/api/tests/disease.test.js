@@ -19,10 +19,7 @@ const chaiHttp = require('chai-http');
 const moment = require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
@@ -118,6 +115,7 @@ describe('Disease Tests', () => {
 
   afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
     done();
   });
 

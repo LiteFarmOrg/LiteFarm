@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (todoController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -25,21 +25,21 @@ const ExceptionHandler = require('../LiteFarmUtility/exceptionHandler')
 class todoController extends baseController {
   static addTodo() {
     return async (req, res) => {
-      const transac = await transaction.start(Model.knex());
+      const trx = await transaction.start(Model.knex());
       try{
         if(req.body){
-          await todoController.insertTodo(req.body, transac);
-          await todoController.addNotificationForUsers(req.body.users, 'todo_added', transac);
-          await transac.commit();
+          await todoController.insertTodo(req.body, trx);
+          await todoController.addNotificationForUsers(req.body.users, 'todo_added', trx);
+          await trx.commit();
           res.sendStatus(200);
           //insert into notifications table
         }else{
-          await transac.commit();
+          await trx.commit();
           throw { status:400, message:'No todo data given' }
         }
         // await notificationServices.addNotificationForUsers('',);
       }catch(exception){
-        await transac.rollback();
+        await trx.rollback();
         var error = ExceptionHandler.handleException(exception);
         res.status(error.status).json({ error: error.message });
       }

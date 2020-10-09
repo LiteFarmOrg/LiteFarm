@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -46,7 +46,7 @@ class Shift extends Component {
     dispatch(getCrops());
     dispatch(getFields());
     dispatch(getTaskTypes());
-    if(users.role_id === 1 || users.role_id === 2){
+    if(users.role_id === 1 || users.role_id === 2 || users.role_id === 5){
       dispatch(getAllShifts());
     }else{
       dispatch(getShifts());
@@ -75,7 +75,7 @@ class Shift extends Component {
     const {users} = this.props;
     let columns = [];
     let nameOptions = [];
-    if(shifts && shifts.length > 0 && (users.role_id === 1 || users.role_id === 2)){
+    if(shifts && shifts.length > 0 && (users.role_id === 1 || users.role_id === 2 || users.role_id === 5)){
       columns.push(
         {
           id: 'name',
@@ -149,7 +149,7 @@ class Shift extends Component {
           <h4><b>Shift History</b></h4>
         </div>
         {
-          (users.role_id === 1 || users.role_id === 2)  && <div>
+          (users.role_id === 1 || users.role_id === 2 || users.role_id === 5)  && <div>
             <div className={styles.filterContainer}>
               <div className={styles.nameFilter}>
                 <label>Name</label>

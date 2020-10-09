@@ -37,8 +37,8 @@ tags:
     description: Operations related to logs
   - name: pesticide
     description: Operations related to pesticides
-  - name: plan
-    description: Operations related to plan relation.
+#  - name: plan
+#    description: Operations related to plan relation.
   - name: price
     description: Operations related to price relation.
   - name: roles
@@ -797,10 +797,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FarmExpense'
-  /expense/expense_type:
+  /expense_type:
     post:
       tags:
-        - expense
+        - expense_type
       summary: Create an expense type linked to you farm
       operationId: postExpenseType
       requestBody:
@@ -819,10 +819,49 @@ paths:
           description: Bad Request
         403:
           description: No permission to add farm expenses
-  /expense/expense_type/farm/{farmId} :
     get:
       tags:
-        - expense
+        - expense_type
+      summary: Gets the default expense types
+      operationId: getExpenseTypeDefault
+      responses:
+        200:
+          description: returns the default expense types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FarmExpenseType'
+        400:
+          description: Bad request
+        403:
+          description: No permission to get farm expenses
+  /expense_type/{expenseTypeId}:
+    delete:
+      tags:
+        - expense_type
+      summary: Deletes expense type by id. (Cant be Default one)
+      operationId: deleteExpenseTypeById
+      parameters:
+        - name: expenseTypeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successfully deleted expense type
+        404:
+          description: Expense Type not found
+        400:
+          description: Bad Request
+
+  /expense_type/farm/{farmId} :
+    get:
+      tags:
+        - expense_type
       summary: Get expense types linked to your farm and default ones
       operationId: getExpenseTypeByFarmId
       parameters:
@@ -835,25 +874,6 @@ paths:
       responses:
         200:
           description: returns the expense types linked to your farm
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FarmExpenseType'
-        400:
-          description: Bad request
-        403:
-          description: No permission to get farm expenses
-  /expense/expense_type/default:
-    get:
-      tags:
-        - expense
-      summary: Gets the default expense types
-      operationId: getExpenseTypeDefault
-      responses:
-        200:
-          description: returns the default expense types
           content:
             application/json:
               schema:
@@ -1639,30 +1659,28 @@ paths:
           description: Bad Request
         403:
           description: no permission to create logs
-    get:
-      tags:
-        - TBR
-        - log
-      summary: Get all logs??
-      operationId: getLogs
-      responses:
-        200:
-          description: retrieved logs
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Log'
-        400:
-          description: Bad Request
-  /log/{logId}:
+  /log/{activityId}:
     parameters:
-      - name: logId
+      - name: activityId
         in: path
         required: true
         schema:
           type: number
+
+    get:
+      tags:
+        - log
+      summary: Gets a log by activity Id
+      operationId: getLogByActivityId
+      responses:
+        200:
+          description: Retrieves a specific log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Log'
+        400:
+          description: Bad Request
     put:
       tags:
         - log
@@ -1696,6 +1714,29 @@ paths:
           description: No permission to delete logs
         400:
           description: Bad Request.
+  /log/farm/{farmId}:
+    get:
+      tags:
+        - log
+      summary: Gets all logs on a particular farm
+      operationId: getLogByFarmId
+      parameters:
+        - name: farmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Logs on that farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Log'
+
   /notification/user/user_id:
     get:
       tags:
@@ -1800,74 +1841,74 @@ paths:
           description: Bad Request
         403:
           description: No access to this farm, or permission to delete pesticide.
-  /plan/farm/{farmId}:
-    get:
-      tags:
-        - plan
-      summary: Get plans by farm id
-      operationId: getPlansByFarmId
-      parameters:
-        - name: farmId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        200:
-          description: All plans related to farm id given
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Plan'
-        400:
-          description: Bad Request.
-        403:
-          description: No access to this farm, or permission to get plans.
-  /plan:
-    post:
-      tags:
-        - plan
-      summary: Create a plan
-      operationId: postPlan
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Plan'
-      responses:
-        201:
-          description: retrieves created plan
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Plan'
-        400:
-          description: Bad Request
-        403:
-          description: No access to this farm, or permission to create plans.
-  /plan/{planId}:
-    delete:
-      tags:
-        - plan
-      summary: Delete a plan by its id
-      operationId: deletePlanById
-      parameters:
-        - name: planId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        200:
-          description: success deleting a plan
-        400:
-          description: Bad Request
-        403:
-          description: No access to this farm, or permission to delete plans.
+#  /plan/farm/{farmId}:
+#    get:
+#      tags:
+#        - plan
+#      summary: Get plans by farm id
+#      operationId: getPlansByFarmId
+#      parameters:
+#        - name: farmId
+#          in: path
+#          required: true
+#          schema:
+#            type: string
+#            format: uuid
+#      responses:
+#        200:
+#          description: All plans related to farm id given
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  $ref: '#/components/schemas/Plan'
+#        400:
+#          description: Bad Request.
+#        403:
+#          description: No access to this farm, or permission to get plans.
+#  /plan:
+#    post:
+#      tags:
+#        - plan
+#      summary: Create a plan
+#      operationId: postPlan
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/Plan'
+#      responses:
+#        201:
+#          description: retrieves created plan
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Plan'
+#        400:
+#          description: Bad Request
+#        403:
+#          description: No access to this farm, or permission to create plans.
+#  /plan/{planId}:
+#    delete:
+#      tags:
+#        - plan
+#      summary: Delete a plan by its id
+#      operationId: deletePlanById
+#      parameters:
+#        - name: planId
+#          in: path
+#          required: true
+#          schema:
+#            type: string
+#            format: uuid
+#      responses:
+#        200:
+#          description: success deleting a plan
+#        400:
+#          description: Bad Request
+#        403:
+#          description: No access to this farm, or permission to delete plans.
   /price/farm/{farmId}:
     get:
       tags:
@@ -1975,27 +2016,27 @@ paths:
                   role:
                     type: string
   /sale:
-    patch:
-      tags:
-        - sale
-      summary: Update a sale
-      operationId: patchSale
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Sale'
-      responses:
-        204:
-          description: retrieves updated sale successfuly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Sale'
-        400:
-          description: Bad Request
-        403:
-          description: No access to this farm, or permission update a sale.
+#    patch:
+#      tags:
+#        - sale
+#      summary: Update a sale
+#      operationId: patchSale
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/Sale'
+#      responses:
+#        204:
+#          description: retrieves updated sale successfuly
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Sale'
+#        400:
+#          description: Bad Request
+#        403:
+#          description: No access to this farm, or permission update a sale.
     post:
       tags:
         - sale
@@ -2073,8 +2114,7 @@ paths:
     get:
       tags:
         - shift
-        - TBR
-      summary: Get a shift by its id (what is the relation to tasks?)
+      summary: Get a shift by its id
       operationId: getShiftById
       responses:
         200:
@@ -2142,34 +2182,34 @@ paths:
           description: Bad request.
         403:
           description: No access to this farm, or permission to create a shift.
-  /shift/multi:
-    post:
-      tags:
-        - shift
-        - TBR
-      summary: Create multiple shifts
-      operationId: postShiftMulti
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                tasks:
-                  type: array
-                  items:
-                    type: object
-                shift_users:
-                  type: array
-                  items:
-                    type: object
-      responses:
-        201:
-          description: receives 201 with no body.?
-        400:
-          description: Bad request.
-        403:
-          description: No access to this farm, or permission to create a multi shift.
+#  /shift/multi:
+#    post:
+#      tags:
+#        - shift
+#        - TBR
+#      summary: Create multiple shifts
+#      operationId: postShiftMulti
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              type: object
+#              properties:
+#                tasks:
+#                  type: array
+#                  items:
+#                    type: object
+#                shift_users:
+#                  type: array
+#                  items:
+#                    type: object
+#      responses:
+#        201:
+#          description: receives 201 with no body.?
+#        400:
+#          description: Bad request.
+#        403:
+#          description: No access to this farm, or permission to create a multi shift.
   /shift/user/{userId}:
     get:
       tags:
@@ -2373,69 +2413,69 @@ paths:
           description: Bad Request
         403:
           description: No access to this farm, or permission to create task types
-  /todo:
-    post:
-      tags:
-        - todo
-        - TBR
-      summary: Create a todo. Reviewing Request data
-      operationId: postTodo
-      responses:
-        200:
-          description: success creating a todo.
-
-    get:
-      tags:
-        - todo
-        - TBR
-      summary: Get all todos. Non functional
-      operationId: getTodos
-      responses:
-        404:
-          description: non functional
-  /todo/{todoId}:
-    parameters:
-      - name: todoId
-        in: path
-        required: true
-        schema:
-          type: number
-    put:
-      tags:
-        - todo
-        - TBR
-      summary: Update a specific todo
-      operationId: updateTodoById
-      responses:
-        200:
-          description: Updated todo successfuly
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  todo_id:
-                    type: number
-                  todo_text:
-                    type: string
-                  farm_id:
-                    type: string
-                    format: uuid
-        401:
-          description: not authorized
-    delete:
-      tags:
-        - todo
-        - TBR
-      summary: Delete Todo by id
-      operationId: deleteTodoById
-      responses:
-        200:
-          description: deleted todo successfuly
-        400:
-          description: Bad request
-        401:
-          description: not authorized
+#  /todo:
+#    post:
+#      tags:
+#        - todo
+#        - TBR
+#      summary: Create a todo. Reviewing Request data
+#      operationId: postTodo
+#      responses:
+#        200:
+#          description: success creating a todo.
+#
+#    get:
+#      tags:
+#        - todo
+#        - TBR
+#      summary: Get all todos. Non functional
+#      operationId: getTodos
+#      responses:
+#        404:
+#          description: non functional
+#  /todo/{todoId}:
+#    parameters:
+#      - name: todoId
+#        in: path
+#        required: true
+#        schema:
+#          type: number
+#    put:
+#      tags:
+#        - todo
+#        - TBR
+#      summary: Update a specific todo
+#      operationId: updateTodoById
+#      responses:
+#        200:
+#          description: Updated todo successfuly
+#          content:
+#            application/json:
+#              schema:
+#                type: object
+#                properties:
+#                  todo_id:
+#                    type: number
+#                  todo_text:
+#                    type: string
+#                  farm_id:
+#                    type: string
+#                    format: uuid
+#        401:
+#          description: not authorized
+#    delete:
+#      tags:
+#        - todo
+#        - TBR
+#      summary: Delete Todo by id
+#      operationId: deleteTodoById
+#      responses:
+#        200:
+#          description: deleted todo successfuly
+#        400:
+#          description: Bad request
+#        401:
+#          description: not authorized
   /farmdata:
     post:
       tags:
@@ -2461,7 +2501,6 @@ paths:
   /farmdata/{farmId}:
     get:
       tags:
-        - TBR
         - userFarmData
       summary: Gets all non processed farmData scheduled with this farm id.
       operationId: getFarmDataByFarmId

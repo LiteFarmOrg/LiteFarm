@@ -71,7 +71,7 @@ function WithdrawConsent({ updateConsent, showModal, setShowModal }) {
         message='If you withdraw consent you won’t be able to use LiteFarm. Are you sure you wish to exit?'
         option="Withdraw"
       />
-      <button className='btn btn-primary' onClick={() => setShowModal(true)}>Withdraw</button>
+      <button className='btn btn-primary' onClick={() => setShowModal(true)}>Withdraw Consent</button>
     </div>)
 }
 

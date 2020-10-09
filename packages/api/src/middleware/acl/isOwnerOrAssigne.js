@@ -1,30 +1,32 @@
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
-
-module.exports = async (req, res, next) => {
-  const data = Object.keys(req.body).length === 0 ? req.params:  req.body;
-  const headers = req.headers;
-  const { user_id } = headers;
-
-  if(data.activity_id) {
-    const activity = await fromActivity(data.activity_id);
-    return sameUser(activity, user_id) ? next() : notAuthorizedResponse(res);
-  }
-  if(data.user_id) {
-    return sameUser(data, user_id) ? next() : notAuthorizedResponse(res);
-  }
-  // No user relationship
-  next();
+const { Model } = require('objection');
+const knex = Model.knex();
+const entitiesGetters = {
+  activity_id: fromActivity,
+  shift_id: fromShift,
+  user_id: (user_id) => ({ user_id }),
 }
 
-function sameUser(object, user) {
-  return object.user_id === user;
+module.exports = ({ params = null, body = null }) => async (req, res, next) => {
+  const key = params ? params : body;
+  const value = params ? req.params[key] : req.body[key];
+  const headers = req.headers;
+  const { user_id, farm_id } = headers;
+
+  const userIdObjectFromEntity = await entitiesGetters[key](value);
+  return sameUser(userIdObjectFromEntity, { user_id, farm_id }) ? next() : notAuthorizedResponse(res);
+}
+
+function sameUser(object, { user_id, farm_id }) {
+  return object.farm_id ? object.farm_id === farm_id && object.user_id === user_id : object.user_id === user_id;
 }
 
 async function fromActivity(activityId) {
-  return await knex('activityLog').where({ activity_id: activityId }).first();
+  return knex('activityLog').where({ activity_id: activityId }).first();
+}
+
+
+async function fromShift(shiftId) {
+  return await knex('shift').where({ shift_id: shiftId }).first();
 }
 
 function notAuthorizedResponse(res) {

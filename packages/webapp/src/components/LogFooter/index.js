@@ -29,7 +29,9 @@ class LogFooter extends React.Component {
         <div className={styles.cancelButton} onClick={()=>history.push('/new_log')}>
           Cancel
         </div>}
+        <div className={styles.cancelButton}>
       <button className='btn btn-primary'>Save</button>
+      </div>
     </div>)
   }
 }

@@ -19,10 +19,7 @@ const chaiHttp = require('chai-http');
 const moment =require('moment')
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks  = require('./mock.factories');
@@ -125,7 +122,7 @@ describe('userFarm Tests', () => {
     test('Manager should post farm data at their farm', async (done) => {
       const {mainFarm, user} = await returnUserFarms(2);
        const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
-  
+
       postUserFarmDataRequest(fakeUserFarmData, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
         const userFarmDatas = await userFarmModel.query().where('farm_id', mainFarm.farm_id).andWhere('user_id', user.user_id);
@@ -140,26 +137,26 @@ describe('userFarm Tests', () => {
 
       const {mainFarm, user} = await returnUserFarms(3);
       const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
-  
+
       postUserFarmDataRequest(fakeUserFarmData, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(403);
         expect(res.error.text).toBe("User does not have the following permission(s): add:farm_schedules");
         done();
       })
     })
-  
+
     test('Should return 403 when unauthorized user tries to post farm data', async (done) => {
       const { mainFarm, user } = await returnUserFarms(1);
       const fakeUserFarmData = await getFakeUserFarmData(mainFarm.farm_id, user.user_id);
       const [unAuthorizedUser] = await mocks.usersFactory();
-  
+
       postUserFarmDataRequest(fakeUserFarmData, {user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(403);
         expect(res.error.text).toBe("User does not have the following permission(s): add:farm_schedules");
         done();
       })
     })
-  
+
   })
 
   describe('Get userFarm tests', () => {
@@ -208,5 +205,5 @@ describe('userFarm Tests', () => {
     });
   });
 
-     
+
 });

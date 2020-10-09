@@ -2,10 +2,8 @@ const { from } = require('rxjs');
 const { delay, concatMap, mergeMap, catchError } = require('rxjs/operators');
 const rp = require('request-promise');
 
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const endPoints = require('../../endPoints');
 const { OPEN_WEATHER_APP_ID } = require('../../credentials');
 

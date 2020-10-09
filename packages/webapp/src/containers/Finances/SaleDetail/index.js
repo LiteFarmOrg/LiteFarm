@@ -52,11 +52,11 @@ class SaleDetail extends Component {
             <DropdownButton
               data-test='edit-or-delete-sale'
               style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
-              title={'Edit'}
+              title={'Action'}
               key={dropDown}
               id={`dropdown-basic-${dropDown}`}
             >
-              <MenuItem data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</MenuItem>
+              {/*<MenuItem data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</MenuItem>*/}
               <MenuItem data-test='delete-sale' eventKey="1" onClick={() => this.confirmDelete()}>Delete</MenuItem>
             </DropdownButton>
           </div>

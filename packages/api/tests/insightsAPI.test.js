@@ -22,6 +22,7 @@ const chai_should = chai.should();  // Using Should style
 const knex = require('../src/util/knex');
 const server = require('./../src/server');
 const mocks = require('./mock.factories');
+const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 
@@ -40,6 +41,12 @@ describe('insights test', () => {
       done();
     });
   })
+
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
+  });
 
   describe('People Fed', () => {
     test('Should get people fed if Im on my farm as an owner',async  (done) => {

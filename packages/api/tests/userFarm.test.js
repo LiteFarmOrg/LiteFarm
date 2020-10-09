@@ -75,7 +75,7 @@ describe('User Farm Tests', () => {
   }
 
   // TODO: eventually change how role is passed into endpoint
-  function updateRoleRequest(role, {user_id = owner.user_id, farm_id = farm.farm_id}, target_user_id, callback) {
+  function updateRoleRequest(role, {user_id, farm_id}, target_user_id, callback) {
     chai.request(server).patch(`/user_farm/role/farm/${farm_id}/user/${target_user_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
@@ -170,9 +170,6 @@ describe('User Farm Tests', () => {
     const {user, farm} = await setupUserFarm({});
     const farm2 = await createUserFarmForUser({}, user);
     const farm3 = await createUserFarmForUser({}, user);
-    console.log(farm.farm_id);
-    console.log(farm2.farm_id);
-    console.log(farm3.farm_id);
 
     getUserFarmsOfUserRequest({user_id: user.user_id}, async (err, res) => {
       expect(res.status).toBe(200);
@@ -294,7 +291,7 @@ describe('User Farm Tests', () => {
 
       test('Return 403 if unauthorized user tries to get active user farm info', async (done) => {
         const {farm} = await setupFarmWithVariousUsers();
-        const {user: unauthorizedUser, farm2} = await setupUserFarm({role_id: 1});
+        const {user: unauthorizedUser, farm: farm2} = await setupUserFarm({role_id: 1});
         getActiveUserFarmsOfFarmRequest({user_id: unauthorizedUser.user_id, farm_id: farm.farm_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -326,10 +323,12 @@ describe('User Farm Tests', () => {
     describe('Update user farm role', () => {
       // TODO: eventually change how role is passed into endpoint
       test('Owner should update user farm role', async (done) => {
+        const {user: owner, farm} = await setupUserFarm({});
+        const worker = await createUserFarmAtFarm({role_id: 3}, farm);
         const target_role = 'Manager';
         const target_role_id = 2;
         const target_user_id = worker.user_id;
-        updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
           const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
           expect(updatedUserFarm.role_id).toBe(target_role_id);
@@ -338,10 +337,12 @@ describe('User Farm Tests', () => {
       });
 
       test('Manager should update user farm role', async (done) => {
+        const {user: manager, farm} = await setupUserFarm({role_id: 2});
+        const worker = await createUserFarmAtFarm({role_id: 3}, farm);
         const target_role = 'Manager';
         const target_role_id = 2;
         const target_user_id = worker.user_id;
-        updateRoleRequest(target_role, {user_id: manager.user_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role, {user_id: manager.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
           const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
           expect(updatedUserFarm.role_id).toBe(target_role_id);
@@ -350,37 +351,41 @@ describe('User Farm Tests', () => {
       });
 
       test('Return 403 if worker tries to update user farm role', async (done) => {
+        const {manager, worker, farm} = await setupFarmWithVariousUsers();
         const target_role = 'Worker';
         const target_role_id = 3;
         const target_user_id = manager.user_id;
-        updateRoleRequest(target_role, {user_id: worker.user_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role, {user_id: worker.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
 
       test('Return 403 if unauthorized user tries to update user farm role', async (done) => {
+        const {manager, farm} = await setupFarmWithVariousUsers();
+        const {user: unauthorizedUser, farm2} = await setupUserFarm({role_id: 1});
         const target_role = 'Worker';
         const target_role_id = 3;
         const target_user_id = manager.user_id;
-        updateRoleRequest(target_role, {user_id: unauthorizedUser.user_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role, {user_id: unauthorizedUser.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       });
 
       test('Return 400 if last owner/Manager tries to set themselves as standard worker', async (done) => {
+        const {owner, manager, farm} = await setupFarmWithVariousUsers();
         const target_role = 'Worker';
         const target_role_id = 3;
         let target_user_id = manager.user_id;
         // turn manager to worker
-        updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
           let updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
           expect(updatedUserFarm.role_id).toBe(target_role_id);
           target_user_id = owner.user_id;
           // try to turn owner to worker
-          updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+          updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
             expect(res.status).toBe(400);
             done();
           });
@@ -388,10 +393,12 @@ describe('User Farm Tests', () => {
       });
 
       test('Return 404 if owner tries to update user farm role that is not part of their farm', async (done) => {
+        const {user: owner, farm} = await setupUserFarm({});
+        const {user: unauthorizedUser, farm: farm2} = await setupUserFarm({});
         const target_role = 'Manager';
         const target_role_id = 2;
         const target_user_id = unauthorizedUser.user_id;
-        updateRoleRequest(target_role, {user_id: owner.user_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(404);
           done();
         });

@@ -338,8 +338,8 @@ class userFarmController extends baseController {
             res.sendStatus(400);
             return;
           }
-          res.sendStatus(200);
           await trx.commit();
+          res.sendStatus(200);
           return;
         }
         else {
@@ -374,8 +374,8 @@ class userFarmController extends baseController {
             status,
           });
         if (isPatched) {
-          res.sendStatus(200);
           await trx.commit();
+          res.sendStatus(200);
           return;
         }
         else {
@@ -404,8 +404,8 @@ class userFarmController extends baseController {
             wage,
           });
         if (isPatched) {
-          res.sendStatus(200);
           await trx.commit();
+          res.sendStatus(200);
           return;
         } else {
           await trx.rollback();

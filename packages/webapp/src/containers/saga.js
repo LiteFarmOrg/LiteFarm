@@ -24,7 +24,8 @@ import {
   UPDATE_AGREEMENT,
 } from "./constants";
 import { setUserInState, setFarmInState, fetchFarmInfo, setFieldCropsInState, setFieldsInState, getFields, getFieldCrops } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { updateConsentOfFarm } from './ChooseFarm/actions.js';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from "../history";
@@ -119,14 +120,16 @@ export function* getFarmInfo(action) {
   }
 
   try {
-    // TODO: TO DEPRECATE
-    const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id + '/user/' + user_id, header);
-    if (result.data[0]) {
+    let userFarmReducer = yield select((state) => state.userFarmReducer);
+    console.log(userFarmReducer);
+    const result = userFarmReducer.farms.filter(farm => farm.farm_id == farm_id);
+    console.log(result);
+    if (result[0]) {
       //console.log(result.data);
-      if(result.data[0].role_id){
-        localStorage.setItem('role_id', result.data[0].role_id);
+      if (result[0].role_id) {
+        localStorage.setItem('role_id', result[0].role_id);
       };
-      yield put(setFarmInState(result.data[0]));
+      yield put(setFarmInState(result[0]));
       yield put(getFields());
       yield put(getFieldCrops());
     } else {
@@ -270,9 +273,17 @@ export function* updateAgreementSaga(payload) {
   try {
     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id +'/user/'+ user_id, data, header);
     if (result) {
+      console.log(result);
+      console.log(payload);
+      console.log(data);
       if (payload.consent_bool.consent) {
-        yield put(setFarmInState(data));
+        yield put(updateConsentOfFarm(farm_id, data));
+        // yield put(setFarmInState(data));
+        const farms = yield select((state) => state.userFarmReducer.farms);
+        const selectedFarm = farms.find((f) => f.farm_id === farm_id);
+        yield put(setFarmInState(selectedFarm))
         console.log('user agreed to consent form/');
+        console.log(selectedFarm);
         history.push('/home');
       } else {
     //did not give consent - log user out

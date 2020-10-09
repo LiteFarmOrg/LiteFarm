@@ -18,18 +18,47 @@ const express = require('express');
 const router = express.Router();
 // const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
+const isOwnerOrAssignee = require('../middleware/acl/isOwnerOrAssigne');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+const conditionallyApplyMiddleware = require("../middleware/acl/conditionally.apply");
 
 //router.post('/', checkScope(['add:shifts']),  ShiftController.addShift());
-router.post('/', checkScope(['add:shifts']), ShiftController.addShift());
-router.post('/multi', checkScope(['add:shifts']), ShiftController.addMultiShift());
+router.post('/',
+  isOwnerOrAssignee({ body: 'user_id' }),
+  hasFarmAccess({ body: 'farm_id' }),
+  checkScope(['add:shifts']),
+  ShiftController.addShift());
+// router.post('/multi',
+//   isOwnerOrAssignee({ body: 'user_id' }),
+//   checkScope(['add:shifts']),
+//   ShiftController.addMultiShift());
 
-router.delete('/:id', checkScope(['delete:shifts']), ShiftController.delShift());
-router.get('/:id', checkScope(['get:shifts']), ShiftController.getShiftByID());
-router.put('/:id', checkScope(['edit:shifts']), ShiftController.updateShift());
+router.delete('/:shift_id',
+  hasFarmAccess({ params: 'shift_id' }),
+  checkScope(['delete:shifts']),
+  ShiftController.delShift());
+router.get('/:shift_id',
+  isOwnerOrAssignee({ params: 'shift_id' }),
+  checkScope(['get:shifts']),
+  ShiftController.getShiftByID());
+router.put('/:shift_id',
+  checkScope(['edit:shifts']),
+  (req, res, next) =>
+    conditionallyApplyMiddleware(
+      req.role === 3,
+      isOwnerOrAssignee({ params: 'shift_id' }),
+      hasFarmAccess({ params: 'shift_id' }))(req, res, next),
+  ShiftController.updateShift());
 
 
-router.get('/user/:user_id', checkScope(['get:shifts']), ShiftController.getShiftByUserID());
-router.get('/farm/:farm_id', checkScope(['get:shifts']), ShiftController.getShiftByFarmID());
+router.get('/user/:user_id',
+  isOwnerOrAssignee({ params: 'user_id' }),
+  checkScope(['get:shifts']),
+  ShiftController.getShiftByUserID());
+router.get('/farm/:farm_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  checkScope(['get:shifts']),
+  ShiftController.getShiftByFarmID());
 
 
 module.exports = router;

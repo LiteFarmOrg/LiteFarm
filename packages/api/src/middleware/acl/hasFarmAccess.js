@@ -18,6 +18,7 @@ const entitiesGetters = {
   fields: fromFields,
   activity_id: fromActivity,
   sale_id: fromSale,
+  shift_id: fromShift,
 
 }
 const userFarmModel = require('../../models/userFarmModel');
@@ -53,31 +54,35 @@ module.exports = ({ params = null, body = null, mixed = null }) => async (req, r
 }
 
 async function fromTask(taskId) {
-  return await knex('taskType').where({ task_id: taskId }).first();
+  return knex('taskType').where({ task_id: taskId }).first();
+}
+
+async function fromShift(shiftId) {
+  return knex('shift').where({ shift_id: shiftId }).first();
 }
 
 async function fromPesticide(pesticideId) {
-  return await knex('pesticide').where({ pesticide_id: pesticideId }).first();
+  return knex('pesticide').where({ pesticide_id: pesticideId }).first();
 }
 
 async function fromNitrogenSchedule(nitrogenScheduleId) {
-  return await knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
+  return knex('nitrogenSchedule').where({ nitrogen_schedule_id: nitrogenScheduleId }).first();
 }
 
 async function fromDisease(disease_id) {
-  return await knex('disease').where({ disease_id }).first();
+  return knex('disease').where({ disease_id }).first();
 }
 
 async function fromCrop(cropId) {
-  return await knex('crop').where({ crop_id: cropId }).first();
+  return knex('crop').where({ crop_id: cropId }).first();
 }
 
 async function fromFertilizer(fertilizerId) {
-  return await knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
+  return knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
 }
 
 async function fromField(fieldId) {
-  return await knex('field').where({ field_id: fieldId }).first();
+  return knex('field').where({ field_id: fieldId }).first();
 }
 
 async function fromFields(fields) {

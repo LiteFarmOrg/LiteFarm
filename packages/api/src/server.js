@@ -19,16 +19,14 @@ require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../knexfile')[environment];
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
 const checkJwt = require('./middleware/acl/checkJwt');
 const cors = require('cors');
 
 // initialize knex
-const knex = Knex(config);
+const knex = require('./util/knex')
 
 // bind all models to a knex instance
 Model.knex(knex);

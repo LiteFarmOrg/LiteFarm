@@ -17,10 +17,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline': 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment')
 let {usersFactory, farmFactory, userFarmFactory} = require('./mock.factories');
 let checkJwt;
@@ -56,6 +53,7 @@ describe('Farm Tests', () => {
 
   afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
     done();
   });
 

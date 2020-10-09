@@ -192,7 +192,7 @@ function Routes() {
         </Switch>
       );
     }
-    else if (role_id === 2) {
+    else if (role_id === 2 || role_id === 5) {
       return (
         <Switch>
           <Route path="/" exact component={Home}/>

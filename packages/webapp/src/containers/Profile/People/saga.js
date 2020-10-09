@@ -38,7 +38,7 @@ export function* getUserInfoSaga() {
 
 export function* getAllUsersByFarmID() {
   let farm_id = localStorage.getItem('farm_id');
-  const { userUrl } = apiConfig;
+  const { userFarmUrl } = apiConfig;
   const header = {
     headers: {
       'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export function* getAllUsersByFarmID() {
 
   try {
     // only non-deleted users
-    const result = yield call(axios.get, userUrl + '/farm/' + farm_id, header);
+    const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id, header);
     if (result.data) {
       yield put(setUsersInState(result.data));
     }

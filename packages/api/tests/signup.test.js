@@ -22,11 +22,9 @@ const chai_should = chai.should();  // Using Should style
 const server = require('./../src/server');
 const dummySignUp = require('./dummySignUp')
 const authConfig = require('../src/auth0Config')
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 jest.mock('jsdom')
+jest.mock('../src/middleware/acl/isSelf')
 
 
 describe('These are tests for auth0 signup and user creation', () => {
@@ -44,6 +42,13 @@ describe('These are tests for auth0 signup and user creation', () => {
   afterAll((done) => {
     server.close(() => {
       done();
+    });
+  })
+
+  beforeAll(async () => {
+    middleware = require('../src/middleware/acl/isSelf');
+    middleware.mockImplementation((req, res, next) => {
+      return next()
     });
   })
 

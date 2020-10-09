@@ -18,10 +18,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const knex = require('../src/util/knex');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
@@ -104,8 +101,9 @@ describe('Crop Tests', () => {
 
   afterAll(async (done) => {
     await tableCleanup(knex);
+    await knex.destroy();
     done();
-  })
+  });
 
   describe('Get && delete && put crop', () => {
     let crop;
@@ -141,11 +139,6 @@ describe('Crop Tests', () => {
       test('Workers should get seeded crops', async (done) => {
         getRequest(`/crop/farm/${farm.farm_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          if (!res.body[1]) {
-            let test2 = res.body;
-            console.log(res.body);
-            let test = res.body;
-          }
           expect(res.body[1].crop_id).toBe(seededCrop.crop_id);
           done();
         });

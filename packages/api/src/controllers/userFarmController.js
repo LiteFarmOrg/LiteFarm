@@ -569,8 +569,8 @@ class userFarmController extends baseController {
             .patch(removeAdditionalProperties(userFarmModel, req.body));
 
           if (isPatched) {
-            res.sendStatus(200);
             await trx.commit();
+            res.sendStatus(200);
           }else{
             await trx.rollback();
             res.status(500).send('add user failed');

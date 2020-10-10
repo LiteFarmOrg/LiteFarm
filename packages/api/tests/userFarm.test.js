@@ -29,13 +29,8 @@ const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
 const { farm } = require('../../webapp/src/apiConfig');
 
-xdescribe('User Farm Tests', () => {
+describe('User Farm Tests', () => {
   let middleware;
-
-  beforeAll((done) => {
-    token = global.token;
-    done();
-  });
 
   function getUserFarmsOfUserRequest({user_id}, callback) {
     chai.request(server).get(`/user_farm/user/${user_id}`)
@@ -158,12 +153,17 @@ xdescribe('User Farm Tests', () => {
       req.user.sub = '|' + req.get('user_id');
       next();
     });
-    done();
   });
 
   afterAll(async (done) => {
+    console.time('cleanup')
     await tableCleanup(knex);
+    console.timeEnd('cleanup')
+    console.time('destroy')
+
     await knex.destroy();
+    console.timeEnd('destroy')
+    console.log('calling done');
     done();
   });
 
@@ -467,7 +467,7 @@ xdescribe('User Farm Tests', () => {
           done();
         });
       });
-      
+
       test('Allowed status change: Invited -> Inactive', async (done) => {
         const {user: owner, farm} = await setupUserFarm({role_id: 1});
         const invitedUser = await createUserFarmAtFarm({role_id: 3, status: 'Invited'}, farm);

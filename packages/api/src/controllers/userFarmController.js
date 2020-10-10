@@ -363,6 +363,7 @@ class userFarmController extends baseController {
         const targetUser = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id).first();
         let currentStatus = targetUser.status;
         if (!validStatusChanges[currentStatus].includes(status)) {
+          await trx.rollback();
           res.sendStatus(400);
           return;
         }

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (initialize.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -85,7 +85,7 @@ function initialize() {
       const appName = require(paths.appPackageJson).name;
       const urls = prepareUrls(protocol, HOST, port);
       // Create a webpack compiler that is configured with custom messages.
-      const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+      const compiler = createCompiler({ webpack, config, appName, urls, useYarn });
       // Load proxy config
       const proxySetting = require(paths.appPackageJson).proxy;
       const proxyConfig = prepareProxy(proxySetting, paths.appPublic);

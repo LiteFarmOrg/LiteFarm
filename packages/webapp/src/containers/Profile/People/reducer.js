@@ -29,7 +29,7 @@ function peopleReducer(state = initialState, action) {
       delete temp_state.workers;
       delete temp_state.owners;
       delete temp_state.managers;
-      delete temp_state.extensionOfficers;
+      delete temp_state.extensionofficers;
       delete temp_state.pseudoWorkers;
       if(temp_state.hasOwnProperty('worker without accounts')){
         delete temp_state['worker without accounts'];

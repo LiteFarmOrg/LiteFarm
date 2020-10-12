@@ -7,7 +7,7 @@ const initialState = {
   addedUser: false,
   owners: [],
   managers: [],
-  extensionOfficers: [],
+  extensionofficers: [],
   pseudoWorkers: [],
   roles: [],
 };
@@ -17,11 +17,12 @@ function peopleReducer(state = initialState, action) {
   switch (action.type) {
     case SET_USERS_IN_PEOPLE:
       action.users.forEach(user => {
-        if (!users[`${user.role.toLowerCase()}s`]) {
+        const role = `${user.role.toLowerCase().replace(/\s/g, '')}s`
+        if (!users[role]) {
           // if the current user role does not exist, create a new array for it
-          users[`${user.role.toLowerCase()}s`] = [];
+          users[role] = [];
         }
-        users[`${user.role.toLowerCase()}s`].push(user);
+        users[role].push(user);
       });
       let temp_state = JSON.parse(JSON.stringify(state));
 

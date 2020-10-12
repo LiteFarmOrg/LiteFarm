@@ -6,7 +6,7 @@ class DropDown extends React.Component {
   render() {
     const { className, options, defaultValue, isSearchable, placeholder, onChange, value, isMulti, styles } = this.props;
     const DropdownIndicator = (
-        props: ElementConfig<typeof components.DropdownIndicator>
+        props
     ) => {
       return (
           <components.DropdownIndicator {...props}>

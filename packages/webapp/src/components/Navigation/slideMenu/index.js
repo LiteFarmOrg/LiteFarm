@@ -64,6 +64,8 @@ class SlideMenu extends React.Component {
             }
             {/* <a id="crops" className="menu-item" ><span>Crops</span></a> */}
             <a id="log" className="menu-item" onClick={() => this.handleClick("/Log")}><span>Logs</span></a>
+            <a id="shift" className="menu-item" onClick={() => this.handleClick("/Shift")}><span>Shifts</span></a>
+
             {/* <a id="tasks" className="menu-item" ><span>Tasks</span></a> */}
             {/* <a id="inventory" className="menu-item" ><span>Inventory</span></a> */}
             <a id="profile" className="menu-item" onClick={() => this.handleClick("/Profile")}><span>Users</span></a>
@@ -71,9 +73,8 @@ class SlideMenu extends React.Component {
           }
           {
             (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
-            <a id="finances" className="menu-item" onClick={() => this.handleClick("/Finances")}><span>Finance</span></a>
+            <a id="finances" className="menu-item" onClick={() => this.handleClick("/Finances")}><span>Finances</span></a>
           }
-          <a id="shift" className="menu-item" onClick={() => this.handleClick("/Shift")}><span>Shift</span></a>
 
           {
             (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
@@ -85,7 +86,7 @@ class SlideMenu extends React.Component {
           { this.state.supportOpen &&
           <div className={styles["sub-menu"]} style={{'display':'grid'}}>
             {
-              (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+              (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 3 || Number(farm.role_id) === 5) &&
               <a id="demo" className="menu-item" onClick={() => this.handleClick("/intro")}><span>Demos</span></a>
             }
             {/*<a id="contact" className="menu-item" onClick={() => this.handleClick("/contact")}><span>Contact us</span></a>*/}

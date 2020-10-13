@@ -70,7 +70,7 @@ class SlideMenu extends React.Component {
           </div>
           }
           {
-            (Number(farm.role_id) === 1) &&
+            (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
             <a id="finances" className="menu-item" onClick={() => this.handleClick("/Finances")}><span>Finance</span></a>
           }
           <a id="shift" className="menu-item" onClick={() => this.handleClick("/Shift")}><span>Shift</span></a>
@@ -88,7 +88,7 @@ class SlideMenu extends React.Component {
               (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
               <a id="demo" className="menu-item" onClick={() => this.handleClick("/intro")}><span>Demos</span></a>
             }
-            <a id="contact" className="menu-item" onClick={() => this.handleClick("/contact")}><span>Contact us</span></a>
+            {/*<a id="contact" className="menu-item" onClick={() => this.handleClick("/contact")}><span>Contact us</span></a>*/}
             <a id="terms" className="menu-item" onClick={() => this.handleClick("/consent")}><span>Privacy Policy</span></a>
           </div>
           }

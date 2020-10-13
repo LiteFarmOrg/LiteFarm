@@ -17,10 +17,11 @@ const baseController = require('../controllers/baseController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
+const roleModel = require('../models/roleModel');
 const emailTokenModel = require('../models/emailTokenModel');
 const createUserController = require('../controllers/createUserController');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
-const {transaction, Model} = require('objection');
+const { transaction, Model } = require('objection');
 const axios = require('axios');
 const authExtensionConfig = require('../authExtensionConfig');
 const knex = Model.knex();
@@ -31,9 +32,9 @@ const emailSender = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
 
 const validStatusChanges = {
-  "Active": ["Inactive"],
-  "Inactive": ["Active"],
-  "Invited": ["Inactive", "Active"],
+  'Active': ['Inactive'],
+  'Inactive': ['Active'],
+  'Invited': ['Inactive', 'Active'],
 };
 
 class userFarmController extends baseController {
@@ -51,12 +52,10 @@ class userFarmController extends baseController {
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
         if (!rows.length) {
           res.sendStatus(404)
-        }
-        else {
+        } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
@@ -79,7 +78,7 @@ class userFarmController extends baseController {
             'users.email',
             'userFarm.role_id',
             'role.role',
-            'userFarm.status'
+            'userFarm.status',
           ).where('userFarm.farm_id', farm_id)
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
@@ -90,8 +89,7 @@ class userFarmController extends baseController {
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
         }
         res.status(200).send(rows);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
@@ -114,7 +112,7 @@ class userFarmController extends baseController {
             'users.email',
             'userFarm.role_id',
             'role.role',
-            'userFarm.status'
+            'userFarm.status',
           ).where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
@@ -125,8 +123,7 @@ class userFarmController extends baseController {
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
         }
         res.status(200).send(rows);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
@@ -143,8 +140,7 @@ class userFarmController extends baseController {
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
         res.status(200).send(rows);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
@@ -158,12 +154,10 @@ class userFarmController extends baseController {
         const { user_id, farm_id, role } = req.body;
         let role_id = 0;
 
-        const data = await knex.raw(
-          `SELECT * FROM "role" r WHERE r.role=?`,[role]
-        );
+        const data = await roleModel.query().where('role', role);
 
-        if (data.rows && data.rows.length > 0) {
-          role_id = data.rows[0].role_id;
+        if (data && data.length > 0) {
+          role_id = data[0].role_id;
         }
 
         const reqBody = { user_id, farm_id, role_id };
@@ -276,8 +270,7 @@ class userFarmController extends baseController {
         if (has_consent === false) {
           subject = 'You didn’t agree with the LiteFarm privacy policy – here are your options';
           template_path = '../templates/withheld_consent_email.html';
-        }
-        else {
+        } else {
           subject = 'You\'ve successfully joined ' + rows[0].farm_name + '!';
           template_path = '../templates/send_confirmation_email.html';
           replacements['role'] = rows[0].role
@@ -287,13 +280,11 @@ class userFarmController extends baseController {
           res.sendStatus(200);
           //send out confirmation or withdrew consent email
           await emailSender.sendEmail(template_path, subject, replacements, rows[0].email, sender)
-        }
-        else {
+        } else {
           await trx.rollback();
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         await trx.rollback();
         res.status(400).send(error);
@@ -309,12 +300,10 @@ class userFarmController extends baseController {
       const { role } = req.body;
       let role_id = 0;
 
-      const data = await knex.raw(
-        `SELECT * FROM "role" r WHERE r.role=?`, [role]
-      );
+      const data = await roleModel.query().where('role', role);
 
-      if (data.rows && data.rows.length > 0) {
-        role_id = data.rows[0].role_id;
+      if (data && data.length > 0) {
+        role_id = data[0].role_id;
       }
 
       if (!role_id) {
@@ -338,8 +327,7 @@ class userFarmController extends baseController {
           await trx.commit();
           res.sendStatus(200);
           return;
-        }
-        else {
+        } else {
           await trx.rollback();
           res.sendStatus(404);
           return;
@@ -375,8 +363,7 @@ class userFarmController extends baseController {
           await trx.commit();
           res.sendStatus(200);
           return;
-        }
-        else {
+        } else {
           await trx.rollback();
           res.sendStatus(404);
           return;
@@ -432,17 +419,16 @@ class userFarmController extends baseController {
     }
 
     async function getFarmNamebyID(farm_id) {
-      try{
+      try {
 
         const rows = await baseController.getIndividual(farmModel, farm_id)
 
-        if(rows.length){
+        if (rows.length) {
           return rows[0].farm_name;
-        }else{
+        } else {
           return '404*FARM_NOT_FOUND*';
         }
-      }
-      catch(err){
+      } catch (err) {
         throw new Error(err);
       }
     }
@@ -466,7 +452,7 @@ class userFarmController extends baseController {
           update user_id in users
          */
         let farm_name = await getFarmNamebyID(farm_id);
-        if(farm_name === '404*FARM_NOT_FOUND*'){
+        if (farm_name === '404*FARM_NOT_FOUND*') {
           res.status(400).send('farm not found');
           return;
         }
@@ -477,7 +463,7 @@ class userFarmController extends baseController {
             first_name: rows[0].first_name,
             farm: farm_name,
           };
-          const subject = "You’ve been invited to join " + farm_name + " on LiteFarm!";
+          const subject = 'You’ve been invited to join ' + farm_name + ' on LiteFarm!';
           const template_path = '../templates/invitation_to_farm_email.html';
           const sender = 'help@litefarm.org';
           const pw = generator.generate({
@@ -499,7 +485,7 @@ class userFarmController extends baseController {
           // CHECK IF USER EMAIL ALREADY EXISTS, IF IT DOES, THEN SEND INVITE EMAIL INSTEAD
           const emails = await baseController.getByFieldId(userModel, 'email', req.body.email);
 
-          if(emails.length && emails.length > 0){
+          if (emails.length && emails.length > 0) {
             const existing_email = emails[0].email;
             const data = { ...req.body, status: userFarmStatusEnum.INVITED };
             await emailSender.sendEmail(template_path, subject, replacements, existing_email, sender);
@@ -509,7 +495,7 @@ class userFarmController extends baseController {
             if (isPatched) {
               await trx.commit();
               res.sendStatus(200);
-            }else{
+            } else {
               await trx.rollback();
               res.status(500).send('add user failed');
             }
@@ -522,14 +508,14 @@ class userFarmController extends baseController {
           let picture = query.d || '';
 
           await userModel.query(trx).where('user_id', user_id)
-            .patch({user_id: new_user_id});
+            .patch({ user_id: new_user_id });
 
           await userModel.query(trx).where('user_id', new_user_id)
-            .patch({email: req.body.email, profile_picture: picture});
+            .patch({ email: req.body.email, profile_picture: picture });
           // create invite token
           let token = uuidv4();
           // gets rid of the dashes
-          token = token.replace(/[-]/g, "");
+          token = token.replace(/[-]/g, '');
           // add a row in emailToken table
           await emailTokenModel.query(trx).insert({
             user_id: new_user_id,
@@ -540,11 +526,11 @@ class userFarmController extends baseController {
           // the following is to determine the url
           const environment = process.env.NODE_ENV || 'development';
           let joinUrl;
-          if(environment === 'integration'){
+          if (environment === 'integration') {
             joinUrl = `https://beta.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
-          }else if(environment === 'production'){
+          } else if (environment === 'production') {
             joinUrl = `https://www.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
-          }else{
+          } else {
             joinUrl = `localhost:3000/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`
           }
           await emailSender.sendEmail(template_path, subject, replacements, req.body.email, sender, true, joinUrl);
@@ -556,20 +542,19 @@ class userFarmController extends baseController {
           if (isPatched) {
             await trx.commit();
             res.sendStatus(200);
-          }else{
+          } else {
             await trx.rollback();
             await createUserController.deleteAuth0User('auth0|' + new_user_id);
             res.status(500).send('add user failed');
           }
-        }
-        else{
+        } else {
           const isPatched = await userFarmModel.query(trx).where('user_id', user_id).andWhere('farm_id', farm_id)
             .patch(removeAdditionalProperties(userFarmModel, req.body));
 
           if (isPatched) {
             await trx.commit();
             res.sendStatus(200);
-          }else{
+          } else {
             await trx.rollback();
             res.status(500).send('add user failed');
           }

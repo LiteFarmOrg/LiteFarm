@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (roleModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -16,7 +16,7 @@
 const Model = require('objection').Model;
 const softDelete = require('objection-soft-delete');
 
-class Role extends softDelete({columnName: 'deleted'})(Model){
+class Role extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'role';
   }
@@ -24,13 +24,14 @@ class Role extends softDelete({columnName: 'deleted'})(Model){
   static get idColumn() {
     return 'role_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [ 'role' ],
+      required: ['role'],
       properties: {
         role_id: { type: 'integer' },
         role: {

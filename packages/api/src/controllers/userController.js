@@ -21,7 +21,6 @@ const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
 
-const knex = Model.knex();
 const emailSender = require('../templates/sendEmailTemplate');
 
 
@@ -82,19 +81,23 @@ class userController extends baseController {
             }
             return missingPropMsg;
           }, errorMessageTitle);
+          trx.rollback();
           return res.status(400).send(errorMessage);
         }
 
         if (email !== `${user_id}@pseudo.com`) {
+          trx.rollback();
           return res.status(400).send('Invalid pseudo user email');
         }
 
         const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
         if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
+          trx.rollback();
           return res.status(400).send('Invalid wage amount');
         }
 
         if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+          trx.rollback();
           return res.status(400).send('Current app version only allows hourly wage');
         }
         /* End of input validation */
@@ -124,27 +127,19 @@ class userController extends baseController {
     return async (req, res) => {
       try {
         const id = req.params.user_id;
+        const data = await userModel.query().distinct('userFarm.user_id', 'userFarm.farm_id', 'userFarm.role_id',
+          'userFarm.has_consent', 'users.created_at', 'users.first_name', 'users.last_name', 'users.profile_picture',
+          'users.email', 'users.phone_number', 'userFarm.status', 'userFarm.consent_version',
+          'userFarm.wage')
+          .leftJoin('userFarm', 'userFarm.user_id', 'users.user_id')
+          .where('users.user_id', id);
 
-        const data = await knex.raw(
-          `
-          SELECT uf.user_id, uf.farm_id, uf.role_id, uf.has_consent, u.created_at, u.first_name, u.last_name, u.profile_picture, u.email, u.phone_number,
-          uf.status, uf.consent_version, uf.wage
-          FROM "users" u
-          LEFT JOIN
-          "userFarm" uf
-          ON uf.user_id = u.user_id
-          WHERE u.user_id = ?
-          `, [id]
-        );
-
-        if (!data && !data.rows) {
+        if (!data) {
           res.sendStatus(404)
+        } else {
+          res.status(200).send(data);
         }
-        else {
-          res.status(200).send(data.rows);
-        }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         console.log(error);
         res.status(400).send(error);
@@ -170,8 +165,8 @@ class userController extends baseController {
     }
   }
 
-  static async deleteAuth0User(user_id){
-    try{
+  static async deleteAuth0User(user_id) {
+    try {
       const token = await this.getAuth0Token();
       const headers = {
         'content-type': 'application/json',
@@ -184,8 +179,7 @@ class userController extends baseController {
         headers,
       });
       return result.status === 204;
-    }
-    catch(err){
+    } catch (err) {
       // eslint-disable-next-line
       console.log(err);
       return false;
@@ -236,8 +230,7 @@ class userController extends baseController {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -246,7 +239,7 @@ class userController extends baseController {
     }
   }
 
-  static updateConsent(){
+  static updateConsent() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.id;
@@ -258,13 +251,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated) {
           res.status(409).send('Update failed');
-        }
-        else {
+        } else {
           res.sendStatus(200);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
@@ -280,13 +271,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -295,7 +284,7 @@ class userController extends baseController {
     }
   }
 
-  static updateNotificationSetting(){
+  static updateNotificationSetting() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -303,13 +292,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -318,7 +305,7 @@ class userController extends baseController {
     }
   }
 
-  static async updateSetting(req, trx){
+  static async updateSetting(req, trx) {
     const notificationSettingModel = require('../models/notificationSettingModel');
     return await super.put(notificationSettingModel, req, trx);
   }

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (Routes.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -181,7 +181,7 @@ function Routes() {
           <Route path="/add_expense" exact component={AddExpense}/>
           <Route path="/edit_expense_categories" exact component={EditExpenseCategories}/>
           <Route path="/edit_add_expense" exact component={EditAddExpense}/>
-          <Route path="/contact" exact component={ContactForm}/>
+          {/*<Route path="/contact" exact component={ContactForm}/>*/}
             <Route path="/sale_detail" exact component={SaleDetail}/>
             <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
@@ -230,6 +230,34 @@ function Routes() {
           <Route path="/field" exact component={Field}/>
           <Route path="/new_field" exact component={NewField}/>
 
+          <Route path="/finances" exact component={Finances}/>
+          <Route path="/newfinances" exact component={NewFinances}/>
+          <Route path="/newfinances/expenses" exact component={Expenses}/>
+          <Route path="/newfinances/expenses/expense_categories" exact component={NewExpenseCategories}/>
+          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense}/>
+          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail}/>
+          <Route path="/newfinances/expenses/edit_add_expense" exact component={NewExpenseEditExpense}/>
+          <Route path="/newfinances/expenses/edit_expense_categories" exact component={NewExpenseEditCategories}/>
+          <Route path="/newfinances/sales" exact component={Sales}/>
+          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale}/>
+          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale}/>
+          <Route path="/newfinances/balances" exact component={Balances}/>
+
+          <Route path="/sales_summary" exact component={SalesSummary}/>
+          <Route path="/add_sale" exact component={AddSale}/>
+          <Route path="/edit_sale" exact component={EditSale}/>
+          <Route path="/estimated_revenue" exact component={EstimatedRevenue}/>
+          <Route path="/labour" exact component={Labour}/>
+          <Route path="/other_expense" exact component={OtherExpense}/>
+          <Route path="/expense_detail" exact component={ExpenseDetail}/>
+          <Route path="/expense_categories" exact component={ExpenseCategories}/>
+          <Route path="/add_expense" exact component={AddExpense}/>
+          <Route path="/edit_expense_categories" exact component={EditExpenseCategories}/>
+          <Route path="/edit_add_expense" exact component={EditAddExpense}/>
+          <Route path="/contact" exact component={ContactForm}/>
+            <Route path="/sale_detail" exact component={SaleDetail}/>
+            <Route path="/farm_selection" exact component={ChooseFarm}/>
+
           <Route path="/edit_field" exact component={EditField}/>
           <Route path="/insights" exact component={Insights}/>
           <Route path="/insights/peoplefed" exact component={PeopleFed}/>
@@ -241,7 +269,7 @@ function Routes() {
           <Route path="/insights/erosion" exact component={Erosion}/>
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
 
-          <Route path="/contact" exact component={ContactForm}/>
+          {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
             handleAuthentication(props);
@@ -286,7 +314,7 @@ function Routes() {
           <Route path="/my_shift" exact component={MyShift}/>
           <Route path="/edit_shift_one" exact component={EditShiftOne}/>
           <Route path="/edit_shift_two" exact component={EditShiftTwo}/>
-          <Route path="/contact" exact component={ContactForm}/>
+          {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/log_detail" exact component={MyLog}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {

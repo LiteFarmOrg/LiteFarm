@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (actions.js) is part of LiteFarm.
+ *  This file (authFarmId.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,25 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GET_FARMS_BY_USER, SET_FARMS_BY_USER, UPDATE_CONSENT_OF_FARM } from './constants'
-
-export const getFarms = () => {
-  return {
-    type: GET_FARMS_BY_USER,
-  }
-};
-
-export const setFarms = (farms) => {
-  return {
-    type: SET_FARMS_BY_USER,
-    farms
-  }
-};
-
-export const updateConsentOfFarm = (farm_id, payload) => {
-  return {
-    type: UPDATE_CONSENT_OF_FARM,
-    farm_id,
-    payload
+async function isSelf(req, res, next) {
+  const user_id = req.user.sub.split('|')[1];
+  if(req.body.user_id && req.body.user_id !== user_id){
+    return res.status(403).send('User is not authorized to access user info');
+  }else if(req.params.user_id && user_id !== req.params.user_id){
+    return res.status(403).send('User is not authorized to access user info');
+  }else if(req.headers.user_id && user_id !== req.headers.user_id){
+    return res.status(403).send('User is not authorized to access user info');
+  }else{
+    return next();
   }
 }
+
+module.exports = isSelf;

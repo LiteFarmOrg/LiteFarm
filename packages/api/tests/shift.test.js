@@ -351,7 +351,7 @@ describe('Shift tests', () => {
 
   })
 
-  describe('PUT /shift/:id', () => {
+  xdescribe('PUT /shift/:id', () => {
     test('should update a shift that is owned by me. As owner', async (done) => {
       let [userFarm] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 1});
       let shiftData = await createShiftData(userFarm);

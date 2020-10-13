@@ -41,14 +41,14 @@ router.get('/:shift_id',
   isOwnerOrAssignee({ params: 'shift_id' }),
   checkScope(['get:shifts']),
   ShiftController.getShiftByID());
-router.put('/:shift_id',
-  checkScope(['edit:shifts']),
-  (req, res, next) =>
-    conditionallyApplyMiddleware(
-      req.role === 3,
-      isOwnerOrAssignee({ params: 'shift_id' }),
-      hasFarmAccess({ params: 'shift_id' }))(req, res, next),
-  ShiftController.updateShift());
+// router.put('/:shift_id',
+//   checkScope(['edit:shifts']),
+//   (req, res, next) =>
+//     conditionallyApplyMiddleware(
+//       req.role === 3,
+//       isOwnerOrAssignee({ params: 'shift_id' }),
+//       hasFarmAccess({ params: 'shift_id' }))(req, res, next),
+//   ShiftController.updateShift());
 
 
 router.get('/user/:user_id',

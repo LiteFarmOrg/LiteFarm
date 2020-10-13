@@ -272,7 +272,7 @@ export function* updateAgreementSaga(payload) {
         yield put(setFarmInState(selectedFarm))
         console.log('user agreed to consent form/');
         console.log(selectedFarm);
-        history.push('/home');
+        history.push('/intro');
       } else {
     //did not give consent - log user out
         const auth = new Auth();

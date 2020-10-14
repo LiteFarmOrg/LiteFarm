@@ -110,7 +110,6 @@ class MyLog extends Component {
 
   editLog = (activityKind) => {
     const url = this.getEditURL(activityKind);
-    history.push('/edit_shift_one');
     history.push(`${url}/edit`);
   };
 

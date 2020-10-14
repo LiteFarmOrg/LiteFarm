@@ -364,7 +364,7 @@ class NewFieldCropModal extends React.Component {
                     <label>Bed Length: ({area_unit_label})</label>
                     <FormControl
                       type="number"
-                      value={this.state.bed_length}
+                      placeholder={"0"}
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
@@ -374,7 +374,7 @@ class NewFieldCropModal extends React.Component {
                     <label>Bed Width: ({area_unit_label})</label>
                     <FormControl
                       type="number"
-                      value={this.state.bed_width}
+                      placeholder={"0"}
                       onChange={(e) => this.onBedWidthChange(e)}
                     />
                   </FormGroup>

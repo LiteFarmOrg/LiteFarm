@@ -168,11 +168,20 @@ class NewFieldCropModal extends React.Component {
 
   validateForm() {
     const currentFieldCrop = this.state.fieldCrop;
+
+    let {fieldArea} = this.props;
+    
     let isValid = true;
     let errors = "";
 
     if(moment(currentFieldCrop.end_date).isSameOrBefore(moment(currentFieldCrop.start_date))){
       toastr.error('End Date cannot be the same or before Start Date');
+      isValid = false;
+      return isValid;
+    }
+
+    if (currentFieldCrop.area_used > fieldArea) {
+      toastr.error('Field crop area cannot be greater than field area');
       isValid = false;
       return isValid;
     }

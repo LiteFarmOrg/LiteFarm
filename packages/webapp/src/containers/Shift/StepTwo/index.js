@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import {connect} from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
@@ -128,7 +128,7 @@ class ShiftStepTwo extends Component {
     })
   };
 
-  addAll(task_id, type) {
+  addAll(task_id, type, duration=0) {
     const {crops, fields} = this.props;
     if (type === 'crop') {
       let defaultCrops = this.state.defaultCrops;
@@ -141,7 +141,7 @@ class ShiftStepTwo extends Component {
           addedCropID.push(c.crop_id);
         }
       }
-      this.handleCropChange(cropOptions, task_id);
+      this.handleCropChange(cropOptions, duration, task_id);
       this.setState({
         defaultCrops
       });
@@ -226,8 +226,8 @@ class ShiftStepTwo extends Component {
     })
   }
 
-  handleCropChange = (selectedOption, task_id) => {
-    let {finalForm, cropDurations, originalDuration} = this.state;
+  handleCropChange = (selectedOption, duration, task_id) => {
+    let {finalForm, cropDurations} = this.state;
     finalForm[task_id].is_field = false;
     finalForm[task_id].val = [];
     // for individual durations
@@ -243,14 +243,13 @@ class ShiftStepTwo extends Component {
       cropDurations[task_id].push({
         crop_id: option.value,
         crop_name: option.label,
-        duration: 0,
+        duration: duration/selectedOption.length,
       })
     }
 
     this.setState({
       finalForm,
       cropDurations,
-      availableDuration: originalDuration,
     });
   };
 
@@ -281,22 +280,12 @@ class ShiftStepTwo extends Component {
 
   };
 
-  toggleCropTimeMethod = (task_id, is_total) => {
+  toggleCropTimeMethod = (task_id, is_total, total = 0) => {
     let cropTotalTimeDiv = document.getElementById('allduration-' + task_id);
     let cropIndyTimeDiv = document.getElementById('singleduration-' + task_id);
-    let totalTimeInput = document.getElementById('total_crop_input-' + task_id);
-    totalTimeInput.value = 0;
-    let {availableDuration, cropDurations} = this.state;
-    let updatedDuration = availableDuration;
-    // reset available duration
-    if (cropDurations.hasOwnProperty(task_id)) {
-      let subTotal = 0;
-      for (let cdObj of cropDurations[task_id]) {
-        subTotal += Number(cdObj.duration);
-      }
-      updatedDuration = availableDuration + Number(subTotal);
-      this.resetCropDuration(task_id);
-    }
+
+
+
 
     if (!is_total) {
       cropTotalTimeDiv.style.display = 'flex';
@@ -305,10 +294,6 @@ class ShiftStepTwo extends Component {
       cropTotalTimeDiv.style.display = 'none';
       cropIndyTimeDiv.style.display = 'flex';
     }
-    updatedDuration = parseInt(updatedDuration, 10);
-    this.setState({
-      availableDuration: Number(updatedDuration),
-    });
 
     this.changeTotalIndyBtnColor(task_id, is_total);
   };
@@ -333,18 +318,19 @@ class ShiftStepTwo extends Component {
   };
 
 
-  changeDuration(event, task_id, is_crop, crop_id = null) {
+  changeDuration(event, task_id, is_crop, crop_id = null, setDuration=()=>{}) {
     let value = event.target.value;
     let {availableDuration, cropDurations, finalForm, originalDuration} = this.state;
     let remainingDuration = originalDuration;
-
+    let duration = 0;
     if (is_crop) {
-
       for (let cdObj of cropDurations[task_id]) {
         if (cdObj.crop_id === crop_id) {
-          cdObj.duration = value;
+          cdObj.duration = Number(value);
         }
+        duration+= cdObj.duration;
       }
+      setDuration(duration);
       this.setState({
         cropDurations,
       });
@@ -557,185 +543,14 @@ class ShiftStepTwo extends Component {
           </div>
         </div>
         <div>
-          {selectedTasks.map((task) => {
-            return (
-              <div key={task.task_id} className={styles.taskBlock}>
-                <div className={styles.taskTitle}>
-                  <strong>{task.task_name}</strong>
-                  <div>
-                    Assign time to task by
-                  </div>
-                </div>
-                <div id={task.task_id} style={{display: 'block'}}>
-                  <div className={styles.cropFieldContainer}
-                       onClick={() => this.toggleCropOrField(task.task_id, 'crop')}>
-                    <div className={styles.cropButton}>
-                      <img src={cropImg} alt=""/>
-                      <div className={styles.whiteText}>
-                        Crops on your farm
-                      </div>
-                    </div>
-                    <div className={styles.fieldButton} onClick={() => this.toggleCropOrField(task.task_id, 'field')}>
-                      <img src={fieldImg} alt=""/>
-                      <div className={styles.whiteText}>
-                        Fields on your farm
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.selectContainer} id={'crop' + task.task_id}>
-                  <div>
-                    <strong>Crops on this farm</strong>
-                    <div className={styles.funcButtons}>
-                      <div className={styles.allButton}>
-                        <Button onClick={() => this.addAll(task.task_id, 'crop')}>All</Button>
-                      </div>
-                      <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'crop')}>
-                        <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
-                        Back
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className={styles.selectInner}>
-                    {
-                      this.state.defaultCrops[task.task_id] &&
-                      <Select
-                        defaultValue={this.state.defaultCrops[task.task_id]}
-                        isMulti
-                        isSearchable={false}
-                        name="selectByCrops"
-                        placeholder="Select Crops..."
-                        options={this.state.cropOptions}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleCropChange(selectedOption, task.task_id)}
-                      />
-                    }
-                    {
-                      !this.state.defaultCrops[task.task_id] &&
-                      <Select
-                        isMulti
-                        isSearchable={false}
-                        name="selectByCrops"
-                        placeholder="Select Crops..."
-                        options={this.state.cropOptions}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleCropChange(selectedOption, task.task_id)}
-                      />
-                    }
-
-                  </div>
-                  {
-                    cropDurations && cropDurations[task.task_id] &&
-                    <div>
-                      <div className={styles.cropDurationType}>
-                        <button className="duration-btn-selected" onClick={() => this.toggleCropTimeMethod(task.task_id, true)} id={'all-crop-' + task.task_id}>All Crops
-                        </button>
-                        <button className="duration-btn-unselected" onClick={() => this.toggleCropTimeMethod(task.task_id, false)} id={'indy-crop-' + task.task_id}>Individual Crop
-                        </button>
-                      </div>
-                      <div  className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
-                        {cropDurations[task.task_id].map((cd) => {
-                          return <div className={styles.durationContainer} key={cd.crop_id}>
-                            <div>{cd.crop_name}</div>
-                            <div className={styles.durationInput}>
-                              <input type="number" value={cd.duration}
-                                     onChange={(event) => this.changeDuration(event, task.task_id, true, cd.crop_id)}/>
-                            </div>
-                          </div>
-                        })}
-                      </div>
-                      <div id={'singleduration-' + task.task_id}>
-                        <div className={styles.durationContainer}>
-                          <div>Total</div>
-                          <div className={styles.durationInput}>
-                            <input id={'total_crop_input-' + task.task_id} type="number" placeholder={0} onChange={(event)=>this.cropTotalTimeAssign(event, task.task_id)}/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  }
-
-
-                </div>
-                <div className={styles.selectContainer} id={'field' + task.task_id}>
-                  <div>
-                    <strong>Fields on this farm</strong>
-                    <div className={styles.funcButtons}>
-                      <div className={styles.allButton}>
-                        <Button onClick={() => this.addAll(task.task_id, 'field')}>All</Button>
-                      </div>
-                      <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'field')}>
-                        <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
-                        Back
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.selectInner}>
-                    {
-                      this.state.defaultFields[task.task_id] &&
-                      <Select
-                        defaultValue={this.state.defaultFields[task.task_id]}
-                        isMulti
-                        isSearchable={false}
-                        name="selectByFields"
-                        placeholder="Select Fields..."
-                        options={this.state.fieldOptions}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleFieldChange(selectedOption, task.task_id)}
-                      />
-                    }
-                    {
-                      !this.state.defaultFields[task.task_id] &&
-                      <Select
-                        isMulti
-                        isSearchable={false}
-                        name="selectByFields"
-                        placeholder="Select Fields..."
-                        options={this.state.fieldOptions}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleFieldChange(selectedOption, task.task_id)}
-                      />
-                    }
-                  </div>
-                  <div className={styles.durationContainer}>
-                    <div>Duration</div>
-                    <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number"
-                                                                 onChange={(event) => this.changeDuration(event, task.task_id, false)}/>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.bottomContainer}>
-                  <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
-                    Cancel
-                  </div>
-                  {
-                    isRatingEnabled
-                      ? (
-                        <button
-                          className='btn btn-primary'
-                          onClick={() => this.openEditModal()}
-                        >
-                          Next
-                        </button>
-                      )
-                      : (
-                        <button
-                          className='btn btn-primary'
-                          onClick={() => this.submitShift()}
-                        >
-                          Finish
-                        </button>
-                      )
-                  }
-                </div>
-              </div>
-            )
-          })}
+          {selectedTasks.map((task) =>
+            <InputDuration key={task.task_id} addAll={this.addAll} changeDuration={this.changeDuration} cropDurations={cropDurations}
+                           handleCropChange={this.handleCropChange} handleFieldChange={this.handleFieldChange}
+                           state={this.state} isRatingEnabled={isRatingEnabled} openEditModal={this.openEditModal}
+                           toggleCropOrField={this.toggleCropOrField} task={task} toggleBack={this.toggleBack}
+                           toggleCropTimeMethod={this.toggleCropTimeMethod} cropTotalTimeAssign={this.cropTotalTimeAssign}
+            />
+          )}
 
         </div>
         <Popup
@@ -821,6 +636,187 @@ class ShiftStepTwo extends Component {
       </div>
     )
   }
+}
+// TODO rewrite the component
+function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField, addAll, toggleBack, handleCropChange, toggleCropTimeMethod, changeDuration, handleFieldChange, openEditModal, state, cropTotalTimeAssign}){
+  const [duration, setDuration] = useState('');
+  return (
+    <div key={task.task_id} className={styles.taskBlock}>
+      <div className={styles.taskTitle}>
+        <strong>{task.task_name}</strong>
+        <div>
+          Assign time to task by
+        </div>
+      </div>
+      <div id={task.task_id} style={{display: 'block'}}>
+        <div className={styles.cropFieldContainer}
+             onClick={() => toggleCropOrField(task.task_id, 'crop')}>
+          <div className={styles.cropButton}>
+            <img src={cropImg} alt=""/>
+            <div className={styles.whiteText}>
+              Crops on your farm
+            </div>
+          </div>
+          <div className={styles.fieldButton} onClick={() => toggleCropOrField(task.task_id, 'field')}>
+            <img src={fieldImg} alt=""/>
+            <div className={styles.whiteText}>
+              Fields on your farm
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={styles.selectContainer} id={'crop' + task.task_id}>
+        <div>
+          <strong>Crops on this farm</strong>
+          <div className={styles.funcButtons}>
+            <div className={styles.allButton}>
+              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>All</Button>
+            </div>
+            <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'crop')}>
+              <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
+              Back
+            </div>
+          </div>
+
+        </div>
+        <div className={styles.selectInner}>
+          {
+            state.defaultCrops[task.task_id] &&
+            <Select
+              defaultValue={state.defaultCrops[task.task_id]}
+              isMulti
+              isSearchable={false}
+              name="selectByCrops"
+              placeholder="Select Crops..."
+              options={state.cropOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={(selectedOption) => handleCropChange(selectedOption, duration, task.task_id)}
+            />
+          }
+          {
+            !state.defaultCrops[task.task_id] &&
+            <Select
+              isMulti
+              isSearchable={false}
+              name="selectByCrops"
+              placeholder="Select Crops..."
+              options={state.cropOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={(selectedOption) => handleCropChange(selectedOption, duration, task.task_id)}
+            />
+          }
+
+        </div>
+        {
+          cropDurations && cropDurations[task.task_id] &&
+          <div>
+            <div className={styles.cropDurationType}>
+              <button className="duration-btn-selected" onClick={() => toggleCropTimeMethod(task.task_id, true)} id={'all-crop-' + task.task_id}>All Crops
+              </button>
+              <button className="duration-btn-unselected" onClick={() => toggleCropTimeMethod(task.task_id, false)} id={'indy-crop-' + task.task_id}>Individual Crop
+              </button>
+            </div>
+            <div  className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
+              {cropDurations[task.task_id].map((cd) => {
+                return <div className={styles.durationContainer} key={cd.crop_id}>
+                  <div>{cd.crop_name}</div>
+                  <div className={styles.durationInput}>
+                    <input type="number" value={cd.duration}
+                           onChange={(event) => changeDuration(event, task.task_id, true, cd.crop_id, setDuration)}/>
+                  </div>
+                </div>
+              })}
+            </div>
+            <div id={'singleduration-' + task.task_id}>
+              <div className={styles.durationContainer}>
+                <div>Total</div>
+                <div className={styles.durationInput}>
+                  <input id={'total_crop_input-' + task.task_id} value={duration} type="number" placeholder={0} onChange={(event)=>{setDuration(event.target.value);cropTotalTimeAssign(event, task.task_id)}}/>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+
+      </div>
+      <div className={styles.selectContainer} id={'field' + task.task_id}>
+        <div>
+          <strong>Fields on this farm</strong>
+          <div className={styles.funcButtons}>
+            <div className={styles.allButton}>
+              <Button onClick={() => addAll(task.task_id, 'field')}>All</Button>
+            </div>
+            <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'field')}>
+              <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
+              Back
+            </div>
+          </div>
+        </div>
+        <div className={styles.selectInner}>
+          {
+            state.defaultFields[task.task_id] &&
+            <Select
+              defaultValue={state.defaultFields[task.task_id]}
+              isMulti
+              isSearchable={false}
+              name="selectByFields"
+              placeholder="Select Fields..."
+              options={state.fieldOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={(selectedOption) => handleFieldChange(selectedOption, task.task_id)}
+            />
+          }
+          {
+            !state.defaultFields[task.task_id] &&
+            <Select
+              isMulti
+              isSearchable={false}
+              name="selectByFields"
+              placeholder="Select Fields..."
+              options={state.fieldOptions}
+              className="basic-multi-select"
+              classNamePrefix="select"
+              onChange={(selectedOption) => handleFieldChange(selectedOption, task.task_id)}
+            />
+          }
+        </div>
+        <div className={styles.durationContainer}>
+          <div>Duration</div>
+          <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number"
+                                                       onChange={(event) => changeDuration(event, task.task_id, false)}/>
+          </div>
+        </div>
+      </div>
+      <div className={styles.bottomContainer}>
+        <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
+          Cancel
+        </div>
+        {
+          isRatingEnabled
+            ? (
+              <button
+                className='btn btn-primary'
+                onClick={() => openEditModal()}
+              >
+                Next
+              </button>
+            )
+            : (
+              <button
+                className='btn btn-primary'
+                onClick={() => submitShift()}
+              >
+                Finish
+              </button>
+            )
+        }
+      </div>
+    </div>
+  )
 }
 
 const

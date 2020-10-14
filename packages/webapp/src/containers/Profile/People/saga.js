@@ -5,7 +5,7 @@ import { put, takeEvery, call } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import Auth from "../../../Auth/Auth";
-import { getUserInfo } from '../../actions';
+import { getUserInfo, setUserInState } from '../../actions';
 
 const axios = require('axios');
 
@@ -38,13 +38,14 @@ export function* getUserInfoSaga() {
 
 export function* getAllUsersByFarmID() {
   let farm_id = localStorage.getItem('farm_id');
+  const user_id = localStorage.getItem('user_id')
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
+      user_id,
+      farm_id
     },
   };
 
@@ -53,6 +54,10 @@ export function* getAllUsersByFarmID() {
     const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id, header);
     if (result.data) {
       yield put(setUsersInState(result.data));
+      const isCurrentUserReturned = result.data.find((u) => u.user_id === user_id)
+      if(isCurrentUserReturned) {
+        yield put(setUserInState(isCurrentUserReturned));
+      }
     }
   } catch(e) {
     console.log('failed to fetch users from database')

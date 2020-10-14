@@ -116,7 +116,7 @@ export function* getFarmInfo(action) {
       //console.log(result.data);
       if (result[0].role_id) {
         localStorage.setItem('role_id', result[0].role_id);
-      };
+      }
       yield put(setFarmInState(result[0]));
       yield put(getFields());
       yield put(getFieldCrops());
@@ -152,6 +152,7 @@ export function* updateFarm(payload){
       // yield put(setFarmInState(result.data[0]));
       // TODO (refactoring): Handle the response to be sent properly in backend so we
       // don't need to do this extra API call to keep redux consistent
+      yield put(updateConsentOfFarm(farm_id, result.data[0]))
       yield put(fetchFarmInfo());
       toastr.success("Successfully updated farm info!");
     }

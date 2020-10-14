@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -110,53 +110,55 @@ class IntroSlide extends React.Component {
       },
     ];
     return (
-      <Carousel
-        slideIndex={this.state.slideIndex}
-        renderCenterRightControls={({nextSlide}) => (<a onClick={nextSlide} className={styles.nextSlide}>
-          <Glyphicon glyph="glyphicon glyphicon-chevron-right"/>
-        </a>)
-        }
-        renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
-          <Glyphicon glyph="glyphicon glyphicon-chevron-left"/>
-        </a>)}
-      >
-        <div className={styles.slideContainer}>
-          <img src={logo} alt=""/>
-          <h3>Welcome to LiteFarm!</h3>
-          <div className={styles.descriptionGreen}>
-            In the next few pages, we’ll get you set up with everything you need to know to start using the app.
+      <div style={{"height": '100vh'}}>
+        <Carousel wrapAround heightMode={'max'}
+          slideIndex={this.state.slideIndex}
+          renderCenterRightControls={({nextSlide}) => (<a onClick={nextSlide} className={styles.nextSlide}>
+            <Glyphicon glyph="glyphicon glyphicon-chevron-right"/>
+          </a>)
+          }
+          renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
+            <Glyphicon glyph="glyphicon glyphicon-chevron-left"/>
+          </a>)}
+        >
+          <div className={styles.slideContainer}>
+            <img src={logo} alt="" />
+            <h3>Welcome to LiteFarm!</h3>
+            <div className={styles.descriptionGreen}>
+              In the next few pages, we’ll get you set up with everything you need to know to start using the app.
+            </div>
           </div>
-        </div>
-        {slides.map((slide, index) => {
-          return (
-            <div key={'intro-slide-' + index} className={styles.slideContainer}>
-              <Suspense fallback={LoadingIndicator}>
-                {/* Preload video player */}
-                <div hidden={!this.state.videoShown[index]}>
-                  <ReactPlayer
-                    onEnded={() => this.toggleVideo(index)}
-                    style={{ marginTop: '3.5em' }}
-                    playing={this.state.videoShown[index]}
-                    url={slide.videoPath}
-                  />
+          {slides.map((slide, index) => {
+            return (
+              <div key={'intro-slide-' + index} className={styles.slideContainer}>
+                <Suspense fallback={LoadingIndicator}>
+                  {/* Preload video player */}
+                  <div hidden={!this.state.videoShown[index]}>
+                    <ReactPlayer
+                      onEnded={() => this.toggleVideo(index)}
+                      style={{ marginTop: '3.5em' }}
+                      playing={this.state.videoShown[index]}
+                      url={slide.videoPath}
+                    />
+                  </div>
+                  <div hidden={this.state.videoShown[index]}>
+                    <img src={slide.image} alt="" />
+                  </div>
+                </Suspense>
+                <h3>{slide.title}</h3>
+                <div className={styles.description}>
+                  {slide.description}
                 </div>
-                <div hidden={this.state.videoShown[index]}>
-                  <img src={slide.image} alt="" />
-                </div>
-              </Suspense>
-              <h3>{slide.title}</h3>
-              <div className={styles.description}>
-                {slide.description}
-              </div>
-              <Button className={styles.finishSlide} onClick={() => this.toggleVideo(index)}>Play Demo</Button>
-            </div>)
-        })}
-        <div className={styles.slideContainer}>
-          <img src={logo} alt=""/>
-          <h3>You're ready to use the app!</h3>
-          <Button onClick={() => this.redirectFinish()} className={styles.finishSlide}>Finish</Button>
-        </div>
-      </Carousel>
+                <Button className={styles.finishSlide} onClick={() => this.toggleVideo(index)}>Play Demo</Button>
+              </div>)
+          })}
+          <div className={styles.slideContainer}>
+            <img src={logo} alt=""/>
+            <h3>You're ready to use the app!</h3>
+            <Button onClick={() => this.redirectFinish()} className={styles.finishSlide}>Finish</Button>
+          </div>
+        </Carousel>
+      </div>
     );
   }
 }

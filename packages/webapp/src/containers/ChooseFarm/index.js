@@ -26,7 +26,7 @@ import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
 import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
-
+import {FormControl} from 'react-bootstrap'
 const mammoth = require("mammoth");
 
 class ChooseFarm extends Component {
@@ -147,10 +147,10 @@ class ChooseFarm extends Component {
         <h3>Choose your farm</h3>
       </div>
 
-      <div className={styles.inputWrapper}>
+
         {
           farms && farms.length &&
-          <select size={farms.length<=1 ? 2 : farms.length} className={styles.farmSelection} id="farm_select" onChange={(e)=>this.setSelectedFarm(e)}>
+          <FormControl componentClass="select" size={farms.length<=1 ? 2 : farms.length} className={styles.inputWrapper} id="farm_select" onChange={(e)=>this.setSelectedFarm(e)}>
             {
               farms.map((farm)=>{
                 const { farm_id, farm_name, status } = farm;
@@ -165,10 +165,8 @@ class ChooseFarm extends Component {
                 );
               })
             }
-          </select>
+          </FormControl>
         }
-
-      </div>
 
       <div className={styles.createContainer} onClick={()=>this.createFarm()}>
         <span>+</span> &nbsp;Create new farm

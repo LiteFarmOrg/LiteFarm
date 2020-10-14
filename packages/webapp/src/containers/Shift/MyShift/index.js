@@ -31,6 +31,7 @@ class MyShift extends Component {
 
   componentDidMount(){
     const shift = this.props.selectedShift;
+
     // const fields = this.props.fields;
     // const crops = this.props.crops;
     let tasks = shift.tasks;
@@ -43,18 +44,19 @@ class MyShift extends Component {
         aoiNames: [],
         duration: 0,
       };
-      let duration = parseInt(task.duration, 10);
+      let duration = task.duration;
       if(task.is_field){
         let field_name = this.getFieldName(task.field_id);
         if(!newTasks.hasOwnProperty(task.task_id)){
-
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({name: field_name, is_field: true});
           newTask.duration += duration;
+
           newTasks[task.task_id] = newTask;
           addedFields.push(field_name);
         }else{
           newTasks[task.task_id].duration += duration;
+
           if(!addedFields.includes(field_name)){
             newTasks[task.task_id].aoiNames.push({name: field_name, is_field: true});
             addedFields.push(field_name);
@@ -64,13 +66,12 @@ class MyShift extends Component {
         let thisCrop = this.getCropName(task.field_crop_id);
         if(!newTasks.hasOwnProperty(task.task_id)){
           newTask.taskName = this.getTaskName(task.task_id);
-          if(!addedCrops.includes(thisCrop.crop_id)){
-            newTask.aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
-          }
-
+          newTask.aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
           newTask.duration = duration;
+
           newTasks[task.task_id] = newTask;
         }else{
+
           newTasks[task.task_id].duration += duration;
           if(!addedCrops.includes(thisCrop.crop_id)){
             newTasks[task.task_id].aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
@@ -183,6 +184,7 @@ class MyShift extends Component {
           </div>
           {
             taskArr.map((task)=>{
+
               return (
               <div className={styles.innerInfo} style={{padding:'0.5em 2.5% 0.5em 5%'}} key={task.taskName}>
                 <div className={styles.innerTaskName}><p>{task.taskName}</p></div>
@@ -202,7 +204,7 @@ class MyShift extends Component {
                 }
                 </div>
                 <div className={styles.innerTaskTime}>
-                  <span>{(parseInt(task.duration, 10)/60).toFixed(2)} hr</span>
+                  <span>{(task.duration/60).toFixed(2)} hr</span>
                 </div>
               </div>
               )

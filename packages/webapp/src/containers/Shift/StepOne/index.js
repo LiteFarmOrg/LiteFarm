@@ -441,9 +441,12 @@ class ShiftStepOne extends Component {
           </Row>
         </Grid>
 
-        <div className={styles.buttonContainer}>
-          <Button onClick={this.openAddModal}>Add Custom Task</Button>
-        </div>
+        {
+          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+          <div className={styles.buttonContainer}>
+            <Button onClick={this.openAddModal}>Add Custom Task</Button>
+          </div>
+        }
 
         <div className={styles.bottomContainer}>
           <div className={styles.cancelButton} onClick={() => history.push('/shift')}>

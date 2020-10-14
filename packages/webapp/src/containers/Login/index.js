@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -26,7 +26,7 @@ import styles from '../Home/styles.scss';
 
 import Carousel from 'nuka-carousel';
 
-const firstPage = <div>
+const firstPage = <div style={{ height: '50vh' }}>
       <img className={styles.logo} src={logo} alt="not found"/>
       <h4 className={styles.bodyText}>Everything you need for managing your farm, in your pocket.</h4>
     </div>;
@@ -62,20 +62,19 @@ const auth = new Auth();
 
 class Login extends React.Component {
     render() {
-        return <div className={styles.home}>
+        return <div className={styles.home} >
         <div className={styles.lander}>
             <div className={styles.textColor}>
-            <Carousel wrapAround withoutControls transitionMode='fade'
-            >
-                {firstPage}
-                {slides.map((slide, index) => {
-                return (<div key={'slide-' + index}>
-                    <h2>{slide.header}</h2>
-                    <h4 className={styles.bodyText}>{slide.info}</h4>
-                    <img className={styles.otherPhotos} src={slide.img} alt="not found" />
-                </div>)
-                })}
-            </Carousel>
+                <Carousel wrapAround withoutControls transitionMode='fade'>
+                    {firstPage}
+                    {slides.map((slide, index) => {
+                    return (<div key={'slide-' + index}>
+                        <h2>{slide.header}</h2>
+                        <h4 className={styles.bodyText}>{slide.info}</h4>
+                        <img className={styles.otherPhotos} src={slide.img} alt="not found" />
+                    </div>)
+                    })}
+                </Carousel>
             </div>
             <LoginButton auth={auth}/>
         </div>

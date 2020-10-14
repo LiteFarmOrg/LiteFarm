@@ -321,6 +321,15 @@ function Routes() {
             handleAuthentication(props);
             return <Callback {...props} />
           }}/>
+          <Route path="/insights" exact component={Insights}/>
+          <Route path="/insights/peoplefed" exact component={PeopleFed}/>
+          <Route path="/insights/soilom" exact component={SoilOM}/>
+          <Route path="/insights/labourhappiness" exact component={LabourHappiness}/>
+          <Route path="/insights/biodiversity" exact component={Biodiversity}/>
+          <Route path="/insights/prices" exact component={Prices}/>
+          <Route path="/insights/waterbalance" exact component={WaterBalance}/>
+          <Route path="/insights/erosion" exact component={Erosion}/>
+          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
         </Switch>
       );
     }

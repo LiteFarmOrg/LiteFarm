@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (util.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -22,7 +22,8 @@ export function calcTotalLabour(shifts, startDate, endDate){
       if(moment(s.start_time).isBetween(startDate, endDate, null, '[]')){
         if(s.wage.type === 'hourly'){
           let rate = parseFloat(s.wage_at_moment).toFixed(2);
-          total += (rate * (parseInt(s.duration, 10) / 60));
+          let hoursWorked = Number((s.duration / 60).toFixed(2));
+          total += (rate * hoursWorked);
         }
       }
     }

@@ -35,7 +35,6 @@ class MyShift extends Component {
     // const fields = this.props.fields;
     // const crops = this.props.crops;
     let tasks = shift.tasks;
-    console.log(tasks);
     let newTasks = {};
     // let fieldTasks = {}s;
     let addedCrops = [], addedFields = [];

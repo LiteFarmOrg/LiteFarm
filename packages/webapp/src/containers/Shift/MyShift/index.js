@@ -7,7 +7,7 @@ import moment from 'moment';
 import {DropdownButton, MenuItem} from 'react-bootstrap';
 import history from '../../../history';
 import {selectedShiftSelector, taskTypeSelector} from './selectors';
-import {fieldSelector, cropSelector} from '../../selector';
+import {fieldSelector, cropSelector, farmSelector} from '../../selector';
 import {userInfoSelector} from "../../selector";
 import ConfirmModal from "../../../components/Modals/Confirm";
 
@@ -142,6 +142,7 @@ class MyShift extends Component {
     for(let taskId of Object.keys(this.state.tasks)){
       taskArr.push(this.state.tasks[taskId]);
     }
+    const { farm } = this.props;
     let dropDown = 0;
     return(
       <div className={styles.logContainer}>
@@ -151,15 +152,18 @@ class MyShift extends Component {
             <div>
             {this.state.date}
             </div>
-            <DropdownButton
-              style={{background:'#EFEFEF', color:'#4D4D4D', border:'none'}}
-              title={'Action'}
-              key={dropDown}
-              id={`dropdown-basic-${dropDown}`}
-            >
-              {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
-              <MenuItem eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</MenuItem>
-            </DropdownButton>
+            {
+              (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+              <DropdownButton
+                style={{background:'#EFEFEF', color:'#4D4D4D', border:'none'}}
+                title={'Action'}
+                key={dropDown}
+                id={`dropdown-basic-${dropDown}`}
+              >
+                {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
+                <MenuItem eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</MenuItem>
+              </DropdownButton>
+            }
           </div>
           {
             this.props.users.is_admin && <div className={styles.innerInfo}>
@@ -235,6 +239,7 @@ const mapStateToProps = (state) => {
     crops: cropSelector(state),
     taskType: taskTypeSelector(state),
     users: userInfoSelector(state),
+    farm: farmSelector(state),
   }
 };
 

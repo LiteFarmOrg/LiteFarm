@@ -22,7 +22,7 @@ const checkEditPrivilege = () => {
     const farm_id = req.params.farm_id;
     const edit_user_id = req.params.user_id;
     const request_user_id = req.user.sub.split('|')[1];
-    const ALLOWED_ROLES = [1, 2];
+    const ALLOWED_ROLES = [1, 2, 5];
     if (farm_id) {
       // console.log(farm_id);
       // user id is contained in attribute sub in this format: 'auth0|5b0560215d7d1617fd7ed217'

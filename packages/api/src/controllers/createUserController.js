@@ -257,7 +257,7 @@ class createUserController extends baseController {
           }else if(environment === 'production'){
             joinUrl = `https://www.litefarm.org/sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`;
           }else{
-            joinUrl = `localhost:3000/sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
+            joinUrl = `http://localhost:3000/sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
           }
           await emailSender.sendEmail(template_path, subject, replacements, lite_farm_user.email, sender, true, joinUrl);
         }).catch(async (err) => {

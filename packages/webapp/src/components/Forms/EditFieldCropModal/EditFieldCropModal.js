@@ -97,8 +97,7 @@ class EditFieldCropModal extends React.Component {
 
       if (editedFieldCrop.area_used > fieldArea) {
         toastr.error('Field crop area cannot be greater than field area');
-        isValid = false;
-        return isValid;
+        return;
       }
 
       let estimatedProduction = isByArea ? editedFieldCrop.estimated_yield * editedFieldCrop.area_used : editedFieldCrop.estimated_yield * bed_config.bed_num;

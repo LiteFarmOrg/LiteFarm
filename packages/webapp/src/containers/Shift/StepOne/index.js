@@ -24,7 +24,6 @@ import Popup from "reactjs-popup";
 import history from '../../../history';
 import {toastr} from 'react-redux-toastr';
 import {userInfoSelector, farmSelector} from '../../selector';
-import Select from 'react-select';
 import {getAllUsers} from '../../Profile/People/actions';
 import {peopleInfoSelector} from '../../Profile/People/selector';
 import {grabCurrencySymbol} from "../../../util";
@@ -285,7 +284,7 @@ class ShiftStepOne extends Component {
 
   render() {
     let {new_start, new_end, shiftUser, hourAdjustSign, showHoursAdjust} = this.state;
-    let {taskTypes, users, allUsers, farm} = this.props;
+    let {taskTypes, users, farm} = this.props;
     //re order task types
     if(taskTypes){
       let socialEventObj;

@@ -208,7 +208,7 @@ class createUserController extends baseController {
         .where('user_id', created_user_id).andWhere('farm_id', farm_id).first();
 
       if (userExistOnThisFarm) {
-        res.status(400).send({ error: 'User already exists on this farm' });
+        res.status(409).send({ error: 'User already exists on this farm' });
         return;
       }
       if (isUserAlreadyCreated) {

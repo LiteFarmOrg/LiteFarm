@@ -105,7 +105,7 @@ class IrrigationLog extends Component{
             fields={fields}
             crops={crops}
             notesField={true}
-            isCropNotRequired={false}
+            isCropNotRequired={true}
             typeField={true}
             typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}
             customFieldset={customFieldset}

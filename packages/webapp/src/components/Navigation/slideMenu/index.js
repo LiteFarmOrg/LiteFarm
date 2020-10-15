@@ -77,7 +77,7 @@ class SlideMenu extends React.Component {
           }
 
           {
-            (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+            (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 3 || Number(farm.role_id) === 5) &&
             <a id="insights" className="menu-item" onClick={() => this.handleClick("/Insights")}><span>Insights</span></a>
           }
           {

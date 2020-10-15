@@ -101,17 +101,8 @@ class HarvestLog extends Component{
                 step="any"
                 model=".harvestLog.quantity_kg"
                 validators={{required: (val) => val }}
-
               />
               {this.state.quantity_unit}
-            </div>
-          </div>
-          <div>
-            <div className={styles.noteTitle}>
-              Notes
-            </div>
-            <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes"/>
             </div>
           </div>
           <Errors
@@ -121,6 +112,14 @@ class HarvestLog extends Component{
             messages={{
               required: 'Required',
             }} />
+          <div>
+            <div className={styles.noteTitle}>
+              Notes
+            </div>
+            <div className={styles.noteContainer}>
+              <Control.textarea model=".harvestLog.notes"/>
+            </div>
+          </div>
           <LogFooter edit={true} onClick={() => this.setState({ showModal: true })}/>
         </Form>
         <ConfirmModal

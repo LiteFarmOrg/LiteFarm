@@ -260,8 +260,16 @@ class PestControlLog extends Component{
                     options={pesticideOptions || []}
                     placeholder="Select Product"
                     onChange={this.setSelectedPesticide}
+                    validators={{required: (val) => val && val.label && val.value}}
                   />
                 </div>
+                <Errors
+                  className='required'
+                  model={`.pestControlLog.pesticide_id`}
+                  show={{touched: true, focus: false}}
+                  messages={{
+                    required: 'Required'
+                  }} />
                 <div className={styles.textContainer}>
                   <label>Quantity</label>
                   <div className={styles.inputNunit}><Control.input

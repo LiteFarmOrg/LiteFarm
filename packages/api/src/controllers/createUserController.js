@@ -222,6 +222,7 @@ class createUserController extends baseController {
             role_id,
             wage,
           });
+          trx.commit();
           res.sendStatus(201)
         } catch (error) {
           res.status(500).send(error);

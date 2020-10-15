@@ -217,7 +217,7 @@ class createUserController extends baseController {
           await userFarmModel.query(trx).insert({
             user_id: created_user_id,
             farm_id,
-            status: 'Invited',
+            status: 'Active',
             consent_version: '1.0',
             role_id,
             wage,

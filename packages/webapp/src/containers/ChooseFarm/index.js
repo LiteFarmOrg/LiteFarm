@@ -158,7 +158,7 @@ class ChooseFarm extends Component {
                   <option
                     key={farm_id}
                     value={farm_id}
-                    disabled={status === 'Inactive'}
+                    disabled={status !== 'Active'}
                   >
                     {farm_name}
                   </option>

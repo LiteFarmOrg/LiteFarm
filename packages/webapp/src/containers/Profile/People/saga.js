@@ -163,18 +163,23 @@ export function* addPseudoWorkerSaga(payload){
 }
 
 export function* deactivateUserSaga(payload) {
-  const { userUrl } = apiConfig;
+  const { userFarmUrl } = apiConfig;
+  let user_id = payload.user_id;
+  let farm_id = localStorage.getItem('farm_id');
   const header = {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
       user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
+      farm_id,
     },
+  };
+  const body = {
+    status: 'Inactive',
   };
 
   try {
-    const result = yield call(axios.patch, userUrl + '/deactivate/' + payload.user_id, null, header);
+    const result = yield call(axios.patch, `${userFarmUrl}/status/farm/${farm_id}/user/${user_id}`, body, header);
     if (result) {
       console.log('user deactivated');
       yield put(getAllUsers());

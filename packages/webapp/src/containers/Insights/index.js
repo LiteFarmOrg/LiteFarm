@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -111,13 +111,14 @@ class Insights extends Component {
 
   generateView(cropNutritionalData, soilOMData, labourHappinessData, biodiversityData, pricesData, waterBalanceData, nitrogenBalanceData) {
     const insightData = {};
+    const isImperial = this.props.farm?.units?.measurement === 'imperial';
     insightData['PeopleFed'] = cropNutritionalData.preview + " meals";
     insightData['SoilOM'] = (soilOMData.preview || '0') + "%";
     insightData['LabourHappiness'] = labourHappinessData.preview ? labourHappinessData.preview + "/5" : 'Unavailable';
     insightData['Biodiversity'] = biodiversityData.preview + " species";
     insightData['Prices'] = pricesData.preview ? pricesData.preview + "% of market" : "Unavailable";
-    insightData['WaterBalance'] = waterBalanceData.preview + " mm";
-    insightData['NitrogenBalance'] = nitrogenBalanceData.preview + " kg";
+    insightData['WaterBalance'] = isImperial? Number(waterBalanceData.preview)*0.0393701 + " in": waterBalanceData.preview + " mm";
+    insightData['NitrogenBalance'] = isImperial? Number(nitrogenBalanceData.preview)*2.20462 + " lbs" : nitrogenBalanceData.preview + " kg";
     return insightData
   }
 

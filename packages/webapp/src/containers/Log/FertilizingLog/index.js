@@ -334,7 +334,7 @@ class FertilizingLog extends Component {
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Nitrate</label>
-                    <Control.input type="number" step="any" model=".fertLog.n_percentage"/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.n_percentage"/><span className={styles.unitSpan}>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Ammonia</label>

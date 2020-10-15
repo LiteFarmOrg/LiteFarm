@@ -31,7 +31,15 @@ class FieldWorkLog extends Component{
     this.setState({
       date: selectedLog && moment.utc(selectedLog.date)
     });
-    const selectedType = { value: selectedLog.fieldWorkLog.type, label: selectedLog.fieldWorkLog.type };
+    const tillageTypeLabels = {
+      plow: 'Plow',
+      ridgeTill: 'Ridge Till',
+      zoneTill: 'Zone Till',
+      mulchTill: 'Mulch Till',
+      ripping: 'Ripping',
+      discing: 'Discing',
+    };
+    const selectedType = { value: selectedLog.fieldWorkLog.type, label: tillageTypeLabels[selectedLog.fieldWorkLog.type] };
     dispatch(actions.change('logReducer.forms.fieldWorkLog.type', selectedType));
     dispatch(actions.change('logReducer.forms.fieldWorkLog.notes', selectedLog.notes));
   }

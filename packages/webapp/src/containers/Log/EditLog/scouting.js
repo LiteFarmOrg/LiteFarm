@@ -84,6 +84,7 @@ class ScoutingLog extends Component{
             notesField={true}
             typeField={true}
             typeOptions={['Harvest', 'Pest', 'Disease', 'Weed', 'Other']}
+            isCropNotRequired={true}
             customFieldset={() => {
               return (
                 <Checkbox model='.action_needed' title='Action Needed'/>

@@ -74,7 +74,7 @@ class IrrigationLog extends Component{
             model=".irrigationLog"
             fields={fields}
             crops={crops}
-            isCropNotRequired={false}
+            isCropNotRequired={true}
             notesField={true}
             typeField={true}
             typeOptions={['sprinkler', 'drip', 'subsurface', 'flood']}

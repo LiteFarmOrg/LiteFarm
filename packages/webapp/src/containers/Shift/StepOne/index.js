@@ -24,7 +24,6 @@ import Popup from "reactjs-popup";
 import history from '../../../history';
 import {toastr} from 'react-redux-toastr';
 import {userInfoSelector, farmSelector} from '../../selector';
-import Select from 'react-select';
 import {getAllUsers} from '../../Profile/People/actions';
 import {peopleInfoSelector} from '../../Profile/People/selector';
 import {grabCurrencySymbol} from "../../../util";
@@ -285,7 +284,7 @@ class ShiftStepOne extends Component {
 
   render() {
     let {new_start, new_end, shiftUser, hourAdjustSign, showHoursAdjust} = this.state;
-    let {taskTypes, users, allUsers, farm} = this.props;
+    let {taskTypes, users, farm} = this.props;
     //re order task types
     if(taskTypes){
       let socialEventObj;
@@ -305,35 +304,35 @@ class ShiftStepOne extends Component {
     }
 
     const symbol = grabCurrencySymbol(farm);
-    let peopleOptions = [];
-    if(users){
-      peopleOptions.push({
-        value: users.user_id, label: 'Myself', wage: users.wage.amount, mood: 'na',
-      })
-    }
-    if(allUsers.hasOwnProperty('admins') && allUsers.admins){
-      for(let admin of allUsers.admins){
-        if(admin.user_id !== users.user_id){
-          peopleOptions.push({
-            value: admin.user_id, label: admin.first_name + ' ' + admin.last_name, wage: admin.wage.amount, mood: 'na',
-          });
-        }
-      }
-    }
-    if(allUsers.hasOwnProperty('workers') && allUsers.workers){
-      for(let worker of allUsers.workers){
-        peopleOptions.push({
-          value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage: worker.wage.amount, mood: 'na',
-        })
-      }
-    }
-    if(allUsers.hasOwnProperty('pseudoWorkers') && allUsers.workers){
-      for(let worker of allUsers.pseudoWorkers){
-        peopleOptions.push({
-          value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage:worker.wage.amount, mood: 'na',
-        })
-      }
-    }
+    // let peopleOptions = [];
+    // if(users){
+    //   peopleOptions.push({
+    //     value: users.user_id, label: 'Myself', wage: users.wage.amount, mood: 'na',
+    //   })
+    // }
+    // if(allUsers.hasOwnProperty('admins') && allUsers.admins){
+    //   for(let admin of allUsers.admins){
+    //     if(admin.user_id !== users.user_id){
+    //       peopleOptions.push({
+    //         value: admin.user_id, label: admin.first_name + ' ' + admin.last_name, wage: admin.wage.amount, mood: 'na',
+    //       });
+    //     }
+    //   }
+    // }
+    // if(allUsers.hasOwnProperty('workers') && allUsers.workers){
+    //   for(let worker of allUsers.workers){
+    //     peopleOptions.push({
+    //       value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage: worker.wage.amount, mood: 'na',
+    //     })
+    //   }
+    // }
+    // if(allUsers.hasOwnProperty('pseudoWorkers') && allUsers.workers){
+    //   for(let worker of allUsers.pseudoWorkers){
+    //     peopleOptions.push({
+    //       value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage:worker.wage.amount, mood: 'na',
+    //     })
+    //   }
+    // }
 
 
     return (
@@ -346,7 +345,7 @@ class ShiftStepOne extends Component {
         }
         <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date" allowPast={true}/>
         <div className={styles.timeSection}>
-          {
+          {/* {
             users.is_admin && <div className={styles.timeRow}>
               <div className={styles.timeLabel}>
                 Shift For
@@ -360,7 +359,7 @@ class ShiftStepOne extends Component {
                       onChange={(selectedOption) => this.setShiftUser(selectedOption)} />
               </div>
             </div>
-          }
+          } */}
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
               Start Time
@@ -441,9 +440,12 @@ class ShiftStepOne extends Component {
           </Row>
         </Grid>
 
-        <div className={styles.buttonContainer}>
-          <Button onClick={this.openAddModal}>Add Custom Task</Button>
-        </div>
+        {
+          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+          <div className={styles.buttonContainer}>
+            <Button onClick={this.openAddModal}>Add Custom Task</Button>
+          </div>
+        }
 
         <div className={styles.bottomContainer}>
           <div className={styles.cancelButton} onClick={() => history.push('/shift')}>

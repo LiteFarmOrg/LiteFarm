@@ -242,7 +242,9 @@ class PestControlLog extends Component{
                   model={".pestControlLog"}
                   style={styles.labelContainer}
                   fields={fields}
-                  crops={crops}/>
+                  crops={crops}
+                  isCropNotRequired={true}
+                />
                 <div className={styles.defaultFormDropDown}>
                   <label>Pesticide</label>
                   <Control

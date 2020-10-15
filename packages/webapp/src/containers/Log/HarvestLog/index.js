@@ -78,6 +78,13 @@ class HarvestLog extends Component {
               {this.state.quantity_unit}
             </div>
           </div>
+          <Errors
+            className='required'
+            model={`.harvestLog.quantity_kg`}
+            show={{touched: true, focus: false}}
+            messages={{
+              required: 'Required',
+            }} />
           <div>
             <div className={styles.noteTitle}>
               Notes
@@ -86,13 +93,6 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes"/>
             </div>
           </div>
-          <Errors
-            className='required'
-            model={`.harvestLog.quantity_kg`}
-            show={{touched: true, focus: false}}
-            messages={{
-              required: 'Required',
-            }} />
           <LogFooter/>
         </Form>
       </div>

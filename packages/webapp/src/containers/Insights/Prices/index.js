@@ -47,12 +47,10 @@ class Prices extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.pricesDistance !== this.props.pricesDistance) {
-      if(this.props.farm.grid_points){
-        this.props.dispatch(getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance));
-        //TODO: need rewrite
-      }
+    if (prevProps.pricesDistance !== this.props.pricesDistance && this.props.farm.grid_points) {
+      this.props.dispatch(getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance))
     }
+    // TODO need rewrite
     if(this.props.farm?.units?.measurement === 'imperial' && Number.isInteger(this.state.distance)){
       this.handleChange(5*MILE_TO_KILOMETER);
     }else if(this.props.farm?.units?.measurement === 'metric' && !Number.isInteger(this.state.distance)){

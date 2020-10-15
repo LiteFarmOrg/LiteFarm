@@ -22,11 +22,15 @@ const emailTokenModel = require('../models/emailTokenModel');
 const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const axios = require('axios');
-const url  = require('url');
+const url = require('url');
 const emailSender = require('../templates/sendEmailTemplate');
 const farmModel = require('../models/farmModel');
 const { v4: uuidv4 } = require('uuid');
-
+const environmentMap = {
+  integration: 'https://beta.litefarm.org/',
+  production: 'https://litefarm.org/',
+  development: 'http://localhost:3000/',
+}
 const auth0Uri = findAuth0Uri();
 
 class createUserController extends baseController {
@@ -64,8 +68,7 @@ class createUserController extends baseController {
       if (result.status === 200) {
         return result;
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
       throw err;
     }
@@ -87,8 +90,7 @@ class createUserController extends baseController {
       if (result.status === 201) {
         return result;
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
       throw err;
     }
@@ -110,14 +112,13 @@ class createUserController extends baseController {
       if (result.status === 201) {
         return result;
       }
-    }
-    catch (err) {
+    } catch (err) {
       throw new Error(err);
     }
   }
 
-  static async deleteAuth0User(user_id){
-    try{
+  static async deleteAuth0User(user_id) {
+    try {
       const token = await this.getAuth0Token();
       const headers = {
         'content-type': 'application/json',
@@ -129,13 +130,13 @@ class createUserController extends baseController {
         headers,
       });
       return result.status === 204;
-    }
-    catch(err){
+    } catch (err) {
       return false;
     }
   }
 
   static createAuth0User() {
+    const environment = process.env.NODE_ENV || 'development';
     return async (req, res) => {
       let user_id;
       const template_path = '../templates/invitation_to_farm_email.html';
@@ -201,7 +202,36 @@ class createUserController extends baseController {
         app_metadata: { emailInvite: true },
         connection: 'Username-Password-Authentication',
       };
+      const isUserAlreadyCreated = await userModel.query().where('email', email).first();
+      const created_user_id = isUserAlreadyCreated ? isUserAlreadyCreated.user_id : null;
+      const userExistOnThisFarm = await userFarmModel.query()
+        .where('user_id', created_user_id).andWhere('farm_id', farm_id).first();
 
+      if (userExistOnThisFarm) {
+        res.status(400).send({ error: 'User already exists on this farm' });
+        return;
+      }
+      if (isUserAlreadyCreated) {
+        try {
+          const trx = await transaction.start(Model.knex());
+          await userFarmModel.query(trx).insert({
+            user_id: created_user_id,
+            farm_id,
+            status: 'Invited',
+            consent_version: '1.0',
+            role_id,
+            wage,
+          });
+          res.sendStatus(201)
+        } catch (error) {
+          res.status(500).send(error);
+        }
+        const { farm_name } = await farmModel.query().where('farm.farm_id', farm_id).first();
+        const subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
+        await emailSender.sendEmail(template_path, subject, { farm_name, first_name }, email,
+          sender, true, environmentMap[environment]);
+        return;
+      }
       await this.postToAuth0(user).then(async (authResponse) => {
         user_id = authResponse.user_id;
         const url_parts = url.parse(authResponse.data.picture, true);
@@ -249,25 +279,24 @@ class createUserController extends baseController {
           res.sendStatus(201);
 
           // the following is to determine the url
-          const environment = process.env.NODE_ENV || 'development';
           let joinUrl;
           // preferably with a switch case
-          if(environment === 'integration'){
-            joinUrl = `https://beta.litefarm.org/sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`;
-          }else if(environment === 'production'){
-            joinUrl = `https://www.litefarm.org/sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`;
-          }else{
-            joinUrl = `http://localhost:3000/sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
+          const basePath = environmentMap[environment];
+          if (environment === 'integration') {
+            joinUrl = `${basePath}sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`;
+          } else if (environment === 'production') {
+            joinUrl = `${basePath}sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`;
+          } else {
+            joinUrl = `${basePath}sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
           }
           await emailSender.sendEmail(template_path, subject, replacements, lite_farm_user.email, sender, true, joinUrl);
         }).catch(async (err) => {
           console.log(err);
-          if(await this.deleteAuth0User(user_id)){
+          if (await this.deleteAuth0User(user_id)) {
             //TODO potential hanging knex connection
             await trx.rollback();
             res.status(500).send(err);
-          }
-          else{
+          } else {
             res.status(500).send(err);
           }
         });

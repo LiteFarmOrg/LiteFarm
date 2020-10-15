@@ -145,7 +145,7 @@ class MyLog extends Component {
   };
 
   render() {
-    let {selectedLog} = this.props;
+    let {selectedLog, farm} = this.props;
     let {quantity_unit, space_unit, rate_unit} = this.state;
 
     let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -185,15 +185,18 @@ class MyLog extends Component {
             <div>
               <strong> {date}</strong>
             </div>
-            <DropdownButton
-              style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
-              title={'Action'}
-              key={dropDown}
-              id={`dropdown-basic-${dropDown}`}
-            >
-              <MenuItem eventKey="0" onClick={() => this.editLog(selectedLog.activity_kind)}>Edit</MenuItem>
-              <MenuItem eventKey="1" onClick={() => this.confirmDelete()}>Delete</MenuItem>
-            </DropdownButton>
+            {
+              (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+              <DropdownButton
+                style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
+                title={'Action'}
+                key={dropDown}
+                id={`dropdown-basic-${dropDown}`}
+              >
+                <MenuItem eventKey="0" onClick={() => this.editLog(selectedLog.activity_kind)}>Edit</MenuItem>
+                <MenuItem eventKey="1" onClick={() => this.confirmDelete()}>Delete</MenuItem>
+              </DropdownButton>
+            }
           </div>
         </div>
 

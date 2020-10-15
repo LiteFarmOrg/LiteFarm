@@ -88,10 +88,17 @@ class EditFieldCropModal extends React.Component {
     const { bed_config, isByArea, estimated_unit, area_unit } = this.state;
     let editedFieldCrop = this.state.fieldCrop;
 
-    if (moment(editedFieldCrop.end_date).isSameOrBefore(moment(editedFieldCrop.start_date))) {
-      toastr.error('End Date cannot be the same or before Start Date');
-      return;
-    }
+    let {fieldArea} = this.props;
+
+      if(moment(editedFieldCrop.end_date).isSameOrBefore(moment(editedFieldCrop.start_date))){
+        toastr.error('End Date cannot be the same or before Start Date');
+        return;
+      }
+
+      if (editedFieldCrop.area_used > fieldArea) {
+        toastr.error('Field crop area cannot be greater than field area');
+        return;
+      }
 
     let estimatedProduction = isByArea ? editedFieldCrop.estimated_yield * editedFieldCrop.area_used : editedFieldCrop.estimated_yield * bed_config.bed_num;
     let estimatedRevenue = isByArea ? estimatedProduction * editedFieldCrop.estimated_price : bed_config.bed_num * editedFieldCrop.estimated_price * editedFieldCrop.estimated_yield;

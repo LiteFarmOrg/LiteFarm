@@ -120,7 +120,6 @@
     font-size: 18px;
     line-height: 20px;
     width: 75px;
-    margin-right: 10px;
   }
   input{
     height: 30px;
@@ -226,7 +225,6 @@ input:disabled {
 }
 
 .formContainer{
-  margin-top: 5%;
   font-size: 18px;
   padding-bottom: 15%;
   width: 100%;
@@ -274,13 +272,14 @@ input:disabled {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 5%;
+  margin: 15px 0;
   label{
     color: #B1B5BE;
     font-weight: 600;
     font-size: 18px;
     width: 40%;
     line-height: 1.1;
+    margin: 12px 0;
   }
 
   input{
@@ -301,13 +300,17 @@ input:disabled {
   }
 }
 
+.unitSpan{
+  margin: 6px 0;
+}
+
 .popupTitle{
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 10%;
+  margin: 5% 0;
 }
 
 .close{

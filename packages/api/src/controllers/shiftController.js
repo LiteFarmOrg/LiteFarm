@@ -212,8 +212,8 @@ class shiftController extends baseController {
           ]).from('shiftTask', 'taskType')
           .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
           .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
-          .join('field', 'fieldCrop.field_id', 'field.field_id')
-          .join('crop', 'fieldCrop.crop_id','crop.crop_id')
+          .leftJoin('field', 'fieldCrop.field_id', 'field.field_id')
+          .leftJoin('crop', 'fieldCrop.crop_id','crop.crop_id')
           .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
           .join('userFarm',function(){
             this

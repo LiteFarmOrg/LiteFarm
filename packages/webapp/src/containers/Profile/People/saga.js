@@ -56,7 +56,8 @@ export function* getAllUsersByFarmID() {
       yield put(setUsersInState(result.data));
       const isCurrentUserReturned = result.data.find((u) => u.user_id === user_id)
       if(isCurrentUserReturned) {
-        yield put(setUserInState(isCurrentUserReturned));
+        const {user_id: current_id, first_name, last_name, email, role, wage} = isCurrentUserReturned;
+        yield put(setUserInState({first_name, last_name, email, role, wage, user_id: current_id}));
       }
     }
   } catch(e) {

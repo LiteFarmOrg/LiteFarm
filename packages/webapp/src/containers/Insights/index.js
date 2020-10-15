@@ -52,6 +52,8 @@ import {
 import InfoBoxComponent from "../../components/InfoBoxComponent";
 import {farmSelector} from "../selector";
 import {fetchFarmInfo} from "../actions";
+const MILLIMETER_TO_INCH = 0.0393701;
+const KILOGRAM_TO_POUND = 2.20462;
 
 class Insights extends Component {
   constructor(props) {
@@ -117,8 +119,8 @@ class Insights extends Component {
     insightData['LabourHappiness'] = labourHappinessData.preview ? labourHappinessData.preview + "/5" : 'Unavailable';
     insightData['Biodiversity'] = biodiversityData.preview + " species";
     insightData['Prices'] = pricesData.preview ? pricesData.preview + "% of market" : "Unavailable";
-    insightData['WaterBalance'] = isImperial? Number(waterBalanceData.preview)*0.0393701 + " in": waterBalanceData.preview + " mm";
-    insightData['NitrogenBalance'] = isImperial? Number(nitrogenBalanceData.preview)*2.20462 + " lbs" : nitrogenBalanceData.preview + " kg";
+    insightData['WaterBalance'] = isImperial? Number(waterBalanceData.preview)*MILLIMETER_TO_INCH + " in": waterBalanceData.preview + " mm";
+    insightData['NitrogenBalance'] = isImperial? Number(nitrogenBalanceData.preview)*KILOGRAM_TO_POUND + " lbs" : nitrogenBalanceData.preview + " kg";
     return insightData
   }
 

@@ -11,6 +11,8 @@ import { setPricesDistance, getPricesWithDistanceData } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
+const MILE_TO_KILOMETER = 1.609;
+
 
 class Prices extends Component {
   constructor(props) {
@@ -52,10 +54,8 @@ class Prices extends Component {
       }
     }
     if(this.props.farm?.units?.measurement === 'imperial' && Number.isInteger(this.state.distance)){
-      console.log('imperial', this.props.farm?.units?.measurement);
-      this.handleChange(5*1.609);
+      this.handleChange(5*MILE_TO_KILOMETER);
     }else if(this.props.farm?.units?.measurement === 'metric' && !Number.isInteger(this.state.distance)){
-      console.log('metric', this.props.farm?.units?.measurement);
       this.handleChange(5);
     }
   }
@@ -72,7 +72,7 @@ class Prices extends Component {
                    rightIcon={true} rightIconBody={this.infoBoxBody} rightIconTitle={'Prices'}/>
         {this.state.distance &&
         <div>
-          <div style={{ float: 'left' }}><b>Sales from {isImperial? this.state.distance/1.609 : this.state.distance} {isImperial? 'mi':'km'} away</b></div>
+          <div style={{ float: 'left' }}><b>Sales from {isImperial? this.state.distance/MILE_TO_KILOMETER : this.state.distance} {isImperial? 'mi':'km'} away</b></div>
           <div style={{ float: 'right' }}><PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse}/></div>
           <hr/>
           <div style={{ float: 'left' }}>
@@ -87,7 +87,7 @@ class Prices extends Component {
                                    key={'active-button-' + index}>{distance} {isImperial? 'mi':'km'}</Button>
                   } else {
                     return <Button onClick={() => {
-                      this.handleChange(isImperial? distance*1.609:distance)
+                      this.handleChange(isImperial? distance*MILE_TO_KILOMETER:distance)
                     }} className={'active ' + styles.distanceButton} key={'button-' + index}>{distance} {isImperial? 'mi':'km'}</Button>
                   }
                 })}

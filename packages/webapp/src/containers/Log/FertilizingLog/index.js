@@ -334,28 +334,23 @@ class FertilizingLog extends Component {
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Nitrate</label>
-                    <Control.input type="number" step="any" model=".fertLog.n_percentage"
-                                   defaultValue={0}/><span className={styles.unitSpan}>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.n_percentage"/><span className={styles.unitSpan}>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Ammonia</label>
-                    <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm"
-                                   defaultValue={0}/><span>ppm</span>
+                    <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm"/><span>ppm</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Potassium</label>
-                    <Control.input type="number" step="any" model=".fertLog.k_percentage"
-                                   defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.k_percentage"/><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Phosphate</label>
-                    <Control.input type="number" step="any" model=".fertLog.p_percentage"
-                                   defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.p_percentage"/><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
                     <label>Water</label>
-                    <Control.input type="number" step="any" model=".fertLog.moisture_percentage"
-                                   defaultValue={0}/><span>%</span>
+                    <Control.input type="number" step="any" model=".fertLog.moisture_percentage"/><span>%</span>
                   </div>
                   <div className={styles.centerButton}>
                     <div className="btn btn-primary" onClick={this.saveCustomFert}>Save</div>

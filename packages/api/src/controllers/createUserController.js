@@ -227,7 +227,7 @@ class createUserController extends baseController {
         } catch (error) {
           res.status(500).send(error);
         }
-        const { farm_name } = await farmModel.query().where('farm.farm_id', farm_id).first();
+        const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
         const subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
         await emailSender.sendEmail(template_path, subject, { farm_name, first_name }, email,
           sender, true, environmentMap[environment]);

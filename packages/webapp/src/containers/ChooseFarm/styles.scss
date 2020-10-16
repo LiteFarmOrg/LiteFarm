@@ -24,7 +24,7 @@
 
 .inputWrapper{
   border: 1px solid black;
-  min-height: 150px;
+  height: 150px;
   overflow-x: hidden;
   overflow-y: scroll;
   width: 100%;
@@ -33,10 +33,11 @@
 }
 
 .farmSelection{
-  width: 100%;
   border: none;
   outline: none;
+  height: 26px;
   overflow: hidden;
+  padding: 3px 12px;
 }
 
 .createContainer{

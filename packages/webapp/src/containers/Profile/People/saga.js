@@ -1,5 +1,5 @@
 import { GET_USER_IN_PEOPLE, GET_ALL_USER_BY_FARM, UPDATE_USER_IN_PEOPLE, ADD_USER_FROM_PEOPLE,
-  ADD_PSEUDO_WORKER, DEACTIVATE_USER, UPDATE_USER_FARM, GET_ROLES} from "./constants";
+  ADD_PSEUDO_WORKER, DEACTIVATE_USER, REACTIVATE_USER, UPDATE_USER_FARM, GET_ROLES} from "./constants";
 import { setUsersInState, getAllUsers, setFarmID, setRolesInState } from './actions';
 import { put, takeEvery, call } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
@@ -163,18 +163,23 @@ export function* addPseudoWorkerSaga(payload){
 }
 
 export function* deactivateUserSaga(payload) {
-  const { userUrl } = apiConfig;
+  const { userFarmUrl } = apiConfig;
+  let user_id = payload.user_id;
+  let farm_id = localStorage.getItem('farm_id');
   const header = {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
       user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
+      farm_id,
     },
+  };
+  const body = {
+    status: 'Inactive',
   };
 
   try {
-    const result = yield call(axios.patch, userUrl + '/deactivate/' + payload.user_id, null, header);
+    const result = yield call(axios.patch, `${userFarmUrl}/status/farm/${farm_id}/user/${user_id}`, body, header);
     if (result) {
       console.log('user deactivated');
       yield put(getAllUsers());
@@ -182,6 +187,34 @@ export function* deactivateUserSaga(payload) {
     }
   } catch(e) {
     toastr.error("There was an error revoking access!");
+  }
+}
+
+export function* reactivateUserSaga(payload) {
+  const { userFarmUrl } = apiConfig;
+  let user_id = payload.user_id;
+  let farm_id = localStorage.getItem('farm_id');
+  const header = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
+      user_id: localStorage.getItem('user_id'),
+      farm_id,
+    },
+  };
+  const body = {
+    status: 'Active',
+  };
+
+  try {
+    const result = yield call(axios.patch, `${userFarmUrl}/status/farm/${farm_id}/user/${user_id}`, body, header);
+    if (result) {
+      console.log('user reactivated');
+      yield put(getAllUsers());
+      toastr.success("User access restored!");
+    }
+  } catch(e) {
+    toastr.error("There was an error restoring access!");
   }
 }
 
@@ -244,4 +277,5 @@ export default function* peopleSaga() {
   yield takeEvery(DEACTIVATE_USER, deactivateUserSaga);
   yield takeEvery(UPDATE_USER_FARM, updateUserFarmSaga);
   yield takeEvery(GET_ROLES, getRolesSaga);
+  yield takeEvery(REACTIVATE_USER, reactivateUserSaga);
 }

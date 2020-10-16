@@ -158,10 +158,11 @@ class logServices extends baseController {
     var logs = await ActivityLogModel.query().whereNotDeleted()
       .distinct('users.first_name', 'users.last_name', 'activityLog.activity_id', 'activityLog.activity_kind',
         'activityLog.date', 'activityLog.user_id', 'activityLog.notes', 'activityLog.action_needed', 'activityLog.photo')
-      .join('userFarm', 'userFarm.user_id', '=', 'activityLog.user_id')
+      .join('activityFields', 'activityFields.activity_id', 'activityLog.activity_id')
+      .join('field', 'field.field_id', 'activityFields.field_id')
+      .join('userFarm', 'userFarm.farm_id', '=', 'field.farm_id')
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
-      .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
-      .where('farm.farm_id', farm_id);
+      .where('userFarm.farm_id', farm_id);
     for(var log of logs){
       // get fields and fieldCrops associated with log
       await log.$fetchGraph('fieldCrop.crop');

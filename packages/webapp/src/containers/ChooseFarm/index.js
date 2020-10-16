@@ -121,10 +121,10 @@ class ChooseFarm extends Component {
     }
   };
 
-  setSelectedFarm = (farm_id) => {
+  setSelectedFarm = ({ farm_id, status }) => {
     this.setState({
       selected_farm_id: farm_id,
-      disable_proceed: false,
+      disable_proceed: status !== 'Active',
     })
   };
 
@@ -154,7 +154,7 @@ class ChooseFarm extends Component {
                 href={`farm_selection#${farm_name}`}
                 value={farm_id}
                 disabled={status !== 'Active'}
-                onClick={()=>this.setSelectedFarm(farm_id)}
+                onClick={()=>this.setSelectedFarm(farm)}
                 className={styles.farmSelection}
               >
                 {farm_name}

@@ -174,9 +174,6 @@ class NewFieldCropModal extends React.Component {
     if (this.state.area_unit == 'ft2') {
       fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     }
-
-    console.log("initial field area is")
-    console.log(fieldArea)
     
     let isValid = true;
     let errors = "";

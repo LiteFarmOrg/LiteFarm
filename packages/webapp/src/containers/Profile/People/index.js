@@ -10,6 +10,7 @@ import {
   addPseudoWorker,
   deactivateUser,
   getRoles,
+  reactivateUser,
 } from './actions';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -231,6 +232,11 @@ class People extends Component {
         this.closeEditModal();
       }
     }
+  };
+
+  reactivate = (user_id) => {
+    this.props.dispatch(reactivateUser(user_id));
+    this.closeEditModal();
   };
 
   handleSearchValueChange = (event) => {
@@ -752,13 +758,22 @@ class People extends Component {
                       <Button type='submit' bsStyle='primary' disabled={!this.state.updated_edit}>Update</Button>
                     </div>
                   </Form>
-                  <div style={{"textAlign": "center"}}>
-                    {
-                      !this.state.editUser.is_admin && <button className={styles.removeButton}
-                                                               onClick={() => this.deactivate(this.state.editUser.user_id)}>
-                        Revoke User Access</button>
-                    }
-                  </div>
+                  {(this.state.editUser.status === 'Inactive') ?
+                    <div style={{"textAlign": "center"}}>
+                      {
+                        !this.state.editUser.is_admin && <button className={styles.removeButton}
+                                                                onClick={() => this.reactivate(this.state.editUser.user_id)}>
+                          Restore User Access</button>
+                      }
+                    </div> : 
+                    <div style={{"textAlign": "center"}}>
+                      {
+                        !this.state.editUser.is_admin && <button className={styles.removeButton}
+                                                                onClick={() => this.deactivate(this.state.editUser.user_id)}>
+                          Revoke User Access</button>
+                      }
+                    </div>
+                  }
 
                 </div>
               )

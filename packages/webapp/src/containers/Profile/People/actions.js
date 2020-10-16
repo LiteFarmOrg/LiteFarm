@@ -7,6 +7,7 @@ import {
   ADD_USER_FROM_PEOPLE,
   ADD_PSEUDO_WORKER,
   DEACTIVATE_USER,
+  REACTIVATE_USER,
   UPDATE_USER_FARM,
   GET_ROLES,
   SET_ROLES_IN_PEOPLE,
@@ -34,6 +35,13 @@ export const getAllUsers = () => {
 export const deactivateUser = (user_id) => {
   return {
     type: DEACTIVATE_USER,
+    user_id
+  }
+};
+
+export const reactivateUser = (user_id) => {
+  return {
+    type: REACTIVATE_USER,
     user_id
   }
 };

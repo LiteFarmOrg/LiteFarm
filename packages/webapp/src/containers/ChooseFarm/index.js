@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import { getFarms } from './actions';
 import { userFarmSelector } from './selectors';
@@ -26,8 +26,9 @@ import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
 import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
-import {FormControl} from 'react-bootstrap'
-const mammoth = require("mammoth");
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
+
+const mammoth = require('mammoth');
 
 class ChooseFarm extends Component {
 
@@ -39,17 +40,16 @@ class ChooseFarm extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.dispatch(getFarms());
   }
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.farms !== prevProps.farms) {
-      if(this.props.farms && this.props.farms.length === 1){
+      if (this.props.farms && this.props.farms.length === 1) {
         this.selectSingleFarm(this.props.farms[0]);
-      }
-      else if (this.props.farms && this.props.farms.length === 1){
+      } else if (this.props.farms && this.props.farms.length === 1) {
         history.push('/add_farm');
       }
     }
@@ -57,26 +57,23 @@ class ChooseFarm extends Component {
 
   selectSingleFarm = (farm) => {
     const { status } = farm;
-    const element = document.getElementById('farm_select');
-    element.value = farm.farm_id;
-    element.selected = true;
     this.setState({
       selected_farm_id: farm.farm_id,
       disable_proceed: status === 'Inactive',
     });
   };
 
-  cancelFunc = () =>{
+  cancelFunc = () => {
     const auth = new Auth();
     auth.logout();
   };
 
-  proceedFunc = async () =>{
+  proceedFunc = async () => {
     console.log('proceed');
     const { selected_farm_id } = this.state;
     const { farms } = this.props;
 
-    if (selected_farm_id){
+    if (selected_farm_id) {
       localStorage.setItem('farm_id', selected_farm_id);
 
       const currentFarm = farms.find(farm => farm.farm_id === selected_farm_id);
@@ -124,20 +121,18 @@ class ChooseFarm extends Component {
     }
   };
 
-  setSelectedFarm = (e) => {
-    console.log(e.target.value);
-    const farm_id = e.target.value;
+  setSelectedFarm = (farm_id) => {
     this.setState({
       selected_farm_id: farm_id,
       disable_proceed: false,
     })
   };
 
-  createFarm = () =>{
+  createFarm = () => {
     history.push('/add_farm');
   };
 
-  render(){
+  render() {
     const { farms } = this.props;
     let { disable_proceed } = this.state;
 
@@ -147,28 +142,30 @@ class ChooseFarm extends Component {
         <h3>Choose your farm</h3>
       </div>
 
-
+      <ListGroup className={styles.inputWrapper}>
         {
           farms && farms.length &&
-          <FormControl componentClass="select" size={farms.length<=1 ? 2 : farms.length} className={styles.inputWrapper} id="farm_select" onChange={(e)=>this.setSelectedFarm(e)}>
-            {
-              farms.map((farm)=>{
-                const { farm_id, farm_name, status } = farm;
-                return (
-                  <option
-                    key={farm_id}
-                    value={farm_id}
-                    disabled={status !== 'Active'}
-                  >
-                    {farm_name}
-                  </option>
-                );
-              })
-            }
-          </FormControl>
-        }
 
-      <div className={styles.createContainer} onClick={()=>this.createFarm()}>
+          farms.map((farm) => {
+            const { farm_id, farm_name, status } = farm;
+            return (
+              <ListGroupItem
+                key={farm_id}
+                href={`farm_selection#${farm_name}`}
+                value={farm_id}
+                disabled={status !== 'Active'}
+                onClick={()=>this.setSelectedFarm(farm_id)}
+                className={styles.farmSelection}
+              >
+                {farm_name}
+              </ListGroupItem>
+            );
+          })
+
+        }
+      </ListGroup>
+
+      <div className={styles.createContainer} onClick={() => this.createFarm()}>
         <span>+</span> &nbsp;Create new farm
       </div>
       <ProceedFooter cancelFunc={this.cancelFunc} proceedFunc={this.proceedFunc} disableProceed={disable_proceed}/>
@@ -179,13 +176,13 @@ class ChooseFarm extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    dispatch,
   }
 };
 
 const mapStateToProps = (state) => {
   return {
-    farms: userFarmSelector(state)
+    farms: userFarmSelector(state),
   }
 };
 

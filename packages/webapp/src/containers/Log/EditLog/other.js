@@ -75,6 +75,7 @@ class OtherLog extends Component{
             fields={fields}
             crops={crops}
             notesField={true}
+            isCropNotRequired={true}
           />
           <LogFooter edit={true} onClick={() => this.setState({ showModal: true })}/>
         </Form>

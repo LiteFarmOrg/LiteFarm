@@ -90,7 +90,7 @@ class EditFieldCropModal extends React.Component {
 
     let {fieldArea} = this.props;
 
-    if (this.state.area_unit == 'ft2') {
+    if (this.state.area_unit === 'ft2') {
       fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     }
 

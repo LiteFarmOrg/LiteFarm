@@ -63,10 +63,10 @@
     "rxjs": "^6.6.3",
     "sinon": "^9.1.0",
     "uuid": "^8.3.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "adm-zip": "^0.4.16"
   },
   "devDependencies": {
-    "adm-zip": "^0.4.16",
     "faker": "^5.1.0",
     "jest": "^26.4.2",
     "start-server-and-test": "^1.11.5"

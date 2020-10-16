@@ -543,7 +543,7 @@ class userFarmController extends baseController {
           if(environment === 'integration'){
             joinUrl = `https://beta.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
           }else if(environment === 'production'){
-            joinUrl = `https://www.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
+            joinUrl = `https://app.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
           }else{
             joinUrl = `localhost:3000/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`
           }

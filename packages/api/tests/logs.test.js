@@ -224,6 +224,31 @@ describe('Log Tests', () => {
           });
         })
 
+        test('Get by farm_id should filter out logs from another farm', async (done) => {
+          let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
+            ...mocks.fakeActivityLog(),
+            activity_kind: 'fertilizing',
+          });
+          let [fertilizerLog1] = await mocks.fertilizerLogFactory({
+            promisedActivityLog: [activityLog1],
+            promisedFertilizer: [fertilizer],
+          });
+          let [activityCropLog1] = await mocks.activityCropsFactory({
+            promisedActivityLog: [activityLog1],
+            promisedFieldCrop: [fieldCrop],
+          });
+          let [activityFieldLog1] = await mocks.activityFieldsFactory({
+            promisedActivityLog: [activityLog1],
+            promisedField: [field],
+          });
+          let [newUserFarm] = await mocks.userFarmFactory({promisedUser: [owner]});
+          getRequest({ user_id: owner.user_id, farm_id: newUserFarm.farm_id, url: `/log/farm/${newUserFarm.farm_id}` }, (err, res) => {
+            expect(res.status).toBe(200);
+            expect(res.body.length).toBe(0);
+            done();
+          });
+        })
+
         test('Should get fieldCrop/fertilizer/field through fertilizingLog even if those items are deleted', async (done) => {
           let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {
             ...mocks.fakeActivityLog(),
@@ -1475,6 +1500,28 @@ describe('Log Tests', () => {
             done();
           })
         });
+
+        test('Owner should put fieldWorkLog tests with a empty field', async (done) => {
+          const [emptyField] = await mocks.fieldFactory({promisedFarm: [farm]});
+          sampleRequestBody.fields = [{field_id: emptyField.field_id}];
+          sampleRequestBody.crops = [];
+          putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {
+            expect(res.status).toBe(200);
+            const activityLog = await activityLogModel.query().where('user_id', owner.user_id);
+            expect(activityLog.length).toBe(1);
+            expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
+            const fieldWorkLog = await fieldWorkLogModel.query().where('activity_id', activityLog[0].activity_id);
+            expect(fieldWorkLog.length).toBe(1);
+            expect(fieldWorkLog[0].quantity_kg).toBe(fakefieldWorkLog.quantity_kg);
+            const activityFieldLog = await activityFieldsModel.query().where('activity_id', activityLog[0].activity_id);
+            expect(activityFieldLog.length).toBe(1);
+            expect(activityFieldLog[0].field_id).toBe(emptyField.field_id);
+            const activityCrops = await activityCropsModel.query().where('activity_id', activityLog[0].activity_id);
+            expect(activityCrops.length).toBe(0);
+            done();
+          })
+        });
+
         //TODO fail
         xtest('Should return 400 when fieldCrops is not empty', async (done) => {
           putRequest(sampleRequestBody, { user_id: owner.user_id }, async (err, res) => {

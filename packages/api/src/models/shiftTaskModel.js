@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (shiftTaskModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class ShiftTask extends Model {
+class ShiftTask extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'shiftTask';
   }
@@ -23,6 +24,7 @@ class ShiftTask extends Model {
   static get idColumn() {
     return 'task_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
@@ -32,12 +34,14 @@ class ShiftTask extends Model {
       required: ['shift_id', 'is_field', 'duration', 'task_id'],
       properties: {
         shift_id: { type: 'string' },
-        task_id: { type: 'string' },
+        task_id: { type: 'number' },
+        deleted: { type: 'boolean' },
         field_crop_id: { type: 'integer' },
         is_field: { type: 'boolean' },
         field_id: { type: 'string' },
         duration: { type: 'number' },
       },
+      additionalProperties: false,
     };
   }
 }

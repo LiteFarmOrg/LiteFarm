@@ -1,19 +1,19 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (20200505124117_update_insert_new_crops_into_crop_with_fc_variety.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function (knex, Promise) {
+exports.up = async function(knex) {
   await knex.raw(`
     INSERT INTO "crop" (crop_common_name, crop_genus, crop_specie, crop_group, crop_subgroup, max_rooting_depth, depletion_fraction, initial_kc, is_avg_depth, mid_kc, end_kc, max_height, is_avg_kc, nutrient_notes, percentrefuse, refuse, protein, lipid, energy, ca, fe, mg, ph, k, na, zn, cu, fl, mn, se, vita_rae, vite, vitc, thiamin, riboflavin, niacin, pantothenic, vitb6, folate, vitb12, vitk, is_avg_nutrient, farm_id, user_added, deleted, nutrient_credits)
     SELECT REPLACE(crop_common_name, crop_common_name, CONCAT(crop_common_name, ' - ', fc.variety)), crop_genus, crop_specie, crop_group, crop_subgroup, max_rooting_depth, depletion_fraction, initial_kc, NULL, mid_kc, end_kc, max_height, NULL, nutrient_notes, percentrefuse, refuse, protein, lipid, energy, ca, fe, mg, ph, k, na, zn, cu, fl, mn, se, vita_rae, vite, vitc, thiamin, riboflavin, niacin, pantothenic, vitb6, folate, vitb12, vitk, NULL, f.farm_id, TRUE, deleted, nutrient_credits
@@ -89,6 +89,6 @@ exports.up = async function (knex, Promise) {
 
 };
 
-exports.down = function (knex, Promise) {
+exports.down = function(knex) {
 
 };

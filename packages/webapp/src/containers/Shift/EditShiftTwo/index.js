@@ -39,17 +39,17 @@ class EditShiftTwo extends Component {
       mood: 'happy',
       showEdit: false,
       moodSelected: {
-        width: '80%',
-        height: '4em',
+        width: '50px',
+        height: '50px',
         background: '#00756A',
-        borderRadius: '100px',
+        borderRadius: '50px',
         margin: '0 auto',
       },
       moodUnSelected: {
-        width: '80%',
-        height: '4em',
-        background: '#80BFB6',
-        borderRadius: '100px',
+        width: '50px',
+        height: '50px',
+        background: '#7BCFA2',
+        borderRadius: '50px',
         margin: '0 auto',
       },
       //cropDuration: { TASK_ID: [{DURATION: FLOAT, CROP_NAME: STRING, FIELD_CROP_ID: UUID}, ... ] ... }
@@ -651,7 +651,8 @@ class EditShiftTwo extends Component {
                         return <div className={styles.durationContainer} key={cd.crop_id}>
                           <div>{cd.crop_name}</div>
                           <div className={styles.durationInput}>
-                            <input type="number" value={cd.duration}
+                            <input type="number" 
+                            placeholder={0} 
                                    onChange={(event) => this.changeDuration(event, task.task_id, true, cd.crop_id)}/>
                           </div>
                         </div>

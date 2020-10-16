@@ -40,7 +40,7 @@ class PriceController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(priceModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(priceModel, req.params.price_id, trx);
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);
@@ -85,7 +85,7 @@ class PriceController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await baseController.getByForeignKey(priceModel, 'farm_id', farm_id);
+        const rows = await PriceController.getByForeignKey(farm_id);
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -101,6 +101,13 @@ class PriceController extends baseController {
       }
     }
   }
+
+  static async getByForeignKey(farm_id) {
+    const prices = await priceModel.query().select('*').from('price').where('price.farm_id', farm_id).whereNotDeleted();
+
+    return prices;
+  }
+
 }
 
 module.exports = PriceController;

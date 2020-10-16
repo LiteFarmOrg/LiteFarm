@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -167,6 +167,9 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch(e) {
+    if(e.response.status === 404) {
+      yield put(setExpense([]));
+    }
     console.log('failed to fetch expenses from database')
   }
 }
@@ -205,7 +208,7 @@ export function* addExpensesSaga(action) {
   };
 
   try {
-    const result = yield call(axios.post, expenseUrl, action.expenses, header);
+    const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
     if (result) {
       toastr.success(`Successfully added new expenses!`);
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
@@ -231,7 +234,7 @@ export function* deleteExpensesSaga(action) {
   };
 
   try {
-    const result = yield call(axios.put, expenseUrl, action.ids, header);
+    const result = yield call(axios.put, expenseUrl , action.ids, header);
     if (result) {
       toastr.success(`Successfully deleted expenses!`);
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
@@ -245,6 +248,7 @@ export function* deleteExpensesSaga(action) {
 }
 
 export function* addRemoveExpenseSaga(action) {
+  console.log("add remove expenses saga")
   let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
   const header = {

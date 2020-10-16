@@ -55,6 +55,7 @@ class userFarm extends Model {
           },
         },
       },
+      additionalProperties: false,
     };
   }
 
@@ -75,6 +76,7 @@ class userFarm extends Model {
           from: 'userFarm.farm_id',
           to: 'farm.farm_id',
         },
+
       },
       role: {
         modelClass:require('./roleModel'),

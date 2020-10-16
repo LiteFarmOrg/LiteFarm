@@ -37,6 +37,7 @@ class FieldWorkLog extends Model {
           enum:['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing'],
         },
       },
+      additionalProperties: false,
     };
   }
 
@@ -53,6 +54,7 @@ class FieldWorkLog extends Model {
           from: 'fieldWorkLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

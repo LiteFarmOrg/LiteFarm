@@ -33,8 +33,14 @@
 }
 
 .addButton {
-  width: 8em;
-  margin-top: 3%;
+  max-width: 312px;
+  margin: 16px auto 24px auto;
+  background: #FCE38D;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+  border-radius: 4px;
+  border: none;
+  color: #282B36;
+  padding: 12px 107px;
 }
 
 .close {
@@ -46,13 +52,14 @@
   justify-self: flex-start;
 }
 
-.modal {
-  width: 95%;
-  max-width: 800px;
-  margin-top: 50px;
+.modal, .addUserContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.addUserContainer {
 }
 
 .labelContainer{
@@ -105,16 +112,46 @@
   color: #9FAABE;
 }
 
-.inputContainer {
+.formBodyContainer {
+  width: 100%;
+}
+
+.inputContainer, .errorInputContainer {
   display: flex;
   flex-direction: column;
+  margin: auto;
   input[type='text'], select {
-    height: 2em;
     background: #FFFFFF;
     border: 1px solid #D4DAE3;
     box-sizing: border-box;
     border-radius: 4px;
-    margin: 0.5em 0 1em 0;
+    margin: 0.25em 0 16px 0;
+    padding: 0.75em 0.5em;
+    height: 48px;
+    font-size: 16px;
+    color: #282B36;
+  }
+
+  input[type='text']:disabled, select:disabled {
+    background: #F3F6FB;
+    border: 1px solid #D4DAE3;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #282B36;
+  }
+
+  input[type='text']:focus, select:focus {
+    border: 1px solid #89D1C7;
+    outline: none;
+  }
+
+  label {
+    margin: 0;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #66738A;
   }
 
   input[type='radio'], label {
@@ -125,6 +162,24 @@
     width: 20px;
     margin-right: 2px;
   }
+}
+
+.errorInputContainer {
+  input[type='text'] {
+    border: 1px solid #F58282;
+  }
+}
+
+.addUserTitleContainer {
+  width: 100%;
+  max-width: 312px;
+}
+
+.userTitle {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  font-size: 20px;
+  line-height: 32px;
 }
 
 .wageContainer {
@@ -163,6 +218,7 @@
 .formContainer{
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .removeButton{
@@ -179,35 +235,85 @@
 }
 
 .errorContainer {
-  color: red;
+  color: #EC4C47;
   display: flex;
   align-items: center;
-  margin: -0.5em 0 0.5em 0;
+  margin: -0.75em auto 0.5em auto;
+  max-width: 312px;
 }
 
 .errorText {
   margin-left: 2px;
 }
 
-.inviteButton {
-  background: #FED450;
-  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+.formActionsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 32px;
+  margin-top: 45%;
+}
+
+.inviteButton, .cancelButton {
+  padding: 12px 50px;
   border-radius: 4px;
+  width: 48%;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  height: 48px;
+}
+
+.inviteButton {
+  background: #FCE38D;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
   border: none;
-  padding: 0.5em 2em;
-  margin: 0 1em;
+  color: #282B36;
 }
 
 .inviteButton:disabled {
   background: #D4DAE3;
+  color: #F3F6FB;
   box-shadow: none;
 }
 
 .cancelButton {
   background: #FFFFFF;
   border: 1px solid #9FAABE;
-  border-radius: 4px;
-  color: #9FAABE;
-  padding: 0.5em 2em;
-  margin: 0 1em;
+  color: #66738A;
+}
+
+
+@media (min-width: 768px) {
+  .formActionsContainer {
+    margin-top: 40px;
+    position: unset;
+  }
+  .inviteButton {
+    margin-right: 0;
+  }
+  .userTitle {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+  .labelContainer {
+    margin-bottom: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .formActionsContainer {
+    position: unset;
+    margin-top: 0;
+  }
+  .inviteButton {
+    margin-right: 0;
+  }
+  .userTitle {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+  .labelContainer {
+    margin-bottom: 24px;
+  }
 }

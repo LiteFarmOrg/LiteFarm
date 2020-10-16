@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (userController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -16,24 +16,89 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
-const roleModel = require('../models/roleModel');
+//const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+
+const knex = Model.knex();
 const emailSender = require('../templates/sendEmailTemplate');
 
 
 class userController extends baseController {
   static addUser() {
+    // Add user endpoint
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        await baseController.post(userModel, req.body, trx);
+        await trx.commit();
+        res.sendStatus(201);
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
+  static addPseudoUser() {
     // Add pseudo user endpoint
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const { user_id, farm_id, wage } = req.body;
+        const {
+          user_id,
+          farm_id,
+          first_name,
+          last_name,
+          wage,
+          email,
+        } = req.body;
+        const {
+          type: wageType,
+          amount: wageAmount,
+        } = wage || {};
+
+        /* Start of input validation */
+        const requiredProps = {
+          user_id,
+          farm_id,
+          first_name,
+          last_name,
+          email,
+        };
+
+        if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
+          const errorMessageTitle = 'Missing Properties: ';
+          const errorMessage = Object.keys(requiredProps).reduce((missingPropMsg, key) => {
+            if (!requiredProps[key]) {
+              const concatMsg = [missingPropMsg, key];
+              return missingPropMsg === errorMessageTitle
+                ? concatMsg.join('') // to avoid prepending first item in list with comma
+                : concatMsg.join(', ');
+            }
+            return missingPropMsg;
+          }, errorMessageTitle);
+          return res.status(400).send(errorMessage);
+        }
+
+        if (email !== `${user_id}@pseudo.com`) {
+          return res.status(400).send('Invalid pseudo user email');
+        }
+
+        const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
+        if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
+          return res.status(400).send('Invalid wage amount');
+        }
+
+        if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+          return res.status(400).send('Current app version only allows hourly wage');
+        }
+        /* End of input validation */
+
         await baseController.post(userModel, req.body, trx);
         await userFarmModel.query(trx).insert({
           user_id,
@@ -58,7 +123,7 @@ class userController extends baseController {
   static getUserByID() {
     return async (req, res) => {
       try {
-        const id = req.params.id;
+        const id = req.params.user_id;
 
         const data = await knex.raw(
           `
@@ -68,8 +133,8 @@ class userController extends baseController {
           LEFT JOIN
           "userFarm" uf
           ON uf.user_id = u.user_id
-          WHERE u.user_id = '${id}'
-          `
+          WHERE u.user_id = ?
+          `, [id]
         );
 
         if (!data && !data.rows) {
@@ -83,116 +148,6 @@ class userController extends baseController {
         //handle more exceptions
         console.log(error);
         res.status(400).send(error);
-      }
-    }
-  }
-
-  static getUserByFarmID() {
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const userFarm = await knex.raw(`
-          SELECT
-            uf.user_id,
-            first_name,
-            last_name,
-            profile_picture,
-            phone_number,
-            address,
-            notification_setting,
-            role,
-            uf.has_consent,
-            status,
-            uf.consent_version,
-            r.role_id,
-            uf.wage,
-          CASE
-            WHEN r.role_id = 4 THEN ''
-            ELSE email END
-          FROM "userFarm" uf, "role" r, "users" u
-          WHERE uf.farm_id='${farm_id}'
-            AND uf.user_id=u.user_id
-            AND uf.role_id=r.role_id
-        `);
-        const { rows } = userFarm;
-        if (!rows || rows.length === 0) {
-          res.sendStatus(404)
-        }
-        else {
-          res.status(200).send(rows);
-        }
-      }
-      catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    }
-  }
-
-  static getActiveUserByFarmID() {
-    // TODO: convert this into get all users by farm id and let front end handle which type of users to display
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const userFarm = await knex.raw(`
-          SELECT
-            uf.user_id,
-            first_name,
-            last_name,
-            profile_picture,
-            email,
-            phone_number,
-            address,
-            notification_setting,
-            wage,
-            role,
-            uf.has_consent,
-            status,
-            uf.consent_version,
-            uf.wage
-          FROM "userFarm" uf, "role" r, "users" u
-          WHERE uf.farm_id='${farm_id}'
-            AND uf.status='Active'
-            AND uf.user_id=u.user_id
-            AND uf.role_id=r.role_id
-        `);
-        const { rows } = userFarm;
-        if (!rows || rows.length === 0) {
-          res.sendStatus(404)
-        }
-        else {
-          res.status(200).send(rows);
-        }
-      }
-      catch (error) {
-        //handle more exceptions
-        res.status(400).json({
-          error,
-        });
-      }
-    }
-  }
-
-  static delUser() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      try {
-        const isDeleted = await baseController.delete(userModel, req.params.id, trx);
-        await trx.commit();
-        if (isDeleted) {
-          res.sendStatus(200);
-        }
-        else {
-          res.sendStatus(404);
-        }
-      }
-      catch (error) {
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
       }
     }
   }
@@ -321,7 +276,7 @@ class userController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
 
-        const updated = await baseController.put(userModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);

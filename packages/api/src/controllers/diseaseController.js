@@ -14,7 +14,7 @@
  */
 
 const baseController = require('../controllers/baseController');
-const DiseaseModel = require('../models/diseaseModel');
+const diseaseModel = require('../models/diseaseModel');
 const { transaction, Model } = require('objection');
 
 class diseaseController extends baseController {
@@ -37,11 +37,11 @@ class diseaseController extends baseController {
       }
     }
   }
-  static addDisease(){
+  static addDisease() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(DiseaseModel, req.body, trx);
+        const result = await baseController.postWithResponse(diseaseModel, req.body, trx);
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -54,9 +54,30 @@ class diseaseController extends baseController {
     };
   }
 
+  static delDisease() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      try {
+        const isDeleted = await baseController.delete(diseaseModel, req.params.disease_id, trx);
+        await trx.commit();
+        if (isDeleted) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(404);
+        }
+      } catch (error) {
+        //handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
+
   static async get(farm_id){
     //return await super.get(FertilizerModel);
-    return await DiseaseModel.query().where('farm_id', null).orWhere('farm_id', farm_id);
+    return await diseaseModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
   }
 }
 

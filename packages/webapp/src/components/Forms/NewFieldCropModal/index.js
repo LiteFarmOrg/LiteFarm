@@ -33,6 +33,7 @@ class NewFieldCropModal extends React.Component {
     this.onStartDateChange = this.onStartDateChange.bind(this);
     this.onEndDateChange = this.onEndDateChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.getCropOptions = this.getCropOptions.bind(this);
 
     this.state = {
       show: false,
@@ -62,21 +63,16 @@ class NewFieldCropModal extends React.Component {
         borderRadius: '5px',
         background: '#009485',
         color:'white',
-      }
+      },
+      crop_option: {},
     };
   }
 
-  componentDidMount() {
-    const {
-      dispatch
-    } = this.props;
-    dispatch(getCrops());
-    this.setState({crops: this.props.crops});
-  }
-
   componentDidUpdate(prevProps) {
-    if (this.props.crops !== prevProps.crops) {
-      this.setState({crops: this.props.crops});
+    const {crops} = this.props;
+    if (crops && prevProps.crops && crops.length > prevProps.crops.length) {
+      const newCrop = crops[crops.length-1];
+      this.setState(preState => ({fieldCrop:{...preState.fieldCrop, crop_id: newCrop.crop_id}, crop_option: newCrop}));
     }
   }
 
@@ -148,7 +144,7 @@ class NewFieldCropModal extends React.Component {
     let fieldCrop = this.state.fieldCrop;
     let cropBeingEdited = {
       ...fieldCrop,
-      [event.target.id]: event.target.value,
+      [event.target.id]: Number(event.target.value) >= 0? event.target.value: 0,
     };
     this.setState({
       fieldCrop: cropBeingEdited
@@ -172,11 +168,24 @@ class NewFieldCropModal extends React.Component {
 
   validateForm() {
     const currentFieldCrop = this.state.fieldCrop;
+
+    let {fieldArea} = this.props;
+
+    if (this.state.area_unit === 'ft2') {
+      fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
+    }
+
     let isValid = true;
     let errors = "";
 
     if(moment(currentFieldCrop.end_date).isSameOrBefore(moment(currentFieldCrop.start_date))){
       toastr.error('End Date cannot be the same or before Start Date');
+      isValid = false;
+      return isValid;
+    }
+
+    if (currentFieldCrop.area_used > fieldArea) {
+      toastr.error('Field crop area cannot be greater than field area');
       isValid = false;
       return isValid;
     }
@@ -187,6 +196,7 @@ class NewFieldCropModal extends React.Component {
         errors += key + ", "
       }
     }
+
     if(!isValid) {
       toastr.error(errors + ' is not filled');
     } else {
@@ -199,6 +209,14 @@ class NewFieldCropModal extends React.Component {
 
   handlePercentage = (e) => {
     let {fieldCrop} = this.state;
+      if(e.target.value< 0){
+        e.target.value = 0;
+      }
+
+      if(e.target.value > 100){
+        e.target.value = 100;
+      }
+
     let {fieldArea} = this.props;
 
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
@@ -211,7 +229,6 @@ class NewFieldCropModal extends React.Component {
 
   toggleAreaBed = (isByArea) => {
     let fieldCrop = this.state.fieldCrop;
-    fieldCrop.area_used = 0;
     this.setState({isByArea, fieldCrop});
   };
 
@@ -261,16 +278,15 @@ class NewFieldCropModal extends React.Component {
     let fieldCrop = this.state.fieldCrop;
     if(crop && crop.value && crop.value.crop_id){
       fieldCrop.crop_id = crop.value.crop_id;
-      this.setState({fieldCrop});
+      this.setState({fieldCrop, crop_option: crop.value});
     }else{
       fieldCrop.crop_id = '';
-      this.setState({fieldCrop});
+      this.setState({fieldCrop, crop_option:{}});
     }
   };
 
-  render() {
-    let {fieldArea} = this.props;
-    let {isByArea, crops, clicked, un_clicked, area_unit_label} = this.state;
+  getCropOptions = () =>{
+    const {crops} = this.props;
     let cropOptions = [];
     if(crops && crops.length){
       for(let c of crops){
@@ -279,9 +295,16 @@ class NewFieldCropModal extends React.Component {
           label: c.crop_common_name,
         })
       }
-
       cropOptions.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0));
     }
+    return cropOptions;
+  }
+
+  render() {
+    let {fieldArea} = this.props;
+    let {isByArea, clicked, un_clicked, area_unit_label} = this.state;
+
+
 
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     return (
@@ -301,7 +324,7 @@ class NewFieldCropModal extends React.Component {
               <FormGroup
                 validationState={this.validateNotEmptyLength(this.state.fieldCrop.crop_id)}
                 controlId="crop_id">
-                <Select options={cropOptions} onChange={(selectedOption) => this.handleCropSelect(selectedOption)} required/>
+                <Select options={this.getCropOptions()} value={{value: this.state.crop_option, label: this.state.crop_option.crop_common_name}} onChange={(selectedOption) => this.handleCropSelect(selectedOption)} required/>
               </FormGroup>
 
               <NewCropModal handler={this.handleSaveCustomCrop} isLink={true}/>
@@ -322,6 +345,8 @@ class NewFieldCropModal extends React.Component {
                     <FormControl
                       type="number"
                       placeholder="0"
+                      min={0}
+                      max={100}
                       onChange={(e) => this.handlePercentage(e)}/>
                   </FormGroup>
                   <FormGroup className={newFieldStyles.areaContainer}>
@@ -343,7 +368,7 @@ class NewFieldCropModal extends React.Component {
                     <label>Bed Length: ({area_unit_label})</label>
                     <FormControl
                       type="number"
-                      value={this.state.bed_length}
+                      placeholder={"0"}
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
@@ -353,7 +378,7 @@ class NewFieldCropModal extends React.Component {
                     <label>Bed Width: ({area_unit_label})</label>
                     <FormControl
                       type="number"
-                      value={this.state.bed_width}
+                      placeholder={"0"}
                       onChange={(e) => this.onBedWidthChange(e)}
                     />
                   </FormGroup>

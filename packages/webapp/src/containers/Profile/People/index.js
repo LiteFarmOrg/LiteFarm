@@ -10,8 +10,10 @@ import {
   addPseudoWorker,
   deactivateUser,
   getRoles,
+  reactivateUser,
 } from './actions';
 import Table from '../../../components/Table';
+import DropDown from '../../../components/Inputs/DropDown';
 import Popup from "reactjs-popup";
 import { Control, Errors, Form, actions } from 'react-redux-form';
 import {Button} from 'react-bootstrap';
@@ -45,8 +47,8 @@ const summaryColumns = [
     minWidth: 55,
   },
   {
-    id: 'active',
-    Header: 'Active',
+    id: 'status',
+    Header: 'Status',
     accessor: 'status',
     minWidth: 55,
   },
@@ -65,7 +67,6 @@ class People extends Component {
       addUser: null,
       isAdmin: false,
       isPseudo: false,
-      title: '',
       editTitle: '',
       currencySymbol: grabCurrencySymbol(this.props.farm),
       searchValue: '',
@@ -100,13 +101,10 @@ class People extends Component {
   };
 
   openAddModal = (isAdmin, isPseudo = false) => {
-    let title = isAdmin ? 'an Admin' : 'a Worker';
-
     this.setState({
       showAdd: true,
       isAdmin,
       isPseudo,
-      title,
     });
   };
 
@@ -137,6 +135,7 @@ class People extends Component {
     // ADD ROLE CHANGE
     if (editedUser.role_id && editedUser.role_id !== user.role_id) {
       finalUser.role_id = editedUser.role_id;
+      finalUser.has_consent = false;
       hasChanged = true;
     }
 
@@ -147,8 +146,6 @@ class People extends Component {
       if (!finalUser.role_id) {
         finalUser.role_id = 3;
       }
-      finalUser.first_name = user.first_name;
-      finalUser.last_name = user.last_name;
       finalUser.has_consent = false;
       hasChanged = true;
     }
@@ -174,7 +171,7 @@ class People extends Component {
       last_name,
     } = userInfo;
     // Pseudo worker is a worker with no email filled out
-    const isPseudo = role === '3' && email.trim().length === 0;
+    const isPseudo = role === 3 && email.trim().length === 0;
     const amount = pay.amount && pay.amount.trim().length > 0
       ? Number(pay.amount)
       : 0; // TODO: convert this to null to indicate no wage is entered
@@ -235,6 +232,11 @@ class People extends Component {
         this.closeEditModal();
       }
     }
+  };
+
+  reactivate = (user_id) => {
+    this.props.dispatch(reactivateUser(user_id));
+    this.closeEditModal();
   };
 
   handleSearchValueChange = (event) => {
@@ -360,12 +362,280 @@ class People extends Component {
     this.setState({cleaveEmailState: cleave});
   };
 
+  isDisabled = () => {
+    const { profileForms } = this.props;
+    const { forms } = profileForms;
+    const { addInfo } = forms;
+    return !addInfo.$form.valid;
+  }
+
+  isTextFieldErrorShown = (key) => {
+    const { profileForms } = this.props;
+    const { forms } = profileForms;
+    const { addInfo } = forms;
+    let field = addInfo[key];
+
+    if (key === 'pay') {
+      field = addInfo[key].amount;
+    }
+
+    // Show error only when it's invalid, touched, and not currently focused on
+    // NOTE: Besides the first condition (field.valid), all the following
+    // conditions should follow the show prop in the <Errors /> component to
+    // ensure that the input field's styling is consistent with <Errors />
+    return !field.valid && field.touched && !field.focus;
+  }
+
+  getTextFieldStyle = (key) => {
+    const hasErrors = this.isTextFieldErrorShown(key);
+    if (hasErrors) {
+      return styles.errorInputContainer;
+    }
+    return styles.inputContainer;
+  }
+
+  getDropDownOptions = () => {
+    const { roles } = this.props;
+    return roles.map(option => {
+      const { role_id, role } = option;
+      return ({
+        value: role_id,
+        label: `Farm ${role}`,
+      });
+    })
+  }
+
   render() {
-    const { isAdmin, roles, profileForms } = this.props;
-    const {isPseudo, editTitle, currencySymbol, searchValue} = this.state;
+    const { isAdmin, profileForms } = this.props;
+    const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
+    const dropDownOptions = this.getDropDownOptions();
+
+    if (this.state.showAdd) {
+      return (
+        <div className={styles.addUserContainer}>
+          <div className={styles.addUserTitleContainer}>
+            <h3 className={styles.userTitle}>Invite a User</h3>
+          </div>
+          <Form
+            className={styles.formContainer}
+            model="profileForms"
+            onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
+          >
+            <div className={styles.formBodyContainer}>
+              <div className={this.getTextFieldStyle('first_name')}>
+                <label>First Name</label>
+                <Control.text
+                  model=".addInfo.first_name"
+                  validators={{
+                    required: (val) => val.length,
+                  }}
+                  defaultValue=""
+                />
+              </div>
+              <Errors
+                model="profileForms.addInfo.first_name"
+                messages={{
+                  required: 'First name cannot be empty',
+                }}
+                show={field => field.touched && !field.focus}
+                component={(props) => (
+                  <div className={styles.errorContainer}>
+                    <div className={styles.errorText}>{props.children}</div>
+                  </div>
+                )}
+              />
+              <div className={this.getTextFieldStyle('last_name')}>
+                <label>Last Name</label>
+                <Control.text
+                  model=".addInfo.last_name"
+                  validators={{
+                    required: (val) => val.length
+                  }}
+                  defaultValue=""
+                />
+              </div>
+              <Errors
+                model=".addInfo.last_name"
+                messages={{
+                  required: 'Last name cannot be empty',
+                }}
+                show={field => field.touched && !field.focus}
+                component={(props) => (
+                  <div className={styles.errorContainer}>
+                    <div className={styles.errorText}>{props.children}</div>
+                  </div>
+                )}
+              />
+              <div className={styles.inputContainer}>
+                <label>Role</label>
+                <Control.custom
+                  model=".addInfo.role"
+                  defaultValue="0"
+                  onChange={(option) => {
+                    this.props.dispatch(actions.change('profileForms.addInfo.role', option.value))
+                    this.props.dispatch(actions.validate('profileForms.addInfo.email', {
+                      required: (val) => option.value === 3 ? true : val.length,
+                      validEmail: (val) => validEmailRegex.test(val),
+                    }));
+                  }}
+                  component={DropDown}
+                  mapProps={{
+                    isSearchable: false,
+                    options: dropDownOptions,
+                    placeholder: 'Select role',
+                    styles: {
+                      container: (provided, state) => ({
+                        ...provided,
+                        margin: '0.25em 0 1em 0',
+                        outline: 'none',
+                      }),
+                      control: (provided, state) => ({
+                        background: '#FFFFFF',
+                        border: '1px solid',
+                        borderColor: state.isFocused ? '#89D1C7' : '#D4DAE3',
+                        boxSizing: 'border-box',
+                        borderRadius: '4px',
+                        padding: '0.75em 0.5em',
+                        height: '48px',
+                        fontSize: '16px',
+                        color: '#282B36',
+                        outline: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }),
+                      placeholder: (provided, state) => ({ color: '#9FAABE'}),
+                      indicatorSeparator: (provided, state) => ({
+                        backgroundColor: 'none',
+                      }),
+                      menuList: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                        margin: 0,
+                        borderRadius: '4px',
+                        background: '#FFFFFF',
+                        boxShadow: '0px 1px 2px rgba(102, 115, 138, 0.25)',
+                      }),
+                      option: (provided, state) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '8px 8px 8px',
+                        backgroundColor: 'transparent',
+                        background: (state.isClicked || state.isFocused) ? 'rgb(223, 244, 232, 0.5)' : 'none',
+                        color: '#282B36',
+                        height: '40px',
+                      }),
+                      valueContainer: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                      }),
+                      singleValue: (provided, state) => ({
+                        ...provided,
+                        padding: 0,
+                        margin: 0,
+                      }),
+                    }
+                  }}
+                />
+          </div>
+              {
+                isRoleSelected
+                  && (
+                    <div>
+                    <div className={this.getTextFieldStyle('email')}>
+                        <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
+                        <Control.text
+                          model=".addInfo.email"
+                          validators={{
+                            required: (val) => addInfo.role === 3 ? true : val.length,
+                            validEmail: (val) => validEmailRegex.test(val),
+                          }}
+                          defaultValue=""
+                        />
+                        {
+                          addInfo.role === 3
+                            && (
+                              <p className={styles.emailInputReminder}>
+                                {`Users without an email won't be able to login`}
+                              </p>
+                            )
+                        }
+                      </div>
+                      <Errors
+                        model=".addInfo.email"
+                        messages={{
+                          required: 'Email cannot be empty for the selected role',
+                          validEmail: 'Email must be valid',
+                        }}
+                        show={field => field.touched && !field.focus}
+                        component={(props) => (
+                          <div className={styles.errorContainer}>
+                            <div className={styles.errorText}>{props.children}</div>
+                          </div>
+                        )}
+                      />
+                    <div className={this.getTextFieldStyle('pay')}>
+                        <label>Wage (Optional)</label>
+                        <div className={styles.wageContainer}>
+                          <Control.text
+                            model=".addInfo.pay.amount"
+                            validators={{
+                              validWage: (val) => validWageRegex.test(val),
+                            }}
+                            defaultValue=""
+                          />
+                          <p className={styles.wageInputUnit}>
+                            {`${currencySymbol}/hr`}
+                          </p>
+                          {/* <div className={styles.payTypeContainer}>
+                                <div className={styles.radioContainer}>
+                                  <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
+                                  <label htmlFor="hour">Hourly</label>
+                                </div>
+                                <div className={styles.radioContainer}>
+                                  <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
+                                  <label htmlFor="daily">Daily</label>
+                                </div>
+                              </div> */}
+                        </div>
+                      </div>
+                      <Errors
+                        model=".addInfo.pay.amount"
+                        messages={{
+                          validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
+                        }}
+                        show={field => field.touched && !field.focus}
+                        component={(props) => (
+                          <div className={styles.errorContainer}>
+                            <div className={styles.errorText}>{props.children}</div>
+                          </div>
+                        )}
+                      />
+                    </div>
+                  )
+              }
+            </div>
+            <div className={styles.formActionsContainer}>
+              <button
+                className={styles.cancelButton}
+                onClick={() => this.closeAddModal()}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className={styles.inviteButton}
+                disabled={this.isDisabled()}
+              >
+                Invite
+              </button>
+            </div>
+          </Form>
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -393,12 +663,12 @@ class People extends Component {
           {
             isAdmin
               ? (
-                <Button
+                <button
                   className={styles.addButton}
                   onClick={() => this.openAddModal(true)}
                 >
-                  Add User
-                </Button>
+                  Invite User
+                </button>
               )
               : null
           }
@@ -425,7 +695,7 @@ class People extends Component {
                     {
                       this.state.editUser.role_id === 4 && <div className={styles.labelContainer}>
                         <label>Convert this worker to a user with account</label>
-                        <input type="checkbox" value={this.state.willConvertWorker}
+                        <input style ={{"appearance": "auto"}} type="checkbox" value={this.state.willConvertWorker}
                                onChange={(e) => this.toggleConvertWorker(e)}/>
                       </div>
                     }
@@ -460,6 +730,7 @@ class People extends Component {
                           <label>Role</label>
                           <Control.select model=".editInfo.role" onChange={this.updateRoleSelection}
                                           defaultValue={this.state.editUser.role_id === 4 ? 3 : this.state.editUser.role_id}>
+                            <option value="5">Extension Officer</option>
                             <option value="3">Farm Worker</option>
                             <option value="2">Farm Manager</option>
                             <option value="1">Farm Owner</option>
@@ -487,218 +758,30 @@ class People extends Component {
                       <Button type='submit' bsStyle='primary' disabled={!this.state.updated_edit}>Update</Button>
                     </div>
                   </Form>
-                  <div style={{"textAlign": "center"}}>
-                    {
-                      !this.state.editUser.is_admin && <button className={styles.removeButton}
-                                                               onClick={() => this.deactivate(this.state.editUser.user_id)}>
-                        Revoke User Access</button>
-                    }
-                  </div>
+                  {(this.state.editUser.status === 'Inactive') ?
+                    <div style={{"textAlign": "center"}}>
+                      {
+                        !this.state.editUser.is_admin && <button className={styles.removeButton}
+                                                                onClick={() => this.reactivate(this.state.editUser.user_id)}>
+                          Restore User Access</button>
+                      }
+                    </div> : 
+                    <div style={{"textAlign": "center"}}>
+                      {
+                        !this.state.editUser.is_admin && <button className={styles.removeButton}
+                                                                onClick={() => this.deactivate(this.state.editUser.user_id)}>
+                          Revoke User Access</button>
+                      }
+                    </div>
+                  }
 
                 </div>
               )
             }
           </div>
         </Popup>
-        <Popup
-          open={this.state.showAdd}
-          closeOnDocumentClick
-          onClose={this.closeAddModal}
-          contentStyle={{
-            display: 'flex',
-            width: '100%',
-            minHeight: '100vh',
-            maxHeight: '120vh',
-            padding: '0 5%',
-            justifyContent: 'center'
-          }}
-          overlayStyle={{zIndex: '1060', minHeight: '100vh', maxHeight: '120vh', top: 'auto'}}
-        >
-          <div className={styles.modal}>
-            <div className={styles.popupTitle}>
-              <a className={styles.close} onClick={this.closeAddModal}>
-                <img src={closeButton} alt=""/>
-              </a>
-              <h3>Invite a User</h3>
-            </div>
-            <div className={styles.formContainer}>
-              <Form
-                model="profileForms"
-                onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
-              >
-                {
-                  isPseudo && <Alert bsStyle="warning">
-                    To add multiple workers just change the wage accordingly
-                  </Alert>
-                }
-                <div className={styles.inputContainer}>
-                  <label>First Name</label>
-                  <Control.text
-                    model=".addInfo.first_name"
-                    validators={{
-                      required: (val) => val.length,
-                    }}
-                    defaultValue=""
-                  />
-                </div>
-                <Errors
-                  model="profileForms.addInfo.first_name"
-                  messages={{
-                    required: 'First name cannot be empty',
-                  }}
-                  show={field => field.touched && !field.focus}
-                  component={(props) => (
-                    <div className={styles.errorContainer}>
-                      <i className="material-icons">error_outline</i>
-                      <div className={styles.errorText}>{props.children}</div>
-                    </div>
-                  )}
-                />
-                <div className={styles.inputContainer}>
-                  <label>Last Name</label>
-                  <Control.text
-                    model=".addInfo.last_name"
-                    validators={{
-                      required: (val) => val.length
-                    }}
-                    defaultValue=""
-                  />
-                </div>
-                <Errors
-                  model=".addInfo.last_name"
-                  messages={{
-                    required: 'Last name cannot be empty',
-                  }}
-                  show={field => field.touched && !field.focus}
-                  component={(props) => (
-                    <div className={styles.errorContainer}>
-                      <i className="material-icons">error_outline</i>
-                      <div className={styles.errorText}>{props.children}</div>
-                    </div>
-                  )}
-                />
-                <div className={styles.inputContainer}>
-                  <label>Role</label>
-                  <Control.select
-                    model=".addInfo.role"
-                    defaultValue="0"
-                    onChange={(e) => {
-                      this.props.dispatch(actions.validate('profileForms.addInfo.email', {
-                        required: (val) => e.target.value === '3' ? true : val.length,
-                        validEmail: (val) => validEmailRegex.test(val),
-                      }));
-                    }}
-                  >
-                    <option disabled hidden value="0"></option>
-                    {
-                      roles.map(row => {
-                        const { role_id, role } = row;
-                        return (
-                          <option value={role_id}>{`Farm ${role}`}</option>
-                        );
-                      })
-                    }
-                  </Control.select>
-                </div>
-                {
-                  isRoleSelected
-                    && (
-                      <div>
-                        <div className={styles.inputContainer}>
-                          <label>{addInfo.role === '3' ? `Email (Optional)` : `Email`}</label>
-                          <Control.text
-                            model=".addInfo.email"
-                            validators={{
-                              required: (val) => addInfo.role === '3' ? true : val.length,
-                              validEmail: (val) => validEmailRegex.test(val),
-                            }}
-                            defaultValue=""
-                          />
-                          {
-                            addInfo.role === '3'
-                              && (
-                                <text className={styles.emailInputReminder}>
-                                  {`Users without an email won't be able to login`}
-                                </text>
-                              )
-                          }
-                        </div>
-                        <Errors
-                          model=".addInfo.email"
-                          messages={{
-                            required: 'Email cannot be empty for the selected role',
-                            validEmail: 'Email must be valid',
-                          }}
-                          show={field => field.touched && !field.focus}
-                          component={(props) => (
-                            <div className={styles.errorContainer}>
-                              <i className="material-icons">error_outline</i>
-                              <div className={styles.errorText}>{props.children}</div>
-                            </div>
-                          )}
-                        />
-                        <div className={styles.inputContainer}>
-                          <label>Wage (Optional)</label>
-                          <div className={styles.wageContainer}>
-                            <Control.text
-                              model=".addInfo.pay.amount"
-                              validators={{
-                                validWage: (val) => validWageRegex.test(val),
-                              }}
-                              defaultValue=""
-                            />
-                            <text className={styles.wageInputUnit}>
-                              {`${currencySymbol}/hr`}
-                            </text>
-                            {/* <div className={styles.payTypeContainer}>
-                              <div className={styles.radioContainer}>
-                                <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
-                                <label htmlFor="hour">Hourly</label>
-                              </div>
-                              <div className={styles.radioContainer}>
-                                <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
-                                <label htmlFor="daily">Daily</label>
-                              </div>
-                            </div> */}
-                          </div>
-                        </div>
-                        <Errors
-                          model=".addInfo.pay.amount"
-                          messages={{
-                            validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
-                          }}
-                          show={field => field.touched && !field.focus}
-                          component={(props) => (
-                            <div className={styles.errorContainer}>
-                              <i className="material-icons">error_outline</i>
-                              <div className={styles.errorText}>{props.children}</div>
-                            </div>
-                          )}
-                        />
-                      </div>
-                    )
-                }
-                <div className={defaultStyles.saveButton}>
-                  <button
-                    className={styles.cancelButton}
-                    onClick={() => this.closeAddModal()}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className={styles.inviteButton}
-                    disabled={!isRoleSelected}
-                  >
-                    Invite
-                  </button>
-                </div>
-              </Form>
-            </div>
-          </div>
-        </Popup>
       </div>
-    )
+    );
   }
 
 }

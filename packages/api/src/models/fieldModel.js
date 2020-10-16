@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fieldModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,8 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-class Field extends Model {
+class Field extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'field';
   }
@@ -33,8 +34,10 @@ class Field extends Model {
       properties: {
         field_id: { type: 'string' },
         farm_id: { type: 'string' },
+        deleted: { type: 'boolean' },
         field_name: { type: 'string' },
         area: { type: 'number' },
+        station_id: { type: 'number' },
         grid_points: { type: 'array',
           properties: {
             lat: { type: 'number' },
@@ -42,6 +45,7 @@ class Field extends Model {
           },
         },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {
@@ -57,6 +61,7 @@ class Field extends Model {
           from: 'field.field_id',
           to: 'fieldCrop.field_id',
         },
+
       },
     };
   }

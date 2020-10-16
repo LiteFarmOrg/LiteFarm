@@ -1,13 +1,13 @@
 /* eslint-disable */
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (sendFarmData.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -30,10 +30,8 @@ const fieldWorkModel = require('../../models/fieldWorkLogModel');
 const soilDataModel = require('../../models/soilDataLogModel');
 const irriModel = require('../../models/irrigationLogModel');
 const scoutModel = require('../../models/scoutingLogModel');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const credentials = require('../../credentials');
 const scheduler = require('node-schedule');
 const baseController = require('../../controllers/baseController');
@@ -102,13 +100,13 @@ class sendUserFarmDataScheduler {
           const user_data = await knex.raw(
             `
           SELECT uf.user_id, uf.farm_id, uf.role_id, uf.has_consent, u.created_at, u.first_name, u.last_name, u.profile_picture, u.email, u.phone_number,
-          u.wage, u.is_pseudo, uf.status
+          uf.wage, uf.status
           FROM "userFarm" uf
           LEFT JOIN
           "users" u
           ON uf.user_id = u.user_id
-          WHERE uf.farm_id = '${farm_id}'
-          `
+          WHERE uf.farm_id = ?
+          `, [farm_id]
           );
           template.users = user_data.rows;
           template.fields = await baseController.getByForeignKey(fieldModel, 'farm_id', farm_id);
@@ -125,9 +123,9 @@ class sendUserFarmDataScheduler {
 	          )
 	          x ON x.field_crop_id = t.field_crop_id,
           "shift" s, "users" u, "taskType" tp, "userFarm" uf
-          WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id  AND uf.user_id = u.user_id AND uf.farm_id = '${farm_id}'
+          WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id  AND uf.user_id = u.user_id AND uf.farm_id = ?
           AND t.task_id = tp.task_id
-          `
+          `, [farm_id]
           );
           template.shifts = get_shifts.rows;
 
@@ -237,9 +235,6 @@ class sendUserFarmDataScheduler {
           }
         })
         .catch(async (error) => {
-          if (request_id) {
-            await setHasFailed(request_number);
-          }
           console.log(error);
         });
     });
@@ -1090,8 +1085,8 @@ const grabFarmIDsToRun = async () => {
 const getUserEmail = async (user_id) => {
   const data = await knex.raw(`SELECT u.email
   FROM "users" u
-  WHERE u.user_id = '${user_id}'
-  `);
+  WHERE u.user_id = ?
+  `,[user_id]);
   return data.rows[0].email;
 };
 

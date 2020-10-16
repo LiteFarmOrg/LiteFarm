@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (actions.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -26,7 +26,6 @@ import {
   SET_FIELD_CROPS_IN_STATE,
   SET_FIELDS_IN_STATE,
   UPDATE_AGREEMENT,
-  SET_CONSENT_VERSION,
 } from "./constants";
 
 export const getUserInfo = (loadFromHome=false) => {
@@ -110,16 +109,8 @@ export const setFieldCropsInState = (fieldCrops) => {
 
 export const updateAgreement = (consent_bool, consent_version) => {
   return {
-    type: UPDATE_AGREEMENT, 
+    type: UPDATE_AGREEMENT,
     consent_bool: consent_bool,
     consent_version,
-  }
-};
-
-
-export const setConsentVersion = (consent_version) => {
-  return {
-    type: SET_CONSENT_VERSION,
-    consent_version
   }
 };

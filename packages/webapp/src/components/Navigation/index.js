@@ -68,8 +68,8 @@ class NavBar extends Component {
               <Navbar.Brand className={styles.title}>
                 {
                   isMiddleLogo
-                    ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} />
-                    : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} />
+                    ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => this.props.history.push('/')}/>
+                    : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => this.props.history.push('/')} />
                 }
               </Navbar.Brand>
               {

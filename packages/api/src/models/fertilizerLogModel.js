@@ -33,9 +33,10 @@ class FertilizerLogModel extends Model {
 
       properties: {
         activity_id: { type: 'integer' },
-        fertilizer_id: { type: 'integer' },
+        fertilizer_id: { type: 'integer', minimum: 0 },
         quantity_kg: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 
@@ -52,6 +53,7 @@ class FertilizerLogModel extends Model {
           from: 'fertilizerLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fieldCropModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,9 +14,9 @@
  */
 
 const Model = require('objection').Model;
+const softDelete = require('objection-soft-delete');
 
-
-class FieldCrop extends Model {
+class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'fieldCrop';
   }
@@ -30,19 +30,22 @@ class FieldCrop extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
+      required: ['crop_id', 'field_id', 'area_used', 'estimated_production', 'estimated_revenue'],
       properties: {
         field_crop_id: { type: 'integer' },
         crop_id: { type: 'integer' },
         field_id: { type: 'string' },
+        deleted: { type: 'boolean' },
         variety: { type: 'string' },
         start_date: { type: 'date-time' },
         end_date: { type: 'date-time' },
-        area_used: { type: 'float' },
-        estimated_production: { type: 'float' },
-        estimated_revenue: { type: 'float' },
+        area_used: { type: 'float', minimum: 0 },
+        estimated_production: { type: 'float', minimum: 0 },
+        estimated_revenue: { type: 'float', minimum: 0 },
         is_by_bed: { type: 'boolean' },
         bed_config: { type: 'object, null' },
       },
+      additionalProperties: false,
     };
   }
   static get relationMappings() {
@@ -58,6 +61,7 @@ class FieldCrop extends Model {
           from: 'fieldCrop.field_id',
           to: 'field.farm_id',
         },
+
       },
       crop:{
         relation: Model.BelongsToOneRelation,
@@ -69,6 +73,7 @@ class FieldCrop extends Model {
           from: 'fieldCrop.crop_id',
           to: 'crop.crop_id',
         },
+
       },
       activityLog:{
         relation:Model.ManyToManyRelation,
@@ -81,6 +86,7 @@ class FieldCrop extends Model {
           },
           from:'fieldCrop.field_crop_id',
         },
+
       },
     };
   }

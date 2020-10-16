@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fieldCropRoute.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -16,19 +16,22 @@
 const express = require('express');
 const router = express.Router();
 const fieldCropController = require('../controllers/fieldCropController');
-const authFarmId = require('../middleware/acl/authFarmId');
 const checkScope = require('../middleware/acl/checkScope');
+const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+const validateFieldCropArea = require('../middleware/validation/fieldCropArea');
 
-router.get('/farm/:farm_id', authFarmId, checkScope(['get:field_crops']), fieldCropController.getFieldCropByFarmID());
+router.get('/:field_crop_id', hasFarmAccess({params:'field_crop_id'}), checkScope(['get:field_crops']), fieldCropController.getFieldCropByID());
 
-router.get('/farm/date/:farm_id/:date', authFarmId, checkScope(['get:field_crops']), fieldCropController.getFieldCropsByDate());
+router.get('/farm/:farm_id', hasFarmAccess({params:'farm_id'}), checkScope(['get:field_crops']), fieldCropController.getFieldCropByFarmID());
 
-router.get('/expired/farm/:farm_id', authFarmId, checkScope(['get:field_crops']), fieldCropController.getExpiredFieldCrops());
+router.get('/farm/date/:farm_id/:date', hasFarmAccess({params:'farm_id'}), checkScope(['get:field_crops']), fieldCropController.getFieldCropsByDate());
 
-router.post('/', checkScope(['add:field_crops']), fieldCropController.addFieldCrop());
+router.get('/expired/farm/:farm_id', hasFarmAccess({params:'farm_id'}), checkScope(['get:field_crops']), fieldCropController.getExpiredFieldCrops());
 
-router.put('/:id', checkScope(['edit:field_crops']), fieldCropController.updateFieldCrop());
+router.post('/', hasFarmAccess({body:'field_id'}), checkScope(['add:field_crops']), validateFieldCropArea, fieldCropController.addFieldCrop());
 
-router.delete('/:id', checkScope(['delete:field_crops']), fieldCropController.delFieldCrop());
+router.put('/:field_crop_id', hasFarmAccess({params:'field_crop_id'}), checkScope(['edit:field_crops']), validateFieldCropArea, fieldCropController.updateFieldCrop());
+
+router.delete('/:field_crop_id', hasFarmAccess({params:'field_crop_id'}), checkScope(['delete:field_crops']), fieldCropController.delFieldCrop());
 
 module.exports = router;

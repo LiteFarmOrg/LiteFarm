@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (userFarmController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,18 +17,24 @@ const baseController = require('../controllers/baseController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
+const emailTokenModel = require('../models/emailTokenModel');
 const createUserController = require('../controllers/createUserController');
+const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const {transaction, Model} = require('objection');
 const axios = require('axios');
 const authExtensionConfig = require('../authExtensionConfig');
-const environment = process.env.NODE_ENV || 'development';
-const Knex = require('knex');
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+const knex = Model.knex();
 const lodash = require('lodash');
 const url = require('url');
 const generator = require('generate-password');
 const emailSender = require('../templates/sendEmailTemplate');
+const { v4: uuidv4 } = require('uuid');
+
+const validStatusChanges = {
+  "Active": ["Inactive"],
+  "Inactive": ["Active"],
+  "Invited": ["Inactive", "Active"],
+};
 
 class userFarmController extends baseController {
   constructor() {
@@ -38,7 +44,7 @@ class userFarmController extends baseController {
   static getUserFarmByUserID() {
     return async (req, res) => {
       try {
-        const user_id = req.params.id;
+        const user_id = req.params.user_id;
         const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id)
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
@@ -54,7 +60,77 @@ class userFarmController extends baseController {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
+  }
+
+  static getUserFarmsByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const user_id = req.headers.user_id;
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id == 3) {
+          rows = await userFarmModel.query().select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status'
+          ).where('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+        } else {
+          rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id)
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        res.status(200).send(rows);
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).send(error);
+      }
+    };
+  }
+
+  static getActiveUserFarmsByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const user_id = req.headers.user_id;
+        const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
+        let rows;
+        if (userFarm.role_id == 3) {
+          rows = await userFarmModel.query().select(
+            'users.first_name',
+            'users.last_name',
+            'users.profile_picture',
+            'users.phone_number',
+            'users.email',
+            'userFarm.role_id',
+            'role.role',
+            'userFarm.status'
+          ).where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+        } else {
+          rows = await userFarmModel.query().select('*').where('userFarm.farm_id', farm_id).andWhere('userFarm.status', 'Active')
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
+        }
+        res.status(200).send(rows);
+      }
+      catch (error) {
+        //handle more exceptions
+        res.status(400).send(error);
+      }
+    };
   }
 
   static getFarmInfo() {
@@ -72,7 +148,7 @@ class userFarmController extends baseController {
         //handle more exceptions
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static addUserFarm() {
@@ -83,7 +159,7 @@ class userFarmController extends baseController {
         let role_id = 0;
 
         const data = await knex.raw(
-          `SELECT * FROM "role" r WHERE r.role='${role}'`
+          `SELECT * FROM "role" r WHERE r.role=?`,[role]
         );
 
         if (data.rows && data.rows.length > 0) {
@@ -165,7 +241,7 @@ class userFarmController extends baseController {
       } catch (error) {
         res.send(error);
       }
-    }
+    };
   }
 
   static updateConsent() {
@@ -234,7 +310,7 @@ class userFarmController extends baseController {
       let role_id = 0;
 
       const data = await knex.raw(
-        `SELECT * FROM "role" r WHERE r.role='${role}'`
+        `SELECT * FROM "role" r WHERE r.role=?`, [role]
       );
 
       if (data.rows && data.rows.length > 0) {
@@ -251,8 +327,16 @@ class userFarmController extends baseController {
             role_id,
           });
         if (isPatched) {
-          res.sendStatus(200);
+          const ownersManagersExtensionOfficers = await userFarmModel.query(trx)
+            .where('farm_id', farm_id)
+            .where(builder => builder.where('role_id', 1).orWhere('role_id', 2).orWhere('role_id', 5));
+          if (ownersManagersExtensionOfficers.length == 0) {
+            await trx.rollback();
+            res.sendStatus(400);
+            return;
+          }
           await trx.commit();
+          res.sendStatus(200);
           return;
         }
         else {
@@ -276,16 +360,52 @@ class userFarmController extends baseController {
       const { status } = req.body;
 
       try {
+        const targetUser = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id).first();
+        let currentStatus = targetUser.status;
+        if (!validStatusChanges[currentStatus].includes(status)) {
+          await trx.rollback();
+          res.sendStatus(400);
+          return;
+        }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
             status,
           });
         if (isPatched) {
-          res.sendStatus(200);
           await trx.commit();
+          res.sendStatus(200);
           return;
         }
         else {
+          await trx.rollback();
+          res.sendStatus(404);
+          return;
+        }
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).send(error);
+      }
+    };
+  }
+
+  static updateWage() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const farm_id = req.params.farm_id;
+      const user_id = req.params.user_id;
+      const { wage } = req.body;
+
+      try {
+        const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
+          .patch({
+            wage,
+          });
+        if (isPatched) {
+          await trx.commit();
+          res.sendStatus(200);
+          return;
+        } else {
           await trx.rollback();
           res.sendStatus(404);
           return;
@@ -352,9 +472,9 @@ class userFarmController extends baseController {
         }
 
         if (needToConvertWorker) {
-
+          const rows = await userModel.query(trx).select('*').where('user_id', user_id);
           const replacements = {
-            first_name: req.body.first_name,
+            first_name: rows[0].first_name,
             farm: farm_name,
           };
           const subject = "You’ve been invited to join " + farm_name + " on LiteFarm!";
@@ -369,10 +489,10 @@ class userFarmController extends baseController {
             email: req.body.email,
             password: pw,
             user_metadata: {
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
+              first_name: rows[0].first_name,
+              last_name: rows[0].last_name,
             },
-            app_metadata: {emailInvite: true, signed_up: true},
+            app_metadata: { emailInvite: true, signed_up: true },
             connection: 'Username-Password-Authentication',
           };
 
@@ -381,9 +501,10 @@ class userFarmController extends baseController {
 
           if(emails.length && emails.length > 0){
             const existing_email = emails[0].email;
+            const data = { ...req.body, status: userFarmStatusEnum.INVITED };
             await emailSender.sendEmail(template_path, subject, replacements, existing_email, sender);
             const isPatched = await userFarmModel.query(trx).where('user_id', emails[0].user_id).andWhere('farm_id', farm_id)
-              .patch(removeAdditionalProperties(userFarmModel, req.body));
+              .patch(removeAdditionalProperties(userFarmModel, data));
 
             if (isPatched) {
               await trx.commit();
@@ -405,12 +526,32 @@ class userFarmController extends baseController {
 
           await userModel.query(trx).where('user_id', new_user_id)
             .patch({email: req.body.email, profile_picture: picture});
+          // create invite token
+          let token = uuidv4();
+          // gets rid of the dashes
+          token = token.replace(/[-]/g, "");
+          // add a row in emailToken table
+          await emailTokenModel.query(trx).insert({
+            user_id: new_user_id,
+            farm_id: farm_id,
+            token,
+            is_used: false,
+          });
+          // the following is to determine the url
+          const environment = process.env.NODE_ENV || 'development';
+          let joinUrl;
+          if(environment === 'integration'){
+            joinUrl = `https://beta.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
+          }else if(environment === 'production'){
+            joinUrl = `https://www.litefarm.org/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`;
+          }else{
+            joinUrl = `localhost:3000/sign_up/${token}/${new_user_id}/${farm_id}/${req.body.email}/${rows[0].first_name}/${rows[0].last_name}`
+          }
+          await emailSender.sendEmail(template_path, subject, replacements, req.body.email, sender, true, joinUrl);
 
-          await createUserController.sendResetPassword(req.body.email);
-          await emailSender.sendEmail(template_path, subject, replacements, req.body.email, sender);
-
+          const data = { ...req.body, status: userFarmStatusEnum.INVITED };
           const isPatched = await userFarmModel.query(trx).where('user_id', new_user_id).andWhere('farm_id', farm_id)
-            .patch(removeAdditionalProperties(userFarmModel, req.body));
+            .patch(removeAdditionalProperties(userFarmModel, data));
 
           if (isPatched) {
             await trx.commit();
@@ -426,8 +567,8 @@ class userFarmController extends baseController {
             .patch(removeAdditionalProperties(userFarmModel, req.body));
 
           if (isPatched) {
-            res.sendStatus(200);
             await trx.commit();
+            res.sendStatus(200);
           }else{
             await trx.rollback();
             res.status(500).send('add user failed');

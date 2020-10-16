@@ -1,22 +1,22 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (waterBalance.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../../knexfile')[environment];
-const knex = Knex(config);
+const { from } = require('rxjs');
+const { delay, concatMap } = require('rxjs/operators');
+const { Model } = require('objection');
+const knex = Model.knex();
 const rp = require('request-promise');
 const credentials = require('../../credentials');
 const endPoints = require('../../endPoints');
@@ -91,6 +91,7 @@ class waterBalanceScheduler {
     console.log('Added a Water Balance')
   }
 
+
   static async registerFarmID(farmID) {
     try {
       await waterBalanceScheduleModel.query().insert({ farm_id: farmID });
@@ -103,31 +104,36 @@ class waterBalanceScheduler {
   static async checkFarmID(farmID) {
     const dataPoints = await knex.raw(`SELECT w.farm_id 
     FROM "waterBalanceSchedule" w 
-    WHERE w.farm_id = '${farmID}'`);
+    WHERE w.farm_id = ?`, [farmID]);
     return (dataPoints.rows.length === 1)
   }
 }
 
 const grabFarmIDsToRun = async () => {
-  const dataPoints = await knex.raw(`SELECT w.farm_id
-  FROM "waterBalanceSchedule" w`);
+  const dataPoints = await knex.raw('SELECT w.farm_id FROM "waterBalanceSchedule" w');
   return dataPoints.rows
 };
+
 
 const saveWeatherData = async (dataPoint) => {
   const farmID = dataPoint.farm_id;
   const dataPoints = await knex.raw(
-    `SELECT f.field_id, f.grid_points
+    `SELECT DISTINCT f.station_id
     FROM "field" f
-    WHERE f.farm_id = '${farmID}'`
+    WHERE f.farm_id = ?`, [farmID],
   );
-  dataPoints.rows.forEach(async (field) => {
-    const weatherData = await callOpenWeatherAPI(field.grid_points[0]);
-    saveWeatherToDisk(weatherData, field, farmID)
-  })
+  from(dataPoints.rows)
+    .pipe(
+      concatMap(({ station_id }) =>
+        from(callOpenWeatherAPI(station_id))
+          .pipe(delay(1000)),
+      ),
+    ).subscribe((weatherData) => {
+    saveWeatherToDisk(weatherData);
+  });
 };
 
-const saveWeatherToDisk = async (weatherData, field) => {
+const saveWeatherToDisk = async (weatherData) => {
   const hourlyWeatherData = {
     created_at: new Date(),
     min_degrees: weatherData['main']['temp_min'],
@@ -136,24 +142,24 @@ const saveWeatherToDisk = async (weatherData, field) => {
     min_humidity: weatherData['main']['humidity'],
     max_humidity: weatherData['main']['humidity'],
     wind_speed: weatherData['wind']['speed'],
-    field_id: field.field_id,
+    station_id: weatherData.id,
     data_points: 1,
   };
   try {
-    const data = await knex.raw (`
+    const data = await knex.raw(`
     SELECT *
     FROM "weatherHourly" w
-    WHERE w.field_id = '${field.field_id}'
-    `);
+    WHERE w.station_id = ?
+    `, [weatherData.id]);
     if (data.rows && data.rows.length > 0) {
       const currentWeather = compareWeatherData(data.rows[0], hourlyWeatherData);
       await knex.raw(
-        `UPDATE "weatherHourly"
-        SET min_degrees = '${currentWeather.min_degrees}', max_degrees = '${currentWeather.max_degrees}', min_humidity = '${currentWeather.min_humidity}', 
-        max_humidity = '${currentWeather.max_humidity}', precipitation = '${currentWeather.precipitation}', wind_speed = '${currentWeather.wind_speed}', 
-        data_points = '${currentWeather.data_points}'
-        WHERE field_id = '${currentWeather.field_id}'
-        `)
+        `UPDATE "weatherHourly" w
+        SET min_degrees = ?, max_degrees = ?, min_humidity = ?, 
+        max_humidity = ?', precipitation = ?, wind_speed = ?, 
+        data_points = ?
+        WHERE station_id  = ?
+        `, [currentWeather.min_degrees, currentWeather.max_degrees, currentWeather.min_humidity, currentWeather.max_humidity, currentWeather.precipitation, currentWeather.wind_speed, currentWeather.data_points, weatherData.id])
     } else {
       await weatherHourlyModel.query().insert(hourlyWeatherData).returning('*');
     }
@@ -204,10 +210,10 @@ const removeWeather = async (farmID) => {
   WHERE weather_hourly_id IN
   (SELECT w.weather_hourly_id
   FROM "field" f, "weatherHourly" w
-  WHERE f.farm_id = '${farmID}' and w.field_id = f.field_id)`);
+  WHERE f.farm_id = ? and w.station_id = f.station_id)`, [farmID]);
     console.log('Deleted Weather For FarmID: ', farmID);
     return { farm_id: farmID }
-  } catch(e) {
+  } catch (e) {
     console.log(e)
   }
 };
@@ -226,19 +232,18 @@ const waterBalanceDailyCalc = async (dataPoint) => {
     "fieldCrop" fc
     LEFT JOIN (
     SELECT w.field_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
-    WHERE w.field_id = f.field_id and f.farm_id = '${farmID}' and to_char(date(w.created_at), 'YYYY-MM-DD') = '${previousDay}') 
+    WHERE w.field_id = f.field_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) 
     w ON w.field_id = fc.field_id and w.crop_id = fc.crop_id
     LEFT JOIN (
     SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
     FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
     WHERE il.activity_id = ac.activity_id and al.activity_id = il.activity_id
-    and to_char(date(al.date), 'YYYY-MM-DD') = '${currentDay}'
+    and to_char(date(al.date), 'YYYY-MM-DD') = ?
     GROUP BY ac.field_crop_id
     ) il ON il.field_crop_id = fc.field_crop_id
-    WHERE fc.field_id = f.field_id and f.farm_id = '${farmID}' and c.crop_id = fc.crop_id and u.farm_id = '${farmID}' and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
+    WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
     GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
-    `
-  );
+    `, [farmID, previousDay, currentDay, farmID, farmID]);
   if (dataPoints.rows) {
     const weatherDataByField = await grabWeatherData(farmID);
     postWeatherToDB(weatherDataByField);
@@ -319,8 +324,7 @@ const calculateIrrigation = (flow_rate_l, hours, area_used) => {
     const minutes = hours * 60;
     const volume = flow_rate_l * minutes;
     return volume / area_used
-  }
-  else return 0
+  } else return 0
 };
 
 const postWeatherToDB = async (weatherDataMap) => {
@@ -340,8 +344,8 @@ const grabWeatherData = async (farmID) => {
   SELECT f.field_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
   w.max_humidity as max_humidity, w.precipitation as precipitation, w.wind_speed as wind_speed, w.data_points as data_points
   FROM "weatherHourly" w, "field" f
-  WHERE w.field_id = f.field_id and f.farm_id = '${farmID}'
-  `);
+  WHERE w.station_id = f.station_id and f.farm_id = ?
+  `, [farmID]);
   if (dataPoints.rows) {
     dataPoints.rows.forEach((field) => {
       field.wind_speed = field.wind_speed / field.data_points;
@@ -475,12 +479,14 @@ const grabDayOfYear = () => {
   return Math.floor(diff / oneDay);
 };
 
-const callOpenWeatherAPI = async (gridPoint) => {
+const callOpenWeatherAPI = async (cityId) => {
   const options = {
     uri: endPoints.openWeatherAPI,
     qs: {
-      lon: gridPoint['lng'],
-      lat: gridPoint['lat'],
+      // Replacing Lat Long Query for city Id query
+      // lon: gridPoint['lng'],
+      // lat: gridPoint['lat'],
+      id: cityId,
       units: 'metric',
       APPID: credentials.OPEN_WEATHER_APP_ID,
     },
@@ -521,7 +527,7 @@ const callDB = (contentFile) => {
 const formatDate = (date, prevDay) => {
   const d = new Date(date), year = d.getFullYear();
   let month = '' + (d.getMonth() + 1);
-  let day = prevDay ? '' + d.getDate() - 1: '' + d.getDate(); // I want to grab the previous dates soilWater so I subtract one
+  let day = prevDay ? '' + d.getDate() - 1 : '' + d.getDate(); // I want to grab the previous dates soilWater so I subtract one
 
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;

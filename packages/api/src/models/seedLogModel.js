@@ -47,6 +47,7 @@ class SeedLogModel extends Model {
           type: 'float',
         },
       },
+      additionalProperties: false,
     };
   }
 
@@ -63,6 +64,7 @@ class SeedLogModel extends Model {
           from: 'seedLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
     };
   }

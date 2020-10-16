@@ -28,17 +28,25 @@ h3 {
   display: flex;
   flex-direction: column;
   width: 312px;
-  input[type='text'], input[type='password'] {
+  input[type='text'], input[type='password'], .passwordFieldContainer {
     height: 2em;
     background: #FFFFFF;
     border: 1px solid #D4DAE3;
     box-sizing: border-box;
     border-radius: 4px;
-    margin: 0.5em 0 1em 0;
-    padding: 1em;
+    margin: 0.25em 0 1em 0;
+    padding: 0.75em 0.5em;
     height: 48px;
     font-size: 16px;
     color: #282B36;
+  }
+
+  input[type='text'].passwordField, input[type='password'].passwordField {
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    height: 45px;
   }
 
   input[type='text']:disabled {
@@ -54,6 +62,11 @@ h3 {
     outline: none;
   }
 
+  input[type='text'].passwordField:focus, input[type='password'].passwordField:focus {
+    border: none;
+    outline: none;
+  }
+
   label {
     margin: 0;
     font-style: normal;
@@ -62,6 +75,23 @@ h3 {
     line-height: 16px;
     color: #66738A;
   }
+}
+
+.passwordFieldContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.passwordFieldContainer:focus-within {
+  border: 1px solid #89D1C7;
+  outline: none;
+}
+
+.visibilityIconButton {
+  cursor: pointer;
+  margin-left: 5px;
+  color: #9FAABE;
 }
 
 .errorContainer {
@@ -128,3 +158,210 @@ h3 {
   box-shadow: none;
   color: #F3F6FB;
 }
+
+.backdrop{
+  background: RGB(250, 250, 253);
+  width: 100%;
+  height: 100vh;
+  margin-top: -10vh;
+}
+
+.messageContainer{
+  max-width: 580px;
+  width:100%;
+  height: 618px;
+  margin: 10% auto 0 auto;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.handStand{
+  display: block;
+  width: 463.57px;
+  height: 340.13px;
+  margin: 5% 12% 0 auto;
+}
+
+.redBox{
+  position: absolute;
+  width: 171px;
+  height: 184px;
+  background: #FFFFFF;
+  border: 1px solid #EC4C47;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-top: 90px;
+}
+
+.redBoxHat{
+  position: relative;
+  top: 0;
+  width: 169px;
+  height: 32px;
+  background: #EC4C47;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorImg{
+  width: 20px;
+  height: 20px;
+}
+
+.errorMsg{
+  color: #EC4C47;
+
+  h2{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #EC4C47;
+  }
+
+  h3{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #EC4C47;
+  }
+}
+
+.signUpButtonToken {
+  background: #FCE38D;
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+  border-radius: 4px;
+  border: none;
+  margin: 0 1em;
+  width: 312px;
+  height: 48px;
+  outline: none;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.4005px;
+  color: #282B36;
+  display: block;
+  top: 550px;
+  position: absolute;
+  text-align: center;
+  padding-top: 1%;
+}
+
+
+//iphone 6
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 667px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) {
+  .signUpButtonToken{
+    position: absolute;
+    top: 78%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .messageContainer{
+    width:100%;
+    height: 90vh;
+    margin: 10vh auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: #FFFFFF;
+  }
+
+  .handStand{
+    display: block;
+    width: 463.57px;
+    height: 340.13px;
+    margin: 10% 8% 0 auto;
+  }
+
+  .redBox{
+    margin-top: 27%;
+  }
+  .errorImg{
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// iphone plus
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px)
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) {
+  .signUpButtonToken{
+    position: absolute;
+    top: 75%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .messageContainer{
+    width:100%;
+    height: 90vh;
+    margin: 10vh auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: #FFFFFF;
+  }
+
+  .redBox{
+    margin-top: 25%;
+  }
+  .errorImg{
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+// iphone x
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 812px)
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) {
+  .signUpButtonToken{
+    position: absolute;
+    top: 70%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .messageContainer{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 90vh;
+    margin: 10vh auto 0 auto;
+    background: #FFFFFF;
+  }
+
+  .redBox{
+    margin-top: 23%;
+  }
+  .errorImg{
+    width: 20px;
+    height: 20px;
+  }
+}
+

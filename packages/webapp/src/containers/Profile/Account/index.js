@@ -46,7 +46,7 @@ class Account extends Component {
   render() {
     const {users} = this.props;
     return <div>
-      <h3>Personal Information</h3>
+      <h3 className={styles.headerTitle}>Personal Information</h3>
       <div className={styles.formContainer}>
         <Form model="profileForms" onSubmit={(val) => this.handleSubmit(val.userInfo, users)}>
           <div className={styles.labelContainer}>
@@ -66,7 +66,7 @@ class Account extends Component {
             <Control.text model=".userInfo.phone_number"/>
           </div>
           <div className={styles.labelContainer}>
-            <label>Address</label>
+            <label>User<br/>Address</label>
             <Control.text model=".userInfo.address"/>
           </div>
           <div className={defaultStyles.bottomContainer}>

@@ -7,6 +7,7 @@ const initialState = {
   addedUser: false,
   owners: [],
   managers: [],
+  extensionOfficers: [],
   pseudoWorkers: [],
   roles: [],
 };
@@ -15,24 +16,32 @@ function peopleReducer(state = initialState, action) {
   let users = {};
   switch (action.type) {
     case SET_USERS_IN_PEOPLE:
+      const roleMap = {
+        "Worker Without Account": "pseudoWorkers",
+        "Extension Officer": "extensionOfficers",
+        "Owner": "owners",
+        "Manager": "managers",
+        "Worker": "workers"
+      }
       action.users.forEach(user => {
-        if (!users[`${user.role.toLowerCase()}s`]) {
+        const role = roleMap[user.role];
+        if (!users[role]) {
           // if the current user role does not exist, create a new array for it
-          users[`${user.role.toLowerCase()}s`] = [];
+          users[role] = [];
         }
-        users[`${user.role.toLowerCase()}s`].push(user);
+        users[role].push(user);
       });
       let temp_state = JSON.parse(JSON.stringify(state));
 
       delete temp_state.workers;
       delete temp_state.owners;
       delete temp_state.managers;
+      delete temp_state.extensionOfficers;
       delete temp_state.pseudoWorkers;
       if(temp_state.hasOwnProperty('worker without accounts')){
         delete temp_state['worker without accounts'];
       }
 
-      console.log(Object.assign({}, temp_state, users));
       return Object.assign({}, temp_state, users);
     case SET_FARM_ID_IN_PEOPLE:
       return Object.assign({}, state, {

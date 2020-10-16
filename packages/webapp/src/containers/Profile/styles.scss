@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,7 +19,7 @@
   margin:  0 auto;
   display: flex;
   flex-direction: column;
-  padding: 70px 5% 0 5%;
+  padding: 70px 24px 0 24px;
 }
 
 .saveButton {
@@ -37,6 +37,30 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+
+  background: #FFFFFF;
+  border: 1px solid #CEF1D8;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.tabLink {
+  width: 100%;
+  outline: 0;
+  border-right: 1px solid #CEF1D8;
+  cursor: pointer;
+  padding: 10px 0;
+
+  text-align: center;
+  color: #282B36;
+}
+
+.tabLink:last-child {
+  border-right: 0;
+}
+
+.selectedTabLink {
+  background: #CEF1D8;
 }
 
 @media only screen and (min-width: 800px) {
@@ -75,3 +99,46 @@
   font-size: 20px;
   color: #4D4D4D;
 }
+
+@media (min-width: 768px) {
+  .tabs {
+    width: 580px;
+    height: 900px;
+    left: 94px;
+    top: 96px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFFFFF;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 16px;
+  }
+
+  .bottomContainer {
+    margin-top: 100%;
+    position:unset;
+    width:auto;
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .tabs {
+    width: 580px;
+    height: 648px;
+    left: 222px;
+    top: 96px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFFFFF;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 16px;
+  }
+  .bottomContainer {
+    margin-top: 45%;
+    position:unset;
+    width:auto;
+  }
+}
+

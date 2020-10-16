@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (farmController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -87,7 +87,7 @@ class farmController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(farmModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(farmModel, req.params.farm_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -109,7 +109,10 @@ class farmController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(farmModel, req.params.id, req.body, trx);
+        if(!!req.body.address || !!req.body.grid_points) {
+          throw new Error('Not allowed to modify address or gridPoints')
+        }
+        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx);
 
         await trx.commit();
         if (!updated.length) {
@@ -123,7 +126,7 @@ class farmController extends baseController {
       catch (error) {
         await trx.rollback();
         res.status(400).json({
-          error,
+          error : error.message ? error.message : error,
         });
       }
     }

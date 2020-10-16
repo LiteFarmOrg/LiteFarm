@@ -136,7 +136,6 @@ export function* createField(action) {
     },
   };
 
-  let field_id;
   const fieldData = {
     farm_id: farm_id,
     field_name: action.fieldName,
@@ -145,10 +144,7 @@ export function* createField(action) {
   };
   try {
     const result = yield call(axios.post, fieldURL, fieldData, header);
-    if (result) {
-      field_id = result.data.field_id;
-    }
-    history.push('/edit_field?' + field_id);
+    history.push('/field');
     return result;
   } catch(e) {
     console.log('failed to add field to database');

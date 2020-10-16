@@ -59,6 +59,7 @@ class SoilDataLog extends Model {
         c: { type: 'integer' },
         cec: { type: 'float' },
       },
+      additionalProperties: false,
     };
   }
 
@@ -75,6 +76,7 @@ class SoilDataLog extends Model {
           from: 'soilDataLog.activity_id',
           to: 'activityLog.activity_id',
         },
+
       },
 
     };

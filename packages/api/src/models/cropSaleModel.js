@@ -38,6 +38,7 @@ class CropSale extends Model {
         sale_value: { type: 'float' },
         crop_id: { type: 'integer' },
       },
+      additionalProperties: false,
     };
   }
 

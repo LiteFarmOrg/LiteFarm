@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (baseController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,6 +17,9 @@ const lodash = require('lodash');
 
 class baseController {
   static async get(model) {
+    if(model.isSoftDelete){
+      return await model.query().whereNotDeleted().skipUndefined();
+    }
     return await model.query().skipUndefined()
   }
 
@@ -27,6 +30,7 @@ class baseController {
 
   // send back the resource that was just created
   static async postWithResponse(model, data, transaction) {
+    // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
     return await model.query(transaction).insert(removeAdditionalProperties(model, data)).returning('*');
   }
 
@@ -79,18 +83,29 @@ class baseController {
 
   static async delete(model, id, transaction=null) {
     const table_id = model.idColumn;
-    return await model.query(transaction).where(table_id, id).del()
+    return await model.query(transaction).where(table_id, id).delete()
   }
 
   static async getIndividual(model, id) {
     const table_id = model.idColumn;
+    if(model.isSoftDelete){
+      return await model.query().whereNotDeleted().where(table_id, id);
+    }
     return await model.query().where(table_id, id)
   }
+
   static async getByFieldId(model, field, fieldId){
+    if(model.isSoftDelete){
+      return await model.query().whereNotDeleted().where(field, fieldId);
+    }
     const data = await model.query().where(field, fieldId);
     return data;
   }
   static async getByForeignKey(model, field, fieldId){
+    if(model.isSoftDelete){
+      const data =await model.query().whereNotDeleted().where(field, fieldId);
+      return data;
+    }
     const data = await model.query().where(field, fieldId);
     return data;
   }
@@ -104,7 +119,7 @@ class baseController {
 
   }
   static async getRelated(model, subModel){
-    return await model.$loadRelated(subModel.tableName)
+    return await model.$fetchGraph(subModel.tableName)
   }
 
   // insert object and insert, update, or delete related objects

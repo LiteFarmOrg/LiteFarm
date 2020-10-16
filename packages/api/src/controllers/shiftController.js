@@ -1,13 +1,13 @@
 /* eslint-disable */
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (shiftController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -18,10 +18,7 @@ const baseController = require('../controllers/baseController');
 const { transaction, Model } = require('objection');
 const shiftModel = require('../models/shiftModel');
 const shiftTaskModel = require('../models/shiftTaskModel');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+const knex = Model.knex();
 
 class shiftController extends baseController {
   static addShift() {
@@ -29,7 +26,6 @@ class shiftController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const body = req.body;
-        console.log(body);
         if (!body.tasks) {
           res.status(400).send('missing tasks');
           return;
@@ -38,7 +34,6 @@ class shiftController extends baseController {
         let shift_result = await baseController.postWithResponse(shiftModel, body, trx);
         const shift_id = shift_result.shift_id;
         shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
-        console.log(shift_result);
         await trx.commit();
         res.status(201).send(shift_result);
       } catch (error) {
@@ -87,8 +82,8 @@ class shiftController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const sID = (req.params.id).toString();
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).where('shift_id', sID).del();
+        const sID = (req.params.shift_id).toString();
+        const isShiftTaskDeleted = await shiftTaskModel.query(trx).where('shift_id', sID).delete();
         const isShiftDeleted = await baseController.delete(shiftModel, sID, trx);
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
@@ -109,7 +104,7 @@ class shiftController extends baseController {
   static getShiftByID() {
     return async (req, res) => {
       try {
-        const id = req.params.id;
+        const id = req.params.shift_id;
         const shiftRow = await baseController.getIndividual(shiftModel, id);
         if (!shiftRow.length) {
           res.status(404).send('Shift not found');
@@ -138,16 +133,16 @@ class shiftController extends baseController {
         if (!req.body.tasks) {
           res.status(400).send('missing tasks')
         }
-        const updatedShift = await baseController.put(shiftModel, req.params.id, req.body, trx);
+        const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, trx);
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
         }
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).delete().where('shift_id', req.params.id);//await baseController.delete(shiftTaskModel, req.params.id, trx);
+        const isShiftTaskDeleted = await shiftTaskModel.query(trx).delete().where('shift_id', req.params.shift_id);
         if (!isShiftTaskDeleted) {
           await trx.rollback();
           res.status(404).send('can not find shift tasks');
         }
-        const tasks_added = await shiftController.insertTasks(req.body.tasks, trx, req.params.id);
+        const tasks_added = await shiftController.insertTasks(req.body.tasks, trx, req.params.shift_id);
         updatedShift[0].tasks = tasks_added;
         await trx.commit();
         res.status(200).send(updatedShift);
@@ -205,29 +200,45 @@ class shiftController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const data = await knex.raw(
-          `
-          SELECT t.task_id, tp.task_name, t.shift_id, t.is_field, t.field_id, x.field_name, t.field_crop_id, t.duration, s.start_time, s.end_time, s.wage_at_moment, u.user_id, u.farm_id, s.mood, u.wage, u.first_name, u.last_name, s.break_duration, x.crop_id, x.crop_common_name, x.variety, x.area_used, x.estimated_production, x.estimated_revenue, x.start_date, x.end_date
-          FROM "shiftTask" t
-          LEFT JOIN (
-	          SELECT f.field_crop_id, c.crop_id, crop_common_name, f.area_used, f.estimated_production, f.estimated_revenue, f.start_date, f.end_date, f.variety, fd.field_name
-	          FROM "fieldCrop" f, "crop" c, "field" fd
-	          WHERE f.crop_id = c.crop_id AND f.field_id = fd.field_id
-	          )
-	          x ON x.field_crop_id = t.field_crop_id,
-	        "shift" s, "users" u, "taskType" tp, "userFarm" uf
-          WHERE s.shift_id = t.shift_id AND uf.user_id = u.user_id AND uf.farm_id = '${farm_id}'
-          AND t.task_id = tp.task_id 
-          `
-        );
-        if (data.rows) {
-          res.status(200).send(data.rows);
+        const { user_id }  = req.headers;
+        const role = req.role;
+        const data = await knex.select([
+            'taskType.task_name', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
+            'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id',
+            'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production',
+            'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.start_time',
+            'shift.end_time', 'shift.wage_at_moment', 'shift.mood', 'shift.break_duration', 'userFarm.user_id',
+            'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration'
+          ]).from('shiftTask', 'taskType')
+          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
+          .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
+          .leftJoin('field', 'fieldCrop.field_id', 'field.field_id')
+          .leftJoin('crop', 'fieldCrop.crop_id','crop.crop_id')
+          .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
+          .join('userFarm',function(){
+            this
+              .on('shift.farm_id', 'userFarm.farm_id')
+              .on('shift.user_id', 'userFarm.user_id')
+          })
+          .join('users', 'userFarm.user_id', 'users.user_id')
+          .where(function() {
+            role === 3 ? this.where('shift.farm_id', farm_id)
+                .andWhere('shift.user_id', user_id)
+                .andWhere('shift.deleted', false)
+                .andWhere('shiftTask.deleted', false) :
+              this.where('shift.farm_id', farm_id)
+                .andWhere('shift.deleted', false)
+                .andWhere('shiftTask.deleted', false);
+          });
+        if (data) {
+          res.status(200).send(data);
         } else {
           res.status(200).send([]);
         }
       }
       catch (error) {
         //handle more exceptions
+        console.log(error);
         res.status(400).json({
           error,
         });

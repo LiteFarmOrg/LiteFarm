@@ -1,10 +1,7 @@
 const baseController = require('../controllers/baseController');
 const { transaction, Model } = require('objection');
 const axios = require('axios');
-const Knex = require('knex');
-const environment = process.env.NODE_ENV || 'development';
-const config = require('../../knexfile')[environment];
-const knex = Knex(config);
+const knex = Model.knex();
 
 const auth0Config = require('../auth0Config');
 const emailTokenModel = require('../models/emailTokenModel');
@@ -15,15 +12,19 @@ class signUpController extends baseController {
   static isEmailTokenValid() {
     return async (req, res) => {
       try {
-        const { token } = req.params;
+        const { token, farm_id, user_id } = req.params;
         const rows = await emailTokenModel.query()
           .select('*')
           .where('token', token)
-          .andWhere('is_used', false);
+          .andWhere('farm_id', farm_id).andWhere('user_id', user_id);
         if (rows && rows.length === 0) {
-          res.status(401).send('Invalid email token');
+          res.status(401).send('Invalid email, farm_id, or user_id');
         } else {
-          res.status(200).send('Valid email token');
+          if(rows[0].is_used){
+            res.status(202).send('Token Used');
+          }else{
+            res.status(200).send('Valid email token');
+          }
         }
       } catch (error) {
         console.log(error);
@@ -75,6 +76,7 @@ class signUpController extends baseController {
 
   static signUpViaInvitation() {
     return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
       try {
         const { id } = req.params;
         const {
@@ -110,7 +112,6 @@ class signUpController extends baseController {
         };
         await this.updateAuth0User(auth0UserId, updatedAuth0User);
 
-        const trx = await transaction.start(Model.knex());
         // Update user's info in users table
         const updatedUserInfo = { first_name, last_name };
         await userModel.query(trx).where('user_id', id).patch(updatedUserInfo);
@@ -132,6 +133,7 @@ class signUpController extends baseController {
         await trx.commit();
         res.status(200).send('Signed up successfully');
       } catch (error) {
+        await trx.rollback();
         res.status(500).send('Failed to sign up');
       }
     }

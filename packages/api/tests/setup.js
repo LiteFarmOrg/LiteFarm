@@ -25,6 +25,7 @@ async function getToken() {
   console.log('retrieving token and clearing test user data');
   const data = dummy.auth;
 
+
   const header = {
     headers: {
       'Content-Type': 'application/json',

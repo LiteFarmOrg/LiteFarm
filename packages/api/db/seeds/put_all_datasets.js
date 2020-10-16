@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (put_all_datasets.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,6 +19,7 @@ const farmData = require('./seedData/generalFarmSeedData');
 const _ = require('lodash');
 
 function insertCsvIntoTable(knex, tableName, fromFile) {
+  console.log('inserting', tableName);
   return new Promise(resolve => {
     knex(tableName).del()
       .then(function () {
@@ -28,17 +29,17 @@ function insertCsvIntoTable(knex, tableName, fromFile) {
               return value.length === 0 ? null : value
             });
             return knex(tableName).insert(JSON.parse(jsonObject)).then(() => {
-              //console.log("resolved");
+              // console.log("resolved", tableName);
               resolve();
             });
           });
-      });
+      })
   });
 }
 
 function insertCropDisease(knex, disease) {
   const { crop_genus, crop_specie, disease_common_name } = disease;
-  if (crop_specie.length == 0) {
+  if (crop_specie.length === 0) {
     return new Promise(resolve => {
       knex.select('crop_id').from('crop')
         .where({
@@ -48,9 +49,9 @@ function insertCropDisease(knex, disease) {
             .where({ disease_common_name }).first().then((disease) => {
               const crop_disease_insertion = crop_object_ids.map((crop_object) => {
                 // console.log("crop_id: "+crop_id.crop_id+" diease id:" +disease_id.disease_id)
-                if (disease.disease_id != undefined) {
+                if (!!disease  && !!disease.disease_id) {
                   //console.log("inserting multiple");
-                  knex('cropDisease').insert({ crop_id: crop_object.crop_id, disease_id: disease.disease_id })
+                  return knex('cropDisease').insert({ crop_id: crop_object.crop_id, disease_id: disease.disease_id })
                 }
               });
               Promise.all(crop_disease_insertion).then(() => {
@@ -71,7 +72,7 @@ function insertCropDisease(knex, disease) {
         // disease.id = id;
           knex.select('disease_id').from('disease')
             .where({ disease_common_name }).first().then((disease) => {
-              if (disease != null && crop != null) {
+              if (!!disease && !!crop) {
                 //console.log("Inserting one for one");
                 knex('cropDisease').insert({ disease_id: disease.disease_id, crop_id: crop.crop_id }).then(() => {
                   resolve()
@@ -81,10 +82,10 @@ function insertCropDisease(knex, disease) {
                 resolve();
               }
 
-            })
-        }).catch((error) => {
-          console.log(error);
-        });
+        })
+      }).catch((error) => {
+        console.log(error);
+      });
     })
   }
 }
@@ -94,7 +95,7 @@ function insertCropDiseasesData(knex) {
     .then(function () {
       return csv().fromFile(__dirname + '/seedData/cropDisease.csv');
     }).then(function (diseaseData) {
-      var mappingDisease = diseaseData.map(disease => insertCropDisease(knex, disease));
+      const mappingDisease = diseaseData.map(disease => insertCropDisease(knex, disease));
       console.log('Mapping disease ' + mappingDisease.length);
       return Promise.all(mappingDisease).then(() => {
         console.log('Added all data');
@@ -102,6 +103,7 @@ function insertCropDiseasesData(knex) {
     })
 }
 
+// TODO: move this to factories
 function insertTestData(knex, farmData) {
   return new Promise(resolve => {
     knex(farmData[0].table).insert(farmData[0].data).then(() => {
@@ -124,9 +126,14 @@ function insertTestData(knex, farmData) {
   })
 }
 
-exports.seed = function (knex, Promise) {
+exports.seed = async function (knex) {
   // Deletes ALL existing entries
   var BASEURL = __dirname + '/seedData/';
+  const dependencies = ['fertilizerLog', 'fieldCrop', 'waterBalance',
+    'cropDisease', 'cropCommonName', 'yield',
+    'pestControlLog', 'shiftTask', 'pestControlLog', 'farmExpense'];
+  await Promise.all(dependencies.map((dependentTable) => knex(dependentTable).del()));
+  console.log('dropped dependencies');
   var seeds = [
     { tableName: 'fertilizer', fileName: BASEURL + 'fertilizers.csv' },
     { tableName: 'crop', fileName: BASEURL + 'crop_data.csv' },
@@ -143,10 +150,10 @@ exports.seed = function (knex, Promise) {
   });
 
   return Promise.all(migration).then(() => {
-    migration.push(insertCropDiseasesData(knex));
+    return insertCropDiseasesData(knex);
   }).then(() => {
-    return insertTestData(knex, farmData);
-  });
+    console.log('completed crop disease');
+  }).catch(console.error);
 };
 
 

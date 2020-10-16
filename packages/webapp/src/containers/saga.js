@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -24,7 +24,8 @@ import {
   UPDATE_AGREEMENT,
 } from "./constants";
 import { setUserInState, setFarmInState, fetchFarmInfo, setFieldCropsInState, setFieldsInState, getFields, getFieldCrops } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { updateConsentOfFarm } from './ChooseFarm/actions.js';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from "../history";
@@ -61,6 +62,8 @@ export function* getUserInfo(action) {
       //   console.log('user has no farm at the moment');
       // }
     } else {
+      const auth = new Auth();
+      auth.getUserInfo(localStorage.getItem('access_token'),localStorage.getItem('id_token'))
       console.log('failed to fetch user from database')
     }
   } catch(e) {
@@ -100,25 +103,21 @@ export function* updateUser(payload){
 
 export function* getFarmInfo(action) {
   let farm_id = localStorage.getItem('farm_id');
-  let user_id = localStorage.getItem('user_id');
-  const { userFarmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+
+  if(!farm_id) {
+    history.push('/add_farm');
+    return;
+  }
 
   try {
-    const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id + '/user/' + user_id, header);
-    if (result.data[0]) {
+    let userFarmReducer = yield select((state) => state.userFarmReducer);
+    const result = userFarmReducer.farms.filter(farm => farm.farm_id === farm_id);
+    if (result[0]) {
       //console.log(result.data);
-      if(result.data[0].role_id){
-        localStorage.setItem('role_id', result.data[0].role_id);
-      };
-      yield put(setFarmInState(result.data[0]));
+      if (result[0].role_id) {
+        localStorage.setItem('role_id', result[0].role_id);
+      }
+      yield put(setFarmInState(result[0]));
       yield put(getFields());
       yield put(getFieldCrops());
     } else {
@@ -141,10 +140,9 @@ export function* updateFarm(payload){
     },
   };
 
-  let data = payload.farm;
-  if(data.address === null){
-    delete data.address;
-  }
+  // OC: We should never update address information of a farm.
+  let {address, grid_points, ...data}  = payload.farm;
+
   if(data.phone_number.number === null || data.phone_number.country === null){
     delete data.phone_number;
   }
@@ -154,6 +152,7 @@ export function* updateFarm(payload){
       // yield put(setFarmInState(result.data[0]));
       // TODO (refactoring): Handle the response to be sent properly in backend so we
       // don't need to do this extra API call to keep redux consistent
+      yield put(updateConsentOfFarm(farm_id, result.data[0]))
       yield put(fetchFarmInfo());
       toastr.success("Successfully updated farm info!");
     }
@@ -263,13 +262,23 @@ export function* updateAgreementSaga(payload) {
   try {
     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id +'/user/'+ user_id, data, header);
     if (result) {
+      console.log(result);
+      console.log(payload);
+      console.log(data);
       if (payload.consent_bool.consent) {
+        yield put(updateConsentOfFarm(farm_id, data));
+        // yield put(setFarmInState(data));
+        const farms = yield select((state) => state.userFarmReducer.farms);
+        const selectedFarm = farms.find((f) => f.farm_id === farm_id);
+        yield put(setFarmInState(selectedFarm))
         console.log('user agreed to consent form/');
-      history.push('/home');
+        console.log(selectedFarm);
+        history.push('/intro');
       } else {
-
-      const auth = new Auth();
-      auth.logout();
+    //did not give consent - log user out
+        const auth = new Auth();
+        auth.logout();
+        history.push('/callback');
       }
     }
   } catch(e) {

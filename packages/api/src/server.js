@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (server.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,16 +19,14 @@ require('dotenv').config({ path: path.resolve(process.cwd(), '.env.local') });
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const Knex = require('knex');
 const environment = process.env.NODE_ENV || 'development';
-const config = require('../knexfile')[environment];
 const promiseRouter = require('express-promise-router');
 const { Model } = require('objection');
 const checkJwt = require('./middleware/acl/checkJwt');
 const cors = require('cors');
 
 // initialize knex
-const knex = Knex(config);
+const knex = require('./util/knex')
 
 // bind all models to a knex instance
 Model.knex(knex);
@@ -36,13 +34,14 @@ Model.knex(knex);
 // import routes
 const cropRoutes = require('./routes/cropRoute');
 const fieldRoutes = require('./routes/fieldRoute');
-const planRoutes = require('./routes/planRoute');
+// const planRoutes = require('./routes/planRoute');
 const saleRoutes = require('./routes/saleRoute');
 //const shiftTaskRoutes = require('./routes/shiftTaskRoute');
 const taskTypeRoutes = require('./routes/taskTypeRoute');
-const todoRoutes = require('./routes/todoRoute');
+// const todoRoutes = require('./routes/todoRoute');
 const userRoutes = require('./routes/userRoute');
 const farmExpenseRoute = require('./routes/farmExpenseRoute');
+const farmExpenseTypeRoute = require('./routes/farmExpenseTypeRoute');
 // const notificationRoutes = require('./routes/notificationRoute');
 const farmRoutes = require('./routes/farmRoute');
 const logRoutes = require('./routes/logRoute');
@@ -66,11 +65,12 @@ const signUpRoutes = require('./routes/signUpRoute');
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
+const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
 
 // register API
 const router = promiseRouter();
 
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
   res.sendStatus(200);
 });
 
@@ -85,6 +85,9 @@ app.use(bodyParser.json())
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
+    }else if((req.method === 'DELETE' || req.method === 'GET') && Object.keys(req.body).length > 0){
+      // TODO: Find new bugs caused by this change
+      return res.sendStatus(400);
     }
     next();
   })
@@ -98,13 +101,14 @@ app.use(bodyParser.json())
   // routes
   .use('/crop', cropRoutes)
   .use('/field', fieldRoutes)
-  .use('/plan', planRoutes)
+  // .use('/plan', planRoutes)
   .use('/sale', saleRoutes)
   //.use('/shift_task', shiftTaskRoutes)
   .use('/task_type', taskTypeRoutes)
-  .use('/todo', todoRoutes)
+  // .use('/todo', todoRoutes)
   .use('/user', userRoutes)
   .use('/expense', farmExpenseRoute)
+  .use('/expense_type', farmExpenseTypeRoute)
   // .use('/notification', notificationRoutes)
   .use('/farm', farmRoutes)
   .use('/log', logRoutes)
@@ -140,17 +144,23 @@ app.use(bodyParser.json())
   });
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-// eslint-disable-next-line no-console
-  console.log('LiteFarm Backend listening on port ' + port + '!');
-});
+if (environment === 'development' || environment === 'production' || environment === 'integration') {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log('LiteFarm Backend listening on port ' + port + '!');
+  });
+  waterBalanceScheduler.registerHourlyJob();
+  waterBalanceScheduler.registerDailyJob();
 
-waterBalanceScheduler.registerHourlyJob();
-waterBalanceScheduler.registerDailyJob();
+  nitrogenBalanceScheduler.registerDailyJob();
 
-nitrogenBalanceScheduler.registerDailyJob();
+  farmDataScheduler.registerJob();
+  // eslint-disable-next-line no-console
+  console.log('LiteFarm Water Balance Scheduler Enabled');
+}
 
-farmDataScheduler.registerJob();
+app.on('close', () => {
+  knex.destroy();
+})
 
-// eslint-disable-next-line no-console
-console.log('LiteFarm Water Balance Scheduler Enabled');
+module.exports = app;

@@ -2,7 +2,7 @@
 
 We follow the [git flow](http://nvie.com/posts/a-successful-git-branching-model) process which has several special branches:
 
--   **`master`** - Contains the release commits - builds publish a release of the [app](https://www.litefarm.org)
+-   **`master`** - Contains the release commits - builds publish a release of the [app](https://app.litefarm.org)
 -   **`develop`** - Contains the work in progress, code in here must be of release quality or close to release quality- builds publish the App to [CD server](litefarm-webapp-integration.heroku.com)
 -   **`release/v{major}.{minor}.{patch}`** - For preparing a release
 -   **`hotfix/{major}.{minor}.X`** - For releasing a patch

@@ -61,7 +61,7 @@ if (NODE_ENV === 'development') {
     auth0Uri = 'https://litefarm-production.auth0.com';
     authorizationAdminRoleId = "8f53c7bd-4ac4-42a4-b581-ea2aef0e4ece";
     authorizationWorkerId = '36456d3b-654b-452c-8d6e-cbf3a2e6cbca';
-    logoutUri = 'https%3A%2F%2Fwww.litefarm.org';
+    logoutUri = 'https%3A%2F%2Fapp.litefarm.org';
   }
 }
 

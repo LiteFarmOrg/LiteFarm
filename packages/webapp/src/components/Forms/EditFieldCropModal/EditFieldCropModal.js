@@ -88,21 +88,21 @@ class EditFieldCropModal extends React.Component {
     const { bed_config, isByArea, estimated_unit, area_unit } = this.state;
     let editedFieldCrop = this.state.fieldCrop;
 
-    let {fieldArea} = this.props;
+    let { fieldArea } = this.props;
 
     if (this.state.area_unit === 'ft2') {
       fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     }
 
-      if(moment(editedFieldCrop.end_date).isSameOrBefore(moment(editedFieldCrop.start_date))){
-        toastr.error('End Date cannot be the same or before Start Date');
-        return;
-      }
+    if (moment(editedFieldCrop.end_date).isSameOrBefore(moment(editedFieldCrop.start_date))) {
+      toastr.error('End Date cannot be the same or before Start Date');
+      return;
+    }
 
-      if (editedFieldCrop.area_used > fieldArea) {
-        toastr.error('Field crop area cannot be greater than field area');
-        return;
-      }
+    if (editedFieldCrop.area_used > fieldArea) {
+      toastr.error('Field crop area cannot be greater than field area');
+      return;
+    }
 
     let estimatedProduction = isByArea ? editedFieldCrop.estimated_yield * editedFieldCrop.area_used : editedFieldCrop.estimated_yield * bed_config.bed_num;
     let estimatedRevenue = isByArea ? estimatedProduction * editedFieldCrop.estimated_price : bed_config.bed_num * editedFieldCrop.estimated_price * editedFieldCrop.estimated_yield;
@@ -192,6 +192,7 @@ class EditFieldCropModal extends React.Component {
   }
 
   onBedLenChange = (e) => {
+    e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_length = e.target.value;
     let { bed_config, fieldCrop } = this.state;
     fieldCrop.area_used = Number(bed_length) * Number(bed_config.bed_width) * Number(bed_config.bed_num);
@@ -203,6 +204,7 @@ class EditFieldCropModal extends React.Component {
   };
 
   onBedWidthChange = (e) => {
+    e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_width = e.target.value;
     let { bed_config, fieldCrop } = this.state;
     fieldCrop.area_used = Number(bed_config.bed_length) * Number(bed_width) * Number(bed_config.bed_num);
@@ -214,6 +216,7 @@ class EditFieldCropModal extends React.Component {
   };
 
   onBedNumChange = (e) => {
+    e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_num = e.target.value;
     let { bed_config, fieldCrop } = this.state;
     fieldCrop.area_used = Number(bed_config.bed_length) * Number(bed_config.bed_width) * Number(bed_num);
@@ -226,9 +229,18 @@ class EditFieldCropModal extends React.Component {
 
   handlePercentage = (e) => {
     let { fieldCrop } = this.state;
+    if (e.target.value < 0) {
+      e.target.value = 0;
+    }
+
+    if (e.target.value > 100) {
+      e.target.value = 100;
+    }
+
     let { fieldArea } = this.props;
+
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
-    fieldCrop.area_used = Math.floor(((Number(e.target.value) / 100) * fieldArea)).toFixed(0);
+    fieldCrop.area_used = ((Number(e.target.value) / 100) * fieldArea).toFixed(0);
     this.setState({
       fieldCrop,
       percentage: Number(e.target.value),
@@ -272,6 +284,8 @@ class EditFieldCropModal extends React.Component {
                     <FormControl
                       data-test="percentage"
                       type="number"
+                      min={0}
+                      max={100}
                       placeholder={this.state.percentage}
                       onChange={(e) => this.handlePercentage(e)}/>
                   </FormGroup>
@@ -294,6 +308,7 @@ class EditFieldCropModal extends React.Component {
                     <FormControl
                       type="number"
                       value={bed_config.bed_length}
+                      min={0}
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
@@ -303,6 +318,7 @@ class EditFieldCropModal extends React.Component {
                     <FormControl
                       type="number"
                       value={bed_config.bed_width}
+                      min={0}
                       onChange={(e) => this.onBedWidthChange(e)}
                     />
                   </FormGroup>
@@ -312,6 +328,7 @@ class EditFieldCropModal extends React.Component {
                     <FormControl
                       type="number"
                       value={bed_config.bed_num}
+                      min={0}
                       onChange={(e) => this.onBedNumChange(e)}
                     />
                   </FormGroup>

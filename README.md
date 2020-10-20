@@ -6,7 +6,7 @@ _To meet farmers where they are and equip them with the tools they need to make 
 
 LiteFarm version 1.0.0 was released to the public in July 2020. The LiteFarm app is continually being developed, with farmers, researchers, designers and developers working together to create new localized modules and features into the future.  LiteFarm is deployed in Canada, the USA, and Latin America.
 
-If you’re a farmer and would like to join LiteFarm you can sign up today at www.litefarm.org. If you are a researcher or would like to find out more about this project you can contact the [UBC Centre for Sustainable Food Systems](https://ubcfarm.ubc.ca/litefarm/). If your a developer, all the details on how you can contribute to this project are right here, welcome to the team!
+If you’re a farmer and would like to join LiteFarm you can sign up today at app.litefarm.org. If you are a researcher or would like to find out more about this project you can contact the [UBC Centre for Sustainable Food Systems](https://ubcfarm.ubc.ca/litefarm/). If your a developer, all the details on how you can contribute to this project are right here, welcome to the team!
 # Overview
 
 LiteFarm is comprised of two applications which both reside in this monorepo.

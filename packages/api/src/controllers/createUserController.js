@@ -28,7 +28,7 @@ const farmModel = require('../models/farmModel');
 const { v4: uuidv4 } = require('uuid');
 const environmentMap = {
   integration: 'https://beta.litefarm.org/',
-  production: 'https://litefarm.org/',
+  production: 'https://app.litefarm.org/',
   development: 'http://localhost:3000/',
 }
 const auth0Uri = findAuth0Uri();

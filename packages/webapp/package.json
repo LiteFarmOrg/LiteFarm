@@ -83,7 +83,7 @@
     "react-mobile-picker-scroll": "^0.2.14",
     "react-open-weather": "^0.5.2",
     "react-player": "^1.15.3",
-    "react-redux": "^5.1.2",
+    "react-redux": "^7.2.1",
     "react-redux-form": "^1.16.14",
     "react-redux-toastr": "^7.6.4",
     "react-router-dom": "^5.2.0",

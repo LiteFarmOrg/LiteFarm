@@ -249,6 +249,9 @@ class NewField extends Component {
 
       this.handlePolygonComplete(polygon, maps);
     });
+    if(this.state.polygon){
+      this.state.polygon.overlay.setMap(map);
+    }
     maps.event.addListener(drawingManager, 'overlaycomplete', e => this.setState({ polygon: e }));
   }
 

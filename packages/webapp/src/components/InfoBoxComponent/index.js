@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,7 +14,7 @@
  */
 
 import React, {Component} from 'react';
-import {Button, Glyphicon, Modal} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import styles from "../PageTitle/styles.scss";
 
 class InfoBoxComponent extends Component {
@@ -60,7 +60,7 @@ class InfoBoxComponent extends Component {
     return (
       <div>
         <button style={customStyle} className={styles.buttonContainer} onClick={this.handleShow}>
-          <Glyphicon glyph="info-sign"/>
+          {/*<Glyphicon glyph="info-sign"/>*/}
         </button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>

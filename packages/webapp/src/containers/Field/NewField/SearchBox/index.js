@@ -8,7 +8,11 @@ class SearchBox extends Component {
   render() {
     return (<div>
       <InputGroup className={styles.searchBarContainer}>
-        <InputGroup.Addon>Search</InputGroup.Addon>
+        <InputGroup.Prepend>
+          <InputGroup.Text>
+            Search
+          </InputGroup.Text>
+        </InputGroup.Prepend>
         <FormControl type="text" placeholder={this.props.placeholder} />
       </InputGroup>
     </div>);

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -61,9 +61,9 @@ class NavBar extends Component {
 
     return (
       <div>
-        <Navbar className={styles.navBar} collapseOnSelect={true} fixedTop={true}>
+        <Navbar className={styles.navBar} collapseOnSelect={true} fixed={"top"}>
           {/* Set maxWidth to match with .navBar in styles */}
-          <Navbar.Header style={{ textAlign: 'center', maxWidth: '1024px' }}>
+          {/*<Navbar.Header style={{ textAlign: 'center', maxWidth: '1024px' }}>*/}
             <div className={styles.navBarContainer}>
               <Navbar.Brand className={styles.title}>
                 {
@@ -82,7 +82,7 @@ class NavBar extends Component {
                 />
               }
             </div>
-          </Navbar.Header>
+          {/*</Navbar.Header>*/}
         </Navbar>
         <SlideMenu right isAuthenticated={isAuthenticated} logout={this.logout.bind(this)} />
       </div>

@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (DrawingToolTipBox.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,7 +14,7 @@
  */
 
 import React, {Component} from 'react';
-import {Glyphicon, Modal} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import Carousel from 'nuka-carousel';
 import ReactPlayer from 'react-player';
 import FirstVideo from './drawing.mp4';
@@ -71,12 +71,12 @@ class DrawingToolTipBox extends Component {
             renderCenterRightControls={({currentSlide, nextSlide}) => (
               <div onClick={()=> this.toggleVideo(currentSlide)}>
                 <a onClick={nextSlide} className={styles.nextSlide}>
-                  <Glyphicon glyph="glyphicon glyphicon-chevron-right"/>
+                  {/*<Glyphicon glyph="glyphicon glyphicon-chevron-right"/>*/}
                 </a>
               </div>)
             }
             renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
-              <Glyphicon glyph="glyphicon glyphicon-chevron-left"/>
+              {/*<Glyphicon glyph="glyphicon glyphicon-chevron-left"/>*/}
             </a>)}>
             {slides.map((slide, index) => {
               return (

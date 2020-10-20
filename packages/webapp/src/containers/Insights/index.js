@@ -27,7 +27,7 @@ import water_balance from '../../assets/images/insights/water_balance.svg';
 // import erosion from '../../assets/images/insights/erosion.svg';
 import nitrogen_balance from '../../assets/images/insights/nitrogen_balance.svg';
 //
-import {Glyphicon} from 'react-bootstrap';
+// import {Glyphicon} from 'react-bootstrap';
 // actions
 import {
   getCropsSoldNutrition,
@@ -97,10 +97,10 @@ class Insights extends Component {
               <div>Current: {currentData ? currentData : 0}</div>
             </div>
           </div>
-          <Glyphicon
-            glyph="glyphicon glyphicon-chevron-right"
-            className={styles.itemArrow}
-          />
+          {/*<Glyphicon*/}
+          {/*  glyph="glyphicon glyphicon-chevron-right"*/}
+          {/*  className={styles.itemArrow}*/}
+          {/*/>*/}
         </div>
         <hr className={styles.defaultLine}/>
       </div>

@@ -5,7 +5,7 @@ import styles from './styles.scss';
 import parentStyles from '../styles.scss';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, POLYGON_COMPLETE } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
-import {Button, Glyphicon, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {Button, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
 import { cropSelector } from '../selectors';
@@ -303,16 +303,19 @@ class NewField extends Component {
 
     //Drawing Manager Buttons
     const PolygonButton = () =>
-      <Button id={POLYGON_BUTTON} bsSize="lg" active={this.state.isDraw} disabled={gridPoints !== null} bsStyle="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
-        <Glyphicon glyph="pencil" /> Draw
+      <Button id={POLYGON_BUTTON} bsSize="lg" active={this.state.isDraw} disabled={gridPoints !== null} variant="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
+        {/*<Glyphicon glyph="pencil" /> */}
+        Draw
           </Button>;
     const ClearButton = () =>
-      <Button id={CLEAR_BUTTON} bsSize="lg" disabled={gridPoints === null} bsStyle="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
-        <Glyphicon glyph="trash" /> Redraw
+      <Button id={CLEAR_BUTTON} bsSize="lg" disabled={gridPoints === null} variant="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
+        {/*<Glyphicon glyph="trash" /> */}
+        Redraw
           </Button>;
     const NextButton = () =>
-      <Button id={NEXT_BUTTON} bsSize="lg" disabled={gridPoints === null} bsStyle="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
-        <Glyphicon glyph="ok" /> Confirm
+      <Button id={NEXT_BUTTON} bsSize="lg" disabled={gridPoints === null} variant="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
+        {/*<Glyphicon glyph="ok" /> */}
+        Confirm
           </Button>;
     const DrawingManager = () =>
       gridPoints === null ?
@@ -331,12 +334,12 @@ class NewField extends Component {
         <div className={styles.fieldContainer}>
           <div className={styles.backButton}>
             <button onClick={()=>history.push('/field')}>
-              <Glyphicon glyph="share-alt" style={{color:"white"}} />
+              {/*<Glyphicon glyph="share-alt" style={{color:"white"}} />*/}
             </button>
           </div>
           <div className={styles.infoButton}>
             <button onClick={() => {this.refs.child.toggleShow()}}>
-              <Glyphicon glyph="glyphicon glyphicon-question-sign" style={{color: "white", fontSize: '1.7em'}}/>
+              {/*<Glyphicon glyph="glyphicon glyphicon-question-sign" style={{color: "white", fontSize: '1.7em'}}/>*/}
             </button>
           </div>
           {isMapLoaded && <SearchBox map={map} mapsapi={maps} />}
@@ -371,7 +374,7 @@ class NewField extends Component {
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
-              <ControlLabel>Field Name</ControlLabel>
+              <FormLabel>Field Name</FormLabel>
               {this.state.isSavePlanDisabled ?
                 <FormControl
                 type="text"

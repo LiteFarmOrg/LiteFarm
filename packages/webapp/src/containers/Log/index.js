@@ -175,7 +175,8 @@ class Log extends Component{
       id: 'arrow-icon',
       Header: '',
       accessor: () => {
-          return <Glyphicon glyph= "glyphicon glyphicon-menu-right" />
+          // return <Glyphicon glyph= "glyphicon glyphicon-menu-right" />
+          return <span>mn</span>
       },
       minWidth: 25
     }];

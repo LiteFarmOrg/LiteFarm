@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,7 +17,7 @@ import React, { Component } from "react";
 import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button, Tabs, Tab, Table, Glyphicon } from 'react-bootstrap';
+import { Button, Tabs, Tab, Table } from 'react-bootstrap';
 import {fieldSelector, cropSelector as fieldCropSelector, farmSelector} from "../selector";
 import history from '../../history';
 import moment from 'moment';
@@ -267,7 +267,9 @@ class Field extends Component {
                       <td>{field.field_name}</td>
                       <td>{roundToTwoDecimal(convertFromMetric(field.area, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup></td>
                       <td>
-                        <a onClick={() => {history.push('./edit_field?' + field.field_id)}}><Glyphicon glyph="chevron-right" style={{color:'#349289'}}/></a>
+                        <a onClick={() => {history.push('./edit_field?' + field.field_id)}}>
+                          {/*<Glyphicon glyph="chevron-right" style={{color:'#349289'}}/>*/}
+                        </a>
                       </td>
                     </tr>
                   );}

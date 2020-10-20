@@ -34,7 +34,7 @@ import log from '../../assets/videos/Log.mp4';
 import field from '../../assets/videos/Field.mp4';
 //
 import styles from './styles.scss'
-import {Button, Glyphicon} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import history from '../../history';
 import ReactPlayer from 'react-player';
 import {connect} from 'react-redux';
@@ -114,11 +114,11 @@ class IntroSlide extends React.Component {
         <Carousel wrapAround heightMode={'max'}
           slideIndex={this.state.slideIndex}
           renderCenterRightControls={({nextSlide}) => (<a onClick={nextSlide} className={styles.nextSlide}>
-            <Glyphicon glyph="glyphicon glyphicon-chevron-right"/>
+            {/*<Glyphicon glyph="glyphicon glyphicon-chevron-right"/>*/}
           </a>)
           }
           renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
-            <Glyphicon glyph="glyphicon glyphicon-chevron-left"/>
+            {/*<Glyphicon glyph="glyphicon glyphicon-chevron-left"/>*/}
           </a>)}
         >
           <div className={styles.slideContainer}>

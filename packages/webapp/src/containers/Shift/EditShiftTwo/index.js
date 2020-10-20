@@ -7,7 +7,7 @@ import { fieldSelector, cropSelector, userInfoSelector } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import Select from 'react-select';
-import { Glyphicon, Grid, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import closeButton from '../../../assets/images/grey_close_button.png'
 import Popup from "reactjs-popup";
 import history from '../../../history';
@@ -610,7 +610,7 @@ class EditShiftTwo extends Component {
                   <div>
                     <strong>Crops on this farm</strong>
                     <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'crop')}>
-                      <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
+                      {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
                       Back
                     </div>
                   </div>
@@ -651,8 +651,8 @@ class EditShiftTwo extends Component {
                         return <div className={styles.durationContainer} key={cd.crop_id}>
                           <div>{cd.crop_name}</div>
                           <div className={styles.durationInput}>
-                            <input type="number" 
-                            placeholder={0} 
+                            <input type="number"
+                            placeholder={0}
                                    onChange={(event) => this.changeDuration(event, task.task_id, true, cd.crop_id)}/>
                           </div>
                         </div>
@@ -664,7 +664,7 @@ class EditShiftTwo extends Component {
                   <div>
                     <strong>Fields on this farm</strong>
                     <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'field')}>
-                      <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
+                      {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
                       Back
                     </div>
                   </div>
@@ -747,7 +747,7 @@ class EditShiftTwo extends Component {
               </a>
             </div>
             <h3>How did this shift make you feel?</h3>
-            <Grid fluid={true}
+            <Container fluid={true}
               style={{ marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%' }}>
               <Row className="show-grid">
                 {
@@ -767,7 +767,7 @@ class EditShiftTwo extends Component {
                   })
                 }
               </Row>
-            </Grid>
+            </Container>
             <div className={styles.buttonContainer}>
               <Button onClick={() => this.submitShift()}>Finish</Button>
             </div>

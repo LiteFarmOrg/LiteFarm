@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {pricesDistanceSelector} from "../../../containers/Insights/selectors";
-import Glyphicon from "react-bootstrap/es/Glyphicon";
 import styles from "../../PageTitle/styles.scss";
 
 
@@ -21,7 +20,7 @@ class PriceDistanceComponent extends Component {
     return (
     <div>
       <a onClick={() => this.props.handleOpenCollapse()} className={styles.buttonContainer}>
-      <Glyphicon glyph={"cog"}/>
+      {/*<Glyphicon glyph={"cog"}/>*/}
       </a>
     </div>)
   }

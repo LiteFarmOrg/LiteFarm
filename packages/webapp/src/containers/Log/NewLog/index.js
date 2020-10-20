@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import fertImg from '../../../assets/images/log/fertilizing.png';
 import fieldImg from '../../../assets/images/log/field_work.png';
 import harvestImg from '../../../assets/images/log/harvest.png';
@@ -23,7 +23,7 @@ class NewLog extends Component{
         <h4>
           What do you want to log?
         </h4>
-        <Grid fluid={true} style={{ marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%' }}>
+        <Container fluid={true} style={{ marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%' }}>
           <Row className="show-grid" >
             <Col xs={6} md={3} className={styles.col} onClick={()=>{history.push('/fertilizing_log')}}>
               <div className={styles.typeContainer} >
@@ -102,7 +102,7 @@ class NewLog extends Component{
               </div>
             </Col>
           </Row>
-        </Grid>
+        </Container>
 
       </div>
     )

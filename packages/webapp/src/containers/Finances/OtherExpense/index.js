@@ -195,7 +195,8 @@ class OtherExpense extends Component {
     }, {
       id: 'chevron',
       maxWidth: 25,
-      accessor: () => <Glyphicon glyph="menu-right"/>
+      // accessor: () => <Glyphicon glyph="menu-right"/>
+      accessor: () => <span>mn</span>
     }
     ];
 

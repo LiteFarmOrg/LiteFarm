@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,7 +17,6 @@ import React, {Component} from 'react';
 import styles from '../Finances/styles.scss';
 import newStyles from './styles.scss';
 import {connect} from 'react-redux';
-import {Glyphicon} from "react-bootstrap";
 import Table from '../../components/Table';
 import history from '../../history';
 import {getExpense, getSales, getShifts} from "../Finances/actions";
@@ -75,7 +74,7 @@ class NewFinances extends Component {
             <button style={{float: 'right'}} onClick={() => {
               history.push('/newfinances/sales')
             }}>
-              <Glyphicon glyph='glyphicon glyphicon-chevron-right'/>
+              {/*<Glyphicon glyph='glyphicon glyphicon-chevron-right'/>*/}
             </button>
             <div style={{float: 'right'}}>${this.state.totalSales}</div>
           </div>
@@ -85,7 +84,7 @@ class NewFinances extends Component {
               <button style={{float: 'right', clear: 'both'}} onClick={() => {
                 history.push('/newfinances/expenses');
               }}>
-                <Glyphicon glyph='glyphicon glyphicon-chevron-right'/>
+                {/*<Glyphicon glyph='glyphicon glyphicon-chevron-right'/>*/}
               </button>
               <div style={{float: 'right'}}>${this.state.totalExpenses}</div>
             </div>
@@ -96,7 +95,7 @@ class NewFinances extends Component {
             <button style={{float: 'right'}} onClick={() => {
               history.push('/newfinances/balances')
             }}>
-              <Glyphicon glyph='glyphicon glyphicon-chevron-right'/>
+              {/*<Glyphicon glyph='glyphicon glyphicon-chevron-right'/>*/}
             </button>
             <div style={{float: 'right'}}>${this.state.totalBalance}</div>
           </div>

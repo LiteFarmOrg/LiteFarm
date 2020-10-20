@@ -71,7 +71,7 @@ class Account extends Component {
           </div>
           <div className={defaultStyles.bottomContainer}>
             <div className={defaultStyles.buttonContainer}>
-              <Button type='submit' bsStyle='primary'>Save</Button>
+              <Button type='submit' variant='primary'>Save</Button>
             </div>
           </div>
         </Form>

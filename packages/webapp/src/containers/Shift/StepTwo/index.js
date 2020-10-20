@@ -9,7 +9,7 @@ import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png'
 import Select from 'react-select';
 import Popup from "reactjs-popup";
-import {Glyphicon, Grid, Row, Col, Button} from 'react-bootstrap';
+import {Container, Row, Col, Button} from 'react-bootstrap';
 import history from '../../../history';
 import {toastr} from "react-redux-toastr";
 import {submitShift, submitMultiShift} from '../actions';
@@ -568,7 +568,7 @@ class ShiftStepTwo extends Component {
               </a>
             </div>
             <h3>How did this shift make you feel?</h3>
-            <Grid fluid={true}
+            <Container fluid={true}
                   style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
               <Row className="show-grid">
                 <Col xs={4} md={4}>
@@ -627,7 +627,7 @@ class ShiftStepTwo extends Component {
                   </div>
                 </Col>
               </Row>
-            </Grid>
+            </Container>
             <div className={styles.buttonContainer}>
               <Button onClick={() => this.submitShift()}>Finish</Button>
             </div>
@@ -673,7 +673,7 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               <Button onClick={() => addAll(task.task_id, 'crop', duration)}>All</Button>
             </div>
             <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'crop')}>
-              <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
+              {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
               Back
             </div>
           </div>
@@ -750,7 +750,7 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               <Button onClick={() => addAll(task.task_id, 'field')}>All</Button>
             </div>
             <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'field')}>
-              <Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>
+              {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
               Back
             </div>
           </div>

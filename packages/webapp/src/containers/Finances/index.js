@@ -295,7 +295,7 @@ class Finances extends Component {
     }
 
     //apply sales
-    for (let sale of sales) {
+    for (let sale of sales || []) {
       if (moment(sale.sale_date).isBetween(startDate, endDate)) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {

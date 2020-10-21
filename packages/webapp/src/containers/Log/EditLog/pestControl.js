@@ -6,7 +6,7 @@ import { fieldSelector, cropSelector, farmSelector } from '../../selector';
 import { diseaseSelector, pesticideSelector, pestLogSelector } from "../PestControlLog/selectors";
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
-import {Control, Errors, Form} from 'react-redux-form';
+import {Control, Form} from 'react-redux-form';
 import  { getDiseases, getPesticides, editPestControlLog, addDiseases, addPesticide } from '../PestControlLog/actions';
 import { actions } from 'react-redux-form';
 import Popup from "reactjs-popup";
@@ -21,6 +21,7 @@ import {convertFromMetric, convertToMetric, getUnit, roundToFourDecimal} from ".
 import {deleteLog} from "../Utility/actions";
 import ConfirmModal from "../../../components/Modals/Confirm";
 import Select from 'react-select';
+import Unit from '../../../components/Inputs/Unit';
 
 
 class PestControlLog extends Component{
@@ -280,27 +281,10 @@ class PestControlLog extends Component{
                 </div>
                 <div>
                   <div className={styles.greenTextButton} onClick={()=>this.openDiseaseModal()}> + Add a custom disease </div>
-                </div>
-                <div className={styles.textContainer}>
-                  <label>Quantity</label>
-                  <div className={styles.inputNunit}>
-                    <Control.input
-                    type="number"
-                    step="any"
-                    model=".pestControlLog.quantity_kg"
-                    validators={{required: (val) => val }}
+                </div>har
 
-                  />
-                    {this.state.quantity_unit}
-                  </div>
-                </div>
-                <Errors
-                  className='required'
-                  model={`.pestControlLog.quantity_kg`}
-                  show={{touched: true, focus: false}}
-                  messages={{
-                    required: 'Required',
-                  }} />
+                <Unit model='.pestControlLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
+
                 <div className={styles.noteTitle}>
                   Notes
                 </div>

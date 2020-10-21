@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -71,7 +71,8 @@ export function* getExpiredCropsSaga() {
     },
   };
 
-  try {const result = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
+  try {
+    const result = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
     if (result) {
       yield put(setExpiredCropsInState(result.data));
     }
@@ -183,6 +184,10 @@ export function* createFieldCropSaga(action) {
       if (result) {
         yield put(setFieldCropsInState(result.data));
       }
+      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
+      if (expiredResult) {
+        yield put(setExpiredCropsInState(expiredResult.data));
+      }
     }
   } catch(e) {
     console.log('failed to add fieldCrop to database');
@@ -222,6 +227,10 @@ export function* editFieldCropSaga(action){
       if (result) {
         yield put(setFieldCropsInState(result.data));
         toastr.success("Successfully Edited Crop");
+      }
+      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
+      if (expiredResult) {
+        yield put(setExpiredCropsInState(expiredResult.data));
       }
     }
   } catch(e) {

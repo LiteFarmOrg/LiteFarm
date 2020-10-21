@@ -197,7 +197,7 @@ class EditField extends Component {
     return (
       <div className={parentStyles.logContainer}>
         <PageTitle title="Edit Field" backUrl="/field"/>
-        <NewFieldCropModal handler={this.handleAddCrop} field={this.state.selectedField}
+        <NewFieldCropModal handler={() => {}} field={this.state.selectedField}
                            fieldArea={this.state.fieldArea}/>
         <div>
           <hr/>
@@ -254,7 +254,7 @@ class EditField extends Component {
                     </div>
 
                       <div className={styles.inlineButtonContainer}>
-                        <EditFieldCropModal cropBeingEdited={crop} handler={this.handleAddCrop}
+                        <EditFieldCropModal cropBeingEdited={crop} handler={() => {}}
                                             field={this.state.selectedField} fieldArea={this.state.fieldArea}
                         />
                         <div className={styles.deleteButton}>
@@ -299,7 +299,16 @@ class EditField extends Component {
 
                       </Card.Title>
                     </div>
-
+                    <div className={styles.inlineButtonContainer}>
+                      <EditFieldCropModal cropBeingEdited={crop} handler={() => {}}
+                                          field={this.state.selectedField} fieldArea={this.state.fieldArea}
+                      />
+                      <div className={styles.deleteButton}>
+                        <Button onClick={() => {
+                          this.handleDeleteCrop(crop.field_crop_id)
+                        }}>Delete</Button>
+                      </div>
+                    </div>
                   </Card.Header>
                   <Card.Header className={styles.panelHeading} as="h3">
                     <div>

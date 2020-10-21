@@ -4,7 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import {logSelector, currentLogSelector} from '../selectors';
 import {fieldSelector, cropSelector, farmSelector} from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Control, Errors, Form} from 'react-redux-form';
+import {actions, Control, Form} from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
@@ -13,6 +13,7 @@ import {deleteLog, editLog} from "../Utility/actions";
 import {getFieldCrops} from "../../actions";
 import ConfirmModal from "../../../components/Modals/Confirm";
 import LogFormOneCrop from "../../../components/Forms/LogFormOneCrop";
+import Unit from '../../../components/Inputs/Unit';
 
 class HarvestLog extends Component{
   constructor(props) {
@@ -93,25 +94,9 @@ class HarvestLog extends Component{
             crops={crops}
             notesField={false}
           />
-          <div className={styles.textContainer}>
-            <label>Quantity</label>
-            <div className={styles.inputNunit}>
-              <Control.input
-                type="number"
-                step="any"
-                model=".harvestLog.quantity_kg"
-                validators={{required: (val) => val }}
-              />
-              {this.state.quantity_unit}
-            </div>
-          </div>
-          <Errors
-            className='required'
-            model={`.harvestLog.quantity_kg`}
-            show={{touched: true, focus: false}}
-            messages={{
-              required: 'Required',
-            }} />
+
+          <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
+
           <div>
             <div className={styles.noteTitle}>
               Notes

@@ -229,8 +229,9 @@ class createUserController extends baseController {
         }
         const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
         const subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
-        await emailSender.sendEmail(template_path, subject, { farm_name, first_name }, email,
-          sender, true, environmentMap[environment]);
+        const basePath = environmentMap[environment];
+        await emailSender.sendEmail(template_path, subject, { farm_name, first_name, link: basePath },
+          email, sender, true, environmentMap[environment]);
         return;
       }
       await this.postToAuth0(user).then(async (authResponse) => {
@@ -290,7 +291,7 @@ class createUserController extends baseController {
           } else {
             joinUrl = `${basePath}sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
           }
-          await emailSender.sendEmail(template_path, subject, replacements, lite_farm_user.email, sender, true, joinUrl);
+          await emailSender.sendEmail(template_path, subject, { link: basePath, ...replacements }, lite_farm_user.email, sender, true, joinUrl);
         }).catch(async (err) => {
           console.log(err);
           if (await this.deleteAuth0User(user_id)) {

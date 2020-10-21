@@ -11,6 +11,7 @@ import { setPricesDistance, getPricesWithDistanceData } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
+
 const MILE_TO_KILOMETER = 1.609;
 
 
@@ -19,7 +20,6 @@ class Prices extends Component {
     super(props);
     this.state = {
       currencySymbol: grabCurrencySymbol(this.props.farm),
-      distance: this.props.pricesDistance,
       open: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -32,7 +32,6 @@ class Prices extends Component {
   }
 
   handleChange(distance) {
-    this.setState({ distance: distance });
     this.props.dispatch(setPricesDistance(distance));
   }
 
@@ -51,16 +50,19 @@ class Prices extends Component {
       this.props.dispatch(getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance))
     }
     // TODO need rewrite
-    if(this.props.farm?.units?.measurement === 'imperial' && Number.isInteger(this.state.distance)){
-      this.handleChange(5*MILE_TO_KILOMETER);
-    }else if(this.props.farm?.units?.measurement === 'metric' && !Number.isInteger(this.state.distance)){
+    if (this.props.farm?.units?.measurement === 'imperial' && Number.isInteger(this.props.pricesDistance)) {
+      this.handleChange(5 * MILE_TO_KILOMETER);
+    } else if (this.props.farm?.units?.measurement === 'metric' && !Number.isInteger(this.props.pricesDistance)) {
       this.handleChange(5);
     }
   }
 
+
   render() {
     const isImperial = this.props.farm && this.props.farm.units?.measurement === 'imperial';
     const distances = isImperial ? [5, 10, 20, 35] : [5, 10, 25, 50]
+    const distanceToDisplay = isImperial ? this.props.pricesDistance / MILE_TO_KILOMETER : this.props.pricesDistance;
+    const unit = isImperial ? 'mi' : 'km';
     const { currencySymbol } = this.state;
     const { pricesData } = this.props;
     const { data: cropsWithPriceInfo } = pricesData;
@@ -68,9 +70,9 @@ class Prices extends Component {
       <div className={insightStyles.insightContainer}>
         <PageTitle title="Prices" backUrl="/Insights/"
                    rightIcon={true} rightIconBody={this.infoBoxBody} rightIconTitle={'Prices'}/>
-        {this.state.distance &&
+        {this.props.pricesDistance &&
         <div>
-          <div style={{ float: 'left' }}><b>Sales from {isImperial? this.state.distance/MILE_TO_KILOMETER : this.state.distance} {isImperial? 'mi':'km'} away</b></div>
+          <div style={{ float: 'left' }}><b>Sales from {distanceToDisplay} {unit} away</b></div>
           <div style={{ float: 'right' }}><PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse}/></div>
           <hr/>
           <div style={{ float: 'left' }}>
@@ -80,13 +82,13 @@ class Prices extends Component {
                   Pulling from {this.props.pricesData['amountOfFarms']} farms for sales data
                 </div>
                 {distances.map((distance, index) => {
-                  if (this.state.distance === distance) {
+                  if (distanceToDisplay === distance) {
                     return <Button className={styles.distanceButton}
-                                   key={'active-button-' + index}>{distance} {isImperial? 'mi':'km'}</Button>
+                                   key={'active-button-' + index}>{distance} {unit}</Button>
                   } else {
                     return <Button onClick={() => {
-                      this.handleChange(isImperial? distance*MILE_TO_KILOMETER:distance)
-                    }} className={'active ' + styles.distanceButton} key={'button-' + index}>{distance} {isImperial? 'mi':'km'}</Button>
+                      this.handleChange(isImperial ? distance * MILE_TO_KILOMETER : distance)
+                    }} className={'active ' + styles.distanceButton} key={'button-' + index}>{distance} {unit}</Button>
                   }
                 })}
                 <hr/>

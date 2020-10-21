@@ -170,7 +170,7 @@ class Auth {
       throw new Error("missing metadata properties");
     }
 
-    const email = user_info.sub.split('|')[0] === 'google-oauth2' ? user_info.nickname + "gmail.com" : user_info.name;
+    const email = user_info.sub.split('|')[0] === 'google-oauth2' ? user_info.nickname + "@gmail.com" : user_info.name;
     let first_name = user_metadata.first_name || user_info.given_name;
     let last_name = user_metadata.last_name || user_info.family_name;
     let user_url = apiConfig.userUrl;

@@ -251,7 +251,7 @@ class createUserController extends baseController {
         const rows = await farmModel.query().select('*').where('farm.farm_id', lite_farm_user.farm_id);
         const replacements = {
           first_name: lite_farm_user.first_name,
-          farm: rows[0].farm_name,
+          farm_name: rows[0].farm_name,
         };
         const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
         const trx = await transaction.start(Model.knex());
@@ -331,7 +331,7 @@ class createUserController extends baseController {
               const rows = await farmModel.query().select('*').where('farm.farm_id', req.body.farm_id);
               const replacements = {
                 first_name: authResponse.data[0].user_metadata.first_name,
-                farm: rows[0].farm_name,
+                farm_name: rows[0].farm_name,
               };
               const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
               await emailSender.sendEmail(template_path, subject, replacements, authResponse.data[0].email, sender);

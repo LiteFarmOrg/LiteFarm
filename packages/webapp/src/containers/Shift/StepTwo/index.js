@@ -1,20 +1,20 @@
-import React, {Component, useState} from "react";
-import {connect} from 'react-redux';
+import React, { Component, useState } from 'react';
+import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import {durationSelector, selectedTasksSelector, startEndSelector} from './selectors';
+import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
 import { fieldSelector, cropSelector, userInfoSelector } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png'
 import Select from 'react-select';
-import Popup from "reactjs-popup";
+import Popup from 'reactjs-popup';
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import history from '../../../history';
-import {toastr} from "react-redux-toastr";
-import {submitShift, submitMultiShift} from '../actions';
-import {farmSelector} from "../../selector";
-import { BsReplyFill } from "react-icons/all";
+import { toastr } from 'react-redux-toastr';
+import { submitShift, submitMultiShift } from '../actions';
+import { farmSelector } from '../../selector';
+import { BsReplyFill } from "react-icons/bs";
 
 class ShiftStepTwo extends Component {
 
@@ -73,12 +73,12 @@ class ShiftStepTwo extends Component {
     let availableDuration = Number(parseInt(parseFloat(this.props.availableDuration).toFixed(2), 10));
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({label: crop.crop_common_name, value: crop.crop_id});
+        cropOptions.push({ label: crop.crop_common_name, value: crop.crop_id });
         addedCropID.push(crop.crop_id);
       }
     }
     for (let field of fields) {
-      fieldOptions.push({label: field.field_name, value: field.field_id})
+      fieldOptions.push({ label: field.field_name, value: field.field_id })
     }
     let finalForm = {};
     for (let task of selectedTasks) {
@@ -116,7 +116,7 @@ class ShiftStepTwo extends Component {
   }
 
   closeEditModal = () => {
-    this.setState({showEdit: false});
+    this.setState({ showEdit: false });
   };
 
   openEditModal = () => {
@@ -125,36 +125,36 @@ class ShiftStepTwo extends Component {
 
   selectMood = (mood) => {
     this.setState({
-      mood
+      mood,
     })
   };
 
-  addAll(task_id, type, duration=0) {
-    const {crops, fields} = this.props;
+  addAll(task_id, type, duration = 0) {
+    const { crops, fields } = this.props;
     if (type === 'crop') {
       let defaultCrops = this.state.defaultCrops;
       defaultCrops[task_id] = [];
       let cropOptions = [], addedCropID = [];
       for (let c of crops) {
         if (!addedCropID.includes(c.crop_id)) {
-          defaultCrops[task_id].push({"value": c.crop_id, "label": c.crop_common_name});
-          cropOptions.push({value: c.crop_id, label: c.crop_common_name});
+          defaultCrops[task_id].push({ 'value': c.crop_id, 'label': c.crop_common_name });
+          cropOptions.push({ value: c.crop_id, label: c.crop_common_name });
           addedCropID.push(c.crop_id);
         }
       }
       this.handleCropChange(cropOptions, duration, task_id);
       this.setState({
-        defaultCrops
+        defaultCrops,
       });
     } else {
       let defaultFields = this.state.defaultFields;
       defaultFields[task_id] = [];
       for (let f of fields) {
-        defaultFields[task_id].push({"value": f.field_id, "label": f.field_name});
-        this.handleFieldChange([{value: f.field_id}], task_id);
+        defaultFields[task_id].push({ 'value': f.field_id, 'label': f.field_name });
+        this.handleFieldChange([{ value: f.field_id }], task_id);
       }
       this.setState({
-        defaultFields
+        defaultFields,
       });
     }
   }
@@ -167,8 +167,7 @@ class ShiftStepTwo extends Component {
         containerDiv.style.display = 'none';
         cropDiv.style.display = 'flex';
       }
-    }
-    else {
+    } else {
       let containerDiv = document.getElementById(task_id);
       let fieldDiv = document.getElementById('field' + task_id);
       if (containerDiv.style.display === 'block') {
@@ -179,14 +178,20 @@ class ShiftStepTwo extends Component {
   }
 
   resetCropDuration = (task_id) => {
-    let {cropDurations} = this.state;
+    let { cropDurations, finalForm } = this.state;
     let resetDurations = [];
-    for (let cdObj of cropDurations[task_id]) {
-      cdObj.duration = 0;
-      resetDurations.push(cdObj);
+    if(cropDurations?.hasOwnProperty(task_id)){
+      for (let cdObj of cropDurations[task_id]) {
+        cdObj.duration = '';
+        resetDurations.push(cdObj);
+      }
+      cropDurations[task_id] = resetDurations;
     }
-    cropDurations[task_id] = resetDurations;
-    this.setState({cropDurations});
+    if(finalForm?.hasOwnProperty(task_id)){
+      finalForm[task_id].duration = 0;
+    }
+    let availableDuration = this.getRemainingDuration();
+    this.setState({ cropDurations, availableDuration, finalForm });
   };
 
   toggleBack(task_id, type) {
@@ -195,56 +200,39 @@ class ShiftStepTwo extends Component {
     if (type === 'crop') {
       let cropDiv = document.getElementById('crop' + task_id);
       cropDiv.style.display = 'none';
-    }
-    else {
+    } else {
       let fieldDiv = document.getElementById('field' + task_id);
       fieldDiv.style.display = 'none';
     }
-
-    let {availableDuration, cropDurations} = this.state;
-    let updatedDuration = availableDuration;
-    // reset available duration
-    if (type === 'crop') {
-      if (cropDurations.hasOwnProperty(task_id)) {
-        let subTotal = 0;
-        for (let cdObj of cropDurations[task_id]) {
-          subTotal += Number(cdObj.duration);
-        }
-        updatedDuration = availableDuration + Number(subTotal);
-        this.resetCropDuration(task_id);
-      }
-    } else {
-      let inputName = 'input-field-';
-      let input_element = document.getElementById(inputName + task_id);
-      let value = input_element.value === '' ? 0 : input_element.value;
-      updatedDuration = availableDuration + Number(value);
-      input_element.value = 0;
-
+    let { cropDurations, finalForm } = this.state;
+    if(finalForm && finalForm[task_id]){
+      finalForm[task_id]={};
     }
-
-    this.setState({
-      availableDuration: Number(updatedDuration),
-    })
+    if(cropDurations && cropDurations[task_id]){
+      cropDurations[task_id]=[];
+    }
+    let availableDuration = this.getRemainingDuration();
+    this.setState({ cropDurations, availableDuration, finalForm });
   }
 
   handleCropChange = (selectedOption, duration, task_id) => {
-    let {finalForm, cropDurations} = this.state;
+    let { finalForm, cropDurations } = this.state;
     finalForm[task_id].is_field = false;
     finalForm[task_id].val = [];
     // for individual durations
     cropDurations[task_id] = [];
 
     let totalTimeInput = document.getElementById('total_crop_input-' + task_id);
-    if(totalTimeInput){
+    if (totalTimeInput) {
       totalTimeInput.value = 0;
     }
 
     for (let option of selectedOption) {
-      finalForm[task_id].val.push({id: option.value});
+      finalForm[task_id].val.push({ id: option.value });
       cropDurations[task_id].push({
         crop_id: option.value,
         crop_name: option.label,
-        duration: duration/selectedOption.length,
+        duration: duration / selectedOption.length,
       })
     }
 
@@ -259,7 +247,7 @@ class ShiftStepTwo extends Component {
     finalForm[task_id].is_field = true;
     finalForm[task_id].val = [];
     for (let option of selectedOption) {
-      finalForm[task_id].val.push({id: option.value});
+      finalForm[task_id].val.push({ id: option.value });
     }
     this.setState({
       finalForm,
@@ -267,14 +255,14 @@ class ShiftStepTwo extends Component {
 
   };
 
-  changeTotalIndyBtnColor = (task_id, is_total) =>{
+  changeTotalIndyBtnColor = (task_id, is_total) => {
     let all_id_btn = document.getElementById('all-crop-' + task_id);
     let indy_id_btn = document.getElementById('indy-crop-' + task_id);
 
-    if(is_total){
+    if (is_total) {
       all_id_btn.className = 'duration-btn-selected';
       indy_id_btn.className = 'duration-btn-unselected';
-    }else{
+    } else {
       indy_id_btn.className = 'duration-btn-selected';
       all_id_btn.className = 'duration-btn-unselected';
     }
@@ -284,8 +272,6 @@ class ShiftStepTwo extends Component {
   toggleCropTimeMethod = (task_id, is_total, total = 0) => {
     let cropTotalTimeDiv = document.getElementById('allduration-' + task_id);
     let cropIndyTimeDiv = document.getElementById('singleduration-' + task_id);
-
-
 
 
     if (!is_total) {
@@ -299,37 +285,37 @@ class ShiftStepTwo extends Component {
     this.changeTotalIndyBtnColor(task_id, is_total);
   };
 
-  cropTotalTimeAssign = (event, task_id) => {
-    let {cropDurations} = this.state;
+  cropTotalTimeAssign = (duration, task_id) => {
+    let { cropDurations } = this.state;
     if (cropDurations.hasOwnProperty(task_id)) {
       let cropNum = cropDurations[task_id].length;
-      let totalTime = event.target.value;
+      let totalTime = duration;
       let indyTime = Math.round(Number(totalTime) / cropNum);
       let i = 0;
       for (let cdObj of cropDurations[task_id]) {
-        if(i === cropNum - 1){
-          if(indyTime * cropNum !== (Number(totalTime))){
+        if (i === cropNum - 1) {
+          if (indyTime * cropNum !== (Number(totalTime))) {
             indyTime = Number(totalTime) - indyTime * (cropNum - 1);
           }
         }
-        this.changeDuration({target: {value: indyTime}}, task_id, true, cdObj.crop_id);
+        this.changeDuration({ target: { value: indyTime } }, task_id, true, cdObj.crop_id);
         i++;
       }
     }
   };
 
 
-  changeDuration(event, task_id, is_crop, crop_id = null, setDuration=()=>{}) {
+  changeDuration(event, task_id, is_crop, crop_id = null, setDuration = () => {
+  }) {
     let value = event.target.value;
-    let {availableDuration, cropDurations, finalForm, originalDuration} = this.state;
-    let remainingDuration = originalDuration;
+    let { availableDuration, cropDurations, finalForm } = this.state;
     let duration = 0;
     if (is_crop) {
       for (let cdObj of cropDurations[task_id]) {
         if (cdObj.crop_id === crop_id) {
           cdObj.duration = Number(value);
         }
-        duration+= cdObj.duration;
+        duration += cdObj.duration;
       }
       setDuration(duration);
       this.setState({
@@ -343,20 +329,7 @@ class ShiftStepTwo extends Component {
       });
     }
 
-    let keys = Object.keys(finalForm);
-
-    for (let key of keys) {
-      if (finalForm[key].is_field) {
-        remainingDuration = remainingDuration - Number(finalForm[key].duration);
-      } else {
-        if (cropDurations.hasOwnProperty(key)) {
-          for (let cdObj of cropDurations[key]) {
-            remainingDuration = remainingDuration - Number(cdObj.duration);
-          }
-        }
-      }
-    }
-    remainingDuration = Number(parseInt(remainingDuration, 10));
+    let remainingDuration = this.getRemainingDuration();
     // change box color & set duration
     this.setState({
       availableDuration: remainingDuration,
@@ -372,6 +345,24 @@ class ShiftStepTwo extends Component {
     })
   }
 
+  getRemainingDuration() {
+    let { cropDurations, finalForm, originalDuration } = this.state;
+    let keys = Object.keys(finalForm);
+    let remainingDuration = originalDuration;
+    for (let key of keys) {
+      if (finalForm[key].is_field) {
+        remainingDuration = remainingDuration - Number(finalForm[key].duration);
+      } else {
+        if (cropDurations?.hasOwnProperty(key)) {
+          for (let cdObj of cropDurations[key]) {
+            remainingDuration = remainingDuration - Number(cdObj.duration);
+          }
+        }
+      }
+    }
+    return Number(parseInt(remainingDuration, 10));
+  }
+
   submitShift() {
     if (this.state.availableDuration !== 0) {
       toastr.error('Please assign all your available work minutes');
@@ -380,7 +371,7 @@ class ShiftStepTwo extends Component {
     let finalForm = this.state.finalForm;
     let usersObj = this.state.usersObj;
     let form;
-    let b_duration = usersObj.break === null || usersObj.break === "" || usersObj.break === undefined ? 0 : usersObj.break;
+    let b_duration = usersObj.break === null || usersObj.break === '' || usersObj.break === undefined ? 0 : usersObj.break;
     if (usersObj.isMulti) {
       const { mood } = this.state;
       const { users } = this.props;
@@ -398,10 +389,9 @@ class ShiftStepTwo extends Component {
         start_time: start,
         end_time: end,
         break_duration: Number(parseInt(b_duration, 0)),
-        tasks: []
+        tasks: [],
       };
-    }
-    else {
+    } else {
       form = {
         user_id: usersObj.shiftUserId,
         wage_at_moment: Number(usersObj.wage),
@@ -409,7 +399,7 @@ class ShiftStepTwo extends Component {
         end_time: usersObj.end,
         break_duration: Number(parseInt(b_duration, 0)),
         mood: this.state.mood,
-        tasks: []
+        tasks: [],
       };
     }
 
@@ -426,14 +416,14 @@ class ShiftStepTwo extends Component {
       let valIterator = 0;
       for (let val of vals) {
         if (is_field) {
-          if(!Number.isInteger(Number(finalForm[key].duration))){
+          if (!Number.isInteger(Number(finalForm[key].duration))) {
             toastr.error('Please assign only integers to durations');
             return;
           }
 
           let duration = Number(parseFloat(Number(finalForm[key].duration) / val_num).toFixed(3));
-          if(valIterator === val_num - 1){
-            if(duration * val_num !== Number(finalForm[key].duration)){
+          if (valIterator === val_num - 1) {
+            if (duration * val_num !== Number(finalForm[key].duration)) {
               duration = Number(finalForm[key].duration) - duration * (val_num - 1);
             }
           }
@@ -456,12 +446,12 @@ class ShiftStepTwo extends Component {
               field_id: val.id,
             })
           } else {
-            duration =  Number(parseFloat(duration).toFixed(3));
+            duration = Number(parseFloat(duration).toFixed(3));
             let sub_duration = Number(duration / crop_num);
             let i = 0;
             for (let crop of crops_on_field) {
-              if(i === crop_num - 1){
-                if(sub_duration * crop_num !== duration){
+              if (i === crop_num - 1) {
+                if (sub_duration * crop_num !== duration) {
                   sub_duration = duration - (sub_duration * (crop_num - 1));
                 }
               }
@@ -479,14 +469,14 @@ class ShiftStepTwo extends Component {
         // crop
         else {
           let subDuration = 0;
-          let {cropDurations} = this.state;
+          let { cropDurations } = this.state;
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
                 toastr.error('Please assign a duration for each crop.');
                 return;
               }
-              if(!Number.isInteger(Number(cdObj.duration))){
+              if (!Number.isInteger(Number(cdObj.duration))) {
                 toastr.error('Please assign only integers to durations');
                 return;
               }
@@ -495,7 +485,7 @@ class ShiftStepTwo extends Component {
               }
             }
           } else {
-            toastr.error("Sumbit shift with crops failed. Litefarm's issue.");
+            toastr.error('Sumbit shift with crops failed. Litefarm\'s issue.');
             return;
           }
 
@@ -508,10 +498,10 @@ class ShiftStepTwo extends Component {
           }
           subDuration = subDuration / crop_arr.length;
 
-          for(let a_crop of crop_arr){
+          for (let a_crop of crop_arr) {
             form.tasks.push({
               task_id: key,
-              duration:  Number(parseFloat(subDuration).toFixed(3)),
+              duration: Number(parseFloat(subDuration).toFixed(3)),
               is_field: false,
               field_crop_id: a_crop.field_crop_id,
               field_id: a_crop.field_id,
@@ -521,9 +511,9 @@ class ShiftStepTwo extends Component {
         valIterator++;
       }
     }
-    if (usersObj.isMulti){
+    if (usersObj.isMulti) {
       this.props.dispatch(submitMultiShift(form));
-    }else{
+    } else {
       this.props.dispatch(submitShift(form));
     }
   };
@@ -536,21 +526,25 @@ class ShiftStepTwo extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/shift_step_one" title="New Shift (Step 2)" rightIcon={true} rightIconTitle="Time Allocation"
+        <PageTitle backUrl="/shift_step_one" title="New Shift (Step 2)" rightIcon={true}
+                   rightIconTitle="Time Allocation"
                    rightIconBody="If you need to allocate labour for an activity to your whole farm, you can allocate it to all of your fields, and we will do the rest."/>
-        <div className={styles.taskTitle} style={{paddingBottom: '1.2em'}}>
+        <div className={styles.taskTitle} style={{ paddingBottom: '1.2em' }}>
           <div style={this.state.minBoxStyle}>
             <strong> You have <span>{this.state.availableDuration} minutes</span> to assign</strong>
           </div>
         </div>
         <div>
           {selectedTasks.map((task) =>
-            <InputDuration key={task.task_id} addAll={this.addAll} changeDuration={this.changeDuration} cropDurations={cropDurations}
+            <InputDuration key={task.task_id} addAll={this.addAll} changeDuration={this.changeDuration}
+                           cropDurations={cropDurations}
                            handleCropChange={this.handleCropChange} handleFieldChange={this.handleFieldChange}
                            state={this.state} isRatingEnabled={isRatingEnabled} openEditModal={this.openEditModal}
                            toggleCropOrField={this.toggleCropOrField} task={task} toggleBack={this.toggleBack}
-                           toggleCropTimeMethod={this.toggleCropTimeMethod} cropTotalTimeAssign={this.cropTotalTimeAssign}
-            />
+                           toggleCropTimeMethod={this.toggleCropTimeMethod}
+                           cropTotalTimeAssign={this.cropTotalTimeAssign}
+                           resetCropDuration={this.resetCropDuration}
+            />,
           )}
 
         </div>
@@ -559,8 +553,8 @@ class ShiftStepTwo extends Component {
           open={this.state.showEdit}
           closeOnDocumentClick
           onClose={this.closeEditModal}
-          contentStyle={{display: 'flex', width: '100%', height: '100vh', padding: '0 5%'}}
-          overlayStyle={{zIndex: '1060', height: '100vh'}}
+          contentStyle={{ display: 'flex', width: '100%', height: '100vh', padding: '0 5%' }}
+          overlayStyle={{ zIndex: '1060', height: '100vh' }}
         >
           <div className={styles.modal}>
             <div className={styles.popupTitle}>
@@ -569,6 +563,7 @@ class ShiftStepTwo extends Component {
               </a>
             </div>
             <h3>How did this shift make you feel?</h3>
+
             <Container fluid={true}
                   style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
               <Row className="show-grid">
@@ -638,9 +633,19 @@ class ShiftStepTwo extends Component {
     )
   }
 }
+
 // TODO rewrite the component
-function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField, addAll, toggleBack, handleCropChange, toggleCropTimeMethod, changeDuration, handleFieldChange, openEditModal, state, cropTotalTimeAssign}){
-  const [duration, setDuration] = useState('');
+function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField, addAll, toggleBack, handleCropChange, toggleCropTimeMethod, changeDuration, handleFieldChange, openEditModal, state, cropTotalTimeAssign, resetCropDuration }) {
+  const [duration, _setDuration] = useState('');
+  const [selectedCrops, setSelectedCrops] = useState();
+  const [selectedFields, setSelectedFields] = useState();
+  const setDuration = (value) => {
+    _setDuration(value > 0 ? value : '');
+  }
+  const onDurationChange = (duration, task_id) => {
+    setDuration(duration);
+    cropTotalTimeAssign(duration, task_id);
+  }
   return (
     <div key={task.task_id} className={styles.taskBlock}>
       <div className={styles.taskTitle}>
@@ -649,7 +654,7 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
           Assign time to task by
         </div>
       </div>
-      <div id={task.task_id} style={{display: 'block'}}>
+      <div id={task.task_id} style={{ display: 'block' }}>
         <div className={styles.cropFieldContainer}
              onClick={() => toggleCropOrField(task.task_id, 'crop')}>
           <div className={styles.cropButton}>
@@ -673,7 +678,11 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
             <div className={styles.allButton}>
               <Button onClick={() => addAll(task.task_id, 'crop', duration)}>All</Button>
             </div>
-            <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'crop')}>
+            <div className={styles.backContainer} onClick={() => {
+              setDuration(0);
+              setSelectedCrops(null);
+              toggleBack(task.task_id, 'crop')
+            }}>
               <BsReplyFill style={{transform: 'scaleX(-1)'}} />
               Back
             </div>
@@ -692,7 +701,8 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               options={state.cropOptions}
               className="basic-multi-select"
               classNamePrefix="select"
-              onChange={(selectedOption) => handleCropChange(selectedOption, duration, task.task_id)}
+              value={selectedCrops}
+              onChange={(selectedOption) => {setSelectedCrops(selectedOption);handleCropChange(selectedOption, duration, task.task_id)}}
             />
           }
           {
@@ -714,12 +724,17 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
           cropDurations && cropDurations[task.task_id] &&
           <div>
             <div className={styles.cropDurationType}>
-              <button className="duration-btn-selected" onClick={() => toggleCropTimeMethod(task.task_id, true)} id={'all-crop-' + task.task_id}>All Crops
+              <button className="duration-btn-selected" onClick={() => toggleCropTimeMethod(task.task_id, true)}
+                      id={'all-crop-' + task.task_id}>All Crops
               </button>
-              <button className="duration-btn-unselected" onClick={() => toggleCropTimeMethod(task.task_id, false)} id={'indy-crop-' + task.task_id}>Individual Crop
+              <button className="duration-btn-unselected" onClick={() => {
+                setDuration(0);
+                resetCropDuration(task.task_id);
+                toggleCropTimeMethod(task.task_id, false)
+              }} id={'indy-crop-' + task.task_id}>Individual Crop
               </button>
             </div>
-            <div  className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
+            <div className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
               {cropDurations[task.task_id].map((cd) => {
                 return <div className={styles.durationContainer} key={cd.crop_id}>
                   <div>{cd.crop_name}</div>
@@ -734,7 +749,10 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               <div className={styles.durationContainer}>
                 <div>Total</div>
                 <div className={styles.durationInput}>
-                  <input id={'total_crop_input-' + task.task_id} value={duration} type="number" placeholder={0} onChange={(event)=>{setDuration(event.target.value);cropTotalTimeAssign(event, task.task_id)}}/>
+                  <input id={'total_crop_input-' + task.task_id} value={duration} type="number" placeholder={0}
+                         onChange={(event) => {
+                           onDurationChange(event.target.value, task.task_id)
+                         }}/>
                 </div>
               </div>
             </div>
@@ -750,7 +768,11 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
             <div className={styles.allButton}>
               <Button onClick={() => addAll(task.task_id, 'field')}>All</Button>
             </div>
-            <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'field')}>
+            <div className={styles.backContainer} onClick={() => {
+              setDuration(0);
+              setSelectedFields(null);
+              toggleBack(task.task_id, 'field')
+            }}>
               <BsReplyFill style={{transform: 'scaleX(-1)'}} />
               Back
             </div>
@@ -768,7 +790,8 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               options={state.fieldOptions}
               className="basic-multi-select"
               classNamePrefix="select"
-              onChange={(selectedOption) => handleFieldChange(selectedOption, task.task_id)}
+              value={selectedFields}
+              onChange={(selectedOption) => {setSelectedFields(selectedOption);handleFieldChange(selectedOption, task.task_id)}}
             />
           }
           {
@@ -787,8 +810,11 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
         </div>
         <div className={styles.durationContainer}>
           <div>Duration</div>
-          <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number"
-                                                       onChange={(event) => changeDuration(event, task.task_id, false)}/>
+          <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number" value={duration}
+                                                       onChange={(event) => {
+                                                         setDuration(event.target.value);
+                                                         changeDuration(event, task.task_id, false)
+                                                       }}/>
           </div>
         </div>
       </div>
@@ -836,7 +862,7 @@ const
 const
   mapDispatchToProps = (dispatch) => {
     return {
-      dispatch
+      dispatch,
     }
   };
 

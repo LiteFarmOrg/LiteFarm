@@ -17,7 +17,7 @@ import {
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
 import {fieldSelector} from "../../selector";
-import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsReplyFill, BsTrash } from "react-icons/bs";
+import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from "react-icons/bs";
 
 const buttonStyles = {
   font: "Open Sans",

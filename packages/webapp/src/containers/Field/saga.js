@@ -259,6 +259,10 @@ export function* deleteFieldCropSaga(action) {
       if (result) {
         yield put(setFieldCropsInState(result.data));
       }
+      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
+      if (expiredResult) {
+        yield put(setExpiredCropsInState(expiredResult.data));
+      }
       toastr.success("Successfully Deleted Crop");
     }
   } catch (e) {

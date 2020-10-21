@@ -17,6 +17,7 @@ import {
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
 import {fieldSelector} from "../../selector";
+import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsReplyFill, BsTrash } from "react-icons/bs";
 
 const buttonStyles = {
   font: "Open Sans",
@@ -303,18 +304,18 @@ class NewField extends Component {
 
     //Drawing Manager Buttons
     const PolygonButton = () =>
-      <Button id={POLYGON_BUTTON} bsSize="lg" active={this.state.isDraw} disabled={gridPoints !== null} variant="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
-        {/*<Glyphicon glyph="pencil" /> */}
+      <Button id={POLYGON_BUTTON} size={'lg'} active={this.state.isDraw} disabled={this.state.isDraw} variant="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
+        <BsPencil />
         Draw
-          </Button>;
+      </Button>;
     const ClearButton = () =>
-      <Button id={CLEAR_BUTTON} bsSize="lg" disabled={gridPoints === null} variant="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
-        {/*<Glyphicon glyph="trash" /> */}
+      <Button id={CLEAR_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
+        <BsTrash />
         Redraw
           </Button>;
     const NextButton = () =>
-      <Button id={NEXT_BUTTON} bsSize="lg" disabled={gridPoints === null} variant="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
-        {/*<Glyphicon glyph="ok" /> */}
+      <Button id={NEXT_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
+        <BsCheck />
         Confirm
           </Button>;
     const DrawingManager = () =>
@@ -334,12 +335,12 @@ class NewField extends Component {
         <div className={styles.fieldContainer}>
           <div className={styles.backButton}>
             <button onClick={()=>history.push('/field')}>
-              {/*<Glyphicon glyph="share-alt" style={{color:"white"}} />*/}
+              <BsArrowLeftShort size={'lg'} style={{color: 'white'}}/>
             </button>
           </div>
           <div className={styles.infoButton}>
             <button onClick={() => {this.refs.child.toggleShow()}}>
-              {/*<Glyphicon glyph="glyphicon glyphicon-question-sign" style={{color: "white", fontSize: '1.7em'}}/>*/}
+              <BsQuestionCircle style={{color: "white", fontSize: '1.7em'}} />
             </button>
           </div>
           {isMapLoaded && <SearchBox map={map} mapsapi={maps} />}

@@ -16,6 +16,7 @@ import ConfirmModal from "../../../components/Modals/Confirm";
 import {toastr} from "react-redux-toastr";
 import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/EditFieldCropModal';
 import {convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal} from "../../../util";
+import { BsPencil } from "react-icons/all";
 
 class EditField extends Component {
   static defaultProps = {
@@ -231,7 +232,7 @@ class EditField extends Component {
         <div style={{margin: "10px"}}>
           <div className={styles.editFieldName}>
             <h4>Field Name: {this.state.selectedField && this.state.selectedField.field_name}</h4>
-            {/*<Glyphicon glyph="pencil" style={{marginLeft: '10px'}} onClick={this.openFieldNameEdit}/>*/}
+            <BsPencil style={{marginLeft: '10px'}} onClick={this.openFieldNameEdit} />
           </div>
           <p>Total
             Area: {roundToTwoDecimal(convertFromMetric(this.state.fieldArea, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup>

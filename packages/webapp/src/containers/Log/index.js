@@ -29,10 +29,10 @@ import { fieldSelector, cropSelector, userInfoSelector} from '../selector';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
 import {fetchFarmInfo} from "../actions";
-import { Glyphicon } from 'react-bootstrap';
 import {getDiseases, getPesticides} from "./PestControlLog/actions";
 import {getFertilizers} from "./FertilizingLog/actions";
 import InfoBoxComponent from "../../components/InfoBoxComponent";
+import { BsCaretRight } from "react-icons/all";
 
 
 class Log extends Component{
@@ -175,8 +175,7 @@ class Log extends Component{
       id: 'arrow-icon',
       Header: '',
       accessor: () => {
-          // return <Glyphicon glyph= "glyphicon glyphicon-menu-right" />
-          return <span>mn</span>
+          return <BsCaretRight />
       },
       minWidth: 25
     }];

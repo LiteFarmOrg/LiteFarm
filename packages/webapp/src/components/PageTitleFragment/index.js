@@ -15,6 +15,7 @@
 
 import React, { Component } from "react";
 import styles from './styles.scss';
+import { BsCaretLeft } from "react-icons/bs";
 
 // takes 2 props
 // title - String
@@ -27,7 +28,7 @@ class PageTitleFragment extends Component{
       <div>
         <div className={styles.titleContainer}>
           <button onClick={this.props.onBackButtonClick}>
-            {/*<Glyphicon glyph="menu-left"  />*/}
+            <BsCaretLeft></BsCaretLeft>
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
         </div>

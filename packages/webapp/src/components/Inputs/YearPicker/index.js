@@ -1,16 +1,17 @@
 import React from 'react';
 import styles from './styles.scss';
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 const YearPicker = ({year, clickLeft, clickRight}) => {
   return (
     <div className={styles.buttonContainer}>
       <div className={styles.button}>
         <p onClick={() => clickLeft()}>
-          {/*<Glyphicon style={{color: '#00756A'}} glyph='chevron-left'/>*/}
+          <BsChevronLeft style={{color: '#00756A'}} />
         </p>
         <p>{year}</p>
         <p onClick={() => clickRight()}>
-          {/*<Glyphicon style={{color: '#00756A'}} glyph='chevron-right'/>*/}
+          <BsChevronRight style={{color: '#00756A'}} />
         </p>
       </div>
     </div>

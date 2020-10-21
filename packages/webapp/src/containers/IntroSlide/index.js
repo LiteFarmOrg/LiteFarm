@@ -39,6 +39,7 @@ import history from '../../history';
 import ReactPlayer from 'react-player';
 import {connect} from 'react-redux';
 import {farmSelector} from '../selector';
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 class IntroSlide extends React.Component {
   constructor(props) {
@@ -114,11 +115,11 @@ class IntroSlide extends React.Component {
         <Carousel wrapAround heightMode={'max'}
           slideIndex={this.state.slideIndex}
           renderCenterRightControls={({nextSlide}) => (<a onClick={nextSlide} className={styles.nextSlide}>
-            {/*<Glyphicon glyph="glyphicon glyphicon-chevron-right"/>*/}
+            <BsChevronRight />
           </a>)
           }
           renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
-            {/*<Glyphicon glyph="glyphicon glyphicon-chevron-left"/>*/}
+            <BsChevronLeft />
           </a>)}
         >
           <div className={styles.slideContainer}>

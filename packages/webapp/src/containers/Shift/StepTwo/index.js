@@ -14,6 +14,7 @@ import history from '../../../history';
 import {toastr} from "react-redux-toastr";
 import {submitShift, submitMultiShift} from '../actions';
 import {farmSelector} from "../../selector";
+import { BsReplyFill } from "react-icons/all";
 
 class ShiftStepTwo extends Component {
 
@@ -673,7 +674,7 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               <Button onClick={() => addAll(task.task_id, 'crop', duration)}>All</Button>
             </div>
             <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'crop')}>
-              {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
+              <BsReplyFill style={{transform: 'scaleX(-1)'}} />
               Back
             </div>
           </div>
@@ -750,7 +751,7 @@ function InputDuration({task, cropDurations, isRatingEnabled, toggleCropOrField,
               <Button onClick={() => addAll(task.task_id, 'field')}>All</Button>
             </div>
             <div className={styles.backContainer} onClick={() => toggleBack(task.task_id, 'field')}>
-              {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
+              <BsReplyFill style={{transform: 'scaleX(-1)'}} />
               Back
             </div>
           </div>

@@ -14,6 +14,7 @@ import history from '../../../history';
 import {toastr} from "react-redux-toastr";
 import {updateShift} from '../actions';
 import { shiftRatings } from '../constants';
+import { BsReplyFill } from "react-icons/all";
 
 class EditShiftTwo extends Component {
 
@@ -610,7 +611,7 @@ class EditShiftTwo extends Component {
                   <div>
                     <strong>Crops on this farm</strong>
                     <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'crop')}>
-                      {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
+                      <BsReplyFill style={{transform: 'scaleX(-1)'}} />
                       Back
                     </div>
                   </div>
@@ -664,7 +665,7 @@ class EditShiftTwo extends Component {
                   <div>
                     <strong>Fields on this farm</strong>
                     <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'field')}>
-                      {/*<Glyphicon glyph="share-alt" style={{transform: 'scaleX(-1)'}}/>*/}
+                      <BsReplyFill style={{transform: 'scaleX(-1)'}} />
                       Back
                     </div>
                   </div>

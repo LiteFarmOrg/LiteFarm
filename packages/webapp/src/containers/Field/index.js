@@ -24,6 +24,7 @@ import moment from 'moment';
 import { getFields } from '../actions';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON} from './constants';
 import {convertFromMetric, getUnit, roundToTwoDecimal} from "../../util";
+import { BsChevronDown, BsChevronRight } from "react-icons/all";
 
 class Field extends Component {
   static defaultProps = {
@@ -256,8 +257,8 @@ class Field extends Component {
               <Table>
                 <thead>
                   <tr>
-                    <th>Field Name <span className="glyphicon glyphicon-chevron-down" /></th>
-                    <th>Area <span className="glyphicon glyphicon-chevron-down" /></th>
+                    <th>Field Name <BsChevronDown /></th>
+                    <th>Area <BsChevronDown /></th>
                     <th>Edit</th>
                   </tr>
                 </thead>
@@ -268,7 +269,7 @@ class Field extends Component {
                       <td>{roundToTwoDecimal(convertFromMetric(field.area, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup></td>
                       <td>
                         <a onClick={() => {history.push('./edit_field?' + field.field_id)}}>
-                          {/*<Glyphicon glyph="chevron-right" style={{color:'#349289'}}/>*/}
+                          <BsChevronRight  style={{color:'#349289'}} />
                         </a>
                       </td>
                     </tr>

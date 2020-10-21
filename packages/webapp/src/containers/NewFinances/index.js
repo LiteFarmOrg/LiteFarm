@@ -23,6 +23,7 @@ import {getExpense, getSales, getShifts} from "../Finances/actions";
 import {calcBalanceByCrop, calcOtherExpense, calcSales, calcTotalLabour} from "../Finances/util";
 import moment from 'moment';
 import {expenseSelector, salesSelector, shiftSelector} from "../Finances/selectors";
+import { BsChevronRight } from "react-icons/all";
 
 
 class NewFinances extends Component {
@@ -74,7 +75,7 @@ class NewFinances extends Component {
             <button style={{float: 'right'}} onClick={() => {
               history.push('/newfinances/sales')
             }}>
-              {/*<Glyphicon glyph='glyphicon glyphicon-chevron-right'/>*/}
+              <BsChevronRight />
             </button>
             <div style={{float: 'right'}}>${this.state.totalSales}</div>
           </div>
@@ -84,7 +85,7 @@ class NewFinances extends Component {
               <button style={{float: 'right', clear: 'both'}} onClick={() => {
                 history.push('/newfinances/expenses');
               }}>
-                {/*<Glyphicon glyph='glyphicon glyphicon-chevron-right'/>*/}
+                <BsChevronRight />
               </button>
               <div style={{float: 'right'}}>${this.state.totalExpenses}</div>
             </div>
@@ -95,7 +96,7 @@ class NewFinances extends Component {
             <button style={{float: 'right'}} onClick={() => {
               history.push('/newfinances/balances')
             }}>
-              {/*<Glyphicon glyph='glyphicon glyphicon-chevron-right'/>*/}
+              <BsChevronRight />
             </button>
             <div style={{float: 'right'}}>${this.state.totalBalance}</div>
           </div>

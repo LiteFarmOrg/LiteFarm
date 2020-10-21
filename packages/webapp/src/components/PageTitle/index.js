@@ -17,6 +17,7 @@ import React, {Component} from "react";
 import styles from './styles.scss';
 import history from '../../history';
 import InfoBoxComponent from '../InfoBoxComponent';
+import { BsChevronLeft } from "react-icons/bs";
 
 // takes 2 props
 // title - String
@@ -37,7 +38,7 @@ class PageTitle extends Component {
           <button className={styles.buttonContainer} onClick={() => {
             history.push(backUrl)
           }}>
-            {/*<Glyphicon glyph="menu-left"/>*/}
+            <BsChevronLeft />
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
           {rightIcon &&

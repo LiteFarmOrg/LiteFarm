@@ -13,13 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
-import {Modal} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Modal } from 'react-bootstrap';
 import Carousel from 'nuka-carousel';
 import ReactPlayer from 'react-player';
 import FirstVideo from './drawing.mp4';
 import SecondVideo from './dragging.mp4';
 import styles from './styles.scss';
+import { BsChevronRight, BsChevronLeft } from 'react-icons/bs';
 
 class DrawingToolTipBox extends Component {
   constructor(props) {
@@ -34,13 +35,13 @@ class DrawingToolTipBox extends Component {
   }
 
   handleClose() {
-    this.setState({show: false})
+    this.setState({ show: false })
   }
 
   toggleVideo(index) {
     let currentVideo = this.state.playVideo;
     currentVideo[index + 1] = true;
-    this.setState({playVideo: currentVideo})
+    this.setState({ playVideo: currentVideo })
   }
 
   componentDidMount() {
@@ -48,9 +49,8 @@ class DrawingToolTipBox extends Component {
   }
 
   toggleShow() {
-    this.setState({show: true})
+    this.setState({ show: true })
   }
-
 
 
   render() {
@@ -68,15 +68,15 @@ class DrawingToolTipBox extends Component {
       <Modal show={this.state.show} onHide={this.handleClose}>
         <Modal.Body>
           <Carousel
-            renderCenterRightControls={({currentSlide, nextSlide}) => (
-              <div onClick={()=> this.toggleVideo(currentSlide)}>
+            renderCenterRightControls={({ currentSlide, nextSlide }) => (
+              <div onClick={() => this.toggleVideo(currentSlide)}>
                 <a onClick={nextSlide} className={styles.nextSlide}>
-                  {/*<Glyphicon glyph="glyphicon glyphicon-chevron-right"/>*/}
+                  <BsChevronRight />
                 </a>
               </div>)
             }
-            renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
-              {/*<Glyphicon glyph="glyphicon glyphicon-chevron-left"/>*/}
+            renderCenterLeftControls={({ previousSlide }) => (<a onClick={previousSlide} className={styles.nextSlide}>
+              <BsChevronLeft />
             </a>)}>
             {slides.map((slide, index) => {
               return (

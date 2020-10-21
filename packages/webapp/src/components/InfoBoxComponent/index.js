@@ -16,6 +16,7 @@
 import React, {Component} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import styles from "../PageTitle/styles.scss";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 class InfoBoxComponent extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class InfoBoxComponent extends Component {
     return (
       <div>
         <button style={customStyle} className={styles.buttonContainer} onClick={this.handleShow}>
-          {/*<Glyphicon glyph="info-sign"/>*/}
+          <BsInfoCircleFill />
         </button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>

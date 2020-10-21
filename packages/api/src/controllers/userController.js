@@ -27,7 +27,7 @@ const emailSender = require('../templates/sendEmailTemplate');
 
 class userController extends baseController {
   static addUser() {
-    // Add user endpoint
+    //TODO need validations email
     return async (req, res) => {
       const { email } = req.body;
       let userData = req.body;

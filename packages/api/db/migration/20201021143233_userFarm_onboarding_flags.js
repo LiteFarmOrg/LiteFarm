@@ -16,14 +16,14 @@
 exports.up = function(knex) {
     return Promise.all([
       knex.schema.table('userFarm', (table) => {
-        table.boolean('step_one').notNullable().defaultTo(false)
-        table.string('step_one_end').notNullable().defaultTo('null')
-        table.boolean('step_two').notNullable().defaultTo(false)
-        table.string('step_two_end').notNullable().defaultTo('null')
-        table.boolean('step_three').notNullable().defaultTo(false)
-        table.string('step_three_end').notNullable().defaultTo('null')
-        table.boolean('step_four').notNullable().defaultTo(false)
-        table.string('step_four_end').notNullable().defaultTo('null')
+        table.boolean('step_one').nullable().defaultTo(false)
+        table.string('step_one_end').nullable().defaultTo(null)
+        table.boolean('step_two').nullable().defaultTo(false)
+        table.string('step_two_end').nullable().defaultTo(null)
+        table.boolean('step_three').nullable().defaultTo(false)
+        table.string('step_three_end').nullable().defaultTo(null)
+        table.boolean('step_four').nullable().defaultTo(false)
+        table.string('step_four_end').nullable().defaultTo(null)
 
       }),
     ])

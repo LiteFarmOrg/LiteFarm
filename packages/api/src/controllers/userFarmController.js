@@ -309,6 +309,12 @@ class userFarmController extends baseController {
 
       const step_one = req.body.step_one;
       const step_one_end = req.body.step_one_end;
+      const step_two = req.body.step_two;
+      const step_two_end = req.body.step_two_end;
+      const step_three = req.body.step_three;
+      const step_three_end = req.body.step_three_end;
+      const step_four = req.body.step_four;
+      const step_four_end = req.body.step_four_end;
 
       try {
 
@@ -316,6 +322,12 @@ class userFarmController extends baseController {
           .patch({
             step_one,
             step_one_end,
+            step_two,
+            step_two_end,
+            step_three,
+            step_three_end,
+            step_four,
+            step_four_end
           });
 
         if (isPatched) {

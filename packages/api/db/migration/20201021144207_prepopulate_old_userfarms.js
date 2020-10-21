@@ -16,6 +16,10 @@
 exports.up = async function(knex) {
     await knex.raw(`
     UPDATE "userFarm" 
+    SET step_one = true
+    `);
+    await knex.raw(`
+    UPDATE "userFarm" 
     SET step_one_end = NOW()
     `);
     await knex.raw(`

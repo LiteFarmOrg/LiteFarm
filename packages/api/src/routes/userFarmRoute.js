@@ -57,6 +57,6 @@ router.patch('/update/farm/:farm_id/user/:user_id', checkEditPrivilege(), userFa
 router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), checkScope(['edit:user_wage']), userFarmController.updateWage());
 
 // Update step_one 
-router.patch('/onboarding/step_one/farm/:farm_id/user/:user_id', userFarmController.updateStepOne());
+router.patch('/onboarding/farm/:farm_id/user/:user_id', userFarmController.updateStepOne());
 
 module.exports = router;

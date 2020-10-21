@@ -432,7 +432,7 @@ class Finances extends Component {
             }
             {
               hasUnAllocated &&
-              <Alert bsStyle="warning" style={{marginTop: '8px', display: showUnTip}}>
+              <Alert variant="warning" style={{marginTop: '8px', display: showUnTip}}>
                 *Unallocated means that work has been done on an empty field for the selected date range. <br/>
                 If one or more crops were added to an empty field later and there exists a shift related to the crops,
                 then the work done on that empty field will be evenly distributed to each crop.<br/>

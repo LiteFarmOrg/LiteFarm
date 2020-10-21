@@ -47,7 +47,7 @@ class Notification extends Component{
     return (
       <div>
         {this.state.show && (
-          <Alert bsStyle="success">
+          <Alert variant="success">
             <strong>Saved!</strong>
           </Alert>
         )}
@@ -76,7 +76,7 @@ class Notification extends Component{
             <Control.checkbox model=".notification.alert_pest" defaultValue={user.user.notification_setting.alert_pest}/>
             </div>
             <div className={defaultStyles.bottomContainer}>
-              <Button type='submit' bsStyle='primary'>Save</Button>
+              <Button type='submit' variant='primary'>Save</Button>
             </div>          </Form>
         )}
       </div>

@@ -7,7 +7,7 @@ import moment from 'moment';
 import BedImg from '../../../assets/images/log/bed.svg';
 import {taskTypeSelector} from './selectors';
 import {getTaskTypes, addTaskType, setSelectedTasks, setShiftDuration, setStartEndInState} from "../actions";
-import {Grid, Row, Col, Button, Alert} from 'react-bootstrap';
+import {Container, Row, Col, Button, Alert} from 'react-bootstrap';
 import OtherImg from '../../../assets/images/log/other.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
 import FertImg from '../../../assets/images/log/fertilizing.svg';
@@ -339,7 +339,7 @@ class ShiftStepOne extends Component {
       <div className={styles.logContainer} >
         <PageTitle backUrl="/shift" title="New Shift (Step 1)" />
         {
-          users && users.is_admin && users.wage && users.wage.amount === 0  && <Alert bsStyle="warning">
+          users && users.is_admin && users.wage && users.wage.amount === 0  && <Alert variant="warning">
             You have no wage set, your labour cost for this shift is preset to 0, you can change it at <br/> Profile->People->Edit
           </Alert>
         }
@@ -416,7 +416,7 @@ class ShiftStepOne extends Component {
         </div>
 
 
-        <Grid fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
+        <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
           <Row className="show-grid">
             {
               taskTypes && (
@@ -438,7 +438,7 @@ class ShiftStepOne extends Component {
               )
             }
           </Row>
-        </Grid>
+        </Container>
 
         {
           (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&

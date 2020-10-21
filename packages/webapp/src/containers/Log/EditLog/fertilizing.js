@@ -21,6 +21,8 @@ import {currentLogSelector, logSelector} from "../selectors";
 import { getUnit, convertToMetric, convertFromMetric, roundToFourDecimal } from '../../../util';
 import {deleteLog} from "../Utility/actions";
 import ConfirmModal from "../../../components/Modals/Confirm";
+import Unit from '../../../components/Inputs/Unit';
+
 
 
 class FertilizingLog extends Component{
@@ -239,13 +241,7 @@ class FertilizingLog extends Component{
                 <div>
                   <div className={styles.greenTextButton} onClick={()=>this.openEditModal()}> + Add a custom product </div>
                 </div>
-                <div className={styles.textContainer}>
-                  <label>Quantity</label>
-                  <div className={styles.inputNunit}>
-                    <Control.input type="number" step="any" model=".fertLog.quantity_kg" />
-                    {this.state.quantity_unit}
-                  </div>
-                </div>
+                <Unit model='.fertLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
                 <div className={styles.noteTitle}>
                   Notes
                 </div>

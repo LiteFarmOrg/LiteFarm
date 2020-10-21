@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import defaultStyles from '../../../../Finances/styles.scss';
 import styles from './styles.scss';
 import {expenseTypeSelector} from "../../../../Finances/selectors";
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import EquipImg from '../../../../../assets/images/log/equipment.svg';
 import FertImg from '../../../../../assets/images/log/fertilizing.svg';
 import PestImg from '../../../../../assets/images/log/bug.svg';
@@ -69,7 +69,7 @@ class ExpenseCategories extends Component {
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl='/newfinances/expenses' title='New Expense (1 of 2)'/>
-        <Grid fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
+        <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
           <Row className="show-grid">
             {
               expenseTypes.length > 0 &&
@@ -108,7 +108,7 @@ class ExpenseCategories extends Component {
               })
             }
           </Row>
-        </Grid>
+        </Container>
         <div className={styles.bottomContainer}>
           <button className='btn btn-primary' onClick={()=>this.nextPage()}>Next</button>
         </div>

@@ -27,7 +27,6 @@ import water_balance from '../../assets/images/insights/water_balance.svg';
 // import erosion from '../../assets/images/insights/erosion.svg';
 import nitrogen_balance from '../../assets/images/insights/nitrogen_balance.svg';
 //
-import {Glyphicon} from 'react-bootstrap';
 // actions
 import {
   getCropsSoldNutrition,
@@ -52,6 +51,7 @@ import {
 import InfoBoxComponent from "../../components/InfoBoxComponent";
 import {farmSelector} from "../selector";
 import {fetchFarmInfo} from "../actions";
+import { BsChevronRight } from "react-icons/all";
 const MILLIMETER_TO_INCH = 0.0393701;
 const KILOGRAM_TO_POUND = 2.20462;
 
@@ -97,10 +97,7 @@ class Insights extends Component {
               <div>Current: {currentData ? currentData : 0}</div>
             </div>
           </div>
-          <Glyphicon
-            glyph="glyphicon glyphicon-chevron-right"
-            className={styles.itemArrow}
-          />
+          <BsChevronRight className={styles.itemArrow} />
         </div>
         <hr className={styles.defaultLine}/>
       </div>

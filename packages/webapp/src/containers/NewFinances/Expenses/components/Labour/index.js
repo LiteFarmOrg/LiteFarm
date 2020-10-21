@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import moment from 'moment';
 import {connect} from 'react-redux';
 import defaultStyles from '../../styles.scss';
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 import styles from './styles.scss';
 import Employee from './Employee';
 import Crop from './Crop';
@@ -49,15 +49,15 @@ class Labour extends Component {
           <h4>By</h4>
           <div className={styles.dropDownContainer}>
           <DropdownButton
-            bsStyle={'default'}
+            variant={'default'}
             title={dropDownTitle}
             key={i}
             id={`dropdown-basic-${i}`}
             style={dButtonStyle}
           >
-            <MenuItem eventKey="1" onClick={()=>this.sortBy('Employees')}>Employees</MenuItem>
-            <MenuItem eventKey="2" onClick={()=>this.sortBy('Crops')}>Crops</MenuItem>
-            <MenuItem eventKey="3" onClick={()=>this.sortBy('Tasks')}>Tasks</MenuItem>
+            <Dropdown.Item eventKey="1" onClick={()=>this.sortBy('Employees')}>Employees</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onClick={()=>this.sortBy('Crops')}>Crops</Dropdown.Item>
+            <Dropdown.Item eventKey="3" onClick={()=>this.sortBy('Tasks')}>Tasks</Dropdown.Item>
           </DropdownButton>
           </div>
         </div>

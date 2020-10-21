@@ -21,7 +21,7 @@ class BiodiversitySpecies extends Component {
         <div className={sharedStyles.rightText}>
           {currCount} species
         </div>
-        <ProgressBar className={sharedStyles.progress} bsClass={sharedStyles.bar + ' progress-bar'} now={percent}/>
+        <ProgressBar className={sharedStyles.progress} bsPrefix={sharedStyles.bar + ' progress-bar'} now={percent}/>
       </div>
     )
   }

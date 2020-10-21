@@ -241,8 +241,8 @@ class EditField extends Component {
           <div style={{height: "80%"}}>
             {
               this.state.selectedFieldCrops.map((crop, index) => (
-                <Card key={index} variant={"success"}>
-                  <Card.Heading className={styles.panelHeading}>
+                <Card key={index} border={"success"}>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
                       <Card.Title
                         componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
@@ -265,16 +265,16 @@ class EditField extends Component {
                       </div>
 
 
-                  </Card.Heading>
-                  <Card.Heading className={styles.panelHeading}>
+                  </Card.Header>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
                       <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>Start
+                         style={{fontSize: '13px'}}>Start
                         Date: {crop.start_date && crop.start_date.split("T")[0]} End
                         Date: {crop.end_date && crop.end_date.split("T")[0]}
                       </Card.Title>
                     </div>
-                  </Card.Heading>
+                  </Card.Header>
                   <Card.Body>
                     <p>Area
                       Used: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
@@ -289,7 +289,7 @@ class EditField extends Component {
             {
               this.state.selectedExpiredFieldCrops.map((crop, index) => (
                 <Card key={index}>
-                  <Card.Heading className={styles.panelHeading}>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
                       <Card.Title
                         componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
@@ -300,8 +300,8 @@ class EditField extends Component {
                       </Card.Title>
                     </div>
 
-                  </Card.Heading>
-                  <Card.Heading className={styles.panelHeading}>
+                  </Card.Header>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
                       <Card.Title
                         componentClass="h3" style={{fontSize: '13px'}}>Start
@@ -309,7 +309,7 @@ class EditField extends Component {
                         Date: {crop.end_date && crop.end_date.split("T")[0]}
                       </Card.Title>
                     </div>
-                  </Card.Heading>
+                  </Card.Header>
                   <Card.Body>
                     <p>Area
                       Used: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>

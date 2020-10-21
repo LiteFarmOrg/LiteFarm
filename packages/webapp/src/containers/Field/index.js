@@ -217,16 +217,16 @@ class Field extends Component {
     const CenterDiv = ({ text }) => <div style={{ width: '30px', color: 'white', fontWeight: 'bold', fontSize: '16px', }}>{text}</div>;
     return (
       <div className={styles.logContainer}>
-        <h4>
+        <h3>
           <strong>FIELDS</strong>
-        </h4>
+        </h3>
         <hr />
-        <h4><b>Action</b></h4>
+        <h3><b>Action</b></h3>
         <div className={styles.buttonContainer}>
-          <Button onClick={() => {history.push('/new_field') }}>Add New Field</Button>
+          <Button variant={'secondary'} onClick={() => {history.push('/new_field') }}>Add New Field</Button>
         </div>
         <hr />
-        <h4><b>Explore Your Fields</b></h4>
+        <h3><b>Explore Your Fields</b></h3>
         <div>
           <Tabs
             activeKey={this.state.selectedTab}

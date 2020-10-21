@@ -301,6 +301,42 @@ class userFarmController extends baseController {
     };
   }
 
+  static updateStepOne() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const user_id = req.params.user_id;
+      const farm_id = req.params.farm_id;
+
+      const step_one = req.body.step_one;
+      const step_one_end = req.body.step_one_end;
+
+      try {
+
+        const isPatched = await userFarmModel.query(trx).where('user_id', user_id).andWhere('farm_id', farm_id)
+          .patch({
+            step_one,
+            step_one_end,
+          });
+
+        if (isPatched) {
+          await trx.commit();
+          res.sendStatus(200);
+          return;
+        }
+        else {
+          await trx.rollback();
+          res.sendStatus(404);
+          return;
+        }
+      }
+      catch (error) {
+        //handle more exceptions
+        await trx.rollback();
+        res.status(400).send(error);
+      }
+    };
+  }
+
   static updateRole() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

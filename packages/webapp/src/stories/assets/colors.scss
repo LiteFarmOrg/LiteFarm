@@ -8,7 +8,6 @@
   --green400: #A8E6BD;
   --green200: #C7EFD3;
   --green100: #E3F8EC;
-  --gradient: linear-gradient(96.68deg, #78C99E -4.29%, #C7EFD3 24.32%, #E3F8EC 35.52%, #E3F8EC 64.28%, #C7EFD3 80.81%, #78C99E 125.09%);
   --yellow700: #FFB800;
   --yellow400: #FED450;
   --yellow300: #FCE38D;
@@ -47,4 +46,8 @@
   --iconActive: var(--teal600);
   --inputActive: var(--teal500);
   --fontColor: var(--grey900);
+}
+
+@mixin gradient(){
+  background: linear-gradient(96.68deg, #78C99E -4.29%, #C7EFD3 24.32%, #E3F8EC 35.52%, #E3F8EC 64.28%, #C7EFD3 80.81%, #78C99E 125.09%);
 }

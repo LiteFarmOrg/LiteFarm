@@ -1,7 +1,6 @@
 import React from 'react';
-// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
-
-import { Button } from './';
+import styles from './button.scss';
+import Button from './';
 
 export default {
   title: 'Components/Button',
@@ -24,7 +23,14 @@ Secondary.args = {
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  size: 'large',
+  color: 'primary',
   label: 'Button',
   disabled: true
+};
+
+export const InjectSecondary = Template.bind({});
+InjectSecondary.args = {
+  color: 'primary',
+  label: 'Button',
+  classes: {btn: styles.secondary}
 };

@@ -6,18 +6,18 @@ import PropTypes from 'prop-types';
 /**
  * Primary UI component for user interaction
  */
-export const Button = ({
+const Button = ({
   color = 'primary',
   label = 'Button',
   disabled = false,
-  className,
+  classes = { btn: "" },
   onClick,
   ...props
 }) => {
   return (
     <button
       disabled={disabled}
-      className={clsx(styles.btn, styles[color], className)}
+      className={clsx(styles.btn, styles[color], classes.btn)}
       onClick
       {...props}
     >
@@ -30,6 +30,8 @@ Button.propTypes = {
   color: PropTypes.oneOf(['primary', 'secondary']),
   disabled: PropTypes.bool,
   label: PropTypes.string,
-  className: PropTypes.string,
+  classes: PropTypes.object,
   onClick: PropTypes.func,
 }
+
+export default Button;

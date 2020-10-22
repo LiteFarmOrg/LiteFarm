@@ -1,0 +1,90 @@
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (styles.scss) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.button {
+    margin: 7px;
+    float:right;
+}
+
+.navBar {
+    top: 0;
+    border-radius: 0;
+    border-width: 0;
+    background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
+    width: 100%;
+    max-width: 1024px;
+    text-align: center;
+  & .title {
+    color: var(--primary);
+    float: none;
+    margin: 0 auto;
+  }
+  & :global(.navbar-toggle) {
+    border: none;
+    & :global(.icon-bar) {
+      background-color: var(--primary);
+      height: 3px;
+    }
+  }
+}
+
+.thin {
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+
+.thick {
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.smallLogo {
+  grid-column-start: 2;
+}
+
+.middleLogo {
+  grid-column-start: 2;
+  justify-content: center;
+  height: 40px;
+}
+
+.profilePic {
+  border-radius: 16px;
+  top: 10px;
+  right: 10px;
+  float:right;
+  margin-right: 24px;
+}
+
+.navBarContainer{
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  flex-direction: row;
+  justify-content: space-between;
+  width:100%;
+  align-items: center;
+  margin: 0 auto;
+  text-align: -webkit-right;
+}
+
+@media (min-width: 768px) {
+  :global(.navbar-header) {
+    float: none !important;
+  }
+  :global(.navbar .container .navbar-brand) {
+    margin-left: auto !important;
+    width: 100%;
+  }
+}

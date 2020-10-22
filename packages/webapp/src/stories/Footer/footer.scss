@@ -1,0 +1,14 @@
+@import "../assets/colors";
+.footer{
+  bottom: 0;
+  padding: 0 20px 24px 20px;
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.footer > *{
+  margin: 0 4px
+}
+

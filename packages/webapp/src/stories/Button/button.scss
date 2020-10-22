@@ -1,0 +1,36 @@
+@import "../assets/colors";
+.primary{
+  background-color: var(--btnPrimary);
+  color: var(--fontColor);
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(102, 115, 138, 0.3);
+  border: none;
+}
+
+.secondary{
+  background-color: var(--btnSecondary);
+  color: var(--labels);
+  border-color: var(--iconDefault);
+  border: 1px solid;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.btn {
+  border-radius: 4px;
+  font-weight: 600;
+  size: 16px;
+  line-height: 24px;
+  height: 48px;
+}
+
+.btn:disabled {
+  border: none;
+  color: var(--inputDisabled);
+  background-color: var(--btnDisabled);
+  box-shadow: none;
+}
+
+.fullLength{
+  width: 100%;
+}

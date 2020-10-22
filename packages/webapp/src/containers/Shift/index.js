@@ -16,7 +16,7 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 import styles from './styles.scss';
-import {Button, Glyphicon} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import history from '../../history';
 import moment from 'moment';
 import {taskTypeSelector} from './StepOne/selectors'
@@ -29,6 +29,7 @@ import ReactTable from 'react-table';
 import DropDown from '../../components/Inputs/DropDown';
 import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
+import { BsCaretRight } from "react-icons/bs";
 
 class Shift extends Component {
   constructor(props) {
@@ -124,7 +125,7 @@ class Shift extends Component {
           id: 'arrow-icon',
           Header: '',
           accessor: () => {
-            return <Glyphicon glyph= "glyphicon glyphicon-menu-right" />
+            return <BsCaretRight />
           },
           minWidth: 25
         }

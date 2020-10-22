@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {pricesDistanceSelector} from "../../../containers/Insights/selectors";
-import Glyphicon from "react-bootstrap/es/Glyphicon";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { pricesDistanceSelector } from "../../../containers/Insights/selectors";
 import styles from "../../PageTitle/styles.scss";
-
+import { BsGearFill } from 'react-icons/bs'
 
 
 class PriceDistanceComponent extends Component {
@@ -13,20 +12,22 @@ class PriceDistanceComponent extends Component {
       distance: this.props.pricesDistance,
     };
   }
+
   componentDidMount() {
 
   }
 
   render() {
     return (
-    <div>
-      <a onClick={() => this.props.handleOpenCollapse()} className={styles.buttonContainer}>
-      <Glyphicon glyph={"cog"}/>
-      </a>
-    </div>)
+      <div>
+        <a onClick={() => this.props.handleOpenCollapse()} className={styles.buttonContainer}>
+          <BsGearFill/>
+        </a>
+      </div>)
   }
 
 }
+
 const mapStateToProps = (state) => {
   return {
     pricesDistance: pricesDistanceSelector(state)
@@ -39,4 +40,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (PriceDistanceComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(PriceDistanceComponent);

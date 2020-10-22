@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styles from './styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 import history from '../../../history';
 import {fieldSelector, cropSelector} from '../../selector';
 import {userInfoSelector, farmSelector} from "../../selector";
@@ -193,8 +193,8 @@ class MyLog extends Component {
                 key={dropDown}
                 id={`dropdown-basic-${dropDown}`}
               >
-                <MenuItem eventKey="0" onClick={() => this.editLog(selectedLog.activity_kind)}>Edit</MenuItem>
-                <MenuItem eventKey="1" onClick={() => this.confirmDelete()}>Delete</MenuItem>
+                <Dropdown.Item eventKey="0" onClick={() => this.editLog(selectedLog.activity_kind)}>Edit</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>Delete</Dropdown.Item>
               </DropdownButton>
             }
           </div>

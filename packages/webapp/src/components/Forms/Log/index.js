@@ -189,7 +189,7 @@ class DefaultLogForm extends React.Component {
     return (
       <Fieldset  model={model}>
         {
-          displayLiveCropMessage && <Alert bsStyle="warning">
+          displayLiveCropMessage && <Alert variant="warning">
             To use this type of log please add crops to fields. You can do this by navigating to Fields -> Your field -> New Field Crop
           </Alert>
         }

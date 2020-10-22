@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import defaultStyles from '../../../Finances/styles.scss';
 import styles from './styles.scss';
 import {expenseDetailDateSelector, expenseSelector, expenseTypeSelector} from "../../../Finances/selectors";
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 import {deleteExpenses, setEditExpenses} from '../../../Finances/actions'
 import history from '../../../../history';
 
@@ -117,8 +117,8 @@ class ExpenseDetail extends Component {
             key={dropDown}
             id={`dropdown-basic-${dropDown}`}
           >
-            <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>
-            <MenuItem eventKey="1" onClick={() => this.deleteExpenses()}>Delete</MenuItem>
+            <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()} >Edit</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={() => this.deleteExpenses()}>Delete</Dropdown.Item>
           </DropdownButton>
         </div>
 

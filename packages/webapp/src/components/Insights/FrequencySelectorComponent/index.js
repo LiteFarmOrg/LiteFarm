@@ -1,6 +1,6 @@
 /* eslint-disable radix */
 import React, {Component} from 'react';
-import {Modal, Button, FormControl} from 'react-bootstrap';
+import {Modal, Button, Form} from 'react-bootstrap';
 import {createFrequencyNitrogenBalance} from "../../../containers/Insights/actions";
 import {connect} from 'react-redux';
 
@@ -31,8 +31,8 @@ class FrequencySelectorComponent extends Component {
             <Modal.Title>Choose a frequency</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <FormControl
-              componentClass="select"
+            <Form.Control
+              as="select"
               placeholder="Select Frequency"
             value={this.state.value}
             onChange={(e) => this.handleChange(e)}>
@@ -40,7 +40,7 @@ class FrequencySelectorComponent extends Component {
               {this.state.durations.map((value, index) => {
                 return <option key={"freq-" + index} value={value}> {value} months </option>
               })}
-            </FormControl>
+            </Form.Control>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}> Close </Button>

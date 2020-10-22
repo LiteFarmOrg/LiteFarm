@@ -113,8 +113,7 @@ class AddFarm extends Component {
           />
         </div>
         <div>
-          <Form.Check
-            type="checkbox"
+          <Checkbox
             stylesheet={styles.sandbox}
             title="Is this a sandbox account and not a real farm?"
             model=".farm.sandbox"

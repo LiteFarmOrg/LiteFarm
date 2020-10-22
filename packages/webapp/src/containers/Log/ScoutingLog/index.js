@@ -7,6 +7,7 @@ import {actions, Form} from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
+import Checkbox from '../../../components/Inputs/Checkbox';
 import styles from '../styles.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
@@ -65,7 +66,7 @@ class ScoutingLog extends Component{
             typeOptions={['Harvest', 'Pest', 'Disease', 'Weed', 'Other']}
             customFieldset={() => {
               return (
-                <Form.Check type="checkbox" model='.action_needed' title='Action Needed'/>
+                <Checkbox type="checkbox" model='.action_needed' title='Action Needed'/>
               )
             }}
           />

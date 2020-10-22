@@ -3,25 +3,24 @@ import styles from './button.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-/**
- * Primary UI component for user interaction
- */
-export const Button = ({
+
+const Button = ({
   color = 'primary',
-  label = 'Button',
+  children = 'Button',
   disabled = false,
-  className,
+  fullLength = false,
+  classes = { btn: "" },
   onClick,
   ...props
 }) => {
   return (
     <button
       disabled={disabled}
-      className={clsx(styles.btn, styles[color], className)}
+      className={clsx(styles.btn, styles[color], classes.btn, fullLength && styles.fullLength)}
       onClick
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 };
@@ -29,7 +28,10 @@ export const Button = ({
 Button.propTypes = {
   color: PropTypes.oneOf(['primary', 'secondary']),
   disabled: PropTypes.bool,
-  label: PropTypes.string,
-  className: PropTypes.string,
+  fullLength: PropTypes.bool,
+  children: PropTypes.string,
+  classes: PropTypes.exact({btn: PropTypes.string}),
   onClick: PropTypes.func,
 }
+
+export default Button;

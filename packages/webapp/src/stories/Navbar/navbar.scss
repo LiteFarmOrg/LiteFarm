@@ -1,0 +1,9 @@
+@import "../assets/colors";
+
+.navbar{
+  position: fixed;
+  height: 76px;
+  width: 100%;
+  @include gradient();
+  top: 0;
+}

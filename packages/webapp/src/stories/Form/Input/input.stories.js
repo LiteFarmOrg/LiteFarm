@@ -20,6 +20,6 @@ Disabled.args = {
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-  children: <div style={{position: "absolute", right: 0}}>icon</div>,
+  children: <div style={{position: "absolute", right:0}}>icon</div>,
 };
 

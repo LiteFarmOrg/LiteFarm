@@ -2,6 +2,8 @@ import React from 'react';
 import Layout from './';
 import Button from '../../Button';
 import WelcomeSVG from './Signup2';
+import AddFarmForm from './Signup3-1';
+
 export default {
   title: 'Layout/Intro',
   component: Layout,
@@ -24,4 +26,10 @@ SVG.args = {
 export const TwoButton = Template.bind({});
 TwoButton.args = {
   buttonGroup: (<><Button fullLength/><Button fullLength/></>),
+};
+
+export const AddFarm = Template.bind({});
+AddFarm.args = {
+  buttonGroup: (<Button fullLength/>),
+  children: <AddFarmForm/>,
 };

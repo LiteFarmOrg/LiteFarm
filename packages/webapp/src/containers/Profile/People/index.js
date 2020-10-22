@@ -24,7 +24,7 @@ import {farmSelector} from '../../selector';
 import Cleave from 'cleave.js/react.js';
 import {toastr} from 'react-redux-toastr';
 const generator = require('generate-password');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const summaryColumns = [
   {

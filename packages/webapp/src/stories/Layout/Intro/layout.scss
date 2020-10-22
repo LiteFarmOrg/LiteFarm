@@ -10,10 +10,17 @@
   height: calc(100vh - 172px);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 567.98px) {
   .svgContainer {
     align-items: flex-start;
-    padding: 0 48px 0 0;
+    padding: 0 0 0 0;
+    padding-top: 64px;
     height: calc(100vh - 196px);
+  }
+}
+
+@media only screen and (min-width: 567.98px) {
+  .svgContainer {
+    padding: 24px 10% 0px 10%;
   }
 }

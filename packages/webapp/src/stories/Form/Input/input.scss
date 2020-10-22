@@ -1,0 +1,31 @@
+@import "../../assets/colors";
+.input {
+  border: 2px solid var(--border);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 48px;
+  font-size: 16px;
+  padding-left: 8px;
+  color: var(--fontColor);
+}
+
+.input:disabled {
+  background-color: var(--inputDisabled);
+  color: var(--inputDefault);
+}
+
+.fullLength{
+  width: 100%;
+}
+
+.label{
+  color: var(--labels);
+  font-size: 14px;
+  line-height: 16px;
+  margin-bottom: 4px;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+}
+

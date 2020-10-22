@@ -6,7 +6,7 @@ module.exports = {
   'addons': [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y'
+    '@storybook/addon-a11y',
   ],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
@@ -20,7 +20,12 @@ module.exports = {
             },
           },
         },
-        'sass-loader' ],
+        'sass-loader'],
+    });
+    config.module.rules.map((rule) => {
+      if (rule.test.test('.css')){
+       rule.use[1].options.modules={ localIdentName: '[path][name]__[local]--[hash:base64:5]'}
+      }
     });
     return config;
   },

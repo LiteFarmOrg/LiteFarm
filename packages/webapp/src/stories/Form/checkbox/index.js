@@ -1,12 +1,12 @@
 import React from 'react';
-import styles from './input.scss';
+import styles from './checkbox.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 
 const Input = ({
   disabled = false,
-  classes = { input: '', label: '' },
+  classes = { checkbox: '', label: '' },
   label = 'label',
   children,
   ...props
@@ -16,7 +16,8 @@ const Input = ({
       <label className={styles.label}>{label}</label>
       <input
         disabled={disabled}
-        className={clsx(styles.input, classes.input)}
+        type={'checkbox'}
+        className={clsx(styles.checkbox, classes.checkbox)}
         onClick
         {...props}
       />
@@ -28,7 +29,7 @@ const Input = ({
 Input.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
-  classes: PropTypes.exact({ input: PropTypes.string, label: PropTypes.string }),
+  classes: PropTypes.exact({ checkbox: PropTypes.string, label: PropTypes.string }),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

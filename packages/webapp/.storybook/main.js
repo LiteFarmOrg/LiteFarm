@@ -27,13 +27,6 @@ module.exports = {
        rule.use[1].options.modules={ localIdentName: '[path][name]__[local]--[hash:base64:5]'}
       }
     });
-    return {
-      ...config, resolve: {
-        alias: {
-          'core-js/modules': '@storybook/core/node_modules/core-js/modules',
-          'core-js/features': '@storybook/core/node_modules/core-js/features',
-        },
-      },
-    };
+    return config
   },
 }

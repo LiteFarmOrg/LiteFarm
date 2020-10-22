@@ -329,7 +329,7 @@ class PestControlLog extends Component{
                     </div>
                   </div>
                   {/*<div className={styles.defaultFormDropDown}>*/}
-                    {/*<label>Pesticide</label>*/}
+                    {/*<children>Pesticide</children>*/}
                     {/*<Control*/}
                       {/*model=".pestControlLog.pesticide_id"*/}
                       {/*component={DropDown}*/}

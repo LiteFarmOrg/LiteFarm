@@ -307,14 +307,14 @@ class ShiftStepOne extends Component {
     // let peopleOptions = [];
     // if(users){
     //   peopleOptions.push({
-    //     value: users.user_id, label: 'Myself', wage: users.wage.amount, mood: 'na',
+    //     value: users.user_id, children: 'Myself', wage: users.wage.amount, mood: 'na',
     //   })
     // }
     // if(allUsers.hasOwnProperty('admins') && allUsers.admins){
     //   for(let admin of allUsers.admins){
     //     if(admin.user_id !== users.user_id){
     //       peopleOptions.push({
-    //         value: admin.user_id, label: admin.first_name + ' ' + admin.last_name, wage: admin.wage.amount, mood: 'na',
+    //         value: admin.user_id, children: admin.first_name + ' ' + admin.last_name, wage: admin.wage.amount, mood: 'na',
     //       });
     //     }
     //   }
@@ -322,14 +322,14 @@ class ShiftStepOne extends Component {
     // if(allUsers.hasOwnProperty('workers') && allUsers.workers){
     //   for(let worker of allUsers.workers){
     //     peopleOptions.push({
-    //       value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage: worker.wage.amount, mood: 'na',
+    //       value: worker.user_id, children: worker.first_name + ' ' + worker.last_name, wage: worker.wage.amount, mood: 'na',
     //     })
     //   }
     // }
     // if(allUsers.hasOwnProperty('pseudoWorkers') && allUsers.workers){
     //   for(let worker of allUsers.pseudoWorkers){
     //     peopleOptions.push({
-    //       value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage:worker.wage.amount, mood: 'na',
+    //       value: worker.user_id, children: worker.first_name + ' ' + worker.last_name, wage:worker.wage.amount, mood: 'na',
     //     })
     //   }
     // }

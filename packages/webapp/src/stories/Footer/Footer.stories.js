@@ -11,10 +11,10 @@ const Template = (args) => <Footer {...args} />;
 
 export const OneButton = Template.bind({});
 OneButton.args = {
-  children: (<Button style={{width: "100%"}}/>)
+  children: (<Button fullLength/>)
 };
 
 export const TwoButtons = Template.bind({});
 TwoButtons.args = {
-  children: (<Button style={{width: "100%"}}/>)
+  children: (<><Button fullLength/><Button fullLength/></>)
 };

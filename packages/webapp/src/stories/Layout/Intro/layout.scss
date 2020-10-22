@@ -1,4 +1,19 @@
 .container{
   margin-top: 76px;
   padding: 24px 24px 0 24px;
+  width: 100%;
+}
+.svgContainer{
+  padding: 24px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 172px);
+}
+
+@media only screen and (max-width: 600px) {
+  .svgContainer {
+    align-items: flex-start;
+    padding: 0 48px 0 0;
+    height: calc(100vh - 196px);
+  }
 }

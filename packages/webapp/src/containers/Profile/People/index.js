@@ -592,11 +592,11 @@ class People extends Component {
                           {/* <div className={styles.payTypeContainer}>
                                 <div className={styles.radioContainer}>
                                   <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
-                                  <children htmlFor="hour">Hourly</children>
+                                  <label htmlFor="hour">Hourly</label>
                                 </div>
                                 <div className={styles.radioContainer}>
                                   <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
-                                  <children htmlFor="daily">Daily</children>
+                                  <label htmlFor="daily">Daily</label>
                                 </div>
                               </div> */}
                         </div>

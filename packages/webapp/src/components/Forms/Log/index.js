@@ -179,7 +179,7 @@ class DefaultLogForm extends React.Component {
       discing: 'Discing',
     };
     // format options for react-select dropdown components
-    //const fieldOptions = fields && fields.map((f) => ({ value: f.field_id, children: f.field_name }));
+    //const fieldOptions = fields && fields.map((f) => ({ value: f.field_id, label: f.field_name }));
 
     let parsedTypeOptions;
     if (typeOptions && typeOptions.includes('ridgeTill')) {

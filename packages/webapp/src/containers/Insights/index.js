@@ -67,7 +67,7 @@ class Insights extends Component {
         {label: "Prices", image: prices, route: "Prices", data_point: "Prices"},
         {label: "Water Balance", image: water_balance, route: "WaterBalance", data_point: "WaterBalance"},
         {label: "Nitrogen Balance", image: nitrogen_balance, route: "NitrogenBalance", data_point: "NitrogenBalance"},
-        //{children: "Erosion", image: erosion, route: "Erosion", data_point: "Erosion"},
+        //{label: "Erosion", image: erosion, route: "Erosion", data_point: "Erosion"},
       ]
     };
 

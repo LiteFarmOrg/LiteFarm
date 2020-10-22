@@ -26,3 +26,15 @@
     padding: 24px 10% 0px 10%;
   }
 }
+
+div.container > h4:nth-child(1){
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom: 20px;
+}
+
+div.container div:nth-child(2){
+  margin-bottom: 28px;
+}

@@ -31,3 +31,7 @@
   position: relative;
 }
 
+input:invalid{
+  border-color: var(--error);
+}
+

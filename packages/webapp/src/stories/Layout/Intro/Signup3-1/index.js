@@ -4,7 +4,7 @@ const AddFarmForm = ({
 }) => {
   return (
       <>
-        <h2>Tell us about your farm</h2>
+        <h4>Tell us about your farm</h4>
         <Input label={"Farm name"}/>
         <Input label={"Farm location"} children={<div style={{position: "absolute", right: 0}}>icon</div>}/>
         <p>Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)</p>

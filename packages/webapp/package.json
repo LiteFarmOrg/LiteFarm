@@ -109,6 +109,7 @@
     "typescript": "~3.7.2",
     "update": "^0.7.4",
     "url-loader": "2.3.0",
+    "uuid": "^8.3.1",
     "webpack": "4.42.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "2.2.0",

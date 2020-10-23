@@ -19,23 +19,30 @@
 }
 
 .navBar {
-    top: 0;
-    border-radius: 0;
-    border-width: 0;
-    background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
-    width: 100%;
-    max-width: 1024px;
-  & .title {
-    color: var(--primary);
-    float: none;
-    margin: 0 auto;
-  }
-  & :global(.navbar-toggle) {
-    border: none;
-    & :global(.icon-bar) {
-      background-color: var(--primary);
-      height: 3px;
+  top: 0;
+  background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
+  width: 100%;
+  max-width: 1024px;
+  height: 72px;
+  position: relative;
+  & .itemContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    & .title {
+      color: var(--primary);
+      float: none;
+      margin: auto;
+      display: block;
     }
+  }
+}
+
+@media (max-width: 800px) {
+  .navBar {
+    height: 54px;
   }
 }
 
@@ -64,6 +71,20 @@
   right: 10px;
   float:right;
   margin-right: 24px;
+}
+
+.actionItemContainer {
+  float:right;
+  margin-top: 24px;
+  margin-right: 12px;
+}
+
+.actionItem {
+  width: 25px;
+  height: 25px;
+  margin-right: 16px;
+  border: none;
+  padding: 0;
 }
 
 .navBarContainer{

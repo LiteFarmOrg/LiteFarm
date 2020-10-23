@@ -20,75 +20,180 @@ import styles from './styles.scss';
 import SlideMenu from './slideMenu';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import MiddleLogo from '../../assets/images/middle_logo.svg';
+import MyFarmIcon from '../../assets/images/my-farm.svg';
+import NotifIcon from '../../assets/images/notif.svg';
+import HelpIcon from '../../assets/images/help.svg';
 
-class NavBar extends Component {
+import {farmSelector} from '../../containers/selector'
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      profilePic: null
-    };
+// class NavBar extends Component {
+
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       profilePic: null
+//     };
+//   }
+
+//   goTo(route) {
+//     this.props.history.replace(`/${route}`);
+//   }
+
+//   componentDidMount(){
+//     let p = localStorage.getItem('profile_picture');
+//     if(p === null){
+//       setTimeout(function() { //Start the timer
+//         p = localStorage.getItem('profile_picture');
+//         if(p){
+//           this.setState({profilePic: p});
+//         }
+//       }.bind(this), 1500);
+//     }else{
+//       this.setState({profilePic: p});
+//     }
+//   }
+
+//   logout() {
+//     this.props.auth.logout();
+//   }
+
+//   render() {
+//     const { isAuthenticated } = this.props.auth;
+//     let {profilePic} = this.state;
+//     const { history, farm } = this.props;
+//     const isMiddleLogo = history.location
+//       && history.location.pathname.substring(0, 8) === '/sign_up';
+
+//     if (isAuthenticated() && farm && farm.has_consent)
+//       return (
+//         <div>
+//           <Navbar className={styles.navBar} collapseOnSelect={true} fixedTop={true}>
+//             {/* Set maxWidth to match with .navBar in styles */}
+//             <Navbar.Header style={{ textAlign: 'center', maxWidth: '1024px' }}>
+//               <div className={styles.navBarContainer}>
+//                 <Navbar.Brand className={styles.title}>
+//                   {
+//                     isMiddleLogo
+//                       ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => this.props.history.push('/')}/>
+//                       : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => this.props.history.push('/')} />
+//                   }
+//                 </Navbar.Brand>
+//                 {/* <div className={styles.actionItemContainer}>
+//                   <input type="image" src={MyFarmIcon} className={styles.actionItem}/>
+//                   <input type="image" src={NotifIcon} className={styles.actionItem}/>
+//                   <input type="image" src={HelpIcon} className={styles.actionItem}/>
+//                 </div> */}
+//               </div>
+//             </Navbar.Header>
+//           </Navbar>
+//           <SlideMenu right isAuthenticated={isAuthenticated} logout={this.logout.bind(this)} />
+//           <div className={styles.actionItemContainer}>
+//             <input type="image" src={MyFarmIcon} className={styles.actionItem}/>
+//             <input type="image" src={NotifIcon} className={styles.actionItem}/>
+//             <input type="image" src={HelpIcon} className={styles.actionItem}/>
+//           </div>
+//         </div>
+//       );
+
+//     return (
+//       <div>
+//         <Navbar className={styles.navBar} collapseOnSelect={true} fixedTop={true}>
+//           {/* Set maxWidth to match with .navBar in styles */}
+//           <Navbar.Header style={{ textAlign: 'center', maxWidth: '1024px' }}>
+//             <div className={styles.navBarContainer}>
+//               <Navbar.Brand className={styles.title}>
+//                 {
+//                   isMiddleLogo
+//                     ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => this.props.history.push('/')}/>
+//                     : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => this.props.history.push('/')} />
+//                 }
+//               </Navbar.Brand>
+//             </div>
+//           </Navbar.Header>
+//         </Navbar>
+//       </div>
+//     );
+//   }
+// }
+
+const NavBar = (props) => {
+  const { auth, history, farm } = props;
+  const { isAuthenticated } = auth;
+  const isMiddleLogo = history.location
+    && history.location.pathname.substring(0, 8) === '/sign_up';
+
+  const logout = () => {
+    auth.logout();
+  };
+
+  const goTo = (route) => {
+    props.history.replace(`/${route}`);
   }
 
-  goTo(route) {
-    this.props.history.replace(`/${route}`);
-  }
-
-  componentDidMount(){
-    let p = localStorage.getItem('profile_picture');
-    if(p === null){
-      setTimeout(function() { //Start the timer
-        p = localStorage.getItem('profile_picture');
-        if(p){
-          this.setState({profilePic: p});
-        }
-      }.bind(this), 1500);
-    }else{
-      this.setState({profilePic: p});
-    }
-  }
-
-  logout() {
-    this.props.auth.logout();
-  }
-
-  render() {
-    const { isAuthenticated } = this.props.auth;
-    let {profilePic} = this.state;
-    const { history } = this.props;
-    const isMiddleLogo = history.location
-      && history.location.pathname.substring(0, 8) === '/sign_up';
-
+  if (isAuthenticated() && farm && farm.has_consent)
     return (
-      <div>
-        <Navbar className={styles.navBar} collapseOnSelect={true} fixed={"top"}>
+      <div className={styles.navBar}>
+        {/* <Navbar className={styles.navBar} collapseOnSelect={true} fixed={"top"}> */}
           {/* Set maxWidth to match with .navBar in styles */}
           {/*<Navbar.Header style={{ textAlign: 'center', maxWidth: '1024px' }}>*/}
-            <div className={styles.navBarContainer}>
-              <Navbar.Brand className={styles.title}>
-                {
+            {/* <div className={styles.navBarContainer}> */}
+              {/* <Navbar.Brand className={styles.title}> */}
+                {/* {
                   isMiddleLogo
-                    ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => this.props.history.push('/')}/>
-                    : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => this.props.history.push('/')} />
-                }
-              </Navbar.Brand>
-              {
-                isAuthenticated() && profilePic && <img
-                  alt=""
-                  src={profilePic}
-                  width="30"
-                  height="30"
-                  className={styles.profilePic}
-                />
-              }
-            </div>
+                    ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => props.history.push('/')}/>
+                    : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+                } */}
+              {/* </Navbar.Brand> */}
+              {/* <div className={styles.actionItemContainer}>
+                <input type="image" src={MyFarmIcon} className={styles.actionItem}/>
+                <input type="image" src={NotifIcon} className={styles.actionItem}/>
+                <input type="image" src={HelpIcon} className={styles.actionItem}/>
+              </div> */}
+            {/* </div> */}
           {/*</Navbar.Header>*/}
-        </Navbar>
-        <SlideMenu right isAuthenticated={isAuthenticated} logout={this.logout.bind(this)} />
+        {/* </Navbar> */}
+        {/* <div className={styles.title}>
+          {
+            isMiddleLogo
+            ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => props.history.push('/')}/>
+            : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+          }
+        </div> */}
+        <div className={styles.actionItemContainer}>
+          <input type="image" src={MyFarmIcon} className={styles.actionItem}/>
+          <input type="image" src={NotifIcon} className={styles.actionItem}/>
+          <input type="image" src={HelpIcon} className={styles.actionItem}/>
+        </div>
+        <div className={styles.itemContainer}>
+          <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+        </div>
+        <SlideMenu right logout={logout} />
       </div>
     );
-  }
+
+  return (
+    // <div className={styles.navBar}>
+    //   <div className={styles.title}>
+    //     {
+    //       isMiddleLogo
+    //         ? <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => props.history.push('/')}/>
+    //         : <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+    //     }
+    //   </div>
+    // </div>
+    <div className={styles.navBar}>
+      <div className={styles.itemContainer}>
+        <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+      </div>
+    </div>
+  );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    farm: farmSelector(state),
+  }
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -96,4 +201,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

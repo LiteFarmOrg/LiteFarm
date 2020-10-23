@@ -19,9 +19,7 @@
 }
 
 .label{
-  color: var(--labels);
-  font-size: 14px;
-  line-height: 16px;
+  @include form-font();
   margin-bottom: 4px;
 }
 .container{

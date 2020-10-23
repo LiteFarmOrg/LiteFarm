@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './checkbox.scss';
+import styles from './radio.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 
-const Checkbox = ({
+const Radio = ({
   label = 'label',
   disabled = false,
   classes = { checkbox: '', label: '', container: '' },
@@ -22,7 +22,7 @@ const Checkbox = ({
   );
 };
 
-Checkbox.propTypes = {
+Radio.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   classes: PropTypes.exact({ checkbox: PropTypes.string, label: PropTypes.string, container: PropTypes.string }),
@@ -32,4 +32,4 @@ Checkbox.propTypes = {
   ]),
 }
 
-export default Checkbox;
+export default Radio;

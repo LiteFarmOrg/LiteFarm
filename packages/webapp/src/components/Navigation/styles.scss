@@ -40,12 +40,6 @@
   }
 }
 
-@media (max-width: 800px) {
-  .navBar {
-    height: 54px;
-  }
-}
-
 .thin {
   font-weight: 100;
   letter-spacing: 3px;
@@ -96,6 +90,30 @@
   align-items: center;
   margin: 0 auto;
   text-align: -webkit-right;
+}
+
+@media (max-width: 800px) {
+  .navBar {
+    height: 54px;
+  }
+
+  .actionItemContainer {
+    margin-top: 16px;
+    margin-right: 0;
+  }
+
+  .actionItem {
+    width: 22px;
+    height: 22px;
+  }
+  .navBar {
+    & .itemContainer {
+      position: absolute;
+      left: 68px;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+  }
 }
 
 @media (min-width: 768px) {

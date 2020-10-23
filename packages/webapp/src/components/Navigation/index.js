@@ -16,8 +16,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar } from 'react-bootstrap';
+import { useMediaQuery } from 'react-responsive';
 import styles from './styles.scss';
 import SlideMenu from './slideMenu';
+import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import MiddleLogo from '../../assets/images/middle_logo.svg';
 import MyFarmIcon from '../../assets/images/my-farm.svg';
@@ -121,6 +123,10 @@ const NavBar = (props) => {
   const { isAuthenticated } = auth;
   const isMiddleLogo = history.location
     && history.location.pathname.substring(0, 8) === '/sign_up';
+  const isSmallScreen = useMediaQuery({query: '(max-width: 800px)'});
+  const Logo = isMiddleLogo ? (<img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => props.history.push('/')}/>)
+    : isSmallScreen ? (<img src={SmallerLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />)
+      : (<img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />)
 
   const logout = () => {
     auth.logout();
@@ -165,7 +171,7 @@ const NavBar = (props) => {
           <input type="image" src={HelpIcon} className={styles.actionItem}/>
         </div>
         <div className={styles.itemContainer}>
-          <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+          {Logo}
         </div>
         <SlideMenu right logout={logout} />
       </div>
@@ -183,7 +189,7 @@ const NavBar = (props) => {
     // </div>
     <div className={styles.navBar}>
       <div className={styles.itemContainer}>
-        <img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => props.history.push('/')} />
+        <Logo />
       </div>
     </div>
   );

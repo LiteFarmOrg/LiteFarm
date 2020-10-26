@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from './Layout';
-import Button from '../../Button';
+import Button from '../../../Button';
 import Svg from './Svg';
 import TwoInputWithTitle from './TwoInputWithTitle';
-import signup2 from '../../assets/signUp/signUp2.svg';
+import signup2 from '../../../assets/signUp/signUp2.svg';
 
 export default {
-  title: 'Layout/Intro',
+  title: 'Form/Intro/Components',
   component: Layout,
 };
 

@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './layout.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import Navbar from '../../../Navbar/Navbar';
-import Footer from '../../../Footer';
+import Navbar from '../../../../Navbar/Navbar';
+import Footer from '../../../../Footer';
 
 const Layout = ({
   classes = { container: '', navbar: '', footer: '' },
@@ -17,7 +17,7 @@ const Layout = ({
       <div className={clsx(styles.container, isSVG && styles.svgContainer, classes.container)}>
         {children}
       </div>
-      <Footer classes={classes.footer}>
+      <Footer classes={{footer: classes.footer}}>
         {buttonGroup}
       </Footer>
     </>

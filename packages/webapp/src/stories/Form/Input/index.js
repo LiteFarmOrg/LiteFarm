@@ -11,6 +11,7 @@ const Input = ({
   info,
   errors,
   icon,
+  inputRef,
   ...props
 }) => {
   return (
@@ -19,7 +20,8 @@ const Input = ({
       <input
         disabled={disabled}
         className={clsx(styles.input, classes.input)}
-        onClick
+        aria-invalid={errors? "true" : "false"}
+        ref={inputRef}
         {...props}
       />
       {icon && <span className={styles.icon}>{icon}</span>}
@@ -39,6 +41,10 @@ Input.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  inputRef: PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+])
 }
 
 export default Input;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from '../../../Form/Input';
+import Input from '../../../../Form/Input';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import clsx from 'clsx';

@@ -13,19 +13,19 @@ const Template = (args) => <Button {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   color: 'primary',
-  label: 'Button',
+  children: 'Primary',
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
   color: 'secondary',
-  label: 'Button',
+  children: 'Secondary',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
   color: 'primary',
-  label: 'Button',
+  children: 'Disabled',
   disabled: true
 };
 

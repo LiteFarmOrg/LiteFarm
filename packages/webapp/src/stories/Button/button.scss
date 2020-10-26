@@ -1,4 +1,5 @@
 @import "../assets/colors";
+@import "../assets/mixin";
 .primary{
   background-color: var(--btnPrimary);
   color: var(--fontColor);

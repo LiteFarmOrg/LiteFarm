@@ -1,16 +1,16 @@
 import Form from '../components/Form';
 import PropTypes from 'prop-types';
 import Button from '../../../Button';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import styles from './styles.scss';
 import Input from '../../../Form/Input';
 
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import history from '../../../../history';
 import Script from 'react-load-script';
 import { toastr } from 'react-redux-toastr';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
 
 export function PureSignup3({ title, inputs = [{}, {}], onSubmit }) {
@@ -36,7 +36,7 @@ export default function Signup3() {
   const [address, setAddress] = useState('');
   const [gridPoints, setGridPoints] = useState({});
   const onSubmit = (data) => {
-    console.log(gridPoints,address,getValues(FARMNAME), data);
+    console.log(gridPoints, address, getValues(FARMNAME), data);
   }
 
 
@@ -48,14 +48,14 @@ export default function Signup3() {
     const isCoord = coordRegex.test(getValues(ADDRESS));
 
 
-    if(!place.geometry && !isCoord) {
+    if (!place.geometry && !isCoord) {
       console.log('reset');
       // setValue(ADDRESS, '');
       setAddress('');
       setGridPoints({});
       return;
     }
-    if(isCoord){
+    if (isCoord) {
       return;
     }
     setAddress(place.formatted_address);
@@ -63,9 +63,9 @@ export default function Signup3() {
     gridPoints['lng'] = place.geometry.location.lng();
     setGridPoints(gridPoints);
   }
-  const handleScriptLoad =() => {
+  const handleScriptLoad = () => {
     const options = {
-      types: ['address']
+      types: ['address'],
     };
 
     // Initialize Google Autocomplete
@@ -89,14 +89,19 @@ export default function Signup3() {
       url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLCM0Fgm-_aF1x96paf-vdGzCAW6GRHM&libraries=places,drawing,geometry`}
       onLoad={handleScriptLoad}
     />
-    <PureSignup3 onSubmit={handleSubmit(onSubmit)} title={'Tell us about your farm'} inputs={[{ label: 'Farm name', inputRef: ref0, name: FARMNAME, errors: errors[FARMNAME] && "Farm name is required" }, {
+    <PureSignup3 onSubmit={handleSubmit(onSubmit)} title={'Tell us about your farm'} inputs={[{
+      label: 'Farm name',
+      inputRef: ref0,
+      name: FARMNAME,
+      errors: errors[FARMNAME] && 'Farm name is required',
+    }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
       icon: 'icon',
       inputRef: ref1,
-      id:"autocomplete",
+      id: 'autocomplete',
       name: ADDRESS,
-      errors: errors[ADDRESS] && "Address is required"
+      errors: errors[ADDRESS] && 'Address is required',
     }]}/>
   </>
 }

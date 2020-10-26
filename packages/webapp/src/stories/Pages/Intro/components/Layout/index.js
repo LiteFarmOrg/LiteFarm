@@ -2,18 +2,20 @@ import React from 'react';
 import styles from './layout.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import Navbar from '../../../../Navbar/Navbar';
-import Footer from '../../../../Footer';
+import Navbar from '../../Navigation';
+import Footer from '../../Footer';
 
 const Layout = ({
   classes = { container: '', navbar: '', footer: '' },
   children,
   buttonGroup,
   isSVG,
+  history,
+  auth
 }) => {
   return (
     <>
-      <Navbar className={classes.navbar}/>
+      <Navbar className={classes.navbar} history={history} auth={auth} />
       <div className={clsx(styles.container, isSVG && styles.svgContainer, classes.container)}>
         {children}
       </div>

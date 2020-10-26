@@ -23,7 +23,7 @@
   background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
   width: 100%;
   max-width: 1024px;
-  height: 72px;
+  min-height: 72px;
   position: relative;
   & .itemContainer {
     position: absolute;
@@ -31,12 +31,12 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    & .title {
-      color: var(--primary);
-      float: none;
-      margin: auto;
-      display: block;
-    }
+    // & .title {
+    //   color: var(--primary);
+    //   float: none;
+    //   margin: auto;
+    //   display: block;
+    // }
   }
 }
 
@@ -48,15 +48,6 @@
 .thick {
   font-weight: 700;
   letter-spacing: 3px;
-}
-
-.smallLogo {
-  grid-column-start: 2;
-}
-
-.middleLogo {
-  grid-column-start: 2;
-  height: 80px;
 }
 
 .profilePic {
@@ -94,7 +85,7 @@
 
 @media (max-width: 800px) {
   .navBar {
-    height: 54px;
+    min-height: 54px;
   }
 
   .actionItemContainer {

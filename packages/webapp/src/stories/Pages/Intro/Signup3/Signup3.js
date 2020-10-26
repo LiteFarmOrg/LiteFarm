@@ -28,8 +28,8 @@ PureSignup3.prototype = {
 }
 
 export default function Signup3() {
-  const { register, handleSubmit, getValues, setValue } = useForm();
-  const ref0 = register({ minLength: 1 });
+  const { register, handleSubmit, getValues, setValue, errors } = useForm();
+  const ref0 = register({ minLength: 1, required: true });
   const ref1 = register({ required: true, validate: data => address && gridPoints });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
@@ -89,13 +89,14 @@ export default function Signup3() {
       url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLCM0Fgm-_aF1x96paf-vdGzCAW6GRHM&libraries=places,drawing,geometry`}
       onLoad={handleScriptLoad}
     />
-    <PureSignup3 onSubmit={handleSubmit(onSubmit)} title={'Tell us about your farm'} inputs={[{ label: 'Farm name', inputRef: ref0, name: FARMNAME }, {
+    <PureSignup3 onSubmit={handleSubmit(onSubmit)} title={'Tell us about your farm'} inputs={[{ label: 'Farm name', inputRef: ref0, name: FARMNAME, errors: errors[FARMNAME] && "Farm name is required" }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
       icon: 'icon',
       inputRef: ref1,
       id:"autocomplete",
-      name: ADDRESS
+      name: ADDRESS,
+      errors: errors[ADDRESS] && "Address is required"
     }]}/>
   </>
 }

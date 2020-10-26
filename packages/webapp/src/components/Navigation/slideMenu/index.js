@@ -40,11 +40,10 @@ class SlideMenu extends React.Component {
   }
 
   render () {
-    const {isAuthenticated, logout, users, farm} = this.props;
+    const {logout, users, farm} = this.props;
 
     return (
       <div>
-        {isAuthenticated() && users && farm && farm.has_consent &&
         <Menu isOpen={this.state.menuOpen}
               width={ 204 }
               onStateChange={(state) => this.handleStateChange(state)}
@@ -95,7 +94,6 @@ class SlideMenu extends React.Component {
           }
           <a onClick={logout} id="logout" className="menu-item"><span>Log out</span></a>
         </Menu>
-        }
       </div>
     );
   }

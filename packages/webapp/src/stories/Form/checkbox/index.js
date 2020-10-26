@@ -7,13 +7,15 @@ import PropTypes from 'prop-types';
 const Input = ({
   disabled = false,
   classes = { checkbox: '', label: '' },
+  labelRight= true,
   label = 'label',
   children,
   ...props
 }) => {
   return (
     <div className={styles.container}>
-      <label className={styles.label}>{label}</label>
+      <label className={clsx(styles.label, classes.label)} >
+        {!labelRight && label}
       <input
         disabled={disabled}
         type={'checkbox'}
@@ -21,6 +23,8 @@ const Input = ({
         onClick
         {...props}
       />
+        {labelRight && label}
+      </label>
       {children}
     </div>
   );

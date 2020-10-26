@@ -3,6 +3,7 @@ import Layout from './';
 import Button from '../../Button';
 import WelcomeSVG from './Signup2';
 import AddFarmForm from './Signup3-1';
+import ConsentForm from "../../Consent";
 
 export default {
   title: 'Layout/Intro',
@@ -33,3 +34,9 @@ AddFarm.args = {
   buttonGroup: (<Button fullLength/>),
   children: <AddFarmForm/>,
 };
+
+export const Consent = Template.bind({});
+Consent.args = {
+  buttonGroup: (<><Button color={'secondary'} fullLength>Go Back</Button> <Button fullLength>Continue</Button></>),
+  children: <ConsentForm />
+}

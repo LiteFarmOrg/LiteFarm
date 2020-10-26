@@ -9,6 +9,12 @@
   color: var(--fontColor);
 }
 
+.checkbox {
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
 .input:disabled {
   background-color: var(--inputDisabled);
   color: var(--inputDefault);

@@ -4,6 +4,7 @@ import Checkbox from './';
 export default {
   title: 'Components/Checkbox',
   component: Checkbox,
+  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <Checkbox {...args} />;

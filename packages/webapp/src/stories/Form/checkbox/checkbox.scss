@@ -12,7 +12,7 @@
 }
 
 .label {
-  @include form-font();
+  @include checkbox-label-font();
   transform: translateY(-2px);
   margin-bottom: 0;
 }

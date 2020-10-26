@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 
 const Input = ({
   disabled = false,
-  classes = { input: '', label: '' },
+  classes = { input: '', label: '', info: '', container: '' },
   label = 'label',
-  children,
+  info,
+  errors,
+  icon,
   ...props
 }) => {
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, classes.container)}>
       <label className={styles.label}>{label}</label>
       <input
         disabled={disabled}
@@ -20,7 +22,9 @@ const Input = ({
         onClick
         {...props}
       />
-      {children}
+      {icon && <span className={styles.icon}>{icon}</span>}
+      {info && !errors && <p className={clsx(styles.info, classes.info)}>{info}</p>}
+      {errors}
     </div>
   );
 };
@@ -28,8 +32,10 @@ const Input = ({
 Input.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
-  classes: PropTypes.exact({ input: PropTypes.string, label: PropTypes.string }),
-  children: PropTypes.oneOfType([
+  info: PropTypes.string,
+  errors: PropTypes.arrayOf(PropTypes.string),
+  classes: PropTypes.exact({ input: PropTypes.string, label: PropTypes.string, container: PropTypes.string, info: PropTypes.string }),
+  icon: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),

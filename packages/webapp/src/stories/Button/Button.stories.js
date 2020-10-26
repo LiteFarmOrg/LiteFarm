@@ -5,6 +5,7 @@ import Button from './';
 export default {
   title: 'Components/Button',
   component: Button,
+  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <Button {...args} />;

@@ -4,6 +4,7 @@ import Input from './';
 export default {
   title: 'Components/Input',
   component: Input,
+  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <Input {...args} />;
@@ -20,6 +21,6 @@ Disabled.args = {
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-  children: <div style={{position: "absolute", right:0}}>icon</div>,
+  icon: <div style={{position: "absolute", right:0}}>icon</div>,
 };
 

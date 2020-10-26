@@ -4,9 +4,8 @@
   box-sizing: border-box;
   border-radius: 4px;
   height: 48px;
-  font-size: 16px;
   padding-left: 8px;
-  color: var(--fontColor);
+  @include checkbox-label-font();
 }
 
 .input:disabled {
@@ -19,7 +18,7 @@
 }
 
 .label{
-  @include form-font();
+  @include input-label-font();
   margin-bottom: 4px;
 }
 .container{
@@ -33,3 +32,19 @@ input:invalid{
   border-color: var(--error);
 }
 
+.input:focus{
+  outline: none;
+  border-color: var(--inputActive);
+}
+
+.info{
+  @include info-font();
+  margin-bottom: 0;
+  margin-top: 4px;
+}
+
+.icon{
+  position: absolute;
+  right: 0;
+  color: var(--iconDefault);
+}

@@ -1,8 +1,9 @@
 import React from 'react';
-import Layout from './';
+import Layout from './Layout';
 import Button from '../../Button';
-import WelcomeSVG from './Signup2';
-import AddFarmForm from './Signup3-1';
+import Svg from './Svg';
+import TwoInputWithTitle from './TwoInputWithTitle';
+import signup2 from '../../assets/signUp/signUp2.svg';
 
 export default {
   title: 'Layout/Intro',
@@ -19,7 +20,7 @@ Primary.args = {
 export const SVG = Template.bind({});
 SVG.args = {
   buttonGroup: (<Button fullLength/>),
-  children: <WelcomeSVG/>,
+  children: <Svg svg={signup2} alt={'Welcome to LiteFarm'}/>,
   isSVG: true,
 };
 
@@ -31,5 +32,9 @@ TwoButton.args = {
 export const AddFarm = Template.bind({});
 AddFarm.args = {
   buttonGroup: (<Button fullLength/>),
-  children: <AddFarmForm/>,
+  children: <TwoInputWithTitle title={'Tell us about your farm'} label0={'Farm name'} label1={'Farm location'}
+                               info1={'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)'}
+  icon1={'icon'}
+  />,
+  isForm: true,
 };

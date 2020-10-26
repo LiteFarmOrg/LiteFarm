@@ -59,7 +59,7 @@
 }
 
 .label {
-  @include form-font();
+  @include checkbox-label-font();
   transform: translateY(-4px);
   margin-bottom: 0;
 }

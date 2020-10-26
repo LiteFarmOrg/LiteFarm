@@ -14,7 +14,6 @@ const Input = ({
   inputRef,
   ...props
 }) => {
-  console.log(disabled);
   return (
     <div className={clsx(styles.container, classes.container)}>
       <label className={styles.label}>{label}</label>

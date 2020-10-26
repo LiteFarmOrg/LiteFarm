@@ -1,0 +1,19 @@
+@import "../../../assets/mixin";
+.title{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom: 20px;
+}
+.paragraph{
+  @include paragraph-font();
+  margin-bottom: 24px;
+}
+
+.container{
+  margin-bottom: 32px;
+}
+.leaf{
+  color: var(--brandColor);
+}

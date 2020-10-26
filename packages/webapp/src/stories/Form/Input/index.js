@@ -14,6 +14,7 @@ const Input = ({
   inputRef,
   ...props
 }) => {
+  console.log(disabled);
   return (
     <div className={clsx(styles.container, classes.container)}>
       <label className={styles.label}>{label}</label>
@@ -35,7 +36,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
   info: PropTypes.string,
-  errors: PropTypes.arrayOf(PropTypes.string),
+  errors: PropTypes.string,
   classes: PropTypes.exact({ input: PropTypes.string, label: PropTypes.string, container: PropTypes.string, info: PropTypes.string }),
   icon: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

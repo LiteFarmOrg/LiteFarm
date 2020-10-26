@@ -5,18 +5,20 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.scss';
 import Radio from '../../../Form/radio';
-
-import { useForm } from 'react-hook-form';
-import history from '../../../../history';
-import { connect } from 'react-redux';
 import OverlayTooltip from '../../../Tooltip';
 import Underlined from '../../../Underlined';
 
 
-export function PureSignup6({ title, paragraph, inputs = [{}, {}], onSubmit, underlined, content }) {
+import { useForm } from 'react-hook-form';
+import history from '../../../../history';
+import { connect } from 'react-redux';
+
+
+
+export function PureSignup6({ title, paragraph, inputs = [{}, {}], onSubmit, onGoBack, underlined, content }) {
   const { title: titleClass, ...inputClasses } = styles;
   return <Form onSubmit={onSubmit} buttonGroup={
-    <><Button color={'secondary'} fullLength>Go Back</Button><Button type={'submit'} fullLength>Continue</Button></>
+    <><Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button><Button type={'submit'} fullLength>Continue</Button></>
   }>
     <h4 className={clsx(styles.title)}>{title}</h4>
     <p className={clsx(styles.paragraph)}>{paragraph}</p>
@@ -47,6 +49,9 @@ export default function Signup6() {
   const onSubmit = (data) => {
     console.log(getValues(INTERESTED), data);
   }
+  const onGoBack = () => {
+    console.log('back');
+  }
 
 
   return <>
@@ -55,18 +60,17 @@ export default function Signup6() {
                  paragraph={paragraph}
                  underlined={underlined}
                  content={content}
+                 onGoBack={onGoBack}
                  inputs={[{
                    label: 'Yes',
                    inputRef: register,
                    name: INTERESTED,
-                   errors: errors[INTERESTED] && 'Farm name is required',
-                   value: true
+                   defaultValue: true
                  }, {
                    label: 'No',
                    inputRef: register,
                    name: INTERESTED,
-                   errors: errors[INTERESTED] && 'Address is required',
-                   value: false
+                   defaultValue: false
                  }]}/>
   </>
 }

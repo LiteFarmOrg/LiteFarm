@@ -20,11 +20,10 @@ import moment from 'moment';
 import {
  FINISH_ONBOARDING
 } from "./constants";
-import {finishOnboarding} from '../actions';
-import { patch, call, takeEvery } from 'redux-saga/effects';
+import {finishOnboarding} from './actions';
+import { call, takeEvery, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 const axios = require('axios');
-const DEC = 10;
 
 export function* patchOutroStep(payload) {
     let user_id = localStorage.getItem('user_id');
@@ -51,7 +50,7 @@ export function* patchOutroStep(payload) {
         console.log('finished onboarding');
         console.log(payload);
         console.log(data);
-      yield patch(finishOnboarding(result.data));
+      yield put(finishOnboarding(result.data));
     }
   } catch (e) {
     console.error('failed to update table');

@@ -4,40 +4,33 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 
-const Input = ({
-  disabled = false,
-  classes = { checkbox: '', label: '' },
-  labelRight= true,
+const Checkbox = ({
   label = 'label',
+  disabled = false,
+  classes = { checkbox: '', label: '', container: '' },
   children,
+  style,
+  inputRef,
   ...props
 }) => {
   return (
-    <div className={styles.container}>
-      <label className={clsx(styles.label, classes.label)} >
-        {!labelRight && label}
-      <input
-        disabled={disabled}
-        type={'checkbox'}
-        className={clsx(styles.checkbox, classes.checkbox)}
-        onClick
-        {...props}
-      />
-        {labelRight && label}
-      </label>
+    <label className={clsx(styles.container, classes.container, disabled && styles.disabled)} style={style && {...style}}>
+      <p className={clsx(styles.label, classes.label)}>{label}</p>
+      <input type={'checkbox'} ref={inputRef} {...props} disabled={disabled}/>
+      <span className={clsx(styles.checkmark, classes.checkbox)}/>
       {children}
-    </div>
+    </label>
   );
 };
 
-Input.propTypes = {
-  disabled: PropTypes.bool,
+Checkbox.propTypes = {
   label: PropTypes.string,
-  classes: PropTypes.exact({ checkbox: PropTypes.string, label: PropTypes.string }),
+  disabled: PropTypes.bool,
+  classes: PropTypes.exact({ checkbox: PropTypes.string, label: PropTypes.string, container: PropTypes.string }),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
 }
 
-export default Input;
+export default Checkbox;

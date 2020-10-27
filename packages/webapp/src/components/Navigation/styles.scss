@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -19,23 +19,24 @@
 }
 
 .navBar {
-    top: 0;
-    border-radius: 0;
-    border-width: 0;
-    background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
-    width: 100%;
-    max-width: 1024px;
-  & .title {
-    color: var(--primary);
-    float: none;
-    margin: 0 auto;
-  }
-  & :global(.navbar-toggle) {
-    border: none;
-    & :global(.icon-bar) {
-      background-color: var(--primary);
-      height: 3px;
-    }
+  top: 0;
+  background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
+  width: 100%;
+  max-width: 1024px;
+  min-height: 72px;
+  position: relative;
+  & .itemContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    // & .title {
+    //   color: var(--primary);
+    //   float: none;
+    //   margin: auto;
+    //   display: block;
+    // }
   }
 }
 
@@ -49,21 +50,26 @@
   letter-spacing: 3px;
 }
 
-.smallLogo {
-  grid-column-start: 2;
-}
-
-.middleLogo {
-  grid-column-start: 2;
-  height: 80px;
-}
-
 .profilePic {
   border-radius: 16px;
   top: 10px;
   right: 10px;
   float:right;
   margin-right: 24px;
+}
+
+.actionItemContainer {
+  float:right;
+  margin-top: 24px;
+  margin-right: 12px;
+}
+
+.actionItem {
+  width: 25px;
+  height: 25px;
+  margin-right: 16px;
+  border: none;
+  padding: 0;
 }
 
 .navBarContainer{
@@ -75,6 +81,30 @@
   align-items: center;
   margin: 0 auto;
   text-align: -webkit-right;
+}
+
+@media (max-width: 800px) {
+  .navBar {
+    min-height: 54px;
+  }
+
+  .actionItemContainer {
+    margin-top: 16px;
+    margin-right: 0;
+  }
+
+  .actionItem {
+    width: 22px;
+    height: 22px;
+  }
+  .navBar {
+    & .itemContainer {
+      position: absolute;
+      left: 68px;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+  }
 }
 
 @media (min-width: 768px) {

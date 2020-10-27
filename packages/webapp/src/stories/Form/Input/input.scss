@@ -1,12 +1,12 @@
 @import "../../assets/colors";
+@import "../../assets/mixin";
 .input {
   border: 2px solid var(--border);
   box-sizing: border-box;
   border-radius: 4px;
   height: 48px;
-  font-size: 16px;
   padding-left: 8px;
-  color: var(--fontColor);
+  @include checkbox-label-font();
 }
 
 .input:disabled {
@@ -19,9 +19,7 @@
 }
 
 .label{
-  color: var(--labels);
-  font-size: 14px;
-  line-height: 16px;
+  @include input-label-font();
   margin-bottom: 4px;
 }
 .container{
@@ -31,7 +29,32 @@
   position: relative;
 }
 
-input:invalid{
+.inputError{
   border-color: var(--error);
 }
 
+.error{
+  @include error-font();
+  margin-top: 4px;
+}
+
+.input:focus{
+  outline: none;
+  border-color: var(--inputActive);
+}
+
+.info{
+  @include info-font();
+  margin-bottom: 0;
+  margin-top: 4px;
+}
+
+.icon{
+  position: absolute;
+  right: 0;
+  top: -8px;
+  color: var(--iconDefault);
+}
+.icon > *{
+  cursor: pointer;
+}

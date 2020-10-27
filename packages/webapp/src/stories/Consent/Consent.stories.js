@@ -11,8 +11,10 @@ export default {
 const Template = (args) => <ConsentForm {...args} />;
 
 export const Consent = Template.bind({});
-// Consent.args = {
-//   buttonGroup: (<><Button color={'secondary'} fullLength>Go Back</Button> <Button fullLength>Continue</Button></>),
-//   children: <ConsentForm />
-// }
+Consent.args = {
+  onSubmit: () => {},
+  onGoBack: () => {},
+  text: '',
+  checkBoxArgs: {label: 'I Agree'}
+}
 

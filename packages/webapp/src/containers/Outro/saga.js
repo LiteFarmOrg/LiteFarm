@@ -13,10 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { toastr } from 'react-redux-toastr';
-import history from '../../history';
-import moment from 'moment';
-
 import {
  FINISH_ONBOARDING
 } from "./constants";
@@ -25,9 +21,10 @@ import { call, takeEvery, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 const axios = require('axios');
 
-export function* patchOutroStep(payload) {
-    let user_id = localStorage.getItem('user_id');
-    let farm_id = localStorage.getItem('farm_id');
+export function* patchOutroStep() {
+    console.log("patchOutroStep")
+  let user_id = localStorage.getItem('user_id');
+  let farm_id = localStorage.getItem('farm_id');
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {
@@ -40,11 +37,11 @@ export function* patchOutroStep(payload) {
 
   let data = {
     step_four: true,
-    step_four_end: Date.now(),
+    step_four_end: new Date(),
   };
 
   try {
-    const result = yield call(axios.patch, userFarmUrl + 'onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
+    const result = yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
     if (result) {
         console.log(result);
         console.log('finished onboarding');

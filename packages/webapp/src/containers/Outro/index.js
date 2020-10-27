@@ -6,43 +6,40 @@ import Button from '../../stories/Button/index'
 import {connect} from 'react-redux';
 import {farmSelector} from '../selector';
 import history from '../../history';
+import {finishOnboarding} from './actions';
 
-class Outro extends Component {
-    constructor(props) {
-    super(props);
-    this.redirectFinish = this.redirectFinish.bind(this)
-    }
+function Outro ({farm, dispatch}) {
 
-    redirectFinish() {
-        const { farm } = this.props;
+    const redirectFinish = () => {
         if (farm) {
             // TODO replace with Brandon's Splotlight component
+            dispatch(finishOnboarding())
             history.push('/home')
         }
         // TODO: add else case wih Jimmy's organic farm 
       }
 
-    render() {
-        return (
-            <div className={styles.home}> 
-                <div className={styles.lander}>
-                        <div className={styles.greetContainer}>
-                        <img src={OutroImg}/>
-                            <div className={styles.description}> 
-                                <h3>{`And finally, let us show you a couple of important things!`}</h3>
-                            </div>
+
+    return (
+        <div className={styles.home}> 
+            <div className={styles.lander}>
+                    <div className={styles.greetContainer}>
+                    <img src={OutroImg}/>
+                        <div className={styles.description}> 
+                            <h3>{`And finally, let us show you a couple of important things!`}</h3>
                         </div>
-                        <Footer
-                            children={<><Button fullLength color="secondary" children='Go back'/>
-                            
-                                        <Button fullLength children='Finish' onClick={this.redirectFinish}/>
-                                        </>}
-                        >
-                        </Footer>
                     </div>
+                    <Footer
+                        children={<><Button fullLength color="secondary" children='Go back'/>
+                        
+                                    <Button fullLength children='Finish' onClick={redirectFinish}/>
+                                    </>}
+                    >
+                    </Footer>
                 </div>
-        )
-    }
+            </div>
+    )
+    
 }
 
 const mapStateToProps = (state) => {
@@ -50,5 +47,9 @@ const mapStateToProps = (state) => {
       farm: farmSelector(state),
     }
   };
+
+const mapDispatchToProps = (dispatch) => {
+    return {dispatch};
+}
   
-  export default connect(mapStateToProps)(Outro);
+  export default connect(mapStateToProps, mapDispatchToProps)(Outro);

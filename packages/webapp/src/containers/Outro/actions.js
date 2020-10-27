@@ -15,10 +15,8 @@
 
 import { FINISH_ONBOARDING } from './constants'
 
-export const finishOnboarding = (step_four, step_four_end) => {
+export const finishOnboarding = () => {
   return {
     type: FINISH_ONBOARDING,
-    step_four: step_four,
-    step_four_end: step_four_end
   }
 };

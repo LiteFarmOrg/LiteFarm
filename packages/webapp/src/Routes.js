@@ -21,7 +21,7 @@ import Home from "./containers/Home";
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
 import IntroSlide from './containers/IntroSlide';
-import ConsentForm from './containers/ConsentForm';
+import ConsentForm from './stories/Consent';
 import Log from './containers/Log';
 import Login from './containers/Login'
 import SignUp from './containers/SignUp';

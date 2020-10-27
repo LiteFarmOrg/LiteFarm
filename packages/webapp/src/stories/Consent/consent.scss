@@ -25,6 +25,12 @@
 
 @media only screen and (min-height: 569px ) and ( max-height: 900px) {
   :global .paraText {
-    max-height: 600px;
+    max-height: 556px;
+  }
+}
+
+@media only screen and (min-height: 901px ) {
+  :global .paraText {
+    max-height: 690px;
   }
 }

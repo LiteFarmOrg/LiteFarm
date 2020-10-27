@@ -11,6 +11,7 @@ const Checkbox = ({
   children,
   style,
   inputRef,
+  errors,
   ...props
 }) => {
   return (
@@ -18,6 +19,7 @@ const Checkbox = ({
       <p className={clsx(styles.label, classes.label)}>{label}</p>
       <input type={'checkbox'} ref={inputRef} {...props} disabled={disabled}/>
       <span className={clsx(styles.checkmark, classes.checkbox)}/>
+      {errors ? <span className={styles.error}>{errors}</span> : null}
       {children}
     </label>
   );

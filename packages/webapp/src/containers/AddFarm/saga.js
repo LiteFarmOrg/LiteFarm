@@ -15,6 +15,7 @@
 
 import { ADD_FARM } from "./constants";
 import { getFarms } from '../ChooseFarm/actions';
+import history from '../../history';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import {toastr} from "react-redux-toastr";
@@ -72,6 +73,7 @@ export function* addFarm(payload) {
       if (updateUserRoleResult.status >= 200) {
         yield put(getFarms());
         yield put(setFarmInState(addFarmResult.data))
+        history.push('/consent')
       }
     }
   } catch(e) {

@@ -40,7 +40,7 @@ const NavBar = (props) => {
     auth.logout();
   };
 
-  if (!isFarmSelected) return <NoFarmNavBar/>
+  if (!isFarmSelected) return <NoFarmNavBar history/>
 
   return (
     <div className={styles.navBar}>

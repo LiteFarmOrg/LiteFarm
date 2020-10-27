@@ -40,7 +40,7 @@ const PureConsent = ({
 )
 
 
-function ConsentForm({ role, dispatch }) {
+function ConsentForm({ role_id, dispatch }) {
   const { register, handleSubmit, errors } = useForm();
   const [ consentVersion ] = useState('3.0');
   const [consent, setConsentText ] = useState('');
@@ -55,12 +55,12 @@ function ConsentForm({ role, dispatch }) {
 
   }
 
-  const updateConsent = () => {
-    dispatch(updateAgreement(true, consentVersion));
+  const updateConsent = (data) => {
+    dispatch(updateAgreement({ consent: true }, consentVersion));
   }
 
   useEffect(() => {
-    let consentForm = role.role_id === 3 ? worker_consentText : consentText;
+    let consentForm = role_id === 3 ? worker_consentText : consentText;
     let text = consentForm.reduce((text, { header, body }) => {
       return text  + `\n${header ? header: ''}\n${body ? body: ''}\n`;
     }, '')

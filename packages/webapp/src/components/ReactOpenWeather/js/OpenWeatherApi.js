@@ -20,7 +20,6 @@ export default class OpenWeatherApi {
       },
       args
     );
-    console.log(params);
 
     const promise = axios
       .all([

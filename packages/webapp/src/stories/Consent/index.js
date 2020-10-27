@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import styles from './consent.scss';
-import './consent.scss';
 import Checkbox from '../Form/checkbox'
 import Button from "../Button";
 import Form from "../Pages/Intro/components/Form";
+
 import { useForm } from "react-hook-form";
 import { connect } from "react-redux";
 import { farmSelector, userInfoSelector } from "../../containers/selector";
@@ -15,11 +15,12 @@ const PureConsent = ({
                        onSubmit,
                        checkboxArgs,
                        onGoBack,
-                       text
+                       text,
+                       disabled
                      }) => (
   <Form onSubmit={onSubmit} buttonGroup={
     <><Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button><Button type={'submit'}
-                                                                                        fullLength>Continue</Button></>
+                                                                                        fullLength disabled={disabled}>Continue</Button></>
   }>
     <h3 className={clsx(styles.consentText, styles.consentHeader)}>Our Data Policy</h3>
     <div style={{ width: '90%', overflowY: "scroll" }} className={clsx(styles.consentText, 'paraText')}>
@@ -44,6 +45,10 @@ function ConsentForm({ role_id, dispatch }) {
   const { register, handleSubmit, errors } = useForm();
   const [ consentVersion ] = useState('3.0');
   const [consent, setConsentText ] = useState('');
+  const [ disabled, setDisabled ] = useState(true);
+  const onChange = (e) => {
+    setDisabled(!e.target.checked);
+  }
   const checkBoxRef = register({
     required: {
       value: true,
@@ -72,11 +77,13 @@ function ConsentForm({ role_id, dispatch }) {
       inputRef: checkBoxRef,
       label: 'I Agree',
       name: checkboxName,
-      errors: errors[checkboxName] && errors[checkboxName].message
+      errors: errors[checkboxName] && errors[checkboxName].message,
+      onChange: onChange
     }}
                  onSubmit={handleSubmit(updateConsent)}
                  onGoBack={goBack}
                  text={consent}
+                 disabled={disabled}
     >
     </PureConsent>
   )

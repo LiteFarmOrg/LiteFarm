@@ -61,5 +61,5 @@ export function* patchOutroStep(payload) {
 
 
 export default function* outroSaga() {
-  yield takeEvery(FINISH_ONBOARDING, finishOnboarding);
+  yield takeEvery(FINISH_ONBOARDING, patchOutroStep);
 }

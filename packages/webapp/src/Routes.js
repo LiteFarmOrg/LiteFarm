@@ -22,6 +22,7 @@ import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/ConsentForm';
+import RoleSelection from './containers/RoleSelection'
 import Log from './containers/Log';
 import Login from './containers/Login'
 import SignUp from './containers/SignUp';
@@ -117,6 +118,7 @@ function Routes() {
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
+          <Route path="/role-selection" exact component={RoleSelection}/>
           <Route path="/log" exact component={Log}/>
           <Route path="/new_log" exact component={NewLog}/>
           <Route path="/fertilizing_log" exact component={FertilizingLog}/>
@@ -200,6 +202,7 @@ function Routes() {
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
+          <Route path="/role-selection" exact component={RoleSelection}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
           <Route path="/new_log" exact component={NewLog}/>
@@ -287,6 +290,7 @@ function Routes() {
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
+          <Route path="/role-selection" exact component={RoleSelection}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
           <Route path="/new_log" exact component={NewLog}/>

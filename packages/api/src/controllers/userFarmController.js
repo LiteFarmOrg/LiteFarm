@@ -301,7 +301,7 @@ class userFarmController extends baseController {
     };
   }
 
-  static updateStepOne() {
+  static updateOnboardingFlags() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.user_id;

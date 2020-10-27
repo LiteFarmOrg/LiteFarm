@@ -1,0 +1,55 @@
+@import "../../assets/mixin";
+
+.container {
+  margin: 39.68vh 8.89% 0 8.89%;
+  padding: 4.44% 9.44%;
+  width: 84%;
+  display: grid;
+  grid-template-columns: 78fr 25fr 11fr 11fr 25fr 78fr;
+  grid-template-rows: 24fr 24fr 80fr 24fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "city city city city city city"
+    "date date date date date date"
+    "temperature temperature temperature temperature . icon"
+    "wind wind wind humidity humidity humidity";
+  background-color: var(--overlay);
+  font-size: 14px;
+  line-height: 24px;
+  color: #ffffff;
+}
+
+.city {
+  grid-area: city;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.date {
+  text-align: center;
+  grid-area: date;
+}
+
+.temperature {
+  grid-area: temperature;
+  font-size: 52px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  grid-area: icon;
+  display: flex;
+  align-items: center;
+  font-size: 56px;
+}
+
+.wind {
+  grid-area: wind;
+}
+
+.humidity {
+  grid-area: humidity;
+}

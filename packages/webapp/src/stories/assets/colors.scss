@@ -29,6 +29,7 @@
   --cyan700: #03A6CA;
   --cayn400: #4FDBFA;
   --blue700: #3D8BED;
+  --grey1: #333333;
   --info: var(--blue700);
   --success: var(--brightGreen700);
   --warning: var(--orange700);
@@ -47,8 +48,6 @@
   --inputActive: var(--teal500);
   --fontColor: var(--grey900);
   --border: var(--grey200);
-}
-
-@mixin gradient(){
-  background: linear-gradient(96.68deg, #78C99E -4.29%, #C7EFD3 24.32%, #E3F8EC 35.52%, #E3F8EC 64.28%, #C7EFD3 80.81%, #78C99E 125.09%);
+  --checkbox: var(--teal700);
+  --tooltipFont: var(--grey1);
 }

@@ -11,13 +11,15 @@ const Button = ({
   fullLength = false,
   classes = { btn: "" },
   onClick,
+  type,
   ...props
 }) => {
   return (
     <button
       disabled={disabled}
       className={clsx(styles.btn, styles[color], classes.btn, fullLength && styles.fullLength)}
-      onClick
+      onClick={onClick}
+      type={type}
       {...props}
     >
       {children}
@@ -32,6 +34,7 @@ Button.propTypes = {
   children: PropTypes.string,
   classes: PropTypes.exact({btn: PropTypes.string}),
   onClick: PropTypes.func,
+  type: PropTypes.oneOf(['button', 'submit', 'reset']),
 }
 
 export default Button;

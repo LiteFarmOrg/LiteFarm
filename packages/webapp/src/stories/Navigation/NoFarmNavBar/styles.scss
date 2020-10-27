@@ -1,25 +1,25 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- 
+@import "../../assets/mixin";
+
  .navBar {
   top: 0;
-  background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
+  @include gradient();
   width: 100%;
-  max-width: 1024px;
-  min-height: 86px;
-  position: relative;
+  height: 76px;
+  position: fixed;
   & .itemContainer {
     position: absolute;
     top: 50%;

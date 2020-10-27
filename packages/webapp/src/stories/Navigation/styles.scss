@@ -12,6 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+@import "../assets/mixin";
 
 .button {
     margin: 7px;
@@ -20,11 +21,11 @@
 
 .navBar {
   top: 0;
-  background: linear-gradient(119.03deg, #83CAA4 -4.29%, #CEF1D8 24.32%, #DFF4E8 35.52%, #DFF4E8 64.28%, #CEF1D8 80.81%, #83CAA4 125.09%);
+  @include gradient();
   width: 100%;
   max-width: 1024px;
   min-height: 72px;
-  position: fixed;
+  position: relative;
   & .itemContainer {
     position: absolute;
     top: 50%;

@@ -35,9 +35,9 @@ const auth = {
 export default [story =>
     <Provider store={store}>
       <Router history={history}>
-        <>
+        <div style={{width:'100%', maxWidth: '1024px'}}>
           <Navbar history={history} auth={auth}/>
-          {story()}
-        </>
+            {story()}
+        </div>
       </Router>
     </Provider>];

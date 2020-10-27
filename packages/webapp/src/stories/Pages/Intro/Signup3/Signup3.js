@@ -9,11 +9,7 @@ import Input from '../../../Form/Input';
 import { useForm } from 'react-hook-form';
 import { VscLocation } from "react-icons/vsc";
 
-import history from '../../../../history';
 import Script from 'react-load-script';
-import { toastr } from 'react-redux-toastr';
-import { connect } from 'react-redux';
-import { actions } from 'react-redux-form';
 
 export function PureSignup3({ title, inputs = [{}, {}], onSubmit }) {
   const { title: titleClass, ...inputClasses } = styles;

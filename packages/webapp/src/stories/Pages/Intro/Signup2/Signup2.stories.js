@@ -1,8 +1,10 @@
 import React from 'react';
 import Signup2 from './Signup2';
+import decorators from '../components/decorators';
 
 export default {
   title: 'Form/Intro/Signup2',
+  decorators: decorators,
   component: Signup2,
 };
 

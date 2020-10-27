@@ -2,11 +2,10 @@ import React from 'react';
 import styles from './layout.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import Navbar from '../../Navigation';
-import Footer from '../../Footer';
+import Footer from '../../../../Footer';
 
 const Layout = ({
-  classes = { container: '', navbar: '', footer: '' },
+  classes = { container: '', footer: '' },
   children,
   buttonGroup,
   isSVG,
@@ -15,7 +14,6 @@ const Layout = ({
 }) => {
   return (
     <>
-      <Navbar className={classes.navbar} history={history} auth={auth} />
       <div className={clsx(styles.container, isSVG && styles.svgContainer, classes.container)}>
         {children}
       </div>
@@ -32,7 +30,7 @@ Layout.propTypes = {
     PropTypes.node,
   ]),
   buttonGroup: PropTypes.node,
-  classes: PropTypes.exact({ container: PropTypes.string, navbar: PropTypes.string, footer: PropTypes.string }),
+  classes: PropTypes.exact({ container: PropTypes.string, footer: PropTypes.string }),
   isSVG: PropTypes.bool,
 }
 

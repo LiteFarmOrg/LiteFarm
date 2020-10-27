@@ -301,6 +301,54 @@ class userFarmController extends baseController {
     };
   }
 
+  static updateOnboardingFlags() {
+    return async (req, res) => {
+      const trx = await transaction.start(Model.knex());
+      const user_id = req.params.user_id;
+      const farm_id = req.params.farm_id;
+
+      const step_one = req.body.step_one;
+      const step_one_end = req.body.step_one_end;
+      const step_two = req.body.step_two;
+      const step_two_end = req.body.step_two_end;
+      const step_three = req.body.step_three;
+      const step_three_end = req.body.step_three_end;
+      const step_four = req.body.step_four;
+      const step_four_end = req.body.step_four_end;
+
+      try {
+
+        const isPatched = await userFarmModel.query(trx).where('user_id', user_id).andWhere('farm_id', farm_id)
+          .patch({
+            step_one,
+            step_one_end,
+            step_two,
+            step_two_end,
+            step_three,
+            step_three_end,
+            step_four,
+            step_four_end
+          });
+
+        if (isPatched) {
+          await trx.commit();
+          res.sendStatus(200);
+          return;
+        }
+        else {
+          await trx.rollback();
+          res.sendStatus(404);
+          return;
+        }
+      }
+      catch (error) {
+        //handle more exceptions
+        await trx.rollback();
+        res.status(400).send(error);
+      }
+    };
+  }
+
   static updateRole() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

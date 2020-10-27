@@ -53,3 +53,27 @@
 .humidity {
   grid-area: humidity;
 }
+
+@media only screen and (min-width: 960px) {
+  .container {
+    margin: 39.68vh auto 0 auto;
+    padding: 42.609px 90.516px;
+    width: 806px;
+    font-size: 36.75px;
+    line-height: 63px;
+  }
+
+  .city {
+    font-size: 47.25px;
+  }
+
+
+  .temperature {
+    font-size: 136.5px;
+    line-height: 126px;
+  }
+
+  .icon {
+    font-size: 144.375px;
+  }
+}

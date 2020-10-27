@@ -7,6 +7,8 @@ import styles from './styles.scss';
 import Input from '../../../Form/Input';
 
 import { useForm } from 'react-hook-form';
+import { VscLocation } from "react-icons/vsc";
+
 import history from '../../../../history';
 import Script from 'react-load-script';
 import { toastr } from 'react-redux-toastr';
@@ -89,6 +91,13 @@ export default function Signup3() {
     autocomplete.addListener('place_changed', handlePlaceChanged);
   }
 
+  const getGeoLocation = () => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }
+
   return <>
     <Script
       url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLCM0Fgm-_aF1x96paf-vdGzCAW6GRHM&libraries=places,drawing,geometry`}
@@ -102,7 +111,7 @@ export default function Signup3() {
     }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
-      icon: 'icon',
+      icon: <VscLocation size={27} onClick={getGeoLocation}/>,
       inputRef: ref1,
       id: 'autocomplete',
       name: ADDRESS,

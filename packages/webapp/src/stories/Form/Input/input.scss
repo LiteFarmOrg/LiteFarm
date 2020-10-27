@@ -29,8 +29,13 @@
   position: relative;
 }
 
-input:invalid{
+.inputError{
   border-color: var(--error);
+}
+
+.error{
+  @include error-font();
+  margin-top: 4px;
 }
 
 .input:focus{

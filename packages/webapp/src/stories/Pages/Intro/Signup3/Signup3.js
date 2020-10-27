@@ -29,8 +29,13 @@ PureSignup3.prototype = {
 
 export default function Signup3() {
   const { register, handleSubmit, getValues, setValue, errors } = useForm();
-  const ref0 = register({ minLength: 1, required: true });
-  const ref1 = register({ required: true, validate: data => address && gridPoints });
+  const ref0 = register({ required: { value: true, message: 'Farm name is required' } });
+  const ref1 = register({
+    required: { value: true, message: 'Address is required' }, validate: {
+      value: data => address && gridPoints && data[address],
+      message: "Invalid address"
+    },
+  });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const [address, setAddress] = useState('');
@@ -93,7 +98,7 @@ export default function Signup3() {
       label: 'Farm name',
       inputRef: ref0,
       name: FARMNAME,
-      errors: errors[FARMNAME] && 'Farm name is required',
+      errors: errors[FARMNAME] && errors[FARMNAME].message,
     }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
@@ -101,7 +106,7 @@ export default function Signup3() {
       inputRef: ref1,
       id: 'autocomplete',
       name: ADDRESS,
-      errors: errors[ADDRESS] && 'Address is required',
+      errors: errors[ADDRESS] && errors[ADDRESS].message,
     }]}/>
   </>
 }

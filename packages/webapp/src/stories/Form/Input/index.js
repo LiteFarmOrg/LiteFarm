@@ -19,14 +19,14 @@ const Input = ({
       <label className={styles.label}>{label}</label>
       <input
         disabled={disabled}
-        className={clsx(styles.input, classes.input)}
-        aria-invalid={errors? "true" : "false"}
+        className={clsx(styles.input, classes.input, errors && styles.inputError)}
+        aria-invalid={errors ? 'true' : 'false'}
         ref={inputRef}
         {...props}
       />
       {icon && <span className={styles.icon}>{icon}</span>}
       {info && !errors && <p className={clsx(styles.info, classes.info)}>{info}</p>}
-      {errors}
+      {errors ? <span className={styles.error}>{errors}</span> : null}
     </div>
   );
 };
@@ -36,15 +36,20 @@ Input.propTypes = {
   label: PropTypes.string,
   info: PropTypes.string,
   errors: PropTypes.string,
-  classes: PropTypes.exact({ input: PropTypes.string, label: PropTypes.string, container: PropTypes.string, info: PropTypes.string }),
+  classes: PropTypes.exact({
+    input: PropTypes.string,
+    label: PropTypes.string,
+    container: PropTypes.string,
+    info: PropTypes.string,
+  }),
   icon: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
   inputRef: PropTypes.oneOfType([
-  PropTypes.func,
-  PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-])
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
 }
 
 export default Input;

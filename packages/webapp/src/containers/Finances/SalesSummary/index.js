@@ -1,6 +1,5 @@
 import styles from '../styles.scss';
 import React, {Component} from "react";
-import {Glyphicon} from "react-bootstrap";
 import history from "../../../history";
 import PageTitle from "../../../components/PageTitle";
 import Table from '../../../components/Table';
@@ -12,6 +11,7 @@ import moment from 'moment';
 import {farmSelector} from "../../selector";
 import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
+import { BsCaretRight } from "react-icons/all";
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -146,7 +146,7 @@ class SalesSummary extends Component {
     }, {
       id: 'chevron',
       maxWidth: 25,
-      accessor: () => <Glyphicon glyph="menu-right"/>
+      accessor: () => <BsCaretRight />
     }
     ];
 

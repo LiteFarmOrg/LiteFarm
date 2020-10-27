@@ -212,7 +212,7 @@ class EditAddExpense extends Component {
           })}
           {
             Object.keys(expenseNames).length === 0 &&
-            <Alert bsStyle="info">
+            <Alert variant="info">
               You removed all expenses, click Save to submit.
             </Alert>
           }

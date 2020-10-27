@@ -4,7 +4,7 @@ import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import {deleteShift} from '../actions'
 import moment from 'moment';
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 import history from '../../../history';
 import {selectedShiftSelector, taskTypeSelector} from './selectors';
 import {fieldSelector, cropSelector, farmSelector} from '../../selector';
@@ -161,7 +161,7 @@ class MyShift extends Component {
                 id={`dropdown-basic-${dropDown}`}
               >
                 {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
-                <MenuItem eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</MenuItem>
+                <Dropdown.Item eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</Dropdown.Item>
               </DropdownButton>
             }
           </div>

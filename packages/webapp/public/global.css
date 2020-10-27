@@ -175,7 +175,14 @@ hr{
     width: 24px;
     height: 20px;
     left: 24px;
-    top: 16px;
+    top: 24px;
+}
+
+@media (max-width: 800px) {
+    .bm-burger-button {
+        left: 24px;
+        top: 16px;
+    }
 }
 
 /* Color/shape of burger icon bars */

@@ -1,0 +1,7 @@
+@import "../assets/mixin";
+.underlined{
+  @include underlined-font();
+  margin-bottom: 0;
+  cursor: pointer;
+  display: inline-block;
+}

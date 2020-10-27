@@ -7,7 +7,7 @@ import moment from 'moment';
 import BedImg from '../../../assets/images/log/bed.svg';
 import {taskTypeSelector, selectedShiftSelector} from './selectors';
 import {getTaskTypes, addTaskType, setSelectedTasks, setShiftDuration, setStartEndInState} from "../actions";
-import {Grid, Row, Col, Button, Alert} from 'react-bootstrap';
+import {Container, Row, Col, Button, Alert} from 'react-bootstrap';
 import OtherImg from '../../../assets/images/log/other.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
 import FertImg from '../../../assets/images/log/fertilizing.svg';
@@ -302,12 +302,12 @@ class EditShiftOne extends Component {
         <div className={styles.subTitle}>
          Theses are the tasks selected for this shift.
         </div>
-        <Alert bsStyle="warning">
+        <Alert variant="warning">
         The tasks selected for this shift are highlighted below. Deselecting a task will remove the task from this shift.
         </Alert>
 
 
-        <Grid fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
+        <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
           <Row className="show-grid">
             {
               taskTypes && (
@@ -329,7 +329,7 @@ class EditShiftOne extends Component {
               )
             }
           </Row>
-        </Grid>
+        </Container>
 
         <div className={styles.buttonContainer}>
           <Button onClick={this.openAddModal}>Add Custom Task</Button>

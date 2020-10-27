@@ -8,10 +8,10 @@ import {expenseSelector, expenseTypeSelector, dateRangeSelector} from "../select
 import Table from '../../../components/Table';
 import {setExpenseDetailDate, getExpense} from "../actions";
 import history from '../../../history';
-import {Glyphicon} from "react-bootstrap";
 import {farmSelector} from "../../selector";
 import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
+import { BsCaretRight } from "react-icons/bs";
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -195,7 +195,7 @@ class OtherExpense extends Component {
     }, {
       id: 'chevron',
       maxWidth: 25,
-      accessor: () => <Glyphicon glyph="menu-right"/>
+      accessor: () => <BsCaretRight />
     }
     ];
 

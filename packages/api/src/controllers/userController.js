@@ -27,11 +27,18 @@ const emailSender = require('../templates/sendEmailTemplate');
 
 class userController extends baseController {
   static addUser() {
-    // Add user endpoint
+    //TODO need validations email
     return async (req, res) => {
+      const { email } = req.body;
+      let userData = req.body;
+
+      const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+      if (!validEmailRegex.test(email)) {
+        userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
+      }
       const trx = await transaction.start(Model.knex());
       try {
-        await baseController.post(userModel, req.body, trx);
+        await baseController.post(userModel, userData, trx);
         await trx.commit();
         res.sendStatus(201);
       } catch (error) {

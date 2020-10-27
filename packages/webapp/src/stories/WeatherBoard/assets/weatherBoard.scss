@@ -14,36 +14,36 @@
     "temperature temperature temperature temperature . icon"
     "wind wind wind humidity humidity humidity";
   background-color: var(--overlay);
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 3.88vw;
+  line-height: 6.66vw;
   color: #ffffff;
+  text-align: center;
 }
 
 .city {
   grid-area: city;
-  font-size: 18px;
+  font-size: 5vw;
   font-weight: bold;
-  text-align: center;
 }
 
 .date {
-  text-align: center;
   grid-area: date;
 }
 
 .temperature {
   grid-area: temperature;
-  font-size: 52px;
-  line-height: 48px;
+  font-size: 14.44vw;
+  line-height: 13.33vw;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .icon {
   grid-area: icon;
   display: flex;
   align-items: center;
-  font-size: 56px;
+  font-size: 15.55vw;
 }
 
 .wind {

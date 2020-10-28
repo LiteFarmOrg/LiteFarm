@@ -12,5 +12,5 @@ const Template = (args) => <Signup2 {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  buttonGroup: (<Signup2/>),
+  // buttonGroup: (<Signup2/>),
 };

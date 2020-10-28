@@ -18,6 +18,7 @@
   top: 0;
   @include gradient();
   width: 100%;
+  max-width: 1024px;
   height: 76px;
   position: fixed;
   & .itemContainer {

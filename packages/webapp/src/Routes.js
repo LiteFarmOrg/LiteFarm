@@ -18,6 +18,7 @@ import {Route, Switch} from "react-router-dom";
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
 import Home from "./containers/Home/TempHomeWrapper";
+import Outro from "./containers/Outro";
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
 import IntroSlide from './containers/IntroSlide';
@@ -113,6 +114,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -197,6 +199,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -284,6 +287,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>

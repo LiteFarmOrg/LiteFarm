@@ -22,6 +22,8 @@
 
 .description {
     padding-top: 10px;
+    color: #282B36;
+    font-family: "Open Sans", "SansSerif", serif;
 }
 
   .bottomContainer {
@@ -38,26 +40,26 @@
     box-shadow: 0 -5px 5px -5px #333;
     border-radius: 10px;
   }
-  
+
   .home .lander h1 {
     font-weight: 600;
     //mix-blend-mode: difference;
   }
-  
+
   .home {
     padding: 20vh 0;
   }
-  
+
   .submit {
     margin-top: 7px;
   }
-  
+
   .field {
     display: block;
     width: 240px;
     margin: 0 auto;
   }
-  
+
   label {
     display: block;
     font-size: 1.5rem;
@@ -66,7 +68,7 @@
     color: var(--typePrimary);
     float: left;
   }
-  
+
   input {
     appearance: none;
     border: 1px solid var(--typePrimary);
@@ -74,11 +76,11 @@
     width: 100%;
     padding-left: 7px;
   }
-  
+
   input[type='checkbox']{
     appearance: auto;
   }
-  
+
   .greetContainer {
     margin: auto;
     width: 90%;
@@ -86,21 +88,21 @@
     flex-direction: column;
     overflow: visible;
   }
-  
+
   .logo {
     max-width: 50%;
     max-height: 50%;
   }
-  
+
   .otherPhotos {
     max-width: 70%;
     max-height: 70%;
     margin-bottom: 0.5em;
   }
-  
+
   .textColor {
     color: #028577;
-  
+
     :global(.slider-control-centerright) {
       top: initial !important;
       position: absolute !important;
@@ -108,7 +110,7 @@
       left: 50% !important;
       transform: translateX(-50%) !important;
     }
-  
+
     :global(.slider-control-bottomcenter) {
       position: absolute !important;
       bottom: initial !important;
@@ -120,13 +122,13 @@
         right: -20% !important;
       }
     }
-  
+
   }
-  
+
   .bodyText {
     margin: 10px;
   }
-  
+
   .weatherMsg{
     font-size: 12px;
     margin-top: 15%;

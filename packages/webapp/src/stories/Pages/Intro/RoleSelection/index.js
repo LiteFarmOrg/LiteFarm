@@ -5,6 +5,8 @@ import clsx from "clsx";
 import styles from './styles.scss'
 import Radio from "../../../Form/radio";
 import { useForm } from "react-hook-form";
+import { farmSelector } from "../../../../containers/selector";
+import { connect } from "react-redux";
 
 function PureRoleSelection({ onSubmit, title, inputs, inputClasses = '' }) {
   return (
@@ -18,12 +20,7 @@ function PureRoleSelection({ onSubmit, title, inputs, inputClasses = '' }) {
 }
 
 
-function RoleSelection() {
-  // const Roles = {
-  //   "Owner": 1,
-  //   "Manager": 2,
-  //   "Extension Officer": 5
-  // }
+function RoleSelection({dispatch, farm}) {
   const { register, handleSubmit } = useForm();
   const patchRole = (role) => {
     console.log(role);
@@ -53,4 +50,16 @@ function RoleSelection() {
 }
 
 
-export default RoleSelection;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+  }
+};
+
+const mapStateToProps = (state) => {
+  return {
+    farm: farmSelector(state),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoleSelection);

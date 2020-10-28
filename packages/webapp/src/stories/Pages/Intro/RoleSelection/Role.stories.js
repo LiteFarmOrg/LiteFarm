@@ -1,16 +1,16 @@
 import React from 'react';
-import PureOutroSplash from './';
+import RoleSelection from "./index";
 import decorators from '../../config/decorators';
 
 export default {
-  title: 'Form/Intro/Outro',
+  title: 'Form/Intro/RoleSelection',
   decorators: decorators,
-  component: PureOutroSplash,
+  component: RoleSelection,
 };
 
-const Template = (args) => <PureOutroSplash {...args} />;
+const Template = (args) => <RoleSelection {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  redirectFinish: () => {}
+
 };

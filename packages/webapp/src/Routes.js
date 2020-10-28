@@ -96,6 +96,7 @@ import Balances from './containers/NewFinances/Balances';
 
 import MyLog from './containers/Log/MyLog';
 import SaleDetail from './containers/Finances/SaleDetail';
+import RoleSelection from "./stories/Pages/Intro/RoleSelection";
 
 const auth = new Auth();
 
@@ -114,6 +115,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/role_selection" exact component={RoleSelection} />
           <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
@@ -199,6 +201,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/role_selection" exact component={RoleSelection} />
           <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>

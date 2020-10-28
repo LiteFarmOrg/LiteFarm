@@ -43,10 +43,6 @@ export function* patchOutroStep() {
   try {
     const result = yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
     if (result) {
-        console.log(result);
-        console.log('finished onboarding');
-        console.log(payload);
-        console.log(data);
       yield put(finishOnboarding(result.data));
     }
   } catch (e) {

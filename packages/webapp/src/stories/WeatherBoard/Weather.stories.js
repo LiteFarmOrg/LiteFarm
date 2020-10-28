@@ -1,23 +1,28 @@
 import React from 'react';
-import WeatherBoard from './WeatherBoard';
+import Index from './';
 
 export default {
-  title: 'Components/WeatherBoard',
-  component: WeatherBoard,
+  title: 'Components/WeatherBoard/WeatherBoardWrapper',
+  component: Index,
 };
 
-const Template = (args) => <WeatherBoard {...args} />;
+const Template = (args) => <Index {...args} />;
 
-export const Rain = Template.bind({});
+export const English = Template.bind({});
 
-Rain.args = {
-
+English.args = {
+  lon: -82.287712,
+  lat: 35.451058,
+  lang: 'en',
+  measurement: 'imperial'
 }
 
-export const Sunny = Template.bind({});
-
-Sunny.args = {
-
+export const Espanol = Template.bind({});
+Espanol.args = {
+  lon: 41.135856,
+  lat: 37.895650,
+  lang: 'es',
+  measurement: 'metric'
 }
 
 

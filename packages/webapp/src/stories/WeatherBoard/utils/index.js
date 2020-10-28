@@ -13,21 +13,21 @@ const index = {
     }
     return 'na';
   },
-  getUnits(unit) {
-    if (unit === 'metric') {
+  getUnits(measurement) {
+    if (measurement === 'metric') {
       return {
-        temp: 'C',
+        temp: 'ºC',
         speed: 'km/h',
       };
-    } else if (unit === 'imperial') {
+    } else if (measurement === 'imperial') {
       return {
-        temp: 'F',
+        temp: 'ºF',
         speed: 'mph',
       };
     }
     return { temp: '', speed: '' };
   },
-  formatDate(dte, lang) {
+  formatDate(lang, dte=moment()) {
     if (dte && moment(dte).isValid()) {
       moment.locale(lang);
       return moment.unix(dte).format('ddd D MMMM');

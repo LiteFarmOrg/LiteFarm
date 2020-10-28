@@ -1,4 +1,4 @@
-import decorators from "../Pages/Intro/components/decorators";
+import decorators from "../Pages/config/decorators";
 import React from 'react';
 import ConsentForm from "./index";
 

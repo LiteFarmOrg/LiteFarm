@@ -1,24 +1,25 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import utils from './index';
 
-export default () => {
+export default ({ lang = 'en', measurement = 'metric', lat, lon, ...args }) => {
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const [{ loading, loaded }, setLoading] = useState({ loading: false, loaded: false });
   const [forecast, setForecast] = useState({});
   const apikey = process.env.REACT_APP_WEATHER_API_KEY;
   const baseUri = '//api.openweathermap.org/data/2.5';
-  const getForecast = ({lang='en', unit= 'metric', lat, lon, ...args }) => {
+  const config = { lang, measurement, lat, lon, ...args };
+  const getForecast = ({ lang, measurement, lat, lon, ...args } = config) => {
     setLoading(true);
     const endPointToday = `${baseUri}/weather`;
     const params = Object.assign(
       {
         appid: apikey,
-        cnt: 5,
+        cnt: 1,
         lang: lang,
-        units: unit,
+        units: measurement,
         lat: lat,
-        lon: lon
+        lon: lon,
       },
       args,
     );
@@ -36,15 +37,27 @@ export default () => {
         }),
       );
     promise.then(data => {
-      setForecast(data);
-      setLoading(false);
-      setLoaded(true);
+      setForecast(formatData(data, measurement, lang));
+      setLoading({ loaded: true, loading: false });
     }).catch(error => {
       setError(error);
-      setLoading(false);
-      setLoaded(true);
+      setLoading({ loaded: true, loading: false });
     });
   }
 
   return { forecast, loading, loaded, error, getForecast }
+}
+
+const formatData = (data, measurement = 'metric', lang = 'en') => {
+  if (!data) return {};
+  const { Humidity, Wind } = utils.getLangs(lang);
+  const { temp, speed } = utils.getUnits(measurement);
+  return {
+    humidity: `${Humidity}: ${data.main?.humidity}%`,
+    iconName: utils.getIcon(data.weather[0]?.icon),
+    date: utils.formatDate(lang),
+    temperature: `${Math.round(data.main?.temp)}${temp}`,
+    wind: `${Wind}: ${data.wind?.speed} ${speed}`,
+    city: data.name,
+  }
 }

@@ -2,11 +2,12 @@ import React from 'react';
 import utils from '../utils';
 import '../../css/components/TodayForecast.scss';
 import PropTypes from 'prop-types';
+import { getFormatedTemperature } from '../../../../util/index';
 
 const propTypes = {
   todayData: PropTypes.object.isRequired,
   unit: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired
+  lang: PropTypes.string.isRequired,
 };
 
 const TodayForecast = (props) => {
@@ -18,7 +19,7 @@ const TodayForecast = (props) => {
     <div className="rw-today">
       <div className="date">{todayData.date}</div>
       <div className="hr"></div>
-      <div className="current">{todayData.temperature.current} {units.temp}</div>
+      <div className="current">{getFormatedTemperature(todayData.temperature.current)}</div>
       <div className="range">{todayData.temperature.max} / {todayData.temperature.min} {units.temp}</div>
       <div className="desc">
         <i className={`wicon wi ${todayIcon}`}></i>

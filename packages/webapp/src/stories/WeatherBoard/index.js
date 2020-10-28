@@ -20,8 +20,8 @@ export const PureWeatherBoard = ({
     <div className={styles.date}>{date}</div>
     <div className={styles.temperature}>{temperature}</div>
     <div className={styles.icon}><WeatherIcon name={iconName}/></div>
-    <div className={styles.wind}>Wind: {wind}</div>
-    <div className={styles.humidity}>Humidity: {humidity}</div>
+    <div className={styles.wind}>{wind}</div>
+    <div className={styles.humidity}>{humidity}</div>
   </div>
 
 
@@ -36,18 +36,13 @@ PureWeatherBoard.propTypes = {
   humidity: PropTypes.string.isRequired,
 }
 
-export default function WeatherBoard(){
-  const {forecast, error, loading, loaded, getForecast} = useOpenWeather();
+export default function Index({lat, lon, lang, measurement}){
+  const {forecast, error, loading, loaded, getForecast} = useOpenWeather({ lang: lang, measurement: measurement, lat: lat, lon: lon});
   useEffect(()=>{
-    const lat = "34.0699649"
-    const lon = "-118.4037817"
-    console.log('effect');
     if(!loading && !loaded){
-      getForecast({ lang:'en', unit:'metric', lat: lat, lon: lon});
+      getForecast();
     }
-  });
-  console.log(forecast);
-  console.log(error);
-  return <p>something</p>
+  }, [loading]);
 
+  return loaded && !error? <PureWeatherBoard {...forecast}/>: null;
 }

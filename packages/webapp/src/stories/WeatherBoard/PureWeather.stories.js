@@ -1,8 +1,8 @@
 import React from 'react';
-import { PureWeatherBoard } from './WeatherBoard';
+import { PureWeatherBoard } from './';
 
 export default {
-  title: 'Components/PureWeatherBoard',
+  title: 'Components/WeatherBoard/PureWeatherBoard',
   component: PureWeatherBoard,
 };
 
@@ -15,8 +15,8 @@ Rain.args = {
   date: 'Wed 16 September',
   temperature: '15ºC',
   iconName: 'wi-day-rain',
-  wind: '2 km/h',
-  humidity: '31%'
+  wind: 'Wind: 2 km/h',
+  humidity: 'Humidity: 31%'
 }
 
 export const Sunny = Template.bind({});
@@ -26,8 +26,8 @@ Sunny.args = {
   date: 'Wed 16 September',
   temperature: '15ºC',
   iconName: 'wi-day-sunny',
-  wind: '2 km/h',
-  humidity: '31%'
+  wind: 'Wind: 2 km/h',
+  humidity: 'Humidity: 31%'
 }
 
 

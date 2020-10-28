@@ -25,6 +25,7 @@ import addFarmSaga from './containers/AddFarm/saga';
 import notificationSaga from './containers/Profile/Notification/saga';
 import peopleSaga from './containers/Profile/People/saga'
 import logSaga from './containers/Log/saga';
+import outroSaga from './containers/Outro/saga';
 import fertSaga from './containers/Log/FertilizingLog/saga';
 import defaultAddLogSaga from './containers/Log/Utility/saga';
 import pestControlSaga from './containers/Log/PestControlLog/saga';
@@ -65,6 +66,7 @@ sagaMiddleware.run(addFarmSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(peopleSaga);
 sagaMiddleware.run(logSaga);
+sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(fertSaga);
 sagaMiddleware.run(defaultAddLogSaga);
 sagaMiddleware.run(pestControlSaga);

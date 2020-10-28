@@ -40,7 +40,7 @@ class SlideMenu extends React.Component {
   }
 
   render () {
-    const {logout, users, farm} = this.props;
+    const {logout, farm} = this.props;
 
     return (
       <div>

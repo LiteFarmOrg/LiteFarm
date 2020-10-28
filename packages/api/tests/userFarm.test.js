@@ -46,7 +46,7 @@ describe('User Farm Tests', () => {
 
   function updateOnboarding(targetUser, {user_id, farm_id}, callback) {
     chai.request(server).patch(`/user_farm/onboarding/farm/${farm_id}/user/${user_id}`)
-      .send({step_one: targetUser.step_one, step_one_end: targetUser.step_one_end, step_two: targetUser.step_two, step_two_end: targetUser.step_two_end, step_three: targetUser.step_three, step_three_end: targetUser.step_three_end, step_four: targetUser.step_four, step_four_end: targetUser.step_four_end})
+      .send({step_one: targetUser.step_one, step_one_end: targetUser.step_one_end, step_two: targetUser.step_two, step_two_end: targetUser.step_two_end, step_three: targetUser.step_three, step_three_end: targetUser.step_three_end, step_four: targetUser.step_four, step_four_end: targetUser.step_four_end, step_five: targetUser.step_five, step_five_end: targetUser.step_five_end})
       .end(callback);
   }
 
@@ -257,6 +257,21 @@ describe('User Farm Tests', () => {
       targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
       expect(targetUser1.step_four).toBe(true);
       expect(targetUser1.step_four_end).toBe(targetUser.step_four_end);
+      done();
+    });
+  });
+
+  test('Update step_five of farm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    let targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
+    expect(targetUser.step_five).toBe(false);
+    targetUser.step_five = true;
+    targetUser.step_five_end = '2020-10-21 14:43:06.718035-07';
+    updateOnboarding(targetUser,{user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(200);
+      targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
+      expect(targetUser1.step_five).toBe(true);
+      expect(targetUser1.step_five_end).toBe(targetUser.step_five_end);
       done();
     });
   });

@@ -28,17 +28,18 @@ function RoleSelection({dispatch, farm}) {
   return (
     <PureRoleSelection onSubmit={handleSubmit(patchRole)}
     inputs={[{
-      label: 'Owner',
+      label: 'Farm owner',
       value: 'Owner',
       inputRef: register({required: true}),
-      name: '_role'
+      name: '_role',
+      checked: true
     },{
-      label: 'Manager',
+      label: 'Farm manager',
       value: 'Manager',
       inputRef: register({required: true}),
       name: '_role'
     },{
-      label: 'Extension Officer',
+      label: 'Extension officer',
       value: 'Extension Officer',
       inputRef: register({required: true}),
       name: '_role'

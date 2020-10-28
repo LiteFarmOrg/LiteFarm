@@ -1,16 +1,16 @@
 import React from 'react';
-import Signup2 from './Signup2';
+import RoleSelection from "./index";
 import decorators from '../../config/decorators';
 
 export default {
-  title: 'Form/Intro/Signup2',
+  title: 'Form/Intro/RoleSelection',
   decorators: decorators,
-  component: Signup2,
+  component: RoleSelection,
 };
 
-const Template = (args) => <Signup2 {...args} />;
+const Template = (args) => <RoleSelection {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  // buttonGroup: (<Signup2/>),
+
 };

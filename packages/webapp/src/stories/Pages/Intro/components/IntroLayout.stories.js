@@ -3,7 +3,7 @@ import Layout from './Layout';
 import Button from '../../../Button';
 import Svg from './Svg';
 import signup2 from '../../../assets/signUp/signUp2.svg';
-import decorators from './decorators';
+import decorators from '../../config/decorators';
 
 export default {
   title: 'Layout/Intro',

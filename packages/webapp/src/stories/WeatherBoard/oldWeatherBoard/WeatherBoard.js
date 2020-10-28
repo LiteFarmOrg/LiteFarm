@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import TodayForecast from './TodayForecast';
 import WeatherIcon from './WeatherIcon';
 import DaysForecast from './DaysForecast';
-import utils from '../../components/ReactOpenWeather/js/utils';
+import utils from '../../../components/ReactOpenWeather/js/utils';
 
 
 /**

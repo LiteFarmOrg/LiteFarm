@@ -1,0 +1,82 @@
+@import "../../assets/mixin";
+
+.container {
+  top: 0;
+  transform: translateY(calc(39.68vh - 56px));
+  margin: 0 8.89% 0 8.89%;
+  padding: 4.44% 9.44%;
+  width: 84%;
+  display: grid;
+  grid-template-columns: 78fr 25fr 11fr 11fr 25fr 78fr;
+  grid-template-rows: 24fr 24fr 80fr 24fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "city city city city city city"
+    "date date date date date date"
+    "temperature temperature temperature temperature . icon"
+    "wind wind wind humidity humidity humidity";
+  background-color: var(--overlay);
+  font-size: 3.88vw;
+  line-height: 6.66vw;
+  color: #ffffff;
+  text-align: center;
+}
+
+.city {
+  grid-area: city;
+  font-size: 5vw;
+  font-weight: bold;
+}
+
+.date {
+  grid-area: date;
+}
+
+.temperature {
+  grid-area: temperature;
+  font-size: 14.44vw;
+  line-height: 13.33vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  grid-area: icon;
+  display: flex;
+  align-items: center;
+  font-size: 15.55vw;
+}
+
+.wind {
+  grid-area: wind;
+}
+
+.humidity {
+  grid-area: humidity;
+}
+
+@media only screen and (min-width: 960px) {
+  .container {
+    transform: translateY(calc((100vh - 399px) * 0.65 - 56px));
+    margin: 0 auto 0 auto;
+    padding: 42.609px 90.516px;
+    width: 806px;
+    font-size: 36.75px;
+    line-height: 63px;
+  }
+
+  .city {
+    font-size: 47.25px;
+  }
+
+
+  .temperature {
+    font-size: 136.5px;
+    line-height: 126px;
+  }
+
+  .icon {
+    font-size: 144.375px;
+  }
+}

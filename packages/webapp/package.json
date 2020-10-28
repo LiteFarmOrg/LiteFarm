@@ -52,7 +52,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mammoth": "^1.4.9",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "moment-range": "^4.0.2",
     "moment-timezone": "^0.5.28",
     "node-sass": "^4.14.1",

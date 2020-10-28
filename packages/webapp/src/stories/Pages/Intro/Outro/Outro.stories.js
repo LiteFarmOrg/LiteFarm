@@ -1,16 +1,16 @@
 import React from 'react';
-import Signup2 from './Signup2';
+import PureOutroSplash from './';
 import decorators from '../../config/decorators';
 
 export default {
-  title: 'Form/Intro/Signup2',
+  title: 'Form/Intro/Outro',
   decorators: decorators,
-  component: Signup2,
+  component: PureOutroSplash,
 };
 
-const Template = (args) => <Signup2 {...args} />;
+const Template = (args) => <PureOutroSplash {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  // buttonGroup: (<Signup2/>),
+  redirectFinish: () => {}
 };

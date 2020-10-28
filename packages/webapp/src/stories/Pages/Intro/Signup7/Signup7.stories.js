@@ -1,6 +1,6 @@
 import React from 'react';
 import Signup7 from './Signup7';
-import decorators from '../components/decorators';
+import decorators from '../../config/decorators';
 
 export default {
   title: 'Form/Intro/Signup7',

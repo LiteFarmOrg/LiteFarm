@@ -54,7 +54,7 @@ export default function Home({auth}) {
       dispatch(getUserInfo(true));
       detectBrowser();
     }
-  })
+  },[user.user_id])
 
 
 

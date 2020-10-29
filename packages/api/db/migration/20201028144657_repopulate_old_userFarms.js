@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
+ *  This file (20200629080929_migrate_user_to_userfarm.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,39 +12,19 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import "../../assets/mixin";
 
- .navBar {
-  top: 0;
-  @include gradient();
-  width: 100%;
-  max-width: 1024px;
-  height: 76px;
-  position: fixed;
-  & .itemContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
-}
+exports.up = async function(knex) {
+    await knex.raw(`
+    UPDATE "userFarm" 
+    SET step_five = true
+    `);
+    await knex.raw(`
+    UPDATE "userFarm" 
+    SET step_five_end = NOW()
+    `);
 
-.middleLogo {
-  height: 62px;
-}
-
-@media (max-width: 800px) {
-  .actionItemContainer {
-    margin-top: 16px;
-    margin-right: 0;
-  }
-
-  .navBar {
-    min-height: 76px;
-  }
-
-  .middleLogo {
-    height: 58px;
-  }
-}
+  };
+  
+  exports.down = function(knex) {
+  
+  };

@@ -27,7 +27,7 @@ const index = {
     }
     return { temp: '', speed: '' };
   },
-  formatDate(lang, dte=moment()) {
+  formatDate(lang, dte) {
     if (dte && moment(dte).isValid()) {
       moment.locale(lang);
       return moment.unix(dte).format('ddd D MMMM');

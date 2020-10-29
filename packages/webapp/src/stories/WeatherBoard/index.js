@@ -39,6 +39,7 @@ PureWeatherBoard.propTypes = {
 export default function Index({lat, lon, lang, measurement}){
   const {forecast, error, loading, loaded, getForecast} = useOpenWeather({ lang: lang, measurement: measurement, lat: lat, lon: lon});
   useEffect(()=>{
+    //TODO fix double qpi call
     if(!loading && !loaded){
       getForecast();
     }

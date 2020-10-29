@@ -10,6 +10,7 @@ import { getUserInfo } from '../../../containers/actions';
 import { toastr } from 'react-redux-toastr';
 
 export function PureHome({ title, children, imgUrl }) {
+  //TODO: rewrite layout using grid
   return <div className={styles.container} style={{ backgroundImage: `url("${imgUrl}")` }}>
     <h3 className={styles.title}>{title}</h3>
     {children}
@@ -54,11 +55,11 @@ export default function Home({auth}) {
       dispatch(getUserInfo(true));
       detectBrowser();
     }
-  })
+  },[user.user_id])
 
 
 
-  return farm && user? <PureHome title={`Good morning, ${user.first_name}`}
+  return farm && user? <PureHome title={`Good day, ${user.first_name}`}
                    imgUrl={imgUrl}>
     <WeatherBoard lon={farm.grid_points.lng}
                   lat={farm.grid_points.lat}

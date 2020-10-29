@@ -55,7 +55,7 @@ const formatData = (data, measurement = 'metric', lang = 'en') => {
   return {
     humidity: `${Humidity}: ${data.main?.humidity}%`,
     iconName: utils.getIcon(data.weather[0]?.icon),
-    date: utils.formatDate(lang),
+    date: utils.formatDate(lang, data.dt),
     temperature: `${Math.round(data.main?.temp)}${temp}`,
     wind: `${Wind}: ${data.wind?.speed} ${speed}`,
     city: data.name,

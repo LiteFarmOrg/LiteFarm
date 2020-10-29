@@ -18,7 +18,7 @@ import commonCurrency from '../containers/AddFarm/currency/commonCurrency.json';
 import { getMeasurementFromStore, getCurrencyFromStore } from './getFromReduxStore';
 
 const METRIC = 'metric';
-const IMPERIAL = 'IMPERIAL';
+// const IMPERIAL = 'IMPERIAL';
 
 // returns the current root URI of litefarm
 export const getCurrentRootURI = () => {

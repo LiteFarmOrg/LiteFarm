@@ -26,6 +26,7 @@ const initialState = {
   fields: null,
   fieldCrops: null,
   consent_version: null,
+  show_spotlight: false,
 };
 
 function baseReducer(state = initialState, action) {

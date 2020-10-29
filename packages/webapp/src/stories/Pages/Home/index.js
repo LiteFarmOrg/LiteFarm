@@ -10,6 +10,7 @@ import { getUserInfo } from '../../../containers/actions';
 import { toastr } from 'react-redux-toastr';
 
 export function PureHome({ title, children, imgUrl }) {
+  //TODO: rewrite layout using grid
   return <div className={styles.container} style={{ backgroundImage: `url("${imgUrl}")` }}>
     <h3 className={styles.title}>{title}</h3>
     {children}

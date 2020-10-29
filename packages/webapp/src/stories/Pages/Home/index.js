@@ -58,7 +58,7 @@ export default function Home({auth}) {
 
 
 
-  return farm && user? <PureHome title={`Good morning, ${user.first_name}`}
+  return farm && user? <PureHome title={`Good day, ${user.first_name}`}
                    imgUrl={imgUrl}>
     <WeatherBoard lon={farm.grid_points.lng}
                   lat={farm.grid_points.lat}

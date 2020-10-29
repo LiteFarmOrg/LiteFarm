@@ -1,0 +1,43 @@
+version: "3.0"
+
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  db:
+    container_name: litefarm-db
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pg-litefarm
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  backend:
+    container_name: litefarm-api
+    build:
+      context: ./packages/api
+    working_dir: /usr/src/app
+    command: >
+        npm run migrate:testing:db &&
+        npm run migrate:testing:seed
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./packages/api:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+  frontend:
+    container_name: litefarm-web
+    build:
+      context: ./packages/webapp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./packages/webapp:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - backend

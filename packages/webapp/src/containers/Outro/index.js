@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { farmSelector } from '../selector';
 import history from '../../history';
 import { finishOnboarding } from './actions';
-import PureOutroSplash from "../../stories/Pages/Intro/Outro";
+import PureOutroSplash from "../../components/Outro";
 
 function Outro({ farm, dispatch }) {
 

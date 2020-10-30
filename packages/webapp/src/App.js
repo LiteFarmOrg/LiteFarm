@@ -14,7 +14,7 @@
  */
 
 import React, { Component } from 'react';
-import NavBar from './stories/Navigation';
+import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';

@@ -1,5 +1,5 @@
 import React from 'react';
-import Underlined from './';
+import Underlined from "../../components/Underlined";
 
 export default {
   title: 'Components/Underlined',

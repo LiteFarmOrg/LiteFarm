@@ -17,12 +17,12 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
-import Home from "./containers/Home/TempHomeWrapper";
+import Home from "./containers/Home";
 import Outro from "./containers/Outro";
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
 import IntroSlide from './containers/IntroSlide';
-import ConsentForm from './stories/Consent';
+import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
 import Login from './containers/Login'
 import SignUp from './containers/SignUp';
@@ -96,7 +96,7 @@ import Balances from './containers/NewFinances/Balances';
 
 import MyLog from './containers/Log/MyLog';
 import SaleDetail from './containers/Finances/SaleDetail';
-import RoleSelection from "./stories/Pages/Intro/RoleSelection";
+import RoleSelection from "./containers/RoleSelection";
 
 const auth = new Auth();
 

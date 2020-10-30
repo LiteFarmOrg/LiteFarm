@@ -9,6 +9,7 @@ module.exports = {
     '@storybook/addon-a11y',
   ],
   webpackFinal: async (config, { configType }) => {
+    config.node = { fs: 'empty', tls: 'empty', net: 'empty', module: 'empty', console: true };
     config.module.rules.push({
       test: /\.scss$/,
       use: ['style-loader',

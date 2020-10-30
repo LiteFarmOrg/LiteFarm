@@ -1,4 +1,4 @@
-import Button from './Button';
-import Footer from './Footer';
-import Navbar from './Navbar/Navbar';
-export { Button, Footer, Navbar};
+import Button from '../components/Form/Button';
+import Footer from '../components/Footer';
+import NavBar from "../containers/Navigation";
+export { Button, Footer, NavBar};

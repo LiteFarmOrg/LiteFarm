@@ -1,5 +1,5 @@
 import React from 'react';
-import Home  from './';
+import Home  from './../../../containers/Home';
 import {authenticatedDecorators} from '../config/decorators';
 
 export default {

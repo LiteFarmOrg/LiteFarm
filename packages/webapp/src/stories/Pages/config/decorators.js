@@ -1,11 +1,10 @@
 import React from 'react';
-import Layout from '../Intro/components/Layout';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from '../../../history';
 import { action } from '@storybook/addon-actions';
-import Navbar from '../../Navigation';
 import state from './state';
+import NavBar from "../../../containers/Navigation";
 
 const store = {
   getState: () => {
@@ -26,7 +25,7 @@ export default [story =>
     <Provider store={store}>
       <Router history={history}>
         <div style={{width:'100%', maxWidth: '1024px'}}>
-          <Navbar history={history} auth={auth()}/>
+          <NavBar history={history} auth={auth()}/>
             {story()}
         </div>
       </Router>
@@ -36,7 +35,7 @@ export const authenticatedDecorators = [story =>
   <Provider store={store}>
     <Router history={history}>
       <div style={{width:'100%', maxWidth: '1024px'}}>
-        <Navbar history={history} auth={auth(true)}/>
+        <NavBar history={history} auth={auth(true)}/>
         {story()}
       </div>
     </Router>

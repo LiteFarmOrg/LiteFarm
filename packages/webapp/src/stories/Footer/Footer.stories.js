@@ -1,6 +1,6 @@
 import React from 'react';
-import Footer from './';
-import Button from '../Button';
+import Button from '../../components/Form/Button';
+import Footer from "../../components/Footer";
 
 export default {
   title: 'Components/Footer',

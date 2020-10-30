@@ -1,9 +1,9 @@
 import React from 'react';
-import PureOutroSplash from './';
+import PureOutroSplash from '../../../../components/Outro';
 import decorators from '../../config/decorators';
 
 export default {
-  title: 'Form/Intro/Outro',
+  title: 'Form/Intro/6-Outro',
   decorators: decorators,
   component: PureOutroSplash,
 };

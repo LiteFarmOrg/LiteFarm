@@ -1,13 +1,13 @@
 import React from 'react';
-import Toolkit from './';
-import Underlined from '../Underlined';
+import Underlined from '../../components/Underlined';
+import OverlayTooltip from "../../components/Tooltip";
 export default {
   title: 'Components/OverlayTooltip',
-  component: Toolkit,
+  component: OverlayTooltip,
   decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
-const Template = (args) => <Toolkit {...args} />;
+const Template = (args) => <OverlayTooltip {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

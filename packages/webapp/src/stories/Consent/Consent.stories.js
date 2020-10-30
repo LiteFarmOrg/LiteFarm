@@ -1,9 +1,9 @@
 import decorators from "../Pages/config/decorators";
 import React from 'react';
-import ConsentForm from "./index";
+import ConsentForm from "../../containers/Consent";
 
 export default {
-  title: 'Form/Consent',
+  title: 'Form/Intro/3-Consent',
   decorators: decorators,
   component: ConsentForm,
 };

@@ -62,6 +62,8 @@ class userFarm extends Model {
         step_three_end: { type: ['string', 'null'] },
         step_four: { type: ['boolean', 'null'] },
         step_four_end: { type: ['string', 'null'] },
+        step_five: { type: ['boolean', 'null'] },
+        step_five_end: { type: ['string', 'null'] },
       },
       additionalProperties: false,
     };

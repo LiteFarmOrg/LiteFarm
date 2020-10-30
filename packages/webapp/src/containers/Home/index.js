@@ -6,6 +6,7 @@ import { getSeason } from "./utils/season";
 import { toastr } from "react-redux-toastr";
 import { getUserInfo } from "../actions";
 import WeatherBoard from "../../stories/WeatherBoard";
+import PureHome from "../../components/Home";
 //TODO delete this wrapper once auth0 bug is fixed
 export default function Home() {
   const auth = new Auth();
@@ -42,11 +43,11 @@ export default function Home() {
       dispatch(getUserInfo(true));
       detectBrowser();
     }
-  })
+  },[user.user_id])
 
 
 
-  return farm && user? <PureHome title={`Good morning, ${user.first_name}`}
+  return farm && user? <PureHome title={`Good day, ${user.first_name}`}
                                  imgUrl={imgUrl}>
     <WeatherBoard lon={farm.grid_points.lng}
                   lat={farm.grid_points.lat}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { PureHome }  from './';
 import {authenticatedDecorators} from '../config/decorators';
 import {Rain} from '../../WeatherBoard/PureWeather.stories'
+import PureHome from "../../../components/Home";
 
 export default {
   title: 'Form/Home/PureHome',

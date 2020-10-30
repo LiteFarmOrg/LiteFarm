@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './button.scss';
-import Button from './';
+import styles from '../../components/Form/Button/button.scss';
+import Button from "../../components/Form/Button";
 
 export default {
   title: 'Components/Button',

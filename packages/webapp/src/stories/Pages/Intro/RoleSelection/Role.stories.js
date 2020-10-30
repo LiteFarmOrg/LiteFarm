@@ -1,5 +1,5 @@
 import React from 'react';
-import RoleSelection from "./index";
+import RoleSelection from "../../../../containers/RoleSelection";
 import decorators from '../../config/decorators';
 
 export default {

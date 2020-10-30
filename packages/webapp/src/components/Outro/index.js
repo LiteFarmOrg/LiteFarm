@@ -1,7 +1,7 @@
 import styles from "./styles.scss";
 import OutroImg from "../../stories/assets/outro/outro.svg";
-import Footer from "../../stories/Footer";
-import Button from "../../stories/Button";
+import Footer from "../Footer";
+import Button from "../Form/Button";
 import React from "react";
 
 export default function PureOutroSplash({redirectFinish}) {

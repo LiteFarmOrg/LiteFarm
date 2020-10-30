@@ -8,11 +8,10 @@ export const getSeason = (lat) => {
   const isNorth = lat > 0;
   const now = moment();
   const year = now.get('year');
-  //TODO fix moment
-  const autumnStartDate = moment([2020, 8]);
-  const springStartDate = moment([2020, 2]);
-  const summerStartDate = moment([year, 5]);
-  const winterStartDate = moment([year, 11]);
+  const autumnStartDate = moment(`${year}-9-1`);
+  const springStartDate = moment(`${year}-3-1`);
+  const summerStartDate = moment(`${year}-6-1`);
+  const winterStartDate = moment(`${year}-12-1`);
   if(now.isBefore(springStartDate)){
     return isNorth? winter: summer;
   }else if(now.isBefore(summerStartDate)){

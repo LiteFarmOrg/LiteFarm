@@ -1,9 +1,9 @@
-import Navbar  from './';
 import React from "react";
 import { action } from '@storybook/addon-actions';
 import { Provider } from "react-redux";
 import {Router} from 'react-router-dom';
 import history from './../../history';
+import NavBar from "../../containers/Navigation";
 const store = {
   getState: () => {
     return {
@@ -30,10 +30,10 @@ export default {
         {story()}
       </Router>
     </Provider>],
-  component: Navbar,
+  component: NavBar,
 };
 
-const Template = (args) => <Navbar {...args} />;
+const Template = (args) => <NavBar {...args} />;
 
 export const SignupNavbar = Template.bind({});
 

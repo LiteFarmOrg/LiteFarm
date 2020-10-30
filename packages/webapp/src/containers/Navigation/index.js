@@ -38,7 +38,7 @@ const NavBar = (props) => {
     auth.logout();
   };
 
-  if (!isFarmSelected) return <NoFarmNavBar history/>
+  if (!isFarmSelected) return <NoFarmNavBar history={history}/>
 
   return (
     <PureNavBar logo={Logo}>

@@ -1,12 +1,12 @@
 import React from 'react';
-import Index from './';
+import WeatherBoard from '../../containers/WeatherBoard';
 
 export default {
   title: 'Components/WeatherBoard/WeatherBoardWrapper',
-  component: Index,
+  component: WeatherBoard,
 };
 
-const Template = (args) => <Index {...args} />;
+const Template = (args) => <WeatherBoard {...args} />;
 
 export const English = Template.bind({});
 

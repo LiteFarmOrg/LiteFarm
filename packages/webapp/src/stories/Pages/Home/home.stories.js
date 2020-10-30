@@ -1,19 +1,16 @@
 import React from 'react';
 import Home  from './../../../containers/Home';
-import {authenticatedDecorators} from '../config/decorators';
+import decorators from '../config/decorators';
 
 export default {
   title: 'Form/Home/HomeWrapper',
-  decorators: authenticatedDecorators,
+  decorators: decorators,
   component: Home,
 };
-const auth = (isAuthenticated = true) => ({
-  logout: () => {
-  }, isAuthenticated: () => isAuthenticated,
-});
+
 const Template = (args) => <Home {...args}/>;
 
 export const Default = Template.bind({});
 Default.args = {
-  auth: auth(true)
+
 };

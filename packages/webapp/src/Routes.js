@@ -17,7 +17,7 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
-import Home from "./containers/Home/TempHomeWrapper";
+import Home from "./containers/Home";
 import Outro from "./containers/Outro";
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';

@@ -2,11 +2,13 @@ import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { updateAgreement } from "../actions";
 import { consentText, worker_consentText } from "../../consentText";
-import { farmSelector, userInfoSelector } from "../selector";
-import { connect } from "react-redux";
+import { farmSelector } from "../selector";
+import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from "../../components/Consent";
 
-function ConsentForm({ role, dispatch }) {
+function ConsentForm() {
+  const role = useSelector(farmSelector);
+  const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm();
   const [ consentVersion ] = useState('3.0');
   const [consent, setConsentText ] = useState('');
@@ -54,17 +56,4 @@ function ConsentForm({ role, dispatch }) {
   )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  }
-};
-
-const mapStateToProps = (state) => {
-  return {
-    users: userInfoSelector(state),
-    role: farmSelector(state),
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConsentForm);
+export default ConsentForm;

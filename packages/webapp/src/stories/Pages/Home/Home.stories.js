@@ -1,10 +1,10 @@
+import {authenticatedDecorators} from '../config/decorators';
 import React from 'react';
-import Home  from './../../../containers/Home';
-import decorators from '../config/decorators';
+import Home  from '../../../containers/Home';
 
 export default {
   title: 'Form/Home/HomeWrapper',
-  decorators: decorators,
+  decorators: authenticatedDecorators,
   component: Home,
 };
 

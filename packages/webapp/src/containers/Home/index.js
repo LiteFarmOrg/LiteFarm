@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Auth from '../../Auth/Auth';
 import { useDispatch, useSelector } from "react-redux";
 import { farmSelector, userInfoSelector } from "../selector";
 import { getSeason } from "./utils/season";
@@ -7,7 +6,8 @@ import { toastr } from "react-redux-toastr";
 import { getUserInfo } from "../actions";
 import WeatherBoard from "../../containers/WeatherBoard";
 import PureHome from "../../components/Home";
-//TODO delete this wrapper once auth0 bug is fixed
+// import Auth from '../../Auth/Auth';
+//TODO Auth0 breaks storybook
 export default function Home() {
   // const auth = new Auth();
   const farm = useSelector(farmSelector);
@@ -50,11 +50,12 @@ export default function Home() {
 
 
 
-  return farm && user? <PureHome title={`Good day, ${user?.first_name}`}
+  return <PureHome title={`Good day, ${user?.first_name}`}
                                  imgUrl={imgUrl}>
-    <WeatherBoard lon={farm.grid_points.lng}
-           lat={farm.grid_points.lat}
-           lang={'en'}
-           measurement={farm.units.measurement}/>
-  </PureHome>:null
+    {farm && user? <WeatherBoard lon={farm.grid_points.lng}
+                                 lat={farm.grid_points.lat}
+                                 lang={'en'}
+                                 measurement={farm.units.measurement}/>: null}
+
+  </PureHome>
 }

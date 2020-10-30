@@ -21,14 +21,14 @@ import { userFarmSelector } from './selectors';
 import ProceedFooter from '../../components/proceedCancelFooter';
 import history from '../../history';
 import Auth from '../../Auth/Auth.js';
-import workerConsentForm from '../ConsentForm/Versions/WorkerConsentForm.docx';
-import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
+// import workerConsentForm from '../ConsentForm/Versions/WorkerConsentForm.docx';
+// import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
 import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
-import axios from 'axios';
+// import axios from 'axios';
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
 
-const mammoth = require('mammoth');
+// const mammoth = require('mammoth');
 
 class ChooseFarm extends Component {
 
@@ -82,42 +82,42 @@ class ChooseFarm extends Component {
         return;
       }
 
-      const { role_id, has_consent } = currentFarm;
+      // const { role_id, has_consent } = currentFarm;
 
       // Get latest consent version
-      const { consent_version: lastAgreedVersion } = currentFarm;
-      const consentForm = role_id === 3 ? workerConsentForm : ownerConsentForm;
-      const header = {
-        responseType: 'arraybuffer',
-      };
-      const response = await axios.get(consentForm, header);
-      const htmlString = await mammoth.convertToHtml({ arrayBuffer: response.data });
-      const html = htmlString.value;
-      // Extract version string in the format of <p>Version: 1.0</p>
-      const versionTagMatches = html.match(/^<p>\s*Version\s*[0-9]\.[0-9]\s*\:\s*<\/p>/g);
-      if (!versionTagMatches || !versionTagMatches.length) {
-        toastr.error('No version information found');
-      }
-      // Extract version number
-      const versionNumberMatches = versionTagMatches[0].match(/[0-9]\.[0-9]/);
-      if (!versionNumberMatches || !versionNumberMatches.length) {
-        toastr.error('No version number found');
-      }
-      const latestVersion = versionNumberMatches[0];
+      // const { consent_version: lastAgreedVersion } = currentFarm;
+      // const consentForm = role_id === 3 ? workerConsentForm : ownerConsentForm;
+      // const header = {
+      //   responseType: 'arraybuffer',
+      // };
+      // const response = await axios.get(consentForm, header);
+      // const htmlString = await mammoth.convertToHtml({ arrayBuffer: response.data });
+      // const html = htmlString.value;
+      // // Extract version string in the format of <p>Version: 1.0</p>
+      // const versionTagMatches = html.match(/^<p>\s*Version\s*[0-9]\.[0-9]\s*\:\s*<\/p>/g);
+      // if (!versionTagMatches || !versionTagMatches.length) {
+      //   toastr.error('No version information found');
+      // }
+      // // Extract version number
+      // const versionNumberMatches = versionTagMatches[0].match(/[0-9]\.[0-9]/);
+      // if (!versionNumberMatches || !versionNumberMatches.length) {
+      //   toastr.error('No version number found');
+      // }
+      // const latestVersion = versionNumberMatches[0];
       this.props.dispatch(getUserInfo(false));
 
       // Need consent if at least one of the following criteria is met:
       // 1. User has not explicitly clicked agree or disagree (i.e. null)
       // 2. User has explicitly clicked disagree (i.e. false)
       // 3. User has explicitly clicked agree BUT consent form version has updated since then
-      const need_new_consent = !has_consent || (lastAgreedVersion !== latestVersion);
+      // const need_new_consent = !has_consent || (lastAgreedVersion !== latestVersion);
 
-      if (need_new_consent) {
-        history.push('/consent', { role_id });
-      } else {
+      // if (need_new_consent) {
+      //   history.push('/consent', { role_id });
+      // } else {
         this.props.dispatch(setFarmInState(currentFarm));
         history.push('/home');
-      }
+      // }
     }
   };
 
@@ -154,7 +154,7 @@ class ChooseFarm extends Component {
                 href={`farm_selection#${farm_name}`}
                 value={farm_id}
                 disabled={status !== 'Active'}
-                onClick={()=>this.setSelectedFarm(farm)}
+                onClick={() => this.setSelectedFarm(farm)}
                 className={styles.farmSelection}
               >
                 {farm_name}

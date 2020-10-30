@@ -1,9 +1,0 @@
-@import "../assets/mixin";
-
-.navbar{
-  position: fixed;
-  height: 76px;
-  width: 100%;
-  @include gradient();
-  top: 0;
-}

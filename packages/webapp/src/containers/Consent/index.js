@@ -8,13 +8,10 @@ import { connect } from "react-redux";
 import PureConsent from "../../components/Consent";
 
 function ConsentForm({ role, dispatch }) {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, watch } = useForm();
   const [ consentVersion ] = useState('3.0');
   const [consent, setConsentText ] = useState('');
-  const [ disabled, setDisabled ] = useState(true);
-  const onChange = (e) => {
-    setDisabled(!e.target.checked);
-  }
+  const hasConsent = watch('consentCheckbox', false);
   const checkBoxRef = register({
     required: {
       value: true,
@@ -45,12 +42,11 @@ function ConsentForm({ role, dispatch }) {
       label: 'I Agree',
       name: checkboxName,
       errors: errors[checkboxName] && errors[checkboxName].message,
-      onChange: onChange
     }}
                  onSubmit={handleSubmit(updateConsent)}
                  onGoBack={goBack}
                  text={consent}
-                 disabled={disabled}
+                 disabled={!hasConsent}
     >
     </PureConsent>
   )

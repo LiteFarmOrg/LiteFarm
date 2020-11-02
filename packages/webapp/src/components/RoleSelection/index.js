@@ -5,9 +5,9 @@ import styles from "./styles.scss";
 import Radio from "../Form/Radio";
 import React from "react";
 
-export default function PureRoleSelection({ onSubmit, title, inputs, inputClasses = '' }) {
+export default function PureRoleSelection({ onSubmit, title, inputs, inputClasses = '',  redirectConsent}) {
   return (
-    <Form onSubmit={onSubmit} buttonGroup={<Button type={'submit'} fullLength>Continue</Button>}>
+    <Form onSubmit={onSubmit} buttonGroup={<Button type={'submit'} fullLength onClick={redirectConsent}>Continue</Button>}>
       <h4 className={clsx(styles.headerStyle)}>{title}</h4>
       <Radio classes={inputClasses} {...inputs[0]} />
       <Radio classes={inputClasses} {...inputs[1]} />

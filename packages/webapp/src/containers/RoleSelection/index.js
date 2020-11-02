@@ -2,13 +2,21 @@ import { useForm } from "react-hook-form";
 import { farmSelector } from "../selector";
 import { connect } from "react-redux";
 import React from "react";
+import history from '../../history';
+import { finishStepTwo } from './actions';
 import PureRoleSelection from "../../components/RoleSelection";
 
 function RoleSelection({dispatch, farm}) {
   const { register, handleSubmit } = useForm();
   const patchRole = (role) => {
-    console.log(role);
   }
+
+  const redirectConsent = () => {
+    console.log("redirect consent")
+    dispatch(finishStepTwo())
+    history.push('/consent')
+  }
+  
   return (
     <PureRoleSelection onSubmit={handleSubmit(patchRole)}
                        inputs={[{
@@ -28,7 +36,9 @@ function RoleSelection({dispatch, farm}) {
                          inputRef: register({required: true}),
                          name: '_role'
                        }
-                       ]} title={'What is your role on the farm?'}>
+                       ]} title={'What is your role on the farm?'}
+                       redirectConsent={redirectConsent}
+                       >
 
     </PureRoleSelection>
   )

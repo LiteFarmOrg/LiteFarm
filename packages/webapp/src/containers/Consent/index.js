@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { updateAgreement } from "../actions";
-import { consentText, worker_consentText } from "../../consentText";
 import { farmSelector, userInfoSelector } from "../selector";
 import { connect } from "react-redux";
 import PureConsent from "../../components/Consent";
@@ -30,12 +29,9 @@ function ConsentForm({ role, dispatch }) {
   }
 
   useEffect(() => {
-    let consentForm = role.role_id === 3 ? worker_consentText : consentText;
-    let text = consentForm.reduce((text, { header, body }) => {
-      return text  + `\n${header ? header: ''}\n${body ? body: ''}\n`;
-    }, '')
-    setConsentText(text);
-  }, [])
+    let consentForm = role.role_id === 3 ? require('./Worker.Consent.md') : require('./Owner.Consent.md');
+    setConsentText(consentForm.default);
+  }, []);
 
   return (
     <PureConsent checkboxArgs={{

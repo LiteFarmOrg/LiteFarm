@@ -19,7 +19,7 @@ const entitiesGetters = {
   activity_id: fromActivity,
   sale_id: fromSale,
   shift_id: fromShift,
-
+  survey_id: fromOrganicCertifierSurvey,
 }
 const userFarmModel = require('../../models/userFarmModel');
 
@@ -180,6 +180,10 @@ async function fromFarmExpenseType(expense_type_id) {
 
 async function fromSale(sale_id) {
   return await knex('sale').where({ sale_id }).first();
+}
+
+async function fromOrganicCertifierSurvey(survey_id) {
+  return await knex('organicCertifierSurvey').where({ survey_id }).first();
 }
 
 function sameFarm(object, farm) {

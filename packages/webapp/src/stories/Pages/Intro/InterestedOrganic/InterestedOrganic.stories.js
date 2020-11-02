@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import InterestedOrganic from "../../../../containers/InterestedOrganic";
+import InterestedOrganic from "../../../../containers/OrganicCertifierSurvey/InterestedOrganic";
 
 export default {
   title: 'Form/Intro/4-InterestedOrganic',

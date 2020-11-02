@@ -1,5 +1,5 @@
 import React from 'react';
-import { PureWeatherBoard } from './';
+import PureWeatherBoard from '../../components/WeatherBoard';
 
 export default {
   title: 'Components/WeatherBoard/PureWeatherBoard',

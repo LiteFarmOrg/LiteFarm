@@ -4,7 +4,7 @@ import React from 'react';
 import { WeatherBoard } from './WeatherBoard';
 
 export default {
-  title: 'Components/WeatherBoard/old',
+  title: 'Archive/Components/WeatherBoard',
   component: WeatherBoard,
 };
 

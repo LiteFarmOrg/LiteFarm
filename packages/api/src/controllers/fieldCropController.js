@@ -144,7 +144,7 @@ class FieldCropController extends baseController {
           .join('field', 'field.field_id', 'fieldCrop.field_id')
           .join('farm', 'farm.farm_id', 'field.farm_id')
           .where('farm.farm_id', farmID)
-          .where(raw('to_char(date("fieldCrop"."end_date"), \'YYYY-MM-DD\')'), '>=', date);
+          .where('fieldCrop.end_date', '>=', date);
 
 
         if (dataPoints) {
@@ -166,7 +166,7 @@ class FieldCropController extends baseController {
           .join('field', 'field.field_id', 'fieldCrop.field_id')
           .join('farm', 'farm.farm_id', 'field.farm_id')
           .where('farm.farm_id', farmID)
-          .where(raw('fc.end_date < now()'));
+          .where(raw('"fieldCrop".end_date < now()'));
 
         if (dataPoints) {
           res.status(200).send(dataPoints);

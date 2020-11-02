@@ -1442,6 +1442,7 @@ export default {
       }
     }
   },
+  certifierSurveyReducer: {},
   baseReducer: {
     users: {
       user_id: '5f9941ae262b5a006e7f19cb',

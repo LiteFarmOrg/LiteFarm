@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import utils from './index';
 
@@ -9,41 +9,50 @@ export default ({ lang = 'en', measurement = 'metric', lat, lon, ...args }) => {
   const apikey = process.env.REACT_APP_WEATHER_API_KEY;
   const baseUri = '//api.openweathermap.org/data/2.5';
   const config = { lang, measurement, lat, lon, ...args };
+  useEffect(()=>{
+    //TODO fix double qpi call
+    // if(!loaded){
+      getForecast();
+    // }
+  }, [lat,lon, measurement]);
   const getForecast = ({ lang, measurement, lat, lon, ...args } = config) => {
-    setLoading(true);
-    const endPointToday = `${baseUri}/weather`;
-    const params = Object.assign(
-      {
-        appid: apikey,
-        cnt: 1,
-        lang: lang,
-        units: measurement,
-        lat: lat,
-        lon: lon,
-      },
-      args,
-    );
-    const promise = axios
-      .all([
-        axios.get(endPointToday, { params }),
-      ])
-      .then(
-        axios.spread((todayReponse) => {
-          const todayData = todayReponse.data;
-          if (todayData) {
-            return todayData;
-          }
-          return {};
-        }),
+    if(!loading){
+      setLoading(true);
+      const endPointToday = `${baseUri}/weather`;
+      const params = Object.assign(
+        {
+          appid: apikey,
+          cnt: 1,
+          lang: lang,
+          units: measurement,
+          lat: lat,
+          lon: lon,
+        },
+        args,
       );
-    promise.then(data => {
-      setForecast(formatData(data, measurement, lang));
-      setLoading({ loaded: true, loading: false });
-    }).catch(error => {
-      setError(error);
-      setLoading({ loaded: true, loading: false });
-    });
-  }
+      const promise = axios
+        .all([
+          axios.get(endPointToday, { params }),
+        ])
+        .then(
+          axios.spread((todayReponse) => {
+            const todayData = todayReponse.data;
+            if (todayData) {
+              return todayData;
+            }
+            return {};
+          }),
+        );
+      promise.then(data => {
+        setForecast(formatData(data, measurement, lang));
+        setLoading({ loaded: true, loading: false });
+      }).catch(error => {
+        setError(error);
+        setLoading({ loaded: true, loading: false });
+      });
+
+    }
+   }
 
   return { forecast, loading, loaded, error, getForecast }
 }

@@ -127,7 +127,7 @@ app.use(bodyParser.json())
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
-  .use('', organicCertifierSurveyRoutes)
+  .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
 
   // handle errors
   .use((req, res, next) => {

@@ -18,8 +18,10 @@ function SlideMenu({ location, farm, logout }) {
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
 
+  console.log(location.pathname)
+
   useEffect(() => {
-    if (farm && farm.has_consent && !noConsentCheckRoutes.includes(location.pathname)) {
+    if (farm && !farm.has_consent && !noConsentCheckRoutes.includes(location.pathname)) {
       history.push('/consent', { role_id: farm.role_id });
     }
   }, [farm, farm.has_consent])

@@ -26,6 +26,7 @@
   max-width: 1024px;
   min-height: 72px;
   position: fixed;
+  z-index: 1;
   & .itemContainer {
     position: absolute;
     top: 50%;

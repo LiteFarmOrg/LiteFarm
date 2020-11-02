@@ -13,12 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from "react";
-import {Route, Switch} from "react-router-dom";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
-import Home from "./containers/Home";
-import Outro from "./containers/Outro";
+import Home from './containers/Home';
+import Outro from './containers/Outro';
+import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrganic';
+import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
 import IntroSlide from './containers/IntroSlide';
@@ -96,7 +98,7 @@ import Balances from './containers/NewFinances/Balances';
 
 import MyLog from './containers/Log/MyLog';
 import SaleDetail from './containers/Finances/SaleDetail';
-import RoleSelection from "./containers/RoleSelection";
+import RoleSelection from './containers/RoleSelection';
 
 const auth = new Auth();
 
@@ -115,8 +117,10 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/role_selection" exact component={RoleSelection} />
+          <Route path="/role_selection" exact component={RoleSelection}/>
           <Route path="/outro" exact component={Outro}/>
+          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
+          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -186,8 +190,8 @@ function Routes() {
           <Route path="/edit_expense_categories" exact component={EditExpenseCategories}/>
           <Route path="/edit_add_expense" exact component={EditAddExpense}/>
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
-            <Route path="/sale_detail" exact component={SaleDetail}/>
-            <Route path="/farm_selection" exact component={ChooseFarm}/>
+          <Route path="/sale_detail" exact component={SaleDetail}/>
+          <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
             handleAuthentication(props);
             return <Callback {...props} />
@@ -195,14 +199,15 @@ function Routes() {
           <Route path="/log_detail" exact component={MyLog}/>
         </Switch>
       );
-    }
-    else if (role_id === 2 || role_id === 5) {
+    } else if (role_id === 2 || role_id === 5) {
       return (
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/role_selection" exact component={RoleSelection} />
+          <Route path="/role_selection" exact component={RoleSelection}/>
           <Route path="/outro" exact component={Outro}/>
+          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
+          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -261,8 +266,8 @@ function Routes() {
           <Route path="/edit_expense_categories" exact component={EditExpenseCategories}/>
           <Route path="/edit_add_expense" exact component={EditAddExpense}/>
           <Route path="/contact" exact component={ContactForm}/>
-            <Route path="/sale_detail" exact component={SaleDetail}/>
-            <Route path="/farm_selection" exact component={ChooseFarm}/>
+          <Route path="/sale_detail" exact component={SaleDetail}/>
+          <Route path="/farm_selection" exact component={ChooseFarm}/>
 
           <Route path="/edit_field" exact component={EditField}/>
           <Route path="/insights" exact component={Insights}/>
@@ -284,13 +289,14 @@ function Routes() {
           <Route path="/log_detail" exact component={MyLog}/>
         </Switch>
       );
-    }
-    else {
+    } else {
       return (
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
           <Route path="/outro" exact component={Outro}/>
+          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
+          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -347,7 +353,7 @@ function Routes() {
           handleAuthentication(props);
           return <Callback {...props} />
         }}/>
-        <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp} />
+        <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>
         <Route path="/*" exact component={Login}/>
       </Switch>
     );

@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  This file (reducer.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,18 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from 'react';
-import Loader from '../../assets/images/miscs/loader.svg';
-import styles from './styles.scss';
+import {
+  SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE
+} from './constants';
 
-class Callback extends Component {
-  render() {
-    return (
-      <div>
-        <img className={styles.loading} src={Loader} alt="loading"/>
-      </div>
-    );
+const initialState = {
+  interested: false,
+  certifiers: [],
+  survey_id: undefined,
+};
+
+function certifierSurveyReducer(state = initialState, action) {
+  switch (action.type) {
+    case SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE:
+      return Object.assign({}, state, { survey_id: action.survey.survey_id, interested: action.survey.interested, certifiers: action.survey.certifiers });
+    default:
+      return state
   }
 }
 
-export default Callback;
+export default certifierSurveyReducer;

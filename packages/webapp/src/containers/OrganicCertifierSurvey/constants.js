@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (index.js) is part of LiteFarm.
+ *  This file (constants.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,18 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from 'react';
-import Loader from '../../assets/images/miscs/loader.svg';
-import styles from './styles.scss';
-
-class Callback extends Component {
-  render() {
-    return (
-      <div>
-        <img className={styles.loading} src={Loader} alt="loading"/>
-      </div>
-    );
-  }
-}
-
-export default Callback;
+export const ADD_ORGANIC_CERTIFIER_SURVEY = 'ADD_ORGANIC_CERTIFIER_SURVEY';
+export const UPDATE_INTERESTED_IN_ORGANIC_CERTIFICATE_SURVEY = 'UPDATE_INTERESTED_IN_ORGANIC_CERTIFICATE_SURVEY';
+export const UPDATE_CERTIFIERS_IN_ORGANIC_CERTIFICATE_SURVEY = 'UPDATE_CERTIFIERS_IN_ORGANIC_CERTIFICATE_SURVEY';
+export const GET_ORGANIC_CERTIFIER_SURVEY = 'GET_ORGANIC_CERTIFIER_SURVEY';
+export const SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE = 'SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE';

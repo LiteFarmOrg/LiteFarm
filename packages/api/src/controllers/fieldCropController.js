@@ -162,12 +162,11 @@ class FieldCropController extends baseController {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
-        const date = formatDate(new Date());
         const dataPoints = await fieldCropModel.query().whereNotDeleted()
           .join('field', 'field.field_id', 'fieldCrop.field_id')
           .join('farm', 'farm.farm_id', 'field.farm_id')
           .where('farm.farm_id', farmID)
-          .where(raw('to_char(date("fieldCrop"."end_date"), \'YYYY-MM-DD\')'), '<', date);
+          .where(raw('fc.end_date < now()'));
 
         if (dataPoints) {
           res.status(200).send(dataPoints);
@@ -180,18 +179,5 @@ class FieldCropController extends baseController {
     }
   }
 }
-
-const formatDate = (currDate) => {
-  const d = currDate;
-  const year = d.getFullYear();
-  let
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-};
 
 module.exports = FieldCropController;

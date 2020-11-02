@@ -4,10 +4,10 @@ import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import {deleteShift} from '../actions'
 import moment from 'moment';
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 import history from '../../../history';
 import {selectedShiftSelector, taskTypeSelector} from './selectors';
-import {fieldSelector, cropSelector} from '../../selector';
+import {fieldSelector, cropSelector, farmSelector} from '../../selector';
 import {userInfoSelector} from "../../selector";
 import ConfirmModal from "../../../components/Modals/Confirm";
 
@@ -31,6 +31,7 @@ class MyShift extends Component {
 
   componentDidMount(){
     const shift = this.props.selectedShift;
+
     // const fields = this.props.fields;
     // const crops = this.props.crops;
     let tasks = shift.tasks;
@@ -43,18 +44,19 @@ class MyShift extends Component {
         aoiNames: [],
         duration: 0,
       };
-      let duration = parseInt(task.duration, 10);
+      let duration = task.duration;
       if(task.is_field){
         let field_name = this.getFieldName(task.field_id);
         if(!newTasks.hasOwnProperty(task.task_id)){
-
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({name: field_name, is_field: true});
           newTask.duration += duration;
+
           newTasks[task.task_id] = newTask;
           addedFields.push(field_name);
         }else{
           newTasks[task.task_id].duration += duration;
+
           if(!addedFields.includes(field_name)){
             newTasks[task.task_id].aoiNames.push({name: field_name, is_field: true});
             addedFields.push(field_name);
@@ -64,13 +66,12 @@ class MyShift extends Component {
         let thisCrop = this.getCropName(task.field_crop_id);
         if(!newTasks.hasOwnProperty(task.task_id)){
           newTask.taskName = this.getTaskName(task.task_id);
-          if(!addedCrops.includes(thisCrop.crop_id)){
-            newTask.aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
-          }
-
+          newTask.aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
           newTask.duration = duration;
+
           newTasks[task.task_id] = newTask;
         }else{
+
           newTasks[task.task_id].duration += duration;
           if(!addedCrops.includes(thisCrop.crop_id)){
             newTasks[task.task_id].aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
@@ -141,6 +142,7 @@ class MyShift extends Component {
     for(let taskId of Object.keys(this.state.tasks)){
       taskArr.push(this.state.tasks[taskId]);
     }
+    const { farm } = this.props;
     let dropDown = 0;
     return(
       <div className={styles.logContainer}>
@@ -150,15 +152,18 @@ class MyShift extends Component {
             <div>
             {this.state.date}
             </div>
-            <DropdownButton
-              style={{background:'#EFEFEF', color:'#4D4D4D', border:'none'}}
-              title={'Action'}
-              key={dropDown}
-              id={`dropdown-basic-${dropDown}`}
-            >
-              {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
-              <MenuItem eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</MenuItem>
-            </DropdownButton>
+            {
+              (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+              <DropdownButton
+                style={{background:'#EFEFEF', color:'#4D4D4D', border:'none'}}
+                title={'Action'}
+                key={dropDown}
+                id={`dropdown-basic-${dropDown}`}
+              >
+                {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
+                <Dropdown.Item eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</Dropdown.Item>
+              </DropdownButton>
+            }
           </div>
           {
             this.props.users.is_admin && <div className={styles.innerInfo}>
@@ -183,6 +188,7 @@ class MyShift extends Component {
           </div>
           {
             taskArr.map((task)=>{
+
               return (
               <div className={styles.innerInfo} style={{padding:'0.5em 2.5% 0.5em 5%'}} key={task.taskName}>
                 <div className={styles.innerTaskName}><p>{task.taskName}</p></div>
@@ -202,7 +208,7 @@ class MyShift extends Component {
                 }
                 </div>
                 <div className={styles.innerTaskTime}>
-                  <span>{(parseInt(task.duration, 10)/60).toFixed(2)} hr</span>
+                  <span>{(task.duration/60).toFixed(2)} hr</span>
                 </div>
               </div>
               )
@@ -233,6 +239,7 @@ const mapStateToProps = (state) => {
     crops: cropSelector(state),
     taskType: taskTypeSelector(state),
     users: userInfoSelector(state),
+    farm: farmSelector(state),
   }
 };
 

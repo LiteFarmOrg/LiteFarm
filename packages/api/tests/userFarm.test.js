@@ -44,6 +44,12 @@ describe('User Farm Tests', () => {
       .end(callback);
   }
 
+  function updateOnboarding(targetUser, {user_id, farm_id}, callback) {
+    chai.request(server).patch(`/user_farm/onboarding/farm/${farm_id}/user/${user_id}`)
+      .send({step_one: targetUser.step_one, step_one_end: targetUser.step_one_end, step_two: targetUser.step_two, step_two_end: targetUser.step_two_end, step_three: targetUser.step_three, step_three_end: targetUser.step_three_end, step_four: targetUser.step_four, step_four_end: targetUser.step_four_end, step_five: targetUser.step_five, step_five_end: targetUser.step_five_end})
+      .end(callback);
+  }
+
   function addUserFarmRequest(data, {user_id = owner.user_id, farm_id = farm.farm_id}, callback) {
     chai.request(server).post(`/user_farm`)
       .set('Content-Type', 'application/json')
@@ -191,6 +197,81 @@ describe('User Farm Tests', () => {
       expect(res.status).toBe(200);
       targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
       expect(targetUser.has_consent).toBe(true);
+      done();
+    });
+  });
+
+  test('Update step_one of farm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    let targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
+    expect(targetUser.step_one).toBe(false);
+    targetUser.step_one = true;
+    targetUser.step_one_end = '2020-10-21 14:43:06.718035-07';
+    updateOnboarding(targetUser,{user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(200);
+      targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
+      expect(targetUser1.step_one).toBe(true);
+      expect(targetUser1.step_one_end).toBe(targetUser.step_one_end);
+      done();
+    });
+  });
+
+  test('Update step_two of farm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    let targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
+    expect(targetUser.step_two).toBe(false);
+    targetUser.step_two = true;
+    targetUser.step_two_end = '2020-10-21 14:43:06.718035-07';
+    updateOnboarding(targetUser,{user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(200);
+      targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
+      expect(targetUser1.step_two).toBe(true);
+      expect(targetUser1.step_two_end).toBe(targetUser.step_two_end);
+      done();
+    });
+  });
+
+  test('Update step_three of farm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    let targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
+    expect(targetUser.step_three).toBe(false);
+    targetUser.step_three = true;
+    targetUser.step_three_end = '2020-10-21 14:43:06.718035-07';
+    updateOnboarding(targetUser,{user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(200);
+      targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
+      expect(targetUser1.step_three).toBe(true);
+      expect(targetUser1.step_three_end).toBe(targetUser.step_three_end);
+      done();
+    });
+  });
+
+  test('Update step_four of farm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    let targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
+    expect(targetUser.step_four).toBe(false);
+    targetUser.step_four = true;
+    targetUser.step_four_end = '2020-10-21 14:43:06.718035-07';
+    updateOnboarding(targetUser,{user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(200);
+      targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
+      expect(targetUser1.step_four).toBe(true);
+      expect(targetUser1.step_four_end).toBe(targetUser.step_four_end);
+      done();
+    });
+  });
+
+  test('Update step_five of farm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    let targetUser = await userFarmModel.query().where('user_id', owner.user_id).first();
+    expect(targetUser.step_five).toBe(false);
+    targetUser.step_five = true;
+    targetUser.step_five_end = '2020-10-21 14:43:06.718035-07';
+    updateOnboarding(targetUser,{user_id: owner.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(200);
+      targetUser1 = await userFarmModel.query().where('user_id', owner.user_id).first();
+      expect(targetUser1.step_five).toBe(true);
+      expect(targetUser1.step_five_end).toBe(targetUser.step_five_end);
       done();
     });
   });

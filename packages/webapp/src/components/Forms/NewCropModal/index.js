@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Modal, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {Button, Modal, FormGroup, FormControl, FormLabel, Form} from 'react-bootstrap';
 import {CROP_GROUPS, DUMMY_NEW_CROP, INITIAL_STATE, CROP_DICT, NUTRIENT_DICT, NUTRIENT_ARRAY} from './constants';
 import {connect} from 'react-redux';
 import {cropSelector} from './selectors';
@@ -326,7 +326,7 @@ class NewCropModal extends React.Component {
               <Select options={cropOptions} onChange={(selectedOption) => this.handleCropChange(selectedOption)}/>
             </div>
 
-            <ControlLabel>Common Name, Species, and Genus</ControlLabel>
+            <FormLabel>Common Name, Species, and Genus</FormLabel>
 
             <FormGroup controlId="crop_common_name">
               <FormControl
@@ -369,10 +369,10 @@ class NewCropModal extends React.Component {
                   this.setState({crop_specie: e.target.value});
                 }}/>
             </FormGroup>
-            <ControlLabel>Crop Group and Subgroup</ControlLabel>
+            <FormLabel>Crop Group and Subgroup</FormLabel>
             <FormGroup controlId="crop_group">
-              <FormControl
-                componentClass="select"
+              <Form.Control
+                as="select"
                 placeholder="Select crop group"
                 value={this.state.crop_group}
                 onChange={(e) =>
@@ -382,11 +382,11 @@ class NewCropModal extends React.Component {
                 {CROP_GROUPS && CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
                   <option key={cropGroupIndex} value={cropGroup}>{cropGroup}</option>
                 ))}
-              </FormControl>
+              </Form.Control>
             </FormGroup>
             < FormGroup controlId="crop_subgroup">
-              <FormControl
-                componentClass="select"
+              <Form.Control
+                as="select"
                 placeholder="Select crop subgroup"
                 value={this.state.crop_subgroup}
                 onChange={(e) =>
@@ -395,7 +395,7 @@ class NewCropModal extends React.Component {
                 {subGroups && subGroups.map((cropSubGroup, cropSubGroupIndex) => (
                   <option key={cropSubGroupIndex} value={cropSubGroup}>{cropSubGroup}</option>
                 ))}
-              </FormControl>
+              </Form.Control>
             </FormGroup>
             <div className={styles.cropGroupTitle}>
               <div onClick={()=>this.expandNutrient()} style={{marginBottom: '10px'}}>
@@ -407,7 +407,7 @@ class NewCropModal extends React.Component {
             </div>
             {
               expand_nutrient && <div>
-                <ControlLabel>Physiology and Anatomy</ControlLabel>
+                <FormLabel>Physiology and Anatomy</FormLabel>
                 <br/>
                 <FormGroup controlId="crop_nutrient">
                   {
@@ -430,7 +430,7 @@ class NewCropModal extends React.Component {
                   }
                 </FormGroup>
 
-                <ControlLabel>Nutrients in Edible Portion (per 100g)</ControlLabel>
+                <FormLabel>Nutrients in Edible Portion (per 100g)</FormLabel>
                 <br/>
                 <FormGroup controlId="crop_nutrient">
                   {

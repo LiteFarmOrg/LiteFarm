@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styles from './styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
-import {DropdownButton, MenuItem} from 'react-bootstrap';
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 import history from '../../../history';
 import {fieldSelector, cropSelector, farmSelector} from '../../selector';
 import {deleteSale} from "../actions";
@@ -56,8 +56,8 @@ class SaleDetail extends Component {
               key={dropDown}
               id={`dropdown-basic-${dropDown}`}
             >
-              {/*<MenuItem data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</MenuItem>*/}
-              <MenuItem data-test='delete-sale' eventKey="1" onClick={() => this.confirmDelete()}>Delete</MenuItem>
+              {/*<Dropdown.Item data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</Dropdown.Item>*/}
+              <Dropdown.Item data-test='delete-sale' eventKey="1" onClick={() => this.confirmDelete()}>Delete</Dropdown.Item>
             </DropdownButton>
           </div>
         </div>

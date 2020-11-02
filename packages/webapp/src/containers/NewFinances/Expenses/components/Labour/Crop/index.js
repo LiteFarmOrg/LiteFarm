@@ -73,7 +73,7 @@ const Crop = ({shifts, startDate, endDate}) => {
     />
       {
         hasUnallocated &&
-        <Alert bsStyle="warning" style={{marginTop: '8px'}}>
+        <Alert variant="warning" style={{marginTop: '8px'}}>
           *Unallocated means that a farm user have submitted a shift related to a Field that has no crop at the time of submission.<br/><br/>
           Unlike the unallocated value from the previous page, this value will remain the same regardless if a crop is added later.
         </Alert>

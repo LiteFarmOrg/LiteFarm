@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -25,6 +25,7 @@ import addFarmSaga from './containers/AddFarm/saga';
 import notificationSaga from './containers/Profile/Notification/saga';
 import peopleSaga from './containers/Profile/People/saga'
 import logSaga from './containers/Log/saga';
+import outroSaga from './containers/Outro/saga';
 import fertSaga from './containers/Log/FertilizingLog/saga';
 import defaultAddLogSaga from './containers/Log/Utility/saga';
 import pestControlSaga from './containers/Log/PestControlLog/saga';
@@ -59,12 +60,13 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware, thunk];
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middlewares)));
+export const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middlewares)));
 sagaMiddleware.run(homeSaga);
 sagaMiddleware.run(addFarmSaga);
 sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(peopleSaga);
 sagaMiddleware.run(logSaga);
+sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(fertSaga);
 sagaMiddleware.run(defaultAddLogSaga);
 sagaMiddleware.run(pestControlSaga);

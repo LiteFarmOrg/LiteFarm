@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -15,6 +15,8 @@
 
 .bottomContainer{
   width: 100%;
+  max-width: 1024px;
+  left: 0;
   position: fixed;
   bottom: 0;
   display:flex;
@@ -22,15 +24,13 @@
   justify-content: space-between;
   font-weight: 600;
   align-items: center;
-  padding: 2% 5% 2% 5%;
-  margin-left: -5%;
+  padding: 10px 5%;
   background: white;
   box-shadow: 0 -5px 5px -5px #333;
   border-radius: 10px;
 }
 
 .cancelButton{
-  width: 40%;
   font-size: 20px;
   color: #4D4D4D;
 }

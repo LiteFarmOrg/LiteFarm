@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -17,13 +17,14 @@ import React, { Component } from "react";
 import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button, Tabs, Tab, Table, Glyphicon } from 'react-bootstrap';
+import { Button, Tabs, Tab, Table } from 'react-bootstrap';
 import {fieldSelector, cropSelector as fieldCropSelector, farmSelector} from "../selector";
 import history from '../../history';
 import moment from 'moment';
 import { getFields } from '../actions';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON} from './constants';
 import {convertFromMetric, getUnit, roundToTwoDecimal} from "../../util";
+import { BsChevronDown, BsChevronRight } from "react-icons/all";
 
 class Field extends Component {
   static defaultProps = {
@@ -216,16 +217,16 @@ class Field extends Component {
     const CenterDiv = ({ text }) => <div style={{ width: '30px', color: 'white', fontWeight: 'bold', fontSize: '16px', }}>{text}</div>;
     return (
       <div className={styles.logContainer}>
-        <h4>
+        <h3>
           <strong>FIELDS</strong>
-        </h4>
+        </h3>
         <hr />
-        <h4><b>Action</b></h4>
+        <h3><b>Action</b></h3>
         <div className={styles.buttonContainer}>
-          <Button onClick={() => {history.push('/new_field') }}>Add New Field</Button>
+          <Button variant={'secondary'} onClick={() => {history.push('/new_field') }}>Add New Field</Button>
         </div>
         <hr />
-        <h4><b>Explore Your Fields</b></h4>
+        <h3><b>Explore Your Fields</b></h3>
         <div>
           <Tabs
             activeKey={this.state.selectedTab}
@@ -256,8 +257,8 @@ class Field extends Component {
               <Table>
                 <thead>
                   <tr>
-                    <th>Field Name <span className="glyphicon glyphicon-chevron-down" /></th>
-                    <th>Area <span className="glyphicon glyphicon-chevron-down" /></th>
+                    <th>Field Name <BsChevronDown /></th>
+                    <th>Area <BsChevronDown /></th>
                     <th>Edit</th>
                   </tr>
                 </thead>
@@ -267,7 +268,9 @@ class Field extends Component {
                       <td>{field.field_name}</td>
                       <td>{roundToTwoDecimal(convertFromMetric(field.area, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup></td>
                       <td>
-                        <a onClick={() => {history.push('./edit_field?' + field.field_id)}}><Glyphicon glyph="chevron-right" style={{color:'#349289'}}/></a>
+                        <a onClick={() => {history.push('./edit_field?' + field.field_id)}}>
+                          <BsChevronRight  style={{color:'#349289'}} />
+                        </a>
                       </td>
                     </tr>
                   );}

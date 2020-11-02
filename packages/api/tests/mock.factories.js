@@ -54,6 +54,7 @@ function fakeUserFarm() {
     role_id: faker.random.arrayElement([1, 2, 3]),
     status: 'Active',
     has_consent: true,
+    step_one: false,
   }
 }
 

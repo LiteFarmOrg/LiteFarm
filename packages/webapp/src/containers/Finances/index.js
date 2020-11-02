@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -155,7 +155,7 @@ class Finances extends Component {
     const {shifts, sales, expenses} = this.props;
     const {startDate, endDate} = this.state;
 
-    if (!shifts || !sales || !expenses) return;
+    if (!(shifts || sales || expenses)) return;
 
     let final = Object.assign({}, {}); // crop: crop name, profit: number
 
@@ -295,7 +295,7 @@ class Finances extends Component {
     }
 
     //apply sales
-    for (let sale of sales) {
+    for (let sale of sales || []) {
       if (moment(sale.sale_date).isBetween(startDate, endDate)) {
         for (let cp of sale.cropSale) {
           if (cp.crop && result.hasOwnProperty(cp.crop.crop_id)) {
@@ -405,7 +405,7 @@ class Finances extends Component {
 
           <h5 className={styles.balanceTitle}>
             <InfoBoxComponent customStyle={{float: 'right', fontSize: '80%', marginTop: '0.2em'}} title={"Finance Help"}
-                              body = {"We compute a real-time balance (‘cost of production’) for each crop on your farm. " + 
+                              body = {"We compute a real-time balance (‘cost of production’) for each crop on your farm. " +
                                 "This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, " +
                                 "one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses " +
                                 "logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. " +
@@ -432,7 +432,7 @@ class Finances extends Component {
             }
             {
               hasUnAllocated &&
-              <Alert bsStyle="warning" style={{marginTop: '8px', display: showUnTip}}>
+              <Alert variant="warning" style={{marginTop: '8px', display: showUnTip}}>
                 *Unallocated means that work has been done on an empty field for the selected date range. <br/>
                 If one or more crops were added to an empty field later and there exists a shift related to the crops,
                 then the work done on that empty field will be evenly distributed to each crop.<br/>

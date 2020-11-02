@@ -18,10 +18,11 @@ import {Route, Switch} from "react-router-dom";
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
 import Home from "./containers/Home";
+import Outro from "./containers/Outro";
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
 import IntroSlide from './containers/IntroSlide';
-import ConsentForm from './containers/ConsentForm';
+import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
 import Login from './containers/Login'
 import SignUp from './containers/SignUp';
@@ -95,6 +96,7 @@ import Balances from './containers/NewFinances/Balances';
 
 import MyLog from './containers/Log/MyLog';
 import SaleDetail from './containers/Finances/SaleDetail';
+import RoleSelection from "./containers/RoleSelection";
 
 const auth = new Auth();
 
@@ -113,6 +115,8 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/role_selection" exact component={RoleSelection} />
+          <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -197,6 +201,8 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/role_selection" exact component={RoleSelection} />
+          <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -284,6 +290,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
+          <Route path="/outro" exact component={Outro}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
@@ -321,6 +328,15 @@ function Routes() {
             handleAuthentication(props);
             return <Callback {...props} />
           }}/>
+          <Route path="/insights" exact component={Insights}/>
+          <Route path="/insights/peoplefed" exact component={PeopleFed}/>
+          <Route path="/insights/soilom" exact component={SoilOM}/>
+          <Route path="/insights/labourhappiness" exact component={LabourHappiness}/>
+          <Route path="/insights/biodiversity" exact component={Biodiversity}/>
+          <Route path="/insights/prices" exact component={Prices}/>
+          <Route path="/insights/waterbalance" exact component={WaterBalance}/>
+          <Route path="/insights/erosion" exact component={Erosion}/>
+          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
         </Switch>
       );
     }

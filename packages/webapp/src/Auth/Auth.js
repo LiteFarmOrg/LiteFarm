@@ -61,7 +61,7 @@ if (NODE_ENV === 'development') {
     auth0Uri = 'https://litefarm-production.auth0.com';
     authorizationAdminRoleId = "8f53c7bd-4ac4-42a4-b581-ea2aef0e4ece";
     authorizationWorkerId = '36456d3b-654b-452c-8d6e-cbf3a2e6cbca';
-    logoutUri = 'https%3A%2F%2Fwww.litefarm.org';
+    logoutUri = 'https%3A%2F%2Fapp.litefarm.org';
   }
 }
 
@@ -170,7 +170,7 @@ class Auth {
       throw new Error("missing metadata properties");
     }
 
-    const email = user_info.sub.split('|')[0] === 'google-oauth2' ? user_info.nickname + "gmail.com" : user_info.name;
+    const email = user_info.sub.split('|')[0] === 'google-oauth2' ? user_info.nickname + "@gmail.com" : user_info.name;
     let first_name = user_metadata.first_name || user_info.given_name;
     let last_name = user_metadata.last_name || user_info.family_name;
     let user_url = apiConfig.userUrl;

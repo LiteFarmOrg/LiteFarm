@@ -9,17 +9,22 @@ const Employee = ({currencySymbol, shifts, startDate, endDate}) => {
   for(let s of shifts){
     if(moment(s.start_time).isBetween(moment(startDate), moment(endDate))){
       if(sortObj.hasOwnProperty(s.user_id)){
-        sortObj[s.user_id].time = sortObj[s.user_id].time + Number(s.duration);
+        let referenceObj = sortObj[s.user_id];
+        const currentWorkedTime = hourlyTwoDecimals(referenceObj.time);
+        referenceObj.wage_amount = (currentWorkedTime * referenceObj.wage_amount + hourlyTwoDecimals(s.duration) * s.wage_at_moment) / (currentWorkedTime + hourlyTwoDecimals(s.duration));
+        referenceObj.time = referenceObj.time + Number(s.duration);
       }
       else{
         let wage_amount = 0;
+
         if(s.wage.type === 'hourly'){
           wage_amount = Number(parseFloat(s.wage_at_moment).toFixed(2));
         }
         sortObj[s.user_id] = {
           time: Number(s.duration),
           wage_amount,
-          employee: s.first_name + ' ' + s.last_name.substring(0,1).toUpperCase() + '.'
+          employee: s.first_name + ' ' + s.last_name.substring(0,1).toUpperCase() + '.',
+          shift_numbers: 1
         }
       }
     }
@@ -37,6 +42,9 @@ const Employee = ({currencySymbol, shifts, startDate, endDate}) => {
     })
   }
 
+  function hourlyTwoDecimals(number) {
+    return Number((number/60).toFixed(2))
+  }
 
 
   const columns = [{

@@ -7,7 +7,7 @@ info:
   version: 1.0.0
 servers:
   - url: http://beta.litefarm.org/
-  - url: http://litefarm.org/
+  - url: http://app.litefarm.org/
 tags:
   - name: contact
     description: .

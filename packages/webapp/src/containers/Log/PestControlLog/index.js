@@ -18,6 +18,7 @@ import parseCrops from "../Utility/parseCrops";
 import parseFields from "../Utility/parseFields";
 import {convertToMetric, getUnit} from "../../../util";
 import Select from 'react-select';
+import Unit from '../../../components/Inputs/Unit';
 
 
 class PestControlLog extends Component{
@@ -260,29 +261,17 @@ class PestControlLog extends Component{
                     options={pesticideOptions || []}
                     placeholder="Select Product"
                     onChange={this.setSelectedPesticide}
+                    validators={{required: (val) => val && val.label && val.value}}
                   />
                 </div>
-                <div className={styles.textContainer}>
-                  <label>Quantity</label>
-                  <div className={styles.inputNunit}><Control.input
-                    type="number"
-                    step="any"
-                    model=".pestControlLog.quantity_kg"
-                    validators={{required: (val) => val && val.length}} />
-                    {this.state.quantity_unit}
-                    </div>
-                </div>
-                {/*<div className={styles.textContainer}>*/}
-                  {/*<label>Image</label>*/}
-                  {/*<input type="file" accept="image/*" />*/}
-                {/*</div>*/}
                 <Errors
                   className='required'
-                  model={`.pestControlLog.quantity_kg`}
+                  model={`.pestControlLog.pesticide_id`}
                   show={{touched: true, focus: false}}
                   messages={{
-                    required: 'Required',
+                    required: 'Required'
                   }} />
+                <Unit model='.pestControlLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
                 <div>
                   <div className={styles.greenTextButton} onClick={()=>this.openDiseaseModal()}> + Add a Target</div>
                 </div>

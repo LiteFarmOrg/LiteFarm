@@ -4,7 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import {cropSelector, fieldSelector, farmSelector} from '../../selector';
 import {getFieldCrops} from '../../../containers/actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form, Control, Errors} from 'react-redux-form';
+import {actions, Form, Control} from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
@@ -13,6 +13,7 @@ import {convertToMetric, getUnit} from "../../../util";
 import parseCrops from "../Utility/parseCrops";
 import parseFields from "../Utility/parseFields";
 import LogFormOneCrop from "../../../components/Forms/LogFormOneCrop";
+import Unit from '../../../components/Inputs/Unit';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -67,17 +68,7 @@ class HarvestLog extends Component {
             crops={crops}
             notesField={false}
           />
-          <div className={styles.textContainer}>
-            <label>Quantity</label>
-            <div className={styles.inputNunit}>
-              <Control.input
-                type="number"
-                step="any"
-                model=".harvestLog.quantity_kg"
-                validators={{required: (val) => val }}/>
-              {this.state.quantity_unit}
-            </div>
-          </div>
+          <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
           <div>
             <div className={styles.noteTitle}>
               Notes
@@ -86,13 +77,6 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes"/>
             </div>
           </div>
-          <Errors
-            className='required'
-            model={`.harvestLog.quantity_kg`}
-            show={{touched: true, focus: false}}
-            messages={{
-              required: 'Required',
-            }} />
           <LogFooter/>
         </Form>
       </div>

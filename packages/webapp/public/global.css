@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (global.css) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -23,9 +23,9 @@
     --addition: #FFB800;
 }
 
-button{
-    -webkit-appearance: none;
-}
+/*button{*/
+/*    -webkit-appearance: none;*/
+/*}*/
 
 @font-face {
     font-family: 'Avenir';
@@ -74,13 +74,13 @@ button{
     -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-}
+/*body {*/
+/*    font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
+/*}*/
 
-body, html {
-    height: 100%;
-}
+/*body, html {*/
+/*    height: 100%;*/
+/*}*/
 
 
 .btn {
@@ -175,7 +175,14 @@ hr{
     width: 24px;
     height: 20px;
     left: 24px;
-    top: 16px;
+    top: 24px;
+}
+
+@media (max-width: 800px) {
+    .bm-burger-button {
+        left: 24px;
+        top: 16px;
+    }
 }
 
 /* Color/shape of burger icon bars */
@@ -229,10 +236,10 @@ hr{
     background: rgba(0, 0, 0, 0.3);
 }
 
-.navbar {
-    max-width: 100vw;
-    z-index: 999;
-}
+/*.navbar {*/
+/*    max-width: 100vw;*/
+/*    z-index: 999;*/
+/*}*/
 
 @media only screen and (max-width: 800px) {
     .page-container{

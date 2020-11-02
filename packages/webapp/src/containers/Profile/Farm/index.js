@@ -106,12 +106,12 @@ class Farm extends Component {
                 <label>Currency</label>
                 <p style={{marginLeft: '8px'}}>{farm.units.currency}</p>
               </div>
-              <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
+              {/* <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
                 {request_text}
-              </div>
+              </div> */}
               <div className={defaultStyles.bottomContainer}>
                 <div className={defaultStyles.buttonContainer}>
-                  <Button type='submit' bsStyle='primary'>Save</Button>
+                  <Button type='submit' variant='primary'>Save</Button>
                 </div>
               </div>
             </Form>
@@ -145,7 +145,7 @@ class Farm extends Component {
             {
               (enableRequest === false || (schedule && schedule.farm_data_schedule && schedule.farm_data_schedule.length > 0)) &&
               <div>
-                <Alert bsStyle="warning">
+                <Alert variant="warning">
                   {request_pending_text}
                 </Alert>
               </div>

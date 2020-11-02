@@ -131,7 +131,7 @@ async function fromActivity(req) {
     const sameFarm = await userFarmModel.query()
       .distinct('userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
       .join('field', 'userFarm.farm_id', 'field.farm_id')
-      .join('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
+      .leftJoin('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
       .skipUndefined()
       .whereIn('field.field_id', fields)
       .whereIn('fieldCrop.field_crop_id', fieldCrops)

@@ -3,7 +3,7 @@ import GoogleMap from 'google-map-react';
 import {connect} from 'react-redux';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
-import {Button, Panel, Glyphicon, Modal} from 'react-bootstrap';
+import {Button, Card, Modal} from 'react-bootstrap';
 import {fieldSelector, cropSelector as fieldCropSelector, farmSelector} from "../../selector";
 import {expiredCropSelector} from "../selectors";
 import {CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY} from '../constants';
@@ -16,6 +16,7 @@ import ConfirmModal from "../../../components/Modals/Confirm";
 import {toastr} from "react-redux-toastr";
 import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/EditFieldCropModal';
 import {convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal} from "../../../util";
+import { BsPencil } from "react-icons/all";
 
 class EditField extends Component {
   static defaultProps = {
@@ -152,7 +153,7 @@ class EditField extends Component {
     this.setState({
       field_name: event.target.value
     })
-    
+
   };
 
   deleteField = () => {
@@ -196,7 +197,7 @@ class EditField extends Component {
     return (
       <div className={parentStyles.logContainer}>
         <PageTitle title="Edit Field" backUrl="/field"/>
-        <NewFieldCropModal handler={this.handleAddCrop} field={this.state.selectedField}
+        <NewFieldCropModal handler={() => {}} field={this.state.selectedField}
                            fieldArea={this.state.fieldArea}/>
         <div>
           <hr/>
@@ -231,7 +232,7 @@ class EditField extends Component {
         <div style={{margin: "10px"}}>
           <div className={styles.editFieldName}>
             <h4>Field Name: {this.state.selectedField && this.state.selectedField.field_name}</h4>
-            <Glyphicon glyph="pencil" style={{marginLeft: '10px'}} onClick={this.openFieldNameEdit}/>
+            <BsPencil style={{marginLeft: '10px'}} onClick={this.openFieldNameEdit} />
           </div>
           <p>Total
             Area: {roundToTwoDecimal(convertFromMetric(this.state.fieldArea, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup>
@@ -240,20 +241,20 @@ class EditField extends Component {
           <div style={{height: "80%"}}>
             {
               this.state.selectedFieldCrops.map((crop, index) => (
-                <Panel key={index} bsStyle={"success"}>
-                  <Panel.Heading className={styles.panelHeading}>
+                <Card key={index} border={"success"}>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
-                      <Panel.Title
+                      <Card.Title
                         componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
-                      </Panel.Title>
-                      <Panel.Title
+                      </Card.Title>
+                      <Card.Title
                         componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? "Variety: " + crop.variety : ""}
 
-                      </Panel.Title>
+                      </Card.Title>
                     </div>
 
                       <div className={styles.inlineButtonContainer}>
-                        <EditFieldCropModal cropBeingEdited={crop} handler={this.handleAddCrop}
+                        <EditFieldCropModal cropBeingEdited={crop} handler={() => {}}
                                             field={this.state.selectedField} fieldArea={this.state.fieldArea}
                         />
                         <div className={styles.deleteButton}>
@@ -264,60 +265,69 @@ class EditField extends Component {
                       </div>
 
 
-                  </Panel.Heading>
-                  <Panel.Heading className={styles.panelHeading}>
+                  </Card.Header>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
-                      <Panel.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>Start
+                      <Card.Title
+                         style={{fontSize: '13px'}}>Start
                         Date: {crop.start_date && crop.start_date.split("T")[0]} End
                         Date: {crop.end_date && crop.end_date.split("T")[0]}
-                      </Panel.Title>
+                      </Card.Title>
                     </div>
-                  </Panel.Heading>
-                  <Panel.Body>
+                  </Card.Header>
+                  <Card.Body>
                     <p>Area
                       Used: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
                     </p>
                     <p>Estimated
                       Production: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
                     <p>Estimated Revenue: {this.state.currencySymbol}{roundToTwoDecimal(crop.estimated_revenue)}</p>
-                  </Panel.Body>
-                </Panel>))
+                  </Card.Body>
+                </Card>))
             }
             <p>Number of Expired Crops: {this.state.selectedExpiredFieldCrops.length}</p>
             {
               this.state.selectedExpiredFieldCrops.map((crop, index) => (
-                <Panel key={index}>
-                  <Panel.Heading className={styles.panelHeading}>
+                <Card key={index}>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
-                      <Panel.Title
+                      <Card.Title
                         componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
-                      </Panel.Title>
-                      <Panel.Title
+                      </Card.Title>
+                      <Card.Title
                         componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? "Variety: " + crop.variety : ""}
 
-                      </Panel.Title>
+                      </Card.Title>
                     </div>
-
-                  </Panel.Heading>
-                  <Panel.Heading className={styles.panelHeading}>
+                    <div className={styles.inlineButtonContainer}>
+                      <EditFieldCropModal cropBeingEdited={crop} handler={() => {}}
+                                          field={this.state.selectedField} fieldArea={this.state.fieldArea}
+                      />
+                      <div className={styles.deleteButton}>
+                        <Button onClick={() => {
+                          this.handleDeleteCrop(crop.field_crop_id)
+                        }}>Delete</Button>
+                      </div>
+                    </div>
+                  </Card.Header>
+                  <Card.Header className={styles.panelHeading} as="h3">
                     <div>
-                      <Panel.Title
+                      <Card.Title
                         componentClass="h3" style={{fontSize: '13px'}}>Start
                         Date: {crop.start_date && crop.start_date.split("T")[0]} End
                         Date: {crop.end_date && crop.end_date.split("T")[0]}
-                      </Panel.Title>
+                      </Card.Title>
                     </div>
-                  </Panel.Heading>
-                  <Panel.Body>
+                  </Card.Header>
+                  <Card.Body>
                     <p>Area
                       Used: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
                     </p>
                     <p>Estimated
                       Production: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
                     <p>Estimated Revenue: {this.state.currencySymbol}{crop.estimated_revenue}</p>
-                  </Panel.Body>
-                </Panel>))
+                  </Card.Body>
+                </Card>))
             }
           </div>
           <ConfirmModal

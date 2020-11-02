@@ -10,6 +10,7 @@ import {
   addPseudoWorker,
   deactivateUser,
   getRoles,
+  reactivateUser,
 } from './actions';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -23,7 +24,7 @@ import {farmSelector} from '../../selector';
 import Cleave from 'cleave.js/react.js';
 import {toastr} from 'react-redux-toastr';
 const generator = require('generate-password');
-const uuidv4 = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 
 const summaryColumns = [
   {
@@ -231,6 +232,11 @@ class People extends Component {
         this.closeEditModal();
       }
     }
+  };
+
+  reactivate = (user_id) => {
+    this.props.dispatch(reactivateUser(user_id));
+    this.closeEditModal();
   };
 
   handleSearchValueChange = (event) => {
@@ -717,7 +723,7 @@ class People extends Component {
                     <span className={styles.error}>{this.state.edit_email_error}</span>}
                     {
                       (this.state.editUser.role_id !== 4 || this.state.willConvertWorker) && <div>
-                        <Alert bsStyle="warning">
+                        <Alert variant="warning">
                           Role change will take full effect upon next login. Workers cannot set themselves to Admins.
                         </Alert>
                         <div className={styles.selectContainer}>
@@ -749,16 +755,25 @@ class People extends Component {
                     {this.state.edit_wage_error.length > 0 &&
                     <span className={styles.error}>{this.state.edit_wage_error}</span>}
                     <div className={defaultStyles.saveButton}>
-                      <Button type='submit' bsStyle='primary' disabled={!this.state.updated_edit}>Update</Button>
+                      <Button type='submit' variant='primary' disabled={!this.state.updated_edit}>Update</Button>
                     </div>
                   </Form>
-                  <div style={{"textAlign": "center"}}>
-                    {
-                      !this.state.editUser.is_admin && <button className={styles.removeButton}
-                                                               onClick={() => this.deactivate(this.state.editUser.user_id)}>
-                        Revoke User Access</button>
-                    }
-                  </div>
+                  {(this.state.editUser.status === 'Inactive') ?
+                    <div style={{"textAlign": "center"}}>
+                      {
+                        !this.state.editUser.is_admin && <button className={styles.removeButton}
+                                                                onClick={() => this.reactivate(this.state.editUser.user_id)}>
+                          Restore User Access</button>
+                      }
+                    </div> :
+                    <div style={{"textAlign": "center"}}>
+                      {
+                        !this.state.editUser.is_admin && <button className={styles.removeButton}
+                                                                onClick={() => this.deactivate(this.state.editUser.user_id)}>
+                          Revoke User Access</button>
+                      }
+                    </div>
+                  }
 
                 </div>
               )

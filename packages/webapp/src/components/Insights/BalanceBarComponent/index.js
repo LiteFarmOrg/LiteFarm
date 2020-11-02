@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Glyphicon, ProgressBar} from "react-bootstrap";
+import { ProgressBar} from "react-bootstrap";
 import styles from "./styles.scss";
 import sharedStyles from "../shared.scss";
-
+import {BsCaretDownFill} from 'react-icons/bs';
 class BalanceBarComponent extends Component {
   render() {
 
@@ -18,9 +18,9 @@ class BalanceBarComponent extends Component {
         <div>
           <div>
             <div>{value} {unit}</div>
-            <Glyphicon style={dotStyle} glyph={'glyphicon glyphicon-triangle-bottom'} />
+            <BsCaretDownFill style={dotStyle}  />
           </div>
-          <ProgressBar className={styles.progress} bsClass={sharedStyles.bar + ' progress-bar'}/>
+          <ProgressBar className={styles.progress} bsPrefix={sharedStyles.bar + ' progress-bar'}/>
         </div>
         <div>
           <div className={styles.leftText}>Deficit</div>

@@ -14,10 +14,10 @@
  */
 
 import { ADD_FARM } from "./constants";
-import { getFarms } from '../../containers/ChooseFarm/actions.js';
+import { getFarms } from '../ChooseFarm/actions';
+import history from '../../history';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-import history from '../../history';
 import {toastr} from "react-redux-toastr";
 import { setFarmInState } from "../actions";
 const axios = require('axios');
@@ -73,7 +73,7 @@ export function* addFarm(payload) {
       if (updateUserRoleResult.status >= 200) {
         yield put(getFarms());
         yield put(setFarmInState(addFarmResult.data))
-        history.push('/intro');
+        history.push('/consent')
       }
     }
   } catch(e) {

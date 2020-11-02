@@ -12,7 +12,6 @@ function RoleSelection({dispatch, farm}) {
   }
 
   const redirectConsent = () => {
-    console.log("redirect consent")
     dispatch(finishStepTwo())
     history.push('/consent')
   }

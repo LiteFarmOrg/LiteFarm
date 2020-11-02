@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { updateAgreement } from "../actions";
 import { farmSelector, userInfoSelector } from "../selector";
+import ownerConsent from './Owner.Consent.md';
+import workerConsent from './Worker.Consent.md';
 import { connect } from "react-redux";
 import PureConsent from "../../components/Consent";
 
@@ -29,8 +31,12 @@ function ConsentForm({ role, dispatch }) {
   }
 
   useEffect(() => {
-    let consentForm = role.role_id === 3 ? require('./Worker.Consent.md') : require('./Owner.Consent.md');
-    setConsentText(consentForm.default);
+    let consentForm = role.role_id === 3 ? workerConsent : ownerConsent;
+    fetch(consentForm)
+      .then((r) => r.text())
+      .then((text) => {
+        setConsentText(text);
+      })
   }, []);
 
   return (

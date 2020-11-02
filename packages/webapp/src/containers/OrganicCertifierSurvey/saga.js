@@ -8,7 +8,6 @@ import { setCertifierSurvey } from './actions';
 import { farmSelector } from '../selector';
 import { certifierSurveySelector } from './selector';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import { toastr } from 'react-redux-toastr';
 import {url} from '../../apiConfig';
 const axios = require('axios');
 const getUrl = farm_id => `${url}/farm/${farm_id}/organic_certifier_survey`;

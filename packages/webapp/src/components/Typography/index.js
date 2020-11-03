@@ -80,9 +80,17 @@ export const Label = ({
   style,
   ...props
 }) => {
-  return (
+  return sm?(
+    <span
+      className={clsx(styles.smLabel, className)}
+      style={style}
+      {...props}
+    >
+      {children}
+    </span>
+  ):(
     <h5
-      className={clsx(sm ? styles.smLabel : styles.label, className)}
+      className={clsx(styles.label, className)}
       style={style}
       {...props}
     >

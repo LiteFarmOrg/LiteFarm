@@ -13,6 +13,7 @@
 .input:disabled {
   background-color: var(--inputDisabled);
   color: var(--inputDefault);
+  border-color: var(--inputDefault);
 }
 
 .fullLength{
@@ -30,7 +31,7 @@
   border-color: var(--error);
 }
 
-.input:focus{
+.input:focus:enabled{
   outline: none;
   border-color: var(--inputActive);
 }
@@ -43,4 +44,12 @@
 }
 .icon > *{
   cursor: pointer;
+}
+.sm{
+  margin-left: 8px;
+}
+.cross{
+  position: absolute;
+  right: 0;
+  transform: translate(-17px, 13px);
 }

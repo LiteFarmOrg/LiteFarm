@@ -18,13 +18,32 @@ import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';
+import ReactJoyride from 'react-joyride';
 
 class App extends Component {
+  state = {
+    steps: [
+      {
+        target: ".selector h3",
+        content: "This is your message to your user"
+      }
+    ]
+  }
   render() {
     const auth = new Auth();
+    console.log("we are in app...")
+    console.log(this.state.steps)
     return (
-      <div style={{width:'100%', maxWidth: '1024px'}}>
-        <NavBar auth={auth} history={history}/>
+      <div className="app" style={{width:'100%', maxWidth: '1024px'}}>
+        <NavBar auth={auth} steps={this.state.steps} history={history}/>
+        <ReactJoyride
+          steps={this.state.steps}
+        />
+        <div className="rederToDOM">
+          <div className="selector">
+            <h3>Hi! I am an h3.</h3>
+          </div>
+        </div>
         <Routes />
       </div>
     );

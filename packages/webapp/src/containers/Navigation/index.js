@@ -26,7 +26,10 @@ import { farmSelector } from '../selector'
 import PureNavBar from "../../components/Navigation/NavBar";
 
 const NavBar = (props) => {
-  const { auth, history, farm } = props;
+  const { auth, history, farm, steps } = props;
+  console.log("we are in nav bar container...")
+  console.log("steps is")
+  console.log(steps)
   const { isAuthenticated } = auth;
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent;
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
@@ -41,7 +44,7 @@ const NavBar = (props) => {
   if (!isFarmSelected) return <NoFarmNavBar history={history}/>
 
   return (
-    <PureNavBar logo={Logo}>
+    <PureNavBar logo={Logo} steps={steps}>
       <SlideMenu right logout={logout}/>
     </PureNavBar>
   );

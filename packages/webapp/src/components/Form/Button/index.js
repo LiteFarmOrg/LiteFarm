@@ -30,7 +30,7 @@ const Button = ({
 };
 
 Button.propTypes = {
-  color: PropTypes.oneOf(['primary', 'secondary']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'none']),
   disabled: PropTypes.bool,
   fullLength: PropTypes.bool,
   children: PropTypes.string,

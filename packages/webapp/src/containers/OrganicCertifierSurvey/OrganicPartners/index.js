@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
+import React  from 'react';
 import { PureOrganicPartners } from '../../../components/OrganicPartners';
 import { certifierSurveySelector } from '../selector';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCertifiers } from '../actions';
 import history from '../../../history';
 export default function OrganicPartners() {
-  const { register, handleSubmit, getValues, errors, watch } = useForm();
+  const { register, handleSubmit, errors, watch } = useForm();
   const COABC = 'COABC';
   const OTHER = 'other';
   const OTHERNAME = 'otherName';
@@ -33,6 +33,7 @@ export default function OrganicPartners() {
   const onGoBack = () => {
     history.push('/interested_in_organic');
     console.log('back');
+    console.log(certifiers);
   }
   const disabled = !coabc && !otherName;
   return <>

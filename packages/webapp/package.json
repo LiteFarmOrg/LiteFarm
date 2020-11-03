@@ -142,6 +142,9 @@
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
     ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/config/jest/setup.js"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -183,8 +186,11 @@
     "@storybook/addon-links": "^6.0.26",
     "@storybook/addon-storyshots": "^6.0.27",
     "@storybook/react": "^6.0.26",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0",
     "cypress": "^3.8.3",
     "mini-css-extract-plugin": "^0.9.0",
+    "mutationobserver-shim": "^0.3.7",
     "react-is": "^16.13.1",
     "react-test-renderer": "^17.0.1",
     "start-server-and-test": "^1.11.0"

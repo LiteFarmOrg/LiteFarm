@@ -26,13 +26,6 @@
   color: var(--tooltipFont);
 }
 
-@mixin underlined-font(){
-  font-size: 14px;
-  line-height: 16px;
-  text-decoration-line: underline;
-  color: var(--iconActive);
-}
-
 @mixin paragraph-font(){
   font-size: 16px;
   line-height: 24px;

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './input.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { Error, Label, Info } from '../../Typography';
 
 
 const Input = ({
@@ -16,7 +17,7 @@ const Input = ({
 }) => {
   return (
     <div className={clsx(styles.container, classes.container)}>
-      <label className={styles.label}>{label}</label>
+      <Label>{label}</Label>
       <input
         disabled={disabled}
         className={clsx(styles.input, classes.input, errors && styles.inputError)}
@@ -25,8 +26,8 @@ const Input = ({
         {...props}
       />
       {icon && <span className={styles.icon}>{icon}</span>}
-      {info && !errors && <p className={clsx(styles.info, classes.info)}>{info}</p>}
-      {errors ? <span className={styles.error}>{errors}</span> : null}
+      {info && !errors && <Info className={clsx(classes.info)}>{info}</Info>}
+      {errors && !disabled ? <Error>{errors}</Error> : null}
     </div>
   );
 };

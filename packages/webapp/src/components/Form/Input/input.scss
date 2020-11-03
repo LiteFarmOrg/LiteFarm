@@ -18,10 +18,6 @@
   width: 100%;
 }
 
-.label{
-  @include input-label-font();
-  margin-bottom: 4px;
-}
 .container{
   display: flex;
   flex-direction: column;

@@ -4,7 +4,7 @@ import Button from "../Form/Button";
 import clsx from "clsx";
 import Radio from "../Form/Radio";
 import OverlayTooltip from "../Tooltip";
-import Underlined from "../Underlined";
+import { Title, Underlined, Main } from '../Typography';
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -13,8 +13,8 @@ export default function PureInterestedOrganic({ title, paragraph, inputs = [{}, 
   return <Form onSubmit={onSubmit} buttonGroup={
     <><Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button><Button type={'submit'} fullLength>Continue</Button></>
   }>
-    <h4 className={clsx(styles.title)}>{title}</h4>
-    <p className={clsx(styles.paragraph)}>{paragraph}</p>
+    <Title>{title}</Title>
+    <Main style={{marginBottom: '24px'}}>{paragraph}</Main>
     <Radio {...inputs[0]} checked={true} />
     <Radio classes={inputClasses} {...inputs[1]} />
     <OverlayTooltip content={content}>

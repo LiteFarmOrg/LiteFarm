@@ -24,3 +24,12 @@ WithIcon.args = {
   icon: <div style={{position: "absolute", right:0}}>icon</div>,
 };
 
+export const WithError = Template.bind({});
+WithError.args = {
+  errors: 'error error error error'
+};
+
+export const WithInfo = Template.bind({});
+WithInfo.args = {
+  info: 'info info info info info'
+};

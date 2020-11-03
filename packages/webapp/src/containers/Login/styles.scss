@@ -30,6 +30,26 @@
 
 .home {
   padding: 20vh 0;
+  label {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 600;
+    color: var(--typePrimary);
+    float: left;
+  }
+
+  input {
+    appearance: none;
+    border: 1px solid var(--typePrimary);
+    font-size: 1.5rem;
+    width: 100%;
+    padding-left: 7px;
+  }
+
+  input[type='checkbox']{
+    appearance: auto;
+  }
 }
 
 .submit {
@@ -40,27 +60,6 @@
   display: block;
   width: 240px;
   margin: 0 auto;
-}
-
-label {
-  display: block;
-  font-size: 1.5rem;
-  line-height: 1;
-  font-weight: 600;
-  color: var(--typePrimary);
-  float: left;
-}
-
-input {
-  appearance: none;
-  border: 1px solid var(--typePrimary);
-  font-size: 1.5rem;
-  width: 100%;
-  padding-left: 7px;
-}
-
-input[type='checkbox']{
-  appearance: auto;
 }
 
 .greetContainer {

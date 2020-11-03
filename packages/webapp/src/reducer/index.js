@@ -27,7 +27,7 @@ import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
 import userFarmReducer from '../containers/ChooseFarm/reducer';
-
+import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/reducer';
 
 // all the initial state for the forms
 const initialFarmState = {
@@ -119,6 +119,7 @@ const appReducer = combineReducers({
   financeReducer,
   farmReducer,
   userFarmReducer,
+  certifierSurveyReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-// import { farmSelector } from "../selector";
 import { connect } from "react-redux";
 import React from "react";
 import history from '../../history';

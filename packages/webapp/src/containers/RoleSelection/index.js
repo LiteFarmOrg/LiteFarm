@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { farmSelector } from "../selector";
+// import { farmSelector } from "../selector";
 import { connect } from "react-redux";
 import React from "react";
 import history from '../../history';
@@ -23,7 +23,7 @@ function RoleSelection({dispatch, farm}) {
                          value: 'Owner',
                          inputRef: register({required: true}),
                          name: '_role',
-                         checked: true
+                         defaultChecked: true
                        },{
                          label: 'Farm manager',
                          value: 'Manager',
@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
+    farm: state.baseReducer.farm,
   }
 };
 

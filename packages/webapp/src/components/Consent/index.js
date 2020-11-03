@@ -1,10 +1,11 @@
 import Form from "../Form";
 import Button from "../Form/Button";
 import clsx from "clsx";
+import styles from "./consent.scss";
 import ReactMarkdown from "react-markdown";
 import Checkbox from "../Form/Checkbox";
 import React from "react";
-import { Text, Title } from '../Typography';
+import { Title } from '../Typography';
 export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, disabled }) {
   return (
     <Form onSubmit={onSubmit} buttonGroup={
@@ -12,9 +13,8 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
                                                                                           fullLength disabled={disabled}>Continue</Button></>
     }>
       <Title style={{marginBottom: '16px'}}>Our Data Policy</Title>
-      <div style={{ width: '90%', overflowY: "scroll" }} className={clsx('paraText')}>
+      <div style={{ width: '90%', overflowY: "scroll" }} className={clsx(styles.consentText, 'paraText')}>
         <ReactMarkdown children={text}>
-          <Text>{text}</Text>
         </ReactMarkdown>
       </div>
       <div style={{

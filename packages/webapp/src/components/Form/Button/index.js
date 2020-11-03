@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 const Button = ({
-  color,
+  color = 'primary',
   children = 'Button',
   sm,
   disabled = false,

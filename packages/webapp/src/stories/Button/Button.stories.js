@@ -9,7 +9,7 @@ export default {
 };
 
 const Template = (args) => <Button {...args} />;
-const TemplateWithText = (args) => <><p>Override button style by passing imported scss stylesheet as classes or by passing in a className string</p><Button {...args} /></>;
+const TemplateWithText = (args) => <><p>Override button style by passing imported scss stylesheet as classes or by passing in a className string. To remove background color and pass in a bootstrap className, color need to be set to undefined</p><Button {...args} /></>;
 export const Primary = Template.bind({});
 Primary.args = {
   color: 'primary',
@@ -61,5 +61,6 @@ InjectClasses.args = {
 export const InjectBootstrapClassName = TemplateWithText.bind({});
 InjectBootstrapClassName.args = {
   label: 'Button',
+  color: undefined,
   className: 'btn btn-dark'
 };

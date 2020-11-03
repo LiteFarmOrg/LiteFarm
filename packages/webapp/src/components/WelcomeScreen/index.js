@@ -1,7 +1,7 @@
 import Layout from "../Layout";
 import Button from "../Form/Button";
 import Svg from "../Svg";
-import signup2 from "../../stories/assets/signUp/signUp2.svg";
+import signup2 from "../../assets/images/signUp/signUp2.svg";
 import React from "react";
 import PropTypes from "prop-types";
 

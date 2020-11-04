@@ -1,7 +1,6 @@
 import styles from "./styles.scss";
 import Form from "../Form";
 import Button from "../Form/Button";
-import clsx from "clsx";
 import Radio from "../Form/Radio";
 import OverlayTooltip from "../Tooltip";
 import { Title, Underlined, Main } from '../Typography';

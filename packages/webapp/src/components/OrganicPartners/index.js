@@ -2,7 +2,6 @@ import styles from "./styles.scss";
 import Form from "../Form";
 import Button from "../Form/Button";
 import signup7 from "../../assets/images/signUp/signup7.svg";
-import clsx from "clsx";
 import { FaLeaf } from "react-icons/fa";
 import Checkbox from "../Form/Checkbox";
 import Input from "../Form/Input";

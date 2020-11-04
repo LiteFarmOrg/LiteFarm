@@ -2,21 +2,25 @@ import React from 'react';
 import styles from './input.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-
+import { Error, Label, Info } from '../../Typography';
+import { Cross } from '../../Icons';
 
 const Input = ({
   disabled = false,
   classes = { input: '', label: '', info: '', container: '' },
-  label = 'label',
+  label,
+  optional,
   info,
   errors,
   icon,
   inputRef,
+  onClear,
   ...props
 }) => {
   return (
     <div className={clsx(styles.container, classes.container)}>
-      <label className={styles.label}>{label}</label>
+      {label && <Label>{label} {optional && <Label sm className={styles.sm}>(optional)</Label>}</Label>}
+      {errors && <Cross onClick={onClear} className={styles.cross}/>}
       <input
         disabled={disabled}
         className={clsx(styles.input, classes.input, errors && styles.inputError)}
@@ -25,8 +29,8 @@ const Input = ({
         {...props}
       />
       {icon && <span className={styles.icon}>{icon}</span>}
-      {info && !errors && <p className={clsx(styles.info, classes.info)}>{info}</p>}
-      {errors ? <span className={styles.error}>{errors}</span> : null}
+      {info && !errors && <Info className={clsx(classes.info)}>{info}</Info>}
+      {errors && !disabled ? <Error>{errors}</Error> : null}
     </div>
   );
 };
@@ -34,8 +38,10 @@ const Input = ({
 Input.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
+  optional: PropTypes.bool,
   info: PropTypes.string,
   errors: PropTypes.string,
+  onClear: PropTypes.func,
   classes: PropTypes.exact({
     input: PropTypes.string,
     label: PropTypes.string,

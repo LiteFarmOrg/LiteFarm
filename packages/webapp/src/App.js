@@ -25,23 +25,44 @@ class App extends Component {
     steps: [
       {
         target: ".selector h3",
-        content: "This is your message to your user"
+        title: "This is your farm profile",
+        content: "Here you can:",
       }
     ]
   }
   render() {
     const auth = new Auth();
-    console.log("we are in app...")
-    console.log(this.state.steps)
     return (
       <div className="app" style={{width:'100%', maxWidth: '1024px'}}>
         <NavBar auth={auth} steps={this.state.steps} history={history}/>
         <ReactJoyride
-          steps={this.state.steps}
+                steps={this.state.steps}
+                run={this.state.run}
+                continuous
+                showProgress
+                showSkipButton
+                styles={{
+                 options: {
+                    // modal arrow and background color
+                    arrowColor: "#eee",
+                    backgroundColor: "#eee",
+                    // page overlay color
+                    overlayColor: "rgba(79, 26, 0, 0.4)",
+                    //button color
+                    primaryColor: "mediumaquamarine",
+                    //text color
+                    textColor: "#333",
+         
+                    //width of modal
+                    width: 500,
+                    //zindex of modal
+                    zIndex: 1000
+                }
+             }}
         />
         <div className="rederToDOM">
           <div className="selector">
-            <h3>Hi! I am an h3.</h3>
+            <h3></h3>
           </div>
         </div>
         <Routes />

@@ -20,13 +20,16 @@ import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';
 import ReactJoyride from 'react-joyride';
 
+// import ReactJoyride from './components/ReactJoyride/index'
+
 class App extends Component {
   state = {
     steps: [
       {
-        target: ".selector h3",
+      
+        target: "#firstStep",
         title: "This is your farm profile",
-        content: "Here you can:",
+        content: "Here you can: edit your farm settings, map your farm, and manage your employees.",
       }
     ]
   }
@@ -35,36 +38,6 @@ class App extends Component {
     return (
       <div className="app" style={{width:'100%', maxWidth: '1024px'}}>
         <NavBar auth={auth} steps={this.state.steps} history={history}/>
-        <ReactJoyride
-                steps={this.state.steps}
-                run={this.state.run}
-                continuous
-                showProgress
-                showSkipButton
-                styles={{
-                 options: {
-                    // modal arrow and background color
-                    arrowColor: "#eee",
-                    backgroundColor: "#eee",
-                    // page overlay color
-                    overlayColor: "rgba(79, 26, 0, 0.4)",
-                    //button color
-                    primaryColor: "mediumaquamarine",
-                    //text color
-                    textColor: "#333",
-         
-                    //width of modal
-                    width: 500,
-                    //zindex of modal
-                    zIndex: 1000
-                }
-             }}
-        />
-        <div className="rederToDOM">
-          <div className="selector">
-            <h3></h3>
-          </div>
-        </div>
         <Routes />
       </div>
     );

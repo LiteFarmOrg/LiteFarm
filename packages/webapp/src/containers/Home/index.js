@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { farmSelector, userInfoSelector } from "../selector";
 import { getSeason } from "./utils/season";
 import { toastr } from "react-redux-toastr";
-import { getUserInfo } from "../actions";
 import WeatherBoard from "../../containers/WeatherBoard";
 import PureHome from "../../components/Home";
 // import Auth from '../../Auth/Auth';

@@ -1,7 +1,7 @@
-@import "../../stories/assets/colors";
+@import "../../assets/colors";
 .footer{
   bottom: 0;
-  padding: 0 20px 24px 20px;
+  padding: 0 16px 24px 16px;
   position: fixed;
   width: 100%;
   display: flex;
@@ -9,6 +9,6 @@
 }
 
 .footer > *{
-  margin: 0 4px
+  margin: 0 8px
 }
 

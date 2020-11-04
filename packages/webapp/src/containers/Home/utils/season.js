@@ -1,8 +1,8 @@
 import moment from 'moment';
-import autumn from '../../../stories/assets/home/home bg-2-min.png'
-import winter from '../../../stories/assets/home/home bg-5-min.png'
-import spring from '../../../stories/assets/home/home bg-7-min.png'
-import summer from '../../../stories/assets/home/home bg-8 2-min.png'
+import autumn from '../../../assets/images/home/home bg-2-min.png'
+import winter from '../../../assets/images/home/home bg-5-min.png'
+import spring from '../../../assets/images/home/home bg-7-min.png'
+import summer from '../../../assets/images/home/home bg-8 2-min.png'
 
 export const getSeason = (lat) => {
   const isNorth = lat > 0;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Underlined from '../../components/Underlined';
+import { Underlined } from '../../components/Typography';
 import OverlayTooltip from "../../components/Tooltip";
 export default {
   title: 'Components/OverlayTooltip',

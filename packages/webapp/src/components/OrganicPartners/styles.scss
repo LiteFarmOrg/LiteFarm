@@ -1,14 +1,10 @@
-@import "../../stories/assets/mixin";
+@import "../../assets/mixin";
 .title{
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
   line-height: 32px;
   margin-bottom: 20px;
-}
-.paragraph{
-  @include paragraph-font();
-  margin-bottom: 24px;
 }
 
 .container{
@@ -26,10 +22,6 @@
   color: var(--green700);
   display: block;
   text-align: center;
-  margin-bottom: 8px;
-}
-.checkboxLabel{
-  @include input-label-font();
   margin-bottom: 8px;
 }
 

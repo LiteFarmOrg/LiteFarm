@@ -1,9 +1,8 @@
-@import "../../../stories/assets/colors";
-@import "../../../stories/assets/mixin";
+@import "../../../assets/colors";
+@import "../../../assets/mixin";
 .container {
   display: inline-block;
   position: relative;
-  padding-left: 25px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -12,9 +11,7 @@
 }
 
 .label {
-  @include checkbox-label-font();
-  transform: translateY(-2px);
-  margin-bottom: 0;
+  transform: translate(25px, -3px);
 }
 
 /* Hide the browser's default Checkbox */
@@ -78,6 +75,5 @@
 }
 
 .error{
-  @include error-font();
-  margin-top: 4px;
+  margin-top: 0;
 }

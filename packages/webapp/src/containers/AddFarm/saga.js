@@ -47,6 +47,7 @@ export function* createFarm(payload) {
       localStorage.setItem('farm_id', addFarmResult.data.farm_id);
 
       // redirect to next step (select role)
+      yield put(setFarmInState(addFarmResult.data))
       history.push('/role_selection')
     }
   } catch(e) {

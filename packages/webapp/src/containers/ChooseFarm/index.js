@@ -50,7 +50,7 @@ class ChooseFarm extends Component {
       if (this.props.farms && this.props.farms.length === 1) {
         this.selectSingleFarm(this.props.farms[0]);
       } else if (this.props.farms && this.props.farms.length === 1) {
-        history.push('/add_farm');
+        history.push('/welcome');
       }
     }
   }
@@ -132,10 +132,6 @@ class ChooseFarm extends Component {
     history.push('/add_farm');
   };
 
-  newOnboarding = () => {
-    history.push('/add_farm_2')
-  };
-
   render() {
     const { farms } = this.props;
     let { disable_proceed } = this.state;
@@ -171,9 +167,6 @@ class ChooseFarm extends Component {
 
       <div className={styles.createContainer} onClick={() => this.createFarm()}>
         <span>+</span> &nbsp;Create new farm
-      </div>
-      <div className={styles.createContainer} onClick={() => this.newOnboarding()}>
-        <span>+</span> &nbsp;New onboarding flow
       </div>
       <ProceedFooter cancelFunc={this.cancelFunc} proceedFunc={this.proceedFunc} disableProceed={disable_proceed}/>
     </div>

@@ -45,6 +45,7 @@ const AddFarm = ({ dispatch }) => {
   const handleScriptLoad = () => {
     const options = {
       types: ['address'],
+      language: 'en-US'
     };
 
     // Initialize Google Autocomplete
@@ -115,7 +116,7 @@ const AddFarm = ({ dispatch }) => {
         clearState();
         return;
       }
-      
+
       setAddress(inputtedAddress);
       // this.props.dispatch(actions.change('profileForms' + model + '.address', this.props.address));
       gridPoints['lat'] = lat;
@@ -146,7 +147,7 @@ const AddFarm = ({ dispatch }) => {
 
   return <>
     <Script
-      url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLCM0Fgm-_aF1x96paf-vdGzCAW6GRHM&libraries=places,drawing,geometry`}
+      url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLCM0Fgm-_aF1x96paf-vdGzCAW6GRHM&libraries=places,drawing,geometry&language=en-US`}
       onLoad={handleScriptLoad}
     />
     <PureAddFarm onSubmit={handleSubmit(onSubmit)} title={'Tell us about your farm'} inputs={[{

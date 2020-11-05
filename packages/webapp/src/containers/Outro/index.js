@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 import { farmSelector } from '../selector';
 import history from '../../history';
 import { finishOnboarding } from './actions';
+import { showSpotlight } from "../actions";
 import PureOutroSplash from "../../components/Outro";
 
 function Outro({ farm, dispatch }) {
 
   const redirectFinish = () => {
-    if (farm) {
-      // TODO replace with Brandon's Splotlight component
-      dispatch(finishOnboarding())
-      history.push('/home')
-    }
-    // TODO: add else case wih Jimmy's organic farm
+    dispatch(finishOnboarding())
+    dispatch(showSpotlight(true))
+    history.push('/home')
   }
 
 

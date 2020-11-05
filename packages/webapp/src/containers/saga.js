@@ -21,7 +21,7 @@ import {
   GET_FIELDS,
   UPDATE_USER_INFO,
   UPDATE_FARM,
-  UPDATE_AGREEMENT,
+  UPDATE_AGREEMENT
 } from "./constants";
 import { setUserInState, setFarmInState, fetchFarmInfo, setFieldCropsInState, setFieldsInState, getFields, getFieldCrops } from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';

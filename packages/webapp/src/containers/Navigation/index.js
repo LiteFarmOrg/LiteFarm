@@ -22,11 +22,14 @@ import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar'
 
-import { farmSelector } from '../selector'
+import { farmSelector, spotlightSelector } from '../selector'
 import PureNavBar from "../../components/Navigation/NavBar";
 
+import { showSpotlight } from "../actions";
+
 const NavBar = (props) => {
-  const { auth, history, farm, steps } = props;
+  const { auth, history, farm, show_spotlight, dispatch } = props;
+  
   const { isAuthenticated } = auth;
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent;
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
@@ -37,8 +40,6 @@ const NavBar = (props) => {
   const logout = () => {
     auth.logout();
   };
-
-  if (!isFarmSelected) return <NoFarmNavBar history={history}/>
 
   const farmSpotlight = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees";
   const notificationsSpotlight = "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities";
@@ -54,8 +55,7 @@ const NavBar = (props) => {
     })
   }
 
-  const state = {
-    steps: [
+  const steps = [
       {
         target: "#firstStep",
         title: "This is your farm profile",
@@ -73,18 +73,27 @@ const NavBar = (props) => {
       },
       
     ]
+  
+
+  if (!isFarmSelected) return <NoFarmNavBar history={history}/>
+
+  const resetSpotlight = () => {
+    dispatch(showSpotlight(false))
   }
 
-  return (
-    <PureNavBar logo={Logo} steps={state.steps}>
+return (
+    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight}>
       <SlideMenu right logout={logout}/>
     </PureNavBar>
   );
+
+
 }
 
 const mapStateToProps = (state) => {
   return {
     farm: farmSelector(state),
+    show_spotlight: spotlightSelector(state)
   }
 };
 

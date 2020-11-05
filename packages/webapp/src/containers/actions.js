@@ -26,6 +26,7 @@ import {
   SET_FIELD_CROPS_IN_STATE,
   SET_FIELDS_IN_STATE,
   UPDATE_AGREEMENT,
+  SHOW_SPOTLIGHT
 } from "./constants";
 
 export const getUserInfo = (loadFromHome=false) => {
@@ -113,4 +114,12 @@ export const updateAgreement = (consent_bool, consent_version) => {
     consent_bool: consent_bool,
     consent_version,
   }
+};
+
+export const showSpotlight = (show_spotlight) => {
+  return {
+    type: SHOW_SPOTLIGHT,
+    show_spotlight,
+  }
+
 };

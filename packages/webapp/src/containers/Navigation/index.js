@@ -40,8 +40,43 @@ const NavBar = (props) => {
 
   if (!isFarmSelected) return <NoFarmNavBar history={history}/>
 
+  const farmSpotlight = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees";
+  const notificationsSpotlight = "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities";
+  const myProfileSpotlight = "Here you will find:, • Your info, • Helpful tips, • The log out button";
+
+  const returnContent = (spotlightType) => {
+    return spotlightType.split(',').map(function(item, key) {
+      return (
+        <span key={key}>
+        <p align="left">{item}</p>
+        </span>
+      )
+    })
+  }
+
+  const state = {
+    steps: [
+      {
+        target: "#firstStep",
+        title: "This is your farm profile",
+        content: returnContent(farmSpotlight),
+      },
+      {
+        target: "#secondStep",
+        title: "This is your Notification Centre",
+        content: returnContent(notificationsSpotlight),
+      },
+      {
+        target: "#thirdStep",
+        title: "This is your profile",
+        content: returnContent(myProfileSpotlight),
+      },
+      
+    ]
+  }
+
   return (
-    <PureNavBar logo={Logo} steps={steps}>
+    <PureNavBar logo={Logo} steps={state.steps}>
       <SlideMenu right logout={logout}/>
     </PureNavBar>
   );

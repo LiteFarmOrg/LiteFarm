@@ -11,19 +11,19 @@ export default function PureNavBar({logo, children, steps}) {
       <div className={styles.actionItemContainer}>
       <ReactJoyride
                 steps={steps}
-                // run={this.state.run}
+                run={steps.run}
                 continuous
                 showProgress
                 showSkipButton
                 styles={{
                  options: {
                     // modal arrow and background color
-                    // arrowColor: "#eee",
+                    arrowColor: "#eee",
                     backgroundColor: "#eee",
                     // page overlay color
                     overlayColor: "rgba(191, 191, 191, 1)",
                     //button color  
-                    primaryColor: "#FED450",
+                    primaryColor: "#06AB16",
                     //text color
                     textColor: "##000000",
          

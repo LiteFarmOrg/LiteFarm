@@ -20,52 +20,11 @@ import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';
 
 class App extends Component {
-  farmSpotlight = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees"
-  notificationsSpotlight = "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities"
-  myProfileSpotlight = "Here you will find:, • Your info, • Helpful tips, • The log out button"
-
-  state = {
-    steps: [
-      {
-        target: "#firstStep",
-        title: "This is your farm profile",
-        content: this.farmSpotlight.split(",").map(function(item, key) {
-          return (
-            <span key={key}>
-            <p align="left">{item}</p>
-            </span>
-          )
-        }),
-      },
-      {
-        target: "#secondStep",
-        title: "This is your profile",
-        content: this.notificationsSpotlight.split(",").map(function(item, key) {
-          return (
-            <span key={key}>
-            <p align="left">{item}</p>
-            </span>
-          )
-        }),
-      },
-      {
-        target: "#thirdStep",
-        title: "This is your profile",
-        content: this.myProfileSpotlight.split(",").map(function(item, key) {
-          return (
-            <span key={key}>
-            <p align="left">{item}</p>
-            </span>
-          )
-        }),
-      }
-    ]
-  }
   render() {
     const auth = new Auth();
     return (
       <div className="app" style={{width:'100%', maxWidth: '1024px'}}>
-        <NavBar auth={auth} steps={this.state.steps} history={history}/>
+        <NavBar auth={auth} history={history}/>
         <Routes />
       </div>
     );

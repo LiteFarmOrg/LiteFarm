@@ -18,13 +18,37 @@ const farmModel = require('../models/farmModel');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
+const knex = Model.knex();
 
 class farmController extends baseController {
   static addFarm() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+
+      const { country } = req.body;
+      if(!country) {
+        return res.status(400).send('No ');
+      }
+
+      const countryInfo = await knex('currency_table').select('*').where('country_name', country).first();
+      if (!countryInfo) {
+        await trx.rollback();
+        res.status(400).send('No unit info for given country');
+        return;
+      }
+
+      let infoBody = {
+        farm_name: req.body.farm_name,
+        address: req.body.address,
+        grid_points: req.body.grid_points,
+        units: {
+          currency: countryInfo.iso,
+          measurement: countryInfo.unit.toLowerCase(),
+        }
+      }
+
       try {
-        const result = await baseController.postWithResponse(farmModel, req.body, trx);
+        const result = await baseController.postWithResponse(farmModel, infoBody, trx);
         // console.log('farm post result: ', result);
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);

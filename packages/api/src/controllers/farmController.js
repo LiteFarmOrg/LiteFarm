@@ -26,6 +26,10 @@ class farmController extends baseController {
       const trx = await transaction.start(Model.knex());
 
       const { country } = req.body;
+      if(!country) {
+        return res.status(400).send('No ');
+      }
+
       const countryInfo = await knex('currency_table').select('*').where('country_name', country).first();
 
       let infoBody = {

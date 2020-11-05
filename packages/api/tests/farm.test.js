@@ -62,12 +62,12 @@ describe('Farm Tests', () => {
       farm_name: '',
       address: '',
       grid_points: {},
-      units: null,
-      currency: null,
+      country: 'United States',
       sandbox: null
     }
     const validFarm = {
       farm_name: 'Test Farm 1',
+      country: 'United States',
       address: '1210 Valid Stret',
       grid_points: {
         lat: 22.33,
@@ -107,8 +107,7 @@ describe('Farm Tests', () => {
         expect(res.status).toBe(201);
         const farm = res.body;
         expect(farm.units.currency).toBe('USD');
-        expect(farm.units.measurement).toBe('metric');
-        expect(farm.sandbox_bool).toBe(false);
+        expect(farm.units.measurement).toBe('imperial');
         done();
       })
     });

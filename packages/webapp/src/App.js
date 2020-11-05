@@ -20,7 +20,7 @@ import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';
 
 class App extends Component {
-  bulletPoints = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees."
+  farmSpotlight = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees."
 
   state = {
     steps: [
@@ -28,7 +28,7 @@ class App extends Component {
       
         target: "#firstStep",
         title: "This is your farm profile",
-        content: this.bulletPoints.split(",").map(function(item, key) {
+        content: this.farmSpotlight.split(",").map(function(item, key) {
           return (
             <span key={key}>
             <p align="left">{item}</p>

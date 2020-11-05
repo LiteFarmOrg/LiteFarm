@@ -23,9 +23,9 @@ export default function PureNavBar({logo, children, steps}) {
                     // page overlay color
                     overlayColor: "rgba(191, 191, 191, 1)",
                     //button color  
-                    primaryColor: "mediumaquamarine",
+                    primaryColor: "#FED450",
                     //text color
-                    textColor: "#333",
+                    textColor: "##000000",
          
                     //width of modal
                     width: 300,

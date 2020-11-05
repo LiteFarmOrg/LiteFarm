@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './button.scss';
 import Button from "../../components/Form/Button";
 
 export default {
@@ -9,7 +8,7 @@ export default {
 };
 
 const Template = (args) => <Button {...args} />;
-const TemplateWithText = (args) => <><p>Override button style by passing imported scss stylesheet as classes or by passing in a className string. To remove background color and pass in a bootstrap className, color need to be set to 'none'</p><Button {...args} /></>;
+const TemplateWithText = (args) => <><p>Override button style by passing style object to style prop or by passing in a className string. To remove background color and pass in a bootstrap className, color need to be set to 'none'</p><Button {...args} /></>;
 export const Primary = Template.bind({});
 Primary.args = {
   color: 'primary',
@@ -51,11 +50,15 @@ DisabledSmall.args = {
   sm: true
 };
 
-export const InjectClasses = TemplateWithText.bind({});
-InjectClasses.args = {
+const style={
+  background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)'
+}
+
+export const InjectStyle = TemplateWithText.bind({});
+InjectStyle.args = {
   color: 'primary',
   label: 'Button',
-  classes: styles
+  style: style
 };
 
 export const InjectBootstrapClassName = TemplateWithText.bind({});

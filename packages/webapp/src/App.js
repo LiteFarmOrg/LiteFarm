@@ -31,8 +31,7 @@ class App extends Component {
         content: this.bulletPoints.split(",").map(function(item, key) {
           return (
             <span key={key}>
-            {item}
-            <br/>
+            <p align="left">{item}</p>
             </span>
           )
         }),

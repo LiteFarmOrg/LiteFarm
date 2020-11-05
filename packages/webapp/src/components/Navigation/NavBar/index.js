@@ -18,7 +18,7 @@ export default function PureNavBar({logo, children, steps}) {
                 styles={{
                  options: {
                     // modal arrow and background color
-                    arrowColor: "#eee",
+                    // arrowColor: "#eee",
                     backgroundColor: "#eee",
                     // page overlay color
                     overlayColor: "rgba(191, 191, 191, 1)",
@@ -38,8 +38,8 @@ export default function PureNavBar({logo, children, steps}) {
             
             <input ng-repeat id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
             
-            <input type="image" src={NotifIcon} className={styles.actionItem}/>
-            <input type="image" src={HelpIcon} className={styles.actionItem}/>
+            <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
+            <input id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem}/>
             
       
         

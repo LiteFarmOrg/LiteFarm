@@ -23,6 +23,8 @@ import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrg
 import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
 import AddFarm from './containers/AddFarm/index';
+import AddFarm2 from './containers/WelcomeScreen';
+import AddFarm3 from './containers/AddFarm/temp.index';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
@@ -123,6 +125,8 @@ function Routes() {
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
+          <Route path="/add_farm_2" exact component={AddFarm2}/>
+          <Route path="/add_farm_3" exact component={AddFarm3}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -210,6 +214,8 @@ function Routes() {
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
+          <Route path="/add_farm_2" exact component={AddFarm2}/>
+          <Route path="/add_farm_3" exact component={AddFarm3}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -299,6 +305,8 @@ function Routes() {
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
+          <Route path="/add_farm_2" exact component={AddFarm2}/>
+          <Route path="/add_farm_3" exact component={AddFarm3}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>

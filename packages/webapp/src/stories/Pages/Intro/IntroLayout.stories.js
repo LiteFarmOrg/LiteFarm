@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '../../../components/Layout';
 import Button from '../../../components/Form/Button';
 import Svg from '../../../components/Svg';
-import signup2 from '../../assets/signUp/signUp2.svg';
+import signup2 from '../../../assets/images/signUp/signUp2.svg';
 import decorators from '../config/decorators';
 
 export default {

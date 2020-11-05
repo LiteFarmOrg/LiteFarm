@@ -1,11 +1,10 @@
-@import "../../../stories/assets/colors";
-@import "../../../stories/assets/mixin";
+@import "../../../assets/colors";
+@import "../../../assets/mixin";
 .container {
   display: inline-block;
   position: relative;
   padding-left: 24px;
   cursor: pointer;
-  font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -60,9 +59,7 @@
 }
 
 .label {
-  @include checkbox-label-font();
   transform: translateY(-4px);
-  margin-bottom: 0;
 }
 
 .disabled{

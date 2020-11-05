@@ -1,20 +1,20 @@
 import decorators from "../Pages/config/decorators";
 import React from 'react';
-import ConsentForm from "../../containers/Consent";
-
+import PureConsent from "../../components/Consent";
+import text from './../../containers/Consent/Owner.Consent.md';
 export default {
   title: 'Form/Intro/3-Consent',
   decorators: decorators,
-  component: ConsentForm,
+  component: PureConsent,
 };
 
-const Template = (args) => <ConsentForm {...args} />;
+const Template = (args) => <PureConsent {...args} />;
 
 export const Consent = Template.bind({});
 Consent.args = {
   onSubmit: () => {},
   onGoBack: () => {},
-  text: '',
-  checkBoxArgs: {label: 'I Agree'}
+  checkboxArgs: {label: 'I Agree'},
+  text: text,
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { styles } from '../../../components/Form/ReactSelect';
-import Select from 'react-select';
+import ReactSelect from '../../../components/Form/ReactSelect';
+
 
 const options = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -10,16 +10,18 @@ const options = [
 
 export default {
   title: 'Components/ReactSelect',
-  component: Select,
+  component: ReactSelect,
   decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
-const Template = (args) => <Select {...args} />;
+const Template = (args) => <><ReactSelect {...args}/></>;
 
 export const Default = Template.bind({});
 Default.args = {
   options: options,
-  styles: styles,
+  label: 'label',
+  placeholder: 'placeholder',
+  defaultMenuIsOpen: true,
 };
 
 

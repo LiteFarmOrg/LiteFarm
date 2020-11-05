@@ -10,7 +10,6 @@ const Button = ({
   sm,
   disabled = false,
   fullLength = false,
-  classes = { btn: "" },
   className,
   onClick,
   type,
@@ -19,7 +18,7 @@ const Button = ({
   return (
     <button
       disabled={disabled}
-      className={clsx(styles.btn, color && styles[color], sm && styles.sm, classes.btn, fullLength && styles.fullLength, className)}
+      className={clsx(styles.btn, color && styles[color], sm && styles.sm, fullLength && styles.fullLength, className)}
       onClick={onClick}
       type={type}
       {...props}
@@ -34,7 +33,6 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   fullLength: PropTypes.bool,
   children: PropTypes.string,
-  classes: PropTypes.exact({btn: PropTypes.string}),
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   sm: PropTypes.bool,

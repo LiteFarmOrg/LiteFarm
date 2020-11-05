@@ -8,18 +8,18 @@ import { Main } from '../../Typography';
 const Radio = ({
   label = 'label',
   disabled = false,
-  classes = { checkbox: '', label: '', container: '' },
+  classes = {},
   children,
   style,
   inputRef,
   ...props
 }) => {
   return (
-    <label className={clsx(styles.container, classes.container, disabled && styles.disabled)}
-           style={style && { ...style }}>
-      <Main className={clsx(styles.label, classes.label)}>{label}</Main>
+    <label className={clsx(styles.container, disabled && styles.disabled)}
+           style={(style ||  classes.container) && { ...style, ...classes.container }}>
+      <Main className={clsx(styles.label)} style={classes.label}>{label}</Main>
       <input ref={inputRef} type={'radio'} {...props} disabled={disabled}/>
-      <span className={clsx(styles.checkmark, classes.checkbox)}/>
+      <span className={clsx(styles.checkmark)} style={classes.checkbox}/>
       {children}
     </label>
   );
@@ -28,7 +28,7 @@ const Radio = ({
 Radio.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
-  classes: PropTypes.exact({ checkbox: PropTypes.string, label: PropTypes.string, container: PropTypes.string }),
+  classes: PropTypes.exact({ checkbox: PropTypes.object, label: PropTypes.object, container: PropTypes.object }),
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

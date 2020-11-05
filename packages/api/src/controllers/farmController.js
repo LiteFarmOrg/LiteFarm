@@ -31,6 +31,11 @@ class farmController extends baseController {
       }
 
       const countryInfo = await knex('currency_table').select('*').where('country_name', country).first();
+      if (!countryInfo) {
+        await trx.rollback();
+        res.status(400).send('No unit info for given country');
+        return;
+      }
 
       let infoBody = {
         farm_name: req.body.farm_name,

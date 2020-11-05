@@ -58,32 +58,32 @@ describe('Farm Tests', () => {
   });
 
   describe('Valid and Invalid Inputs', () => {
-    const blankFark = {
+    const blankFarm = {
       farm_name: '',
       address: '',
       grid_points: {},
-      country: 'United States',
-      sandbox: null
+      country: '',
     }
+
     const validFarm = {
       farm_name: 'Test Farm 1',
-      country: 'United States',
-      address: '1210 Valid Stret',
+      address: '1210 Valid Street',
       grid_points: {
         lat: 22.33,
         lng: 122.33
-      }
+      },
+      country: 'United States',
     }
 
     test('should return 400 status if blank farm is posted', (done) => {
-      postFarmRequest(blankFark, (err, res) => {
+      postFarmRequest(blankFarm, (err, res) => {
         expect(res.status).toBe(400);
         done()
       })
     });
 
     test('should return 400 status if only farm name is filled', (done) => {
-      postFarmRequest({ ...blankFark, farm_name: 'Test Farm' }, (err, res) => {
+      postFarmRequest({ ...blankFarm, farm_name: 'Test Farm' }, (err, res) => {
         expect(res.status).toBe(400);
         done();
       })
@@ -91,10 +91,11 @@ describe('Farm Tests', () => {
 
     test('should return 400 status if name and invalid address are filled', (done) => {
       postFarmRequest({
-          ...blankFark,
+          ...blankFarm,
           farm_name: 'Test Farm',
           address: 'ANSOFANSOD',
-          grid_points: { lat: 'sa', long: '212' }
+          grid_points: { lat: 'sa', long: '212' },
+          country: 'Canada',
         },
         (err, res) => {
           expect(res.status).toBe(400);

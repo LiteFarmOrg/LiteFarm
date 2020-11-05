@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Footer from '../Footer';
 
 const Layout = ({
-  classes = { container: '', footer: '' },
+  classes = { container: '', footer: '' , navbar: ''},
   children,
   buttonGroup,
   isSVG,
@@ -30,7 +30,7 @@ Layout.propTypes = {
     PropTypes.node,
   ]),
   buttonGroup: PropTypes.node,
-  classes: PropTypes.exact({ container: PropTypes.string, footer: PropTypes.string }),
+  classes: PropTypes.exact({ container: PropTypes.string, footer: PropTypes.string, navbar: PropTypes.string }),
   isSVG: PropTypes.bool,
 }
 

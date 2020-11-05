@@ -18,18 +18,24 @@ import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';
-import ReactJoyride from 'react-joyride';
-
-// import ReactJoyride from './components/ReactJoyride/index'
 
 class App extends Component {
+  bulletPoints = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees."
+
   state = {
     steps: [
       {
       
         target: "#firstStep",
         title: "This is your farm profile",
-        content: "Here you can: edit your farm settings, map your farm, and manage your employees.",
+        content: this.bulletPoints.split(",").map(function(item, key) {
+          return (
+            <span key={key}>
+            {item}
+            <br/>
+            </span>
+          )
+        }),
       }
     ]
   }

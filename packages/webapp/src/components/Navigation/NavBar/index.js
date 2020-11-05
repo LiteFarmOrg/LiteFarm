@@ -22,7 +22,7 @@ export default function PureNavBar({logo, children, steps}) {
                     backgroundColor: "#eee",
                     // page overlay color
                     overlayColor: "rgba(191, 191, 191, 1)",
-                    //button color
+                    //button color  
                     primaryColor: "mediumaquamarine",
                     //text color
                     textColor: "#333",
@@ -36,7 +36,7 @@ export default function PureNavBar({logo, children, steps}) {
         />
           
             
-            <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
+            <input ng-repeat id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
             
             <input type="image" src={NotifIcon} className={styles.actionItem}/>
             <input type="image" src={HelpIcon} className={styles.actionItem}/>

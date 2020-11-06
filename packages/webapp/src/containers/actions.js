@@ -36,10 +36,8 @@ export const getUserInfo = (loadFromHome=false) => {
 };
 
 export const fetchFarmInfo = () => {
-  const farm_id = localStorage.getItem('farm_id');
   return {
     type: GET_FARM_INFO,
-    farm_id
   }
 };
 

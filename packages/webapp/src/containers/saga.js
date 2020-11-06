@@ -60,7 +60,11 @@ export function* getUserInfo(action) {
     if (result.data[0]) {
       //console.log(result.data);
       yield put(setUserInState(result.data[0]));
-
+      //TODO create a getUser saga that does not fetch userFarm
+      const farm = yield select(farmSelector);
+      if (!farm) {
+        return;
+      }
       // if(!result.data[0].has_consent){
       //   history.push('/consent');
       // }
@@ -71,6 +75,7 @@ export function* getUserInfo(action) {
       //   console.log('user has no farm at the moment');
       // }
     } else {
+      //TODO investigate load from home
       const auth = new Auth();
       auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'))
       console.log('failed to fetch user from database')
@@ -110,29 +115,32 @@ export function* updateUser(payload) {
   }
 }
 
-export function* getFarmInfo(action) {
-  let farm_id = localStorage.getItem('farm_id');
-
-  if (!farm_id) {
-    history.push('/add_farm');
-    return;
-  }
-
+export function* getFarmInfo() {
   try {
-    let userFarmReducer = yield select((state) => state.userFarmReducer);
+    let userFarmReducer = yield select(state => state.userFarmReducer);
+    const farm = yield select(farmSelector);
+
+    //TODO potential bug
+    if (!farm.farm_id) {
+      history.push('/add_farm');
+      return;
+    }
+    const farm_id = farm?.farm_id;
     const result = userFarmReducer.farms.filter(farm => farm.farm_id === farm_id);
     if (result[0]) {
       //console.log(result.data);
+      //TODO investigate why farm need the reset
       if (result[0].role_id) {
         localStorage.setItem('role_id', result[0].role_id);
       }
-      yield put(setFarmInState(result[0]));
+      yield put(setFarmInState({ ...result[0], ...farm }));
       yield put(getFields());
       yield put(getFieldCrops());
     } else {
       console.log('failed to fetch farm from database')
     }
   } catch (e) {
+    console.log(e);
     toastr.error('failed to fetch farm from database');
   }
 }
@@ -286,7 +294,7 @@ export function* updateAgreementSaga(payload) {
           };
           yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
         }
-        yield put(setFarmInState({ ...selectedFarm, ...step }));
+        yield put(setFarmInState({ ...selectedFarm, ...step, ...data }));
         callback && callback();
       } else {
         //did not give consent - log user out

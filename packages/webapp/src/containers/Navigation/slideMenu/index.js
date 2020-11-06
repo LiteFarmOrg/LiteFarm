@@ -11,18 +11,11 @@ import { withRouter } from 'react-router-dom';
 
 import { userInfoSelector, farmSelector } from '../../selector'
 
-const noConsentCheckRoutes = ['/consent', '/farm_selection', '/intro']
 
 function SlideMenu({ location, farm, logout }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
-
-  useEffect(() => {
-    if (farm && !farm.has_consent && !noConsentCheckRoutes.includes(location.pathname)) {
-      history.push('/consent', { role_id: farm.role_id });
-    }
-  }, [farm, farm.has_consent])
 
   const toggleSupport = () => {
     setSupportOpen(!supportOpen);

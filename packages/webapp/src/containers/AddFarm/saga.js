@@ -19,7 +19,7 @@ import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { setFarmInState } from '../actions';
-import { farmSelector, userInfoSelector } from '../selector';
+import { farmSelector } from '../selector';
 
 const axios = require('axios');
 
@@ -28,7 +28,7 @@ const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${far
 
 export function* createFarm(payload) {
   const { farmInfo } = payload;
-  const { user_id } = yield select(userInfoSelector);
+  const user_id = localStorage.getItem('user_id');
 
   const getHeader = (user_id, farm_id )=> ({
     headers: {
@@ -69,7 +69,6 @@ export function* createFarm(payload) {
 }
 
 export function* patchRole(payload) {
-  console.log('patch');
   try {
     const { farm_id, user_id } = yield select(farmSelector);
     //TODO refactor header
@@ -81,18 +80,14 @@ export function* patchRole(payload) {
         farm_id,
       },
     };
-    console.log('patch1');
     const { role, callback } = payload;
     yield call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header);
-    console.log('patch2');
     //TODO set date on server
     let step = {
       step_two: true,
       step_two_end: new Date(),
     };
-    console.log('patch1');
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-    console.log('patch2');
     yield put(setFarmInState({ ...step }));
     callback && callback();
   } catch (e) {

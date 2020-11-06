@@ -15,7 +15,6 @@ export default function OrganicPartners() {
   const coabc = watch(COABC, false);
   const otherName = watch(OTHERNAME, undefined);
   const refInput = register({ required: required });
-  const { certifiers } = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
   const survey = useSelector(certifierSurveySelector);
   useEffect(() => {
@@ -48,8 +47,6 @@ export default function OrganicPartners() {
 
   const onGoBack = () => {
     history.push('/interested_in_organic');
-    console.log('back');
-    console.log(certifiers);
   }
   const disabled = !coabc && !otherName;
   return <>

@@ -37,7 +37,8 @@ export default function InterestedOrganic() {
 
   }
   const onGoBack = () => {
-    console.log('back');
+    console.log('goback')
+    history.push('/consent');
   }
 
 

@@ -8,7 +8,7 @@ import PureConsent from '../../components/Consent';
 import history from '../../history';
 import { farmSelector } from '../selector';
 
-function ConsentForm() {
+function ConsentForm({ goBackTo = '/role_selection', goForwardTo = 'interested_in_organic' }) {
   const role = useSelector(farmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
@@ -23,12 +23,12 @@ function ConsentForm() {
   });
   const checkboxName = 'consentCheckbox';
   const goBack = () => {
-    history.push('/role_selection');
+    history.push(goBackTo);
   }
 
   const updateConsent = (data) => {
     dispatch(updateAgreement({ consent: true }, consentVersion, () => {
-      history.push('/interested_in_organic')
+      history.push(goForwardTo);
     }));
   }
 

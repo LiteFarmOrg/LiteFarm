@@ -2,6 +2,7 @@ import Form from "../Form";
 import Button from "../Form/Button";
 import clsx from "clsx";
 import styles from "./consent.scss";
+import ReactMarkdown from "react-markdown";
 import Checkbox from "../Form/Checkbox";
 import React from "react";
 
@@ -13,7 +14,8 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
     }>
       <h3 className={clsx(styles.consentText, styles.consentHeader)}>Our Data Policy</h3>
       <div style={{ width: '90%', overflowY: "scroll" }} className={clsx(styles.consentText, 'paraText')}>
-        <p>{text}</p>
+        <ReactMarkdown children={text}>
+        </ReactMarkdown>
       </div>
       <div style={{
         width: '100%',

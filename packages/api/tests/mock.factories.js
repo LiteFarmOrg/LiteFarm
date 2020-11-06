@@ -573,6 +573,24 @@ async function cropSaleFactory({ promisedFieldCrop = fieldCropFactory(), promise
   return knex('cropSale').insert({ crop_id, field_crop_id, sale_id, ...cropSale }).returning('*');
 }
 
+function fakeOrganicCertifierSurvey() {
+  const survey = ['COABC', faker.lorem.word()];
+  const past =  faker.date.past();
+  const now = new Date();
+  return {
+    certifiers: faker.random.arrayElements(survey),
+    created_at: past,
+    updated_at: faker.date.between(past,now),
+    interested: faker.random.boolean(),
+  }
+}
+
+async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactory()} = {}, organicCertifierSurvey = fakeOrganicCertifierSurvey()) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ farm_id, user_id }] = userFarm;
+  return knex('organicCertifierSurvey').insert({ ...organicCertifierSurvey, farm_id, created_by_user_id: user_id, updated_by_user_id: user_id, certifiers: JSON.stringify(organicCertifierSurvey.certifiers) }).returning('*');
+}
+
 module.exports = {
   weather_stationFactory, fakeStation,
   usersFactory, fakeUser,
@@ -607,5 +625,6 @@ module.exports = {
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFarmDataSchedule, farmDataScheduleFactory,
-  fakePriceInsightForTests
+  fakePriceInsightForTests,
+  fakeOrganicCertifierSurvey, organicCertifierSurveyFactory
 }

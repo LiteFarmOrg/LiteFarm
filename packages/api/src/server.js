@@ -61,6 +61,7 @@ const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
 const signUpRoutes = require('./routes/signUpRoute');
+const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -126,6 +127,7 @@ app.use(bodyParser.json())
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
+  .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
 
   // handle errors
   .use((req, res, next) => {

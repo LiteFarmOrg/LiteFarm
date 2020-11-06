@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
+ *  This file (reducer.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,39 +12,24 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import "../../../assets/mixin";
 
- .navBar {
-  top: 0;
-  @include gradient();
-  width: 100%;
-  max-width: 1024px;
-  height: 76px;
-  position: fixed;
-  & .itemContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+import {
+  SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE
+} from './constants';
+
+const initialState = {
+  interested: false,
+  certifiers: [],
+  survey_id: undefined,
+};
+
+function certifierSurveyReducer(state = initialState, action) {
+  switch (action.type) {
+    case SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE:
+      return Object.assign({}, state, { survey_id: action.survey.survey_id, interested: action.survey.interested, certifiers: action.survey.certifiers });
+    default:
+      return state
   }
 }
 
-.middleLogo {
-  height: 62px;
-}
-
-@media (max-width: 800px) {
-  .actionItemContainer {
-    margin-top: 16px;
-    margin-right: 0;
-  }
-
-  .navBar {
-    min-height: 76px;
-  }
-
-  .middleLogo {
-    height: 58px;
-  }
-}
+export default certifierSurveyReducer;

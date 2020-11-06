@@ -22,7 +22,7 @@ import picThree from '../../assets/images/introSliders/2.png';
 import picFour from '../../assets/images/introSliders/5.png';
 import picFive from '../../assets/images/introSliders/6.png';
 import LoginButton from './loginButton';
-import styles from '../Home/styles.scss';
+import styles from './styles.scss';
 
 import Carousel from 'nuka-carousel';
 

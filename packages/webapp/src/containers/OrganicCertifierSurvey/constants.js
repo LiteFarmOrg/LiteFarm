@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
+ *  This file (constants.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,39 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import "../../../assets/mixin";
 
- .navBar {
-  top: 0;
-  @include gradient();
-  width: 100%;
-  max-width: 1024px;
-  height: 76px;
-  position: fixed;
-  & .itemContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
-}
-
-.middleLogo {
-  height: 62px;
-}
-
-@media (max-width: 800px) {
-  .actionItemContainer {
-    margin-top: 16px;
-    margin-right: 0;
-  }
-
-  .navBar {
-    min-height: 76px;
-  }
-
-  .middleLogo {
-    height: 58px;
-  }
-}
+export const ADD_ORGANIC_CERTIFIER_SURVEY = 'ADD_ORGANIC_CERTIFIER_SURVEY';
+export const UPDATE_INTERESTED_IN_ORGANIC_CERTIFICATE_SURVEY = 'UPDATE_INTERESTED_IN_ORGANIC_CERTIFICATE_SURVEY';
+export const UPDATE_CERTIFIERS_IN_ORGANIC_CERTIFICATE_SURVEY = 'UPDATE_CERTIFIERS_IN_ORGANIC_CERTIFICATE_SURVEY';
+export const GET_ORGANIC_CERTIFIER_SURVEY = 'GET_ORGANIC_CERTIFIER_SURVEY';
+export const SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE = 'SET_ORGANIC_CERTIFIER_SURVEY_IN_STATE';

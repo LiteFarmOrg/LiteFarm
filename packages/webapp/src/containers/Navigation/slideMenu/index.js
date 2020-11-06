@@ -1,9 +1,9 @@
 import { slide as Menu } from 'react-burger-menu';
 import React, { useEffect, useState } from 'react';
 // import logo from '../../../assets/images/logo2x.png';
-import logo from '../../../stories/assets/navbar/nav-logo.svg';
-import vectorUp from '../../../stories/assets/navbar/vector-up.svg';
-import vectorDown from '../../../stories/assets/navbar/vector-down.svg';
+import logo from '../../../assets/images/navbar/nav-logo.svg';
+import vectorUp from '../../../assets/images/navbar/vector-up.svg';
+import vectorDown from '../../../assets/images/navbar/vector-down.svg';
 import styles from './styles.scss';
 import history from '../../../history';
 import { connect } from 'react-redux';

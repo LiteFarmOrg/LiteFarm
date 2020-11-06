@@ -1,19 +1,17 @@
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { updateAgreement } from "../actions";
-import { consentText, worker_consentText } from "../../consentText";
 import { farmSelector, userInfoSelector } from "../selector";
+import ownerConsent from './Owner.Consent.md';
+import workerConsent from './Worker.Consent.md';
 import { connect } from "react-redux";
 import PureConsent from "../../components/Consent";
 
 function ConsentForm({ role, dispatch }) {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, watch } = useForm();
   const [ consentVersion ] = useState('3.0');
   const [consent, setConsentText ] = useState('');
-  const [ disabled, setDisabled ] = useState(true);
-  const onChange = (e) => {
-    setDisabled(!e.target.checked);
-  }
+  const hasConsent = watch('consentCheckbox', false);
   const checkBoxRef = register({
     required: {
       value: true,
@@ -30,12 +28,13 @@ function ConsentForm({ role, dispatch }) {
   }
 
   useEffect(() => {
-    let consentForm = role.role_id === 3 ? worker_consentText : consentText;
-    let text = consentForm.reduce((text, { header, body }) => {
-      return text  + `\n${header ? header: ''}\n${body ? body: ''}\n`;
-    }, '')
-    setConsentText(text);
-  }, [])
+    let consentForm = role.role_id === 3 ? workerConsent : ownerConsent;
+    fetch(consentForm)
+      .then((r) => r.text())
+      .then((text) => {
+        setConsentText(text);
+      })
+  }, []);
 
   return (
     <PureConsent checkboxArgs={{
@@ -43,12 +42,11 @@ function ConsentForm({ role, dispatch }) {
       label: 'I Agree',
       name: checkboxName,
       errors: errors[checkboxName] && errors[checkboxName].message,
-      onChange: onChange
     }}
                  onSubmit={handleSubmit(updateConsent)}
                  onGoBack={goBack}
                  text={consent}
-                 disabled={disabled}
+                 disabled={!hasConsent}
     >
     </PureConsent>
   )

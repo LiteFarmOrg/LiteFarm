@@ -37,6 +37,7 @@ import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import userFarmSaga from'./containers/ChooseFarm/saga';
+import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -78,6 +79,7 @@ sagaMiddleware.run(insightSaga);
 sagaMiddleware.run(contactSaga);
 sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(userFarmSaga);
+sagaMiddleware.run(certifierSurveySaga);
 
 const persistor = persistStore(store);
 

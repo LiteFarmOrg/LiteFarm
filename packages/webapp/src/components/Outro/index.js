@@ -1,5 +1,5 @@
 import styles from "./styles.scss";
-import OutroImg from "../../stories/assets/outro/outro.svg";
+import OutroImg from "../../assets/images/outro/outro.svg";
 import Footer from "../Footer";
 import Button from "../Form/Button";
 import React from "react";

@@ -83,6 +83,7 @@
     "react-image": "^1.5.1",
     "react-input-moment": "^1.7.13",
     "react-load-script": "0.0.6",
+    "react-markdown": "^5.0.2",
     "react-mobile-picker-scroll": "^0.2.14",
     "react-open-weather": "^0.5.2",
     "react-player": "^1.15.3",

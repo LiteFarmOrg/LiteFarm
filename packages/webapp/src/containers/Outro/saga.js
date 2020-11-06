@@ -16,7 +16,7 @@
 import {
  FINISH_ONBOARDING
 } from "./constants";
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 const axios = require('axios');
 
@@ -40,7 +40,7 @@ export function* patchOutroStep() {
 
   try {
     yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-  } 
+  }
   catch (e) {
     console.error('failed to update table');
   }

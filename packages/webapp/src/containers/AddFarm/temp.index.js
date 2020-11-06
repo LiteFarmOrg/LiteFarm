@@ -2,10 +2,11 @@ import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import Script from "react-load-script";
 import { VscLocation } from "react-icons/vsc";
-import { connect } from "react-redux";
+import { useDispatch } from 'react-redux';
 
 import PureAddFarm from "../../components/AddFarm";
-import { addFarmtoDB } from './actions';
+import { postFarm } from './actions';
+// import { farmSelector } from '../selector';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -14,7 +15,9 @@ const errorMessage = {
   'placeSelected': 'Please enter a valid address or coordinate'
 }
 
-const AddFarm = ({ dispatch }) => {
+const AddFarm = () => {
+  const dispatch = useDispatch();
+  // const farm = useSelector(farmSelector);
   const { register, handleSubmit, getValues, setValue, errors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
@@ -37,7 +40,7 @@ const AddFarm = ({ dispatch }) => {
       country,
     };
     console.log(farmInfo);
-    dispatch(addFarmtoDB(farmInfo));
+    dispatch(postFarm(farmInfo));
   }
 
   let autocomplete;
@@ -168,10 +171,4 @@ const AddFarm = ({ dispatch }) => {
   </>
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  }
-};
-
-export default connect(null, mapDispatchToProps)(AddFarm);
+export default AddFarm;

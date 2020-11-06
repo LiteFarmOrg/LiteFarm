@@ -1,29 +1,35 @@
-import { useForm } from "react-hook-form";
-import React, { useEffect, useState } from "react";
-import { updateAgreement } from "../actions";
+import { useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { updateAgreement } from '../actions';
 import ownerConsent from './Owner.Consent.md';
 import workerConsent from './Worker.Consent.md';
-import { connect } from "react-redux";
-import PureConsent from "../../components/Consent";
+import { useDispatch, useSelector } from 'react-redux';
+import PureConsent from '../../components/Consent';
+import history from '../../history';
+import { farmSelector } from '../selector';
 
-function ConsentForm({ role, dispatch }) {
+function ConsentForm() {
+  const role = useSelector(farmSelector);
+  const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
-  const [ consentVersion ] = useState('3.0');
-  const [consent, setConsentText ] = useState('');
+  const [consentVersion] = useState('3.0');
+  const [consent, setConsentText] = useState('');
   const hasConsent = watch('consentCheckbox', false);
   const checkBoxRef = register({
     required: {
       value: true,
-      message: 'You must accept terms and conditions to use the app'
-    }
+      message: 'You must accept terms and conditions to use the app',
+    },
   });
   const checkboxName = 'consentCheckbox';
   const goBack = () => {
-
+    history.push('/role_selection');
   }
 
   const updateConsent = (data) => {
-    dispatch(updateAgreement({ consent: true }, consentVersion));
+    dispatch(updateAgreement({ consent: true }, consentVersion, () => {
+      history.push('/interested_in_organic')
+    }));
   }
 
   useEffect(() => {
@@ -51,17 +57,4 @@ function ConsentForm({ role, dispatch }) {
   )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  }
-};
-
-const mapStateToProps = (state) => {
-  return {
-    users: state.baseReducer.users,
-    role: state.baseReducer.farm
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ConsentForm);
+export default ConsentForm;

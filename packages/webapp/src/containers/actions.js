@@ -107,10 +107,11 @@ export const setFieldCropsInState = (fieldCrops) => {
   }
 };
 
-export const updateAgreement = (consent_bool, consent_version) => {
+export const updateAgreement = (consent_bool, consent_version,callback) => {
   return {
     type: UPDATE_AGREEMENT,
     consent_bool: consent_bool,
     consent_version,
+    callback,
   }
 };

@@ -55,7 +55,7 @@ class FarmAddress extends Component {
           toastr.error(`Received invalid latitude or longitude value`);
           return;
         }
-        
+
         this.props.dispatch(actions.change('profileForms' + model + '.address', this.props.address));
         gridPoints['lat'] = lat;
         gridPoints['lng'] = lng;

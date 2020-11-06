@@ -22,7 +22,8 @@ import Outro from './containers/Outro';
 import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrganic';
 import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
-import AddFarm from './containers/AddFarm/index';
+import WelcomeScreen from './containers/WelcomeScreen';
+import AddFarm from './containers/AddFarm/temp.index';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
@@ -122,6 +123,7 @@ function Routes() {
           <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
+          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
@@ -210,6 +212,7 @@ function Routes() {
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
+          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -299,6 +302,7 @@ function Routes() {
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/add_farm" exact component={AddFarm}/>
+          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>

@@ -13,13 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { ADD_FARM } from "./constants";
+import { CREATE_FARM } from "./constants";
 
 export const addFarmtoDB = (payload) => {
-  const { farm_config, role } = payload;
   return {
-    type: ADD_FARM,
-    farm_config,
-    role,
+    type: CREATE_FARM,
+    farmInfo: payload,
   }
 };

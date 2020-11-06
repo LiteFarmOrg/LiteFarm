@@ -14,7 +14,7 @@ export default function PureInterestedOrganic({ title, paragraph, inputs = [{}, 
     <Main style={{marginBottom: '24px'}}>{paragraph}</Main>
     <Radio {...inputs[0]} defaultChecked={true} />
     <Radio style={{marginBottom: '32px'}} {...inputs[1]} />
-    <OverlayTooltip content={content}>
+    <OverlayTooltip content={content} marginTop={'12px'} arrowTranslateX={'16px'} placement={'bottom-start'}>
       <Underlined>
         {underlined}
       </Underlined>

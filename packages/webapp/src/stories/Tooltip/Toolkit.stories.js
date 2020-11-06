@@ -12,5 +12,8 @@ const Template = (args) => <OverlayTooltip {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   children: <Underlined>Why are we asking this?</Underlined>,
-  content: "LiteFarm generates forms required for organic certification. Some information will be mandatory."
+  content: "LiteFarm generates forms required for organic certification. Some information will be mandatory.",
+  marginTop:'12px',
+  arrowTranslateX:'16px',
+  placement:'bottom-start'
 };

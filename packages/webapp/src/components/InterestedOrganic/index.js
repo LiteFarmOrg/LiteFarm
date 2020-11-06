@@ -1,4 +1,3 @@
-import styles from "./styles.scss";
 import Form from "../Form";
 import Button from "../Form/Button";
 import Radio from "../Form/Radio";

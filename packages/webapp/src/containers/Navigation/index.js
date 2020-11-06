@@ -93,7 +93,7 @@ const NavBar = (props) => {
       },
       {
         target: "#thirdStep",
-        title: <span class={styles1.green}>This is your profile"</span>,
+        title: <span class={styles1.green}>This is your profile</span>,
         content: returnContent(myProfileSpotlight),
         locale: { 
           last: returnNextButton("Got it"),

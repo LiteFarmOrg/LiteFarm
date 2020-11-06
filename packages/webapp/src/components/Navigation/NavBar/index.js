@@ -10,9 +10,10 @@ export default function PureNavBar({logo, children, steps, resetSpotlight}) {
   const resetSpotlightStatus = (data) => {
     const { action, index, status, type } = data;
 
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action == 'close') {
       resetSpotlight();
     }
+    console.log(action)
   }
 
 
@@ -25,21 +26,11 @@ export default function PureNavBar({logo, children, steps, resetSpotlight}) {
       steps={steps}
       run={steps.run}
       continuous
-      showProgress
       showSkipButton
-      locale="Back"
       callback={resetSpotlightStatus}
       styles=
       {
         {
-          arrow: {
-            color: '#fff',
-            display: 'inline-flex',
-            length: 160000000,
-            margin: 8,
-            position: 'absolute',
-            spread: 32,
-          },
        options: {
           // modal arrow and background color
           arrowColor: "#eee",
@@ -47,19 +38,22 @@ export default function PureNavBar({logo, children, steps, resetSpotlight}) {
           // page overlay color
           overlayColor: "rgba(191, 191, 191, 1)",
           //button color  
-          primaryColor: "#06AB16",
+          // primaryColor: "#06AB16",
+          primaryColor: "#FED450",
           //text color
           textColor: "##000000",
           //width of modal
-          width: 300,
+          width: 330,
           //zindex of modal
           zIndex: 2000,
-          beaconSize: 36,
-          locale: { back: 'cack', close: 'close', last: 'last', next: 'next', skip: 'skip' }
+          beaconSize: 36, 
       },
-      placement: "top-end"
+      // buttonClose: {
+      //   display: 'none',
+      // },
 
     }
+   
   }
     /> 
    

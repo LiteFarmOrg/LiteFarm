@@ -21,6 +21,7 @@ import SlideMenu from './slideMenu';
 import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar'
+import styles1 from './styles1.scss'
 
 import { farmSelector, spotlightSelector } from '../selector'
 import PureNavBar from "../../components/Navigation/NavBar";
@@ -55,21 +56,51 @@ const NavBar = (props) => {
     })
   }
 
+  const returnNextButton = (str) => {
+    return (
+      <span class={styles1.black}>{str}</span>
+    )
+  }
+
+  const returnBackButton = () => {
+    return (
+      <span class={styles1.black}>Back</span>
+    )
+  }
+
   const steps = [
       {
         target: "#firstStep",
-        title: "This is your farm profile",
+        title: <span class={styles1.green}>This is your farm profile</span>,
         content: returnContent(farmSpotlight),
+        locale: { 
+          next: returnNextButton("Next"),
+          back: returnBackButton(),
+        },
+        placement: "bottom-end",
+        showCloseButton: false
       },
       {
         target: "#secondStep",
-        title: "This is your Notification Centre",
+        title: <span class={styles1.green}>This is your Notification Centre</span>,
         content: returnContent(notificationsSpotlight),
+        locale: { 
+          next: returnNextButton("Next"),
+          back: returnBackButton(),
+        },
+        placement: "bottom-end",
+        showCloseButton: false
       },
       {
         target: "#thirdStep",
-        title: "This is your profile",
+        title: <span class={styles1.green}>This is your profile"</span>,
         content: returnContent(myProfileSpotlight),
+        locale: { 
+          last: returnNextButton("Got it"),
+          back: returnBackButton(),
+        },
+        placement: "left-start",
+        showCloseButton: false
       },
       
     ]

@@ -18,11 +18,11 @@ export function PureOrganicPartners({ inputs = [{}, {}], onSubmit, onGoBack, dis
   }>
     <img src={signup7} alt={'Avatar'} className={styles.svg} loading={'lazy'}/>
     <div className={styles.svgtitle}>Great!</div>
-    <Text style={{ marginBottom: '24px' }}>We'll indicate data required for organic certification with <span
+    <Text style={{marginBottom: '24px'}}>We'll indicate data required for organic certification with <span
       className={styles.leaf}><Leaf/></span> throughout the app!</Text>
-    <Label style={{ marginBottom: '8px' }}>Please select your certifier</Label>
-    <Checkbox classes={{ container: styles.firstCheckboxContainer }} {...inputs[0]}/>
-    <Checkbox classes={{ container: styles.secondCheckboxContainer }} {...inputs[1]}/>
+    <Label style={{marginBottom: '8px'}}>Please select your certifier</Label>
+    <Checkbox style={{marginBottom: '16px'}} {...inputs[0]}/>
+    <Checkbox style={{marginBottom: '12px'}} {...inputs[1]}/>
     <Input {...inputs[2]}/>
   </Form>
 }

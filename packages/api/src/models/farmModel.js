@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (farmModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -37,7 +37,14 @@ class Farm extends softDelete({ columnName: 'deleted' })(Model) {
         deleted: { type: 'boolean' },
         farm_name: { type: 'string', minLength: 1, maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
-        grid_points: { type: 'object' },
+        grid_points: {
+          type: 'object',
+          properties:{
+            lat: { type: 'number' },
+            lng: { type: 'number' },
+          },
+        },
+        country: { type: 'string' },
         phone_number: {
           type: 'object',
           required: ['number', 'country'],
@@ -67,7 +74,7 @@ class Farm extends softDelete({ columnName: 'deleted' })(Model) {
             },
           },
         },
-        sandbox_bool: { type: 'boolean' },
+        // sandbox_bool: { type: 'boolean' },
       },
       additionalProperties: false,
     };

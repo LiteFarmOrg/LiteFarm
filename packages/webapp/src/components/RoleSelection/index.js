@@ -4,13 +4,13 @@ import Radio from "../Form/Radio";
 import React from "react";
 import { Title } from '../Typography';
 
-export default function PureRoleSelection({ onSubmit, title, inputs, inputClasses = '' }) {
+export default function PureRoleSelection({ onSubmit, title, inputs }) {
   return (
     <Form onSubmit={onSubmit} buttonGroup={<Button type={'submit'} fullLength>Continue</Button>}>
       <Title>{title}</Title>
-      <Radio classes={inputClasses} {...inputs[0]} />
-      <Radio classes={inputClasses} {...inputs[1]} />
-      <Radio classes={inputClasses} {...inputs[2]} />
+      <Radio {...inputs[0]} />
+      <Radio {...inputs[1]} />
+      <Radio {...inputs[2]} />
     </Form>
   );
 }

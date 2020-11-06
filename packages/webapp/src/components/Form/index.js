@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Layout from '../Layout';
 
 const Form = ({
-  classes = { container: '', navbar: '', footer: '' },
+  classes = {},
   children,
   buttonGroup,
   onSubmit
@@ -19,7 +19,7 @@ Form.propTypes = {
     PropTypes.node,
   ]),
   buttonGroup: PropTypes.node,
-  classes: PropTypes.exact({ container: PropTypes.string, navbar: PropTypes.string, footer: PropTypes.string }),
+  classes: PropTypes.exact({ container: PropTypes.object, footer: PropTypes.object }),
   onSubmit: PropTypes.func
 }
 

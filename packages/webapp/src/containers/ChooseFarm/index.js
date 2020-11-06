@@ -50,7 +50,7 @@ class ChooseFarm extends Component {
       if (this.props.farms && this.props.farms.length === 1) {
         this.selectSingleFarm(this.props.farms[0]);
       } else if (this.props.farms && this.props.farms.length === 1) {
-        history.push('/add_farm');
+        history.push('/welcome');
       }
     }
   }

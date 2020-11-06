@@ -53,7 +53,6 @@ class farmController extends baseController {
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
         const userFarm = await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
-        console.log(userFarm, Object.assign({}, result, userFarm));
         await trx.commit();
         res.status(201).send(Object.assign({}, result, userFarm));
       } catch (error) {

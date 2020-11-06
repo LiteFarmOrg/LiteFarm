@@ -3,9 +3,19 @@ import MyFarmIcon from "../../../assets/images/my-farm.svg";
 import NotifIcon from "../../../assets/images/notif.svg";
 import HelpIcon from "../../../assets/images/help.svg";
 import React from "react";
-import ReactJoyride from 'react-joyride';
+import ReactJoyride, {ACTIONS, EVENTS, STATUS} from 'react-joyride';
 
 export default function PureNavBar({logo, children, steps, resetSpotlight}) {
+
+  const resetSpotlightStatus = (data) => {
+    const { action, index, status, type } = data;
+
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      resetSpotlight();
+    }
+  }
+
+
   return (
       <div className={styles.navBar}>
       <div className={styles.actionItemContainer}>
@@ -17,7 +27,19 @@ export default function PureNavBar({logo, children, steps, resetSpotlight}) {
       continuous
       showProgress
       showSkipButton
-      styles={{
+      locale="Back"
+      callback={resetSpotlightStatus}
+      styles=
+      {
+        {
+          arrow: {
+            color: '#fff',
+            display: 'inline-flex',
+            length: 160000000,
+            margin: 8,
+            position: 'absolute',
+            spread: 32,
+          },
        options: {
           // modal arrow and background color
           arrowColor: "#eee",
@@ -28,14 +50,17 @@ export default function PureNavBar({logo, children, steps, resetSpotlight}) {
           primaryColor: "#06AB16",
           //text color
           textColor: "##000000",
-
           //width of modal
           width: 300,
           //zindex of modal
-          zIndex: 2000
-      }
+          zIndex: 2000,
+          beaconSize: 36,
+          locale: { back: 'cack', close: 'close', last: 'last', next: 'next', skip: 'skip' }
+      },
+      placement: "top-end"
 
-    }}
+    }
+  }
     /> 
    
     }

@@ -1,9 +1,9 @@
 import Form from "../Form";
 import Button from "../Form/Button";
-import clsx from "clsx";
-import styles from "./styles.scss";
 import Radio from "../Form/Radio";
 import React from "react";
+import { Title } from '../Typography';
+
 
 export default function PureRoleSelection({ onSubmit, title, inputs, inputClasses = {},  redirectConsent}) {
   return (
@@ -12,6 +12,7 @@ export default function PureRoleSelection({ onSubmit, title, inputs, inputClasse
       <Radio classes={inputClasses} {...inputs[0]} />
       <Radio classes={inputClasses} {...inputs[1]} />
       <Radio classes={inputClasses} {...inputs[2]} />
+
     </Form>
   );
 }

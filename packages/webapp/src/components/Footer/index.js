@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 
 const Footer = ({
   children,
-  classes = { footer: '' },
+  className,
   ...props
 }) => {
   return (
     <footer
-      className={clsx(styles.footer, classes.footer)}
+      className={clsx(styles.footer, className)}
       {...props}
     >
       {children}
@@ -23,7 +23,7 @@ Footer.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  classes: PropTypes.exact({ footer: PropTypes.string }),
+  className: PropTypes.string
 }
 
 export default Footer;

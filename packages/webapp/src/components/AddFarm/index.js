@@ -1,17 +1,20 @@
-import styles from "./styles.scss";
-import Form from "../Form";
-import Button from "../Form/Button";
-import clsx from "clsx";
-import Input from "../Form/Input";
-import PropTypes from "prop-types";
-import React from "react";
+import Form from '../Form';
+import Button from '../Form/Button';
+import Input from '../Form/Input';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Title } from '../Typography';
+
+const style = {
+  marginBottom: '28px',
+}
 
 export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit }) {
-  const { title: titleClass, ...inputClasses } = styles;
+  // const { title: titleClass, ...inputClasses } = styles;
   return <Form onSubmit={onSubmit} buttonGroup={<Button type={'submit'} fullLength>Continue</Button>}>
-    <h4 className={clsx(styles.title)}>{title}</h4>
-    <Input classes={inputClasses} {...inputs[0]} />
-    <Input classes={inputClasses} {...inputs[1]} />
+    <Title>{title}</Title>
+    <Input style={style} {...inputs[0]} />
+    <Input style={style} {...inputs[1]} />
   </Form>
 }
 

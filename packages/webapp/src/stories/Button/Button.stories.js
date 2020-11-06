@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from '../../components/Form/Button/button.scss';
 import Button from "../../components/Form/Button";
 
 export default {
@@ -9,7 +8,7 @@ export default {
 };
 
 const Template = (args) => <Button {...args} />;
-
+const TemplateWithText = (args) => <><p>Override button style by passing style object to style prop or by passing in a className string. To remove background color and pass in a bootstrap className, color need to be set to 'none'</p><Button {...args} /></>;
 export const Primary = Template.bind({});
 Primary.args = {
   color: 'primary',
@@ -29,9 +28,42 @@ Disabled.args = {
   disabled: true
 };
 
-export const InjectSecondary = Template.bind({});
-InjectSecondary.args = {
+export const PrimarySmall = Template.bind({});
+PrimarySmall.args = {
+  color: 'primary',
+  children: 'Primary',
+  sm: true
+};
+
+export const SecondarySmall = Template.bind({});
+SecondarySmall.args = {
+  color: 'secondary',
+  children: 'Secondary',
+  sm: true
+};
+
+export const DisabledSmall = Template.bind({});
+DisabledSmall.args = {
+  color: 'primary',
+  children: 'Disabled',
+  disabled: true,
+  sm: true
+};
+
+const style={
+  background: 'linear-gradient(to right, orange , yellow, green, cyan, blue, violet)'
+}
+
+export const InjectStyle = TemplateWithText.bind({});
+InjectStyle.args = {
   color: 'primary',
   label: 'Button',
-  classes: {btn: styles.secondary}
+  style: style
+};
+
+export const InjectBootstrapClassName = TemplateWithText.bind({});
+InjectBootstrapClassName.args = {
+  label: 'Button',
+  color: 'none',
+  className: 'btn btn-dark'
 };

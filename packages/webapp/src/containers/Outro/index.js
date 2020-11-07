@@ -1,13 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import history from '../../history';
 import { finishOnboarding } from './actions';
 import { showSpotlight } from "../actions";
 import PureOutroSplash from "../../components/Outro";
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/selector';
 
-function Outro({ farm, dispatch }) {
+function Outro() {
   const survey = useSelector(certifierSurveySelector);
+  const dispatch = useDispatch();
   const onGoBack = () => {
     history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
   }
@@ -22,5 +23,6 @@ function Outro({ farm, dispatch }) {
   )
 
 }
+
 
 export default Outro;

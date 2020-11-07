@@ -71,6 +71,7 @@ export function* createFarm(payload) {
 export function* patchRole(payload) {
   try {
     const { farm_id, user_id } = yield select(farmSelector);
+    console.log(user_id)
     //TODO refactor header
     const header = {
       headers: {

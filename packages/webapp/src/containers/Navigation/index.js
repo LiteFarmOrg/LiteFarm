@@ -30,7 +30,7 @@ import { showSpotlight } from "../actions";
 
 const NavBar = (props) => {
   const { auth, history, farm, show_spotlight, dispatch } = props;
-  
+
   const { isAuthenticated } = auth;
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent;
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
@@ -58,22 +58,22 @@ const NavBar = (props) => {
 
   const returnNextButton = (str) => {
     return (
-      <span class={styles1.black}>{str}</span>
+      <span className={styles1.black}>{str}</span>
     )
   }
 
   const returnBackButton = () => {
     return (
-      <span class={styles1.black}>Back</span>
+      <span className={styles1.black}>Back</span>
     )
   }
 
   const steps = [
       {
         target: "#firstStep",
-        title: <span class={styles1.green}>This is your farm profile</span>,
+        title: <span className={styles1.green}>This is your farm profile</span>,
         content: returnContent(farmSpotlight),
-        locale: { 
+        locale: {
           next: returnNextButton("Next"),
           back: returnBackButton(),
         },
@@ -82,9 +82,9 @@ const NavBar = (props) => {
       },
       {
         target: "#secondStep",
-        title: <span class={styles1.green}>This is your Notification Centre</span>,
+        title: <span className={styles1.green}>This is your Notification Centre</span>,
         content: returnContent(notificationsSpotlight),
-        locale: { 
+        locale: {
           next: returnNextButton("Next"),
           back: returnBackButton(),
         },
@@ -93,18 +93,18 @@ const NavBar = (props) => {
       },
       {
         target: "#thirdStep",
-        title: <span class={styles1.green}>This is your profile</span>,
+        title: <span className={styles1.green}>This is your profile</span>,
         content: returnContent(myProfileSpotlight),
-        locale: { 
+        locale: {
           last: returnNextButton("Got it"),
           back: returnBackButton(),
         },
         placement: "left-start",
         showCloseButton: false
       },
-      
+
     ]
-  
+
 
   if (!isFarmSelected) return <NoFarmNavBar history={history}/>
 

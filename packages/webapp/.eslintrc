@@ -1,7 +1,7 @@
 {
   "extends": "react-app",
   "rules": {
-    "no-unused-vars": "error",
+    "no-unused-vars": "warn",
     "eqeqeq": "error",
     "jsx-a11y/accessible-emoji": "off",
     "radix": "off"

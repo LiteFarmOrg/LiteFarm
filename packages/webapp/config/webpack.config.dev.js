@@ -196,11 +196,24 @@ module.exports = {
 
           },
           {
-            test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+            test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2)(\?.*)?$/,
             loader: 'file-loader',
             options: {
               context: process.cwd(),
             },
+          },
+
+          {
+            test: /\.svg$/,
+            use: [
+              '@svgr/webpack',
+              {
+                loader: 'file-loader',
+                options: {
+                  context: process.cwd(),
+                },
+              }
+            ],
           },
 
           // "file" loader makes sure those assets get served by WebpackDevServer.

@@ -13,4 +13,5 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const ADD_FARM = 'ADD_FARM';
+export const CREATE_FARM = 'CREATE_FARM';
+export const SET_ROLE = 'SET_ROLE';

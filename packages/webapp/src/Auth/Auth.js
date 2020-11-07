@@ -209,7 +209,7 @@ class Auth {
           if(response.data[0].farm_id){
             history.push('/farm_selection');
           } else {
-            history.push('/add_farm')
+            history.push('/welcome')
           }
         }).catch((err) => {
           console.error(err);
@@ -240,7 +240,7 @@ class Auth {
         }).then(()=>{
           // alert('posted to user table!');
           if (!app_metadata.emailInvite) {
-            history.push('/add_farm');
+            history.push('/welcome');
           } else {
             // users invited through email don't need to add farm
             return this.setUserProfilePic().then(() => {

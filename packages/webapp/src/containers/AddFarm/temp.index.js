@@ -11,7 +11,8 @@ const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
 const errorMessage = {
   'required': 'Address is required',
-  'placeSelected': 'Please enter a valid address or coordinate'
+  'placeSelected': 'Please enter a valid address or coordinate',
+  'countryFound': 'No country was found for given coordinates: Please enter working coordinates'
 }
 
 const AddFarm = ({ dispatch }) => {
@@ -25,19 +26,19 @@ const AddFarm = ({ dispatch }) => {
   const ref1 = register({
     required: { value: true, message: 'Address is required' },
     validate: {
-      placeSelected: data => address && gridPoints && data[address]
+      placeSelected: data => address && gridPoints && data[address],
+      countryFound: data => country && data[address],
     }
   });
 
   const onSubmit = (data) => {
-    // console.log(gridPoints, address, getValues(FARMNAME), data);
     const farmInfo = {
       ...data,
       gridPoints,
       country,
     };
     console.log(farmInfo);
-    dispatch(addFarmtoDB(farmInfo));
+    // dispatch(addFarmtoDB(farmInfo));
   }
 
   let autocomplete;
@@ -64,6 +65,23 @@ const AddFarm = ({ dispatch }) => {
     autocomplete.addListener('place_changed', handlePlaceChanged);
   }
 
+  const setCountryFromLatLng = (latlng, callback) =>{
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      let place;
+      if (status === 'OK') {
+        if (place = results[0]) {
+          const country = place.address_components.find((component) => component.types.includes('country')).long_name;
+          setCountry(country);
+        }
+      } else {
+        console.error('Error getting geocoding results, or no country was found at given coordinates');
+        setCountry('');
+      }
+      callback();
+    });
+  }
+
   const clearState = () => {
     setAddress('');
     setGridPoints({});
@@ -71,10 +89,8 @@ const AddFarm = ({ dispatch }) => {
   }
 
   const handlePlaceChanged = () => {
-    console.log("handlePlaceChanged");
     const gridPoints = {};
     const place = autocomplete.getPlace();
-    console.log(place);
     // const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
     const isCoord = coordRegex.test(getValues(ADDRESS));
 
@@ -101,7 +117,6 @@ const AddFarm = ({ dispatch }) => {
   }
 
   const handleBlur = () => {
-    console.log('handleBlur');
     const gridPoints = {};
     // const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
     const inputtedAddress = getValues(ADDRESS);
@@ -117,37 +132,37 @@ const AddFarm = ({ dispatch }) => {
         return;
       }
 
-      setAddress(inputtedAddress);
-      // this.props.dispatch(actions.change('profileForms' + model + '.address', this.props.address));
-      gridPoints['lat'] = lat;
-      gridPoints['lng'] = lng;
-      setGridPoints(gridPoints);
-      // this.props.dispatch(actions.change('profileForms' + model + '.gridPoints', gridPoints));
+      // const geocoder = new google.maps.Geocoder();
+      setCountryFromLatLng({lat, lng}, () => {
+        setAddress(inputtedAddress);
+        gridPoints['lat'] = lat;
+        gridPoints['lng'] = lng;
+        setGridPoints(gridPoints);
+      });
     } else {
       if (inputtedAddress !== address) clearState();
     }
   }
 
   const getGeoLocation = () => {
-    console.log("calling getGeoLocation");
     navigator.geolocation.getCurrentPosition(function(position) {
       let gridPoints = {};
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
       const formattedAddress = `${lat}, ${lng}`;
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      gridPoints['lat'] = lat;
-      gridPoints['lng'] = lng;
-      setGridPoints(gridPoints);
-      setAddress(formattedAddress);
-      setValue(ADDRESS, formattedAddress);
+      setCountryFromLatLng({lat, lng}, () => {
+        gridPoints['lat'] = lat;
+        gridPoints['lng'] = lng;
+        setGridPoints(gridPoints);
+        setAddress(formattedAddress);
+        setValue(ADDRESS, formattedAddress);
+      });
     });
   }
 
   return <>
     <Script
-      url={`https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLCM0Fgm-_aF1x96paf-vdGzCAW6GRHM&libraries=places,drawing,geometry&language=en-US`}
+      url={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places,drawing,geometry&language=en-US`}
       onLoad={handleScriptLoad}
     />
     <PureAddFarm onSubmit={handleSubmit(onSubmit)} title={'Tell us about your farm'} inputs={[{

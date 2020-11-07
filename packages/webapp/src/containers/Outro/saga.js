@@ -16,7 +16,6 @@
 import {
  FINISH_ONBOARDING
 } from "./constants";
-import {finishOnboarding} from './actions';
 import { call, takeEvery, put, select } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { farmSelector } from '../selector';
@@ -41,11 +40,9 @@ export function* patchOutroStep() {
   };
 
   try {
-    const result = yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-    if (result) {
-      yield put(finishOnboarding(result.data));
-    }
-  } catch (e) {
+    yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
+  }
+  catch (e) {
     console.error('failed to update table');
   }
 }

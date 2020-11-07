@@ -37,8 +37,7 @@ const AddFarm = ({ dispatch }) => {
       gridPoints,
       country,
     };
-    console.log(farmInfo);
-    // dispatch(addFarmtoDB(farmInfo));
+    dispatch(addFarmtoDB(farmInfo));
   }
 
   let autocomplete;

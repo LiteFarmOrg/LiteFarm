@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { updateAgreement } from "../actions";
-import { farmSelector, userInfoSelector } from "../selector";
 import ownerConsent from './Owner.Consent.md';
 import workerConsent from './Worker.Consent.md';
 import { connect } from "react-redux";
@@ -60,8 +59,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    users: userInfoSelector(state),
-    role: farmSelector(state),
+    users: state.baseReducer.users,
+    role: state.baseReducer.farm
   }
 };
 

@@ -13,7 +13,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight }) {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
     }
-    console.log(action)
   }
 
 
@@ -48,9 +47,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight }) {
                   zIndex: 2000,
                   beaconSize: 36,
                 },
-                // buttonClose: {
-                //   display: 'none',
-                // },
 
               }
 

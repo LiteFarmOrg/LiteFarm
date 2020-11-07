@@ -74,21 +74,21 @@ const NavBar = (props) => {
         title: <span className={styles1.green}>This is your farm profile</span>,
         content: returnContent(farmSpotlight),
         locale: {
-          next: returnNextButton("Next"),
+          next: returnNextButton("Next (1/3)"),
           back: returnBackButton(),
         },
-        placement: "bottom-end",
-        showCloseButton: false
+        placement: "bottom-start",
+        showCloseButton: false,
       },
       {
         target: "#secondStep",
         title: <span className={styles1.green}>This is your Notification Centre</span>,
         content: returnContent(notificationsSpotlight),
         locale: {
-          next: returnNextButton("Next"),
+          next: returnNextButton("Next (2/3)"),
           back: returnBackButton(),
         },
-        placement: "bottom-end",
+        placement: "bottom-start",
         showCloseButton: false
       },
       {
@@ -96,11 +96,12 @@ const NavBar = (props) => {
         title: <span className={styles1.green}>This is your profile</span>,
         content: returnContent(myProfileSpotlight),
         locale: {
-          last: returnNextButton("Got it"),
+          last: returnNextButton("Got it (3/3)"),
           back: returnBackButton(),
         },
         placement: "left-start",
-        showCloseButton: false
+        showCloseButton: false,
+
       },
 
     ]

@@ -5,19 +5,17 @@ import PropTypes from 'prop-types';
 import Footer from '../Footer';
 
 const Layout = ({
-  classes = { container: '', footer: '' },
+  classes = {},
   children,
   buttonGroup,
   isSVG,
-  history,
-  auth
 }) => {
   return (
     <>
-      <div className={clsx(styles.container, isSVG && styles.svgContainer, classes.container)}>
+      <div className={clsx(styles.container, isSVG && styles.svgContainer)} style={classes.container}>
         {children}
       </div>
-      <Footer classes={{footer: classes.footer}}>
+      <Footer style={classes.footer}>
         {buttonGroup}
       </Footer>
     </>
@@ -30,7 +28,7 @@ Layout.propTypes = {
     PropTypes.node,
   ]),
   buttonGroup: PropTypes.node,
-  classes: PropTypes.exact({ container: PropTypes.string, footer: PropTypes.string }),
+  classes: PropTypes.exact({ container: PropTypes.object, footer: PropTypes.object }),
   isSVG: PropTypes.bool,
 }
 

@@ -16,7 +16,7 @@ function RoleSelection({dispatch, farm}) {
                          value: 'Owner',
                          inputRef: register({required: true}),
                          name: '_role',
-                         checked: true
+                         defaultChecked: true
                        },{
                          label: 'Farm manager',
                          value: 'Manager',

@@ -14,7 +14,7 @@ export const Consent = Template.bind({});
 Consent.args = {
   onSubmit: () => {},
   onGoBack: () => {},
-  text,
-  checkBoxArgs: {label: 'I Agree'}
+  checkboxArgs: {label: 'I Agree'},
+  text: text,
 }
 

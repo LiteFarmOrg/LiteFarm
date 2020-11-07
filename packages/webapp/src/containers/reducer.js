@@ -35,7 +35,7 @@ function baseReducer(state = initialState, action) {
     case SET_USER_IN_STATE:
       return Object.assign({}, state, { users: {...state.users, ...action.users} });
     case SET_FARM_IN_STATE:
-      return Object.assign({}, state, { farm: action.farm });
+      return Object.assign({}, state, { farm: { ...state.farm, ...action.farm } });
     case SET_FIELDS_IN_STATE:
       return Object.assign({}, state, {
         fields: action.fields,

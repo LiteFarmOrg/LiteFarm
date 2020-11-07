@@ -16,13 +16,14 @@
 import {
  FINISH_ONBOARDING
 } from "./constants";
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, takeEvery, put, select } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
+import { farmSelector } from '../selector';
 const axios = require('axios');
 
 export function* patchOutroStep() {
-  let user_id = localStorage.getItem('user_id');
-  let farm_id = localStorage.getItem('farm_id');
+  const {farm_id, user_id} = yield select(farmSelector);
+
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {

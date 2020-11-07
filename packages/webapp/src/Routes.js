@@ -100,6 +100,9 @@ import Balances from './containers/NewFinances/Balances';
 import MyLog from './containers/Log/MyLog';
 import SaleDetail from './containers/Finances/SaleDetail';
 import RoleSelection from './containers/RoleSelection';
+import { useSelector } from 'react-redux';
+import { farmSelector } from './containers/selector';
+import OnboardingFlow from './routes/Onboarding';
 
 const auth = new Auth();
 
@@ -110,9 +113,14 @@ const handleAuthentication = (nextState, replace) => {
 };
 
 function Routes() {
+    const farm = useSelector(farmSelector);
   if (auth.isAuthenticated()) {
     let role_id = localStorage.getItem('role_id');
     role_id = Number(role_id);
+    // TODO check every step
+    if(farm?.step_four === false || !farm || !farm.has_consent){
+        return <OnboardingFlow/>
+    }
     if (role_id === 1) {
       return (
         <Switch>
@@ -124,7 +132,6 @@ function Routes() {
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
           <Route path="/welcome" exact component={WelcomeScreen}/>
-          <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -211,7 +218,6 @@ function Routes() {
           <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
@@ -301,7 +307,6 @@ function Routes() {
           <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
           <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/add_farm" exact component={AddFarm}/>
           <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>

@@ -27,7 +27,6 @@ jest.mock('../src/templates/sendEmailTemplate');
 const mocks  = require('./mock.factories');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
-const { farm } = require('../../webapp/src/apiConfig');
 
 describe('User Farm Tests', () => {
   let middleware;

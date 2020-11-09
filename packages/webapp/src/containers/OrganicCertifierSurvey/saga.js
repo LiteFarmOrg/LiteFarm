@@ -20,7 +20,7 @@ const patchCertifierUrl = survey_id => `${url}/organic_certifier_survey/${survey
 const patchInterestedUrl = survey_id => `${url}/organic_certifier_survey/${survey_id}/interested`;
 const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
-
+export const getCertifiers = createAction(`${name}/getCertifiers`);
 export function* getCertifiersSaga() {
   try {
     const { user_id, farm_id } = yield select(farmSelector);
@@ -40,7 +40,7 @@ export function* getCertifiersSaga() {
     console.log('failed to fetch certifiers from database')
   }
 }
-
+export const postCertifiers = createAction(`${name}/postCertifiers`);
 export function* postCertifiersSaga({ payload }) {
   try {
     const farm = yield select(farmSelector);
@@ -72,7 +72,7 @@ export function* postCertifiersSaga({ payload }) {
     console.log('failed to add certifiers')
   }
 }
-
+export const patchCertifiers = createAction(`${name}/patchCertifiers`);
 export function* patchCertifiersSaga({ payload }) {
   const survey = yield select(certifierSurveySelector);
   try {
@@ -104,7 +104,7 @@ export function* patchCertifiersSaga({ payload }) {
     console.log('failed to add certifiers')
   }
 }
-
+export const patchInterested = createAction(`${name}/patchInterested`);
 export function* patchInterestedSaga({ payload }) {
   const survey = yield select(certifierSurveySelector);
   try {
@@ -136,10 +136,7 @@ export function* patchInterestedSaga({ payload }) {
   }
 }
 
-export const patchInterested = createAction(`${name}/patchInterested`);
-export const patchCertifiers = createAction(`${name}/patchCertifiers`);
-export const getCertifiers = createAction(`${name}/getCertifiers`);
-export const postCertifiers = createAction(`${name}/postCertifiers`);
+
 
 
 export default function* certifierSurveySaga() {

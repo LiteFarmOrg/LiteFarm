@@ -85,7 +85,6 @@ function SlideMenu({ location, farm, logout }) {
              onClick={() => handleClick("/consent")}><span>Privacy Policy</span></a>
         </div>
         }
-        <a onClick={logout} id="logout" className="menu-item"><span>Log out</span></a>
       </Menu>
     </div>
   );

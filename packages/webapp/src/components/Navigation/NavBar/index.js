@@ -4,8 +4,9 @@ import NotifIcon from "../../../assets/images/notif.svg";
 import HelpIcon from "../../../assets/images/help.svg";
 import React from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
+import ProfileFloater from "../../../containers/ProfileFloater";
 
-export default function PureNavBar({ logo, children, steps, resetSpotlight }) {
+export default function PureNavBar({ logo, children, steps, resetSpotlight, auth }) {
 
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
@@ -57,7 +58,9 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight }) {
 
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
-        <input id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem}/>
+        <ProfileFloater auth={auth}>
+          <input id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem}/>
+        </ProfileFloater>
 
       </div>
       <div className={styles.itemContainer}>

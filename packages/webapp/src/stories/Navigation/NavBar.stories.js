@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { Provider } from "react-redux";
 import {Router} from 'react-router-dom';
 import history from './../../history';
-import NavBar from "../../containers/Navigation";
+import NavBar from "../../components/Navigation/NavBar";
 const store = {
   getState: () => {
     return {

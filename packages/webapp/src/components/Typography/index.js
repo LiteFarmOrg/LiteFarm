@@ -22,7 +22,7 @@ export const Underlined = ({
 };
 
 Underlined.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }
@@ -45,7 +45,7 @@ export const Title = ({
 };
 
 Title.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }
@@ -68,7 +68,7 @@ export const Semibold = ({
 };
 
 Semibold.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }
@@ -100,7 +100,7 @@ export const Label = ({
 };
 
 Label.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
   sm: PropTypes.bool,
@@ -124,7 +124,7 @@ export const Error = ({
 };
 
 Error.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }
@@ -147,7 +147,7 @@ export const Info = ({
 };
 
 Info.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }
@@ -170,7 +170,7 @@ export const Main = ({
 };
 
 Main.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }
@@ -193,7 +193,7 @@ export const Text = ({
 };
 
 Text.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
 }

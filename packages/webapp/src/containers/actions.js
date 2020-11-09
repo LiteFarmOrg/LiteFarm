@@ -26,6 +26,7 @@ import {
   SET_FIELD_CROPS_IN_STATE,
   SET_FIELDS_IN_STATE,
   UPDATE_AGREEMENT,
+  SHOW_SPOTLIGHT
 } from "./constants";
 
 export const getUserInfo = (loadFromHome=false) => {
@@ -36,10 +37,8 @@ export const getUserInfo = (loadFromHome=false) => {
 };
 
 export const fetchFarmInfo = () => {
-  const farm_id = localStorage.getItem('farm_id');
   return {
     type: GET_FARM_INFO,
-    farm_id
   }
 };
 
@@ -107,10 +106,19 @@ export const setFieldCropsInState = (fieldCrops) => {
   }
 };
 
-export const updateAgreement = (consent_bool, consent_version) => {
+export const updateAgreement = (consent_bool, consent_version,callback) => {
   return {
     type: UPDATE_AGREEMENT,
     consent_bool: consent_bool,
     consent_version,
+    callback,
   }
+};
+
+export const showSpotlight = (show_spotlight) => {
+  return {
+    type: SHOW_SPOTLIGHT,
+    show_spotlight,
+  }
+
 };

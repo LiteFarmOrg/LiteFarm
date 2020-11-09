@@ -7,7 +7,7 @@ export default {
   decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
-const Template = (args) => <><p style={{"text-decoration-line": "underline"}}>
+const Template = (args) => <><p style={{textDecorationLine: "underline"}}>
   It is preferred to use style prop to override css styles such as margin. If you pass in style from a stylesheet using css loader, it is not guaranteed to work as stylesheet loading order is unpredictable
 </p>
   {AllFontTemplate(args)}

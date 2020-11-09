@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form';
-import React  from 'react';
+import React, { useEffect } from 'react';
 import { PureOrganicPartners } from '../../../components/OrganicPartners';
 import { certifierSurveySelector } from '../selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCertifiers } from '../actions';
+import { getOrganicCertifierSurvey, updateCertifiers } from '../actions';
 import history from '../../../history';
+
 export default function OrganicPartners() {
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors, watch, setValue } = useForm();
   const COABC = 'COABC';
   const OTHER = 'other';
   const OTHERNAME = 'otherName';
@@ -14,26 +15,38 @@ export default function OrganicPartners() {
   const coabc = watch(COABC, false);
   const otherName = watch(OTHERNAME, undefined);
   const refInput = register({ required: required });
-  const {certifiers} = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
+  const survey = useSelector(certifierSurveySelector);
+  useEffect(() => {
+    if (!survey.survey_id) {
+      dispatch(getOrganicCertifierSurvey());
+    }
+    if(survey){
+      const { certifiers } = survey;
+      setValue(COABC, certifiers?.includes(COABC));
+      const otherCertifiers = certifiers?.filter(certifier => certifier!== COABC);
+      const othername = otherCertifiers?.length > 0 ? otherCertifiers[0] : '';
+      setValue(OTHER, !!othername);
+      setValue(OTHERNAME, othername);
+    }
+  }, [survey]);
   const onSubmit = (data) => {
     const certifiers = [];
     const other = data[OTHERNAME];
     const coabc = data[COABC];
-    if(other){
+    const callback = () => history.push('/outro');
+    if (other) {
       certifiers.push(other);
     }
-    if(coabc){
+    if (coabc) {
       certifiers.push(COABC);
     }
-    dispatch(updateCertifiers(certifiers));
-    history.push('/outro');
+    dispatch(updateCertifiers(certifiers,callback));
+
   }
 
   const onGoBack = () => {
     history.push('/interested_in_organic');
-    console.log('back');
-    console.log(certifiers);
   }
   const disabled = !coabc && !otherName;
   return <>

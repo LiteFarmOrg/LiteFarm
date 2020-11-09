@@ -7,7 +7,8 @@ import { Cross } from '../../Icons';
 
 const Input = ({
   disabled = false,
-  classes = { input: '', label: '', info: '', container: '' },
+  classes = {},
+  style,
   label,
   optional,
   info,
@@ -18,18 +19,19 @@ const Input = ({
   ...props
 }) => {
   return (
-    <div className={clsx(styles.container, classes.container)}>
+    <div className={clsx(styles.container)} style={(style || classes.container) && {...style, ...classes.container}}>
       {label && <Label>{label} {optional && <Label sm className={styles.sm}>(optional)</Label>}</Label>}
       {errors && <Cross onClick={onClear} className={styles.cross}/>}
       <input
         disabled={disabled}
-        className={clsx(styles.input, classes.input, errors && styles.inputError)}
+        className={clsx(styles.input, errors && styles.inputError)}
+        style={classes.input}
         aria-invalid={errors ? 'true' : 'false'}
         ref={inputRef}
         {...props}
       />
       {icon && <span className={styles.icon}>{icon}</span>}
-      {info && !errors && <Info className={clsx(classes.info)}>{info}</Info>}
+      {info && !errors && <Info style={classes.info}>{info}</Info>}
       {errors && !disabled ? <Error>{errors}</Error> : null}
     </div>
   );
@@ -43,10 +45,10 @@ Input.propTypes = {
   errors: PropTypes.string,
   onClear: PropTypes.func,
   classes: PropTypes.exact({
-    input: PropTypes.string,
-    label: PropTypes.string,
-    container: PropTypes.string,
-    info: PropTypes.string,
+    input: PropTypes.object,
+    label: PropTypes.object,
+    container: PropTypes.object,
+    info: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
@@ -56,6 +58,7 @@ Input.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
+  style: PropTypes.object,
 }
 
 export default Input;

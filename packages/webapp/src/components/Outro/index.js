@@ -4,7 +4,7 @@ import Footer from "../Footer";
 import Button from "../Form/Button";
 import React from "react";
 
-export default function PureOutroSplash({redirectFinish}) {
+export default function PureOutroSplash({onContinue, onGoBack}) {
   return (
     <div className={styles.home}>
       <div className={styles.lander}>
@@ -15,9 +15,9 @@ export default function PureOutroSplash({redirectFinish}) {
           </div>
         </div>
         <Footer
-          children={<><Button fullLength color="secondary" children='Go back'/>
+          children={<><Button fullLength color="secondary" children='Go back' onClick={onGoBack}/>
 
-            <Button fullLength children='Finish' onClick={redirectFinish}/>
+            <Button fullLength children='Finish' onClick={onContinue}/>
           </>}
         >
         </Footer>

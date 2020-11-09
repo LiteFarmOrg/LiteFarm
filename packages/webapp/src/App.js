@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     const auth = new Auth();
     return (
-      <div style={{width:'100%', maxWidth: '1024px'}}>
+      <div className="app" style={{width:'100%', maxWidth: '1024px'}}>
         <NavBar auth={auth} history={history}/>
         <Routes />
       </div>

@@ -274,7 +274,8 @@ export function* updateAgreementSaga(payload) {
     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
     if (result) {
       if (payload.consent_bool.consent) {
-        yield put(updateConsentOfFarm(farm_id, data));
+        // TODO potential bug
+        // yield put(updateConsentOfFarm(farm_id, data));
         // yield put(setFarmInState(data));
         const farms = yield select((state) => state.userFarmReducer.farms);
         const selectedFarm = farms.find((f) => f.farm_id === farm_id);

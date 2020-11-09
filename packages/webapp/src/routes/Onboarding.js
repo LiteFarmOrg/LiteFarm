@@ -40,6 +40,8 @@ function OnboardingFlow() {
     }
   },[user])
   const {step_one, step_two, step_three, step_four, step_five, has_consent} = farm || {};
+  // console.log(step_four && !step_five && !(organicCertifierForm?.interested && !organicCertifierForm?.certifiers?.length));
+  // console.log(!(organicCertifierForm?.interested && !organicCertifierForm?.certifiers?.length),organicCertifierForm?.interested,organicCertifierForm?.certifiers,!organicCertifierForm?.certifiers?.length);
   return <Switch>
     <Route path="/farm_selection" exact component={()=><ChooseFarm/>}/>
     <Route path="/welcome" exact component={WelcomeScreen}/>
@@ -59,9 +61,9 @@ function OnboardingFlow() {
         {step_two && !step_three && <Redirect to={'/consent'}/>}
         {step_three && !step_four && !organicCertifierForm?.interested &&
         <Redirect to={'/interested_in_organic'}/>}
-        {step_three && !step_four && organicCertifierForm?.interested &&
+        {step_three && (!step_four || !organicCertifierForm?.certifiers?.length) && organicCertifierForm?.interested &&
         <Redirect to={'/organic_partners'}/>}
-        {step_four && !step_five && <Redirect to={'/outro'}/>}
+        {step_four && !step_five && !(organicCertifierForm?.interested && !organicCertifierForm?.certifiers?.length) && <Redirect to={'/outro'}/>}
       </>
     </Route>
   </Switch>

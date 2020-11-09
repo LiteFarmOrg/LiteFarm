@@ -118,7 +118,7 @@ function Routes() {
     let role_id = localStorage.getItem('role_id');
     role_id = Number(role_id);
     // TODO check every step
-    if(farm?.step_four === false || !farm || !farm.has_consent){
+    if(farm?.step_five === false || !farm || !farm.has_consent){
         return <OnboardingFlow/>
     }
     if (role_id === 1) {

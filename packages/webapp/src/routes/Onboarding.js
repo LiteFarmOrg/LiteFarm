@@ -45,12 +45,12 @@ function OnboardingFlow() {
     <Route path="/welcome" exact component={WelcomeScreen}/>
     {!step_one && <Route path="/add_farm" exact component={AddFarm}/>}
     {step_one && <Route path="/role_selection" exact component={RoleSelection}/>}
-    {step_two && !step_four && <Route path="/consent" exact component={ConsentForm}/>}
-    {step_four && !has_consent && <Route path="/consent" exact component={()=><ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'}/>}/>}
+    {step_two && !step_five && <Route path="/consent" exact component={ConsentForm}/>}
+    {step_five && !has_consent && <Route path="/consent" exact component={()=><ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'}/>}/>}
     {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic}/>}
     {organicCertifierForm?.interested && <Route path="/organic_partners" exact component={OrganicPartners}/>}
     {step_four && <Route path="/outro" exact component={Outro}/>}
-    {step_four && <Route path="/" exact component={Home}/>}
+    {step_five && <Route path="/" exact component={Home}/>}
     <Route>
       <>
         {step_four && !has_consent && <Redirect to={'/consent'}/>}

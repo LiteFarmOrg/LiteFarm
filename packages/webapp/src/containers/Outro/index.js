@@ -13,9 +13,9 @@ function Outro() {
     history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
   }
   const onContinue = () => {
-    dispatch(finishOnboarding())
-    dispatch(showSpotlight(true))
-    history.push('/')
+    dispatch(finishOnboarding(()=>history.push('/')));
+    dispatch(showSpotlight(true));
+
   }
 
   return (

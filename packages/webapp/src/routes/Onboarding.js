@@ -22,7 +22,7 @@ import WelcomeScreen from '../containers/WelcomeScreen';
 import AddFarm from '../containers/AddFarm/temp.index';
 import ConsentForm from '../containers/Consent';
 import { useDispatch, useSelector } from 'react-redux';
-import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/selector';
+import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import InterestedOrganic from '../containers/OrganicCertifierSurvey/InterestedOrganic';
 import OrganicPartners from '../containers/OrganicCertifierSurvey/OrganicPartners';
 import { farmSelector, userInfoSelector } from '../containers/selector';

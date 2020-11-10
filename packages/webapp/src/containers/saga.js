@@ -251,7 +251,9 @@ const formatDate = (currDate) => {
 };
 
 export function* updateAgreementSaga(payload) {
-  const { user_id, farm_id, step_three } = yield select(farmSelector);
+  const farm = yield select(farmSelector);
+  const { user_id, farm_id, step_three } = farm;
+
   const { callback } = payload;
   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
@@ -274,10 +276,11 @@ export function* updateAgreementSaga(payload) {
     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
     if (result) {
       if (payload.consent_bool.consent) {
-        yield put(updateConsentOfFarm(farm_id, data));
+        // TODO potential bug
+        // yield put(updateConsentOfFarm(farm_id, data));
         // yield put(setFarmInState(data));
-        const farms = yield select((state) => state.userFarmReducer.farms);
-        const selectedFarm = farms.find((f) => f.farm_id === farm_id);
+        // const farms = yield select((state) => state.userFarmReducer.farms);
+        // const selectedFarm = farms.find((f) => f.farm_id === farm_id);
         let step = {};
         if (!step_three) {
           step = {
@@ -286,7 +289,7 @@ export function* updateAgreementSaga(payload) {
           };
           yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
         }
-        yield put(setFarmInState({ ...selectedFarm, ...step, ...data }));
+        yield put(setFarmInState({ ...farm, ...step, ...data }));
         callback && callback();
       } else {
         //did not give consent - log user out

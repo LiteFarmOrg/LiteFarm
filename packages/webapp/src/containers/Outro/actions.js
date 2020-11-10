@@ -15,9 +15,10 @@
 
 import { FINISH_ONBOARDING} from './constants'
 
-export const finishOnboarding = () => {
+export const finishOnboarding = (callback) => {
   return {
     type: FINISH_ONBOARDING,
     showSpotlight: true,
+    callback,
   }
 };

@@ -32,15 +32,11 @@ const NavBar = (props) => {
   const { auth, history, farm, show_spotlight, dispatch } = props;
 
   const { isAuthenticated } = auth;
-  const isFarmSelected = isAuthenticated() && farm && farm.has_consent;
+  const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
   const Logo = isSmallScreen ? (
       <img src={SmallerLogo} alt="Logo" className={styles.smallLogo} onClick={() => history.push('/')}/>)
     : (<img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => history.push('/')}/>)
-
-  const logout = () => {
-    auth.logout();
-  };
 
   const farmSpotlight = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees";
   const notificationsSpotlight = "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities";
@@ -114,8 +110,8 @@ const NavBar = (props) => {
   }
 
 return (
-    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight}>
-      <SlideMenu right logout={logout}/>
+    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight} auth={auth}>
+      <SlideMenu right />
     </PureNavBar>
   );
 

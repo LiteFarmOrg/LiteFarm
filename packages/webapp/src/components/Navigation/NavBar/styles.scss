@@ -22,8 +22,8 @@
 .navBar {
   top: 0;
   @include gradient();
-  width: 100%;
-  max-width: 1024px;
+  width: 100vw;
+  max-width: 100%;
   min-height: 72px;
   position: fixed;
   z-index: 1;

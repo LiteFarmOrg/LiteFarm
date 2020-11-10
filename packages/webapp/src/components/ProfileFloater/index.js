@@ -1,5 +1,4 @@
 import React from 'react';
-import Floater from 'react-floater';
 import LogoutIcon from '../../assets/images/navbar/logout.svg';
 import MyInfoIcon from '../../assets/images/navbar/my-info.svg';
 import HelpIcon from '../../assets/images/navbar/help-profile.svg';

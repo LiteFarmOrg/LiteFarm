@@ -17,7 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from "react-router-dom";
 import history from './history';
-import { createStore, applyMiddleware, compose } from 'redux'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga'
 import homeSaga from './containers/saga';
@@ -59,9 +59,12 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [sagaMiddleware, thunk];
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-export const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middlewares)));
+const middlewares = [sagaMiddleware];
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [...getDefaultMiddleware(), ...middlewares],
+  devTools: process.env.NODE_ENV !== 'production',
+});
 sagaMiddleware.run(homeSaga);
 sagaMiddleware.run(addFarmSaga);
 sagaMiddleware.run(notificationSaga);

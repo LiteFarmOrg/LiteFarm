@@ -16,7 +16,7 @@ export default function ProfileFloater({auth, children}) {
     <PureProfileFloater onHelp={helpClick} onInfo={myInfoClick} onLogout={logOutClick} onSwitchFarm={switchFarmClick} />
   )
   return (
-    <Floater component={Wrapper}>
+    <Floater component={Wrapper} placement={'bottom-end'}>
       {children}
     </Floater>
   )

@@ -19,12 +19,12 @@ const OverlayTooltip = ({
     <>
       <style type="text/css">
         {`.tooltip .arrow::before {
-            border-bottom-color: var(--iconDefault);
+            border-bottom-color: var(--grey400);
             border-width: 0 10px 10px;
           }
 
           .tooltip-inner {
-            background-color: var(--iconDefault);
+            background-color: var(--grey400);
             padding: 12px 16px;
             box-shadow: 2px 6px 12px rgba(102, 115, 138, 0.2);
             border-radius: 4px;

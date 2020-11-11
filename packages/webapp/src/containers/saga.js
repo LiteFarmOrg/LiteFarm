@@ -273,6 +273,7 @@ export function* updateAgreementSaga(payload) {
   };
 
   try {
+    //TODO replace changed async calls with axios.all
     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
     if (result) {
       if (payload.consent_bool.consent) {

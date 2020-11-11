@@ -44,9 +44,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
-import App from './App';
 import { unregister } from './registerServiceWorker';
-import thunk from 'redux-thunk';
 
 
 // config for redux-persist
@@ -65,6 +63,15 @@ export const store = configureStore({
   middleware: [...getDefaultMiddleware(), ...middlewares],
   devTools: process.env.NODE_ENV !== 'production',
 });
+
+// https://redux-toolkit.js.org/tutorials/advanced-tutorial#store-setup-and-hmr
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./reducer', () => {
+    const newRootReducer = require('./reducer').default
+    store.replaceReducer(newRootReducer)
+  })
+}
+
 sagaMiddleware.run(homeSaga);
 sagaMiddleware.run(addFarmSaga);
 sagaMiddleware.run(notificationSaga);
@@ -93,28 +100,39 @@ export const purgeState  = () => {
 export default () => {
   return { store, persistor }
 }
-// encapsulate whole app component within router and react-redux
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-    <Router history={history}>
-      <div>
-        <ReduxToastr
-          timeOut={4000}
-          newestOnTop={false}
-          preventDuplicates
-          position="top-left"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-          progressBar
-          closeOnToastrClick
-        />
-        <App />
-      </div>
-    </Router>
-    </PersistGate>
-  </Provider>,
+
+const render = () => {
+  const App = require('./App').default;
+  ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router history={history}>
+          <div>
+            <ReduxToastr
+              timeOut={4000}
+              newestOnTop={false}
+              preventDuplicates
+              position="top-left"
+              transitionIn="fadeIn"
+              transitionOut="fadeOut"
+              progressBar
+              closeOnToastrClick
+            />
+            <App />
+          </div>
+        </Router>
+      </PersistGate>
+    </Provider>,
     document.getElementById('root'));
+}
+
+render();
+
+
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./App', render)
+}
+
 //FIXME: service worker disabled for now. Causing problems when deploying: shows blank page until N+1th visit
 // https://twitter.com/dan_abramov/status/954146978564395008
 unregister();

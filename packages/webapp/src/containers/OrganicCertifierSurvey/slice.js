@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// The initial state of the HackerNews component
 export const initialState = {
   interested: null,
   certifiers: [],

@@ -1,7 +1,5 @@
 import { useForm } from "react-hook-form";
 import React from "react";
-import history from '../../history';
-import { finishStepTwo } from './actions';
 import PureRoleSelection from "../../components/RoleSelection";
 import { useDispatch } from 'react-redux';
 import { patchRole } from '../AddFarm/actions';
@@ -15,12 +13,6 @@ function RoleSelection() {
     const callback = () => history.push('/consent');
     dispatch(patchRole(role,callback));
   }
-
-  const redirectConsent = () => {
-    dispatch(finishStepTwo())
-    history.push('/consent')
-  }
-  
   return (
     <PureRoleSelection onSubmit={handleSubmit(onSubmit)}
                        inputs={[{
@@ -40,9 +32,7 @@ function RoleSelection() {
                          inputRef: register({required: true}),
                          name: ROLE
                        }
-                       ]} title={'What is your role on the farm?'}
-                       redirectConsent={redirectConsent}
-                       >
+                       ]} title={'What is your role on the farm?'}>
 
     </PureRoleSelection>
   )

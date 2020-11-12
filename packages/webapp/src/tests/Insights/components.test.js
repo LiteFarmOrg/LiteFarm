@@ -32,8 +32,6 @@ describe('Info Box Component Tests', () => {
   const deleteHandler = jest.fn();
   let wrapper;
 
-  // onSubmit, title, inputs, inputClasses = '',  redirectConsent
-
   beforeEach(() => {
     wrapper = shallow(
       <InfoBoxComponent

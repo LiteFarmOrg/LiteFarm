@@ -18,6 +18,7 @@ import {
   SET_FARM_IN_STATE,
   SET_FIELDS_IN_STATE,
   SET_FIELD_CROPS_IN_STATE,
+  SHOW_SPOTLIGHT
 } from './constants';
 
 const initialState = {
@@ -34,7 +35,7 @@ function baseReducer(state = initialState, action) {
     case SET_USER_IN_STATE:
       return Object.assign({}, state, { users: {...state.users, ...action.users} });
     case SET_FARM_IN_STATE:
-      return Object.assign({}, state, { farm: action.farm });
+      return Object.assign({}, state, { farm: { ...state.farm, ...action.farm } });
     case SET_FIELDS_IN_STATE:
       return Object.assign({}, state, {
         fields: action.fields,
@@ -42,6 +43,10 @@ function baseReducer(state = initialState, action) {
     case SET_FIELD_CROPS_IN_STATE:
       return Object.assign({}, state, {
         fieldCrops: action.fieldCrops,
+      });
+    case SHOW_SPOTLIGHT:
+      return Object.assign({}, state, {
+        show_spotlight: action.show_spotlight,
       });
     default:
       return state

@@ -1,13 +1,19 @@
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
 import React from "react";
 import history from '../../history';
 import { finishStepTwo } from './actions';
 import PureRoleSelection from "../../components/RoleSelection";
+import { useDispatch } from 'react-redux';
+import { patchRole } from '../AddFarm/actions';
+import history from '../../history';
 
-function RoleSelection({dispatch, farm}) {
+function RoleSelection() {
   const { register, handleSubmit } = useForm();
-  const patchRole = (role) => {
+  const ROLE = 'role';
+  const dispatch = useDispatch();
+  const onSubmit = ({role}) => {
+    const callback = () => history.push('/consent');
+    dispatch(patchRole(role,callback));
   }
 
   const redirectConsent = () => {
@@ -16,23 +22,23 @@ function RoleSelection({dispatch, farm}) {
   }
   
   return (
-    <PureRoleSelection onSubmit={handleSubmit(patchRole)}
+    <PureRoleSelection onSubmit={handleSubmit(onSubmit)}
                        inputs={[{
                          label: 'Farm owner',
                          value: 'Owner',
                          inputRef: register({required: true}),
-                         name: '_role',
+                         name: ROLE,
                          defaultChecked: true
                        },{
                          label: 'Farm manager',
                          value: 'Manager',
                          inputRef: register({required: true}),
-                         name: '_role'
+                         name: ROLE
                        },{
                          label: 'Extension officer',
                          value: 'Extension Officer',
                          inputRef: register({required: true}),
-                         name: '_role'
+                         name: ROLE
                        }
                        ]} title={'What is your role on the farm?'}
                        redirectConsent={redirectConsent}
@@ -42,17 +48,4 @@ function RoleSelection({dispatch, farm}) {
   )
 }
 
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  }
-};
-
-const mapStateToProps = (state) => {
-  return {
-    farm: state.baseReducer.farm,
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoleSelection);
+export default RoleSelection;

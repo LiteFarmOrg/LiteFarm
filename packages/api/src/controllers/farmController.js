@@ -26,7 +26,7 @@ class farmController extends baseController {
       const trx = await transaction.start(Model.knex());
 
       const { country } = req.body;
-      if(!country) {
+      if (!country) {
         return res.status(400).send('No ');
       }
 
@@ -44,7 +44,7 @@ class farmController extends baseController {
         units: {
           currency: countryInfo.iso,
           measurement: countryInfo.unit.toLowerCase(),
-        }
+        },
       }
 
       try {
@@ -52,10 +52,9 @@ class farmController extends baseController {
         // console.log('farm post result: ', result);
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
-        await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
-
+        const userFarm = await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
         await trx.commit();
-        res.status(201).send(result);
+        res.status(201).send(Object.assign({}, result, userFarm));
       } catch (error) {
         // console.log('farm post fail: ', error.message);
         //handle more exceptions
@@ -71,12 +70,10 @@ class farmController extends baseController {
         const rows = await baseController.get(farmModel);
         if (!rows.length) {
           res.sendStatus(404)
-        }
-        else {
+        } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
@@ -93,12 +90,10 @@ class farmController extends baseController {
         const row = await baseController.getIndividual(farmModel, id);
         if (!row.length) {
           res.sendStatus(404)
-        }
-        else {
+        } else {
           res.status(200).send(row);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
@@ -115,12 +110,10 @@ class farmController extends baseController {
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -133,7 +126,7 @@ class farmController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        if(!!req.body.address || !!req.body.grid_points) {
+        if (!!req.body.address || !!req.body.grid_points) {
           throw new Error('Not allowed to modify address or gridPoints')
         }
         const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx);
@@ -141,22 +134,20 @@ class farmController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
-          error : error.message ? error.message : error,
+          error: error.message ? error.message : error,
         });
       }
     }
   }
 
-  static async getUser(req, trx){
+  static async getUser(req, trx) {
     // check if a user is making this call
     if (req.user) {
 
@@ -166,8 +157,13 @@ class farmController extends baseController {
     }
   }
 
-  static async insertUserFarm(user, farm_id, trx){
-    await userFarmModel.query(trx).insert({ user_id: user.user_id, farm_id, role_id: 1, status: 'Active' });
+  static async insertUserFarm(user, farm_id, trx) {
+    return  userFarmModel.query(trx).insert({
+      user_id: user.user_id,
+      farm_id,
+      role_id: 1,
+      status: 'Active',
+    }).returning('*');
   }
 }
 

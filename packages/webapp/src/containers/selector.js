@@ -27,6 +27,12 @@ const farmSelector = createSelector(
   (state) => state.farm
 );
 
+const spotlightSelector = createSelector(
+  baseSelector,
+  (state) => state.show_spotlight
+  
+);
+
 const fieldSelector = createSelector(
   baseSelector,
   (state) => state.fields
@@ -49,4 +55,5 @@ export {
   farmSelector,
   fieldSelector,
   cropSelector,
+  spotlightSelector,
 };

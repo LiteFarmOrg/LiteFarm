@@ -28,7 +28,7 @@ class AddSale extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    this.props.dispatch(fetchFarmInfo());
   }
 
   handleSubmit(sale) {

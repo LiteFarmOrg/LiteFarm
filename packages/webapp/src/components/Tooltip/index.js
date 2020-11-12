@@ -7,17 +7,24 @@ import { Text } from '../Typography';
 const OverlayTooltip = ({
   children = 'LiteFarm',
   content = 'LiteFarm',
+  arrowTranslateX,
+  styles,
+  marginTop,
+  placement,
+  ...props
 }) => {
+  const getTranslateX = (translateX) => translateX?`transform: translateX(${translateX}) !important;`:'';
+  const getMarginTop = (marginTop) => marginTop?`margin-top: ${marginTop};`:'';
   return (
     <>
       <style type="text/css">
         {`.tooltip .arrow::before {
-            border-bottom-color: var(--iconDefault);
+            border-bottom-color: var(--grey400);
             border-width: 0 10px 10px;
           }
 
           .tooltip-inner {
-            background-color: var(--iconDefault);
+            background-color: var(--grey400);
             padding: 12px 16px;
             box-shadow: 2px 6px 12px rgba(102, 115, 138, 0.2);
             border-radius: 4px;
@@ -26,15 +33,19 @@ const OverlayTooltip = ({
           }
 
           .tooltip {
-            margin-top: 12px;
+            ${getMarginTop(marginTop)}
           }
+          
           .arrow {
-            transform: translateX(16px) !important;
+            ${getTranslateX(arrowTranslateX)}
           }
+          
+          ${styles}
 `}
       </style>
       <OverlayTrigger
-        placement={'bottom-start'}
+        placement={placement}
+        {...props}
         overlay={
           <Tooltip id={'toolkit-bottom'}>
             <Text>{content}</Text>
@@ -56,6 +67,9 @@ OverlayTooltip.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  marginTop: PropTypes.string,
+  arrowTranslateX: PropTypes.string,
+  placement: PropTypes.string,
 }
 
 export default OverlayTooltip;

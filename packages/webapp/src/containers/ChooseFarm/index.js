@@ -27,6 +27,8 @@ import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
 // import axios from 'axios';
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import { purgeState } from '../../index';
+import { farmSelector } from '../selector';
 
 // const mammoth = require('mammoth');
 
@@ -41,6 +43,12 @@ class ChooseFarm extends Component {
   }
 
   componentDidMount() {
+    if(this.props.farm){
+      //TODO reset store except userfarms reducer
+      purgeState();
+    }
+    //TODO find which component is loading farms
+
     this.props.dispatch(getFarms());
   }
 
@@ -69,7 +77,6 @@ class ChooseFarm extends Component {
   };
 
   proceedFunc = async () => {
-    console.log('proceed');
     const { selected_farm_id } = this.state;
     const { farms } = this.props;
 
@@ -183,6 +190,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     farms: userFarmSelector(state),
+    farm: farmSelector(state),
   }
 };
 

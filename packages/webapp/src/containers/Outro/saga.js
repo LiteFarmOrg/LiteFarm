@@ -16,15 +16,14 @@
 import {
  FINISH_ONBOARDING
 } from "./constants";
-import {finishOnboarding} from './actions';
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put, select } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
+import { farmSelector } from '../selector';
+import { setFarmInState } from '../actions';
 const axios = require('axios');
 
-export function* patchOutroStep() {
-    console.log("patchOutroStep")
-  let user_id = localStorage.getItem('user_id');
-  let farm_id = localStorage.getItem('farm_id');
+export function* patchOutroStep({callback}) {
+  const {farm_id, user_id} = yield select(farmSelector);
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {
@@ -36,16 +35,16 @@ export function* patchOutroStep() {
   };
 
   let data = {
-    step_four: true,
-    step_four_end: new Date(),
+    step_five: true,
+    step_five_end: new Date(),
   };
 
   try {
-    const result = yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-    if (result) {
-      yield put(finishOnboarding(result.data));
-    }
-  } catch (e) {
+    yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
+    yield put(setFarmInState(data));
+    callback && callback();
+  }
+  catch (e) {
     console.error('failed to update table');
   }
 }

@@ -21,15 +21,16 @@ import {
   GET_FIELDS,
   UPDATE_USER_INFO,
   UPDATE_FARM,
-  UPDATE_AGREEMENT,
+  UPDATE_AGREEMENT
 } from "./constants";
 import { setUserInState, setFarmInState, fetchFarmInfo, setFieldCropsInState, setFieldsInState, getFields, getFieldCrops } from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
-import apiConfig from '../apiConfig';
+import apiConfig, { userFarmUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import history from "../history";
+import history from '../history';
 import Auth from '../Auth/Auth.js';
+import { farmSelector } from './selector';
 
 const axios = require('axios');
 
@@ -51,7 +52,11 @@ export function* getUserInfo(action) {
     if (result.data[0]) {
       //console.log(result.data);
       yield put(setUserInState(result.data[0]));
-
+      //TODO create a getUser saga that does not fetch userFarm
+      const farm = yield select(farmSelector);
+      if (!farm) {
+        return;
+      }
       // if(!result.data[0].has_consent){
       //   history.push('/consent');
       // }
@@ -62,16 +67,17 @@ export function* getUserInfo(action) {
       //   console.log('user has no farm at the moment');
       // }
     } else {
+      //TODO investigate load from home
       const auth = new Auth();
-      auth.getUserInfo(localStorage.getItem('access_token'),localStorage.getItem('id_token'))
+      auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'))
       console.log('failed to fetch user from database')
     }
-  } catch(e) {
+  } catch (e) {
     toastr.error('Failed to fetch user info');
   }
 }
 
-export function* updateUser(payload){
+export function* updateUser(payload) {
   let user_id = localStorage.getItem('user_id');
   const { userUrl } = apiConfig;
   const header = {
@@ -84,53 +90,56 @@ export function* updateUser(payload){
   };
 
   let data = payload.user;
-  if(data.wage === null){
+  if (data.wage === null) {
     delete data.wage;
   }
-  if(data.phone_number === null){
+  if (data.phone_number === null) {
     delete data.phone_number;
   }
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
     if (result.data[0]) {
       yield put(setUserInState(result.data[0]));
-      toastr.success("Successfully updated user info!")
+      toastr.success('Successfully updated user info!')
     }
   } catch (e) {
     toastr.error('Failed to update user info')
   }
 }
 
-export function* getFarmInfo(action) {
-  let farm_id = localStorage.getItem('farm_id');
-
-  if(!farm_id) {
-    history.push('/add_farm');
-    return;
-  }
-
+export function* getFarmInfo() {
   try {
-    let userFarmReducer = yield select((state) => state.userFarmReducer);
+    let userFarmReducer = yield select(state => state.userFarmReducer);
+    const farm = yield select(farmSelector);
+
+    //TODO potential bug
+    if (!farm.farm_id) {
+      history.push('/add_farm');
+      return;
+    }
+    const farm_id = farm?.farm_id;
     const result = userFarmReducer.farms.filter(farm => farm.farm_id === farm_id);
     if (result[0]) {
       //console.log(result.data);
+      //TODO investigate why farm need the reset
       if (result[0].role_id) {
         localStorage.setItem('role_id', result[0].role_id);
       }
-      yield put(setFarmInState(result[0]));
+      yield put(setFarmInState({ ...result[0], ...farm }));
       yield put(getFields());
       yield put(getFieldCrops());
     } else {
       console.log('failed to fetch farm from database')
     }
-  } catch(e) {
+  } catch (e) {
+    console.log(e);
     toastr.error('failed to fetch farm from database');
   }
 }
 
-export function* updateFarm(payload){
+export function* updateFarm(payload) {
   let farm_id = payload.farm && payload.farm.farm_id;
-  const { farm } = apiConfig;
+  const { farmUrl } = apiConfig;
   const header = {
     headers: {
       'Content-Type': 'application/json',
@@ -141,23 +150,23 @@ export function* updateFarm(payload){
   };
 
   // OC: We should never update address information of a farm.
-  let {address, grid_points, ...data}  = payload.farm;
+  let { address, grid_points, ...data } = payload.farm;
 
-  if(data.phone_number.number === null || data.phone_number.country === null){
+  if (data.phone_number.number === null || data.phone_number.country === null) {
     delete data.phone_number;
   }
   try {
-    const result = yield call(axios.put, farm + '/' + farm_id, data, header);
+    const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
     if (result && result.data && result.data.length > 0) {
       // yield put(setFarmInState(result.data[0]));
       // TODO (refactoring): Handle the response to be sent properly in backend so we
       // don't need to do this extra API call to keep redux consistent
       yield put(updateConsentOfFarm(farm_id, result.data[0]))
       yield put(fetchFarmInfo());
-      toastr.success("Successfully updated farm info!");
+      toastr.success('Successfully updated farm info!');
     }
   } catch (e) {
-    toastr.error("Failed to update farm info")
+    toastr.error('Failed to update farm info')
   }
 }
 
@@ -178,7 +187,7 @@ export function* getFieldsSaga() {
     if (result) {
       yield put(setFieldsInState(result.data));
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to fetch fields from database')
   }
 }
@@ -200,12 +209,12 @@ export function* getFieldCropsSaga() {
     if (result) {
       yield put(setFieldCropsInState(result.data));
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to fetch field crops from db');
   }
 }
 
-export function*  getFieldCropsByDateSaga() {
+export function* getFieldCropsByDateSaga() {
   let farm_id = localStorage.getItem('farm_id');
   let currentDate = formatDate(new Date());
   const { fieldCropURL } = apiConfig;
@@ -223,7 +232,7 @@ export function*  getFieldCropsByDateSaga() {
     if (result) {
       yield put(setFieldCropsInState(result.data));
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to fetch field crops by date')
   }
 }
@@ -242,15 +251,19 @@ const formatDate = (currDate) => {
 };
 
 export function* updateAgreementSaga(payload) {
-  let user_id = localStorage.getItem('user_id');
-  let farm_id = localStorage.getItem('farm_id');
+  const farm = yield select(farmSelector);
+  const { user_id, farm_id, step_three } = farm;
+
+  const { callback } = payload;
+  const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
+
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
+      user_id,
+      farm_id,
     },
   };
 
@@ -260,24 +273,33 @@ export function* updateAgreementSaga(payload) {
   };
 
   try {
-    const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id +'/user/'+ user_id, data, header);
+    const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
     if (result) {
       if (payload.consent_bool.consent) {
-        yield put(updateConsentOfFarm(farm_id, data));
+        // TODO potential bug
+        // yield put(updateConsentOfFarm(farm_id, data));
         // yield put(setFarmInState(data));
-        const farms = yield select((state) => state.userFarmReducer.farms);
-        const selectedFarm = farms.find((f) => f.farm_id === farm_id);
-        yield put(setFarmInState(selectedFarm))
-        history.push('/intro');
+        // const farms = yield select((state) => state.userFarmReducer.farms);
+        // const selectedFarm = farms.find((f) => f.farm_id === farm_id);
+        let step = {};
+        if (!step_three) {
+          step = {
+            step_three: true,
+            step_three_end: new Date(),
+          };
+          yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
+        }
+        yield put(setFarmInState({ ...farm, ...step, ...data }));
+        callback && callback();
       } else {
-    //did not give consent - log user out
+        //did not give consent - log user out
         const auth = new Auth();
         auth.logout();
         history.push('/callback');
       }
     }
-  } catch(e) {
-    toastr.error("Failed to update user agreement");
+  } catch (e) {
+    toastr.error('Failed to update user agreement');
   }
 }
 

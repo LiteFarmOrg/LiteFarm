@@ -22,8 +22,8 @@
 .navBar {
   top: 0;
   @include gradient();
-  width: 100%;
-  max-width: 1024px;
+  width: 100vw;
+  max-width: 100%;
   min-height: 72px;
   position: fixed;
   z-index: 1;
@@ -71,7 +71,7 @@
   height: 25px;
   margin-right: 16px;
   border: none;
-  padding: 0;
+  padding-right: 0;
 }
 
 .navBarContainer{

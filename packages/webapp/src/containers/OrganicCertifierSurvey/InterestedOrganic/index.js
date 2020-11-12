@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
 import { certifierSurveySelector } from '../selector';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrganicCertificateSurvey, updateInterested } from '../actions';
+import { addCertifierSurvey, getOrganicCertifierSurvey, updateInterested } from '../actions';
 import history from '../../../history';
 export default function InterestedOrganic() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const INTERESTED = 'interested';
   const title = 'Interested in Organic?';
   const paragraph = 'Do you plan to pursue or renew organic certification this season?';
@@ -15,24 +15,30 @@ export default function InterestedOrganic() {
   const ref = register({ required: true });
   const survey = useSelector(certifierSurveySelector);
   const dispatch = useDispatch();
+  useEffect(()=>{
+    if(!survey.survey_id){
+      dispatch(getOrganicCertifierSurvey());
+    }
+    if(survey){
+      setValue(INTERESTED,survey.interested===false?'false':'true');
+    }
+  },[survey]);
+
+
   const onSubmit = (data) => {
     const interested = data.interested === 'true';
-    console.log(interested, data);
+    const callback = ()=> interested?history.push('/organic_partners'):history.push('/outro');
     if(survey.survey_id){
-      dispatch(updateInterested(interested));
+      dispatch(updateInterested(interested,callback));
     }else{
-      dispatch(addOrganicCertificateSurvey({interested}));
-    }
-    if(interested){
-      history.push('/organic_partners');
-    }else{
-      history.push('/outro')
+      dispatch(addCertifierSurvey({interested},callback));
     }
 
 
   }
   const onGoBack = () => {
-    console.log('back');
+    console.log('goback')
+    history.push('/consent');
   }
 
 

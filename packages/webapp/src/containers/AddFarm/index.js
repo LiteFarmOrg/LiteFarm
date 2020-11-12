@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import Popup from "reactjs-popup";
 import { Button } from 'react-bootstrap';
 
-import { addFarmtoDB } from './actions';
+import { postFarm } from './actions';
 import styles from './styles.scss'
 import commonCurrency from './currency/commonCurrency.json';
 import DropDown from '../../components/Inputs/DropDown';
@@ -65,7 +65,7 @@ class AddFarm extends Component {
       farm_config: farm,
       role: selectedRole,
     };
-    this.props.dispatch(addFarmtoDB(userFarm));
+    this.props.dispatch(postFarm(userFarm));
   }
 
   openChooseRoleModal = (val) => {

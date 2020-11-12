@@ -24,5 +24,4 @@ function Outro() {
 
 }
 
-
 export default Outro;

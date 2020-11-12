@@ -1,22 +1,25 @@
-/*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (actions.js) is part of LiteFarm.
- *
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (components.test.js) is part of LiteFarm.
+ *  
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *
+ *  
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FINISH_STEP_TW0 } from './constants'
+import { takeEvery } from 'redux-saga/effects';
+import { patchOutroStep } from '../containers/Outro/saga';
 
-export const finishStepTwo = () => {
-  return {
-    type: FINISH_STEP_TW0,
-  }
-};
+describe('patchOutroStep', () => {
+    const genObject = patchOutroStep();
+
+    it('should wait for FINISH_ONBOARDING action and call patchOutroStep', () => {
+        expect(genObject.next().value).toEqual(takeEvery('FINISH_ONBOARDING', patchOutroStep))
+    })
+})

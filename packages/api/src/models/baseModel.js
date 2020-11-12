@@ -1,6 +1,6 @@
 const Model = require('objection').Model;
 const softDelete = require('objection-soft-delete');
-
+// Step 2: Create baseModel with baseProperties
 class baseModel extends softDelete({ columnName: 'deleted' })(Model) {
   $beforeInsert(context) {
     const user_id = context.user_id;

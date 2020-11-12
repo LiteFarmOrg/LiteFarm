@@ -22,6 +22,7 @@ class organicCertifierSurveyController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
+        // Step 4, filter out deleted entries in get queties
         const result = await organicCertifierSurveyModel.query().whereNotDeleted().where({ farm_id }).first()
           .select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested', 'organicCertifierSurvey.survey_id');
         if (!result) {
@@ -42,6 +43,7 @@ class organicCertifierSurveyController extends baseController {
     return async (req, res) => {
       try {
         const user_id = req.user.sub.split('|')[1];
+        // Step 5: Pass in user_id as context for all post, patch, and delete requests
         const result = await organicCertifierSurveyModel.query().context({ user_id }).insert(req.body).returning('*');
         res.status(201).send(result);
       } catch (error) {

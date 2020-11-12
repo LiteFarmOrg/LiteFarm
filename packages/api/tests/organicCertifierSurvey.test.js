@@ -27,7 +27,7 @@ const mocks = require('./mock.factories');
 
 
 const organicCertifierSurveyModel = require('../src/models/organicCertifierSurveyModel');
-
+// Step 0: write tests and make sure tests pass before and after add new base properties
 describe('organicCertifierSurvey Tests', () => {
   let middleware;
   let owner;

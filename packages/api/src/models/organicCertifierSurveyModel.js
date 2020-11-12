@@ -14,7 +14,7 @@
  */
 
 const baseModel = require('./baseModel');
-
+// Step 3: extends baseModel and spread baseProperties
 class organicCertifierSurveyModel extends baseModel {
   static get tableName() {
     return 'organicCertifierSurvey';
@@ -38,6 +38,7 @@ class organicCertifierSurveyModel extends baseModel {
             type: 'string',
           },
         },
+        // Spread baseProperties
         ...super.baseProperties,
       },
       additionalProperties: false,

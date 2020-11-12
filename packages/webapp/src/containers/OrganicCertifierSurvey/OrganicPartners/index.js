@@ -48,7 +48,7 @@ export default function OrganicPartners() {
   const onGoBack = () => {
     history.push('/interested_in_organic');
   }
-  const disabled = !coabc && !otherName;
+  const disabled = !coabc && (!otherName || !required);
   return <>
     <PureOrganicPartners onSubmit={handleSubmit(onSubmit)}
                          onGoBack={onGoBack}

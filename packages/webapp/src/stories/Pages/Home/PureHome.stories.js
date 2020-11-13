@@ -17,3 +17,6 @@ HomeRain.args = {
   children: <Rain {...Rain.args}/>,
   imgUrl: 'https://res.cloudinary.com/dfxanglyc/image/upload/v1552774058/portfolio/1024px-Nail___Gear.svg.png'
 };
+HomeRain.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};

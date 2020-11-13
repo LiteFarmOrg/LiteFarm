@@ -1,0 +1,49 @@
+@import  "../../../../assets/mixin";
+.leftColumn{
+  margin-left: 18px;
+  margin-bottom: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rightColumn{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 42.3%;
+
+}
+.farmName{
+  color: var(--fontColor);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  @include fontFamily();
+  margin: 0;
+}
+.ownerName{
+  @include fontFamily();
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+}
+.address{
+  @include fontFamily();
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+}
+.secondary{
+  color: var(--grey600);
+}
+.active{
+  color: var(--teal700);
+}
+.disabled{
+  color: var(--grey600);
+}

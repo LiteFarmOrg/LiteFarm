@@ -1,33 +1,29 @@
-import styles from './styles.scss';
-import Form from '../Form';
+import Layout from '../Layout';
 import Button from '../Form/Button';
-import signup7 from '../../assets/images/signUp/signup7.svg';
-import { ReactComponent as Leaf } from '../../assets/images/signUp/leaf.svg';
-import Checkbox from '../Form/Checkbox';
-import Input from '../Form/Input';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Label, Text } from '../Typography';
 
-export function PureOrganicPartners({ inputs = [{}, {}], onSubmit, onGoBack, disabled }) {
-  return <Form onSubmit={onSubmit} buttonGroup={
-    <>
-      <Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button>
-      <Button type={'submit'} fullLength disabled={disabled}>Continue</Button>
-    </>
-  }>
-    <img src={signup7} alt={'Avatar'} className={styles.svg} loading={'lazy'}/>
-    <div className={styles.svgtitle}>Great!</div>
-    <Text style={{marginBottom: '24px'}}>We'll indicate data required for organic certification with <span
-      className={styles.leaf}><Leaf/></span> throughout the app!</Text>
-    <Label style={{marginBottom: '8px'}}>Please select your certifier</Label>
-    <Checkbox style={{marginBottom: '16px'}} {...inputs[0]}/>
-    <Checkbox style={{marginBottom: '12px'}} {...inputs[1]}/>
-    <Input {...inputs[2]}/>
-  </Form>
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Title, Underlined } from '../Typography';
+import { Link } from 'react-router-dom';
+import ChooseFarmMenuItem from './ChooseFarmMenu/ChooseFarmMenuItem';
+import Input from '../Form/Input';
+
+
+export default function PureChooseFarmScreen({ onClick, farms = [], isSearchable, isOnBoarding, ...props }) {
+  return <Layout buttonGroup={<Button onClick={onClick} fullLength>Let's get started</Button>}>
+    <Title style={{marginBottom: '16px'}}>Choose your farm</Title>
+    <Link style={{marginBottom: '16px'}} to={'/add_farm'}>+ <Underlined>Add new farm</Underlined></Link>
+    {isSearchable && <Input style={{marginBottom: '16px'}} placeholder={'Search'} isSearchBar={true} {...props}/>}
+    {farms.map((farm) => {
+      return <ChooseFarmMenuItem style={{marginBottom: '16px'}} farmName={farm.name} address={farm.address} color={farm.color} onClick={onClick}
+                                 coordinate={farm.coordinate} ownerName={farm.ownerName}/>
+    })}
+  </Layout>
 }
 
-PureOrganicPartners.prototype = {
-  onSubmit: PropTypes.func,
-  inputs: PropTypes.arrayOf(PropTypes.exact({ label: PropTypes.string, info: PropTypes.string, icon: PropTypes.node })),
+PureChooseFarmScreen.prototype = {
+  isSearchable: PropTypes.bool,
+  farms: PropTypes.array,
+  onClick: PropTypes.func,
+  isOnBoarding: PropTypes.bool
 }

@@ -3,7 +3,8 @@ const softDelete = require('objection-soft-delete');
 // Step 2: Create baseModel with baseProperties
 function baseModel(){
   return class extends softDelete({ columnName: 'deleted' })(Model) {
-    $beforeInsert(context) {
+    async $beforeInsert(context) {
+      await super.$beforeInsert(context);
       const user_id = context.user_id;
       if (user_id) {
         this.created_by_user_id = user_id;
@@ -14,7 +15,8 @@ function baseModel(){
       this.updated_at = this.created_at;
     }
 
-    $beforeUpdate(opt, context) {
+    async $beforeUpdate(opt, context) {
+      await super.$beforeUpdate(opt, context);
       const user_id = context.user_id;
       if (user_id) {
         this.updated_by_user_id = user_id;

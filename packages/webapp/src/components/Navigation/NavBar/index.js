@@ -24,7 +24,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         {steps &&
         <ReactJoyride
           steps={steps}
-          // run={resizeDebounce}
           continuous
           callback={resetSpotlightStatus}
           floaterProps={{ disableAnimation: true }}

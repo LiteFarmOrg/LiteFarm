@@ -21,6 +21,8 @@ function baseModel(){
         delete this.user_id;
       }
       this.updated_at = new Date().toISOString();
+      delete this.created_by_user_id;
+      delete this.created_at;
     }
 
     static get baseProperties() {

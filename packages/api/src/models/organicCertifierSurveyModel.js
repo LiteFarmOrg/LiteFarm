@@ -14,8 +14,9 @@
  */
 
 const baseModel = require('./baseModel');
+const Model = require('objection').Model;
 
-class organicCertifierSurveyModel extends baseModel {
+class organicCertifierSurveyModel extends baseModel(Model) {
   static get tableName() {
     return 'organicCertifierSurvey';
   }

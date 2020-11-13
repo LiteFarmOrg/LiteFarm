@@ -12,10 +12,16 @@ function Outro() {
   const onGoBack = () => {
     history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
   }
-  const onContinue = () => {
-    dispatch(finishOnboarding(()=>history.push('/')));
-    dispatch(showSpotlight(true));
 
+  const onContinue = () => {
+    dispatch(finishOnboarding(() =>{
+      history.push('/');
+      setTimeout(() => {
+        dispatch(showSpotlight(true));
+      }, 200)
+      
+    }
+    ));
   }
 
   return (

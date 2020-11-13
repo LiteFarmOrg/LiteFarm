@@ -24,30 +24,33 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         {steps &&
         <ReactJoyride
           steps={steps}
-          run={steps.run}
+          // run={resizeDebounce}
           continuous
-          showSkipButton
           callback={resetSpotlightStatus}
+          floaterProps={{ disableAnimation: true }}
           styles=
             {
               {
                 options: {
-                  // modal arrow and background color
-                  arrowColor: "#eee",
-                  backgroundColor: "#eee",
-                  // page overlay color
+                  // modal arrow color
+                  arrowColor: "#fff",
+                  // modal background color
+                  backgroundColor: "#fff",
+                  // tooltip overlay color
                   overlayColor: "rgba(36, 39, 48, 0.5)",
-                  //button color
-                  // primaryColor: "#06AB16",
-                  primaryColor: "#FED450",
-                  //text color
-                  // textColor: "##000000",
+                  // next button color
+                  primaryColor: "#FCE38D",
                   //width of modal
                   width: 270,
                   //zindex of modal
                   zIndex: 2000,
-                  beaconSize: 36,
                 },
+                buttonClose: {
+                  display: 'none',
+                },
+                buttonBack: {
+                  display: 'none',
+                }
 
               }
 

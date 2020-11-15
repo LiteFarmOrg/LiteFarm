@@ -4,7 +4,7 @@ import history from '../../history';
 import { finishOnboarding } from './actions';
 import { showSpotlight } from "../actions";
 import PureOutroSplash from "../../components/Outro";
-import { certifierSurveySelector } from '../OrganicCertifierSurvey/selector';
+import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 
 function Outro() {
   const survey = useSelector(certifierSurveySelector);

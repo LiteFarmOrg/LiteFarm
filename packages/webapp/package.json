@@ -8,6 +8,7 @@
   "dependencies": {
     "@babel/core": "7.9.0",
     "@hookform/resolvers": "^1.0.0",
+    "@reduxjs/toolkit": "^1.4.0",
     "auth0-js": "^9.13.2",
     "autoprefixer": "7.1.6",
     "axios": "^0.20.0",

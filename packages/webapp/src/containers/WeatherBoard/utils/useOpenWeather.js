@@ -3,6 +3,7 @@ import axios from 'axios';
 import utils from './index';
 
 export default ({ lang = 'en', measurement = 'metric', lat, lon, ...args }) => {
+  //TODO replace with swr or react-query (fix duplicated api call)
   const [error, setError] = useState(null);
   const [{ loading, loaded }, setLoading] = useState({ loading: false, loaded: false });
   const [forecast, setForecast] = useState({});
@@ -10,10 +11,7 @@ export default ({ lang = 'en', measurement = 'metric', lat, lon, ...args }) => {
   const baseUri = '//api.openweathermap.org/data/2.5';
   const config = { lang, measurement, lat, lon, ...args };
   useEffect(()=>{
-    //TODO fix double qpi call
-    // if(!loaded){
       getForecast();
-    // }
   }, [lat,lon, measurement]);
   const getForecast = ({ lang, measurement, lat, lon, ...args } = config) => {
     if(!loading){

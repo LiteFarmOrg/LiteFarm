@@ -1,9 +1,9 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
-import { certifierSurveySelector } from '../selector';
+import { certifierSurveySelector } from '../slice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCertifierSurvey, getOrganicCertifierSurvey, updateInterested } from '../actions';
+import { postCertifiers, getCertifiers, patchInterested } from '../saga';
 import history from '../../../history';
 export default function InterestedOrganic() {
   const { register, handleSubmit, setValue } = useForm();
@@ -17,7 +17,7 @@ export default function InterestedOrganic() {
   const dispatch = useDispatch();
   useEffect(()=>{
     if(!survey.survey_id){
-      dispatch(getOrganicCertifierSurvey());
+      dispatch(getCertifiers());
     }
     if(survey){
       setValue(INTERESTED,survey.interested===false?'false':'true');
@@ -29,9 +29,9 @@ export default function InterestedOrganic() {
     const interested = data.interested === 'true';
     const callback = ()=> interested?history.push('/organic_partners'):history.push('/outro');
     if(survey.survey_id){
-      dispatch(updateInterested(interested,callback));
+      dispatch(patchInterested({interested,callback}));
     }else{
-      dispatch(addCertifierSurvey({interested},callback));
+      dispatch(postCertifiers({survey:{interested},callback}));
     }
 
 

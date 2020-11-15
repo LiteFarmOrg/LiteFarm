@@ -1,12 +1,13 @@
 import {
-  ADD_ORGANIC_CERTIFIER_SURVEY,
-  GET_ORGANIC_CERTIFIER_SURVEY,
-  UPDATE_CERTIFIERS_IN_ORGANIC_CERTIFICATE_SURVEY,
-  UPDATE_INTERESTED_IN_ORGANIC_CERTIFICATE_SURVEY,
-} from './constants';
-import { setCertifierSurvey } from './actions';
+  getCertifiersSuccess,
+  postCertifiersSuccess,
+  patchCertifiersSuccess,
+  patchInterestedSuccess,
+  certifierSurveySelector,
+  name,
+} from './slice';
+import { createAction } from '@reduxjs/toolkit';
 import { farmSelector } from '../selector';
-import { certifierSurveySelector } from './selector';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import { userFarmUrl } from '../../apiConfig';
@@ -19,7 +20,8 @@ const patchCertifierUrl = survey_id => `${url}/organic_certifier_survey/${survey
 const patchInterestedUrl = survey_id => `${url}/organic_certifier_survey/${survey_id}/interested`;
 const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
-export function* getOrganicCertifierSurvey() {
+export const getCertifiers = createAction(`${name}/getCertifiers`);
+export function* getCertifiersSaga() {
   try {
     const { user_id, farm_id } = yield select(farmSelector);
     const header = {
@@ -32,14 +34,14 @@ export function* getOrganicCertifierSurvey() {
     };
     const result = yield call(axios.get, getUrl(farm_id), header);
     if (result.data) {
-      yield put(setCertifierSurvey(result.data));
+      yield put(getCertifiersSuccess(result.data));
     }
   } catch (e) {
     console.log('failed to fetch certifiers from database')
   }
 }
-
-export function* addCertifierSurvey(payload) {
+export const postCertifiers = createAction(`${name}/postCertifiers`);
+export function* postCertifiersSaga({ payload }) {
   try {
     const farm = yield select(farmSelector);
     const { user_id, farm_id } = farm;
@@ -51,12 +53,13 @@ export function* addCertifierSurvey(payload) {
         farm_id,
       },
     };
-    const {survey, callback} = payload;
+    const { survey, callback } = payload;
     const surveyReqBody = { ...survey, farm_id }
+    console.log(surveyReqBody, payload)
     // only non-deleted users
     const result = yield call(axios.post, postUrl(), surveyReqBody, header);
-    yield put(setCertifierSurvey(result.data));
-    if(!survey?.interested){
+    yield put(postCertifiersSuccess(result.data));
+    if (!survey?.interested) {
       let step = {
         step_four: true,
         step_four_end: new Date(),
@@ -69,8 +72,8 @@ export function* addCertifierSurvey(payload) {
     console.log('failed to add certifiers')
   }
 }
-
-export function* updateCertifiers(payload) {
+export const patchCertifiers = createAction(`${name}/patchCertifiers`);
+export function* patchCertifiersSaga({ payload }) {
   const survey = yield select(certifierSurveySelector);
   try {
     const { user_id, farm_id } = yield select(farmSelector);
@@ -87,8 +90,8 @@ export function* updateCertifiers(payload) {
     const body = { ...survey, certifiers };
 
     yield call(axios.patch, patchCertifierUrl(survey.survey_id), body, header);
-    yield put(setCertifierSurvey(body));
-    if(!payload.survey?.interested || payload.certifiers){
+    yield put(patchCertifiersSuccess({ certifiers }));
+    if (!payload.survey?.interested || payload.certifiers) {
       let step = {
         step_four: true,
         step_four_end: new Date(),
@@ -101,8 +104,8 @@ export function* updateCertifiers(payload) {
     console.log('failed to add certifiers')
   }
 }
-
-export function* updateInterested(payload) {
+export const patchInterested = createAction(`${name}/patchInterested`);
+export function* patchInterestedSaga({ payload }) {
   const survey = yield select(certifierSurveySelector);
   try {
     const { user_id, farm_id } = yield select(farmSelector);
@@ -118,8 +121,8 @@ export function* updateInterested(payload) {
     const { interested, callback } = payload;
     const body = { ...survey, interested };
     yield call(axios.patch, patchInterestedUrl(survey.survey_id), body, header);
-    yield put(setCertifierSurvey(body));
-    if(!interested){
+    yield put(patchInterestedSuccess({ interested }));
+    if (!interested) {
       let step = {
         step_four: true,
         step_four_end: new Date(),
@@ -133,9 +136,12 @@ export function* updateInterested(payload) {
   }
 }
 
+
+
+
 export default function* certifierSurveySaga() {
-  yield takeLatest(UPDATE_INTERESTED_IN_ORGANIC_CERTIFICATE_SURVEY, updateInterested);
-  yield takeLatest(UPDATE_CERTIFIERS_IN_ORGANIC_CERTIFICATE_SURVEY, updateCertifiers);
-  yield takeLatest(GET_ORGANIC_CERTIFIER_SURVEY, getOrganicCertifierSurvey);
-  yield takeLatest(ADD_ORGANIC_CERTIFIER_SURVEY, addCertifierSurvey);
+  yield takeLatest(patchInterested.type, patchInterestedSaga);
+  yield takeLatest(patchCertifiers.type, patchCertifiersSaga);
+  yield takeLatest(getCertifiers.type, getCertifiersSaga);
+  yield takeLatest(postCertifiers.type, postCertifiersSaga);
 }

@@ -22,7 +22,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
     const newInteraction = onOverlay ? initialState : {...initialState, [tooltipName]: !tooltipInteraction[tooltipName]};
     setTooltipInteraction(newInteraction);
     setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
-    console.log(newInteraction, Object.keys(newInteraction).some((k) => newInteraction[k]));
   }
 
 
@@ -68,7 +67,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
         <ProfileFloater auth={auth} openProfile={tooltipInteraction.profile}>
-          <input id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem} onClick={() =>changeInteraction('profile')} />
+          <input data-testid="thirdStep" id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem} onClick={() =>changeInteraction('profile')} />
         </ProfileFloater>
         {
           isOneTooltipOpen && <div style={{

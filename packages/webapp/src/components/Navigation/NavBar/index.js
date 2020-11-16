@@ -37,7 +37,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
                   // modal background color
                   backgroundColor: "#fff",
                   // tooltip overlay color
-                  overlayColor: "rgba(36, 39, 48, 0.9)",
+                  overlayColor: "rgba(36, 39, 48, 1)",
                   // next button color
                   primaryColor: "#FCE38D",
                   //width of modal

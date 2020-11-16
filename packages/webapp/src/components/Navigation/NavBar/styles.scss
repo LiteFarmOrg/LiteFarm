@@ -81,6 +81,16 @@
   padding-right: 0;
 }
 
+.profilePicture {
+  width: 28px;
+  height: 28px;
+  margin-right: 16px;
+  border: none;
+  padding-right: 0;
+  border-radius: 50%;
+  border: 1px solid #028577;
+}
+
 .navBarContainer{
   display: grid;
   grid-template-columns: 20% 60% 20%;

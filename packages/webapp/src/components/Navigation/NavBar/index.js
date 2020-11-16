@@ -1,7 +1,7 @@
 import styles from "./styles.scss";
 import MyFarmIcon from "../../../assets/images/my-farm.svg";
 import NotifIcon from "../../../assets/images/notif.svg";
-import HelpIcon from "../../../assets/images/help.svg";
+import ProfilePicture from "../../../assets/images/navbar/defaultpfp.png"; // TODO: use profile picture stored in db
 import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
@@ -66,8 +66,8 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
 
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
-        <ProfileFloater auth={auth} openProfile={tooltipInteraction.profile}>
-          <input data-testid="thirdStep" id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem} onClick={() =>changeInteraction('profile')} />
+        <ProfileFloater auth={auth}>
+          <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={styles.profilePicture} onClick={() =>changeInteraction('profile')} />
         </ProfileFloater>
         {
           isOneTooltipOpen && <div style={{

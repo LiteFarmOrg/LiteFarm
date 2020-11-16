@@ -34,7 +34,7 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
       - `git clone https://github.com/LiteFarmOrg/LiteFarm.git`
 
 ### Setting up database/running migrations:  
-  1. Install postgreSQL 
+  1. Install postgreSQL
     1. Using Homebrew on Mac
       - install homebrew
         - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
@@ -66,13 +66,33 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
   Not all of these environment variables are necessary to run the applications. Only add them if they are necessary
   for your development purposes. Do NOT add .env files to source control.
 
-  1. add these environment variables to the .env file in `packages/webapp`:
+1. add these environment variables to the .env file in `packages/webapp`:
      - REACT_APP_GOOGLE_MAPS_API_KEY
         - this env var is a google maps api key obtained from [Google](https://developers.google.com/maps/documentation/javascript/get-api-key).
         It is used to make the field module work in the application
      - REACT_APP_WEATHER_API_KEY
         - this env var can be obtained from [open weather API](https://openweathermap.org/api). The API is used
         to load current weather information in the application home page after logging in.
+
+  ### Optionally using docker-compose
+   1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/)
+   2. Setup the `Litefarm/packages/api/.env` file to include the following configs
+   ```
+    DEV_DATABASE=pg-litefarm        
+    DEV_DATABASE_USER=postgres
+    DEV_DATABASE_HOST=litefarm-db
+    DEV_DATABASE_PASSWORD=postgres
+    TEST_DATABASE=pg-litefarm
+    TEST_DATABASE_USER=postgres
+    TEST_DATABASE_HOST=litefarm-db
+    TEST_DATABASE_PASSWORD=postgres
+   ```
+   * this is dev or testing data, it can be changed from `LiteFarm/docker-compose.yml`
+   2. In the terminal, place the current directory into the root folder `LiteFarm/`
+   3. Execute `docker-compose up`
+     - This will take some time the first time, on the next attempt it should load way faster.
+     - It will setup the local development env by running "testing" migrations
+
 
 ### Start the application:
   1. cd LiteFarm

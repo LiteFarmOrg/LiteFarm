@@ -11,6 +11,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
 
+
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
     }
@@ -18,7 +19,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
 
 
   return (
-    <div className={styles.navBar}>
+    <div className={styles.navBar}> 
       <div className={styles.actionItemContainer}>
 
         {steps &&
@@ -36,7 +37,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
                   // modal background color
                   backgroundColor: "#fff",
                   // tooltip overlay color
-                  overlayColor: "rgba(36, 39, 48, 0.5)",
+                  overlayColor: "rgba(36, 39, 48, 0.9)",
                   // next button color
                   primaryColor: "#FCE38D",
                   //width of modal

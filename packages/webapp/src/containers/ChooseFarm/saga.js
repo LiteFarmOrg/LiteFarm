@@ -13,35 +13,58 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
-import {
-  GET_FARMS_BY_USER
-} from "./constants";
-import { setFarms } from "./actions";
+import { onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess } from '../userFarmSlice';
+import { createAction } from '@reduxjs/toolkit';
+import { loginSelector, loginSuccess } from '../loginSlice';
+import { getHeader } from '../saga';
+import Auth from '../../Auth/Auth';
+import { toastr } from 'react-redux-toastr';
+import { getUserSuccess, onLoadingUsersStart, onLoadingUsersFail } from '../userSlice';
+
 const axios = require('axios');
 
-export function* getFarmSaga() {
-  let user_id = localStorage.getItem('user_id');
+export const getUserFarms = createAction('getUserFarmsSaga');
+export function* getUserFarmsSaga() {
   const { userFarmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-    },
-  };
-
   try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id);
+    yield put(onLoadingUserFarmsStart());
     const result = yield call(axios.get, userFarmUrl + '/user/' + user_id, header);
-    if (result) {
-      yield put(setFarms(result.data));
-    }
-  } catch(e) {
+    yield put(getUserFarmsSuccess({ userFarms: result.data }));
+
+  } catch (error) {
+    yield put(onLoadingUserFarmsFail({ error }));
     console.log('failed to fetch task types from database')
   }
 }
 
-export default function* userFarmSaga() {
-  yield takeEvery(GET_FARMS_BY_USER, getFarmSaga);
+export const getUser = createAction('getUserSaga');
+export function* getUserSaga() {
+  try {
+    yield put(onLoadingUsersStart());
+    let { user_id } = yield select(loginSelector);
+    const { userUrl } = apiConfig;
+    const header = getHeader(user_id);
+    const result = yield call(axios.get, userUrl + '/' + user_id, header);
+    const user = result?.data[0];
+    if (user) {
+      yield put(getUserSuccess({ user }));
+    } else {
+      //If user exist in Auth0 database but not postgres database, get user from auth0 and post to postgres database
+      const auth = new Auth();
+      auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'), (user_id) => put(loginSuccess({ user_id })));
+      console.log('failed to fetch user from database')
+    }
+  } catch (error) {
+    onLoadingUsersFail({ error });
+    toastr.error('Failed to fetch user info');
+  }
+}
+
+export default function* chooseFarmSaga() {
+  yield takeLatest(getUserFarms.type, getUserFarmsSaga);
+  yield takeLatest(getUser.type, getUserSaga);
 }

@@ -20,6 +20,7 @@ import { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { setFarmInState } from '../actions';
 import { farmSelector } from '../selector';
+import { selectFarmSuccess } from '../loginSlice';
 
 const axios = require('axios');
 
@@ -50,6 +51,8 @@ export function* createFarm(payload) {
     const addFarmResult = yield call(axios.post, farmUrl, addFarmData, getHeader(user_id));
     if (addFarmResult.data && addFarmResult.data.farm_id) {
       localStorage.setItem('farm_id', addFarmResult.data.farm_id);
+      yield put(selectFarmSuccess({ farm_id: addFarmResult.data.farm_id }));
+
       const farm = addFarmResult.data;
       const { farm_id } = farm;
       let step = {

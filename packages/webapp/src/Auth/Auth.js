@@ -117,10 +117,10 @@ class Auth {
     return authenticated;
   }
 
-  handleAuthentication() {
+  handleAuthentication(loginSuccess) {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
+        this.setSession(authResult, loginSuccess);
       } else if (err) {
         history.push('/home');
         console.log(err);
@@ -128,7 +128,7 @@ class Auth {
     });
   }
 
-  setSession(authResult) {
+  setSession(authResult, loginSuccess) {
     // Set the time that the Access Token will expire at
     //console.log(authResult);
     localStorage.removeItem('access_token');
@@ -139,7 +139,7 @@ class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     //navigate to home route
-    this.getUserInfo(authResult.accessToken, authResult.idToken);
+    this.getUserInfo(authResult.accessToken, authResult.idToken, loginSuccess);
   }
 
   //add the user to lite farm's users table
@@ -205,7 +205,7 @@ class Auth {
       // if user signed up then don't post to DB;
       else if(app_metadata.signed_up && response.data && response.data.length > 0 && (response.status === 200 || response.status === 201)){
         console.log(response)
-        this.setUserProfilePic().then(() => {
+        this.setUserProfilePic(user_id).then(() => {
           if(response.data[0].farm_id){
             history.push('/farm_selection');
           } else {
@@ -243,7 +243,7 @@ class Auth {
             history.push('/welcome');
           } else {
             // users invited through email don't need to add farm
-            return this.setUserProfilePic().then(() => {
+            return this.setUserProfilePic(user_id).then(() => {
               history.push('/intro')
             })
           }
@@ -258,7 +258,7 @@ class Auth {
   }
 
   // get user info from auth0
-  getUserInfo(accessToken, idToken){
+  getUserInfo(accessToken, idToken, loginSuccess = ()=>{}){
     let header = {
       headers: {
         'Authorization': 'Bearer ' + accessToken,
@@ -275,6 +275,7 @@ class Auth {
           // user_id is in the form of auth0|id
           user_id = result.data.sub.split("|")[1];
           localStorage.setItem('user_id', user_id);
+          loginSuccess(user_id);
 
           return this.postUserToLiteFarmDB(user_id, result.data, idToken);
         }
@@ -343,8 +344,7 @@ class Auth {
     return await axios.delete(url, config);
   }
 
-  async setUserProfilePic(){
-    let user_id = localStorage.getItem('user_id');
+  async setUserProfilePic(user_id){
     let token = localStorage.getItem('id_token');
     let header = {
       headers: {

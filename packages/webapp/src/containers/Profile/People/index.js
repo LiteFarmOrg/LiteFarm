@@ -23,6 +23,7 @@ import {grabCurrencySymbol} from "../../../util";
 import {farmSelector} from '../../selector';
 import Cleave from 'cleave.js/react.js';
 import {toastr} from 'react-redux-toastr';
+import { getUser } from '../../ChooseFarm/saga';
 const generator = require('generate-password');
 const { v4: uuidv4 } = require('uuid');
 
@@ -111,6 +112,7 @@ class People extends Component {
   closeAddModal = () => {
     const { dispatch } = this.props;
     dispatch(getUserInfo());
+    dispatch(getUser());
     dispatch(actions.reset('profileForms.addInfo'));
     this.setState({ showAdd: false });
   };
@@ -221,6 +223,7 @@ class People extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(getUserInfo());
+    dispatch(getUser());
     dispatch(actions.reset('profileForms.addInfo'));
     dispatch(getRoles());
   }

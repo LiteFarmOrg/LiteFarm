@@ -6,6 +6,7 @@ import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import Auth from "../../../Auth/Auth";
 import { getUserInfo, setUserInState } from '../../actions';
+import { getUser } from '../../ChooseFarm/saga';
 
 const axios = require('axios');
 
@@ -101,6 +102,7 @@ export function* updateUser(payload){
     if (result.data[0] && result.data[0].farm_id) {
       yield put(getAllUsers(result.data[0].farm_id));
       yield put(getUserInfo());
+      yield put(getUser());
       toastr.success("Successfully updated user!");
     }
   } catch (err) {

@@ -28,6 +28,7 @@ import OrganicPartners from '../containers/OrganicCertifierSurvey/OrganicPartner
 import { farmSelector, userInfoSelector } from '../containers/selector';
 import Home from '../containers/Home';
 import { getUserInfo } from '../containers/actions';
+import { getUser } from '../containers/ChooseFarm/saga';
 
 function OnboardingFlow() {
   const organicCertifierForm = useSelector(certifierSurveySelector);
@@ -37,8 +38,9 @@ function OnboardingFlow() {
   useEffect(()=>{
     if(!user){
       dispatch(getUserInfo());
+      dispatch(getUser());
     }
-  },[user])
+  },[user, dispatch])
   const {step_one, step_two, step_three, step_four, step_five, has_consent} = farm || {};
   // console.log(step_four && !step_five && !(organicCertifierForm?.interested && !organicCertifierForm?.certifiers?.length));
   // console.log(!(organicCertifierForm?.interested && !organicCertifierForm?.certifiers?.length),organicCertifierForm?.interested,organicCertifierForm?.certifiers,!organicCertifierForm?.certifiers?.length);

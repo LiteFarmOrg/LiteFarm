@@ -6,6 +6,7 @@ import { Control, Form } from 'react-redux-form';
 import { Alert, Button } from 'react-bootstrap';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
+import { getUser } from '../../ChooseFarm/saga';
 
 class Notification extends Component{
   constructor(props){
@@ -37,6 +38,7 @@ class Notification extends Component{
 
   componentWillMount(){
     this.props.dispatch(getUserInfo());
+    this.props.dispatch(getUser());
 
 
   }

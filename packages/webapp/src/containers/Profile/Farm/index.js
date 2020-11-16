@@ -8,7 +8,6 @@ import defaultStyles from '../styles.scss';
 import {Control, Form, actions} from 'react-redux-form';
 import {Button, Alert} from 'react-bootstrap';
 import {sendFarmDataRequst, getFarmSchedule} from './actions'
-import FarmAddress from '../../../components/AddFarm/FarmAddress';
 import {farmDataSelector} from './selector';
 import Popup from "reactjs-popup";
 

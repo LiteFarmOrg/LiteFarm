@@ -26,8 +26,10 @@ import fieldReducer from '../containers/Field/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
-import userFarmReducer from '../containers/ChooseFarm/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
+import loginReducer from '../containers/loginSlice';
+import userFarmReducer from '../containers/userFarmSlice';
+import userReducer from '../containers/userSlice';
 
 // all the initial state for the forms
 const initialFarmState = {
@@ -109,6 +111,11 @@ const appReducer = combineReducers({
     editInfo: editUserInfo,
     signUpInfo: signUpUserInfo,
   }, 'profileForms'),
+  entitiesReducer: combineReducers({
+    loginReducer,
+    userFarmReducer,
+    userReducer,
+  }),
   baseReducer,
   logReducer,
   notificationReducer,
@@ -118,7 +125,6 @@ const appReducer = combineReducers({
   insightReducer,
   financeReducer,
   farmReducer,
-  userFarmReducer,
   certifierSurveyReducer,
 });
 

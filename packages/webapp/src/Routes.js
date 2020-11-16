@@ -100,26 +100,34 @@ import Balances from './containers/NewFinances/Balances';
 import MyLog from './containers/Log/MyLog';
 import SaleDetail from './containers/Finances/SaleDetail';
 import RoleSelection from './containers/RoleSelection';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { farmSelector } from './containers/selector';
 import OnboardingFlow from './routes/Onboarding';
 
+// action
+import { loginSuccess } from './containers/loginSlice';
+
 const auth = new Auth();
 
-const handleAuthentication = (nextState, replace) => {
+const handleAuthentication = (nextState, loginSuccess = () => {
+}) => {
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
+    auth.handleAuthentication(loginSuccess);
   }
 };
 
 function Routes() {
-    const farm = useSelector(farmSelector);
+  const dispatch = useDispatch();
+  const dispatchLoginSuccess = (user_id) => {
+    dispatch(loginSuccess({ user_id: user_id }))
+  };
+  const farm = useSelector(farmSelector);
   if (auth.isAuthenticated()) {
     let role_id = localStorage.getItem('role_id');
     role_id = Number(role_id);
     // TODO check every step
-    if(farm?.step_five === false || !farm || !farm.has_consent){
-        return <OnboardingFlow/>
+    if (farm?.step_five === false || !farm || !farm.has_consent) {
+      return <OnboardingFlow/>
     }
     if (role_id === 1) {
       return (
@@ -202,7 +210,7 @@ function Routes() {
           <Route path="/sale_detail" exact component={SaleDetail}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
-            handleAuthentication(props);
+            handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
           <Route path="/log_detail" exact component={MyLog}/>
@@ -292,7 +300,7 @@ function Routes() {
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
-            handleAuthentication(props);
+            handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
           <Route path="/log_detail" exact component={MyLog}/>
@@ -340,7 +348,7 @@ function Routes() {
           <Route path="/log_detail" exact component={MyLog}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
-            handleAuthentication(props);
+            handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
           <Route path="/insights" exact component={Insights}/>
@@ -359,7 +367,7 @@ function Routes() {
     return (
       <Switch>
         <Route path="/callback" render={(props) => {
-          handleAuthentication(props);
+          handleAuthentication(props, dispatchLoginSuccess);
           return <Callback {...props} />
         }}/>
         <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>

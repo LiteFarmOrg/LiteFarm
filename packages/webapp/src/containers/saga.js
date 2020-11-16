@@ -21,9 +21,17 @@ import {
   GET_FIELDS,
   UPDATE_USER_INFO,
   UPDATE_FARM,
-  UPDATE_AGREEMENT
-} from "./constants";
-import { setUserInState, setFarmInState, fetchFarmInfo, setFieldCropsInState, setFieldsInState, getFields, getFieldCrops } from './actions';
+  UPDATE_AGREEMENT,
+} from './constants';
+import {
+  setUserInState,
+  setFarmInState,
+  fetchFarmInfo,
+  setFieldCropsInState,
+  setFieldsInState,
+  getFields,
+  getFieldCrops,
+} from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl } from '../apiConfig';
@@ -31,9 +39,19 @@ import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import Auth from '../Auth/Auth.js';
 import { farmSelector } from './selector';
-
+import {loginSuccess} from './loginSlice';
 const axios = require('axios');
 
+export function getHeader(user_id, farm_id){
+  return {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
+      user_id,
+      farm_id,
+    },
+  }
+}
 
 export function* getUserInfo(action) {
   let user_id = localStorage.getItem('user_id');
@@ -70,6 +88,7 @@ export function* getUserInfo(action) {
       //TODO investigate load from home
       const auth = new Auth();
       auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'))
+      yield put(loginSuccess({ user_id: localStorage.getItem('user_id') }));
       console.log('failed to fetch user from database')
     }
   } catch (e) {

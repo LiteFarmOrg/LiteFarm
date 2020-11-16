@@ -36,7 +36,7 @@ import cropSaga from './components/Forms/NewCropModal/saga';
 import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
-import userFarmSaga from'./containers/ChooseFarm/saga';
+import chooseFarmSaga from'./containers/ChooseFarm/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -88,7 +88,7 @@ sagaMiddleware.run(cropSaga);
 sagaMiddleware.run(insightSaga);
 sagaMiddleware.run(contactSaga);
 sagaMiddleware.run(farmDataSaga);
-sagaMiddleware.run(userFarmSaga);
+sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 
 const persistor = persistStore(store);

@@ -16,21 +16,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { getFarms } from './actions';
-import { userFarmSelector } from './selectors';
 import ProceedFooter from '../../components/proceedCancelFooter';
 import history from '../../history';
 import Auth from '../../Auth/Auth.js';
-// import workerConsentForm from '../ConsentForm/Versions/WorkerConsentForm.docx';
-// import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
+import { selectFarmSuccess } from '../loginSlice';
 import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
-// import axios from 'axios';
 import { ListGroup, ListGroupItem } from 'react-bootstrap'
-import { purgeState } from '../../index';
 import { farmSelector } from '../selector';
-
-// const mammoth = require('mammoth');
+import { userFarmsSelector } from '../userFarmSlice';
+import { getUser, getUserFarms } from './saga';
 
 class ChooseFarm extends Component {
 
@@ -43,13 +38,13 @@ class ChooseFarm extends Component {
   }
 
   componentDidMount() {
-    if(this.props.farm){
+    if (this.props.farm) {
       //TODO reset store except userfarms reducer
-      purgeState();
+      // purgeState();
     }
     //TODO find which component is loading farms
 
-    this.props.dispatch(getFarms());
+    this.props.dispatch(getUserFarms());
   }
 
   componentDidUpdate(prevProps) {
@@ -82,6 +77,7 @@ class ChooseFarm extends Component {
 
     if (selected_farm_id) {
       localStorage.setItem('farm_id', selected_farm_id);
+      this.props.dispatch(selectFarmSuccess({ farm_id: selected_farm_id }));
 
       const currentFarm = farms.find(farm => farm.farm_id === selected_farm_id);
       if (!currentFarm) {
@@ -112,6 +108,7 @@ class ChooseFarm extends Component {
       // }
       // const latestVersion = versionNumberMatches[0];
       this.props.dispatch(getUserInfo(false));
+      this.props.dispatch(getUser());
 
       // Need consent if at least one of the following criteria is met:
       // 1. User has not explicitly clicked agree or disagree (i.e. null)
@@ -122,8 +119,8 @@ class ChooseFarm extends Component {
       // if (need_new_consent) {
       //   history.push('/consent', { role_id });
       // } else {
-        this.props.dispatch(setFarmInState(currentFarm));
-        history.push('/home');
+      this.props.dispatch(setFarmInState(currentFarm));
+      history.push('/home');
       // }
     }
   };
@@ -189,7 +186,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farms: userFarmSelector(state),
+    farms: userFarmsSelector(state).userFarms,
     farm: farmSelector(state),
   }
 };

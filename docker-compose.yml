@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3"
 
 volumes:
   postgres-data:
@@ -21,15 +21,14 @@ services:
       context: ./packages/api
     working_dir: /usr/src/app
     command: >
-        npm run migrate:testing:db &&
-        npm run migrate:testing:seed
+      sh -c "./scripts/init.sh testing"
     ports:
       - "5000:5000"
     volumes:
       - ./packages/api:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      - db
+    environment:
+      WAIT_HOSTS: litefarm-db:5432
   frontend:
     container_name: litefarm-web
     build:
@@ -39,5 +38,3 @@ services:
     volumes:
       - ./packages/webapp:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      - backend

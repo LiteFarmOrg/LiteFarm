@@ -33,7 +33,6 @@ export function* patchConsentSaga({ payload }) {
     has_consent: payload.has_consent,
     consent_version: payload.consent_version,
   };
-
   try {
     const step = {
       step_three: true,

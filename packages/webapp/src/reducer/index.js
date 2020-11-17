@@ -114,6 +114,7 @@ const appReducer = combineReducers({
     loginReducer,
     userFarmReducer,
     userReducer,
+    certifierSurveyReducer,
   }),
   baseReducer,
   logReducer,
@@ -122,8 +123,7 @@ const appReducer = combineReducers({
   fieldReducer,
   insightReducer,
   financeReducer,
-  farmReducer,
-  certifierSurveyReducer,
+  farmReducer
 });
 
 const rootReducer = (state, action) => {

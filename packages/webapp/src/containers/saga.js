@@ -19,7 +19,7 @@ import {
   GET_FIELD_CROPS_BY_DATE,
   GET_FIELDS,
   GET_USER_INFO,
-  UPDATE_AGREEMENT,
+  // UPDATE_AGREEMENT,
   UPDATE_FARM,
   UPDATE_USER_INFO,
 } from './constants';
@@ -27,7 +27,7 @@ import {
   fetchFarmInfo,
   getFieldCrops,
   getFields,
-  setFarmInState,
+  // setFarmInState,
   setFieldCropsInState,
   setFieldsInState,
   setUserInState,

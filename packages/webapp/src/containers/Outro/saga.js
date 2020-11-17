@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FINISH_ONBOARDING } from './constants';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-import { setFarmInState } from '../actions';
-import { userFarmSelector } from '../userFarmSlice';
+import { userFarmSelector, patchStepFiveSuccess } from '../userFarmSlice';
+import { createAction } from '@reduxjs/toolkit';
 
 const axios = require('axios');
 
-export function* patchOutroStep({ callback }) {
+export const patchOutroStep = createAction('patchOutroStepSaga');
+export function* patchOutroStepSaga({ payload: {callback} }) {
   const { userFarm: { farm_id, user_id } } = yield select(userFarmSelector);
   const { userFarmUrl } = apiConfig;
   const header = {
@@ -40,7 +40,7 @@ export function* patchOutroStep({ callback }) {
 
   try {
     yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-    yield put(setFarmInState(data));
+    yield put(patchStepFiveSuccess({...data, farm_id, user_id}));
     callback && callback();
   } catch (e) {
     console.error('failed to update table');
@@ -49,5 +49,5 @@ export function* patchOutroStep({ callback }) {
 
 
 export default function* outroSaga() {
-  yield takeEvery(FINISH_ONBOARDING, patchOutroStep);
+  yield takeLatest(patchOutroStep.type, patchOutroStepSaga);
 }

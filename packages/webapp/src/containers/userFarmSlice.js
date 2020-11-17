@@ -3,8 +3,20 @@ import { onLoadingStart, onLoadingFail, loginSelector } from './loginSlice';
 import { createSelector } from 'reselect';
 
 export const initialState = {
-  all_farm_id_user_id: {},
-  by_farm_id_user_id: {},
+  all_farm_id_user_id: {
+    // farm_id1:[user_id1, user_id2],
+    // farm_id2:[user_id1, user_id2],
+  },
+  by_farm_id_user_id: {
+    // farm_id1:{
+    //   user_id1:{...userFarm},
+    //   user_id2:{...userFarm},
+    // },
+    // farm_id2:{
+    //   user_id1:{...userFarm},
+    //   user_id2:{...userFarm},
+    // }
+  },
   loading: false,
   error: undefined,
 };
@@ -38,7 +50,6 @@ const userFarmSlice = createSlice({
       const { step_two, step_two_end, role_id, farm_id, user_id } = payload;
       Object.assign(state.by_farm_id_user_id[farm_id][user_id], { step_two, step_two_end, role_id });
     },
-
     patchConsentStepThreeSuccess: (state, { payload }) => {
       const { step_three, step_three_end, has_consent, consent_version, farm_id, user_id } = payload;
       Object.assign(state.by_farm_id_user_id[farm_id][user_id], {
@@ -48,10 +59,21 @@ const userFarmSlice = createSlice({
         consent_version,
       });
     },
+    patchStepFourSuccess: (state, { payload: { step_four, step_four_end, farm_id, user_id } }) => {
+      Object.assign(state.by_farm_id_user_id[farm_id][user_id], {
+        step_four, step_four_end,
+      });
+    },
+    patchStepFiveSuccess: (state, { payload: { step_five, step_five_end, farm_id, user_id } }) => {
+      Object.assign(state.by_farm_id_user_id[farm_id][user_id], {
+        step_five, step_five_end,
+      });
+    },
   },
 });
 
-export const { onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess, patchConsentStepThreeSuccess } = userFarmSlice.actions;
+export const { onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
+  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
 

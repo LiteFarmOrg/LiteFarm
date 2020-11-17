@@ -21,15 +21,15 @@ import ChooseFarm from '../containers/ChooseFarm';
 import WelcomeScreen from '../containers/WelcomeScreen';
 import AddFarm from '../containers/AddFarm';
 import ConsentForm from '../containers/Consent';
-import { useSelector } from 'react-redux';
-import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import InterestedOrganic from '../containers/OrganicCertifierSurvey/InterestedOrganic';
 import OrganicPartners from '../containers/OrganicCertifierSurvey/OrganicPartners';
 import Home from '../containers/Home';
+import { shallowEqual, useSelector } from 'react-redux';
+import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 
 
 function OnboardingFlow({ step_one, step_two, step_three, step_four, step_five, has_consent, farm_id }) {
-  const { certifiers, interested } = useSelector(certifierSurveySelector);
+  const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
   return <Switch>
     <Route path="/farm_selection" exact component={() => <ChooseFarm/>}/>
     <Route path="/welcome" exact component={WelcomeScreen}/>

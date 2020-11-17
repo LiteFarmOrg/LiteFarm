@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import { PureOrganicPartners } from '../../../components/OrganicPartners';
 import { certifierSurveySelector } from '../slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getCertifiers, patchCertifiers } from '../saga';
 import history from '../../../history';
 
@@ -16,7 +16,7 @@ export default function OrganicPartners() {
   const otherName = watch(OTHERNAME, undefined);
   const refInput = register({ required: required });
   const dispatch = useDispatch();
-  const survey = useSelector(certifierSurveySelector);
+  const survey = useSelector(certifierSurveySelector, shallowEqual);
   useEffect(() => {
     if (!survey.survey_id) {
       dispatch(getCertifiers());

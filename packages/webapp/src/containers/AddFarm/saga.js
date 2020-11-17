@@ -61,7 +61,7 @@ export function* patchRoleSaga({ payload }) {
   try {
     const { userFarm } = yield select(userFarmSelector);
     const { user_id, farm_id, step_two, step_two_end } = userFarm;
-    const { role, callback } = payload;
+    const { role, role_id, callback } = payload;
     const header = getHeader(user_id, farm_id);
     //TODO set date on server
     let step = {
@@ -72,7 +72,7 @@ export function* patchRoleSaga({ payload }) {
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
   ]);
-    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role }));
+    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
     callback && callback();
   } catch (e) {
     console.log('fail to update role');

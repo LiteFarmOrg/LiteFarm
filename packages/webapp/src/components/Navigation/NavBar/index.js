@@ -21,13 +21,13 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
   return (
     <div className={styles.navBar}> 
       <div className={styles.actionItemContainer}>
-
+      {/* <div style={{marginRight: '11px'}} className={styles.spotlightContainer}> */}
         {steps &&
         <ReactJoyride
           steps={steps}
           continuous
           callback={resetSpotlightStatus}
-          floaterProps={{ disableAnimation: true }}
+          floaterProps={{ disableAnimation: true}}
           styles=
             {
               {
@@ -41,17 +41,16 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
                   // next button color
                   primaryColor: "#FCE38D",
                   //width of modal
-                  width: 170,
+                  width: 270,
                   //zindex of modal
-                  zIndex: 2000,
-                  padding: 13,
+                  zIndex: 100,
                 },
                 buttonClose: {
                   display: 'none',
                 },
-                buttonBack: {
-                  display: 'none',
-                }
+                // buttonBack: {
+                //   display: 'none',
+                // }
 
               }
 
@@ -59,14 +58,18 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         />
 
         }
+        {/* </div> */}
 
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
         <ProfileFloater auth={auth}>
+        {/* <p id="test"></p> */}
           <input id="thirdStep" type="image" src={HelpIcon} className={styles.actionItem}/>
         </ProfileFloater>
+        
 
       </div>
+      
       <div className={styles.itemContainer}>
         {logo}
       </div>

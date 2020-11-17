@@ -66,6 +66,26 @@
   margin-right: 12px;
 }
 
+// .spotlightContainer {
+//   overflow: auto !important
+// }
+
+:global .__floater__body {
+  margin-right: 15px;
+  
+}
+
+:global button[data-action="primary"] {
+  width: 82px;
+  box-shadow: 0px 2px 8px 0px #66738A;
+  
+}
+
+:global button[data-action="primary"]:focus {
+  outline: none;
+  
+}
+
 .actionItem {
   width: 25px;
   height: 25px;

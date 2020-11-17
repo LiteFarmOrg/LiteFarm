@@ -68,9 +68,9 @@ const NavBar = (props) => {
         locale: {
           next: returnNextButton("Next"),
         },
-        placement: "bottom-start",
         showCloseButton: false,
         disableBeacon: true,
+        placement: "right-start"
       },
       {
         target: "#secondStep",
@@ -79,8 +79,8 @@ const NavBar = (props) => {
         locale: {
           next: returnNextButton("Next"),
         },
-        placement: "bottom-start",
-        showCloseButton: false
+        showCloseButton: false,
+        placement: "right-start"
       },
       {
         target: "#thirdStep",
@@ -89,7 +89,7 @@ const NavBar = (props) => {
         locale: {
           last: returnNextButton("Got it"),
         },
-        placement: "left-start",
+        placement: "right-start",
         showCloseButton: false,
 
       },

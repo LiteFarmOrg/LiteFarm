@@ -13,11 +13,23 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GET_SALES, ADD_OR_UPDATE_SALE, GET_SHIFT_FINANCE, GET_DEFAULT_EXPENSE_TYPE, GET_EXPENSE, DELETE_SALE, ADD_EXPENSES, DELETE_EXPENSES, ADD_REMOVE_EXPENSE, UPDATE_SALE} from "./constants";
-import { setSalesInState, setShifts, setExpense, setDefaultExpenseType} from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  ADD_EXPENSES,
+  ADD_OR_UPDATE_SALE,
+  ADD_REMOVE_EXPENSE,
+  DELETE_EXPENSES,
+  DELETE_SALE,
+  GET_DEFAULT_EXPENSE_TYPE,
+  GET_EXPENSE,
+  GET_SALES,
+  GET_SHIFT_FINANCE,
+  UPDATE_SALE,
+} from './constants';
+import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
-import {toastr} from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
+
 const axios = require('axios');
 
 export function* getSales() {

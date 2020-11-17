@@ -7,9 +7,9 @@ import styles from './styles.scss';
 import {expenseDetailDateSelector, expenseSelector, expenseTypeSelector} from "../selectors";
 import {deleteExpenses, setEditExpenses} from '../actions'
 import history from '../../../history';
-import {farmSelector} from "../../selector";
 import {grabCurrencySymbol} from "../../../util";
 import ConfirmModal from "../../../components/Modals/Confirm";
+import { userFarmSelector } from '../../userFarmSlice';
 
 class ExpenseDetail extends Component {
   constructor(props) {
@@ -176,7 +176,7 @@ const mapStateToProps = (state) => {
     expense_detail_date: expenseDetailDateSelector(state),
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

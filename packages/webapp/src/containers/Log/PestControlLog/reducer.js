@@ -1,7 +1,4 @@
-import {
-  SET_DISEASES,
-  SET_PESTICIDES
-} from './constants';
+import { SET_DISEASES, SET_PESTICIDES } from './constants';
 
 const initialState = {
   pesticides: null,

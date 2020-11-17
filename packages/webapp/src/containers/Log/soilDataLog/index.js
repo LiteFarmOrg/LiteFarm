@@ -1,19 +1,20 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
+import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Control, Errors, Form} from 'react-redux-form';
+import { actions, Control, Errors, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import DropDown from '../../../components/Inputs/DropDown';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import parseFields from "../Utility/parseFields";
-import parseCrops from "../Utility/parseCrops";
-import {addLog} from "../Utility/actions";
-import {convertToMetric, getUnit} from "../../../util";
+import parseFields from '../Utility/parseFields';
+import parseCrops from '../Utility/parseCrops';
+import { addLog } from '../Utility/actions';
+import { convertToMetric, getUnit } from '../../../util';
+import { userFarmSelector } from '../../userFarmSlice';
 
 const parsedTextureOptions = [
   {label: 'Sand', value: 'sand'},
@@ -203,7 +204,7 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

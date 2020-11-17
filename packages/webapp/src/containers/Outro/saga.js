@@ -13,17 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
- FINISH_ONBOARDING
-} from "./constants";
-import { call, takeEvery, put, select } from 'redux-saga/effects';
+import { FINISH_ONBOARDING } from './constants';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-import { farmSelector } from '../selector';
 import { setFarmInState } from '../actions';
+import { userFarmSelector } from '../userFarmSlice';
+
 const axios = require('axios');
 
-export function* patchOutroStep({callback}) {
-  const {farm_id, user_id} = yield select(farmSelector);
+export function* patchOutroStep({ callback }) {
+  const { userFarm: { farm_id, user_id } } = yield select(userFarmSelector);
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {
@@ -43,12 +42,10 @@ export function* patchOutroStep({callback}) {
     yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
     yield put(setFarmInState(data));
     callback && callback();
-  }
-  catch (e) {
+  } catch (e) {
     console.error('failed to update table');
   }
 }
-
 
 
 export default function* outroSaga() {

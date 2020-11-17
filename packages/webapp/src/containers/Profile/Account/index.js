@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {userInfoSelector} from '../../selector';
-import {connect} from 'react-redux';
-import {updateUserInfo,} from '../../actions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateUserInfo } from '../../actions';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import {actions, Control, Form} from 'react-redux-form';
-import {Button} from 'react-bootstrap';
+import { actions, Control, Form } from 'react-redux-form';
+import { Button } from 'react-bootstrap';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class Account extends Component {
   componentDidMount() {
@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    users: userInfoSelector(state),
+    users: userFarmSelector(state).userFarm,
   }
 };
 

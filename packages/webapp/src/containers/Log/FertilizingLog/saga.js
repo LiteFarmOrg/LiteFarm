@@ -1,9 +1,10 @@
-import { GET_FERTILIZERS, ADD_FERTILIZER_LOG, ADD_FERTILIZER, EDIT_FERTILIZER_LOG } from "./constants";
-import { setFertilizersInState, getFertilizers } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { ADD_FERTILIZER, ADD_FERTILIZER_LOG, EDIT_FERTILIZER_LOG, GET_FERTILIZERS } from './constants';
+import { getFertilizers, setFertilizersInState } from './actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
-import {toastr} from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
+
 const axios = require('axios');
 
 export function* getFertilizerSaga() {

@@ -1,13 +1,13 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import BedImg from '../../../assets/images/log/bed.svg';
-import {taskTypeSelector} from './selectors';
-import {getTaskTypes, addTaskType, setSelectedTasks, setShiftDuration, setStartEndInState} from "../actions";
-import {Container, Row, Col, Button, Alert} from 'react-bootstrap';
+import { taskTypeSelector } from './selectors';
+import { addTaskType, getTaskTypes, setSelectedTasks, setShiftDuration, setStartEndInState } from '../actions';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import OtherImg from '../../../assets/images/log/other.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
 import FertImg from '../../../assets/images/log/fertilizing.svg';
@@ -20,13 +20,12 @@ import SocialImg from '../../../assets/images/log/social.svg';
 import WashImg from '../../../assets/images/log/wash.svg';
 import WeedImg from '../../../assets/images/log/weed.svg'; // kek
 import closeButton from '../../../assets/images/grey_close_button.png'
-import Popup from "reactjs-popup";
+import Popup from 'reactjs-popup';
 import history from '../../../history';
-import {toastr} from 'react-redux-toastr';
-import {userInfoSelector, farmSelector} from '../../selector';
-import {getAllUsers} from '../../Profile/People/actions';
-import {peopleInfoSelector} from '../../Profile/People/selector';
-import {grabCurrencySymbol} from "../../../util";
+import { toastr } from 'react-redux-toastr';
+import { getAllUsers } from '../../Profile/People/actions';
+import { grabCurrencySymbol } from '../../../util';
+import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 
 class ShiftStepOne extends Component {
   constructor(props) {
@@ -98,7 +97,7 @@ class ShiftStepOne extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getTaskTypes());
+    // this.props.dispatch(getTaskTypes());
     if(this.props.users.is_admin){
       this.props.dispatch(getAllUsers());
     }
@@ -304,35 +303,6 @@ class ShiftStepOne extends Component {
     }
 
     const symbol = grabCurrencySymbol(farm);
-    // let peopleOptions = [];
-    // if(users){
-    //   peopleOptions.push({
-    //     value: users.user_id, label: 'Myself', wage: users.wage.amount, mood: 'na',
-    //   })
-    // }
-    // if(allUsers.hasOwnProperty('admins') && allUsers.admins){
-    //   for(let admin of allUsers.admins){
-    //     if(admin.user_id !== users.user_id){
-    //       peopleOptions.push({
-    //         value: admin.user_id, label: admin.first_name + ' ' + admin.last_name, wage: admin.wage.amount, mood: 'na',
-    //       });
-    //     }
-    //   }
-    // }
-    // if(allUsers.hasOwnProperty('workers') && allUsers.workers){
-    //   for(let worker of allUsers.workers){
-    //     peopleOptions.push({
-    //       value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage: worker.wage.amount, mood: 'na',
-    //     })
-    //   }
-    // }
-    // if(allUsers.hasOwnProperty('pseudoWorkers') && allUsers.workers){
-    //   for(let worker of allUsers.pseudoWorkers){
-    //     peopleOptions.push({
-    //       value: worker.user_id, label: worker.first_name + ' ' + worker.last_name, wage:worker.wage.amount, mood: 'na',
-    //     })
-    //   }
-    // }
 
 
     return (
@@ -491,9 +461,9 @@ class ShiftStepOne extends Component {
 const mapStateToProps = (state) => {
   return {
     taskTypes: taskTypeSelector(state),
-    users: userInfoSelector(state),
-    allUsers: peopleInfoSelector(state),
-    farm: farmSelector(state),
+    users: userFarmSelector(state).userFarm,
+    allUsers: userFarmsByFarmSelector(state).userFarms,
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

@@ -13,15 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import {
-  GET_TASK_TYPES, ADD_TASK_TYPE, SUBMIT_SHIFT, GET_SHIFTS, DELETE_SHIFT, UPDATE_SHIFT,
-  GET_ALL_SHIFT, SUBMIT_MULTI_SHIFT,
-} from "./constants";
-import {setTaskTypesInState, getTaskTypes, setShifts} from "./actions";
-import {toastr} from "react-redux-toastr";
+  ADD_TASK_TYPE,
+  DELETE_SHIFT,
+  GET_ALL_SHIFT,
+  GET_SHIFTS,
+  GET_TASK_TYPES,
+  SUBMIT_MULTI_SHIFT,
+  SUBMIT_SHIFT,
+  UPDATE_SHIFT,
+} from './constants';
+import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
+import { toastr } from 'react-redux-toastr';
 import history from '../../history';
+
 const axios = require('axios');
 
 

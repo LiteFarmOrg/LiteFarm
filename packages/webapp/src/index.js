@@ -22,7 +22,6 @@ import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga'
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
-import notificationSaga from './containers/Profile/Notification/saga';
 import peopleSaga from './containers/Profile/People/saga'
 import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';
@@ -38,6 +37,7 @@ import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from'./containers/ChooseFarm/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
+import consentSaga from './containers/Consent/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -74,7 +74,6 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 
 sagaMiddleware.run(homeSaga);
 sagaMiddleware.run(addFarmSaga);
-sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(peopleSaga);
 sagaMiddleware.run(logSaga);
 sagaMiddleware.run(outroSaga);
@@ -90,6 +89,7 @@ sagaMiddleware.run(contactSaga);
 sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
+sagaMiddleware.run(consentSaga);
 
 const persistor = persistStore(store);
 

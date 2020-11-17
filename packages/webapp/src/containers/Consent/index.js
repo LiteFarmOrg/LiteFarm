@@ -6,10 +6,11 @@ import workerConsent from './Worker.Consent.md';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import history from '../../history';
-import { farmSelector } from '../selector';
+import { userFarmSelector } from '../userFarmSlice';
+import { patchConsent } from './saga';
 
-function ConsentForm({ goBackTo = '/role_selection', goForwardTo = 'interested_in_organic' }) {
-  const role = useSelector(farmSelector);
+function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_in_organic' }) {
+  const { userFarm:role } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
   const [consentVersion] = useState('3.0');
@@ -27,9 +28,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = 'interested_i
   }
 
   const updateConsent = (data) => {
-    dispatch(updateAgreement({ consent: true }, consentVersion, () => {
-      history.push(goForwardTo);
-    }));
+    dispatch(patchConsent({ has_consent: true, consent_version: consentVersion }));
   }
 
   useEffect(() => {

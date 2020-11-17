@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import PureRoleSelection from "../../components/RoleSelection";
 import { useDispatch } from 'react-redux';
-import { patchRole } from '../AddFarm/actions';
+import { patchRole } from '../AddFarm/saga';
 import history from '../../history';
 
 function RoleSelection() {
@@ -11,7 +11,7 @@ function RoleSelection() {
   const dispatch = useDispatch();
   const onSubmit = ({role}) => {
     const callback = () => history.push('/consent');
-    dispatch(patchRole(role,callback));
+    dispatch(patchRole({ role, callback }));
   }
   return (
     <PureRoleSelection onSubmit={handleSubmit(onSubmit)}

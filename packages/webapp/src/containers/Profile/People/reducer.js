@@ -1,4 +1,4 @@
-import { SET_USERS_IN_PEOPLE, SET_FARM_ID_IN_PEOPLE, SET_ROLES_IN_PEOPLE } from './constants';
+import { SET_FARM_ID_IN_PEOPLE, SET_ROLES_IN_PEOPLE, SET_USERS_IN_PEOPLE } from './constants';
 
 const initialState = {
   workers: [],

@@ -1,24 +1,24 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { fieldSelector, cropSelector, farmSelector } from '../../selector';
-import { diseaseSelector, pesticideSelector, pestLogSelector } from "./selectors";
+import { cropSelector, fieldSelector } from '../../selector';
+import { diseaseSelector, pesticideSelector, pestLogSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
-import {Control, Errors, Form} from 'react-redux-form';
-import  { getDiseases, getPesticides, addPestControlLog, addDiseases, addPesticide } from './actions';
-import { actions } from 'react-redux-form';
-import Popup from "reactjs-popup";
+import { actions, Control, Errors, Form } from 'react-redux-form';
+import { addDiseases, addPestControlLog, addPesticide, getDiseases, getPesticides } from './actions';
+import Popup from 'reactjs-popup';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import closeButton from '../../../assets/images/grey_close_button.png';
-import DropDown from "../../../components/Inputs/DropDown";
-import parseCrops from "../Utility/parseCrops";
-import parseFields from "../Utility/parseFields";
-import {convertToMetric, getUnit} from "../../../util";
+import DropDown from '../../../components/Inputs/DropDown';
+import parseCrops from '../Utility/parseCrops';
+import parseFields from '../Utility/parseFields';
+import { convertToMetric, getUnit } from '../../../util';
 import Select from 'react-select';
 import Unit from '../../../components/Inputs/Unit';
+import { userFarmSelector } from '../../userFarmSlice';
 
 
 class PestControlLog extends Component{
@@ -426,7 +426,7 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),
     pestControlLog: pestLogSelector(state),

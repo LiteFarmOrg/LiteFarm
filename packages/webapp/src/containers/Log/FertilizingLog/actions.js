@@ -1,4 +1,4 @@
-import { GET_FERTILIZERS, SET_FERTILIZERS, ADD_FERTILIZER, ADD_FERTILIZER_LOG, EDIT_FERTILIZER_LOG } from './constants';
+import { ADD_FERTILIZER, ADD_FERTILIZER_LOG, EDIT_FERTILIZER_LOG, GET_FERTILIZERS, SET_FERTILIZERS } from './constants';
 
 export const getFertilizers = () => {
   return {

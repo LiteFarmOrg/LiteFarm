@@ -1,20 +1,21 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {currentLogSelector, logSelector } from '../selectors';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
+import { currentLogSelector, logSelector } from '../selectors';
+import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Control, Form} from 'react-redux-form';
+import { actions, Control, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import parseFields from "../Utility/parseFields";
-import {deleteLog, editLog} from "../Utility/actions";
-import parseCrops from "../Utility/parseCrops";
-import {convertFromMetric, convertToMetric, getUnit, roundToFourDecimal} from "../../../util";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import parseFields from '../Utility/parseFields';
+import { deleteLog, editLog } from '../Utility/actions';
+import parseCrops from '../Utility/parseCrops';
+import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class SeedingLog extends Component{
   constructor(props) {
@@ -118,7 +119,7 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   }

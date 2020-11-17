@@ -1,9 +1,4 @@
-import {
-  SEND_FARM_DATA_REQUEST,
-  GET_FARM_DATA_SCHEDULE,
-  SET_FARM_DATA_SCHEDULE,
-
-} from "./constants";
+import { GET_FARM_DATA_SCHEDULE, SEND_FARM_DATA_REQUEST, SET_FARM_DATA_SCHEDULE } from './constants';
 
 export const sendFarmDataRequst = () => {
   return {

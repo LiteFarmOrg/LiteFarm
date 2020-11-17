@@ -1,9 +1,17 @@
-import { GET_DISEASES, GET_PESTICIDES, ADD_PEST_CONTROL_LOG, ADD_DISEASES, ADD_PESTICIDES, EDIT_PEST_CONTROL_LOG } from "./constants";
-import { setDiseaseInState, setPesticideInState, getPesticides, getDiseases } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  ADD_DISEASES,
+  ADD_PEST_CONTROL_LOG,
+  ADD_PESTICIDES,
+  EDIT_PEST_CONTROL_LOG,
+  GET_DISEASES,
+  GET_PESTICIDES,
+} from './constants';
+import { getDiseases, getPesticides, setDiseaseInState, setPesticideInState } from './actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
-import {toastr} from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
+
 const axios = require('axios');
 
 export function* getPesticideSaga() {

@@ -18,22 +18,24 @@ import history from '../../history';
 import moment from 'moment';
 
 import {
-  GET_CROPS,
   CREATE_FIELD,
-  CREATE_FIELD_CROP, DELETE_FIELD_CROP,
-  GET_YIELD, CREATE_YIELD, CREATE_PRICE, GET_PRICE, EDIT_FIELD_CROP,
+  CREATE_FIELD_CROP,
+  CREATE_PRICE,
+  CREATE_YIELD,
+  DELETE_FIELD,
+  DELETE_FIELD_CROP,
+  EDIT_FIELD_CROP,
+  GET_CROPS,
+  GET_EXPIRED_CROPS,
+  GET_PRICE,
+  GET_YIELD,
   UPDATE_FIELD,
-  DELETE_FIELD, GET_EXPIRED_CROPS,
-} from "./constants";
-import {setFieldCropsInState} from '../actions';
-import {
-  setCropsInState,
-  setYieldInState,
-  setPriceInState,
-  setExpiredCropsInState,
-} from "./actions";
-import { put, takeEvery, call } from 'redux-saga/effects';
+} from './constants';
+import { setFieldCropsInState } from '../actions';
+import { setCropsInState, setExpiredCropsInState, setPriceInState, setYieldInState } from './actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
+
 const axios = require('axios');
 const DEC = 10;
 

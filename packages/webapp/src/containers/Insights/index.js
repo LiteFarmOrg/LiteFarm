@@ -49,9 +49,9 @@ import {
   nitrogenFrequencySelector, pricesDistanceSelector, waterBalanceScheduleSelector
 } from "./selectors";
 import InfoBoxComponent from "../../components/InfoBoxComponent";
-import {farmSelector} from "../selector";
 import {fetchFarmInfo} from "../actions";
 import { BsChevronRight } from "react-icons/all";
+import { userFarmSelector } from '../userFarmSlice';
 const MILLIMETER_TO_INCH = 0.0393701;
 const KILOGRAM_TO_POUND = 2.20462;
 
@@ -171,7 +171,7 @@ const infoBoxBody = <div>
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
     cropNutritionData: cropsNutritionSelector(state),
     soilOMData: soilOMSelector(state),
     labourHappinessData: labourHappinessSelector(state),

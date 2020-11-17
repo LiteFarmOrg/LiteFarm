@@ -13,15 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import Account from './Account';
 import Farm from './Farm'
 import People from './People'
 import styles from './styles.scss'
 import { connect } from 'react-redux';
-import { Tabs, TabLink, TabContent }  from 'react-tabs-redux';
+import { TabContent, TabLink, Tabs } from 'react-tabs-redux';
 import { fetchFarmInfo } from '../actions';
-import { farmSelector } from '../selector';
+import { userFarmSelector } from '../userFarmSlice';
 
 const tabs = [
   {
@@ -96,7 +96,7 @@ class Profile extends  Component{
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 const mapDispatchToProps = (dispatch) => {

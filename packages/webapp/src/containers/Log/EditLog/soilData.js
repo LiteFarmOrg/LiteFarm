@@ -1,21 +1,22 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {logSelector, currentLogSelector} from '../selectors';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
+import { currentLogSelector, logSelector } from '../selectors';
+import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Control, Form} from 'react-redux-form';
+import { actions, Control, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import DropDown from '../../../components/Inputs/DropDown';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import parseFields from "../Utility/parseFields";
-import parseCrops from "../Utility/parseCrops";
-import {convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal, roundToFourDecimal} from "../../../util";
-import {deleteLog, editLog} from "../Utility/actions";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import parseFields from '../Utility/parseFields';
+import parseCrops from '../Utility/parseCrops';
+import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
+import { deleteLog, editLog } from '../Utility/actions';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
 
 const parsedTextureOptions = [
   {label: 'Sand', value:'sand'},
@@ -241,7 +242,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

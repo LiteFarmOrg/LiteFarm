@@ -5,11 +5,12 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import {DropdownButton, Dropdown} from 'react-bootstrap';
 import history from '../../../history';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
+import {fieldSelector, cropSelector} from '../../selector';
 import {deleteSale} from "../actions";
 import ConfirmModal from "../../../components/Modals/Confirm";
 import {selectedSaleSelector} from '../selectors';
 import {convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal} from "../../../util";
+import { userFarmSelector } from '../../userFarmSlice';
 
 class SaleDetail extends Component {
   constructor(props) {
@@ -106,7 +107,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     crops: cropSelector(state),
     sale: selectedSaleSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

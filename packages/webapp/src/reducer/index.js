@@ -18,7 +18,6 @@ import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
-import notificationReducer from '../containers/Profile/Notification/reducer';
 import peopleReducer from '../containers/Profile/People/reducer'
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
@@ -118,7 +117,6 @@ const appReducer = combineReducers({
   }),
   baseReducer,
   logReducer,
-  notificationReducer,
   peopleReducer,
   shiftReducer,
   fieldReducer,

@@ -1,9 +1,10 @@
 // saga
-import { ADD_LOG, EDIT_LOG, DELETE_LOG } from "./constants";
-import { takeEvery, call } from 'redux-saga/effects';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
+import { call, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
+
 const axios = require('axios');
 
 export function* addLog(action) {

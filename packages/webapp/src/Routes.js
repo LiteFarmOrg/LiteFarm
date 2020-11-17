@@ -23,7 +23,6 @@ import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrg
 import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
 import WelcomeScreen from './containers/WelcomeScreen';
-import AddFarm from './containers/AddFarm/temp.index';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
@@ -97,15 +96,15 @@ import NewSaleAddSale from './containers/NewFinances/Sales/AddSale';
 import Sales from './containers/NewFinances/Sales';
 import Balances from './containers/NewFinances/Balances';
 
-import MyLog from './containers/Log/MyLog';
+import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 import RoleSelection from './containers/RoleSelection';
-import { useDispatch, useSelector } from 'react-redux';
-import { farmSelector } from './containers/selector';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
 
 // action
 import { loginSuccess } from './containers/loginSlice';
+import { userFarmSelector } from './containers/userFarmSlice';
 
 const auth = new Auth();
 
@@ -116,20 +115,23 @@ const handleAuthentication = (nextState, loginSuccess = () => {
   }
 };
 
-function Routes() {
+
+const Routes = () => {
   const dispatch = useDispatch();
+  const isAuthenticated = auth.isAuthenticated();
   const dispatchLoginSuccess = (user_id) => {
-    dispatch(loginSuccess({ user_id: user_id }))
+    dispatch(loginSuccess({ user_id }))
   };
-  const farm = useSelector(farmSelector);
-  if (auth.isAuthenticated()) {
+  const { userFarm } = useSelector(userFarmSelector, (pre, next) => pre.userFarm.step_five === next.userFarm.step_five
+    && pre.userFarm.has_consent === next.userFarm.has_consent);
+  const { step_five, has_consent } = userFarm;
+  if (isAuthenticated) {
     let role_id = localStorage.getItem('role_id');
     role_id = Number(role_id);
     // TODO check every step
-    if (farm?.step_five === false || !farm || !farm.has_consent) {
-      return <OnboardingFlow/>
-    }
-    if (role_id === 1) {
+    if (step_five === false || !has_consent) {
+      return <OnboardingFlow {...userFarm}/>
+    } else if (role_id === 1) {
       return (
         <Switch>
           <Route path="/" exact component={Home}/>
@@ -213,7 +215,7 @@ function Routes() {
             handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
-          <Route path="/log_detail" exact component={MyLog}/>
+          <Route path="/log_detail" exact component={LogDetail}/>
         </Switch>
       );
     } else if (role_id === 2 || role_id === 5) {
@@ -303,7 +305,7 @@ function Routes() {
             handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
-          <Route path="/log_detail" exact component={MyLog}/>
+          <Route path="/log_detail" exact component={LogDetail}/>
         </Switch>
       );
     } else {
@@ -345,7 +347,7 @@ function Routes() {
           <Route path="/edit_shift_one" exact component={EditShiftOne}/>
           <Route path="/edit_shift_two" exact component={EditShiftTwo}/>
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
-          <Route path="/log_detail" exact component={MyLog}/>
+          <Route path="/log_detail" exact component={LogDetail}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
             handleAuthentication(props, dispatchLoginSuccess);

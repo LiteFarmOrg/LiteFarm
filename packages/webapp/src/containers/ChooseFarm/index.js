@@ -22,9 +22,8 @@ import Auth from '../../Auth/Auth.js';
 import { selectFarmSuccess } from '../loginSlice';
 import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
-import { ListGroup, ListGroupItem } from 'react-bootstrap'
-import { farmSelector } from '../selector';
-import { userFarmsSelector } from '../userFarmSlice';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
 import { getUser, getUserFarms } from './saga';
 
 class ChooseFarm extends Component {
@@ -38,12 +37,6 @@ class ChooseFarm extends Component {
   }
 
   componentDidMount() {
-    if (this.props.farm) {
-      //TODO reset store except userfarms reducer
-      // purgeState();
-    }
-    //TODO find which component is loading farms
-
     this.props.dispatch(getUserFarms());
   }
 
@@ -186,8 +179,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farms: userFarmsSelector(state).userFarms,
-    farm: farmSelector(state),
+    farms: userFarmsByUserSelector(state).userFarms,
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

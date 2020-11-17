@@ -1,11 +1,9 @@
-import {
-  GET_FARM_DATA_SCHEDULE,
-  SEND_FARM_DATA_REQUEST
-} from "./constants";
+import { GET_FARM_DATA_SCHEDULE, SEND_FARM_DATA_REQUEST } from './constants';
 import { setFarmSchedule } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
+
 const axios = require('axios');
 
 

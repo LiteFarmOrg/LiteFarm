@@ -1,4 +1,4 @@
-import { SET_FARM_DATA_SCHEDULE, } from './constants';
+import { SET_FARM_DATA_SCHEDULE } from './constants';
 
 const initialState = {
  farm_data_schedule: null,

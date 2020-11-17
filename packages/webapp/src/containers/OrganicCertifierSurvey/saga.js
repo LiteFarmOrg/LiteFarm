@@ -7,11 +7,11 @@ import {
   name,
 } from './slice';
 import { createAction } from '@reduxjs/toolkit';
-import { farmSelector } from '../selector';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import { userFarmUrl } from '../../apiConfig';
 import { setFarmInState } from '../actions';
+import { loginSelector } from '../loginSlice';
 
 const axios = require('axios');
 const getUrl = farm_id => `${url}/farm/${farm_id}/organic_certifier_survey`;
@@ -21,9 +21,10 @@ const patchInterestedUrl = survey_id => `${url}/organic_certifier_survey/${surve
 const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
 export const getCertifiers = createAction(`${name}/getCertifiers`);
+
 export function* getCertifiersSaga() {
   try {
-    const { user_id, farm_id } = yield select(farmSelector);
+    const {user_id, farm_id} = yield select(loginSelector);
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -40,11 +41,12 @@ export function* getCertifiersSaga() {
     console.log('failed to fetch certifiers from database')
   }
 }
+
 export const postCertifiers = createAction(`${name}/postCertifiers`);
+
 export function* postCertifiersSaga({ payload }) {
   try {
-    const farm = yield select(farmSelector);
-    const { user_id, farm_id } = farm;
+    const {user_id, farm_id} = yield select(loginSelector);
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -72,11 +74,13 @@ export function* postCertifiersSaga({ payload }) {
     console.log('failed to add certifiers')
   }
 }
+
 export const patchCertifiers = createAction(`${name}/patchCertifiers`);
+
 export function* patchCertifiersSaga({ payload }) {
   const survey = yield select(certifierSurveySelector);
   try {
-    const { user_id, farm_id } = yield select(farmSelector);
+    const {user_id, farm_id} = yield select(loginSelector);
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -104,11 +108,13 @@ export function* patchCertifiersSaga({ payload }) {
     console.log('failed to add certifiers')
   }
 }
+
 export const patchInterested = createAction(`${name}/patchInterested`);
+
 export function* patchInterestedSaga({ payload }) {
   const survey = yield select(certifierSurveySelector);
   try {
-    const { user_id, farm_id } = yield select(farmSelector);
+    const {user_id, farm_id} = yield select(loginSelector);
     const header = {
       headers: {
         'Content-Type': 'application/json',
@@ -135,8 +141,6 @@ export function* patchInterestedSaga({ payload }) {
     console.log('failed to add certifiers')
   }
 }
-
-
 
 
 export default function* certifierSurveySaga() {

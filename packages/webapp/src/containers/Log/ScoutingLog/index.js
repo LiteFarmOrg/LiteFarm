@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import { fieldSelector, cropSelector } from '../../selector';
+import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form} from 'react-redux-form';
+import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
@@ -11,7 +11,7 @@ import Checkbox from '../../../components/Inputs/Checkbox';
 import styles from '../styles.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
-import { addLog } from "../Utility/actions";
+import { addLog } from '../Utility/actions';
 
 class ScoutingLog extends Component{
   constructor(props) {

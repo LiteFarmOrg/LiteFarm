@@ -1,20 +1,21 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {logSelector, currentLogSelector} from '../selectors';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
+import { currentLogSelector, logSelector } from '../selectors';
+import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form} from 'react-redux-form';
+import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
-import {deleteLog, editLog} from '../Utility/actions';
+import { deleteLog, editLog } from '../Utility/actions';
 import styles from '../styles.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
-import {convertFromMetric, convertToMetric, getUnit, roundToFourDecimal} from "../../../util";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
 
 // const customFieldset = () => {
 //   return (<div>
@@ -129,7 +130,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

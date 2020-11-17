@@ -1,29 +1,29 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import { peopleInfoSelector, rolesSelector, profileFormsSelector } from './selector';
+import { peopleInfoSelector, profileFormsSelector, rolesSelector } from './selector';
 import {
-  getUserInfo,
-  updateUserFarm,
-  addUser,
   addPseudoWorker,
+  addUser,
   deactivateUser,
   getRoles,
+  getUserInfo,
   reactivateUser,
+  updateUserFarm,
 } from './actions';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
-import Popup from "reactjs-popup";
-import { Control, Errors, Form, actions } from 'react-redux-form';
-import {Button} from 'react-bootstrap';
+import Popup from 'reactjs-popup';
+import { actions, Control, Errors, Form } from 'react-redux-form';
+import { Alert, Button } from 'react-bootstrap';
 import closeButton from '../../../assets/images/grey_close_button.png';
-import {Alert} from 'react-bootstrap';
-import {grabCurrencySymbol} from "../../../util";
-import {farmSelector} from '../../selector';
+import { grabCurrencySymbol } from '../../../util';
 import Cleave from 'cleave.js/react.js';
-import {toastr} from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 import { getUser } from '../../ChooseFarm/saga';
+import { userFarmSelector } from '../../userFarmSlice';
+
 const generator = require('generate-password');
 const { v4: uuidv4 } = require('uuid');
 
@@ -798,7 +798,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     users: peopleInfoSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
     roles: rolesSelector(state),
     profileForms: profileFormsSelector(state),
   }

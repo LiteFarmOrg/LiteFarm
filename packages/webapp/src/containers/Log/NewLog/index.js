@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import fertImg from '../../../assets/images/log/fertilizing.png';
 import fieldImg from '../../../assets/images/log/field_work.png';
 import harvestImg from '../../../assets/images/log/harvest.png';

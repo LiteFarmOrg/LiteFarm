@@ -1,15 +1,15 @@
 /* eslint-disable */
-import React, {Component} from "react";
-import {farmSelector as farmInfoSelector} from '../../selector';
-import {connect} from 'react-redux';
-import {updateFarm} from '../../actions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateFarm } from '../../actions';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import {Control, Form, actions} from 'react-redux-form';
-import {Button, Alert} from 'react-bootstrap';
-import {sendFarmDataRequst, getFarmSchedule} from './actions'
-import {farmDataSelector} from './selector';
-import Popup from "reactjs-popup";
+import { actions, Control, Form } from 'react-redux-form';
+import { Alert, Button } from 'react-bootstrap';
+import { getFarmSchedule, sendFarmDataRequst } from './actions'
+import { farmDataSelector } from './selector';
+import Popup from 'reactjs-popup';
+import { userFarmSelector } from '../../userFarmSlice';
 
 
 class Farm extends Component {
@@ -165,7 +165,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmInfoSelector(state),
+    farm: userFarmSelector(state).userFarm,
     schedule: farmDataSelector(state),
   }
 };

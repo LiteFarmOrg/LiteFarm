@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { fieldSelector, cropSelector, userInfoSelector } from '../../selector';
+import { cropSelector, fieldSelector } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png'
 import Select from 'react-select';
 import Popup from 'reactjs-popup';
-import {Container, Row, Col, Button} from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { submitShift, submitMultiShift } from '../actions';
-import { farmSelector } from '../../selector';
-import { BsReplyFill } from "react-icons/bs";
+import { submitMultiShift, submitShift } from '../actions';
+import { BsReplyFill } from 'react-icons/bs';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class ShiftStepTwo extends Component {
 
@@ -854,8 +854,8 @@ const
       crops: cropSelector(state),
       fields: fieldSelector(state),
       startEnd: startEndSelector(state),
-      farm: farmSelector(state),
-      users: userInfoSelector(state),
+      farm: userFarmSelector(state).userFarm,
+      users: userFarmSelector(state).userFarm,
     }
   };
 

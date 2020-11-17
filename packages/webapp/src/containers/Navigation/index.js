@@ -23,10 +23,11 @@ import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar'
 import styles1 from './styles1.scss'
 
-import { farmSelector, spotlightSelector } from '../selector'
+import { spotlightSelector } from '../selector'
 import PureNavBar from "../../components/Navigation/NavBar";
 
 import { showSpotlight } from "../actions";
+import { userFarmSelector } from '../userFarmSlice';
 
 const NavBar = (props) => {
   const { auth, history, farm, show_spotlight, dispatch } = props;
@@ -120,7 +121,7 @@ return (
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
     show_spotlight: spotlightSelector(state)
   }
 };

@@ -1,10 +1,19 @@
-import { GET_USER_IN_PEOPLE, GET_ALL_USER_BY_FARM, UPDATE_USER_IN_PEOPLE, ADD_USER_FROM_PEOPLE,
-  ADD_PSEUDO_WORKER, DEACTIVATE_USER, REACTIVATE_USER, UPDATE_USER_FARM, GET_ROLES} from "./constants";
-import { setUsersInState, getAllUsers, setFarmID, setRolesInState } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  ADD_PSEUDO_WORKER,
+  ADD_USER_FROM_PEOPLE,
+  DEACTIVATE_USER,
+  GET_ALL_USER_BY_FARM,
+  GET_ROLES,
+  GET_USER_IN_PEOPLE,
+  REACTIVATE_USER,
+  UPDATE_USER_FARM,
+  UPDATE_USER_IN_PEOPLE,
+} from './constants';
+import { getAllUsers, setFarmID, setRolesInState, setUsersInState } from './actions';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import Auth from "../../../Auth/Auth";
+import Auth from '../../../Auth/Auth';
 import { getUserInfo, setUserInState } from '../../actions';
 import { getUser } from '../../ChooseFarm/saga';
 

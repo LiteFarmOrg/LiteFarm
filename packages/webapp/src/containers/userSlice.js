@@ -33,13 +33,13 @@ const userSlice = createSlice({
 export const { onLoadingUsersStart, onLoadingUsersFail, getUsersSuccess, getUserSuccess } = userSlice.actions;
 export default userSlice.reducer;
 
-export const usersSelector = (state) => ({
-  users: Object.values(state.entitiesReducer[userSlice.name].by_user_id),
-  ...state.entitiesReducer[userSlice.name],
+export const userReducerSelector = state => state.entitiesReducer[userSlice.name];
+export const usersSelector = createSelector([userReducerSelector], ({ by_user_id, loading, error, ...rest }) => {
+  return { userFarms: Object.values(by_user_id), loading, error, by_user_id, ...rest };
 });
-export const userSelector = createSelector([loginSelector, usersSelector], ({ user_id }, { by_user_id, loading, error }) => {
+export const userSelector = createSelector([loginSelector, userReducerSelector], ({ user_id }, { by_user_id, loading, error }) => {
   return { user: by_user_id[user_id], loading, error };
 });
-export const userSelectorByUserId = (user_id) => createSelector([usersSelector], ({ by_user_id, loading, error }) => {
+export const userSelectorByUserId = (user_id) => createSelector([userReducerSelector], ({ by_user_id, loading, error }) => {
   return { user: by_user_id[user_id], loading, error };
 })

@@ -1,13 +1,13 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import BedImg from '../../../assets/images/log/bed.svg';
-import {taskTypeSelector, selectedShiftSelector} from './selectors';
-import {getTaskTypes, addTaskType, setSelectedTasks, setShiftDuration, setStartEndInState} from "../actions";
-import {Container, Row, Col, Button, Alert} from 'react-bootstrap';
+import { selectedShiftSelector, taskTypeSelector } from './selectors';
+import { addTaskType, getTaskTypes, setSelectedTasks, setShiftDuration, setStartEndInState } from '../actions';
+import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import OtherImg from '../../../assets/images/log/other.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
 import FertImg from '../../../assets/images/log/fertilizing.svg';
@@ -20,11 +20,11 @@ import SocialImg from '../../../assets/images/log/social.svg';
 import WashImg from '../../../assets/images/log/wash.svg';
 import WeedImg from '../../../assets/images/log/weed.svg';
 import closeButton from '../../../assets/images/grey_close_button.png'
-import Popup from "reactjs-popup";
+import Popup from 'reactjs-popup';
 import history from '../../../history';
-import {toastr} from 'react-redux-toastr';
-import {farmSelector} from '../../selector';
-import {grabCurrencySymbol} from "../../../util";
+import { toastr } from 'react-redux-toastr';
+import { grabCurrencySymbol } from '../../../util';
+import { userFarmSelector } from '../../userFarmSlice';
 
 
 class EditShiftOne extends Component {
@@ -380,7 +380,7 @@ const mapStateToProps = (state) => {
   return {
     taskTypes: taskTypeSelector(state),
     selectedShift: selectedShiftSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state).userFarm,
   }
 };
 

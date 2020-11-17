@@ -21,7 +21,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
   return (
     <div className={styles.navBar}> 
       <div className={styles.actionItemContainer}>
-      {/* <div style={{marginRight: '11px'}} className={styles.spotlightContainer}> */}
         {steps &&
         <ReactJoyride
           steps={steps}
@@ -58,7 +57,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         />
 
         }
-        {/* </div> */}
 
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>

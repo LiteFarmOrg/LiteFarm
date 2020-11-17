@@ -1,29 +1,9 @@
-/* body {
-  font-family: "Open Sans", "SansSerif", serif;
-  background: #FAFAFD;
-  margin: 0;
-} */
-
 .background {
   font-family: "Open Sans", "SansSerif", sans-serif;
   background: #FAFAFD;
   margin: 0;
   padding-bottom: 34px;
 }
-
-/* .button {
-  background-color: #028577;
-  border: none;
-  text-decoration: none !important;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  padding: 1%;
-  margin: 4px 2px;
-  cursor: pointer;
-} */
 
 .header {
   background: #C7EFD3;

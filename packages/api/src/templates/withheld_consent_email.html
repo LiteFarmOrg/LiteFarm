@@ -17,7 +17,8 @@
 <html>
   <head>
     <title>LiteFarm Consent Withheld Email</title>
-    <style>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- <style>
       .button {
         background-color: #028577;
         border: none;
@@ -31,33 +32,59 @@
         margin: 4px 2px;
         cursor: pointer;
       }
-    </style>
+    </style> -->
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-	<p>Dear {{first_name}},</p>
-	<p>Recently, while joining {{farm}} on the LiteFarm application, you decided to withhold your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you won’t be able to access the application. We’re very sorry about this.
-	</p>
-	<p>We’ve de-activated your association to {{farm}}. However, we still have the basic information you shared with us while setting up your user account. If you’re associated with other farms, we also have any information you entered while working with those farms as well.
-	</p>
-	<p> You have the following rights regarding your data:</p>
-<ul>
-         <li>To know what data we have about you and request a copy of it</li> 
-          <li>To update or correct any data we have about you</li>
-          <li>Request that we stop collecting your data (you’ve just done this)</li>
-          <li>Request a transfer of your data</li>
-          <li>Request that we delete your data</li>
-</ul>
-<p>
-To request any of these actions, send an email to <a href="mailto:data@litefarm.org">data@litefarm.org</a> with your request and we’ll take care of you.
-</p>
-<p>
-Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below:
-</p>
-    <a style="color:white" href=""  target="_blank" class="button" id="email-button">Log In</a>
-    <p>If you do so, you’ll once again be able to access the LiteFarm system.
-</p>
-<br>
-<p>Cheers,</p>
-<p>The LiteFarm team</p>
+    <div class="background">
+      <div class="main-container">
+        <div class="header">
+          <img id="logo" src="logo.png" alt="Logo">
+        </div>
+        <div class="main-content">
+          <p>Dear <strong>{{first_name}}</strong>,</p>
+          <p>
+            Recently, while joining <strong>{{farm}}</strong> on the LiteFarm application, you decided to withhold
+            your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you
+            won't be able to access the application. We're very sorry about this.
+          </p>
+          <p>
+            We've de-activated your association to <strong>{{farm}}</strong>. However, we still have the basic
+            information you shared with us while setting up your user account. If you're associated with other
+            farms, we also have any information you entered while working with those farms as well.
+          </p>
+          <p> You have the following rights regarding your data:</p>
+          <ul>
+            <li>To know what data we have about you and request a copy of it</li> 
+            <li>To update or correct any data we have about you</li>
+            <li>Request that we stop collecting your data (you've just done this)</li>
+            <li>Request a transfer of your data</li>
+            <li>Request that we delete your data</li>
+          </ul>
+          <p>
+            To request any of these actions, send an email to
+            <a href="mailto:data@litefarm.org">data@litefarm.org</a> with your request and we'll take care of you.
+          </p>
+          <p>
+            Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy
+            policy using the button below:
+          </p>
+          <div class="button-aligner">
+            <a href="" target="_blank" class="button" id="email-button">Log In</a>
+          </div>
+          <p>If you do so, you'll once again be able to access the LiteFarm system.</p>
+          <p>
+            Cheers,
+            <br>
+            The LiteFarm team
+          </p>
+        </div>
+      </div>
+      <div class="footer">
+        <p>Please do not reply to this email.</p>
+        <p>© 2020 LiteFarm.org</p>
+        <p>To get in touch with us, click <a href="">Help</a> or <a href="">contact us</a>.</p>
+      </div>
+    </div>
   </body>
 </html>

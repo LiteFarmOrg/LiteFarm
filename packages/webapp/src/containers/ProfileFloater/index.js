@@ -2,7 +2,7 @@ import Floater from "react-floater";
 import React from "react";
 import PureProfileFloater from "../../components/ProfileFloater";
 
-export default function ProfileFloater({auth, children}) {
+export default function ProfileFloater({auth, children, openProfile}) {
   const helpClick = () => {
   }
   const switchFarmClick = () => {
@@ -16,7 +16,7 @@ export default function ProfileFloater({auth, children}) {
     <PureProfileFloater onHelp={helpClick} onInfo={myInfoClick} onLogout={logOutClick} onSwitchFarm={switchFarmClick} />
   )
   return (
-    <Floater component={Wrapper} placement={'bottom-end'}>
+    <Floater component={Wrapper} placement={'bottom-end'} open={openProfile}>
       {children}
     </Floater>
   )

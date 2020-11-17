@@ -66,6 +66,13 @@
   margin-right: 12px;
 }
 
+:global {
+  .listOption :hover {
+    background: #C7EFD3;
+    border-radius: 4px;
+  }
+}
+
 .actionItem {
   width: 25px;
   height: 25px;

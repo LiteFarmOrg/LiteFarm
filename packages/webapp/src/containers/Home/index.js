@@ -7,7 +7,7 @@ import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
 
 export default function Home() {
-  const { userFarm } = useSelector(userFarmSelector);
+  const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
   const detectBrowser = () => {
     // ripped off stackoverflow: https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome

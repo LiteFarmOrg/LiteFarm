@@ -59,7 +59,7 @@ export function* postFarmSaga({ payload }) {
 export const patchRole = createAction('patchRoleSaga');
 export function* patchRoleSaga({ payload }) {
   try {
-    const { userFarm } = yield select(userFarmSelector);
+    const userFarm = yield select(userFarmSelector);
     const { user_id, farm_id, step_two, step_two_end } = userFarm;
     const { role, role_id, callback } = payload;
     const header = getHeader(user_id, farm_id);

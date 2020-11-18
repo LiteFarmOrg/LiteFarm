@@ -788,7 +788,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     startEnd: startEndSelector(state),
     selectedShift: selectedShiftSelector(state),
-    users: userFarmSelector(state).userFarm,
+    users: userFarmSelector(state),
   }
 };
 

@@ -449,9 +449,9 @@ class LogDetail extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     crops: cropSelector(state),
-    users: userFarmSelector(state).userFarm,
+    users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

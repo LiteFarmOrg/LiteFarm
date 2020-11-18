@@ -99,7 +99,7 @@ import Balances from './containers/NewFinances/Balances';
 import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 import RoleSelection from './containers/RoleSelection';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
 
 // action
@@ -122,8 +122,8 @@ const Routes = () => {
   const dispatchLoginSuccess = (user_id) => {
     dispatch(loginSuccess({ user_id }))
   };
-  const { userFarm } = useSelector(userFarmSelector, (pre, next) => pre.userFarm.step_five === next.userFarm.step_five
-    && pre.userFarm.has_consent === next.userFarm.has_consent);
+  const userFarm = useSelector(userFarmSelector, (pre, next) =>pre.step_five === next.step_five
+    && pre.has_consent === next.has_consent);
   const { step_five, has_consent } = userFarm;
   if (isAuthenticated) {
     let role_id = localStorage.getItem('role_id');

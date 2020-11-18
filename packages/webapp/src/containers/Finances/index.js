@@ -470,7 +470,7 @@ const mapStateToProps = (state) => {
     expenses: expenseSelector(state),
     fieldCrops: fieldCropSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

@@ -121,7 +121,7 @@ return (
 
 const mapStateToProps = (state) => {
   return {
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     show_spotlight: spotlightSelector(state)
   }
 };

@@ -14,7 +14,7 @@ function SlideMenu() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
-  const {userFarm: farm} = useSelector(userFarmSelector);
+  const farm = useSelector(userFarmSelector);
   const toggleSupport = () => {
     setSupportOpen(!supportOpen);
   }

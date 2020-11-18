@@ -22,7 +22,7 @@ const axios = require('axios');
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 export function* patchOutroStepSaga({ payload: {callback} }) {
-  const { userFarm: { farm_id, user_id } } = yield select(userFarmSelector);
+  const { farm_id, user_id } = yield select(userFarmSelector);
   const { userFarmUrl } = apiConfig;
   const header = {
     headers: {

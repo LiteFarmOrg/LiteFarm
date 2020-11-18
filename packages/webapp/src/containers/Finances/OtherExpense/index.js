@@ -279,7 +279,7 @@ const mapStateToProps = (state) => {
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

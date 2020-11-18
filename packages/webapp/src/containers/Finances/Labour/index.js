@@ -109,7 +109,7 @@ const mapStateToProps = (state) => {
   return {
     shifts: shiftSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     fieldCrops: fieldCropSelector(state),
   }
 };

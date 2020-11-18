@@ -165,7 +165,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     schedule: farmDataSelector(state),
   }
 };

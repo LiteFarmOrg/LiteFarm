@@ -19,7 +19,7 @@ import styles from './styles.scss';
 import ProceedFooter from '../../components/proceedCancelFooter';
 import history from '../../history';
 import Auth from '../../Auth/Auth.js';
-import { selectFarmSuccess } from '../loginSlice';
+import { selectFarmSuccess, deselectFarmSuccess } from '../loginSlice';
 import { getUserInfo, setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
@@ -126,6 +126,7 @@ class ChooseFarm extends Component {
   };
 
   createFarm = () => {
+    this.props.dispatch(deselectFarmSuccess());
     history.push('/add_farm');
   };
 
@@ -179,8 +180,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farms: userFarmsByUserSelector(state).userFarms,
-    farm: userFarmSelector(state).userFarm,
+    farms: userFarmsByUserSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

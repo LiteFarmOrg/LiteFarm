@@ -130,7 +130,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

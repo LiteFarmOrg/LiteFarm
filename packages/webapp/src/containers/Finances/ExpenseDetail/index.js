@@ -176,7 +176,7 @@ const mapStateToProps = (state) => {
     expense_detail_date: expenseDetailDateSelector(state),
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

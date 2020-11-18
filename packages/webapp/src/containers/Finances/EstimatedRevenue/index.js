@@ -123,7 +123,7 @@ class EstimatedRevenue extends Component {
 const mapStateToProps = (state) => {
   return {
     fieldCrops: fieldCropSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

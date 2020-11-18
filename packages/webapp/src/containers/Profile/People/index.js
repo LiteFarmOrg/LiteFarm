@@ -798,7 +798,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     users: peopleInfoSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     roles: rolesSelector(state),
     profileForms: profileFormsSelector(state),
   }

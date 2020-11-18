@@ -208,7 +208,7 @@ class SalesSummary extends Component {
 const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     dateRange: dateRangeSelector(state),
   }
 };

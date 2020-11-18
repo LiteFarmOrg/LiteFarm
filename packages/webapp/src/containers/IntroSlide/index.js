@@ -166,7 +166,7 @@ class IntroSlide extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

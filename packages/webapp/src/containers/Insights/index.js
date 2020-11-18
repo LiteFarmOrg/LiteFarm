@@ -171,7 +171,7 @@ const infoBoxBody = <div>
 
 const mapStateToProps = (state) => {
   return {
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     cropNutritionData: cropsNutritionSelector(state),
     soilOMData: soilOMSelector(state),
     labourHappinessData: labourHappinessSelector(state),

@@ -119,7 +119,7 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
   }

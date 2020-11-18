@@ -107,7 +107,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     crops: cropSelector(state),
     sale: selectedSaleSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

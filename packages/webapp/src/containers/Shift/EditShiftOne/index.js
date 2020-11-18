@@ -380,7 +380,7 @@ const mapStateToProps = (state) => {
   return {
     taskTypes: taskTypeSelector(state),
     selectedShift: selectedShiftSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

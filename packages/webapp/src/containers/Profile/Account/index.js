@@ -88,7 +88,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    users: userFarmSelector(state).userFarm,
+    users: userFarmSelector(state),
   }
 };
 

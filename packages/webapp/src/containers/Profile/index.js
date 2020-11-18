@@ -96,7 +96,7 @@ class Profile extends  Component{
 
 const mapStateToProps = (state) => {
   return {
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 const mapDispatchToProps = (dispatch) => {

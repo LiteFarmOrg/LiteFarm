@@ -291,7 +291,7 @@ const mapStateToProps = (state) => {
   return {
     fields: fieldSelector(state),
     fieldCrops: fieldCropSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

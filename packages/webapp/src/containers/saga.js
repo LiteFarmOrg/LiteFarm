@@ -129,7 +129,7 @@ export function* updateUser(payload) {
 
 export function* getFarmInfo() {
   try {
-    let { userFarm } = yield select(userFarmSelector);
+    let userFarm = yield select(userFarmSelector);
 
     //TODO potential bug
     if (!userFarm.farm_id) {
@@ -259,7 +259,7 @@ const formatDate = (currDate) => {
 };
 
 // export function* updateAgreementSaga(payload) {
-//   const { userFarm } = yield select(userFarmSelector);
+//   const userFarm = yield select(userFarmSelector);
 //   const {user_id, farm_id, step_three} = userFarm;
 //   const { callback } = payload;
 //   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;

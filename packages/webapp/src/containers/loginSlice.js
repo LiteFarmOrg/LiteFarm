@@ -28,9 +28,10 @@ const loginSlice = createSlice({
       state.user_id = undefined;
       state.farm_id = undefined;
     },
+    deselectFarmSuccess: (state) => state.farm_id = undefined,
   },
 });
 
-export const { loginSuccess, selectFarmSuccess } = loginSlice.actions;
+export const { loginSuccess, selectFarmSuccess, deselectFarmSuccess } = loginSlice.actions;
 export default loginSlice.reducer;
 export const loginSelector = (state) => state?.entitiesReducer[loginSlice.name];

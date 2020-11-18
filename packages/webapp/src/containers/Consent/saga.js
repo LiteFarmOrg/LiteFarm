@@ -25,7 +25,7 @@ const axios = require('axios');
 
 export const patchConsent = createAction('patchConsentSaga');
 export function* patchConsentSaga({ payload }) {
-  const { userFarm } = yield select(userFarmSelector);
+  const userFarm = yield select(userFarmSelector);
   const { user_id, farm_id, step_three, step_three_end } = userFarm;
   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
   const header = getHeader(user_id, farm_id);

@@ -112,7 +112,7 @@ const mapStateToProps = (state) => {
   return {
     sale: selectedSaleSelector(state),
     fieldCrops: fieldCropSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

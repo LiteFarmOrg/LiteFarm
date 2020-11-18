@@ -854,8 +854,8 @@ const
       crops: cropSelector(state),
       fields: fieldSelector(state),
       startEnd: startEndSelector(state),
-      farm: userFarmSelector(state).userFarm,
-      users: userFarmSelector(state).userFarm,
+      farm: userFarmSelector(state),
+      users: userFarmSelector(state),
     }
   };
 

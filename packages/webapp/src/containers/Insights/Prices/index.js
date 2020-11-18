@@ -125,7 +125,7 @@ const mapStateToProps = (state) => {
   return {
     pricesData: pricesSelector(state),
     pricesDistance: pricesDistanceSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

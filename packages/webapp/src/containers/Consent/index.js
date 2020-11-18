@@ -10,7 +10,7 @@ import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_in_organic' }) {
-  const { userFarm:role } = useSelector(userFarmSelector);
+  const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
   const [consentVersion] = useState('3.0');

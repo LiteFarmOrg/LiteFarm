@@ -188,7 +188,7 @@ const mapStateToProps = (state) => {
     expenseTypes: expenseTypeSelector(state),
     selectedExpense: selectedExpenseSelector(state),
     currentExpenseDetail: expenseDetailSelector(state),
-    farm: userFarmSelector(state).userFarm,
+    farm: userFarmSelector(state),
   }
 };
 

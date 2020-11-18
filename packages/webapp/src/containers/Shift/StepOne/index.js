@@ -461,9 +461,9 @@ class ShiftStepOne extends Component {
 const mapStateToProps = (state) => {
   return {
     taskTypes: taskTypeSelector(state),
-    users: userFarmSelector(state).userFarm,
-    allUsers: userFarmsByFarmSelector(state).userFarms,
-    farm: userFarmSelector(state).userFarm,
+    users: userFarmSelector(state),
+    allUsers: userFarmsByFarmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

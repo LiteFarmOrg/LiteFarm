@@ -13,6 +13,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
 
+
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
     }
@@ -26,36 +27,37 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
 
 
   return (
-    <div className={styles.navBar}>
+    <div className={styles.navBar}> 
       <div className={styles.actionItemContainer}>
-
         {steps &&
         <ReactJoyride
           steps={steps}
-          run={steps.run}
           continuous
-          showSkipButton
           callback={resetSpotlightStatus}
+          floaterProps={{ disableAnimation: true}}
           styles=
             {
               {
                 options: {
-                  // modal arrow and background color
-                  arrowColor: "#eee",
-                  backgroundColor: "#eee",
-                  // page overlay color
-                  overlayColor: "rgba(36, 39, 48, 0.5)",
-                  //button color
-                  // primaryColor: "#06AB16",
-                  primaryColor: "#FED450",
-                  //text color
-                  // textColor: "##000000",
+                  // modal arrow color
+                  arrowColor: "#fff",
+                  // modal background color
+                  backgroundColor: "#fff",
+                  // tooltip overlay color
+                  overlayColor: "rgba(30, 30, 48, 1)",
+                  // next button color
+                  primaryColor: "#FCE38D",
                   //width of modal
                   width: 270,
                   //zindex of modal
-                  zIndex: 2000,
-                  beaconSize: 36,
+                  zIndex: 100,
                 },
+                buttonClose: {
+                  display: 'none',
+                },
+                buttonBack: {
+                  display: 'none',
+                }
 
               }
 
@@ -68,7 +70,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
         <ProfileFloater auth={auth}>
           <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={styles.profilePicture} onClick={() =>changeInteraction('profile')} />
-        </ProfileFloater>
+        </ProfileFloater>        
         {
           isOneTooltipOpen && <div style={{
             position: "fixed",
@@ -80,6 +82,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
       </div>
+      
       <div className={styles.itemContainer}>
         {logo}
       </div>

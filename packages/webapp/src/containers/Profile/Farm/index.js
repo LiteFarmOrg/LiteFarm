@@ -33,20 +33,23 @@ class Farm extends Component {
   }
 
   handleSubmit(updated_farm, farm) {
-    farm.farm_name = updated_farm.farm_name;
-    farm.address = updated_farm.address;
-    farm.grid_points = updated_farm.gridPoints;
-    farm.phone_number = {
+    const newFarm = {};
+    newFarm.farm_name = updated_farm.farm_name;
+    newFarm.address = updated_farm.address;
+    newFarm.grid_points = updated_farm.gridPoints;
+    newFarm.phone_number = {
       number: updated_farm.phone_number,
       country: updated_farm.phone_country
     };
 
-    farm.units = {
+    newFarm.units = {
       measurement: updated_farm.unit,
       currency: farm.units.currency,
     };
+    newFarm.farm_id = farm.farm_id;
+    newFarm.user_id = farm.user_id;
 
-    this.props.dispatch(updateFarm(farm));
+    this.props.dispatch(updateFarm(newFarm));
   }
 
   sendRequest(){

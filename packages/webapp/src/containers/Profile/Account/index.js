@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateUserInfo } from '../../actions';
+import { updateUser } from '../../saga';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
 import { actions, Control, Form } from 'react-redux-form';
@@ -34,13 +34,11 @@ class Account extends Component {
   }
 
   handleSubmit(updated_user, user) {
-    user.first_name = updated_user.first_name;
-    user.last_name = updated_user.last_name;
-    user.phone_number = updated_user.phone_number;
-    user.address = updated_user.address === null || updated_user.address === undefined ? '' : updated_user.address;
-    // TODO: remove hardcoded string for prof pic
-    //user.profile_picture = '';
-    this.props.dispatch(updateUserInfo(user));
+    const {user_id, farm_id} = user;
+    const newUser = {...updated_user, user_id, farm_id};
+    newUser.address = newUser.address? newUser.address: '';
+    delete newUser.profile_picture;
+    this.props.dispatch(updateUser(newUser));
   }
 
   render() {

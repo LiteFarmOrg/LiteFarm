@@ -38,6 +38,7 @@ const checkEditPrivilege = () => {
         return res.status(401).send('user not authorized to access farm with specified farm_id').end();
       }
       if(!ALLOWED_ROLES.includes(farmInWhichUserIs.role_id)) {
+        console.log(farmInWhichUserIs);
         return res.status(401).send('user not authorized to edit user').end();
       }
     }

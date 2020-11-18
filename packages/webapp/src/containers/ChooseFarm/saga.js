@@ -33,7 +33,7 @@ export function* getUserFarmsSaga() {
     const header = getHeader(user_id);
     yield put(onLoadingUserFarmsStart());
     const result = yield call(axios.get, userFarmUrl + '/user/' + user_id, header);
-    yield put(getUserFarmsSuccess({ userFarms: result.data }));
+    yield put(getUserFarmsSuccess(result.data));
 
   } catch (error) {
     yield put(onLoadingUserFarmsFail({ error }));
@@ -49,9 +49,9 @@ export function* getUserSaga() {
     const { userUrl } = apiConfig;
     const header = getHeader(user_id);
     const result = yield call(axios.get, userUrl + '/' + user_id, header);
-    const user = result?.data[0];
+    const user = result?.data;
     if (user) {
-      yield put(getUserSuccess({ user }));
+      yield put(getUserSuccess(user));
     } else {
       //If user exist in Auth0 database but not postgres database, get user from auth0 and post to postgres database
       const auth = new Auth();

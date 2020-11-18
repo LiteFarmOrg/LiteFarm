@@ -8,10 +8,9 @@ import {
   addUser,
   deactivateUser,
   getRoles,
-  getUserInfo,
   reactivateUser,
-  updateUserFarm,
 } from './actions';
+import {updateUserFarm} from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
 import Popup from 'reactjs-popup';
@@ -22,7 +21,8 @@ import { grabCurrencySymbol } from '../../../util';
 import Cleave from 'cleave.js/react.js';
 import { toastr } from 'react-redux-toastr';
 import { getUser } from '../../ChooseFarm/saga';
-import { userFarmSelector } from '../../userFarmSlice';
+import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
+import { getAllUserFarmsByFarmId } from './saga';
 
 const generator = require('generate-password');
 const { v4: uuidv4 } = require('uuid');
@@ -111,7 +111,6 @@ class People extends Component {
 
   closeAddModal = () => {
     const { dispatch } = this.props;
-    dispatch(getUserInfo());
     dispatch(getUser());
     dispatch(actions.reset('profileForms.addInfo'));
     this.setState({ showAdd: false });
@@ -160,7 +159,7 @@ class People extends Component {
       toastr.success("Nothing's changed");
       this.closeEditModal();
     }
-    // this.props.dispatch(updateUser(user));
+    // this.props.dispatch(updateUserSaga(user));
     // this.closeEditModal();
   }
 
@@ -222,8 +221,7 @@ class People extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(getUserInfo());
-    dispatch(getUser());
+    dispatch(getAllUserFarmsByFarmId());
     dispatch(actions.reset('profileForms.addInfo'));
     dispatch(getRoles());
   }
@@ -797,7 +795,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    users: peopleInfoSelector(state),
+    users: userFarmsByFarmSelector(state),
     farm: userFarmSelector(state),
     roles: rolesSelector(state),
     profileForms: profileFormsSelector(state),

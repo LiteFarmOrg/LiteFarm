@@ -14,13 +14,12 @@
  */
 import history from '../../history';
 import { call, put, select, takeLatest, all } from 'redux-saga/effects';
-import { farmUrl, userFarmUrl } from '../../apiConfig';
+import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector, selectFarmSuccess } from '../loginSlice';
 import { postFarmSuccess, patchRoleStepTwoSuccess, userFarmSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-
 const axios = require('axios');
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`
@@ -29,7 +28,6 @@ const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${far
 export const postFarm = createAction('postFarmSaga');
 export function* postFarmSaga({ payload }) {
   const { farm } = payload;
-  console.log(payload);
   const { user_id } = yield select(loginSelector);
 
   let addFarmData = {
@@ -38,9 +36,13 @@ export function* postFarmSaga({ payload }) {
     grid_points: farm.gridPoints,
     country: farm.country,
   };
-
+  const header = getHeader(user_id);
+  const { userUrl } = apiConfig;
   try {
-    const addFarmResult = yield call(axios.post, farmUrl, addFarmData, getHeader(user_id));
+    const [addFarmResult, getUserResult] = yield all([
+      call(axios.post, farmUrl, addFarmData, header),
+      call(axios.get, userUrl + '/' + user_id, header)
+      ]);
     const farm = addFarmResult.data;
     const { farm_id } = farm;
     let step = {
@@ -48,10 +50,13 @@ export function* postFarmSaga({ payload }) {
       step_one_end: new Date(),
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
-    yield put(postFarmSuccess({ userFarm: { ...farm, ...step } }));
+    const user = getUserResult?.data;
+    console.log(user, getUserResult?.data);
+    yield put(postFarmSuccess({ ...user, ...farm, ...step,  }));
     yield put(selectFarmSuccess({ farm_id }));
     history.push('/role_selection')
   } catch (e) {
+    console.log(e);
     toastr.error('Failed to add farm, please contact litefarm for assistance');
   }
 }

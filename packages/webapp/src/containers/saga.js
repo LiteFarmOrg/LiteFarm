@@ -33,13 +33,14 @@ import {
   setUserInState,
 } from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
-import { call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import Auth from '../Auth/Auth.js';
 import { loginSelector, loginSuccess } from './loginSlice';
-import { userFarmSelector } from './userFarmSlice';
+import { userFarmSelector, putUserSuccess } from './userFarmSlice';
+import { createAction } from '@reduxjs/toolkit';
 
 const axios = require('axios');
 
@@ -53,63 +54,12 @@ export function getHeader(user_id, farm_id){
     },
   }
 }
-
-export function* getUserInfo(action) {
-  let user_id = localStorage.getItem('user_id');
+export const updateUser = createAction('updateUserSaga');
+export function* updateUserSaga({ payload: user }) {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
   const { userUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  try {
-    const result = yield call(axios.get, userUrl + '/' + user_id, header);
-    if (result.data[0]) {
-      //console.log(result.data);
-      yield put(setUserInState(result.data[0]));
-      //TODO create a getUser saga that does not fetch userFarm
-      const {user_id, farm_id} = yield select(loginSelector);
-      if (!farm_id) {
-        return;
-      }
-      // if(!result.data[0].has_consent){
-      //   history.push('/consent');
-      // }
-      yield put(fetchFarmInfo());
-
-      // else if(action.loadFromHome){
-      //   history.push('/add_farm');
-      //   console.log('user has no farm at the moment');
-      // }
-    } else {
-      //TODO investigate load from home
-      const auth = new Auth();
-      auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'))
-      yield put(loginSuccess({ user_id: localStorage.getItem('user_id') }));
-      console.log('failed to fetch user from database')
-    }
-  } catch (e) {
-    toastr.error('Failed to fetch user info');
-  }
-}
-
-export function* updateUser(payload) {
-  let user_id = localStorage.getItem('user_id');
-  const { userUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  let data = payload.user;
+  let data = user;
   if (data.wage === null) {
     delete data.wage;
   }
@@ -118,10 +68,8 @@ export function* updateUser(payload) {
   }
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
-    if (result.data[0]) {
-      yield put(setUserInState(result.data[0]));
-      toastr.success('Successfully updated user info!')
-    }
+    yield put(putUserSuccess(user));
+    toastr.success('Successfully updated user info!')
   } catch (e) {
     toastr.error('Failed to update user info')
   }
@@ -312,12 +260,11 @@ const formatDate = (currDate) => {
 // }
 
 export default function* getFarmIdSaga() {
-  yield takeEvery(GET_USER_INFO, getUserInfo);
-  yield takeEvery(UPDATE_USER_INFO, updateUser);
-  yield takeEvery(GET_FARM_INFO, getFarmInfo);
-  yield takeEvery(UPDATE_FARM, updateFarm);
-  yield takeEvery(GET_FIELDS, getFieldsSaga);
-  yield takeEvery(GET_FIELD_CROPS, getFieldCropsSaga);
-  yield takeEvery(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
-  // yield takeEvery(UPDATE_AGREEMENT, updateAgreementSaga);
+  yield takeLatest(updateUser.type, updateUserSaga);
+  yield takeLatest(GET_FARM_INFO, getFarmInfo);
+  yield takeLatest(UPDATE_FARM, updateFarm);
+  yield takeLatest(GET_FIELDS, getFieldsSaga);
+  yield takeLatest(GET_FIELD_CROPS, getFieldCropsSaga);
+  yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
+  // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

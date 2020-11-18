@@ -20,32 +20,38 @@ export const initialState = {
   error: undefined,
 };
 
+const addUserFarm = (state, { payload: userFarm }) => {
+  state.loading = false;
+  state.error = null;
+  const { farm_id, user_id } = userFarm;
+  if(!(state.by_farm_id_user_id[farm_id] && state.by_farm_id_user_id[farm_id][user_id])){
+    state.all_farm_id_user_id.push({ farm_id, user_id });
+  }
+  state.by_farm_id_user_id[farm_id] = {};
+  state.by_farm_id_user_id[farm_id][user_id] = userFarm;
+}
+
 const userFarmSlice = createSlice({
   name: 'userFarmReducer',
   initialState,
   reducers: {
     onLoadingUserFarmsStart: onLoadingStart,
     onLoadingUserFarmsFail: onLoadingFail,
-    getUserFarmsSuccess: (state, { payload: { userFarms } }) => {
+    getUserFarmsSuccess: (state, { payload: userFarms }) => {
       state.loading = false;
       state.error = null;
       userFarms.forEach(userFarm => {
         const { farm_id, user_id } = userFarm;
+        if(!(state.by_farm_id_user_id[farm_id] && state.by_farm_id_user_id[farm_id][user_id])){
+          state.all_farm_id_user_id.push({ farm_id, user_id });
+        }
         const prevUserFarms = state.by_farm_id_user_id[farm_id] || {};
         state.by_farm_id_user_id[farm_id] = prevUserFarms;
         state.by_farm_id_user_id[farm_id][user_id] = prevUserFarms[farm_id] || {};
         Object.assign(state.by_farm_id_user_id[farm_id][user_id], userFarm);
-        state.all_farm_id_user_id.push({ farm_id, user_id });
       });
     },
-    postFarmSuccess: (state, { payload: { userFarm } }) => {
-      state.loading = false;
-      state.error = null;
-      const { farm_id, user_id } = userFarm;
-      state.by_farm_id_user_id[farm_id] = {};
-      state.by_farm_id_user_id[farm_id][user_id] = userFarm;
-      state.all_farm_id_user_id.push({ farm_id, user_id });
-    },
+    postFarmSuccess: addUserFarm,
     patchRoleStepTwoSuccess: (state, { payload }) => {
       const { step_two, step_two_end, role_id, farm_id, user_id } = payload;
       Object.assign(state.by_farm_id_user_id[farm_id][user_id], { step_two, step_two_end, role_id });
@@ -69,12 +75,20 @@ const userFarmSlice = createSlice({
         step_five, step_five_end,
       });
     },
+    putUserSuccess: (state, { payload: user }) => {
+      const { farm_id, user_id } = user;
+      Object.assign(state.by_farm_id_user_id[farm_id][user_id], user);
+    },
+    postUserSuccess: addUserFarm,
+    patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
+      state.by_farm_id_user_id[farm_id][user_id].status = status;
+    },
   },
 });
 
 export const {
   onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
-  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess,
+  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 

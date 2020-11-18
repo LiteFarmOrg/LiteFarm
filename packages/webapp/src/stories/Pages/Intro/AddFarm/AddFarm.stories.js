@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import AddFarm from "../../../../containers/AddFarm/temp.index";
+import AddFarm from "../../../../containers/AddFarm";
 import { HomeRain } from '../../Home/PureHome.stories';
 
 export default {

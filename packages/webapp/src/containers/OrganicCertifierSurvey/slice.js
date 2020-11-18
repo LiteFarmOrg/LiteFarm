@@ -2,17 +2,11 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from '../loginSlice';
 import { createSelector } from 'reselect';
 
-export const initialState = {
-  interested: null,
-  certifiers: [],
-  survey_id: undefined,
-};
-
 const addOneCertifier = (state, { payload }) => {
   const { certifiers, interested, survey_id, farm_id } = payload;
   state.loading = false;
   state.error = null;
-  certifierSurveyAdapter.addOne(state, { certifiers, interested, survey_id, farm_id });
+  certifierSurveyAdapter.upsertOne(state, { certifiers, interested, survey_id, farm_id });
 }
 
 const certifierSurveyAdapter = createEntityAdapter({

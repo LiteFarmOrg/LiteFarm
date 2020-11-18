@@ -21,7 +21,6 @@ const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
 
-const knex = Model.knex();
 const emailSender = require('../templates/sendEmailTemplate');
 
 
@@ -132,23 +131,13 @@ class userController extends baseController {
       try {
         const id = req.params.user_id;
 
-        const data = await knex.raw(
-          `
-          SELECT uf.user_id, uf.farm_id, uf.role_id, uf.has_consent, u.created_at, u.first_name, u.last_name, u.profile_picture, u.email, u.phone_number,
-          uf.status, uf.consent_version, uf.wage
-          FROM "users" u
-          LEFT JOIN
-          "userFarm" uf
-          ON uf.user_id = u.user_id
-          WHERE u.user_id = ?
-          `, [id]
-        );
+        const data = await userModel.query().findById(id).select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number');
 
-        if (!data && !data.rows) {
+        if (!data) {
           res.sendStatus(404)
         }
         else {
-          res.status(200).send(data.rows);
+          res.status(200).send(data);
         }
       }
       catch (error) {

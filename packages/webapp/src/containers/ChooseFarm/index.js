@@ -20,7 +20,7 @@ import ProceedFooter from '../../components/proceedCancelFooter';
 import history from '../../history';
 import Auth from '../../Auth/Auth.js';
 import { selectFarmSuccess, deselectFarmSuccess } from '../loginSlice';
-import { getUserInfo, setFarmInState } from '../actions';
+import { setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import { userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
@@ -100,7 +100,6 @@ class ChooseFarm extends Component {
       //   toastr.error('No version number found');
       // }
       // const latestVersion = versionNumberMatches[0];
-      this.props.dispatch(getUserInfo(false));
       this.props.dispatch(getUser());
 
       // Need consent if at least one of the following criteria is met:

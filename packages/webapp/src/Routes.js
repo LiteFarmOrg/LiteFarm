@@ -123,10 +123,9 @@ const Routes = () => {
     dispatch(loginSuccess({ user_id }))
   };
   const userFarm = useSelector(userFarmSelector, (pre, next) =>pre.step_five === next.step_five
-    && pre.has_consent === next.has_consent);
-  const { step_five, has_consent } = userFarm;
+    && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
+  let { step_five, has_consent, role_id } = userFarm;
   if (isAuthenticated) {
-    let role_id = localStorage.getItem('role_id');
     role_id = Number(role_id);
     // TODO check every step
     if (step_five === false || !has_consent) {

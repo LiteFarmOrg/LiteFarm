@@ -1,0 +1,53 @@
+version: "3"
+
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  db:
+    container_name: litefarm-db
+    image: postgres:13
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: pg-litefarm
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  backend:
+    container_name: litefarm-api
+    build:
+      context: ./packages/api
+      dockerfile: dev.Dockerfile
+    working_dir: /usr/src/app
+    command: >
+      bash -c "./scripts/init.sh testing"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./packages/api:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      WAIT_HOSTS: litefarm-db:5432
+  frontend:
+    container_name: litefarm-web
+    build:
+      context: ./packages/webapp
+      dockerfile: dev.Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./packages/webapp:/usr/src/app
+      - /usr/src/app/node_modules
+  storybook:
+    container_name: storybook-dev
+    build:
+      context: ./packages/webapp
+      dockerfile: storybook.Dockerfile
+    ports:
+    - "6006:6006"
+    volumes:
+    - ./packages/webapp:/usr/src/app
+    - /usr/src/app/node_modules

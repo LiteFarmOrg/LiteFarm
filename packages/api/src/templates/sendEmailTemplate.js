@@ -69,7 +69,7 @@ class sendEmailTemplate {
       htmlToSend = dom.serialize();
     }
 
-    const MailInfo = {
+    const mailOptions = {
       from: 'LiteFarm <' + sender + '>',
       to: email,
       subject,
@@ -80,7 +80,7 @@ class sendEmailTemplate {
       },
     };
 
-    transporter.sendMail(MailInfo, function (error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         return console.log(error)
       }

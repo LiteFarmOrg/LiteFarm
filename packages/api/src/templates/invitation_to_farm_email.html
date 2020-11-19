@@ -16,33 +16,132 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LiteFarm Consent Withheld Email</title>
+    <title>LiteFarm Invitation to Farm Email</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
-      .button {
-        background-color: #028577;
-        border: none;
-        text-decoration: none !important;
-        color: white;
+      .background {
+        font-family: "Open Sans", "SansSerif", sans-serif;
+        background: #FAFAFD;
+        margin: 0;
+        padding-bottom: 34px;
+      }
+
+      .header {
+        background: #C7EFD3;
+      }
+
+      img {
+        display: block;
+        margin: auto;
+        padding: 0px 28px;
+        background: white;
+      }
+
+      #logo {
+        height: 48px;
+      }
+
+      .main-container {
+        background: white;
+        margin: auto;
+        width: 95%;
+        max-width: 568px;
+        border-bottom: 4px solid #C7EFD3;
+      }
+
+      .main-content {
+        padding: 2vw 4vw;
+      }
+
+      .main-content p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #262422;
+      }
+
+      .button-aligner {
         text-align: center;
+      }
+
+      .button {
+        -webkit-appearance: button;
+        -moz-appearance: button;
+        appearance: button;
+
         text-decoration: none;
-        display: inline-block;
+        color: initial;
+        background: #FCE38D;
+        box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+        border-radius: 4px;
+        padding: 12px 100px;
+
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+      }
+
+      p {
+        font-size: 20px;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 34px;
+      }
+
+      .footer p {
+        font-style: normal;
+        font-weight: normal;
         font-size: 12px;
-	    	padding: 1%;
-        margin: 4px 2px;
-        cursor: pointer;
+        line-height: 24px;
+        color: #9FAABE;
+      }
+
+      .main-content p a, .footer a {
+        color: #38AA92;
+        text-decoration: none;
+      }
+
+      .main-content p a:hover, .footer a:hover {
+        color: #38AA92;
+        text-decoration: underline;
       }
     </style>
+    <!-- used to check styles applied to all emails -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
   </head>
   <body>
-	<p>Dear {{first_name}},</p>
-
-    <p>The great folks at {{farm}} have invited you to join their team on LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at
-      <a href="{{link}}">{{link}}</a>.</p>
-    <p>You can accept this invitation (on any device) using the button below:
-    </p>
-    <a style="color:white" href=""  target="_blank" class="button" id="email-button">Join</a>
-	<br>
-<p>Cheers,</p>
-<p>The LiteFarm team</p>
+    <div class="background">
+      <div class="main-container">
+        <div class="header">
+          <img id="logo" src="logo.png" alt="Logo">
+        </div>
+        <div class="main-content">
+          <p>Dear <strong>{{first_name}}</strong>,</p>
+          <p>
+            The great folks at <strong>{{farm}}</strong> have invited you to join their team on LiteFarm!
+            LiteFarm is an open-source software tool for helping farmers manage their farms.
+            You can read more about LiteFarm at <a href="https://litefarm.org">litefarm.org</a>.
+          </p>
+          <p>You can accept this invitation (on any device) using the button below:</p>
+          <div class="button-aligner">
+            <a href="" target="_blank" class="button" id="email-button">Join</a>
+          </div>
+          <p>
+            Cheers,
+            <br>
+            The LiteFarm team
+          </p>
+        </div>
+      </div>
+      <div class="footer">
+        <p>Please do not reply to this email.</p>
+        <p>© 2020 LiteFarm.org</p>
+        <p>To get in touch with us, click <a href="">Help</a> or <a href="">contact us</a>.</p>
+      </div>
+    </div>
   </body>
 </html>

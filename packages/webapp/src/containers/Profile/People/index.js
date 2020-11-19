@@ -9,7 +9,7 @@ import {
   deactivateUser,
   getRoles,
   reactivateUser,
-} from './actions';
+} from './saga';
 import {updateUserFarm} from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';

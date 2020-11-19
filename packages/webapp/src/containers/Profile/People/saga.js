@@ -1,12 +1,4 @@
 import {
-  ADD_PSEUDO_WORKER,
-  ADD_USER_FROM_PEOPLE,
-  DEACTIVATE_USER,
-  GET_ALL_USER_BY_FARM,
-  GET_ROLES,
-  GET_USER_IN_PEOPLE,
-  REACTIVATE_USER,
-  UPDATE_USER_FARM,
   UPDATE_USER_IN_PEOPLE,
 } from './constants';
 import { getAllUsers, setFarmID, setRolesInState, setUsersInState } from './actions';
@@ -80,16 +72,17 @@ export function* updateUserSaga(payload) {
 
 export const addUser = createAction('addUserSaga');
 
-export function* addUserSaga(payload) {
+export function* addUserSaga({ payload: user }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  let user = { ...payload.user, farm_id };
+  user.farm_id = farm_id;
   const { createUserUrl } = apiConfig;
 
   try {
     const result = yield call(axios.post, createUserUrl, user, header);
     //TODO post should return id. Remove nested saga call.
-    yield put(getAllUserFarmsByFarmId());
+
+    yield put(postUserSuccess(result.data));
     toastr.success('Successfully added user to farm!');
   } catch (err) {
     //console.log(err.response.status);
@@ -101,15 +94,16 @@ export function* addUserSaga(payload) {
 
 export const addPseudoWorker = createAction('addPseudoWorkerSaga');
 
-export function* addPseudoWorkerSaga(payload) {
-  let user = payload.user;
+export function* addPseudoWorkerSaga({ payload: user }) {
+
   const { pseudoUserUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  user.farm_id = farm_id;
 
   try {
     const result = yield call(axios.post, pseudoUserUrl, user, header);
-    yield put(postUserSuccess({ ...user, ...result.data, farm_id }));
+    yield put(postUserSuccess(result.data));
     toastr.success('Successfully added user to farm!');
   } catch (err) {
     console.error(err);
@@ -119,9 +113,8 @@ export function* addPseudoWorkerSaga(payload) {
 
 export const deactivateUser = createAction('deactivateUserSaga');
 
-export function* deactivateUserSaga(payload) {
+export function* deactivateUserSaga({ payload: target_user_id }) {
   const { userFarmUrl } = apiConfig;
-  let target_user_id = payload.user_id;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   const body = {
@@ -130,8 +123,7 @@ export function* deactivateUserSaga(payload) {
 
   try {
     const result = yield call(axios.patch, `${userFarmUrl}/status/farm/${farm_id}/user/${target_user_id}`, body, header);
-
-    yield put(patchUserStatusSuccess({ farm_id, user_id, ...body }));
+    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     toastr.success('User access revoked!');
 
   } catch (e) {
@@ -141,9 +133,8 @@ export function* deactivateUserSaga(payload) {
 
 export const reactivateUser = createAction('reactivateUserSaga');
 
-export function* reactivateUserSaga(payload) {
+export function* reactivateUserSaga({ payload: target_user_id }) {
   const { userFarmUrl } = apiConfig;
-  let target_user_id = payload.user_id;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
@@ -153,7 +144,7 @@ export function* reactivateUserSaga(payload) {
 
   try {
     const result = yield call(axios.patch, `${userFarmUrl}/status/farm/${farm_id}/user/${target_user_id}`, body, header);
-    yield put(patchUserStatusSuccess({ farm_id, user_id, ...body }));
+    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     toastr.success('User access restored!');
 
   } catch (e) {
@@ -196,10 +187,10 @@ export function* getRolesSaga() {
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
   yield takeLatest(UPDATE_USER_IN_PEOPLE, updateUserSaga);
-  yield takeLatest(ADD_USER_FROM_PEOPLE, addUserSaga);
-  yield takeLatest(ADD_PSEUDO_WORKER, addPseudoWorkerSaga);
-  yield takeLatest(DEACTIVATE_USER, deactivateUserSaga);
+  yield takeLatest(addUser.type, addUserSaga);
+  yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
+  yield takeLatest(deactivateUser.type, deactivateUserSaga);
   yield takeLatest(updateUserFarm.type, updateUserFarmSaga);
-  yield takeLatest(GET_ROLES, getRolesSaga);
-  yield takeLatest(REACTIVATE_USER, reactivateUserSaga);
+  yield takeLatest(getRoles.type, getRolesSaga);
+  yield takeLatest(reactivateUser.type, reactivateUserSaga);
 }

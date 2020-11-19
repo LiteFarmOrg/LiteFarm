@@ -214,7 +214,7 @@ class createUserController extends baseController {
       if (isUserAlreadyCreated) {
         try {
           const trx = await transaction.start(Model.knex());
-          await userFarmModel.query(trx).insert({
+          const userFarm = await userFarmModel.query(trx).insert({
             user_id: created_user_id,
             farm_id,
             status: 'Active',
@@ -223,7 +223,7 @@ class createUserController extends baseController {
             wage,
           });
           trx.commit();
-          res.sendStatus(201)
+          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
         } catch (error) {
           res.status(500).send(error);
         }
@@ -255,8 +255,8 @@ class createUserController extends baseController {
         };
         const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
         const trx = await transaction.start(Model.knex());
-        baseController.post(userModel, lite_farm_user, trx).then(async () => {
-          await userFarmModel.query(trx).insert({
+        baseController.post(userModel, lite_farm_user, trx).then(async (user) => {
+          const userFarm = await userFarmModel.query(trx).insert({
             user_id: lite_farm_user.user_id,
             farm_id: lite_farm_user.farm_id,
             status: 'Invited',
@@ -268,7 +268,7 @@ class createUserController extends baseController {
           // create invite token
           let token = uuidv4();
           // gets rid of the dashes
-          token = token.replace(/[-]/g, "");
+          token = token.replace(/[-]/g, '');
           // add a row in emailToken table
           await emailTokenModel.query(trx).insert({
             user_id: lite_farm_user.user_id,
@@ -278,7 +278,7 @@ class createUserController extends baseController {
           });
 
           await trx.commit();
-          res.sendStatus(201);
+          res.status(201).send({ ...user, ...userFarm });
 
           // the following is to determine the url
           let joinUrl;
@@ -318,7 +318,7 @@ class createUserController extends baseController {
               // at this point user exists on Auth0 AND in users table, so just
               // add userFarm association to add the user to current farm, status
               // is Active by default because no sign up is required
-              await userFarmModel.query(trx).insert({
+              const userFarm = await userFarmModel.query(trx).insert({
                 user_id,
                 farm_id: req.body.farm_id,
                 status: 'Active',
@@ -327,7 +327,7 @@ class createUserController extends baseController {
                 wage: req.body.wage,
               });
               await trx.commit();
-              res.sendStatus(201);
+              res.status(201).send({ ...rows[0], ...userFarm });
               const rows = await farmModel.query().select('*').where('farm.farm_id', req.body.farm_id);
               const replacements = {
                 first_name: authResponse.data[0].user_metadata.first_name,

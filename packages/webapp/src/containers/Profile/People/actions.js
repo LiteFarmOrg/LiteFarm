@@ -46,12 +46,7 @@ export const reactivateUser = (user_id) => {
   }
 };
 
-export const updateUser = (user) => {
-  return {
-    type: UPDATE_USER_IN_PEOPLE,
-    user
-  }
-};
+
 
 export const addUser = (user) => {
   return {

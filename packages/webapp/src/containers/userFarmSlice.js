@@ -27,7 +27,7 @@ const addUserFarm = (state, { payload: userFarm }) => {
   if(!(state.by_farm_id_user_id[farm_id] && state.by_farm_id_user_id[farm_id][user_id])){
     state.all_farm_id_user_id.push({ farm_id, user_id });
   }
-  state.by_farm_id_user_id[farm_id] = {};
+  state.by_farm_id_user_id[farm_id] = state.by_farm_id_user_id[farm_id] || {};
   state.by_farm_id_user_id[farm_id][user_id] = userFarm;
 }
 

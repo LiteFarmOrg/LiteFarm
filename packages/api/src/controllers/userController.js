@@ -105,8 +105,8 @@ class userController extends baseController {
         }
         /* End of input validation */
 
-        await baseController.post(userModel, req.body, trx);
-        await userFarmModel.query(trx).insert({
+        const user = await baseController.post(userModel, req.body, trx);
+        const userFarm = await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
           status: 'Active',
@@ -115,7 +115,7 @@ class userController extends baseController {
           wage,
         });
         await trx.commit();
-        res.sendStatus(201);
+        res.status(201).send({ ...user, ...userFarm });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
@@ -135,12 +135,10 @@ class userController extends baseController {
 
         if (!data) {
           res.sendStatus(404)
-        }
-        else {
+        } else {
           res.status(200).send(data);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         console.log(error);
         res.status(400).send(error);
@@ -166,8 +164,8 @@ class userController extends baseController {
     }
   }
 
-  static async deleteAuth0User(user_id){
-    try{
+  static async deleteAuth0User(user_id) {
+    try {
       const token = await this.getAuth0Token();
       const headers = {
         'content-type': 'application/json',
@@ -180,8 +178,7 @@ class userController extends baseController {
         headers,
       });
       return result.status === 204;
-    }
-    catch(err){
+    } catch (err) {
       // eslint-disable-next-line
       console.log(err);
       return false;
@@ -232,8 +229,7 @@ class userController extends baseController {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -242,7 +238,7 @@ class userController extends baseController {
     }
   }
 
-  static updateConsent(){
+  static updateConsent() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.id;
@@ -254,13 +250,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated) {
           res.status(409).send('Update failed');
-        }
-        else {
+        } else {
           res.sendStatus(200);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
@@ -276,13 +270,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -291,7 +283,7 @@ class userController extends baseController {
     }
   }
 
-  static updateNotificationSetting(){
+  static updateNotificationSetting() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -299,13 +291,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -314,7 +304,7 @@ class userController extends baseController {
     }
   }
 
-  static async updateSetting(req, trx){
+  static async updateSetting(req, trx) {
     const notificationSettingModel = require('../models/notificationSettingModel');
     return await super.put(notificationSettingModel, req, trx);
   }

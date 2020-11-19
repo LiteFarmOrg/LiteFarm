@@ -9,12 +9,13 @@ const style = {
   marginBottom: '28px',
 }
 
-export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit }) {
+export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, isGettingLocation }) {
   // const { title: titleClass, ...inputClasses } = styles;
   return <Form onSubmit={onSubmit} buttonGroup={<Button type={'submit'} fullLength>Continue</Button>}>
     <Title>{title}</Title>
     <Input style={style} {...inputs[0]} />
     <Input style={style} {...inputs[1]} />
+    {isGettingLocation && <div>loading</div>}
   </Form>
 }
 

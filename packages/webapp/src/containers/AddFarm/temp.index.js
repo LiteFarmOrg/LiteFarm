@@ -25,6 +25,7 @@ const AddFarm = () => {
   const [address, setAddress] = useState('');
   const [gridPoints, setGridPoints] = useState({});
   const [country, setCountry] = useState('');
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const ref0 = register({ required: { value: true, message: 'Farm name is required' } });
   const ref1 = register({
     required: { value: true, message: 'Address is required' },
@@ -147,6 +148,7 @@ const AddFarm = () => {
   }
 
   const getGeoLocation = () => {
+    setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(function(position) {
       let gridPoints = {};
       const lat = position.coords.latitude;
@@ -158,6 +160,7 @@ const AddFarm = () => {
         setGridPoints(gridPoints);
         setAddress(formattedAddress);
         setValue(ADDRESS, formattedAddress);
+        setIsGettingLocation(false);
       });
     });
   }
@@ -181,7 +184,9 @@ const AddFarm = () => {
       name: ADDRESS,
       errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
       onBlur: handleBlur
-    }]}/>
+    }]}
+    isGettingLocation={isGettingLocation}
+    />
   </>
 }
 

@@ -11,7 +11,6 @@ then
       echo -n .
       sleep 1
     done
-  # echo Failed waiting for Postgres && exit 1
   npm run migrate:dev:db
   nodemon --exec npm start
 fi

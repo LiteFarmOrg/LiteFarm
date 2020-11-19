@@ -18,7 +18,6 @@ import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
-import peopleReducer from '../containers/Profile/People/reducer'
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
 import fieldReducer from '../containers/Field/reducer';
@@ -29,6 +28,7 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import loginReducer from '../containers/loginSlice';
 import userFarmReducer from '../containers/userFarmSlice';
 import userReducer from '../containers/userSlice';
+import rolesReducer from '../containers/Profile/People/slice';
 
 // all the initial state for the forms
 const initialFarmState = {
@@ -115,10 +115,10 @@ const appReducer = combineReducers({
     userFarmReducer,
     userReducer,
     certifierSurveyReducer,
+    rolesReducer,
   }),
   baseReducer,
   logReducer,
-  peopleReducer,
   shiftReducer,
   fieldReducer,
   insightReducer,

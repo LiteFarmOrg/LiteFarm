@@ -23,9 +23,9 @@ import closeButton from '../../../assets/images/grey_close_button.png'
 import Popup from 'reactjs-popup';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { getAllUsers } from '../../Profile/People/actions';
 import { grabCurrencySymbol } from '../../../util';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
+import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
 
 class ShiftStepOne extends Component {
   constructor(props) {
@@ -98,9 +98,8 @@ class ShiftStepOne extends Component {
 
   componentDidMount() {
     // this.props.dispatch(getTaskTypes());
-    if(this.props.users.is_admin){
-      this.props.dispatch(getAllUsers());
-    }
+      this.props.dispatch(getAllUserFarmsByFarmId());
+
   }
 
   closeAddModal = () => {

@@ -1,17 +1,18 @@
-import {
-  UPDATE_USER_IN_PEOPLE,
-} from './constants';
-import { getAllUsers, setFarmID, setRolesInState, setUsersInState } from './actions';
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import Auth from '../../../Auth/Auth';
-import { setUserInState } from '../../actions';
-import { getUser } from '../../ChooseFarm/saga';
 import { loginSelector } from '../../loginSlice';
 import { getHeader } from '../../saga';
-import { getUserFarmsSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../../userFarmSlice';
+import {
+  getUserFarmsSuccess,
+  putUserSuccess,
+  postUserSuccess,
+  patchUserStatusSuccess,
+  onLoadingUserFarmsFail,
+  onLoadingUserFarmsStart,
+} from '../../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { onLoadingRolesStart, onLoadingRolesFail, getRolesSuccess } from './slice';
 
 const axios = require('axios');
 
@@ -29,44 +30,6 @@ export function* getAllUserFarmsByFarmIDSaga() {
   } catch (e) {
     yield put(onLoadingUserFarmsFail());
     console.log('failed to fetch users from database')
-  }
-}
-
-export const updateUser = createAction('updateUserSaga');
-
-export function* updateUserSaga(payload) {
-  const auth = new Auth();
-  const { user_id, farm_id } = yield select(loginSelector);
-  let user = payload.user;
-  let target_user_id = user.user_id;
-  let is_admin = user.is_admin;
-  const { userUrl } = apiConfig;
-  const header = getHeader(user_id, farm_id);
-
-  if (user.phone_number === null) {
-    delete user.phone_number;
-  }
-  if (user.address === null) {
-    delete user.address;
-  }
-  try {
-    const token = yield call(auth.getAPIExplorerToken);
-    if (token && token.data) {
-      // update the new role for the user, then delete the old role
-      yield call(auth.setUserRoleInAuth0, 'auth0|' + target_user_id, token.data.access_token, is_admin);
-      yield call(auth.deleteUserRoleInAuth0, 'auth0|' + target_user_id, token.data.access_token, is_admin);
-      // must make api call for both auth0 and google-oauth2 accounts, since it is not currently
-      // known whether user is google account
-      yield call(auth.setUserRoleInAuth0, 'google-oauth2|' + target_user_id, token.data.access_token, is_admin);
-      yield call(auth.deleteUserRoleInAuth0, 'google-oauth2|' + target_user_id, token.data.access_token, is_admin);
-    }
-    const result = yield call(axios.put, userUrl + '/' + target_user_id, user, header);
-    yield put(putUserSuccess({ ...user, farm_id }));
-    toastr.success('Successfully updated user!');
-
-  } catch (err) {
-    console.error('failed to update setting');
-    toastr.error('Failed to update user');
   }
 }
 
@@ -160,7 +123,6 @@ export function* updateUserFarmSaga({ payload: user }) {
   const header = getHeader(user_id, farm_id);
   try {
     delete user.user_id;
-    // TODO: TO BE DEPRECATED
     const result = yield call(axios.patch, apiConfig.userFarmUrl + '/update/' + `farm/${farm_id}/user/${target_user_id}`, user, header);
     yield put(putUserSuccess({ ...user, farm_id, user_id: target_user_id }));
     toastr.success('User updated!');
@@ -170,6 +132,7 @@ export function* updateUserFarmSaga({ payload: user }) {
     console.error(e);
   }
 }
+
 export const getRoles = createAction('getRolesSaga');
 
 export function* getRolesSaga() {
@@ -177,16 +140,17 @@ export function* getRolesSaga() {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
+    yield put(onLoadingRolesStart());
     const result = yield call(axios.get, rolesUrl, header);
-    yield put(setRolesInState(result.data));
+    yield put(getRolesSuccess(result.data));
   } catch (e) {
+    yield put(onLoadingRolesFail());
     console.log('failed to fetch roles from database')
   }
 }
 
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
-  yield takeLatest(UPDATE_USER_IN_PEOPLE, updateUserSaga);
   yield takeLatest(addUser.type, addUserSaga);
   yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
   yield takeLatest(deactivateUser.type, deactivateUserSaga);

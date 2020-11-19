@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import { peopleInfoSelector, profileFormsSelector, rolesSelector } from './selector';
+import {rolesSelector} from './slice';
+
 import {
   addPseudoWorker,
   addUser,
@@ -413,7 +414,6 @@ class People extends Component {
     const { addInfo } = profileForms;
     const isRoleSelected = addInfo.role !== '0';
     const dropDownOptions = this.getDropDownOptions();
-
     if (this.state.showAdd) {
       return (
         <div className={styles.addUserContainer}>
@@ -798,7 +798,7 @@ const mapStateToProps = (state) => {
     users: userFarmsByFarmSelector(state),
     farm: userFarmSelector(state),
     roles: rolesSelector(state),
-    profileForms: profileFormsSelector(state),
+    profileForms: (state) => state.profileForms,
   }
 };
 

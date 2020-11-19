@@ -798,7 +798,7 @@ const mapStateToProps = (state) => {
     users: userFarmsByFarmSelector(state),
     farm: userFarmSelector(state),
     roles: rolesSelector(state),
-    profileForms: (state) => state.profileForms,
+    profileForms: state.profileForms,
   }
 };
 

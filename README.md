@@ -17,6 +17,31 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
     - [documentation(in progress)](https://docs.google.com/document/d/19eDlagqurB7gf8iLdATjCi7scxs9gUG5bs9YZtMu_0k/edit?usp=sharing)
 
 # Quick Start
+
+ ## Using docker-compose
+ 1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/)
+ 2. Setup the `Litefarm/packages/api/.env` file to include the following configs
+    ```
+     DEV_DATABASE=pg-litefarm
+     DEV_DATABASE_USER=postgres
+     DEV_DATABASE_HOST=db
+     DEV_DATABASE_PASSWORD=postgres
+     TEST_DATABASE=pg-litefarm
+     TEST_DATABASE_USER=postgres
+     TEST_DATABASE_HOST=test-db
+     TEST_DATABASE_PASSWORD=postgres
+    ```
+    * this is dev or testing data, it can be changed from `LiteFarm/docker-compose.yml`
+ 3. In the terminal, place the current directory into the root folder `LiteFarm/`
+ 4. Execute `docker-compose -f docker-compose.dev.yml up`
+   - This will take some time the first time, on the next attempt it should load way faster.
+   - It will setup the local development env by running migrations
+   - This will also start the backend, frontend and storybook containers.
+ 5. After this you should be able to go to the app running on `localhost:3000`
+ 6. Storybook is also available on `localhost:6006` 
+ 
+## Manual installation
+
 ### Setup Environment:
   1. SSH
       - [Setup your SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
@@ -77,28 +102,6 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
       - (for hot reloading in api: npm install -g nodemon && nodemon --exec npm start)
   4. webapp will be running on http://localhost:3000 and the api on http://localhost:5000
   5. Since this is a mobile web application, webapp should be viewed in a mobile view in the browser
-
-   ### Optionally using docker-compose
-   1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/)
-   2. Setup the `Litefarm/packages/api/.env` file to include the following configs
-      ```
-       DEV_DATABASE=pg-litefarm
-       DEV_DATABASE_USER=postgres
-       DEV_DATABASE_HOST=db
-       DEV_DATABASE_PASSWORD=postgres
-       TEST_DATABASE=pg-litefarm
-       TEST_DATABASE_USER=postgres
-       TEST_DATABASE_HOST=test-db
-       TEST_DATABASE_PASSWORD=postgres
-      ```
-      * this is dev or testing data, it can be changed from `LiteFarm/docker-compose.yml`
-   3. In the terminal, place the current directory into the root folder `LiteFarm/`
-   4. Execute `docker-compose -f docker-compose.dev.yml up`
-     - This will take some time the first time, on the next attempt it should load way faster.
-     - It will setup the local development env by running migrations
-     - This will also start the backend, frontend and storybook containers.
-   5. After this you should be able to go to the app running on `localhost:3000`
-   6. Storybook is also available on `localhost:6006` 
 
 # Testing:
 

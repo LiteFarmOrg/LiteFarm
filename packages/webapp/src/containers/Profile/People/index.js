@@ -21,7 +21,6 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import { grabCurrencySymbol } from '../../../util';
 import Cleave from 'cleave.js/react.js';
 import { toastr } from 'react-redux-toastr';
-import { getUser } from '../../ChooseFarm/saga';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from './saga';
 
@@ -112,7 +111,6 @@ class People extends Component {
 
   closeAddModal = () => {
     const { dispatch } = this.props;
-    dispatch(getUser());
     dispatch(actions.reset('profileForms.addInfo'));
     this.setState({ showAdd: false });
   };

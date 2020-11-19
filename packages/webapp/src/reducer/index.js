@@ -113,7 +113,7 @@ const appReducer = combineReducers({
   entitiesReducer: combineReducers({
     loginReducer,
     userFarmReducer,
-    userReducer,
+    // userReducer,
     certifierSurveyReducer,
     rolesReducer,
   }),

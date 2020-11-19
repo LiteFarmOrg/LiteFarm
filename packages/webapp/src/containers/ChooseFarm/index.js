@@ -24,7 +24,7 @@ import { setFarmInState } from '../actions';
 import { toastr } from 'react-redux-toastr';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import { userFarmsByUserSelector, userFarmSelector } from '../userFarmSlice';
-import { getUser, getUserFarms } from './saga';
+import { getUserFarms } from './saga';
 
 class ChooseFarm extends Component {
 
@@ -100,7 +100,6 @@ class ChooseFarm extends Component {
       //   toastr.error('No version number found');
       // }
       // const latestVersion = versionNumberMatches[0];
-      this.props.dispatch(getUser());
 
       // Need consent if at least one of the following criteria is met:
       // 1. User has not explicitly clicked agree or disagree (i.e. null)

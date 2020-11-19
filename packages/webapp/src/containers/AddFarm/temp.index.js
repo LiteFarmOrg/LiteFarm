@@ -178,14 +178,15 @@ const AddFarm = () => {
     }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
-      icon: <VscLocation size={27} onClick={getGeoLocation}/>,
+      icon: isGettingLocation ?
+        <span>Locating...</span> :
+        <VscLocation size={27} onClick={getGeoLocation}/>,
       inputRef: ref1,
       id: 'autocomplete',
       name: ADDRESS,
       errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
       onBlur: handleBlur
     }]}
-    isGettingLocation={isGettingLocation}
     />
   </>
 }

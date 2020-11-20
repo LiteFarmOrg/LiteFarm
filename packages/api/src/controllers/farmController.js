@@ -27,11 +27,11 @@ class farmController extends baseController {
 
       const { country } = req.body;
       if (!country) {
-        return res.status(400).send('No ');
+        return res.status(400).send('No country selected');
       }
 
-      const countryInfo = await knex('currency_table').select('*').where('country_name', country).first();
-      if (!countryInfo) {
+      const units = await this.getCountry(country);
+      if (!units) {
         await trx.rollback();
         res.status(400).send('No unit info for given country');
         return;
@@ -41,10 +41,7 @@ class farmController extends baseController {
         farm_name: req.body.farm_name,
         address: req.body.address,
         grid_points: req.body.grid_points,
-        units: {
-          currency: countryInfo.iso,
-          measurement: countryInfo.unit.toLowerCase(),
-        },
+        units,
       }
 
       try {
@@ -122,12 +119,15 @@ class farmController extends baseController {
     }
   }
 
-  static updateFarm() {
+  static updateFarm(mainPatch = false) {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        if (!!req.body.address || !!req.body.grid_points) {
+        if ((!!req.body.address || !!req.body.grid_points) && !mainPatch) {
           throw new Error('Not allowed to modify address or gridPoints')
+        } else if(req.body.country) {
+          req.body.units = await this.getCountry(req.body.country);
+          delete req.body.country;
         }
         const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx);
 
@@ -158,12 +158,17 @@ class farmController extends baseController {
   }
 
   static async insertUserFarm(user, farm_id, trx) {
-    return  userFarmModel.query(trx).insert({
+    return userFarmModel.query(trx).insert({
       user_id: user.user_id,
       farm_id,
       role_id: 1,
       status: 'Active',
     }).returning('*');
+  }
+
+  static async getCountry(country) {
+    const { iso, unit } = await knex('currency_table').select('*').where('country_name', country).first();
+    return { currency: iso, measurement: unit.toLowerCase() }
   }
 }
 

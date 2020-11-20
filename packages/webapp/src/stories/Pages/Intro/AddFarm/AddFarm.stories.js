@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import AddFarm from "../../../../containers/AddFarm/temp.index";
+import AddFarm from "../../../../containers/AddFarm";
 
 export default {
   title: 'Form/Intro/2-AddFarm',

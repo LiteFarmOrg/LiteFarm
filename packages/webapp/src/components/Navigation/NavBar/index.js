@@ -27,7 +27,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
 
 
   return (
-    <div className={styles.navBar}> 
+    <div className={styles.navBar}>
       <div className={styles.actionItemContainer}>
         {steps &&
         <ReactJoyride
@@ -68,9 +68,9 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
 
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
-        <ProfileFloater auth={auth}>
+        <ProfileFloater auth={auth} openProfile={tooltipInteraction['profile']}>
           <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={styles.profilePicture} onClick={() =>changeInteraction('profile')} />
-        </ProfileFloater>        
+        </ProfileFloater>
         {
           isOneTooltipOpen && <div style={{
             position: "fixed",
@@ -82,7 +82,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
       </div>
-      
+
       <div className={styles.itemContainer}>
         {logo}
       </div>

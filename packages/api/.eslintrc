@@ -11,6 +11,9 @@
     "comma-dangle": ["error", "always-multiline"],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "indent": ["error", 2, { "MemberExpression": 1 }],
+    "max-len": ["error", {
+      "code": 100
+    }],
     "no-multiple-empty-lines": ["error"],
     "no-new-symbol": "error",
     "no-trailing-spaces": ["error"],

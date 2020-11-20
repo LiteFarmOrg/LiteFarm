@@ -14,4 +14,5 @@
  */
 
 export const POST_FARM = 'POST_FARM';
+export const PATCH_FARM = 'PATCH_FARM';
 export const PATCH_ROLE = 'PATCH_ROLE';

@@ -25,6 +25,9 @@ router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
 router.post('/', farmController.addFarm());
 
+router.patch('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.updateFarm(true))
+
+/*To change farm name or units*/
 router.put('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.updateFarm());
 
 router.delete('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['delete:farms']), farmController.deleteFarm());

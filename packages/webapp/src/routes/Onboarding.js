@@ -19,7 +19,7 @@ import RoleSelection from '../containers/RoleSelection';
 import Outro from '../containers/Outro';
 import ChooseFarm from '../containers/ChooseFarm';
 import WelcomeScreen from '../containers/WelcomeScreen';
-import AddFarm from '../containers/AddFarm/temp.index';
+import AddFarm from '../containers/AddFarm';
 import ConsentForm from '../containers/Consent';
 import { useDispatch, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/selector';
@@ -45,7 +45,7 @@ function OnboardingFlow() {
   return <Switch>
     <Route path="/farm_selection" exact component={()=><ChooseFarm/>}/>
     <Route path="/welcome" exact component={WelcomeScreen}/>
-    {!step_one && <Route path="/add_farm" exact component={AddFarm}/>}
+    <Route path="/add_farm" exact component={AddFarm}/>
     {step_one && <Route path="/role_selection" exact component={RoleSelection}/>}
     {step_two && !step_five && <Route path="/consent" exact component={ConsentForm}/>}
     {step_five && !has_consent && <Route path="/consent" exact component={()=><ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'}/>}/>}

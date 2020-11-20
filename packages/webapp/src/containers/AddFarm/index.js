@@ -22,6 +22,7 @@ const AddFarm = () => {
   const { register, handleSubmit, getValues, setValue, errors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [address, setAddress] = useState(farm?.farm_name? farm.farm_name : '' );
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
   const [country, setCountry] = useState(farm?.country ? farm.country : '');
@@ -152,6 +153,7 @@ const AddFarm = () => {
   }
 
   const getGeoLocation = () => {
+    setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(function(position) {
       let gridPoints = {};
       const lat = position.coords.latitude;
@@ -163,6 +165,7 @@ const AddFarm = () => {
         setGridPoints(gridPoints);
         setAddress(formattedAddress);
         setValue(ADDRESS, formattedAddress);
+        setIsGettingLocation(false);
       });
     });
   }
@@ -180,7 +183,9 @@ const AddFarm = () => {
     }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
-      icon: <VscLocation size={27} onClick={getGeoLocation}/>,
+       icon: isGettingLocation ?
+      <span>Locating...</span> :
+      <VscLocation size={27} onClick={getGeoLocation}/>,
       inputRef: ref1,
       id: 'autocomplete',
       name: ADDRESS,

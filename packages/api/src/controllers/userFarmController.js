@@ -411,13 +411,38 @@ class userFarmController extends baseController {
       const user_id = req.params.user_id;
       const { status } = req.body;
 
+      let template_path;
+      let subject;
+
       try {
-        const targetUser = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id).first();
+        const targetUser = await userFarmModel.query().select('*')
+          .where({'userFarm.user_id': user_id, 'userFarm.farm_id': farm_id})
+          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
+          .first();
+        // Email information
+        const replacements = {
+          first_name: targetUser.first_name,
+          farm: targetUser.farm_name,
+        };
+        const sender = 'help@litefarm.org';
+
+        // check if status transition is allowed
         let currentStatus = targetUser.status;
         if (!validStatusChanges[currentStatus].includes(status)) {
           await trx.rollback();
           res.sendStatus(400);
           return;
+        }
+
+        // check if access is revoked or restored: update email info based on this
+        if (currentStatus === 'Active') {
+          template_path = '../templates/revocation_of_access_to_farm_email.html';
+          subject = 'You\'ve lost access to ' + targetUser.farm_name + ' on LiteFarm!';
+        } else if (currentStatus === 'Inactive') {
+          // TODO: LF-506
+          template_path = '';
+          subject = '';
         }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
@@ -426,6 +451,14 @@ class userFarmController extends baseController {
         if (isPatched) {
           await trx.commit();
           res.sendStatus(200);
+          try {
+            console.log('template_path:', template_path);
+            if (targetUser.email && template_path) {
+              await emailSender.sendEmail(template_path, subject, replacements, targetUser.email, sender)
+            }
+          } catch (e) {
+            console.log('Failed to send email: ', e);
+          }
           return;
         }
         else {

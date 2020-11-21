@@ -24,9 +24,9 @@ const auth = (isAuthenticated = false) => ({
 export default [story =>
   <Provider store={store}>
     <Router history={history}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight:'100vh' }}>
         <NavBar history={history} auth={auth()}/>
-        <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: 1 }}>
+        <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column' }}>
           {story()}
         </div>
       </div>
@@ -36,9 +36,9 @@ export default [story =>
 export const authenticatedDecorators = [story =>
   <Provider store={store}>
     <Router history={history}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight:'100vh' }}>
         <NavBar history={history} auth={auth(true)}/>
-        <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: 1 }}>
+        <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column' }}>
           {story()}
         </div>
       </div>

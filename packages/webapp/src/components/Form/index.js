@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../Layout';
+import styles from './form.scss';
 
 const Form = ({
   classes = {},
@@ -8,7 +9,7 @@ const Form = ({
   buttonGroup,
   onSubmit
 }) =>{
-  return <form onSubmit={onSubmit}>
+  return <form onSubmit={onSubmit} className={styles.form}>
     <Layout buttonGroup={buttonGroup} children={children} classes={classes} isSVG={false}/>
   </form>
 }

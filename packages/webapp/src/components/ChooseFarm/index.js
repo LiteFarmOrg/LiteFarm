@@ -12,7 +12,7 @@ export default function PureChooseFarmScreen({
   farms = [], onGoBack,
   onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled
 }) {
-  return <Layout buttonGroup={
+  return <Layout hasWhiteBackground buttonGroup={
     <>
       {!isOnBoarding && <Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button>}
       <Button onClick={onProceed} fullLength disabled={disabled}>Proceed</Button>

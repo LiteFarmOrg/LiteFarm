@@ -8,6 +8,7 @@ const Layout = ({
   classes = {},
   children,
   buttonGroup,
+  hasWhiteBackground,
   isSVG,
 }) => {
   return (
@@ -15,7 +16,8 @@ const Layout = ({
       <div className={clsx(styles.container, isSVG && styles.svgContainer)} style={classes.container}>
         {children}
       </div>
-      <Footer style={classes.footer}>
+      <Footer style={{ ...classes.footer,   bottom: 0,
+        position: 'sticky' }} hasWhiteBackground={hasWhiteBackground}>
         {buttonGroup}
       </Footer>
     </>
@@ -30,6 +32,7 @@ Layout.propTypes = {
   buttonGroup: PropTypes.node,
   classes: PropTypes.exact({ container: PropTypes.object, footer: PropTypes.object }),
   isSVG: PropTypes.bool,
+  hasWhiteBackground: PropTypes.bool,
 }
 
 export default Layout;

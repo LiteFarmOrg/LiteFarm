@@ -4,7 +4,7 @@ import PureChooseFarmScreen from "../../../components/ChooseFarm";
 import {Secondary, Active, SecondaryWithoutOwnerName} from "../../ChooseFarmMenuItem/ChooseFarmMenuItem.stories"
 
 export default {
-  title: 'Page/addFarm/PureChooseFarmScreen',
+  title: 'Page/PureChooseFarmScreen',
   decorators: decorators,
   component: PureChooseFarmScreen,
 };
@@ -26,7 +26,7 @@ export const Searchable = Template.bind({});
 Searchable.args = {
   isOnBoarding: false,
   isSearchable: true,
-  farms:[...farms,...farms, Active.args],
+  farms:[...farms,...farms,...farms, Active.args],
 };
 Searchable.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

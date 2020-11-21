@@ -26,10 +26,12 @@ import OrganicPartners from '../containers/OrganicCertifierSurvey/OrganicPartner
 import Home from '../containers/Home';
 import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
+import { userFarmLengthSelector } from '../containers/userFarmSlice';
 
 
 function OnboardingFlow({ step_one, step_two, step_three, step_four, step_five, has_consent, farm_id }) {
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
+  const {hasUserFarms} = useSelector(userFarmLengthSelector);
   return <Switch>
     <Route path="/farm_selection" exact component={() => <ChooseFarm/>}/>
     <Route path="/welcome" exact component={WelcomeScreen}/>
@@ -45,7 +47,8 @@ function OnboardingFlow({ step_one, step_two, step_three, step_four, step_five, 
     <Route>
       <>
         {step_four && !has_consent && <Redirect to={'/consent'}/>}
-        {(!farm_id || !step_one) && <Redirect to={'/farm_selection'}/>}
+        {(!farm_id || !step_one) && hasUserFarms && <Redirect to={'/farm_selection'}/>}
+        {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'}/>}
         {step_one && !step_two && <Redirect to={'/role_selection'}/>}
         {step_two && !step_three && <Redirect to={'/consent'}/>}
         {step_three && !step_four && !interested &&

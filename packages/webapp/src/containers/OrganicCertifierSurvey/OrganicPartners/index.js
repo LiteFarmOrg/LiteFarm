@@ -18,6 +18,7 @@ export default function OrganicPartners() {
   const dispatch = useDispatch();
   const survey = useSelector(certifierSurveySelector, shallowEqual);
   useEffect(() => {
+    console.log(survey);
     if (!survey.survey_id) {
       dispatch(getCertifiers());
     }

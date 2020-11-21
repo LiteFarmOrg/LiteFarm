@@ -107,6 +107,7 @@ export const userFarmStatusSelector = createSelector(userFarmReducerSelector, ({
   loading,
   error,
 }));
+export const userFarmLengthSelector = createSelector(userFarmReducerSelector, ({farmIdUserIdTuple}) => {return farmIdUserIdTuple.length});
 
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];

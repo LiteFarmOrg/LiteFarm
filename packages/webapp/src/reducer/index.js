@@ -98,6 +98,14 @@ const signUpUserInfo = {
   password: '',
 };
 
+const entitiesReducer= combineReducers({
+  loginReducer,
+  userFarmReducer,
+  // userReducer,
+  certifierSurveyReducer,
+  rolesReducer,
+});
+
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
   toastr: toastrReducer,
@@ -110,13 +118,7 @@ const appReducer = combineReducers({
     editInfo: editUserInfo,
     signUpInfo: signUpUserInfo,
   }, 'profileForms'),
-  entitiesReducer: combineReducers({
-    loginReducer,
-    userFarmReducer,
-    // userReducer,
-    certifierSurveyReducer,
-    rolesReducer,
-  }),
+  entitiesReducer,
   baseReducer,
   logReducer,
   shiftReducer,

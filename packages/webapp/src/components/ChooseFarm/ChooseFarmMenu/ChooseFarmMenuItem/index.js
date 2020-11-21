@@ -34,28 +34,18 @@ const ChooseFarmMenuItem = ({
         {ownerName && <p className={clsx(styles.address, styles[color])}>{ownerName}</p>}
       </div>
       <div className={styles.rightColumn}>
-        {address && <>
-          <p className={clsx(styles.address, styles[color])}>{address.street}</p>
-          <p className={clsx(styles.address, styles[color])}>{address.city}</p>
-          <p className={clsx(styles.address, styles[color])}>{address.zipcode}</p>
-        </>}
-        {coordinate && <>
-          <p className={clsx(styles.address, styles[color])}>{coordinate.lat}</p>
-          <p className={clsx(styles.address, styles[color])}>{coordinate.lon}</p>
-        </>}
-        {}
+        {address.map(row => <p className={clsx(styles.address, styles[color])}>{row}</p>)}
       </div>
     </Card>
   );
 };
 
 ChooseFarmMenuItem.propTypes = {
-  color: PropTypes.oneOf(['secondary', 'active']),
+  color: PropTypes.oneOf(['secondary', 'active', 'disabled']),
   onClick: PropTypes.func,
   ownerName: PropTypes.string,
   farmName: PropTypes.string,
-  address: PropTypes.exact({ street: PropTypes.string, city: PropTypes.string, zipcode: PropTypes.string }),
-  coordinate: PropTypes.exact({ lon: PropTypes.number, lat: PropTypes.number }),
+  address: PropTypes.arrayOf(PropTypes.string),
   style: PropTypes.object,
 }
 

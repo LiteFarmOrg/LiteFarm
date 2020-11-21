@@ -20,7 +20,6 @@ import People from './People'
 import styles from './styles.scss'
 import { connect } from 'react-redux';
 import { TabContent, TabLink, Tabs } from 'react-tabs-redux';
-import { fetchFarmInfo } from '../actions';
 import { userFarmSelector } from '../userFarmSlice';
 
 const tabs = [
@@ -45,10 +44,6 @@ const tabs = [
 ];
 
 class Profile extends  Component{
-
-  componentDidMount() {
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
-  }
 
   render() {
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet

@@ -2,7 +2,7 @@
 
 .container {
   top: 0;
-  transform: translateY(calc(39.68vh - 56px));
+  transform: translateY(calc(39.68vh - 110px));
   margin: 0 8.89% 0 8.89%;
   padding: 4.44% 9.44%;
   width: 84%;
@@ -58,7 +58,7 @@
 
 @media only screen and (min-width: 960px) {
   .container {
-    transform: translateY(calc((100vh - 399px) * 0.65 - 56px));
+    transform: translateY(calc((100vh - 399px) * 0.65 - 110px));
     margin: 0 auto 0 auto;
     padding: 42.609px 90.516px;
     width: 806px;

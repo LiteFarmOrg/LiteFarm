@@ -1,14 +1,14 @@
 import React from 'react';
-import decorators from '../../config/decorators';
-import AddFarm from "../../../../containers/AddFarm";
+import decorators from '../config/decorators';
+import ChooseFarm from '../../../containers/ChooseFarm/';
 
 export default {
-  title: 'Form/Intro/2-AddFarm',
+  title: 'Page/ChooseFarm',
   decorators: decorators,
-  component: AddFarm,
+  component: ChooseFarm,
 };
 
-const Template = (args) => <AddFarm {...args} />;
+const Template = (args) => <ChooseFarm {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

@@ -1,11 +1,12 @@
 import Floater from "react-floater";
 import React from "react";
 import PureProfileFloater from "../../components/ProfileFloater";
-
+import history from '../../history';
 export default function ProfileFloater({auth, children}) {
   const helpClick = () => {
   }
   const switchFarmClick = () => {
+    history.push('/farm_selection');
   }
   const logOutClick = () => {
     auth.logout();

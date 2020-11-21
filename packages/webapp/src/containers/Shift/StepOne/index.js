@@ -98,7 +98,7 @@ class ShiftStepOne extends Component {
 
   componentDidMount() {
     // this.props.dispatch(getTaskTypes());
-      this.props.dispatch(getAllUserFarmsByFarmId());
+    this.props.dispatch(getAllUserFarmsByFarmId());
 
   }
 
@@ -282,8 +282,10 @@ class ShiftStepOne extends Component {
 
   render() {
     let {new_start, new_end, shiftUser, hourAdjustSign, showHoursAdjust} = this.state;
-    let {taskTypes, users, farm} = this.props;
+    const {taskTypes: inMutabletaskTypes, users, farm} = this.props;
+    const taskTypes = [...inMutabletaskTypes];
     //re order task types
+    //TODO: create new taskTypes from taskTypes in store
     if(taskTypes){
       let socialEventObj;
       for(let i = 0; i < taskTypes.length; i++){

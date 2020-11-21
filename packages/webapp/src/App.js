@@ -24,13 +24,13 @@ class App extends Component {
     const auth = new Auth();
     return (
       <>
-        <div style={{display:'flex', flexDirection: 'column', alignItems:'center', height:'100vh'}}>
-        <NavBar auth={auth} history={history}/>
-        <div className="app" style={{width:'100%', maxWidth: '1024px', flex: 1}}>
-        <Routes />
-      </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100vh' }}>
+          <NavBar auth={auth} history={history}/>
+          <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1' }}>
+            <Routes/>
+          </div>
         </div>
-        </>
+      </>
     );
   }
 }

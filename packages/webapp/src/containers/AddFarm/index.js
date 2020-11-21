@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Script from 'react-load-script';
 import { VscLocation } from 'react-icons/vsc';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PureAddFarm from '../../components/AddFarm';
-import { postFarm } from './saga';
+import { patchFarm, postFarm } from './saga';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -17,12 +17,14 @@ const errorMessage = {
 
 const AddFarm = () => {
   const dispatch = useDispatch();
+  const farm = useSelector(userFarmSelector);
   const { register, handleSubmit, getValues, setValue, errors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
-  const [address, setAddress] = useState('');
-  const [gridPoints, setGridPoints] = useState({});
-  const [country, setCountry] = useState('');
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const [address, setAddress] = useState(farm?.farm_name? farm.farm_name : '' );
+  const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
+  const [country, setCountry] = useState(farm?.country ? farm.country : '');
   const ref0 = register({ required: { value: true, message: 'Farm name is required' } });
   const ref1 = register({
     required: { value: true, message: 'Address is required' },
@@ -32,13 +34,19 @@ const AddFarm = () => {
     }
   });
 
+  useEffect(() => {
+    setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
+    setValue(ADDRESS, farm?.address ? farm.address : '');
+  }, [])
+
   const onSubmit = (data) => {
-    const farm = {
+    const farmInfo = {
       ...data,
       gridPoints,
       country,
+      farm_id : farm ? farm.farm_id : undefined
     };
-    dispatch(postFarm({ farm }));
+    farm.farm_id ?  dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo))
   }
 
   let autocomplete;
@@ -68,12 +76,11 @@ const AddFarm = () => {
   const setCountryFromLatLng = (latlng, callback) =>{
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: latlng }, (results, status) => {
-      let place;
+
       if (status === 'OK') {
-        if (place = results[0]) {
-          const country = place.address_components.find((component) => component.types.includes('country')).long_name;
-          setCountry(country);
-        }
+        let place = results[0];
+        const country = place.address_components.find((component) => component.types.includes('country')).long_name;
+        setCountry(country);
       } else {
         console.error('Error getting geocoding results, or no country was found at given coordinates');
         setCountry('');
@@ -145,6 +152,7 @@ const AddFarm = () => {
   }
 
   const getGeoLocation = () => {
+    setIsGettingLocation(true);
     navigator.geolocation.getCurrentPosition(function(position) {
       let gridPoints = {};
       const lat = position.coords.latitude;
@@ -156,6 +164,7 @@ const AddFarm = () => {
         setGridPoints(gridPoints);
         setAddress(formattedAddress);
         setValue(ADDRESS, formattedAddress);
+        setIsGettingLocation(false);
       });
     });
   }
@@ -173,7 +182,9 @@ const AddFarm = () => {
     }, {
       label: 'Farm location',
       info: 'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
-      icon: <VscLocation size={27} onClick={getGeoLocation}/>,
+       icon: isGettingLocation ?
+      <span>Locating...</span> :
+      <VscLocation size={27} onClick={getGeoLocation}/>,
       inputRef: ref1,
       id: 'autocomplete',
       name: ADDRESS,

@@ -79,8 +79,8 @@ function SlideMenu() {
             <a id="demo" className="menu-item" onClick={() => handleClick("/intro")}><span>Demos</span></a>
           }
           {/*<a id="contact" className="menu-item" onClick={() => handleClick("/contact")}><span>Contact us</span></a>*/}
-          <a id="terms" className="menu-item"
-             onClick={() => handleClick("/consent")}><span>Privacy Policy</span></a>
+          {/*<a id="terms" className="menu-item"*/}
+          {/*   onClick={() => handleClick("/consent")}><span>Privacy Policy</span></a>*/}
         </div>
         }
       </Menu>

@@ -14,8 +14,11 @@ function RoleSelection() {
     const callback = () => history.push('/consent');
     dispatch(patchRole({ role, role_id: roleToId[role], callback }));
   }
+  const onGoBack = () => {
+    history.push('/add_farm');
+  }
   return (
-    <PureRoleSelection onSubmit={handleSubmit(onSubmit)}
+    <PureRoleSelection onSubmit={handleSubmit(onSubmit)} onGoBack={onGoBack}
                        inputs={[{
                          label: 'Farm owner',
                          value: 'Owner',

@@ -7,11 +7,11 @@ import ListOption from "../Navigation/NavBar/ListOption";
 
 export default function PureProfileFloater({onInfo, onSwitchFarm, onHelp, onLogout}) {
   return (
-    <div style={{ maxWidth: '300px', minWidth:'138px',backgroundColor: 'white', padding: '0.8rem', marginRight:'1.22rem', borderRadius:'4px'}}>
-      <ListOption clickFn={onInfo} iconText={'My info'} iconSrc={MyInfoIcon} />
+    <div style={{ maxWidth: '148px', minWidth:'138px',backgroundColor: 'white', borderRadius:'4px', marginRight: '-4px'}}>
+      <ListOption clickFn={onInfo} iconText={'My info'} iconSrc={MyInfoIcon} customParagraphStyle={{paddingTop: '0.5rem'}}  />
       <ListOption clickFn={onSwitchFarm} iconText={'Switch farm'} iconSrc={SwitchFarmIcon} />
       <ListOption clickFn={onHelp} iconText={'Help'} iconSrc={HelpIcon} />
-      <ListOption clickFn={onLogout} iconText={'Log out'} iconSrc={LogoutIcon} />
+      <ListOption clickFn={onLogout} iconText={'Log out'} iconSrc={LogoutIcon} customParagraphStyle={{paddingBottom: '0.5rem'}} o />
     </div>
   )
 }

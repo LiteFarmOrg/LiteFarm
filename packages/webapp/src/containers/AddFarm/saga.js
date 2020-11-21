@@ -26,8 +26,7 @@ const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/
 const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
 export const postFarm = createAction('postFarmSaga');
-export function* postFarmSaga({ payload }) {
-  const { farm } = payload;
+export function* postFarmSaga({ payload: farm }) {
   const { user_id } = yield select(loginSelector);
 
   let addFarmData = {
@@ -51,8 +50,7 @@ export function* postFarmSaga({ payload }) {
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
     const user = getUserResult?.data;
-    console.log(user, getUserResult?.data);
-    yield put(postFarmSuccess({ ...user, ...farm, ...step,  }));
+    yield put(postFarmSuccess({ ...user, ...farm, ...step, country: addFarmData.country }));
     yield put(selectFarmSuccess({ farm_id }));
     history.push('/role_selection')
   } catch (e) {
@@ -60,6 +58,31 @@ export function* postFarmSaga({ payload }) {
     toastr.error('Failed to add farm, please contact litefarm for assistance');
   }
 }
+
+export const patchFarm = createAction('patchFarmSaga');
+export function* patchFarmSaga({ payload: farm }) {
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  let patchFarmData = {
+    farm_name: farm.farmName,
+    address: farm.address,
+    grid_points: farm.gridPoints,
+    country: farm.country,
+  };
+
+  try {
+    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farmInfo.farm_id}`, patchFarmData, getHeader(user_id, payload.farm_id));
+    const farm = patchedFarm.data[0];
+    yield put(putFarmSuccess({...farm}));
+    history.push('/role_selection');
+  } catch (e) {
+    console.error(e);
+    toastr.error('Failed to add farm, please contact litefarm for assistance');
+  }
+}
+
+
 
 export const patchRole = createAction('patchRoleSaga');
 export function* patchRoleSaga({ payload }) {
@@ -87,5 +110,7 @@ export function* patchRoleSaga({ payload }) {
 
 export default function* addFarmSaga() {
   yield takeLatest(postFarm.type, postFarmSaga);
+  yield takeLatest(patchFarm.type, patchFarmSaga);
+
   yield takeLatest(patchRole.type, patchRoleSaga);
 }

@@ -1,22 +1,22 @@
-<!-- 
-  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
-  This file (withheld_consent_email.html) is part of LiteFarm.
-  
-  LiteFarm is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  LiteFarm is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
- -->
+<!--
+Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+This file (invitation_to_farm_email.html) is part of LiteFarm.
+
+LiteFarm is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+LiteFarm is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+-->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LiteFarm Consent Withheld Email</title>
+    <title>LiteFarm Welcome Email</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <style>
       .background {
@@ -122,35 +122,13 @@
         <div class="main-content">
           <p>Dear <strong>{{first_name}}</strong>,</p>
           <p>
-            Recently, while joining <strong>{{farm}}</strong> on the LiteFarm application, you decided to withhold
-            your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you
-            won't be able to access the application. We're very sorry about this.
+            Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms.
+            You can read more about LiteFarm at <a href="https://litefarm.org">litefarm.org</a>
           </p>
-          <p>
-            We've de-activated your association to <strong>{{farm}}</strong>. However, we still have the basic
-            information you shared with us while setting up your user account. If you're associated with other
-            farms, we also have any information you entered while working with those farms as well.
-          </p>
-          <p> You have the following rights regarding your data:</p>
-          <ul>
-            <li>To know what data we have about you and request a copy of it</li> 
-            <li>To update or correct any data we have about you</li>
-            <li>Request that we stop collecting your data (you've just done this)</li>
-            <li>Request a transfer of your data</li>
-            <li>Request that we delete your data</li>
-          </ul>
-          <p>
-            To request any of these actions, send an email to
-            <a href="mailto:data@litefarm.org">data@litefarm.org</a> with your request and we'll take care of you.
-          </p>
-          <p>
-            Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy
-            policy using the button below:
-          </p>
+          <p>You can also log-in (on any device) using the button below:</p>
           <div class="button-aligner">
             <a href="" target="_blank" class="button" id="email-button">Log In</a>
           </div>
-          <p>If you do so, you'll once again be able to access the LiteFarm system.</p>
           <p>
             Cheers,
             <br>
@@ -166,3 +144,4 @@
     </div>
   </body>
 </html>
+ 

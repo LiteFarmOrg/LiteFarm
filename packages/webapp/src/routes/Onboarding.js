@@ -35,7 +35,7 @@ function OnboardingFlow({ step_one, step_two, step_three, step_four, step_five, 
   return <Switch>
     <Route path="/farm_selection" exact component={() => <ChooseFarm/>}/>
     <Route path="/welcome" exact component={WelcomeScreen}/>
-    {!step_one && <Route path="/add_farm" exact component={AddFarm}/>}
+    <Route path="/add_farm" exact component={AddFarm}/>
     {step_one && <Route path="/role_selection" exact component={RoleSelection}/>}
     {step_two && !step_five && <Route path="/consent" exact component={ConsentForm}/>}
     {step_five && !has_consent &&

@@ -117,7 +117,7 @@ const NUTRIENT_DICT = {
   vitb6: 'Vitamin B6 (mg)',
   folate: 'Folate (Vitamin B9) (mcg)',
   vitb12: 'Vitamin B12 (mcg)',
-  max_rooting_depth: 'Max Rootinng Depth (m)',
+  max_rooting_depth: 'Max Rooting Depth (m)',
   nutrient_credits: 'Nutrient Credits',
 };
 

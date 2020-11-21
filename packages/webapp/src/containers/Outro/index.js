@@ -15,7 +15,9 @@ function Outro() {
   }
   const onContinue = () => {
     dispatch(patchOutroStep({callback: ()=>history.push('/')}));
-    dispatch(showSpotlight(true));
+    setTimeout(() => {
+      dispatch(showSpotlight(true));
+    }, 200);
 
   }
   const survey = useSelector(certifierSurveySelector);

@@ -1,16 +1,20 @@
 import Form from "../Form";
 import Button from "../Form/Button";
+import clsx from "clsx";
+import styles from "./styles.scss";
 import Radio from "../Form/Radio";
 import React from "react";
-import { Title } from '../Typography';
 
-export default function PureRoleSelection({ onSubmit, title, inputs }) {
+export default function PureRoleSelection({ onSubmit, title, inputs, inputClasses = {},  redirectConsent, onGoBack}) {
   return (
-    <Form onSubmit={onSubmit} buttonGroup={<Button type={'submit'} fullLength>Continue</Button>}>
-      <Title>{title}</Title>
-      <Radio {...inputs[0]} />
-      <Radio {...inputs[1]} />
-      <Radio {...inputs[2]} />
+    <Form onSubmit={onSubmit} buttonGroup={<>
+      <Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button>
+      <Button type={'submit'} fullLength onClick={redirectConsent}>Continue</Button>
+    </>}>
+      <h4 className={clsx(styles.headerStyle)}>{title}</h4>
+      <Radio classes={inputClasses} {...inputs[0]} />
+      <Radio classes={inputClasses} {...inputs[1]} />
+      <Radio classes={inputClasses} {...inputs[2]} />
     </Form>
   );
 }

@@ -66,12 +66,42 @@
   margin-right: 12px;
 }
 
+:global .__floater__body {
+  margin-right: 15px;
+}
+
+:global button[data-action="primary"] {
+  width: 82px;
+  box-shadow: 0px 2px 8px 0px #66738A;
+
+}
+
+:global button[data-action="primary"]:focus {
+  outline: none;
+}
+:global {
+  .listOption :hover {
+    background: #C7EFD3;
+    border-radius: 4px;
+  }
+}
+
 .actionItem {
   width: 25px;
   height: 25px;
   margin-right: 16px;
   border: none;
   padding-right: 0;
+}
+
+.profilePicture {
+  width: 28px;
+  height: 28px;
+  margin-right: 16px;
+  border: none;
+  padding-right: 0;
+  border-radius: 50%;
+  border: 1px solid #028577;
 }
 
 .navBarContainer{

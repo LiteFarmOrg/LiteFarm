@@ -14,11 +14,6 @@
  */
 @import "../../../assets/mixin";
 
-.button {
-    margin: 7px;
-    float:right;
-}
-
 .navBar {
   top: 0;
   @include gradient();
@@ -33,23 +28,7 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    // & .title {
-    //   color: var(--primary);
-    //   float: none;
-    //   margin: auto;
-    //   display: block;
-    // }
   }
-}
-
-.thin {
-  font-weight: 100;
-  letter-spacing: 3px;
-}
-
-.thick {
-  font-weight: 700;
-  letter-spacing: 3px;
 }
 
 .profilePic {
@@ -61,9 +40,11 @@
 }
 
 .actionItemContainer {
-  float:right;
-  margin-top: 24px;
-  margin-right: 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
 }
 
 :global .__floater__body {
@@ -79,6 +60,7 @@
 :global button[data-action="primary"]:focus {
   outline: none;
 }
+
 :global {
   .listOption :hover {
     background: #C7EFD3;
@@ -98,10 +80,9 @@
   width: 28px;
   height: 28px;
   margin-right: 16px;
-  border: none;
   padding-right: 0;
   border-radius: 50%;
-  border: 1px solid #028577;
+  border: 2px solid var(--teal700);
 }
 
 .navBarContainer{
@@ -120,14 +101,9 @@
     min-height: 54px;
   }
 
-  .actionItemContainer {
-    margin-top: 16px;
-    margin-right: 0;
-  }
-
   .actionItem {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
   }
   .navBar {
     & .itemContainer {
@@ -136,15 +112,5 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
     }
-  }
-}
-
-@media (min-width: 768px) {
-  :global(.navbar-header) {
-    float: none !important;
-  }
-  :global(.navbar .container .navbar-brand) {
-    margin-left: auto !important;
-    width: 100%;
   }
 }

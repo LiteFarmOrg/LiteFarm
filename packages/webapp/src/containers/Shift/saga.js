@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import {
   ADD_TASK_TYPE,
@@ -28,21 +28,16 @@ import {
 import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
+import { loginSelector } from '../loginSlice';
+import { getHeader } from '../saga';
 
 const axios = require('axios');
 
 
 export function* getTaskTypesSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { taskTypeUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, taskTypeUrl + '/farm/' + farm_id, header);
@@ -55,16 +50,9 @@ export function* getTaskTypesSaga() {
 }
 
 export function* addTaskTypeSaga(payload) {
-  let farm_id = localStorage.getItem('farm_id');
   const { taskTypeUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let taskName = payload.taskName;
   const body = {
@@ -84,14 +72,8 @@ export function* addTaskTypeSaga(payload) {
 
 export function* addShift(action) {
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
   let shiftObj = action.shiftObj;
 
   try {
@@ -110,14 +92,8 @@ export function* addShift(action) {
 
 export function* addMultiShiftSaga(action) {
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
   let shiftObj = action.shiftObj;
 
   try {
@@ -133,16 +109,9 @@ export function* addMultiShiftSaga(action) {
 }
 
 export function* getShiftsSaga() {
-  const user_id = localStorage.getItem('user_id');
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, shiftUrl + '/user/' + user_id, header);
@@ -155,16 +124,9 @@ export function* getShiftsSaga() {
 }
 
 export function* getAllShiftSaga() {
-  const farm_id = localStorage.getItem('farm_id');
   const { farmShiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, farmShiftUrl + farm_id, header);
@@ -208,14 +170,8 @@ export function* getAllShiftSaga() {
 export function* deleteShiftSaga(action) {
   const { shiftId } = action;
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.delete, shiftUrl + '/' + shiftId, header);
@@ -231,19 +187,13 @@ export function* deleteShiftSaga(action) {
 export function* updateShiftSaga(action) {
   const { shiftID, shiftObj } = action;
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
     shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
-    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id: localStorage.getItem('farm_id') }, header);
+    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id }, header);
     if (result) {
       toastr.success('Successfully updated shift!');
       history.push('/shift');

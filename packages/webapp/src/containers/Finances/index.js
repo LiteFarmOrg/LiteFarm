@@ -87,8 +87,7 @@ class Finances extends Component {
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
-
+    //TODO fetch userFarm
     if(dateRange && dateRange.startDate && dateRange.endDate){
       this.setState({
         startDate: dateRange.startDate,

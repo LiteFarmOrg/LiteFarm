@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Script from 'react-load-script';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
+import {userFarmSelector} from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';

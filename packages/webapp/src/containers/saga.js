@@ -94,16 +94,9 @@ export function* getFarmInfo() {
 }
 
 export function* updateFarm(payload) {
-  let farm_id = payload.farm && payload.farm.farm_id;
   const { farmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   // OC: We should never update address information of a farm.
   let { address, grid_points, ...data } = payload.farm;
@@ -127,16 +120,9 @@ export function* updateFarm(payload) {
 }
 
 export function* getFieldsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { fieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, fieldURL + '/farm/' + farm_id, header);
@@ -149,16 +135,9 @@ export function* getFieldsSaga() {
 }
 
 export function* getFieldCropsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
@@ -171,17 +150,10 @@ export function* getFieldCropsSaga() {
 }
 
 export function* getFieldCropsByDateSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   let currentDate = formatDate(new Date());
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);

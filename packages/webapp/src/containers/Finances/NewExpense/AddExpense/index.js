@@ -73,7 +73,7 @@ class AddExpense extends Component {
     const {currentExpenseDetail} = this.props;
     let data = [];
     let keys = Object.keys(currentExpenseDetail);
-    let farm_id = localStorage.getItem('farm_id');
+    let farm_id = this.props.farm.farm_id;
     let date = this.state.date;
     for (let k of keys){
       let values = currentExpenseDetail[k];

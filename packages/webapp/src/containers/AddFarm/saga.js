@@ -17,7 +17,7 @@ import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector, selectFarmSuccess } from '../loginSlice';
-import { postFarmSuccess, patchRoleStepTwoSuccess, userFarmSelector } from '../userFarmSlice';
+import { postFarmSuccess, patchRoleStepTwoSuccess, userFarmSelector, patchFarmSuccess } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 const axios = require('axios');
@@ -72,9 +72,9 @@ export function* patchFarmSaga({ payload: farm }) {
   };
 
   try {
-    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farmInfo.farm_id}`, patchFarmData, getHeader(user_id, payload.farm_id));
+    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farm_id}`, patchFarmData, header);
     const farm = patchedFarm.data[0];
-    yield put(putFarmSuccess({...farm}));
+    yield put(patchFarmSuccess({...farm, user_id}));
     history.push('/role_selection');
   } catch (e) {
     console.error(e);
@@ -111,6 +111,5 @@ export function* patchRoleSaga({ payload }) {
 export default function* addFarmSaga() {
   yield takeLatest(postFarm.type, postFarmSaga);
   yield takeLatest(patchFarm.type, patchFarmSaga);
-
   yield takeLatest(patchRole.type, patchRoleSaga);
 }

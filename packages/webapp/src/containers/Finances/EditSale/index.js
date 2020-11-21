@@ -68,7 +68,7 @@ class EditSale extends Component {
       sale_id: sale.id,
       customer_name: form.name,
       sale_date: this.state.date,
-      farm_id: localStorage.getItem('farm_id'),
+      farm_id: this.props.farm.farm_id,
       cropSale
     };
     dispatch(updateSale(editedSale));

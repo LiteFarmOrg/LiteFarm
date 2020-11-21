@@ -15,25 +15,20 @@
 
 import { GET_LOGS } from './constants';
 import { setLogsInState } from './actions';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
+import { loginSelector } from '../loginSlice';
+import { getHeader } from '../saga';
 
 const axios = require('axios');
 
 export function* getLogsSaga() {
-  let farmId = localStorage.getItem('farm_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
-    const result = yield call(axios.get, logURL + `/farm/${farmId}`, header);
+    const result = yield call(axios.get, logURL + `/farm/${farm_id}`, header);
     if (result) {
       yield put(setLogsInState(result.data));
     }

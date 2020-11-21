@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (saga.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,7 +14,7 @@
  */
 
 import apiConfig from '../../apiConfig';
-import {put, takeEvery, call} from 'redux-saga/effects';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
 import {
   setCropsSoldNutritionInState,
   setSoilOMData,
@@ -38,20 +38,15 @@ import {
   DEL_FREQUENCY_NITROGEN_BALANCE,
   GET_PRICES_WITH_DISTANCE_DATA, GET_FREQUENCY_WATER_BALANCE, CREATE_FREQUENCY_WATER_BALANCE
 } from "./constants";
+import { loginSelector } from '../loginSlice';
+import { getHeader } from '../saga';
 
 const axios = require('axios');
 
 export function* getCropsSoldNutrition() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/people_fed/' + farm_id, header);
@@ -64,16 +59,9 @@ export function* getCropsSoldNutrition() {
 }
 
 export function* getSoldOMData() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/soil_om/' + farm_id, header);
@@ -87,16 +75,9 @@ export function* getSoldOMData() {
 }
 
 export function* getLabourHappinessData() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/labour_happiness/' + farm_id, header);
@@ -109,16 +90,9 @@ export function* getLabourHappinessData() {
 }
 
 export function* getBiodiversityData() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/biodiversity/' + farm_id, header);
@@ -131,20 +105,10 @@ export function* getBiodiversityData() {
 }
 
 export function* getPricesData() {
-  let farm_id = localStorage.getItem('farm_id');
   let currentDate = formatDate(new Date());
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-    params: {
-      startdate: currentDate
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/prices/' + farm_id, header);
@@ -157,23 +121,17 @@ export function* getPricesData() {
 }
 
 export function* getPricesWithDistanceData(data) {
-  let farm_id = localStorage.getItem('farm_id');
   let currentDate = formatDate(new Date());
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-    params: {
-      startdate: currentDate,
-      lat: data['location']['lat'],
-      long: data['location']['lng'],
-      distance: data['distance'],
-    }
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
+  header.params = {
+    startdate: currentDate,
+    lat: data['location']['lat'],
+    long: data['location']['lng'],
+    distance: data['distance'],
+  }
+
 
   try {
     const result = yield call(axios.get, insightUrl + '/prices/distance/' + farm_id, header);
@@ -186,16 +144,9 @@ export function* getPricesWithDistanceData(data) {
 }
 
 export function* getWaterBalanceData() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/waterbalance/' + farm_id, header);
@@ -208,16 +159,9 @@ export function* getWaterBalanceData() {
 }
 
 export function* getWaterBalanceSchedule() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/waterbalance/schedule/' + farm_id, header);
@@ -230,16 +174,9 @@ export function* getWaterBalanceSchedule() {
 }
 
 export function* createWaterBalanceSchedule() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   const data = {
     farm_id: farm_id,
@@ -258,16 +195,9 @@ export function* createWaterBalanceSchedule() {
 }
 
 export function* getNitrogenBalanceData() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/nitrogenbalance/' + farm_id, header);
@@ -280,16 +210,9 @@ export function* getNitrogenBalanceData() {
 }
 
 export function* getNitrogenBalanceFrequency() {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, insightUrl + '/nitrogenbalance/schedule/' + farm_id, header);
@@ -302,16 +225,9 @@ export function* getNitrogenBalanceFrequency() {
 }
 
 export function* postNitrogenBalanceFrequency(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   const data = {
     farm_id: farm_id,
@@ -335,14 +251,8 @@ export function* postNitrogenBalanceFrequency(action) {
 export function* deleteNitrogenBalanceFrequency(action) {
   let frequencyID = action.nitrogenBalanceID;
   const { insightUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.delete, insightUrl + '/nitrogenbalance/schedule/' + frequencyID, header);

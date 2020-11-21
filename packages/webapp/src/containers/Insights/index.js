@@ -122,7 +122,7 @@ class Insights extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    //TODO fetch userFarm
     this.props.dispatch(getCropsSoldNutrition());
     this.props.dispatch(getSoilOMData());
     this.props.dispatch(getLabourHappinessData());

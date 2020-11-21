@@ -17,21 +17,16 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { userFarmSelector, patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { loginSelector } from '../loginSlice';
+import { getHeader } from '../saga';
 
 const axios = require('axios');
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 export function* patchOutroStepSaga({ payload: {callback} }) {
-  const { farm_id, user_id } = yield select(userFarmSelector);
   const { userFarmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let data = {
     step_five: true,

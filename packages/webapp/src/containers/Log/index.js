@@ -51,7 +51,7 @@ class Log extends Component{
     dispatch(getFieldCropsByDate());
     dispatch(getFields());
     dispatch(getLogs());
-    dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    //TODO fatch userFarm
     dispatch(getPesticides());
     dispatch(getDiseases());
     dispatch(getFertilizers());

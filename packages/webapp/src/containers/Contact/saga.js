@@ -13,14 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, select, takeEvery } from 'redux-saga/effects';
 import { SEND_CONTACT_FORM } from './constants';
 import { toastr } from 'react-redux-toastr';
+import { loginSelector } from '../loginSlice';
+import { getHeader } from '../saga';
 
 const axios = require('axios');
 
 export function* sendContactForm(action) {
-  const farm_id = localStorage.getItem('farm_id');
+  let { farm_id } = yield select(loginSelector);
 
   const contactDetails = action.contactDetails;
   const data = {

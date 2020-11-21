@@ -26,23 +26,18 @@ import {
   UPDATE_SALE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
+import { loginSelector } from '../loginSlice';
+import { getHeader } from '../saga';
 
 const axios = require('axios');
 
 export function* getSales() {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, salesURL + '/' + farm_id, header);
@@ -55,16 +50,9 @@ export function* getSales() {
 }
 
 export function* addSale(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   const addOrUpdateSuccess = action.sale.sale_id ? 'updated' : 'added';
   const addOrUpdateFail = action.sale.sale_id ? 'update' : 'add';
@@ -84,16 +72,9 @@ export function* addSale(action) {
 }
 
 export function* updateSaleSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.patch, salesURL, action.sale, header);
@@ -112,16 +93,9 @@ export function* updateSaleSaga(action) {
 
 
 export function* deleteSale(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.delete, salesURL + "/" + action.sale.id, header);
@@ -139,16 +113,9 @@ export function* deleteSale(action) {
 }
 
 export function* getShiftsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { farmShiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, farmShiftUrl + farm_id, header);
@@ -162,16 +129,9 @@ export function* getShiftsSaga() {
 }
 
 export function* getExpenseSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
@@ -188,14 +148,8 @@ export function* getExpenseSaga() {
 
 export function* getDefaultExpenseTypeSaga() {
   const { expenseTypeDefaultUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, expenseTypeDefaultUrl, header);
@@ -208,16 +162,9 @@ export function* getDefaultExpenseTypeSaga() {
 }
 
 export function* addExpensesSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
@@ -234,16 +181,9 @@ export function* addExpensesSaga(action) {
 }
 
 export function* deleteExpensesSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.put, expenseUrl , action.ids, header);
@@ -261,16 +201,9 @@ export function* deleteExpensesSaga(action) {
 
 export function* addRemoveExpenseSaga(action) {
   console.log("add remove expenses saga")
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     let addRemoveObj = action.addRemoveObj;

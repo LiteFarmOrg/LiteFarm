@@ -83,12 +83,16 @@ const userFarmSlice = createSlice({
     patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
       state.byFarmIdUserId[farm_id][user_id].status = status;
     },
+    patchFarmSuccess: (state, { payload: farm }) => {
+      const { farm_id, user_id } = farm;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
+    },
   },
 });
 
 export const {
   onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
-  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess,
+  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess, patchFarmSuccess
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 

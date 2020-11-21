@@ -1,22 +1,18 @@
 // saga
 import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
-import { call, takeEvery } from 'redux-saga/effects';
+import { call, select, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
+import { loginSelector } from '../../loginSlice';
+import { getHeader } from '../../saga';
 
 const axios = require('axios');
 
 export function* addLog(action) {
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.post, logURL, action.formValue, header);
@@ -32,14 +28,8 @@ export function* addLog(action) {
 
 export function* editLog(action) {
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, action.formValue, header);
@@ -55,14 +45,8 @@ export function* editLog(action) {
 
 export function* deleteLog(action) {
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.delete, logURL + `/${action.id}`, header);

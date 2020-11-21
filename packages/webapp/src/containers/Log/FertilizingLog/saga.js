@@ -1,23 +1,18 @@
 import { ADD_FERTILIZER, ADD_FERTILIZER_LOG, EDIT_FERTILIZER_LOG, GET_FERTILIZERS } from './constants';
 import { getFertilizers, setFertilizersInState } from './actions';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
+import { loginSelector } from '../../loginSlice';
+import { getHeader } from '../../saga';
 
 const axios = require('axios');
 
 export function* getFertilizerSaga() {
-  let farm_id = localStorage.getItem('farm_id');
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
   const { fertUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
   try{
     const result = yield call(axios.get, fertUrl + '/farm/' + farm_id, header);
     if (result) {
@@ -29,16 +24,9 @@ export function* getFertilizerSaga() {
 }
 
 export function* addFertilizerToDB(payload) {
-  let farm_id = localStorage.getItem('farm_id');
   const { fertUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let fertConfig = payload.fertConfig;
   let fert = {
@@ -64,16 +52,9 @@ export function* addFertilizerToDB(payload) {
 }
 
 export function* addLog(payload) {
-  let user_id = localStorage.getItem('user_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let fertConfig = payload.fertConfig;
   let log = {
@@ -100,16 +81,9 @@ export function* addLog(payload) {
 }
 
 export function* editLog(payload) {
-  let user_id = localStorage.getItem('user_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let fertConfig = payload.fertConfig;
   let log = {

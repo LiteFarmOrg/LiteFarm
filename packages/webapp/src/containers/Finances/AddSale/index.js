@@ -29,7 +29,7 @@ class AddSale extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    //TODO fetch farm
   }
 
   handleSubmit(sale) {
@@ -44,7 +44,7 @@ class AddSale extends Component {
     const newSale = {
       customer_name: sale.name,
       sale_date: this.state.date,
-      farm_id: localStorage.getItem('farm_id'),
+      farm_id: this.props.farm.farm_id,
       cropSale
     };
     dispatch(addOrUpdateSale(newSale));

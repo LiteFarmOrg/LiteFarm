@@ -23,7 +23,7 @@ import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrg
 import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
 import WelcomeScreen from './containers/WelcomeScreen';
-import AddFarm from './containers/AddFarm/temp.index';
+import AddFarm from './containers/AddFarm';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
@@ -113,13 +113,13 @@ const handleAuthentication = (nextState, replace) => {
 };
 
 function Routes() {
-    const farm = useSelector(farmSelector);
+  const farm = useSelector(farmSelector);
   if (auth.isAuthenticated()) {
     let role_id = localStorage.getItem('role_id');
     role_id = Number(role_id);
     // TODO check every step
-    if(farm?.step_five === false || !farm || !farm.has_consent){
-        return <OnboardingFlow/>
+    if (farm?.step_five === false || !farm || !farm.has_consent) {
+      return <OnboardingFlow/>
     }
     if (role_id === 1) {
       return (

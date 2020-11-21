@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { POST_FARM, PATCH_ROLE } from './constants';
+import { POST_FARM, PATCH_ROLE, PATCH_FARM } from './constants';
 import history from '../../history';
 import { takeEvery, call, put, select } from 'redux-saga/effects';
 import { farmUrl, userFarmUrl } from '../../apiConfig';
@@ -58,7 +58,8 @@ export function* createFarm(payload) {
       };
       yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
       // redirect to next step (select role)
-      yield put(setFarmInState({...farm, ...step}));
+      // Country is needed in state in case going back happens.
+      yield put(setFarmInState({...farm, ...step, country: farmInfo.country}));
 
       history.push('/role_selection')
     }
@@ -67,6 +68,41 @@ export function* createFarm(payload) {
     toastr.error('Failed to add farm, please contact litefarm for assistance');
   }
 }
+
+export function* patchFarm(payload) {
+  const { farmInfo } = payload;
+  const user_id = localStorage.getItem('user_id');
+
+  const getHeader = (user_id, farm_id )=> ({
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
+      user_id,
+      farm_id: farmInfo.farm_id
+    },
+  });
+
+  let patchFarmData = {
+    farm_name: farmInfo.farmName,
+    address: farmInfo.address,
+    grid_points: farmInfo.gridPoints,
+    country: farmInfo.country,
+  };
+
+  try {
+    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farmInfo.farm_id}`, patchFarmData, getHeader(user_id, payload.farm_id));
+    if (patchedFarm.data && patchedFarm.data[0].farm_id) {
+      const farm = patchedFarm.data[0];
+      yield put(setFarmInState({...farm}));
+      history.push('/role_selection')
+    }
+  } catch (e) {
+    console.error(e);
+    toastr.error('Failed to add farm, please contact litefarm for assistance');
+  }
+}
+
+
 
 export function* patchRole(payload) {
   try {
@@ -97,67 +133,9 @@ export function* patchRole(payload) {
 
 }
 
-// export function* addFarm(payload) {
-//   let farm_config = payload.farm_config;
-//   const { farm } = apiConfig;
-
-//   const addFarmHeader = {
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-//       user_id: localStorage.getItem('user_id'),
-//     },
-//   };
-
-//   let addFarmData = {
-//     farm_name: farm_config.farm_name,
-//     address: farm_config.address,
-//     grid_points: farm_config.gridPoints,
-//     units: {
-//       currency: farm_config.currency.value,
-//       date_format: farm_config.date.value,
-//       measurement: farm_config.unit.value,
-//     },
-//     sandbox_bool: farm_config.sandbox,
-//   };
-
-//   try {
-//     const addFarmResult = yield call(axios.post, farm, addFarmData, addFarmHeader);
-//     if (addFarmResult.data && addFarmResult.data.farm_id) {
-//       localStorage.setItem('farm_id', addFarmResult.data.farm_id);
-
-//       const user_id = localStorage.getItem('user_id');
-//       const farm_id = addFarmResult.data.farm_id;
-//       const updateRoleHeader = {
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-//           user_id,
-//           farm_id,
-//         },
-//       };
-//       const { role } = payload;
-//       const updateUserRoleData = { role };
-
-//       const updateUserRoleResult = yield call(
-//         axios.patch, `${apiConfig.userFarmUrl}/role/farm/${farm_id}/user/${user_id}`,
-//         updateUserRoleData,
-//         updateRoleHeader,
-//       );
-
-//       if (updateUserRoleResult.status >= 200) {
-//         yield put(getFarms());
-//         yield put(setFarmInState(addFarmResult.data))
-//         history.push('/consent')
-//       }
-//     }
-//   } catch(e) {
-//     console.error(e);
-//     toastr.error('Failed to add farm, please contact litefarm for assistance');
-//   }
-// }
 
 export default function* addFarmSaga() {
   yield takeEvery(POST_FARM, createFarm);
+  yield takeEvery(PATCH_FARM, patchFarm);
   yield takeEvery(PATCH_ROLE, patchRole);
 }

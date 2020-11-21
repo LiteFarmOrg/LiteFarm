@@ -13,13 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { POST_FARM, PATCH_ROLE } from "./constants";
+import { POST_FARM, PATCH_ROLE, PATCH_FARM } from "./constants";
 
 export const postFarm = (farmInfo, callback) => {
   return {
     type: POST_FARM,
     farmInfo,
     callback
+  }
+};
+
+export const patchFarm = (farmInfo) => {
+  return {
+    type: PATCH_FARM,
+    farmInfo,
   }
 };
 

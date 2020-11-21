@@ -135,12 +135,7 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/role_selection" exact component={RoleSelection}/>
-          <Route path="/outro" exact component={Outro}/>
-          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
-          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -222,12 +217,7 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/role_selection" exact component={RoleSelection}/>
-          <Route path="/outro" exact component={Outro}/>
-          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
-          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -312,11 +302,7 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/outro" exact component={Outro}/>
-          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
-          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>

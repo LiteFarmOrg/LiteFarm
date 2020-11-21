@@ -60,7 +60,7 @@ function ChooseFarm() {
   return <PureChooseFarmScreen farms={getFormattedFarms({filter, farms, currentFarmId, selectedFarmId})} onGoBack={onGoBack}
                                onProceed={onProceed} onSelectFarm={onSelectFarm} onCreateFarm={onCreateFarm}
                                isOnBoarding={!currentFarmId} onFilterChange={onFilterChange} isSearchable={farms.length>5}
-                               disabled={!selectedFarmId}
+                               disabled={!selectedFarmId} title={currentFarmId?'Switch to another farm': 'Choose your farm'}
   />
 
 }

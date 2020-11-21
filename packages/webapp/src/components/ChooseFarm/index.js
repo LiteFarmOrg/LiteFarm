@@ -10,7 +10,7 @@ import Input from '../Form/Input';
 
 export default function PureChooseFarmScreen({
   farms = [], onGoBack,
-  onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled
+  onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled, title='Choose your farm'
 }) {
   return <Layout hasWhiteBackground buttonGroup={
     <>
@@ -18,7 +18,7 @@ export default function PureChooseFarmScreen({
       <Button onClick={onProceed} fullLength disabled={disabled}>Proceed</Button>
     </>
   }>
-    <Title style={{ marginBottom: '16px' }}>Choose your farm</Title>
+    <Title style={{ marginBottom: '16px' }}>{title}</Title>
     <Link style={{
       marginBottom: '24px',
       width: 'fit-content',
@@ -53,4 +53,5 @@ PureChooseFarmScreen.prototype = {
   isSearchable: PropTypes.bool,
   onFilterChange: PropTypes.func,
   disabled: PropTypes.bool,
+  title: PropTypes.string
 }

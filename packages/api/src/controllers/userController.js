@@ -113,6 +113,11 @@ class userController extends baseController {
           consent_version: '1.0',
           role_id: 4,
           wage,
+          step_one: true,
+          step_two: true,
+          step_three: true,
+          step_four: true,
+          step_five: true,
         });
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });

@@ -221,6 +221,11 @@ class createUserController extends baseController {
             consent_version: '1.0',
             role_id,
             wage,
+            step_one: true,
+            step_two: true,
+            step_three: true,
+            step_four: true,
+            step_five: true,
           });
           trx.commit();
           res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
@@ -263,6 +268,11 @@ class createUserController extends baseController {
             consent_version: '1.0',
             role_id: lite_farm_user.role_id,
             wage: lite_farm_user.wage,
+            step_one: true,
+            step_two: true,
+            step_three: true,
+            step_four: true,
+            step_five: true,
           });
 
           // create invite token
@@ -325,6 +335,11 @@ class createUserController extends baseController {
                 consent_version: '1.0',
                 role_id: req.body.role_id,
                 wage: req.body.wage,
+                step_one: true,
+                step_two: true,
+                step_three: true,
+                step_four: true,
+                step_five: true,
               });
               await trx.commit();
               res.status(201).send({ ...rows[0], ...userFarm });

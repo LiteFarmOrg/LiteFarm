@@ -189,7 +189,7 @@ class Auth {
     };
 
     // post new user to db
-    axios.get(apiConfig.userFarmUrl + '/user/' + user_id, {
+    axios.get(apiConfig.userUrl + '/' + user_id, {
       validateStatus: function (status) {
         return status < 500; // Reject only if the status code is greater than or equal to 500
       },
@@ -203,9 +203,20 @@ class Auth {
         alert('missing signed up value');
       }
       // if user signed up then don't post to DB;
-      else if(app_metadata.signed_up && response.data && response.data.length > 0 && (response.status === 200 || response.status === 201)){
-        this.setUserProfilePic(user_id).then(() => {
-          if(response.data[0].farm_id){
+      else if(app_metadata.signed_up && response.data && response.data.user_id && (response.status === 200 || response.status === 201)){
+        return this.setUserProfilePic(user_id).then(() => {
+          console.log('fetch userfarm')
+          return axios.get(apiConfig.userFarmUrl + '/user/' + user_id, {
+            validateStatus: function (status) {
+              return status < 500; // Reject only if the status code is greater than or equal to 500
+            },
+            headers: {
+              'Authorization': 'Bearer ' + idToken,
+              'Content-Type': 'application/json'
+            },
+          })
+        }).then(response=>{
+          if(response?.data && response?.data[0]?.farm_id){
             history.push('/farm_selection');
           } else {
             history.push('/welcome')

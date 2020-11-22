@@ -23,7 +23,6 @@ import AddFarm from '../containers/AddFarm';
 import ConsentForm from '../containers/Consent';
 import InterestedOrganic from '../containers/OrganicCertifierSurvey/InterestedOrganic';
 import OrganicPartners from '../containers/OrganicCertifierSurvey/OrganicPartners';
-import Home from '../containers/Home';
 import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
@@ -43,7 +42,6 @@ function OnboardingFlow({ step_one, step_two, step_three, step_four, step_five, 
     {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic}/>}
     {interested && <Route path="/organic_partners" exact component={OrganicPartners}/>}
     {step_four && <Route path="/outro" exact component={Outro}/>}
-    {step_five && <Route path="/" exact component={Home}/>}
     <Route>
       <>
         {step_four && !has_consent && <Redirect to={'/consent'}/>}

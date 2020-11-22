@@ -79,6 +79,7 @@ const userFarmSlice = createSlice({
       const { farm_id, user_id } = user;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], user);
     },
+    // TODO: add role: Manager/Worker after userFarm is created;
     postUserSuccess: addUserFarm,
     patchUserStatusSuccess: (state, { payload: { farm_id, user_id, status } }) => {
       state.byFarmIdUserId[farm_id][user_id].status = status;
@@ -118,5 +119,6 @@ const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   for (let by_user of Object.values(byFarmIdUserId)) {
     by_user[user_id] && userFarms.push(by_user[user_id]);
   }
+  //TODO order should be defined in farmIdUserIdTuple
   return userFarms.sort((userFarm1, userFarm2) => userFarm1.farm_name > userFarm2.farm_name ? 1 : 0);
 }

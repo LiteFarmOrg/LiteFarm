@@ -14,15 +14,11 @@
  */
 
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
 import Home from './containers/Home';
-import Outro from './containers/Outro';
-import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrganic';
-import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
-import WelcomeScreen from './containers/WelcomeScreen';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
@@ -122,14 +118,21 @@ const Routes = () => {
   const dispatchLoginSuccess = (user_id) => {
     dispatch(loginSuccess({ user_id }))
   };
-  const userFarm = useSelector(userFarmSelector, (pre, next) =>pre.step_five === next.step_five
+  const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
     && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
   let { step_five, has_consent, role_id } = userFarm;
   if (isAuthenticated) {
     role_id = Number(role_id);
     // TODO check every step
-    if (step_five === false || !has_consent) {
+    if (!step_five) {
       return <OnboardingFlow {...userFarm}/>
+    } else if (step_five && !has_consent) {
+      return <Switch>
+        <Route path="/farm_selection" exact component={ChooseFarm}/>
+        <Route path="/consent" exact component={ConsentForm}/>
+        //TODO add new consent form and allow users to withdraw consent
+        <Redirect to={'/consent'}/>
+      </Switch>
     } else if (role_id === 1) {
       return (
         <Switch>
@@ -210,6 +213,8 @@ const Routes = () => {
             return <Callback {...props} />
           }}/>
           <Route path="/log_detail" exact component={LogDetail}/>
+          //TODO change to 404
+          <Redirect to={'/'}/>
         </Switch>
       );
     } else if (role_id === 2 || role_id === 5) {
@@ -295,6 +300,8 @@ const Routes = () => {
             return <Callback {...props} />
           }}/>
           <Route path="/log_detail" exact component={LogDetail}/>
+          //TODO change to 404
+          <Redirect to={'/'}/>
         </Switch>
       );
     } else {
@@ -347,6 +354,8 @@ const Routes = () => {
           <Route path="/insights/waterbalance" exact component={WaterBalance}/>
           <Route path="/insights/erosion" exact component={Erosion}/>
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
+          //TODO change to 404
+          <Redirect to={'/'}/>
         </Switch>
       );
     }

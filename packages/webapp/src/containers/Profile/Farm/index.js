@@ -1,16 +1,15 @@
 /* eslint-disable */
-import React, {Component} from "react";
-import {farmSelector as farmInfoSelector} from '../../selector';
-import {connect} from 'react-redux';
-import {updateFarm} from '../../actions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateFarm } from '../../actions';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import {Control, Form, actions} from 'react-redux-form';
-import {Button, Alert} from 'react-bootstrap';
-import {sendFarmDataRequst, getFarmSchedule} from './actions'
-import FarmAddress from '../../../components/AddFarm/FarmAddress';
-import {farmDataSelector} from './selector';
-import Popup from "reactjs-popup";
+import { actions, Control, Form } from 'react-redux-form';
+import { Alert, Button } from 'react-bootstrap';
+import { getFarmSchedule, sendFarmDataRequst } from './actions'
+import { farmDataSelector } from './selector';
+import Popup from 'reactjs-popup';
+import { userFarmSelector } from '../../userFarmSlice';
 
 
 class Farm extends Component {
@@ -34,20 +33,23 @@ class Farm extends Component {
   }
 
   handleSubmit(updated_farm, farm) {
-    farm.farm_name = updated_farm.farm_name;
-    farm.address = updated_farm.address;
-    farm.grid_points = updated_farm.gridPoints;
-    farm.phone_number = {
+    const newFarm = {};
+    newFarm.farm_name = updated_farm.farm_name;
+    newFarm.address = updated_farm.address;
+    newFarm.grid_points = updated_farm.gridPoints;
+    newFarm.phone_number = {
       number: updated_farm.phone_number,
       country: updated_farm.phone_country
     };
 
-    farm.units = {
+    newFarm.units = {
       measurement: updated_farm.unit,
       currency: farm.units.currency,
     };
+    newFarm.farm_id = farm.farm_id;
+    newFarm.user_id = farm.user_id;
 
-    this.props.dispatch(updateFarm(farm));
+    this.props.dispatch(updateFarm(newFarm));
   }
 
   sendRequest(){
@@ -166,7 +168,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmInfoSelector(state),
+    farm: userFarmSelector(state),
     schedule: farmDataSelector(state),
   }
 };

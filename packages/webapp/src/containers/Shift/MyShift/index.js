@@ -1,15 +1,15 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import {deleteShift} from '../actions'
+import { deleteShift } from '../actions'
 import moment from 'moment';
-import {DropdownButton, Dropdown} from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
-import {selectedShiftSelector, taskTypeSelector} from './selectors';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
-import {userInfoSelector} from "../../selector";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import { selectedShiftSelector, taskTypeSelector } from './selectors';
+import { cropSelector, fieldSelector } from '../../selector';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class MyShift extends Component {
   constructor(props) {
@@ -238,8 +238,8 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     crops: cropSelector(state),
     taskType: taskTypeSelector(state),
-    users: userInfoSelector(state),
-    farm: farmSelector(state),
+    users: userFarmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

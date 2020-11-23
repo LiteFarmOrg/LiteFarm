@@ -1,17 +1,18 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import moment from 'moment';
-import PageTitle from "../../../components/PageTitle";
-import connect from "react-redux/es/connect/connect";
+import PageTitle from '../../../components/PageTitle';
+import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
-import {DropdownButton, Dropdown} from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import styles from './styles.scss';
 import Employee from './Employee';
 import Crop from './Crop';
 import Task from './Task';
-import { shiftSelector, dateRangeSelector } from "../selectors";
-import {farmSelector, cropSelector as fieldCropSelector} from "../../selector";
-import {grabCurrencySymbol} from "../../../util";
-import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
+import { dateRangeSelector, shiftSelector } from '../selectors';
+import { cropSelector as fieldCropSelector } from '../../selector';
+import { grabCurrencySymbol } from '../../../util';
+import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class Labour extends Component {
   constructor(props) {
@@ -108,7 +109,7 @@ const mapStateToProps = (state) => {
   return {
     shifts: shiftSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
     fieldCrops: fieldCropSelector(state),
   }
 };

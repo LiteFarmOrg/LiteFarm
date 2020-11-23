@@ -13,18 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button, Tabs, Tab, Table } from 'react-bootstrap';
-import {fieldSelector, cropSelector as fieldCropSelector, farmSelector} from "../selector";
+import { Button, Tab, Table, Tabs } from 'react-bootstrap';
+import { cropSelector as fieldCropSelector, fieldSelector } from '../selector';
 import history from '../../history';
 import moment from 'moment';
 import { getFields } from '../actions';
-import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON} from './constants';
-import {convertFromMetric, getUnit, roundToTwoDecimal} from "../../util";
-import { BsChevronDown, BsChevronRight } from "react-icons/all";
+import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
+import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../util';
+import { BsChevronDown, BsChevronRight } from 'react-icons/all';
+import { userFarmSelector } from '../userFarmSlice';
 
 class Field extends Component {
   static defaultProps = {
@@ -290,7 +291,7 @@ const mapStateToProps = (state) => {
   return {
     fields: fieldSelector(state),
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

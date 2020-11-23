@@ -1,17 +1,17 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
-import PageTitle from "../../../components/PageTitle";
-import connect from "react-redux/es/connect/connect";
+import PageTitle from '../../../components/PageTitle';
+import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
-import {actions} from 'react-redux-form';
-import SaleForm from "../../../components/Forms/Sale";
-import { getFieldCrops } from '../../actions';
-import { cropSelector as fieldCropSelector, farmSelector } from '../../selector';
-import {addOrUpdateSale} from "../actions";
-import {convertToMetric, getUnit, grabCurrencySymbol} from "../../../util";
-import {fetchFarmInfo} from "../../actions";
-import history from "../../../history";
+import { actions } from 'react-redux-form';
+import SaleForm from '../../../components/Forms/Sale';
+import { fetchFarmInfo, getFieldCrops } from '../../actions';
+import { cropSelector as fieldCropSelector } from '../../selector';
+import { addOrUpdateSale } from '../actions';
+import { convertToMetric, getUnit, grabCurrencySymbol } from '../../../util';
+import history from '../../../history';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class AddSale extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class AddSale extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    //TODO fetch farm
   }
 
   handleSubmit(sale) {
@@ -44,7 +44,7 @@ class AddSale extends Component {
     const newSale = {
       customer_name: sale.name,
       sale_date: this.state.date,
-      farm_id: localStorage.getItem('farm_id'),
+      farm_id: this.props.farm.farm_id,
       cropSale
     };
     dispatch(addOrUpdateSale(newSale));
@@ -110,7 +110,7 @@ class AddSale extends Component {
 const mapStateToProps = (state) => {
   return {
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

@@ -1,4 +1,4 @@
-import {CREATE_FIELD, CREATE_FIELD_CROP, CREATE_PRICE, CREATE_YIELD} from "../constants";
+import { CREATE_FIELD, CREATE_FIELD_CROP, CREATE_PRICE, CREATE_YIELD } from '../constants';
 
 export const createFieldAction = (field_name, grid_points, area) => {
   return {

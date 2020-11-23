@@ -14,3 +14,6 @@ export const Default = Template.bind({});
 Default.args = {
 
 };
+Default.parameters = {
+  chromatic: { disable: true },
+};

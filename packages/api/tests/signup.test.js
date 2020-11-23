@@ -162,9 +162,9 @@ describe('These are tests for auth0 signup and user creation', () => {
       .set('Authorization', 'Bearer ' + testSignUpToken)
       .end((err, res) => {
         chai_expect(err).to.be.null;
-        chai_expect(res.body[0].first_name).to.equal(dummySignUp.validUserAdd.first_name)
-        chai_expect(res.body[0].last_name).to.equal(dummySignUp.validUserAdd.last_name)
-        chai_expect(res.body[0].email).to.equal(dummySignUp.validUserAdd.email)
+        chai_expect(res.body.first_name).to.equal(dummySignUp.validUserAdd.first_name)
+        chai_expect(res.body.last_name).to.equal(dummySignUp.validUserAdd.last_name)
+        chai_expect(res.body.email).to.equal(dummySignUp.validUserAdd.email)
         // chai_expect(res.body[0].user_id).to.equal(userID)
         chai_expect(res.body).to.not.deep.equal([]);
         chai_expect(res.status).to.equal(200);
@@ -173,12 +173,12 @@ describe('These are tests for auth0 signup and user creation', () => {
   });
 
   test('GET user added from DB with userID gives 200', (done) => {
-    chai.request(server).get('/user/' + 'd' + userID)
+    chai.request(server).get('/user/'  + userID)
       .set('content-type', 'application/json')
       .set('Authorization', 'Bearer ' + testSignUpToken)
       .end((err, res) => {
         chai_expect(err).to.be.null;
-        chai_expect(res.body).to.deep.equal([]);
+        chai_expect(res.body).to.deep.equal({ ...dummySignUp.validUserAdd, user_id: userID, "phone_number": null });
         chai_expect(res.status).to.equal(200);
         done();
       });

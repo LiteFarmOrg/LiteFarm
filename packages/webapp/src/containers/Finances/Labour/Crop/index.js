@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Table from '../../../../components/Table';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';

@@ -20,7 +20,7 @@
   width: 100%;
   max-width: 1024px;
   height: 76px;
-  position: fixed;
+  position: sticky;
   & .itemContainer {
     position: absolute;
     top: 50%;

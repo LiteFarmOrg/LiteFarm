@@ -82,7 +82,7 @@ describe('User Tests', () => {
 
   function validate(expected, res, status, received = undefined) {
     expect(res.status).toBe(status);
-    received = received ? received : res.body[0];
+    received = received ? received : (res.body[0] || res.body);
     expect(Object.keys(received).length).toBeGreaterThan(0);
     for (const key of Object.keys(received)) {
       if (expected[key] && typeof expected[key] === 'string' || typeof expected[key] === 'number') {

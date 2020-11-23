@@ -1,6 +1,4 @@
-import {
-  SET_FERTILIZERS
-} from './constants';
+import { SET_FERTILIZERS } from './constants';
 
 const initialState = {
   fertilizers: null

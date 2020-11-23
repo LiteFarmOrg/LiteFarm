@@ -21,7 +21,6 @@ const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
 
-const knex = Model.knex();
 const emailSender = require('../templates/sendEmailTemplate');
 
 
@@ -106,17 +105,22 @@ class userController extends baseController {
         }
         /* End of input validation */
 
-        await baseController.post(userModel, req.body, trx);
-        await userFarmModel.query(trx).insert({
+        const user = await baseController.post(userModel, req.body, trx);
+        const userFarm = await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
           status: 'Active',
           consent_version: '1.0',
           role_id: 4,
           wage,
+          step_one: true,
+          step_two: true,
+          step_three: true,
+          step_four: true,
+          step_five: true,
         });
         await trx.commit();
-        res.sendStatus(201);
+        res.status(201).send({ ...user, ...userFarm });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
@@ -132,26 +136,14 @@ class userController extends baseController {
       try {
         const id = req.params.user_id;
 
-        const data = await knex.raw(
-          `
-          SELECT uf.user_id, uf.farm_id, uf.role_id, uf.has_consent, u.created_at, u.first_name, u.last_name, u.profile_picture, u.email, u.phone_number,
-          uf.status, uf.consent_version, uf.wage
-          FROM "users" u
-          LEFT JOIN
-          "userFarm" uf
-          ON uf.user_id = u.user_id
-          WHERE u.user_id = ?
-          `, [id]
-        );
+        const data = await userModel.query().findById(id).select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
 
-        if (!data && !data.rows) {
+        if (!data) {
           res.sendStatus(404)
+        } else {
+          res.status(200).send(data);
         }
-        else {
-          res.status(200).send(data.rows);
-        }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         console.log(error);
         res.status(400).send(error);
@@ -177,8 +169,8 @@ class userController extends baseController {
     }
   }
 
-  static async deleteAuth0User(user_id){
-    try{
+  static async deleteAuth0User(user_id) {
+    try {
       const token = await this.getAuth0Token();
       const headers = {
         'content-type': 'application/json',
@@ -191,8 +183,7 @@ class userController extends baseController {
         headers,
       });
       return result.status === 204;
-    }
-    catch(err){
+    } catch (err) {
       // eslint-disable-next-line
       console.log(err);
       return false;
@@ -243,8 +234,7 @@ class userController extends baseController {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -253,7 +243,7 @@ class userController extends baseController {
     }
   }
 
-  static updateConsent(){
+  static updateConsent() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.id;
@@ -265,13 +255,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated) {
           res.status(409).send('Update failed');
-        }
-        else {
+        } else {
           res.sendStatus(200);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
@@ -287,13 +275,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -302,7 +288,7 @@ class userController extends baseController {
     }
   }
 
-  static updateNotificationSetting(){
+  static updateNotificationSetting() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -310,13 +296,11 @@ class userController extends baseController {
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
@@ -325,7 +309,7 @@ class userController extends baseController {
     }
   }
 
-  static async updateSetting(req, trx){
+  static async updateSetting(req, trx) {
     const notificationSettingModel = require('../models/notificationSettingModel');
     return await super.put(notificationSettingModel, req, trx);
   }

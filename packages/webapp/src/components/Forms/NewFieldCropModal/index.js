@@ -15,11 +15,11 @@ import NewCropModal from '../NewCropModal';
 import styles from '../../../containers/Field/styles.scss';
 import newFieldStyles from './styles.scss';
 import { convertFromMetric, convertToMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
-import { farmSelector } from '../../../containers/selector';
 import Select from 'react-select';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
 
 class NewFieldCropModal extends React.Component {
   // props:
@@ -488,7 +488,7 @@ class NewFieldCropModal extends React.Component {
 const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

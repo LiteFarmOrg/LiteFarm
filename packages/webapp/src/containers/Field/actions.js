@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (actions.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,15 +14,17 @@
  */
 
 import {
-  GET_CROPS,
-  SET_CROPS_IN_STATE,
+  DELETE_FIELD,
   DELETE_FIELD_CROP,
-  SET_YIELD_IN_STATE,
-  SET_PRICE_IN_STATE,
+  GET_CROPS,
+  GET_EXPIRED_CROPS,
   GET_PRICE,
   GET_YIELD,
-  DELETE_FIELD, SET_EXPIRED_CROPS_IN_STATE, GET_EXPIRED_CROPS,
-} from "./constants";
+  SET_CROPS_IN_STATE,
+  SET_EXPIRED_CROPS_IN_STATE,
+  SET_PRICE_IN_STATE,
+  SET_YIELD_IN_STATE,
+} from './constants';
 
 export const getCrops = () => {
   return {

@@ -6,23 +6,18 @@ import {
 import {
   setCropsInState,
 } from "./actions";
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
+import { loginSelector } from '../../../containers/loginSlice';
+import { getHeader } from '../../../containers/saga';
 
 const axios = require('axios');
 
 //FIXME: this is repeated code from Field/saga
 export function* getCropsSaga() {
-  const farm_id = localStorage.getItem('farm_id');
   const { cropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
@@ -35,16 +30,9 @@ export function* getCropsSaga() {
 }
 
 export function* createCropSaga(action) {
-  const farm_id = localStorage.getItem('farm_id');
   const { cropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   const data = {
     crop_id: action.cropId,

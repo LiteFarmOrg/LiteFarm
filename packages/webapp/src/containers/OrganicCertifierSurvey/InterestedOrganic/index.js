@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
-import { certifierSurveySelector } from '../selector';
-import { useDispatch, useSelector } from 'react-redux';
-import { addCertifierSurvey, getOrganicCertifierSurvey, updateInterested } from '../actions';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { postCertifiers, getCertifiers, patchInterested } from '../saga';
 import history from '../../../history';
+import { certifierSurveySelector } from '../slice';
 export default function InterestedOrganic() {
   const { register, handleSubmit, setValue } = useForm();
   const INTERESTED = 'interested';
@@ -13,25 +13,25 @@ export default function InterestedOrganic() {
   const underlined = 'Why are we asking this?';
   const content = 'LiteFarm generates forms required for organic certification. Some information will be mandatory.';
   const ref = register({ required: true });
-  const survey = useSelector(certifierSurveySelector);
+  const survey = useSelector(certifierSurveySelector, shallowEqual);
   const dispatch = useDispatch();
   useEffect(()=>{
     if(!survey.survey_id){
-      dispatch(getOrganicCertifierSurvey());
+      dispatch(getCertifiers());
     }
     if(survey){
       setValue(INTERESTED,survey.interested===false?'false':'true');
     }
-  },[survey]);
+  },[survey, dispatch]);
 
 
   const onSubmit = (data) => {
     const interested = data.interested === 'true';
     const callback = ()=> interested?history.push('/organic_partners'):history.push('/outro');
     if(survey.survey_id){
-      dispatch(updateInterested(interested,callback));
+      dispatch(patchInterested({interested,callback}));
     }else{
-      dispatch(addCertifierSurvey({interested},callback));
+      dispatch(postCertifiers({survey:{interested},callback}));
     }
 
 

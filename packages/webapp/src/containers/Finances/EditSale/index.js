@@ -1,18 +1,19 @@
-import React, {Component} from "react";
-import PageTitle from "../../../components/PageTitle";
-import connect from "react-redux/es/connect/connect";
+import React, { Component } from 'react';
+import PageTitle from '../../../components/PageTitle';
+import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
-import {actions} from 'react-redux-form';
-import SaleForm from "../../../components/Forms/Sale";
-import {selectedSaleSelector} from '../selectors';
-import {cropSelector as fieldCropSelector, farmSelector} from '../../selector';
-import {getFieldCrops} from "../../actions";
-import DateContainer from "../../../components/Inputs/DateContainer";
-import moment from "moment";
-import {updateSale, deleteSale} from "../actions";
-import {convertFromMetric, convertToMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal} from "../../../util";
-import ConfirmModal from "../../../components/Modals/Confirm";
-import history from "../../../history";
+import { actions } from 'react-redux-form';
+import SaleForm from '../../../components/Forms/Sale';
+import { selectedSaleSelector } from '../selectors';
+import { cropSelector as fieldCropSelector } from '../../selector';
+import { getFieldCrops } from '../../actions';
+import DateContainer from '../../../components/Inputs/DateContainer';
+import moment from 'moment';
+import { deleteSale, updateSale } from '../actions';
+import { convertFromMetric, convertToMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import history from '../../../history';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class EditSale extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class EditSale extends Component {
       sale_id: sale.id,
       customer_name: form.name,
       sale_date: this.state.date,
-      farm_id: localStorage.getItem('farm_id'),
+      farm_id: this.props.farm.farm_id,
       cropSale
     };
     dispatch(updateSale(editedSale));
@@ -133,7 +134,7 @@ const mapStateToProps = (state) => {
   return {
     sale: selectedSaleSelector(state),
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

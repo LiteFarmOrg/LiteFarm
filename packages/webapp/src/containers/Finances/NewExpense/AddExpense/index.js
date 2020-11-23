@@ -11,7 +11,7 @@ import {Field, actions, Form, Control} from 'react-redux-form';
 import footerStyles from "../../../../components/LogFooter/styles.scss";
 import {addExpenses} from '../../actions'
 import {grabCurrencySymbol} from "../../../../util";
-import {farmSelector} from "../../../selector";
+import { userFarmSelector } from '../../../userFarmSlice';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -73,7 +73,7 @@ class AddExpense extends Component {
     const {currentExpenseDetail} = this.props;
     let data = [];
     let keys = Object.keys(currentExpenseDetail);
-    let farm_id = localStorage.getItem('farm_id');
+    let farm_id = this.props.farm.farm_id;
     let date = this.state.date;
     for (let k of keys){
       let values = currentExpenseDetail[k];
@@ -188,7 +188,7 @@ const mapStateToProps = (state) => {
     expenseTypes: expenseTypeSelector(state),
     selectedExpense: selectedExpenseSelector(state),
     currentExpenseDetail: expenseDetailSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

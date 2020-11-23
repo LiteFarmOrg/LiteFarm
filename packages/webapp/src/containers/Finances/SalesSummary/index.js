@@ -8,10 +8,10 @@ import {getSales} from '../actions';
 import {connect} from 'react-redux';
 import {setSelectedSale} from "../actions";
 import moment from 'moment';
-import {farmSelector} from "../../selector";
 import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
 import { BsCaretRight } from "react-icons/all";
+import { userFarmSelector } from '../../userFarmSlice';
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -208,7 +208,7 @@ class SalesSummary extends Component {
 const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
     dateRange: dateRangeSelector(state),
   }
 };

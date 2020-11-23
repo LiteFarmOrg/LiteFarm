@@ -1,0 +1,97 @@
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (styles.scss) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+ .outroContainer {
+    /* Rectangle 49 */
+    display: flex;
+    flex-direction: column;
+    width: 312px;
+    height: 400px;
+    /* Grey-100 */
+    background: #FAFAFD;
+    border-radius: 7.05466px;
+  }
+
+.descriptionTop {
+    margin-top:-40px;
+    font-family: "Open Sans", "SansSerif", serif;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    /* or 160% */
+    display: flex;
+    align-items: center;
+    /* Grey-900 */
+    color: #282B36;
+}
+
+.descriptionBottom {
+  font-family: "Open Sans", "SansSerif", serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  padding-left: 20px;
+  float: left;
+  // width: 150px;
+}
+
+.bold {
+  -webkit-font-smoothing: antialiased;
+  margin-left: 108px;
+  color: #282B36;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 32px;
+  margin-top: -31px;
+}
+
+.imgContainer {
+  margin-left: 5%;
+  margin-top: -40px;
+}
+
+.title {
+    margin-top:20px;
+    margin-left: 20%;
+    font-family: "Open Sans", "SansSerif", serif;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-style: normal;
+    font-weight: lighter;
+    font-size: 20px;
+    line-height: 32px;
+    /* or 160% */
+    display: flex;
+    align-items: center;
+    /* Grey-900 */
+    color: #028577;
+}
+
+.descriptionFarm {
+    -webkit-font-smoothing: antialiased;
+}
+
+  .bottomContainer {
+    padding-top: '0.9rem';
+    margin-top: 30px;
+    margin-left: 12%; 
+    width: 240px;
+    box-shadow: 0 -5px 5px -5px #333;
+  }

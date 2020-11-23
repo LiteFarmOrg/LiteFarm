@@ -5,9 +5,10 @@ import ProfilePicture from "../../../assets/images/navbar/defaultpfp.png"; // TO
 import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
+import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
-  const initialState = { profile: false };
+  const initialState = { profile: false, switchFarmOutro: false };
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
   const resetSpotlightStatus = (data) => {
@@ -83,9 +84,11 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         }
       </div>
 
+      <FarmSwitchOutro>
       <div className={styles.itemContainer}>
         {logo}
       </div>
+      </FarmSwitchOutro>
       {children}
     </div>
   );

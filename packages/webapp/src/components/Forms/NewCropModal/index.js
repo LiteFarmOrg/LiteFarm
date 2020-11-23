@@ -122,6 +122,7 @@ class NewCropModal extends React.Component {
       validated = false;
     }
     if (currentState.variety === '') {
+      errors += 'Variety Name, ';
       validated = false;
     }
 

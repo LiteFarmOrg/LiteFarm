@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {userInfoSelector} from '../../selector';
-import {connect} from 'react-redux';
-import {updateUserInfo,} from '../../actions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateUser } from '../../saga';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import {actions, Control, Form} from 'react-redux-form';
-import {Button} from 'react-bootstrap';
+import { actions, Control, Form } from 'react-redux-form';
+import { Button } from 'react-bootstrap';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class Account extends Component {
   componentDidMount() {
@@ -23,6 +23,7 @@ class Account extends Component {
     // Typical usage (don't forget to compare props):
     if (this.props.users !== prevProps.users) {
       const {dispatch, users} = this.props;
+      console.log(users, users.phone_number, users.phone_number.number);
       if (users) {
         dispatch(actions.change('profileForms.userInfo.first_name', users.first_name));
         dispatch(actions.change('profileForms.userInfo.last_name', users.last_name));
@@ -34,13 +35,11 @@ class Account extends Component {
   }
 
   handleSubmit(updated_user, user) {
-    user.first_name = updated_user.first_name;
-    user.last_name = updated_user.last_name;
-    user.phone_number = updated_user.phone_number;
-    user.address = updated_user.address === null || updated_user.address === undefined ? '' : updated_user.address;
-    // TODO: remove hardcoded string for prof pic
-    //user.profile_picture = '';
-    this.props.dispatch(updateUserInfo(user));
+    const {user_id, farm_id} = user;
+    const newUser = {...updated_user, user_id, farm_id};
+    newUser.address = newUser.address? newUser.address: '';
+    delete newUser.profile_picture;
+    this.props.dispatch(updateUser(newUser));
   }
 
   render() {
@@ -88,7 +87,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    users: userInfoSelector(state),
+    users: userFarmSelector(state),
   }
 };
 

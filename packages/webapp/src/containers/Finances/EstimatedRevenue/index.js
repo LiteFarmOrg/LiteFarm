@@ -3,11 +3,12 @@ import React, {Component} from "react";
 import PageTitle from "../../../components/PageTitle";
 import Table from '../../../components/Table';
 import connect from "react-redux/es/connect/connect";
-import {cropSelector as fieldCropSelector, farmSelector} from "../../selector";
+import {cropSelector as fieldCropSelector} from "../../selector";
 import {getFieldCrops} from "../../actions";
 import moment from "moment";
 import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
+import { userFarmSelector } from '../../userFarmSlice';
 
 class EstimatedRevenue extends Component {
   constructor(props) {
@@ -122,7 +123,7 @@ class EstimatedRevenue extends Component {
 const mapStateToProps = (state) => {
   return {
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

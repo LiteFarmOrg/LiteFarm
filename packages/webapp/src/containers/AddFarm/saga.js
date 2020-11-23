@@ -12,90 +12,70 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import { POST_FARM, PATCH_ROLE, PATCH_FARM } from './constants';
 import history from '../../history';
-import { takeEvery, call, put, select } from 'redux-saga/effects';
-import { farmUrl, userFarmUrl } from '../../apiConfig';
+import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import { setFarmInState } from '../actions';
-import { farmSelector } from '../selector';
-
+import { loginSelector, selectFarmSuccess } from '../loginSlice';
+import { postFarmSuccess, patchRoleStepTwoSuccess, userFarmSelector, patchFarmSuccess } from '../userFarmSlice';
+import { getHeader } from '../saga';
+import { createAction } from '@reduxjs/toolkit';
 const axios = require('axios');
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`
 const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
-export function* createFarm(payload) {
-  const { farmInfo } = payload;
-  const user_id = localStorage.getItem('user_id');
-
-  const getHeader = (user_id, farm_id )=> ({
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id,
-      farm_id
-    },
-  });
+export const postFarm = createAction('postFarmSaga');
+export function* postFarmSaga({ payload: farm }) {
+  const { user_id } = yield select(loginSelector);
 
   let addFarmData = {
-    farm_name: farmInfo.farmName,
-    address: farmInfo.address,
-    grid_points: farmInfo.gridPoints,
-    country: farmInfo.country,
+    farm_name: farm.farmName,
+    address: farm.address,
+    grid_points: farm.gridPoints,
+    country: farm.country,
   };
-
+  const header = getHeader(user_id);
+  const { userUrl } = apiConfig;
   try {
-    const addFarmResult = yield call(axios.post, farmUrl, addFarmData, getHeader(user_id));
-    if (addFarmResult.data && addFarmResult.data.farm_id) {
-      localStorage.setItem('farm_id', addFarmResult.data.farm_id);
-      const farm = addFarmResult.data;
-      const { farm_id } = farm;
-      let step = {
-        step_one: true,
-        step_one_end: new Date(),
-      };
-      yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
-      // redirect to next step (select role)
-      // Country is needed in state in case going back happens.
-      yield put(setFarmInState({...farm, ...step, country: farmInfo.country}));
-
-      history.push('/role_selection')
-    }
+    const [addFarmResult, getUserResult] = yield all([
+      call(axios.post, farmUrl, addFarmData, header),
+      call(axios.get, userUrl + '/' + user_id, header)
+      ]);
+    const farm = addFarmResult.data;
+    const { farm_id } = farm;
+    let step = {
+      step_one: true,
+      step_one_end: new Date(),
+    };
+    yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
+    const user = getUserResult?.data;
+    yield put(postFarmSuccess({ ...user, ...farm, ...step, country: addFarmData.country }));
+    yield put(selectFarmSuccess({ farm_id }));
+    history.push('/role_selection')
   } catch (e) {
-    console.error(e);
+    console.log(e);
     toastr.error('Failed to add farm, please contact litefarm for assistance');
   }
 }
 
-export function* patchFarm(payload) {
-  const { farmInfo } = payload;
-  const user_id = localStorage.getItem('user_id');
-
-  const getHeader = (user_id, farm_id )=> ({
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id,
-      farm_id: farmInfo.farm_id
-    },
-  });
+export const patchFarm = createAction('patchFarmSaga');
+export function* patchFarmSaga({ payload: farm }) {
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let patchFarmData = {
-    farm_name: farmInfo.farmName,
-    address: farmInfo.address,
-    grid_points: farmInfo.gridPoints,
-    country: farmInfo.country,
+    farm_name: farm.farmName,
+    address: farm.address,
+    grid_points: farm.gridPoints,
+    country: farm.country,
   };
 
   try {
-    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farmInfo.farm_id}`, patchFarmData, getHeader(user_id, payload.farm_id));
-    if (patchedFarm.data && patchedFarm.data[0].farm_id) {
-      const farm = patchedFarm.data[0];
-      yield put(setFarmInState({...farm}));
-      history.push('/role_selection')
-    }
+    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farm_id}`, patchFarmData, header);
+    const farm = patchedFarm.data[0];
+    yield put(patchFarmSuccess({...farm, user_id}));
+    history.push('/role_selection');
   } catch (e) {
     console.error(e);
     toastr.error('Failed to add farm, please contact litefarm for assistance');
@@ -104,28 +84,23 @@ export function* patchFarm(payload) {
 
 
 
-export function* patchRole(payload) {
+export const patchRole = createAction('patchRoleSaga');
+export function* patchRoleSaga({ payload }) {
   try {
-    const { farm_id, user_id } = yield select(farmSelector);
-    console.log(user_id)
-    //TODO refactor header
-    const header = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-        user_id,
-        farm_id,
-      },
-    };
-    const { role, callback } = payload;
-    yield call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header);
+    const userFarm = yield select(userFarmSelector);
+    const { user_id, farm_id, step_two, step_two_end } = userFarm;
+    const { role, role_id, callback } = payload;
+    const header = getHeader(user_id, farm_id);
     //TODO set date on server
     let step = {
       step_two: true,
-      step_two_end: new Date(),
+      step_two_end: step_two_end || new Date(),
     };
-    yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-    yield put(setFarmInState({ ...step }));
+    yield all([
+      call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header),
+      !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
+  ]);
+    yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
     callback && callback();
   } catch (e) {
     console.log('fail to update role');
@@ -133,9 +108,8 @@ export function* patchRole(payload) {
 
 }
 
-
 export default function* addFarmSaga() {
-  yield takeEvery(POST_FARM, createFarm);
-  yield takeEvery(PATCH_FARM, patchFarm);
-  yield takeEvery(PATCH_ROLE, patchRole);
+  yield takeLatest(postFarm.type, postFarmSaga);
+  yield takeLatest(patchFarm.type, patchFarmSaga);
+  yield takeLatest(patchRole.type, patchRoleSaga);
 }

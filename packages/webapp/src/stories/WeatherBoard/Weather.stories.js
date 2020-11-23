@@ -1,5 +1,6 @@
 import React from 'react';
 import WeatherBoard from '../../containers/WeatherBoard';
+import { Default } from '../Pages/Home/Home.stories';
 
 export default {
   title: 'Components/WeatherBoard/WeatherBoardWrapper',
@@ -26,6 +27,12 @@ Espanol.args = {
 }
 
 
+English.parameters = {
+  chromatic: { disable: true },
+};
+Espanol.parameters = {
+  chromatic: { disable: true },
+};
 
 
 

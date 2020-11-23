@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form";
-import React, { useState, useEffect} from "react";
-import Script from "react-load-script";
-import { VscLocation } from "react-icons/vsc";
+import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import Script from 'react-load-script';
+import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
+import {userFarmSelector} from '../userFarmSlice';
 
-import PureAddFarm from "../../components/AddFarm";
-import { patchFarm, postFarm } from './actions';
-import { farmSelector } from '../selector';
+import PureAddFarm from '../../components/AddFarm';
+import { patchFarm, postFarm } from './saga';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
@@ -18,7 +18,7 @@ const errorMessage = {
 
 const AddFarm = () => {
   const dispatch = useDispatch();
-  const farm = useSelector(farmSelector);
+  const farm = useSelector(userFarmSelector);
   const { register, handleSubmit, getValues, setValue, errors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
@@ -47,7 +47,7 @@ const AddFarm = () => {
       country,
       farm_id : farm ? farm.farm_id : undefined
     };
-    farm ?  dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo))
+    farm.farm_id ?  dispatch(patchFarm(farmInfo)) : dispatch(postFarm(farmInfo))
   }
 
   let autocomplete;

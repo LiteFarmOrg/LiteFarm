@@ -13,6 +13,7 @@ import {addOrUpdateSale, deleteSale} from "../../../Finances/actions";
 import {convertFromMetric, convertToMetric, getUnit} from "../../../../util";
 import ConfirmModal from "../../../../components/Modals/Confirm";
 import history from "../../../../history";
+import { userFarmSelector } from '../../../userFarmSlice';
 
 class EditSale extends Component {
   constructor(props) {
@@ -111,7 +112,7 @@ const mapStateToProps = (state) => {
   return {
     sale: selectedSaleSelector(state),
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

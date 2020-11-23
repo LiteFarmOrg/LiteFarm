@@ -18,16 +18,17 @@ import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
-import notificationReducer from '../containers/Profile/Notification/reducer';
-import peopleReducer from '../containers/Profile/People/reducer'
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
 import fieldReducer from '../containers/Field/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
-import userFarmReducer from '../containers/ChooseFarm/reducer';
-import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/reducer';
+import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
+import loginReducer from '../containers/loginSlice';
+import userFarmReducer from '../containers/userFarmSlice';
+import userReducer from '../containers/userSlice';
+import rolesReducer from '../containers/Profile/People/slice';
 
 // all the initial state for the forms
 const initialFarmState = {
@@ -97,6 +98,14 @@ const signUpUserInfo = {
   password: '',
 };
 
+const entitiesReducer= combineReducers({
+  loginReducer,
+  userFarmReducer,
+  // userReducer,
+  certifierSurveyReducer,
+  rolesReducer,
+});
+
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
   toastr: toastrReducer,
@@ -109,17 +118,14 @@ const appReducer = combineReducers({
     editInfo: editUserInfo,
     signUpInfo: signUpUserInfo,
   }, 'profileForms'),
+  entitiesReducer,
   baseReducer,
   logReducer,
-  notificationReducer,
-  peopleReducer,
   shiftReducer,
   fieldReducer,
   insightReducer,
   financeReducer,
-  farmReducer,
-  userFarmReducer,
-  certifierSurveyReducer,
+  farmReducer
 });
 
 const rootReducer = (state, action) => {

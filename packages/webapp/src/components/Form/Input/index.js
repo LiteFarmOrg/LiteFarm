@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Label, Info } from '../../Typography';
 import { Cross } from '../../Icons';
-
+import { BiSearchAlt2 } from 'react-icons/all';
 const Input = ({
   disabled = false,
   classes = {},
@@ -16,15 +16,17 @@ const Input = ({
   icon,
   inputRef,
   onClear,
+  isSearchBar,
   ...props
 }) => {
   return (
     <div className={clsx(styles.container)} style={(style || classes.container) && {...style, ...classes.container}}>
       {label && <Label>{label} {optional && <Label sm className={styles.sm}>(optional)</Label>}</Label>}
       {errors && <Cross onClick={onClear} className={styles.cross}/>}
+      {isSearchBar && <BiSearchAlt2 className={styles.searchIcon}/>}
       <input
         disabled={disabled}
-        className={clsx(styles.input, errors && styles.inputError)}
+        className={clsx(styles.input, errors && styles.inputError, isSearchBar && styles.searchBar)}
         style={classes.input}
         aria-invalid={errors ? 'true' : 'false'}
         ref={inputRef}
@@ -59,6 +61,7 @@ Input.propTypes = {
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
   ]),
   style: PropTypes.object,
+  isSearchBar: PropTypes.bool,
 }
 
 export default Input;

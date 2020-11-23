@@ -1,22 +1,25 @@
-import { GET_DISEASES, GET_PESTICIDES, ADD_PEST_CONTROL_LOG, ADD_DISEASES, ADD_PESTICIDES, EDIT_PEST_CONTROL_LOG } from "./constants";
-import { setDiseaseInState, setPesticideInState, getPesticides, getDiseases } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  ADD_DISEASES,
+  ADD_PEST_CONTROL_LOG,
+  ADD_PESTICIDES,
+  EDIT_PEST_CONTROL_LOG,
+  GET_DISEASES,
+  GET_PESTICIDES,
+} from './constants';
+import { getDiseases, getPesticides, setDiseaseInState, setPesticideInState } from './actions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
-import {toastr} from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
+import { loginSelector } from '../../loginSlice';
+import { getHeader } from '../../saga';
+
 const axios = require('axios');
 
 export function* getPesticideSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { pesticideUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
   try{
     const result = yield call(axios.get, pesticideUrl + '/farm/' + farm_id, header);
     if (result) {
@@ -28,16 +31,9 @@ export function* getPesticideSaga() {
 }
 
 export function* getDiseaseSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { diseaseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, diseaseUrl + '/farm/' + farm_id, header);
@@ -50,16 +46,9 @@ export function* getDiseaseSaga() {
 }
 
 export function* addPesticideSaga(payload) {
-  let farm_id = localStorage.getItem('farm_id');
   const { pesticideUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let pesticideConfig = payload.pesticideConfig;
   pesticideConfig.farm_id = farm_id;
@@ -75,16 +64,9 @@ export function* addPesticideSaga(payload) {
 }
 
 export function* addPestControlLog(payload) {
-  let user_id = localStorage.getItem('user_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let pcLog = payload.pcConfig;
   pcLog.user_id = user_id;
@@ -102,16 +84,9 @@ export function* addPestControlLog(payload) {
 }
 
 export function* editPestControlLog(payload) {
-  let user_id = localStorage.getItem('user_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let pcLog = payload.pcConfig;
   pcLog.user_id = user_id;
@@ -129,16 +104,9 @@ export function* editPestControlLog(payload) {
 }
 
 export function* addDiseaseSaga(payload) {
-  let farm_id = localStorage.getItem('farm_id');
   const { diseaseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   let diseaseConfig = payload.diseaseConfig;
   diseaseConfig.farm_id = farm_id;

@@ -14,16 +14,11 @@
  */
 
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Callback from './components/Callback';
 import Auth from './Auth/Auth';
 import Home from './containers/Home';
-import Outro from './containers/Outro';
-import InterestedOrganic from './containers/OrganicCertifierSurvey/InterestedOrganic';
-import OrganicPartners from './containers/OrganicCertifierSurvey/OrganicPartners';
 import Profile from './containers/Profile';
-import WelcomeScreen from './containers/WelcomeScreen';
-import AddFarm from './containers/AddFarm';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
@@ -97,41 +92,53 @@ import NewSaleAddSale from './containers/NewFinances/Sales/AddSale';
 import Sales from './containers/NewFinances/Sales';
 import Balances from './containers/NewFinances/Balances';
 
-import MyLog from './containers/Log/MyLog';
+import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 import RoleSelection from './containers/RoleSelection';
-import { useSelector } from 'react-redux';
-import { farmSelector } from './containers/selector';
+import { useDispatch, useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
+
+// action
+import { loginSuccess } from './containers/loginSlice';
+import { userFarmSelector } from './containers/userFarmSlice';
 
 const auth = new Auth();
 
-const handleAuthentication = (nextState, replace) => {
+const handleAuthentication = (nextState, loginSuccess = () => {
+}) => {
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
+    auth.handleAuthentication(loginSuccess);
   }
 };
 
-function Routes() {
-  const farm = useSelector(farmSelector);
-  if (auth.isAuthenticated()) {
-    let role_id = localStorage.getItem('role_id');
+
+const Routes = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = auth.isAuthenticated();
+  const dispatchLoginSuccess = (user_id) => {
+    dispatch(loginSuccess({ user_id }))
+  };
+  const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
+    && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
+  let { step_five, has_consent, role_id } = userFarm;
+  if (isAuthenticated) {
     role_id = Number(role_id);
     // TODO check every step
-    if (farm?.step_five === false || !farm || !farm.has_consent) {
-      return <OnboardingFlow/>
-    }
-    if (role_id === 1) {
+    if (!step_five) {
+      return <OnboardingFlow {...userFarm}/>
+    } else if (step_five && !has_consent) {
+      return <Switch>
+        <Route path="/farm_selection" exact component={ChooseFarm}/>
+        <Route path="/consent" exact component={ConsentForm}/>
+        //TODO add new consent form and allow users to withdraw consent
+        <Redirect to={'/consent'}/>
+      </Switch>
+    } else if (role_id === 1) {
       return (
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/role_selection" exact component={RoleSelection}/>
-          <Route path="/outro" exact component={Outro}/>
-          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
-          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -202,10 +209,12 @@ function Routes() {
           <Route path="/sale_detail" exact component={SaleDetail}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
-            handleAuthentication(props);
+            handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
-          <Route path="/log_detail" exact component={MyLog}/>
+          <Route path="/log_detail" exact component={LogDetail}/>
+          //TODO change to 404
+          <Redirect to={'/'}/>
         </Switch>
       );
     } else if (role_id === 2 || role_id === 5) {
@@ -213,12 +222,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/role_selection" exact component={RoleSelection}/>
-          <Route path="/outro" exact component={Outro}/>
-          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
-          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -292,10 +296,12 @@ function Routes() {
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
-            handleAuthentication(props);
+            handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
-          <Route path="/log_detail" exact component={MyLog}/>
+          <Route path="/log_detail" exact component={LogDetail}/>
+          //TODO change to 404
+          <Redirect to={'/'}/>
         </Switch>
       );
     } else {
@@ -303,11 +309,7 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Home}/>
           <Route path="/home" exact component={Home}/>
-          <Route path="/outro" exact component={Outro}/>
-          <Route path="/interested_in_organic" exact component={InterestedOrganic}/>
-          <Route path="/organic_partners" exact component={OrganicPartners}/>
           <Route path="/profile" exact component={Profile}/>
-          <Route path="/welcome" exact component={WelcomeScreen}/>
           <Route path="/intro" exact component={IntroSlide}/>
           <Route path="/consent" exact component={ConsentForm}/>
           <Route path="/log" exact component={Log}/>
@@ -337,10 +339,10 @@ function Routes() {
           <Route path="/edit_shift_one" exact component={EditShiftOne}/>
           <Route path="/edit_shift_two" exact component={EditShiftTwo}/>
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
-          <Route path="/log_detail" exact component={MyLog}/>
+          <Route path="/log_detail" exact component={LogDetail}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
           <Route path="/callback" render={(props) => {
-            handleAuthentication(props);
+            handleAuthentication(props, dispatchLoginSuccess);
             return <Callback {...props} />
           }}/>
           <Route path="/insights" exact component={Insights}/>
@@ -352,6 +354,8 @@ function Routes() {
           <Route path="/insights/waterbalance" exact component={WaterBalance}/>
           <Route path="/insights/erosion" exact component={Erosion}/>
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
+          //TODO change to 404
+          <Redirect to={'/'}/>
         </Switch>
       );
     }
@@ -359,7 +363,7 @@ function Routes() {
     return (
       <Switch>
         <Route path="/callback" render={(props) => {
-          handleAuthentication(props);
+          handleAuthentication(props, dispatchLoginSuccess);
           return <Callback {...props} />
         }}/>
         <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>

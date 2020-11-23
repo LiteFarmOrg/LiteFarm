@@ -1,10 +1,10 @@
 import React from 'react';
-import { render, fireEvent, screen } from '../../tests/utils';
-import ConsentForm from "./index";
+import { fireEvent, render, screen } from '../../tests/utils';
+import ConsentForm from './index';
 import '@testing-library/jest-dom'
 import { createStore } from 'redux'
-import { act } from "@testing-library/react";
-import { UPDATE_AGREEMENT } from "../constants";
+import { act } from '@testing-library/react';
+import { UPDATE_AGREEMENT } from '../constants';
 
 const baseReducer = {
   users: {},

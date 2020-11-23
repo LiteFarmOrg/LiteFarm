@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import {Router} from 'react-router-dom';
 import history from './../../history';
 import NavBar from "../../components/Navigation/NavBar";
+import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
+
 const store = {
   getState: () => {
     return {
@@ -35,12 +37,7 @@ export default {
 
 const Template = (args) => <NavBar {...args} />;
 
-export const SignupNavbar = Template.bind({});
-
-SignupNavbar.args = {
-  auth: {logout: () => {}, isAuthenticated: () => false},
-  history: {push: () => {}, location: {pathname: '/sign_up' }, replace: () => {}},
-}
+export const SignupNavbar = (()=><NoFarmNavBar/>).bind({});
 
 export const HomeNavbar = Template.bind({});
 

@@ -1,19 +1,20 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {cropSelector, fieldSelector, farmSelector} from '../../selector';
-import {getFieldCrops} from '../../../containers/actions';
+import { cropSelector, fieldSelector } from '../../selector';
+import { getFieldCrops } from '../../../containers/actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form, Control} from 'react-redux-form';
+import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import {addLog} from "../Utility/actions";
-import {convertToMetric, getUnit} from "../../../util";
-import parseCrops from "../Utility/parseCrops";
-import parseFields from "../Utility/parseFields";
-import LogFormOneCrop from "../../../components/Forms/LogFormOneCrop";
+import { addLog } from '../Utility/actions';
+import { convertToMetric, getUnit } from '../../../util';
+import parseCrops from '../Utility/parseCrops';
+import parseFields from '../Utility/parseFields';
+import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

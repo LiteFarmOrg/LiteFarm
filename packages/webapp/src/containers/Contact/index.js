@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './styles.scss';
-import {Form, FormGroup, FormControl, Button} from "react-bootstrap";
-import {sendContactForm} from "./actions";
-import {connect} from "react-redux";
-import InfoBoxComponent from "../../components/InfoBoxComponent";
-import {FormErrors} from "./FormErrors";
+import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { sendContactForm } from './actions';
+import { connect } from 'react-redux';
+import InfoBoxComponent from '../../components/InfoBoxComponent';
+import { FormErrors } from './FormErrors';
 
 class Contact extends Component {
   constructor(props) {

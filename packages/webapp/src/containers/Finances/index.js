@@ -20,7 +20,7 @@ import {Button} from 'react-bootstrap';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import {salesSelector, shiftSelector, expenseSelector, dateRangeSelector} from "./selectors";
-import {cropSelector as fieldCropSelector, farmSelector} from '../selector';
+import {cropSelector as fieldCropSelector} from '../selector';
 import {getExpense, getSales, getShifts, getDefaultExpenseType, setDateRange} from './actions';
 import {calcTotalLabour, calcOtherExpense, filterSalesByCurrentYear} from './util';
 import {fetchFarmInfo, getFieldCrops} from "../actions";
@@ -30,6 +30,7 @@ import {roundToTwoDecimal, grabCurrencySymbol} from "../../util";
 import DateRangeSelector from "../../components/Finances/DateRangeSelector";
 import InfoBoxComponent from "../../components/InfoBoxComponent";
 import {extendMoment} from 'moment-range';
+import { userFarmSelector } from '../userFarmSlice';
 
 const moment = extendMoment(Moment);
 
@@ -86,8 +87,7 @@ class Finances extends Component {
     this.props.dispatch(getExpense());
     this.props.dispatch(getDefaultExpenseType());
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
-
+    //TODO fetch userFarm
     if(dateRange && dateRange.startDate && dateRange.endDate){
       this.setState({
         startDate: dateRange.startDate,
@@ -469,7 +469,7 @@ const mapStateToProps = (state) => {
     expenses: expenseSelector(state),
     fieldCrops: fieldCropSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
-import { InputGroup, FormControl } from 'react-bootstrap';
+import { FormControl, InputGroup } from 'react-bootstrap';
 
 class SearchBox extends Component {
 

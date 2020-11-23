@@ -15,5 +15,5 @@ Primary.args = {
   content: "LiteFarm generates forms required for organic certification. Some information will be mandatory.",
   marginTop:'12px',
   arrowTranslateX:'16px',
-  placement:'bottom-start'
+  placement:'bottom-start',
 };

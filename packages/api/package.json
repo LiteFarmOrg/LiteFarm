@@ -8,7 +8,7 @@
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
-    "start": "NODE_ENV=development node src/server.js",
+    "start": "set NODE_ENV=development&& node src/server.js",
     "production": "NODE_ENV=production node src/server.js",
     "integration": "NODE_ENV=integration node src/server.js",
     "migrate:testing:db": "knex migrate:latest --env=test",
@@ -34,6 +34,7 @@
     "url": "https://github.com/juice-tn/LiteFarm.git"
   },
   "dependencies": {
+    "adm-zip": "^0.4.16",
     "async-file": "^2.0.2",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
@@ -41,6 +42,7 @@
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
+    "dotenv": "^8.2.0",
     "eslint": "^7.10.0",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
@@ -58,15 +60,13 @@
     "nodemailer": "^6.4.12",
     "objection": "^2.2.3",
     "objection-soft-delete": "^1.0.7",
-    "pg": "^7.18.2",
+    "pg": "^8.5.1",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "sinon": "^9.1.0",
-    "uuid": "^8.3.0",
-    "dotenv": "^8.2.0",
-    "adm-zip": "^0.4.16"
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "faker": "^5.1.0",

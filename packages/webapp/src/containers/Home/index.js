@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector } from "react-redux";
-import { farmSelector, userInfoSelector } from "../selector";
-import { getSeason } from "./utils/season";
-import { toastr } from "react-redux-toastr";
-import WeatherBoard from "../../containers/WeatherBoard";
-import PureHome from "../../components/Home";
-// import Auth from '../../Auth/Auth';
-//TODO Auth0 breaks storybook
+import { useSelector } from 'react-redux';
+import { getSeason } from './utils/season';
+import { toastr } from 'react-redux-toastr';
+import WeatherBoard from '../../containers/WeatherBoard';
+import PureHome from '../../components/Home';
+import { userFarmSelector } from '../userFarmSlice';
+
 export default function Home() {
-  // const auth = new Auth();
-  const farm = useSelector(farmSelector);
-  const user = useSelector(userInfoSelector);
-  // const dispatch = useDispatch();
-  const imgUrl = getSeason(farm?.grid_points?.lat);
+  const userFarm = useSelector(userFarmSelector);
+  const imgUrl = getSeason(userFarm?.grid_points?.lat);
   const detectBrowser = () => {
     // ripped off stackoverflow: https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome
     const isChromium = window.chrome;
@@ -38,23 +34,17 @@ export default function Home() {
     }
   }
   useEffect(()=>{
-    //TODO potential bug
-
-    // if (auth.isAuthenticated()) {
-    //   dispatch(getUserInfo(true));
-    //
-    // }
     detectBrowser();
-  },[user?.user_id])
+  },[])
 
 
 
-  return <PureHome title={`Good day, ${user?.first_name}`}
+  return <PureHome title={`Good day, ${userFarm?.first_name}`}
                                  imgUrl={imgUrl}>
-    {farm && user? <WeatherBoard lon={farm.grid_points.lng}
-                                 lat={farm.grid_points.lat}
+    {userFarm? <WeatherBoard lon={userFarm.grid_points.lng}
+                                 lat={userFarm.grid_points.lat}
                                  lang={'en'}
-                                 measurement={farm.units.measurement}/>: null}
+                                 measurement={userFarm.units.measurement}/>: null}
 
   </PureHome>
 }

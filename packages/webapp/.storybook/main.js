@@ -1,5 +1,3 @@
-let fileLoader;
-let fileLoaderOption;
 module.exports = {
   'stories': [
     '../src/stories/**/*.stories.mdx',
@@ -11,6 +9,8 @@ module.exports = {
     '@storybook/addon-a11y',
   ],
   webpackFinal: async (config, { configType }) => {
+    let fileLoader;
+    let fileLoaderOption;
     config.node = { fs: 'empty', tls: 'empty', net: 'empty', module: 'empty', console: true };
     config.module.rules.map((rule) => {
       if (rule.test.test('.css')) {
@@ -22,7 +22,6 @@ module.exports = {
         rule.test = /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/;
         fileLoader = rule.loader;
         fileLoaderOption = rule.options;
-        console.log(rule);
       }
     });
     config.module.rules.push({

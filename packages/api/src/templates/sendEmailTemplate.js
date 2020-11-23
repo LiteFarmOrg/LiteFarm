@@ -45,7 +45,12 @@ class sendEmailTemplate {
     let htmlToSend = template(replacements);
 
     // this changes the join button href for invite a user email
-    const html_templates = ['../templates/invitation_to_farm_email.html', "../templates/send_confirmation_email.html", "../templates/withheld_consent_email.html"]
+    const html_templates = [
+      '../templates/invitation_to_farm_email.html',
+      "../templates/send_confirmation_email.html",
+      "../templates/withheld_consent_email.html",
+      "../templates/restoration_of_access_to_farm_email.html"
+    ]
     if(html_templates.includes(template_path)){
       // using JSDOM to dynamically set the href for the Join button
       let dom = new JSDOM(htmlToSend);

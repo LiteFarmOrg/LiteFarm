@@ -23,11 +23,14 @@ exports.down = async function (knex) {
     table.jsonb('phone_number');
   });
   await knex.schema.alterTable('users', (table) => {
-    table.integer('phone_number').alter();
+    table.dropColumn('phone_number');
+  });
+  await knex.schema.alterTable('users', (table) => {
+    table.integer('phone_number');
   });
   const updates = [];
   for (const farm of farms) {
-    updates.push(knex('farm').where('farm_id', farm.farm_id).update(
+    farm.farm_phone_number && updates.push(knex('farm').where('farm_id', farm.farm_id).update(
       { phone_number: { number: farm.farm_phone_number, country: '' } }));
   }
   for (const user of users) {

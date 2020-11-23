@@ -17,12 +17,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from "react-router-dom";
 import history from './history';
-import { createStore, applyMiddleware, compose } from 'redux'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga'
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
-import notificationSaga from './containers/Profile/Notification/saga';
 import peopleSaga from './containers/Profile/People/saga'
 import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';
@@ -36,17 +35,16 @@ import cropSaga from './components/Forms/NewCropModal/saga';
 import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
-import userFarmSaga from'./containers/ChooseFarm/saga';
+import chooseFarmSaga from'./containers/ChooseFarm/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
+import consentSaga from './containers/Consent/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
-import App from './App';
 import { unregister } from './registerServiceWorker';
-import thunk from 'redux-thunk';
 
 
 // config for redux-persist
@@ -59,12 +57,23 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [sagaMiddleware, thunk];
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-export const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(...middlewares)));
+const middlewares = [sagaMiddleware];
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [...getDefaultMiddleware(), ...middlewares],
+  devTools: process.env.NODE_ENV !== 'production',
+});
+
+// https://redux-toolkit.js.org/tutorials/advanced-tutorial#store-setup-and-hmr
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./reducer', () => {
+    const newRootReducer = require('./reducer').default
+    store.replaceReducer(newRootReducer)
+  })
+}
+
 sagaMiddleware.run(homeSaga);
 sagaMiddleware.run(addFarmSaga);
-sagaMiddleware.run(notificationSaga);
 sagaMiddleware.run(peopleSaga);
 sagaMiddleware.run(logSaga);
 sagaMiddleware.run(outroSaga);
@@ -78,8 +87,9 @@ sagaMiddleware.run(cropSaga);
 sagaMiddleware.run(insightSaga);
 sagaMiddleware.run(contactSaga);
 sagaMiddleware.run(farmDataSaga);
-sagaMiddleware.run(userFarmSaga);
+sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
+sagaMiddleware.run(consentSaga);
 
 const persistor = persistStore(store);
 
@@ -90,28 +100,39 @@ export const purgeState  = () => {
 export default () => {
   return { store, persistor }
 }
-// encapsulate whole app component within router and react-redux
-ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-    <Router history={history}>
-      <div>
-        <ReduxToastr
-          timeOut={4000}
-          newestOnTop={false}
-          preventDuplicates
-          position="top-left"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-          progressBar
-          closeOnToastrClick
-        />
-        <App />
-      </div>
-    </Router>
-    </PersistGate>
-  </Provider>,
+
+const render = () => {
+  const App = require('./App').default;
+  ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router history={history}>
+          <div>
+            <ReduxToastr
+              timeOut={4000}
+              newestOnTop={false}
+              preventDuplicates
+              position="top-left"
+              transitionIn="fadeIn"
+              transitionOut="fadeOut"
+              progressBar
+              closeOnToastrClick
+            />
+            <App />
+          </div>
+        </Router>
+      </PersistGate>
+    </Provider>,
     document.getElementById('root'));
+}
+
+render();
+
+
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./App', render)
+}
+
 //FIXME: service worker disabled for now. Causing problems when deploying: shows blank page until N+1th visit
 // https://twitter.com/dan_abramov/status/954146978564395008
 unregister();

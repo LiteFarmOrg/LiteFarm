@@ -1,14 +1,21 @@
 @import "../../assets/colors";
 .footer{
-  bottom: 0;
   padding: 0 16px 24px 16px;
-  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonContainer{
   width: 100%;
   display: flex;
   flex-direction: row;
 }
 
-.footer > *{
+.buttonContainer > *{
   margin: 0 8px
+}
+.whiteBackground{
+  background-color: white;
 }
 

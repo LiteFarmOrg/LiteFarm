@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { FINISH_ONBOARDING} from './constants'
+import { FINISH_ONBOARDING } from './constants'
 
 export const finishOnboarding = (callback) => {
   return {

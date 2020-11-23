@@ -1,22 +1,23 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
-import {Button, Card, Modal} from 'react-bootstrap';
-import {fieldSelector, cropSelector as fieldCropSelector, farmSelector} from "../../selector";
-import {expiredCropSelector} from "../selectors";
-import {CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY} from '../constants';
+import { Button, Card, Modal } from 'react-bootstrap';
+import { cropSelector as fieldCropSelector, fieldSelector } from '../../selector';
+import { expiredCropSelector } from '../selectors';
+import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
-import {deleteFieldCrop, deleteField, getExpiredCrops} from "../actions";
-import {getFieldCropsByDate, getFields} from '../../actions';
-import {updateField} from './actions';
-import PageTitle from "../../../components/PageTitle";
-import ConfirmModal from "../../../components/Modals/Confirm";
-import {toastr} from "react-redux-toastr";
+import { deleteField, deleteFieldCrop, getExpiredCrops } from '../actions';
+import { getFieldCropsByDate, getFields } from '../../actions';
+import { updateField } from './actions';
+import PageTitle from '../../../components/PageTitle';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { toastr } from 'react-redux-toastr';
 import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/EditFieldCropModal';
-import {convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal} from "../../../util";
-import { BsPencil } from "react-icons/all";
+import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
+import { BsPencil } from 'react-icons/all';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class EditField extends Component {
   static defaultProps = {
@@ -367,7 +368,7 @@ const mapStateToProps = (state) => {
   return {
     fields: fieldSelector(state),
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
     expiredFieldCrops: expiredCropSelector(state),
   }
 };

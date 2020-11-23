@@ -14,82 +14,52 @@
  */
 
 import {
-  GET_USER_INFO,
   GET_FARM_INFO,
   GET_FIELD_CROPS,
   GET_FIELD_CROPS_BY_DATE,
   GET_FIELDS,
-  UPDATE_USER_INFO,
+  GET_USER_INFO,
+  // UPDATE_AGREEMENT,
   UPDATE_FARM,
-  UPDATE_AGREEMENT
-} from "./constants";
-import { setUserInState, setFarmInState, fetchFarmInfo, setFieldCropsInState, setFieldsInState, getFields, getFieldCrops } from './actions';
+  UPDATE_USER_INFO,
+} from './constants';
+import {
+  fetchFarmInfo,
+  getFieldCrops,
+  getFields,
+  // setFarmInState,
+  setFieldCropsInState,
+  setFieldsInState,
+  setUserInState,
+} from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
-import { put, takeEvery, call, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import Auth from '../Auth/Auth.js';
-import { farmSelector } from './selector';
+import { loginSelector, loginSuccess } from './loginSlice';
+import { userFarmSelector, putUserSuccess } from './userFarmSlice';
+import { createAction } from '@reduxjs/toolkit';
 
 const axios = require('axios');
 
-
-export function* getUserInfo(action) {
-  let user_id = localStorage.getItem('user_id');
-  const { userUrl } = apiConfig;
-  const header = {
+export function getHeader(user_id, farm_id){
+  return {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
+      user_id,
+      farm_id,
     },
-  };
-
-  try {
-    const result = yield call(axios.get, userUrl + '/' + user_id, header);
-    if (result.data[0]) {
-      //console.log(result.data);
-      yield put(setUserInState(result.data[0]));
-      //TODO create a getUser saga that does not fetch userFarm
-      const farm = yield select(farmSelector);
-      if (!farm) {
-        return;
-      }
-      // if(!result.data[0].has_consent){
-      //   history.push('/consent');
-      // }
-      yield put(fetchFarmInfo());
-
-      // else if(action.loadFromHome){
-      //   history.push('/add_farm');
-      //   console.log('user has no farm at the moment');
-      // }
-    } else {
-      //TODO investigate load from home
-      const auth = new Auth();
-      auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'))
-      console.log('failed to fetch user from database')
-    }
-  } catch (e) {
-    toastr.error('Failed to fetch user info');
   }
 }
-
-export function* updateUser(payload) {
-  let user_id = localStorage.getItem('user_id');
+export const updateUser = createAction('updateUserSaga');
+export function* updateUserSaga({ payload: user }) {
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
   const { userUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  let data = payload.user;
+  let data = user;
   if (data.wage === null) {
     delete data.wage;
   }
@@ -98,10 +68,8 @@ export function* updateUser(payload) {
   }
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
-    if (result.data[0]) {
-      yield put(setUserInState(result.data[0]));
-      toastr.success('Successfully updated user info!')
-    }
+    yield put(putUserSuccess(user));
+    toastr.success('Successfully updated user info!')
   } catch (e) {
     toastr.error('Failed to update user info')
   }
@@ -109,28 +77,16 @@ export function* updateUser(payload) {
 
 export function* getFarmInfo() {
   try {
-    let userFarmReducer = yield select(state => state.userFarmReducer);
-    const farm = yield select(farmSelector);
+    let userFarm = yield select(userFarmSelector);
 
     //TODO potential bug
-    if (!farm.farm_id) {
+    if (!userFarm.farm_id) {
       history.push('/add_farm');
       return;
     }
-    const farm_id = farm?.farm_id;
-    const result = userFarmReducer.farms.filter(farm => farm.farm_id === farm_id);
-    if (result[0]) {
-      //console.log(result.data);
-      //TODO investigate why farm need the reset
-      if (result[0].role_id) {
-        localStorage.setItem('role_id', result[0].role_id);
-      }
-      yield put(setFarmInState({ ...result[0], ...farm }));
-      yield put(getFields());
-      yield put(getFieldCrops());
-    } else {
-      console.log('failed to fetch farm from database')
-    }
+    localStorage.setItem('role_id', userFarm.role_id);
+    yield put(getFields());
+    yield put(getFieldCrops());
   } catch (e) {
     console.log(e);
     toastr.error('failed to fetch farm from database');
@@ -138,16 +94,9 @@ export function* getFarmInfo() {
 }
 
 export function* updateFarm(payload) {
-  let farm_id = payload.farm && payload.farm.farm_id;
   const { farmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   // OC: We should never update address information of a farm.
   let { address, grid_points, ...data } = payload.farm;
@@ -171,16 +120,9 @@ export function* updateFarm(payload) {
 }
 
 export function* getFieldsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { fieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, fieldURL + '/farm/' + farm_id, header);
@@ -193,16 +135,9 @@ export function* getFieldsSaga() {
 }
 
 export function* getFieldCropsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
@@ -215,17 +150,10 @@ export function* getFieldCropsSaga() {
 }
 
 export function* getFieldCropsByDateSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   let currentDate = formatDate(new Date());
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id );
 
   try {
     const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
@@ -250,66 +178,65 @@ const formatDate = (currDate) => {
   return [year, month, day].join('-');
 };
 
-export function* updateAgreementSaga(payload) {
-  const farm = yield select(farmSelector);
-  const { user_id, farm_id, step_three } = farm;
-
-  const { callback } = payload;
-  const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
-
-  const { userFarmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id,
-      farm_id,
-    },
-  };
-
-  let data = {
-    has_consent: payload.consent_bool.consent,
-    consent_version: payload.consent_version,
-  };
-
-  try {
-    const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
-    if (result) {
-      if (payload.consent_bool.consent) {
-        // TODO potential bug
-        // yield put(updateConsentOfFarm(farm_id, data));
-        // yield put(setFarmInState(data));
-        // const farms = yield select((state) => state.userFarmReducer.farms);
-        // const selectedFarm = farms.find((f) => f.farm_id === farm_id);
-        let step = {};
-        if (!step_three) {
-          step = {
-            step_three: true,
-            step_three_end: new Date(),
-          };
-          yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
-        }
-        yield put(setFarmInState({ ...farm, ...step, ...data }));
-        callback && callback();
-      } else {
-        //did not give consent - log user out
-        const auth = new Auth();
-        auth.logout();
-        history.push('/callback');
-      }
-    }
-  } catch (e) {
-    toastr.error('Failed to update user agreement');
-  }
-}
+// export function* updateAgreementSaga(payload) {
+//   const userFarm = yield select(userFarmSelector);
+//   const {user_id, farm_id, step_three} = userFarm;
+//   const { callback } = payload;
+//   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
+//
+//   const { userFarmUrl } = apiConfig;
+//   const header = {
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
+//       user_id,
+//       farm_id,
+//     },
+//   };
+//
+//   let data = {
+//     has_consent: payload.consent_bool.consent,
+//     consent_version: payload.consent_version,
+//   };
+//
+//   try {
+//     //TODO replace changed async calls with axios.all
+//     const result = yield call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header);
+//     if (result) {
+//       if (payload.consent_bool.consent) {
+//         // TODO potential bug
+//         // yield put(updateConsentOfFarm(farm_id, data));
+//         // yield put(setFarmInState(data));
+//         // const farms = yield select((state) => state.userFarmReducer.farms);
+//         // const selectedFarm = farms.find((f) => f.farm_id === farm_id);
+//         let step = {};
+//         if (!step_three) {
+//           step = {
+//             step_three: true,
+//             step_three_end: new Date(),
+//           };
+//           yield call(axios.patch, patchStepUrl(farm_id, user_id), step, header);
+//         }
+//         yield put(setFarmInState({ ...userFarm, ...step, ...data }));
+//         callback && callback();
+//       } else {
+//         //did not give consent - log user out
+//         const auth = new Auth();
+//         auth.logout();
+//         history.push('/callback');
+//       }
+//     }
+//   } catch (e) {
+//     toastr.error('Failed to update user agreement');
+//   }
+// }
 
 export default function* getFarmIdSaga() {
-  yield takeEvery(GET_USER_INFO, getUserInfo);
-  yield takeEvery(UPDATE_USER_INFO, updateUser);
-  yield takeEvery(GET_FARM_INFO, getFarmInfo);
-  yield takeEvery(UPDATE_FARM, updateFarm);
-  yield takeEvery(GET_FIELDS, getFieldsSaga);
-  yield takeEvery(GET_FIELD_CROPS, getFieldCropsSaga);
-  yield takeEvery(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
-  yield takeEvery(UPDATE_AGREEMENT, updateAgreementSaga);
+  yield takeLatest(updateUser.type, updateUserSaga);
+  yield takeLatest(GET_FARM_INFO, getFarmInfo);
+  yield takeLatest(UPDATE_FARM, updateFarm);
+  yield takeLatest(GET_FIELDS, getFieldsSaga);
+  yield takeLatest(GET_FIELD_CROPS, getFieldCropsSaga);
+  yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
+  // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

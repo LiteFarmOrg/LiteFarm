@@ -8,10 +8,10 @@ import {expenseSelector, expenseTypeSelector, dateRangeSelector} from "../select
 import Table from '../../../components/Table';
 import {setExpenseDetailDate, getExpense} from "../actions";
 import history from '../../../history';
-import {farmSelector} from "../../selector";
 import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
 import { BsCaretRight } from "react-icons/bs";
+import { userFarmSelector } from '../../userFarmSlice';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -279,7 +279,7 @@ const mapStateToProps = (state) => {
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

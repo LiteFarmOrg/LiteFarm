@@ -15,7 +15,6 @@
 
 const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
-const { transaction, Model } = require('objection');
 
 class organicCertifierSurveyController extends baseController {
   static getCertifiersByFarmId() {
@@ -23,7 +22,7 @@ class organicCertifierSurveyController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const result = await organicCertifierSurveyModel.query().where({ farm_id }).first()
-          .select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested', 'organicCertifierSurvey.survey_id');
+          .select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested', 'organicCertifierSurvey.survey_id', 'organicCertifierSurvey.farm_id');
         if (!result) {
           res.sendStatus(404)
         } else {

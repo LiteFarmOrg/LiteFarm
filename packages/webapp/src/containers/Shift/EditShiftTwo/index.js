@@ -1,20 +1,21 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import {durationSelector, selectedTasksSelector, startEndSelector, selectedShiftSelector} from './selectors';
-import { fieldSelector, cropSelector, userInfoSelector } from '../../selector';
+import { durationSelector, selectedShiftSelector, selectedTasksSelector, startEndSelector } from './selectors';
+import { cropSelector, fieldSelector } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import Select from 'react-select';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import closeButton from '../../../assets/images/grey_close_button.png'
-import Popup from "reactjs-popup";
+import Popup from 'reactjs-popup';
 import history from '../../../history';
-import {toastr} from "react-redux-toastr";
-import {updateShift} from '../actions';
+import { toastr } from 'react-redux-toastr';
+import { updateShift } from '../actions';
 import { shiftRatings } from '../constants';
-import { BsReplyFill } from "react-icons/all";
+import { BsReplyFill } from 'react-icons/all';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class EditShiftTwo extends Component {
 
@@ -787,7 +788,7 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     startEnd: startEndSelector(state),
     selectedShift: selectedShiftSelector(state),
-    users: userInfoSelector(state),
+    users: userFarmSelector(state),
   }
 };
 

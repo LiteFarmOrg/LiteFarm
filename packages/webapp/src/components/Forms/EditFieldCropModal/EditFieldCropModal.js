@@ -10,7 +10,7 @@ import { convertFromMetric, getUnit, roundToTwoDecimal, convertToMetric } from '
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
-import { farmSelector } from '../../../containers/selector';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -397,7 +397,7 @@ class EditFieldCropModal extends React.Component {
 const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

@@ -181,6 +181,7 @@ describe('User Farm Tests', () => {
       expect(res.status).toBe(200);
       expect(res.body.length).toBe(3);
       expect(res.body[0].farm_id).toBe(farm.farm_id);
+      expect(res.body[0].owner_name).toBe(`${user.first_name} ${user.last_name}`)
       expect(res.body[1].farm_id).toBe(farm2.farm_id);
       expect(res.body[2].farm_id).toBe(farm3.farm_id);
       done();

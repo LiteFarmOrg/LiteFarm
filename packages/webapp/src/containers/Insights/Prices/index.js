@@ -4,13 +4,13 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { pricesDistanceSelector, pricesSelector } from '../selectors';
 import PriceCropContainer from '../../../components/Insights/PriceCropContainer';
-import { farmSelector } from '../../selector';
 import { grabCurrencySymbol } from '../../../util';
 import { Collapse } from 'react-bootstrap';
 import { setPricesDistance, getPricesWithDistanceData } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
+import { userFarmSelector } from '../../userFarmSlice';
 
 const MILE_TO_KILOMETER = 1.609;
 
@@ -125,7 +125,7 @@ const mapStateToProps = (state) => {
   return {
     pricesData: pricesSelector(state),
     pricesDistance: pricesDistanceSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

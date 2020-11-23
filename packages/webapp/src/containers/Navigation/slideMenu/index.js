@@ -1,22 +1,20 @@
 import { slide as Menu } from 'react-burger-menu';
-import React, { useEffect, useState } from 'react';
-// import logo from '../../../assets/images/logo2x.png';
+import React, { useState } from 'react';
 import logo from '../../../assets/images/navbar/nav-logo.svg';
 import vectorUp from '../../../assets/images/navbar/vector-up.svg';
 import vectorDown from '../../../assets/images/navbar/vector-down.svg';
 import styles from './styles.scss';
 import history from '../../../history';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { userFarmSelector } from '../../userFarmSlice';
 
-import { userInfoSelector, farmSelector } from '../../selector'
 
-
-function SlideMenu({ location, farm, logout }) {
+function SlideMenu() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
-
+  const farm = useSelector(userFarmSelector);
   const toggleSupport = () => {
     setSupportOpen(!supportOpen);
   }
@@ -91,18 +89,5 @@ function SlideMenu({ location, farm, logout }) {
 }
 const slideMenuWithRoute = withRouter(props => <SlideMenu {...props}/>);
 
-const mapStateToProps = (state) => {
-  return {
-    users: userInfoSelector(state),
-    farm: farmSelector(state),
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(slideMenuWithRoute);
+export default slideMenuWithRoute;
 

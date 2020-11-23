@@ -7,11 +7,12 @@ import defaultStyles from '../../../Finances/styles.scss';
 import {actions} from 'react-redux-form';
 import SaleForm from "../../../../components/Forms/Sale";
 import { getFieldCrops } from '../../../actions';
-import { cropSelector as fieldCropSelector, farmSelector } from '../../../selector';
+import { cropSelector as fieldCropSelector } from '../../../selector';
 import {addOrUpdateSale} from "../../../Finances/actions";
 import {convertToMetric, getUnit} from "../../../../util";
 import {fetchFarmInfo} from "../../../actions";
 import history from "../../../../history";
+import { userFarmSelector } from '../../../userFarmSlice';
 
 class AddSale extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class AddSale extends Component {
 const mapStateToProps = (state) => {
   return {
     fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

@@ -38,8 +38,8 @@ import {Button} from 'react-bootstrap';
 import history from '../../history';
 import ReactPlayer from 'react-player';
 import {connect} from 'react-redux';
-import {farmSelector} from '../selector';
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { userFarmSelector } from '../userFarmSlice';
 
 class IntroSlide extends React.Component {
   constructor(props) {
@@ -166,7 +166,7 @@ class IntroSlide extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

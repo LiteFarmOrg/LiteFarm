@@ -13,3 +13,6 @@ const Template = (args) => <AddFarm {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
 };
+Primary.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};

@@ -1,18 +1,18 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {logSelector, currentLogSelector} from '../selectors';
-import {fieldSelector, cropSelector} from '../../selector';
+import { currentLogSelector, logSelector } from '../selectors';
+import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form} from 'react-redux-form';
+import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import parseFields from "../Utility/parseFields";
-import {deleteLog, editLog} from "../Utility/actions";
-import parseCrops from "../Utility/parseCrops";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import parseFields from '../Utility/parseFields';
+import { deleteLog, editLog } from '../Utility/actions';
+import parseCrops from '../Utility/parseCrops';
+import ConfirmModal from '../../../components/Modals/Confirm';
 
 class FieldWorkLog extends Component{
   constructor(props) {

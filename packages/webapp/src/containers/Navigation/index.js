@@ -23,13 +23,14 @@ import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar'
 import styles1 from './styles1.scss'
 
-import { farmSelector, spotlightSelector } from '../selector'
-import PureNavBar from "../../components/Navigation/NavBar";
+import { spotlightSelector } from '../selector'
+import PureNavBar from '../../components/Navigation/NavBar';
 
-import { showSpotlight } from "../actions";
+import { showSpotlight } from '../actions';
+import { userFarmSelector, userFarmLengthSelector } from '../userFarmSlice';
 
 const NavBar = (props) => {
-  const { auth, history, farm, show_spotlight, dispatch } = props;
+  const { auth, history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
 
   const { isAuthenticated } = auth;
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
@@ -38,18 +39,18 @@ const NavBar = (props) => {
       <img src={SmallerLogo} alt="Logo" className={styles.smallLogo} onClick={() => history.push('/')}/>)
     : (<img src={SmallLogo} alt="Logo" className={styles.smallLogo} onClick={() => history.push('/')}/>)
 
-  const farmSpotlight = "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees";
-  const notificationsSpotlight = "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities";
-  const myProfileSpotlight = "Here you will find:, • Your info, • Helpful tips, • The log out button";
+  const farmSpotlight = 'Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees';
+  const notificationsSpotlight = 'Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities';
+  const myProfileSpotlight = 'Here you will find:, • Your info, • Helpful tips, • The log out button';
 
   const returnContent = (spotlightType, title) => {
-    return spotlightType.split(',').map(function(item, key) {
+    return spotlightType.split(',').map(function (item, key) {
       return (
-        title ? 
-        <span key={key} className={styles1.green}>
+        title ?
+          <span key={key} className={styles1.green}>
         <p align="left">{item}</p>
         </span> :
-        <span key={key}><p align="left">{item}</p></span>
+          <span key={key}><p align="left">{item}</p></span>
       )
     })
   }
@@ -61,40 +62,40 @@ const NavBar = (props) => {
   }
 
   const steps = [
-      {
-        target: "#firstStep",
-        title: returnContent("This is your farm profile", true),
-        content: returnContent(farmSpotlight, false),
-        locale: {
-          next: returnNextButton("Next"),
-        },
-        showCloseButton: false,
-        disableBeacon: true,
-        placement: "right-start"
+    {
+      target: '#firstStep',
+      title: returnContent('This is your farm profile', true),
+      content: returnContent(farmSpotlight, false),
+      locale: {
+        next: returnNextButton('Next'),
       },
-      {
-        target: "#secondStep",
-        title: returnContent("This is your Notification Centre", true),
-        content: returnContent(notificationsSpotlight, false),
-        locale: {
-          next: returnNextButton("Next"),
-        },
-        showCloseButton: false,
-        placement: "right-start"
+      showCloseButton: false,
+      disableBeacon: true,
+      placement: 'right-start',
+    },
+    {
+      target: '#secondStep',
+      title: returnContent('This is your Notification Centre', true),
+      content: returnContent(notificationsSpotlight, false),
+      locale: {
+        next: returnNextButton('Next'),
       },
-      {
-        target: "#thirdStep",
-        title: returnContent("This is your profile", true),
-        content: returnContent(myProfileSpotlight, false),
-        locale: {
-          last: returnNextButton("Got it"),
-        },
-        placement: "right-start",
-        showCloseButton: false,
+      showCloseButton: false,
+      placement: 'right-start',
+    },
+    {
+      target: '#thirdStep',
+      title: returnContent('This is your profile', true),
+      content: returnContent(myProfileSpotlight, false),
+      locale: {
+        last: returnNextButton('Got it'),
+      },
+      placement: 'right-start',
+      showCloseButton: false,
 
-      },
+    },
 
-    ]
+  ]
 
 
   if (!isFarmSelected) return <NoFarmNavBar history={history}/>
@@ -103,9 +104,10 @@ const NavBar = (props) => {
     dispatch(showSpotlight(false))
   }
 
-return (
-    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight} auth={auth}>
-      <SlideMenu right />
+  return (
+    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight} auth={auth}
+                showSwitchFarm={numberOfUserFarm > 1}>
+      <SlideMenu right/>
     </PureNavBar>
   );
 
@@ -114,14 +116,15 @@ return (
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
-    show_spotlight: spotlightSelector(state)
+    farm: userFarmSelector(state),
+    show_spotlight: spotlightSelector(state),
+    numberOfUserFarm: userFarmLengthSelector(state),
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    dispatch,
   }
 };
 

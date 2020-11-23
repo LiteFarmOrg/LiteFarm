@@ -13,23 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import history from '../../history';
 import moment from 'moment';
-import {taskTypeSelector} from './StepOne/selectors'
-import {shiftsSelector} from './selectors';
-import {getTaskTypes, getShifts, setSelectedShift} from './actions'
-import {getFieldCrops as getCrops, getFields} from '../actions';
-import {getAllShifts} from "./actions";
-import {userInfoSelector} from "../selector";
+import { taskTypeSelector } from './StepOne/selectors'
+import { shiftsSelector } from './selectors';
+import { getAllShifts, getShifts, getTaskTypes, setSelectedShift } from './actions'
+import { getFieldCrops as getCrops, getFields } from '../actions';
 import ReactTable from 'react-table';
 import DropDown from '../../components/Inputs/DropDown';
 import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
-import { BsCaretRight } from "react-icons/bs";
+import { BsCaretRight } from 'react-icons/bs';
+import { userFarmSelector } from '../userFarmSlice';
 
 class Shift extends Component {
   constructor(props) {
@@ -220,7 +219,7 @@ const mapStateToProps = (state) => {
   return {
     taskTypes: taskTypeSelector(state),
     shifts: shiftsSelector(state),
-    users: userInfoSelector(state),
+    users: userFarmSelector(state),
   }
 };
 

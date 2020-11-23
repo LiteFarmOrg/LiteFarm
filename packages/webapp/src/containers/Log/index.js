@@ -14,7 +14,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import { Button } from 'react-bootstrap';
@@ -23,16 +23,16 @@ import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { getLogs, setSelectedLog } from './actions';
-import { getFieldCropsByDate, getFields } from '../actions';
-import { logSelector } from "./selectors";
-import { fieldSelector, cropSelector, userInfoSelector} from '../selector';
+import { fetchFarmInfo, getFieldCropsByDate, getFields } from '../actions';
+import { logSelector } from './selectors';
+import { cropSelector, fieldSelector } from '../selector';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
-import {fetchFarmInfo} from "../actions";
-import {getDiseases, getPesticides} from "./PestControlLog/actions";
-import {getFertilizers} from "./FertilizingLog/actions";
-import InfoBoxComponent from "../../components/InfoBoxComponent";
-import { BsCaretRight } from "react-icons/all";
+import { getDiseases, getPesticides } from './PestControlLog/actions';
+import { getFertilizers } from './FertilizingLog/actions';
+import InfoBoxComponent from '../../components/InfoBoxComponent';
+import { BsCaretRight } from 'react-icons/all';
+import { userFarmSelector } from '../userFarmSlice';
 
 
 class Log extends Component{
@@ -51,7 +51,7 @@ class Log extends Component{
     dispatch(getFieldCropsByDate());
     dispatch(getFields());
     dispatch(getLogs());
-    dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    //TODO fatch userFarm
     dispatch(getPesticides());
     dispatch(getDiseases());
     dispatch(getFertilizers());
@@ -279,7 +279,7 @@ const mapStateToProps = (state) => {
     crops: cropSelector(state),
     fields: fieldSelector(state),
     logs: logSelector(state),
-    user: userInfoSelector(state),
+    user: userFarmSelector(state),
   }
 };
 

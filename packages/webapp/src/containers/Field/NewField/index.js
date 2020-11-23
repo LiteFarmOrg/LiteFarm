@@ -3,21 +3,29 @@ import GoogleMap from 'google-map-react';
 import DrawingToolTipBox from '../../../components/Field/DrawingToolTipBox';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
-import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, CREATE_FIELD, GMAPS_API_KEY, POLYGON_BUTTON, NEXT_BUTTON, CLEAR_BUTTON, POLYGON_COMPLETE } from '../constants';
+import {
+  CENTER,
+  CLEAR_BUTTON,
+  CREATE_FIELD,
+  DEFAULT_ZOOM,
+  DISPLAY_DEFAULT,
+  DISPLAY_NONE,
+  FARM_BOUNDS,
+  GMAPS_API_KEY,
+  NEXT_BUTTON,
+  POLYGON_BUTTON,
+  POLYGON_COMPLETE,
+} from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
-import {Button, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
+import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
 import { cropSelector } from '../selectors';
-import { farmSelector } from '../../selector';
-import {
-  DISPLAY_DEFAULT,
-  DISPLAY_NONE,
-} from '../constants';
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
-import {fieldSelector} from "../../selector";
-import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from "react-icons/bs";
+import { fieldSelector } from '../../selector';
+import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from 'react-icons/bs';
+import { userFarmSelector } from '../../userFarmSlice';
 
 const buttonStyles = {
   font: "Open Sans",
@@ -426,7 +434,7 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

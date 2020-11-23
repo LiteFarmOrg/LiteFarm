@@ -1,21 +1,21 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
-import {DropdownButton, Dropdown} from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
-import {fieldSelector, cropSelector} from '../../selector';
-import {userInfoSelector, farmSelector} from "../../selector";
-import {currentLogSelector} from "./selectors";
-import {diseaseSelector, pesticideSelector} from "../PestControlLog/selectors";
-import {convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal} from "../../../util";
-import {getFertilizers} from '../FertilizingLog/actions';
-import {fertSelector} from "../FertilizingLog/selectors";
-import {deleteLog} from "../Utility/actions";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import { cropSelector, fieldSelector } from '../../selector';
+import { currentLogSelector } from './selectors';
+import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
+import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
+import { getFertilizers } from '../FertilizingLog/actions';
+import { fertSelector } from '../FertilizingLog/selectors';
+import { deleteLog } from '../Utility/actions';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
 
-class MyLog extends Component {
+class LogDetail extends Component {
   constructor(props) {
     super(props);
     const farm = this.props.farm || {};
@@ -449,9 +449,9 @@ class MyLog extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
     crops: cropSelector(state),
-    users: userInfoSelector(state),
+    users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),
@@ -465,4 +465,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyLog);
+export default connect(mapStateToProps, mapDispatchToProps)(LogDetail);

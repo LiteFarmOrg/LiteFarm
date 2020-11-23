@@ -50,3 +50,9 @@ WithInfo.args = {
   info: 'info info info info info',
   label: 'With info'
 };
+
+export const SearchBar = Template.bind({});
+SearchBar.args = {
+  placeholder: 'Search',
+  isSearchBar: true
+};

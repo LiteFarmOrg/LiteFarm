@@ -16,6 +16,7 @@ import {Field, actions, Form, Control} from 'react-redux-form';
 import footerStyles from "../../../../components/LogFooter/styles.scss";
 import {addRemoveExpense} from '../../actions';
 import {Alert} from 'react-bootstrap';
+import { userFarmSelector } from '../../../userFarmSlice';
 
 class EditAddExpense extends Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class EditAddExpense extends Component {
     const {currentExpenseDetail, expenseToEdit} = this.props;
     let data = [];
     let keys = Object.keys(currentExpenseDetail);
-    let farm_id = localStorage.getItem('farm_id');
+    let { farm_id } = this.props.farm;
     let date = this.state.date;
     for (let k of keys) {
       let values = currentExpenseDetail[k];
@@ -236,6 +237,7 @@ const mapStateToProps = (state) => {
     selectedEditExpense: selectedEditExpenseSelector(state),
     currentExpenseDetail: expenseDetailSelector(state),
     expenseToEdit: expensesToEditSelector(state),
+    farm: userFarmSelector(state),
   }
 };
 

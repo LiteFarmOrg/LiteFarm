@@ -427,7 +427,7 @@ class userFarmController extends baseController {
         }
 
         // check if access is revoked or restored: update email info based on this
-        if (currentStatus === 'Active') {
+        if (currentStatus === 'Active' || currentStatus === 'Invited') {
           template_path = '../templates/revocation_of_access_to_farm_email.html';
           subject = 'You\'ve lost access to ' + targetUser.farm_name + ' on LiteFarm!';
         } else if (currentStatus === 'Inactive') {

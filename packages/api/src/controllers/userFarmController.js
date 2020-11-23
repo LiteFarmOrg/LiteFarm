@@ -431,9 +431,8 @@ class userFarmController extends baseController {
           template_path = '../templates/revocation_of_access_to_farm_email.html';
           subject = 'You\'ve lost access to ' + targetUser.farm_name + ' on LiteFarm!';
         } else if (currentStatus === 'Inactive') {
-          // TODO: LF-506
           template_path = '../templates/restoration_of_access_to_farm_email.html';
-          subject = 'Your access to ' + targetUser.farm_name + ' has been restored!'; // TODO: CHANGE THIS
+          subject = 'Your access to ' + targetUser.farm_name + ' has been restored!';
         }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({

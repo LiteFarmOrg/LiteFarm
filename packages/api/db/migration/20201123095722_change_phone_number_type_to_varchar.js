@@ -9,7 +9,7 @@ exports.up = async function (knex) {
   });
   const phoneNumberUpdates = []
   for (const farm of farms) {
-    phoneNumberUpdates.push(knex('farm').findById(farm.farm_id).update(
+    farm.phone_number && phoneNumberUpdates.push(knex('farm').where('farm_id', farm.farm_id).update(
       { farm_phone_number: farm.phone_number.number }));
   }
   return Promise.all(phoneNumberUpdates);
@@ -27,11 +27,11 @@ exports.down = async function (knex) {
   });
   const updates = [];
   for (const farm of farms) {
-    updates.push(knex('farm').findById(farm.farm_id).update(
+    updates.push(knex('farm').where('farm_id', farm.farm_id).update(
       { phone_number: { number: farm.farm_phone_number, country: '' } }));
   }
   for (const user of users) {
-    updates.push(knex('users').findById(user.user_id).update(
+    user.phone_number && updates.push(knex('users').where('user_id', user.user_id).update(
       { phone_number: parseInt(user.phone_number.replace(/\D/g, '')) }));
   }
   return Promise.all(updates);

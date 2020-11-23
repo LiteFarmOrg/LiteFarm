@@ -24,7 +24,7 @@ function fakeUser() {
     last_name: faker.name.lastName(),
     email: faker.lorem.word() + faker.internet.email(),
     user_id: faker.random.uuid(),
-    phone_number: faker.random.number(),
+    phone_number: faker.phone.phoneNumber()
   }
 }
 
@@ -40,10 +40,7 @@ function fakeFarm() {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     },
-    phone_number: {
-      number: faker.phone.phoneNumber(),
-      country: '',
-    }
+    farm_phone_number: faker.phone.phoneNumber()
   }
 }
 

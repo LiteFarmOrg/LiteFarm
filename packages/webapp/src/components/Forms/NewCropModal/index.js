@@ -131,9 +131,6 @@ class NewCropModal extends React.Component {
       if (errors !== '') {
         toastr.error(errors + 'is not filled out')
       }
-
-    } else {
-      toastr.success('Successfully saved Crop')
     }
 
     return validated
@@ -160,8 +157,7 @@ class NewCropModal extends React.Component {
         newCrop[nutrient] = this.state[nutrient];
       }
 
-      this.props.dispatch(createCropAction(
-        newCrop)); // create field
+      this.props.dispatch(createCropAction(newCrop)); // create field
       this.handleClose();
     }
   }

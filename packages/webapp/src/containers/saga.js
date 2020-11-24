@@ -103,9 +103,8 @@ export function* updateFarm(payload) {
 
   // OC: We should never update address information of a farm.
   let { address, grid_points, ...data } = payload.farm;
-
-  if (data.phone_number.number === null || data.phone_number.country === null) {
-    delete data.phone_number;
+  if (data.farm_phone_number === null) {
+    delete data.farm_phone_number;
   }
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);

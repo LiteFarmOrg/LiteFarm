@@ -58,7 +58,9 @@ module.exports = {
     seeds: {
       directory: __dirname + '/db/seeds',
     },
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 
   production: {
@@ -71,7 +73,9 @@ module.exports = {
     seeds: {
       directory: __dirname + '/db/seeds',
     },
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
   test: {
     client: 'postgresql',

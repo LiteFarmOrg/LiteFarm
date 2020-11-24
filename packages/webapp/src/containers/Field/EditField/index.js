@@ -10,7 +10,6 @@ import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
 import { deleteField, deleteFieldCrop, getExpiredCrops } from '../actions';
 import { getFieldCropsByDate } from '../../actions';
-import { updateField } from './actions';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { toastr } from 'react-redux-toastr';
@@ -20,6 +19,7 @@ import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { getFields } from '../../saga';
 import { fieldsSelector } from '../../fieldSlice';
+import { putField } from './saga';
 
 class EditField extends Component {
   static defaultProps = {
@@ -175,7 +175,7 @@ class EditField extends Component {
       return;
     }
     selectedField.field_name = field_name;
-    this.props.dispatch(updateField(selectedField));
+    this.props.dispatch(putField(selectedField));
     this.setState({showFieldNameModal: false});
   };
 

@@ -47,6 +47,7 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
 import { unregister } from './registerServiceWorker';
 import newFieldSaga from './containers/Field/NewField/saga';
+import editFieldSaga from './containers/Field/EditField/saga';
 
 
 // config for redux-persist
@@ -63,7 +64,7 @@ const middlewares = [sagaMiddleware];
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: [...getDefaultMiddleware(), ...middlewares],
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: process.env.REACT_APP_ENV !== 'production',
 });
 
 // https://redux-toolkit.js.org/tutorials/advanced-tutorial#store-setup-and-hmr
@@ -93,6 +94,7 @@ sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
 sagaMiddleware.run(newFieldSaga);
+sagaMiddleware.run(editFieldSaga);
 
 const persistor = persistStore(store);
 

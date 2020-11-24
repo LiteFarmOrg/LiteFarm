@@ -28,7 +28,6 @@ import {
   GET_EXPIRED_CROPS,
   GET_PRICE,
   GET_YIELD,
-  UPDATE_FIELD,
 } from './constants';
 import { setFieldCropsInState } from '../actions';
 import { setCropsInState, setExpiredCropsInState, setPriceInState, setYieldInState } from './actions';
@@ -270,22 +269,6 @@ export function* createPriceSaga(action) {
   }
 }
 
-export function* updateFieldCropSaga(action) {
-  const { fieldURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
-
-  try {
-    const result = yield call(axios.put, fieldURL + `/${action.field.field_id}`, action.field, header);
-    if (result) {
-      toastr.success("Successfully changed field name");
-
-    }
-  } catch (e) {
-    toastr.error("Failed To update Field name", e);
-  }
-}
-
 export function* deleteFieldSaga(action) {
   const { fieldURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -326,6 +309,5 @@ export default function* fieldSaga() {
   yield takeEvery(GET_PRICE, getPriceSaga);
   yield takeEvery(CREATE_PRICE, createPriceSaga);
   yield takeEvery(EDIT_FIELD_CROP, editFieldCropSaga);
-  yield takeEvery(UPDATE_FIELD, updateFieldCropSaga);
   yield takeEvery(DELETE_FIELD, deleteFieldSaga);
 }

@@ -21,7 +21,6 @@ export function* postFieldSaga({ payload }) {
     yield put(postFieldSuccess(result.data));
     history.push('/field');
   } catch (e) {
-    console.log(e);
     console.log('failed to add certifiers')
   }
 }

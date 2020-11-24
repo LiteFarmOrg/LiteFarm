@@ -34,7 +34,7 @@ const fieldReducer = createSlice({
     onLoadingFieldFail: onLoadingFail,
     getFieldsSuccess: addManyField,
     postFieldSuccess: addOneField,
-    patchFieldSuccess(state, { payload: { field, farm_id } }) {
+    putFieldSuccess(state, { payload: { field, farm_id } }) {
       fieldAdapter.updateOne(state, { changes: { field }, id: farm_id });
     },
     selectFieldSuccess(state, {payload: field_id}){
@@ -44,7 +44,7 @@ const fieldReducer = createSlice({
   },
 });
 export const {
-  getFieldsSuccess, postFieldSuccess, patchFieldSuccess,
+  getFieldsSuccess, postFieldSuccess, putFieldSuccess,
   onLoadingFieldStart, onLoadingFieldFail,
 } = fieldReducer.actions;
 export default fieldReducer.reducer;

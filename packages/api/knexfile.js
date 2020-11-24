@@ -51,15 +51,18 @@ module.exports = {
   integration: {
     client: 'postgresql',
     debug: true,
-    connection: process.env.DATABASE_URL,
+    connection: {
+      host: process.env.DEV_DATABASE_HOST,
+      database: process.env.DEV_DATABASE,
+      user:     process.env.DEV_DATABASE_USER,
+      password: process.env.DEV_DATABASE_PASSWORD,
+      ssl: { rejectUnauthorized: false },
+    },
     migrations: {
       directory: __dirname + '/db/migration',
     },
     seeds: {
       directory: __dirname + '/db/seeds',
-    },
-    ssl: {
-      rejectUnauthorized: false,
     },
   },
 

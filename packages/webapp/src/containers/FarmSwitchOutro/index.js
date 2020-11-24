@@ -9,7 +9,7 @@ export default function FarmSwitchOutroFloater({children, onFinish}) {
     <FarmSwitchOutro onFinish={onFinishClick}/>
   )
   return (
-    <Floater hideArrow component={Wrapper} placement={'center'} onFinish={onFinish}>
+    <Floater autoOpen hideArrow component={Wrapper} placement={'center'} onFinish={onFinish}>
       {children}
     </Floater>
   )

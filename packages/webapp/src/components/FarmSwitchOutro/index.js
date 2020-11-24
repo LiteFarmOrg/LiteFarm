@@ -7,13 +7,11 @@ import { userFarmSelector } from '../../containers/userFarmSlice';
 
 export default function FarmSwitchPureOutroSplash({onContinue}) {
   const userFarm = useSelector(userFarmSelector);
-  console.log(userFarm.farm_name)
   // TODO: Get farm name from store 
   const newFarm = userFarm.farm_name;
   const descriptionTop = "The barn door is secure.";
   const descriptionBottom = "Heading to ";
 
-  
   return (
     <div className={styles.outroContainer}>
       <div className={styles.title}>

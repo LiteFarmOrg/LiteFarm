@@ -6,8 +6,11 @@ import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
 import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
+import {switchFarmSelector} from "../../../containers/switchFarmSlice"
+import { useSelector } from 'react-redux';
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
+  const {switchFarm} = useSelector(switchFarmSelector);
   const initialState = { profile: false, switchFarmOutro: false };
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
@@ -83,12 +86,11 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
       </div>
-
-      <FarmSwitchOutro>
+      { switchFarm &&
+      <FarmSwitchOutro></FarmSwitchOutro> }
       <div className={styles.itemContainer}>
         {logo}
       </div>
-      </FarmSwitchOutro>
       {children}
     </div>
   );

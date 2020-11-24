@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import { currentLogSelector, logSelector } from '../selectors';
-import { cropSelector, fieldSelector } from '../../selector';
+import { cropSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
@@ -16,6 +16,7 @@ import parseFields from '../Utility/parseFields';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 // const customFieldset = () => {
 //   return (<div>
@@ -127,7 +128,7 @@ class IrrigationLog extends Component{
 const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

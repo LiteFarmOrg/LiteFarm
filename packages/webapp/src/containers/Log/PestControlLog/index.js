@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, fieldSelector } from '../../selector';
+import { cropSelector, } from '../../selector';
 import { diseaseSelector, pesticideSelector, pestLogSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
@@ -19,6 +19,7 @@ import { convertToMetric, getUnit } from '../../../util';
 import Select from 'react-select';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 
 class PestControlLog extends Component{
@@ -425,7 +426,7 @@ class PestControlLog extends Component{
 const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

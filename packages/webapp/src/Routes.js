@@ -99,7 +99,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
 
 // action
-import { loginSuccess } from './containers/loginSlice';
+import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 
 const auth = new Auth();

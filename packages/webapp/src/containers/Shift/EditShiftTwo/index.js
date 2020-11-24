@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedShiftSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { cropSelector, fieldSelector } from '../../selector';
+import { cropSelector, } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import Select from 'react-select';
@@ -16,6 +16,7 @@ import { updateShift } from '../actions';
 import { shiftRatings } from '../constants';
 import { BsReplyFill } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 class EditShiftTwo extends Component {
 
@@ -785,7 +786,7 @@ const mapStateToProps = (state) => {
     availableDuration: durationSelector(state),
     selectedTasks: selectedTasksSelector(state),
     crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     startEnd: startEndSelector(state),
     selectedShift: selectedShiftSelector(state),
     users: userFarmSelector(state),

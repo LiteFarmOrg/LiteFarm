@@ -5,7 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
-import { cropSelector, fieldSelector } from '../../selector';
+import { cropSelector, } from '../../selector';
 import { currentLogSelector } from './selectors';
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
 import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
@@ -14,6 +14,7 @@ import { fertSelector } from '../FertilizingLog/selectors';
 import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -448,7 +449,7 @@ class LogDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     crops: cropSelector(state),
     users: userFarmSelector(state),

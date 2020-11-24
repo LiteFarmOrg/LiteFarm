@@ -26,7 +26,7 @@ import {
 import {
   fetchFarmInfo,
   getFieldCrops,
-  getFields,
+  // getFields,
   // setFarmInState,
   setFieldCropsInState,
   setFieldsInState,
@@ -38,13 +38,14 @@ import apiConfig, { userFarmUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import Auth from '../Auth/Auth.js';
-import { loginSelector, loginSuccess } from './loginSlice';
+import { loginSelector, loginSuccess } from './userFarmSlice';
 import { userFarmSelector, putUserSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { getFieldsSuccess } from './fieldSlice';
 
 const axios = require('axios');
 
-export function getHeader(user_id, farm_id){
+export function getHeader(user_id, farm_id) {
   return {
     headers: {
       'Content-Type': 'application/json',
@@ -54,10 +55,12 @@ export function getHeader(user_id, farm_id){
     },
   }
 }
+
 export const updateUser = createAction('updateUserSaga');
+
 export function* updateUserSaga({ payload: user }) {
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
   const { userUrl } = apiConfig;
   let data = user;
   if (data.wage === null) {
@@ -96,7 +99,7 @@ export function* getFarmInfo() {
 export function* updateFarm(payload) {
   const { farmUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   // OC: We should never update address information of a farm.
   let { address, grid_points, ...data } = payload.farm;
@@ -119,16 +122,15 @@ export function* updateFarm(payload) {
   }
 }
 
+export const getFields = createAction('getFieldsSaga');
+
 export function* getFieldsSaga() {
   const { fieldURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
-
+  const header = getHeader(user_id, farm_id);
   try {
     const result = yield call(axios.get, fieldURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setFieldsInState(result.data));
-    }
+    yield put(getFieldsSuccess(result.data));
   } catch (e) {
     console.log('failed to fetch fields from database')
   }
@@ -137,7 +139,7 @@ export function* getFieldsSaga() {
 export function* getFieldCropsSaga() {
   const { fieldCropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
@@ -153,7 +155,7 @@ export function* getFieldCropsByDateSaga() {
   let currentDate = formatDate(new Date());
   const { fieldCropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
@@ -235,7 +237,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(updateUser.type, updateUserSaga);
   yield takeLatest(GET_FARM_INFO, getFarmInfo);
   yield takeLatest(UPDATE_FARM, updateFarm);
-  yield takeLatest(GET_FIELDS, getFieldsSaga);
+  yield takeLatest(getFields.type, getFieldsSaga);
   yield takeLatest(GET_FIELD_CROPS, getFieldCropsSaga);
   yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);

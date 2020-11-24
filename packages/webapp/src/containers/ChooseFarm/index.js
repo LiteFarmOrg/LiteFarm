@@ -15,7 +15,7 @@
 
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
-import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../loginSlice';
+import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../userFarmSlice';
 import { userFarmsByUserSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';

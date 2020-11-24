@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { onLoadingStart, onLoadingFail, loginSelector } from './loginSlice';
 import { createSelector } from 'reselect';
+
+
+export function onLoadingStart(state) {
+  state.loading = true;
+}
+
+export function onLoadingFail(state, { payload: { error } }) {
+  state.loading = false;
+  state.error = error;
+}
 
 export const initialState = {
   farmIdUserIdTuple: [
@@ -18,6 +27,8 @@ export const initialState = {
   },
   loading: false,
   error: undefined,
+  farm_id: undefined,
+  user_id: undefined,
 };
 
 const addUserFarm = (state, { payload: userFarm }) => {
@@ -37,6 +48,17 @@ const userFarmSlice = createSlice({
   reducers: {
     onLoadingUserFarmsStart: onLoadingStart,
     onLoadingUserFarmsFail: onLoadingFail,
+    loginSuccess: (state, { payload: { user_id } }) => {
+      state.user_id = user_id;
+    },
+    selectFarmSuccess: (state, { payload: { farm_id } }) => {
+      state.farm_id = farm_id;
+    },
+    logoutSuccess: (state) => {
+      state.user_id = undefined;
+      state.farm_id = undefined;
+    },
+    deselectFarmSuccess: (state) => state.farm_id = undefined,
     getUserFarmsSuccess: (state, { payload: userFarms }) => {
       state.loading = false;
       state.error = null;
@@ -92,20 +114,20 @@ const userFarmSlice = createSlice({
 });
 
 export const {
-  onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
+  onLoadingUserFarmsStart, onLoadingUserFarmsFail, deselectFarmSuccess, loginSuccess, logoutSuccess, selectFarmSuccess, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
   patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess, patchFarmSuccess
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
 
 export const userFarmReducerSelector = state => state.entitiesReducer[userFarmSlice.name];
-export const userFarmsByUserSelector = createSelector([loginSelector, userFarmReducerSelector], ({ user_id }, { byFarmIdUserId, loading, error, ...rest }) => {
+export const userFarmsByUserSelector = createSelector([userFarmReducerSelector], ({ user_id, byFarmIdUserId, loading, error, ...rest }) => {
   return user_id ? getUserFarmsByUser(byFarmIdUserId, user_id) : [];
 });
-export const userFarmsByFarmSelector = createSelector([loginSelector, userFarmReducerSelector], ({ farm_id }, { byFarmIdUserId, loading, error, ...rest }) => {
+export const userFarmsByFarmSelector = createSelector([userFarmReducerSelector], ({ farm_id, byFarmIdUserId, loading, error, ...rest }) => {
   return farm_id ? Object.values(byFarmIdUserId[farm_id]) : [];
 });
-export const userFarmSelector = createSelector([loginSelector, userFarmReducerSelector], ({ farm_id, user_id }, { byFarmIdUserId, loading, error }) => {
+export const userFarmSelector = createSelector([userFarmReducerSelector], ({ farm_id, user_id, byFarmIdUserId, loading, error }) => {
   return (farm_id && user_id) ? byFarmIdUserId[farm_id][user_id] : {};
 });
 export const userFarmStatusSelector = createSelector(userFarmReducerSelector, ({ loading, error }) => ({
@@ -113,7 +135,10 @@ export const userFarmStatusSelector = createSelector(userFarmReducerSelector, ({
   error,
 }));
 export const userFarmLengthSelector = createSelector(userFarmReducerSelector, ({farmIdUserIdTuple}) => {return farmIdUserIdTuple.length});
-
+export const loginSelector = createSelector(userFarmReducerSelector, ({ farm_id, user_id }) => ({
+  farm_id,
+  user_id
+}));
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
   for (let by_user of Object.values(byFarmIdUserId)) {

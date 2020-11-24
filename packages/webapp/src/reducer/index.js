@@ -20,15 +20,14 @@ import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
-import fieldReducer from '../containers/Field/reducer';
+import fieldReducer1 from '../containers/Field/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
-import loginReducer from '../containers/loginSlice';
 import userFarmReducer from '../containers/userFarmSlice';
-import userReducer from '../containers/userSlice';
 import rolesReducer from '../containers/Profile/People/slice';
+import fieldReducer from '../containers/fieldSlice';
 
 // all the initial state for the forms
 const initialFarmState = {
@@ -99,11 +98,11 @@ const signUpUserInfo = {
 };
 
 const entitiesReducer= combineReducers({
-  loginReducer,
   userFarmReducer,
   // userReducer,
   certifierSurveyReducer,
   rolesReducer,
+  fieldReducer
 });
 
 // combine all reducers here and pass it to application
@@ -122,7 +121,7 @@ const appReducer = combineReducers({
   baseReducer,
   logReducer,
   shiftReducer,
-  fieldReducer,
+  fieldReducer1,
   insightReducer,
   financeReducer,
   farmReducer

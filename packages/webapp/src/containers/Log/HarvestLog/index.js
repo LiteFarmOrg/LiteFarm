@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, fieldSelector } from '../../selector';
+import { cropSelector, } from '../../selector';
 import { getFieldCrops } from '../../../containers/actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
@@ -15,6 +15,7 @@ import parseFields from '../Utility/parseFields';
 import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ class HarvestLog extends Component {
 const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
   }
 };

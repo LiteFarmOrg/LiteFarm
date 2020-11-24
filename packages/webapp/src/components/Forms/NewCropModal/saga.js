@@ -8,7 +8,7 @@ import {
 } from "./actions";
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
-import { loginSelector } from '../../../containers/loginSlice';
+import { loginSelector } from '../../../containers/userFarmSlice';
 import { getHeader } from '../../../containers/saga';
 
 const axios = require('axios');

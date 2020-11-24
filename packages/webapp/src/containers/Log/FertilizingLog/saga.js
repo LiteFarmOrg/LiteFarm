@@ -4,7 +4,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { loginSelector } from '../../loginSlice';
+import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 
 const axios = require('axios');

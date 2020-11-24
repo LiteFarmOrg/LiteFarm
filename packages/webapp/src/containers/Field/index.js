@@ -18,14 +18,15 @@ import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import { Button, Tab, Table, Tabs } from 'react-bootstrap';
-import { cropSelector as fieldCropSelector, fieldSelector } from '../selector';
+import { cropSelector as fieldCropSelector } from '../selector';
 import history from '../../history';
 import moment from 'moment';
-import { getFields } from '../actions';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
 import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../util';
 import { BsChevronDown, BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
+import { getFields } from '../saga';
+import { fieldsSelector } from '../fieldSlice';
 
 class Field extends Component {
   static defaultProps = {
@@ -70,14 +71,30 @@ class Field extends Component {
       }
       this.setState({isVisible: visArray});
     }
+    this.setState({
+      fields: this.props.fields,
+      isPropReceived: true,
+    });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(prevProps.fields !== this.props.fields){
       this.setState({
-        fields: nextProps.fields,
+        fields: this.props.fields,
         isPropReceived: true,
       });
+    }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(this.state.isPropReceived);
+  //   this.setState({
+  //       fields: nextProps.fields,
+  //       isPropReceived: true,
+  //     });
+  //     console.log(this.state.isPropReceived);
+  // }
+
 
   handleSelectTab(selectedTab) {
     let showListSearchBar = selectedTab === 2;
@@ -289,7 +306,7 @@ class Field extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     fieldCrops: fieldCropSelector(state),
     farm: userFarmSelector(state),
   }

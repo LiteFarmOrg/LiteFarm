@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
-import { cropSelector as fieldCropSelector, fieldSelector } from '../../selector';
+import { cropSelector as fieldCropSelector } from '../../selector';
 import { expiredCropSelector } from '../selectors';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
 import { deleteField, deleteFieldCrop, getExpiredCrops } from '../actions';
-import { getFieldCropsByDate, getFields } from '../../actions';
+import { getFieldCropsByDate } from '../../actions';
 import { updateField } from './actions';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -18,6 +18,8 @@ import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/Edi
 import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
 import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
+import { getFields } from '../../saga';
+import { fieldsSelector } from '../../fieldSlice';
 
 class EditField extends Component {
   static defaultProps = {
@@ -366,7 +368,7 @@ class EditField extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     fieldCrops: fieldCropSelector(state),
     farm: userFarmSelector(state),
     expiredFieldCrops: expiredCropSelector(state),

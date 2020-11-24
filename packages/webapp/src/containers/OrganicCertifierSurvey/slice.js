@@ -1,5 +1,5 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from '../loginSlice';
+import { loginSelector, onLoadingFail, onLoadingStart } from '../userFarmSlice';
 import { createSelector } from 'reselect';
 
 const addOneCertifier = (state, { payload }) => {

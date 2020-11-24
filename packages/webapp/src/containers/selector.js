@@ -23,11 +23,6 @@ const spotlightSelector = createSelector(
 
 );
 
-const fieldSelector = createSelector(
-  baseSelector,
-  (state) => state.fields
-);
-
 const cropSelector = createSelector(
   baseSelector,
   (state) => (state.fieldCrops || []).slice().sort((a, b) => (
@@ -41,7 +36,6 @@ const cropSelector = createSelector(
 
 
 export {
-  fieldSelector,
   cropSelector,
   spotlightSelector,
 };

@@ -16,7 +16,7 @@
 import { call, select, takeEvery } from 'redux-saga/effects';
 import { SEND_CONTACT_FORM } from './constants';
 import { toastr } from 'react-redux-toastr';
-import { loginSelector } from '../loginSlice';
+import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 
 const axios = require('axios');

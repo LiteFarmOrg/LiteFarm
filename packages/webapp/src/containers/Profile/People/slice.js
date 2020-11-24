@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { onLoadingStart, onLoadingFail } from '../../loginSlice';
+import { onLoadingStart, onLoadingFail } from '../../userFarmSlice';
 import { createSelector } from 'reselect';
 
 export const initialState = {

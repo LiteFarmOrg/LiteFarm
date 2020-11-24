@@ -28,7 +28,7 @@ import {
 import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
-import { loginSelector } from '../loginSlice';
+import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 
 const axios = require('axios');

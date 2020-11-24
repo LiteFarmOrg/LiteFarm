@@ -23,9 +23,9 @@ import { connect } from 'react-redux';
 import { cropSelector } from '../selectors';
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
-import { fieldSelector } from '../../selector';
 import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 const buttonStyles = {
   font: "Open Sans",
@@ -432,8 +432,7 @@ class NewField extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
   }
 };

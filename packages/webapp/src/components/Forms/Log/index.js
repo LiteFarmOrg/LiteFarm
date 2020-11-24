@@ -1,15 +1,15 @@
 import React from 'react';
 import {Fieldset, Control, actions, Errors} from 'react-redux-form';
-import { getFieldCrops, getFields } from '../../../containers/actions';
+import { getFieldCrops } from '../../../containers/actions';
 import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import {
   cropSelector,
-  fieldSelector,
 } from "../../../containers/selector";
 import {Alert} from 'react-bootstrap';
+import { fieldsSelector } from '../../../containers/fieldSlice';
 
 class DefaultLogForm extends React.Component {
   constructor(props){
@@ -289,7 +289,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
   }
 };
 

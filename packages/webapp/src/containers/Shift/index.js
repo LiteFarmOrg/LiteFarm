@@ -22,13 +22,14 @@ import moment from 'moment';
 import { taskTypeSelector } from './StepOne/selectors'
 import { shiftsSelector } from './selectors';
 import { getAllShifts, getShifts, getTaskTypes, setSelectedShift } from './actions'
-import { getFieldCrops as getCrops, getFields } from '../actions';
+import { getFieldCrops as getCrops } from '../actions';
 import ReactTable from 'react-table';
 import DropDown from '../../components/Inputs/DropDown';
 import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
+import { getFields } from '../saga';
 
 class Shift extends Component {
   constructor(props) {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { cropSelector, fieldSelector } from '../../selector';
+import { cropSelector, } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png'
@@ -15,6 +15,7 @@ import { toastr } from 'react-redux-toastr';
 import { submitMultiShift, submitShift } from '../actions';
 import { BsReplyFill } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 
 class ShiftStepTwo extends Component {
 
@@ -852,7 +853,7 @@ const
       availableDuration: durationSelector(state),
       selectedTasks: selectedTasksSelector(state),
       crops: cropSelector(state),
-      fields: fieldSelector(state),
+      fields: fieldsSelector(state),
       startEnd: startEndSelector(state),
       farm: userFarmSelector(state),
       users: userFarmSelector(state),

@@ -17,11 +17,10 @@ import { put, takeLatest, call, select } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { loginSelector, loginSuccess } from '../loginSlice';
+import { loginSelector, loginSuccess } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import Auth from '../../Auth/Auth';
 import { toastr } from 'react-redux-toastr';
-import { getUserSuccess, onLoadingUsersStart, onLoadingUsersFail } from '../userSlice';
 
 const axios = require('axios');
 
@@ -41,30 +40,8 @@ export function* getUserFarmsSaga() {
   }
 }
 
-export const getUser = createAction('getUserSaga');
-export function* getUserSaga() {
-  try {
-    yield put(onLoadingUsersStart());
-    let { user_id } = yield select(loginSelector);
-    const { userUrl } = apiConfig;
-    const header = getHeader(user_id);
-    const result = yield call(axios.get, userUrl + '/' + user_id, header);
-    const user = result?.data;
-    if (user) {
-      yield put(getUserSuccess(user));
-    } else {
-      //If user exist in Auth0 database but not postgres database, get user from auth0 and post to postgres database
-      const auth = new Auth();
-      auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'), (user_id) => put(loginSuccess({ user_id })));
-      console.log('failed to fetch user from database')
-    }
-  } catch (error) {
-    onLoadingUsersFail({ error });
-    toastr.error('Failed to fetch user info');
-  }
-}
+
 
 export default function* chooseFarmSaga() {
   yield takeLatest(getUserFarms.type, getUserFarmsSaga);
-  yield takeLatest(getUser.type, getUserSaga);
 }

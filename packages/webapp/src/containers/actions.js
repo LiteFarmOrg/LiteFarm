@@ -72,13 +72,6 @@ export const setFarmInState = (farm) => {
   }
 };
 
-
-export const getFields = () => {
-  return {
-    type: GET_FIELDS,
-  }
-};
-
 export const getFieldCrops = () => {
   return {
     type: GET_FIELD_CROPS,

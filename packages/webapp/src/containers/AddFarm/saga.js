@@ -16,7 +16,7 @@ import history from '../../history';
 import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import { loginSelector, selectFarmSuccess } from '../loginSlice';
+import { loginSelector, selectFarmSuccess } from '../userFarmSlice';
 import { postFarmSuccess, patchRoleStepTwoSuccess, userFarmSelector, patchFarmSuccess } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';

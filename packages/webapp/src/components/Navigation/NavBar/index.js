@@ -6,10 +6,11 @@ import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
 import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
-import {switchFarmSelector} from "../../../containers/switchFarmSlice"
-import { useSelector } from 'react-redux';
+import {switchFarmSelector, switchFarmCloseSuccess} from "../../../containers/switchFarmSlice"
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm}) {
+  const dispatch = useDispatch();
   const {switchFarm} = useSelector(switchFarmSelector);
   const initialState = { profile: false};
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
@@ -26,6 +27,12 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
     const newInteraction = onOverlay ? initialState : {...initialState, [tooltipName]: !tooltipInteraction[tooltipName]};
     setTooltipInteraction(newInteraction);
     setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
+  }
+
+  const dismissPopup = () => {
+    if (switchFarm) {
+      dispatch(switchFarmCloseSuccess());
+    }
   }
 
 
@@ -90,7 +97,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
       {
 
       switchFarm && 
-      <div style={{ position: "fixed",
+      <div onClick={dismissPopup} style={{ position: "fixed",
       zIndex: 100,
       left: 0,
       right: 0,

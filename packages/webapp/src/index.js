@@ -61,7 +61,7 @@ const middlewares = [sagaMiddleware];
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: [...getDefaultMiddleware(), ...middlewares],
-  devTools: process.env.NODE_ENV !== 'production',
+  devTools: process.env.REACT_APP_ENV !== 'production',
 });
 
 // https://redux-toolkit.js.org/tutorials/advanced-tutorial#store-setup-and-hmr

@@ -5,6 +5,7 @@ import ProfilePicture from "../../../assets/images/navbar/defaultpfp.png"; // TO
 import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
+import MyFarmFloater from "../../../containers/MyFarmFloater"
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
   const initialState = { profile: false };
@@ -65,8 +66,9 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         />
 
         }
-
+        <MyFarmFloater>
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem}/>
+        </MyFarmFloater>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
         <ProfileFloater showSwitchFarm={showSwitchFarm} auth={auth} openProfile={tooltipInteraction['profile']}>
           <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={styles.profilePicture} onClick={() =>changeInteraction('profile')} />

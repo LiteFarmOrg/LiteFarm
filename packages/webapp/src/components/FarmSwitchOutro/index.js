@@ -9,7 +9,7 @@ export default function FarmSwitchPureOutroSplash({onFinish}) {
   const userFarm = useSelector(userFarmSelector);
   const newFarm = userFarm.farm_name;
   const descriptionTop = "The barn door is secure.";
-  const descriptionBottom = "Heading to ";
+  const descriptionBottom = "Heading to: ";
 
   return (
     <div className={styles.outroContainer}>
@@ -25,9 +25,9 @@ export default function FarmSwitchPureOutroSplash({onFinish}) {
       </div>
       <div className={styles.descriptionBottom}>
         {descriptionBottom}
-        <div className={styles.bold}>
-          {newFarm}
-        </div>
+      </div>
+      <div className={styles.bold}>
+        {newFarm}
       </div>
       <Button className={styles.bottomContainer} children="Let's Go!" onClick={onFinish}></Button>
 

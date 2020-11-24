@@ -12,6 +12,7 @@ export default function ProfileFloater({auth, children, openProfile, showSwitchF
     auth.logout();
   }
   const myInfoClick = () => {
+    history.push('/Profile');
   }
   const Wrapper = (
     <PureProfileFloater onHelp={helpClick} onInfo={myInfoClick} onLogout={logOutClick} onSwitchFarm={switchFarmClick} showSwitchFarm={showSwitchFarm} />

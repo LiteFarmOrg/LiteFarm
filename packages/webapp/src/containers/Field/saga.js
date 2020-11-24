@@ -18,7 +18,6 @@ import history from '../../history';
 import moment from 'moment';
 
 import {
-  CREATE_FIELD,
   CREATE_FIELD_CROP,
   CREATE_PRICE,
   CREATE_YIELD,
@@ -318,7 +317,6 @@ const formatDate = (currDate) => {
 };
 
 export default function* fieldSaga() {
-  yield takeEvery(CREATE_FIELD, createField);
   yield takeEvery(CREATE_FIELD_CROP, createFieldCropSaga);
   yield takeEvery(GET_CROPS, getCropsSaga);
   yield takeEvery(GET_EXPIRED_CROPS, getExpiredCropsSaga);

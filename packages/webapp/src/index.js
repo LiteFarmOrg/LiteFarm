@@ -38,6 +38,7 @@ import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from'./containers/ChooseFarm/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
+
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -45,6 +46,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
 import { unregister } from './registerServiceWorker';
+import newFieldSaga from './containers/Field/NewField/saga';
 
 
 // config for redux-persist
@@ -90,6 +92,7 @@ sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
+sagaMiddleware.run(newFieldSaga);
 
 const persistor = persistStore(store);
 

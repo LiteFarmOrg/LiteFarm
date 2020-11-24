@@ -6,7 +6,6 @@ import parentStyles from '../styles.scss';
 import {
   CENTER,
   CLEAR_BUTTON,
-  CREATE_FIELD,
   DEFAULT_ZOOM,
   DISPLAY_DEFAULT,
   DISPLAY_NONE,
@@ -18,14 +17,13 @@ import {
 } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
 import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
-import { cropSelector } from '../selectors';
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
 import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
+import { postField } from './saga';
 
 const buttonStyles = {
   font: "Open Sans",
@@ -294,11 +292,13 @@ class NewField extends Component {
       case NEXT_BUTTON:
         this.setState({ step: this.state.step + 1 });
         break;
-      case CREATE_FIELD:
-        this.props.dispatch(createFieldAction(
-          this.state.fieldName,
-          this.state.gridPoints,
-          this.state.area,
+      case "CREATE_FIELD":
+        this.props.dispatch(postField(
+          {
+            field_name: this.state.fieldName,
+            grid_points: this.state.gridPoints,
+            area: this.state.area,
+          },
           ));
         this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null});
         break;
@@ -418,7 +418,7 @@ class NewField extends Component {
                 <Button style={{...buttonStyles, ...activeButtonStyles}}
                     outline
                     onClick={() => {
-                      this.handleModeChange(CREATE_FIELD);
+                      this.handleModeChange("CREATE_FIELD");
                       this.setState({ step: this.state.step + 1 });
                     }}>Save Field</Button>
                   }

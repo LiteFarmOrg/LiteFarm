@@ -44,7 +44,7 @@ const fieldReducer = createSlice({
   },
 });
 export const {
-  getFieldsSuccess, postFieldsSuccess, patchFieldsSuccess,
+  getFieldsSuccess, postFieldSuccess, patchFieldSuccess,
   onLoadingFieldStart, onLoadingFieldFail,
 } = fieldReducer.actions;
 export default fieldReducer.reducer;

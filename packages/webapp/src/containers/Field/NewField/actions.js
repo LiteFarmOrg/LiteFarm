@@ -1,13 +1,4 @@
-import { CREATE_FIELD, CREATE_FIELD_CROP, CREATE_PRICE, CREATE_YIELD } from '../constants';
-
-export const createFieldAction = (field_name, grid_points, area) => {
-  return {
-    type: CREATE_FIELD,
-    fieldName: field_name,
-    gridPoints: grid_points,
-    area: area,
-  }
-};
+import { CREATE_FIELD_CROP, CREATE_PRICE, CREATE_YIELD } from '../constants';
 
 export const createFieldCropAction = (crop_id, field_id, start_date, end_date, area_used, estimated_production, estimated_revenue, is_by_bed, bed_config=null) => {
   return {

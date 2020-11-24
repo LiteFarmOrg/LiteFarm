@@ -13,7 +13,7 @@ import {switchFarmCloseSuccess} from "../../../containers/switchFarmSlice";
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
   const dispatch = useDispatch();
   const {switchFarm} = useSelector(switchFarmSelector);
-  const initialState = { profile: false, switchFarmOutro: false };
+  const initialState = { profile: false};
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
   const resetSpotlightStatus = (data) => {
@@ -94,8 +94,22 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
       </div>
-      { switchFarm &&
-      <FarmSwitchOutro></FarmSwitchOutro> }
+      { switchFarm && <FarmSwitchOutro />}
+      {console.log(switchFarm)}
+
+      {
+
+      switchFarm && 
+      <div style={{ position: "fixed",
+      zIndex: 100,
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      backgroundColor: "rgba(25, 25, 40, 0.8)"}} /> 
+
+    }
+
       <div className={styles.itemContainer}>
         {logo}
       </div>

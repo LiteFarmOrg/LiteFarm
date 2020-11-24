@@ -7,9 +7,11 @@ import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
 import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
 import {switchFarmSelector} from "../../../containers/switchFarmSlice"
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {switchFarmCloseSuccess} from "../../../containers/switchFarmSlice";
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
+  const dispatch = useDispatch();
   const {switchFarm} = useSelector(switchFarmSelector);
   const initialState = { profile: false, switchFarmOutro: false };
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
@@ -27,6 +29,12 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
     const newInteraction = onOverlay ? initialState : {...initialState, [tooltipName]: !tooltipInteraction[tooltipName]};
     setTooltipInteraction(newInteraction);
     setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
+  }
+
+  const handleFinish = () => {
+    console.log("enter handle finish")
+    dispatch(switchFarmCloseSuccess({farm_id: selectedFarmId}))
+
   }
 
 

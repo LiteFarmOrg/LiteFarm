@@ -5,9 +5,8 @@ import React from "react";
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 
-export default function FarmSwitchPureOutroSplash({onContinue}) {
+export default function FarmSwitchPureOutroSplash({onFinish}) {
   const userFarm = useSelector(userFarmSelector);
-  // TODO: Get farm name from store 
   const newFarm = userFarm.farm_name;
   const descriptionTop = "The barn door is secure.";
   const descriptionBottom = "Heading to ";
@@ -30,7 +29,7 @@ export default function FarmSwitchPureOutroSplash({onContinue}) {
           {newFarm}
         </div>
       </div>
-      <Button className={styles.bottomContainer} children="Let's Go!"></Button>
+      <Button className={styles.bottomContainer} children="Let's Go!" onClick={onFinish}></Button>
 
     </div>
   )

@@ -40,8 +40,8 @@ function ChooseFarm() {
 
   const onProceed = () => {
     dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    if (selectedFarmId) {
-      dispatch(switchFarmSuccess({farm_id: selectedFarmId}))
+    if (currentFarmId) {
+      dispatch(switchFarmSuccess())
     }
     history.push('/');
   }

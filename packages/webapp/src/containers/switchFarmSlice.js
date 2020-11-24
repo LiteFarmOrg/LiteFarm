@@ -8,15 +8,21 @@ const switchFarmSlice = createSlice({
   name: 'switchFarmReducer',
   initialState,
   reducers: {
-    switchFarmSuccess: (state, {payload: {farm_id}}) => {
+    switchFarmSuccess: (state) => {
       state.switchFarm = true
     },
+    switchFarmCloseSuccess: (state) => {
+        state.switchFarm = false
+      },
   },
 });
 
 
-export const { switchFarmSuccess } = switchFarmSlice.actions;
+export const { switchFarmSuccess, switchFarmCloseSuccess } = switchFarmSlice.actions;
 export default switchFarmSlice.reducer;
 export const switchFarmSelector = (state) => {
+    return state.entitiesReducer[switchFarmSlice.name];
+}
+export const switchFarmCloseSelector = (state) => {
     return state.entitiesReducer[switchFarmSlice.name];
 }

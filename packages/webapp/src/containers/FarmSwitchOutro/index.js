@@ -10,7 +10,7 @@ export default function FarmSwitchOutroFloater({children, onFinish}) {
     dispatch(switchFarmCloseSuccess())
   }
   const Wrapper = (
-    <FarmSwitchOutro onFinish={onFinishClick}/>
+    <FarmSwitchOutro onFinish={onFinishClick} />
   )
   return (
     <Floater autoOpen hideArrow component={Wrapper} placement={'center'} onFinish={onFinish}>

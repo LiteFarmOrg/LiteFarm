@@ -7,18 +7,15 @@ import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
 import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
 import {switchFarmSelector} from "../../../containers/switchFarmSlice"
-import { useSelector, useDispatch } from 'react-redux';
-import {switchFarmCloseSuccess} from "../../../containers/switchFarmSlice";
+import { useSelector } from 'react-redux';
 
-export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
-  const dispatch = useDispatch();
+export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm}) {
   const {switchFarm} = useSelector(switchFarmSelector);
   const initialState = { profile: false};
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
-
 
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
@@ -29,12 +26,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
     const newInteraction = onOverlay ? initialState : {...initialState, [tooltipName]: !tooltipInteraction[tooltipName]};
     setTooltipInteraction(newInteraction);
     setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
-  }
-
-  const handleFinish = () => {
-    console.log("enter handle finish")
-    dispatch(switchFarmCloseSuccess({farm_id: selectedFarmId}))
-
   }
 
 
@@ -95,7 +86,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         }
       </div>
       { switchFarm && <FarmSwitchOutro />}
-      {console.log(switchFarm)}
 
       {
 

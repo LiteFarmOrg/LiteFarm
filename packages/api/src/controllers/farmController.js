@@ -45,7 +45,8 @@ class farmController extends baseController {
       }
 
       try {
-        const result = await baseController.postWithResponse(farmModel, infoBody, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const result = await baseController.postWithResponse(farmModel, infoBody, trx, { user_id });
         // console.log('farm post result: ', result);
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
@@ -129,7 +130,8 @@ class farmController extends baseController {
           req.body.units = await this.getCountry(req.body.country);
           delete req.body.country;
         }
-        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx, { user_id });
 
         await trx.commit();
         if (!updated.length) {

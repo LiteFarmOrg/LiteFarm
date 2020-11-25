@@ -27,7 +27,8 @@ class cropController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         req.body.user_added = true;
-        const result = await baseController.postWithResponse(cropModel, req.body, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const result = await baseController.postWithResponse(cropModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -109,7 +110,8 @@ class cropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(cropModel, req.params.crop_id, req.body, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const updated = await baseController.put(cropModel, req.params.crop_id, req.body, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);

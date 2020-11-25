@@ -37,7 +37,8 @@ class pesticideController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(pesticideModel, req.body, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const result = await baseController.postWithResponse(pesticideModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

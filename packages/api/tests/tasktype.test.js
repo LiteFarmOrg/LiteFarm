@@ -116,7 +116,7 @@ describe('taskType Tests', () => {
     })
 
     test('Workers should get seeded taskType', async (done)=>{
-      let [seedtaskType] = await knex('taskType').insert({...mocks.fakeTaskType(), farm_id: null}).returning('*');
+      let [seedtaskType] = await mocks.taskTypeFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeTaskType());
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body[1].taskType_id).toBe(seedtaskType.taskType_id);
@@ -231,7 +231,7 @@ describe('taskType Tests', () => {
     describe('Delete task type', function () {
 
       test('should return 403 if user tries to delete a seeded taskType', async (done) => {
-        let [seedTaskType] = await knex('taskType').insert({...mocks.fakeTaskType(), farm_id: null}).returning('*');
+        let [seedTaskType] = await mocks.taskTypeFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeTaskType());
         deleteRequest({task_id: seedTaskType.task_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();

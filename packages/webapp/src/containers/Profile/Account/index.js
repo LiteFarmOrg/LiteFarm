@@ -23,7 +23,6 @@ class Account extends Component {
     // Typical usage (don't forget to compare props):
     if (this.props.users !== prevProps.users) {
       const {dispatch, users} = this.props;
-      console.log(users, users.phone_number, users.phone_number.number);
       if (users) {
         dispatch(actions.change('profileForms.userInfo.first_name', users.first_name));
         dispatch(actions.change('profileForms.userInfo.last_name', users.last_name));

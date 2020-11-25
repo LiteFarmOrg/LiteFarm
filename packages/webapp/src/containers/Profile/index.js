@@ -43,7 +43,7 @@ const tabs = [
   },
 ];
 
-class Profile extends  Component{
+class Profile extends Component {
 
   render() {
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet

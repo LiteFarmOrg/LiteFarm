@@ -119,11 +119,7 @@ describe('Crop Tests', () => {
       });
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory({ promisedUser: [worker], promisedFarm: [farm] }, fakeUserFarm(3));
-      [seededCrop] = await knex('crop').insert({
-        ...mocks.fakeCrop(),
-        farm_id: null,
-        user_added: false,
-      }).returning('*');
+      [seededCrop] = await mocks.cropFactory( {promisedFarm: [{farm_id: null}], createdUser: [newOwner]}, mocks.fakeCrop());
     })
 
     describe('Get crop', () => {

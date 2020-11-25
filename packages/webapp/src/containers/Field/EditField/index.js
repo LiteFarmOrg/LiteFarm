@@ -172,8 +172,9 @@ class EditField extends Component {
       toastr.error('Field name cannot be empty');
       return;
     }
-    selectedField.field_name = field_name;
-    this.props.dispatch(updateField(selectedField));
+    const field = {selectedField: {...selectedField, field_name}};
+    this.setState(field);
+    this.props.dispatch(updateField(field.selectedField));
     this.setState({showFieldNameModal: false});
   };
 

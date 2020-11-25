@@ -29,6 +29,7 @@ class Farm extends Component {
     this.props.dispatch(getFarmSchedule());
     if(farm){
       this.props.dispatch(actions.change('profileForms.farmInfo.currency', farm.units.currency));
+      this.props.dispatch(actions.change('profileForms.farmInfo.farm_phone_number', farm.farm_phone_number || ''));
     }
   }
 
@@ -37,11 +38,7 @@ class Farm extends Component {
     newFarm.farm_name = updated_farm.farm_name;
     newFarm.address = updated_farm.address;
     newFarm.grid_points = updated_farm.gridPoints;
-    newFarm.phone_number = {
-      number: updated_farm.phone_number,
-      country: updated_farm.phone_country
-    };
-
+    newFarm.farm_phone_number = updated_farm.farm_phone_number;
     newFarm.units = {
       measurement: updated_farm.unit,
       currency: farm.units.currency,
@@ -81,16 +78,16 @@ class Farm extends Component {
                               defaultValue={farm.farm_name}/>
               </div>
 
-              {farm.phone_number && (
+              {farm.farm_phone_number && (
                 <div className={styles.phoneContainer}>
                   <label>Phone<br/>Number</label>
-                  <Control.text model=".farmInfo.phone_number" defaultValue={farm.phone_number.number}/>
+                  <Control.text model=".farmInfo.farm_phone_number" defaultValue={farm.farm_phone_number}/>
                 </div>
               )}
-              {!farm.phone_number && (
+              {!farm.farm_phone_number && (
                 <div className={styles.phoneContainer}>
                   <label>Phone<br/>Number</label>
-                  <Control.text model=".farmInfo.phone_number"/>
+                  <Control.text model=".farmInfo.farm_phone_number"/>
                 </div>
               )}
               <div className={styles.labelContainer}>

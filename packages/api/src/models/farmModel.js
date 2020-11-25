@@ -14,9 +14,9 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const baseModel = require('./baseModel');
 
-class Farm extends softDelete({ columnName: 'deleted' })(Model) {
+class Farm extends baseModel {
   static get tableName() {
     return 'farm';
   }
@@ -34,7 +34,6 @@ class Farm extends softDelete({ columnName: 'deleted' })(Model) {
 
       properties: {
         farm_id: { type: 'string' },
-        deleted: { type: 'boolean' },
         farm_name: { type: 'string', minLength: 1, maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 255 },
         grid_points: {
@@ -74,6 +73,7 @@ class Farm extends softDelete({ columnName: 'deleted' })(Model) {
             },
           },
         },
+        ...this.baseProperties,
         // sandbox_bool: { type: 'boolean' },
       },
       additionalProperties: false,
@@ -104,6 +104,7 @@ class Farm extends softDelete({ columnName: 'deleted' })(Model) {
           to: 'yield.farm_id',
         },
       },
+      ...this.baseRelationMappings('farm'),
     }
   }
 

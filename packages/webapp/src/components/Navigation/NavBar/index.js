@@ -81,7 +81,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
-        <ProfileFloater showSwitchFarm={showSwitchFarm} auth={auth} openProfile={tooltipInteraction['profile']}>
+        <ProfileFloater showSwitchFarm={showSwitchFarm} auth={auth} closeInteraction={() => changeInteraction('profile')} openProfile={tooltipInteraction['profile']}>
           <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={styles.profilePicture} onClick={() =>changeInteraction('profile')} />
         </ProfileFloater>
         {

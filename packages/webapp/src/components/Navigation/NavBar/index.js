@@ -6,10 +6,14 @@ import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
 import MyFarmFloater from "../../../containers/MyFarmFloater"
+import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
+import {switchFarmSelector, switchFarmCloseSuccess} from "../../../containers/switchFarmSlice"
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
   const initialState = { profile: false, myFarm: false };
-
+  const dispatch = useDispatch();
+  const {switchFarm} = useSelector(switchFarmSelector);
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
 

@@ -5,14 +5,18 @@ import ProfilePicture from "../../../assets/images/navbar/defaultpfp.png"; // TO
 import React, { useState } from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
 import ProfileFloater from "../../../containers/ProfileFloater";
+import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
+import {switchFarmSelector, switchFarmCloseSuccess} from "../../../containers/switchFarmSlice"
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
-  const initialState = { profile: false };
+export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm}) {
+  const dispatch = useDispatch();
+  const {switchFarm} = useSelector(switchFarmSelector);
+  const initialState = { profile: false};
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
-
 
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
@@ -23,6 +27,12 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
     const newInteraction = onOverlay ? initialState : {...initialState, [tooltipName]: !tooltipInteraction[tooltipName]};
     setTooltipInteraction(newInteraction);
     setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
+  }
+
+  const dismissPopup = () => {
+    if (switchFarm) {
+      dispatch(switchFarmCloseSuccess());
+    }
   }
 
 
@@ -82,6 +92,20 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
       </div>
+      { switchFarm && <FarmSwitchOutro />}
+
+      {
+
+      switchFarm && 
+      <div onClick={dismissPopup} style={{ position: "fixed",
+      zIndex: 100,
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      backgroundColor: "rgba(25, 25, 40, 0.8)"}} /> 
+
+    }
 
       <div className={styles.itemContainer}>
         {logo}

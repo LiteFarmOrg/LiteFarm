@@ -11,11 +11,8 @@ export default function MyFarmFloater({children, openProfile}) {
   const peopleClick = () => {
   }
 
-  const settingsClick = () => {
-}
-
   const Wrapper = (
-    <PureMyFarmFloater farmInfo={farmInfoClick} farmMap={farmMapClick} people={peopleClick} settings={settingsClick}/>
+    <PureMyFarmFloater farmInfo={farmInfoClick} farmMap={farmMapClick} people={peopleClick} />
   )
   return (
     <Floater component={Wrapper} placement={'bottom-end'} open={openProfile}>

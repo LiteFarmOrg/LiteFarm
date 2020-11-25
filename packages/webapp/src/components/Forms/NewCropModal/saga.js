@@ -8,6 +8,7 @@ import {
 } from "./actions";
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
+import { toastr } from "react-redux-toastr";
 import { loginSelector } from '../../../containers/loginSlice';
 import { getHeader } from '../../../containers/saga';
 
@@ -89,12 +90,15 @@ export function* createCropSaga(action) {
       const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
       if (result) {
         yield put(setCropsInState(result.data));
+        toastr.success('Successfully saved Crop!');
       } else {
         console.log('failed to fetch all crops from database');
+        toastr.error('failed to fetch all crops from database');
       }
     }
   } catch(e) {
     console.log('failed to add fieldCrop to database');
+    toastr.error('failed to add fieldCrop to database');
   }
 }
 

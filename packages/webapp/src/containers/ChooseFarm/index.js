@@ -34,6 +34,12 @@ function ChooseFarm() {
     dispatch(getUserFarms());
   },[]);
 
+  useEffect(()=>{
+    if(farms?.length === 1){
+      setFarmId(farms[0].farm_id);
+    }
+  },[farms]);
+
   const onGoBack = () => {
     history.goBack();
   }

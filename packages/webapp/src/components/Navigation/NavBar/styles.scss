@@ -82,7 +82,8 @@
   margin-right: 16px;
   padding-right: 0;
   border-radius: 50%;
-  border: 2px solid var(--teal700);
+  border: 1px solid var(--teal700);
+  transform: translateY(2px);
 }
 
 .navBarContainer{

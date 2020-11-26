@@ -14,9 +14,9 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const baseModel = require('./baseModel');
 
-class Disease extends softDelete({ columnName: 'deleted' })(Model) {
+class Disease extends baseModel {
   static get tableName() {
     return 'disease';
   }
@@ -38,7 +38,7 @@ class Disease extends softDelete({ columnName: 'deleted' })(Model) {
           enum: ['Fungus', 'Insect', 'Bacteria', 'Virus', 'Deficiency', 'Mite', 'Other', 'Weed'],
         },
         farm_id: { type: 'string' },
-        deleted: { type: 'boolean' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };

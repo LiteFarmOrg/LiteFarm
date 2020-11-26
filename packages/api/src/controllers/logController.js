@@ -37,7 +37,7 @@ class logController extends baseController {
       const trx = await transaction.start(Model.knex());
       try{
         if(!lodash.isEmpty(req.body)){
-          await logServices.insertLog(req.body, trx);
+          await logServices.insertLog(req, trx);
           await trx.commit();
         }
         res.sendStatus(200);
@@ -109,7 +109,7 @@ class logController extends baseController {
       const trx = await transaction.start(Model.knex());
       try{
         if(req.params.activity_id){
-          await logServices.patchLog(req.params.activity_id, trx, req.body);
+          await logServices.patchLog(req.params.activity_id, trx, req);
           await trx.commit();
           res.sendStatus(200);
         }else{
@@ -130,15 +130,16 @@ class logServices extends baseController {
     super();
   }
 
-  static async insertLog(data, transaction){
-    const logModel = getActivityModelKind(data.activity_kind);
-    const activityLog = await super.post(ActivityLogModel, data, transaction);
+  static async insertLog({ body, user }, transaction){
+    const logModel = getActivityModelKind(body.activity_kind);
+    const user_id = user.sub.split('|')[1];
+    const activityLog = await super.post(ActivityLogModel, body, transaction, { user_id });
 
     //insert crops,fields and beds
-    await super.relateModels(activityLog, fieldCrop, data.crops, transaction);
-    await super.relateModels(activityLog, field, data.fields, transaction);
+    await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
+    await super.relateModels(activityLog, field, body.fields, transaction);
     if (!logModel.isOther) {
-      await super.postRelated(activityLog, logModel, data, transaction);
+      await super.postRelated(activityLog, logModel, body, transaction);
     }
   }
 
@@ -177,19 +178,20 @@ class logServices extends baseController {
     return logs;
   }
 
-  static async patchLog(logId, transaction, updatedLog){
+  static async patchLog(logId, transaction, { body, user }){
     var log = await super.getIndividual(ActivityLogModel, logId);
-    const activityLog = await super.updateIndividualById(ActivityLogModel, logId, updatedLog, transaction);
+    const user_id = user.sub.split('|')[1];
+    const activityLog = await super.updateIndividualById(ActivityLogModel, logId, body, transaction, { user_id });
 
     //insert fieldCrops,fields
     // TODO: change body.crops to body.fieldCrops
-    await super.relateModels(activityLog, fieldCrop, updatedLog.crops, transaction);
+    await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
     // TODO: Deprecate fields field in req.body
-    await super.relateModels(activityLog, field, updatedLog.fields, transaction);
+    await super.relateModels(activityLog, field, body.fields, transaction);
 
     var logKind = getActivityModelKind(log[0].activity_kind);
     if (!logKind.isOther) {
-      await super.updateIndividualById(logKind, logId, updatedLog, transaction)
+      await super.updateIndividualById(logKind, logId, body, transaction, { user_id })
     }
   }
 

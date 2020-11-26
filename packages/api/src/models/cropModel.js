@@ -14,9 +14,9 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const BaseModel = require('./baseModel');
 
-class Crop extends softDelete({ columnName: 'deleted' })(Model) {
+class Crop extends BaseModel {
   static get tableName() {
     return 'crop';
   }
@@ -57,7 +57,6 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
             'Grapes', 'Flower crops', 'Mushrooms and truffles', 'Rubber', 'Sugar crops (other)',
             'Tobacco'],
         },
-        deleted: { type: 'boolean' },
         max_rooting_depth: { type : 'number' },
         depletion_fraction: { type : 'number' },
         initial_kc: { type : 'number' },
@@ -97,6 +96,7 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
         nutrient_notes: { type : 'string' },
         refuse: { type : 'string' },
         nutrient_credits: { type : 'number' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -126,6 +126,7 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
           to: 'price.crop_id',
         },
       },
+      ...this.baseRelationMappings('crop'),
     }
   }
 }

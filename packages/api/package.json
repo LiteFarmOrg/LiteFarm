@@ -13,6 +13,7 @@
     "integration": "NODE_ENV=integration node src/server.js",
     "migrate:testing:db": "knex migrate:latest --env=test",
     "migrate:dev:db": "knex migrate:latest",
+    "migrate:make:dev": "knex migrate:latest",
     "migrate:dev:seed": "knex seed:run",
     "migrate:pipeline:db": "knex migrate:latest --env=pipeline",
     "migrate:testing:seed": "knex seed:run --env=test",

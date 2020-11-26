@@ -112,18 +112,14 @@ describe('Crop Tests', () => {
     let seededCrop;
 
     beforeEach(async () => {
-      [crop] = await mocks.cropFactory({ promisedFarm: [farm] }, {
+      [crop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [newOwner] }, {
         ...mocks.fakeCrop(),
         crop_common_name: 'crop',
         user_added: true,
       });
       [worker] = await mocks.usersFactory();
       [workerFarm] = await mocks.userFarmFactory({ promisedUser: [worker], promisedFarm: [farm] }, fakeUserFarm(3));
-      [seededCrop] = await knex('crop').insert({
-        ...mocks.fakeCrop(),
-        farm_id: null,
-        user_added: false,
-      }).returning('*');
+      [seededCrop] = await mocks.cropFactory( {promisedFarm: [{farm_id: null}], createdUser: [newOwner]}, mocks.fakeCrop());
     })
 
     describe('Get crop', () => {
@@ -231,7 +227,7 @@ describe('Crop Tests', () => {
 
 
       beforeEach(async () => {
-        [cropNotInUse] = await mocks.cropFactory({ promisedFarm: [farm] }, {
+        [cropNotInUse] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [newOwner] }, {
           ...mocks.fakeCrop(),
           crop_common_name: 'cropNotInUse',
           user_added: true,
@@ -473,7 +469,7 @@ describe('Crop Tests', () => {
       test('should return 400 status if crop is posted w/o variety name', async (done) => {
         let crop = fakeCrop();
         crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
-        [crop] = await mocks.cropFactory({ promisedFarm: [farm] }, crop);
+        [crop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [newOwner] }, crop);
         postCropRequest(crop, {}, (err, res) => {
           expect(res.status).toBe(400);
           done();
@@ -483,7 +479,7 @@ describe('Crop Tests', () => {
       test('should post a crop and its variety', async (done) => {
         let crop = fakeCrop();
         crop.crop_common_name = `${crop.crop_specie} - ${crop.crop_genus}`;
-        const [crop1] = await mocks.cropFactory({ promisedFarm: [farm] }, crop);
+        const [crop1] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [newOwner] }, crop);
         crop.crop_common_name += ' - 1';
         postCropRequest(crop, {}, async (err, res) => {
           expect(res.status).toBe(201);

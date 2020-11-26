@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const baseModel = require('./baseModel');
 
-class Pesticide extends softDelete({ columnName: 'deleted' })(Model) {
+class Pesticide extends baseModel {
   static get tableName() {
     return 'pesticide';
   }
@@ -34,11 +33,11 @@ class Pesticide extends softDelete({ columnName: 'deleted' })(Model) {
       properties: {
         pesticide_name: { type: 'string' },
         farm_id: { type: 'string' },
-        deleted: { type: 'boolean' },
         active_ingredients: { type: 'string' },
         concentration: { type: 'number' },
         entry_interval: { type: 'number' },
         harvest_interval: { type: 'number' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };

@@ -110,7 +110,7 @@ describe('Pesticide Tests', () => {
     })
 
     test('Workers should get seeded pesticide', async (done)=>{
-      let [seedPesticide] = await knex('pesticide').insert({...mocks.fakePesticide(), farm_id: null}).returning('*');
+      let [seedPesticide] = await mocks.pesticideFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakePesticide());
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body[1].pesticide_id).toBe(seedPesticide.pesticide_id);
@@ -181,7 +181,7 @@ describe('Pesticide Tests', () => {
     describe('Delete fertlizer', function () {
 
       test('should return 403 if user tries to delete a seeded pesticide', async (done) => {
-        let [seedPesticide] = await knex('pesticide').insert({...mocks.fakePesticide(), farm_id: null}).returning('*');
+        let [seedPesticide] = await mocks.pesticideFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakePesticide());
         deleteRequest({pesticide_id: seedPesticide.pesticide_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();

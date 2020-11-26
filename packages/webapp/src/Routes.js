@@ -101,6 +101,7 @@ import OnboardingFlow from './routes/Onboarding';
 // action
 import { loginSuccess } from './containers/loginSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
+import Outro from './containers/Outro';
 
 const auth = new Auth();
 
@@ -119,19 +120,20 @@ const Routes = () => {
     dispatch(loginSuccess({ user_id }))
   };
   const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
-    && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
-  let { step_five, has_consent, role_id } = userFarm;
+    && pre.has_consent === next.has_consent && pre.role_id === next.role_id && pre.status===next.status);
+  let { step_five, has_consent, role_id, status } = userFarm;
   if (isAuthenticated) {
     role_id = Number(role_id);
     // TODO check every step
     if (!step_five) {
       return <OnboardingFlow {...userFarm}/>
-    } else if (step_five && !has_consent) {
+    } else if (status === 'Invited') {
       return <Switch>
         <Route path="/farm_selection" exact component={ChooseFarm}/>
-        <Route path="/consent" exact component={ConsentForm}/>
+        <Route path="/consent" exact component={() => <ConsentForm goForwardTo={'outro'} goBackTo={null}/>}/>
         //TODO add new consent form and allow users to withdraw consent
-        <Redirect to={'/consent'}/>
+        {has_consent && <Route path="/outro" exact component={Outro}/>}
+        {!has_consent && <Redirect to={'/consent'}/>}
       </Switch>
     } else if (role_id === 1) {
       return (

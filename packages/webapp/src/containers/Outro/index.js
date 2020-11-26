@@ -7,11 +7,15 @@ import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
+import { userFarmSelector } from '../userFarmSlice';
 
 function Outro() {
+  const survey = useSelector(certifierSurveySelector);
+  const { status } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const onGoBack = () => {
-    history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
+    if(status === 'Invited') return history.push('consent');
+    else history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
   }
   const onContinue = () => {
     dispatch(patchOutroStep({callback: ()=>history.push('/')}));
@@ -20,11 +24,10 @@ function Outro() {
     }, 200);
 
   }
-  const survey = useSelector(certifierSurveySelector);
   useEffect(() => {
     if (!survey.survey_id) {
       dispatch(getCertifiers());
-    }},[survey, dispatch]);
+    }},[]);
 
   return (
     <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue}/>

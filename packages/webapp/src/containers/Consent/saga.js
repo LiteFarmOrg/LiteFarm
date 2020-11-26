@@ -43,7 +43,7 @@ export function* patchConsentSaga({ payload }) {
       !step_three && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
     yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
-    history.push('/interested_in_organic')
+    // history.push(payload.goForwardTo);
   } catch (e) {
     toastr.error('Failed to update user agreement');
   }

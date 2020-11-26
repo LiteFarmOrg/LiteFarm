@@ -28,7 +28,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
   }
 
   const updateConsent = (data) => {
-    dispatch(patchConsent({ has_consent: true, consent_version: consentVersion }));
+    dispatch(patchConsent({ has_consent: true, consent_version: consentVersion, goForwardTo }));
   }
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
       errors: errors[checkboxName] && errors[checkboxName].message,
     }}
                  onSubmit={handleSubmit(updateConsent)}
-                 onGoBack={goBack}
+                 onGoBack={goBackTo ? goBack: null}
                  text={consent}
                  disabled={!hasConsent}
     >

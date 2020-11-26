@@ -23,10 +23,12 @@ import { getHeader } from '../saga';
 const axios = require('axios');
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
-export function* patchOutroStepSaga({ payload: {callback} }) {
+
+export function* patchOutroStepSaga({ payload: { callback } }) {
   const { userFarmUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  let { status } = yield select(userFarmSelector);
+  const header = getHeader(user_id, farm_id);
 
   let data = {
     step_five: true,
@@ -35,7 +37,8 @@ export function* patchOutroStepSaga({ payload: {callback} }) {
 
   try {
     yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-    yield put(patchStepFiveSuccess({...data, farm_id, user_id}));
+    if(status === 'Invited') yield call(axios.patch, `${userFarmUrl}/status/farm/${farm_id}/user/${user_id}`, {status: 'Active'}, header);
+    yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
     callback && callback();
   } catch (e) {
     console.error('failed to update table');

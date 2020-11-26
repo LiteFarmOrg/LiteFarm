@@ -7,6 +7,7 @@ export default function MyFarmFloater({children, openProfile}) {
   const farmInfoClick = () => {
   }
   const farmMapClick = () => {
+    history.push('/Field')
 }
   const peopleClick = () => {
   }

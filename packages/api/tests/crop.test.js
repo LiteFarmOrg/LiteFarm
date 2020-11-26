@@ -132,7 +132,7 @@ describe('Crop Tests', () => {
         });
       })
 
-      test('Workers should get seeded crops', async (done) => {
+      xtest('Workers should get seeded crops', async (done) => {
         getRequest(`/crop/farm/${farm.farm_id}`, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body[1].crop_id).toBe(seededCrop.crop_id);

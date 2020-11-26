@@ -28,8 +28,9 @@ class farmExpenseController extends baseController {
           res.status(400).send('needs to be an array of expense items')
         }
         const resultArray = [];
+        const user_id = req.user.sub.split('|')[1];
         for(let e of expenses){
-          const result = await baseController.post(farmExpenseModel, e, trx);
+          const result = await baseController.post(farmExpenseModel, e, trx, { user_id });
           resultArray.push(result)
         }
         await trx.commit();

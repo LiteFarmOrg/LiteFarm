@@ -48,7 +48,8 @@ class fertilizerController extends baseController {
         if(farm_id !== body_farm_id){
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
-        const result = await baseController.postWithResponse(fertilizerModel, req.body, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const result = await baseController.postWithResponse(fertilizerModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

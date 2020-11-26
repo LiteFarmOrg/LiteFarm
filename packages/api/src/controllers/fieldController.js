@@ -31,7 +31,7 @@ class fieldController extends baseController {
       try {
         const result = await fieldController.postWithResponse(req, trx);
         await trx.commit();
-        if (result.field_name == 0) {
+        if (result.field_name.length === 0) {
           res.sendStatus(403)
         }
 
@@ -78,12 +78,13 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
+        const user_id = req.user.sub.split('|')[1];
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
         }
-        else if (updated[0].field_name.length == 0) {
+        else if (updated[0].field_name.length === 0) {
           res.sendStatus(403);
         }
 
@@ -129,7 +130,8 @@ class fieldController extends baseController {
   static async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
-    return await super.postWithResponse(fieldModel, req.body, trx);
+    const user_id = req.user.sub.split('|')[1];
+    return await super.postWithResponse(fieldModel, req.body, trx, { user_id });
   }
 
   static mapFieldToStation(req, res) {

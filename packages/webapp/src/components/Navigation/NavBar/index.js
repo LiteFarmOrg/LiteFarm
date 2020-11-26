@@ -77,7 +77,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         />
 
         }
-        <MyFarmFloater openProfile={tooltipInteraction['myFarm']}>
+        <MyFarmFloater closeInteraction={() => changeInteraction('myFarm')} openProfile={tooltipInteraction['myFarm']}>
         <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem} onClick={() =>changeInteraction('myFarm')} />
         </MyFarmFloater>
         {

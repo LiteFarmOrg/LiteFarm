@@ -44,8 +44,12 @@ const tabs = [
 ];
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
+
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet
     const { role } = farm;
     const currentUserRole = (role || '').toLowerCase();
@@ -57,6 +61,7 @@ class Profile extends Component {
           className={styles.tabs}
           renderActiveTabContentOnly={true}
           disableInlineStyles
+          selectedTab={this.props.history.location.state != undefined ? this.props.history.location.state: "account"}
         >
           <div className={styles.tabLinks}>
             {

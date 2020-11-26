@@ -2,13 +2,25 @@ import Floater from "react-floater";
 import React from "react";
 import PureMyFarmFloater from "../../components/MyFarmFloater";
 import history from '../../history';
-export default function MyFarmFloater({children, openProfile}) {
+export default function MyFarmFloater({closeInteraction, children, openProfile}) {
 
   const farmInfoClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: "farm"
+    })
+    closeInteraction('myFarm');
   }
   const farmMapClick = () => {
+    history.push('/Field')
+    closeInteraction('myFarm');
 }
   const peopleClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: "people"
+    })
+    closeInteraction('myFarm');
   }
 
   const Wrapper = (

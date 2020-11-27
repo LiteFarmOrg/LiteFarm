@@ -6,6 +6,7 @@ import MyFarmIcon from '../../../assets/images/my-farm.svg';
 import NotifIcon from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
 import ProfilePicture from '../../../assets/images/navbar/defaultpfp.png';
+import PureMyFarmFloater from '../../MyFarmFloater';
 
 export default function PureNavBar({ logo, children, steps, resetSpotlight, changeInteraction, isOneTooltipOpen, showSwitchFarm, auth, tooltipInteraction, history}) {
   const resetSpotlightStatus = (data) => {
@@ -54,9 +55,9 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, chan
         />
 
         }
-        <MyFarmFloater openProfile={tooltipInteraction['myFarm']}>
+        <PureMyFarmFloater openProfile={tooltipInteraction['myFarm']}>
           <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem} onClick={() =>changeInteraction('myFarm')} />
-        </MyFarmFloater>
+        </PureMyFarmFloater>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
         <PureProfileFloater showSwitchFarm={showSwitchFarm} auth={auth} closeInteraction={() => changeInteraction('profile')}
                         openProfile={tooltipInteraction['profile']} history={history}>

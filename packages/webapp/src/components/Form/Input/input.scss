@@ -8,6 +8,8 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--fontColor);
+  // set lastpass fill password icon
+  background-position: calc(100% - 36px) calc(50%) !important;
 }
 
 .input ::placeholder {
@@ -57,6 +59,7 @@
   position: absolute;
   right: 0;
   transform: translate(-17px, 13px);
+  cursor: pointer;
 }
 .searchIcon{
   color: var(--iconDefault);
@@ -73,4 +76,5 @@
   transform: translate(-8px, 32px);
   font-size: 22px;
   color: var( --iconDefault);
+  cursor: pointer;
 }

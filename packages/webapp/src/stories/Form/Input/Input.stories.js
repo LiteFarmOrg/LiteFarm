@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from "../../../components/Form/Input";
+import { Underlined } from '../../../components/Typography';
 
 export default {
   title: 'Components/Input',
@@ -61,4 +62,11 @@ export const Password = Template.bind({});
 Password.args = {
   label: 'Password',
   type: 'password',
+};
+
+export const PasswordWithLink = Template.bind({});
+PasswordWithLink.args = {
+  label: 'Password',
+  type: 'password',
+  icon: <Underlined>Forget password</Underlined>
 };

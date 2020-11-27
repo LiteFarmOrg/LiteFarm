@@ -35,7 +35,7 @@ const Input = ({
       {label && <Label>{label} {optional && <Label sm className={styles.sm}>(optional)</Label>}</Label>}
       {errors && <Cross onClick={onClear} className={styles.cross}/>}
       {isSearchBar && <BiSearchAlt2 className={styles.searchIcon}/>}
-      {isPassword && showPassword ? <MdVisibility className={styles.visibilityIcon} onClick={setVisibility}/> :
+      {isPassword && !errors && showPassword ? <MdVisibility className={styles.visibilityIcon} onClick={setVisibility}/> :
         <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility}/>}
       <input
         disabled={disabled}

@@ -70,6 +70,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "chromatic": "^5.4.0",
     "faker": "^5.1.0",
     "jest": "^26.4.2",
     "start-server-and-test": "^1.11.5"

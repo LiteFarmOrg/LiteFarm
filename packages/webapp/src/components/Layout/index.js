@@ -17,7 +17,7 @@ const Layout = ({
         {children}
       </div>
       <Footer style={{ ...classes.footer,   bottom: 0,
-        position: 'fixed' }} hasWhiteBackground={hasWhiteBackground}>
+        position: 'sticky' }} hasWhiteBackground={hasWhiteBackground}>
         {buttonGroup}
       </Footer>
     </>

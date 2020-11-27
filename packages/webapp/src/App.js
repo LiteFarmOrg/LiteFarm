@@ -26,7 +26,7 @@ class App extends Component {
       <>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight:'100vh' }}>
           <NavBar auth={auth} history={history}/>
-          <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column', overflowX:'hidden' }}>
+          <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column' }}>
             <Routes/>
           </div>
         </div>

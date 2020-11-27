@@ -67,3 +67,10 @@
 .searchBar{
   padding-left: 40px;
 }
+.visibilityIcon{
+  position: absolute;
+  right: 0;
+  transform: translate(-8px, 32px);
+  font-size: 22px;
+  color: var( --iconDefault);
+}

@@ -56,3 +56,9 @@ SearchBar.args = {
   placeholder: 'Search',
   isSearchBar: true
 };
+
+export const Password = Template.bind({});
+Password.args = {
+  label: 'Password',
+  type: 'password',
+};

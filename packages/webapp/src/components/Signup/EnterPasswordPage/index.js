@@ -9,7 +9,7 @@ import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 
 
-export default function PureEnterPasswordPage({ title = 'Welcome back' }) {
+export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin }) {
   const { register, handleSubmit, watch } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
@@ -19,6 +19,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back' }) {
 
   const onSubmit = (data) => {
     console.log(data, isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort);
+    onLogin();
   };
   const onError = (data) => {
     console.log(data, isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort);
@@ -40,4 +41,5 @@ export default function PureEnterPasswordPage({ title = 'Welcome back' }) {
 
 PureEnterPasswordPage.prototype = {
   title: PropTypes.string,
+  onLogin: PropTypes.func,
 }

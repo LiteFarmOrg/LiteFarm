@@ -5,7 +5,6 @@ import history from '../../../history';
 import { action } from '@storybook/addon-actions';
 import state from './state';
 import NavBar from '../../../containers/Navigation';
-import Routes from '../../../Routes';
 
 const store = {
   getState: () => {

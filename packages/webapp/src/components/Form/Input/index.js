@@ -27,16 +27,16 @@ const Input = ({
     if (input.current && input.current.value) input.current.value = ''
   };
   const [inputType, setType] = useState(type);
-  const isPassword = type === 'password';
-  const showPassword = inputType === 'text';
+  const isPassword = (type === 'password');
+  const showPassword = (inputType === 'text');
   const setVisibility = () => setType((prevState => prevState === 'password' ? 'text' : 'password'));
   return (
     <div className={clsx(styles.container)} style={(style || classes.container) && { ...style, ...classes.container }}>
       {label && <Label>{label} {optional && <Label sm className={styles.sm}>(optional)</Label>}</Label>}
       {errors && <Cross onClick={onClear} className={styles.cross}/>}
       {isSearchBar && <BiSearchAlt2 className={styles.searchIcon}/>}
-      {isPassword && !errors && showPassword ? <MdVisibility className={styles.visibilityIcon} onClick={setVisibility}/> :
-        <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility}/>}
+      {isPassword && !errors && (showPassword ? <MdVisibility className={styles.visibilityIcon} onClick={setVisibility}/> :
+        <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility}/>)}
       <input
         disabled={disabled}
         className={clsx(styles.input, errors && styles.inputError, isSearchBar && styles.searchBar)}

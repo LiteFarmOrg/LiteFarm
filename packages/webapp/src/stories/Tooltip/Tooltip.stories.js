@@ -4,7 +4,7 @@ import OverlayTooltip from "../../components/Tooltip";
 export default {
   title: 'Components/OverlayTooltip',
   component: OverlayTooltip,
-  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: [story => <div style={{ padding: '3rem' }}><h4>To be reworked due to bootstrap styling solution</h4>{story()}</div>],
 };
 
 const Template = (args) => <OverlayTooltip {...args} />;

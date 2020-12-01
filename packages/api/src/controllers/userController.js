@@ -50,11 +50,9 @@ class userController extends baseController {
 
         // persist user data
         const result = await baseController.post(userModel, userData, trx);
-        // await trx.commit();
-        await trx.rollback();
+        await trx.commit();
 
         delete result.password_hash;
-        console.log(result);
 
         // generate token, set to last a week
         const token = await jwt.sign(
@@ -62,8 +60,6 @@ class userController extends baseController {
           process.env.JWT_SECRET,
           { expiresIn: SECONDS_IN_A_WEEK },
         );
-
-        console.log(token);
 
         // send welcome email
         try {

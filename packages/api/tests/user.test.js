@@ -322,11 +322,19 @@ describe('User Tests', () => {
 
       test('Should post then get a valid user', async (done) => {
         const fakeUser = mocks.fakeUser();
+
+        // don't need user_id or phone number when signing up user
+        delete fakeUser.user_id;
+        delete fakeUser.phone_number;
+
         const password = "test password"
         fakeUser.password = password;
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
-          const resUser = await userModel.query().findById(fakeUser.user_id);
+          // const resUser = await userModel.query().findById(fakeUser.user_id);
+          const resUser = await userModel.query().select('*').where('email', fakeUser.email).first();
+          console.log(resUser);
           validate(fakeUser, res, 201, resUser);
+          expect(resUser.password_hash).not.toBe(password);
           done();
         })
       });

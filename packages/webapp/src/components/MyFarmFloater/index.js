@@ -15,13 +15,25 @@ export function PureMyFarmFloaterComponent({farmInfo, farmMap, people}) {
   )
 }
 
-export default function PureMyFarmFloater({children, openProfile}) {
+export default function PureMyFarmFloater({children, openProfile, closeInteraction, history}) {
 
   const farmInfoClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: "farm"
+    })
+    closeInteraction('myFarm');
   }
   const farmMapClick = () => {
+    history.push('/Field')
+    closeInteraction('myFarm');
   }
   const peopleClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: "people"
+    })
+    closeInteraction('myFarm');
   }
 
   const Wrapper = (

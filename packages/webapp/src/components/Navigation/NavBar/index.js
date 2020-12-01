@@ -56,7 +56,7 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, chan
         />
 
         }
-        <PureMyFarmFloater closeInteraction={() => changeInteraction('myFarm')} openProfile={tooltipInteraction['myFarm']}>
+        <PureMyFarmFloater closeInteraction={() => changeInteraction('myFarm')} openProfile={tooltipInteraction['myFarm']} history={history}>
           <input id="firstStep" type="image" src={MyFarmIcon} className={clsx(styles.actionItem, styles.inFloater)} onClick={() =>changeInteraction('myFarm')} />
         </PureMyFarmFloater>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>

@@ -101,6 +101,7 @@ import OnboardingFlow from './routes/Onboarding';
 // action
 import { loginSuccess } from './containers/loginSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
+import GoogleLoginButton from './containers/GoogleLoginButton';
 
 const auth = new Auth();
 
@@ -367,6 +368,7 @@ const Routes = () => {
           return <Callback {...props} />
         }}/>
         <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>
+        <Route  path="/login-google" exact component={GoogleLoginButton}/>
         <Route path="/*" exact component={Login}/>
       </Switch>
     );

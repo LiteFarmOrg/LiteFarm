@@ -45,6 +45,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
 import { unregister } from './registerServiceWorker';
+import loginSaga from './containers/GoogleLoginButton/saga';
 
 
 // config for redux-persist
@@ -90,6 +91,7 @@ sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
+sagaMiddleware.run(loginSaga);
 
 const persistor = persistStore(store);
 

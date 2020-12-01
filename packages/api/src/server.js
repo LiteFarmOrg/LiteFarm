@@ -32,6 +32,7 @@ const knex = require('./util/knex')
 Model.knex(knex);
 
 // import routes
+const loginRoutes = require('./routes/loginRoute');
 const cropRoutes = require('./routes/cropRoute');
 const fieldRoutes = require('./routes/fieldRoute');
 // const planRoutes = require('./routes/planRoute');
@@ -97,9 +98,10 @@ app.use(bodyParser.json())
   .use('/stats', statsRoutes)
   .use('/sign_up', signUpRoutes)
   // ACL middleware
-  .use(checkJwt)
+  // .use(checkJwt)
 
   // routes
+  .use('/login', loginRoutes)
   .use('/crop', cropRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)

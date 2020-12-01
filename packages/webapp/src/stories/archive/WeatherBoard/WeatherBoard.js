@@ -9,7 +9,7 @@ import utils from '../../../components/ReactOpenWeather/js/utils';
 
 
 /**
- * Primary UI component for user interaction
+ * TooShort UI component for user interaction
  */
 export const WeatherBoard = ({
   unit = 'metric',

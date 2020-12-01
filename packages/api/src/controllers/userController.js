@@ -57,6 +57,24 @@ class userController extends baseController {
           process.env.JWT_SECRET,
           { expiresIn: 604800 },
         );
+
+        // send welcome email
+        try {
+          const template_path = '../templates/welcome_email.html';
+          const subject = 'Welcome to LiteFarm!';
+          const replacements = {
+            first_name: result.first_name,
+          };
+          const sender = 'system@litefarm.org';
+          console.log('template_path:', template_path);
+          if (result.email && template_path) {
+            await emailSender.sendEmail(template_path, subject, replacements, result.email, sender)
+          }
+        } catch (e) {
+          console.log('Failed to send email: ', e);
+        }
+
+        // send token and user data (sans password hash)
         delete result.password_hash;
         res.status(201).send({
           token,

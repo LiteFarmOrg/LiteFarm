@@ -16,7 +16,8 @@ export function* loginWithGoogleSaga({payload:id_token}) {
       },
     };
     const result = yield call(axios.post, loginUrl(), {}, header);
-    yield put(getUserFarmsSuccess(result.data));
+    console.log(result.data);
+    localStorage.setItem('id_token',result.data);
   } catch (e) {
     yield put(onLoadingUserFarmsFail());
     console.log('failed to login')

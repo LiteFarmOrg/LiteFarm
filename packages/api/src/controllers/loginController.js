@@ -14,8 +14,7 @@
  */
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
-const userFarmModel = require('../models/userFarmModel');
-
+const { createAccessToken } = require('../util/jwt');
 
 class loginController extends baseController {
   static loginWithGoogle() {
@@ -23,17 +22,12 @@ class loginController extends baseController {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.body;
         const user = await userModel.query().findById(user_id);
-        let userFarms = [];
         if (!user) {
           const newUser = { user_id, email, first_name, last_name };
           await userModel.query().insert(newUser);
-        } else {
-          userFarms = await userFarmModel.query().select('*').where('userFarm.user_id', user_id)
-            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
         }
-        return res.status(201).send(userFarms);
+        const token = createAccessToken({ user_id, email, first_name, last_name });
+        return res.status(201).send(token);
       } catch (err) {
         throw 'Fail to login';
       }

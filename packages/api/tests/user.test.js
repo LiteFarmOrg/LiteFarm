@@ -17,6 +17,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment')
+const bcrypt = require('bcryptjs');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const Knex = require('knex')
@@ -335,6 +336,9 @@ describe('User Tests', () => {
           console.log(resUser);
           validate(fakeUser, res, 201, resUser);
           expect(resUser.password_hash).not.toBe(password);
+          // check that the saved hash corresponds to the pw provided
+          const isMatch = await bcrypt.compare(password, resUser.password_hash);
+          expect(isMatch).toBe(true);
           done();
         })
       });

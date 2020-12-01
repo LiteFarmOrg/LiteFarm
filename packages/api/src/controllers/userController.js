@@ -25,6 +25,7 @@ const jwt = require('jsonwebtoken');
 
 const emailSender = require('../templates/sendEmailTemplate');
 
+const SECONDS_IN_A_WEEK = 60 * 60 * 24 * 7;
 
 class userController extends baseController {
   static addUser() {
@@ -49,14 +50,20 @@ class userController extends baseController {
 
         // persist user data
         const result = await baseController.post(userModel, userData, trx);
-        await trx.commit();
+        // await trx.commit();
+        await trx.rollback();
+
+        delete result.password_hash;
+        console.log(result);
 
         // generate token, set to last a week
         const token = await jwt.sign(
-          { id: result.user_id },
+          { ...result },
           process.env.JWT_SECRET,
-          { expiresIn: 604800 },
+          { expiresIn: SECONDS_IN_A_WEEK },
         );
+
+        console.log(token);
 
         // send welcome email
         try {

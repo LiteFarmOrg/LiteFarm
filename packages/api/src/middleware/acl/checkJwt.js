@@ -25,17 +25,14 @@ const checkJwt = jwt({
   // Dynamically provide a signing key
   // based on the kid in the header and
   // the signing keys provided by the JWKS endpoint.
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: `${auth0Uri}/.well-known/jwks.json`,
-  }),
+  secret: process.env.JWT_SECRET,
 
   // Validate the audience and the issuer.
-  aud: 'http://localhost:5000',
-  issuer: `${auth0Uri}/`,
+  // aud: 'http://localhost:5000',
+  // issuer: `${auth0Uri}/`,
   algorithms: ['RS256'],
-});
+}).unless({ path: [
+  '/user'
+]});
 
 module.exports = checkJwt;

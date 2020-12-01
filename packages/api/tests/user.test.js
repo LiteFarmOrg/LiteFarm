@@ -322,9 +322,11 @@ describe('User Tests', () => {
 
       test('Should post then get a valid user', async (done) => {
         const fakeUser = mocks.fakeUser();
+        const password = "test password"
+        fakeUser.password = password;
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
           const resUser = await userModel.query().findById(fakeUser.user_id);
-          validate(fakeUser,res,201, resUser);
+          validate(fakeUser, res, 201, resUser);
           done();
         })
       });

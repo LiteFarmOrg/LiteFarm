@@ -49,7 +49,8 @@ class sendEmailTemplate {
       '../templates/invitation_to_farm_email.html',
       "../templates/send_confirmation_email.html",
       "../templates/withheld_consent_email.html",
-      "../templates/restoration_of_access_to_farm_email.html"
+      "../templates/restoration_of_access_to_farm_email.html",
+      "../templates/welcome_email.html",
     ]
     if(html_templates.includes(template_path)){
       // using JSDOM to dynamically set the href for the Join button

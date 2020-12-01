@@ -132,7 +132,6 @@ const Routes = () => {
         <Route path="/farm_selection" exact component={ChooseFarm}/>
         <Route path="/consent" exact component={() => <ConsentForm goForwardTo={'outro'} goBackTo={null}/>}/>
         //TODO add new consent form and allow users to withdraw consent
-        {has_consent && <Route path="/outro" exact component={Outro}/>}
         {!has_consent && <Redirect to={'/consent'}/>}
       </Switch>
     } else if (role_id === 1) {

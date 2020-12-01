@@ -28,7 +28,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
   }
 
   const updateConsent = (data) => {
-    dispatch(patchConsent({ has_consent: true, consent_version: consentVersion, goForwardTo }));
+    dispatch(patchConsent({ has_consent: true, consent_version: consentVersion }));
   }
 
   useEffect(() => {

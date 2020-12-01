@@ -1,29 +1,25 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import { finishOnboarding } from './actions';
 import { showSpotlight } from '../actions';
 import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
-import { userFarmSelector } from '../userFarmSlice';
 
 function Outro() {
-  const survey = useSelector(certifierSurveySelector);
-  const { status } = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const onGoBack = () => {
-    if(status === 'Invited') return history.push('consent');
-    else history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
+    history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
   }
   const onContinue = () => {
-    dispatch(patchOutroStep({callback: ()=>history.push('/')}));
+    dispatch(patchOutroStep());
     setTimeout(() => {
       dispatch(showSpotlight(true));
     }, 200);
 
   }
+  const survey = useSelector(certifierSurveySelector);
   useEffect(() => {
     if (!survey.survey_id) {
       dispatch(getCertifiers());

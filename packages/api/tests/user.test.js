@@ -320,6 +320,7 @@ describe('User Tests', () => {
         }, fakeUserFarm(1));
       })
 
+      // TODO: UPDATE THIS TEST
       test('Should post then get a valid user', async (done) => {
         const fakeUser = mocks.fakeUser();
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {

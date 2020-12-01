@@ -20,26 +20,48 @@ const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const emailSender = require('../templates/sendEmailTemplate');
 
 
 class userController extends baseController {
   static addUser() {
-    //TODO need validations email
     return async (req, res) => {
-      const { email } = req.body;
-      let userData = req.body;
+      const { email, first_name, last_name, password } = req.body;
+      let userData = {
+        email,
+        first_name,
+        last_name,
+      };
 
-      const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-      if (!validEmailRegex.test(email)) {
-        userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
-      }
+      // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+      // if (!validEmailRegex.test(email)) {
+      //   userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
+      // }
+
       const trx = await transaction.start(Model.knex());
       try {
-        await baseController.post(userModel, userData, trx);
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        userData.password_hash = await bcrypt.hash(password, salt);
+
+        // persist user data
+        const result = await baseController.post(userModel, userData, trx);
         await trx.commit();
-        res.sendStatus(201);
+
+        // generate token, set to last a week
+        const token = await jwt.sign(
+          { id: result.user_id },
+          process.env.JWT_SECRET,
+          { expiresIn: 604800 },
+        );
+        delete result.password_hash;
+        res.status(201).send({
+          token,
+          user: result,
+        });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();

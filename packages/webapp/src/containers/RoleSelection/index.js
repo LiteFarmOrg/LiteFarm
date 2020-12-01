@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux';
 import { patchRole } from '../AddFarm/saga';
 import history from '../../history';
 import {roleToId} from './roleMap';
+import { useTranslation } from "react-i18next";
 
 function RoleSelection() {
+  const { t } = useTranslation();
   const { register, handleSubmit } = useForm();
   const ROLE = 'role';
   const dispatch = useDispatch();
@@ -20,23 +22,23 @@ function RoleSelection() {
   return (
     <PureRoleSelection onSubmit={handleSubmit(onSubmit)} onGoBack={onGoBack}
                        inputs={[{
-                         label: 'Farm owner',
+                         label: t('ROLE_SELECTION.FARM_OWNER'),
                          value: 'Owner',
                          inputRef: register({required: true}),
                          name: ROLE,
                          defaultChecked: true
                        },{
-                         label: 'Farm manager',
+                         label: t('ROLE_SELECTION.FARM_MANAGER'),
                          value: 'Manager',
                          inputRef: register({required: true}),
                          name: ROLE
                        },{
-                         label: 'Extension officer',
+                         label: t('ROLE_SELECTION.FARM_EO'),
                          value: 'Extension Officer',
                          inputRef: register({required: true}),
                          name: ROLE
                        }
-                       ]} title={'What is your role on the farm?'}>
+                       ]} title={t('ROLE_SELECTION.TITLE')}>
 
     </PureRoleSelection>
   )

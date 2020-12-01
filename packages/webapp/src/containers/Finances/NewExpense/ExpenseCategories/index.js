@@ -15,6 +15,7 @@ import OtherImg from '../../../../assets/images/log/other.svg';
 import LandImg from '../../../../assets/images/log/land.svg';
 import {setSelectedExpense} from '../../actions'
 import history from "../../../../history";
+import {withTranslation} from "react-i18next";
 
 
 class ExpenseCategories extends Component {
@@ -68,7 +69,7 @@ class ExpenseCategories extends Component {
     const {selectedStyle, unSelectedStyle, selectedTypes} = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='New Expense (1 of 2)'/>
+        <PageTitle backUrl='/Finances' title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')}/>
         <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
           <Row className="show-grid">
             {
@@ -110,7 +111,7 @@ class ExpenseCategories extends Component {
           </Row>
         </Container>
         <div className={styles.bottomContainer}>
-          <button className='btn btn-primary' onClick={()=>this.nextPage()}>Next</button>
+          <button className='btn btn-primary' onClick={()=>this.nextPage()}>{this.props.t('common:NEXT')}</button>
         </div>
       </div>
     )
@@ -129,4 +130,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseCategories);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ExpenseCategories));

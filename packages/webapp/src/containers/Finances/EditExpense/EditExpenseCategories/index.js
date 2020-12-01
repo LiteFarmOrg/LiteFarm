@@ -15,6 +15,7 @@ import OtherImg from '../../../../assets/images/log/other.svg';
 import LandImg from '../../../../assets/images/log/land.svg';
 import {setSelectedEditExpense} from '../../actions'
 import history from "../../../../history";
+import { withTranslation } from "react-i18next";
 
 
 
@@ -81,9 +82,9 @@ class EditExpenseCategories extends Component {
     const {selectedStyle, unSelectedStyle, selectedTypes} = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/other_expense' title='Edit Expense (1 of 2)'/>
+        <PageTitle backUrl='/other_expense' title={this.props.t('EXPENSE.EDIT_EXPENSE.TITLE_1')}/>
         <Alert variant="warning">
-          Deselecting a category will remove existing expenses under this category for this expenses log.
+          {this.props.t('EXPENSE.EDIT_EXPENSE.DESELECTING_CATEGORY')}
         </Alert>
         <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
           <Row className="show-grid">
@@ -126,7 +127,7 @@ class EditExpenseCategories extends Component {
           </Row>
         </Container>
         <div className={styles.bottomContainer}>
-          <button className='btn btn-primary' onClick={()=>this.nextPage()}>Next</button>
+          <button className='btn btn-primary' onClick={()=>this.nextPage()}>{this.props.t('common:NEXT')}</button>
         </div>
       </div>
     )
@@ -146,4 +147,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditExpenseCategories);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditExpenseCategories));

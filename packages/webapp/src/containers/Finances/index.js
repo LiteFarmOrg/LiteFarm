@@ -355,10 +355,10 @@ class Finances extends Component {
     return (
       <div className={styles.financesContainer}>
         <h4>
-          <strong>FINANCES</strong>
+          <strong>{this.props.t('SALE.FINANCES.TITLE')}</strong>
         </h4>
         <hr/>
-        <h4><b>Action</b></h4>
+        <h4><b>{this.props.t('SALE.FINANCES.ACTION')}</b></h4>
         <div className={styles.buttonContainer}>
           <Button onClick={() => {
             history.push('/expense_categories')

@@ -6,11 +6,15 @@ import ReactMarkdown from "react-markdown";
 import Checkbox from "../Form/Checkbox";
 import React from "react";
 import { Title } from '../Typography';
+import { useTranslation } from "react-i18next";
+
+
 export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, disabled }) {
+  const { t } = useTranslation();
   return (
     <Form onSubmit={onSubmit} buttonGroup={
-      <><Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button><Button type={'submit'}
-                                                                                          fullLength disabled={disabled}>Continue</Button></>
+      <><Button onClick={onGoBack} color={'secondary'} fullLength>{t('common:BACK')}</Button><Button type={'submit'}
+                                                                                          fullLength disabled={disabled}>{t('common:CONTINUE')}</Button></>
     }>
       <Title style={{marginBottom: '16px'}}>Our Data Policy</Title>
       <div style={{ width: '90%', overflowY: "scroll" }} className={clsx(styles.consentText, 'paraText')}>

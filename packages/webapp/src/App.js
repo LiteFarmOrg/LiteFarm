@@ -18,7 +18,7 @@ import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import Auth from './Auth/Auth.js';
-
+import './../lang/i18n'
 class App extends Component {
   render() {
     const auth = new Auth();

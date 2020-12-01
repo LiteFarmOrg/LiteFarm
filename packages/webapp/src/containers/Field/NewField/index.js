@@ -26,6 +26,7 @@ import history from '../../../history';
 import { fieldSelector } from '../../selector';
 import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 const buttonStyles = {
   font: "Open Sans",
@@ -317,17 +318,17 @@ class NewField extends Component {
     const PolygonButton = () =>
       <Button id={POLYGON_BUTTON} size={'lg'} active={this.state.isDraw} disabled={this.state.isDraw} variant="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
         <BsPencil />
-        Draw
+        {this.props.t('FIELDS.NEW_FIELD.DRAW')}
       </Button>;
     const ClearButton = () =>
       <Button id={CLEAR_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
         <BsTrash />
-        Redraw
+        {this.props.t('FIELDS.NEW_FIELD.REDRAW')}
           </Button>;
     const NextButton = () =>
       <Button id={NEXT_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
         <BsCheck />
-        Confirm
+        {this.props.t('common:CONFIRM')}
           </Button>;
     const DrawingManager = () =>
       gridPoints === null ?
@@ -420,7 +421,7 @@ class NewField extends Component {
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);
                       this.setState({ step: this.state.step + 1 });
-                    }}>Save Field</Button>
+                    }}>{this.props.t('FIELDS.NEW_FIELD.SAVE')}</Button>
                   }
               </div>
             </FormGroup>
@@ -445,4 +446,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewField);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewField));

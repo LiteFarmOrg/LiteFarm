@@ -26,6 +26,7 @@ import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './c
 import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../util';
 import { BsChevronDown, BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
+import { withTranslation } from "react-i18next";
 
 class Field extends Component {
   static defaultProps = {
@@ -219,15 +220,15 @@ class Field extends Component {
     return (
       <div className={styles.logContainer}>
         <h3>
-          <strong>FIELDS</strong>
+          <strong>{this.props.t('FIELDS.TITLE')}</strong>
         </h3>
         <hr />
         <h3><b>Action</b></h3>
         <div className={styles.buttonContainer}>
-          <Button variant={'secondary'} onClick={() => {history.push('/new_field') }}>Add New Field</Button>
+          <Button variant={'secondary'} onClick={() => {history.push('/new_field') }}>{this.props.t('FIELDS.ADD_NEW_FIELD')}</Button>
         </div>
         <hr />
-        <h3><b>Explore Your Fields</b></h3>
+        <h3><b>{this.props.t('FIELDS.EXPLORE')}</b></h3>
         <div>
           <Tabs
             activeKey={this.state.selectedTab}
@@ -258,9 +259,9 @@ class Field extends Component {
               <Table>
                 <thead>
                   <tr>
-                    <th>Field Name <BsChevronDown /></th>
-                    <th>Area <BsChevronDown /></th>
-                    <th>Edit</th>
+                    <th>{this.props.t('FIELDS.TABLE.FIELD_NAME')} <BsChevronDown /></th>
+                    <th>{this.props.t('FIELDS.TABLE.AREA')} <BsChevronDown /></th>
+                    <th>{this.props.t('FIELDS.TABLE.EDIT')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -301,4 +302,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Field);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Field));

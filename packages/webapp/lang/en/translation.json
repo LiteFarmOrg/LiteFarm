@@ -1,0 +1,177 @@
+{
+  "CHOOSE_FARM": {
+    "ADD_NEW": "Add new farm",
+    "CHOOSE_TITLE": "Choose your farm",
+    "INPUT_PLACEHOLDER": "Search",
+    "SWITCH_TITLE": "Switch to another farm"
+  },
+  "EXPENSE": {
+    "ADD_EXPENSE": {
+      "TITLE_1": "New Expense (1 of 2)",
+      "TITLE_2": "New Expense (2 of 2)"
+    },
+    "ADD_MORE_ITEMS": "Add more items",
+    "DETAILED_HISTORY": "Detailed History",
+    "EDIT_EXPENSE": {
+      "DATE_PLACEHOLDER": "Choose a Date",
+      "DESELECTING_CATEGORY": "Deselecting a category will remove existing expenses under this category for this expenses log.",
+      "REMOVE_ALL": "You removed all expenses, click Save to submit.",
+      "TITLE_1": "Edit Expense(1 of 2)",
+      "TITLE_2": "Edit Expense (2 of 2)"
+    },
+    "ITEM": "Item",
+    "NAME": "Name",
+    "NO_EXPENSE": "No expense found",
+    "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
+    "OTHER_EXPENSES_TITLE": "Other Expenses",
+    "SUMMARY": "Summary",
+    "VALUE": "Value"
+  },
+  "FIELDS": {
+    "ADD_NEW_FIELD": "Add New Field",
+    "EDIT_FIELD": {
+      "CROP": {
+        "AREA_USED": "Area Used",
+        "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
+        "END_DATE": "End Date",
+        "ESTIMATED_PRODUCTION": "Estimated Production",
+        "ESTIMATED_REVENUE": "Estimated Revenue",
+        "NUMBER_EXPIRED": "Number of Expired Crops",
+        "START_DATE": "Start Date"
+      },
+      "DELETE_FIELD": "Delete Field",
+      "EDIT_NAME": "Edit Field Name",
+      "NAME": "Field Name",
+      "NUMBER_CROPS": "Number of Crops",
+      "TOTAL_AREA": "Total Area",
+      "VARIETY": "Variety"
+    },
+    "EXPLORE": "Explore Your Fields",
+    "NEW_FIELD": {
+      "DRAW": "Draw",
+      "REDRAW": "Redraw",
+      "SAVE": "Save Field",
+      "SEARCH_BOX_PLACEHOLDER": "Search"
+    },
+    "TABLE": {
+      "AREA": "Area",
+      "EDIT": "Edit",
+      "FIELD_NAME": "Field Name"
+    },
+    "TITLE": "FIELDS"
+  },
+  "LOGIN": {
+    "TITLE": "Everything you need for managing your farm, in your pocket."
+  },
+  "MY_FARM": {
+    "FARM_INFO": "Farm info",
+    "FARM_MAP": "Farm map",
+    "PEOPLE": "People"
+  },
+  "NAVIGATION": {
+    "SPOTLIGHT": {
+      "FARM": "Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees",
+      "FARM_TITLE": "This is your farm profile",
+      "NOTIFICATION": "Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities",
+      "NOTIFICATION_TITLE": "This is your Notification Centre",
+      "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
+      "PROFILE_TITLE": "This is your profile"
+    }
+  },
+  "ORGANIC": {
+    "INTERESTED_IN_ORGANIC": {
+      "PARAGRAPH": "Do you plan to pursue or renew organic certification this season?",
+      "TITLE": "Interested in Organic?",
+      "WHY": "Why are we asking this?",
+      "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
+    },
+    "PARTNERS": {
+      "SELECT_CERTIFIER": "Please select your certifier",
+      "THROUGH_APP": "throughout the app!",
+      "WILL_INDICATE": "We'll indicate data required for organic certification with"
+    }
+  },
+  "OUTRO": "And finally, let us show you a couple of important things!",
+  "PROFILE": {
+    "HELP": "Help",
+    "INFO": "My info",
+    "LOG_OUT": "Log out",
+    "SWITCH": "Switch farm"
+  },
+  "ROLE_SELECTION": {
+    "FARM_EO": "Extension Officer",
+    "FARM_MANAGER": "Farm Manager",
+    "FARM_OWNER": "Farm Owner",
+    "TITLE": "What is your role on the farm?"
+  },
+  "SALE": {
+    "ADD_SALE": {
+      "DATE": "Date",
+      "NEW": "Add New Sale"
+    },
+    "DETAIL": {
+      "CROP": "Crop",
+      "CUSTOMER_NAME": "Customer Name",
+      "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
+      "QUANTITY": "Quantity",
+      "TITLE": "Sale Detail",
+      "VALUE": "Value"
+    },
+    "EDIT_SALE": {
+      "DATE": "Date",
+      "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
+      "TITLE": "Edit Sale"
+    },
+    "ESTIMATED_REVENUE": {
+      "CALCULATION": "Calculation",
+      "CALCULATION_DESCRIPTION": "We calculate estimated revenue using the end date of crops estimated in the fields module. To include a crop in your estimated revenue calculation make sure you capture its end date within your financial report end date.",
+      "TITLE": "Estimated Revenue"
+    },
+    "EXPENSE_DETAIL": {
+      "COST": "Cost",
+      "DELETE_CONFIRMATION": "Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.",
+      "DESCRIPTION": "Expense Description",
+      "TITLE": "Expense Detail",
+      "TOTAL": "Total"
+    },
+    "FINANCES": {
+      "ACTION": "Action",
+      "TITLE": "Finances"
+    },
+    "LABOUR": {
+      "BY": "By",
+      "CROPS": "Crops",
+      "EMPLOYEES": "Employees",
+      "TASKS": "Tasks",
+      "TITLE": "Labour"
+    },
+    "SUMMARY": {
+      "DETAILED_HISTORY": "Detailed History",
+      "SUMMARY": "Summary",
+      "TITLE": "Sales",
+      "TOTAL": "Total"
+    }
+  },
+  "SLIDE_MENU": {
+    "DEMOS": "Demos",
+    "FIELDS": "Fields",
+    "FINANCES": "Finances",
+    "INSIGHTS": "Insights",
+    "LOGS": "Logs",
+    "MANAGE": "Manage",
+    "SHIFTS": "Shifts",
+    "SUPPORT": "Support",
+    "USERS": "Users"
+  },
+  "SWITCH_OUTRO": {
+    "BUTTON": "Let's Go!",
+    "DESCRIPTION_BOTTOM": "Heading to: ",
+    "DESCRIPTION_TOP": "The barn door is secure.",
+    "TITLE": "Switching Farms"
+  },
+  "WELCOME_SCREEN": {
+    "BUTTON": "Let's get started",
+    "SVG_ALT": "Welcome to LiteFarm"
+  },
+  "LOGIN_BUTTON": "Log In or Sign Up"
+}

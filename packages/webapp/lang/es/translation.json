@@ -1,0 +1,179 @@
+{
+  "CHOOSE_FARM": {
+    "ADD_NEW": "MISSING",
+    "CHOOSE_TITLE": "MISSING",
+    "INPUT_PLACEHOLDER": "MISSING",
+    "SWITCH_TITLE": "MISSING"
+  },
+  "EXPENSE": {
+    "ADD_EXPENSE": {
+      "TITLE_1": "MISSING",
+      "TITLE_2": "MISSING"
+    },
+    "ADD_MORE_ITEMS": "MISSING",
+    "DETAILED_HISTORY": "MISSING",
+    "EDIT_EXPENSE": {
+      "DATE_PLACEHOLDER": "MISSING",
+      "DESELECTING_CATEGORY": "MISSING",
+      "REMOVE_ALL": "MISSING",
+      "TITLE_1": "MISSING",
+      "TITLE_2": "MISSING"
+    },
+    "ITEM": "MISSING",
+    "NAME": "MISSING",
+    "NO_EXPENSE": "MISSING",
+    "NO_EXPENSE_YEAR": "MISSING",
+    "OTHER_EXPENSES_TITLE": "MISSING",
+    "SUMMARY": "MISSING",
+    "VALUE": "MISSING"
+  },
+  "FIELDS": {
+    "ADD_NEW_FIELD": "MISSING",
+    "EDIT_FIELD": {
+      "CROP": {
+        "AREA_USED": "MISSING",
+        "DELETE_CONFIRMATION": "MISSING",
+        "END_DATE": "MISSING",
+        "ESTIMATED_PRODUCTION": "MISSING",
+        "ESTIMATED_REVENUE": "MISSING",
+        "NUMBER_EXPIRED": "MISSING",
+        "START_DATE": "MISSING"
+      },
+      "DELETE_FIELD": "MISSING",
+      "EDIT_NAME": "MISSING",
+      "NAME": "MISSING",
+      "NUMBER_CROPS": "MISSING",
+      "TOTAL_AREA": "MISSING",
+      "VARIETY": "MISSING"
+    },
+    "EXPLORE": "MISSING",
+    "NEW_FIELD": {
+      "DRAW": "MISSING",
+      "REDRAW": "MISSING",
+      "SAVE": "MISSING",
+      "SEARCH_BOX_PLACEHOLDER": "MISSING"
+    },
+    "TABLE": {
+      "AREA": "MISSING",
+      "EDIT": "MISSING",
+      "FIELD_NAME": "MISSING"
+    },
+    "TITLE": "MISSING"
+  },
+  "LOGIN": {
+    "TITLE": "MISSING"
+  },
+  "MY_FARM": {
+    "FARM_INFO": "MISSING",
+    "FARM_MAP": "MISSING",
+    "PEOPLE": "MISSING"
+  },
+  "NAVIGATION": {
+    "SPOTLIGHT": {
+      "FARM": "MISSING",
+      "FARM_TITLE": "MISSING",
+      "NOTIFICATION": "MISSING",
+      "NOTIFICATION_TITLE": "MISSING",
+      "PROFILE": "MISSING",
+      "PROFILE_TITLE": "MISSING",
+      "FARM_PROFILE": "MISSING"
+    }
+  },
+  "ORGANIC": {
+    "INTERESTED_IN_ORGANIC": {
+      "PARAGRAPH": "MISSING",
+      "TITLE": "MISSING",
+      "WHY": "MISSING",
+      "WHY_ANSWER": "MISSING"
+    },
+    "PARTNERS": {
+      "SELECT_CERTIFIER": "MISSING",
+      "THROUGH_APP": "MISSING",
+      "WILL_INDICATE": "MISSING"
+    }
+  },
+  "OUTRO": "MISSING",
+  "PROFILE": {
+    "HELP": "MISSING",
+    "INFO": "MISSING",
+    "LOG_OUT": "MISSING",
+    "SWITCH": "MISSING"
+  },
+  "ROLE_SELECTION": {
+    "FARM_EO": "MISSING",
+    "FARM_MANAGER": "MISSING",
+    "FARM_OWNER": "MISSING",
+    "TITLE": "MISSING"
+  },
+  "SALE": {
+    "ADD_SALE": {
+      "DATE": "MISSING",
+      "NEW": "MISSING"
+    },
+    "DETAIL": {
+      "CROP": "MISSING",
+      "CUSTOMER_NAME": "MISSING",
+      "DELETE_CONFIRMATION": "MISSING",
+      "QUANTITY": "MISSING",
+      "TITLE": "MISSING",
+      "VALUE": "MISSING"
+    },
+    "EDIT_SALE": {
+      "DATE": "MISSING",
+      "DELETE_CONFIRMATION": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "ESTIMATED_REVENUE": {
+      "CALCULATION": "MISSING",
+      "CALCULATION_DESCRIPTION": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "EXPENSE_DETAIL": {
+      "COST": "MISSING",
+      "DELETE_CONFIRMATION": "MISSING",
+      "DESCRIPTION": "MISSING",
+      "TITLE": "MISSING",
+      "TOTAL": "MISSING"
+    },
+    "FINANCES": {
+      "ACTION": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "LABOUR": {
+      "BY": "MISSING",
+      "CROPS": "MISSING",
+      "EMPLOYEES": "MISSING",
+      "TASKS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SUMMARY": {
+      "DETAILED_HISTORY": "MISSING",
+      "SUMMARY": "MISSING",
+      "TITLE": "MISSING",
+      "TOTAL": "MISSING"
+    }
+  },
+  "SLIDE_MENU": {
+    "DEMOS": "MISSING",
+    "FIELDS": "MISSING",
+    "FINANCES": "MISSING",
+    "INSIGHTS": "MISSING",
+    "LOGS": "MISSING",
+    "MANAGE": "MISSING",
+    "SHIFTS": "MISSING",
+    "SUPPORT": "MISSING",
+    "USERS": "MISSING"
+  },
+  "SWITCH_OUTRO": {
+    "BUTTON": "MISSING",
+    "DESCRIPTION_BOTTOM": "MISSING",
+    "DESCRIPTION_TOP": "MISSING",
+    "TITLE": "MISSING"
+  },
+  "WELCOME_SCREEN": {
+    "BUTTON": "MISSING",
+    "SVG_ALT": "MISSING"
+  },
+  "LOGIN_TITLE": "MISSING",
+  "LOGIN_BUTTON": "MISSING"
+}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import WeatherIcon from './WeatherIcon';
 
 /**
- * Primary UI component for user interaction
+ * TooShort UI component for user interaction
  */
 export default function PureWeatherBoard({
   city,

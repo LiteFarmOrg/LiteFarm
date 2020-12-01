@@ -28,7 +28,7 @@ class loginController extends baseController {
       const { email, password } = req.body;
       try {
         const data = await userModel.query()
-          .select('user_id', 'first_name', 'last_name', 'email', 'password_hash')
+          .select('*')
           .where('email', email)
           .first();
         const isMatch = await bcrypt.compare(password, data.password_hash);

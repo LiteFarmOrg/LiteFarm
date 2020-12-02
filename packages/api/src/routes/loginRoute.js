@@ -19,5 +19,6 @@ const checkGoogleJwt = require('../middleware/acl/checkGoogleJwt');
 const loginController = require('../controllers/loginController');
 
 router.post('/google', checkGoogleJwt, loginController.loginWithGoogle());
+router.post('/', loginController.authenticateUser());
 
 module.exports = router;

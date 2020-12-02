@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (createUserController.js) is part of LiteFarm.
+ *  This file (yieldController.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,11 +12,41 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
+const bcrypt = require('bcryptjs');
 const { createAccessToken } = require('../util/jwt');
 
 class loginController extends baseController {
+  static authenticateUser() {
+    return async (req, res) => {
+      // uses email to identify which user is attempting to log in, can also use user_id for this
+      const { email, password } = req.body;
+      try {
+        const data = await userModel.query()
+          .select('*')
+          .where('email', email)
+          .first();
+        const isMatch = await bcrypt.compare(password, data.password_hash);
+        if (!isMatch) return res.sendStatus(401);
+
+        delete data.password_hash;
+
+        const token = await createAccessToken({ ...data })
+        return res.status(200).send({
+          token,
+          user: data,
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
   static loginWithGoogle() {
     return async (req, res) => {
       try {
@@ -26,7 +56,7 @@ class loginController extends baseController {
           const newUser = { user_id, email, first_name, last_name };
           await userModel.query().insert(newUser);
         }
-        const token = createAccessToken({ user_id, email, first_name, last_name });
+        const token = await createAccessToken({ user_id, email, first_name, last_name });
         return res.status(201).send(token);
       } catch (err) {
         throw 'Fail to login';

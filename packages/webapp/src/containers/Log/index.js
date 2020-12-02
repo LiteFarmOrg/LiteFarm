@@ -136,7 +136,7 @@ class Log extends Component{
     // columns config for react-table
     const columns = [{
       id: 'date',
-      Header: 'Date',
+      Header: this.props.t('LOG_COMMON.DATE'),
       accessor: d => moment(d.date).format('YYYY-MM-DD'),
       minWidth: 85
     }, {

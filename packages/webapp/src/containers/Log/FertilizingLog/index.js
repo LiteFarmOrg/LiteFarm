@@ -248,7 +248,7 @@ class FertilizingLog extends Component {
                   <Control.textarea model=".fertLog.notes"/>
                 </div>
                 <div className={styles.greenTextButton}
-                     onClick={() => this.toggleChemInfo()}>{this.state.showChem ? 'Hide' : 'Show'} {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}\
+                     onClick={() => this.toggleChemInfo()}>{this.state.showChem ? 'Hide' : 'Show'} {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
                 </div>
                 {this.state.showChem && (
                   <div>
@@ -300,7 +300,7 @@ class FertilizingLog extends Component {
                     </div>
                   </div>
                   <div className={styles.defaultFormDropDown}>
-                    <label>Default Product</label>
+                    <label>{this.props.t('LOG_COMMON.DEFAULT_PRODUCT')}</label>
                     <Control
                       model=".fertLog.fert_id"
                       component={DropDown}

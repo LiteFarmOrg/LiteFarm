@@ -14,6 +14,7 @@ import { fertSelector } from '../FertilizingLog/selectors';
 import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class LogDetail extends Component {
   constructor(props) {
@@ -179,7 +180,7 @@ class LogDetail extends Component {
     let dropDown = 0;
     if (selectedLog) return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/log" title="Log Detail"/>
+        <PageTitle backUrl="/log" title={this.props.t('LOG_DETAIL.TITLE')}/>
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
             <div>
@@ -193,8 +194,8 @@ class LogDetail extends Component {
                 key={dropDown}
                 id={`dropdown-basic-${dropDown}`}
               >
-                <Dropdown.Item eventKey="0" onClick={() => this.editLog(selectedLog.activity_kind)}>Edit</Dropdown.Item>
-                <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>Delete</Dropdown.Item>
+                <Dropdown.Item eventKey="0" onClick={() => this.editLog(selectedLog.activity_kind)}>{this.props.t('common:EDIT')}</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>{this.props.t('common:DELETE')}</Dropdown.Item>
               </DropdownButton>
             }
           </div>
@@ -202,14 +203,14 @@ class LogDetail extends Component {
 
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
-            <div>Submitted For</div>
+            <div>{this.props.t('LOG_DETAIL.SUBMITTED_FOR')}</div>
             <span>{selectedLog.first_name + ' ' + selectedLog.last_name}</span>
           </div>
         </div>
 
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
-            <div>Activity Kind</div>
+            <div>{this.props.t('LOG_DETAIL.ACTIVITY_KIND')}</div>
             <span>{this.getKindname(selectedLog.activity_kind)}</span>
           </div>
         </div>
@@ -217,7 +218,7 @@ class LogDetail extends Component {
         {
           (selectedLog.fieldCrop.length > 0) && <div className={styles.infoBlock}>
             <div className={styles.fcInfo}>
-              <div style={{marginBottom: '10px'}}>Field Crops</div>
+              <div style={{marginBottom: '10px'}}>{this.props.t('LOG_COMMON.FIELD_CROPS')}</div>
               <div className={styles.fieldCropList}>
                 {selectedLog.fieldCrop.map((fc) => {
                   let hasDup = this.hasSameCrop(fc);
@@ -237,7 +238,7 @@ class LogDetail extends Component {
         {
           (selectedLog.fieldCrop.length < 1) && <div className={styles.infoBlock}>
             <div className={styles.innerInfo}>
-              <div>Fields</div>
+              <div>{this.props.t('LOG_COMMON.FIELDS')}</div>
               <div className={styles.innerTaskList}>
                 {selectedLog.field.map((f) => {
                   return <p>{f.field_name}</p>
@@ -252,14 +253,14 @@ class LogDetail extends Component {
           <div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Pesticide Name</div>
+                <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}</div>
                 <span>{this.getPesticideName(selectedLog.pestControlLog.pesticide_id)}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Pesticide Quantity ({this.state.quantity_unit})</div>
+                <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_QUANTITY')} ({this.state.quantity_unit})</div>
                 {
                   quantity_unit === 'lb' && <span>{roundToTwoDecimal(convertFromMetric(selectedLog.pestControlLog.quantity_kg, quantity_unit, 'kg', false))}</span>
                 }
@@ -271,13 +272,13 @@ class LogDetail extends Component {
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Pesticide Control Type</div>
+                <div>{this.props.t('LOG_PESTICIDE.PESTICIDE_CONTROL_TYPE')}</div>
                 <span>{regularName}</span>
               </div>
             </div>
             <div className={styles.infoBlock}>
               <div className={styles.fcInfo}>
-                <div style={{marginBottom: '10px'}}>Targeted Disease</div>
+                <div style={{marginBottom: '10px'}}>{this.props.t('LOG_PESTICIDE.TARGET_DISEASE')}</div>
                 <div
                   className={styles.innerList}>{this.getDiseaseName(selectedLog.pestControlLog.target_disease_id)}</div>
               </div>
@@ -294,7 +295,7 @@ class LogDetail extends Component {
             </div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Fertilizer Quantity ({quantity_unit})</div>
+                <div>{this.props.t('LOG_FERTILIZING.FERTILIZING_QUANTITY')}({quantity_unit})</div>
                 {
                   quantity_unit === 'lb' && <span>{roundToTwoDecimal(convertFromMetric(selectedLog.fertilizerLog.quantity_kg, quantity_unit, 'kg', false))}</span>
                 }
@@ -310,7 +311,7 @@ class LogDetail extends Component {
           (selectedLog.activity_kind === 'harvest') && <div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Harvest Quantity ({quantity_unit})</div>
+                <div>{this.props.t('LOG_HARVEST.HARVEST_QUANTITY')}({quantity_unit})</div>
                 {
                   quantity_unit === 'lb' && <span>{convertFromMetric(selectedLog.harvestLog.quantity_kg, quantity_unit, 'kg', false)}</span>
                 }
@@ -326,7 +327,7 @@ class LogDetail extends Component {
           (selectedLog.activity_kind === 'soilData') && <div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Soil Texture</div>
+                <div>{this.props.t('LOG_SOIL.SOIL_TEXTURE')}</div>
                 <span>{regularName}</span>
               </div>
             </div>
@@ -348,28 +349,28 @@ class LogDetail extends Component {
           (selectedLog.activity_kind === 'seeding') && <div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Space Depth</div>
+                <div>{this.props.t('LOG_SEEDING.SPACE_DEPTH')}</div>
                 <span>{roundToFourDecimal(convertFromMetric(selectedLog.seedLog.space_depth_cm, this.state.space_unit, 'cm'))} {space_unit}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Space Length</div>
+                <div>{this.props.t('LOG_SEEDING.SPACE_LENGTH')}</div>
                 <span>{roundToFourDecimal(convertFromMetric(selectedLog.seedLog.space_length_cm, this.state.space_unit, 'cm'))} {space_unit}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Space Width</div>
+                <div>{this.props.t('LOG_SEEDING.SPACE_WIDTH')}</div>
                 <span>{roundToFourDecimal(convertFromMetric(selectedLog.seedLog.space_width_cm, this.state.space_unit, 'cm'))} {space_unit}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Rate</div>
+                <div>{this.props.t('LOG_SEEDING.RATE')}</div>
                 <span>{roundToFourDecimal(convertFromMetric(selectedLog.seedLog['rate_seeds/m2'], rate_unit, 'm2', true))} {'seeds/' + rate_unit}</span>
               </div>
             </div>
@@ -380,21 +381,21 @@ class LogDetail extends Component {
           (selectedLog.activity_kind === 'irrigation') && <div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Type</div>
+                <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
                 <span>{regularName}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Flow Rate</div>
+                <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
                 <span>{selectedLog.irrigationLog['flow_rate_l/min']} {selectedLog.irrigationLog.flow_rate_unit}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Hours</div>
+                <div>{this.props.t('LOG_DETAIL.HOURS')}</div>
                 <span>{selectedLog.irrigationLog.hours}</span>
               </div>
             </div>
@@ -405,21 +406,21 @@ class LogDetail extends Component {
           (selectedLog.activity_kind === 'scouting') && <div>
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Type</div>
+                <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
                 <span>{regularName}</span>
               </div>
             </div>
 
             <div className={styles.infoBlock}>
               <div className={styles.innerInfo}>
-                <div>Action Needed</div>
+                <div>{this.props.t('LOG_DETAIL.ACTION_NEEDED')}</div>
                 {
                   selectedLog.action_needed &&
-                  <span>Yes</span>
+                  <span>{this.props.t('LOG_DETAIL.YES')}</span>
                 }
                 {
                   !selectedLog.action_needed &&
-                  <span>No</span>
+                  <span>{this.props.t('LOG_DETAIL.NO')}</span>
                 }
               </div>
             </div>
@@ -428,7 +429,7 @@ class LogDetail extends Component {
 
         <div className={styles.infoBlock}>
           <div className={styles.fcInfo}>
-            <div style={{marginBottom: '10px'}}>Note</div>
+            <div style={{marginBottom: '10px'}}>{this.props.t('LOG_DETAIL.NOTE')}</div>
             <div className={styles.innerList}>{selectedLog.notes}</div>
           </div>
         </div>
@@ -437,7 +438,7 @@ class LogDetail extends Component {
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => {this.props.dispatch(deleteLog(selectedLog.activity_id)); history.push('/Log');}}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -465,4 +466,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(LogDetail));

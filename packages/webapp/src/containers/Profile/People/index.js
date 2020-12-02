@@ -417,7 +417,7 @@ class People extends Component {
       return (
         <div className={styles.addUserContainer}>
           <div className={styles.addUserTitleContainer}>
-            <h3 className={styles.userTitle}>Invite a User</h3>
+            <h3 className={styles.userTitle}>{this.props.t('PROFILE.PEOPLE.INVITE_USER')}</h3>
           </div>
           <Form
             className={styles.formContainer}
@@ -650,7 +650,7 @@ class People extends Component {
               className={styles.searchField}
             />
           </div>
-          <label htmlFor="searchField" className={styles.searchLabel}>{`${filteredData.length} users found`}</label>
+          <label htmlFor="searchField" className={styles.searchLabel}>{`${filteredData.length} ${this.props.t('PROFILE.PEOPLE.USERS_FOUND')}`}</label>
           <Table
             columns={summaryColumns}
             data={filteredData}

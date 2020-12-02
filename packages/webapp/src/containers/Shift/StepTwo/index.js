@@ -15,7 +15,7 @@ import { toastr } from 'react-redux-toastr';
 import { submitMultiShift, submitShift } from '../actions';
 import { BsReplyFill } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import {useTranslation, withTranslation} from "react-i18next";
 
 class ShiftStepTwo extends Component {
 
@@ -640,6 +640,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
+  const {t} = useTranslation();
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   }
@@ -652,7 +653,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
       <div className={styles.taskTitle}>
         <strong>{task.task_name}</strong>
         <div>
-          {this.props.t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}
+          {t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}
         </div>
       </div>
       <div id={task.task_id} style={{ display: 'block' }}>
@@ -661,23 +662,23 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           <div className={styles.cropButton}>
             <img src={cropImg} alt=""/>
             <div className={styles.whiteText}>
-              {this.props.t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}
+              {t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}
             </div>
           </div>
           <div className={styles.fieldButton} onClick={() => toggleCropOrField(task.task_id, 'field')}>
             <img src={fieldImg} alt=""/>
             <div className={styles.whiteText}>
-              {this.props.t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}
+              {t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}
             </div>
           </div>
         </div>
       </div>
       <div className={styles.selectContainer} id={'crop' + task.task_id}>
         <div>
-          <strong>{this.props.t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
+          <strong>{t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>{this.props.t('SHIFT.EDIT_SHIFT.ALL')}</Button>
+              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>{t('SHIFT.EDIT_SHIFT.ALL')}</Button>
             </div>
             <div className={styles.backContainer} onClick={() => {
               setDuration(0);
@@ -685,7 +686,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               toggleBack(task.task_id, 'crop')
             }}>
               <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-              {this.props.t('common:BACK')}
+              {t('common:BACK')}
             </div>
           </div>
 
@@ -726,13 +727,13 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           <div>
             <div className={styles.cropDurationType}>
               <button className="duration-btn-selected" onClick={() => toggleCropTimeMethod(task.task_id, true)}
-                      id={'all-crop-' + task.task_id}>{this.props.t('SHIFT.EDIT_SHIFT.ALL_CROPS')}
+                      id={'all-crop-' + task.task_id}>{t('SHIFT.EDIT_SHIFT.ALL_CROPS')}
               </button>
               <button className="duration-btn-unselected" onClick={() => {
                 setDuration(0);
                 resetCropDuration(task.task_id);
                 toggleCropTimeMethod(task.task_id, false)
-              }} id={'indy-crop-' + task.task_id}>{this.props.t('SHIFT.EDIT_SHIFT.INDIVIDUAL_CROPS')}
+              }} id={'indy-crop-' + task.task_id}>{t('SHIFT.EDIT_SHIFT.INDIVIDUAL_CROPS')}
               </button>
             </div>
             <div className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
@@ -767,7 +768,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           <strong>Fields on this farm</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'field')}>{this.props.t('SHIFT.EDIT_SHIFT.ALL')}</Button>
+              <Button onClick={() => addAll(task.task_id, 'field')}>{t('SHIFT.EDIT_SHIFT.ALL')}</Button>
             </div>
             <div className={styles.backContainer} onClick={() => {
               setDuration(0);
@@ -775,7 +776,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               toggleBack(task.task_id, 'field')
             }}>
               <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-              {this.props.t('common:BACK')}
+              {t('common:BACK')}
             </div>
           </div>
         </div>
@@ -810,7 +811,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           }
         </div>
         <div className={styles.durationContainer}>
-          <div>{this.props.t('SHIFT.MY_SHIFT.DURATION')}</div>
+          <div>{t('SHIFT.MY_SHIFT.DURATION')}</div>
           <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number" value={duration}
                                                        onChange={(event) => {
                                                          setDuration(event.target.value);
@@ -821,7 +822,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
-          {this.props.t('common:CANCEL')}
+          {t('common:CANCEL')}
         </div>
         {
           isRatingEnabled
@@ -830,7 +831,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
                 className='btn btn-primary'
                 onClick={() => openEditModal()}
               >
-                {this.props.t('common:NEXT')}
+                {t('common:NEXT')}
               </button>
             )
             : (
@@ -838,7 +839,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
                 className='btn btn-primary'
                 onClick={() => submitShift()}
               >
-                {this.props.t('common:FINISH')}
+                {t('common:FINISH')}
               </button>
             )
         }

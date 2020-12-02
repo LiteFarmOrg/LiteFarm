@@ -31,30 +31,55 @@
     "VALUE": "MISSING"
   },
   "FIELDS": {
+    "ACTION": "MISSING",
     "ADD_NEW_FIELD": "MISSING",
     "EDIT_FIELD": {
       "CROP": {
         "AREA_USED": "MISSING",
+        "AREA_USED_HECTARE": "MISSING",
+        "AREA_USED_IN": "MISSING",
+        "BED": "MISSING",
+        "BED_LENGTH": "MISSING",
+        "BED_WIDTH": "MISSING",
+        "BY_AREA": "MISSING",
+        "BY_BEDS": "MISSING",
+        "CHOOSE_END_DATE": "MISSING",
+        "CHOOSE_START_DATE": "MISSING",
         "DELETE_CONFIRMATION": "MISSING",
+        "EDIT_ESTIMATED_PRICE": "MISSING",
+        "EDIT_ESTIMATED_YIELD": "MISSING",
         "END_DATE": "MISSING",
+        "ENTER_START_FINISH": "MISSING",
+        "ESTIMATED_PRICE": "MISSING",
         "ESTIMATED_PRODUCTION": "MISSING",
         "ESTIMATED_REVENUE": "MISSING",
+        "ESTIMATED_YIELD_PLACEHOLDER": "MISSING",
+        "HOW_MUCH_FIELD": "MISSING",
+        "NEW_FIELD_CROP": "MISSING",
         "NUMBER_EXPIRED": "MISSING",
+        "NUMBER_OF_BEDS": "MISSING",
+        "PERCENTAGE": "MISSING",
         "START_DATE": "MISSING"
       },
       "DELETE_FIELD": "MISSING",
       "EDIT_NAME": "MISSING",
       "NAME": "MISSING",
       "NUMBER_CROPS": "MISSING",
+      "TITLE": "MISSING",
       "TOTAL_AREA": "MISSING",
       "VARIETY": "MISSING"
     },
     "EXPLORE": "MISSING",
+    "LIST": "MISSING",
+    "MAP": "MISSING",
     "NEW_FIELD": {
       "DRAW": "MISSING",
+      "FIELD_NAME": "MISSING",
+      "FIELD_NAME_PLACEHOLDER": "MISSING",
       "REDRAW": "MISSING",
-      "SAVE": "MISSING",
-      "SEARCH_BOX_PLACEHOLDER": "MISSING"
+      "SAVE_FIELD": "MISSING",
+      "SEARCH_BOX_PLACEHOLDER": "MISSING",
+      "TITLE": "MISSING"
     },
     "TABLE": {
       "AREA": "MISSING",
@@ -229,13 +254,16 @@
     "SWITCH": "MISSING"
   },
   "PROFILE": {
+    "ACCOUNT_TAB": "MISSING",
     "ACCOUNT": {
       "EMAIL": "MISSING",
       "FIRST_NAME": "MISSING",
       "LAST_NAME": "MISSING",
+      "PERSONAL_INFORMATION": "MISSING",
       "PHONE_NUMBER": "MISSING",
       "USER_ADDRESS": "MISSING"
     },
+    "FARM_TAB": "MISSING",
     "FARM": {
       "ADDRESS": "MISSING",
       "CURRENCY": "MISSING",
@@ -246,6 +274,7 @@
       "REQUEST_DATA": "MISSING",
       "UNITS": "MISSING"
     },
+    "PEOPLE_TAB": "MISSING",
     "PEOPLE": {
       "EMAIL_CANNOT_BE_EMPTY": "MISSING",
       "EO": "MISSING",
@@ -264,6 +293,7 @@
       "ROLE_CHANGE_ALERT": "MISSING",
       "SEARCH": "MISSING",
       "SELECT_ROLE": "MISSING",
+      "USERS_FOUND": "MISSING",
       "USERS_NO_EMAIL_NO_LOGIN": "MISSING",
       "WAGE_MUST_BE_VALID": "MISSING"
     }
@@ -316,6 +346,7 @@
       "BALANCE_FOR_FARM": "MISSING",
       "ENSURE_ONE_CROP_WARNING": "MISSING",
       "EXPENSES": "MISSING",
+      "FINANCE_HELP": "MISSING",
       "HAS_UNALLOCATED_LINE1": "MISSING",
       "HAS_UNALLOCATED_LINE10_1": "MISSING",
       "HAS_UNALLOCATED_LINE10_2": "MISSING",

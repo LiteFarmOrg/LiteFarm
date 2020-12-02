@@ -223,7 +223,7 @@ class Field extends Component {
           <strong>{this.props.t('FIELDS.TITLE')}</strong>
         </h3>
         <hr />
-        <h3><b>Action</b></h3>
+        <h3><b>{this.props.t('FIELDS.ACTION')}</b></h3>
         <div className={styles.buttonContainer}>
           <Button variant={'secondary'} onClick={() => {history.push('/new_field') }}>{this.props.t('FIELDS.ADD_NEW_FIELD')}</Button>
         </div>
@@ -235,7 +235,7 @@ class Field extends Component {
             onSelect={this.handleSelectTab}
             id="controlled-tab-example"
           >
-            <Tab eventKey={1} title="Map">
+            <Tab eventKey={1} title={this.props.t('FIELDS.MAP')}>
               {this.state.isPropReceived && <div style={{ width: "100%", height: "400px" }}>
                 <GoogleMap
                   bootstrapURLKeys={{
@@ -255,7 +255,7 @@ class Field extends Component {
                 </GoogleMap>
               </div>}
             </Tab>
-            <Tab eventKey={2} title="List">
+            <Tab eventKey={2} title={this.props.t('FIELDS.LIST')}>
               <Table>
                 <thead>
                   <tr>

@@ -380,20 +380,20 @@ class NewField extends Component {
         </div>}
         {this.state.step === 2 &&
           <div className={parentStyles.logContainer}>
-            <PageTitleFragment title="New Field (2 of 2)" onBackButtonClick={() => {
+            <PageTitleFragment title={this.props.t('FIELDS.NEW_FIELD.TITLE')} onBackButtonClick={() => {
               this.setState({ step: this.state.step - 1 });
             }} />
             <FormGroup
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
-              <FormLabel>Field Name</FormLabel>
+              <FormLabel>{this.props.t('FIELDS.NEW_FIELD.FIELD_NAME')}</FormLabel>
               {this.state.isSavePlanDisabled ?
                 <FormControl
                 type="text"
                 autoFocus
                 value={this.state.fieldName}
-                placeholder="Enter Field Name"
+                placeholder={this.props.t('FIELDS.NEW_FIELD.FIELD_NAME_PLACEHOLDER')}
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
                 style={{borderColor: '#D4DAE3'}}
@@ -421,7 +421,7 @@ class NewField extends Component {
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);
                       this.setState({ step: this.state.step + 1 });
-                    }}>{this.props.t('FIELDS.NEW_FIELD.SAVE')}</Button>
+                    }}>{this.props.t('FIELDS.NEW_FIELD.SAVE_FIELD')}</Button>
                   }
               </div>
             </FormGroup>

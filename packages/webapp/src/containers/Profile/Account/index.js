@@ -45,7 +45,7 @@ class Account extends Component {
   render() {
     const {users} = this.props;
     return <div>
-      <h3 className={styles.headerTitle}>Personal Information</h3>
+      <h3 className={styles.headerTitle}>{this.props.t('PROFILE.ACCOUNT.PERSONAL_INFORMATION')}</h3>
       <div className={styles.formContainer}>
         <Form model="profileForms" onSubmit={(val) => this.handleSubmit(val.userInfo, users)}>
           <div className={styles.labelContainer}>

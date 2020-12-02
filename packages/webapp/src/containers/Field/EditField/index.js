@@ -199,7 +199,7 @@ class EditField extends Component {
 
     return (
       <div className={parentStyles.logContainer}>
-        <PageTitle title="Edit Field" backUrl="/field"/>
+        <PageTitle title={this.props.t('FIELDS.EDIT_FIELD.TITLE')} backUrl="/field"/>
         <NewFieldCropModal handler={() => {}} field={this.state.selectedField}
                            fieldArea={this.state.fieldArea}/>
         <div>

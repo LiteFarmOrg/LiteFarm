@@ -315,7 +315,7 @@ class ShiftStepOne extends Component {
             {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET')} <br/> {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET_LOCATION')}
           </Alert>
         }
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date" allowPast={true}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')} allowPast={true}/>
         <div className={styles.timeSection}>
           {/* {
             users.is_admin && <div className={styles.timeRow}>

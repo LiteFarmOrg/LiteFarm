@@ -405,7 +405,7 @@ class Finances extends Component {
           </div>
 
           <h5 className={styles.balanceTitle}>
-            <InfoBoxComponent customStyle={{float: 'right', fontSize: '80%', marginTop: '0.2em'}} title={"Finance Help"}
+            <InfoBoxComponent customStyle={{float: 'right', fontSize: '80%', marginTop: '0.2em'}} title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
                               body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}/>
             <strong>{this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}</strong>
           </h5>

@@ -31,30 +31,55 @@
     "VALUE": "Value"
   },
   "FIELDS": {
+    "ACTION": "Action",
     "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
       "CROP": {
         "AREA_USED": "Area Used",
+        "AREA_USED_HECTARE": "Area used in hectare",
+        "AREA_USED_IN": "Area Used in",
+        "BED": "bed",
+        "BED_LENGTH": "Bed Length",
+        "BED_WIDTH": "Bed Width",
+        "BY_AREA": "By Area",
+        "BY_BEDS": "By Bed",
+        "CHOOSE_END_DATE": "Choose end date",
+        "CHOOSE_START_DATE": "Choose start date",
         "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
+        "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
+        "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",
         "END_DATE": "End Date",
+        "ENTER_START_FINISH": "Enter start and finish dates",
+        "ESTIMATED_PRICE": "Estimated price",
         "ESTIMATED_PRODUCTION": "Estimated Production",
         "ESTIMATED_REVENUE": "Estimated Revenue",
+        "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
+        "HOW_MUCH_FIELD": "How much of the field do you wish to use ?",
+        "NEW_FIELD_CROP": "New Field Crop",
         "NUMBER_EXPIRED": "Number of Expired Crops",
+        "NUMBER_OF_BEDS": "Number of Beds",
+        "PERCENTAGE": "Percentage",
         "START_DATE": "Start Date"
       },
       "DELETE_FIELD": "Delete Field",
       "EDIT_NAME": "Edit Field Name",
       "NAME": "Field Name",
       "NUMBER_CROPS": "Number of Crops",
+      "TITLE": "Edit Field",
       "TOTAL_AREA": "Total Area",
       "VARIETY": "Variety"
     },
     "EXPLORE": "Explore Your Fields",
+    "LIST": "List",
+    "MAP": "Map",
     "NEW_FIELD": {
       "DRAW": "Draw",
+      "FIELD_NAME": "Field Name",
+      "FIELD_NAME_PLACEHOLDER": "Enter Field Name",
       "REDRAW": "Redraw",
-      "SAVE": "Save Field",
-      "SEARCH_BOX_PLACEHOLDER": "Search"
+      "SAVE_FIELD": "Save Field",
+      "SEARCH_BOX_PLACEHOLDER": "Search",
+      "TITLE": "New Field (2 of 2)"
     },
     "TABLE": {
       "AREA": "Area",
@@ -229,13 +254,16 @@
     "SWITCH": "Switch Farm"
   },
   "PROFILE": {
+    "ACCOUNT_TAB": "Account",
     "ACCOUNT": {
       "EMAIL": "Email",
       "FIRST_NAME": "First Name",
       "LAST_NAME": "Last Name",
+      "PERSONAL_INFORMATION": "Personal Information",
       "PHONE_NUMBER": "Phone Number",
       "USER_ADDRESS": "User Address"
     },
+    "FARM_TAB": "Farm",
     "FARM": {
       "ADDRESS": "Address",
       "CURRENCY": "Currency",
@@ -246,6 +274,7 @@
       "REQUEST_DATA": "You can request a data download and we will send your farm's data to your email, in the form of csv.",
       "UNITS": "Units"
     },
+    "PEOPLE_TAB": "People",
     "PEOPLE": {
       "EMAIL_CANNOT_BE_EMPTY": "Email cannot be empty for the selected role",
       "EO": "Extension Officer",
@@ -264,6 +293,7 @@
       "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",
       "SELECT_ROLE": "Select Role",
+      "USERS_FOUND": "Users found",
       "USERS_NO_EMAIL_NO_LOGIN": "Users without an email won't be able to login",
       "WAGE_MUST_BE_VALID": "Wage must be a valid, non-negative number (up to 2 decimal places)"
     }
@@ -316,6 +346,7 @@
       "BALANCE_FOR_FARM": "Balance (Whole Farm)",
       "ENSURE_ONE_CROP_WARNING": "Please ensure that at least 1 crop and an associated sale or shift has been allocated to see this information.",
       "EXPENSES": "Expenses",
+      "FINANCE_HELP": "Finance Help",
       "HAS_UNALLOCATED_LINE1": "*Unallocated means that work has been done on an empty field for the selected date range.",
       "HAS_UNALLOCATED_LINE10_1": "If lettuce is added to Field1 but no shift related to lettuce or Field1 is submitted, or submitted later than April 1st, then Corn will be allocated with a full amount of ",
       "HAS_UNALLOCATED_LINE10_2": "From Field1.",

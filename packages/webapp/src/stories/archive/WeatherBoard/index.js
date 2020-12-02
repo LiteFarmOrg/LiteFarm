@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import OpenWeatherApi from '../../../components/ReactOpenWeather/js/OpenWeatherApi';
 import { WeatherBoard } from './WeatherBoard';
 /**
- * Primary UI component for user interaction
+ * TooShort UI component for user interaction
  */
 export const Weather = ({
   unit="metric",

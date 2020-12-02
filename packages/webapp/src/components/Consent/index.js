@@ -13,8 +13,9 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
   const { t } = useTranslation();
   return (
     <Form onSubmit={onSubmit} buttonGroup={
-      <><Button onClick={onGoBack} color={'secondary'} fullLength>{t('common:BACK')}</Button><Button type={'submit'}
-                                                                                          fullLength disabled={disabled}>{t('common:CONTINUE')}</Button></>
+      <>{onGoBack && <Button onClick={onGoBack} color={'secondary'} fullLength>{t('common:BACK')}</Button>}
+        {onSubmit && <Button type={'submit'} fullLength disabled={disabled}>{t('common:CONTINUE')}</Button>}
+        </>
     }>
       <Title style={{marginBottom: '16px'}}>Our Data Policy</Title>
       <div style={{ width: '90%', overflowY: "scroll" }} className={clsx(styles.consentText, 'paraText')}>

@@ -15,18 +15,20 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-import { userFarmSelector, patchStepFiveSuccess } from '../userFarmSlice';
+import { patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector } from '../loginSlice';
 import { getHeader } from '../saga';
+import history from '../../history';
 
 const axios = require('axios');
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
-export function* patchOutroStepSaga({ payload: {callback} }) {
+
+export function* patchOutroStepSaga() {
   const { userFarmUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let data = {
     step_five: true,
@@ -35,8 +37,8 @@ export function* patchOutroStepSaga({ payload: {callback} }) {
 
   try {
     yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-    yield put(patchStepFiveSuccess({...data, farm_id, user_id}));
-    callback && callback();
+    yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
+    history.push('/');
   } catch (e) {
     console.error('failed to update table');
   }

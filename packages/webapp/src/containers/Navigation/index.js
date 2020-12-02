@@ -33,7 +33,7 @@ const NavBar = (props) => {
   const { auth, history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
 
   const { isAuthenticated } = auth;
-  const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
+  const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && farm.status !== 'Invited';
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
   const Logo = isSmallScreen ? (
       <img src={SmallerLogo} alt="Logo" className={styles.smallLogo} onClick={() => history.push('/')}/>)

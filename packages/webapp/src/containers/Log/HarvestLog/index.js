@@ -15,6 +15,7 @@ import parseFields from '../Utility/parseFields';
 import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -60,8 +61,8 @@ class HarvestLog extends Component {
     const {crops, fields} = this.props;
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Harvest Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_HARVEST.TITLE')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.harvestLog)}>
           <LogFormOneCrop
             model=".harvestLog"
@@ -72,7 +73,7 @@ class HarvestLog extends Component {
           <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
           <div>
             <div className={styles.noteTitle}>
-              Notes
+              {this.props.t('common:NOTES')}
             </div>
             <div className={styles.noteContainer}>
               <Control.textarea model=".harvestLog.notes"/>
@@ -99,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HarvestLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestLog));

@@ -24,6 +24,7 @@ import {calcBalanceByCrop, calcOtherExpense, calcSales, calcTotalLabour} from ".
 import moment from 'moment';
 import {expenseSelector, salesSelector, shiftSelector} from "../Finances/selectors";
 import { BsChevronRight } from "react-icons/all";
+import {withTranslation} from "react-i18next";
 
 
 class NewFinances extends Component {
@@ -65,13 +66,12 @@ class NewFinances extends Component {
   render() {
     return (
       <div className={styles.financesContainer}>
-        <h4><strong>Finances</strong></h4>
+        <h4><strong>{this.props.t('NEW_FINANCES.TITLE')}</strong></h4>
         <hr/>
         <div>
-          <div><h4><strong>Summary Report
-            for {this.state.startDate.format('MMM YYYY')} - {this.state.endDate.format('MMM YYYY')}</strong></h4></div>
+          <div><h4><strong>{this.props.t('NEW_FINANCES.SUMMARY_REPORT')} {this.state.startDate.format('MMM YYYY')} - {this.state.endDate.format('MMM YYYY')}</strong></h4></div>
           <div className={styles.salesContainer}>
-            <h5 className={styles.balanceTitle}><strong>Sales</strong></h5>
+            <h5 className={styles.balanceTitle}><strong>{this.props.t('NEW_FINANCES.SALES')}</strong></h5>
             <button style={{float: 'right'}} onClick={() => {
               history.push('/newfinances/sales')
             }}>
@@ -81,7 +81,7 @@ class NewFinances extends Component {
           </div>
           <div className={styles.expenseContainer}>
             <div>
-              <h5 className={styles.balanceTitle}><strong>Expenses</strong></h5>
+              <h5 className={styles.balanceTitle}><strong>{this.props.t('NEW_FINANCES.EXPENSES')}</strong></h5>
               <button style={{float: 'right', clear: 'both'}} onClick={() => {
                 history.push('/newfinances/expenses');
               }}>
@@ -92,7 +92,7 @@ class NewFinances extends Component {
           </div>
           <hr/>
           <div className={styles.balanceContainer}>
-            <h5 className={styles.balanceTitle}><strong>Balance</strong></h5>
+            <h5 className={styles.balanceTitle}><strong>{this.props.t('NEW_FINANCES.BALANCE')}</strong></h5>
             <button style={{float: 'right'}} onClick={() => {
               history.push('/newfinances/balances')
             }}>
@@ -189,4 +189,4 @@ const worstCropColumns = [
   }
 ];
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewFinances);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewFinances));

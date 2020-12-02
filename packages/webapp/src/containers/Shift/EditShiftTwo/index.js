@@ -16,6 +16,7 @@ import { updateShift } from '../actions';
 import { shiftRatings } from '../constants';
 import { BsReplyFill } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class EditShiftTwo extends Component {
 
@@ -573,12 +574,12 @@ class EditShiftTwo extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/edit_shift_one" title="Edit Shift (Step 2)" rightIcon={true}
-                   rightIconTitle="Time Allocation"
-                   rightIconBody="If you need to allocate labour for an activity to your whole farm, you can allocate it to all of your fields, and we will do the rest."/>
+        <PageTitle backUrl="/edit_shift_one" title={this.props.t('SHIFT.EDIT_SHIFT.TITLE_2')} rightIcon={true}
+                   rightIconTitle={this.props.t('SHIFT.EDIT_SHIFT.TIME_ALLOCATION')}
+                   rightIconBody={this.props.t('SHIFT.EDIT_SHIFT.ALLOCATE_ACTIVITY')}/>
         <div className={styles.taskTitle} style={{paddingBottom: '1.2em'}}>
           <div style={this.state.minBoxStyle}>
-            <strong> You have <span>{this.state.availableDuration} minutes</span> to assign</strong>
+            <strong> {this.props.t('SHIFT.EDIT_SHIFT.YOU_HAVE')} <span>{this.state.availableDuration} {this.props.t('SHIFT.EDIT_SHIFT.MINUTES')}</span> {this.props.t('SHIFT.EDIT_SHIFT.TO_ASSIGN')}</strong>
           </div>
         </div>
         <div>
@@ -588,7 +589,7 @@ class EditShiftTwo extends Component {
                 <div className={styles.taskTitle}>
                   <strong>{task.task_name}</strong>
                   <div>
-                    Assign time to task by
+                    {this.props.t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}
                   </div>
                 </div>
                 <div id={task.task_id} style={{display: 'block'}}>
@@ -597,23 +598,23 @@ class EditShiftTwo extends Component {
                     <div className={styles.cropButton}>
                       <img src={cropImg} alt=""/>
                       <div className={styles.whiteText}>
-                        Crops on your farm
+                        {this.props.t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}
                       </div>
                     </div>
                     <div className={styles.fieldButton} onClick={() => this.toggleCropOrField(task.task_id, 'field')}>
                       <img src={fieldImg} alt=""/>
                       <div className={styles.whiteText}>
-                        Fields on your farm
+                        {this.props.t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className={styles.selectContainer} id={'crop' + task.task_id}>
                   <div>
-                    <strong>Crops on this farm</strong>
+                    <strong>{this.props.t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
                     <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'crop')}>
                       <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-                      Back
+                      {this.props.t('common:BACK')}
                     </div>
                   </div>
                   <div className={styles.selectInner}>
@@ -667,7 +668,7 @@ class EditShiftTwo extends Component {
                     <strong>Fields on this farm</strong>
                     <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'field')}>
                       <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-                      Back
+                      {this.props.t('common:BACK')}
                     </div>
                   </div>
                   <div className={styles.selectInner}>
@@ -700,7 +701,7 @@ class EditShiftTwo extends Component {
 
                   </div>
                   <div className={styles.durationContainer}>
-                    <div>Duration</div>
+                    <div>{this.props.t('SHIFT.EDIT_SHIFT.DURATION')}</div>
                     <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number"
                                                                  onChange={(event) => this.changeDuration(event, task.task_id, false)}/>
                     </div>
@@ -708,7 +709,7 @@ class EditShiftTwo extends Component {
                 </div>
                 <div className={styles.bottomContainer}>
                   <div className={styles.cancelButton} onClick={() => history.push('/my_shift')}>
-                    Cancel
+                    {this.props.t('common:CANCEL')}
                   </div>
                   {
                     isRatingEnabled
@@ -717,7 +718,7 @@ class EditShiftTwo extends Component {
                           className='btn btn-primary'
                           onClick={() => this.openEditModal()}
                         >
-                          Next
+                          {this.props.t('common:NEXT')}
                         </button>
                       )
                       : (
@@ -725,7 +726,7 @@ class EditShiftTwo extends Component {
                           className='btn btn-primary'
                           onClick={() => this.submitShift()}
                         >
-                          Update
+                          {this.props.t('common:UPDATE')}
                         </button>
                       )
                   }
@@ -748,7 +749,7 @@ class EditShiftTwo extends Component {
                 <img src={closeButton} alt="" />
               </a>
             </div>
-            <h3>How did this shift make you feel?</h3>
+            <h3>{this.props.t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
             <Container fluid={true}
               style={{ marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%' }}>
               <Row className="show-grid">
@@ -771,7 +772,7 @@ class EditShiftTwo extends Component {
               </Row>
             </Container>
             <div className={styles.buttonContainer}>
-              <Button onClick={() => this.submitShift()}>Finish</Button>
+              <Button onClick={() => this.submitShift()}>{this.props.t('common:FINISH')}</Button>
             </div>
           </div>
         </Popup>
@@ -798,4 +799,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditShiftTwo);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditShiftTwo));

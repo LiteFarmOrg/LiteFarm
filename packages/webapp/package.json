@@ -132,6 +132,7 @@
     "build": "node scripts/build.js",
     "test": "jest",
     "lint": "eslint src",
+    "i18n": "npx i18next 'src/**/*.js'",
     "preinstall": "npx npm-force-resolutions",
     "cypress-ui": "./node_modules/.bin/cypress open",
     "record-cypress": "./node_modules/.bin/cypress run --browser chrome --record --key 7651a84f-409b-476d-bff9-3302074dea6a --parallel",

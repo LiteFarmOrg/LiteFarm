@@ -13,6 +13,7 @@ import parseFields from '../Utility/parseFields';
 import { deleteLog, editLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import ConfirmModal from '../../../components/Modals/Confirm';
+import {withTranslation} from "react-i18next";
 
 class OtherLog extends Component{
   constructor(props) {
@@ -64,8 +65,8 @@ class OtherLog extends Component{
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Other Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/log" title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_OTHER.TITLE')}`}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.otherLog)}>
           <DefaultLogForm
             selectedCrops={selectedCrops}
@@ -83,7 +84,7 @@ class OtherLog extends Component{
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -105,4 +106,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OtherLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(OtherLog));

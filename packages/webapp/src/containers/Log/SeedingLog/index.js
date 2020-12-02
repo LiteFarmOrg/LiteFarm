@@ -14,6 +14,7 @@ import { addLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -61,8 +62,8 @@ class SeedingLog extends Component {
 
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Seeding Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SEEDING.TITLE')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer}
               onSubmit={(val) => this.handleSubmit(val.seedLog)}>
           <DefaultLogForm
@@ -72,13 +73,13 @@ class SeedingLog extends Component {
             notesField={false}
             isCropNotRequired={false}
           />
-          <Unit model='.seedLog.space_depth_cm' title='Space Depth' type={this.state.space_unit}/>
-          <Unit model='.seedLog.space_length_cm' title='Space Length' type={this.state.space_unit}/>
-          <Unit model='.seedLog.space_width_cm' title='Space Width' type={this.state.space_unit}/>
-          <Unit model='.seedLog.rate_seeds/m2' title='Rate' type={`seeds/${this.state.rate_unit}`}/>
+          <Unit model='.seedLog.space_depth_cm' title={this.props.t('LOG_SEEDING.SPACE_DEPTH')} type={this.state.space_unit}/>
+          <Unit model='.seedLog.space_length_cm' title={this.props.t('LOG_SEEDING.SPACE_LENGTH')} type={this.state.space_unit}/>
+          <Unit model='.seedLog.space_width_cm' title={this.props.t('LOG_SEEDING.SPACE_WIDTH')} type={this.state.space_unit}/>
+          <Unit model='.seedLog.rate_seeds/m2' title={this.props.t('LOG_SEEDING.RATE')} type={`seeds/${this.state.rate_unit}`}/>
           <div>
             <div className={styles.noteTitle}>
-              Notes
+              {this.props.t('common:NOTES')}
             </div>
             <div className={styles.noteContainer}>
               <Control.textarea model=".seedLog.notes"/>
@@ -105,4 +106,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SeedingLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SeedingLog));

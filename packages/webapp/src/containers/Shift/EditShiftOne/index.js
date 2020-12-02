@@ -25,6 +25,7 @@ import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { grabCurrencySymbol } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 
 class EditShiftOne extends Component {
@@ -264,12 +265,12 @@ class EditShiftOne extends Component {
     const symbol = grabCurrencySymbol(farm);
     return (
       <div className={styles.logContainer} >
-        <PageTitle backUrl="/my_shift" title="Edit Shift (Step 1)"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date" allowPast={true}/>
+        <PageTitle backUrl="/my_shift" title={this.props.t('SHIFT.EDIT_SHIFT.TITLE_1')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')} allowPast={true}/>
         <div className={styles.timeSection}>
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
-              Start Time
+              {this.props.t('SHIFT.START_TIME')}
             </div>
             <div className={styles.timeSelector} >
               <input type="time" onChange={this.handleInputChange} name="new_start" value={new_start}/>
@@ -278,7 +279,7 @@ class EditShiftOne extends Component {
 
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
-              End Time
+              {this.props.t('SHIFT.END_TIME')}
             </div>
             <div className={styles.timeSelector} >
               <input type="time" onChange={this.handleInputChange} name="new_end" value={new_end}/>
@@ -287,23 +288,23 @@ class EditShiftOne extends Component {
 
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
-              Break Duration
+              {this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}
             </div>
             <div className={styles.timeInput}>
-              <input type='number' name='break_duration' value={this.state.break_duration} onChange={this.changeDuration}/> <div className={styles.unit}>min</div>
+              <input type='number' name='break_duration' value={this.state.break_duration} onChange={this.changeDuration}/> <div className={styles.unit}>{this.props.t('SHIFT.EDIT_SHIFT.MINUTES')}</div>
             </div>
           </div>
 
           <div className={styles.wageContainer}>
-            <div style={{width: '70%'}}>Wage for this shift ({symbol}/hr): </div>
+            <div style={{width: '70%'}}>{this.props.t('SHIFT.EDIT_SHIFT.WAGE_FOR_SHIFT')} ({symbol}/hr): </div>
             <div style={{width: '25%'}}><input type="number" defaultValue={Number(selectedShift.wage_at_moment)} onChange={(e) => this.changeWage(e)}/></div>
           </div>
         </div>
         <div className={styles.subTitle}>
-         Theses are the tasks selected for this shift.
+          {this.props.t('SHIFT.EDIT_SHIFT.TASKS_FOR_SHIFT')}.
         </div>
         <Alert variant="warning">
-        The tasks selected for this shift are highlighted below. Deselecting a task will remove the task from this shift.
+          {this.props.t('SHIFT.EDIT_SHIFT.TASKS_SELECTED')}.
         </Alert>
 
 
@@ -332,14 +333,14 @@ class EditShiftOne extends Component {
         </Container>
 
         <div className={styles.buttonContainer}>
-          <Button onClick={this.openAddModal}>Add Custom Task</Button>
+          <Button onClick={this.openAddModal}>{this.props.t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}</Button>
         </div>
 
         <div className={styles.bottomContainer}>
           <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
-            Cancel
+            {this.props.t('common:CANCEL')}
           </div>
-          <button className='btn btn-primary' onClick={this.nextPage}>Next</button>
+          <button className='btn btn-primary' onClick={this.nextPage}>{this.props.t('common:NEXT')}</button>
         </div>
 
         <Popup
@@ -354,18 +355,18 @@ class EditShiftOne extends Component {
               <a className={styles.close} onClick={this.closeAddModal}>
                 <img src={closeButton} alt=""/>
               </a>
-              <h3>Add a Task</h3>
+              <h3>{this.props.t('SHIFT.EDIT_SHIFT.ADD_TASK')}</h3>
             </div>
             <div className={styles.customContainer}>
               <div className={styles.taskTitle}>
-                Name of the custom task
+                {this.props.t('SHIFT.EDIT_SHIFT.NAME_TASK')}
               </div>
               <div className={styles.taskInput}>
                 <input type="text" maxLength="20" onChange={this.customTaskName}/>
               </div>
             </div>
             <div className={styles.buttonContainer}>
-              <Button onClick={this.addCustomTask}>Finish</Button>
+              <Button onClick={this.addCustomTask}>{this.props.t('common:FINISH')}</Button>
             </div>
 
           </div>
@@ -390,4 +391,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditShiftOne);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditShiftOne));

@@ -5,6 +5,9 @@
     "INPUT_PLACEHOLDER": "Search",
     "SWITCH_TITLE": "Switch to another farm"
   },
+  "CONSENT": {
+    "LABEL": "I Agree"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "New Expense (1 of 2)",
@@ -60,6 +63,122 @@
     },
     "TITLE": "FIELDS"
   },
+  "HOME": {
+    "CHROME_WARNING": "Warning: The app is designed for Chrome, some layouts could be misplaced.",
+    "GREETING": "Good day, "
+  },
+  "LOG_COMMON": {
+    "ACTION": "Action",
+    "ACTIVITY": "Activity",
+    "ADD_CUSTOM_PRODUCT": "Add a custom product ",
+    "ADD_NEW_LOG": "Add New Log",
+    "ALL": "All",
+    "ALL_CROPS": "All Crops",
+    "ALL_FIELDS": "All Fields",
+    "AMMONIA": "Ammonia",
+    "CHEMICAL_COMPOSITION": "Chemical Composition",
+    "CHOOSE_DATE": "Choose a date",
+    "CROP": "Crop",
+    "DEFAULT_PRODUCT": "Default Product",
+    "DELETE_CONFIRMATION": "Are you sure you want to delete this log?",
+    "ERROR_MISSING_CROP_FIELDS": "Error: Missing Crops or fields",
+    "ERROR_MISSING_FIELDS": "Error missing fields",
+    "FARM_LOG": "Farm Log",
+    "FERTILIZING": "Fertilizing",
+    "FIELD_WORK": "Field Work",
+    "FROM": "From",
+    "HARVEST": "Harvest",
+    "IRRIGATION": "Irrigation",
+    "LOG_HELP": "Log Help",
+    "LOG_HELP_EXPLANATION": "Use the filters below to search your log history. Useful for keeping records of inputs and other farm activities for your team and certifiers.",
+    "LOG_HISTORY": "Log History",
+    "NITRATE": "Nitrate",
+    "OTHER": "Other",
+    "PEST": "Pest Control",
+    "PHOSPHATE": "Phosphate",
+    "POTASSIUM": "Potassium",
+    "PRODUCT": "Product",
+    "PRODUCT_CHEMICAL_COMPOSITION": "Product Chemical Composition",
+    "PRODUCT_NAME": "Product Name",
+    "PRODUCT_TEMPLATE_PLACEHOLDER": "select product template",
+    "QUANTITY": "Quantity",
+    "SCOUTING": "Scouting",
+    "SEARCH_BY_ACTIVITY": "Search Log By Activity",
+    "SEEDING": "Seeding",
+    "SELECT_PRODUCT": "select product",
+    "SOIL_DATA": "Soil Data",
+    "TO": "To",
+    "WATER": "Water"
+  },
+  "LOG_FERTILIZING": {
+    "ADD_FERTILIZER": "Add a Fertilizer",
+    "TITLE": "Fertilizing Log"
+  },
+  "LOG_FIELD_WORK": {
+    "TITLE": "Field Work Log"
+  },
+  "LOG_HARVEST": {
+    "TITLE": "Harvest Log"
+  },
+  "LOG_IRRIGATION": {
+    "FLOW_RATE": "Flow Rate",
+    "TITLE": "Irrigation Log",
+    "TOTAL_TIME": "Total Time"
+  },
+  "LOG_OTHER": {
+    "TITLE": "Other Log"
+  },
+  "LOG_PESTICIDE": {
+    "ACTIVE_INGREDIENTS": "Active Ingredients",
+    "ADD_CUSTOM_DISEASE": "Add a custom disease",
+    "ADD_CUSTOM_PESTICIDE": "Add a custom pesticide",
+    "ADD_DISEASE": "Add a disease",
+    "ADD_PESTICIDE": "Add a pesticide",
+    "ADD_TARGET": "Add a Target",
+    "CHOOSE_GROUP_PLACEHOLDER": "Choose Group",
+    "CHOOSE_TARGET_PLACEHOLDER": "Choose a target",
+    "CHOOSE_TYPE_PLACEHOLDER": "Choose a Type",
+    "COMMON_NAME": "Common Name",
+    "CONCENTRATION": "Concentration",
+    "DAYS": "days",
+    "DISEASE_GROUP": "Disease Group",
+    "DISEASE_TARGET": "Disease Target",
+    "ENTRY_INTERVAL": "Entry Interval",
+    "HARVEST_INTERVAL": "Harvest Interval",
+    "MISSING_DATA": "Error: Missing Data",
+    "PESTICIDE_DETAILS": "Pesticide Product Details",
+    "PESTICIDE_INFO_LABEL": "Pesticide Info",
+    "PESTICIDE_LABEL": "Pesticide",
+    "PESTICIDE_NAME_LABEL": "Pesticide Name",
+    "SCIENTIFIC_NAME": "Scientific Name (if known)",
+    "TARGET": "Target",
+    "TARGET_GROUP": "Target Group",
+    "TITLE": "Pest Control Log",
+    "TYPE": "Type"
+  },
+  "LOG_SCOUTING": {
+    "ACTION_NEEDED": "Action Needed",
+    "TITLE": "Scouting Log"
+  },
+  "LOG_SEEDING": {
+    "RATE": "Rate",
+    "SPACE_DEPTH": "Space Depth",
+    "SPACE_LENGTH": "Space Length",
+    "SPACE_WIDTH": "Space Width",
+    "TITLE": "Seeding Log"
+  },
+  "LOG_SOIL": {
+    "BULK_DENSITY": "Bulk Density",
+    "DEPTH": "Depth",
+    "INORGANIC_CARBON": "Inorganic Carbon",
+    "MORE_INFO": "More Info",
+    "ORGANIC_CARBON": "Organic Carbon",
+    "SELECT_DEPTH": "Select Depth",
+    "SELECT_TEXTURE": "Select Texture",
+    "TEXTURE": "Texture",
+    "TITLE": "Soil Data Log",
+    "TOTAL_CARBON": "Total Carbon"
+  },
   "LOGIN": {
     "TITLE": "Everything you need for managing your farm, in your pocket."
   },
@@ -78,6 +197,17 @@
       "PROFILE_TITLE": "This is your profile"
     }
   },
+  "NEW_FINANCES": {
+    "BALANCE": "Balance",
+    "EXPENSES": "Expenses",
+    "SALE": {
+      "DETAILED_HISTORY": "Detailed History",
+      "SUMMARY": "Summary"
+    },
+    "SALES": "Sales",
+    "SUMMARY_REPORT": "Summary Report for",
+    "TITLE": "Finances"
+  },
   "ORGANIC": {
     "INTERESTED_IN_ORGANIC": {
       "PARAGRAPH": "Do you plan to pursue or renew organic certification this season?",
@@ -92,11 +222,50 @@
     }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
-  "PROFILE": {
+  "PROFILE_FLOATER": {
     "HELP": "Help",
     "INFO": "My info",
-    "LOG_OUT": "Log out",
-    "SWITCH": "Switch farm"
+    "LOG_OUT": "Log Out",
+    "SWITCH": "Switch Farm"
+  },
+  "PROFILE": {
+    "ACCOUNT": {
+      "EMAIL": "Email",
+      "FIRST_NAME": "First Name",
+      "LAST_NAME": "Last Name",
+      "PHONE_NUMBER": "Phone Number",
+      "USER_ADDRESS": "User Address"
+    },
+    "FARM": {
+      "ADDRESS": "Address",
+      "CURRENCY": "Currency",
+      "FARM_NAME": "Farm Name",
+      "MAKE_REQUEST": "Make Request",
+      "PHONE_NUMBER": "Phone Number",
+      "REQUEST_DATA": "You can request a data download and we will send your farm's data to your email, in the form of csv.",
+      "UNITS": "Units"
+    },
+    "PEOPLE": {
+      "EMAIL_CANNOT_BE_EMPTY": "Email cannot be empty for the selected role",
+      "EO": "Extension Officer",
+      "FARM_MANAGER": "Farm Manager",
+      "FARM_OWNER": "Farm Owner",
+      "FARM_WORKER": "Farm Worker",
+      "FIRST_NAME_NOT_EMPTY": "First name cannot be empty",
+      "HOURLY": "hourly",
+      "INVITE": "Invite",
+      "INVITE_USER": "Invite User",
+      "LAST_NAME_NOT_EMPTY": "Last Name cannot be empty",
+      "PAY": "Pay",
+      "RESTORE_ACCESS": "Restore User Access",
+      "REVOKE_ACCESS": "Revoke User Access",
+      "ROLE": "Role",
+      "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
+      "SEARCH": "Search",
+      "SELECT_ROLE": "Select Role",
+      "USERS_NO_EMAIL_NO_LOGIN": "Users without an email won't be able to login",
+      "WAGE_MUST_BE_VALID": "Wage must be a valid, non-negative number (up to 2 decimal places)"
+    }
   },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",
@@ -136,6 +305,35 @@
     },
     "FINANCES": {
       "ACTION": "Action",
+      "ACTUAL_REVENUE_ESTIMATED": "Estimated",
+      "ACTUAL_REVENUE_LABEL": "Actual",
+      "ADD_NEW_EXPENSE": "Add New Expense",
+      "ADD_NEW_SALE": "Add New Sale",
+      "BALANCE": "Balance",
+      "BALANCE_BY_CROP": "Balance (By Crop)",
+      "BALANCE_EXPLANATION": "We compute a real-time balance (‘cost of production’) for each crop on your farm. This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window.",
+      "BALANCE_FOR_FARM": "Balance (Whole Farm)",
+      "ENSURE_ONE_CROP_WARNING": "Please ensure that at least 1 crop and an associated sale or shift has been allocated to see this information.",
+      "EXPENSES": "Expenses",
+      "HAS_UNALLOCATED_LINE1": "*Unallocated means that work has been done on an empty field for the selected date range.",
+      "HAS_UNALLOCATED_LINE10_1": "If lettuce is added to Field1 but no shift related to lettuce or Field1 is submitted, or submitted later than April 1st, then Corn will be allocated with a full amount of ",
+      "HAS_UNALLOCATED_LINE10_2": "From Field1.",
+      "HAS_UNALLOCATED_LINE2": "If one or more crops were added to an empty field later and there exists a shift related to the crops, then the work done on that empty field will be evenly distributed to each crop.",
+      "HAS_UNALLOCATED_LINE3_1": "For date range",
+      "HAS_UNALLOCATED_LINE3_2": "January 1st",
+      "HAS_UNALLOCATED_LINE3_3": "April 1st",
+      "HAS_UNALLOCATED_LINE4": "And two empty fields",
+      "HAS_UNALLOCATED_LINE5_1": "Assume shifts has been submitted for both fields(cost=",
+      "HAS_UNALLOCATED_LINE5_2": "30 for each field)",
+      "HAS_UNALLOCATED_LINE6_1": "then the Unallocated value would be",
+      "HAS_UNALLOCATED_LINE6_2": "Field1's work + Field2's work = -",
+      "HAS_UNALLOCATED_LINE7_1": "Later corn and lettuce has been planted on",
+      "HAS_UNALLOCATED_LINE7_2": "and related shifts have been submitted within the date range, then the Unallocated value would be",
+      "HAS_UNALLOCATED_LINE8": "Field2's work = -",
+      "HAS_UNALLOCATED_LINE9": "Corn and lettuce will each be allocated with an extra cost of",
+      "LABOUR_LABEL": "Labour",
+      "OTHER_EXPENSES_LABEL": "Other Expenses",
+      "REVENUE": "Revenue",
       "TITLE": "Finances"
     },
     "LABOUR": {
@@ -151,6 +349,69 @@
       "TITLE": "Sales",
       "TOTAL": "Total"
     }
+  },
+  "SHIFT": {
+    "ACTION": "Action",
+    "ADD_NEW": "Add New Shift",
+    "EDIT_SHIFT": {
+      "ADD_CUSTOM_TASK": "Add Custom Task",
+      "ADD_TASK": "Add a Task",
+      "ADJUST_HOURLY_WAGE": "Adjust Hourly Wage",
+      "ALL": "All",
+      "ALL_CROPS": "All Crops",
+      "ALLOCATE_ACTIVITY": "If you need to allocate labour for an activity to your whole farm, you can allocate it to all of your fields, and we will do the rest.",
+      "ASSIGN_TIME_TO_TASK": "Assign time to task by",
+      "BREAK_DURATION": "Break Duration",
+      "CHOOSE_DATE": "Choose a Date",
+      "CROPS_ON_THIS_FARM": "Crops on this farm",
+      "CROPS_ON_YOUR_FARM": "Crops on your farm",
+      "DURATION": "Duration",
+      "FIELDS_ON_YOUR_FARM": "Fields on your farm",
+      "HAPPY": "Happy",
+      "INDIVIDUAL_CROPS": "Individual Crops",
+      "MINUTES": "Min",
+      "MOOD": "How did this shift make you feel?",
+      "NAME_TASK": "Name of the custom task",
+      "NEUTRAL": "Neutral",
+      "NEW_SHIFT_TITLE_1": "New Shift (Step 1)",
+      "NEW_SHIFT_TITLE_2": "New Shift (Step 1)",
+      "NO_WAGE_SET": "You have no wage set, your labour cost for this shift is preset to 0, you can change it at ",
+      "NO_WAGE_SET_LOCATION": "Profile->People->Edit",
+      "RATHER_NOT_SAY": "Rather Not Say",
+      "SAD": "Sad",
+      "TASKS_FOR_SHIFT": "Theses are the tasks selected for this shift",
+      "TASKS_SELECTED": "The tasks selected for this shift are highlighted below. Deselecting a task will remove the task from this shift",
+      "TIME_ALLOCATION": "Time Allocation",
+      "TITLE_1": "Edit Shift (Step 1)",
+      "TITLE_2": "Edit Shift (Step 2)",
+      "TO_ASSIGN": "to assign",
+      "VERY_HAPPY": "Very Happy",
+      "VERY_SAD": "Very Sad",
+      "WAGE_FOR_SHIFT": "Wage for this shift",
+      "WHAT_TASKS_YOU_DID": "What tasks did you do today?",
+      "YOU_HAVE": "You have"
+    },
+    "END_TIME": "End Time",
+    "FROM": "From",
+    "MY_SHIFT": {
+      "DELETE_CONFIRMATION": "Are you sure you want to delete this shift?",
+      "DURATION": "Duration",
+      "FIELD_CROPS": "Fields/Crops",
+      "SUBMITTED_FOR": "Submitted For",
+      "TASK": "Task",
+      "TITLE": "My Shift"
+    },
+    "NAME": "Name",
+    "SHIFT_HISTORY": "Shift History",
+    "START_TIME": "Start Time",
+    "TITLE": "Shifts",
+    "TO": "To"
+  },
+  "SIGNUP": {
+    "DIDNT_WORK": "That didn't work.",
+    "OOPS": "Oops!",
+    "PLEASE_SIGNUP": "Please, sign up.",
+    "TITLE": "Sign Up"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

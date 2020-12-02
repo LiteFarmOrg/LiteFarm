@@ -9,6 +9,7 @@ import {getSales} from '../../Finances/actions';
 import {connect} from 'react-redux';
 import {setSelectedSale} from "../../Finances/actions";
 import moment from 'moment';
+import {withTranslation} from "react-i18next";
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -124,10 +125,10 @@ class SalesSummary extends Component {
       <div className={styles.financesContainer}>
         <PageTitle backUrl='/newfinances' title='Sales'/>
         <div className={styles.buttonContainer}>
-          <Button onClick={()=>{history.push('sales/add_sale')}}>Add New Sale</Button>
+          <Button onClick={()=>{history.push('sales/add_sale')}}>{this.props.t('SALE.ADD_SALE.NEW')}</Button>
         </div>
         <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
+          <h4><strong>{this.props.t('NEW_FINANCES.SALE.SUMMARY')}</strong></h4>
         </div>
 
         <Table
@@ -139,7 +140,7 @@ class SalesSummary extends Component {
         />
         <hr />
         <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
+          <h4><strong>{this.props.t('NEW_FINANCES.SALE.DETAILED_HISTORY')}</strong></h4>
         </div>
         <Table
           columns={detailedHistoryColumns}
@@ -182,4 +183,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SalesSummary));

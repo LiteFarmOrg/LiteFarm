@@ -12,6 +12,7 @@ import styles from '../styles.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
+import {withTranslation} from "react-i18next";
 
 class ScoutingLog extends Component{
   constructor(props) {
@@ -53,8 +54,8 @@ class ScoutingLog extends Component{
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Scouting Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SCOUTING.TITLE')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.scoutingLog)}>
           <DefaultLogForm
             model=".scoutingLog"
@@ -66,7 +67,7 @@ class ScoutingLog extends Component{
             typeOptions={['Harvest', 'Pest', 'Disease', 'Weed', 'Other']}
             customFieldset={() => {
               return (
-                <Checkbox type="checkbox" model='.action_needed' title='Action Needed'/>
+                <Checkbox type="checkbox" model='.action_needed' title={this.props.t('LOG_SCOUTING.ACTION_NEEDED')}/>
               )
             }}
           />
@@ -90,4 +91,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ScoutingLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ScoutingLog));

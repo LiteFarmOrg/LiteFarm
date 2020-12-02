@@ -11,10 +11,10 @@ export default function PureProfileFloater({onInfo, onSwitchFarm, onHelp, onLogo
 
   return (
     <div style={{ maxWidth: '148px', minWidth:'138px',backgroundColor: 'white', borderRadius:'4px', marginRight: '-4px'}}>
-      <ListOption clickFn={onInfo} iconText={t('PROFILE.INFO')} iconSrc={MyInfoIcon} customParagraphStyle={{paddingTop: '0.5rem'}}/>
-      { showSwitchFarm && <ListOption clickFn={onSwitchFarm} iconText={t('PROFILE.SWITCH')} iconSrc={SwitchFarmIcon}/> }
-      <ListOption clickFn={onHelp} iconText={t('PROFILE.HELP')} iconSrc={HelpIcon} />
-      <ListOption clickFn={onLogout} iconText={t('PROFILE.LOG_OUT')} iconSrc={LogoutIcon} customParagraphStyle={{paddingBottom: '0.5rem'}}/>
+      <ListOption clickFn={onInfo} iconText={t('PROFILE_FLOATER.INFO')} iconSrc={MyInfoIcon} customParagraphStyle={{paddingTop: '0.5rem'}}/>
+      { showSwitchFarm && <ListOption clickFn={onSwitchFarm} iconText={t('PROFILE_FLOATER.SWITCH')} iconSrc={SwitchFarmIcon}/> }
+      <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} iconSrc={HelpIcon} />
+      <ListOption clickFn={onLogout} iconText={t('PROFILE_FLOATER.LOG_OUT')} iconSrc={LogoutIcon} customParagraphStyle={{paddingBottom: '0.5rem'}}/>
     </div>
   )
 }

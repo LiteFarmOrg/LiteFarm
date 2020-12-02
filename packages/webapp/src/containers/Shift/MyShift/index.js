@@ -10,6 +10,7 @@ import { selectedShiftSelector, taskTypeSelector } from './selectors';
 import { cropSelector, fieldSelector } from '../../selector';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class MyShift extends Component {
   constructor(props) {
@@ -146,7 +147,7 @@ class MyShift extends Component {
     let dropDown = 0;
     return(
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/shift" title="My Shift"/>
+        <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')}/>
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
             <div>
@@ -161,30 +162,30 @@ class MyShift extends Component {
                 id={`dropdown-basic-${dropDown}`}
               >
                 {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
-                <Dropdown.Item eventKey="1" onClick={()=>this.handleShiftDelete()}>Delete</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={()=>this.handleShiftDelete()}>{this.props.t('common:DELETE')}</Dropdown.Item>
               </DropdownButton>
             }
           </div>
           {
             this.props.users.is_admin && <div className={styles.innerInfo}>
-              <div>Submitted For</div><span>{this.props.selectedShift.first_name + ' ' + this.props.selectedShift.last_name}</span>
+              <div>{this.props.t('SHIFT.MY_SHIFT.SUBMITTED_FOR')}</div><span>{this.props.selectedShift.first_name + ' ' + this.props.selectedShift.last_name}</span>
             </div>
           }
           <div className={styles.innerInfo}>
-            <div>Start Time</div><span>{this.state.start}</span>
+            <div>{this.props.t('SHIFT.START_TIME')}</div><span>{this.state.start}</span>
           </div>
           <div className={styles.innerInfo}>
-            <div>End Time</div><span>{this.state.end}</span>
+            <div>{this.props.t('SHIFT.END_TIME')}</div><span>{this.state.end}</span>
           </div>
           <div className={styles.innerInfo}>
-            <div>Break Duration</div><span>{this.state.breakDuration} min</span>
+            <div>{this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}</div><span>{this.state.breakDuration} min</span>
           </div>
         </div>
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
-            <strong>Task</strong>
-            <strong>Fields/Crops</strong>
-            <strong>Duration</strong>
+            <strong>{this.props.t('SHIFT.MY_SHIFT.TASK')}</strong>
+            <strong>{this.props.t('SHIFT.MY_SHIFT.FIELD_CROPS')}</strong>
+            <strong>{this.props.t('SHIFT.MY_SHIFT.DURATION')}</strong>
           </div>
           {
             taskArr.map((task)=>{
@@ -223,7 +224,7 @@ class MyShift extends Component {
               this.props.dispatch(deleteShift(shiftId));
               this.setState({showModal: false});
             }}
-            message='Are you sure you want to delete this shift?'
+            message={this.props.t('SHIFT.MY_SHIFT.DELETE_CONFIRMATION')}
           />
       </div>
     )
@@ -249,4 +250,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyShift);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(MyShift));

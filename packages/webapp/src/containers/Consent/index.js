@@ -50,7 +50,7 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
       errors: errors[checkboxName] && errors[checkboxName].message,
     }}
                  onSubmit={handleSubmit(updateConsent)}
-                 onGoBack={goBack}
+                 onGoBack={goBackTo ? goBack: null}
                  text={consent}
                  disabled={!hasConsent}
     >

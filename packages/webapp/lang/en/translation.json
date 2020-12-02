@@ -240,6 +240,7 @@
       "ADDRESS": "Address",
       "CURRENCY": "Currency",
       "FARM_NAME": "Farm Name",
+      "LANGUAGE": "Language",
       "MAKE_REQUEST": "Make Request",
       "PHONE_NUMBER": "Phone Number",
       "REQUEST_DATA": "You can request a data download and we will send your farm's data to your email, in the form of csv.",

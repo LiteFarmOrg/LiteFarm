@@ -64,6 +64,11 @@ class Farm extends Component {
     this.setState({ showData: true });
   };
 
+  changeLanguage = (event) => {
+    console.log(event.target.value);
+    this.props.i18n.changeLanguage(event.target.value)
+  }
+
   render() {
     const {farm, schedule} = this.props;
     const {request_text, request_pending_text, enableRequest} = this.state;
@@ -105,6 +110,15 @@ class Farm extends Component {
               <div className={styles.selectContainer}>
                 <label>{this.props.t('PROFILE.FARM.CURRENCY')}</label>
                 <p style={{marginLeft: '8px'}}>{farm.units.currency}</p>
+              </div>
+              <div className={styles.selectContainer}>
+                <label>{this.props.t('PROFILE.FARM.LANGUAGE')}</label>
+                <select defaultValue={'en'} style={{marginLeft: '8px'}} onChange={this.changeLanguage}>
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="pt">Portuguese</option>
+                  <option value="fr">French</option>
+                </select>
               </div>
               {/* <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
                 {request_text}

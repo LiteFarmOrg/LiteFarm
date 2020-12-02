@@ -22,14 +22,7 @@ const auth0Uri = findAuth0Uri();
 // Access Token must exist and be verified against
 // the Auth0 JSON Web Key Set
 const checkJwt = jwt({
-  // Dynamically provide a signing key
-  // based on the kid in the header and
-  // the signing keys provided by the JWKS endpoint.
   secret: process.env.JWT_SECRET,
-
-  // Validate the audience and the issuer.
-  // aud: 'http://localhost:5000',
-  // issuer: `${auth0Uri}/`,
   algorithms: ['RS256'],
 }).unless({ path: [
   '/user'

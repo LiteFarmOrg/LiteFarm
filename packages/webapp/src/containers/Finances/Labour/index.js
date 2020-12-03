@@ -13,6 +13,7 @@ import { cropSelector as fieldCropSelector } from '../../selector';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class Labour extends Component {
   constructor(props) {
@@ -69,10 +70,10 @@ class Labour extends Component {
     const symbol = grabCurrencySymbol(farm);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Labour'/>
+        <PageTitle backUrl='/Finances' title={this.props.t('SALE.LABOUR.TITLE')}/>
         <DateRangeSelector  changeDateMethod={this.changeDate}/>
         <div className={styles.topButtonContainer}>
-          <h4>By</h4>
+          <h4>{this.props.t('SALE.LABOUR.BY')}</h4>
           <div className={styles.dropDownContainer}>
           <DropdownButton
             variant={'default'}
@@ -81,9 +82,9 @@ class Labour extends Component {
             id={`dropdown-basic-${i}`}
             style={dButtonStyle}
           >
-            <Dropdown.Item eventKey="1" onClick={()=>this.sortBy('Employees')}>Employees</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onClick={()=>this.sortBy('Crops')}>Crops</Dropdown.Item>
-            <Dropdown.Item eventKey="3" onClick={()=>this.sortBy('Tasks')}>Tasks</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={()=>this.sortBy('Employees')}>{this.props.t('SALE.LABOUR.EMPLOYEES')}</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onClick={()=>this.sortBy('Crops')}>{this.props.t('SALE.LABOUR.CROPS')}</Dropdown.Item>
+            <Dropdown.Item eventKey="3" onClick={()=>this.sortBy('Tasks')}>{this.props.t('SALE.LABOUR.TASKS')}</Dropdown.Item>
           </DropdownButton>
           </div>
         </div>
@@ -120,4 +121,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Labour);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Labour));

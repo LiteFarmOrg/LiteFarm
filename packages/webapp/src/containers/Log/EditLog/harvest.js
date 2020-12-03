@@ -15,6 +15,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class HarvestLog extends Component{
   constructor(props) {
@@ -83,8 +84,8 @@ class HarvestLog extends Component{
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Harvest Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/log" title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_HARVEST.TITLE')}`}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.harvestLog)}>
           <LogFormOneCrop
             selectedCrops={selectedCrops}
@@ -96,11 +97,11 @@ class HarvestLog extends Component{
             notesField={false}
           />
 
-          <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
+          <Unit model='.harvestLog.quantity_kg' title={this.props.t('LOG_COMMON.QUANTITY')} type={this.state.quantity_unit} validate/>
 
           <div>
             <div className={styles.noteTitle}>
-              Notes
+              {this.props.t('common:NOTES')}
             </div>
             <div className={styles.noteContainer}>
               <Control.textarea model=".harvestLog.notes"/>
@@ -112,7 +113,7 @@ class HarvestLog extends Component{
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -135,4 +136,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HarvestLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestLog));

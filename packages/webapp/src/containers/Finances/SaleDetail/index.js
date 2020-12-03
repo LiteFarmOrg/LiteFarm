@@ -11,6 +11,7 @@ import ConfirmModal from "../../../components/Modals/Confirm";
 import {selectedSaleSelector} from '../selectors';
 import {convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal} from "../../../util";
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class SaleDetail extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class SaleDetail extends Component {
     let dropDown = 0;
     if (sale) return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/sales_summary" title="Sale Detail"/>
+        <PageTitle backUrl="/sales_summary" title={this.props.t('SALE.DETAIL.TITLE')}/>
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
             <div>
@@ -58,23 +59,23 @@ class SaleDetail extends Component {
               id={`dropdown-basic-${dropDown}`}
             >
               {/*<Dropdown.Item data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</Dropdown.Item>*/}
-              <Dropdown.Item data-test='delete-sale' eventKey="1" onClick={() => this.confirmDelete()}>Delete</Dropdown.Item>
+              <Dropdown.Item data-test='delete-sale' eventKey="1" onClick={() => this.confirmDelete()}>{this.props.t('common:DELETE')}</Dropdown.Item>
             </DropdownButton>
           </div>
         </div>
 
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
-            <div>Customer Name</div>
+            <div>{this.props.t('SALE.DETAIL.CUSTOMER_NAME')}</div>
             <span>{sale.customerName}</span>
           </div>
         </div>
 
         <div className={styles.infoBlock}>
           <div key={sale.sale_id} className={styles.cropSaleHeader}>
-            <div className={styles.headerChildName}>Crop</div>
-            <div className={styles.headerChildVal}>Quantity({this.state.quantity_unit})</div>
-            <div className={styles.headerChildVal}>Value({this.state.currencySymbol})</div>
+            <div className={styles.headerChildName}>{this.props.t('SALE.DETAIL.CROP')}</div>
+            <div className={styles.headerChildVal}>{this.props.t('SALE.DETAIL.QUANTITY')}({this.state.quantity_unit})</div>
+            <div className={styles.headerChildVal}>{this.props.t('SALE.DETAIL.VALUE')}({this.state.currencySymbol})</div>
           </div>
         </div>
 
@@ -93,7 +94,7 @@ class SaleDetail extends Component {
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => {this.props.dispatch(deleteSale(this.props.sale)); history.push('/finances');}}
-          message='Are you sure you want to delete this sale?'
+          message={this.props.t('SALE.DETAIL.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -117,4 +118,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SaleDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SaleDetail));

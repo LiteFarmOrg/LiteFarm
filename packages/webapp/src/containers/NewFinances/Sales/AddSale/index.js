@@ -13,6 +13,7 @@ import {convertToMetric, getUnit} from "../../../../util";
 import {fetchFarmInfo} from "../../../actions";
 import history from "../../../../history";
 import { userFarmSelector } from '../../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class AddSale extends Component {
   constructor(props) {
@@ -64,9 +65,9 @@ class AddSale extends Component {
     });
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/newfinances' title='Add New Sale'/>
+        <PageTitle backUrl='/newfinances' title={this.props.t('SALE.ADD_SALE.NEW')}/>
         <span className={defaultStyles.dateContainer}>
-          <label>Date</label>
+          <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer
             style={defaultStyles.date}
             custom={true}
@@ -81,7 +82,7 @@ class AddSale extends Component {
           chosenOptions={this.state.chosenOptions}
           handleChooseCrop={this.handleChooseCrop}
           quantityUnit={this.state.quantity_unit}
-          footerText={"Cancel"}
+          footerText={this.props.t('common:CANCEL')}
           footerOnClick={()=>history.push('/finances')}
         />
       </div>
@@ -102,4 +103,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddSale);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(AddSale));

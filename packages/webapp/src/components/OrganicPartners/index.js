@@ -8,19 +8,23 @@ import Input from '../Form/Input';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Label, Text } from '../Typography';
+import { useTranslation } from "react-i18next";
+
 
 export function PureOrganicPartners({ inputs = [{}, {}], onSubmit, onGoBack, disabled }) {
+  const { t } = useTranslation();
+
   return <Form onSubmit={onSubmit} buttonGroup={
     <>
-      <Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button>
-      <Button type={'submit'} fullLength disabled={disabled}>Continue</Button>
+      <Button onClick={onGoBack} color={'secondary'} fullLength>{t('common:BACK')}</Button>
+      <Button type={'submit'} fullLength disabled={disabled}>{t('common:CONTINUE')}</Button>
     </>
   }>
     <img src={signup7} alt={'Avatar'} className={styles.svg} loading={'lazy'}/>
-    <div className={styles.svgtitle}>Great!</div>
-    <Text style={{marginBottom: '24px'}}>We'll indicate data required for organic certification with <span
-      className={styles.leaf}><Leaf/></span> throughout the app!</Text>
-    <Label style={{marginBottom: '8px'}}>Please select your certifier</Label>
+    <div className={styles.svgtitle}>{t('common:GREAT')}! </div>
+    <Text style={{marginBottom: '24px'}}> {t('ORGANIC.PARTNERS.WILL_INDICATE')} <span
+      className={styles.leaf}><Leaf/></span> {t('ORGANIC.PARTNERS.THROUGH_APP')}</Text>
+    <Label style={{marginBottom: '8px'}}>{t('ORGANIC.PARTNERS.SELECT_CERTIFIER')}</Label>
     <Checkbox style={{marginBottom: '16px'}} {...inputs[0]}/>
     <Checkbox style={{marginBottom: '12px'}} {...inputs[1]}/>
     <Input {...inputs[2]}/>

@@ -29,6 +29,7 @@ import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class Shift extends Component {
   constructor(props) {
@@ -135,24 +136,24 @@ class Shift extends Component {
     return (
       <div className={styles.logContainer}>
         <h4>
-          <strong>SHIFTS</strong>
+          <strong>{this.props.t('SHIFT.TITLE')}</strong>
         </h4>
         <hr/>
-        <h4><b>Action</b></h4>
+        <h4><b>{this.props.t('SHIFT.ACTION')}</b></h4>
         <div className={styles.buttonContainer}>
           <Button onClick={() => {
             history.push('/shift_step_one')
-          }}>Add New Shift</Button>
+          }}>{this.props.t('SHIFT.ADD_NEW')}</Button>
         </div>
         <hr/>
         <div>
-          <h4><b>Shift History</b></h4>
+          <h4><b>{this.props.t('SHIFT.SHIFT_HISTORY')}</b></h4>
         </div>
         {
           (users.role_id === 1 || users.role_id === 2 || users.role_id === 5)  && <div>
             <div className={styles.filterContainer}>
               <div className={styles.nameFilter}>
-                <label>Name</label>
+                <label>{this.props.t('SHIFT.NAME')}</label>
                 <DropDown
                   defaultValue={{ value: 'all', label: 'All' }}
                   options={nameOptions}
@@ -162,12 +163,12 @@ class Shift extends Component {
               </div>
               <LocalForm model='logDates'>
               <span className={styles.pullLeft}>
-                <label>From</label>
+                <label>{this.props.t('SHIFT.FROM')}</label>
                 <DateContainer style={styles.date} custom={true} date={this.state.startDate}
                                onDateChange={(date) => {this.setState({ startDate: date }); this.filterShifts()}}/>
               </span>
                 <span className={styles.pullRight} >
-                <label>To</label>
+                <label>{this.props.t('SHIFT.TO')}</label>
                 <DateContainer style={styles.date} custom={true} date={this.state.endDate}
                                onDateChange={(date) =>  {this.setState({ endDate: date }); this.filterShifts()}}/>
               </span>
@@ -229,4 +230,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Shift);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Shift));

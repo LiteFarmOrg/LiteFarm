@@ -12,6 +12,7 @@ import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
 import { BsCaretRight } from "react-icons/bs";
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -201,10 +202,10 @@ class OtherExpense extends Component {
 
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Other Expenses'/>
+        <PageTitle backUrl='/Finances' title={this.props.t('EXPENSE.OTHER_EXPENSES_TITLE')}/>
         <DateRangeSelector changeDateMethod={this.changeDate}/>
         <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
+          <h4><strong>{this.props.t('EXPENSE.SUMMARY')}</strong></h4>
         </div>
         <div className={styles.tableContainer}>
           {
@@ -226,12 +227,12 @@ class OtherExpense extends Component {
           {
             data.length === 0 &&
             <h4>
-              You have no expense recorded for this year
+              {this.props.t('EXPENSE.NO_EXPENSE_YEAR')}
             </h4>
           }
         </div>
         <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
+          <h4><strong>{this.props.t('EXPENSE.DETAILED_HISTORY')}</strong></h4>
         </div>
         <div className={styles.tableContainer}>
           {
@@ -262,7 +263,7 @@ class OtherExpense extends Component {
           {
             detailedHistory.length === 0 &&
             <div>
-              <h5>No expense found</h5>
+              <h5>{this.props.t('EXPENSE.NO_EXPENSE')}</h5>
             </div>
           }
 
@@ -289,4 +290,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OtherExpense);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(OtherExpense));

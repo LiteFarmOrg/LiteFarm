@@ -26,6 +26,7 @@ import history from '../../../history';
 import { fieldSelector } from '../../selector';
 import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 const buttonStyles = {
   font: "Open Sans",
@@ -317,17 +318,17 @@ class NewField extends Component {
     const PolygonButton = () =>
       <Button id={POLYGON_BUTTON} size={'lg'} active={this.state.isDraw} disabled={this.state.isDraw} variant="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
         <BsPencil />
-        Draw
+        {this.props.t('FIELDS.NEW_FIELD.DRAW')}
       </Button>;
     const ClearButton = () =>
       <Button id={CLEAR_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
         <BsTrash />
-        Redraw
+        {this.props.t('FIELDS.NEW_FIELD.REDRAW')}
           </Button>;
     const NextButton = () =>
       <Button id={NEXT_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
         <BsCheck />
-        Confirm
+        {this.props.t('common:CONFIRM')}
           </Button>;
     const DrawingManager = () =>
       gridPoints === null ?
@@ -379,20 +380,20 @@ class NewField extends Component {
         </div>}
         {this.state.step === 2 &&
           <div className={parentStyles.logContainer}>
-            <PageTitleFragment title="New Field (2 of 2)" onBackButtonClick={() => {
+            <PageTitleFragment title={this.props.t('FIELDS.NEW_FIELD.TITLE')} onBackButtonClick={() => {
               this.setState({ step: this.state.step - 1 });
             }} />
             <FormGroup
               className={styles.centeredForm}
               validationState={this.getValidationState()}
             >
-              <FormLabel>Field Name</FormLabel>
+              <FormLabel>{this.props.t('FIELDS.NEW_FIELD.FIELD_NAME')}</FormLabel>
               {this.state.isSavePlanDisabled ?
                 <FormControl
                 type="text"
                 autoFocus
                 value={this.state.fieldName}
-                placeholder="Enter Field Name"
+                placeholder={this.props.t('FIELDS.NEW_FIELD.FIELD_NAME_PLACEHOLDER')}
                 onChange={this.handleFieldNameChange}
                 className={styles.buttonContainer}
                 style={{borderColor: '#D4DAE3'}}
@@ -413,14 +414,14 @@ class NewField extends Component {
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
                 {
                 this.state.isSavePlanDisabled ?
-                <Button style={{...buttonStyles}} outline>Save Field</Button>
+                <Button style={{...buttonStyles}} outline>{this.props.t('FIELDS.NEW_FIELD.SAVE_FIELD')}</Button>
                 :
                 <Button style={{...buttonStyles, ...activeButtonStyles}}
                     outline
                     onClick={() => {
                       this.handleModeChange(CREATE_FIELD);
                       this.setState({ step: this.state.step + 1 });
-                    }}>Save Field</Button>
+                    }}>{this.props.t('FIELDS.NEW_FIELD.SAVE_FIELD')}</Button>
                   }
               </div>
             </FormGroup>
@@ -445,4 +446,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewField);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewField));

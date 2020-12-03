@@ -15,6 +15,7 @@ import { toastr } from 'react-redux-toastr';
 import { submitMultiShift, submitShift } from '../actions';
 import { BsReplyFill } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import {useTranslation, withTranslation} from "react-i18next";
 
 class ShiftStepTwo extends Component {
 
@@ -526,12 +527,12 @@ class ShiftStepTwo extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/shift_step_one" title="New Shift (Step 2)" rightIcon={true}
-                   rightIconTitle="Time Allocation"
-                   rightIconBody="If you need to allocate labour for an activity to your whole farm, you can allocate it to all of your fields, and we will do the rest."/>
+        <PageTitle backUrl="/shift_step_one" title={this.props.t('SHIFT.EDIT_SHIFT.NEW_SHIFT_TITLE_2')} rightIcon={true}
+                   rightIconTitle={this.props.t('SHIFT.EDIT_SHIFT.TIME_ALLOCATION')}
+                   rightIconBody={this.props.t('SHIFT.EDIT_SHIFT.ALLOCATE_ACTIVITY')}/>
         <div className={styles.taskTitle} style={{ paddingBottom: '1.2em' }}>
           <div style={this.state.minBoxStyle}>
-            <strong> You have <span>{this.state.availableDuration} minutes</span> to assign</strong>
+            <strong> {this.props.t('SHIFT.EDIT_SHIFT.YOU_HAVE')}<span>{this.state.availableDuration} {this.props.t('SHIFT.EDIT_SHIFT.MINUTES')}</span> {this.props.t('SHIFT.EDIT_SHIFT.TO_ASSIGN')}</strong>
           </div>
         </div>
         <div>
@@ -562,7 +563,7 @@ class ShiftStepTwo extends Component {
                 <img src={closeButton} alt=""/>
               </a>
             </div>
-            <h3>How did this shift make you feel?</h3>
+            <h3>{this.props.t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
 
             <Container fluid={true}
                   style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
@@ -573,7 +574,7 @@ class ShiftStepTwo extends Component {
                       {/*<img src={happyImg} alt=""/>*/}
                       <h2>😃</h2>
                     </div>
-                    <p>Happy</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.HAPPY')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
@@ -583,7 +584,7 @@ class ShiftStepTwo extends Component {
                       {/*<img src={vHappyImg} alt=""/>*/}
                       <h2>😆</h2>
                     </div>
-                    <p>Very Happy</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.VERY_HAPPY')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
@@ -592,7 +593,7 @@ class ShiftStepTwo extends Component {
                       {/*<img src={neutralImg} alt=""/>*/}
                       <h2>😕</h2>
                     </div>
-                    <p>Neutral</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.NEUTRAL')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
@@ -601,7 +602,7 @@ class ShiftStepTwo extends Component {
                       {/*<img src={sadImg} alt=""/>*/}
                       <h2>😢</h2>
                     </div>
-                    <p>Sad</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.SAD')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
@@ -610,7 +611,7 @@ class ShiftStepTwo extends Component {
                       {/*<img src={depressionImg} alt=""/>*/}
                       <h2>😭</h2>
                     </div>
-                    <p>Very Sad</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.VERY_SAD')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
@@ -619,13 +620,13 @@ class ShiftStepTwo extends Component {
                       {/*<img src={depressionImg} alt=""/>*/}
                       <h2>🤭</h2>
                     </div>
-                    <p>Rather Not Say</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.RATHER_NOT_SAY')}</p>
                   </div>
                 </Col>
               </Row>
             </Container>
             <div className={styles.buttonContainer}>
-              <Button onClick={() => this.submitShift()}>Finish</Button>
+              <Button onClick={() => this.submitShift()}>{this.props.t('common:FINISH')}</Button>
             </div>
           </div>
         </Popup>
@@ -639,6 +640,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
+  const {t} = useTranslation();
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   }
@@ -651,7 +653,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
       <div className={styles.taskTitle}>
         <strong>{task.task_name}</strong>
         <div>
-          Assign time to task by
+          {t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}
         </div>
       </div>
       <div id={task.task_id} style={{ display: 'block' }}>
@@ -660,23 +662,23 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           <div className={styles.cropButton}>
             <img src={cropImg} alt=""/>
             <div className={styles.whiteText}>
-              Crops on your farm
+              {t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}
             </div>
           </div>
           <div className={styles.fieldButton} onClick={() => toggleCropOrField(task.task_id, 'field')}>
             <img src={fieldImg} alt=""/>
             <div className={styles.whiteText}>
-              Fields on your farm
+              {t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}
             </div>
           </div>
         </div>
       </div>
       <div className={styles.selectContainer} id={'crop' + task.task_id}>
         <div>
-          <strong>Crops on this farm</strong>
+          <strong>{t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>All</Button>
+              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>{t('SHIFT.EDIT_SHIFT.ALL')}</Button>
             </div>
             <div className={styles.backContainer} onClick={() => {
               setDuration(0);
@@ -684,7 +686,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               toggleBack(task.task_id, 'crop')
             }}>
               <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-              Back
+              {t('common:BACK')}
             </div>
           </div>
 
@@ -725,13 +727,13 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           <div>
             <div className={styles.cropDurationType}>
               <button className="duration-btn-selected" onClick={() => toggleCropTimeMethod(task.task_id, true)}
-                      id={'all-crop-' + task.task_id}>All Crops
+                      id={'all-crop-' + task.task_id}>{t('SHIFT.EDIT_SHIFT.ALL_CROPS')}
               </button>
               <button className="duration-btn-unselected" onClick={() => {
                 setDuration(0);
                 resetCropDuration(task.task_id);
                 toggleCropTimeMethod(task.task_id, false)
-              }} id={'indy-crop-' + task.task_id}>Individual Crop
+              }} id={'indy-crop-' + task.task_id}>{t('SHIFT.EDIT_SHIFT.INDIVIDUAL_CROPS')}
               </button>
             </div>
             <div className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
@@ -766,7 +768,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           <strong>Fields on this farm</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'field')}>All</Button>
+              <Button onClick={() => addAll(task.task_id, 'field')}>{t('SHIFT.EDIT_SHIFT.ALL')}</Button>
             </div>
             <div className={styles.backContainer} onClick={() => {
               setDuration(0);
@@ -774,7 +776,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               toggleBack(task.task_id, 'field')
             }}>
               <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-              Back
+              {t('common:BACK')}
             </div>
           </div>
         </div>
@@ -809,7 +811,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
           }
         </div>
         <div className={styles.durationContainer}>
-          <div>Duration</div>
+          <div>{t('SHIFT.MY_SHIFT.DURATION')}</div>
           <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number" value={duration}
                                                        onChange={(event) => {
                                                          setDuration(event.target.value);
@@ -820,7 +822,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
-          Cancel
+          {t('common:CANCEL')}
         </div>
         {
           isRatingEnabled
@@ -829,7 +831,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
                 className='btn btn-primary'
                 onClick={() => openEditModal()}
               >
-                Next
+                {t('common:NEXT')}
               </button>
             )
             : (
@@ -837,7 +839,7 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
                 className='btn btn-primary'
                 onClick={() => submitShift()}
               >
-                Finish
+                {t('common:FINISH')}
               </button>
             )
         }
@@ -866,4 +868,4 @@ const
     }
   };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShiftStepTwo);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ShiftStepTwo));

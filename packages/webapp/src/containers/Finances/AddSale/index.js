@@ -6,12 +6,13 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../components/Forms/Sale';
-import { fetchFarmInfo, getFieldCrops } from '../../actions';
+import { getFieldCrops } from '../../actions';
 import { cropSelector as fieldCropSelector } from '../../selector';
 import { addOrUpdateSale } from '../actions';
 import { convertToMetric, getUnit, grabCurrencySymbol } from '../../../util';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from "react-i18next";
 
 class AddSale extends Component {
   constructor(props) {
@@ -81,9 +82,9 @@ class AddSale extends Component {
     const cropOptions = this.getCropOptions(fieldCrops);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Add New Sale'/>
+        <PageTitle backUrl='/Finances' title={this.props.t('SALE.ADD_SALE.NEW')}/>
         <span className={defaultStyles.dateContainer}>
-          <label>Date</label>
+          <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer
             style={defaultStyles.date}
             custom={true}
@@ -98,7 +99,7 @@ class AddSale extends Component {
           chosenOptions={this.state.chosenOptions}
           handleChooseCrop={this.handleChooseCrop}
           quantityUnit={this.state.quantity_unit}
-          footerText={"Cancel"}
+          footerText={this.props.t('common:CANCEL')}
           footerOnClick={()=>history.push('/finances')}
           currencySymbol={this.state.currencySymbol}
         />
@@ -120,4 +121,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddSale);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(AddSale));

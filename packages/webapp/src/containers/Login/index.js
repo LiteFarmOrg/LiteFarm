@@ -23,13 +23,9 @@ import picFour from '../../assets/images/introSliders/5.png';
 import picFive from '../../assets/images/introSliders/6.png';
 import LoginButton from './loginButton';
 import styles from './styles.scss';
-
+import { useTranslation } from "react-i18next";
 import Carousel from 'nuka-carousel';
 
-const firstPage = <div style={{ height: '50vh' }}>
-      <img className={styles.logo} src={logo} alt="not found"/>
-      <h4 className={styles.bodyText}>Everything you need for managing your farm, in your pocket.</h4>
-    </div>;
 const slides = [
     {
     header: 'Sustainability Reporting',
@@ -60,26 +56,30 @@ const slides = [
 
 const auth = new Auth();
 
-class Login extends React.Component {
-    render() {
-        return <div className={styles.home} >
-        <div className={styles.lander}>
-            <div className={styles.textColor}>
-                <Carousel wrapAround withoutControls transitionMode='fade'>
-                    {firstPage}
-                    {slides.map((slide, index) => {
-                    return (<div key={'slide-' + index}>
-                        <h2>{slide.header}</h2>
-                        <h4 className={styles.bodyText}>{slide.info}</h4>
-                        <img className={styles.otherPhotos} src={slide.img} alt="not found" />
-                    </div>)
-                    })}
-                </Carousel>
-            </div>
-            <LoginButton auth={auth}/>
-        </div>
+function Login() {
+    const { t, i18n} = useTranslation();
+    return (
+      <div className={styles.home} >
+          <div className={styles.lander}>
+              <div className={styles.textColor}>
+                  <Carousel wrapAround withoutControls transitionMode='fade'>
+                      <div style={{ height: '50vh' }}>
+                          <img className={styles.logo} src={logo} alt={t('common:NOT_FOUND')}/>
+                          <h4 className={styles.bodyText}>{t('LOGIN.TITLE')}</h4>
+                      </div>
+                      {slides.map((slide, index) => {
+                          return (<div key={'slide-' + index}>
+                              <h2>{slide.header}</h2>
+                              <h4 className={styles.bodyText}>{slide.info}</h4>
+                              <img className={styles.otherPhotos} src={slide.img} alt={t('common:NOT_FOUND')} />
+                          </div>)
+                      })}
+                  </Carousel>
+              </div>
+              <LoginButton auth={auth}/>
+          </div>
       </div>
-    }
+    )
 }
 
 export default Login;

@@ -1,18 +1,18 @@
 import React from 'react';
 import { render, fireEvent, screen, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import ProfileFloater from "./index";
+import PureProfileFloater from '../../components/ProfileFloater';
 
 describe('Profile Floater Container', () => {
 
   it('should render properly', () => {
-    render(<ProfileFloater><a>Test</a></ProfileFloater>);
+    render(<PureProfileFloater><a>Test</a></PureProfileFloater>);
     expect(screen.getByText(/test/i)).toBeDefined();
   })
 
   it('should call logout on logout click', () => {
     const logout = jest.fn();
-    render(<ProfileFloater auth={{ logout }}><a>test</a></ProfileFloater>);
+    render(<PureProfileFloater auth={{ logout }}><a>test</a></PureProfileFloater>);
     act(() => {
       fireEvent.click(screen.getByText(/test/i));
     });

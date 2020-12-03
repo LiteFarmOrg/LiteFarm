@@ -135,7 +135,7 @@ class SignUp extends React.Component {
         else if(result.status === 401){
           this.setState({ tokenStatus: 'invalid' });
         }
-        
+
       }
     } catch (error) {
       this.setState({ tokenStatus: 'invalid' });
@@ -300,7 +300,7 @@ class SignUp extends React.Component {
       return (
         <div className={styles.home}>
           <div className={styles.titleContainer}>
-            <h3>{this.props.t('SIGNUP.TITLE')}</h3>
+            <h3 className={styles.h3}>{this.props.t('SIGNUP.TITLE')}</h3>
           </div>
           <Form
             model="profileForms"

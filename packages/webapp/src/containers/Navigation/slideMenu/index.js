@@ -5,17 +5,14 @@ import vectorUp from '../../../assets/images/navbar/vector-up.svg';
 import vectorDown from '../../../assets/images/navbar/vector-down.svg';
 import styles from './styles.scss';
 import history from '../../../history';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { userFarmSelector } from '../../userFarmSlice';
-import {switchFarmCloseSuccess, switchFarmSelector} from "../../switchFarmSlice";
 import { useTranslation } from "react-i18next";
 
 
 function SlideMenu() {
-  const {switchFarm} = useSelector(switchFarmSelector);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
@@ -28,9 +25,6 @@ function SlideMenu() {
   }
 
   const handleStateChange = (state) => {
-    if (switchFarm) {
-      dispatch(switchFarmCloseSuccess());
-    }
     setMenuOpen(state.isOpen);
   }
   const handleClick = (link) => {

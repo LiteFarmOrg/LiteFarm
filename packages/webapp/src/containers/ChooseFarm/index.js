@@ -16,7 +16,6 @@
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
 import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../loginSlice';
-import {switchFarmSuccess} from "../switchFarmSlice"
 import { userFarmsByUserSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
@@ -47,10 +46,7 @@ function ChooseFarm() {
 
   const onProceed = () => {
     dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    if (currentFarmId) {
-      dispatch(switchFarmSuccess())
-    }
-    history.push('/');
+    history.push({ pathname:'/', state: !!currentFarmId });
   }
 
   const onSelectFarm = (farm_id) => {

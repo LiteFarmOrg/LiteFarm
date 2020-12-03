@@ -32,7 +32,6 @@ class PageTitleFragment extends Component{
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
         </div>
-        <hr/>
       </div>
     )
   }

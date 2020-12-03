@@ -42,6 +42,7 @@ export const SignupNavbar = (()=><NoFarmNavBar/>).bind({});
 export const HomeNavbar = Template.bind({});
 
 HomeNavbar.args = {
+  tooltipInteraction: { profile: false },
   auth: {logout: () => {}, isAuthenticated: () => true},
   history: {push: () => {}, location: {pathname: '/home' }, replace: () => {}},
 }

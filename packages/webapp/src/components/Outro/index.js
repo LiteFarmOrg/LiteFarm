@@ -26,7 +26,7 @@ export default function PureOutroSplash({ onContinue, onGoBack }) {
       <Footer style={{ position: 'sticky', bottom: '0' }}
               children={<><Button fullLength color="secondary" onClick={onGoBack}>{t('common:BACK')}</Button>
 
-                <Button fullLength onClick={onContinue}/>{t('common:FINISH')}</Button>
+                <Button fullLength onClick={onContinue}>{t('common:FINISH')}</Button>
               </>}
       >
       </Footer>

@@ -324,6 +324,7 @@ input:disabled {
 
 .bottomContainer{
   width: 100%;
+  max-width: 1024px;
   position: fixed;
   bottom: 0;
   display:flex;

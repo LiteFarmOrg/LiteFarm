@@ -5,7 +5,6 @@ import HelpIcon from '../../assets/images/navbar/help-profile.svg';
 import SwitchFarmIcon from '../../assets/images/navbar/switch-farm.svg';
 import ListOption from "../Navigation/NavBar/ListOption";
 import { useTranslation } from "react-i18next";
-import ListOption from '../Navigation/NavBar/ListOption';
 import Floater from 'react-floater';
 
 

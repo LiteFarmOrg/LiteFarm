@@ -8,14 +8,11 @@ import history from '../../../history';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { userFarmSelector } from '../../userFarmSlice';
-import {switchFarmCloseSuccess, switchFarmSelector} from "../../switchFarmSlice";
 import { useTranslation } from "react-i18next";
 
 
 function SlideMenu() {
-  const {switchFarm} = useSelector(switchFarmSelector);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);

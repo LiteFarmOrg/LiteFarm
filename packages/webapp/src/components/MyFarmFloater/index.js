@@ -7,9 +7,9 @@ import { useTranslation } from "react-i18next";
 
 import Floater from 'react-floater';
 
-export default function PureMyFarmFloater({farmInfo, farmMap, people}) {
-  const { t } = useTranslation();
+
 export function PureMyFarmFloaterComponent({farmInfo, farmMap, people}) {
+  const { t } = useTranslation();
   return (
     <div style={{ maxWidth: '148px', minWidth:'138px',backgroundColor: 'white', borderRadius:'4px', marginRight: '-4px'}}>
       <ListOption clickFn={farmInfo} iconText={t('MY_FARM.FARM_INFO')} iconSrc={FarmInfoIcon} customParagraphStyle={{paddingTop: '0.5rem'}}/>

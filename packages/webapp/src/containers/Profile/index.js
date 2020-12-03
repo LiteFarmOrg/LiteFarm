@@ -62,7 +62,7 @@ class Profile extends Component {
           className={styles.tabs}
           renderActiveTabContentOnly={true}
           disableInlineStyles
-          selectedTab={this.props.history.location.state != undefined ? this.props.history.location.state: "account"}
+          selectedTab={this.props.history.location.state !== undefined ? this.props.history.location.state: "account"}
         >
           <div className={styles.tabLinks}>
             {

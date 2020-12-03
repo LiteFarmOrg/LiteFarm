@@ -414,7 +414,7 @@ class NewField extends Component {
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
                 {
                 this.state.isSavePlanDisabled ?
-                <Button style={{...buttonStyles}} outline>Save Field</Button>
+                <Button style={{...buttonStyles}} outline>{this.props.t('FIELDS.NEW_FIELD.SAVE_FIELD')}</Button>
                 :
                 <Button style={{...buttonStyles, ...activeButtonStyles}}
                     outline

@@ -109,16 +109,16 @@ class Log extends Component{
     fieldOptions.unshift({ value: 'all', label: 'All Fields'});
 
     const logTypes = [
-      { value: 'all', label: 'All' },
-      { value: 'fertilizing', label: 'Fertilizing' },
-      { value: 'pestControl', label: 'Pest Control' },
-      { value: 'harvest', label: 'Harvest' },
-      { value: 'seeding', label: 'Seeding' },
-      { value: 'fieldWork', label: 'Field Work' },
-      { value: 'soilData', label: 'Soil Data' },
-      { value: 'irrigation', label: 'Irrigation' },
-      { value: 'scouting', label: 'Scouting' },
-      { value: 'other', label: 'Other' }
+      { value: 'all', label: this.props.t('LOG_COMMON.ALL') },
+      { value: 'fertilizing', label: this.props.t('LOG_COMMON.FERTILIZING') },
+      { value: 'pestControl', label: this.props.t('LOG_COMMON.PEST') },
+      { value: 'harvest', label: this.props.t('LOG_COMMON.HARVEST') },
+      { value: 'seeding', label: this.props.t('LOG_COMMON.SEEDING') },
+      { value: 'fieldWork', label: this.props.t('LOG_COMMON.FIELD_WORK') },
+      { value: 'soilData', label: this.props.t('LOG_COMMON.SOIL_DATA') },
+      { value: 'irrigation', label: this.props.t('LOG_COMMON.IRRIGATION') },
+      { value: 'scouting', label: this.props.t('LOG_COMMON.SCOUTING') },
+      { value: 'other', label: this.props.t('LOG_COMMON.OTHER') }
     ];
 
     const logLabels = {

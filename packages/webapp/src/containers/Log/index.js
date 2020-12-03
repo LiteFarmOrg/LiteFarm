@@ -33,6 +33,7 @@ import { getFertilizers } from './FertilizingLog/actions';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 
 class Log extends Component{
@@ -108,44 +109,44 @@ class Log extends Component{
     fieldOptions.unshift({ value: 'all', label: 'All Fields'});
 
     const logTypes = [
-      { value: 'all', label: 'All' },
-      { value: 'fertilizing', label: 'Fertilizing' },
-      { value: 'pestControl', label: 'Pest Control' },
-      { value: 'harvest', label: 'Harvest' },
-      { value: 'seeding', label: 'Seeding' },
-      { value: 'fieldWork', label: 'Field Work' },
-      { value: 'soilData', label: 'Soil Data' },
-      { value: 'irrigation', label: 'Irrigation' },
-      { value: 'scouting', label: 'Scouting' },
-      { value: 'other', label: 'Other' }
+      { value: 'all', label: this.props.t('LOG_COMMON.ALL') },
+      { value: 'fertilizing', label: this.props.t('LOG_COMMON.FERTILIZING') },
+      { value: 'pestControl', label: this.props.t('LOG_COMMON.PEST') },
+      { value: 'harvest', label: this.props.t('LOG_COMMON.HARVEST') },
+      { value: 'seeding', label: this.props.t('LOG_COMMON.SEEDING') },
+      { value: 'fieldWork', label: this.props.t('LOG_COMMON.FIELD_WORK') },
+      { value: 'soilData', label: this.props.t('LOG_COMMON.SOIL_DATA') },
+      { value: 'irrigation', label: this.props.t('LOG_COMMON.IRRIGATION') },
+      { value: 'scouting', label: this.props.t('LOG_COMMON.SCOUTING') },
+      { value: 'other', label: this.props.t('LOG_COMMON.OTHER') }
     ];
 
     const logLabels = {
-      'fertilizing': 'Fertilizing',
-      'pestControl': 'Pest Control',
-      'harvest': 'Harvest',
-      'seeding': 'Seeding',
-      'fieldWork': 'Field Work',
-      'soilData': 'Soil Data',
-      'irrigation': 'Irrigation',
-      'scouting': 'Scouting',
-      'other': 'Other'
+      'fertilizing': this.props.t('LOG_COMMON.FERTILIZING'),
+      'pestControl': this.props.t('LOG_COMMON.PEST'),
+      'harvest': this.props.t('LOG_COMMON.HARVEST'),
+      'seeding': this.props.t('LOG_COMMON.SEEDING'),
+      'fieldWork': this.props.t('LOG_COMMON.FIELD_WORK'),
+      'soilData': this.props.t('LOG_COMMON.SOIL_DATA'),
+      'irrigation': this.props.t('LOG_COMMON.IRRIGATION'),
+      'scouting': this.props.t('LOG_COMMON.SCOUTING'),
+      'other': this.props.t('LOG_COMMON.OTHER')
     };
 
     // columns config for react-table
     const columns = [{
       id: 'date',
-      Header: 'Date',
+      Header: this.props.t('LOG_COMMON.DATE'),
       accessor: d => moment(d.date).format('YYYY-MM-DD'),
       minWidth: 85
     }, {
       id: 'activity_kind',
-      Header: 'Activity',
+      Header: this.props.t('LOG_COMMON.ACTIVITY'),
       accessor: d => logLabels[d.activity_kind],
       minWidth: 70
     }, {
       id: 'crop',
-      Header: 'Crop',
+      Header: this.props.t('LOG_COMMON.CROP'),
       accessor: d => {
         if (!d.fieldCrop.length) {
           return 'None'
@@ -159,7 +160,7 @@ class Log extends Component{
         minWidth: 70,
     }, {
       id: 'field',
-      Header: 'Field',
+      Header: this.props.t('common:FIELD'),
       accessor: d => {
         if (!d.field.length) {
           return 'None'
@@ -183,22 +184,22 @@ class Log extends Component{
     return(
       <div className={styles.logContainer}>
         <h4>
-          <strong>FARM LOG</strong>
+          <strong>{this.props.t('LOG_COMMON.FARM_LOG')}</strong>
         </h4>
         <hr/>
-        <h4><b>Action</b></h4>
+        <h4><b>{this.props.t('LOG_COMMON.ACTION')}</b></h4>
         <div className={styles.buttonContainer}>
-          <Button onClick={()=>{history.push('/new_log')}}>Add New Log</Button>
+          <Button onClick={()=>{history.push('/new_log')}}>{this.props.t('LOG_COMMON.ADD_NEW_LOG')}</Button>
         </div>
         <hr/>
         <div>
-          <InfoBoxComponent customStyle={{float: 'right'}} title={'Log Help'} body={'Use the filters below to search your log history. Useful for keeping records of inputs and other farm activities for your team and certifiers.'}/>
-          <h4><b>Log History</b></h4>
+          <InfoBoxComponent customStyle={{float: 'right'}} title={this.props.t('LOG_COMMON.LOG_HELP')} body={this.props.t('LOG_COMMON.LOG_HELP_EXPLANATION')}/>
+          <h4><b>{this.props.t('LOG_COMMON.LOG_HISTORY')}</b></h4>
         </div>
         <div>
-          <h5>Search Log By Activity</h5>
+          <h5>{this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}</h5>
           <DropDown
-            defaultValue={{ value: 'all', label: 'All' }}
+            defaultValue={{ value: 'all', label: this.props.t('LOG_COMMON.ALL') }}
             options={logTypes}
             onChange={(option) => this.setState({ activityFilter: option.value })}
             isSearchable={false}
@@ -207,7 +208,7 @@ class Log extends Component{
             <DropDown
               className={styles.pullLeft}
               options={cropOptions}
-              defaultValue={{ value: 'all', label: 'All Crops' }}
+              defaultValue={{ value: 'all', label: this.props.t('LOG_COMMON.ALL_CROPS') }}
               placeholder='Select Crop'
               onChange={(option) => this.setState({ cropFilter: option.value })}
               isSearchable={false}
@@ -215,7 +216,7 @@ class Log extends Component{
             <DropDown
               className={styles.pullRight}
               options={fieldOptions}
-              defaultValue={{ value: 'all', label: 'All Fields' }}
+              defaultValue={{ value: 'all', label: this.props.t('LOG_COMMON.ALL_FIELDS') }}
               placeholder='Select Field'
               onChange={(option) => this.setState({ fieldFilter: option.value })}
               isSearchable={false}
@@ -224,11 +225,11 @@ class Log extends Component{
           <div>
             <LocalForm model='logDates'>
               <span className={styles.pullLeft}>
-                <label>From</label>
+                <label>{this.props.t('LOG_COMMON.FROM')}</label>
                 <DateContainer style={styles.date} custom={true} date={this.state.startDate} onDateChange={(date) => this.setState({ startDate: date })}/>
               </span>
               <span className={styles.pullRight} >
-                <label>To</label>
+                <label>{this.props.t('LOG_COMMON.TO')}</label>
                 <DateContainer style={styles.date} custom={true} date={this.state.endDate} onDateChange={(date) => this.setState({ endDate: date })}/>
               </span>
             </LocalForm>
@@ -289,4 +290,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Log);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Log));

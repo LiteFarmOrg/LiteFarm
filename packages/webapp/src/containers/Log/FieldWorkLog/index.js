@@ -11,6 +11,7 @@ import styles from '../styles.scss';
 import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
+import {withTranslation} from "react-i18next";
 
 class FieldWorkLog extends Component{
   constructor(props) {
@@ -51,8 +52,8 @@ class FieldWorkLog extends Component{
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Field Work Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_FIELD_WORK.TITLE')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.fieldWorkLog)}>
           <DefaultLogForm
             model=".fieldWorkLog"
@@ -83,4 +84,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldWorkLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(FieldWorkLog));

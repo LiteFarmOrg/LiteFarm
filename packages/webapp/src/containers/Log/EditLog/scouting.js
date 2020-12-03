@@ -14,6 +14,7 @@ import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
+import {withTranslation} from "react-i18next";
 
 class ScoutingLog extends Component{
   constructor(props) {
@@ -71,7 +72,7 @@ class ScoutingLog extends Component{
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Scouting Log"/>
+        <PageTitle backUrl="/log" title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_SCOUTING.TITLE')}`}/>
         <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.scoutingLog)}>
           <DefaultLogForm
@@ -87,7 +88,7 @@ class ScoutingLog extends Component{
             isCropNotRequired={true}
             customFieldset={() => {
               return (
-                <Checkbox type="checkbox" model='.action_needed' title='Action Needed'/>
+                <Checkbox type="checkbox" model='.action_needed' title={this.props.t('LOG_SCOUTING.ACTION_NEEDED')}/>
               )
             }}
           />
@@ -97,7 +98,7 @@ class ScoutingLog extends Component{
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(this.props.selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -119,4 +120,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ScoutingLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ScoutingLog));

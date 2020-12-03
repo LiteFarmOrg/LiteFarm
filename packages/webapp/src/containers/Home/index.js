@@ -5,8 +5,10 @@ import { toastr } from 'react-redux-toastr';
 import WeatherBoard from '../../containers/WeatherBoard';
 import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
+import {useTranslation} from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
   const detectBrowser = () => {
@@ -29,7 +31,7 @@ export default function Home() {
     ) {
       // is Google Chrome
     } else {
-      toastr.warning('Warning: The app is designed for Chrome, some layouts could be misplaced.')
+      toastr.warning(t('HOME.CHROME_WARNING'))
       // not Google Chrome
     }
   }
@@ -39,7 +41,7 @@ export default function Home() {
 
 
 
-  return <PureHome title={`Good day, ${userFarm?.first_name}`}
+  return <PureHome title={`${t('HOME.GREETING')} ${userFarm?.first_name}`}
                                  imgUrl={imgUrl}>
     {userFarm? <WeatherBoard lon={userFarm.grid_points.lng}
                                  lat={userFarm.grid_points.lat}

@@ -14,33 +14,25 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
+import { useTranslation } from "react-i18next";
 
-class Login extends React.Component {
+function LoginButton ({auth}){
+  const { t, i18n} = useTranslation();
 
-  login() {
-    this.props.auth.login();
+  function login() {
+    auth.login();
   }
-
-  render() {
-    return (
-        <div className={styles.submit}>
-            <Button
-              onClick={this.login.bind(this)}
-            >
-              Log In or Sign Up
-            </Button>
-        </div>
-    )
-  }
+  return (
+      <div className={styles.submit}>
+          <Button
+            onClick={() => login()}
+          >
+            {t('common:LOGIN_BUTTON') }
+          </Button>
+      </div>
+  )
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch
-  }
-};
-
-export default connect(null, mapDispatchToProps)(Login);
+export default LoginButton;

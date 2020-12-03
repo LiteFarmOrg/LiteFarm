@@ -22,6 +22,7 @@ import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 
 class FertilizingLog extends Component{
@@ -213,8 +214,8 @@ class FertilizingLog extends Component{
 
     return(
       <div className="page-container" style={{styles}}>
-        <PageTitle backUrl="/log" title="Edit Fertilizing Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/log" title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_FERTILIZING.TITLE')}`}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         {
           (
             <div>
@@ -228,45 +229,45 @@ class FertilizingLog extends Component{
                   isCropNotRequired={true}
                 />
                 <div className={styles.defaultFormDropDown}>
-                  <label>Product</label>
+                  <label>{this.props.t('LOG_COMMON.PRODUCT')}</label>
                   <Control
                     model=".fertLog.fert_id"
                     component={DropDown}
                     options={fertilizerOptions || []}
-                    placeholder="select product"
+                    placeholder={this.props.t('LOG_COMMON.SELECT_PRODUCT')}
                     onChange={this.setSelectedFert}
                   />
                 </div>
                 <div>
-                  <div className={styles.greenTextButton} onClick={()=>this.openEditModal()}> + Add a custom product </div>
+                  <div className={styles.greenTextButton} onClick={()=>this.openEditModal()}> + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')} </div>
                 </div>
-                <Unit model='.fertLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
+                <Unit model='.fertLog.quantity_kg' title={this.props.t('LOG_COMMON.QUANTITY')} type={this.state.quantity_unit} validate/>
                 <div className={styles.noteTitle}>
-                  Notes
+                  {this.props.t('common:NOTES')}
                 </div>
                 <div className={styles.noteContainer}>
                   <Control.textarea model=".fertLog.notes"/>
                 </div>
-                <div className={styles.greenTextButton} onClick={()=>this.toggleChemInfo()}>{this.state.showChem ? 'Hide' : 'Show' } Product Chemical Composition</div>
+                <div className={styles.greenTextButton} onClick={()=>this.toggleChemInfo()}>{this.state.showChem ? 'Hide' : 'Show' } {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}</div>
                 {this.state.showChem && (
                   <div>
                     <div className={styles.noteTitle}>
-                      Chemical composition:
+                      {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                     </div>
                     <div className={styles.chemContainer}>
-                      <label>NO3(Nitrate)</label>
+                      <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
                       <Control.text model=".fertLog.n_percentage"  disabled={true} /><span>%</span>
                     </div>
                     <div className={styles.chemContainer}>
-                      <label>NH4(Ammonia)</label>
+                      <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
                       <Control.text model=".fertLog.nh4_n_ppm" disabled={true} /><span>ppm</span>
                     </div>
                     <div className={styles.chemContainer}>
-                      <label>K(Potassium)</label>
+                      <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
                       <Control.text model=".fertLog.k_percentage" disabled={true} /><span>%</span>
                     </div>
                     <div className={styles.chemContainer}>
-                      <label>P(Phosphate)</label>
+                      <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
                       <Control.text model=".fertLog.p_percentage" disabled={true} /><span>%</span>
                     </div>
                     <div className={styles.chemContainer}>
@@ -282,7 +283,7 @@ class FertilizingLog extends Component{
                 open={this.state.showModal}
                 onClose={() => this.setState({ showModal: false })}
                 onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-                message='Are you sure you want to delete this log?'
+                message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
               />
 
               <Popup
@@ -299,40 +300,40 @@ class FertilizingLog extends Component{
                       <a className={styles.close} onClick={this.closeEditModal}>
                         <img src={closeButton} alt=""/>
                       </a>
-                      <h3>Add a Fertilizer</h3>
+                      <h3>{this.props.t('LOG_FERTILIZING.ADD_FERTILIZER')}</h3>
                     </div>
                   </div>
                   <div className={styles.defaultFormDropDown}>
-                    <label>Default Product</label>
+                    <label>{this.props.t('LOG_COMMON.DEFAULT_PRODUCT')}</label>
                     <Control
                       model=".fertLog.fert_id"
                       component={DropDown}
                       options={fertilizerOptions || []}
-                      placeholder="select product template"
+                      placeholder={this.props.t('LOG_COMMON.PRODUCT_TEMPLATE_PLACEHOLDER')}
                       onChange={this.setSelectedFert}
                     />
                   </div>
                   <div className={styles.textContainer}>
-                    <label>Product Name</label>
+                    <label>{this.props.t('LOG_COMMON.PRODUCT_NAME')}</label>
                     <Control.text model=".fertLog.product"/>
                   </div>
                   <div className={styles.noteTitle}>
-                    Chemical composition:
+                    {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>NO3(Nitrate)</label>
+                    <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
                     <Control.input type="number" step="any" model=".fertLog.n_percentage" /><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>NH4(Ammonia)</label>
+                    <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
                     <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm" /><span>ppm</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>K(Potassium)</label>
+                    <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
                     <Control.input type="number" step="any" model=".fertLog.k_percentage" /><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>P(Phosphate)</label>
+                    <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
                     <Control.input type="number" step="any" model=".fertLog.p_percentage" /><span>%</span>
                   </div>
                   <div className={styles.chemContainer}>
@@ -340,7 +341,7 @@ class FertilizingLog extends Component{
                     <Control.input type="number" step="any" model=".fertLog.moisture_percentage" /><span>%</span>
                   </div>
                   <div className={styles.centerButton}>
-                    <div className="btn btn-primary" onClick={this.saveCustomFert}>Save</div>
+                    <div className="btn btn-primary" onClick={this.saveCustomFert}>{this.props.t('common:SAVE')}</div>
                   </div>
                 </Form>
               </Popup>
@@ -349,7 +350,7 @@ class FertilizingLog extends Component{
           )
         }
         {
-          (!crops || !fields || !fertilizers) && <p>Error: Missing Crops or fields</p>
+          (!crops || !fields || !fertilizers) && <p>{this.props.t('LOG_COMMON.ERROR_MISSING_CROP_FIELDS')}</p>
         }
       </div>
     )
@@ -374,4 +375,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FertilizingLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(FertilizingLog));

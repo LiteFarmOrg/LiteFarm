@@ -259,12 +259,12 @@ class userFarmController extends baseController {
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-
+        const patch = { has_consent, consent_version };
+        if (has_consent) {
+          patch.status = 'Active';
+        }
         const isPatched = await userFarmModel.query(trx).where('user_id', user_id).andWhere('farm_id', farm_id)
-          .patch({
-            has_consent,
-            consent_version,
-          });
+          .patch(patch);
 
         const replacements = {
           first_name: rows[0].first_name,
@@ -407,7 +407,7 @@ class userFarmController extends baseController {
 
       try {
         const targetUser = await userFarmModel.query().select('*')
-          .where({'userFarm.user_id': user_id, 'userFarm.farm_id': farm_id})
+          .where({ 'userFarm.user_id': user_id, 'userFarm.farm_id': farm_id })
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
           .first();
@@ -673,7 +673,7 @@ async function appendOwners(userFarms) {
   for (const userFarm of userFarms) {
     map[userFarm.farm_id] = { ...userFarm, owner_name: null };
   }
-  for (const owner of owners){
+  for (const owner of owners) {
     map[owner.farm_id].owner_name = `${owner.first_name} ${owner.last_name}`;
   }
   return Object.values(map);

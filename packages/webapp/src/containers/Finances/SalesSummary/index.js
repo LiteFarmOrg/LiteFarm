@@ -12,6 +12,7 @@ import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
 import { BsCaretRight } from "react-icons/all";
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -136,7 +137,7 @@ class SalesSummary extends Component {
       Header: 'Crop',
       accessor: (e) => e.crop,
       minWidth: 75,
-      Footer: <div>Total</div>
+      Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>
     }, {
       id: 'value',
       Header: 'Value',
@@ -152,11 +153,11 @@ class SalesSummary extends Component {
 
     return (
       <div className={styles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Sales'/>
+        <PageTitle backUrl='/Finances' title={this.props.t('SALE.SUMMARY.TITLE')}/>
         <DateRangeSelector changeDateMethod={this.changeDate}/>
         <hr/>
         <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
+          <h4><strong>{this.props.t('SALE.SUMMARY.SUMMARY')}</strong></h4>
         </div>
 
         <Table
@@ -174,7 +175,7 @@ class SalesSummary extends Component {
         />
         <hr/>
         <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
+          <h4><strong>{this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}</strong></h4>
         </div>
         <Table
           columns={detailedHistoryColumns}
@@ -219,4 +220,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SalesSummary));

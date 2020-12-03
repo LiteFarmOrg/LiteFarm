@@ -33,7 +33,7 @@ class User extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'first_name', 'last_name', 'email'],
+      required: ['first_name', 'last_name', 'email'],
 
       properties: {
         user_id: { type: 'string' },
@@ -57,6 +57,7 @@ class User extends Model {
         },
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },
+        password_hash: { type: 'string' },
       },
       additionalProperties: false,
     };

@@ -17,6 +17,7 @@ import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal, roundT
 import { deleteLog, editLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 const parsedTextureOptions = [
   {label: 'Sand', value:'sand'},
@@ -162,7 +163,7 @@ class soilDataLog extends Component{
       return (
         <div>
           <div className={styles.defaultFormDropDown}>
-            <label>Depth</label>
+            <label>{this.props.t('LOG_SOIL.DEPTH')}</label>
             <Control model='.depth_cm'
                      component={DropDown}
                      options={parsedDepthOptions || []}
@@ -190,8 +191,8 @@ class soilDataLog extends Component{
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Soil Data Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/log" title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_SOIL.TITLE')}`}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val)}>
           <DefaultLogForm
             parent='logReducer.forms'
@@ -204,12 +205,12 @@ class soilDataLog extends Component{
             notesField={true}
             customFieldset={customFieldset}
           />
-          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>{this.state.showMoreInfo ? 'Hide' : 'Show'} More Info</div>
+          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>{this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}</div>
           {this.state.showMoreInfo &&
           <div>
-            <Unit model='.soilDataLog.organic_carbon' title='Organic Carbon' type='%'/>
-            <Unit model='.soilDataLog.inorganic_carbon' title='Inorganic Carbon' type='%'/>
-            <Unit model='.soilDataLog.total_carbon' title='Total Carbon' type='%'/>
+            <Unit model='.soilDataLog.organic_carbon' title={this.props.t('LOG_SOIL.ORGANIC_CARBON')} type='%'/>
+            <Unit model='.soilDataLog.inorganic_carbon' title={this.props.t('LOG_SOIL.INORGANIC_CARBON')} type='%'/>
+            <Unit model='.soilDataLog.total_carbon' title={this.props.t('LOG_SOIL.TOTAL_CARBON')} type='%'/>
             <Unit model='.soilDataLog.s' title='S' type='%'/>
             <Unit model='.soilDataLog.c' title='C' type='%'/>
             <Unit model='.soilDataLog.ca' title='Ca' type='%'/>
@@ -229,7 +230,7 @@ class soilDataLog extends Component{
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -257,4 +258,4 @@ const grabLabelFromValue = (value, type) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(soilDataLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(soilDataLog));

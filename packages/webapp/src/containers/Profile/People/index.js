@@ -23,6 +23,7 @@ import Cleave from 'cleave.js/react.js';
 import { toastr } from 'react-redux-toastr';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from './saga';
+import {withTranslation} from "react-i18next";
 
 const generator = require('generate-password');
 const { v4: uuidv4 } = require('uuid');
@@ -416,7 +417,7 @@ class People extends Component {
       return (
         <div className={styles.addUserContainer}>
           <div className={styles.addUserTitleContainer}>
-            <h3 className={styles.userTitle}>Invite a User</h3>
+            <h3 className={styles.userTitle}>{this.props.t('PROFILE.PEOPLE.INVITE_USER')}</h3>
           </div>
           <Form
             className={styles.formContainer}
@@ -425,7 +426,7 @@ class People extends Component {
           >
             <div className={styles.formBodyContainer}>
               <div className={this.getTextFieldStyle('first_name')}>
-                <label>First Name</label>
+                <label>{this.props.t('PROFILE.ACCOUNT.FIRST_NAME')}</label>
                 <Control.text
                   model=".addInfo.first_name"
                   validators={{
@@ -437,7 +438,7 @@ class People extends Component {
               <Errors
                 model="profileForms.addInfo.first_name"
                 messages={{
-                  required: 'First name cannot be empty',
+                  required: this.props.t('PROFILE.PEOPLE.FIRST_NAME_NOT_EMPTY'),
                 }}
                 show={field => field.touched && !field.focus}
                 component={(props) => (
@@ -447,7 +448,7 @@ class People extends Component {
                 )}
               />
               <div className={this.getTextFieldStyle('last_name')}>
-                <label>Last Name</label>
+                <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
                 <Control.text
                   model=".addInfo.last_name"
                   validators={{
@@ -459,7 +460,7 @@ class People extends Component {
               <Errors
                 model=".addInfo.last_name"
                 messages={{
-                  required: 'Last name cannot be empty',
+                  required: this.props.t('PROFILE.PEOPLE.LAST_NAME_NOT_EMPTY'),
                 }}
                 show={field => field.touched && !field.focus}
                 component={(props) => (
@@ -469,7 +470,7 @@ class People extends Component {
                 )}
               />
               <div className={styles.inputContainer}>
-                <label>Role</label>
+                <label>{this.props.t('PROFILE.PEOPLE.ROLE')}</label>
                 <Control.custom
                   model=".addInfo.role"
                   defaultValue="0"
@@ -484,7 +485,7 @@ class People extends Component {
                   mapProps={{
                     isSearchable: false,
                     options: dropDownOptions,
-                    placeholder: 'Select role',
+                    placeholder: this.props.t('PROFILE.PEOPLE.SELECT_ROLE'),
                     styles: {
                       container: (provided, state) => ({
                         ...provided,
@@ -557,7 +558,7 @@ class People extends Component {
                           addInfo.role === 3
                             && (
                               <p className={styles.emailInputReminder}>
-                                {`Users without an email won't be able to login`}
+                                {this.props.t('PROFILE.PEOPLE.USERS_NO_EMAIL_NO_LOGIN')}
                               </p>
                             )
                         }
@@ -565,7 +566,7 @@ class People extends Component {
                       <Errors
                         model=".addInfo.email"
                         messages={{
-                          required: 'Email cannot be empty for the selected role',
+                          required: this.props.t('PROFILE.PEOPLE.EMAIL_CANNOT_BE_EMPTY'),
                           validEmail: 'Email must be valid',
                         }}
                         show={field => field.touched && !field.focus}
@@ -603,7 +604,7 @@ class People extends Component {
                       <Errors
                         model=".addInfo.pay.amount"
                         messages={{
-                          validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
+                          validWage: this.props.t('PROFILE.PEOPLE.WAGE_MUST_BE_VALID'),
                         }}
                         show={field => field.touched && !field.focus}
                         component={(props) => (
@@ -621,14 +622,14 @@ class People extends Component {
                 className={styles.cancelButton}
                 onClick={() => this.closeAddModal()}
               >
-                Cancel
+                {this.props.t('common:CANCEL')}
               </button>
               <button
                 type="submit"
                 className={styles.inviteButton}
                 disabled={this.isDisabled()}
               >
-                Invite
+                {this.props.t('PROFILE.PEOPLE.INVITE')}
               </button>
             </div>
           </Form>
@@ -640,7 +641,7 @@ class People extends Component {
       <div>
         <div className={styles.userListContainer}>
           <div className={styles.searchFieldContainer}>
-            <i className="material-icons">search</i>
+            <i className="material-icons">{this.props.t('PROFILE.PEOPLE.SEARCH')}</i>
             <input
               id="searchField"
               type="search"
@@ -649,7 +650,7 @@ class People extends Component {
               className={styles.searchField}
             />
           </div>
-          <label htmlFor="searchField" className={styles.searchLabel}>{`${filteredData.length} users found`}</label>
+          <label htmlFor="searchField" className={styles.searchLabel}>{`${filteredData.length} ${this.props.t('PROFILE.PEOPLE.USERS_FOUND')}`}</label>
           <Table
             columns={summaryColumns}
             data={filteredData}
@@ -666,7 +667,7 @@ class People extends Component {
                   className={styles.addButton}
                   onClick={() => this.openAddModal(true)}
                 >
-                  Invite User
+                  {this.props.t('PROFILE.PEOPLE.INVITE_USER')}
                 </button>
               )
               : null
@@ -684,7 +685,7 @@ class People extends Component {
               <a className={styles.close} onClick={this.closeEditModal}>
                 <img src={closeButton} alt=""/>
               </a>
-              <h3>Edit {editTitle}</h3>
+              <h3>{this.props.t('common:EDIT')} {editTitle}</h3>
             </div>
             {
               this.state.editUser && (
@@ -699,17 +700,17 @@ class People extends Component {
                       </div>
                     }
                     <div className={styles.labelContainer}>
-                      <label>First<br/>Name</label>
+                      <label>{this.props.t('PROFILE.ACCOUNT.FIRST_NAME')}</label>
                       <Cleave type='text' model=".editInfo.first_name" disabled={true}
                               value={this.state.editUser.first_name}/>
                     </div>
                     <div className={styles.labelContainer}>
-                      <label>Last<br/>Name</label>
+                      <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
                       <Cleave type='text' model=".editInfo.last_name" disabled={true}
                               value={this.state.editUser.last_name}/>
                     </div>
                     <div className={styles.labelContainer}>
-                      <label>Email</label>
+                      <label>{this.props.t('PROFILE.ACCOUNT.EMAIL')}</label>
                       <Cleave type='text'
                               model=".editInfo.email"
                               onInit={this.onEditEmailInit}
@@ -723,22 +724,22 @@ class People extends Component {
                     {
                       (this.state.editUser.role_id !== 4 || this.state.willConvertWorker) && <div>
                         <Alert variant="warning">
-                          Role change will take full effect upon next login. Workers cannot set themselves to Admins.
+                          {this.props.t('PROFILE.PEOPLE.ROLE_CHANGE_ALERT')}
                         </Alert>
                         <div className={styles.selectContainer}>
-                          <label>Role</label>
+                          <label>{this.props.t('PROFILE.PEOPLE.ROLE')}</label>
                           <Control.select model=".editInfo.role" onChange={this.updateRoleSelection}
                                           defaultValue={this.state.editUser.role_id === 4 ? 3 : this.state.editUser.role_id}>
-                            <option value="5">Extension Officer</option>
-                            <option value="3">Farm Worker</option>
-                            <option value="2">Farm Manager</option>
-                            <option value="1">Farm Owner</option>
+                            <option value="5">{this.props.t('PROFILE.PEOPLE.EO')}</option>
+                            <option value="3">{this.props.t('PROFILE.PEOPLE.FARM_WORKER')}</option>
+                            <option value="2">{this.props.t('PROFILE.PEOPLE.FARM_MANAGER')}</option>
+                            <option value="1">{this.props.t('PROFILE.PEOPLE.FARM_OWNER')}</option>
                           </Control.select>
                         </div>
                       </div>
                     }
                     <div className={styles.selectContainer}>
-                      <label>Pay ({currencySymbol})</label>
+                      <label>{this.props.t('PROFILE.PEOPLE.PAY')} ({currencySymbol})</label>
                       <Cleave model=".editInfo.pay.amount"
                               type="number" step='0.01'
                               value={this.state.editedUser.wage.amount}
@@ -746,7 +747,7 @@ class People extends Component {
                               onBlur={this.validationCheck}/>
                       <Control.select model=".editInfo.pay.type" onChange={this.updateWageType}
                                       defaultValue={this.state.editedUser.wage.type}>
-                        <option value="hourly">hourly</option>
+                        <option value="hourly">{this.props.t('PROFILE.PEOPLE.HOURLY')}</option>
                         {/*<option value="daily">daily</option>*/}
                         {/*<option value="annually">annually</option>*/}
                       </Control.select>
@@ -754,7 +755,7 @@ class People extends Component {
                     {this.state.edit_wage_error.length > 0 &&
                     <span className={styles.error}>{this.state.edit_wage_error}</span>}
                     <div className={defaultStyles.saveButton}>
-                      <Button type='submit' variant='primary' disabled={!this.state.updated_edit}>Update</Button>
+                      <Button type='submit' variant='primary' disabled={!this.state.updated_edit}>{this.props.t('common:UPDATE')}</Button>
                     </div>
                   </Form>
                   {(this.state.editUser.status === 'Inactive') ?
@@ -762,14 +763,15 @@ class People extends Component {
                       {
                         !this.state.editUser.is_admin && <button className={styles.removeButton}
                                                                 onClick={() => this.reactivate(this.state.editUser.user_id)}>
-                          Restore User Access</button>
+                          {this.props.t('PROFILE.PEOPLE.RESTORE_ACCESS')}
+                        </button>
                       }
                     </div> :
                     <div style={{"textAlign": "center"}}>
                       {
                         !this.state.editUser.is_admin && <button className={styles.removeButton}
                                                                 onClick={() => this.deactivate(this.state.editUser.user_id)}>
-                          Revoke User Access</button>
+                          {this.props.t('PROFILE.PEOPLE.REVOKE_ACCESS')}</button>
                       }
                     </div>
                   }
@@ -801,4 +803,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(People);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(People));

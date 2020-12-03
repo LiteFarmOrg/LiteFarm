@@ -8,9 +8,14 @@ import history from '../../../history';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { userFarmSelector } from '../../userFarmSlice';
+import {switchFarmCloseSuccess, switchFarmSelector} from "../../switchFarmSlice";
+import { useTranslation } from "react-i18next";
 
 
 function SlideMenu() {
+  const {switchFarm} = useSelector(switchFarmSelector);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
@@ -26,7 +31,6 @@ function SlideMenu() {
     setMenuOpen(state.isOpen);
   }
   const handleClick = (link) => {
-    console.log("open menu")
     history.push(link);
     setMenuOpen(!menuOpen);
   }
@@ -41,7 +45,7 @@ function SlideMenu() {
           <img src={logo} alt={"logo"} onClick={() => handleClick("/")}/>
         </div>
         {
-          <a id="manage" className="menu-item" onClick={() => toggleManage()}><span>Manage </span><img
+          <a id="manage" className="menu-item" onClick={() => toggleManage()}><span>{t('SLIDE_MENU.MANAGE')}</span><img
             src={manageOpen ? vectorUp : vectorDown} alt={"logo"}/></a>
         }
         {manageOpen &&
@@ -49,35 +53,35 @@ function SlideMenu() {
           {
             (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5)
             &&
-            <a id="field" className="menu-item" onClick={() => handleClick("/Field")}><span>Fields</span></a>
+            <a id="field" className="menu-item" onClick={() => handleClick("/Field")}><span>{t('SLIDE_MENU.FIELDS')}</span></a>
           }
           {/* <a id="crops" className="menu-item" ><span>Crops</span></a> */}
-          <a id="log" className="menu-item" onClick={() => handleClick("/Log")}><span>Logs</span></a>
-          <a id="shift" className="menu-item" onClick={() => handleClick("/Shift")}><span>Shifts</span></a>
+          <a id="log" className="menu-item" onClick={() => handleClick("/Log")}><span>{t('SLIDE_MENU.LOGS')}</span></a>
+          <a id="shift" className="menu-item" onClick={() => handleClick("/Shift")}><span>{t('SLIDE_MENU.SHIFTS')}</span></a>
 
           {/* <a id="tasks" className="menu-item" ><span>Tasks</span></a> */}
           {/* <a id="inventory" className="menu-item" ><span>Inventory</span></a> */}
-          <a id="profile" className="menu-item" onClick={() => handleClick("/Profile")}><span>Users</span></a>
+          <a id="profile" className="menu-item" onClick={() => handleClick("/Profile")}><span>{t('SLIDE_MENU.USERS')}</span></a>
         </div>
         }
         {
           (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
-          <a id="finances" className="menu-item" onClick={() => handleClick("/Finances")}><span>Finances</span></a>
+          <a id="finances" className="menu-item" onClick={() => handleClick("/Finances")}><span>{t('SLIDE_MENU.FINANCES')}</span></a>
         }
 
         {
           (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 3 || Number(farm.role_id) === 5) &&
-          <a id="insights" className="menu-item" onClick={() => handleClick("/Insights")}><span>Insights</span></a>
+          <a id="insights" className="menu-item" onClick={() => handleClick("/Insights")}><span>{t('SLIDE_MENU.INSIGHTS')}</span></a>
         }
         {
-          <a id="support" className="menu-item" onClick={() => toggleSupport()}><span>Support</span><img
+          <a id="support" className="menu-item" onClick={() => toggleSupport()}><span>{t('SLIDE_MENU.SUPPORT')}</span><img
             src={supportOpen ? vectorUp : vectorDown} alt={"logo"}/></a>
         }
         {supportOpen &&
         <div className={styles["sub-menu"]} style={{ 'display': 'grid' }}>
           {
             (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 3 || Number(farm.role_id) === 5) &&
-            <a id="demo" className="menu-item" onClick={() => handleClick("/intro")}><span>Demos</span></a>
+            <a id="demo" className="menu-item" onClick={() => handleClick("/intro")}><span>{t('SLIDE_MENU.DEMOS')}</span></a>
           }
           {/*<a id="contact" className="menu-item" onClick={() => handleClick("/contact")}><span>Contact us</span></a>*/}
           {/*<a id="terms" className="menu-item"*/}

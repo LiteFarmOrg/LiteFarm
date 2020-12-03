@@ -16,6 +16,7 @@ import parseFields from '../Utility/parseFields';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 // const customFieldset = () => {
 //   return (<div>
@@ -87,15 +88,15 @@ class IrrigationLog extends Component{
 
     const customFieldset = () => {
       return (<div>
-        <Unit model='.flow_rate_l/min' title='Flow Rate' dropdown={true} options={rateOptions}/>
-        <Unit model='.hours' title='Total Time' type='hrs'/>
+        <Unit model='.flow_rate_l/min' title={this.props.t('LOG_IRRIGATION.FLOW_RATE')} dropdown={true} options={rateOptions}/>
+        <Unit model='.hours' title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type='hrs'/>
       </div>)
     };
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Irrigation Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/log" title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_IRRIGATION.TITLE')}`}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.irrigationLog)}>
           <DefaultLogForm
             selectedCrops={selectedCrops}
@@ -117,7 +118,7 @@ class IrrigationLog extends Component{
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -140,4 +141,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IrrigationLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(IrrigationLog));

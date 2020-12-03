@@ -31,6 +31,7 @@ import DateRangeSelector from "../../components/Finances/DateRangeSelector";
 import InfoBoxComponent from "../../components/InfoBoxComponent";
 import {extendMoment} from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 const moment = extendMoment(Moment);
 
@@ -355,17 +356,17 @@ class Finances extends Component {
     return (
       <div className={styles.financesContainer}>
         <h4>
-          <strong>FINANCES</strong>
+          <strong>{this.props.t('SALE.FINANCES.TITLE')}</strong>
         </h4>
         <hr/>
-        <h4><b>Action</b></h4>
+        <h4><b>{this.props.t('SALE.FINANCES.ACTION')}</b></h4>
         <div className={styles.buttonContainer}>
           <Button onClick={() => {
             history.push('/expense_categories')
-          }}>Add New Expense </Button>
+          }}>{this.props.t('SALE.FINANCES.ADD_NEW_EXPENSE')}</Button>
           <Button onClick={() => {
             history.push('add_sale')
-          }}>Add New Sale</Button>
+          }}>{this.props.t('SALE.FINANCES.ADD_NEW_SALE')}</Button>
         </div>
         <hr/>
         <DateRangeSelector changeDateMethod={this.changeDate}/>
@@ -373,45 +374,40 @@ class Finances extends Component {
         <hr/>
         <div data-test="finance_summary" className={styles.align}>
           <h5 className={styles.balanceTitle}>
-            <strong>Expenses</strong>
+            <strong>{this.props.t('SALE.FINANCES.EXPENSES')}</strong>
           </h5>
-          <DescriptiveButton label='Labour' number={this.state.currencySymbol + labourExpense.toString()}
+          <DescriptiveButton label={this.props.t('SALE.FINANCES.LABOUR_LABEL')} number={this.state.currencySymbol + labourExpense.toString()}
                              onClick={() => history.push('/labour')}/>
-          <DescriptiveButton label='Other Expenses' number={this.state.currencySymbol + otherExpense.toString()}
+          <DescriptiveButton label={this.props.t('SALE.FINANCES.OTHER_EXPENSES_LABEL')} number={this.state.currencySymbol + otherExpense.toString()}
                              onClick={() => history.push('/other_expense')}/>
 
           <hr/>
           <h5 className={styles.balanceTitle}>
-            <strong>Revenue</strong>
+            <strong>{this.props.t('SALE.FINANCES.REVENUE')}</strong>
           </h5>
-          <DescriptiveButton label='Actual' number={this.state.currencySymbol + totalRevenue}
+          <DescriptiveButton label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')} number={this.state.currencySymbol + totalRevenue}
                              onClick={() => history.push('/sales_summary')}/>
-          <DescriptiveButton label='Estimated' number={this.state.currencySymbol + estimatedRevenue}
+          <DescriptiveButton label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_ESTIMATED')} number={this.state.currencySymbol + estimatedRevenue}
                              onClick={() => history.push('/estimated_revenue')}/>
 
           <hr/>
           <h5 className={styles.balanceTitle}>
-            <strong>Balance (Whole Farm)</strong>
+            <strong>{this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}</strong>
           </h5>
           <div className={styles.greyBox}>
-            <div className={styles.balanceDetail}><p>Revenue:</p> <p>{this.state.currencySymbol + totalRevenue}</p>
+            <div className={styles.balanceDetail}><p>{this.props.t('SALE.FINANCES.REVENUE')}:</p> <p>{this.state.currencySymbol + totalRevenue}</p>
             </div>
-            <div className={styles.balanceDetail}><p>Expense:</p>
+            <div className={styles.balanceDetail}><p>{this.props.t('SALE.FINANCES.EXPENSES')}:</p>
               <p>{this.state.currencySymbol + totalExpense.toString()}</p></div>
-            <div className={styles.balanceDetail}><p>Balance:</p>
+            <div className={styles.balanceDetail}><p>{this.props.t('SALE.FINANCES.BALANCE')}:</p>
               <p>{this.state.currencySymbol + (parseFloat(totalRevenue) - parseFloat(totalExpense)).toFixed(2)}</p>
             </div>
           </div>
 
           <h5 className={styles.balanceTitle}>
-            <InfoBoxComponent customStyle={{float: 'right', fontSize: '80%', marginTop: '0.2em'}} title={"Finance Help"}
-                              body = {"We compute a real-time balance (‘cost of production’) for each crop on your farm. " +
-                                "This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, " +
-                                "one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses " +
-                                "logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. " +
-                                "Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. " +
-                                "This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window."}/>
-            <strong>Balance (By Crop)</strong>
+            <InfoBoxComponent customStyle={{float: 'right', fontSize: '80%', marginTop: '0.2em'}} title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
+                              body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}/>
+            <strong>{this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}</strong>
           </h5>
           <div className={styles.greyBox}>
             {
@@ -424,7 +420,7 @@ class Finances extends Component {
             }
             {
               balanceByCrop.length < 1 &&
-              <h4>Please ensure that at least 1 crop and an associated sale or shift has been allocated to see this information.</h4>
+              <h4>{this.props.t('SALE.FINANCES.ENSURE_ONE_CROP_WARNING')}</h4>
             }
             {
               hasUnAllocated &&
@@ -433,25 +429,18 @@ class Finances extends Component {
             {
               hasUnAllocated &&
               <Alert variant="warning" style={{marginTop: '8px', display: showUnTip}}>
-                *Unallocated means that work has been done on an empty field for the selected date range. <br/>
-                If one or more crops were added to an empty field later and there exists a shift related to the crops,
-                then the work done on that empty field will be evenly distributed to each crop.<br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE1')} <br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE2')}<br/>
                 <br/>
-                E.g.<br/>
-                For date range <code>January 1st</code> to <code>April 1st</code>
-                and two empty field <code>Field1</code> & <code>Field2</code>.<br/><br/>
-                Assume shifts has been submitted for both fields(cost={this.state.currencySymbol}30 for each field),
-                then the Unallocated value would be <code>Field1's work + Field2's work =
-                -{this.state.currencySymbol}60</code>.<br/><br/>
-                Later corn and lettuce has been planted on <code>Field1</code> and related shifts have been submitted
-                within the date range, then the Unallocated value would be
-                <code>Field2's work = -{this.state.currencySymbol}30</code>.<br/>
-                Corn and lettuce will each be allocated with an extra cost of <code>{this.state.currencySymbol}30/2
-                = {this.state.currencySymbol}15</code>.<br/><br/>
-                If lettuce is added to Field1 but no shift related to lettuce or Field1 is submitted, or submitted later
-                than April 1st,
-                then Corn will be allocated with a full amount of <code>{this.state.currencySymbol}30</code> from
-                Field1.
+                {this.props.t('common:EG')}<br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE3_1')} <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE3_2')}</code> {this.props.t('common:TO')} <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE3_3')}</code>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE4')} <code>{this.props.t('common:FIELD')}1</code> & <code>{this.props.t('common:FIELD')}2</code>.<br/><br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE5_1')}{this.state.currencySymbol}{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE5_2')},
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE6_1')} <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE6_2')}{this.state.currencySymbol}60</code>.<br/><br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_1')} <code>{this.props.t('common:FIELD')}1</code> {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE7_2')}
+                <code>{this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE8')}{this.state.currencySymbol}30</code>.<br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE9')} <code>{this.state.currencySymbol}30/2 = {this.state.currencySymbol}15</code>.<br/><br/>
+                {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE10_1')}<code>{this.state.currencySymbol}30</code> {this.props.t('SALE.FINANCES.HAS_UNALLOCATED_LINE10_2')}
               </Alert>
             }
 
@@ -479,4 +468,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Finances);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Finances));

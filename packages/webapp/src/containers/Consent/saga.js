@@ -17,7 +17,7 @@
 import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import { userFarmSelector, patchConsentStepThreeSuccess } from '../userFarmSlice';
+import { userFarmSelector, patchConsentStepThreeSuccess, patchStatusConsentSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { getHeader } from '../saga';
 import history from '../../history';
@@ -26,7 +26,7 @@ const axios = require('axios');
 export const patchConsent = createAction('patchConsentSaga');
 export function* patchConsentSaga({ payload }) {
   const userFarm = yield select(userFarmSelector);
-  const { user_id, farm_id, step_three, step_three_end } = userFarm;
+  const { user_id, farm_id, step_three, step_three_end, status } = userFarm;
   const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
   const header = getHeader(user_id, farm_id);
   let data = {
@@ -42,8 +42,13 @@ export function* patchConsentSaga({ payload }) {
       call(axios.patch, userFarmUrl + '/consent/farm/' + farm_id + '/user/' + user_id, data, header),
       !step_three && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
-    yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
-    history.push('/interested_in_organic')
+    if(status === 'Invited') {
+      yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
+      history.push('/');
+    } else{
+      yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
+      history.push('/interested_in_organic');
+    }
   } catch (e) {
     toastr.error('Failed to update user agreement');
   }

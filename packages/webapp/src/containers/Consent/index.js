@@ -8,8 +8,10 @@ import PureConsent from '../../components/Consent';
 import history from '../../history';
 import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
+import {useTranslation} from "react-i18next";
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_in_organic' }) {
+  const { t } = useTranslation();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
@@ -43,12 +45,12 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
   return (
     <PureConsent checkboxArgs={{
       inputRef: checkBoxRef,
-      label: 'I Agree',
+      label: t('CONSENT.LABEL'),
       name: checkboxName,
       errors: errors[checkboxName] && errors[checkboxName].message,
     }}
                  onSubmit={handleSubmit(updateConsent)}
-                 onGoBack={goBack}
+                 onGoBack={goBackTo ? goBack: null}
                  text={consent}
                  disabled={!hasConsent}
     >

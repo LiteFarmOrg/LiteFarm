@@ -38,6 +38,7 @@ router.get('/active/farm/:farm_id', hasFarmAccess({params: 'farm_id'}), checkSco
 // router.post('/', hasFarmAccess(), checkScope(['add:users']), userFarmController.addUserFarm());
 
 // Update consent status for a userFarm referenced by user_id
+// If userFarm status is Inactive or Invited, status will be set to Active
 // no permission limits
 router.patch('/consent/farm/:farm_id/user/:user_id', userFarmController.updateConsent());
 

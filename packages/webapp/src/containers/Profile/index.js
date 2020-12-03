@@ -21,35 +21,36 @@ import styles from './styles.scss'
 import { connect } from 'react-redux';
 import { TabContent, TabLink, Tabs } from 'react-tabs-redux';
 import { userFarmSelector } from '../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
-const tabs = [
-  {
-    key: 'account',
-    path: 'account',
-    label: 'Account',
-    access: ['all'],
-  },
-  {
-    key: 'people',
-    path: 'people',
-    label: 'People',
-    access: ['all'],
-  },
-  {
-    key: 'farm',
-    path: 'farm',
-    label: 'Farm',
-    access: ['owner', 'manager', 'extension officer'],
-  },
-];
 
 class Profile extends Component {
   constructor(props) {
     super(props);
+
   }
 
   render() {
-
+    const tabs = [
+      {
+        key: 'account',
+        path: 'account',
+        label: this.props.t('PROFILE.ACCOUNT_TAB'),
+        access: ['all'],
+      },
+      {
+        key: 'people',
+        path: 'people',
+        label: this.props.t('PROFILE.PEOPLE_TAB'),
+        access: ['all'],
+      },
+      {
+        key: 'farm',
+        path: 'farm',
+        label: this.props.t('PROFILE.FARM_TAB'),
+        access: ['owner', 'manager', 'extension officer'],
+      },
+    ];
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet
     const { role } = farm;
     const currentUserRole = (role || '').toLowerCase();
@@ -105,4 +106,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Profile));
+

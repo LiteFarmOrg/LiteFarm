@@ -8,6 +8,7 @@ import apiConfig from '../../apiConfig';
 import Auth from '../../Auth/Auth';
 import Callback from '../../components/Callback';
 import InvalidToken from './InvalidToken';
+import {withTranslation} from "react-i18next";
 
 const auth = new Auth();
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
@@ -299,7 +300,7 @@ class SignUp extends React.Component {
       return (
         <div className={styles.home}>
           <div className={styles.titleContainer}>
-            <h3 className={styles.h3}>Sign Up</h3>
+            <h3 className={styles.h3}>{this.props.t('SIGNUP.TITLE')}</h3>
           </div>
           <Form
             model="profileForms"
@@ -325,7 +326,7 @@ class SignUp extends React.Component {
               className={styles.signUpButton}
               disabled={this.isDisabled()}
             >
-              Sign Up
+              {this.props.t('SIGNUP.TITLE')}
             </button>
           </Form>
         </div>
@@ -342,4 +343,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(SignUp);
+export default connect(mapStateToProps)(withTranslation()(SignUp));

@@ -9,6 +9,7 @@ import moment from "moment";
 import {grabCurrencySymbol} from "../../../util";
 import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class EstimatedRevenue extends Component {
   constructor(props) {
@@ -102,10 +103,10 @@ class EstimatedRevenue extends Component {
 
     return (
       <div className={styles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Estimated Revenue'
+        <PageTitle backUrl='/Finances' title={this.props.t('SALE.ESTIMATED_REVENUE.TITLE')}
                    rightIcon
-                   rightIconTitle="Calculation"
-                   rightIconBody="We calculate estimated revenue using the end date of crops estimated in the fields module. To include a crop in your estimated revenue calculation make sure you capture its end date within your financial report end date."
+                   rightIconTitle={this.props.t('SALE.ESTIMATED_REVENUE.CALCULATION')}
+                   rightIconBody={this.props.t('SALE.ESTIMATED_REVENUE.CALCULATION_DESCRIPTION')}
         />
         <DateRangeSelector changeDateMethod={this.changeDate}/>
         <Table
@@ -133,4 +134,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EstimatedRevenue);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EstimatedRevenue));

@@ -14,6 +14,7 @@ import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class IrrigationLog extends Component{
   constructor(props) {
@@ -60,15 +61,15 @@ class IrrigationLog extends Component{
 
     const customFieldset = () => {
       return (<div>
-        <Unit model='.flow_rate_l/min' title='Flow Rate' dropdown={true} options={rateOptions}/>
-        <Unit model='.hours' title='Total Time' type='hrs'/>
+        <Unit model='.flow_rate_l/min' title={this.props.t('LOG_IRRIGATION.FLOW_RATE')} dropdown={true} options={rateOptions}/>
+        <Unit model='.hours' title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type='hrs'/>
       </div>)
     };
 
     return(
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Irrigation Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_IRRIGATION.TITLE')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.irrigationLog)}>
           <DefaultLogForm
             style={styles.labelContainer}
@@ -102,4 +103,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IrrigationLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(IrrigationLog));

@@ -23,17 +23,19 @@ import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar'
 import styles1 from './styles1.scss'
 import { spotlightSelector } from '../selector'
 import PureNavBar from '../../components/Navigation/NavBar';
+import { useTranslation } from "react-i18next";
+
 import { showSpotlight } from '../actions';
 import { userFarmSelector, userFarmLengthSelector } from '../userFarmSlice';
 
-
 const NavBar = (props) => {
+  const { t } = useTranslation();
   const { auth, history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
   const { isAuthenticated } = auth;
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
-  const farmSpotlight = 'Here you can:, • Edit your farm settings, • Map your farm, • Manage your employees';
-  const notificationsSpotlight = 'Here you can:, • Manage your tasks, • See important updates, • Coordinate farm activities';
-  const myProfileSpotlight = 'Here you will find:, • Your info, • Helpful tips, • The log out button';
+  const farmSpotlight = t('NAVIGATION.SPOTLIGHT.FARM');
+  const notificationsSpotlight = t('NAVIGATION.SPOTLIGHT.NOTIFICATION');
+  const myProfileSpotlight = t('NAVIGATION.SPOTLIGHT.PROFILE');
 
   const returnNextButton = (str) => {
     return (
@@ -44,10 +46,10 @@ const NavBar = (props) => {
   const steps = [
     {
       target: '#firstStep',
-      title: returnContent('This is your farm profile', true),
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.FARM_TITLE'), true),
       content: returnContent(farmSpotlight, false),
       locale: {
-        next: returnNextButton('Next'),
+        next: returnNextButton(t('common:NEXT')),
       },
       showCloseButton: false,
       disableBeacon: true,
@@ -55,20 +57,20 @@ const NavBar = (props) => {
     },
     {
       target: '#secondStep',
-      title: returnContent('This is your Notification Centre', true),
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'), true),
       content: returnContent(notificationsSpotlight, false),
       locale: {
-        next: returnNextButton('Next'),
+        next: returnNextButton(t('common:NEXT')),
       },
       showCloseButton: false,
       placement: 'right-start',
     },
     {
       target: '#thirdStep',
-      title: returnContent('This is your profile', true),
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'), true),
       content: returnContent(myProfileSpotlight, false),
       locale: {
-        last: returnNextButton('Got it'),
+        last: returnNextButton(t('common:GOT_IT')),
       },
       placement: 'right-start',
       showCloseButton: false,

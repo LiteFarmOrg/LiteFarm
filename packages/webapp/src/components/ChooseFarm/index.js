@@ -5,16 +5,19 @@ import PropTypes from 'prop-types';
 import { Title, Underlined } from '../Typography';
 import ChooseFarmMenuItem from './ChooseFarmMenu/ChooseFarmMenuItem';
 import Input from '../Form/Input';
+import { useTranslation } from "react-i18next";
 
 
 export default function PureChooseFarmScreen({
   farms = [], onGoBack,
-  onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled, title = 'Choose your farm',
+  onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled, title='Choose your farm'
 }) {
+  const { t } = useTranslation();
+
   return <Layout hasWhiteBackground buttonGroup={
     <>
-      {!isOnBoarding && <Button onClick={onGoBack} color={'secondary'} fullLength>Go Back</Button>}
-      <Button onClick={onProceed} fullLength disabled={disabled}>Proceed</Button>
+      {!isOnBoarding && <Button onClick={onGoBack} color={'secondary'} fullLength>{t('common:BACK')}</Button>}
+      <Button onClick={onProceed} fullLength disabled={disabled}>{t('common:PROCEED')}</Button>
     </>
   }>
     <Title style={{ marginBottom: '16px' }}>{title}</Title>
@@ -26,9 +29,9 @@ export default function PureChooseFarmScreen({
       lineHeight: '16px',
       cursor: 'pointer'
     }}
-         onClick={onCreateFarm}>+ <Underlined>Add new farm</Underlined></div>
+         onClick={onCreateFarm}>+ <Underlined>{t('CHOOSE_FARM.ADD_NEW')}</Underlined></div>
     {isSearchable &&
-    <Input style={{ marginBottom: '16px' }} placeholder={'Search'} isSearchBar={true} onChange={onFilterChange}/>}
+    <Input style={{ marginBottom: '16px' }} placeholder={t('CHOOSE_FARM.INPUT_PLACEHOLDER')} isSearchBar={true} onChange={onFilterChange}/>}
     {farms.map((farm) => {
       return <ChooseFarmMenuItem style={{ marginBottom: '16px' }} farmName={farm.farmName} address={farm.address}
                                  color={farm.color}

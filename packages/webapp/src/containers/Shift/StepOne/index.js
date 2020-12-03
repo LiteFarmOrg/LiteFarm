@@ -26,6 +26,7 @@ import { toastr } from 'react-redux-toastr';
 import { grabCurrencySymbol } from '../../../util';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
+import {withTranslation} from "react-i18next";
 
 class ShiftStepOne extends Component {
   constructor(props) {
@@ -308,13 +309,13 @@ class ShiftStepOne extends Component {
 
     return (
       <div className={styles.logContainer} >
-        <PageTitle backUrl="/shift" title="New Shift (Step 1)" />
+        <PageTitle backUrl="/shift" title={this.props.t('SHIFT.EDIT_SHIFT.NEW_SHIFT_TITLE_1')} />
         {
           users && users.is_admin && users.wage && users.wage.amount === 0  && <Alert variant="warning">
-            You have no wage set, your labour cost for this shift is preset to 0, you can change it at <br/> Profile->People->Edit
+            {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET')} <br/> {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET_LOCATION')}
           </Alert>
         }
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date" allowPast={true}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')} allowPast={true}/>
         <div className={styles.timeSection}>
           {/* {
             users.is_admin && <div className={styles.timeRow}>
@@ -333,7 +334,7 @@ class ShiftStepOne extends Component {
           } */}
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
-              Start Time
+              {this.props.t('SHIFT.START_TIME')}
             </div>
             <div className={styles.timeSelector}>
               <input type="time" onChange={this.handleInputChange} name="new_start" value={new_start}/>
@@ -342,7 +343,7 @@ class ShiftStepOne extends Component {
 
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
-              End Time
+              {this.props.t('SHIFT.END_TIME')}
             </div>
             <div className={styles.timeSelector}>
               <input type="time" onChange={this.handleInputChange} name="new_end" value={new_end}/>
@@ -351,7 +352,7 @@ class ShiftStepOne extends Component {
 
           <div className={styles.timeRow}>
             <div className={styles.timeLabel}>
-              Break Duration
+              {this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}
             </div>
             <div className={styles.timeInput}>
               <input type='number' name='break_duration' value={this.state.break_duration} onChange={this.changeDuration}/> <div className={styles.unit}>min</div>
@@ -361,7 +362,7 @@ class ShiftStepOne extends Component {
         {
           shiftUser && shiftUser.length > 0 && <div className={styles.timeRow}>
             <div className={styles.greenTextButton} onClick={()=>this.toggleHoursAdjust()}>
-              Adjust Hourly Wage {hourAdjustSign}
+              {this.props.t('SHIFT.EDIT_SHIFT.ADJUST_HOURLY_WAGE')} {hourAdjustSign}
             </div>
           </div>
         }
@@ -374,7 +375,7 @@ class ShiftStepOne extends Component {
                     (uobj.label === 'Myself') && 'My'
                   }{
                     (uobj.label !== 'Myself') && uobj.label + "'s"
-                  } wage for this shift ({symbol}/hr): </div>
+                  } {this.props.t('SHIFT.EDIT_SHIFT.WAGE_FOR_SHIFT')} ({symbol}/hr): </div>
                   <div style={{width: '25%'}}><input type="number" defaultValue={Number(uobj.wage)} onChange={(e) => this.changeWage(e, uobj.value)}/></div>
                 </div>
               })
@@ -383,7 +384,7 @@ class ShiftStepOne extends Component {
         }
 
         <div className={styles.subTitle}>
-          What tasks did you do today?
+          {this.props.t('SHIFT.EDIT_SHIFT.WHAT_TASKS_YOU_DID')}
         </div>
 
 
@@ -414,15 +415,15 @@ class ShiftStepOne extends Component {
         {
           (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
           <div className={styles.buttonContainer}>
-            <Button onClick={this.openAddModal}>Add Custom Task</Button>
+            <Button onClick={this.openAddModal}>{this.props.t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}</Button>
           </div>
         }
 
         <div className={styles.bottomContainer}>
           <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
-            Cancel
+            {this.props.t('common:CANCEL')}
           </div>
-          <button className='btn btn-primary' onClick={this.nextPage}>Next</button>
+          <button className='btn btn-primary' onClick={this.nextPage}>{this.props.t('common:NEXT')}</button>
         </div>
 
         <Popup
@@ -437,18 +438,18 @@ class ShiftStepOne extends Component {
               <a className={styles.close} onClick={this.closeAddModal}>
                 <img src={closeButton} alt=""/>
               </a>
-              <h3>Add a Task</h3>
+              <h3>{this.props.t('SHIFT.EDIT_SHIFT.ADD_TASK')}</h3>
             </div>
             <div className={styles.customContainer}>
               <div className={styles.taskTitle}>
-                Name of the custom task
+                {this.props.t('SHIFT.EDIT_SHIFT.NAME_TASK')}
               </div>
               <div className={styles.taskInput}>
                 <input type="text" maxLength="20" onChange={this.customTaskName}/>
               </div>
             </div>
             <div className={styles.buttonContainer}>
-              <Button onClick={this.addCustomTask}>Finish</Button>
+              <Button onClick={this.addCustomTask}>{this.props.t('common:FINISH')}</Button>
             </div>
 
           </div>
@@ -474,4 +475,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShiftStepOne);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ShiftStepOne));

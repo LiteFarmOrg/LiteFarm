@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import { FormControl, InputGroup } from 'react-bootstrap';
+import { withTranslation } from "react-i18next";
 
 class SearchBox extends Component {
 
@@ -10,7 +11,7 @@ class SearchBox extends Component {
       <InputGroup className={styles.searchBarContainer}>
         <InputGroup.Prepend>
           <InputGroup.Text>
-            Search
+            {this.props.t('FIELDS.NEW_FIELD.SEARCH_BOX_PLACEHOLDER')}
           </InputGroup.Text>
         </InputGroup.Prepend>
         <FormControl type="text" placeholder={this.props.placeholder} />
@@ -33,4 +34,4 @@ SearchBox.propTypes = {
   onPlacesChanged: PropTypes.func
 };
 
-export default SearchBox;
+export default withTranslation()(SearchBox);

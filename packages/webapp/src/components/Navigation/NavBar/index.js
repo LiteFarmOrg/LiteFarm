@@ -1,42 +1,21 @@
 import styles from "./styles.scss";
-import MyFarmIcon from "../../../assets/images/my-farm.svg";
-import NotifIcon from "../../../assets/images/notif.svg";
-import ProfilePicture from "../../../assets/images/navbar/defaultpfp.png"; // TODO: use profile picture stored in db
-import React, { useState } from "react";
+import React from "react";
 import ReactJoyride, { STATUS } from 'react-joyride';
-import ProfileFloater from "../../../containers/ProfileFloater";
-import MyFarmFloater from "../../../containers/MyFarmFloater"
-import FarmSwitchOutro from "../../../containers/FarmSwitchOutro";
-import {switchFarmSelector, switchFarmCloseSuccess} from "../../../containers/switchFarmSlice"
-import { useSelector, useDispatch } from 'react-redux';
+import PureProfileFloater from '../../ProfileFloater';
+import MyFarmIcon from '../../../assets/images/my-farm.svg';
+import NotifIcon from '../../../assets/images/notif.svg';
+// TODO: use profile picture stored in db
+import ProfilePicture from '../../../assets/images/navbar/defaultpfp.png';
+import PureMyFarmFloater from '../../MyFarmFloater';
+import clsx from 'clsx';
 
-export default function PureNavBar({ logo, children, steps, resetSpotlight, auth, showSwitchFarm }) {
-  const initialState = { profile: false, myFarm: false };
-  const dispatch = useDispatch();
-  const {switchFarm} = useSelector(switchFarmSelector);
-  const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
-  const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
-
+export default function PureNavBar({ logo, children, steps, resetSpotlight, changeInteraction, isOneTooltipOpen, showSwitchFarm, auth, tooltipInteraction, history}) {
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
-
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
     }
   }
-
-  const changeInteraction = (tooltipName, onOverlay=false) => {
-    const newInteraction = onOverlay ? initialState : {...initialState, [tooltipName]: !tooltipInteraction[tooltipName]};
-    setTooltipInteraction(newInteraction);
-    setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
-  }
-
-  const dismissPopup = () => {
-    if (switchFarm) {
-      dispatch(switchFarmCloseSuccess());
-    }
-  }
-
 
   return (
     <div className={styles.navBar}>
@@ -77,23 +56,15 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
         />
 
         }
-        <MyFarmFloater openProfile={tooltipInteraction['myFarm']}>
-        <input id="firstStep" type="image" src={MyFarmIcon} className={styles.actionItem} onClick={() =>changeInteraction('myFarm')} />
-        </MyFarmFloater>
-        {
-          isOneTooltipOpen && <div style={{
-            position: "fixed",
-            zIndex: 100,
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
-        }
+        <PureMyFarmFloater closeInteraction={() => changeInteraction('myFarm')} openProfile={tooltipInteraction['myFarm']} history={history}>
+          <input id="firstStep" type="image" src={MyFarmIcon} className={clsx(styles.actionItem, styles.inFloater)} onClick={() =>changeInteraction('myFarm')} />
+        </PureMyFarmFloater>
         <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem}/>
-        <ProfileFloater showSwitchFarm={showSwitchFarm} auth={auth} closeInteraction={() => changeInteraction('profile')} openProfile={tooltipInteraction['profile']}>
-          <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={styles.profilePicture} onClick={() =>changeInteraction('profile')} />
-        </ProfileFloater>
+        <PureProfileFloater showSwitchFarm={showSwitchFarm} auth={auth} closeInteraction={() => changeInteraction('profile')}
+                        openProfile={tooltipInteraction['profile']} history={history}>
+          <input data-testid="thirdStep" id="thirdStep" type="image" src={ProfilePicture} className={clsx(styles.profilePicture)}
+                 onClick={() => changeInteraction('profile')}/>
+        </PureProfileFloater>
         {
           isOneTooltipOpen && <div style={{
             position: "fixed",
@@ -105,21 +76,6 @@ export default function PureNavBar({ logo, children, steps, resetSpotlight, auth
             backgroundColor: "rgba(0, 0, 0, 0.01)"}} onClick={() => changeInteraction('', true)} />
         }
       </div>
-      { switchFarm && <FarmSwitchOutro />}
-
-      {
-
-      switchFarm && 
-      <div onClick={dismissPopup} style={{ position: "fixed",
-      zIndex: 100,
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundColor: "rgba(25, 25, 40, 0.8)"}} /> 
-
-    }
-
       <div className={styles.itemContainer}>
         {logo}
       </div>

@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 1024px;
   min-height: 100vh;
-  padding: 55px 5% 150px 5%;
+  padding: 24px 24px 150px 24px;
   display: flex;
   flex-direction: column;
 }
@@ -309,6 +309,7 @@ input:disabled {
 
 .bottomContainer{
   width: 100%;
+  max-width: 1024px;
   position: fixed;
   bottom: 0;
   display:flex;

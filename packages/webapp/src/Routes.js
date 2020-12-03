@@ -105,10 +105,6 @@ import GoogleLoginButton from './containers/GoogleLoginButton';
 
 
 const Routes = () => {
-  const dispatch = useDispatch();
-  const dispatchLoginSuccess = (user_id) => {
-    dispatch(loginSuccess({ user_id }))
-  };
   const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
     && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
   let { step_five, has_consent, role_id } = userFarm;

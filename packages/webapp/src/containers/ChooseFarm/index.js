@@ -16,8 +16,8 @@
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
 import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../loginSlice';
-import {switchFarmSuccess} from "../switchFarmSlice"
-import { userFarmsByUserSelector } from '../userFarmSlice';
+import { switchFarmSuccess } from '../switchFarmSlice'
+import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
 import { getUserFarms } from './saga';
@@ -25,20 +25,26 @@ import { getUserFarms } from './saga';
 function ChooseFarm() {
 
   const dispatch = useDispatch();
-  const farms = useSelector(userFarmsByUserSelector);
+
   const [selectedFarmId, setFarmId] = useState();
   const { farm_id: currentFarmId } = useSelector(loginSelector);
   const [filter, setFilter] = useState();
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getUserFarms());
-  },[]);
+  }, []);
 
-  useEffect(()=>{
-    if(farms?.length === 1){
+  const farms = useSelector(userFarmsByUserSelector);
+  useEffect(() => {
+    if (farms?.length === 1) {
       setFarmId(farms[0].farm_id);
     }
-  },[farms]);
+  }, [farms]);
+  // TODO: move redirect to login with google saga
+  const { loaded } = useSelector(userFarmStatusSelector);
+  useEffect(() => {
+    loaded && farms.length === 0 && history.push('/welcome')
+  }, [farms, loaded]);
 
   const onGoBack = () => {
     history.goBack();
@@ -66,24 +72,26 @@ function ChooseFarm() {
   }
 
 
-
-  return <PureChooseFarmScreen farms={getFormattedFarms({filter, farms, currentFarmId, selectedFarmId})} onGoBack={onGoBack}
+  return loaded && farms.length && <PureChooseFarmScreen farms={getFormattedFarms({ filter, farms, currentFarmId, selectedFarmId })}
+                               onGoBack={onGoBack}
                                onProceed={onProceed} onSelectFarm={onSelectFarm} onCreateFarm={onCreateFarm}
-                               isOnBoarding={!currentFarmId} onFilterChange={onFilterChange} isSearchable={farms.length>5}
-                               disabled={!selectedFarmId} title={currentFarmId?'Switch to another farm': 'Choose your farm'}
+                               isOnBoarding={!currentFarmId} onFilterChange={onFilterChange}
+                               isSearchable={farms.length > 5}
+                               disabled={!selectedFarmId}
+                               title={currentFarmId ? 'Switch to another farm' : 'Choose your farm'}
   />
 
 }
 
-const getFormattedFarms = ({filter, farms, currentFarmId, selectedFarmId}) => {
+const getFormattedFarms = ({ filter, farms, currentFarmId, selectedFarmId }) => {
   const filteredFarms = filter ? farms.filter(farm =>
-    (farm.owner_name && farm.owner_name.toLowerCase().includes(filter)) || farm.farm_name.toLowerCase().includes(filter) || farm.address.toLowerCase().includes(filter) || farm.farm_id === currentFarmId
+    (farm.owner_name && farm.owner_name.toLowerCase().includes(filter)) || farm.farm_name.toLowerCase().includes(filter) || farm.address.toLowerCase().includes(filter) || farm.farm_id === currentFarmId,
   ) : farms;
 
   const sortedFarm = filteredFarms.sort((farm1, farm2) => {
-    if(farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId){
+    if (farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId) {
       return farm1.farm_name.localeCompare(farm2.farm_name);
-    }else{
+    } else {
       return farm1.farm_id === currentFarmId ? -1 : 1;
     }
   })

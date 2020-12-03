@@ -8,7 +8,6 @@ function GoogleLoginButton({ disabled }) {
   const dispatch = useDispatch();
   const clientId = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID;
   const onSuccess = (res) => {
-    console.log(res, res.tokenObj, res.tokenObj.id_token);
     dispatch(loginWithGoogle(res.tokenObj.id_token));
   }
   const onFailure = (res) => {

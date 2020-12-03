@@ -78,7 +78,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
@@ -130,7 +130,7 @@ class fieldController extends baseController {
   static async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
-    const user_id = req.user.sub.split('|')[1];
+    const user_id = req.user.user_id
     return await super.postWithResponse(fieldModel, req.body, trx, { user_id });
   }
 

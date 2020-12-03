@@ -12,6 +12,7 @@ export function onLoadingStart(state) {
 export function onLoadingFail(state, { payload: { error } }) {
   state.loading = false;
   state.error = error;
+  state.loaded = true;
 }
 
 const loginSlice = createSlice({
@@ -19,9 +20,7 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, { payload: { user_id } }) => {
-      console.log(user_id);
       state.user_id = user_id;
-      console.log(state.user_id);
     },
     selectFarmSuccess: (state, { payload: { farm_id } }) => {
       state.farm_id = farm_id;

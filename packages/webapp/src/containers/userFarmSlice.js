@@ -18,6 +18,7 @@ export const initialState = {
   },
   loading: false,
   error: undefined,
+  loaded: false,
 };
 
 const addUserFarm = (state, { payload: userFarm }) => {
@@ -40,6 +41,7 @@ const userFarmSlice = createSlice({
     getUserFarmsSuccess: (state, { payload: userFarms }) => {
       state.loading = false;
       state.error = null;
+      state.loaded = true;
       userFarms.forEach(userFarm => {
         const { farm_id, user_id } = userFarm;
         if(!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])){
@@ -108,9 +110,10 @@ export const userFarmsByFarmSelector = createSelector([loginSelector, userFarmRe
 export const userFarmSelector = createSelector([loginSelector, userFarmReducerSelector], ({ farm_id, user_id }, { byFarmIdUserId, loading, error }) => {
   return (farm_id && user_id) ? byFarmIdUserId[farm_id][user_id] : {};
 });
-export const userFarmStatusSelector = createSelector(userFarmReducerSelector, ({ loading, error }) => ({
+export const userFarmStatusSelector = createSelector(userFarmReducerSelector, ({ loading, error, loaded }) => ({
   loading,
   error,
+  loaded,
 }));
 export const userFarmLengthSelector = createSelector(userFarmReducerSelector, ({farmIdUserIdTuple}) => {return farmIdUserIdTuple.length});
 

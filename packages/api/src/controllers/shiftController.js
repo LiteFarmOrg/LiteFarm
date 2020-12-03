@@ -31,7 +31,7 @@ class shiftController extends baseController {
           return;
         }
         const tasks = body.tasks;
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         let shift_result = await baseController.postWithResponse(shiftModel, body, trx, { user_id });
         const shift_id = shift_result.shift_id;
         shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
@@ -63,7 +63,7 @@ class shiftController extends baseController {
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
-          const user_id = req.user.sub.split('|')[1];
+          const user_id = req.user.user_id
           const shift_result = await baseController.postWithResponse(shiftModel, temp, trx, { user_id });
           const shift_id = shift_result.shift_id;
           shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
@@ -135,7 +135,7 @@ class shiftController extends baseController {
         if (!req.body.tasks) {
           res.status(400).send('missing tasks')
         }
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, trx, { user_id });
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');

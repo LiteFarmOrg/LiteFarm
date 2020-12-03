@@ -24,7 +24,7 @@ const checkOwnership = (relation) => {
       let sqlQuery;
       // console.log(farm_id);
       // user id is contained in attribute sub in this format: 'auth0|5b0560215d7d1617fd7ed217'
-      const user_id = req.user.sub.split('|')[1];
+      const user_id = req.user.user_id
       // console.log(`check ${relation}_id`, user_id, id);
 
       switch (relation) {

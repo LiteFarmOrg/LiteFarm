@@ -99,7 +99,7 @@ app.use(bodyParser.json())
   .use('/sign_up', signUpRoutes)
   .use('/login', loginRoutes)
   // ACL middleware
-  // .use(checkJwt)
+  .use(checkJwt)
 
   // routes
   .use('/crop', cropRoutes)

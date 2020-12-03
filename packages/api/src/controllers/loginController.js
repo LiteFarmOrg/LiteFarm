@@ -50,7 +50,7 @@ class loginController extends baseController {
   static loginWithGoogle() {
     return async (req, res) => {
       try {
-        const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.body;
+        const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
         const user = await userModel.query().findById(user_id);
         if (!user) {
           const newUser = { user_id, email, first_name, last_name };

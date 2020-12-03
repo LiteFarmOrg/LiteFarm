@@ -32,7 +32,6 @@ import { isAuthenticated } from '../../util/jwt';
 
 const NavBar = (props) => {
   const { history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
-
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
   const Logo = isSmallScreen ? (
@@ -105,13 +104,11 @@ const NavBar = (props) => {
   }
 
   return (
-    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight} auth={auth}
+    <PureNavBar logo={Logo} steps={show_spotlight && steps} resetSpotlight={resetSpotlight}
                 showSwitchFarm={numberOfUserFarm > 1}>
       <SlideMenu right/>
     </PureNavBar>
   );
-
-
 }
 
 const mapStateToProps = (state) => {

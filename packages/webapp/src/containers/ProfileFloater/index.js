@@ -2,7 +2,9 @@ import Floater from "react-floater";
 import React from "react";
 import PureProfileFloater from "../../components/ProfileFloater";
 import history from '../../history';
-export default function ProfileFloater({auth, children, openProfile, showSwitchFarm, closeInteraction}) {
+import {logout} from '../../util/jwt';
+
+export default function ProfileFloater({children, openProfile, showSwitchFarm, closeInteraction}) {
   const helpClick = () => {
   }
   const switchFarmClick = () => {
@@ -10,7 +12,7 @@ export default function ProfileFloater({auth, children, openProfile, showSwitchF
     closeInteraction('profile');
   }
   const logOutClick = () => {
-    auth.logout();
+    logout();
   }
   const myInfoClick = () => {
     history.push('/Profile');

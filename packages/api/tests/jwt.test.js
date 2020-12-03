@@ -48,6 +48,7 @@ describe('JWT Tests', () => {
       const [farm] = await farmFactory();
       await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
       deleteRequest(farm, newUser.user_id, async (err,res) => {
+        console.log(res);
         expect(res.status).toBe(200);
         const [farmQuery] = await knex.select().from('farm').where({farm_id: farm.farm_id});
         expect(farmQuery.deleted).toBe(true);
@@ -85,5 +86,5 @@ function deleteRequestWithoutToken(data, user, callback){
 }
 
 function getAuthorizationHeader(user_id){
-  return createAccessTokenSync({user_id})
+  return 'Bearer ' + createAccessTokenSync({user_id})
 }

@@ -63,7 +63,6 @@ const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
 const signUpRoutes = require('./routes/signUpRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
-const loginRoutes = require('./routes/loginRoute');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');

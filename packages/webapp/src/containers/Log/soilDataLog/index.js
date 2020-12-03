@@ -15,6 +15,7 @@ import parseCrops from '../Utility/parseCrops';
 import { addLog } from '../Utility/actions';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 const parsedTextureOptions = [
   {label: 'Sand', value: 'sand'},
@@ -121,7 +122,7 @@ class soilDataLog extends Component {
             <Control model='.depth_cm'
                      component={DropDown}
                      options={parsedDepthOptions || []}
-                     placeholder="Select Depth"
+                     placeholder={this.props.t('LOG_SOIL.SELECT_DEPTH')}
                      validators={{required: (val) => val && val.label && val.value}}
             />
             <Errors
@@ -133,12 +134,12 @@ class soilDataLog extends Component {
               }}/>
           </div>
           <div className={styles.defaultFormDropDown}>
-            <label>Texture</label>
+            <label>{this.props.t('LOG_SOIL.TEXTURE')}</label>
             <Control
               model=".texture"
               component={DropDown}
               options={parsedTextureOptions || []}
-              placeholder="Select Texture"
+              placeholder={this.props.t('LOG_SOIL.SELECT_TEXTURE')}
               validators={{required: (val) => val && val.label && val.value}}
             />
             <Errors
@@ -154,7 +155,7 @@ class soilDataLog extends Component {
           <Unit model='.n' title='N' type='%'/>
           <Unit model='.om' title='OM' type='%'/>
           <Unit model='.ph' title='ph' type='%'/>
-          <Unit model='.bulk_density_kg/m3' title='Bulk Density'
+          <Unit model='.bulk_density_kg/m3' title={this.props.t('LOG_SOIL.BULK_DENSITY')}
                 type={`${this.state.bulk_density_numerator}/${this.state.bulk_density_denominator}`}/>
         </div>
       )
@@ -162,8 +163,8 @@ class soilDataLog extends Component {
 
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Soil Data Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SOIL.TITLE')}/>
+        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
         <Form model="logReducer.forms" className={styles.formContainer}
               onSubmit={(val) => this.handleSubmit(val)}>
           <DefaultLogForm
@@ -174,12 +175,12 @@ class soilDataLog extends Component {
             customFieldset={customFieldset}
             isCropNotNeeded={true}
           />
-          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>{this.state.showMoreInfo ? 'Hide' : 'Show'} More Info</div>
+          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>{this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}</div>
           {this.state.showMoreInfo &&
           <div>
-            <Unit model='.soilDataLog.organic_carbon' title='Organic Carbon' type='%'/>
-            <Unit model='.soilDataLog.inorganic_carbon' title='Inorganic Carbon' type='%'/>
-            <Unit model='.soilDataLog.total_carbon' title='Total Carbon' type='%'/>
+            <Unit model='.soilDataLog.organic_carbon' title={this.props.t('LOG_SOIL.ORGANIC_CARBON')} type='%'/>
+            <Unit model='.soilDataLog.inorganic_carbon' title={this.props.t('LOG_SOIL.INORGANIC_CARBON')} type='%'/>
+            <Unit model='.soilDataLog.total_carbon' title={this.props.t('LOG_SOIL.TOTAL_CARBON')} type='%'/>
             <Unit model='.soilDataLog.s' title='S' type='%'/>
             <Unit model='.soilDataLog.c' title='C' type='%'/>
             <Unit model='.soilDataLog.ca' title='Ca' type='%'/>
@@ -214,4 +215,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(soilDataLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(soilDataLog));

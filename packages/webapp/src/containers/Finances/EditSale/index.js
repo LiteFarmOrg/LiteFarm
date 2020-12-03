@@ -14,6 +14,7 @@ import { convertFromMetric, convertToMetric, getUnit, grabCurrencySymbol, roundT
 import ConfirmModal from '../../../components/Modals/Confirm';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class EditSale extends Component {
   constructor(props) {
@@ -98,9 +99,9 @@ class EditSale extends Component {
     const cropOptions = this.getCropOptions(fieldCrops);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/sales_summary' title='Edit Sale'/>
+        <PageTitle backUrl='/sales_summary' title={this.props.t('SALE.EDIT_SALE.TITLE')}/>
         <span className={defaultStyles.dateContainer}>
-          <label>Date</label>
+          <label>{this.props.t('SALE.EDIT_SALE.DATE')}</label>
           <DateContainer
             style={defaultStyles.date}
             custom={true}
@@ -116,14 +117,14 @@ class EditSale extends Component {
           onSubmit={this.handleSubmit}
           quantityUnit={this.state.quantity_unit}
           footerOnClick={() => this.setState({ showModal: true })}
-          footerText={"Delete"}
+          footerText={this.props.t('common:DELETE')}
           currencySymbol={this.state.currencySymbol}
         />
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => {this.props.dispatch(deleteSale(this.props.sale));history.push('/finances');}}
-          message='Are you sure you want to delete this sale?'
+          message={this.props.t('SALE.EDIT_SALE.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -144,4 +145,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditSale);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditSale));

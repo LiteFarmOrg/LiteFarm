@@ -13,15 +13,16 @@ import otherImg from '../../../assets/images/log/other.png';
 import irrigationImg from '../../../assets/images/log/irrigation.svg';
 import history from '../../../history';
 import scoutImg from '../../../assets/images/log/scout.svg';
+import {withTranslation} from "react-i18next";
 
 class NewLog extends Component{
 
   render(){
     return(
       <div className={styles.logContainer}>
-        <PageTitle title="New Log" backUrl="/log" />
+        <PageTitle title={this.props.t('LOG_COMMON.NEW_LOG')} backUrl="/log" />
         <h4>
-          What do you want to log?
+          {this.props.t('LOG_COMMON.WHAT_LOG')}
         </h4>
         <Container fluid={true} style={{ marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%' }}>
           <Row className="show-grid" >
@@ -29,7 +30,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer} >
                 <img src={fertImg} alt=""/>
                 <div>
-                  Fertilizing
+                  {this.props.t('LOG_COMMON.FERTILIZING')}
                 </div>
               </div>
             </Col>
@@ -37,7 +38,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
               <img src={pestImg} alt=""/>
               <div>
-                Pest Control
+                {this.props.t('LOG_COMMON.PEST')}
               </div>
               </div>
             </Col>
@@ -45,7 +46,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={harvestImg} alt=""/>
                 <div>
-                  Harvest
+                  {this.props.t('LOG_COMMON.HARVEST')}
                 </div>
               </div>
             </Col>
@@ -53,7 +54,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={seedImg} alt=""/>
                 <div>
-                  Seeding
+                  {this.props.t('LOG_COMMON.SEEDING')}
                 </div>
               </div>
             </Col>
@@ -63,7 +64,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={fieldImg} alt=""/>
                 <div>
-                  Field Work
+                  {this.props.t('LOG_COMMON.FIELD_WORK')}
                 </div>
               </div>
             </Col>
@@ -71,7 +72,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={soilImg} alt=""/>
                 <div>
-                  Soil Analysis
+                  {this.props.t('LOG_COMMON.SOIL_DATA')}
                 </div>
               </div>
             </Col>
@@ -79,7 +80,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={irrigationImg} alt=""/>
                 <div>
-                  Irrigation
+                  {this.props.t('LOG_COMMON.IRRIGATION')}
                 </div>
               </div>
             </Col>
@@ -87,7 +88,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={scoutImg} alt=""/>
                 <div>
-                  Scouting
+                  {this.props.t('LOG_COMMON.SCOUTING')}
                 </div>
               </div>
             </Col>
@@ -97,7 +98,7 @@ class NewLog extends Component{
               <div className={styles.typeContainer}>
                 <img src={otherImg} alt=""/>
                 <div>
-                  Other
+                  {this.props.t('LOG_COMMON.OTHER')}
                 </div>
               </div>
             </Col>
@@ -116,4 +117,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapDispatchToProps)(NewLog);
+export default connect(null, mapDispatchToProps)(withTranslation()(NewLog));

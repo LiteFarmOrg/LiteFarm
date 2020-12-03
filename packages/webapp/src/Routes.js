@@ -93,32 +93,34 @@ import Balances from './containers/NewFinances/Balances';
 
 import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
-import RoleSelection from './containers/RoleSelection';
-import { useDispatch, useSelector } from 'react-redux';
+
+import GoogleLoginButton from './containers/GoogleLoginButton';
+
+import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
 import {isAuthenticated} from './util/jwt';
 
 // action
-import { loginSuccess } from './containers/loginSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
-import GoogleLoginButton from './containers/GoogleLoginButton';
+
+
 
 
 const Routes = () => {
   const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
     && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
-  let { step_five, has_consent, role_id } = userFarm;
+  let { step_five, has_consent, role_id, status } = userFarm;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
     if (!step_five) {
       return <OnboardingFlow {...userFarm}/>
-    } else if (step_five && !has_consent) {
+    } else if (status === 'Invited') {
       return <Switch>
         <Route path="/farm_selection" exact component={ChooseFarm}/>
-        <Route path="/consent" exact component={ConsentForm}/>
+        <Route path="/consent" exact component={() => <ConsentForm goForwardTo={'outro'} goBackTo={null}/>}/>
         //TODO add new consent form and allow users to withdraw consent
-        <Redirect to={'/consent'}/>
+        {!has_consent && <Redirect to={'/consent'}/>}
       </Switch>
     } else if (role_id === 1) {
       return (
@@ -354,7 +356,6 @@ const Routes = () => {
         {/*  return <Callback {...props} />*/}
         {/*}}/>*/}
         <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>
-        <Route  path="/login-google" exact component={GoogleLoginButton}/>
         <Route path="/*" exact component={GoogleLoginButton}/>
       </Switch>
     );

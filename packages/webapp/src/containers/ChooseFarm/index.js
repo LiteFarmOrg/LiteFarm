@@ -16,14 +16,14 @@
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
 import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../loginSlice';
-import { switchFarmSuccess } from '../switchFarmSlice'
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
 import { getUserFarms } from './saga';
+import { useTranslation } from "react-i18next";
 
 function ChooseFarm() {
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [selectedFarmId, setFarmId] = useState();
@@ -52,10 +52,7 @@ function ChooseFarm() {
 
   const onProceed = () => {
     dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    if (currentFarmId) {
-      dispatch(switchFarmSuccess())
-    }
-    history.push('/');
+    history.push({ pathname:'/', state: !!currentFarmId });
   }
 
   const onSelectFarm = (farm_id) => {
@@ -72,13 +69,11 @@ function ChooseFarm() {
   }
 
 
-  return loaded && farms.length && <PureChooseFarmScreen farms={getFormattedFarms({ filter, farms, currentFarmId, selectedFarmId })}
-                               onGoBack={onGoBack}
+
+  return loaded && farms.length && <PureChooseFarmScreen farms={getFormattedFarms({filter, farms, currentFarmId, selectedFarmId})} onGoBack={onGoBack}
                                onProceed={onProceed} onSelectFarm={onSelectFarm} onCreateFarm={onCreateFarm}
-                               isOnBoarding={!currentFarmId} onFilterChange={onFilterChange}
-                               isSearchable={farms.length > 5}
-                               disabled={!selectedFarmId}
-                               title={currentFarmId ? 'Switch to another farm' : 'Choose your farm'}
+                               isOnBoarding={!currentFarmId} onFilterChange={onFilterChange} isSearchable={farms.length > 5}
+                               disabled={!selectedFarmId} title={ currentFarmId ? t('CHOOSE_FARM.SWITCH_TITLE') : t('CHOOSE_FARM.CHOOSE_TITLE')}
   />
 
 }

@@ -17,6 +17,7 @@ import React, { Component } from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
+import './../lang/i18n'
 
 class App extends Component {
   render() {

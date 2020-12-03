@@ -18,6 +18,7 @@ import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/Edi
 import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
 import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from "react-i18next";
 
 class EditField extends Component {
   static defaultProps = {
@@ -198,7 +199,7 @@ class EditField extends Component {
 
     return (
       <div className={parentStyles.logContainer}>
-        <PageTitle title="Edit Field" backUrl="/field"/>
+        <PageTitle title={this.props.t('FIELDS.EDIT_FIELD.TITLE')} backUrl="/field"/>
         <NewFieldCropModal handler={() => {}} field={this.state.selectedField}
                            fieldArea={this.state.fieldArea}/>
         <div>
@@ -233,24 +234,23 @@ class EditField extends Component {
         </div>
         <div style={{margin: "10px"}}>
           <div className={styles.editFieldName}>
-            <h4>Field Name: {this.state.selectedField && this.state.selectedField.field_name}</h4>
+            <h4>{this.props.t('FIELDS.EDIT_FIELD.NAME')}: {this.state.selectedField && this.state.selectedField.field_name}</h4>
             <BsPencil style={{marginLeft: '10px'}} onClick={this.openFieldNameEdit} />
           </div>
-          <p>Total
-            Area: {roundToTwoDecimal(convertFromMetric(this.state.fieldArea, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup>
+          <p>{this.props.t('FIELDS.EDIT_FIELD.TOTAL_AREA')}: {roundToTwoDecimal(convertFromMetric(this.state.fieldArea, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup>
           </p>
-          <p>Number of Crops: {this.state.selectedFieldCrops.length}</p>
+          <p>{this.props.t('FIELDS.EDIT_FIELD.NUMBER_CROPS')}: {this.state.selectedFieldCrops.length}</p>
           <div style={{height: "80%"}}>
             {
               this.state.selectedFieldCrops.map((crop, index) => (
                 <Card key={index} border={"success"}>
-                  <Card.Header className={styles.panelHeading} as="h3">
+                  <Card.Header className={styles.cardHeaderSuccess} as="h3">
                     <div>
                       <Card.Title
                         componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
                       </Card.Title>
                       <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? "Variety: " + crop.variety : ""}
+                        componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? `${this.props.t('FIELDS.EDIT_FIELD.VARIETY')}:${crop.variety}` : ''}
 
                       </Card.Title>
                     </div>
@@ -262,32 +262,29 @@ class EditField extends Component {
                         <div className={styles.deleteButton}>
                           <Button onClick={() => {
                             this.handleDeleteCrop(crop.field_crop_id)
-                          }}>Delete</Button>
+                          }}>{this.props.t('common:DELETE')}</Button>
                         </div>
                       </div>
 
 
                   </Card.Header>
-                  <Card.Header className={styles.panelHeading} as="h3">
+                  <Card.Header className={styles.cardHeaderSuccess} as="h3">
                     <div>
                       <Card.Title
-                         style={{fontSize: '13px'}}>Start
-                        Date: {crop.start_date && crop.start_date.split("T")[0]} End
-                        Date: {crop.end_date && crop.end_date.split("T")[0]}
+                         style={{fontSize: '13px'}}>{this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}: {crop.start_date && crop.start_date.split("T")[0]}
+                        {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}: {crop.end_date && crop.end_date.split("T")[0]}
                       </Card.Title>
                     </div>
                   </Card.Header>
                   <Card.Body>
-                    <p>Area
-                      Used: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
+                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED')}: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
                     </p>
-                    <p>Estimated
-                      Production: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
-                    <p>Estimated Revenue: {this.state.currencySymbol}{roundToTwoDecimal(crop.estimated_revenue)}</p>
+                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRODUCTION')}: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
+                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_REVENUE')}: {this.state.currencySymbol}{roundToTwoDecimal(crop.estimated_revenue)}</p>
                   </Card.Body>
                 </Card>))
             }
-            <p>Number of Expired Crops: {this.state.selectedExpiredFieldCrops.length}</p>
+            <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_EXPIRED')}: {this.state.selectedExpiredFieldCrops.length}</p>
             {
               this.state.selectedExpiredFieldCrops.map((crop, index) => (
                 <Card key={index}>
@@ -297,7 +294,7 @@ class EditField extends Component {
                         componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
                       </Card.Title>
                       <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? "Variety: " + crop.variety : ""}
+                        componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? `${this.props.t('FIELDS.EDIT_FIELD.VARIETY')}:${crop.variety}` : ''}
 
                       </Card.Title>
                     </div>
@@ -308,26 +305,23 @@ class EditField extends Component {
                       <div className={styles.deleteButton}>
                         <Button onClick={() => {
                           this.handleDeleteCrop(crop.field_crop_id)
-                        }}>Delete</Button>
+                        }}>{this.props.t('common:DELETE')}</Button>
                       </div>
                     </div>
                   </Card.Header>
                   <Card.Header className={styles.panelHeading} as="h3">
                     <div>
                       <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>Start
-                        Date: {crop.start_date && crop.start_date.split("T")[0]} End
-                        Date: {crop.end_date && crop.end_date.split("T")[0]}
+                        componentClass="h3" style={{fontSize: '13px'}}>{this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}: {crop.start_date && crop.start_date.split("T")[0]}
+                        {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}: {crop.end_date && crop.end_date.split("T")[0]}
                       </Card.Title>
                     </div>
                   </Card.Header>
                   <Card.Body>
-                    <p>Area
-                      Used: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
+                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED')}: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
                     </p>
-                    <p>Estimated
-                      Production: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
-                    <p>Estimated Revenue: {this.state.currencySymbol}{crop.estimated_revenue}</p>
+                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRODUCTION')}: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
+                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_REVENUE')}: {this.state.currencySymbol}{crop.estimated_revenue}</p>
                   </Card.Body>
                 </Card>))
             }
@@ -339,24 +333,24 @@ class EditField extends Component {
               this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId));
               this.setState({showModal: false});
             }}
-            message='Are you sure you want to delete this field crop?'
+            message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
           />
           <Modal show={this.state.showFieldNameModal} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit Field Name</Modal.Title>
+              <Modal.Title>{this.props.t('FIELDS.EDIT_FIELD.EDIT_NAME')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <input id="field_name" type="text" value={this.state.field_name} onChange={(event) => this.handleFieldName(event)}/>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.changeFieldName}>Save</Button>
-              <Button onClick={this.handleClose}>Close</Button>
+              <Button onClick={this.changeFieldName}>{this.props.t('common:SAVE')}</Button>
+              <Button onClick={this.handleClose}>{this.props.t('common:CLOSE')}</Button>
             </Modal.Footer>
           </Modal>
         </div>
         {
           this.state.selectedFieldCrops.length === 0 && this.state.selectedExpiredFieldCrops.length === 0 &&  <div className={styles.deleteField}>
-            <button onClick={()=>this.deleteField()}>Delete Field</button>
+            <button onClick={()=>this.deleteField()}>{this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}</button>
           </div>
         }
 
@@ -380,4 +374,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditField);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditField));

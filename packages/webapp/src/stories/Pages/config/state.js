@@ -1266,6 +1266,9 @@ export default {
     }
   },
   entitiesReducer: {
+    switchFarmReducer: {
+      switchFarm: false
+    },
     loginReducer: {
       farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
       user_id: '5fb2fbe57a371e00696833a9'

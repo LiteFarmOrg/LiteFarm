@@ -12,6 +12,7 @@ import footerStyles from "../../../../components/LogFooter/styles.scss";
 import {addExpenses} from '../../actions'
 import {grabCurrencySymbol} from "../../../../util";
 import { userFarmSelector } from '../../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class AddExpense extends Component {
   constructor(props) {
@@ -127,7 +128,7 @@ class AddExpense extends Component {
     const {expenseNames} = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/expense_categories' title='New Expense (2 of 2)'/>
+        <PageTitle backUrl='/expense_categories' title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_2')}/>
         <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date" allowPast={true}/>
         <div>
           {Object.keys(expenseNames).map((k) => {
@@ -142,18 +143,18 @@ class AddExpense extends Component {
                       <div key={i}>
                         <Field model={`.expenseDetail[${k}][${i}]`} className={styles.fieldContainer}>
                           <div className={styles.labelInput}>
-                            <label>Item<br/>Name</label>
+                            <label>{this.props.t('EXPENSE.ITEM')}<br/>{this.props.t('EXPENSE.NAME')}</label>
                             <Control.text type="text" model={`.expenseDetail[${k}][${i}].note`} maxLength="25"/>
                           </div>
                           <div className={styles.labelInput}>
-                            <label>Value ({this.state.currencySymbol})</label>
+                            <label>{this.props.t('EXPENSE.VALUE')} ({this.state.currencySymbol})</label>
                             <Control.text type="number" model={`.expenseDetail[${k}][${i}].value`} min="0.01" step="0.01" />
                           </div>
                         </Field>
                         {
                           i !== 0 &&
                             <div className={styles.removeButton}>
-                              <button onClick={() => this.removeField(k, i)}>remove</button>
+                              <button onClick={() => this.removeField(k, i)}>{this.props.t('common:REMOVE')}</button>
                             </div>
 
                         }
@@ -163,7 +164,7 @@ class AddExpense extends Component {
                 <div className={styles.addContainer}>
                   <div className={styles.greenPlus}>+</div>
                   <button onClick={() => this.addSubExpense(k)}>
-                    Add more items
+                    {this.props.t('EXPENSE.ADD_MORE_ITEMS')}
                   </button>
                 </div>
               </Form>
@@ -172,9 +173,9 @@ class AddExpense extends Component {
 
           <div className={footerStyles.bottomContainer}>
             <div className={footerStyles.cancelButton} onClick={()=>history.push('/finances')}>
-              Cancel
+              {this.props.t('common:CANCEL')}
             </div>
-            <div className="btn btn-primary" onClick={() => this.handleSubmit()}>Save</div>
+            <div className="btn btn-primary" onClick={() => this.handleSubmit()}>{this.props.t('common:SAVE')}</div>
           </div>
         </div>
 
@@ -198,4 +199,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddExpense);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(AddExpense));

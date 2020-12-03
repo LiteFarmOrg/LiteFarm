@@ -1,18 +1,3 @@
-/*
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
- *
- *  LiteFarm is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  LiteFarm is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
- */
-
  .home .lander {
     text-align: center;
     color: var(--primary);
@@ -26,21 +11,6 @@
     font-family: "Open Sans", "SansSerif", serif;
 }
 
-  .bottomContainer {
-    width: 240px;
-    position: fixed;
-    bottom: 0;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-weight: 600;
-    align-items: center;
-    padding: 2% 5% 2% 5%;
-    background: white;
-    box-shadow: 0 -5px 5px -5px #333;
-    border-radius: 10px;
-  }
-
   .home .lander h1 {
     font-weight: 600;
     //mix-blend-mode: difference;
@@ -51,65 +21,10 @@
     flex: 1;
   }
 
-  .submit {
-    margin-top: 7px;
-  }
-
-  .field {
-    display: block;
-    width: 240px;
-    margin: 0 auto;
-  }
-
   .greetContainer {
     margin: auto;
     width: 90%;
     display: flex;
     flex-direction: column;
     overflow: visible;
-  }
-
-  .logo {
-    max-width: 50%;
-    max-height: 50%;
-  }
-
-  .otherPhotos {
-    max-width: 70%;
-    max-height: 70%;
-    margin-bottom: 0.5em;
-  }
-
-  .textColor {
-    color: #028577;
-
-    :global(.slider-control-centerright) {
-      top: initial !important;
-      position: absolute !important;
-      bottom: -10% !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-    }
-
-    :global(.slider-control-bottomcenter) {
-      position: absolute !important;
-      bottom: initial !important;
-      left: initial !important;
-      top: 60% !important;
-      right: -10% !important;
-      transform: rotate(90deg) !important;
-      @media only screen and (max-device-width: 667px) {
-        right: -20% !important;
-      }
-    }
-
-  }
-
-  .bodyText {
-    margin: 10px;
-  }
-
-  .weatherMsg{
-    font-size: 12px;
-    margin-top: 15%;
   }

@@ -10,6 +10,7 @@ import history from '../../../history';
 import {grabCurrencySymbol} from "../../../util";
 import ConfirmModal from "../../../components/Modals/Confirm";
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 class ExpenseDetail extends Component {
   constructor(props) {
@@ -112,7 +113,7 @@ class ExpenseDetail extends Component {
     const {date, expenseItems, total} = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/other_expense' title='Expense Detail'/>
+        <PageTitle backUrl='/other_expense' title={this.props.t('SALE.EXPENSE_DETAIL.TITLE')}/>
         <div className={styles.innerInfo}>
           <h4>{date}</h4>
           {/*<DropdownButton*/}
@@ -127,8 +128,8 @@ class ExpenseDetail extends Component {
         </div>
 
         <div className={styles.itemContainer}>
-          <h4><strong>Expense Description</strong></h4>
-          <div>Cost</div>
+          <h4><strong>{this.props.t('SALE.EXPENSE_DETAIL.DESCRIPTION')}</strong></h4>
+          <div>{this.props.t('SALE.EXPENSE_DETAIL.COST')}</div>
         </div>
         {
           expenseItems.length > 0 &&
@@ -154,7 +155,7 @@ class ExpenseDetail extends Component {
           })
         }
         <div className={styles.itemContainer}>
-          <h4><strong>Total</strong></h4>
+          <h4><strong>{this.props.t('SALE.EXPENSE_DETAIL.TOTAL')}</strong></h4>
           <div className={styles.greenText} id="total-amount">{this.state.currencySymbol + total}</div>
         </div>
         <ConfirmModal
@@ -164,7 +165,7 @@ class ExpenseDetail extends Component {
             this.deleteExpenses();
             this.setState({showModal: false});
           }}
-          message='Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.'
+          message={this.props.t('SALE.EXPENSE_DETAIL.DELETE_CONFIRMATION')}
         />
       </div>
     )
@@ -186,4 +187,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ExpenseDetail));

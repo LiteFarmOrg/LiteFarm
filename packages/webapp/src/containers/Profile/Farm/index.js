@@ -10,6 +10,7 @@ import { getFarmSchedule, sendFarmDataRequst } from './actions'
 import { farmDataSelector } from './selector';
 import Popup from 'reactjs-popup';
 import { userFarmSelector } from '../../userFarmSlice';
+import {withTranslation} from "react-i18next";
 
 
 class Farm extends Component {
@@ -63,6 +64,10 @@ class Farm extends Component {
     this.setState({ showData: true });
   };
 
+  changeLanguage = (event) => {
+    this.props.i18n.changeLanguage(event.target.value)
+  }
+
   render() {
     const {farm, schedule} = this.props;
     const {request_text, request_pending_text, enableRequest} = this.state;
@@ -72,7 +77,7 @@ class Farm extends Component {
           {farm && farm.farm_name && (
             <Form model="profileForms" onSubmit={(val) => this.handleSubmit(val.farmInfo, farm)}>
               <div className={styles.labelContainer}>
-                <label>Farm<br/>Name</label>
+                <label>{this.props.t('PROFILE.FARM.FARM_NAME')}</label>
                 <Control.text model=".farmInfo.farm_name"
                               validators={{required: (val) => val.length, length: (val) => val.length > 2}}
                               defaultValue={farm.farm_name}/>
@@ -80,37 +85,46 @@ class Farm extends Component {
 
               {farm.farm_phone_number && (
                 <div className={styles.phoneContainer}>
-                  <label>Phone<br/>Number</label>
+                  <label>{this.props.t('PROFILE.FARM.PHONE_NUMBER')}</label>
                   <Control.text model=".farmInfo.farm_phone_number" defaultValue={farm.farm_phone_number}/>
                 </div>
               )}
               {!farm.farm_phone_number && (
                 <div className={styles.phoneContainer}>
-                  <label>Phone<br/>Number</label>
+                  <label>{this.props.t('PROFILE.FARM.PHONE_NUMBER')}</label>
                   <Control.text model=".farmInfo.farm_phone_number"/>
                 </div>
               )}
               <div className={styles.labelContainer}>
-                <label>Address</label>
+                <label>{this.props.t('PROFILE.FARM.ADDRESS')}</label>
                 <Control model=".farmInfo.address" value={farm.address} disabled/>
               </div>
               <div className={styles.selectContainer}>
-                <label>Units</label>
+                <label>{this.props.t('PROFILE.FARM.UNITS')}</label>
                 <Control.select model=".farmInfo.unit" defaultValue={farm.units.measurement} style={{marginLeft: '8px'}}>
                   <option value="metric">Metric</option>
                   <option value="imperial">Imperial</option>
                 </Control.select>
               </div>
               <div className={styles.selectContainer}>
-                <label>Currency</label>
+                <label>{this.props.t('PROFILE.FARM.CURRENCY')}</label>
                 <p style={{marginLeft: '8px'}}>{farm.units.currency}</p>
+              </div>
+              <div className={styles.selectContainer}>
+                <label>{this.props.t('PROFILE.FARM.LANGUAGE')}</label>
+                <select defaultValue={'en'} style={{marginLeft: '8px'}} onChange={this.changeLanguage}>
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                  <option value="pt">Portuguese</option>
+                  <option value="fr">French</option>
+                </select>
               </div>
               {/* <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
                 {request_text}
               </div> */}
               <div className={defaultStyles.bottomContainer}>
                 <div className={defaultStyles.buttonContainer}>
-                  <Button type='submit' variant='primary'>Save</Button>
+                  <Button type='submit' variant='primary'>{this.props.t('common:SAVE')}</Button>
                 </div>
               </div>
             </Form>
@@ -130,14 +144,14 @@ class Farm extends Component {
           </div>
           <hr style={{border: '0.5px solid black', height: '0px', marginLeft: '-6%'}} />
           <p>
-            You can request a data download and we will send your farm's data to your email, in the form of csv.
+            {this.props.t('PROFILE.FARM.REQUEST_DATA')}
           </p>
 
             {
               enableRequest && schedule && schedule.farm_data_schedule && schedule.farm_data_schedule.length === 0 &&
               <div className={styles.requestContainer}>
               <Button onClick={()=>this.sendRequest()} >
-                Make a request
+                {this.props.t('PROFILE.FARM.MAKE_REQUEST')}
               </Button>
               </div>
             }
@@ -171,4 +185,4 @@ const mapStateToProps = (state) => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Farm);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Farm));

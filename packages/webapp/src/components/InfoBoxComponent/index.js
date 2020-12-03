@@ -17,6 +17,7 @@ import React, {Component} from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import styles from "../PageTitle/styles.scss";
 import { BsInfoCircleFill } from "react-icons/bs";
+import {withTranslation} from "react-i18next";
 
 class InfoBoxComponent extends Component {
   constructor(props) {
@@ -75,10 +76,10 @@ class InfoBoxComponent extends Component {
           </Modal.Body>
           <Modal.Footer>
             {showDelete &&
-            <Button variant="danger" onClick={() => {this.handleDelete(deleteHandler)}}>Delete</Button>}
+            <Button variant="danger" onClick={() => {this.handleDelete(deleteHandler)}}>{this.props.t('common:DELETE')}</Button>}
             {showSave &&
-            <Button variant="primary" onClick={() => {this.handleSave(saveHandler)}}>Save Changes</Button>}
-            <Button variant="secondary" onClick={this.handleClose}>Close</Button>
+            <Button variant="primary" onClick={() => {this.handleSave(saveHandler)}}>{this.props.t('common:SAVE_CHANGES')}</Button>}
+            <Button variant="secondary" onClick={this.handleClose}>{this.props.t('common:CLOSE')}</Button>
 
           </Modal.Footer>
         </Modal>
@@ -87,4 +88,4 @@ class InfoBoxComponent extends Component {
   }
 }
 
-export default InfoBoxComponent
+export default withTranslation()(InfoBoxComponent);

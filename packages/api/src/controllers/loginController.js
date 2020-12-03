@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
+const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
 const { createAccessToken } = require('../util/jwt');
 

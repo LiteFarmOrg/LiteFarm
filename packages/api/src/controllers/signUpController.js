@@ -115,13 +115,6 @@ class signUpController extends baseController {
         // Update user's info in users table
         const updatedUserInfo = { first_name, last_name };
         await userModel.query(trx).where('user_id', id).patch(updatedUserInfo);
-        // Update user's status in userFarm table
-        await userFarmModel.query(trx)
-          .where('user_id', id)
-          .andWhere('farm_id', farm_id)
-          .patch({
-            status: 'Active',
-          });
         // Update token status to invalid
         await emailTokenModel.query(trx)
           .where('user_id', id)

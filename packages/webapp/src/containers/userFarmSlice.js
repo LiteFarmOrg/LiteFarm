@@ -67,6 +67,14 @@ const userFarmSlice = createSlice({
         consent_version,
       });
     },
+    patchStatusConsentSuccess: (state, {payload}) => {
+      const { has_consent, consent_version, status, farm_id, user_id } = payload;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
+        has_consent,
+        consent_version,
+        status
+      });
+    },
     patchStepFourSuccess: (state, { payload: { step_four, step_four_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_four, step_four_end,
@@ -95,7 +103,7 @@ const userFarmSlice = createSlice({
 
 export const {
   onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
-  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess, patchFarmSuccess
+  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess, patchFarmSuccess, patchStatusConsentSuccess
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 

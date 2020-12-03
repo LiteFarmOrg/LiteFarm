@@ -56,8 +56,8 @@ class loginController extends baseController {
           const newUser = { user_id, email, first_name, last_name };
           await userModel.query().insert(newUser);
         }
-        const token = await createAccessToken({ user_id, email, first_name, last_name });
-        return res.status(201).send(token);
+        const id_token = await createAccessToken({ user_id, email, first_name, last_name });
+        return res.status(201).send({ id_token, user: { user_id } });
       } catch (err) {
         throw 'Fail to login';
       }

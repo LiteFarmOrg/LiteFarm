@@ -5,11 +5,11 @@ import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
 import styles from './styles.scss';
 import apiConfig from '../../apiConfig';
-import Auth from '../../Auth/Auth';
+// import Auth from '../../Auth/Auth';
 import Callback from '../../components/Callback';
 import InvalidToken from './InvalidToken';
 
-const auth = new Auth();
+// const auth = new Auth();
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 // MUST pass in component like this per package requirements
 const CustomInput = (props) => {
@@ -129,12 +129,12 @@ class SignUp extends React.Component {
         }
         else if(result.status === 202){
           this.setState({ tokenStatus: 'used' });
-          auth.login();
+          // auth.login();
         }
         else if(result.status === 401){
           this.setState({ tokenStatus: 'invalid' });
         }
-        
+
       }
     } catch (error) {
       this.setState({ tokenStatus: 'invalid' });
@@ -177,7 +177,7 @@ class SignUp extends React.Component {
       const result = await axios.patch(signUpUrl + `/${user_id}`, user, header);
       if (result && result.status === 200) {
         toastr.success(result.data);
-        auth.login();
+        // auth.login();
         this.setState({ tokenStatus: 'used' });
       }
     } catch (error) {

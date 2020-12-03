@@ -14,7 +14,6 @@
  */
 
 import React from 'react';
-import Auth from '../../Auth/Auth';
 import logo from '../../assets/images/logo2x.png';
 import picOne from '../../assets/images/introSliders/0.png';
 import picTwo from '../../assets/images/introSliders/1.png';
@@ -58,8 +57,6 @@ const slides = [
     }
 ];
 
-const auth = new Auth();
-
 class Login extends React.Component {
     render() {
         return <div className={styles.home} >
@@ -76,7 +73,7 @@ class Login extends React.Component {
                     })}
                 </Carousel>
             </div>
-            <LoginButton auth={auth}/>
+            <LoginButton />
         </div>
       </div>
     }

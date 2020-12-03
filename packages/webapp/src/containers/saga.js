@@ -37,7 +37,6 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
-import Auth from '../Auth/Auth.js';
 import { loginSelector, loginSuccess } from './loginSlice';
 import { userFarmSelector, putUserSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';

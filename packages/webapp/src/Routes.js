@@ -16,7 +16,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Callback from './components/Callback';
-import Auth from './Auth/Auth';
 import Home from './containers/Home';
 import Profile from './containers/Profile';
 import IntroSlide from './containers/IntroSlide';
@@ -97,32 +96,23 @@ import SaleDetail from './containers/Finances/SaleDetail';
 import RoleSelection from './containers/RoleSelection';
 import { useDispatch, useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
+import {isAuthenticated} from './util/jwt';
 
 // action
 import { loginSuccess } from './containers/loginSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import GoogleLoginButton from './containers/GoogleLoginButton';
 
-const auth = new Auth();
-
-const handleAuthentication = (nextState, loginSuccess = () => {
-}) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication(loginSuccess);
-  }
-};
-
 
 const Routes = () => {
   const dispatch = useDispatch();
-  const isAuthenticated = auth.isAuthenticated();
   const dispatchLoginSuccess = (user_id) => {
     dispatch(loginSuccess({ user_id }))
   };
   const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
     && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
   let { step_five, has_consent, role_id } = userFarm;
-  if (isAuthenticated) {
+  if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
     if (!step_five) {
@@ -209,10 +199,10 @@ const Routes = () => {
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/sale_detail" exact component={SaleDetail}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
-          <Route path="/callback" render={(props) => {
-            handleAuthentication(props, dispatchLoginSuccess);
-            return <Callback {...props} />
-          }}/>
+          {/*<Route path="/callback" render={(props) => {*/}
+          {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+          {/*  return <Callback {...props} />*/}
+          {/*}}/>*/}
           <Route path="/log_detail" exact component={LogDetail}/>
           //TODO change to 404
           <Redirect to={'/'}/>
@@ -296,10 +286,10 @@ const Routes = () => {
 
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/farm_selection" exact component={ChooseFarm}/>
-          <Route path="/callback" render={(props) => {
-            handleAuthentication(props, dispatchLoginSuccess);
-            return <Callback {...props} />
-          }}/>
+          {/*<Route path="/callback" render={(props) => {*/}
+          {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+          {/*  return <Callback {...props} />*/}
+          {/*}}/>*/}
           <Route path="/log_detail" exact component={LogDetail}/>
           //TODO change to 404
           <Redirect to={'/'}/>
@@ -342,10 +332,10 @@ const Routes = () => {
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/log_detail" exact component={LogDetail}/>
           <Route path="/farm_selection" exact component={ChooseFarm}/>
-          <Route path="/callback" render={(props) => {
-            handleAuthentication(props, dispatchLoginSuccess);
-            return <Callback {...props} />
-          }}/>
+          {/*<Route path="/callback" render={(props) => {*/}
+          {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+          {/*  return <Callback {...props} />*/}
+          {/*}}/>*/}
           <Route path="/insights" exact component={Insights}/>
           <Route path="/insights/peoplefed" exact component={PeopleFed}/>
           <Route path="/insights/soilom" exact component={SoilOM}/>
@@ -360,16 +350,16 @@ const Routes = () => {
         </Switch>
       );
     }
-  } else if (!auth.isAuthenticated()) {
+  } else if (!isAuthenticated()) {
     return (
       <Switch>
-        <Route path="/callback" render={(props) => {
-          handleAuthentication(props, dispatchLoginSuccess);
-          return <Callback {...props} />
-        }}/>
+        {/*<Route path="/callback" render={(props) => {*/}
+        {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+        {/*  return <Callback {...props} />*/}
+        {/*}}/>*/}
         <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>
         <Route  path="/login-google" exact component={GoogleLoginButton}/>
-        <Route path="/*" exact component={Login}/>
+        <Route path="/*" exact component={GoogleLoginButton}/>
       </Switch>
     );
   }

@@ -19,7 +19,6 @@ import { onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess } 
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector, loginSuccess } from '../loginSlice';
 import { getHeader } from '../saga';
-import Auth from '../../Auth/Auth';
 import { toastr } from 'react-redux-toastr';
 import { getUserSuccess, onLoadingUsersStart, onLoadingUsersFail } from '../userSlice';
 
@@ -53,10 +52,7 @@ export function* getUserSaga() {
     if (user) {
       yield put(getUserSuccess(user));
     } else {
-      //If user exist in Auth0 database but not postgres database, get user from auth0 and post to postgres database
-      const auth = new Auth();
-      auth.getUserInfo(localStorage.getItem('access_token'), localStorage.getItem('id_token'), (user_id) => put(loginSuccess({ user_id })));
-      console.log('failed to fetch user from database')
+      toastr.error('Failed to fetch user info');
     }
   } catch (error) {
     onLoadingUsersFail({ error });

@@ -28,11 +28,11 @@ import PureNavBar from '../../components/Navigation/NavBar';
 
 import { showSpotlight } from '../actions';
 import { userFarmSelector, userFarmLengthSelector } from '../userFarmSlice';
+import { isAuthenticated } from '../../util/jwt';
 
 const NavBar = (props) => {
-  const { auth, history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
+  const { history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
 
-  const { isAuthenticated } = auth;
   const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
   const Logo = isSmallScreen ? (

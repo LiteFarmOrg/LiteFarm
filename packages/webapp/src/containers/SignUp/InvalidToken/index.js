@@ -18,9 +18,9 @@ import styles from '../styles.scss';
 import handStandPng from '../../../assets/images/miscs/hand_stand.png';
 import errorPng from '../../../assets/images/miscs/error.svg';
 import errorPngAlt from '../../../assets/images/miscs/error.png';
-import Auth from '../../../Auth/Auth';
+// import Auth from '../../../Auth/Auth';
 
-const auth = new Auth();
+// const auth = new Auth();
 
 class InvalidToke extends Component {
   render() {
@@ -42,7 +42,9 @@ class InvalidToke extends Component {
               </div>
             </div>
 
-            <div className={styles.signUpButtonToken} onClick={()=>auth.login()}>Sign Up</div>
+            <div className={styles.signUpButtonToken}
+                 // onClick={()=>auth.login()}
+            >Sign Up</div>
           </div>
 
         </div>

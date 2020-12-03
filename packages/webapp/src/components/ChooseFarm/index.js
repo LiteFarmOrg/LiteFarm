@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 export default function PureChooseFarmScreen({
   farms = [], onGoBack,
-  onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled, title='Choose your farm'
+  onProceed, onSelectFarm, onCreateFarm, isOnBoarding, onFilterChange, isSearchable, disabled, title
 }) {
   const { t } = useTranslation();
 

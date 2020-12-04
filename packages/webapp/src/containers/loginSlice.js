@@ -29,7 +29,7 @@ const loginSlice = createSlice({
       state.user_id = undefined;
       state.farm_id = undefined;
     },
-    deselectFarmSuccess: (state) => state.farm_id = undefined,
+    deselectFarmSuccess: (state) => (state.farm_id = undefined),
   },
 });
 

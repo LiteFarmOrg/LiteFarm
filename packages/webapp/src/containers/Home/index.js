@@ -5,7 +5,7 @@ import { toastr } from 'react-redux-toastr';
 import WeatherBoard from '../../containers/WeatherBoard';
 import PureHome from '../../components/Home';
 import { userFarmSelector } from '../userFarmSlice';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import history from '../../history';
 
@@ -33,10 +33,10 @@ export default function Home() {
     ) {
       // is Google Chrome
     } else {
-      toastr.warning(t('HOME.CHROME_WARNING'))
+      toastr.warning(t('HOME.CHROME_WARNING'));
       // not Google Chrome
     }
-  }
+  };
   useEffect(() => {
     detectBrowser();
   }, []);
@@ -44,26 +44,32 @@ export default function Home() {
   const [switchFarm, setSwitchFarm] = useState(history.location.state);
   const dismissPopup = () => setSwitchFarm(false);
 
-  return <PureHome title={`${t('HOME.GREETING')}, ${userFarm?.first_name}`}
-                                 imgUrl={imgUrl}>
-    {userFarm? <WeatherBoard lon={userFarm.grid_points.lng}
-                                 lat={userFarm.grid_points.lat}
-                                 lang={'en'}
-                                 measurement={userFarm.units.measurement}/>: null}
-    {switchFarm && <FarmSwitchOutro onFinish={dismissPopup}/>}
+  return (
+    <PureHome title={`${t('HOME.GREETING')} ${userFarm?.first_name}`} imgUrl={imgUrl}>
+      {userFarm ? (
+        <WeatherBoard
+          lon={userFarm.grid_points.lng}
+          lat={userFarm.grid_points.lat}
+          lang={'en'}
+          measurement={userFarm.units.measurement}
+        />
+      ) : null}
+      {switchFarm && <FarmSwitchOutro onFinish={dismissPopup} />}
 
-    {
-      switchFarm &&
-      <div onClick={dismissPopup} style={{
-        position: 'fixed',
-        zIndex: 100,
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(25, 25, 40, 0.8)',
-      }}/>
-    }
-
-  </PureHome>
+      {switchFarm && (
+        <div
+          onClick={dismissPopup}
+          style={{
+            position: 'fixed',
+            zIndex: 100,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(25, 25, 40, 0.8)',
+          }}
+        />
+      )}
+    </PureHome>
+  );
 }

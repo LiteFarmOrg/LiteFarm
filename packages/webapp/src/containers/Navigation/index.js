@@ -19,11 +19,11 @@ import { useMediaQuery } from 'react-responsive';
 import SlideMenu from './slideMenu';
 import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
-import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar'
-import styles1 from './styles1.scss'
-import { spotlightSelector } from '../selector'
+import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
+import styles1 from './styles1.scss';
+import { spotlightSelector } from '../selector';
 import PureNavBar from '../../components/Navigation/NavBar';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 import { showSpotlight } from '../actions';
 import { userFarmSelector, userFarmLengthSelector } from '../userFarmSlice';
@@ -38,10 +38,8 @@ const NavBar = (props) => {
   const myProfileSpotlight = t('NAVIGATION.SPOTLIGHT.PROFILE');
 
   const returnNextButton = (str) => {
-    return (
-      <span className={styles1.black}>{str}</span>
-    )
-  }
+    return <span className={styles1.black}>{str}</span>;
+  };
 
   const steps = [
     {
@@ -74,70 +72,80 @@ const NavBar = (props) => {
       },
       placement: 'right-start',
       showCloseButton: false,
-
     },
-
-  ]
-
+  ];
 
   const resetSpotlight = () => {
-    dispatch(showSpotlight(false))
-  }
+    dispatch(showSpotlight(false));
+  };
 
   const initialState = { profile: false };
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
   const changeInteraction = (tooltipName, onOverlay = false) => {
-    const newInteraction = onOverlay ? initialState : {
-      ...initialState,
-      [tooltipName]: !tooltipInteraction[tooltipName],
-    };
+    const newInteraction = onOverlay
+      ? initialState
+      : {
+          ...initialState,
+          [tooltipName]: !tooltipInteraction[tooltipName],
+        };
     setTooltipInteraction(newInteraction);
     setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
-  }
-
+  };
 
   return isFarmSelected ? (
-    <PureNavBar logo={<Logo history={history}/>} steps={show_spotlight && steps} resetSpotlight={resetSpotlight}
-                isOneTooltipOpen={isOneTooltipOpen} changeInteraction={changeInteraction}
-                showSwitchFarm={numberOfUserFarm > 1}
-                tooltipInteraction={tooltipInteraction} history={history}>
-      <SlideMenu right/>
+    <PureNavBar
+      logo={<Logo history={history} />}
+      steps={show_spotlight && steps}
+      resetSpotlight={resetSpotlight}
+      isOneTooltipOpen={isOneTooltipOpen}
+      changeInteraction={changeInteraction}
+      showSwitchFarm={numberOfUserFarm > 1}
+      tooltipInteraction={tooltipInteraction}
+      history={history}
+    >
+      <SlideMenu right />
     </PureNavBar>
-  ) : <NoFarmNavBar history={history}/>;
-}
+  ) : (
+    <NoFarmNavBar history={history} />
+  );
+};
 
 const returnContent = (spotlightType, title) => {
   return spotlightType.split(',').map(function (item, key) {
-    return (
-      title ?
-        <span key={key} className={styles1.green}>
+    return title ? (
+      <span key={key} className={styles1.green}>
         <p align="left">{item}</p>
-        </span> :
-        <span key={key}><p align="left">{item}</p></span>
-    )
-  })
-}
-
+      </span>
+    ) : (
+      <span key={key}>
+        <p align="left">{item}</p>
+      </span>
+    );
+  });
+};
 
 const Logo = ({ history }) => {
   const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
-  return isSmallScreen ? (<img src={SmallerLogo} alt="Logo" onClick={() => history.push('/')}/>) :
-    (<img src={SmallLogo} alt="Logo" onClick={() => history.push('/')}/>)
-}
+  return isSmallScreen ? (
+    <img src={SmallerLogo} alt="Logo" onClick={() => history.push('/')} />
+  ) : (
+    <img src={SmallLogo} alt="Logo" onClick={() => history.push('/')} />
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
     farm: userFarmSelector(state),
     show_spotlight: spotlightSelector(state),
     numberOfUserFarm: userFarmLengthSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

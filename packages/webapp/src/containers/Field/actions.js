@@ -29,39 +29,39 @@ import {
 export const getCrops = () => {
   return {
     type: GET_CROPS,
-  }
+  };
 };
 
 export const getExpiredCrops = () => {
   return {
     type: GET_EXPIRED_CROPS,
-  }
+  };
 };
 
 export const getPrices = () => {
   return {
-    type: GET_PRICE
-  }
+    type: GET_PRICE,
+  };
 };
 
 export const getYield = () => {
   return {
-    type: GET_YIELD
-  }
+    type: GET_YIELD,
+  };
 };
 
 export const setCropsInState = (crops) => {
   return {
     type: SET_CROPS_IN_STATE,
-    crops
-  }
+    crops,
+  };
 };
 
 export const setExpiredCropsInState = (expiredCrops) => {
   return {
     type: SET_EXPIRED_CROPS_IN_STATE,
-    expiredCrops
-  }
+    expiredCrops,
+  };
 };
 
 export const deleteFieldCrop = (fieldCropId, fieldId) => {
@@ -69,26 +69,26 @@ export const deleteFieldCrop = (fieldCropId, fieldId) => {
     type: DELETE_FIELD_CROP,
     fieldCropId,
     fieldId,
-  }
+  };
 };
 
 export const setYieldInState = (yieldData) => {
   return {
     type: SET_YIELD_IN_STATE,
     yieldData,
-  }
+  };
 };
 
 export const setPriceInState = (price) => {
   return {
     type: SET_PRICE_IN_STATE,
     price,
-  }
+  };
 };
 
 export const deleteField = (fieldId) => {
   return {
     type: DELETE_FIELD,
     fieldId,
-  }
+  };
 };

@@ -37,22 +37,22 @@ const axios = require('axios');
 export function* getSales() {
   const { salesURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, salesURL + '/' + farm_id, header);
     if (result) {
       yield put(setSalesInState(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch fields from database')
+  } catch (e) {
+    console.log('failed to fetch fields from database');
   }
 }
 
 export function* addSale(action) {
   const { salesURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   const addOrUpdateSuccess = action.sale.sale_id ? 'updated' : 'added';
   const addOrUpdateFail = action.sale.sale_id ? 'update' : 'add';
@@ -65,7 +65,7 @@ export function* addSale(action) {
         yield put(setSalesInState(result.data));
       }
     }
-  } catch(e) {
+  } catch (e) {
     console.log(`failed to ${addOrUpdateFail} sale`);
     toastr.error(`Failed to ${addOrUpdateFail} new Sale`);
   }
@@ -74,7 +74,7 @@ export function* addSale(action) {
 export function* updateSaleSaga(action) {
   const { salesURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.patch, salesURL, action.sale, header);
@@ -85,28 +85,27 @@ export function* updateSaleSaga(action) {
         yield put(setSalesInState(result.data));
       }
     }
-  } catch(e) {
+  } catch (e) {
     console.log(`failed to update sale`);
     toastr.error(`Failed to update  Sale`);
   }
 }
 
-
 export function* deleteSale(action) {
   const { salesURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, salesURL + "/" + action.sale.id, header);
+    const result = yield call(axios.delete, salesURL + '/' + action.sale.id, header);
     if (result) {
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if(result) {
+      if (result) {
         yield put(setSalesInState(result.data));
       }
       toastr.success(`Successfully deleted Sale!`);
     }
-  } catch(e) {
+  } catch (e) {
     console.log(`failed to delete sale`);
     toastr.error(`Failed to delete new Sale`);
   }
@@ -115,56 +114,55 @@ export function* deleteSale(action) {
 export function* getShiftsSaga() {
   const { farmShiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, farmShiftUrl + farm_id, header);
     if (result) {
       yield put(setShifts(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch shifts from database')
-
+  } catch (e) {
+    console.log('failed to fetch shifts from database');
   }
 }
 
 export function* getExpenseSaga() {
   const { expenseUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setExpense(result.data));
     }
-  } catch(e) {
-    if(e.response.status === 404) {
+  } catch (e) {
+    if (e.response.status === 404) {
       yield put(setExpense([]));
     }
-    console.log('failed to fetch expenses from database')
+    console.log('failed to fetch expenses from database');
   }
 }
 
 export function* getDefaultExpenseTypeSaga() {
   const { expenseTypeDefaultUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, expenseTypeDefaultUrl, header);
     if (result) {
       yield put(setDefaultExpenseType(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch expenses from database')
+  } catch (e) {
+    console.log('failed to fetch expenses from database');
   }
 }
 
 export function* addExpensesSaga(action) {
   const { expenseUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
@@ -175,7 +173,7 @@ export function* addExpensesSaga(action) {
         yield put(setExpense(result.data));
       }
     }
-  } catch(e) {
+  } catch (e) {
     toastr.error(`Failed to add new expenses`);
   }
 }
@@ -183,10 +181,10 @@ export function* addExpensesSaga(action) {
 export function* deleteExpensesSaga(action) {
   const { expenseUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.put, expenseUrl , action.ids, header);
+    const result = yield call(axios.put, expenseUrl, action.ids, header);
     if (result) {
       toastr.success(`Successfully deleted expenses!`);
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
@@ -194,23 +192,23 @@ export function* deleteExpensesSaga(action) {
         yield put(setExpense(result.data));
       }
     }
-  } catch(e) {
+  } catch (e) {
     toastr.error(`Failed to delete expenses`);
   }
 }
 
 export function* addRemoveExpenseSaga(action) {
-  console.log("add remove expenses saga")
+  console.log('add remove expenses saga');
   const { expenseUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     let addRemoveObj = action.addRemoveObj;
     let result = yield call(axios.put, expenseUrl, addRemoveObj.remove, header);
     if (result) {
-       result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
-      if(result){
+      result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
+      if (result) {
         toastr.success(`Successfully updated expenses!`);
         const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
         if (result) {
@@ -218,7 +216,7 @@ export function* addRemoveExpenseSaga(action) {
         }
       }
     }
-  } catch(e) {
+  } catch (e) {
     toastr.error(`Failed to update expenses`);
   }
 }

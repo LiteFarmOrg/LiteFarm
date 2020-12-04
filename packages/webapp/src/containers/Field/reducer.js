@@ -29,10 +29,10 @@ function fieldReducer(state = initialState, action) {
       });
     case SET_EXPIRED_CROPS_IN_STATE:
       return Object.assign({}, state, {
-        expiredCrops: action.expiredCrops
+        expiredCrops: action.expiredCrops,
       });
     default:
-      return state
+      return state;
   }
 }
 

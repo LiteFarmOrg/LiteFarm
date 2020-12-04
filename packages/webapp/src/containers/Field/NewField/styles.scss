@@ -1,73 +1,72 @@
-.fieldContainer{
+.fieldContainer {
   width: 100%;
   max-width: 1024px;
   margin: 0;
   height: 100vh;
   padding: 0;
-  display:flex;
+  display: flex;
   flex-direction: column;
   z-index: 0;
 }
 
-.div[title="Stop drawing"]{
-  color: red
+.div[title='Stop drawing'] {
+  color: red;
 }
 // .gmnoprint[title='Add a marker']
 // .gmnoprint[title='Draw a shape']
 
-.drawingToolBar{
-    position: fixed;
-    top: 20%;
-    align-self: center;
-    z-index: 10;
+.drawingToolBar {
+  position: fixed;
+  top: 20%;
+  align-self: center;
+  z-index: 10;
 }
 
-.centeredForm{
+.centeredForm {
   align-self: center;
   width: 90%;
 }
 
-.buttonContainer{
+.buttonContainer {
   width: 100%;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 2%;
 
-  button{
+  button {
     margin: 0 auto;
-    display:block;
+    display: block;
   }
 }
-
 
 .infoButton {
   position: fixed;
   right: 0;
   z-index: 10;
   width: 7%;
-  button{
-    height:48px;
-    width:100%;
+  button {
+    height: 48px;
+    width: 100%;
     padding: 0;
     left: 0;
     border: none;
     background: none;
   }
 }
-.backButton{
+.backButton {
   position: absolute;
   z-index: 10;
   width: 7%;
-  button{
-    height:48px;
-    width:100%;
+  button {
+    height: 48px;
+    width: 100%;
     padding: 0;
     left: 0;
     border: none;
     background: none;
   }
-  span{
+  span {
     font-size: 24px;
     transform: scaleX(-1);
   }

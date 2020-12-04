@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (components.test.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,13 +14,13 @@
  */
 
 import React from 'react';
-import Enzyme, {shallow} from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import {Button} from 'react-bootstrap';
-import InfoBoxComponent from "../../components/InfoBoxComponent";
-import InsightsInfoComponent from "../../components/Insights/InsightsInfoComponent";
-import {ProgressBar} from "react-bootstrap";
+import { Button } from 'react-bootstrap';
+import InfoBoxComponent from '../../components/InfoBoxComponent';
+import InsightsInfoComponent from '../../components/Insights/InsightsInfoComponent';
+import { ProgressBar } from 'react-bootstrap';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -35,12 +35,12 @@ describe('Info Box Component Tests', () => {
   beforeEach(() => {
     wrapper = shallow(
       <InfoBoxComponent
-        showSave = {showSave}
-        saveHandler = {saveHandler}
-        showDelete = {showDelete}
-        deleteHandler = {deleteHandler}
-      />
-    )
+        showSave={showSave}
+        saveHandler={saveHandler}
+        showDelete={showDelete}
+        deleteHandler={deleteHandler}
+      />,
+    );
   });
 
   afterEach(() => {
@@ -68,28 +68,22 @@ describe('Info Box Component Tests', () => {
     expect(saveHandler).toHaveBeenCalledTimes(1);
   });
 
-
   it('Info Box Delete Handler Simulate Function', () => {
     const x = deleteHandler();
     expect(x).toBeUndefined();
     expect(deleteHandler).toHaveBeenCalledTimes(1);
-  })
-
+  });
 });
 
 describe('People Fed Info Component Tests', () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallow(
-      <InsightsInfoComponent/>
-    )
+    wrapper = shallow(<InsightsInfoComponent />);
   });
 
   it('Feeding in Percent Should display it in my ProgressBar Props', () => {
     const progress = 12;
     wrapper.setProps({ percent: progress });
-    expect(wrapper.find(ProgressBar).prop("now")).toBe(12);
-  })
-
+    expect(wrapper.find(ProgressBar).prop('now')).toBe(12);
+  });
 });
-

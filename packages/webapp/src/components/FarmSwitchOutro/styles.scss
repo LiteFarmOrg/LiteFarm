@@ -13,35 +13,35 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- .outroContainer {
-    /* Rectangle 49 */
-    display: flex;
-    flex-direction: column;
-    width: 312px;
-    height: 430px;
-    /* Grey-100 */
-    background: #FAFAFD;
-    border-radius: 7.05466px;
-  }
+.outroContainer {
+  /* Rectangle 49 */
+  display: flex;
+  flex-direction: column;
+  width: 312px;
+  height: 430px;
+  /* Grey-100 */
+  background: #fafafd;
+  border-radius: 7.05466px;
+}
 
 .descriptionTop {
-    margin-top:-40px;
-    font-family: "Open Sans", "SansSerif", serif;
-    justify-content: center;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 32px;
-    /* or 160% */
-    display: flex;
-    align-items: center;
-    /* Grey-900 */
-    color: #282B36;
+  margin-top: -40px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  justify-content: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  /* or 160% */
+  display: flex;
+  align-items: center;
+  /* Grey-900 */
+  color: #282b36;
 }
 
 .descriptionBottom {
   justify-content: center;
-  font-family: "Open Sans", "SansSerif", serif;
+  font-family: 'Open Sans', 'SansSerif', serif;
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -52,7 +52,7 @@
 
 .bold {
   justify-content: center;
-  font-family: "Open Sans", "SansSerif", serif;
+  font-family: 'Open Sans', 'SansSerif', serif;
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
@@ -67,30 +67,30 @@
 }
 
 .title {
-    margin-top:20px;
-    margin-left: 20%;
-    font-family: "Open Sans", "SansSerif", serif;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-style: normal;
-    font-weight: lighter;
-    font-size: 20px;
-    line-height: 32px;
-    /* or 160% */
-    display: flex;
-    align-items: center;
-    /* Grey-900 */
-    color: #028577;
+  margin-top: 20px;
+  margin-left: 20%;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 20px;
+  line-height: 32px;
+  /* or 160% */
+  display: flex;
+  align-items: center;
+  /* Grey-900 */
+  color: #028577;
 }
 
 .descriptionFarm {
-    -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
 }
 
-  .bottomContainer {
-    padding-top: 0.9rem;
-    margin-top: 30px;
-    margin-left: 12%;
-    width: 240px;
-    box-shadow: 0 -5px 5px -5px #333;
-  }
+.bottomContainer {
+  padding-top: 0.9rem;
+  margin-top: 30px;
+  margin-left: 12%;
+  width: 240px;
+  box-shadow: 0 -5px 5px -5px #333;
+}

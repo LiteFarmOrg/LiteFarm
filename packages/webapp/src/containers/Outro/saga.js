@@ -36,14 +36,18 @@ export function* patchOutroStepSaga() {
   };
 
   try {
-    yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
+    yield call(
+      axios.patch,
+      userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id,
+      data,
+      header,
+    );
     yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
     history.push('/');
   } catch (e) {
     console.error('failed to update table');
   }
 }
-
 
 export default function* outroSaga() {
   yield takeLatest(patchOutroStep.type, patchOutroStepSaga);

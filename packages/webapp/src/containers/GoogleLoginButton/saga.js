@@ -1,13 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import { url } from '../../apiConfig';
+import { loginUrl as url } from '../../apiConfig';
 import { onLoadingUserFarmsStart, onLoadingUserFarmsFail } from '../userFarmSlice';
 import history from '../../history';
 import { loginSelector, loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
-const loginUrl = () => `${url}/login/google`;
+const loginUrl = () => `${url}/google`;
 
 export const loginWithGoogle = createAction(`loginWithGoogleSaga`);
 
@@ -17,7 +17,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     const header = {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + google_id_token,
+        Authorization: 'Bearer ' + google_id_token,
       },
     };
     const result = yield call(axios.post, loginUrl(), {}, header);
@@ -28,10 +28,8 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
   } catch (e) {
     yield put(onLoadingUserFarmsFail());
     toastr.error('Failed to login user info');
-
   }
 }
-
 
 export default function* loginSaga() {
   yield takeLatest(loginWithGoogle.type, loginWithGoogleSaga);

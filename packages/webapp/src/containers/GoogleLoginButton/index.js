@@ -9,20 +9,22 @@ function GoogleLoginButton({ disabled }) {
   const clientId = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID;
   const onSuccess = (res) => {
     dispatch(loginWithGoogle(res.tokenObj.id_token));
-  }
+  };
   const onFailure = (res) => {
     console.log(res);
-  }
-  return <GoogleLogin
-    onSuccess={onSuccess}
-    onFailure={onFailure}
-    disabled={disabled}
-    style={{ width: '100%', height: '48px', fontWeight: 500 }}
-    clientId={clientId}
-    className={styles.googleButton}
-  >
-    Login with google
-  </GoogleLogin>
+  };
+  return (
+    <GoogleLogin
+      onSuccess={onSuccess}
+      onFailure={onFailure}
+      disabled={disabled}
+      style={{ width: '100%', height: '48px', fontWeight: 500 }}
+      clientId={clientId}
+      className={styles.googleButton}
+    >
+      Login with google
+    </GoogleLogin>
+  );
 }
 
 export default GoogleLoginButton;

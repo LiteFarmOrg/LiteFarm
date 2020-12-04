@@ -19,7 +19,7 @@ import handStandPng from '../../../assets/images/miscs/hand_stand.png';
 import errorPng from '../../../assets/images/miscs/error.svg';
 import errorPngAlt from '../../../assets/images/miscs/error.png';
 // import Auth from '../../../Auth/Auth';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 // const auth = new Auth();
 
@@ -29,12 +29,13 @@ function InvalidToke() {
     <div className={styles.backdrop}>
       <div className={styles.home}>
         <div className={styles.messageContainer}>
-            {/*<div style={background}>apsionaiong</div>*/}
+          {/*<div style={background}>apsionaiong</div>*/}
           <img src={handStandPng} alt="" className={styles.handStand} />
           <div className={styles.redBox}>
-            <div className={styles.redBoxHat}><img src={errorPng} alt={errorPngAlt} className={styles.errorImg} /></div>
+            <div className={styles.redBoxHat}>
+              <img src={errorPng} alt={errorPngAlt} className={styles.errorImg} />
+            </div>
             <div className={styles.errorMsg}>
-
               <h2>{t('SIGNUP.OOPS')}</h2>
 
               <h3>{t('SIGNUP.DIDNT_WORK')}</h3>
@@ -43,14 +44,15 @@ function InvalidToke() {
             </div>
           </div>
 
-          <div className={styles.signUpButtonToken}
-               // onClick={()=>auth.login()}
-          >{t('SIGNUP.TITLE')}</div>
+          <div
+            className={styles.signUpButtonToken}
+            // onClick={()=>auth.login()}
+          >
+            {t('SIGNUP.TITLE')}
+          </div>
         </div>
-
       </div>
     </div>
-
   );
 }
 

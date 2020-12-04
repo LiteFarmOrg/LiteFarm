@@ -13,19 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from '../Finances/styles.scss';
 import newStyles from './styles.scss';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Table from '../../components/Table';
 import history from '../../history';
-import {getExpense, getSales, getShifts} from "../Finances/actions";
-import {calcBalanceByCrop, calcOtherExpense, calcSales, calcTotalLabour} from "../Finances/util";
+import { getExpense, getSales, getShifts } from '../Finances/actions';
+import { calcBalanceByCrop, calcOtherExpense, calcSales, calcTotalLabour } from '../Finances/util';
 import moment from 'moment';
-import {expenseSelector, salesSelector, shiftSelector} from "../Finances/selectors";
-import { BsChevronRight } from "react-icons/all";
-import {withTranslation} from "react-i18next";
-
+import { expenseSelector, salesSelector, shiftSelector } from '../Finances/selectors';
+import { BsChevronRight } from 'react-icons/all';
+import { withTranslation } from 'react-i18next';
 
 class NewFinances extends Component {
   constructor(props) {
@@ -45,60 +44,93 @@ class NewFinances extends Component {
     this.props.dispatch(getSales());
     this.props.dispatch(getShifts());
     this.props.dispatch(getExpense());
-    const {shifts, expenses, sales} = this.props;
+    const { shifts, expenses, sales } = this.props;
 
     const otherExpense = calcOtherExpense(expenses, this.state.startDate, this.state.endDate);
     const labourExpense = calcTotalLabour(shifts, this.state.startDate, this.state.endDate);
     const sumExpenses = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
-    const calculatedBalanceByCrop = calcBalanceByCrop(shifts, sales, expenses, this.state.startDate, this.state.endDate);
+    const calculatedBalanceByCrop = calcBalanceByCrop(
+      shifts,
+      sales,
+      expenses,
+      this.state.startDate,
+      this.state.endDate,
+    );
     calculatedBalanceByCrop.sort((a, b) => parseFloat(b.profit) - parseFloat(a.profit)); // sort descending
-    const bestCrops = calculatedBalanceByCrop.splice(0, Math.ceil(calculatedBalanceByCrop.length / 2)); // taking the first half of array
+    const bestCrops = calculatedBalanceByCrop.splice(
+      0,
+      Math.ceil(calculatedBalanceByCrop.length / 2),
+    ); // taking the first half of array
     const worstCrops = calculatedBalanceByCrop; // taking second half of array
-    this.setState({bestCrops: bestCrops});
-    this.setState({worstCrops: worstCrops});
+    this.setState({ bestCrops: bestCrops });
+    this.setState({ worstCrops: worstCrops });
 
     const sumSales = calcSales(sales, this.state.startDate, this.state.endDate);
-    this.setState({totalExpenses: sumExpenses});
-    this.setState({totalSales: sumSales});
-    this.setState({totalBalance: (sumSales - sumExpenses).toFixed(2)});
+    this.setState({ totalExpenses: sumExpenses });
+    this.setState({ totalSales: sumSales });
+    this.setState({ totalBalance: (sumSales - sumExpenses).toFixed(2) });
   }
 
   render() {
     return (
       <div className={styles.financesContainer}>
-        <h4><strong>{this.props.t('NEW_FINANCES.TITLE')}</strong></h4>
-        <hr/>
+        <h4>
+          <strong>{this.props.t('NEW_FINANCES.TITLE')}</strong>
+        </h4>
+        <hr />
         <div>
-          <div><h4><strong>{this.props.t('NEW_FINANCES.SUMMARY_REPORT')} {this.state.startDate.format('MMM YYYY')} - {this.state.endDate.format('MMM YYYY')}</strong></h4></div>
+          <div>
+            <h4>
+              <strong>
+                {this.props.t('NEW_FINANCES.SUMMARY_REPORT')}{' '}
+                {this.state.startDate.format('MMM YYYY')} - {this.state.endDate.format('MMM YYYY')}
+              </strong>
+            </h4>
+          </div>
           <div className={styles.salesContainer}>
-            <h5 className={styles.balanceTitle}><strong>{this.props.t('NEW_FINANCES.SALES')}</strong></h5>
-            <button style={{float: 'right'}} onClick={() => {
-              history.push('/newfinances/sales')
-            }}>
+            <h5 className={styles.balanceTitle}>
+              <strong>{this.props.t('NEW_FINANCES.SALES')}</strong>
+            </h5>
+            <button
+              style={{ float: 'right' }}
+              onClick={() => {
+                history.push('/newfinances/sales');
+              }}
+            >
               <BsChevronRight />
             </button>
-            <div style={{float: 'right'}}>${this.state.totalSales}</div>
+            <div style={{ float: 'right' }}>${this.state.totalSales}</div>
           </div>
           <div className={styles.expenseContainer}>
             <div>
-              <h5 className={styles.balanceTitle}><strong>{this.props.t('NEW_FINANCES.EXPENSES')}</strong></h5>
-              <button style={{float: 'right', clear: 'both'}} onClick={() => {
-                history.push('/newfinances/expenses');
-              }}>
+              <h5 className={styles.balanceTitle}>
+                <strong>{this.props.t('NEW_FINANCES.EXPENSES')}</strong>
+              </h5>
+              <button
+                style={{ float: 'right', clear: 'both' }}
+                onClick={() => {
+                  history.push('/newfinances/expenses');
+                }}
+              >
                 <BsChevronRight />
               </button>
-              <div style={{float: 'right'}}>${this.state.totalExpenses}</div>
+              <div style={{ float: 'right' }}>${this.state.totalExpenses}</div>
             </div>
           </div>
-          <hr/>
+          <hr />
           <div className={styles.balanceContainer}>
-            <h5 className={styles.balanceTitle}><strong>{this.props.t('NEW_FINANCES.BALANCE')}</strong></h5>
-            <button style={{float: 'right'}} onClick={() => {
-              history.push('/newfinances/balances')
-            }}>
+            <h5 className={styles.balanceTitle}>
+              <strong>{this.props.t('NEW_FINANCES.BALANCE')}</strong>
+            </h5>
+            <button
+              style={{ float: 'right' }}
+              onClick={() => {
+                history.push('/newfinances/balances');
+              }}
+            >
               <BsChevronRight />
             </button>
-            <div style={{float: 'right'}}>${this.state.totalBalance}</div>
+            <div style={{ float: 'right' }}>${this.state.totalBalance}</div>
           </div>
           <div className={styles.table}>
             <div className={newStyles.floatLeft}>
@@ -114,10 +146,11 @@ class NewFinances extends Component {
                       if (handleOriginal) {
                         handleOriginal();
                       }
-                    }
+                    },
                   };
                 }}
-                className={"-striped -highlight"}/>
+                className={'-striped -highlight'}
+              />
             </div>
             <div className={newStyles.floatRight}>
               <Table
@@ -132,15 +165,16 @@ class NewFinances extends Component {
                       if (handleOriginal) {
                         handleOriginal();
                       }
-                    }
+                    },
                   };
                 }}
-                className={"-striped -highlight"}/>
+                className={'-striped -highlight'}
+              />
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -149,13 +183,13 @@ const mapStateToProps = (state) => {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
     expenses: expenseSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 // columns for the react-table
@@ -163,30 +197,30 @@ const bestCropColumns = [
   {
     id: 'best',
     Header: 'Best',
-    accessor: d => d.crop,
-    minWidth: 85
+    accessor: (d) => d.crop,
+    minWidth: 85,
   },
   {
     id: 'value',
     Header: '$',
-    accessor: d => d.profit,
-    minWidth: 85
-  }
+    accessor: (d) => d.profit,
+    minWidth: 85,
+  },
 ];
 
 const worstCropColumns = [
   {
     id: 'worst',
     Header: 'Worst',
-    accessor: d => d.crop,
+    accessor: (d) => d.crop,
     minWidth: 50,
   },
   {
     id: 'value',
     Header: '$',
-    accessor: d => d.profit,
+    accessor: (d) => d.profit,
     minWidth: 50,
-  }
+  },
 ];
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewFinances));

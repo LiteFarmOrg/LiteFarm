@@ -1,9 +1,7 @@
 .labourContainer {
-
 }
 
 .otherExpensesContainer {
-
 }
 
 .table {
@@ -16,15 +14,15 @@
       border: none;
     }
     :global(.rt-thead) {
-      background-color: #CBCDD5;
+      background-color: #cbcdd5;
     }
     :global(.rt-th) {
-      border:none;
+      border: none;
     }
   }
 }
 
-.topButtonContainer{
+.topButtonContainer {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -32,12 +30,12 @@
   align-items: flex-start;
   margin-bottom: 10px;
 }
-.dropDownContainer{
+.dropDownContainer {
   margin-left: 10px;
   width: 45%;
 }
 
-.tableContainer{
+.tableContainer {
   width: 100%;
   padding: 0 2.5%;
 }

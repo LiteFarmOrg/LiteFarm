@@ -22,14 +22,15 @@ const roleSlice = createSlice({
   },
 });
 
-export const {
-  getRolesSuccess,
-  onLoadingRolesStart,
-  onLoadingRolesFail,
-} = roleSlice.actions;
+export const { getRolesSuccess, onLoadingRolesStart, onLoadingRolesFail } = roleSlice.actions;
 export default roleSlice.reducer;
 
-
-export const rolesReducerSelector = state => state.entitiesReducer[roleSlice.name];
-export const rolesSelector = createSelector(rolesReducerSelector, roleReducer => roleReducer.roles);
-export const rolesStatusSelector = createSelector(rolesReducerSelector, ({ error, loading }) => ({ error, loading }));
+export const rolesReducerSelector = (state) => state.entitiesReducer[roleSlice.name];
+export const rolesSelector = createSelector(
+  rolesReducerSelector,
+  (roleReducer) => roleReducer.roles,
+);
+export const rolesStatusSelector = createSelector(rolesReducerSelector, ({ error, loading }) => ({
+  error,
+  loading,
+}));

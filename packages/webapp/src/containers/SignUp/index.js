@@ -8,7 +8,7 @@ import apiConfig from '../../apiConfig';
 // import Auth from '../../Auth/Auth';
 import Callback from '../../components/Callback';
 import InvalidToken from './InvalidToken';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 // const auth = new Auth();
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
@@ -84,7 +84,7 @@ const signUpFields = [
       digit: 'at least one number',
       symbol: 'at least one special character',
     },
-  }
+  },
 ];
 
 class SignUp extends React.Component {
@@ -92,14 +92,7 @@ class SignUp extends React.Component {
     super(props);
     const { match } = props;
     const { params } = match;
-    const {
-      token,
-      user_id,
-      farm_id,
-      email,
-      first_name,
-      last_name,
-    } = params;
+    const { token, user_id, farm_id, email, first_name, last_name } = params;
 
     this.state = {
       tokenStatus: null,
@@ -123,19 +116,19 @@ class SignUp extends React.Component {
           'Content-Type': 'application/json',
         },
       };
-      const result = await axios.get(signUpUrl + `/verify_token/${token}/farm/${farm_id}/user/${user_id}`, header);
+      const result = await axios.get(
+        signUpUrl + `/verify_token/${token}/farm/${farm_id}/user/${user_id}`,
+        header,
+      );
       if (result) {
-        if(result.status === 200){
+        if (result.status === 200) {
           this.setState({ tokenStatus: 'valid' });
-        }
-        else if(result.status === 202){
+        } else if (result.status === 202) {
           this.setState({ tokenStatus: 'used' });
           // auth.login();
-        }
-        else if(result.status === 401){
+        } else if (result.status === 401) {
           this.setState({ tokenStatus: 'invalid' });
         }
-
       }
     } catch (error) {
       this.setState({ tokenStatus: 'invalid' });
@@ -149,16 +142,8 @@ class SignUp extends React.Component {
 
   onClickSubmit = async (form) => {
     const { signUpUrl } = apiConfig;
-    const {
-      token,
-      user_id,
-      farm_id,
-    } = this.state;
-    const {
-      first_name,
-      last_name,
-      password,
-    } = form;
+    const { token, user_id, farm_id } = this.state;
+    const { first_name, last_name, password } = form;
 
     const user = {
       token,
@@ -194,11 +179,11 @@ class SignUp extends React.Component {
     const { profileForms } = this.props;
     const { signUpInfo } = profileForms;
     // If at least one field has errors, return true
-    return Object.keys(signUpInfo).some(key => {
-      const target = signUpFields.find(field => field.key === key);
+    return Object.keys(signUpInfo).some((key) => {
+      const target = signUpFields.find((field) => field.key === key);
       const { validators } = target;
       const textFieldValue = signUpInfo[key];
-      return Object.keys(validators).some(validator => !validators[validator](textFieldValue));
+      return Object.keys(validators).some((validator) => !validators[validator](textFieldValue));
     });
   };
 
@@ -246,28 +231,22 @@ class SignUp extends React.Component {
       // Custom error component that doesn't hide error messages when errorless
       return (
         <div className={styles.criteriaContainer}>
-          {
-            Object.keys(validators).map(criterion => {
-              const isCriterionSatisfied = validators[criterion](password);
-              const statusIconStyle = isCriterionSatisfied
-                ? styles.satisfiedIcon
-                : styles.unsatisfiedIcon;
-              const statusIcon = isCriterionSatisfied ? 'done' : 'close';
-              const criterionTextStyle = isCriterionSatisfied
-                ? styles.satsifiedText
-                : styles.unsatisfiedText;
-              return (
-                <div key={criterion} className={styles.criterionContainer}>
-                  <i className={`material-icons ${statusIconStyle}`}>
-                    {statusIcon}
-                  </i>
-                  <div className={criterionTextStyle}>
-                    {errorMessages[criterion]}
-                  </div>
-                </div>
-              );
-            })
-          }
+          {Object.keys(validators).map((criterion) => {
+            const isCriterionSatisfied = validators[criterion](password);
+            const statusIconStyle = isCriterionSatisfied
+              ? styles.satisfiedIcon
+              : styles.unsatisfiedIcon;
+            const statusIcon = isCriterionSatisfied ? 'done' : 'close';
+            const criterionTextStyle = isCriterionSatisfied
+              ? styles.satsifiedText
+              : styles.unsatisfiedText;
+            return (
+              <div key={criterion} className={styles.criterionContainer}>
+                <i className={`material-icons ${statusIconStyle}`}>{statusIcon}</i>
+                <div className={criterionTextStyle}>{errorMessages[criterion]}</div>
+              </div>
+            );
+          })}
         </div>
       );
     }
@@ -276,7 +255,7 @@ class SignUp extends React.Component {
       <Errors
         model={`.signUpInfo.${key}`}
         messages={errorMessages}
-        show={field => (field.touched && !field.focus)}
+        show={(field) => field.touched && !field.focus}
         component={(props) => (
           <div className={styles.errorContainer}>
             <i className="material-icons">error_outline</i>
@@ -291,12 +270,10 @@ class SignUp extends React.Component {
     const { tokenStatus } = this.state;
 
     if (tokenStatus === 'invalid') {
-      return (
-        <InvalidToken/>
-      );
+      return <InvalidToken />;
     }
 
-    if(tokenStatus === 'valid'){
+    if (tokenStatus === 'valid') {
       return (
         <div className={styles.home}>
           <div className={styles.titleContainer}>
@@ -307,25 +284,19 @@ class SignUp extends React.Component {
             onSubmit={(val) => this.onClickSubmit(val.signUpInfo)}
             className={styles.formContainer}
           >
-            {
-              signUpFields.map(field => {
-                const { key, label } = field;
-                return (
-                  <div key={key}>
-                    <div className={styles.inputContainer}>
-                      <label>{label}</label>
-                      { this.renderControlComponent(field) }
-                    </div>
-                    { this.renderErrorComponent(field) }
+            {signUpFields.map((field) => {
+              const { key, label } = field;
+              return (
+                <div key={key}>
+                  <div className={styles.inputContainer}>
+                    <label>{label}</label>
+                    {this.renderControlComponent(field)}
                   </div>
-                );
-              })
-            }
-            <button
-              type="submit"
-              className={styles.signUpButton}
-              disabled={this.isDisabled()}
-            >
+                  {this.renderErrorComponent(field)}
+                </div>
+              );
+            })}
+            <button type="submit" className={styles.signUpButton} disabled={this.isDisabled()}>
               {this.props.t('SIGNUP.TITLE')}
             </button>
           </Form>
@@ -333,14 +304,14 @@ class SignUp extends React.Component {
       );
     }
 
-    return <Callback />
+    return <Callback />;
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     profileForms: state.profileForms,
-  }
+  };
 };
 
 export default connect(mapStateToProps)(withTranslation()(SignUp));

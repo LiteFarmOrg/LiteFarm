@@ -1,4 +1,9 @@
-import { ADD_FERTILIZER, ADD_FERTILIZER_LOG, EDIT_FERTILIZER_LOG, GET_FERTILIZERS } from './constants';
+import {
+  ADD_FERTILIZER,
+  ADD_FERTILIZER_LOG,
+  EDIT_FERTILIZER_LOG,
+  GET_FERTILIZERS,
+} from './constants';
 import { getFertilizers, setFertilizersInState } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
@@ -13,12 +18,12 @@ export function* getFertilizerSaga() {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   const { fertUrl } = apiConfig;
-  try{
+  try {
     const result = yield call(axios.get, fertUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setFertilizersInState(result.data));
     }
-  }catch (e){
+  } catch (e) {
     console.log('fail to fetch fertilizers');
   }
 }
@@ -45,7 +50,7 @@ export function* addFertilizerToDB(payload) {
       fertConfig.fertilizer_id = result.data.fertilizer_id;
       yield put(getFertilizers());
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add fert');
     toastr.error('failed to add fertilizer');
   }
@@ -54,7 +59,7 @@ export function* addFertilizerToDB(payload) {
 export function* addLog(payload) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let fertConfig = payload.fertConfig;
   let log = {
@@ -74,7 +79,7 @@ export function* addLog(payload) {
       history.push('/log');
       toastr.success('Successfully added Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add log');
     toastr.error('Failed to add Log');
   }
@@ -83,7 +88,7 @@ export function* addLog(payload) {
 export function* editLog(payload) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let fertConfig = payload.fertConfig;
   let log = {
@@ -104,12 +109,11 @@ export function* editLog(payload) {
       history.push('/log');
       toastr.success('Successfully edited Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to edit log');
     toastr.error('Failed to edit Log');
   }
 }
-
 
 export default function* fertSaga() {
   yield takeEvery(GET_FERTILIZERS, getFertilizerSaga);

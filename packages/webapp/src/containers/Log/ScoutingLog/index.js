@@ -12,20 +12,20 @@ import styles from '../styles.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
-class ScoutingLog extends Component{
+class ScoutingLog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: moment()
+      date: moment(),
     };
     this.setDate = this.setDate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.props.dispatch(actions.reset('logReducer.forms.scoutingLog'));
   }
 
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
@@ -48,15 +48,23 @@ class ScoutingLog extends Component{
     dispatch(addLog(formValue));
   }
 
-  render(){
+  render() {
     const crops = this.props.crops;
     const fields = this.props.fields;
 
-    return(
+    return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SCOUTING.TITLE')}/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.scoutingLog)}>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SCOUTING.TITLE')} />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val.scoutingLog)}
+        >
           <DefaultLogForm
             model=".scoutingLog"
             fields={fields}
@@ -67,14 +75,18 @@ class ScoutingLog extends Component{
             typeOptions={['Harvest', 'Pest', 'Disease', 'Weed', 'Other']}
             customFieldset={() => {
               return (
-                <Checkbox type="checkbox" model='.action_needed' title={this.props.t('LOG_SCOUTING.ACTION_NEEDED')}/>
-              )
+                <Checkbox
+                  type="checkbox"
+                  model=".action_needed"
+                  title={this.props.t('LOG_SCOUTING.ACTION_NEEDED')}
+                />
+              );
             }}
           />
           <LogFooter />
         </Form>
       </div>
-    )
+    );
   }
 }
 
@@ -82,13 +94,13 @@ const mapStateToProps = (state) => {
   return {
     crops: cropSelector(state),
     fields: fieldSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ScoutingLog));

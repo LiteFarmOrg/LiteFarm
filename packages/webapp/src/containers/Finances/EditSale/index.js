@@ -10,33 +10,60 @@ import { getFieldCrops } from '../../actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { deleteSale, updateSale } from '../actions';
-import { convertFromMetric, convertToMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
+import {
+  convertFromMetric,
+  convertToMetric,
+  getUnit,
+  grabCurrencySymbol,
+  roundToTwoDecimal,
+} from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class EditSale extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(actions.reset('financeReducer.forms.editSale'));
     const sale = this.props.sale || {};
-    const chosenOptions = sale && sale.cropSale.map((cs) => {
-      const crop = cs.crop.crop_common_name;
-      return { label: crop, value: cs.crop.crop_id, sale_id: cs.sale_id }
-    });
+    const chosenOptions =
+      sale &&
+      sale.cropSale.map((cs) => {
+        const crop = cs.crop.crop_common_name;
+        return { label: crop, value: cs.crop.crop_id, sale_id: cs.sale_id };
+      });
     this.state = {
       date: moment.utc(sale && sale.date),
       quantity_unit: getUnit(this.props.farm, 'kg', 'lb'),
       chosenOptions,
       currencySymbol: grabCurrencySymbol(this.props.farm),
     };
-    sale && sale.cropSale.forEach((cs) => {
-      const crop = cs.crop.crop_common_name;
-      this.props.dispatch(actions.change(`financeReducer.forms.editSale.${crop}.quantity_kg`, cs.quantity_kg.toString()));
-      this.props.dispatch(actions.change(`financeReducer.forms.editSale.${crop}.value`, cs.sale_value.toString()));
-      this.props.dispatch(actions.change(`financeReducer.forms.editSale.${crop}.quantity_kg`, roundToTwoDecimal(convertFromMetric(cs.quantity_kg.toString(), this.state.quantity_unit, 'kg').toString())));
-    });
+    sale &&
+      sale.cropSale.forEach((cs) => {
+        const crop = cs.crop.crop_common_name;
+        this.props.dispatch(
+          actions.change(
+            `financeReducer.forms.editSale.${crop}.quantity_kg`,
+            cs.quantity_kg.toString(),
+          ),
+        );
+        this.props.dispatch(
+          actions.change(`financeReducer.forms.editSale.${crop}.value`, cs.sale_value.toString()),
+        );
+        this.props.dispatch(
+          actions.change(
+            `financeReducer.forms.editSale.${crop}.quantity_kg`,
+            roundToTwoDecimal(
+              convertFromMetric(
+                cs.quantity_kg.toString(),
+                this.state.quantity_unit,
+                'kg',
+              ).toString(),
+            ),
+          ),
+        );
+      });
     this.props.dispatch(actions.change('financeReducer.forms.editSale.name', sale.customerName));
     this.props.dispatch(actions.change('financeReducer.forms.editSale.fieldCrop', chosenOptions));
     this.handleChooseCrop = this.handleChooseCrop.bind(this);
@@ -49,8 +76,8 @@ class EditSale extends Component {
 
   handleChooseCrop(option) {
     this.setState({
-      chosenOptions: option
-    })
+      chosenOptions: option,
+    });
   }
 
   handleSubmit(form) {
@@ -58,11 +85,17 @@ class EditSale extends Component {
 
     const cropSale = this.state.chosenOptions.map((c) => {
       return {
-        sale_value: form && form[c.label] && form[c.label].value.length ? parseFloat(form[c.label].value).toFixed(2) : 0,
-        quantity_kg: form && form[c.label] && form[c.label].quantity_kg.length ? convertToMetric(parseFloat(form[c.label].quantity_kg), this.state.quantity_unit, 'kg') : 0,
+        sale_value:
+          form && form[c.label] && form[c.label].value.length
+            ? parseFloat(form[c.label].value).toFixed(2)
+            : 0,
+        quantity_kg:
+          form && form[c.label] && form[c.label].quantity_kg.length
+            ? convertToMetric(parseFloat(form[c.label].quantity_kg), this.state.quantity_unit, 'kg')
+            : 0,
         crop_id: c.value,
         sale_id: sale.id,
-      }
+      };
     });
 
     const editedSale = {
@@ -70,23 +103,23 @@ class EditSale extends Component {
       customer_name: form.name,
       sale_date: this.state.date,
       farm_id: this.props.farm.farm_id,
-      cropSale
+      cropSale,
     };
     dispatch(updateSale(editedSale));
     history.push('/finances');
   }
 
-  getCropOptions = (fieldCrops) =>{
-    if(!fieldCrops || fieldCrops.length === 0) {
+  getCropOptions = (fieldCrops) => {
+    if (!fieldCrops || fieldCrops.length === 0) {
       return;
     }
 
     let cropOptions = [];
     let cropSet = new Set();
 
-    for(let fc of fieldCrops){
-      if(!cropSet.has(fc.crop_id)){
-        cropOptions.push({ label: fc.crop_common_name, value: fc.crop_id});
+    for (let fc of fieldCrops) {
+      if (!cropSet.has(fc.crop_id)) {
+        cropOptions.push({ label: fc.crop_common_name, value: fc.crop_id });
         cropSet.add(fc.crop_id);
       }
     }
@@ -99,7 +132,7 @@ class EditSale extends Component {
     const cropOptions = this.getCropOptions(fieldCrops);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/sales_summary' title={this.props.t('SALE.EDIT_SALE.TITLE')}/>
+        <PageTitle backUrl="/sales_summary" title={this.props.t('SALE.EDIT_SALE.TITLE')} />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.EDIT_SALE.DATE')}</label>
           <DateContainer
@@ -123,11 +156,14 @@ class EditSale extends Component {
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
-          onConfirm={() => {this.props.dispatch(deleteSale(this.props.sale));history.push('/finances');}}
+          onConfirm={() => {
+            this.props.dispatch(deleteSale(this.props.sale));
+            history.push('/finances');
+          }}
           message={this.props.t('SALE.EDIT_SALE.DELETE_CONFIRMATION')}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -136,13 +172,13 @@ const mapStateToProps = (state) => {
     sale: selectedSaleSelector(state),
     fieldCrops: fieldCropSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditSale));

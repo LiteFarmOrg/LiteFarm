@@ -15,17 +15,16 @@ English.args = {
   lon: -82.287712,
   lat: 35.451058,
   lang: 'en',
-  measurement: 'imperial'
-}
+  measurement: 'imperial',
+};
 
 export const Espanol = Template.bind({});
 Espanol.args = {
   lon: 41.135856,
-  lat: 37.895650,
+  lat: 37.89565,
   lang: 'es',
-  measurement: 'metric'
-}
-
+  measurement: 'metric',
+};
 
 English.parameters = {
   chromatic: { disable: true },
@@ -33,8 +32,3 @@ English.parameters = {
 Espanol.parameters = {
   chromatic: { disable: true },
 };
-
-
-
-
-

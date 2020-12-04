@@ -11,25 +11,21 @@ function Outro() {
   const dispatch = useDispatch();
   const onGoBack = () => {
     history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
-  }
+  };
   const onContinue = () => {
     dispatch(patchOutroStep());
     setTimeout(() => {
       dispatch(showSpotlight(true));
     }, 200);
-
-  }
+  };
   const survey = useSelector(certifierSurveySelector);
   useEffect(() => {
     if (!survey.survey_id) {
       dispatch(getCertifiers());
-    }},[]);
+    }
+  }, []);
 
-  return (
-    <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue}/>
-  )
-
+  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} />;
 }
-
 
 export default Outro;

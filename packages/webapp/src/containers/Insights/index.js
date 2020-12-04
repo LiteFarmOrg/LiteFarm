@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import history from '../../history';
 // images
@@ -35,7 +35,9 @@ import {
   getBiodiversityData,
   getWaterBalanceData,
   getNitrogenBalanceData,
-  getFrequencyNitrogenBalance, getPricesWithDistanceData, getWaterBalanceSchedule,
+  getFrequencyNitrogenBalance,
+  getPricesWithDistanceData,
+  getWaterBalanceSchedule,
 } from './actions';
 // selectors
 import {
@@ -46,11 +48,13 @@ import {
   pricesSelector,
   waterBalanceSelector,
   nitrogenBalanceSelector,
-  nitrogenFrequencySelector, pricesDistanceSelector, waterBalanceScheduleSelector
-} from "./selectors";
-import InfoBoxComponent from "../../components/InfoBoxComponent";
-import {fetchFarmInfo} from "../actions";
-import { BsChevronRight } from "react-icons/all";
+  nitrogenFrequencySelector,
+  pricesDistanceSelector,
+  waterBalanceScheduleSelector,
+} from './selectors';
+import InfoBoxComponent from '../../components/InfoBoxComponent';
+import { fetchFarmInfo } from '../actions';
+import { BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 const MILLIMETER_TO_INCH = 0.0393701;
 const KILOGRAM_TO_POUND = 2.20462;
@@ -60,15 +64,50 @@ class Insights extends Component {
     super(props);
     this.state = {
       items: [
-        {label: "People Fed", image: people_fed, route: "PeopleFed", data_point: "PeopleFed"},
-        {label: "Soil OM", image: soil_om, route: "SoilOM", data_point: "SoilOM"},
-        {label: "Labour Happiness", image: labour_happiness, route: "LabourHappiness", data_point: "LabourHappiness"},
-        {label: "Biodiversity", image: biodiversity, route: "Biodiversity", data_point: "Biodiversity"},
-        {label: "Prices", image: prices, route: "Prices", data_point: "Prices"},
-        {label: "Water Balance", image: water_balance, route: "WaterBalance", data_point: "WaterBalance"},
-        {label: "Nitrogen Balance", image: nitrogen_balance, route: "NitrogenBalance", data_point: "NitrogenBalance"},
+        {
+          label: 'People Fed',
+          image: people_fed,
+          route: 'PeopleFed',
+          data_point: 'PeopleFed',
+        },
+        {
+          label: 'Soil OM',
+          image: soil_om,
+          route: 'SoilOM',
+          data_point: 'SoilOM',
+        },
+        {
+          label: 'Labour Happiness',
+          image: labour_happiness,
+          route: 'LabourHappiness',
+          data_point: 'LabourHappiness',
+        },
+        {
+          label: 'Biodiversity',
+          image: biodiversity,
+          route: 'Biodiversity',
+          data_point: 'Biodiversity',
+        },
+        {
+          label: 'Prices',
+          image: prices,
+          route: 'Prices',
+          data_point: 'Prices',
+        },
+        {
+          label: 'Water Balance',
+          image: water_balance,
+          route: 'WaterBalance',
+          data_point: 'WaterBalance',
+        },
+        {
+          label: 'Nitrogen Balance',
+          image: nitrogen_balance,
+          route: 'NitrogenBalance',
+          data_point: 'NitrogenBalance',
+        },
         //{label: "Erosion", image: erosion, route: "Erosion", data_point: "Erosion"},
-      ]
+      ],
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -78,47 +117,58 @@ class Insights extends Component {
 
   renderItem(item, index, currentData) {
     return (
-      <div
-        key={index}
-        className={"insightItem item-" + index + " " + styles.insightItem}
-      >
+      <div key={index} className={'insightItem item-' + index + ' ' + styles.insightItem}>
         <div
-          className={"itemButton item-" + index + " " + styles.itemButton}
+          className={'itemButton item-' + index + ' ' + styles.itemButton}
           onClick={() => this.handleClick(item.route)}
         >
-          <div className={"itemDescription item-" + index + " " + styles.itemDescription}>
+          <div className={'itemDescription item-' + index + ' ' + styles.itemDescription}>
             <img
-              className={"itemIcon item-" + index + " " + styles.itemIcon}
+              className={'itemIcon item-' + index + ' ' + styles.itemIcon}
               src={item.image}
               alt={item.label}
             />
-            <div className={"itemText item-" + index + " " + styles.itemText}>
+            <div className={'itemText item-' + index + ' ' + styles.itemText}>
               <b>{item.label}</b>
               <div>Current: {currentData ? currentData : 0}</div>
             </div>
           </div>
           <BsChevronRight className={styles.itemArrow} />
         </div>
-        <hr className={styles.defaultLine}/>
+        <hr className={styles.defaultLine} />
       </div>
-    )
+    );
   }
 
   handleClick(route) {
     history.push('/Insights/' + route);
   }
 
-  generateView(cropNutritionalData, soilOMData, labourHappinessData, biodiversityData, pricesData, waterBalanceData, nitrogenBalanceData) {
+  generateView(
+    cropNutritionalData,
+    soilOMData,
+    labourHappinessData,
+    biodiversityData,
+    pricesData,
+    waterBalanceData,
+    nitrogenBalanceData,
+  ) {
     const insightData = {};
     const isImperial = this.props.farm?.units?.measurement === 'imperial';
-    insightData['PeopleFed'] = cropNutritionalData.preview + " meals";
-    insightData['SoilOM'] = (soilOMData.preview || '0') + "%";
-    insightData['LabourHappiness'] = labourHappinessData.preview ? labourHappinessData.preview + "/5" : 'Unavailable';
-    insightData['Biodiversity'] = biodiversityData.preview + " species";
-    insightData['Prices'] = pricesData.preview ? pricesData.preview + "% of market" : "Unavailable";
-    insightData['WaterBalance'] = isImperial? Number(waterBalanceData.preview)*MILLIMETER_TO_INCH + " in": waterBalanceData.preview + " mm";
-    insightData['NitrogenBalance'] = isImperial? Number(nitrogenBalanceData.preview)*KILOGRAM_TO_POUND + " lbs" : nitrogenBalanceData.preview + " kg";
-    return insightData
+    insightData['PeopleFed'] = cropNutritionalData.preview + ' meals';
+    insightData['SoilOM'] = (soilOMData.preview || '0') + '%';
+    insightData['LabourHappiness'] = labourHappinessData.preview
+      ? labourHappinessData.preview + '/5'
+      : 'Unavailable';
+    insightData['Biodiversity'] = biodiversityData.preview + ' species';
+    insightData['Prices'] = pricesData.preview ? pricesData.preview + '% of market' : 'Unavailable';
+    insightData['WaterBalance'] = isImperial
+      ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'
+      : waterBalanceData.preview + ' mm';
+    insightData['NitrogenBalance'] = isImperial
+      ? Number(nitrogenBalanceData.preview) * KILOGRAM_TO_POUND + ' lbs'
+      : nitrogenBalanceData.preview + ' kg';
+    return insightData;
   }
 
   componentDidMount() {
@@ -127,7 +177,9 @@ class Insights extends Component {
     this.props.dispatch(getSoilOMData());
     this.props.dispatch(getLabourHappinessData());
     this.props.dispatch(getBiodiversityData());
-    this.props.dispatch(getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance))
+    this.props.dispatch(
+      getPricesWithDistanceData(this.props.farm.grid_points, this.props.pricesDistance),
+    );
     this.props.dispatch(getWaterBalanceData());
     this.props.dispatch(getWaterBalanceSchedule());
     this.props.dispatch(getNitrogenBalanceData());
@@ -136,8 +188,24 @@ class Insights extends Component {
 
   render() {
     // @TODO currently just throwing in data from the props into generateView, should refactor the code to handle it better
-    const {cropNutritionData, soilOMData, labourHappinessData, biodiversityData, pricesData, waterBalanceData, nitrogenBalanceData} = this.props;
-    let insightData = this.generateView(cropNutritionData, soilOMData, labourHappinessData, biodiversityData, pricesData, waterBalanceData, nitrogenBalanceData);
+    const {
+      cropNutritionData,
+      soilOMData,
+      labourHappinessData,
+      biodiversityData,
+      pricesData,
+      waterBalanceData,
+      nitrogenBalanceData,
+    } = this.props;
+    let insightData = this.generateView(
+      cropNutritionData,
+      soilOMData,
+      labourHappinessData,
+      biodiversityData,
+      pricesData,
+      waterBalanceData,
+      nitrogenBalanceData,
+    );
     return (
       <div className={styles.insightContainer}>
         <div>
@@ -147,27 +215,34 @@ class Insights extends Component {
             </h4>
           </div>
           <div className={styles.rightText}>
-            <InfoBoxComponent customStyle={{fontSize: '20px'}} title={"Insights"} body={infoBoxBody}/>
+            <InfoBoxComponent
+              customStyle={{ fontSize: '20px' }}
+              title={'Insights'}
+              body={infoBoxBody}
+            />
           </div>
         </div>
-        <hr style={{'marginBottom': '0px'}}/>
-        <hr className={styles.defaultLineWithNoMarginTop}/>
+        <hr style={{ marginBottom: '0px' }} />
+        <hr className={styles.defaultLineWithNoMarginTop} />
 
         {this.state.items.map((item, index) => {
-          return this.renderItem(item, index, insightData[item.data_point])
+          return this.renderItem(item, index, insightData[item.data_point]);
         })}
       </div>
-    )
+    );
   }
 }
 
-const infoBoxBody = <div>
-  <h4><b>Information</b></h4>
-
-  Insights provides added data insights into what is happening on your farm.
-  The more data you provide in the application, the more insights can be generated.
-  See individual insights for further information.
-</div>;
+const infoBoxBody = (
+  <div>
+    <h4>
+      <b>Information</b>
+    </h4>
+    Insights provides added data insights into what is happening on your farm. The more data you
+    provide in the application, the more insights can be generated. See individual insights for
+    further information.
+  </div>
+);
 
 const mapStateToProps = (state) => {
   return {
@@ -182,13 +257,13 @@ const mapStateToProps = (state) => {
     nitrogenBalanceData: nitrogenBalanceSelector(state),
     nitrogenFrequencyData: nitrogenFrequencySelector(state),
     pricesDistance: pricesDistanceSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Insights)
+export default connect(mapStateToProps, mapDispatchToProps)(Insights);

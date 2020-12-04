@@ -4,7 +4,7 @@ import Checkbox from '../../../components/Form/Checkbox';
 export default {
   title: 'Components/Checkbox',
   component: Checkbox,
-  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <Checkbox {...args} />;
@@ -29,10 +29,10 @@ const classes = {
   checkbox: { backgroundColor: 'yellow' },
   label: { fontSize: '50px' },
   container: { marginLeft: '100px' },
-}
+};
 
 export const WithClasses = Template.bind({});
 WithClasses.args = {
   errors: 'error error error error',
-  classes: classes
+  classes: classes,
 };

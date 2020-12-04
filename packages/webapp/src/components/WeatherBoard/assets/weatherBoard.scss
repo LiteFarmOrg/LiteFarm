@@ -1,4 +1,4 @@
-@import "../../../assets/mixin";
+@import '../../../assets/mixin';
 
 .container {
   top: 0;
@@ -11,10 +11,10 @@
   grid-template-rows: 24fr 24fr 80fr 24fr;
   gap: 0px 0px;
   grid-template-areas:
-    "city city city city city city"
-    "date date date date date date"
-    "temperature temperature temperature temperature . icon"
-    "wind wind wind humidity humidity humidity";
+    'city city city city city city'
+    'date date date date date date'
+    'temperature temperature temperature temperature . icon'
+    'wind wind wind humidity humidity humidity';
   background-color: var(--overlay);
   font-size: 3.88vw;
   line-height: 6.66vw;
@@ -69,7 +69,6 @@
   .city {
     font-size: 47.25px;
   }
-
 
   .temperature {
     font-size: 136.5px;

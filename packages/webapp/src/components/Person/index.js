@@ -13,33 +13,27 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
-import styles from './styles.scss'
-import {Button} from 'react-bootstrap';
-class Person extends Component{
-
-  render(){
+import React, { Component } from 'react';
+import styles from './styles.scss';
+import { Button } from 'react-bootstrap';
+class Person extends Component {
+  render() {
     let user = this.props.user;
     let isPseudo = this.props.isPseudo;
-    return(
+    return (
       <div className={styles.userContainer}>
-        <img src={user.profile_picture} alt=""/>
+        <img src={user.profile_picture} alt="" />
         <div className={styles.info}>
           <div>
             {user.first_name} {user.last_name}
           </div>
-          {
-            !isPseudo && <div>
-              {user.email}
-            </div>
-          }
-
+          {!isPseudo && <div>{user.email}</div>}
         </div>
-        <Button className={styles["edit-button"]} onClick={this.props.click}>
+        <Button className={styles['edit-button']} onClick={this.props.click}>
           Edit
         </Button>
       </div>
-    )
+    );
   }
 }
 export default Person;

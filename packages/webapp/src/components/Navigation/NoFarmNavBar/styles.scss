@@ -12,9 +12,9 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import "../../../assets/mixin";
+@import '../../../assets/mixin';
 
- .navBar {
+.navBar {
   top: 0;
   @include gradient();
   width: 100%;

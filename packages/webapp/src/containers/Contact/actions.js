@@ -18,6 +18,6 @@ import { SEND_CONTACT_FORM } from './constants';
 export const sendContactForm = (contactDetails) => {
   return {
     type: SEND_CONTACT_FORM,
-    contactDetails
-  }
+    contactDetails,
+  };
 };

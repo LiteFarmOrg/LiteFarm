@@ -27,7 +27,7 @@ class DrawingToolTipBox extends Component {
     super(props);
     this.state = {
       show: this.props.initShow || false,
-      playVideo: [false, false]
+      playVideo: [false, false],
     };
     this.handleClose = this.handleClose.bind(this);
     this.toggleVideo = this.toggleVideo.bind(this);
@@ -35,13 +35,13 @@ class DrawingToolTipBox extends Component {
   }
 
   handleClose() {
-    this.setState({ show: false })
+    this.setState({ show: false });
   }
 
   toggleVideo(index) {
     let currentVideo = this.state.playVideo;
     currentVideo[index + 1] = true;
-    this.setState({ playVideo: currentVideo })
+    this.setState({ playVideo: currentVideo });
   }
 
   componentDidMount() {
@@ -49,9 +49,8 @@ class DrawingToolTipBox extends Component {
   }
 
   toggleShow() {
-    this.setState({ show: true })
+    this.setState({ show: true });
   }
-
 
   render() {
     const slides = [
@@ -62,7 +61,7 @@ class DrawingToolTipBox extends Component {
       {
         text: 'Rearrange the polygon by dragging the dots',
         videoPath: SecondVideo,
-      }
+      },
     ];
     return (
       <Modal show={this.state.show} onHide={this.handleClose}>
@@ -73,26 +72,29 @@ class DrawingToolTipBox extends Component {
                 <a onClick={nextSlide} className={styles.nextSlide}>
                   <BsChevronRight />
                 </a>
-              </div>)
-            }
-            renderCenterLeftControls={({ previousSlide }) => (<a onClick={previousSlide} className={styles.nextSlide}>
-              <BsChevronLeft />
-            </a>)}>
+              </div>
+            )}
+            renderCenterLeftControls={({ previousSlide }) => (
+              <a onClick={previousSlide} className={styles.nextSlide}>
+                <BsChevronLeft />
+              </a>
+            )}
+          >
             {slides.map((slide, index) => {
               return (
                 <div className={styles.slideContainer} key={'slide-' + index}>
                   <h3>{slide.text}</h3>
                   <div>
-                    <ReactPlayer loop playing={this.state.playVideo[index]} url={slide.videoPath}/>
+                    <ReactPlayer loop playing={this.state.playVideo[index]} url={slide.videoPath} />
                   </div>
                 </div>
-              )
+              );
             })}
           </Carousel>
         </Modal.Body>
       </Modal>
-    )
+    );
   }
 }
 
-export default DrawingToolTipBox
+export default DrawingToolTipBox;

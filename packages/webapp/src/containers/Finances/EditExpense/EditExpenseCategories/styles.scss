@@ -1,25 +1,25 @@
-.moodContainer{
+.moodContainer {
   width: 80%;
   margin-bottom: 2em;
   height: auto;
 }
 
-.circleImg{
+.circleImg {
   display: block;
   margin: 0 auto;
   padding-top: 1.5em;
 }
 
-.typeName{
+.typeName {
   text-align: center;
 }
 
-.bottomContainer{
+.bottomContainer {
   max-width: 1024px;
   width: 100%;
   position: fixed;
   bottom: 0;
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   font-weight: 600;

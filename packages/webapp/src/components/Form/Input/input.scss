@@ -1,4 +1,4 @@
-@import "../../../assets/colors";
+@import '../../../assets/colors';
 .input {
   border: 2px solid var(--border);
   box-sizing: border-box;
@@ -23,58 +23,58 @@
   border-color: var(--inputDefault);
 }
 
-.fullLength{
+.fullLength {
   width: 100%;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   overflow: visible;
   position: relative;
 }
 
-.inputError{
+.inputError {
   border-color: var(--error);
 }
 
-.input:focus:enabled{
+.input:focus:enabled {
   outline: none;
   border-color: var(--inputActive);
 }
 
-.icon{
+.icon {
   position: absolute;
   right: 0;
   top: -8px;
   color: var(--iconDefault);
 }
-.icon > *{
+.icon > * {
   cursor: pointer;
 }
-.sm{
+.sm {
   margin-left: 8px;
 }
-.cross{
+.cross {
   position: absolute;
   right: 0;
   transform: translate(-17px, 13px);
   cursor: pointer;
 }
-.searchIcon{
+.searchIcon {
   color: var(--iconDefault);
   position: absolute;
   font-size: 20px;
   transform: translate(11px, 15px);
 }
-.searchBar{
+.searchBar {
   padding-left: 40px;
 }
-.visibilityIcon{
+.visibilityIcon {
   position: absolute;
   right: 0;
   transform: translate(-8px, 32px);
   font-size: 22px;
-  color: var( --iconDefault);
+  color: var(--iconDefault);
   cursor: pointer;
 }

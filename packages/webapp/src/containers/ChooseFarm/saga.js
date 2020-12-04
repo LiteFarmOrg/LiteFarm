@@ -15,7 +15,11 @@
 
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
-import { onLoadingUserFarmsStart, onLoadingUserFarmsFail, getUserFarmsSuccess } from '../userFarmSlice';
+import {
+  onLoadingUserFarmsStart,
+  onLoadingUserFarmsFail,
+  getUserFarmsSuccess,
+} from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector, loginSuccess } from '../loginSlice';
 import { getHeader } from '../saga';
@@ -33,10 +37,9 @@ export function* getUserFarmsSaga() {
     yield put(onLoadingUserFarmsStart());
     const result = yield call(axios.get, userFarmUrl + '/user/' + user_id, header);
     yield put(getUserFarmsSuccess(result.data));
-
   } catch (error) {
     yield put(onLoadingUserFarmsFail({ error }));
-    console.log('failed to fetch task types from database')
+    console.log('failed to fetch task types from database');
   }
 }
 

@@ -3,7 +3,6 @@ import styles from './button.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-
 const Button = ({
   color = 'primary',
   children = 'Button',
@@ -18,7 +17,13 @@ const Button = ({
   return (
     <button
       disabled={disabled}
-      className={clsx(styles.btn, color && styles[color], sm && styles.sm, fullLength && styles.fullLength, className)}
+      className={clsx(
+        styles.btn,
+        color && styles[color],
+        sm && styles.sm,
+        fullLength && styles.fullLength,
+        className,
+      )}
       onClick={onClick}
       type={type}
       {...props}
@@ -37,6 +42,6 @@ Button.propTypes = {
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   sm: PropTypes.bool,
   className: PropTypes.string,
-}
+};
 
 export default Button;

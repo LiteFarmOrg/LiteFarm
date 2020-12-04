@@ -1,17 +1,17 @@
-.greenPlus{
+.greenPlus {
   width: 2em;
   height: 2em;
-  background: #1B847A;
+  background: #1b847a;
   font-weight: bolder;
   display: flex;
   align-items: center;
   justify-content: center;
-  color:white;
+  color: white;
   border-radius: 2em;
 }
 
-.expenseTitle{
-  color: #5B6370;
+.expenseTitle {
+  color: #5b6370;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -19,42 +19,42 @@
   margin-bottom: 10px;
 }
 
-.addContainer{
+.addContainer {
   width: 70%;
   margin: 18px auto 25px auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  color: #00756A;
+  color: #00756a;
   font-style: normal;
   font-weight: normal;
   line-height: 26px;
   font-size: 16px;
 }
 
-.itemContainer{
+.itemContainer {
   mix-blend-mode: normal;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e5e5e5;
   box-sizing: border-box;
   border-radius: 4px;
   padding: 5% 3%;
 }
 
-.labelInput{
-  label{
+.labelInput {
+  label {
     word-wrap: break-word;
     font-style: normal;
     font-weight: normal;
     line-height: 26px;
     font-size: 18px;
     letter-spacing: 0.324px;
-    color: #4D4D4D;
+    color: #4d4d4d;
   }
-  input{
+  input {
     width: 60%;
     height: 37px;
-    border: 1px solid #EFEFEF;
+    border: 1px solid #efefef;
     box-sizing: border-box;
     border-radius: 4px;
     padding: 0 5%;
@@ -66,13 +66,13 @@
   align-items: center;
 }
 
-.fieldContainer{
+.fieldContainer {
   margin-bottom: 15px;
 }
 
-.removeButton{
-  display:flex;
+.removeButton {
+  display: flex;
   justify-content: center;
-  color:#EF3B7D;
+  color: #ef3b7d;
   width: 100%;
 }

@@ -16,11 +16,12 @@ import { patchStepFourSuccess } from '../userFarmSlice';
 import { getHeader } from '../saga';
 
 const axios = require('axios');
-const getUrl = farm_id => `${url}/farm/${farm_id}/organic_certifier_survey`;
+const getUrl = (farm_id) => `${url}/farm/${farm_id}/organic_certifier_survey`;
 const postUrl = () => url + '/organic_certifier_survey';
-const patchCertifierUrl = survey_id => `${url}/organic_certifier_survey/${survey_id}/certifiers`;
-const patchInterestedUrl = survey_id => `${url}/organic_certifier_survey/${survey_id}/interested`;
-const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
+const patchCertifierUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/certifiers`;
+const patchInterestedUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/interested`;
+const patchStepUrl = (farm_id, user_id) =>
+  `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
 export const getCertifiers = createAction(`getCertifiersSaga`);
 export function* getCertifiersSaga() {
@@ -32,7 +33,7 @@ export function* getCertifiersSaga() {
     yield put(getCertifiersSuccess(result.data));
   } catch (e) {
     yield put(onLoadingCertifierSurveyFail());
-    console.log('failed to fetch certifiers from database')
+    console.log('failed to fetch certifiers from database');
   }
 }
 
@@ -43,7 +44,7 @@ export function* postCertifiersSaga({ payload }) {
     const { user_id, farm_id } = yield select(loginSelector);
     const header = getHeader(user_id, farm_id);
     const { survey, callback } = payload;
-    const surveyReqBody = { ...survey, farm_id }
+    const surveyReqBody = { ...survey, farm_id };
     // only non-deleted users
     const result = yield call(axios.post, postUrl(), surveyReqBody, header);
     yield put(postCertifiersSuccess(result.data));
@@ -57,7 +58,7 @@ export function* postCertifiersSaga({ payload }) {
     }
     callback && callback();
   } catch (e) {
-    console.log('failed to add certifiers')
+    console.log('failed to add certifiers');
   }
 }
 
@@ -82,7 +83,7 @@ export function* patchCertifiersSaga({ payload }) {
     }
     callback && callback();
   } catch (e) {
-    console.log('failed to add certifiers')
+    console.log('failed to add certifiers');
   }
 }
 
@@ -107,10 +108,9 @@ export function* patchInterestedSaga({ payload }) {
     }
     callback && callback();
   } catch (e) {
-    console.log('failed to add certifiers')
+    console.log('failed to add certifiers');
   }
 }
-
 
 export default function* certifierSurveySaga() {
   yield takeLatest(patchInterested.type, patchInterestedSaga);

@@ -4,7 +4,7 @@ import Card from '../../components/Card';
 export default {
   title: 'Components/Card',
   component: Card,
-  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <Card {...args} />;

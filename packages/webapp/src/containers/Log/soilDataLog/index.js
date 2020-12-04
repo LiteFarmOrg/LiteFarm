@@ -15,30 +15,30 @@ import parseCrops from '../Utility/parseCrops';
 import { addLog } from '../Utility/actions';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 const parsedTextureOptions = [
-  {label: 'Sand', value: 'sand'},
-  {label: 'Loamy Sand', value: 'loamySand'},
-  {label: 'Sandy Loam', value: 'sandyLoam'},
-  {label: 'Loam', value: 'loam'},
-  {label: 'Silt Loam', value: 'siltLoam'},
-  {label: 'Silt', value: 'silt'},
-  {label: 'Sandy Clayloam', value: 'sandyClayLoam'},
-  {label: 'Clay Loam', value: 'clayLoam'},
-  {label: 'Silty Clayloam', value: 'siltyClayLoam'},
-  {label: 'Sandy Clay', value: 'sandyClay'},
-  {label: 'Silty Clay', value: 'siltyClay'},
-  {label: 'Clay', value: 'clay'}
+  { label: 'Sand', value: 'sand' },
+  { label: 'Loamy Sand', value: 'loamySand' },
+  { label: 'Sandy Loam', value: 'sandyLoam' },
+  { label: 'Loam', value: 'loam' },
+  { label: 'Silt Loam', value: 'siltLoam' },
+  { label: 'Silt', value: 'silt' },
+  { label: 'Sandy Clayloam', value: 'sandyClayLoam' },
+  { label: 'Clay Loam', value: 'clayLoam' },
+  { label: 'Silty Clayloam', value: 'siltyClayLoam' },
+  { label: 'Sandy Clay', value: 'sandyClay' },
+  { label: 'Silty Clay', value: 'siltyClay' },
+  { label: 'Clay', value: 'clay' },
 ];
 
 const parsedDepthOptions = [
-  {label: '0-5cm', value: 5},
-  {label: '0-10cm', value: 10},
-  {label: '0-20cm', value: 20},
-  {label: '21-30cm', value: 30},
-  {label: '30-50cm', value: 50},
-  {label: '51-100cm', value: 100}
+  { label: '0-5cm', value: 5 },
+  { label: '0-10cm', value: 10 },
+  { label: '0-20cm', value: 20 },
+  { label: '21-30cm', value: 30 },
+  { label: '30-50cm', value: 50 },
+  { label: '51-100cm', value: 100 },
 ];
 
 class soilDataLog extends Component {
@@ -59,8 +59,8 @@ class soilDataLog extends Component {
   }
 
   toggleMoreInfo() {
-    const {showMoreInfo} = this.state;
-    this.setState({showMoreInfo: !showMoreInfo});
+    const { showMoreInfo } = this.state;
+    this.setState({ showMoreInfo: !showMoreInfo });
   }
   setDate(date) {
     this.setState({
@@ -72,11 +72,20 @@ class soilDataLog extends Component {
     const log = logForm.soilDataLog;
     let cec_unit = this.state.cec_denominator;
 
-    const {dispatch, crops, fields} = this.props;
+    const { dispatch, crops, fields } = this.props;
     let selectedFields = parseFields(log, fields);
     let selectedCrops = parseCrops(log, crops);
 
-    const bulkDensity = convertToMetric(convertToMetric(parseFloat(log['bulk_density_kg/m3']), this.state.bulk_density_numerator, 'kg'), this.state.bulk_density_denominator, 'm3', true);
+    const bulkDensity = convertToMetric(
+      convertToMetric(
+        parseFloat(log['bulk_density_kg/m3']),
+        this.state.bulk_density_numerator,
+        'kg',
+      ),
+      this.state.bulk_density_denominator,
+      'm3',
+      true,
+    );
     let formValue = {
       activity_kind: 'soilData',
       date: this.state.date,
@@ -119,19 +128,21 @@ class soilDataLog extends Component {
         <div>
           <div className={styles.defaultFormDropDown}>
             <label>Depth</label>
-            <Control model='.depth_cm'
-                     component={DropDown}
-                     options={parsedDepthOptions || []}
-                     placeholder={this.props.t('LOG_SOIL.SELECT_DEPTH')}
-                     validators={{required: (val) => val && val.label && val.value}}
+            <Control
+              model=".depth_cm"
+              component={DropDown}
+              options={parsedDepthOptions || []}
+              placeholder={this.props.t('LOG_SOIL.SELECT_DEPTH')}
+              validators={{ required: (val) => val && val.label && val.value }}
             />
             <Errors
-              className='required'
+              className="required"
               model={`.depth_cm`}
-              show={{touched: true, focus: false}}
+              show={{ touched: true, focus: false }}
               messages={{
-                required: 'Required'
-              }}/>
+                required: 'Required',
+              }}
+            />
           </div>
           <div className={styles.defaultFormDropDown}>
             <label>{this.props.t('LOG_SOIL.TEXTURE')}</label>
@@ -140,33 +151,44 @@ class soilDataLog extends Component {
               component={DropDown}
               options={parsedTextureOptions || []}
               placeholder={this.props.t('LOG_SOIL.SELECT_TEXTURE')}
-              validators={{required: (val) => val && val.label && val.value}}
+              validators={{ required: (val) => val && val.label && val.value }}
             />
             <Errors
-              className='required'
+              className="required"
               model={`.texture`}
-              show={{touched: true, focus: false}}
+              show={{ touched: true, focus: false }}
               messages={{
-                required: 'Required'
-              }}/>
+                required: 'Required',
+              }}
+            />
           </div>
-          <Unit model='.k' title='K' type='%'/>
-          <Unit model='.p' title='P' type='%'/>
-          <Unit model='.n' title='N' type='%'/>
-          <Unit model='.om' title='OM' type='%'/>
-          <Unit model='.ph' title='ph' type='%'/>
-          <Unit model='.bulk_density_kg/m3' title={this.props.t('LOG_SOIL.BULK_DENSITY')}
-                type={`${this.state.bulk_density_numerator}/${this.state.bulk_density_denominator}`}/>
+          <Unit model=".k" title="K" type="%" />
+          <Unit model=".p" title="P" type="%" />
+          <Unit model=".n" title="N" type="%" />
+          <Unit model=".om" title="OM" type="%" />
+          <Unit model=".ph" title="ph" type="%" />
+          <Unit
+            model=".bulk_density_kg/m3"
+            title={this.props.t('LOG_SOIL.BULK_DENSITY')}
+            type={`${this.state.bulk_density_numerator}/${this.state.bulk_density_denominator}`}
+          />
         </div>
-      )
+      );
     };
 
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SOIL.TITLE')}/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
-        <Form model="logReducer.forms" className={styles.formContainer}
-              onSubmit={(val) => this.handleSubmit(val)}>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_SOIL.TITLE')} />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val)}
+        >
           <DefaultLogForm
             model=".soilDataLog"
             fields={fields}
@@ -175,29 +197,47 @@ class soilDataLog extends Component {
             customFieldset={customFieldset}
             isCropNotNeeded={true}
           />
-          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>{this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}</div>
-          {this.state.showMoreInfo &&
-          <div>
-            <Unit model='.soilDataLog.organic_carbon' title={this.props.t('LOG_SOIL.ORGANIC_CARBON')} type='%'/>
-            <Unit model='.soilDataLog.inorganic_carbon' title={this.props.t('LOG_SOIL.INORGANIC_CARBON')} type='%'/>
-            <Unit model='.soilDataLog.total_carbon' title={this.props.t('LOG_SOIL.TOTAL_CARBON')} type='%'/>
-            <Unit model='.soilDataLog.s' title='S' type='%'/>
-            <Unit model='.soilDataLog.c' title='C' type='%'/>
-            <Unit model='.soilDataLog.ca' title='Ca' type='%'/>
-            <Unit model='.soilDataLog.mg' title='Mg' type='%'/>
-            <Unit model='.soilDataLog.na' title='Na' type='%'/>
-            <Unit model='.soilDataLog.zn' title='Zn' type='%'/>
-            <Unit model='.soilDataLog.mn' title='Mn' type='%'/>
-            <Unit model='.soilDataLog.fe' title='Fe' type='%'/>
-            <Unit model='.soilDataLog.cu' title='Cu' type='%'/>
-            <Unit model='.soilDataLog.b' title='B' type='%'/>
-            <Unit model='.soilDataLog.cec' title='CEC' type={'cmolc/' + this.state.cec_denominator}/>
+          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>
+            {this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}
           </div>
-          }
-          <LogFooter/>
+          {this.state.showMoreInfo && (
+            <div>
+              <Unit
+                model=".soilDataLog.organic_carbon"
+                title={this.props.t('LOG_SOIL.ORGANIC_CARBON')}
+                type="%"
+              />
+              <Unit
+                model=".soilDataLog.inorganic_carbon"
+                title={this.props.t('LOG_SOIL.INORGANIC_CARBON')}
+                type="%"
+              />
+              <Unit
+                model=".soilDataLog.total_carbon"
+                title={this.props.t('LOG_SOIL.TOTAL_CARBON')}
+                type="%"
+              />
+              <Unit model=".soilDataLog.s" title="S" type="%" />
+              <Unit model=".soilDataLog.c" title="C" type="%" />
+              <Unit model=".soilDataLog.ca" title="Ca" type="%" />
+              <Unit model=".soilDataLog.mg" title="Mg" type="%" />
+              <Unit model=".soilDataLog.na" title="Na" type="%" />
+              <Unit model=".soilDataLog.zn" title="Zn" type="%" />
+              <Unit model=".soilDataLog.mn" title="Mn" type="%" />
+              <Unit model=".soilDataLog.fe" title="Fe" type="%" />
+              <Unit model=".soilDataLog.cu" title="Cu" type="%" />
+              <Unit model=".soilDataLog.b" title="B" type="%" />
+              <Unit
+                model=".soilDataLog.cec"
+                title="CEC"
+                type={'cmolc/' + this.state.cec_denominator}
+              />
+            </div>
+          )}
+          <LogFooter />
         </Form>
       </div>
-    )
+    );
   }
 }
 
@@ -206,13 +246,13 @@ const mapStateToProps = (state) => {
     crops: cropSelector(state),
     fields: fieldSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(soilDataLog));

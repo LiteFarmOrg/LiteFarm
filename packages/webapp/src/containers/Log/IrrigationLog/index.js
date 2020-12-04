@@ -14,9 +14,9 @@ import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
-class IrrigationLog extends Component{
+class IrrigationLog extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(actions.reset('logReducer.forms.irrigationLog'));
@@ -29,7 +29,7 @@ class IrrigationLog extends Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
@@ -47,30 +47,49 @@ class IrrigationLog extends Component{
       fields: selectedFields,
       type: irrigationLog.type.value,
       notes: irrigationLog.notes,
-      'flow_rate_l/min': convertToMetric(irrigationLog['flow_rate_l/min'], irrigationLog.unit, 'l/min'),
+      'flow_rate_l/min': convertToMetric(
+        irrigationLog['flow_rate_l/min'],
+        irrigationLog.unit,
+        'l/min',
+      ),
       hours: irrigationLog.hours,
       user_id: localStorage.getItem('user_id'),
     };
     dispatch(addLog(formValue));
   }
 
-  render(){
+  render() {
     const crops = this.props.crops;
     const fields = this.props.fields;
     const rateOptions = [this.state.ratePerMin, this.state.ratePerHr];
 
     const customFieldset = () => {
-      return (<div>
-        <Unit model='.flow_rate_l/min' title={this.props.t('LOG_IRRIGATION.FLOW_RATE')} dropdown={true} options={rateOptions}/>
-        <Unit model='.hours' title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type='hrs'/>
-      </div>)
+      return (
+        <div>
+          <Unit
+            model=".flow_rate_l/min"
+            title={this.props.t('LOG_IRRIGATION.FLOW_RATE')}
+            dropdown={true}
+            options={rateOptions}
+          />
+          <Unit model=".hours" title={this.props.t('LOG_IRRIGATION.TOTAL_TIME')} type="hrs" />
+        </div>
+      );
     };
 
-    return(
+    return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_IRRIGATION.TITLE')}/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.irrigationLog)}>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_IRRIGATION.TITLE')} />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val.irrigationLog)}
+        >
           <DefaultLogForm
             style={styles.labelContainer}
             model=".irrigationLog"
@@ -85,7 +104,7 @@ class IrrigationLog extends Component{
           <LogFooter />
         </Form>
       </div>
-    )
+    );
   }
 }
 
@@ -94,13 +113,13 @@ const mapStateToProps = (state) => {
     crops: cropSelector(state),
     fields: fieldSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(IrrigationLog));

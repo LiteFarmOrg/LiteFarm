@@ -29,31 +29,33 @@ class Table extends React.Component {
       getTdProps,
       sortByID,
     } = this.props;
-    let {minRows} = this.props;
-    if(!minRows) {
+    let { minRows } = this.props;
+    if (!minRows) {
       minRows = 5;
     }
 
     let defaultSorted = [];
-    if (sortByID){
+    if (sortByID) {
       defaultSorted = [
         {
           id: sortByID,
-          desc: true
-        }
-      ]
+          desc: true,
+        },
+      ];
     }
-    return (<ReactTable
-      className={className}
-      columns={columns}
-      data={data}
-      showPagination={showPagination}
-      pageSizeOptions={pageSizeOptions}
-      defaultPageSize={defaultPageSize}
-      minRows={showPagination ? undefined : minRows} // Messes up pagination
-      getTdProps={getTdProps}
-      defaultSorted={defaultSorted}
-    />)
+    return (
+      <ReactTable
+        className={className}
+        columns={columns}
+        data={data}
+        showPagination={showPagination}
+        pageSizeOptions={pageSizeOptions}
+        defaultPageSize={defaultPageSize}
+        minRows={showPagination ? undefined : minRows} // Messes up pagination
+        getTdProps={getTdProps}
+        defaultSorted={defaultSorted}
+      />
+    );
   }
 }
 

@@ -21,17 +21,14 @@ const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
+const { createAccessToken } = require('../util/jwt');
 const emailSender = require('../templates/sendEmailTemplate');
-
-const SECONDS_IN_A_WEEK = 60 * 60 * 24 * 7;
 
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
       const { email, first_name, last_name, password } = req.body;
-      let userData = {
+      const userData = {
         email,
         first_name,
         last_name,
@@ -55,11 +52,7 @@ class userController extends baseController {
         delete result.password_hash;
 
         // generate token, set to last a week
-        const token = await jwt.sign(
-          { ...result },
-          process.env.JWT_SECRET,
-          { expiresIn: SECONDS_IN_A_WEEK },
-        );
+        const token = await createAccessToken({ ...result })
 
         // send welcome email
         try {

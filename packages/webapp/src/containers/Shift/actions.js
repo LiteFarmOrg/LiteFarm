@@ -30,99 +30,98 @@ import {
   UPDATE_SHIFT,
 } from './constants';
 
-
 export const getShifts = () => {
   return {
     type: GET_SHIFTS,
-  }
+  };
 };
 
 export const getAllShifts = () => {
   return {
     type: GET_ALL_SHIFT,
-  }
+  };
 };
 
 export const setShifts = (shifts) => {
   return {
     type: SET_SHIFTS_IN_SHIFT,
-    shifts
-  }
+    shifts,
+  };
 };
 
 export const submitShift = (shiftObj) => {
   return {
     type: SUBMIT_SHIFT,
-    shiftObj
-  }
+    shiftObj,
+  };
 };
 
 export const submitMultiShift = (shiftObj) => {
   return {
     type: SUBMIT_MULTI_SHIFT,
-    shiftObj
-  }
+    shiftObj,
+  };
 };
 
 export const updateShift = (shiftObj, shiftID) => {
   return {
     type: UPDATE_SHIFT,
     shiftObj,
-    shiftID
-  }
+    shiftID,
+  };
 };
 
 export const getTaskTypes = () => {
   return {
     type: GET_TASK_TYPES,
-  }
+  };
 };
 
 export const addTaskType = (taskName) => {
   return {
     type: ADD_TASK_TYPE,
-    taskName
-  }
+    taskName,
+  };
 };
 
 export const setTaskTypesInState = (taskTypes) => {
   return {
     type: SET_TASK_TYPES_IN_STATE,
-    taskTypes
-  }
+    taskTypes,
+  };
 };
 
 export const setSelectedTasks = (selectedTasks) => {
   return {
     type: SET_SELECTED_TASKS,
-    selectedTasks
-  }
+    selectedTasks,
+  };
 };
 
 export const setShiftDuration = (duration) => {
   return {
     type: SET_SHIFT_DURATION,
-    duration
-  }
+    duration,
+  };
 };
 
 export const setStartEndInState = (startEndObj) => {
-  return{
+  return {
     type: SET_START_END_SHIFT,
-    startEndObj
-  }
+    startEndObj,
+  };
 };
 
 export const setSelectedShift = (selectedShift) => {
   return {
     type: SET_SELECTED_SHIFT,
-    selectedShift
-  }
+    selectedShift,
+  };
 };
 
 export const deleteShift = (shiftId) => {
   return {
     type: DELETE_SHIFT,
-    shiftId
-  }
+    shiftId,
+  };
 };

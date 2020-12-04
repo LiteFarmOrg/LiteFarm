@@ -17,9 +17,7 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
-const SECONDS_IN_A_WEEK = 60 * 60 * 24 * 7;
+const { createAccessToken } = require('../util/jwt');
 
 class loginController extends baseController {
   static authenticateUser() {
@@ -36,11 +34,7 @@ class loginController extends baseController {
 
         delete data.password_hash;
 
-        const token = await jwt.sign(
-          { ...data },
-          process.env.JWT_SECRET,
-          { expiresIn: SECONDS_IN_A_WEEK },
-        );
+        const token = await createAccessToken({ ...data })
         return res.status(200).send({
           token,
           user: data,
@@ -52,6 +46,26 @@ class loginController extends baseController {
         });
       }
     };
+  }
+
+  static loginWithGoogle() {
+    return async (req, res) => {
+      try {
+        const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
+        const user = await userModel.query().findById(user_id);
+        if (!user) {
+          const newUser = { user_id, email, first_name, last_name };
+          await userModel.query().insert(newUser);
+        }
+        const id_token = await createAccessToken({ user_id, email, first_name, last_name });
+        return res.status(201).send({ id_token, user: { user_id } });
+      } catch (err) {
+        return res.status(400).json({
+          err,
+        });
+      }
+    }
+
   }
 }
 

@@ -33,10 +33,9 @@ import { getFertilizers } from './FertilizingLog/actions';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
-
-class Log extends Component{
+class Log extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -60,18 +59,32 @@ class Log extends Component{
 
   // filter logs in table if an option is chosen from dropdown or date
   filterLogs(logs) {
-    const {user} = this.props;
-    if(logs && logs.length && Object.keys(logs[0]).length>0 && user && user.is_admin){
+    const { user } = this.props;
+    if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && user.is_admin) {
       const { activityFilter, cropFilter, fieldFilter, startDate, endDate } = this.state;
-      const checkFilter = (l = [], attribute, constraint) => l[attribute] === constraint || constraint === 'all' || !constraint;
-      return logs.filter((l) => checkFilter(l, 'activity_kind', activityFilter) && checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) && checkFilter(l.field[0], 'field_id', fieldFilter)
-        && startDate.isBefore(l.date) && (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')));
-    }else if (logs && logs.length && Object.keys(logs[0]).length>0 && user && !user.is_admin){
+      const checkFilter = (l = [], attribute, constraint) =>
+        l[attribute] === constraint || constraint === 'all' || !constraint;
+      return logs.filter(
+        (l) =>
+          checkFilter(l, 'activity_kind', activityFilter) &&
+          checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
+          checkFilter(l.field[0], 'field_id', fieldFilter) &&
+          startDate.isBefore(l.date) &&
+          (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
+      );
+    } else if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && !user.is_admin) {
       const { activityFilter, cropFilter, fieldFilter, startDate, endDate } = this.state;
-      const checkFilter = (l = [], attribute, constraint) => l[attribute] === constraint || constraint === 'all' || !constraint;
-      return logs.filter((l) => checkFilter(l, 'activity_kind', activityFilter) && checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) && checkFilter(l.field[0], 'field_id', fieldFilter)
-        && l.user_id === user.user_id
-        && startDate.isBefore(l.date) && (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')));
+      const checkFilter = (l = [], attribute, constraint) =>
+        l[attribute] === constraint || constraint === 'all' || !constraint;
+      return logs.filter(
+        (l) =>
+          checkFilter(l, 'activity_kind', activityFilter) &&
+          checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
+          checkFilter(l.field[0], 'field_id', fieldFilter) &&
+          l.user_id === user.user_id &&
+          startDate.isBefore(l.date) &&
+          (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
+      );
     }
   }
 
@@ -99,14 +112,20 @@ class Log extends Component{
     }
   }
 
-  render(){
+  render() {
     let { crops, fields, logs } = this.props;
 
     // data needed to populate dropdowns and tables
-    let cropOptions = (crops && crops.map((c) => { return { label: c.crop_common_name, value: c.crop_id }} )) || [{ value: '', label: ''}];
-    cropOptions.unshift({ value: 'all', label: 'All Crops'});
-    let fieldOptions = (fields && fields.map((f) => { return { label: f.field_name, value: f.field_id }} )) || [{ value: '', label: ''}];
-    fieldOptions.unshift({ value: 'all', label: 'All Fields'});
+    let cropOptions = (crops &&
+      crops.map((c) => {
+        return { label: c.crop_common_name, value: c.crop_id };
+      })) || [{ value: '', label: '' }];
+    cropOptions.unshift({ value: 'all', label: 'All Crops' });
+    let fieldOptions = (fields &&
+      fields.map((f) => {
+        return { label: f.field_name, value: f.field_id };
+      })) || [{ value: '', label: '' }];
+    fieldOptions.unshift({ value: 'all', label: 'All Fields' });
 
     const logTypes = [
       { value: 'all', label: this.props.t('LOG_COMMON.ALL') },
@@ -118,88 +137,111 @@ class Log extends Component{
       { value: 'soilData', label: this.props.t('LOG_COMMON.SOIL_DATA') },
       { value: 'irrigation', label: this.props.t('LOG_COMMON.IRRIGATION') },
       { value: 'scouting', label: this.props.t('LOG_COMMON.SCOUTING') },
-      { value: 'other', label: this.props.t('LOG_COMMON.OTHER') }
+      { value: 'other', label: this.props.t('LOG_COMMON.OTHER') },
     ];
 
     const logLabels = {
-      'fertilizing': this.props.t('LOG_COMMON.FERTILIZING'),
-      'pestControl': this.props.t('LOG_COMMON.PEST'),
-      'harvest': this.props.t('LOG_COMMON.HARVEST'),
-      'seeding': this.props.t('LOG_COMMON.SEEDING'),
-      'fieldWork': this.props.t('LOG_COMMON.FIELD_WORK'),
-      'soilData': this.props.t('LOG_COMMON.SOIL_DATA'),
-      'irrigation': this.props.t('LOG_COMMON.IRRIGATION'),
-      'scouting': this.props.t('LOG_COMMON.SCOUTING'),
-      'other': this.props.t('LOG_COMMON.OTHER')
+      fertilizing: this.props.t('LOG_COMMON.FERTILIZING'),
+      pestControl: this.props.t('LOG_COMMON.PEST'),
+      harvest: this.props.t('LOG_COMMON.HARVEST'),
+      seeding: this.props.t('LOG_COMMON.SEEDING'),
+      fieldWork: this.props.t('LOG_COMMON.FIELD_WORK'),
+      soilData: this.props.t('LOG_COMMON.SOIL_DATA'),
+      irrigation: this.props.t('LOG_COMMON.IRRIGATION'),
+      scouting: this.props.t('LOG_COMMON.SCOUTING'),
+      other: this.props.t('LOG_COMMON.OTHER'),
     };
 
     // columns config for react-table
-    const columns = [{
-      id: 'date',
-      Header: this.props.t('LOG_COMMON.DATE'),
-      accessor: d => moment(d.date).format('YYYY-MM-DD'),
-      minWidth: 85
-    }, {
-      id: 'activity_kind',
-      Header: this.props.t('LOG_COMMON.ACTIVITY'),
-      accessor: d => logLabels[d.activity_kind],
-      minWidth: 70
-    }, {
-      id: 'crop',
-      Header: this.props.t('LOG_COMMON.CROP'),
-      accessor: d => {
-        if (!d.fieldCrop.length) {
-          return 'None'
-        }
-        if (d.fieldCrop.length > 1) {
-          return 'Multiple'
-        } else {
-          return d.fieldCrop.map((fc) => fc.crop.crop_common_name);
-        }
+    const columns = [
+      {
+        id: 'date',
+        Header: this.props.t('LOG_COMMON.DATE'),
+        accessor: (d) => moment(d.date).format('YYYY-MM-DD'),
+        minWidth: 85,
       },
+      {
+        id: 'activity_kind',
+        Header: this.props.t('LOG_COMMON.ACTIVITY'),
+        accessor: (d) => logLabels[d.activity_kind],
         minWidth: 70,
-    }, {
-      id: 'field',
-      Header: this.props.t('common:FIELD'),
-      accessor: d => {
-        if (!d.field.length) {
-          return 'None'
-        }
-        if (d.field.length > 1) {
-          return 'Multiple';
-        } else {
-          return d.field.map((f) => f.field_name)
-        }
       },
-      minWidth: 70
-    }, {
-      id: 'arrow-icon',
-      Header: '',
-      accessor: () => {
-          return <BsCaretRight />
+      {
+        id: 'crop',
+        Header: this.props.t('LOG_COMMON.CROP'),
+        accessor: (d) => {
+          if (!d.fieldCrop.length) {
+            return 'None';
+          }
+          if (d.fieldCrop.length > 1) {
+            return 'Multiple';
+          } else {
+            return d.fieldCrop.map((fc) => fc.crop.crop_common_name);
+          }
+        },
+        minWidth: 70,
       },
-      minWidth: 25
-    }];
+      {
+        id: 'field',
+        Header: this.props.t('common:FIELD'),
+        accessor: (d) => {
+          if (!d.field.length) {
+            return 'None';
+          }
+          if (d.field.length > 1) {
+            return 'Multiple';
+          } else {
+            return d.field.map((f) => f.field_name);
+          }
+        },
+        minWidth: 70,
+      },
+      {
+        id: 'arrow-icon',
+        Header: '',
+        accessor: () => {
+          return <BsCaretRight />;
+        },
+        minWidth: 25,
+      },
+    ];
 
-    return(
+    return (
       <div className={styles.logContainer}>
         <h4>
           <strong>{this.props.t('LOG_COMMON.FARM_LOG')}</strong>
         </h4>
-        <hr/>
-        <h4><b>{this.props.t('LOG_COMMON.ACTION')}</b></h4>
+        <hr />
+        <h4>
+          <b>{this.props.t('LOG_COMMON.ACTION')}</b>
+        </h4>
         <div className={styles.buttonContainer}>
-          <Button onClick={()=>{history.push('/new_log')}}>{this.props.t('LOG_COMMON.ADD_NEW_LOG')}</Button>
+          <Button
+            onClick={() => {
+              history.push('/new_log');
+            }}
+          >
+            {this.props.t('LOG_COMMON.ADD_NEW_LOG')}
+          </Button>
         </div>
-        <hr/>
+        <hr />
         <div>
-          <InfoBoxComponent customStyle={{float: 'right'}} title={this.props.t('LOG_COMMON.LOG_HELP')} body={this.props.t('LOG_COMMON.LOG_HELP_EXPLANATION')}/>
-          <h4><b>{this.props.t('LOG_COMMON.LOG_HISTORY')}</b></h4>
+          <InfoBoxComponent
+            customStyle={{ float: 'right' }}
+            title={this.props.t('LOG_COMMON.LOG_HELP')}
+            body={this.props.t('LOG_COMMON.LOG_HELP_EXPLANATION')}
+          />
+          <h4>
+            <b>{this.props.t('LOG_COMMON.LOG_HISTORY')}</b>
+          </h4>
         </div>
         <div>
           <h5>{this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}</h5>
           <DropDown
-            defaultValue={{ value: 'all', label: this.props.t('LOG_COMMON.ALL') }}
+            defaultValue={{
+              value: 'all',
+              label: this.props.t('LOG_COMMON.ALL'),
+            }}
             options={logTypes}
             onChange={(option) => this.setState({ activityFilter: option.value })}
             isSearchable={false}
@@ -208,29 +250,45 @@ class Log extends Component{
             <DropDown
               className={styles.pullLeft}
               options={cropOptions}
-              defaultValue={{ value: 'all', label: this.props.t('LOG_COMMON.ALL_CROPS') }}
-              placeholder='Select Crop'
+              defaultValue={{
+                value: 'all',
+                label: this.props.t('LOG_COMMON.ALL_CROPS'),
+              }}
+              placeholder="Select Crop"
               onChange={(option) => this.setState({ cropFilter: option.value })}
               isSearchable={false}
             />
             <DropDown
               className={styles.pullRight}
               options={fieldOptions}
-              defaultValue={{ value: 'all', label: this.props.t('LOG_COMMON.ALL_FIELDS') }}
-              placeholder='Select Field'
+              defaultValue={{
+                value: 'all',
+                label: this.props.t('LOG_COMMON.ALL_FIELDS'),
+              }}
+              placeholder="Select Field"
               onChange={(option) => this.setState({ fieldFilter: option.value })}
               isSearchable={false}
             />
           </div>
           <div>
-            <LocalForm model='logDates'>
+            <LocalForm model="logDates">
               <span className={styles.pullLeft}>
                 <label>{this.props.t('LOG_COMMON.FROM')}</label>
-                <DateContainer style={styles.date} custom={true} date={this.state.startDate} onDateChange={(date) => this.setState({ startDate: date })}/>
+                <DateContainer
+                  style={styles.date}
+                  custom={true}
+                  date={this.state.startDate}
+                  onDateChange={(date) => this.setState({ startDate: date })}
+                />
               </span>
-              <span className={styles.pullRight} >
+              <span className={styles.pullRight}>
                 <label>{this.props.t('LOG_COMMON.TO')}</label>
-                <DateContainer style={styles.date} custom={true} date={this.state.endDate} onDateChange={(date) => this.setState({ endDate: date })}/>
+                <DateContainer
+                  style={styles.date}
+                  custom={true}
+                  date={this.state.endDate}
+                  onDateChange={(date) => this.setState({ endDate: date })}
+                />
               </span>
             </LocalForm>
           </div>
@@ -244,14 +302,14 @@ class Log extends Component{
             className="-striped -highlight"
             defaultSorted={[
               {
-                id: "date",
-                desc: true
-              }
+                id: 'date',
+                desc: true,
+              },
             ]}
             getTdProps={(state, rowInfo, column, instance) => {
               return {
                 onClick: (e, handleOriginal) => {
-                  if(rowInfo && rowInfo.original) {
+                  if (rowInfo && rowInfo.original) {
                     const activityKind = rowInfo.original && rowInfo.original.activity_kind;
                     this.props.dispatch(setSelectedLog(rowInfo.original));
                     const url = this.getEditURL(activityKind);
@@ -265,13 +323,13 @@ class Log extends Component{
                   if (handleOriginal) {
                     handleOriginal();
                   }
-                }
+                },
               };
             }}
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -281,13 +339,13 @@ const mapStateToProps = (state) => {
     fields: fieldSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Log));

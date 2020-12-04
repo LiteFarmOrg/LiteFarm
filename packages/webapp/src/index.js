@@ -15,14 +15,14 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from "react-router-dom";
+import { Router } from 'react-router-dom';
 import history from './history';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import ReduxToastr from 'react-redux-toastr';
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
-import peopleSaga from './containers/Profile/People/saga'
+import peopleSaga from './containers/Profile/People/saga';
 import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';
 import fertSaga from './containers/Log/FertilizingLog/saga';
@@ -35,7 +35,7 @@ import cropSaga from './components/Forms/NewCropModal/saga';
 import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
-import chooseFarmSaga from'./containers/ChooseFarm/saga';
+import chooseFarmSaga from './containers/ChooseFarm/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import { Provider } from 'react-redux';
@@ -45,7 +45,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
 import { unregister } from './registerServiceWorker';
-
+import loginSaga from './containers/GoogleLoginButton/saga';
 
 // config for redux-persist
 const persistConfig = {
@@ -67,9 +67,9 @@ export const store = configureStore({
 // https://redux-toolkit.js.org/tutorials/advanced-tutorial#store-setup-and-hmr
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./reducer', () => {
-    const newRootReducer = require('./reducer').default
-    store.replaceReducer(newRootReducer)
-  })
+    const newRootReducer = require('./reducer').default;
+    store.replaceReducer(newRootReducer);
+  });
 }
 
 sagaMiddleware.run(homeSaga);
@@ -90,16 +90,17 @@ sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
+sagaMiddleware.run(loginSaga);
 
 const persistor = persistStore(store);
 
-export const purgeState  = () => {
+export const purgeState = () => {
   persistor.purge();
-}
+};
 
 export default () => {
-  return { store, persistor }
-}
+  return { store, persistor };
+};
 
 const render = () => {
   const App = require('./App').default;
@@ -123,14 +124,14 @@ const render = () => {
         </Router>
       </PersistGate>
     </Provider>,
-    document.getElementById('root'));
-}
+    document.getElementById('root'),
+  );
+};
 
 render();
 
-
 if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('./App', render)
+  module.hot.accept('./App', render);
 }
 
 //FIXME: service worker disabled for now. Causing problems when deploying: shows blank page until N+1th visit

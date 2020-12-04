@@ -1,5 +1,5 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 import en_translation from './en/translation.json';
 import en_common from './en/common.json';
 import pt from './pt/translation.json';
@@ -12,33 +12,31 @@ import es_common from './es/translation.json';
 const resources = {
   en: {
     translation: en_translation,
-    common: en_common
+    common: en_common,
   },
   es: {
     translation: es,
-    common: es_common
+    common: es_common,
   },
   pt: {
     translation: pt,
-    common: pt_common
+    common: pt_common,
   },
-  fr:{
+  fr: {
     translation: fr,
-    common: fr_common
-  }
+    common: fr_common,
+  },
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: "en",
+i18n.use(initReactI18next).init({
+  resources,
+  lng: 'en',
 
-    keySeparator: '.', // we do not use keys in form messages.welcome
+  keySeparator: '.', // we do not use keys in form messages.welcome
 
-    interpolation: {
-      escapeValue: false
-    }
-  });
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 export default i18n;

@@ -1,6 +1,6 @@
-@import "../../../assets/colors";
-@import "../../../assets/mixin";
-.primary{
+@import '../../../assets/colors';
+@import '../../../assets/mixin';
+.primary {
   background-color: var(--btnPrimary);
   color: var(--fontColor);
   text-decoration: none;
@@ -8,7 +8,7 @@
   border: none;
 }
 
-.secondary{
+.secondary {
   background-color: var(--btnSecondary);
   color: var(--labels);
   border-color: var(--iconDefault);
@@ -33,24 +33,24 @@
   box-shadow: none;
 }
 
-.primary:hover:enabled{
+.primary:hover:enabled {
   background-color: var(--btnHoverPrimary);
   box-shadow: 0px 4px 12px rgba(102, 115, 138, 0.4);
 }
 
-.secondary:hover:enabled{
+.secondary:hover:enabled {
   border-color: var(--labels);
 }
 
-.fullLength{
+.fullLength {
   width: 100%;
 }
 
-.btn:focus{
+.btn:focus {
   outline: none;
 }
 
-.sm{
+.sm {
   font-size: 14px;
   height: 32px;
   padding: 0 24px;

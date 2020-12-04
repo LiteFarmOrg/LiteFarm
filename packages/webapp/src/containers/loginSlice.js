@@ -12,6 +12,7 @@ export function onLoadingStart(state) {
 export function onLoadingFail(state, { payload: { error } }) {
   state.loading = false;
   state.error = error;
+  state.loaded = true;
 }
 
 const loginSlice = createSlice({
@@ -28,7 +29,7 @@ const loginSlice = createSlice({
       state.user_id = undefined;
       state.farm_id = undefined;
     },
-    deselectFarmSuccess: (state) => state.farm_id = undefined,
+    deselectFarmSuccess: (state) => (state.farm_id = undefined),
   },
 });
 

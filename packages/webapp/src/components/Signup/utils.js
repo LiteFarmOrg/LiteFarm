@@ -4,6 +4,6 @@ export const validatePasswordWithErrors = (password) => {
   const hasNoDigit = !RegExp(/(?=.*\d)/).test(password);
   const hasNoSymbol = !RegExp(/(?=.*\W)/).test(password);
   const isValid = !isTooShort && !hasNoDigit && !hasNoSymbol && !hasNoUpperCase;
-  return {isValid, isTooShort, hasNoUpperCase, hasNoSymbol, hasNoDigit}
-}
+  return { isValid, isTooShort, hasNoUpperCase, hasNoSymbol, hasNoDigit };
+};
 export const validatePassword = (password) => validatePasswordWithErrors(password).isValid;

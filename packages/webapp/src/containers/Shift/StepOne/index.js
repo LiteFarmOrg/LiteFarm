@@ -6,7 +6,13 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import BedImg from '../../../assets/images/log/bed.svg';
 import { taskTypeSelector } from './selectors';
-import { addTaskType, getTaskTypes, setSelectedTasks, setShiftDuration, setStartEndInState } from '../actions';
+import {
+  addTaskType,
+  getTaskTypes,
+  setSelectedTasks,
+  setShiftDuration,
+  setStartEndInState,
+} from '../actions';
 import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import OtherImg from '../../../assets/images/log/other.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
@@ -19,14 +25,14 @@ import SeedImg from '../../../assets/images/log/seeding.svg';
 import SocialImg from '../../../assets/images/log/social.svg';
 import WashImg from '../../../assets/images/log/wash.svg';
 import WeedImg from '../../../assets/images/log/weed.svg'; // kek
-import closeButton from '../../../assets/images/grey_close_button.png'
+import closeButton from '../../../assets/images/grey_close_button.png';
 import Popup from 'reactjs-popup';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { grabCurrencySymbol } from '../../../util';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class ShiftStepOne extends Component {
   constructor(props) {
@@ -37,20 +43,33 @@ class ShiftStepOne extends Component {
       new_end: moment().format('HH:mm'),
       break_duration: 0,
       touchAction: 'auto',
-      defaultTaskNames: ['Bed Preparation', 'Delivery', 'Fertilizing', 'Harvesting', 'Pest Control', 'Sales', 'Scouting', 'Seeding', 'Social Event', 'Wash and Pack', 'Weeding', 'Other'],
+      defaultTaskNames: [
+        'Bed Preparation',
+        'Delivery',
+        'Fertilizing',
+        'Harvesting',
+        'Pest Control',
+        'Sales',
+        'Scouting',
+        'Seeding',
+        'Social Event',
+        'Wash and Pack',
+        'Weeding',
+        'Other',
+      ],
       imgDict: {
         'Bed Preparation': BedImg,
-        'Delivery': DeliveryImg,
-        'Fertilizing': FertImg,
-        'Harvesting': HarvestImg,
+        Delivery: DeliveryImg,
+        Fertilizing: FertImg,
+        Harvesting: HarvestImg,
         'Pest Control': PestImg,
-        'Sales': SaleImg,
-        'Scouting': ScoutImg,
-        'Seeding': SeedImg,
+        Sales: SaleImg,
+        Scouting: ScoutImg,
+        Seeding: SeedImg,
         'Social Event': SocialImg,
         'Wash and Pack': WashImg,
-        'Weeding': WeedImg,
-        'Other': OtherImg,
+        Weeding: WeedImg,
+        Other: OtherImg,
       },
       showAdd: false,
       customTaskName: '',
@@ -74,7 +93,7 @@ class ShiftStepOne extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
@@ -84,54 +103,58 @@ class ShiftStepOne extends Component {
     });
   }
 
-  changeDuration(event){
+  changeDuration(event) {
     const regex = /^[0-9\b]+$/;
     const value = event.target.value;
     if (value === '' || regex.test(value)) {
-      this.setState({ break_duration: value })
+      this.setState({ break_duration: value });
     }
   }
 
   customTaskName(event) {
     const value = event.target.value;
-    this.setState({customTaskName: value});
+    this.setState({ customTaskName: value });
   }
 
   componentDidMount() {
     // this.props.dispatch(getTaskTypes());
     this.props.dispatch(getAllUserFarmsByFarmId());
-
   }
 
   closeAddModal = () => {
-    this.setState({showAdd: false});
+    this.setState({ showAdd: false });
   };
 
   openAddModal = () => {
-    this.setState({showAdd: true});
+    this.setState({ showAdd: true });
   };
 
   logClick(task_id) {
     let div = document.getElementById(task_id);
-    if (div.style.background === 'transparent' || div.style.background === '' || div.style.background === 'rgb(130, 207, 156)') {
-      div.style.cssText = 'width: 80px; height: 80px; border-radius: 50px; margin: 0px auto; background: rgb(0, 117, 106); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;';
+    if (
+      div.style.background === 'transparent' ||
+      div.style.background === '' ||
+      div.style.background === 'rgb(130, 207, 156)'
+    ) {
+      div.style.cssText =
+        'width: 80px; height: 80px; border-radius: 50px; margin: 0px auto; background: rgb(0, 117, 106); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;';
 
       // add task to selected tasks
       if (!this.state.selectedTasks.includes(task_id)) {
         let selectedTasks = this.state.selectedTasks;
         selectedTasks.push(task_id);
-        this.setState({selectedTasks: selectedTasks});
+        this.setState({ selectedTasks: selectedTasks });
       }
-    }
-    else {
-      div.style.cssText = 'width: 80px; height: 80px; border-radius: 50px; margin: 0px auto; background: rgb(130, 207, 156); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;';
+    } else {
+      div.style.cssText =
+        'width: 80px; height: 80px; border-radius: 50px; margin: 0px auto; background: rgb(130, 207, 156); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;';
 
       // remove task from selected tasks
       if (this.state.selectedTasks.includes(task_id)) {
         let index = this.state.selectedTasks.indexOf(task_id);
         let selectedTasks = this.state.selectedTasks;
         selectedTasks.splice(index, 1);
-        this.setState({selectedTasks: selectedTasks});
+        this.setState({ selectedTasks: selectedTasks });
       }
     }
   }
@@ -140,23 +163,19 @@ class ShiftStepOne extends Component {
     if (this.state.customTaskName !== '') {
       this.props.dispatch(addTaskType(this.state.customTaskName));
       this.closeAddModal();
-    }
-    else toastr.error('A task name is required');//alert('A task name is required');
+    } else toastr.error('A task name is required'); //alert('A task name is required');
   };
-
 
   assignImage(taskName) {
     if (this.state.defaultTaskNames.includes(taskName)) {
       return this.state.imgDict[taskName];
-    }
-    else return OtherImg;
+    } else return OtherImg;
   }
 
-
   nextPage() {
-    let {new_start, new_end, date, shiftUser} = this.state;
-    let {users} = this.props;
-    if((!shiftUser && users.is_admin) || (!Array.isArray(shiftUser) && users.is_admin)){
+    let { new_start, new_end, date, shiftUser } = this.state;
+    let { users } = this.props;
+    if ((!shiftUser && users.is_admin) || (!Array.isArray(shiftUser) && users.is_admin)) {
       toastr.error('Please select a user for this shift');
       return;
     }
@@ -176,10 +195,7 @@ class ShiftStepOne extends Component {
     new_end = moment(new_end).set('date', moment(date).date());
     new_end = moment(new_end).set('hour', Number(newEndHourMin[0]));
     new_end = moment(new_end).set('minute', Number(newEndHourMin[1]));
-    let beforeBreakDuration = moment
-      .duration(moment(new_end)
-        .diff(moment(new_start))
-      ).asMinutes();
+    let beforeBreakDuration = moment.duration(moment(new_end).diff(moment(new_start))).asMinutes();
 
     if (beforeBreakDuration < 1) {
       toastr.error('Please enter a valid start-end duration');
@@ -195,7 +211,7 @@ class ShiftStepOne extends Component {
     this.props.dispatch(setShiftDuration(afterBreakDuration));
 
     const preSelectedTasks = this.state.selectedTasks;
-    if(preSelectedTasks.length < 1){
+    if (preSelectedTasks.length < 1) {
       toastr.error('Please select at least one task.');
       return;
     }
@@ -212,8 +228,8 @@ class ShiftStepOne extends Component {
     const startDateTime = moment(new_start).format();
     const endDateTime = moment(new_end).format();
     let startEndDateTime = {};
-    if(users.is_admin){
-      if(shiftUser.length === 1){
+    if (users.is_admin) {
+      if (shiftUser.length === 1) {
         shiftUser = shiftUser[0];
         startEndDateTime = {
           start: startDateTime,
@@ -223,7 +239,7 @@ class ShiftStepOne extends Component {
           wage: shiftUser.wage,
           isMulti: false,
         };
-      }else{
+      } else {
         startEndDateTime = {
           start: startDateTime,
           end: endDateTime,
@@ -232,8 +248,7 @@ class ShiftStepOne extends Component {
           isMulti: true,
         };
       }
-
-    }else{
+    } else {
       startEndDateTime = {
         start: startDateTime,
         end: endDateTime,
@@ -244,34 +259,31 @@ class ShiftStepOne extends Component {
       };
     }
 
-
     this.props.dispatch(setStartEndInState(startEndDateTime));
 
     history.push('/shift_step_two');
-
   }
 
   setShiftUser = (selectedOption) => {
     this.setState({
-      shiftUser: selectedOption
+      shiftUser: selectedOption,
     });
   };
 
-
   toggleHoursAdjust = () => {
-    let {showHoursAdjust, hourAdjustSign} = this.state;
+    let { showHoursAdjust, hourAdjustSign } = this.state;
     hourAdjustSign = hourAdjustSign === '+' ? '-' : '+';
     this.setState({
       showHoursAdjust: !showHoursAdjust,
       hourAdjustSign,
-    })
+    });
   };
 
   changeWage = (e, user_id) => {
     let usersObj = this.state.shiftUser;
 
-    for(let i = 0; i < usersObj.length; i++){
-      if(user_id === usersObj[i].value){
+    for (let i = 0; i < usersObj.length; i++) {
+      if (user_id === usersObj[i].value) {
         usersObj[i].wage = Number(e.target.value);
         this.setState({
           shiftUser: usersObj,
@@ -282,22 +294,22 @@ class ShiftStepOne extends Component {
   };
 
   render() {
-    let {new_start, new_end, shiftUser, hourAdjustSign, showHoursAdjust} = this.state;
-    const {taskTypes: inMutabletaskTypes, users, farm} = this.props;
+    let { new_start, new_end, shiftUser, hourAdjustSign, showHoursAdjust } = this.state;
+    const { taskTypes: inMutabletaskTypes, users, farm } = this.props;
     const taskTypes = [...inMutabletaskTypes];
     //re order task types
     //TODO: create new taskTypes from taskTypes in store
-    if(taskTypes){
+    if (taskTypes) {
       let socialEventObj;
-      for(let i = 0; i < taskTypes.length; i++){
-        if(taskTypes[i].task_name === 'Social Event'){
+      for (let i = 0; i < taskTypes.length; i++) {
+        if (taskTypes[i].task_name === 'Social Event') {
           socialEventObj = taskTypes[i];
-          taskTypes.splice(i, 1 );
+          taskTypes.splice(i, 1);
           break;
         }
       }
-      for(let i = 0; i < taskTypes.length; i++){
-        if(taskTypes[i].task_name ==='Other'){
+      for (let i = 0; i < taskTypes.length; i++) {
+        if (taskTypes[i].task_name === 'Other') {
           taskTypes.splice(i, 0, socialEventObj);
           break;
         }
@@ -306,16 +318,21 @@ class ShiftStepOne extends Component {
 
     const symbol = grabCurrencySymbol(farm);
 
-
     return (
-      <div className={styles.logContainer} >
+      <div className={styles.logContainer}>
         <PageTitle backUrl="/shift" title={this.props.t('SHIFT.EDIT_SHIFT.NEW_SHIFT_TITLE_1')} />
-        {
-          users && users.is_admin && users.wage && users.wage.amount === 0  && <Alert variant="warning">
-            {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET')} <br/> {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET_LOCATION')}
+        {users && users.is_admin && users.wage && users.wage.amount === 0 && (
+          <Alert variant="warning">
+            {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET')} <br />{' '}
+            {this.props.t('SHIFT.EDIT_SHIFT.NO_WAGE_SET_LOCATION')}
           </Alert>
-        }
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder={this.props.t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')} allowPast={true}/>
+        )}
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')}
+          allowPast={true}
+        />
         <div className={styles.timeSection}>
           {/* {
             users.is_admin && <div className={styles.timeRow}>
@@ -333,20 +350,21 @@ class ShiftStepOne extends Component {
             </div>
           } */}
           <div className={styles.timeRow}>
-            <div className={styles.timeLabel}>
-              {this.props.t('SHIFT.START_TIME')}
-            </div>
+            <div className={styles.timeLabel}>{this.props.t('SHIFT.START_TIME')}</div>
             <div className={styles.timeSelector}>
-              <input type="time" onChange={this.handleInputChange} name="new_start" value={new_start}/>
+              <input
+                type="time"
+                onChange={this.handleInputChange}
+                name="new_start"
+                value={new_start}
+              />
             </div>
           </div>
 
           <div className={styles.timeRow}>
-            <div className={styles.timeLabel}>
-              {this.props.t('SHIFT.END_TIME')}
-            </div>
+            <div className={styles.timeLabel}>{this.props.t('SHIFT.END_TIME')}</div>
             <div className={styles.timeSelector}>
-              <input type="time" onChange={this.handleInputChange} name="new_end" value={new_end}/>
+              <input type="time" onChange={this.handleInputChange} name="new_end" value={new_end} />
             </div>
           </div>
 
@@ -355,108 +373,133 @@ class ShiftStepOne extends Component {
               {this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}
             </div>
             <div className={styles.timeInput}>
-              <input type='number' name='break_duration' value={this.state.break_duration} onChange={this.changeDuration}/> <div className={styles.unit}>min</div>
+              <input
+                type="number"
+                name="break_duration"
+                value={this.state.break_duration}
+                onChange={this.changeDuration}
+              />{' '}
+              <div className={styles.unit}>min</div>
             </div>
           </div>
         </div>
-        {
-          shiftUser && shiftUser.length > 0 && <div className={styles.timeRow}>
-            <div className={styles.greenTextButton} onClick={()=>this.toggleHoursAdjust()}>
+        {shiftUser && shiftUser.length > 0 && (
+          <div className={styles.timeRow}>
+            <div className={styles.greenTextButton} onClick={() => this.toggleHoursAdjust()}>
               {this.props.t('SHIFT.EDIT_SHIFT.ADJUST_HOURLY_WAGE')} {hourAdjustSign}
             </div>
           </div>
-        }
-        {
-          shiftUser && shiftUser.length > 0 && showHoursAdjust && <div>
-            {
-              shiftUser.map((uobj)=>{
-                return <div className={styles.wageContainer} key={uobj.value}>
-                  <div style={{width: '70%'}}>{
-                    (uobj.label === 'Myself') && 'My'
-                  }{
-                    (uobj.label !== 'Myself') && uobj.label + "'s"
-                  } {this.props.t('SHIFT.EDIT_SHIFT.WAGE_FOR_SHIFT')} ({symbol}/hr): </div>
-                  <div style={{width: '25%'}}><input type="number" defaultValue={Number(uobj.wage)} onChange={(e) => this.changeWage(e, uobj.value)}/></div>
+        )}
+        {shiftUser && shiftUser.length > 0 && showHoursAdjust && (
+          <div>
+            {shiftUser.map((uobj) => {
+              return (
+                <div className={styles.wageContainer} key={uobj.value}>
+                  <div style={{ width: '70%' }}>
+                    {uobj.label === 'Myself' && 'My'}
+                    {uobj.label !== 'Myself' && uobj.label + "'s"}{' '}
+                    {this.props.t('SHIFT.EDIT_SHIFT.WAGE_FOR_SHIFT')} ({symbol}
+                    /hr):{' '}
+                  </div>
+                  <div style={{ width: '25%' }}>
+                    <input
+                      type="number"
+                      defaultValue={Number(uobj.wage)}
+                      onChange={(e) => this.changeWage(e, uobj.value)}
+                    />
+                  </div>
                 </div>
-              })
-            }
+              );
+            })}
           </div>
-        }
+        )}
 
-        <div className={styles.subTitle}>
-          {this.props.t('SHIFT.EDIT_SHIFT.WHAT_TASKS_YOU_DID')}
-        </div>
+        <div className={styles.subTitle}>{this.props.t('SHIFT.EDIT_SHIFT.WHAT_TASKS_YOU_DID')}</div>
 
-
-        <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
+        <Container
+          fluid={true}
+          style={{
+            marginLeft: 0,
+            marginRight: 0,
+            padding: '0 3%',
+            marginTop: '5%',
+            width: '100%',
+          }}
+        >
           <Row className="show-grid">
-            {
-              taskTypes && (
-                taskTypes.map((type) => {
-                  const taskName = type.task_name;
-                  const buttonImg = this.assignImage(taskName);
-                  return (
-                    <Col xs={4} md={4} className={styles.col} onClick={() => this.logClick(type.task_id)}
-                         key={type.task_id}>
-                      <div className={styles.circleButton} id={type.task_id}>
-                        <img data-test="task_type" src={buttonImg} alt=""/>
-                      </div>
-                      <div className={styles.buttonName}>
-                        {taskName}
-                      </div>
-                    </Col>
-                  )
-                })
-              )
-            }
+            {taskTypes &&
+              taskTypes.map((type) => {
+                const taskName = type.task_name;
+                const buttonImg = this.assignImage(taskName);
+                return (
+                  <Col
+                    xs={4}
+                    md={4}
+                    className={styles.col}
+                    onClick={() => this.logClick(type.task_id)}
+                    key={type.task_id}
+                  >
+                    <div className={styles.circleButton} id={type.task_id}>
+                      <img data-test="task_type" src={buttonImg} alt="" />
+                    </div>
+                    <div className={styles.buttonName}>{taskName}</div>
+                  </Col>
+                );
+              })}
           </Row>
         </Container>
 
-        {
-          (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+        {(Number(farm.role_id) === 1 ||
+          Number(farm.role_id) === 2 ||
+          Number(farm.role_id) === 5) && (
           <div className={styles.buttonContainer}>
-            <Button onClick={this.openAddModal}>{this.props.t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}</Button>
+            <Button onClick={this.openAddModal}>
+              {this.props.t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}
+            </Button>
           </div>
-        }
+        )}
 
         <div className={styles.bottomContainer}>
           <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
             {this.props.t('common:CANCEL')}
           </div>
-          <button className='btn btn-primary' onClick={this.nextPage}>{this.props.t('common:NEXT')}</button>
+          <button className="btn btn-primary" onClick={this.nextPage}>
+            {this.props.t('common:NEXT')}
+          </button>
         </div>
 
         <Popup
           open={this.state.showAdd}
           closeOnDocumentClick
           onClose={this.closeAddModal}
-          contentStyle={{display: 'flex', width: '100%', height: '100vh', padding: '0 5%'}}
-          overlayStyle={{zIndex: '1060', height: '100vh'}}
+          contentStyle={{
+            display: 'flex',
+            width: '100%',
+            height: '100vh',
+            padding: '0 5%',
+          }}
+          overlayStyle={{ zIndex: '1060', height: '100vh' }}
         >
           <div className={styles.modal}>
             <div className={styles.popupTitle}>
               <a className={styles.close} onClick={this.closeAddModal}>
-                <img src={closeButton} alt=""/>
+                <img src={closeButton} alt="" />
               </a>
               <h3>{this.props.t('SHIFT.EDIT_SHIFT.ADD_TASK')}</h3>
             </div>
             <div className={styles.customContainer}>
-              <div className={styles.taskTitle}>
-                {this.props.t('SHIFT.EDIT_SHIFT.NAME_TASK')}
-              </div>
+              <div className={styles.taskTitle}>{this.props.t('SHIFT.EDIT_SHIFT.NAME_TASK')}</div>
               <div className={styles.taskInput}>
-                <input type="text" maxLength="20" onChange={this.customTaskName}/>
+                <input type="text" maxLength="20" onChange={this.customTaskName} />
               </div>
             </div>
             <div className={styles.buttonContainer}>
               <Button onClick={this.addCustomTask}>{this.props.t('common:FINISH')}</Button>
             </div>
-
           </div>
         </Popup>
-
       </div>
-    )
+    );
   }
 }
 
@@ -466,13 +509,13 @@ const mapStateToProps = (state) => {
     users: userFarmSelector(state),
     allUsers: userFarmsByFarmSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ShiftStepOne));

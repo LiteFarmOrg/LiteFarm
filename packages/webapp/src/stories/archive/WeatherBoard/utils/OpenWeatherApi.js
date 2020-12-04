@@ -18,14 +18,11 @@ export default class OpenWeatherApi {
         lang: this.lang,
         units: this.unit,
       },
-      args
+      args,
     );
 
     const promise = axios
-      .all([
-        axios.get(endpointForecast, { params }),
-        axios.get(endPointToday, { params }),
-      ])
+      .all([axios.get(endpointForecast, { params }), axios.get(endPointToday, { params })])
       .then(
         axios.spread((forecastReponse, todayReponse) => {
           const forecastData = forecastReponse.data;
@@ -34,7 +31,7 @@ export default class OpenWeatherApi {
             return this._map(forecastData, todayData, params.lang);
           }
           return {};
-        })
+        }),
       );
     return promise;
   }
@@ -42,7 +39,7 @@ export default class OpenWeatherApi {
     const daysData = forecastData.list;
     const mapped = {};
     mapped.location = forecastData.city;
-    mapped.days = daysData.map(item => ({
+    mapped.days = daysData.map((item) => ({
       date: index.formatDate(item.dt, lang),
       description: item.weather[0] ? item.weather[0].main : null,
       icon: item.weather[0] ? item.weather[0].icon : null,

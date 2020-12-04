@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { deleteShift } from '../actions'
+import { deleteShift } from '../actions';
 import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
@@ -10,7 +10,7 @@ import { selectedShiftSelector, taskTypeSelector } from './selectors';
 import { cropSelector, fieldSelector } from '../../selector';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class MyShift extends Component {
   constructor(props) {
@@ -28,9 +28,7 @@ class MyShift extends Component {
     this.editShift = this.editShift.bind(this);
   }
 
-
-
-  componentDidMount(){
+  componentDidMount() {
     const shift = this.props.selectedShift;
 
     // const fields = this.props.fields;
@@ -38,44 +36,53 @@ class MyShift extends Component {
     let tasks = shift.tasks;
     let newTasks = {};
     // let fieldTasks = {}s;
-    let addedCrops = [], addedFields = [];
-    for (let task of tasks){
+    let addedCrops = [],
+      addedFields = [];
+    for (let task of tasks) {
       let newTask = {
         taskName: '',
         aoiNames: [],
         duration: 0,
       };
       let duration = task.duration;
-      if(task.is_field){
+      if (task.is_field) {
         let field_name = this.getFieldName(task.field_id);
-        if(!newTasks.hasOwnProperty(task.task_id)){
+        if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
-          newTask.aoiNames.push({name: field_name, is_field: true});
+          newTask.aoiNames.push({ name: field_name, is_field: true });
           newTask.duration += duration;
 
           newTasks[task.task_id] = newTask;
           addedFields.push(field_name);
-        }else{
+        } else {
           newTasks[task.task_id].duration += duration;
 
-          if(!addedFields.includes(field_name)){
-            newTasks[task.task_id].aoiNames.push({name: field_name, is_field: true});
+          if (!addedFields.includes(field_name)) {
+            newTasks[task.task_id].aoiNames.push({
+              name: field_name,
+              is_field: true,
+            });
             addedFields.push(field_name);
           }
         }
-      }else{
+      } else {
         let thisCrop = this.getCropName(task.field_crop_id);
-        if(!newTasks.hasOwnProperty(task.task_id)){
+        if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
-          newTask.aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
+          newTask.aoiNames.push({
+            name: thisCrop.crop_common_name,
+            is_field: false,
+          });
           newTask.duration = duration;
 
           newTasks[task.task_id] = newTask;
-        }else{
-
+        } else {
           newTasks[task.task_id].duration += duration;
-          if(!addedCrops.includes(thisCrop.crop_id)){
-            newTasks[task.task_id].aoiNames.push({name: thisCrop.crop_common_name, is_field: false});
+          if (!addedCrops.includes(thisCrop.crop_id)) {
+            newTasks[task.task_id].aoiNames.push({
+              name: thisCrop.crop_common_name,
+              is_field: false,
+            });
           }
         }
 
@@ -86,8 +93,26 @@ class MyShift extends Component {
     //set times from shift obj
     let startTime = moment(shift.start_time);
     let endTime = moment(shift.end_time);
-    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    let date = months[startTime.month()] + ' ' +startTime.date().toString() + ', ' + startTime.year().toString();
+    let months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    let date =
+      months[startTime.month()] +
+      ' ' +
+      startTime.date().toString() +
+      ', ' +
+      startTime.year().toString();
 
     startTime = startTime.format('YYYY-MM-DD h:mm A').split(' ');
     endTime = endTime.format('YYYY-MM-DD h:mm A').split(' ');
@@ -98,21 +123,21 @@ class MyShift extends Component {
       start: startTime[1] + ' ' + startTime[2],
       end: endTime[1] + ' ' + endTime[2],
       breakDuration: shift.break_duration,
-    })
+    });
   }
 
-  getFieldName(field_id){
-    for(let field of this.props.fields){
-      if(field.field_id === field_id){
+  getFieldName(field_id) {
+    for (let field of this.props.fields) {
+      if (field.field_id === field_id) {
         return field.field_name;
       }
     }
     return 'no name';
   }
 
-  getTaskName(task_id){
-    for(let task of this.props.taskType){
-      if(task.task_id === task_id){
+  getTaskName(task_id) {
+    for (let task of this.props.taskType) {
+      if (task.task_id === task_id) {
         return task.task_name;
       }
     }
@@ -120,65 +145,76 @@ class MyShift extends Component {
   }
 
   // get crop now, not just name
-  getCropName(field_crop_id){
+  getCropName(field_crop_id) {
     const crops = this.props.crops || [];
-    for(let crop of crops){
-      if(crop.field_crop_id === field_crop_id){
+    for (let crop of crops) {
+      if (crop.field_crop_id === field_crop_id) {
         return crop;
       }
     }
-    return {crop_common_name: 'no_name', crop_id: 999999999};
+    return { crop_common_name: 'no_name', crop_id: 999999999 };
   }
 
-  editShift(){
+  editShift() {
     history.push('/edit_shift_one');
   }
 
   handleShiftDelete = () => {
-    this.setState({showModal: true});
-  }
+    this.setState({ showModal: true });
+  };
 
-  render(){
+  render() {
     let taskArr = [];
-    for(let taskId of Object.keys(this.state.tasks)){
+    for (let taskId of Object.keys(this.state.tasks)) {
       taskArr.push(this.state.tasks[taskId]);
     }
     const { farm } = this.props;
     let dropDown = 0;
-    return(
+    return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')}/>
+        <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
-            <div>
-            {this.state.date}
-            </div>
-            {
-              (Number(farm.role_id) === 1 || Number(farm.role_id) === 2 || Number(farm.role_id) === 5) &&
+            <div>{this.state.date}</div>
+            {(Number(farm.role_id) === 1 ||
+              Number(farm.role_id) === 2 ||
+              Number(farm.role_id) === 5) && (
               <DropdownButton
-                style={{background:'#EFEFEF', color:'#4D4D4D', border:'none'}}
+                style={{
+                  background: '#EFEFEF',
+                  color: '#4D4D4D',
+                  border: 'none',
+                }}
                 title={'Action'}
                 key={dropDown}
                 id={`dropdown-basic-${dropDown}`}
               >
                 {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
-                <Dropdown.Item eventKey="1" onClick={()=>this.handleShiftDelete()}>{this.props.t('common:DELETE')}</Dropdown.Item>
+                <Dropdown.Item eventKey="1" onClick={() => this.handleShiftDelete()}>
+                  {this.props.t('common:DELETE')}
+                </Dropdown.Item>
               </DropdownButton>
-            }
+            )}
           </div>
-          {
-            this.props.users.is_admin && <div className={styles.innerInfo}>
-              <div>{this.props.t('SHIFT.MY_SHIFT.SUBMITTED_FOR')}</div><span>{this.props.selectedShift.first_name + ' ' + this.props.selectedShift.last_name}</span>
+          {this.props.users.is_admin && (
+            <div className={styles.innerInfo}>
+              <div>{this.props.t('SHIFT.MY_SHIFT.SUBMITTED_FOR')}</div>
+              <span>
+                {this.props.selectedShift.first_name + ' ' + this.props.selectedShift.last_name}
+              </span>
             </div>
-          }
+          )}
           <div className={styles.innerInfo}>
-            <div>{this.props.t('SHIFT.START_TIME')}</div><span>{this.state.start}</span>
+            <div>{this.props.t('SHIFT.START_TIME')}</div>
+            <span>{this.state.start}</span>
           </div>
           <div className={styles.innerInfo}>
-            <div>{this.props.t('SHIFT.END_TIME')}</div><span>{this.state.end}</span>
+            <div>{this.props.t('SHIFT.END_TIME')}</div>
+            <span>{this.state.end}</span>
           </div>
           <div className={styles.innerInfo}>
-            <div>{this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}</div><span>{this.state.breakDuration} min</span>
+            <div>{this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}</div>
+            <span>{this.state.breakDuration} min</span>
           </div>
         </div>
         <div className={styles.infoBlock}>
@@ -187,51 +223,54 @@ class MyShift extends Component {
             <strong>{this.props.t('SHIFT.MY_SHIFT.FIELD_CROPS')}</strong>
             <strong>{this.props.t('SHIFT.MY_SHIFT.DURATION')}</strong>
           </div>
-          {
-            taskArr.map((task)=>{
-
-              return (
-              <div className={styles.innerInfo} style={{padding:'0.5em 2.5% 0.5em 5%'}} key={task.taskName}>
-                <div className={styles.innerTaskName}><p>{task.taskName}</p></div>
-                <div className={styles.innerTaskList} >
-                {
-                  task.aoiNames.map((obj)=>{
-                    if(obj.is_field){
-                      return(
-                        <p className={styles.nameLabelField} key={obj.name}>{obj.name}</p>
-                      )
-                    }else{
-                      return(
-                        <p className={styles.nameLabel} key={obj.name}>{obj.name}</p>
-                      )
+          {taskArr.map((task) => {
+            return (
+              <div
+                className={styles.innerInfo}
+                style={{ padding: '0.5em 2.5% 0.5em 5%' }}
+                key={task.taskName}
+              >
+                <div className={styles.innerTaskName}>
+                  <p>{task.taskName}</p>
+                </div>
+                <div className={styles.innerTaskList}>
+                  {task.aoiNames.map((obj) => {
+                    if (obj.is_field) {
+                      return (
+                        <p className={styles.nameLabelField} key={obj.name}>
+                          {obj.name}
+                        </p>
+                      );
+                    } else {
+                      return (
+                        <p className={styles.nameLabel} key={obj.name}>
+                          {obj.name}
+                        </p>
+                      );
                     }
-                  })
-                }
+                  })}
                 </div>
                 <div className={styles.innerTaskTime}>
-                  <span>{(task.duration/60).toFixed(2)} hr</span>
+                  <span>{(task.duration / 60).toFixed(2)} hr</span>
                 </div>
               </div>
-              )
-            })
-          }
+            );
+          })}
         </div>
         <ConfirmModal
-            open={this.state.showModal}
-            onClose={() => this.setState({showModal: false})}
-            onConfirm={() => {
-              let shiftId = this.props.selectedShift.shift_id;
-              this.props.dispatch(deleteShift(shiftId));
-              this.setState({showModal: false});
-            }}
-            message={this.props.t('SHIFT.MY_SHIFT.DELETE_CONFIRMATION')}
-          />
+          open={this.state.showModal}
+          onClose={() => this.setState({ showModal: false })}
+          onConfirm={() => {
+            let shiftId = this.props.selectedShift.shift_id;
+            this.props.dispatch(deleteShift(shiftId));
+            this.setState({ showModal: false });
+          }}
+          message={this.props.t('SHIFT.MY_SHIFT.DELETE_CONFIRMATION')}
+        />
       </div>
-    )
+    );
   }
-
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -241,13 +280,13 @@ const mapStateToProps = (state) => {
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(MyShift));

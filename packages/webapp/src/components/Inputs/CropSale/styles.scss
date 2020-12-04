@@ -1,4 +1,4 @@
-.buttonContainer{
+.buttonContainer {
   width: 100%;
   margin-bottom: 25px;
   .button {
@@ -18,11 +18,12 @@
       width: 15%;
       font-weight: normal;
     }
-    input{
+    input {
       width: 100% !important;
     }
-    p:first-child, p:last-child {
-      flex:1;
+    p:first-child,
+    p:last-child {
+      flex: 1;
       margin: 0;
     }
   }
@@ -31,7 +32,6 @@
 .middleColumn {
   width: 30%;
   div {
-
     div {
       width: 100% !important;
     }

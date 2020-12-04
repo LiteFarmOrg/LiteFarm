@@ -4,7 +4,7 @@ import { PasswordError } from '../../../components/Form/Errors';
 export default {
   title: 'Components/InputPassword/PasswordError',
   component: PasswordError,
-  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <PasswordError {...args} />;

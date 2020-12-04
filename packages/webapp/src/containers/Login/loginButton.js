@@ -16,23 +16,19 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
-function LoginButton ({auth}){
-  const { t, i18n} = useTranslation();
+function LoginButton({ auth }) {
+  const { t, i18n } = useTranslation();
 
   function login() {
     auth.login();
   }
   return (
-      <div className={styles.submit}>
-          <Button
-            onClick={() => login()}
-          >
-            {t('common:LOGIN_BUTTON') }
-          </Button>
-      </div>
-  )
+    <div className={styles.submit}>
+      <Button onClick={() => login()}>{t('common:LOGIN_BUTTON')}</Button>
+    </div>
+  );
 }
 
 export default LoginButton;

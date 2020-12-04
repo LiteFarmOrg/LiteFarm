@@ -27,7 +27,7 @@ class Contact extends Component {
     this.state = {
       email: '',
       body: '',
-      formErrors: {email: '', body: ''},
+      formErrors: { email: '', body: '' },
       emailValid: false,
       bodyValid: false,
       formValid: false,
@@ -37,9 +37,15 @@ class Contact extends Component {
   }
 
   handleContactFormChange(e) {
-    const {id, value} = e.target;
-    this.setState({
-      [id]: value}, () => { this.validateField(id, value) });
+    const { id, value } = e.target;
+    this.setState(
+      {
+        [id]: value,
+      },
+      () => {
+        this.validateField(id, value);
+      },
+    );
   }
 
   validateField(fieldName, value) {
@@ -58,15 +64,18 @@ class Contact extends Component {
       default:
         break;
     }
-    this.setState({
-      formErrors: fieldValidationErrors,
-      emailValid: emailValid,
-      bodyValid: bodyValid
-    }, this.validateForm);
+    this.setState(
+      {
+        formErrors: fieldValidationErrors,
+        emailValid: emailValid,
+        bodyValid: bodyValid,
+      },
+      this.validateForm,
+    );
   }
 
   validateForm() {
-    this.setState({formValid: this.state.emailValid && this.state.bodyValid});
+    this.setState({ formValid: this.state.emailValid && this.state.bodyValid });
   }
 
   handleSubmit() {
@@ -75,7 +84,7 @@ class Contact extends Component {
     this.setState({
       email: '',
       body: '',
-    })
+    });
   }
 
   render() {
@@ -83,49 +92,62 @@ class Contact extends Component {
       <div className={styles.contactContainer}>
         <h4>
           <strong>Contact Form</strong>
-          <div style={{float:'right'}}>
-            <InfoBoxComponent title="Contact Form" body="You can also email us at litefarmapp@gmail.com"/>
+          <div style={{ float: 'right' }}>
+            <InfoBoxComponent
+              title="Contact Form"
+              body="You can also email us at litefarmapp@gmail.com"
+            />
           </div>
         </h4>
-        <hr/>
+        <hr />
         <div>
-          <div><h4>Submit your feedback and/or bugs using this form to make this app better!</h4></div>
-          <div className={styles.formContainer}>
-            <div><h3><b>Contact Form</b></h3></div>
-            <div className="panel panel-default">
-            <FormErrors formErrors={this.state.formErrors} />
+          <div>
+            <h4>Submit your feedback and/or bugs using this form to make this app better!</h4>
           </div>
+          <div className={styles.formContainer}>
+            <div>
+              <h3>
+                <b>Contact Form</b>
+              </h3>
+            </div>
+            <div className="panel panel-default">
+              <FormErrors formErrors={this.state.formErrors} />
+            </div>
             <Form>
               <FormGroup controlId="email">
                 <h4>Email:</h4>
-                <FormControl type="email"
-                             placeholder="Email"
-                             value={this.state.email}
-                             onChange={(e) => this.handleContactFormChange(e)}
+                <FormControl
+                  type="email"
+                  placeholder="Email"
+                  value={this.state.email}
+                  onChange={(e) => this.handleContactFormChange(e)}
                 />
               </FormGroup>
               <FormGroup controlId="body">
                 <h4>Feedback:</h4>
-                <FormControl style={{ height: 200 }}
-                             as="textarea"
-                             placeholder="Enter text here..."
-                             value={this.state.body}
-                             onChange={(e) => this.handleContactFormChange(e)}
+                <FormControl
+                  style={{ height: 200 }}
+                  as="textarea"
+                  placeholder="Enter text here..."
+                  value={this.state.body}
+                  onChange={(e) => this.handleContactFormChange(e)}
                 />
               </FormGroup>
-              <Button disabled={!this.state.formValid} onClick={this.handleSubmit}>Submit</Button>
+              <Button disabled={!this.state.formValid} onClick={this.handleSubmit}>
+                Submit
+              </Button>
             </Form>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapDispatchToProps)(Contact);

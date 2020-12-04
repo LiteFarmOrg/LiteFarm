@@ -21,7 +21,7 @@ async function authFarmId(req, res, next) {
   if (farm_id) {
     // console.log(farm_id);
     // user id is contained in attribute sub in this format: 'auth0|5b0560215d7d1617fd7ed217'
-    const user_id = req.user.sub.split('|')[1];
+    const user_id = req.user.user_id
     // console.log("check farm_id", user_id, farm_id);
     const farms = await knex.raw(`SELECT uf.farm_id
       FROM "userFarm" uf

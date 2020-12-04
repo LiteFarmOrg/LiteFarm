@@ -13,29 +13,34 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import styles from './styles.scss';
 
 //requires 2 props
 // cancelFunc
 // proceedFunc
 // option props: cancelText, proceedText, disableProceed
-class ProceedFooter extends Component{
-
-  render(){
-    const cText = typeof(this.props.cancelText) === 'string' ? this.props.cancelText : 'Cancel';
-    const pText = typeof(this.props.proceedText) === 'string' ? this.props.proceedText : 'Proceed';
+class ProceedFooter extends Component {
+  render() {
+    const cText = typeof this.props.cancelText === 'string' ? this.props.cancelText : 'Cancel';
+    const pText = typeof this.props.proceedText === 'string' ? this.props.proceedText : 'Proceed';
     let isDisabled = false;
-    if(typeof(this.props.disableProceed) === 'boolean'){
+    if (typeof this.props.disableProceed === 'boolean') {
       isDisabled = this.props.disableProceed;
     }
 
-    return(
+    return (
       <div className={styles.footerContainer}>
-        <button onClick={()=>this.props.cancelFunc()}>{cText}</button>
-        <button className={styles.pButton} onClick={()=>this.props.proceedFunc()} disabled={isDisabled}>{pText}</button>
+        <button onClick={() => this.props.cancelFunc()}>{cText}</button>
+        <button
+          className={styles.pButton}
+          onClick={() => this.props.proceedFunc()}
+          disabled={isDisabled}
+        >
+          {pText}
+        </button>
       </div>
-    )
+    );
   }
 }
 export default ProceedFooter;

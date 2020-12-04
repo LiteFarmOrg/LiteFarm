@@ -34,7 +34,7 @@ function logReducer(state = initialState, action) {
         selectedLog: action.log,
       });
     default:
-      return state
+      return state;
   }
 }
 
@@ -111,17 +111,20 @@ const pcLog = {
 };
 
 export default combineReducers({
-  forms: combineForms({
-    fertLog: fertLog,
-    fieldWorkLog: fieldWorkLog,
-    harvestLog: harvestLog,
-    irrigationLog: irrigationLog,
-    otherLog: otherLog,
-    pestControlLog: pcLog,
-    scoutingLog: scoutingLog,
-    seedLog: seedLog,
-    soilDataLog: {},
-  }, 'logReducer.forms'),
+  forms: combineForms(
+    {
+      fertLog: fertLog,
+      fieldWorkLog: fieldWorkLog,
+      harvestLog: harvestLog,
+      irrigationLog: irrigationLog,
+      otherLog: otherLog,
+      pestControlLog: pcLog,
+      scoutingLog: scoutingLog,
+      seedLog: seedLog,
+      soilDataLog: {},
+    },
+    'logReducer.forms',
+  ),
   logReducer,
   fertReducer,
   pestControlReducer,

@@ -20,15 +20,21 @@ const TodayForecast = (props) => {
       <div className="date">{todayData.date}</div>
       <div className="hr"></div>
       <div className="current">{getFormatedTemperature(todayData.temperature.current)}</div>
-      <div className="range">{todayData.temperature.max} / {todayData.temperature.min} {units.temp}</div>
+      <div className="range">
+        {todayData.temperature.max} / {todayData.temperature.min} {units.temp}
+      </div>
       <div className="desc">
         <i className={`wicon wi ${todayIcon}`}></i>
         &nbsp;{todayData.description}
       </div>
       <div className="hr"></div>
       <div className="info">
-        <div>{langs.Wind}: <b>{todayData.wind}</b> {units.speed}</div>
-        <div>{langs.Humidity}: <b>{todayData.humidity}</b> %</div>
+        <div>
+          {langs.Wind}: <b>{todayData.wind}</b> {units.speed}
+        </div>
+        <div>
+          {langs.Humidity}: <b>{todayData.humidity}</b> %
+        </div>
       </div>
     </div>
   );

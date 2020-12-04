@@ -1,24 +1,18 @@
-import {
-  GET_CROPS,
-  CREATE_CROP,
-} from "./constants";
+import { GET_CROPS, CREATE_CROP } from './constants';
 
-import {
-  SET_CROPS_IN_STATE,
-} from '../../../containers/Field/constants'
+import { SET_CROPS_IN_STATE } from '../../../containers/Field/constants';
 
 export const getCrops = () => {
   return {
     type: GET_CROPS,
-  }
+  };
 };
-
 
 export const setCropsInState = (crops) => {
   return {
     type: SET_CROPS_IN_STATE,
-    crops
-  }
+    crops,
+  };
 };
 
 export const createCropAction = (cropData) => {
@@ -71,5 +65,5 @@ export const createCropAction = (cropData) => {
     farm_id: cropData.farm_id,
     user_added: cropData.user_added,
     deleted: cropData.deleted,
-  }
+  };
 };

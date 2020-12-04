@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { Text } from '../Typography';
 
-
 const OverlayTooltip = ({
   children = 'LiteFarm',
   content = 'LiteFarm',
@@ -13,8 +12,9 @@ const OverlayTooltip = ({
   placement,
   ...props
 }) => {
-  const getTranslateX = (translateX) => translateX?`transform: translateX(${translateX}) !important;`:'';
-  const getMarginTop = (marginTop) => marginTop?`margin-top: ${marginTop};`:'';
+  const getTranslateX = (translateX) =>
+    translateX ? `transform: translateX(${translateX}) !important;` : '';
+  const getMarginTop = (marginTop) => (marginTop ? `margin-top: ${marginTop};` : '');
   return (
     <>
       <style type="text/css">
@@ -59,17 +59,11 @@ const OverlayTooltip = ({
 };
 
 OverlayTooltip.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  content: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   marginTop: PropTypes.string,
   arrowTranslateX: PropTypes.string,
   placement: PropTypes.string,
-}
+};
 
 export default OverlayTooltip;

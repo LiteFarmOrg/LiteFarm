@@ -17,11 +17,16 @@ import React from 'react';
 import styles from './styles.scss';
 import MiddleLogo from '../../../assets/images/middle_logo.svg';
 
-export default function NoFarmNavBar ({ history }) {
+export default function NoFarmNavBar({ history }) {
   return (
     <div className={styles.navBar}>
       <div className={styles.itemContainer}>
-        <img src={MiddleLogo} alt="Logo" className={styles.middleLogo} onClick={() => history.push('/')}/>
+        <img
+          src={MiddleLogo}
+          alt="Logo"
+          className={styles.middleLogo}
+          onClick={() => history.push('/')}
+        />
       </div>
     </div>
   );

@@ -15,31 +15,68 @@ const store = {
 };
 
 const auth = (isAuthenticated = false) => ({
-  logout: () => {
-  }, isAuthenticated: () => isAuthenticated,
+  logout: () => {},
+  isAuthenticated: () => isAuthenticated,
 });
 
-
-export default [story =>
-  <Provider store={store}>
-    <Router history={history}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight:'100vh' }}>
-        <NavBar history={history} auth={auth()}/>
-        <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column' }}>
-          {story()}
+export default [
+  (story) => (
+    <Provider store={store}>
+      <Router history={history}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <NavBar history={history} auth={auth()} />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
         </div>
-      </div>
-    </Router>
-  </Provider>];
+      </Router>
+    </Provider>
+  ),
+];
 
-export const authenticatedDecorators = [story =>
-  <Provider store={store}>
-    <Router history={history}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight:'100vh' }}>
-        <NavBar history={history} auth={auth(true)}/>
-        <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column' }}>
-          {story()}
+export const authenticatedDecorators = [
+  (story) => (
+    <Provider store={store}>
+      <Router history={history}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <NavBar history={history} auth={auth(true)} />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
         </div>
-      </div>
-    </Router>
-  </Provider>];
+      </Router>
+    </Provider>
+  ),
+];

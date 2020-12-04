@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import PageTitle from "../../../../components/PageTitle";
-import connect from "react-redux/es/connect/connect";
+import React, { Component } from 'react';
+import PageTitle from '../../../../components/PageTitle';
+import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.scss';
 import styles from './styles.scss';
-import {expenseTypeSelector} from "../../selectors";
-import {Container, Row, Col} from 'react-bootstrap';
+import { expenseTypeSelector } from '../../selectors';
+import { Container, Row, Col } from 'react-bootstrap';
 import EquipImg from '../../../../assets/images/log/equipment.svg';
 import FertImg from '../../../../assets/images/log/fertilizing.svg';
 import PestImg from '../../../../assets/images/log/bug.svg';
@@ -13,10 +13,9 @@ import MachineImg from '../../../../assets/images/log/machinery.svg';
 import SeedImg from '../../../../assets/images/log/seeding.svg';
 import OtherImg from '../../../../assets/images/log/other.svg';
 import LandImg from '../../../../assets/images/log/land.svg';
-import {setSelectedExpense} from '../../actions'
-import history from "../../../../history";
-import {withTranslation} from "react-i18next";
-
+import { setSelectedExpense } from '../../actions';
+import history from '../../../../history';
+import { withTranslation } from 'react-i18next';
 
 class ExpenseCategories extends Component {
   constructor(props) {
@@ -38,96 +37,113 @@ class ExpenseCategories extends Component {
         background: '#82CF9C',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.08)',
       },
-      selectedTypes: []
+      selectedTypes: [],
     };
 
     this.addRemoveType = this.addRemoveType.bind(this);
     this.nextPage = this.nextPage.bind(this);
   }
 
-  nextPage(){
+  nextPage() {
     this.props.dispatch(setSelectedExpense(this.state.selectedTypes));
-    history.push('/add_expense')
+    history.push('/add_expense');
   }
 
-
-  addRemoveType(id){
-    let {selectedTypes} = this.state;
-    if(selectedTypes.includes(id)){
+  addRemoveType(id) {
+    let { selectedTypes } = this.state;
+    if (selectedTypes.includes(id)) {
       const index = selectedTypes.indexOf(id);
       selectedTypes.splice(index, 1);
-    }else{
+    } else {
       selectedTypes.push(id);
     }
     this.setState({
-      selectedTypes
-    })
+      selectedTypes,
+    });
   }
 
   render() {
-    const {expenseTypes} = this.props;
-    const {selectedStyle, unSelectedStyle, selectedTypes} = this.state;
+    const { expenseTypes } = this.props;
+    const { selectedStyle, unSelectedStyle, selectedTypes } = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')}/>
-        <Container fluid={true} style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
+        <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
+        <Container
+          fluid={true}
+          style={{
+            marginLeft: 0,
+            marginRight: 0,
+            padding: '0 3%',
+            marginTop: '5%',
+            width: '100%',
+          }}
+        >
           <Row className="show-grid">
-            {
-              expenseTypes.length > 0 &&
+            {expenseTypes.length > 0 &&
               expenseTypes.map((type) => {
-                return <Col xs={4} md={4} key={type.expense_type_id} style={{marginBottom: '12px'}}>
+                return (
+                  <Col xs={4} md={4} key={type.expense_type_id} style={{ marginBottom: '12px' }}>
                     <div>
-                      <div style={selectedTypes.includes(type.expense_type_id) ? selectedStyle : unSelectedStyle} onClick={()=>this.addRemoveType(type.expense_type_id)}>
-                        {type.expense_name === 'Equipment' &&
-                          <img src={EquipImg} alt="" className={styles.circleImg} id="t-1"/>
+                      <div
+                        style={
+                          selectedTypes.includes(type.expense_type_id)
+                            ? selectedStyle
+                            : unSelectedStyle
                         }
-                        {type.expense_name === 'Fertilizer' &&
-                        <img src={FertImg} alt="" className={styles.circleImg} id="t-2"/>
-                        }
-                        {type.expense_name === 'Machinery' &&
-                        <img src={MachineImg} alt="" className={styles.circleImg} id="t-3"/>
-                        }
-                        {type.expense_name === 'Pesticide' &&
-                        <img src={PestImg} alt="" className={styles.circleImg} id="t-4"/>
-                        }
-                        {type.expense_name === 'Fuel' &&
-                        <img src={FueldImg} alt="" className={styles.circleImg} id="t-5"/>
-                        }
-                        {type.expense_name === 'Land' &&
-                        <img src={LandImg} alt="" className={styles.circleImg} id="t-6"/>
-                        }
-                        {type.expense_name === 'Seeds' &&
-                        <img src={SeedImg} alt="" className={styles.circleImg} id="t-7"/>
-                        }
-                        {type.expense_name === 'Other' &&
-                        <img src={OtherImg} alt="" className={styles.circleImg} id="t-8"/>
-                        }
+                        onClick={() => this.addRemoveType(type.expense_type_id)}
+                      >
+                        {type.expense_name === 'Equipment' && (
+                          <img src={EquipImg} alt="" className={styles.circleImg} id="t-1" />
+                        )}
+                        {type.expense_name === 'Fertilizer' && (
+                          <img src={FertImg} alt="" className={styles.circleImg} id="t-2" />
+                        )}
+                        {type.expense_name === 'Machinery' && (
+                          <img src={MachineImg} alt="" className={styles.circleImg} id="t-3" />
+                        )}
+                        {type.expense_name === 'Pesticide' && (
+                          <img src={PestImg} alt="" className={styles.circleImg} id="t-4" />
+                        )}
+                        {type.expense_name === 'Fuel' && (
+                          <img src={FueldImg} alt="" className={styles.circleImg} id="t-5" />
+                        )}
+                        {type.expense_name === 'Land' && (
+                          <img src={LandImg} alt="" className={styles.circleImg} id="t-6" />
+                        )}
+                        {type.expense_name === 'Seeds' && (
+                          <img src={SeedImg} alt="" className={styles.circleImg} id="t-7" />
+                        )}
+                        {type.expense_name === 'Other' && (
+                          <img src={OtherImg} alt="" className={styles.circleImg} id="t-8" />
+                        )}
                       </div>
                       <div className={styles.typeName}>{type.expense_name}</div>
                     </div>
-                </Col>
-              })
-            }
+                  </Col>
+                );
+              })}
           </Row>
         </Container>
         <div className={styles.bottomContainer}>
-          <button className='btn btn-primary' onClick={()=>this.nextPage()}>{this.props.t('common:NEXT')}</button>
+          <button className="btn btn-primary" onClick={() => this.nextPage()}>
+            {this.props.t('common:NEXT')}
+          </button>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     expenseTypes: expenseTypeSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ExpenseCategories));

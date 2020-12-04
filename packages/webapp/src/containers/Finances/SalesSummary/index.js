@@ -1,18 +1,18 @@
 import styles from '../styles.scss';
-import React, {Component} from "react";
-import history from "../../../history";
-import PageTitle from "../../../components/PageTitle";
+import React, { Component } from 'react';
+import history from '../../../history';
+import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
-import {dateRangeSelector, salesSelector} from '../selectors';
-import {getSales} from '../actions';
-import {connect} from 'react-redux';
-import {setSelectedSale} from "../actions";
+import { dateRangeSelector, salesSelector } from '../selectors';
+import { getSales } from '../actions';
+import { connect } from 'react-redux';
+import { setSelectedSale } from '../actions';
 import moment from 'moment';
-import {grabCurrencySymbol} from "../../../util";
-import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
-import { BsCaretRight } from "react-icons/all";
+import { grabCurrencySymbol } from '../../../util';
+import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
-import {withTranslation} from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -23,11 +23,11 @@ class SalesSummary extends Component {
     this.filterByDate = this.filterByDate.bind(this);
     this.changeDate = this.changeDate.bind(this);
     let startDate, endDate;
-    const {dateRange} = this.props;
-    if(dateRange && dateRange.startDate && dateRange.endDate){
+    const { dateRange } = this.props;
+    if (dateRange && dateRange.startDate && dateRange.endDate) {
       startDate = moment(dateRange.startDate);
       endDate = moment(dateRange.endDate);
-    }else{
+    } else {
       startDate = moment().startOf('year');
       endDate = moment().endOf('year');
     }
@@ -36,7 +36,7 @@ class SalesSummary extends Component {
       startDate,
       endDate,
       currencySymbol: grabCurrencySymbol(this.props.farm),
-    }
+    };
   }
 
   componentDidMount() {
@@ -46,11 +46,11 @@ class SalesSummary extends Component {
 
   changeDate(type, date) {
     if (type === 'start') {
-      this.setState({startDate: date})
+      this.setState({ startDate: date });
     } else if (type === 'end') {
-      this.setState({endDate: date})
+      this.setState({ endDate: date });
     } else {
-      console.log("Error, type not specified")
+      console.log('Error, type not specified');
     }
   }
 
@@ -65,11 +65,11 @@ class SalesSummary extends Component {
           } else {
             cropMap[cs.crop.crop_common_name] = cs.sale_value || 0;
           }
-        })
-      })
+        });
+      });
     }
     return Object.keys(cropMap).map((k) => {
-      return {crop: k, value: cropMap[k]}
+      return { crop: k, value: cropMap[k] };
     });
   }
 
@@ -91,20 +91,30 @@ class SalesSummary extends Component {
         crop = 'multiple';
         s.cropSale.forEach((cs) => {
           value += cs.sale_value;
-        })
+        });
       } else {
         crop = s.cropSale[0].crop.crop_common_name;
         value = s.cropSale[0].sale_value;
       }
-      return {date, crop, value, cropSale: s.cropSale, customerName: s.customer_name, id: s.sale_id}
-    })
+      return {
+        date,
+        crop,
+        value,
+        cropSale: s.cropSale,
+        customerName: s.customer_name,
+        id: s.sale_id,
+      };
+    });
   }
 
   filterByDate(sales) {
     return sales.filter((s) => {
       const fullDate = new Date(s.sale_date);
-      return ((this.state.startDate && this.state.startDate._d) <= fullDate && (this.state.endDate && this.state.endDate._d) >= fullDate);
-    })
+      return (
+        (this.state.startDate && this.state.startDate._d) <= fullDate &&
+        (this.state.endDate && this.state.endDate._d) >= fullDate
+      );
+    });
   }
 
   render() {
@@ -113,51 +123,60 @@ class SalesSummary extends Component {
     const detailedHistoryData = this.formatSales(this.filterByDate(sales));
 
     // columns config for Summary Table
-    const summaryColumns = [{
-      id: 'crop',
-      Header: 'Crop',
-      accessor: (e) => e.crop,
-      minWidth: 70,
-      Footer: <div>Total</div>
-    }, {
-      id: 'value',
-      Header: 'Value',
-      accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
-      minWidth: 75,
-      Footer: <div>${this.formatFooter(summaryData)}</div>
-    }];
+    const summaryColumns = [
+      {
+        id: 'crop',
+        Header: 'Crop',
+        accessor: (e) => e.crop,
+        minWidth: 70,
+        Footer: <div>Total</div>,
+      },
+      {
+        id: 'value',
+        Header: 'Value',
+        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        minWidth: 75,
+        Footer: <div>${this.formatFooter(summaryData)}</div>,
+      },
+    ];
 
-    const detailedHistoryColumns = [{
-      id: 'date',
-      Header: 'Date',
-      accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
-      minWidth: 70
-    }, {
-      id: 'crop',
-      Header: 'Crop',
-      accessor: (e) => e.crop,
-      minWidth: 75,
-      Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>
-    }, {
-      id: 'value',
-      Header: 'Value',
-      accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
-      minWidth: 40,
-      Footer: <div>${this.formatFooter(detailedHistoryData)}</div>
-    }, {
-      id: 'chevron',
-      maxWidth: 25,
-      accessor: () => <BsCaretRight />
-    }
+    const detailedHistoryColumns = [
+      {
+        id: 'date',
+        Header: 'Date',
+        accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
+        minWidth: 70,
+      },
+      {
+        id: 'crop',
+        Header: 'Crop',
+        accessor: (e) => e.crop,
+        minWidth: 75,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
+      },
+      {
+        id: 'value',
+        Header: 'Value',
+        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        minWidth: 40,
+        Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
+      },
+      {
+        id: 'chevron',
+        maxWidth: 25,
+        accessor: () => <BsCaretRight />,
+      },
     ];
 
     return (
       <div className={styles.financesContainer}>
-        <PageTitle backUrl='/Finances' title={this.props.t('SALE.SUMMARY.TITLE')}/>
-        <DateRangeSelector changeDateMethod={this.changeDate}/>
-        <hr/>
+        <PageTitle backUrl="/Finances" title={this.props.t('SALE.SUMMARY.TITLE')} />
+        <DateRangeSelector changeDateMethod={this.changeDate} />
+        <hr />
         <div className={styles.topContainer}>
-          <h4><strong>{this.props.t('SALE.SUMMARY.SUMMARY')}</strong></h4>
+          <h4>
+            <strong>{this.props.t('SALE.SUMMARY.SUMMARY')}</strong>
+          </h4>
         </div>
 
         <Table
@@ -168,14 +187,16 @@ class SalesSummary extends Component {
           className="-striped -highlight"
           defaultSorted={[
             {
-              id: "date",
-              desc: true
-            }
+              id: 'date',
+              desc: true,
+            },
           ]}
         />
-        <hr/>
+        <hr />
         <div className={styles.topContainer}>
-          <h4><strong>{this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}</strong></h4>
+          <h4>
+            <strong>{this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}</strong>
+          </h4>
         </div>
         <Table
           columns={detailedHistoryColumns}
@@ -197,12 +218,12 @@ class SalesSummary extends Component {
                 if (handleOriginal) {
                   handleOriginal();
                 }
-              }
+              },
             };
           }}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -211,13 +232,13 @@ const mapStateToProps = (state) => {
     sales: salesSelector(state),
     farm: userFarmSelector(state),
     dateRange: dateRangeSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SalesSummary));

@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import sharedStyles from '../shared.scss'
-import {ProgressBar} from 'react-bootstrap';
+import React, { Component } from 'react';
+import sharedStyles from '../shared.scss';
+import { ProgressBar } from 'react-bootstrap';
 
 class InsightsInfoComponent extends Component {
   render() {
@@ -10,18 +10,20 @@ class InsightsInfoComponent extends Component {
     let percent = this.props.percent;
 
     return (
-      <div className={"peopleFedItem"}>
+      <div className={'peopleFedItem'}>
         <div>
-          <div className={sharedStyles.leftText}>
-          {title}
-          </div>
-          <div className={"meals " + sharedStyles.rightText}>
+          <div className={sharedStyles.leftText}>{title}</div>
+          <div className={'meals ' + sharedStyles.rightText}>
             {value} {valueLabel}
           </div>
         </div>
-        <ProgressBar className={sharedStyles.progress} bsPrefix={sharedStyles.bar + ' progress-bar'} now={percent}/>
+        <ProgressBar
+          className={sharedStyles.progress}
+          bsPrefix={sharedStyles.bar + ' progress-bar'}
+          now={percent}
+        />
       </div>
-    )
+    );
   }
 }
 

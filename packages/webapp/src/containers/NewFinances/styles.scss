@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.financesContainer{
+.financesContainer {
   width: 100%;
   max-width: 1024px;
   min-height: 100vh;
   height: auto;
   padding: 24px 24px 50px 24px;
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
 
@@ -29,7 +29,7 @@
   line-height: normal;
   font-size: 18px;
   letter-spacing: 0.131836px;
-  color: #5B6370;
+  color: #5b6370;
 }
 
 .topContainer {
@@ -39,6 +39,12 @@
   justify-content: space-between;
 }
 
-.floatLeft { width: 50%; float: left; }
+.floatLeft {
+  width: 50%;
+  float: left;
+}
 
-.floatRight {width: 50%; float: right; }
+.floatRight {
+  width: 50%;
+  float: right;
+}

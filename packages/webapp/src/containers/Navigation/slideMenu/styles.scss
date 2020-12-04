@@ -1,8 +1,8 @@
 .bm-item-list {
   padding-top: 0px;
 }
-a:hover{
-  background: #DFF4E8;
+a:hover {
+  background: #dff4e8;
 }
 .top-nav-bar {
   display: block;
@@ -22,8 +22,8 @@ a:hover{
 }
 
 .menu-body div {
-  background: #F3F6FB;
-  color: #282B36;
+  background: #f3f6fb;
+  color: #282b36;
   box-shadow: None;
   outline: 0 !important;
   display: grid;
@@ -31,11 +31,11 @@ a:hover{
 .menu-body a {
   box-shadow: None;
   font-size: 16px;
-  color: #282B36;
+  color: #282b36;
   outline: 0 !important;
   //margin-left: 24px;
   //margin-right: 24px;
-  padding-left:24px;
+  padding-left: 24px;
   padding-right: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -47,25 +47,24 @@ a:hover{
   }
 }
 
-  img {
-    left: 25%;
-    right: 25%;
-    top: 62.5%;
-    bottom: 12.5%;
-  }
+img {
+  left: 25%;
+  right: 25%;
+  top: 62.5%;
+  bottom: 12.5%;
+}
 
 .menu-body a span {
-  color: #282B36;
+  color: #282b36;
   margin-left: 0px;
 }
 .sub-menu {
-  display:grid;
+  display: grid;
 }
-.sub-menu a span{
+.sub-menu a span {
   display: grid;
   padding-left: 15%;
   box-shadow: None;
   font-size: 14px;
-  color: #282B36;
+  color: #282b36;
 }
-

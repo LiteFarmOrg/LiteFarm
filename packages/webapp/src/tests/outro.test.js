@@ -17,9 +17,9 @@ import { takeEvery } from 'redux-saga/effects';
 import { patchOutroStepSaga } from '../containers/Outro/saga';
 
 describe('patchOutroStep', () => {
-    const genObject = patchOutroStepSaga();
+  const genObject = patchOutroStepSaga();
 
-    it('should wait for FINISH_ONBOARDING action and call patchOutroStepSaga', () => {
-        expect(genObject.next().value).toEqual(takeEvery('FINISH_ONBOARDING', patchOutroStepSaga))
-    })
-})
+  it('should wait for FINISH_ONBOARDING action and call patchOutroStepSaga', () => {
+    expect(genObject.next().value).toEqual(takeEvery('FINISH_ONBOARDING', patchOutroStepSaga));
+  });
+});

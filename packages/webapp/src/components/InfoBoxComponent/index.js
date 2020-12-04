@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
-import {Button, Modal} from 'react-bootstrap';
-import styles from "../PageTitle/styles.scss";
-import { BsInfoCircleFill } from "react-icons/bs";
-import {withTranslation} from "react-i18next";
+import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import styles from '../PageTitle/styles.scss';
+import { BsInfoCircleFill } from 'react-icons/bs';
+import { withTranslation } from 'react-i18next';
 
 class InfoBoxComponent extends Component {
   constructor(props) {
@@ -32,21 +32,21 @@ class InfoBoxComponent extends Component {
   }
 
   handleClose() {
-    this.setState({show: false});
+    this.setState({ show: false });
   }
 
   handleShow() {
-    this.setState({show: true});
+    this.setState({ show: true });
   }
 
   handleSave(saveHandler) {
     saveHandler();
-    this.setState({show: false})
+    this.setState({ show: false });
   }
 
   handleDelete(deleteHandler) {
     deleteHandler();
-    this.setState({show: false})
+    this.setState({ show: false });
   }
   render() {
     const title = this.props.title;
@@ -67,24 +67,37 @@ class InfoBoxComponent extends Component {
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>
-              {title}
-            </Modal.Title>
+            <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            {body}
-          </Modal.Body>
+          <Modal.Body>{body}</Modal.Body>
           <Modal.Footer>
-            {showDelete &&
-            <Button variant="danger" onClick={() => {this.handleDelete(deleteHandler)}}>{this.props.t('common:DELETE')}</Button>}
-            {showSave &&
-            <Button variant="primary" onClick={() => {this.handleSave(saveHandler)}}>{this.props.t('common:SAVE_CHANGES')}</Button>}
-            <Button variant="secondary" onClick={this.handleClose}>{this.props.t('common:CLOSE')}</Button>
-
+            {showDelete && (
+              <Button
+                variant="danger"
+                onClick={() => {
+                  this.handleDelete(deleteHandler);
+                }}
+              >
+                {this.props.t('common:DELETE')}
+              </Button>
+            )}
+            {showSave && (
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.handleSave(saveHandler);
+                }}
+              >
+                {this.props.t('common:SAVE_CHANGES')}
+              </Button>
+            )}
+            <Button variant="secondary" onClick={this.handleClose}>
+              {this.props.t('common:CLOSE')}
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>
-    )
+    );
   }
 }
 

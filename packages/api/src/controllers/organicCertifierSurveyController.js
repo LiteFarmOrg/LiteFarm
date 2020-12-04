@@ -42,7 +42,7 @@ class organicCertifierSurveyController extends baseController {
   static addOrganicCertifierSurvey() {
     return async (req, res) => {
       try {
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         const result = await organicCertifierSurveyModel.query().context({ user_id }).insert(req.body).returning('*');
         res.status(201).send(result);
       } catch (error) {
@@ -57,7 +57,7 @@ class organicCertifierSurveyController extends baseController {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         const certifiers = req.body.certifiers || [];
         const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certifiers });
         res.sendStatus(200);
@@ -73,7 +73,7 @@ class organicCertifierSurveyController extends baseController {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         const interested = req.body.interested;
         const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ interested });
         res.sendStatus(200);
@@ -89,7 +89,7 @@ class organicCertifierSurveyController extends baseController {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.sub.split('|')[1];
+        const user_id = req.user.user_id
         await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).delete();
         res.sendStatus(200);
       } catch (error) {

@@ -33,31 +33,30 @@ import { getHeader } from '../saga';
 
 const axios = require('axios');
 
-
 export function* getTaskTypesSaga() {
   const { taskTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, taskTypeUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setTaskTypesInState(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch task types from database')
+  } catch (e) {
+    console.log('failed to fetch task types from database');
   }
 }
 
 export function* addTaskTypeSaga(payload) {
   const { taskTypeUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let taskName = payload.taskName;
   const body = {
     task_name: taskName,
-    farm_id: farm_id
+    farm_id: farm_id,
   };
 
   try {
@@ -65,7 +64,7 @@ export function* addTaskTypeSaga(payload) {
     if (result) {
       yield put(getTaskTypes());
     }
-  } catch(e) {
+  } catch (e) {
     console.error('failed to add task type');
   }
 }
@@ -73,18 +72,23 @@ export function* addTaskTypeSaga(payload) {
 export function* addShift(action) {
   const { shiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
   let shiftObj = action.shiftObj;
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
-    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
-    const result = yield call(axios.post, shiftUrl, { ...shiftObj, farm_id: header.headers.farm_id }, header);
+    shiftObj.tasks.forEach((t) => (t.task_id = Number(t.task_id)));
+    const result = yield call(
+      axios.post,
+      shiftUrl,
+      { ...shiftObj, farm_id: header.headers.farm_id },
+      header,
+    );
     if (result) {
       history.push('/shift');
       toastr.success('Successfully added new shift!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add shift');
     toastr.error('Failed to add new shift');
   }
@@ -93,7 +97,7 @@ export function* addShift(action) {
 export function* addMultiShiftSaga(action) {
   const { shiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
   let shiftObj = action.shiftObj;
 
   try {
@@ -102,7 +106,7 @@ export function* addMultiShiftSaga(action) {
       history.push('/shift');
       toastr.success('Successfully added new shift!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add shift');
     toastr.error('Failed to add new shift');
   }
@@ -111,22 +115,22 @@ export function* addMultiShiftSaga(action) {
 export function* getShiftsSaga() {
   const { shiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, shiftUrl + '/user/' + user_id, header);
     if (result) {
       yield put(setShifts(result.data));
     }
-  } catch(e) {
-    console.error('failed to fetch shifts from database')
+  } catch (e) {
+    console.error('failed to fetch shifts from database');
   }
 }
 
 export function* getAllShiftSaga() {
   const { farmShiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, farmShiftUrl + farm_id, header);
@@ -134,18 +138,22 @@ export function* getAllShiftSaga() {
       let allShifts = result.data;
       let sortedShifts = [];
       let dict = {};
-      for(let shift of allShifts){
-        if(!dict.hasOwnProperty(shift.shift_id)){
+      for (let shift of allShifts) {
+        if (!dict.hasOwnProperty(shift.shift_id)) {
           dict[shift.shift_id] = shift;
-          dict[shift.shift_id] = Object.assign(dict[shift.shift_id], {tasks: [{
-              task_id: shift.task_id,
-              duration: shift.duration,
-              field_crop_id: shift.field_crop_id,
-              field_id: shift.field_id,
-              is_field: shift.is_field,
-              shift_id: shift.shift_id,
-            }]})
-        }else{
+          dict[shift.shift_id] = Object.assign(dict[shift.shift_id], {
+            tasks: [
+              {
+                task_id: shift.task_id,
+                duration: shift.duration,
+                field_crop_id: shift.field_crop_id,
+                field_id: shift.field_id,
+                is_field: shift.is_field,
+                shift_id: shift.shift_id,
+              },
+            ],
+          });
+        } else {
           dict[shift.shift_id].tasks.push({
             task_id: shift.task_id,
             duration: shift.duration,
@@ -153,17 +161,17 @@ export function* getAllShiftSaga() {
             field_id: shift.field_id,
             is_field: shift.is_field,
             shift_id: shift.shift_id,
-          })
+          });
         }
       }
       let keys = Object.keys(dict);
-      for(let k of keys){
+      for (let k of keys) {
         sortedShifts.push(dict[k]);
       }
       yield put(setShifts(sortedShifts));
     }
-  } catch(e) {
-    console.error('failed to fetch shifts from database')
+  } catch (e) {
+    console.error('failed to fetch shifts from database');
   }
 }
 
@@ -171,7 +179,7 @@ export function* deleteShiftSaga(action) {
   const { shiftId } = action;
   const { shiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.delete, shiftUrl + '/' + shiftId, header);
@@ -179,7 +187,7 @@ export function* deleteShiftSaga(action) {
       toastr.success('Deleted shift!');
       history.push('/shift');
     }
-  } catch(e) {
+  } catch (e) {
     toastr.error('Failed to delete the shift :(');
   }
 }
@@ -188,17 +196,22 @@ export function* updateShiftSaga(action) {
   const { shiftID, shiftObj } = action;
   const { shiftUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
-    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
-    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id }, header);
+    shiftObj.tasks.forEach((t) => (t.task_id = Number(t.task_id)));
+    const result = yield call(
+      axios.put,
+      shiftUrl + '/' + shiftID,
+      { ...shiftObj, farm_id },
+      header,
+    );
     if (result) {
       toastr.success('Successfully updated shift!');
       history.push('/shift');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add shift');
     toastr.error('Failed to update shift');
   }

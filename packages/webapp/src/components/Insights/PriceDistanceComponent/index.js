@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { pricesDistanceSelector } from "../../../containers/Insights/selectors";
-import styles from "../../PageTitle/styles.scss";
-import { BsGearFill } from 'react-icons/bs'
-
+import { pricesDistanceSelector } from '../../../containers/Insights/selectors';
+import styles from '../../PageTitle/styles.scss';
+import { BsGearFill } from 'react-icons/bs';
 
 class PriceDistanceComponent extends Component {
   constructor(props) {
@@ -13,31 +12,29 @@ class PriceDistanceComponent extends Component {
     };
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <div>
         <a onClick={() => this.props.handleOpenCollapse()} className={styles.buttonContainer}>
-          <BsGearFill/>
+          <BsGearFill />
         </a>
-      </div>)
+      </div>
+    );
   }
-
 }
 
 const mapStateToProps = (state) => {
   return {
-    pricesDistance: pricesDistanceSelector(state)
-  }
+    pricesDistance: pricesDistanceSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PriceDistanceComponent);

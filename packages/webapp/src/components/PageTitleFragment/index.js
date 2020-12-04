@@ -13,18 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import styles from './styles.scss';
-import { BsCaretLeft } from "react-icons/bs";
+import { BsCaretLeft } from 'react-icons/bs';
 
 // takes 2 props
 // title - String
 // onBackButtonClick - Function triggered by back button click
-class PageTitleFragment extends Component{
-
-  render(){
+class PageTitleFragment extends Component {
+  render() {
     const title = this.props.title;
-    return(
+    return (
       <div>
         <div className={styles.titleContainer}>
           <button onClick={this.props.onBackButtonClick}>
@@ -33,9 +32,8 @@ class PageTitleFragment extends Component{
           <div className={styles.titleTextContainer}>{title}</div>
         </div>
       </div>
-    )
+    );
   }
-
 }
 
 export default PageTitleFragment;

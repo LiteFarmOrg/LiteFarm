@@ -5,16 +5,19 @@ import utils from './index';
 export default ({ lang = 'en', measurement = 'metric', lat, lon, ...args }) => {
   //TODO replace with swr or react-query (fix duplicated api call)
   const [error, setError] = useState(null);
-  const [{ loading, loaded }, setLoading] = useState({ loading: false, loaded: false });
+  const [{ loading, loaded }, setLoading] = useState({
+    loading: false,
+    loaded: false,
+  });
   const [forecast, setForecast] = useState({});
   const apikey = process.env.REACT_APP_WEATHER_API_KEY;
   const baseUri = '//api.openweathermap.org/data/2.5';
   const config = { lang, measurement, lat, lon, ...args };
-  useEffect(()=>{
-      getForecast();
-  }, [lat,lon, measurement]);
+  useEffect(() => {
+    getForecast();
+  }, [lat, lon, measurement]);
   const getForecast = ({ lang, measurement, lat, lon, ...args } = config) => {
-    if(!loading){
+    if (!loading) {
       setLoading(true);
       const endPointToday = `${baseUri}/weather`;
       const params = Object.assign(
@@ -28,32 +31,29 @@ export default ({ lang = 'en', measurement = 'metric', lat, lon, ...args }) => {
         },
         args,
       );
-      const promise = axios
-        .all([
-          axios.get(endPointToday, { params }),
-        ])
-        .then(
-          axios.spread((todayReponse) => {
-            const todayData = todayReponse.data;
-            if (todayData) {
-              return todayData;
-            }
-            return {};
-          }),
-        );
-      promise.then(data => {
-        setForecast(formatData(data, measurement, lang));
-        setLoading({ loaded: true, loading: false });
-      }).catch(error => {
-        setError(error);
-        setLoading({ loaded: true, loading: false });
-      });
-
+      const promise = axios.all([axios.get(endPointToday, { params })]).then(
+        axios.spread((todayReponse) => {
+          const todayData = todayReponse.data;
+          if (todayData) {
+            return todayData;
+          }
+          return {};
+        }),
+      );
+      promise
+        .then((data) => {
+          setForecast(formatData(data, measurement, lang));
+          setLoading({ loaded: true, loading: false });
+        })
+        .catch((error) => {
+          setError(error);
+          setLoading({ loaded: true, loading: false });
+        });
     }
-   }
+  };
 
-  return { forecast, loading, loaded, error, getForecast }
-}
+  return { forecast, loading, loaded, error, getForecast };
+};
 
 const formatData = (data, measurement = 'metric', lang = 'en') => {
   if (!data) return {};
@@ -66,5 +66,5 @@ const formatData = (data, measurement = 'metric', lang = 'en') => {
     temperature: `${Math.round(data.main?.temp)}${temp}`,
     wind: `${Wind}: ${data.wind?.speed} ${speed}`,
     city: data.name,
-  }
-}
+  };
+};

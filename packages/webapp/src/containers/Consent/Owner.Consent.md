@@ -1,5 +1,3 @@
-
-
 ##### Version 3.0:
 
 #### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager Version)
@@ -10,11 +8,11 @@ Welcome to LiteFarm! We understand that your privacy and the protection of your 
 
 LiteFarm is a participatory science project developed to help improve access to digital agricultural technology for farming communities. LiteFarm aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity. We are driven to serve the farming community through improving agricultural decision-support and research.
 
-#### Who is the Litefarm team? 
+#### Who is the Litefarm team?
 
 The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory network of individuals and organizations.The Principle Investigators are Dr. Zia Mehrabi and Dr. Hannah Wittman (hannah.wittman@ubc.ca).
 
-#### Who funds Litefarm? 
+#### Who funds Litefarm?
 
 LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: [https://ubcfarm.ubc.ca/litefarm/](https://ubcfarm.ubc.ca/litefarm/). Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
 
@@ -22,63 +20,63 @@ LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other g
 
 We recognize gaps in farmer access to digital technology services, low adoption rates, and a need expressed by farmers to combine a range of advisory services in a single, free to use, non-commercially driven platform. We want to develop a solution that both helps farmers operate their business in a more financially and ecologically sustainable way, and also helps advance the science of sustainability.
 
-#### What data do we collect? 
+#### What data do we collect?
 
 Depending on which parts of the LiteFarm platform you use, we may collect different kinds of information:
 
 **Personal Information**
 
 "Personal Information" describes any information that can be used to identify you or your workers. LiteFarm will never disclose personal information to third parties. This includes:
-* Contact information (name, address, phone number, email address)
 
-*  Business information (farm name, farm address)
+- Contact information (name, address, phone number, email address)
 
-*  Photos
+- Business information (farm name, farm address)
 
-*  Internet Protocol (IP) address
+- Photos
 
-*  Worker information (name, role on farm, email address)
+- Internet Protocol (IP) address
 
-*  Geolocation (e.g., GPS coordinates of fields, field boundaries, etc.)
+- Worker information (name, role on farm, email address)
 
+- Geolocation (e.g., GPS coordinates of fields, field boundaries, etc.)
 
 **Farm Management Information:**
 
 LiteFarm uses the management information that you enter into the app to generate insights about the financial, environmental, and social benefits or impacts of your management decisions. We anonymize this data to conduct non-commercial academic research on sustainable food systems. Because this data is anonymized when used in our research, it cannot be traced to you or your farm. This data includes:
 
-*  Field information: field size; field names; crops planted in fields; percentage area of field sown with crops
+- Field information: field size; field names; crops planted in fields; percentage area of field sown with crops
 
-* Crop information: common names, species, genus, crop group, crop subgroup, common name variety; start and end dates of growing crops; estimated price of crops; estimated yield of crops
+- Crop information: common names, species, genus, crop group, crop subgroup, common name variety; start and end dates of growing crops; estimated price of crops; estimated yield of crops
 
-* Activity log information: activity times and dates; photos; notes
+- Activity log information: activity times and dates; photos; notes
 
-* Pest control log information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control (systemic spray, foliar spray, fumigation, burning, biological control, hand pick, or heat treatment); field and crop applied to
+- Pest control log information: product name; amount of product applied; application target (i.e., pest or disease name), common name, scientific name, group; active ingredient name; active ingredient concentration; harvest interval; entry interval; type of control (systemic spray, foliar spray, fumigation, burning, biological control, hand pick, or heat treatment); field and crop applied to
 
-* Harvest log information: field harvested; crop harvested; quantity harvested
+- Harvest log information: field harvested; crop harvested; quantity harvested
 
-* Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
+- Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
 
-* Field work log information: field; type of work (plow, ridge till, zone till, mulch till, rip)
+- Field work log information: field; type of work (plow, ridge till, zone till, mulch till, rip)
 
-* Soil analysis log information: field; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density
+- Soil analysis log information: field; depth; texture; percentage potassium, phosphorus, nitrogen, organic matter, organic carbon, inorganic carbon, total carbon, sulfur, calcium, magnesium, sodium, zinc, manganese, iron, copper, boron; cation exchange capacity (CEC); pH; bulk density
 
-* Irrigation log information: field; irrigation type (drip, sprinkler, subsurface, flood); flow rate; total time flowing
+- Irrigation log information: field; irrigation type (drip, sprinkler, subsurface, flood); flow rate; total time flowing
 
-* Scouting log information: field; crop; type (harvest, pest, disease, weed, other); action needed (yes/no)
+- Scouting log information: field; crop; type (harvest, pest, disease, weed, other); action needed (yes/no)
 
-* Other log information: field; crops
+- Other log information: field; crops
 
-* Shift information: date; shift length; start and end times; break duration; shift activity (bed preparation, delivery, sales, seeding, harvesting, fertilizing, sales, scouting, pest control, wash and pack, weeding, other, custom task); time allocation to each activity (per field or per crop); mood (happy, very happy, sad, very sad, neutral)
+- Shift information: date; shift length; start and end times; break duration; shift activity (bed preparation, delivery, sales, seeding, harvesting, fertilizing, sales, scouting, pest control, wash and pack, weeding, other, custom task); time allocation to each activity (per field or per crop); mood (happy, very happy, sad, very sad, neutral)
 
-*  Expenses information: date; type (equipment, fertilizer, fuel, machinery, seeds, pesticides, land); name; expense amount; association with crops
+- Expenses information: date; type (equipment, fertilizer, fuel, machinery, seeds, pesticides, land); name; expense amount; association with crops
 
-*  Sales information: date; name of buyer/market; crop; amount sold (kg); revenue ($)
+- Sales information: date; name of buyer/market; crop; amount sold (kg); revenue ($)
 
-*  Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
+- Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
 
-* Worker details: number of registered workers; salary/pay
+- Worker details: number of registered workers; salary/pay
 
-* Unit details: metric or imperial
+- Unit details: metric or imperial
 
 **Usage Data**
 
@@ -88,13 +86,13 @@ We collect usage data (i.e., general statistics about users, traffic patterns, a
 
 There are three primary ways that we use your data:
 
-*  To improve the services we provide you with: As described above, we use your usage data (i.e., general information about how you interact with the LiteFarm platform) to improve the LiteFarm platform and the services it provides.
+- To improve the services we provide you with: As described above, we use your usage data (i.e., general information about how you interact with the LiteFarm platform) to improve the LiteFarm platform and the services it provides.
 
-*  To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions.
+- To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions.
 
-* To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your anonymized farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by PhD students as part of their graduate degrees. We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out), and you can always reach out to us to learn more about the research that your data is helping to make possible.
+- To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your anonymized farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by PhD students as part of their graduate degrees. We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out), and you can always reach out to us to learn more about the research that your data is helping to make possible.
 
-**What do we share?** 
+**What do we share?**
 
 We will only share your data with third parties if it is both anonymized (i.e., contains no personal information) and necessary to accomplish our research goals or validate scientific findings. Specifically, we may share anonymized data at some point in the future with other researchers for non-commercial academic research purposes. Any third-party academic researchers who request use of LiteFarm data will undergo internal review, and will be assessed under our existing ethics and security standards. Due to publishing standards for scientific reproducibility, anonymized data that is used for academic research may be served on public repositories. Copies of non-public releases of anonymized data can be shared with academic researchers for non-commercial research purposes, under time-limited and confidential single-use licenses. If an academic research use includes the use of photos uploaded to LiteFarm, any identifiable features that disclose personal information (e.g., faces of people) will be blurred out of the photos before they are shared. We do not share any personal information to third party analytics services, such as Google Analytics. Through our security protocols, we safeguard the vulnerability of personal information within the LiteFarm website, and we use IP anonymization protocols to prevent identification and geolocation by third parties. LiteFarm will not rent or sell your personal information or any data collected through LiteFarm website to anyone.
 
@@ -124,13 +122,11 @@ You have the right to know what data we have about you, request a copy of it, up
 
 **What happens if you withdraw consent?**
 
-
 If you withdraw your consent from this Informed Consent Form and Privacy Policy agreement, your account(s) on the LiteFarm platform will be marked as inactive and you will not be able to use the LiteFarm platform. However, your information will not be deleted in the case you would like to return at a later time. You can request that your data be permanently and irrevocably deleted by sending a request to data@litefarm.org.. If you plan to withdraw consent, please ensure that you back up your data in advance.
 
- **How do we make changes to the Privacy Policy?**
+**How do we make changes to the Privacy Policy?**
 
 Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website ([www.litefarm.com](http://www.litefarm.com/)) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
-
 
 **When will we contact you?**
 
@@ -144,12 +140,11 @@ The LiteFarm website is free to use. The software itself is licenced under the G
 
 With respect to the application, please contact:
 
-*  Product Manager: Kevin Cussen (kcussen@litefarm.org)
+- Product Manager: Kevin Cussen (kcussen@litefarm.org)
 
 With respect to this study, please contact the principal investigator:
 
-*  Principle Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
-
+- Principle Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
 
 **If you have any concerns or complaints about your rights as a research participant and/or your experiences while participating in this study**
 

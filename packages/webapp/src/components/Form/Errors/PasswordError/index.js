@@ -17,21 +17,24 @@ const PasswordError = ({
     'at least one upper case character': hasNoUpperCase,
     'at least one number': hasNoDigit,
     'at least one special character': hasNoSymbol,
-  }
+  };
   return (
-    <div
-      {...props}
-    >
-      {Object.entries(messages).map(([message, hasError]) =>
+    <div {...props}>
+      {Object.entries(messages).map(([message, hasError]) => (
         <div key={message} className={styles.error}>
           <span className={clsx(styles.icon, hasError ? styles.errorIcon : styles.validIcon)}>
-            {hasError ? <MdClose/> : <MdDone/>}
+            {hasError ? <MdClose /> : <MdDone />}
           </span>
-          <Text style={{display: 'inline', color: hasError? 'var(--grey500)': 'var(--fontColor)'}}>
+          <Text
+            style={{
+              display: 'inline',
+              color: hasError ? 'var(--grey500)' : 'var(--fontColor)',
+            }}
+          >
             {message}
           </Text>
-        </div>,
-      )}
+        </div>
+      ))}
     </div>
   );
 };
@@ -41,5 +44,5 @@ PasswordError.propTypes = {
   hasNoUpperCase: PropTypes.bool,
   hasNoDigit: PropTypes.bool,
   hasNoSymbol: PropTypes.bool,
-}
+};
 export default PasswordError;

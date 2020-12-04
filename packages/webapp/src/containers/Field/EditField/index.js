@@ -18,7 +18,7 @@ import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/Edi
 import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
 import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
-import { withTranslation } from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class EditField extends Component {
   static defaultProps = {
@@ -57,8 +57,8 @@ class EditField extends Component {
   }
 
   handleDeleteCrop(id) {
-    this.setState({showModal: true});
-    this.setState({selectedFieldCrop: id});
+    this.setState({ showModal: true });
+    this.setState({ selectedFieldCrop: id });
   }
 
   // handleConfirmDeleteCrop() {
@@ -69,18 +69,22 @@ class EditField extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.fieldCrops !== prevProps.fieldCrops) {
-      const fieldCrops = this.props.fieldCrops.filter(fieldCrop => fieldCrop.field_id === this.state.fieldId);
-      this.setState({selectedFieldCrops: fieldCrops})
+      const fieldCrops = this.props.fieldCrops.filter(
+        (fieldCrop) => fieldCrop.field_id === this.state.fieldId,
+      );
+      this.setState({ selectedFieldCrops: fieldCrops });
     }
     if (this.props.expiredFieldCrops !== prevProps.expiredFieldCrops) {
-      const expiredFieldCrops = this.props.expiredFieldCrops.filter(fieldCrop => fieldCrop.field_id === this.state.fieldId);
-      this.setState({selectedExpiredFieldCrops: expiredFieldCrops})
+      const expiredFieldCrops = this.props.expiredFieldCrops.filter(
+        (fieldCrop) => fieldCrop.field_id === this.state.fieldId,
+      );
+      this.setState({ selectedExpiredFieldCrops: expiredFieldCrops });
     }
     if (this.props.fields !== prevProps.fields) {
-      const field = this.props.fields.filter(field => field.field_id === this.state.fieldId)[0];
+      const field = this.props.fields.filter((field) => field.field_id === this.state.fieldId)[0];
       this.setState({
         selectedField: field,
-        fieldArea: field.area
+        fieldArea: field.area,
       });
     }
   }
@@ -89,7 +93,7 @@ class EditField extends Component {
     this.props.dispatch(getFields());
     this.props.dispatch(getFieldCropsByDate());
     this.props.dispatch(getExpiredCrops());
-    const urlVars = window.location.search.substring(1).split("&");
+    const urlVars = window.location.search.substring(1).split('&');
     const fieldId = urlVars[0];
     this.setState({
       fieldId: fieldId,
@@ -105,11 +109,11 @@ class EditField extends Component {
       strokeOpacity: 0.8,
       strokeWeight: 3,
       fillColor: '#FFB800',
-      fillOpacity: 0.35
+      fillOpacity: 0.35,
     });
     let bounds = new google.maps.LatLngBounds();
     polygon.getPath().forEach(function (element, index) {
-      bounds.extend(element)
+      bounds.extend(element);
     });
     polygon.setMap(map);
     map.fitBounds(bounds);
@@ -120,14 +124,18 @@ class EditField extends Component {
       streetViewControl: false,
       scaleControl: false,
       fullscreenControl: false,
-      styles: [{
-        featureType: "poi.business",
-        elementType: "labels",
-        stylers: [{
-          visibility: "off"
-        }]
-      }],
-      gestureHandling: "greedy",
+      styles: [
+        {
+          featureType: 'poi.business',
+          elementType: 'labels',
+          stylers: [
+            {
+              visibility: 'off',
+            },
+          ],
+        },
+      ],
+      gestureHandling: 'greedy',
       disableDoubleClickZoom: true,
       minZoom: 11,
       maxZoom: 20,
@@ -142,55 +150,59 @@ class EditField extends Component {
     };
   };
 
-
   handleClose = () => {
-    this.setState({showFieldNameModal: false});
+    this.setState({ showFieldNameModal: false });
   };
 
   openFieldNameEdit = () => {
-    this.setState({showFieldNameModal: true});
+    this.setState({ showFieldNameModal: true });
   };
 
   handleFieldName = (event) => {
     this.setState({
-      field_name: event.target.value
-    })
-
+      field_name: event.target.value,
+    });
   };
 
   deleteField = () => {
-    const {fieldId} = this.state;
-    if(window.confirm('WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?')){
-      if(window.confirm('I would like to delete this field.')){
+    const { fieldId } = this.state;
+    if (
+      window.confirm(
+        'WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?',
+      )
+    ) {
+      if (window.confirm('I would like to delete this field.')) {
         this.props.dispatch(deleteField(fieldId));
       }
     }
   };
 
-  changeFieldName = ()=>{
-    let {selectedField, field_name} = this.state;
-    if(field_name === '' || !field_name){
+  changeFieldName = () => {
+    let { selectedField, field_name } = this.state;
+    if (field_name === '' || !field_name) {
       toastr.error('Field name cannot be empty');
       return;
     }
-    const field = {selectedField: {...selectedField, field_name}};
+    const field = { selectedField: { ...selectedField, field_name } };
     this.setState(field);
     this.props.dispatch(updateField(field.selectedField));
-    this.setState({showFieldNameModal: false});
+    this.setState({ showFieldNameModal: false });
   };
 
   render() {
     //UBC Farm Title
-    const CenterDiv = ({text}) => <div style={{width: '30px', color: 'white', fontWeight: 'bold'}}>{text}</div>;
+    const CenterDiv = ({ text }) => (
+      <div style={{ width: '30px', color: 'white', fontWeight: 'bold' }}>{text}</div>
+    );
 
     // adjust map css for safari
     const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     let mapWidth, mapHeight;
-    if(isSafari){
-      mapWidth = window.innerWidth * 0.90;
+    if (isSafari) {
+      mapWidth = window.innerWidth * 0.9;
       mapWidth = mapWidth.toString() + 'px';
-      mapHeight = window.innerWidth * 0.70;
-      mapHeight = mapHeight.toString() + 'px'
+      mapHeight = window.innerWidth * 0.7;
+      mapHeight = mapHeight.toString() + 'px';
     }
     // if(isSafari && gmapContainer){
     //    gmapContainer.childNodes[0].style.cssText = "width: 100px; height: 100px; margin: 0px; padding: 0px; position: relative;";
@@ -199,21 +211,26 @@ class EditField extends Component {
 
     return (
       <div className={parentStyles.logContainer}>
-        <PageTitle title={this.props.t('FIELDS.EDIT_FIELD.TITLE')} backUrl="/field"/>
-        <NewFieldCropModal handler={() => {}} field={this.state.selectedField}
-                           fieldArea={this.state.fieldArea}/>
+        <PageTitle title={this.props.t('FIELDS.EDIT_FIELD.TITLE')} backUrl="/field" />
+        <NewFieldCropModal
+          handler={() => {}}
+          field={this.state.selectedField}
+          fieldArea={this.state.fieldArea}
+        />
         <div>
-          <hr/>
+          <hr />
         </div>
-        {
-
-          this.state.selectedField &&
-          <div className={styles.mapContainer} id="gmapcontainer" >
+        {this.state.selectedField && (
+          <div className={styles.mapContainer} id="gmapcontainer">
             <GoogleMap
-              style={isSafari ? {width: mapWidth, height: mapHeight, position: 'relative'} : {width: '100%', height: '100%', position: 'relative'}}
+              style={
+                isSafari
+                  ? { width: mapWidth, height: mapHeight, position: 'relative' }
+                  : { width: '100%', height: '100%', position: 'relative' }
+              }
               bootstrapURLKeys={{
                 key: GMAPS_API_KEY,
-                libraries: ['drawing', 'geometry']
+                libraries: ['drawing', 'geometry'],
               }}
               center={this.props.center}
               zoom={this.props.zoom}
@@ -221,117 +238,183 @@ class EditField extends Component {
               onGoogleApiLoaded={this.handleGoogleMapApi.bind(this)}
               options={this.getMapOptions}
             >
-              <CenterDiv
-                lat={CENTER.lat}
-                lng={CENTER.lng}
-                text={'UBC Farm'}
-              />
+              <CenterDiv lat={CENTER.lat} lng={CENTER.lng} text={'UBC Farm'} />
             </GoogleMap>
           </div>
-        }
+        )}
         <div>
-          <hr/>
+          <hr />
         </div>
-        <div style={{margin: "10px"}}>
+        <div style={{ margin: '10px' }}>
           <div className={styles.editFieldName}>
-            <h4>{this.props.t('FIELDS.EDIT_FIELD.NAME')}: {this.state.selectedField && this.state.selectedField.field_name}</h4>
-            <BsPencil style={{marginLeft: '10px'}} onClick={this.openFieldNameEdit} />
+            <h4>
+              {this.props.t('FIELDS.EDIT_FIELD.NAME')}:{' '}
+              {this.state.selectedField && this.state.selectedField.field_name}
+            </h4>
+            <BsPencil style={{ marginLeft: '10px' }} onClick={this.openFieldNameEdit} />
           </div>
-          <p>{this.props.t('FIELDS.EDIT_FIELD.TOTAL_AREA')}: {roundToTwoDecimal(convertFromMetric(this.state.fieldArea, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup>
+          <p>
+            {this.props.t('FIELDS.EDIT_FIELD.TOTAL_AREA')}:{' '}
+            {roundToTwoDecimal(convertFromMetric(this.state.fieldArea, this.state.area_unit, 'm2'))}{' '}
+            {this.state.area_unit_label}
+            <sup>2</sup>
           </p>
-          <p>{this.props.t('FIELDS.EDIT_FIELD.NUMBER_CROPS')}: {this.state.selectedFieldCrops.length}</p>
-          <div style={{height: "80%"}}>
-            {
-              this.state.selectedFieldCrops.map((crop, index) => (
-                <Card key={index} border={"success"}>
-                  <Card.Header className={styles.cardHeaderSuccess} as="h3">
-                    <div>
-                      <Card.Title
-                        componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
-                      </Card.Title>
-                      <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? `${this.props.t('FIELDS.EDIT_FIELD.VARIETY')}:${crop.variety}` : ''}
+          <p>
+            {this.props.t('FIELDS.EDIT_FIELD.NUMBER_CROPS')}: {this.state.selectedFieldCrops.length}
+          </p>
+          <div style={{ height: '80%' }}>
+            {this.state.selectedFieldCrops.map((crop, index) => (
+              <Card key={index} border={'success'}>
+                <Card.Header className={styles.cardHeaderSuccess} as="h3">
+                  <div>
+                    <Card.Title componentClass="h2" style={{ fontSize: '19px' }}>
+                      {crop.crop_common_name}
+                    </Card.Title>
+                    <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
+                      {crop.variety
+                        ? `${this.props.t('FIELDS.EDIT_FIELD.VARIETY')}:${crop.variety}`
+                        : ''}
+                    </Card.Title>
+                  </div>
 
-                      </Card.Title>
+                  <div className={styles.inlineButtonContainer}>
+                    <EditFieldCropModal
+                      cropBeingEdited={crop}
+                      handler={() => {}}
+                      field={this.state.selectedField}
+                      fieldArea={this.state.fieldArea}
+                    />
+                    <div className={styles.deleteButton}>
+                      <Button
+                        onClick={() => {
+                          this.handleDeleteCrop(crop.field_crop_id);
+                        }}
+                      >
+                        {this.props.t('common:DELETE')}
+                      </Button>
                     </div>
-
-                      <div className={styles.inlineButtonContainer}>
-                        <EditFieldCropModal cropBeingEdited={crop} handler={() => {}}
-                                            field={this.state.selectedField} fieldArea={this.state.fieldArea}
-                        />
-                        <div className={styles.deleteButton}>
-                          <Button onClick={() => {
-                            this.handleDeleteCrop(crop.field_crop_id)
-                          }}>{this.props.t('common:DELETE')}</Button>
-                        </div>
-                      </div>
-
-
-                  </Card.Header>
-                  <Card.Header className={styles.cardHeaderSuccess} as="h3">
-                    <div>
-                      <Card.Title
-                         style={{fontSize: '13px'}}>{this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}: {crop.start_date && crop.start_date.split("T")[0]}
-                        {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}: {crop.end_date && crop.end_date.split("T")[0]}
-                      </Card.Title>
+                  </div>
+                </Card.Header>
+                <Card.Header className={styles.cardHeaderSuccess} as="h3">
+                  <div>
+                    <Card.Title style={{ fontSize: '13px' }}>
+                      {this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}:{' '}
+                      {crop.start_date && crop.start_date.split('T')[0]}
+                      {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}:{' '}
+                      {crop.end_date && crop.end_date.split('T')[0]}
+                    </Card.Title>
+                  </div>
+                </Card.Header>
+                <Card.Body>
+                  <p>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED')}:{' '}
+                    {roundToTwoDecimal(
+                      convertFromMetric(crop.area_used, this.state.area_unit, 'm2'),
+                    )}
+                    {this.state.area_unit_label}
+                    <sup>2</sup>
+                  </p>
+                  <p>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRODUCTION')}:{' '}
+                    {roundToTwoDecimal(
+                      convertFromMetric(
+                        crop.estimated_production,
+                        this.state.production_unit,
+                        'kg',
+                      ),
+                    )}{' '}
+                    {this.state.production_unit}
+                  </p>
+                  <p>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_REVENUE')}:{' '}
+                    {this.state.currencySymbol}
+                    {roundToTwoDecimal(crop.estimated_revenue)}
+                  </p>
+                </Card.Body>
+              </Card>
+            ))}
+            <p>
+              {this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_EXPIRED')}:{' '}
+              {this.state.selectedExpiredFieldCrops.length}
+            </p>
+            {this.state.selectedExpiredFieldCrops.map((crop, index) => (
+              <Card key={index}>
+                <Card.Header className={styles.panelHeading} as="h3">
+                  <div>
+                    <Card.Title componentClass="h2" style={{ fontSize: '19px' }}>
+                      {crop.crop_common_name}
+                    </Card.Title>
+                    <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
+                      {crop.variety
+                        ? `${this.props.t('FIELDS.EDIT_FIELD.VARIETY')}:${crop.variety}`
+                        : ''}
+                    </Card.Title>
+                  </div>
+                  <div className={styles.inlineButtonContainer}>
+                    <EditFieldCropModal
+                      cropBeingEdited={crop}
+                      handler={() => {}}
+                      field={this.state.selectedField}
+                      fieldArea={this.state.fieldArea}
+                    />
+                    <div className={styles.deleteButton}>
+                      <Button
+                        onClick={() => {
+                          this.handleDeleteCrop(crop.field_crop_id);
+                        }}
+                      >
+                        {this.props.t('common:DELETE')}
+                      </Button>
                     </div>
-                  </Card.Header>
-                  <Card.Body>
-                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED')}: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
-                    </p>
-                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRODUCTION')}: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
-                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_REVENUE')}: {this.state.currencySymbol}{roundToTwoDecimal(crop.estimated_revenue)}</p>
-                  </Card.Body>
-                </Card>))
-            }
-            <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_EXPIRED')}: {this.state.selectedExpiredFieldCrops.length}</p>
-            {
-              this.state.selectedExpiredFieldCrops.map((crop, index) => (
-                <Card key={index}>
-                  <Card.Header className={styles.panelHeading} as="h3">
-                    <div>
-                      <Card.Title
-                        componentClass="h2" style={{fontSize: '19px'}}>{crop.crop_common_name}
-                      </Card.Title>
-                      <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>{crop.variety ? `${this.props.t('FIELDS.EDIT_FIELD.VARIETY')}:${crop.variety}` : ''}
-
-                      </Card.Title>
-                    </div>
-                    <div className={styles.inlineButtonContainer}>
-                      <EditFieldCropModal cropBeingEdited={crop} handler={() => {}}
-                                          field={this.state.selectedField} fieldArea={this.state.fieldArea}
-                      />
-                      <div className={styles.deleteButton}>
-                        <Button onClick={() => {
-                          this.handleDeleteCrop(crop.field_crop_id)
-                        }}>{this.props.t('common:DELETE')}</Button>
-                      </div>
-                    </div>
-                  </Card.Header>
-                  <Card.Header className={styles.panelHeading} as="h3">
-                    <div>
-                      <Card.Title
-                        componentClass="h3" style={{fontSize: '13px'}}>{this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}: {crop.start_date && crop.start_date.split("T")[0]}
-                        {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}: {crop.end_date && crop.end_date.split("T")[0]}
-                      </Card.Title>
-                    </div>
-                  </Card.Header>
-                  <Card.Body>
-                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED')}: {roundToTwoDecimal(convertFromMetric(crop.area_used, this.state.area_unit, 'm2'))}{this.state.area_unit_label}<sup>2</sup>
-                    </p>
-                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRODUCTION')}: {roundToTwoDecimal(convertFromMetric(crop.estimated_production, this.state.production_unit, 'kg'))} {this.state.production_unit}</p>
-                    <p>{this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_REVENUE')}: {this.state.currencySymbol}{crop.estimated_revenue}</p>
-                  </Card.Body>
-                </Card>))
-            }
+                  </div>
+                </Card.Header>
+                <Card.Header className={styles.panelHeading} as="h3">
+                  <div>
+                    <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
+                      {this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}:{' '}
+                      {crop.start_date && crop.start_date.split('T')[0]}
+                      {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}:{' '}
+                      {crop.end_date && crop.end_date.split('T')[0]}
+                    </Card.Title>
+                  </div>
+                </Card.Header>
+                <Card.Body>
+                  <p>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED')}:{' '}
+                    {roundToTwoDecimal(
+                      convertFromMetric(crop.area_used, this.state.area_unit, 'm2'),
+                    )}
+                    {this.state.area_unit_label}
+                    <sup>2</sup>
+                  </p>
+                  <p>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRODUCTION')}:{' '}
+                    {roundToTwoDecimal(
+                      convertFromMetric(
+                        crop.estimated_production,
+                        this.state.production_unit,
+                        'kg',
+                      ),
+                    )}{' '}
+                    {this.state.production_unit}
+                  </p>
+                  <p>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_REVENUE')}:{' '}
+                    {this.state.currencySymbol}
+                    {crop.estimated_revenue}
+                  </p>
+                </Card.Body>
+              </Card>
+            ))}
           </div>
           <ConfirmModal
             open={this.state.showModal}
-            onClose={() => this.setState({showModal: false})}
+            onClose={() => this.setState({ showModal: false })}
             onConfirm={() => {
-              this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId));
-              this.setState({showModal: false});
+              this.props.dispatch(
+                deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId),
+              );
+              this.setState({ showModal: false });
             }}
             message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
           />
@@ -340,7 +423,12 @@ class EditField extends Component {
               <Modal.Title>{this.props.t('FIELDS.EDIT_FIELD.EDIT_NAME')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input id="field_name" type="text" value={this.state.field_name} onChange={(event) => this.handleFieldName(event)}/>
+              <input
+                id="field_name"
+                type="text"
+                value={this.state.field_name}
+                onChange={(event) => this.handleFieldName(event)}
+              />
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.changeFieldName}>{this.props.t('common:SAVE')}</Button>
@@ -348,14 +436,16 @@ class EditField extends Component {
             </Modal.Footer>
           </Modal>
         </div>
-        {
-          this.state.selectedFieldCrops.length === 0 && this.state.selectedExpiredFieldCrops.length === 0 &&  <div className={styles.deleteField}>
-            <button onClick={()=>this.deleteField()}>{this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}</button>
-          </div>
-        }
-
+        {this.state.selectedFieldCrops.length === 0 &&
+          this.state.selectedExpiredFieldCrops.length === 0 && (
+            <div className={styles.deleteField}>
+              <button onClick={() => this.deleteField()}>
+                {this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}
+              </button>
+            </div>
+          )}
       </div>
-    )
+    );
   }
 }
 
@@ -365,13 +455,13 @@ const mapStateToProps = (state) => {
     fieldCrops: fieldCropSelector(state),
     farm: userFarmSelector(state),
     expiredFieldCrops: expiredCropSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditField));

@@ -1,5 +1,5 @@
-@import "../../assets/mixin";
-.title{
+@import '../../assets/mixin';
+.title {
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -7,16 +7,16 @@
   margin-bottom: 20px;
 }
 
-.container{
+.container {
   margin-bottom: 32px;
 }
-.leaf{
+.leaf {
   color: var(--brandColor);
 }
-.svg{
+.svg {
   margin-bottom: 16px;
 }
-.svgtitle{
+.svgtitle {
   font-size: 20px;
   line-height: 32px;
   color: var(--green700);

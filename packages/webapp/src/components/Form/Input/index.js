@@ -24,19 +24,37 @@ const Input = ({
 }) => {
   const input = useRef();
   const onClear = () => {
-    if (input.current && input.current.value) input.current.value = ''
+    if (input.current && input.current.value) input.current.value = '';
   };
   const [inputType, setType] = useState(type);
-  const isPassword = (type === 'password');
-  const showPassword = (inputType === 'text');
-  const setVisibility = () => setType((prevState => prevState === 'password' ? 'text' : 'password'));
+  const isPassword = type === 'password';
+  const showPassword = inputType === 'text';
+  const setVisibility = () =>
+    setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
   return (
-    <div className={clsx(styles.container)} style={(style || classes.container) && { ...style, ...classes.container }}>
-      {label && <Label>{label} {optional && <Label sm className={styles.sm}>(optional)</Label>}</Label>}
-      {errors && <Cross onClick={onClear} className={styles.cross}/>}
-      {isSearchBar && <BiSearchAlt2 className={styles.searchIcon}/>}
-      {isPassword && !errors && (showPassword ? <MdVisibility className={styles.visibilityIcon} onClick={setVisibility}/> :
-        <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility}/>)}
+    <div
+      className={clsx(styles.container)}
+      style={(style || classes.container) && { ...style, ...classes.container }}
+    >
+      {label && (
+        <Label>
+          {label}{' '}
+          {optional && (
+            <Label sm className={styles.sm}>
+              (optional)
+            </Label>
+          )}
+        </Label>
+      )}
+      {errors && <Cross onClick={onClear} className={styles.cross} />}
+      {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
+      {isPassword &&
+        !errors &&
+        (showPassword ? (
+          <MdVisibility className={styles.visibilityIcon} onClick={setVisibility} />
+        ) : (
+          <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
+        ))}
       <input
         disabled={disabled}
         className={clsx(styles.input, errors && styles.inputError, isSearchBar && styles.searchBar)}
@@ -65,10 +83,7 @@ Input.propTypes = {
     container: PropTypes.object,
     info: PropTypes.object,
   }),
-  icon: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   inputRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
@@ -76,6 +91,6 @@ Input.propTypes = {
   style: PropTypes.object,
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
-}
+};
 
 export default Input;

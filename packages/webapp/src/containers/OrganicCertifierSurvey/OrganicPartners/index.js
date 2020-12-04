@@ -22,10 +22,10 @@ export default function OrganicPartners() {
     if (!survey.survey_id) {
       dispatch(getCertifiers());
     }
-    if(survey){
+    if (survey) {
       const { certifiers } = survey;
       setValue(COABC, certifiers?.includes(COABC));
-      const otherCertifiers = certifiers?.filter(certifier => certifier!== COABC);
+      const otherCertifiers = certifiers?.filter((certifier) => certifier !== COABC);
       const othername = otherCertifiers?.length > 0 ? otherCertifiers[0] : '';
       setValue(OTHER, !!othername);
       setValue(OTHERNAME, othername);
@@ -42,34 +42,41 @@ export default function OrganicPartners() {
     if (coabc) {
       certifiers.push(COABC);
     }
-    dispatch(patchCertifiers({certifiers,callback}));
-
-  }
+    dispatch(patchCertifiers({ certifiers, callback }));
+  };
 
   const onGoBack = () => {
     history.push('/interested_in_organic');
-  }
+  };
   const disabled = !coabc && (!otherName || !required);
-  return <>
-    <PureOrganicPartners onSubmit={handleSubmit(onSubmit)}
-                         onGoBack={onGoBack}
-                         disabled={disabled}
-                         inputs={[{
-                           label: 'COABC',
-                           inputRef: register,
-                           name: COABC,
-                         }, {
-                           label: 'Other',
-                           inputRef: register,
-                           name: OTHER,
-                         }, {
-                           label: 'Certifier’s name',
-                           inputRef: refInput,
-                           name: OTHERNAME,
-                           errors: errors[OTHERNAME] && 'Certificate name is required',
-                           disabled: !required,
-                           autoFocus: required,
-                           info: 'Our forms are accepted by most certifiers.',
-                         }]}/>
-  </>
+  return (
+    <>
+      <PureOrganicPartners
+        onSubmit={handleSubmit(onSubmit)}
+        onGoBack={onGoBack}
+        disabled={disabled}
+        inputs={[
+          {
+            label: 'COABC',
+            inputRef: register,
+            name: COABC,
+          },
+          {
+            label: 'Other',
+            inputRef: register,
+            name: OTHER,
+          },
+          {
+            label: 'Certifier’s name',
+            inputRef: refInput,
+            name: OTHERNAME,
+            errors: errors[OTHERNAME] && 'Certificate name is required',
+            disabled: !required,
+            autoFocus: required,
+            info: 'Our forms are accepted by most certifiers.',
+          },
+        ]}
+      />
+    </>
+  );
 }

@@ -15,7 +15,6 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const moment = require('moment');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
@@ -122,7 +121,7 @@ describe('Expense Type Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next();
     });
   });

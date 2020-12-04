@@ -132,7 +132,7 @@ class logServices extends baseController {
 
   static async insertLog({ body, user }, transaction){
     const logModel = getActivityModelKind(body.activity_kind);
-    const user_id = user.sub.split('|')[1];
+    const user_id = user.user_id;
     const activityLog = await super.post(ActivityLogModel, body, transaction, { user_id });
 
     //insert crops,fields and beds
@@ -180,7 +180,7 @@ class logServices extends baseController {
 
   static async patchLog(logId, transaction, { body, user }){
     var log = await super.getIndividual(ActivityLogModel, logId);
-    const user_id = user.sub.split('|')[1];
+    const user_id = user.user_id;
     const activityLog = await super.updateIndividualById(ActivityLogModel, logId, body, transaction, { user_id });
 
     //insert fieldCrops,fields

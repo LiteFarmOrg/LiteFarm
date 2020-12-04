@@ -1,33 +1,33 @@
-.logContainer{
+.logContainer {
   width: 100%;
   max-width: 1024px;
   height: 100vh;
   padding: 24px 24px 0 24px;
-  display:flex;
+  display: flex;
   flex-direction: column;
 }
-.grid{
- width: 100%;
+.grid {
+  width: 100%;
 }
 
-.typeContainer{
+.typeContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #E8F0EB;
-  box-shadow: 0 2px 10px #EDEDED;
+  border: 1px solid #e8f0eb;
+  box-shadow: 0 2px 10px #ededed;
   border-radius: 10px;
   width: 90%;
   margin: 0 auto;
   height: 100px;
 }
 
-.col{
+.col {
   max-height: 320px;
   padding: 0;
   margin-bottom: 4%;
-  img{
+  img {
     width: 35px;
     margin-bottom: 5%;
   }

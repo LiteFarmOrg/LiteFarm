@@ -1,7 +1,7 @@
 import { SET_FARM_DATA_SCHEDULE } from './constants';
 
 const initialState = {
- farm_data_schedule: null,
+  farm_data_schedule: null,
 };
 
 function farmReducer(state = initialState, action) {
@@ -11,7 +11,7 @@ function farmReducer(state = initialState, action) {
         farm_data_schedule: action.data,
       });
     default:
-      return state
+      return state;
   }
 }
 

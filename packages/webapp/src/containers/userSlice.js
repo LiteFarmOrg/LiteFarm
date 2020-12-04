@@ -10,16 +10,19 @@ const addOneUser = (state, { payload: user }) => {
   state.loading = false;
   state.error = null;
   userAdapter.upsertOne(state, user);
-}
+};
 const addManyUsers = (state, { payload: users }) => {
   state.loading = false;
   state.error = null;
   userAdapter.upsertMany(state, users);
-}
+};
 
 const userSlice = createSlice({
   name: 'userReducer',
-  initialState: userAdapter.getInitialState({ loading: false, error: undefined }),
+  initialState: userAdapter.getInitialState({
+    loading: false,
+    error: undefined,
+  }),
   reducers: {
     onLoadingUsersStart: onLoadingStart,
     onLoadingUsersFail: onLoadingFail,
@@ -27,19 +30,23 @@ const userSlice = createSlice({
     getUserSuccess: addOneUser,
   },
 });
-export const { onLoadingUsersStart, onLoadingUsersFail, getUsersSuccess, getUserSuccess } = userSlice.actions;
+export const {
+  onLoadingUsersStart,
+  onLoadingUsersFail,
+  getUsersSuccess,
+  getUserSuccess,
+} = userSlice.actions;
 export default userSlice.reducer;
 
-export const userReducerSelector = state => state.entitiesReducer[userSlice.name];
+export const userReducerSelector = (state) => state.entitiesReducer[userSlice.name];
 const userSelectors = userAdapter.getSelectors((state) => state.entitiesReducer[userSlice.name]);
 
 export const usersSelector = userSelectors.selectAll;
-export const userSelector = state => {
+export const userSelector = (state) => {
   const { user_id } = loginSelector(state);
-  return user_id ? (userSelectors.selectById(state, user_id) || {}) : {};
-}
+  return user_id ? userSelectors.selectById(state, user_id) || {} : {};
+};
 export const userSelectorByUserId = userSelectors.selectById;
 export const userStatusSelector = createSelector([userReducerSelector], ({ loading, error }) => {
   return { loading, error };
-})
-
+});

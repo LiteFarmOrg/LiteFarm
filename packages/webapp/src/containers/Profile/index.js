@@ -15,19 +15,17 @@
 
 import React, { Component } from 'react';
 import Account from './Account';
-import Farm from './Farm'
-import People from './People'
-import styles from './styles.scss'
+import Farm from './Farm';
+import People from './People';
+import styles from './styles.scss';
 import { connect } from 'react-redux';
 import { TabContent, TabLink, Tabs } from 'react-tabs-redux';
 import { userFarmSelector } from '../userFarmSlice';
-import {withTranslation} from "react-i18next";
-
+import { withTranslation } from 'react-i18next';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
-
   }
 
   render() {
@@ -54,7 +52,10 @@ class Profile extends Component {
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet
     const { role } = farm;
     const currentUserRole = (role || '').toLowerCase();
-    const isAdmin = currentUserRole === 'owner' || currentUserRole === 'manager' || currentUserRole === 'extension officer';
+    const isAdmin =
+      currentUserRole === 'owner' ||
+      currentUserRole === 'manager' ||
+      currentUserRole === 'extension officer';
 
     return (
       <div className={styles.profileContainer}>
@@ -62,32 +63,40 @@ class Profile extends Component {
           className={styles.tabs}
           renderActiveTabContentOnly={true}
           disableInlineStyles
-          selectedTab={this.props.history.location.state !== undefined ? this.props.history.location.state: "account"}
+          selectedTab={
+            this.props.history.location.state !== undefined
+              ? this.props.history.location.state
+              : 'account'
+          }
         >
           <div className={styles.tabLinks}>
-            {
-              tabs.map(tab => {
-                const { access, key, path, label } = tab;
-                const isDisplayed = access.some(roleKey => roleKey === 'all' || roleKey === currentUserRole);
-                return isDisplayed
-                  ? (
-                    <TabLink
-                      key={key}
-                      className={styles.tabLink}
-                      activeClassName={styles.selectedTabLink}
-                      to={path}
-                    >
-                      {label}
-                    </TabLink>
-                  )
-                  : null;
-              })
-            }
+            {tabs.map((tab) => {
+              const { access, key, path, label } = tab;
+              const isDisplayed = access.some(
+                (roleKey) => roleKey === 'all' || roleKey === currentUserRole,
+              );
+              return isDisplayed ? (
+                <TabLink
+                  key={key}
+                  className={styles.tabLink}
+                  activeClassName={styles.selectedTabLink}
+                  to={path}
+                >
+                  {label}
+                </TabLink>
+              ) : null;
+            })}
           </div>
           <div>
-            <TabContent for="account"><Account /></TabContent>
-            <TabContent for="people"><People isAdmin={isAdmin} /></TabContent>
-            <TabContent for="farm"><Farm /></TabContent>
+            <TabContent for="account">
+              <Account />
+            </TabContent>
+            <TabContent for="people">
+              <People isAdmin={isAdmin} />
+            </TabContent>
+            <TabContent for="farm">
+              <Farm />
+            </TabContent>
           </div>
         </Tabs>
       </div>
@@ -98,13 +107,12 @@ class Profile extends Component {
 const mapStateToProps = (state) => {
   return {
     farm: userFarmSelector(state),
-  }
+  };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Profile));
-

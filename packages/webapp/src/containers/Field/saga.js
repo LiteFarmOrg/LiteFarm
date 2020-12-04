@@ -28,7 +28,7 @@ import {
   GET_YIELD,
 } from './constants';
 import { setFieldCropsInState } from '../actions';
-import { setCropsInState, setExpiredCropsInState, setPriceInState, setYieldInState } from './actions';
+import { setExpiredCropsInState, setPriceInState, setYieldInState } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';

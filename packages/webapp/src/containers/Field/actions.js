@@ -16,59 +16,13 @@
 import {
   DELETE_FIELD,
   DELETE_FIELD_CROP,
-  GET_PRICE,
-  GET_YIELD,
-  SET_CROPS_IN_STATE,
-  SET_EXPIRED_CROPS_IN_STATE,
-  SET_PRICE_IN_STATE,
-  SET_YIELD_IN_STATE,
 } from './constants';
-
-export const getPrices = () => {
-  return {
-    type: GET_PRICE
-  }
-};
-
-export const getYield = () => {
-  return {
-    type: GET_YIELD
-  }
-};
-
-export const setCropsInState = (crops) => {
-  return {
-    type: SET_CROPS_IN_STATE,
-    crops
-  }
-};
-
-export const setExpiredCropsInState = (expiredCrops) => {
-  return {
-    type: SET_EXPIRED_CROPS_IN_STATE,
-    expiredCrops
-  }
-};
 
 export const deleteFieldCrop = (fieldCropId, fieldId) => {
   return {
     type: DELETE_FIELD_CROP,
     fieldCropId,
     fieldId,
-  }
-};
-
-export const setYieldInState = (yieldData) => {
-  return {
-    type: SET_YIELD_IN_STATE,
-    yieldData,
-  }
-};
-
-export const setPriceInState = (price) => {
-  return {
-    type: SET_PRICE_IN_STATE,
-    price,
   }
 };
 

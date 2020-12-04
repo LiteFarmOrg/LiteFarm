@@ -28,13 +28,17 @@ import {
   GET_YIELD,
 } from './constants';
 import { setFieldCropsInState } from '../actions';
-import { setExpiredCropsInState, setPriceInState, setYieldInState } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { getFieldCropsSuccess, onLoadingFieldCropStart, onLoadingFieldCropFail } from '../fieldCropSlice';
+import {
+  getFieldCropsSuccess,
+  onLoadingFieldCropStart,
+  onLoadingFieldCropFail,
+  postFieldCropSuccess,
+} from '../fieldCropSlice';
 
 const axios = require('axios');
 const DEC = 10;
@@ -56,35 +60,6 @@ export function* getExpiredFieldCropsSaga() {
   }
 }
 
-export function* getYieldSaga() {
-  const { yieldURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, yieldURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setYieldInState(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch yield from db');
-  }
-}
-
-export function* getPriceSaga() {
-  const { priceURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.get, priceURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setPriceInState(result.data));
-    }
-  } catch (e) {
-    console.log('failed to fetch prices from db');
-  }
-}
 export const postField = createAction(`postFieldSaga`);
 
 export function* postFieldSaga(action) {
@@ -105,9 +80,9 @@ export function* postFieldSaga(action) {
     console.log('failed to add field to database');
   }
 }
+export const postFieldCrop = createAction(`postFieldCropSaga`);
 
-export function* createFieldCropSaga(action) {
-  let currentDate = formatDate(new Date());
+export function* postFieldCropSaga(action) {
   const { fieldCropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -126,16 +101,7 @@ export function* createFieldCropSaga(action) {
   };
   try {
     const result = yield call(axios.post, fieldCropURL, data, header);
-    if (result) {
-      const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
-      if (result) {
-        yield put(setFieldCropsInState(result.data));
-      }
-      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
-      if (expiredResult) {
-        yield put(setExpiredCropsInState(expiredResult.data));
-      }
-    }
+    yield put(postFieldCropSuccess(result.data));
   } catch (e) {
     console.log('failed to add fieldCrop to database');
   }
@@ -220,12 +186,6 @@ export function* createYieldSaga(action) {
 
   try {
     const result = yield call(axios.post, yieldURL, data, header);
-    if (result) {
-      const result = yield call(axios.get, yieldURL + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setYieldInState(result.data));
-      }
-    }
   } catch (e) {
     console.log('Error: Could Not Emit Create Yield Action');
   }
@@ -245,12 +205,6 @@ export function* createPriceSaga(action) {
   };
   try {
     const result = yield call(axios.post, priceURL, data, header);
-    if (result) {
-      const result = yield call(axios.get, priceURL + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setPriceInState(result.data));
-      }
-    }
   } catch (e) {
     console.log('Error: Could not Emit Create Price Action')
   }
@@ -287,12 +241,10 @@ const formatDate = (currDate) => {
 };
 
 export default function* fieldSaga() {
-  yield takeEvery(CREATE_FIELD_CROP, createFieldCropSaga);
+  yield takeEvery(postFieldCrop.type, postFieldCropSaga);
   yield takeEvery(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
   yield takeEvery(DELETE_FIELD_CROP, deleteFieldCropSaga);
-  yield takeEvery(GET_YIELD, getYieldSaga);
   yield takeEvery(CREATE_YIELD, createYieldSaga);
-  yield takeEvery(GET_PRICE, getPriceSaga);
   yield takeEvery(CREATE_PRICE, createPriceSaga);
   yield takeEvery(EDIT_FIELD_CROP, editFieldCropSaga);
   yield takeEvery(DELETE_FIELD, deleteFieldSaga);

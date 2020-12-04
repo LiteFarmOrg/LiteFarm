@@ -28,7 +28,8 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import fieldReducer from '../containers/fieldSlice';
-
+import cropReducer from '../containers/cropSlice';
+import fieldCropReducer from '../containers/fieldCropSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -102,7 +103,9 @@ const entitiesReducer= combineReducers({
   // userReducer,
   certifierSurveyReducer,
   rolesReducer,
-  fieldReducer
+  fieldReducer,
+  cropReducer,
+  fieldCropReducer,
 });
 
 // combine all reducers here and pass it to application

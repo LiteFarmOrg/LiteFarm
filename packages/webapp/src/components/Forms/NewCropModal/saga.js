@@ -1,5 +1,4 @@
 import {
-  GET_CROPS,
   CREATE_CROP,
 } from "./constants";
 
@@ -13,22 +12,6 @@ import { toastr } from "react-redux-toastr";
 import { getHeader } from '../../../containers/saga';
 
 const axios = require('axios');
-
-//FIXME: this is repeated code from Field/saga
-export function* getCropsSaga() {
-  const { cropURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
-
-  try {
-    const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setCropsInState(result.data));
-    }
-  } catch(e) {
-    console.log('failed to fetch all crops from database');
-  }
-}
 
 export function* createCropSaga(action) {
   const { cropURL } = apiConfig;
@@ -103,6 +86,5 @@ export function* createCropSaga(action) {
 }
 
 export default function* cropSaga() {
-  yield takeEvery(GET_CROPS, getCropsSaga);
   yield takeEvery(CREATE_CROP, createCropSaga);
 }

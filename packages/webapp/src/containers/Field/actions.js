@@ -16,8 +16,6 @@
 import {
   DELETE_FIELD,
   DELETE_FIELD_CROP,
-  GET_CROPS,
-  GET_EXPIRED_CROPS,
   GET_PRICE,
   GET_YIELD,
   SET_CROPS_IN_STATE,
@@ -25,18 +23,6 @@ import {
   SET_PRICE_IN_STATE,
   SET_YIELD_IN_STATE,
 } from './constants';
-
-export const getCrops = () => {
-  return {
-    type: GET_CROPS,
-  }
-};
-
-export const getExpiredCrops = () => {
-  return {
-    type: GET_EXPIRED_CROPS,
-  }
-};
 
 export const getPrices = () => {
   return {

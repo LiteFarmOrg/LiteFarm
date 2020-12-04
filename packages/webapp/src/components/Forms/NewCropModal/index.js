@@ -2,15 +2,16 @@ import React from 'react';
 import {Button, Modal, FormGroup, FormControl, FormLabel, Form} from 'react-bootstrap';
 import {CROP_GROUPS, DUMMY_NEW_CROP, INITIAL_STATE, CROP_DICT, NUTRIENT_DICT, NUTRIENT_ARRAY} from './constants';
 import {connect} from 'react-redux';
-import {cropSelector} from './selectors';
 import {toastr} from "react-redux-toastr";
-import {getCrops, createCropAction} from './actions';
+import {createCropAction} from './actions';
+import {getCrops} from '../../../containers/saga'
 import styles from './styles.scss';
 import Select from 'react-select';
 import {crop_nutrient_data} from '../../../assets/data/crop_nutrient';
 import {crop_physiology_data} from '../../../assets/data/crop_physiology';
 import InfoBoxComponent from '../../../components/InfoBoxComponent';
 import {roundToTwoDecimal}  from '../../../util';
+import { cropsSelector } from '../../../containers/cropSlice';
 
 
 class NewCropModal extends React.Component {
@@ -468,7 +469,7 @@ class NewCropModal extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: cropsSelector(state),
   }
 };
 

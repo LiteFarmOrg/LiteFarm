@@ -42,6 +42,7 @@ import { loginSelector, loginSuccess } from './userFarmSlice';
 import { userFarmSelector, putUserSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { getFieldsSuccess } from './fieldSlice';
+import { getCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 
 const axios = require('axios');
 
@@ -75,6 +76,23 @@ export function* updateUserSaga({ payload: user }) {
     toastr.success('Successfully updated user info!')
   } catch (e) {
     toastr.error('Failed to update user info')
+  }
+}
+
+export const getCrops = createAction(`getCropsSaga`);
+
+export function* getCropsSaga() {
+  const { cropURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    yield put(onLoadingCropStart());
+    const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
+    yield put(getCropsSuccess(result.data));
+  } catch (e) {
+    yield put(onLoadingCropFail());
+    console.error('failed to fetch all crops from database');
   }
 }
 
@@ -239,5 +257,6 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFields.type, getFieldsSaga);
   yield takeLatest(GET_FIELD_CROPS, getFieldCropsSaga);
   yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
+  yield takeLatest(getCrops.type, getCropsSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

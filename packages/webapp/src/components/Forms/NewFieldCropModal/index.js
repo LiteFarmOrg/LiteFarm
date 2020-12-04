@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { cropSelector } from '../NewCropModal/selectors';
-import { getCrops } from '../NewCropModal/actions';
+import { cropsSelector } from '../../../containers/cropSlice';
+import { getCrops } from '../../../containers/saga';
 import {
   FIELD_CROPS_INIT, DEC_RADIX,
 } from '../../../containers/Field/constants';
@@ -487,7 +487,7 @@ class NewFieldCropModal extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: cropsSelector(state),
     farm: userFarmSelector(state),
   }
 };

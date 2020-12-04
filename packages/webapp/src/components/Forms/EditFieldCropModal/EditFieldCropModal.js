@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { cropSelector } from '../../../containers/Field/selectors';
-import { getCrops } from '../../../containers/Field/actions';
+import { cropsSelector } from '../../../containers/cropSlice';
+import { getCrops } from '../../../containers/saga';
 import { createPriceAction, createYieldAction } from '../../../containers/Field/NewField/actions';
 import { editFieldCropAction } from '../../../containers/Field/EditField/actions';
 import { DEC_RADIX } from '../../../containers/Field/constants';
@@ -396,7 +396,7 @@ class EditFieldCropModal extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: cropsSelector(state),
     farm: userFarmSelector(state),
   }
 };

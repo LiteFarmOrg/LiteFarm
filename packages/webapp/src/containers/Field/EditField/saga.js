@@ -4,7 +4,6 @@ import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { putFieldSuccess } from '../../fieldSlice';
-import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');

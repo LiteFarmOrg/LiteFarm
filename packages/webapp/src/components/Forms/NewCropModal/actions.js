@@ -1,17 +1,10 @@
 import {
-  GET_CROPS,
   CREATE_CROP,
 } from "./constants";
 
 import {
   SET_CROPS_IN_STATE,
 } from '../../../containers/Field/constants'
-
-export const getCrops = () => {
-  return {
-    type: GET_CROPS,
-  }
-};
 
 
 export const setCropsInState = (crops) => {

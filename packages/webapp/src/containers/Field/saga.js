@@ -35,9 +35,12 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
-
+import { createAction } from '@reduxjs/toolkit';
+import {getCropsSuccess, onLoadingCropStart, onLoadingCropFail} from '../cropSlice';
 const axios = require('axios');
 const DEC = 10;
+
+export const getCrops = createAction(`getCropsSaga`);
 
 export function* getCropsSaga() {
   const { cropURL } = apiConfig;
@@ -45,11 +48,11 @@ export function* getCropsSaga() {
   const header = getHeader(user_id, farm_id );
 
   try {
+    yield put(onLoadingCropStart());
     const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setCropsInState(result.data));
-    }
+    yield put(getCropsSuccess(result.data));
   } catch (e) {
+    yield put(onLoadingCropFail());
     console.error('failed to fetch all crops from database');
   }
 }

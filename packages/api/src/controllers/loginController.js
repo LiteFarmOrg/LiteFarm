@@ -60,7 +60,9 @@ class loginController extends baseController {
         const id_token = await createAccessToken({ user_id, email, first_name, last_name });
         return res.status(201).send({ id_token, user: { user_id } });
       } catch (err) {
-        throw 'Fail to login';
+        return res.status(400).json({
+          err,
+        });
       }
     }
 

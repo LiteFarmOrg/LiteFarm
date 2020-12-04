@@ -25,4 +25,4 @@ yarn-error.log*
 ./cypress/videos*
 ./cypress/integration/__snapshots__
 
-lang/*/*_old.json
+src/lang/*/*_old.json

@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
 import { getUserFarms } from './saga';
 import { useTranslation } from 'react-i18next';
+import Spinner from '../../components/Spinner';
 
 function ChooseFarm() {
   const { t } = useTranslation();
@@ -70,7 +71,7 @@ function ChooseFarm() {
 
   return (
     loaded &&
-    farms.length && (
+    farms.length ? (
       <PureChooseFarmScreen
         farms={getFormattedFarms({
           filter,
@@ -88,7 +89,7 @@ function ChooseFarm() {
         disabled={!selectedFarmId}
         title={currentFarmId ? t('CHOOSE_FARM.SWITCH_TITLE') : t('CHOOSE_FARM.CHOOSE_TITLE')}
       />
-    )
+    ): <Spinner/>
   );
 }
 

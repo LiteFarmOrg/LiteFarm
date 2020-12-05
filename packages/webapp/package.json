@@ -145,8 +145,16 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format && npm run lint"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{js,json,md,html}": [
+      "prettier --write"
+    ]
   },
   "jest": {
     "collectCoverageFrom": [

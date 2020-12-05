@@ -95,6 +95,7 @@ import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 
 import GoogleLoginButton from './containers/GoogleLoginButton';
+import CustomSignUp from './containers/CustomSignUp'
 
 import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
@@ -385,7 +386,8 @@ const Routes = () => {
           exact
           component={SignUp}
         />
-        <Route path="/*" exact component={GoogleLoginButton} />
+        {/* <Route path="/*" exact component={GoogleLoginButton} /> */}
+        <Route path="/*" exact component={CustomSignUp} />
       </Switch>
     );
   }

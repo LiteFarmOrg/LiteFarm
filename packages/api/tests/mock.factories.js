@@ -18,12 +18,26 @@ function usersFactory(userObject = fakeUser()) {
   return knex('users').insert(userObject).returning('*');
 }
 
+function ssoUsersFactory(userObject = fakeSSOUser()) {
+  return knex('users').insert(userObject).returning('*');
+}
+
 function fakeUser() {
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: faker.lorem.word() + faker.internet.email(),
     user_id: faker.random.uuid(),
+    phone_number: faker.phone.phoneNumber()
+  }
+}
+
+function fakeSSOUser() {
+  return {
+    first_name: faker.name.findName(),
+    last_name: faker.name.lastName(),
+    email: faker.lorem.word() + faker.internet.email(),
+    user_id: faker.random.number(10),
     phone_number: faker.phone.phoneNumber()
   }
 }
@@ -626,6 +640,7 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
 module.exports = {
   weather_stationFactory, fakeStation,
   usersFactory, fakeUser,
+  ssoUsersFactory, fakeSSOUser,
   farmFactory, fakeFarm,
   userFarmFactory, fakeUserFarm,
   fieldFactory, fakeField,

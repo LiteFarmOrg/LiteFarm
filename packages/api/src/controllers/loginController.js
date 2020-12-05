@@ -67,6 +67,46 @@ class loginController extends baseController {
     }
 
   }
+
+  static getUserNameByUserEmail() {
+    return async (req, res) => {
+      const { email } = req.params;
+      try {
+      const data = await userModel.query()
+        .select('*').from('users').where('users.email', email)
+      if (!data.length) {
+          res.status(404).send({
+            user: null,
+            exists: false,
+            sso: false
+          });
+      }
+      else {
+          // User signed up with Google SSO
+          if (/^\d+$/.test(data[0].user_id)) {
+              res.status(200).send({
+                  user: data,
+                  exists: true,
+                  sso: true
+              });
+          }
+          else {
+              res.status(200).send({
+                  user: data,
+                  exists: true,
+                  sso: false
+              });
+          }
+      }
+    } catch (error) {
+        console.log("error was thrown")
+      console.log(error);
+      return res.status(400).json({
+        error,
+      });
+    }
+    };
+}
 }
 
 module.exports = loginController;

@@ -75,7 +75,7 @@ class loginController extends baseController {
       const data = await userModel.query()
         .select('*').from('users').where('users.email', email)
       if (!data.length) {
-          res.status(404).send({
+          res.status(200).send({
             user: null,
             exists: false,
             sso: false

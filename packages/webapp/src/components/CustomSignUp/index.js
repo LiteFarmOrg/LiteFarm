@@ -5,7 +5,7 @@ import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';
 import Footer from '../Footer';
-import { actions, Control, Form } from 'react-redux-form';
+import GoogleLoginButton from '../../containers/GoogleLoginButton'
 
 export default function PureCustomSignUp({ inputs = [{}], ssoSignUp, onSubmit, disabled }) {
 
@@ -20,9 +20,9 @@ export default function PureCustomSignUp({ inputs = [{}], ssoSignUp, onSubmit, d
         <div className={styles.greetContainer}>
           <img src={Logo}/>
           <div className={styles.ssoButton}>
-          <Button style={{width: 312, height: 48}} fullLength children='CONTINUE WITH GOOGLE' color='secondary' onClick={ssoSignUp} />
+          <GoogleLoginButton />
           </div>
-          <div className={styles.lineBreak} onClick={onSubmit}>
+          <div className={styles.lineBreak}>
           <img src={LineBreak}/>
           </div>
            
@@ -34,7 +34,6 @@ export default function PureCustomSignUp({ inputs = [{}], ssoSignUp, onSubmit, d
         
 
       </div>
-      {/* <div className={styles.bottom} onClick={onSubmit}/> */}
 
     </div>
     <Footer style={{ position: 'sticky', bottom: '0'}}

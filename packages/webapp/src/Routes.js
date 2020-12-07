@@ -17,12 +17,14 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 // import Callback from './components/Callback';
 import Home from './containers/Home';
+import PureEnterPasswordPage from './components/Signup/EnterPasswordPage';
 import Profile from './containers/Profile';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
 // import Login from './containers/Login';
 import SignUp from './containers/SignUp';
+import PureCreateUserAccount from './components/CreateUserAccount';
 import NewLog from './containers/Log/NewLog';
 import FertilizingLog from './containers/Log/FertilizingLog';
 import PestControlLog from './containers/Log/PestControlLog';
@@ -136,6 +138,7 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home" exact component={Home} />
+          <Route path="/custom-sign-up" exact component={CustomSignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
@@ -231,6 +234,7 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home" exact component={Home} />
+          <Route path="/custom-sign-up" exact component={CustomSignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
@@ -325,6 +329,7 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home" exact component={Home} />
+          <Route path="/custom-sign-up" exact component={CustomSignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
@@ -386,8 +391,9 @@ const Routes = () => {
           exact
           component={SignUp}
         />
-        {/* <Route path="/*" exact component={GoogleLoginButton} /> */}
-        <Route path="/*" exact component={CustomSignUp} />
+        <Route path="/" exact component={CustomSignUp} />
+        <Route path='/password' exact component={PureEnterPasswordPage}/>
+        <Route path='/create-user-account' exact component={PureCreateUserAccount}/>
       </Switch>
     );
   }

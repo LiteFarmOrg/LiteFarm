@@ -100,7 +100,7 @@ describe('Sign Up Tests', () => {
 			});
 		});
 
-		test('Get status of user from email address should return 404 because user does not exist', async (done) => {
+		test('Get status of user from email address should return 200 and sso true because user does not exist', async (done) => {
 			const user = {
 				first_name: "Bobby",
 				last_name: "McBobson",
@@ -110,7 +110,7 @@ describe('Sign Up Tests', () => {
 			};
 
 			getRequest({ email: user.email}, (err, res) => {
-				expect(res.status).toBe(404);
+				expect(res.status).toBe(200);
 				expect(res.body.exists).toBe(false);
 				expect(res.body.sso).toBe(false);
 				done();

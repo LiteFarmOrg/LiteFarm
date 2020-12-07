@@ -152,7 +152,9 @@
     "*.{js}": [
       "eslint --quiet --fix"
     ],
-    "*./src": "prettier --write"
+    "*.{js,json,md,html}": [
+      "prettier --write"
+    ]
   },
   "jest": {
     "collectCoverageFrom": [

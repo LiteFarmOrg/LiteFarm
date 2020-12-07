@@ -40,6 +40,7 @@ class WeatherModel extends Model {
         precipitation: { type: 'float' },
         wind_speed: { type: 'float' },
         station_id: { type: 'integer' },
+        data_points: { type: 'integer' },
       },
       additionalProperties: false,
     };

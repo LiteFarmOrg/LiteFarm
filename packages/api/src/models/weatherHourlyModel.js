@@ -29,7 +29,7 @@ class weatherHourly extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['min_degrees', 'max_degrees', 'min_humidity', 'max_humidity', 'precipitation', 'wind_speed', 'field_id'],
+      required: ['min_degrees', 'max_degrees', 'min_humidity', 'max_humidity', 'precipitation', 'wind_speed', 'station_id'],
       properties: {
         weather_hourly_id: { type: 'integer' },
         min_degrees: { type: 'float' },
@@ -39,6 +39,8 @@ class weatherHourly extends Model {
         precipitation: { type: 'float ' },
         wind_speed: { type: 'float' },
         station_id: { type: 'integer' },
+        data_points: { type: 'integer' },
+        created_at: { type: 'date' },
       },
       additionalProperties: false,
     };

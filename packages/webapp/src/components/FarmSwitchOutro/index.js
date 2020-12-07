@@ -1,5 +1,5 @@
 import styles from './styles.scss';
-import OutroImg from '../../assets/images/farm-switch-outro/outro.svg';
+import { ReactComponent as OutroImg } from '../../assets/images/farm-switch-outro/outro.svg';
 import Button from '../Form/Button';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,7 @@ export default function FarmSwitchPureOutroSplash({ onFinish }) {
     <div className={styles.outroContainer}>
       <div className={styles.title}>{t('SWITCH_OUTRO.TITLE')}</div>
       <div className={styles.imgContainer}>
-        <img src={OutroImg} />
+        <OutroImg />
       </div>
 
       <div className={styles.descriptionTop}>{descriptionTop}</div>

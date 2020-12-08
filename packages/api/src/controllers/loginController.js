@@ -25,16 +25,13 @@ class loginController extends baseController {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body;
       try {
-        const data = await userModel.query()
-          .select('*')
-          .where('email', email)
-          .first();
+        const data = await userModel.query().select('*').where('email', email).first();
         const isMatch = await bcrypt.compare(password, data.password_hash);
         if (!isMatch) return res.sendStatus(401);
 
         delete data.password_hash;
 
-        const token = await createAccessToken({ ...data })
+        const token = await createAccessToken({ ...data });
         return res.status(200).send({
           token,
           user: data,
@@ -63,45 +60,46 @@ class loginController extends baseController {
           err,
         });
       }
-    }
-
+    };
   }
 
   static getUserNameByUserEmail() {
     return async (req, res) => {
-    const { email } = req.params;
-    try {
-    const data = await userModel.query()
-      .select('*').from('users').where('users.email', email).first()
-      if (!data) {
-        res.status(200).send({
-          user: null,
-          exists: false,
-          sso: false
+      const { email } = req.params;
+      try {
+        const data = await userModel
+          .query()
+          .select('*')
+          .from('users')
+          .where('users.email', email)
+          .first();
+        if (!data) {
+          res.status(200).send({
+            user: null,
+            exists: false,
+            sso: false,
+          });
+        } else {
+          // User signed up with Google SSO
+          if (/^\d+$/.test(data.user_id)) {
+            res.status(200).send({
+              user: data,
+              exists: true,
+              sso: true,
+            });
+          } else {
+            res.status(200).send({
+              user: data,
+              exists: true,
+              sso: false,
+            });
+          }
+        }
+      } catch (error) {
+        return res.status(400).json({
+          error,
         });
       }
-      else {
-        // User signed up with Google SSO
-        if (/^\d+$/.test(data.user_id)) {
-          res.status(200).send({
-            user: data,
-            exists: true,
-            sso: true
-          });
-        }
-        else {
-          res.status(200).send({
-            user: data,
-            exists: true,
-            sso: false
-          });
-        }
-      }
-    } catch (error) {
-      return res.status(400).json({
-        error,
-      });
-    }
     };
   }
 }

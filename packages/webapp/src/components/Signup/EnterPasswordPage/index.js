@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 import { useSelector } from 'react-redux';
-import {manualSignUpSelector} from '../../../containers/CustomSignUp/signUpSlice';
+import { manualSignUpSelector } from '../../../containers/CustomSignUp/signUpSlice';
 
 export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin }) {
   const { register, handleSubmit, watch } = useForm();
@@ -47,7 +47,9 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
         </>
       }
     >
-      <Title style={{ marginBottom: '32px' }}>{title + "," + " " + userName.userName.userName}</Title>
+      <Title style={{ marginBottom: '32px' }}>
+        {title + ',' + ' ' + userName.userName.userName}
+      </Title>
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}

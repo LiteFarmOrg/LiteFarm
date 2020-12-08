@@ -7,8 +7,6 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
-import { useSelector } from 'react-redux';
-import { manualSignUpSelector } from '../../../containers/CustomSignUp/signUpSlice';
 
 export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin }) {
   const { register, handleSubmit, watch } = useForm();
@@ -23,7 +21,6 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
   const [showErrors, setShowErrors] = useState(false);
-  const userName = useSelector(manualSignUpSelector);
 
   const onSubmit = (data) => {
     console.log(data, isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort);
@@ -47,7 +44,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
         </>
       }
     >
-      <Title style={{ marginBottom: '32px' }}>{title + ',' + ' ' + userName.userName}</Title>
+      <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}

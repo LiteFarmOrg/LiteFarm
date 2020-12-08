@@ -97,7 +97,7 @@ import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 
 import GoogleLoginButton from './containers/GoogleLoginButton';
-import CustomSignUp from './containers/CustomSignUp'
+import CustomSignUp from './containers/CustomSignUp';
 
 import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
@@ -392,8 +392,8 @@ const Routes = () => {
           component={SignUp}
         />
         <Route path="/" exact component={CustomSignUp} />
-        <Route path='/password' exact component={PureEnterPasswordPage}/>
-        <Route path='/create-user-account' exact component={PureCreateUserAccount}/>
+        <Route path="/password" exact component={PureEnterPasswordPage} />
+        <Route path="/create-user-account" exact component={PureCreateUserAccount} />
       </Switch>
     );
   }

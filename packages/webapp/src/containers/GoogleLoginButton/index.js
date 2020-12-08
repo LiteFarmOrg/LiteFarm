@@ -18,6 +18,7 @@ function GoogleLoginButton({ disabled }) {
 
   return (
     <GoogleLogin
+      buttonText="Login"
       onSuccess={onSuccess}
       onFailure={onFailure}
       disabled={disabled}

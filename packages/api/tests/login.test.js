@@ -87,7 +87,7 @@ describe('Sign Up Tests', () => {
 		});
 
 
-		test('Get status of user from email address should return 200 and SSO true', async (done) => {
+		xtest('Get status of user from email address should return 200 and SSO true', async (done) => {
 			const [user] = await mocks.ssoUsersFactory();
 			const name = user.first_name;
 

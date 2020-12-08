@@ -69,27 +69,26 @@ function ChooseFarm() {
     setFilter(e.target.value.toLowerCase());
   };
 
-  return (
-    loaded &&
-    farms.length ? (
-      <PureChooseFarmScreen
-        farms={getFormattedFarms({
-          filter,
-          farms,
-          currentFarmId,
-          selectedFarmId,
-        })}
-        onGoBack={onGoBack}
-        onProceed={onProceed}
-        onSelectFarm={onSelectFarm}
-        onCreateFarm={onCreateFarm}
-        isOnBoarding={!currentFarmId}
-        onFilterChange={onFilterChange}
-        isSearchable={farms.length > 5}
-        disabled={!selectedFarmId}
-        title={currentFarmId ? t('CHOOSE_FARM.SWITCH_TITLE') : t('CHOOSE_FARM.CHOOSE_TITLE')}
-      />
-    ): <Spinner/>
+  return loaded && farms.length ? (
+    <PureChooseFarmScreen
+      farms={getFormattedFarms({
+        filter,
+        farms,
+        currentFarmId,
+        selectedFarmId,
+      })}
+      onGoBack={onGoBack}
+      onProceed={onProceed}
+      onSelectFarm={onSelectFarm}
+      onCreateFarm={onCreateFarm}
+      isOnBoarding={!currentFarmId}
+      onFilterChange={onFilterChange}
+      isSearchable={farms.length > 5}
+      disabled={!selectedFarmId}
+      title={currentFarmId ? t('CHOOSE_FARM.SWITCH_TITLE') : t('CHOOSE_FARM.CHOOSE_TITLE')}
+    />
+  ) : (
+    <Spinner />
   );
 }
 

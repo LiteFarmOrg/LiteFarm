@@ -156,7 +156,7 @@ const saveWeatherToDisk = async (weatherData) => {
       await knex.raw(
         `UPDATE "weatherHourly" w
         SET min_degrees = ?, max_degrees = ?, min_humidity = ?, 
-        max_humidity = ?', precipitation = ?, wind_speed = ?, 
+        max_humidity = ?, precipitation = ?, wind_speed = ?, 
         data_points = ?
         WHERE station_id  = ?
         `, [currentWeather.min_degrees, currentWeather.max_degrees, currentWeather.min_humidity, currentWeather.max_humidity, currentWeather.precipitation, currentWeather.wind_speed, currentWeather.data_points, weatherData.id])
@@ -341,7 +341,7 @@ const postWeatherToDB = async (weatherDataMap) => {
 const grabWeatherData = async (farmID) => {
   const weatherData = {};
   const dataPoints = await knex.raw(`
-  SELECT f.field_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
+  SELECT f.station_id, w.min_degrees as min_degrees, w.max_degrees as max_degrees, w.min_humidity as min_humidity, 
   w.max_humidity as max_humidity, w.precipitation as precipitation, w.wind_speed as wind_speed, w.data_points as data_points
   FROM "weatherHourly" w, "field" f
   WHERE w.station_id = f.station_id and f.farm_id = ?

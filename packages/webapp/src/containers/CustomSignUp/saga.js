@@ -14,25 +14,25 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import history from '../../history';
-import { saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
+import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
+import { loginSuccess } from '../loginSlice';
+import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
 const loginUrl = (email) => `${url}/user/${email}`;
-
+const loginWithPasswordUrl = () => `${url}`;
 export const customSignUp = createAction(`customSignUpSaga`);
 
 export function* customSignUpSaga({ payload: email }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
-      const userName = result.data.user.first_name;
-      yield put(saveUserNameSuccess(userName));
       history.push({
-        pathname: '/password',
-        state: result.data.user.first_name,
+        pathname: '/',
+        state: result.data.user,
       });
     } else if (!result.data.exists && !result.data.sso) {
       yield put(saveUserEmailSuccess(email));
@@ -46,6 +46,28 @@ export function* customSignUpSaga({ payload: email }) {
   }
 }
 
+export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga`);
+
+export function* customLoginWithPasswordSaga({ payload: user }) {
+  try {
+    const result = yield call(axios.post, loginWithPasswordUrl(), user);
+
+    const {
+      id_token,
+      user: { user_id },
+    } = result.data;
+    localStorage.setItem('id_token', id_token);
+
+    yield put(loginSuccess({ user_id }));
+    history.push('/farm_selection');
+
+  } catch (e) {
+    console.log(e);
+    toastr.error('Failed to login, please contact LiteFarm for assistance.');
+  }
+}
+
 export default function* signUpSaga() {
   yield takeLatest(customSignUp.type, customSignUpSaga);
+  yield takeLatest(customLoginWithPassword.type, customLoginWithPasswordSaga);
 }

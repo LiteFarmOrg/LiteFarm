@@ -15,7 +15,6 @@
 
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
-const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
 const { createAccessToken } = require('../util/jwt');
 
@@ -34,9 +33,9 @@ class loginController extends baseController {
 
         delete data.password_hash;
 
-        const token = await createAccessToken({ ...data })
+        const id_token = await createAccessToken({ ...data })
         return res.status(200).send({
-          token,
+          id_token,
           user: data,
         });
       } catch (error) {
@@ -51,13 +50,19 @@ class loginController extends baseController {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
-        const user = await userModel.query().findById(user_id);
-        if (!user) {
+        const user = await userModel.query().where({ email }).first();
+        const isUserNew = !user;
+        if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name };
           await userModel.query().insert(newUser);
         }
-        const id_token = await createAccessToken({ user_id, email, first_name, last_name });
-        return res.status(201).send({ id_token, user: { user_id } });
+        const isPasswordNeeded = user && user.user_id && user.user_id !== user_id;
+        const id_token = isPasswordNeeded ? null :
+          await createAccessToken({ user_id, email, first_name, last_name });
+        return res.status(201).send({
+          id_token,
+          user: { user_id: ((user && user.user_id) || user_id) },
+        });
       } catch (err) {
         return res.status(400).json({
           err,
@@ -69,39 +74,37 @@ class loginController extends baseController {
 
   static getUserNameByUserEmail() {
     return async (req, res) => {
-    const { email } = req.params;
-    try {
-    const data = await userModel.query()
-      .select('*').from('users').where('users.email', email).first()
-      if (!data) {
-        res.status(200).send({
-          user: null,
-          exists: false,
-          sso: false
+      const { email } = req.params;
+      try {
+        const data = await userModel.query()
+          .select('*').from('users').where('users.email', email).first()
+        if (!data) {
+          res.status(200).send({
+            user: null,
+            exists: false,
+            sso: false,
+          });
+        } else {
+          // User signed up with Google SSO
+          if (/^\d+$/.test(data.user_id)) {
+            res.status(200).send({
+              user: data,
+              exists: true,
+              sso: true,
+            });
+          } else {
+            res.status(200).send({
+              user: data,
+              exists: true,
+              sso: false,
+            });
+          }
+        }
+      } catch (error) {
+        return res.status(400).json({
+          error,
         });
       }
-      else {
-        // User signed up with Google SSO
-        if (/^\d+$/.test(data.user_id)) {
-          res.status(200).send({
-            user: data,
-            exists: true,
-            sso: true
-          });
-        }
-        else {
-          res.status(200).send({
-            user: data,
-            exists: true,
-            sso: false
-          });
-        }
-      }
-    } catch (error) {
-      return res.status(400).json({
-        error,
-      });
-    }
     };
   }
 }

@@ -115,11 +115,6 @@ describe('User Tests', () => {
     });
   })
 
-  afterAll(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
-
   describe('Get && put user', () => {
 
     describe('Get user', () => {

@@ -24,16 +24,22 @@ function CustomSignUp() {
 
   const onLogin = (password) => {
     const email = user.email;
-    dispatch(customLoginWithPassword({email, password}));
-  }
+    dispatch(customLoginWithPassword({ email, password }));
+  };
 
   const enterPasswordOnGoBack = () => {
-    history.push({ pathname: '/', state: {email: user.email, emailPage: true} })
-  }
+    history.push({ pathname: '/', state: { email: user.email, emailPage: true } });
+  };
 
   const hasUser = user && user.user_id;
-  if(hasUser){
-    return <PureEnterPasswordPage onLogin={onLogin} title={`Welcome back ${user.first_name}`} onGoBack={enterPasswordOnGoBack}/>
+  if (hasUser) {
+    return (
+      <PureEnterPasswordPage
+        onLogin={onLogin}
+        title={`Welcome back ${user.first_name}!`}
+        onGoBack={enterPasswordOnGoBack}
+      />
+    );
   }
 
   return (
@@ -46,7 +52,7 @@ function CustomSignUp() {
           inputRef: refInput,
           name: EMAIL,
           errors: errors[EMAIL] && 'Email is invalid',
-          defaultValue: defaultEmail? defaultEmail:undefined
+          defaultValue: defaultEmail ? defaultEmail : undefined,
         },
       ]}
     />

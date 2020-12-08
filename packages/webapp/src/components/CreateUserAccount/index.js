@@ -10,18 +10,19 @@ import { PasswordError } from '../Form/Errors';
 import history from '../../history';
 import { customCreateUser } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import {manualSignUpSelector} from '../../containers/CustomSignUp/signUpSlice';
-import styles from './styles.scss'
+import { manualSignUpSelector } from '../../containers/CustomSignUp/signUpSlice';
+import styles from './styles.scss';
 
 export default function PureCreateUserAccount({ title = 'Create new user account' }) {
   const { register, handleSubmit, watch } = useForm();
+  const email = useSelector(manualSignUpSelector);
+  const name = watch(NAME, undefined);
   const PASSWORD = 'password';
   const NAME = 'name';
   const password = watch(PASSWORD, undefined);
   const required = watch(NAME, false);
-  const name = watch(NAME, undefined);
   const dispatch = useDispatch();
-  const email = useSelector(manualSignUpSelector);
+
   const {
     isValid,
     hasNoSymbol,
@@ -33,31 +34,28 @@ export default function PureCreateUserAccount({ title = 'Create new user account
   const [showErrors, setShowErrors] = useState(false);
   const refInput = register({ required: required });
 
-  const disabled = !name || !password
+  const disabled = !name || !password;
 
   const goBack = () => {
-      history.push({pathname: '/'})
-
-  }
+    history.push({ pathname: '/' });
+  };
 
   const onSubmit = (data) => {
-      if (isValid) {
-          dispatch(customCreateUser(data))
-      }
+    if (isValid) {
+      dispatch(customCreateUser(data));
+    }
     // onLogin();
   };
   const onError = (data) => {
     setShowErrors(true);
   };
 
-
-
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button onClick={goBack}  color={'secondary'} fullLength>
+          <Button onClick={goBack} color={'secondary'} fullLength>
             Go Back
           </Button>
           <Button disabled={disabled} type={'submit'} fullLength>
@@ -68,18 +66,13 @@ export default function PureCreateUserAccount({ title = 'Create new user account
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input
-        style={{ marginBottom: '28px'}}
+        style={{ marginBottom: '28px' }}
         classes={styles.root}
         label={'Email'}
         disabled
         defaultValue={email.userEmail.email}
       />
-        <Input
-        style={{ marginBottom: '28px'}}
-        label={'Full name'}
-        name={NAME}
-        inputRef={refInput}
-      />
+      <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput} />
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}

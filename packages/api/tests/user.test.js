@@ -20,10 +20,8 @@ const moment = require('moment')
 const bcrypt = require('bcryptjs');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
@@ -40,6 +38,12 @@ describe('User Tests', () => {
 
   beforeAll(() => {
     token = global.token;
+  });
+
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   afterAll((done) => {
@@ -116,11 +120,6 @@ describe('User Tests', () => {
       next()
     });
   })
-
-  afterAll(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
 
   describe('Get && put user', () => {
 

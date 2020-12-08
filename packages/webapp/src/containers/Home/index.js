@@ -8,11 +8,13 @@ import { userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import history from '../../history';
+import { spotlightSelector } from '../selector';
 
 export default function Home() {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
+  const showSpotlight = useSelector(spotlightSelector);
   const detectBrowser = () => {
     // ripped off stackoverflow: https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome
     const isChromium = window.chrome;
@@ -54,9 +56,9 @@ export default function Home() {
           measurement={userFarm.units.measurement}
         />
       ) : null}
-      {switchFarm && <FarmSwitchOutro onFinish={dismissPopup} />}
+      {switchFarm && !showSpotlight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
-      {switchFarm && (
+      {switchFarm && !showSpotlight && (
         <div
           onClick={dismissPopup}
           style={{

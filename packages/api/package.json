@@ -4,7 +4,7 @@
   "description": "backend for LiteFarm",
   "main": "./api/src/server.js",
   "scripts": {
-    "test": "jest --runInBand --forceExit",
+    "test": "jest --runInBand",
     "test-ci": "NODE_ENV=pipeline jest --runInBand --forceExit",
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",

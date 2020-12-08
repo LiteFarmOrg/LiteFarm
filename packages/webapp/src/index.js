@@ -23,6 +23,8 @@ import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
 import peopleSaga from './containers/Profile/People/saga';
+import createUserSaga from './components/CreateUserAccount/saga';
+import signUpSaga from './containers/CustomSignUp/saga';
 import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';
 import fertSaga from './containers/Log/FertilizingLog/saga';
@@ -73,8 +75,11 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 }
 
 sagaMiddleware.run(homeSaga);
+// sagaMiddleware.run(createAccount);
 sagaMiddleware.run(addFarmSaga);
+sagaMiddleware.run(createUserSaga);
 sagaMiddleware.run(peopleSaga);
+sagaMiddleware.run(signUpSaga);
 sagaMiddleware.run(logSaga);
 sagaMiddleware.run(outroSaga);
 sagaMiddleware.run(fertSaga);

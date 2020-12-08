@@ -124,19 +124,23 @@ class userController extends baseController {
             }
             return missingPropMsg;
           }, errorMessageTitle);
+          await trx.rollback();
           return res.status(400).send(errorMessage);
         }
 
         if (email !== `${user_id}@pseudo.com`) {
+          await trx.rollback();
           return res.status(400).send('Invalid pseudo user email');
         }
 
         const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
         if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
+          await trx.rollback();
           return res.status(400).send('Invalid wage amount');
         }
 
         if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+          await trx.rollback();
           return res.status(400).send('Current app version only allows hourly wage');
         }
         /* End of input validation */

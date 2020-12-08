@@ -466,7 +466,8 @@
     "DIDNT_WORK": "That didn't work.",
     "OOPS": "Oops!",
     "PLEASE_SIGNUP": "Please, sign up.",
-    "TITLE": "Sign Up"
+    "TITLE": "Sign Up",
+    "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

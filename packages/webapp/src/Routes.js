@@ -17,12 +17,14 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 // import Callback from './components/Callback';
 import Home from './containers/Home';
+import PureEnterPasswordPage from './components/Signup/EnterPasswordPage';
 import Profile from './containers/Profile';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
 // import Login from './containers/Login';
 import SignUp from './containers/SignUp';
+import PureCreateUserAccount from './components/CreateUserAccount';
 import NewLog from './containers/Log/NewLog';
 import FertilizingLog from './containers/Log/FertilizingLog';
 import PestControlLog from './containers/Log/PestControlLog';
@@ -95,6 +97,7 @@ import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 
 import GoogleLoginButton from './containers/GoogleLoginButton';
+import CustomSignUp from './containers/CustomSignUp';
 
 import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
@@ -109,13 +112,18 @@ const Routes = () => {
     (pre, next) =>
       pre.step_five === next.step_five &&
       pre.has_consent === next.has_consent &&
-      pre.role_id === next.role_id,
+      pre.role_id === next.role_id &&
+      pre.step_one === next.step_one &&
+      pre.farm_id === next.farm_id,
   );
-  let { step_five, has_consent, role_id, status } = userFarm;
+  let { step_five, has_consent, role_id, status, step_one, farm_id } = userFarm;
+  const hasSelectedFarm = !!farm_id;
+  const isUserInvited = !step_one;
+  const hasFinishedOnBoardingFlow = step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (!step_five) {
+    if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
       return <OnboardingFlow {...userFarm} />;
     } else if (status === 'Invited') {
       return (
@@ -385,7 +393,9 @@ const Routes = () => {
           exact
           component={SignUp}
         />
-        <Route path="/*" exact component={GoogleLoginButton} />
+        <Route path="/" exact component={CustomSignUp} />
+        <Route path="/password" exact component={PureEnterPasswordPage} />
+        <Route path="/create-user-account" exact component={PureCreateUserAccount} />
       </Switch>
     );
   }

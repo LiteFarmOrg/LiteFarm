@@ -19,8 +19,6 @@ function GoogleLoginButton({ disabled }) {
       onSuccess={onSuccess}
       onFailure={onFailure}
       disabled={disabled}
-      // style={{ width: '312px', height: '48px', fontWeight: 5000 }}
-      // style={{ theme: 'dark'}}
       clientId={clientId}
       className={styles.googleButton}
     >

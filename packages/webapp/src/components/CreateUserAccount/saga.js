@@ -19,6 +19,7 @@ import { userUrl as url } from '../../apiConfig';
 import history from '../../history';
 import { manualSignUpSelector } from '../../containers/CustomSignUp/signUpSlice';
 import { loginSuccess } from '../../containers/loginSlice';
+import { toastr } from 'react-redux-toastr';
 const axios = require('axios');
 const userUrl = () => `${url}`;
 
@@ -51,8 +52,7 @@ export function* customCreateUserSaga({ payload: data }) {
       history.push('/welcome');
     }
   } catch (e) {
-    console.log('error is');
-    console.log(e);
+    toastr.error('Error with creating user account, please contact LiteFarm for assistance.');
   }
 }
 

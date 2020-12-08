@@ -24,7 +24,6 @@ import homeSaga from './containers/saga';
 import addFarmSaga from './containers/AddFarm/saga';
 import peopleSaga from './containers/Profile/People/saga';
 import createUserSaga from './components/CreateUserAccount/saga';
-// import createAccount from './containers/CreateUserAccount/saga';
 import signUpSaga from './containers/CustomSignUp/saga';
 import logSaga from './containers/Log/saga';
 import outroSaga from './containers/Outro/saga';

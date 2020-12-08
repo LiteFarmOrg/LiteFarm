@@ -40,7 +40,6 @@ class loginController extends baseController {
           user: data,
         });
       } catch (error) {
-        console.log(error);
         return res.status(400).json({
           error,
         });
@@ -99,8 +98,6 @@ class loginController extends baseController {
           }
       }
     } catch (error) {
-        console.log("error was thrown")
-      console.log(error);
       return res.status(400).json({
         error,
       });

@@ -15,8 +15,6 @@ const manualSignUpSlice = createSlice({
     },
     saveUserNameSuccess: (state, { payload: name }) => {
       state.userName = name;
-      console.log('inside splice');
-      console.log(state.userName);
     },
   },
 });

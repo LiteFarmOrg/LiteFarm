@@ -44,7 +44,6 @@ export default function PureCreateUserAccount({ title = 'Create new user account
     if (isValid) {
       dispatch(customCreateUser(data));
     }
-    // onLogin();
   };
   const onError = (data) => {
     setShowErrors(true);

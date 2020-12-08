@@ -69,33 +69,33 @@ class loginController extends baseController {
 
   static getUserNameByUserEmail() {
     return async (req, res) => {
-      const { email } = req.params;
-      try {
-      const data = await userModel.query()
-        .select('*').from('users').where('users.email', email)
-      if (!data.length) {
-          res.status(200).send({
-            user: null,
-            exists: false,
-            sso: false
-          });
+    const { email } = req.params;
+    try {
+    const data = await userModel.query()
+      .select('*').from('users').where('users.email', email).first()
+      if (!data) {
+        res.status(200).send({
+          user: null,
+          exists: false,
+          sso: false
+        });
       }
       else {
-          // User signed up with Google SSO
-          if (/^\d+$/.test(data[0].user_id)) {
-              res.status(200).send({
-                  user: data,
-                  exists: true,
-                  sso: true
-              });
-          }
-          else {
-              res.status(200).send({
-                  user: data,
-                  exists: true,
-                  sso: false
-              });
-          }
+        // User signed up with Google SSO
+        if (/^\d+$/.test(data.user_id)) {
+          res.status(200).send({
+            user: data,
+            exists: true,
+            sso: true
+          });
+        }
+        else {
+          res.status(200).send({
+            user: data,
+            exists: true,
+            sso: false
+          });
+        }
       }
     } catch (error) {
       return res.status(400).json({
@@ -103,7 +103,7 @@ class loginController extends baseController {
       });
     }
     };
-}
+  }
 }
 
 module.exports = loginController;

@@ -47,9 +47,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
         </>
       }
     >
-      <Title style={{ marginBottom: '32px' }}>
-        {title + ',' + ' ' + userName.userName.userName}
-      </Title>
+      <Title style={{ marginBottom: '32px' }}>{title + ',' + ' ' + userName.userName}</Title>
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}

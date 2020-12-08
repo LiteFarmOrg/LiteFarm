@@ -32,10 +32,11 @@ export function* customCreateUserSaga({ payload: data }) {
     const first_name = full_name[0];
     const last_name = full_name[1];
     let email = yield select(manualSignUpSelector);
-    email = email.userEmail.email;
+    email = email.userEmail;
     const password = data.password;
 
     const result = yield call(axios.post, userUrl(), { email, first_name, last_name, password });
+
     if (result) {
       const {
         token,
@@ -45,11 +46,6 @@ export function* customCreateUserSaga({ payload: data }) {
 
       yield put(loginSuccess({ user_id }));
       history.push('/farm_selection');
-    }
-    const token = result.data;
-    if (result.length) {
-      console.log(result.length);
-      history.push('/welcome');
     }
   } catch (e) {
     toastr.error('Error with creating user account, please contact LiteFarm for assistance.');

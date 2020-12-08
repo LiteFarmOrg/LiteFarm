@@ -7,9 +7,8 @@ import React from 'react';
 import Footer from '../Footer';
 import GoogleLoginButton from '../../containers/GoogleLoginButton';
 
-export default function PureCustomSignUp({ inputs = [{}], ssoSignUp, onSubmit, disabled }) {
+export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) {
   var color = '';
-  disabled ? (color = '#D4DAE3') : (color = '#FCE38D');
 
   return (
     <>
@@ -35,11 +34,12 @@ export default function PureCustomSignUp({ inputs = [{}], ssoSignUp, onSubmit, d
         </div>
       </div>
       <Footer
-        style={{ position: 'sticky', bottom: '0' }}
+        className={styles.footer}
         children={
           <>
             <div className={styles.bottomButton}>
               <Button
+                disabled={disabled}
                 style={{
                   background: color,
                   border: '4px',

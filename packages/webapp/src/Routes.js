@@ -138,7 +138,6 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home" exact component={Home} />
-          <Route path="/custom-sign-up" exact component={CustomSignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
@@ -234,7 +233,6 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home" exact component={Home} />
-          <Route path="/custom-sign-up" exact component={CustomSignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
@@ -329,7 +327,6 @@ const Routes = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/home" exact component={Home} />
-          <Route path="/custom-sign-up" exact component={CustomSignUp} />
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />

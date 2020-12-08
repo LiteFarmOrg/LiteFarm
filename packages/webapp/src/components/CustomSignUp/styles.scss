@@ -56,6 +56,11 @@
   overflow: visible;
 }
 
+.footer {
+  position: 'sticky';
+  bottom: '0'
+}
+
 .continueButton {
   padding-top: 30px;
   color: #282b36;

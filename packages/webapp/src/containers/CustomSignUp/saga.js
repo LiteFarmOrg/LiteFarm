@@ -27,22 +27,15 @@ export const customSignUp = createAction(`customSignUpSaga`);
 export function* customSignUpSaga({ payload: email }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
-    console.log(result);
-    if (result.data.user != null) {
-      const userEmail = result.data.user[0].email;
-      yield put(saveUserEmailSuccess({ userEmail }));
-    }
     if (result.data.exists && !result.data.sso) {
-      console.log('existing email');
-      const userName = result.data.user[0].first_name;
-      yield put(saveUserNameSuccess({ userName }));
+      const userName = result.data.user.first_name;
+      yield put(saveUserNameSuccess(userName));
       history.push({
         pathname: '/password',
-        state: result.data.user[0].first_name,
+        state: result.data.user.first_name,
       });
     } else if (!result.data.exists && !result.data.sso) {
-      console.log('new email');
-      yield put(saveUserEmailSuccess({ email }));
+      yield put(saveUserEmailSuccess(email));
       history.push({
         pathname: '/create-user-account',
       });

@@ -21,12 +21,9 @@ function CustomSignUp() {
     dispatch(customSignUp(email));
   };
 
-  const ssoSignUp = () => {};
-
   return (
     <PureCustomSignUp
       onSubmit={handleSubmit(onSubmit)}
-      ssoSignUp={ssoSignUp}
       disabled={disabled}
       inputs={[
         {

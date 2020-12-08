@@ -69,7 +69,7 @@ export default function PureCreateUserAccount({ title = 'Create new user account
         classes={styles.root}
         label={'Email'}
         disabled
-        defaultValue={email.userEmail.email}
+        defaultValue={email.userEmail}
       />
       <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput} />
       <Input
@@ -77,7 +77,6 @@ export default function PureCreateUserAccount({ title = 'Create new user account
         label={'Password'}
         type={PASSWORD}
         name={PASSWORD}
-        icon={<Underlined>Forgot password?</Underlined>}
         inputRef={inputRegister}
       />
       {showErrors && (

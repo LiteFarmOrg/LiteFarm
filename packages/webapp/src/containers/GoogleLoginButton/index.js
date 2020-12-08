@@ -3,6 +3,7 @@ import GoogleLogin from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { loginWithGoogle } from './saga';
 import styles from './googleLoginButton.scss';
+import { useTranslation } from 'react-i18next';
 
 function GoogleLoginButton({ disabled }) {
   const dispatch = useDispatch();
@@ -13,6 +14,8 @@ function GoogleLoginButton({ disabled }) {
   const onFailure = (res) => {
     console.log(res);
   };
+  const { t } = useTranslation();
+
   return (
     <GoogleLogin
       buttonText="Login"
@@ -22,7 +25,7 @@ function GoogleLoginButton({ disabled }) {
       clientId={clientId}
       className={styles.googleButton}
     >
-      Login with google
+      {t('SIGNUP.GOOGLE_BUTTON')}
     </GoogleLogin>
   );
 }

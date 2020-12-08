@@ -109,13 +109,18 @@ const Routes = () => {
     (pre, next) =>
       pre.step_five === next.step_five &&
       pre.has_consent === next.has_consent &&
-      pre.role_id === next.role_id,
+      pre.role_id === next.role_id &&
+      pre.step_one === next.step_one &&
+      pre.farm_id === next.farm_id,
   );
-  let { step_five, has_consent, role_id, status } = userFarm;
+  let { step_five, has_consent, role_id, status, step_one, farm_id } = userFarm;
+  const hasSelectedFarm = !!farm_id;
+  const isUserInvited = !step_one;
+  const hasFinishedOnBoardingFlow = step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (!step_five) {
+    if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
       return <OnboardingFlow {...userFarm} />;
     } else if (status === 'Invited') {
       return (

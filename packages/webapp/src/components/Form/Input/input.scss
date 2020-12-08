@@ -1,6 +1,6 @@
 @import '../../../assets/colors';
 .input {
-  border: 2px solid var(--border);
+  border: 1px solid #d4dae3;
   box-sizing: border-box;
   border-radius: 4px;
   height: 48px;
@@ -14,12 +14,12 @@
 
 .input ::placeholder {
   color: var(--iconDefault);
-  opacity: 1;
+  opacity: 0.1;
 }
 
 .input:disabled {
   background-color: var(--inputDisabled);
-  color: var(--inputDefault);
+  color: #9faabe;
   border-color: var(--inputDefault);
 }
 

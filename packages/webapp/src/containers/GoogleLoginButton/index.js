@@ -15,10 +15,10 @@ function GoogleLoginButton({ disabled }) {
   };
   return (
     <GoogleLogin
+      buttonText="Login"
       onSuccess={onSuccess}
       onFailure={onFailure}
       disabled={disabled}
-      style={{ width: '100%', height: '48px', fontWeight: 500 }}
       clientId={clientId}
       className={styles.googleButton}
     >

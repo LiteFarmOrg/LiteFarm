@@ -35,83 +35,82 @@ describe('Sign Up Tests', () => {
   });
 
   afterAll((done) => { 
-    server.close(() =>{
-	done();
+    server.close(() => {
+	    done();
     });
   })
 
   // FUNCTIONS
 
-  function getRequest({ email = newOwner.email}, callback) {
-	chai
-	  .request(server)
-	  .get(`/login/user/${email}`)
-	  .set('email', email)
-	  .end(callback);
+  function getRequest({ email = newOwner.email }, callback) {
+    chai.request(server)
+      .get(`/login/user/${email}`)
+      .set('email', email)
+      .end(callback);
   }
 
   beforeEach(async () => {
     [ farm ] = await mocks.farmFactory();
-	[ newOwner ] = await mocks.usersFactory();
-	[ crop ] = await mocks.cropFactory({ promisedFarm: [ farm ] });
+    [ newOwner ] = await mocks.usersFactory();
+    [ crop ] = await mocks.cropFactory({ promisedFarm: [ farm ] });
 
-	middleware = require('../src/middleware/acl/checkJwt');
-	middleware.mockImplementation((req, res, next) => {
-		req.user = {};
-		req.user.sub = '|' + req.get('user_id');
-		next();
-	});
-});
+    middleware = require('../src/middleware/acl/checkJwt');
+    middleware.mockImplementation((req, res, next) => {
+      req.user = {};
+      req.user.sub = '|' + req.get('user_id');
+      next();
+    });
+  });
 
   afterAll(async (done) => {
-	await tableCleanup(knex);
-	await knex.destroy();
-	done();
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   // GET TESTS
 
   describe('Sign up tests', () => {
     test('Get status of user from email address should return 200 and SSO false', async (done) => {
-	  const [user] = await mocks.usersFactory();
-	  const name = user.first_name;
-	  getRequest({ email: user.email}, (err, res) => {
-	    expect(res.status).toBe(200);
-		expect(res.body.exists).toBe(true);
-		expect(res.body.sso).toBe(false);
-		expect(res.body.user[0].first_name).toBe(name);
-		done();
-	  });
-  });
+      const [user] = await mocks.usersFactory();
+      const name = user.first_name;
+      getRequest({ email: user.email }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.exists).toBe(true);
+        expect(res.body.sso).toBe(false);
+        expect(res.body.user[0].first_name).toBe(name);
+        done();
+      });
+    });
 
 
-  // xtest('Get status of user from email address should return 200 and SSO true', async (done) => {
-  // 	const [user] = await mocks.ssoUsersFactory();
-  // 	const name = user.first_name;
+    // xtest('Get status of user from email address should return 200 and SSO true', async (done) => {
+    //   const [user] = await mocks.ssoUsersFactory();
+    //   const name = user.first_name;
 
- // 	getRequest({ email: user.email}, (err, res) => {
-// 		expect(res.status).toBe(200);
-// 		expect(res.body.exists).toBe(true);
-// 		expect(res.body.sso).toBe(true);
-// 		expect(res.body.user[0].first_name).toBe(name);
-// 		done();
- // 	});
-// });
+    //   getRequest({ email: user.email}, (err, res) => {
+    //     expect(res.status).toBe(200);
+    //     expect(res.body.exists).toBe(true);
+    //     expect(res.body.sso).toBe(true);
+    //     expect(res.body.user[0].first_name).toBe(name);
+    //     done();
+    //   });
+    // });
 
     test('Get status of user from email address should return 200 and sso false because user does not exist', async (done) => {
       const user = {
-      first_name: "Bobby",
-	  last_name: "McBobson",
-	  email: "bobby@gmail.com",
-	  user_id: "1234466",
-	  phone_number: "899-903-2343"
-    };
+        first_name: "Bobby",
+        last_name: "McBobson",
+        email: "bobby@gmail.com",
+        user_id: "1234466",
+        phone_number: "899-903-2343"
+      };
 
-    getRequest({ email: user.email}, (err, res) => {
-	  expect(res.status).toBe(200);
-	  expect(res.body.exists).toBe(false);
-	  expect(res.body.sso).toBe(false);
-	  done();
+      getRequest({ email: user.email }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.exists).toBe(false);
+        expect(res.body.sso).toBe(false);
+        done();
       });
     });
   });

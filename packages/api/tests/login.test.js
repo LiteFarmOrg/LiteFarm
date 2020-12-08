@@ -99,7 +99,6 @@ describe('Sign Up Tests', () => {
 		// 		done();
 		// 	});
 		// });
-		
 
 		test('Get status of user from email address should return 200 and sso true because user does not exist', async (done) => {
 			const user = {

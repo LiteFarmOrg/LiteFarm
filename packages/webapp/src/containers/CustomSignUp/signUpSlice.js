@@ -10,14 +10,14 @@ const manualSignUpSlice = createSlice({
   name: 'manualSignUpReducer',
   initialState,
   reducers: {
-    saveUserEmailSuccess: (state, {payload: email}) => {
+    saveUserEmailSuccess: (state, { payload: email }) => {
       state.userEmail = email;
     },
-    saveUserNameSuccess: (state, {payload: name}) => {
+    saveUserNameSuccess: (state, { payload: name }) => {
       state.userName = name;
-      console.log("inside splice")
-      console.log(state.userName)
-    }
+      console.log('inside splice');
+      console.log(state.userName);
+    },
   },
 });
 
@@ -25,7 +25,8 @@ export const { saveUserEmailSuccess, saveUserNameSuccess } = manualSignUpSlice.a
 
 export default manualSignUpSlice.reducer;
 
-export const manualSignUpReducerSelector = (state) => state?.entitiesReducer[manualSignUpSlice.name]; 
+export const manualSignUpReducerSelector = (state) =>
+  state?.entitiesReducer[manualSignUpSlice.name];
 
 export const manualSignUpSelector = createSelector(
   [manualSignUpReducerSelector],
@@ -33,4 +34,3 @@ export const manualSignUpSelector = createSelector(
     return { userEmail, userName };
   },
 );
-

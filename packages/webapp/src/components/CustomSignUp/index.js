@@ -1,5 +1,5 @@
 import styles from './styles.scss';
-import {ReactComponent as Logo} from '../../assets/images/signUp/logo.svg';
+import { ReactComponent as Logo } from '../../assets/images/signUp/logo.svg';
 import { ReactComponent as LineBreak } from '../../assets/images/signUp/lineBreak.svg';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
@@ -8,10 +8,10 @@ import Footer from '../Footer';
 import GoogleLoginButton from '../../containers/GoogleLoginButton';
 
 const inputClasses = {
-  container:{
-    width: 312
-  }
-}
+  container: {
+    width: 312,
+  },
+};
 
 export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) {
   var color = '';
@@ -21,26 +21,21 @@ export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) 
       <div className={styles.home}>
         <div className={styles.lander}>
           <div className={styles.greetContainer}>
-            <Logo/>
+            <Logo />
             <div className={styles.ssoButton}>
               <GoogleLoginButton />
             </div>
             <div className={styles.lineBreak}>
-              <LineBreak/>
+              <LineBreak />
             </div>
 
             <div className={styles.continueButton}>
-              <Input
-                classes={inputClasses}
-                {...inputs[0]}
-              />
+              <Input classes={inputClasses} {...inputs[0]} />
             </div>
           </div>
         </div>
       </div>
-      <Footer
-        className={styles.footer}
-      >
+      <Footer className={styles.footer}>
         <div className={styles.bottomButton}>
           <Button
             disabled={disabled}

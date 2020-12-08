@@ -72,16 +72,16 @@ describe('Sign Up Tests', () => {
 
   describe('Sign up tests', () => {
     test('Get status of user from email address should return 200 and SSO false', async (done) => {
-      const [user] = await mocks.usersFactory();
-      const name = user.first_name;
-      getRequest({ email: user.email }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.exists).toBe(true);
-        expect(res.body.sso).toBe(false);
-        expect(res.body.user[0].first_name).toBe(name);
-        done();
-      });
-    });
+	  const [user] = await mocks.usersFactory();
+	  const name = user.first_name;
+	  getRequest({ email: user.email}, (err, res) => {
+	    expect(res.status).toBe(200);
+		expect(res.body.exists).toBe(true);
+		expect(res.body.sso).toBe(false);
+		expect(res.body.user.first_name).toBe(name);
+		done();
+	  });
+  });
 
 
     // xtest('Get status of user from email address should return 200 and SSO true', async (done) => {

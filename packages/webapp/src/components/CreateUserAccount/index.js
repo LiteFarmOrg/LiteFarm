@@ -16,9 +16,9 @@ import styles from './styles.scss';
 export default function PureCreateUserAccount({ title = 'Create new user account' }) {
   const { register, handleSubmit, watch } = useForm();
   const email = useSelector(manualSignUpSelector);
-  const name = watch(NAME, undefined);
-  const PASSWORD = 'password';
   const NAME = 'name';
+  const name = watch(NAME, undefined);
+  const PASSWORD = 'password'
   const password = watch(PASSWORD, undefined);
   const required = watch(NAME, false);
   const dispatch = useDispatch();

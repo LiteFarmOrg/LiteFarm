@@ -33,6 +33,7 @@ class waterBalanceScheduler {
   static registerHourlyJob() {
     const rule = new scheduler.RecurrenceRule();
     rule.hour = [new scheduler.Range(1, 23)];
+    rule.minute = 0;
     // scheduler.scheduleJob('*/20 * * * * *', () => {
     scheduler.scheduleJob(rule, () => {
       grabFarmIDsToRun()
@@ -52,8 +53,8 @@ class waterBalanceScheduler {
 
   static registerDailyJob() {
     const rule = new scheduler.RecurrenceRule();
-    rule.hour = 18;
-    rule.minute = 53;
+    rule.hour = 0;
+    rule.minute = 0;
     // scheduler.scheduleJob('*/10 * * * * *', () => {
     scheduler.scheduleJob(rule, () => {
       grabFarmIDsToRun().then((farms) => {

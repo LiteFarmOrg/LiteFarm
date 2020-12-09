@@ -142,7 +142,7 @@
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
     "format": "npx prettier --write ./src",
-    "pre-commit": "lint-staged"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.{js}": [

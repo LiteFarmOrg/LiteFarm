@@ -23,7 +23,7 @@
     "ci": "start-server-and-test gitlab-server 5000 test-end2end",
     "e2e": "start-server-and-test start 5000 test-end2end",
     "fix-lint": "eslint src --fix",
-    "pre-commit": "lint-staged"
+    "precommit": "lint-staged"
   },
   "jest": {
     "verbose": true,

@@ -60,10 +60,13 @@ export function* customLoginWithPasswordSaga({ payload: user }) {
 
     yield put(loginSuccess({ user_id }));
     history.push('/farm_selection');
-
   } catch (e) {
     console.log(e);
-    toastr.error('Failed to login, please contact LiteFarm for assistance.');
+    if (e.response?.status === 401) {
+      toastr.error('Incorrect password.');
+    } else {
+      toastr.error('Failed to login, please contact LiteFarm for assistance.');
+    }
   }
 }
 

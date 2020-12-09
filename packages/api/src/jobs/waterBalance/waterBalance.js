@@ -62,7 +62,6 @@ class waterBalanceScheduler {
           farms.forEach(async (farmID) => {
             return waterBalanceDailyCalc(farmID)
               .then((dailyCalculationsCropArray) => {
-                console.log(dailyCalculationsCropArray);
                 return callDB(dailyCalculationsCropArray)
               })
               .then((farmID) => {
@@ -246,7 +245,6 @@ const waterBalanceDailyCalc = async (dataPoint) => {
     WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
     GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
     `, [farmID, previousDay, currentDay, farmID, farmID]);
-  console.log(dataPoints.rows);
   if (dataPoints.rows) {
     const weatherDataByField = await grabWeatherData(farmID);
     postWeatherToDB(weatherDataByField);
@@ -310,7 +308,7 @@ const calculateSoilWaterContent = async (data, weatherData, textures) => {
   const texture = data.texture;
   const averageWeatherData = weatherData;
   const fieldCapacity = calculateFieldCapacity(textures[texture], data.om, data.max_rooting_depth);
-  const oldSoilWaterContent = data.soil_water;
+  const oldSoilWaterContent = data.soil_water || 0;
   let precipitation = calculatePrecipitation(weatherData);
   const irrigation = calculateIrrigation(data['flow_rate_l/min'], data['hours'], data['area_used']);
   precipitation += irrigation;
@@ -361,12 +359,12 @@ const grabWeatherData = async (farmID) => {
 };
 const calculatePrecipitation = (weatherData) => {
   if (weatherData) {
-    if (weatherData['rain'] != null) {
+    if (weatherData['rain'] != null) { // <-- This will never exist if this comes from calculateSoilWaterContent
       return weatherData['rain']['1h'] || weatherData['rain']['3h']
     } else if (weatherData['snow'] != null) {
       return weatherData['snow']['1h'] || weatherData['snow']['3h']
     } else {
-      return 0
+      return 0 // <-- Always the return value from calculateSoilWaterContent
     }
   } else {
     return 0
@@ -400,7 +398,7 @@ const calculateEvapotranspiration = async (data, weatherData) => {
     const albedo = 0.23;
     const grid_point = data.grid_points[0];
     const averageTemperature = (weatherData['min_degrees'] + weatherData['max_degrees']) / 2;
-    const elevationData = await callGoogleMapsAPI(grid_point);
+    const elevationData = await callGoogleMapsAPI(grid_point); // <-- Hopefully is returning something
     const windSpeed = calculateWindSpeed(weatherData['wind_speed']);
     const extraTSolarRadiation = calculateExtraTSolarRadiation(grid_point, elevationData);
     // solar radiation calculation reference: https://agriculture.alberta.ca/acis/docs/Estimating-solar-radiation-using-daily-max-and-min-temperatures-data-y2014_m06_d13.pdf

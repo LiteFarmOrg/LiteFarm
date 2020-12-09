@@ -256,6 +256,9 @@
     "SUMMARY_REPORT": "Summary Report for",
     "TITLE": "Finances"
   },
+  "NOTIFICATION": {
+    "NOTIFICATION_TEASER": "Coming Soon!"
+  },
   "ORGANIC": {
     "INTERESTED_IN_ORGANIC": {
       "PARAGRAPH": "Do you plan to pursue or renew organic certification this season?",
@@ -464,10 +467,10 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
+    "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "OOPS": "Oops!",
     "PLEASE_SIGNUP": "Please, sign up.",
-    "TITLE": "Sign Up",
-    "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE"
+    "TITLE": "Sign Up"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

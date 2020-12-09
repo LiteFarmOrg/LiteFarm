@@ -7,6 +7,7 @@ import NotifIcon from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
 import ProfilePicture from '../../../assets/images/navbar/defaultpfp.png';
 import PureMyFarmFloater from '../../MyFarmFloater';
+import PureNotificationFloater from '../../NotificationFloater';
 import clsx from 'clsx';
 
 export default function PureNavBar({
@@ -73,7 +74,19 @@ export default function PureNavBar({
             onClick={() => changeInteraction('myFarm')}
           />
         </PureMyFarmFloater>
-        <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem} />
+        <PureNotificationFloater
+          closeInteraction={() => changeInteraction('notification')}
+          openProfile={tooltipInteraction['notification']}
+          history={history}
+        >
+          <input
+            id="secondStep"
+            type="image"
+            src={NotifIcon}
+            className={clsx(styles.actionItem)}
+            onClick={() => changeInteraction('notification')}
+          />
+        </PureNotificationFloater>
         <PureProfileFloater
           showSwitchFarm={showSwitchFarm}
           closeInteraction={() => changeInteraction('profile')}

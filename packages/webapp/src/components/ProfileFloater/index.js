@@ -64,6 +64,7 @@ export default function PureProfileFloater({
   };
   const logOutClick = () => {
     logout();
+    history.push('/');
   };
   const myInfoClick = () => {
     history.push('/Profile');

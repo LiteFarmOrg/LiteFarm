@@ -376,7 +376,7 @@ class NewCropModal extends React.Component {
                 }}
               />
             </FormGroup>
-            <FormLabel>Crop Group and Subgroup</FormLabel>
+            {/* <FormLabel>Crop Group and Subgroup</FormLabel>
             <FormGroup controlId="crop_group">
               <Form.Control
                 as="select"
@@ -394,7 +394,7 @@ class NewCropModal extends React.Component {
                     </option>
                   ))}
               </Form.Control>
-            </FormGroup>
+            </FormGroup> */}
             <FormGroup controlId="crop_subgroup">
               <Form.Control
                 as="select"

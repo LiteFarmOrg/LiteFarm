@@ -1,6 +1,6 @@
 @import '../../../assets/colors';
 .input {
-  border: 1px solid #d4dae3;
+  border: 1px solid var(--grey400);
   box-sizing: border-box;
   border-radius: 4px;
   height: 48px;
@@ -19,7 +19,7 @@
 
 .input:disabled {
   background-color: var(--inputDisabled);
-  color: #9faabe;
+  color: var(--grey500);
   border-color: var(--inputDefault);
 }
 

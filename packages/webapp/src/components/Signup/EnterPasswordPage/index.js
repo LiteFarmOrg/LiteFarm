@@ -7,10 +7,8 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
-import { useSelector } from 'react-redux';
-import { manualSignUpSelector } from '../../../containers/CustomSignUp/signUpSlice';
 
-export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin }) {
+export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin, onGoBack }) {
   const { register, handleSubmit, watch } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
@@ -23,12 +21,11 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
   const [showErrors, setShowErrors] = useState(false);
-  const userName = useSelector(manualSignUpSelector);
 
   const onSubmit = (data) => {
-    console.log(data, isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort);
-    onLogin();
+    onLogin(data.password);
   };
+
   const onError = (data) => {
     console.log(data, isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort);
     setShowErrors(true);
@@ -38,7 +35,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button color={'secondary'} fullLength>
+          <Button color={'secondary'} fullLength onClick={onGoBack}>
             Go Back
           </Button>
           <Button type={'submit'} fullLength>
@@ -47,7 +44,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
         </>
       }
     >
-      <Title style={{ marginBottom: '32px' }}>{title + ',' + ' ' + userName.userName}</Title>
+      <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}
@@ -74,4 +71,5 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin 
 PureEnterPasswordPage.prototype = {
   title: PropTypes.string,
   onLogin: PropTypes.func,
+  onGoBack: PropTypes.func,
 };

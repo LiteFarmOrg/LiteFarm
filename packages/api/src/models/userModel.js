@@ -38,7 +38,7 @@ class User extends Model {
       properties: {
         user_id: { type: 'string' },
         first_name: { type: 'string', minLength: 1, maxLength: 255 },
-        last_name: { type: 'string', minLength: 1, maxLength: 255 },
+        last_name: { type: 'string', maxLength: 255 },
         profile_picture: { type: 'string' },
         phone_number: { type : 'string' },
         address: { type : 'string' },

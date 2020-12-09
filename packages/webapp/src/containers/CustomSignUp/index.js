@@ -2,24 +2,45 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
-import { customSignUp } from './saga';
+import { customLoginWithPassword, customSignUp } from './saga';
+import history from '../../history';
+import PureEnterPasswordPage from '../../components/Signup/EnterPasswordPage';
 
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch } = useForm({ mode: 'onBlur' });
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
-  const email = watch(EMAIL, undefined);
-  const required = watch(EMAIL, false);
   const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
-
-  const disabled = !email || !required || !validEmailRegex.test(email);
+  const user = history.location.state;
 
   const dispatch = useDispatch();
-
+  const defaultEmail = user && user.emailPage && user.email;
+  const email = watch(EMAIL, defaultEmail);
+  const disabled = !email || !validEmailRegex.test(email);
   const onSubmit = (data) => {
     const { email } = data;
     dispatch(customSignUp(email));
   };
+
+  const onLogin = (password) => {
+    const email = user.email;
+    dispatch(customLoginWithPassword({ email, password }));
+  };
+
+  const enterPasswordOnGoBack = () => {
+    history.push({ pathname: '/', state: { email: user.email, emailPage: true } });
+  };
+
+  const hasUser = user && user.user_id;
+  if (hasUser) {
+    return (
+      <PureEnterPasswordPage
+        onLogin={onLogin}
+        title={`Welcome back ${user.first_name}!`}
+        onGoBack={enterPasswordOnGoBack}
+      />
+    );
+  }
 
   return (
     <PureCustomSignUp
@@ -31,7 +52,7 @@ function CustomSignUp() {
           inputRef: refInput,
           name: EMAIL,
           errors: errors[EMAIL] && 'Email is invalid',
-          autoFocus: required,
+          defaultValue: defaultEmail ? defaultEmail : undefined,
         },
       ]}
     />

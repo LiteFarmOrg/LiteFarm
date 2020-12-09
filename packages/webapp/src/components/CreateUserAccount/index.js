@@ -31,10 +31,9 @@ export default function PureCreateUserAccount({ title = 'Create new user account
     isTooShort,
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
-  const [showErrors, setShowErrors] = useState(false);
   const refInput = register({ required: required });
 
-  const disabled = !name || !password;
+  const disabled = !name || !isValid;
 
   const goBack = () => {
     history.push({ pathname: '/' });
@@ -46,7 +45,6 @@ export default function PureCreateUserAccount({ title = 'Create new user account
     }
   };
   const onError = (data) => {
-    setShowErrors(true);
   };
 
   return (
@@ -71,7 +69,7 @@ export default function PureCreateUserAccount({ title = 'Create new user account
         disabled
         defaultValue={email.userEmail}
       />
-      <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput} />
+      <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput}/>
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}
@@ -79,17 +77,16 @@ export default function PureCreateUserAccount({ title = 'Create new user account
         name={PASSWORD}
         inputRef={inputRegister}
       />
-      {showErrors && (
-        <div>
-          <Text>Hint</Text>
-          <PasswordError
-            hasNoDigit={hasNoDigit}
-            hasNoSymbol={hasNoSymbol}
-            hasNoUpperCase={hasNoUpperCase}
-            isTooShort={isTooShort}
-          />
-        </div>
-      )}
+
+
+        <PasswordError
+          hasNoDigit={hasNoDigit}
+          hasNoSymbol={hasNoSymbol}
+          hasNoUpperCase={hasNoUpperCase}
+          isTooShort={isTooShort}
+        />
+
+
     </Form>
   );
 }

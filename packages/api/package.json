@@ -22,7 +22,8 @@
     "gitlab-server": "NODE_ENV=ci node src/server.js",
     "ci": "start-server-and-test gitlab-server 5000 test-end2end",
     "e2e": "start-server-and-test start 5000 test-end2end",
-    "fix-lint": "eslint src --fix"
+    "fix-lint": "eslint src --fix",
+    "precommit": "lint-staged"
   },
   "jest": {
     "verbose": true,
@@ -74,12 +75,21 @@
   },
   "devDependencies": {
     "chromatic": "^5.4.0",
+    "eslint-config-prettier": "^7.0.0",
     "faker": "^5.1.0",
     "jest": "^26.4.2",
+    "lint-staged": "^10.5.3",
+    "prettier": "2.2.1",
     "start-server-and-test": "^1.11.5"
   },
   "resolutions": {
     "braces": "^3.0.2",
     "set-value": "^3.0.2"
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "eslint --quiet --fix"
+    ],
+    "*.{js,css,md}": "prettier --write"
   }
 }

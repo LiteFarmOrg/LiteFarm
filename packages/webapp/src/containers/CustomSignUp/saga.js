@@ -15,16 +15,16 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import { loginUrl as url } from '../../apiConfig';
+import { url } from '../../apiConfig';
 import history from '../../history';
 import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
 import { loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
-const loginUrl = (email) => `${url}/user/${email}`;
-const loginWithPasswordUrl = () => `${url}`;
-const userUrl = () => `${url}`;
+const loginUrl = (email) => `${url}/login/user/${email}`;
+const loginWithPasswordUrl = () => `${url}/login`;
+const userUrl = () => `${url}/user`;
 
 export const customSignUp = createAction(`customSignUpSaga`);
 
@@ -34,16 +34,18 @@ export function* customSignUpSaga({ payload: email }) {
     if (result.data.exists && !result.data.sso) {
       history.push({
         pathname: '/',
-        state: result.data.user,
+        state: { component: 'PureEnterPasswordPage', user: result.data.user },
       });
     } else if (!result.data.exists && !result.data.sso) {
       yield put(saveUserEmailSuccess(email));
       history.push({
-        pathname: '/create-user-account',
+        pathname: '/',
+        state: { component: 'PureCreateUserAccount', user: { email } },
       });
+    } else if (result.data.sso) {
+      toastr.warning('Please login with Google account');
     }
   } catch (e) {
-    console.log('error is');
     console.log(e);
   }
 }

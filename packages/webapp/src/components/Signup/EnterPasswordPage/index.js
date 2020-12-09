@@ -27,7 +27,6 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
   };
 
   const onError = (data) => {
-    console.log(data, isValid, hasNoSymbol, hasNoDigit, hasNoUpperCase, isTooShort);
     setShowErrors(true);
   };
   return (
@@ -35,10 +34,10 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button color={'secondary'} fullLength onClick={onGoBack}>
+          <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>
             Go Back
           </Button>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} fullLength disabled={!isValid}>
             Sign In
           </Button>
         </>

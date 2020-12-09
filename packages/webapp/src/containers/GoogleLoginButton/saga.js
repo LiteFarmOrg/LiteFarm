@@ -23,8 +23,15 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     const result = yield call(axios.post, loginUrl(), {}, header);
     const { id_token, user } = result.data;
     localStorage.setItem('id_token', id_token);
-    yield put(loginSuccess(user));
-    history.push('/farm_selection');
+    if (id_token === '') {
+      history.push({
+        pathname: '/',
+        state: { component: 'PureEnterPasswordPage', user },
+      });
+    } else {
+      yield put(loginSuccess(user));
+      history.push('/farm_selection');
+    }
   } catch (e) {
     yield put(onLoadingUserFarmsFail());
     toastr.error('Failed to login user info');

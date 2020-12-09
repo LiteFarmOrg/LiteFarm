@@ -393,9 +393,7 @@ const Routes = () => {
           exact
           component={SignUp}
         />
-        <Route path="/" exact component={CustomSignUp} />
-        <Route path="/password" exact component={PureEnterPasswordPage} />
-        <Route path="/create-user-account" exact component={PureCreateUserAccount} />
+        <Route path="/" component={CustomSignUp} />
       </Switch>
     );
   }

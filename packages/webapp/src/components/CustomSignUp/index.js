@@ -17,25 +17,23 @@ export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) 
   var color = '';
 
   return (
-    <>
-      <div className={styles.home}>
-        <div className={styles.lander}>
-          <div className={styles.greetContainer}>
-            <Logo />
-            <div className={styles.ssoButton}>
-              <GoogleLoginButton />
-            </div>
-            <div className={styles.lineBreak}>
-              <LineBreak />
-            </div>
+    <form onSubmit={onSubmit} className={styles.home}>
+      <div className={styles.lander}>
+        <div className={styles.greetContainer}>
+          <Logo />
+          <div className={styles.ssoButton}>
+            <GoogleLoginButton />
+          </div>
+          <div className={styles.lineBreak}>
+            <LineBreak />
+          </div>
 
-            <div className={styles.continueButton}>
-              <Input classes={inputClasses} {...inputs[0]} />
-            </div>
+          <div className={styles.continueButton}>
+            <Input classes={inputClasses} {...inputs[0]} />
           </div>
         </div>
       </div>
-      <Footer className={styles.footer}>
+      <Footer style={{ position: 'sticky', bottom: 0 }}>
         <div className={styles.bottomButton}>
           <Button
             disabled={disabled}
@@ -49,10 +47,9 @@ export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) 
             type="submit"
             fullLength
             children="Continue"
-            onClick={onSubmit}
           />
         </div>
       </Footer>
-    </>
+    </form>
   );
 }

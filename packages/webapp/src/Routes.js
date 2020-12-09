@@ -393,7 +393,11 @@ const Routes = () => {
           exact
           component={SignUp}
         />
-        <Route path="/" component={CustomSignUp} />
+        <Route path="/" exact component={CustomSignUp} />
+        <Redirect
+          to={'/'}
+          //TODO change to 404
+        />
       </Switch>
     );
   }

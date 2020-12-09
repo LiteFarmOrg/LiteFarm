@@ -623,10 +623,10 @@ class People extends Component {
       <div>
         <div className={styles.userListContainer}>
           <div className={styles.searchFieldContainer}>
-            <i className="material-icons">{this.props.t('PROFILE.PEOPLE.SEARCH')}</i>
             <input
               id="searchField"
               type="search"
+              placeholder={this.props.t('PROFILE.PEOPLE.SEARCH')}
               value={searchValue}
               onChange={(event) => this.handleSearchValueChange(event)}
               className={styles.searchField}

@@ -62,6 +62,7 @@ class waterBalanceScheduler {
           farms.forEach(async (farmID) => {
             return waterBalanceDailyCalc(farmID)
               .then((dailyCalculationsCropArray) => {
+                console.log(dailyCalculationsCropArray);
                 return callDB(dailyCalculationsCropArray)
               })
               .then((farmID) => {
@@ -224,26 +225,28 @@ const waterBalanceDailyCalc = async (dataPoint) => {
   const farmID = dataPoint.farm_id;
   const dataPoints = await knex.raw(
     `
-    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.field_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, f.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
+    SELECT c.crop_common_name, c.crop_id, fc.field_crop_id, f.field_id,f.station_id, c.max_rooting_depth, c.mid_kc, AVG(sdl.om) as om, f.grid_points, il."flow_rate_l/min", il.hours, fc.area_used, MAX(sdl.texture) as texture
     FROM "field" f, "crop" c, "users" u,
     "activityLog" al,
     "soilDataLog" sdl, 
     "activityFields" af, 
     "fieldCrop" fc
     LEFT JOIN (
-    SELECT w.field_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
-    WHERE w.field_id = f.field_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) 
-    w ON w.field_id = fc.field_id and w.crop_id = fc.crop_id
+        SELECT w.field_id, w.crop_id, w.soil_water, w.created_at FROM "waterBalance" w, "field" f
+        WHERE w.field_id = f.field_id and f.farm_id = ? and to_char(date(w.created_at), 'YYYY-MM-DD') = ?) w
+      ON w.field_id = fc.field_id and w.crop_id = fc.crop_id
     LEFT JOIN (
-    SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
-    FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
-    WHERE il.activity_id = ac.activity_id and al.activity_id = il.activity_id
-    and to_char(date(al.date), 'YYYY-MM-DD') = ?
-    GROUP BY ac.field_crop_id
-    ) il ON il.field_crop_id = fc.field_crop_id
+        SELECT SUM(il."flow_rate_l/min") as "flow_rate_l/min", SUM(il.hours) as hours,ac.field_crop_id
+        FROM "irrigationLog" il, "activityCrops" ac, "activityLog" al
+        WHERE il.activity_id = ac.activity_id and al.activity_id = il.activity_id
+        and to_char(date(al.date), 'YYYY-MM-DD') = ?
+        GROUP BY ac.field_crop_id
+        ) il 
+      ON il.field_crop_id = fc.field_crop_id
     WHERE fc.field_id = f.field_id and f.farm_id = ? and c.crop_id = fc.crop_id and u.farm_id = ? and al.activity_id = sdl.activity_id and af.field_id = fc.field_id and af.activity_id = sdl.activity_id
-    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
+    GROUP BY c.crop_common_name, c.crop_id, fc.field_crop_id,c.max_rooting_depth, c.mid_kc, f.grid_points, f.field_id, f.station_id, il."flow_rate_l/min", il.hours, fc.area_used, w.soil_water
     `, [farmID, previousDay, currentDay, farmID, farmID]);
+  console.log(dataPoints.rows);
   if (dataPoints.rows) {
     const weatherDataByField = await grabWeatherData(farmID);
     postWeatherToDB(weatherDataByField);
@@ -276,7 +279,7 @@ const doWaterBalanceCalculations = async (data, weatherDataByField) => {
   data.forEach(async (crop) => {
     promises.push(new Promise((resolve, reject) => {
       const texture = crop.texture;
-      calculateSoilWaterContent(crop, weatherDataByField[crop.field_id], textures)
+      calculateSoilWaterContent(crop, weatherDataByField[crop.station_id], textures)
         .then((soilWaterContent) => {
           return {
             soilWaterContent,
@@ -331,7 +334,7 @@ const postWeatherToDB = async (weatherDataMap) => {
   for (const key in weatherDataMap) {
     try {
       await weatherModel.query().insert(weatherDataMap[key]).returning('*');
-      console.log('Posted Weather Data')
+      console.log('Posted Weather Data', weatherDataMap[key]);
     } catch (e) {
       console.log(e);
     }
@@ -349,7 +352,7 @@ const grabWeatherData = async (farmID) => {
   if (dataPoints.rows) {
     dataPoints.rows.forEach((field) => {
       field.wind_speed = field.wind_speed / field.data_points;
-      weatherData[field.field_id] = field
+      weatherData[field.station_id] = field
     });
     return weatherData;
   } else {

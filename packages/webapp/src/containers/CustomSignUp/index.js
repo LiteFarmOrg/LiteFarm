@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
-import { customLoginWithPassword, customSignUp } from './saga';
+import { customLoginWithPassword, customSignUp, customCreateUser } from './saga';
 import history from '../../history';
 import PureEnterPasswordPage from '../../components/Signup/EnterPasswordPage';
 
@@ -20,6 +20,10 @@ function CustomSignUp() {
   const onSubmit = (data) => {
     const { email } = data;
     dispatch(customSignUp(email));
+  };
+
+  const onSignUp = (user) => {
+    dispatch(customCreateUser(user));
   };
 
   const onLogin = (password) => {
@@ -40,23 +44,23 @@ function CustomSignUp() {
         onGoBack={enterPasswordOnGoBack}
       />
     );
+  } else {
+    return (
+      <PureCustomSignUp
+        onSubmit={handleSubmit(onSubmit)}
+        disabled={disabled}
+        inputs={[
+          {
+            label: 'Enter your email address',
+            inputRef: refInput,
+            name: EMAIL,
+            errors: errors[EMAIL] && 'Email is invalid',
+            defaultValue: defaultEmail ? defaultEmail : undefined,
+          },
+        ]}
+      />
+    );
   }
-
-  return (
-    <PureCustomSignUp
-      onSubmit={handleSubmit(onSubmit)}
-      disabled={disabled}
-      inputs={[
-        {
-          label: 'Enter your email address',
-          inputRef: refInput,
-          name: EMAIL,
-          errors: errors[EMAIL] && 'Email is invalid',
-          defaultValue: defaultEmail ? defaultEmail : undefined,
-        },
-      ]}
-    />
-  );
 }
 
 export default CustomSignUp;

@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
 import history from '../../history';
-import { customCreateUser } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { manualSignUpSelector } from '../../containers/CustomSignUp/signUpSlice';
 import styles from './styles.scss';
@@ -44,8 +43,7 @@ export default function PureCreateUserAccount({ title = 'Create new user account
       dispatch(customCreateUser(data));
     }
   };
-  const onError = (data) => {
-  };
+  const onError = (data) => {};
 
   return (
     <Form
@@ -69,7 +67,7 @@ export default function PureCreateUserAccount({ title = 'Create new user account
         disabled
         defaultValue={email.userEmail}
       />
-      <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput}/>
+      <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput} />
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}
@@ -78,15 +76,12 @@ export default function PureCreateUserAccount({ title = 'Create new user account
         inputRef={inputRegister}
       />
 
-
-        <PasswordError
-          hasNoDigit={hasNoDigit}
-          hasNoSymbol={hasNoSymbol}
-          hasNoUpperCase={hasNoUpperCase}
-          isTooShort={isTooShort}
-        />
-
-
+      <PasswordError
+        hasNoDigit={hasNoDigit}
+        hasNoSymbol={hasNoSymbol}
+        hasNoUpperCase={hasNoUpperCase}
+        isTooShort={isTooShort}
+      />
     </Form>
   );
 }

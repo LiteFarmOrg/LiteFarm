@@ -10,9 +10,9 @@ import { PasswordError } from '../../Form/Errors';
 import { useTranslation } from 'react-i18next';
 
 export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin, onGoBack }) {
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, errors, setError, watch } = useForm();
   const PASSWORD = 'password';
-  const password = watch(PASSWORD, undefined);
+  const password = watch(PASSWORD);
   const {
     isValid,
     hasNoSymbol,
@@ -20,13 +20,19 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register({ validate: () => isValid });
+  const inputRegister = register({ required: true });
   const [showErrors, setShowErrors] = useState(false);
   const { t } = useTranslation();
-  const onSubmit = (data) => {
-    onLogin(data.password);
+  const showPasswordIncorrectError = () => {
+    setError(PASSWORD, {
+      type: 'manual',
+      message: t('SIGNUP.PASSWORD_ERROR'),
+    });
+    setShowErrors(true);
   };
-
+  const onSubmit = (data) => {
+    onLogin(data.password, showPasswordIncorrectError);
+  };
   const onError = (data) => {
     setShowErrors(true);
   };
@@ -38,8 +44,8 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
           <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength disabled={!isValid}>
-            Sign In
+          <Button type={'submit'} fullLength disabled={errors[PASSWORD]}>
+            {t('SIGNUP.SIGN_IN')}
           </Button>
         </>
       }
@@ -52,6 +58,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
         name={PASSWORD}
         icon={<Underlined>Forgot password?</Underlined>}
         inputRef={inputRegister}
+        errors={errors[PASSWORD]?.message}
       />
       {showErrors && (
         <div>

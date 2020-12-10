@@ -467,7 +467,10 @@
     "OOPS": "MISSING",
     "PLEASE_SIGNUP": "MISSING",
     "TITLE": "MISSING",
-    "GOOGLE_BUTTON": "MISSING"
+    "GOOGLE_BUTTON": "MISSING",
+    "SSO_ERROR": "Please login by clicking the Google button above",
+    "SIGN_IN": "Sign In",
+    "PASSWORD_ERROR": "Password incorrect"
   },
   "CREATE_USER": {
     "TITLE": "MISSING",

@@ -5,11 +5,12 @@ import PureCustomSignUp from '../../components/CustomSignUp';
 import { customLoginWithPassword, customSignUp, customCreateUser } from './saga';
 import history from '../../history';
 import Spinner from '../../components/Spinner';
+import { useTranslation } from 'react-i18next';
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 
 function CustomSignUp() {
-  const { register, handleSubmit, errors, watch, setValue } = useForm({ mode: 'onBlur' });
+  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
@@ -23,18 +24,24 @@ function CustomSignUp() {
   const componentToShow = history.location?.state?.component;
   const showPureEnterPasswordPage = componentToShow === 'PureEnterPasswordPage';
   const showPureCreateUserAccount = componentToShow === 'PureCreateUserAccount';
+  const { t } = useTranslation();
+  const showSSOError = () => {
+    setError(EMAIL, {
+      type: 'manual',
+      message: t('SIGNUP.SSO_ERROR'),
+    });
+  };
   const onSubmit = (data) => {
     const { email } = data;
-    dispatch(customSignUp(email));
+    dispatch(customSignUp({ email, showSSOError }));
   };
 
   const onSignUp = (user) => {
     dispatch(customCreateUser(user));
   };
 
-  const onLogin = (password) => {
-    console.log('login');
-    dispatch(customLoginWithPassword({ email, password }));
+  const onLogin = (password, showPasswordError) => {
+    dispatch(customLoginWithPassword({ email, password, showPasswordError }));
   };
 
   const enterPasswordOnGoBack = () => {
@@ -70,7 +77,7 @@ function CustomSignUp() {
               label: 'Enter your email address',
               inputRef: refInput,
               name: EMAIL,
-              errors: errors[EMAIL] && 'Email is invalid',
+              errors: errors[EMAIL] && (errors[EMAIL].message || 'Email is invalid'),
             },
           ]}
         />

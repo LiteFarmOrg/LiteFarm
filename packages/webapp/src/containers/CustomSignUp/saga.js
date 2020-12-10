@@ -28,7 +28,7 @@ const userUrl = () => `${url}/user`;
 
 export const customSignUp = createAction(`customSignUpSaga`);
 
-export function* customSignUpSaga({ payload: email }) {
+export function* customSignUpSaga({ payload: { email, showSSOError } }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
@@ -43,7 +43,7 @@ export function* customSignUpSaga({ payload: email }) {
         state: { component: 'PureCreateUserAccount', user: { email } },
       });
     } else if (result.data.sso) {
-      toastr.warning('Please login with Google account');
+      showSSOError();
     }
   } catch (e) {
     console.log(e);
@@ -52,7 +52,7 @@ export function* customSignUpSaga({ payload: email }) {
 
 export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga`);
 
-export function* customLoginWithPasswordSaga({ payload: user }) {
+export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...user } }) {
   try {
     const result = yield call(axios.post, loginWithPasswordUrl(), user);
 
@@ -65,8 +65,12 @@ export function* customLoginWithPasswordSaga({ payload: user }) {
     yield put(loginSuccess({ user_id }));
     history.push('/farm_selection');
   } catch (e) {
-    console.log(e);
-    toastr.error('Failed to login, please contact LiteFarm for assistance.');
+    if (e.response?.status === 401) {
+      showPasswordError();
+    } else {
+      console.log(e);
+      toastr.error('Unknown issue! Try again later.');
+    }
   }
 }
 

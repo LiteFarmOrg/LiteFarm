@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
+import { useTranslation } from 'react-i18next';
 
 export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin, onGoBack }) {
   const { register, handleSubmit, watch } = useForm();
@@ -21,7 +22,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
   const [showErrors, setShowErrors] = useState(false);
-
+  const { t } = useTranslation();
   const onSubmit = (data) => {
     onLogin(data.password);
   };
@@ -35,7 +36,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
       buttonGroup={
         <>
           <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>
-            Go Back
+            {t('common:BACK')}
           </Button>
           <Button type={'submit'} fullLength disabled={!isValid}>
             Sign In

@@ -7,21 +7,17 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
-import styles from './styles.scss';
+import { useTranslation } from 'react-i18next';
 
-export default function PureCreateUserAccount({
-  title = 'Create new user account',
-  onSignUp,
-  email,
-  onGoBack,
-}) {
+export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const { register, handleSubmit, watch } = useForm();
   const NAME = 'name';
   const name = watch(NAME, undefined);
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
   const required = watch(NAME, false);
-
+  const { t } = useTranslation();
+  const title = t('CREATE_USER.TITLE');
   const {
     isValid,
     hasNoSymbol,
@@ -47,22 +43,16 @@ export default function PureCreateUserAccount({
       buttonGroup={
         <>
           <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
-            Go Back
+            {t('common:BACK')}
           </Button>
           <Button disabled={disabled} type={'submit'} fullLength>
-            Sign In
+            {t('CREATE_USER.CREATE_BUTTON')}
           </Button>
         </>
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
-      <Input
-        style={{ marginBottom: '28px' }}
-        classes={styles.root}
-        label={'Email'}
-        disabled
-        defaultValue={email}
-      />
+      <Input style={{ marginBottom: '28px' }} label={'Email'} disabled defaultValue={email} />
       <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput} />
       <Input
         style={{ marginBottom: '28px' }}
@@ -83,6 +73,5 @@ export default function PureCreateUserAccount({
 }
 
 PureCreateUserAccount.prototype = {
-  title: PropTypes.string,
   onLogin: PropTypes.func,
 };

@@ -470,6 +470,10 @@
     "TITLE": "MISSING",
     "GOOGLE_BUTTON": "MISSING"
   },
+  "CREATE_USER": {
+    "TITLE": "MISSING",
+    "CREATE_BUTTON": "MISSING"
+  },
   "SLIDE_MENU": {
     "DEMOS": "MISSING",
     "FIELDS": "MISSING",

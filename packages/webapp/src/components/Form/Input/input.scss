@@ -13,13 +13,12 @@
 }
 
 .input ::placeholder {
-  color: var(--iconDefault);
-  opacity: 0.1;
+  color: var(--grey500);
 }
 
 .input:disabled {
   background-color: var(--inputDisabled);
-  color: var(--grey500);
+  color: var(--grey600);
   border-color: var(--inputDefault);
 }
 

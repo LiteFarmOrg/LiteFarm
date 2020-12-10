@@ -469,6 +469,10 @@
     "TITLE": "Sign Up",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE"
   },
+  "CREATE_USER": {
+    "TITLE": "Create new user account",
+    "CREATE_BUTTON": "Create Account"
+  },
   "SLIDE_MENU": {
     "DEMOS": "Demos",
     "FIELDS": "Fields",

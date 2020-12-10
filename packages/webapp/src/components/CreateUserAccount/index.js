@@ -53,7 +53,13 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input style={{ marginBottom: '28px' }} label={'Email'} disabled defaultValue={email} />
-      <Input style={{ marginBottom: '28px' }} label={'Full name'} name={NAME} inputRef={refInput} />
+      <Input
+        style={{ marginBottom: '28px' }}
+        label={'Full name'}
+        name={NAME}
+        placeholder={'e.g. Juan Perez'}
+        inputRef={refInput}
+      />
       <Input
         style={{ marginBottom: '28px' }}
         label={'Password'}

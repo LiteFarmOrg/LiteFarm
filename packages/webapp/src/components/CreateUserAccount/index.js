@@ -51,10 +51,20 @@ export default function PureCreateUserAccount({ title = 'Create new user account
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button onClick={goBack} color={'secondary'} fullLength>
+          <Button
+            className={styles.createAccountText}
+            onClick={goBack}
+            color={'secondary'}
+            fullLength
+          >
             Go Back
           </Button>
-          <Button disabled={disabled} type={'submit'} fullLength>
+          <Button
+            className={styles.createAccountText}
+            disabled={disabled}
+            type={'submit'}
+            fullLength
+          >
             Create Account
           </Button>
         </>

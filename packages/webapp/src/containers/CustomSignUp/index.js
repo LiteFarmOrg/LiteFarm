@@ -6,6 +6,7 @@ import { customLoginWithPassword, customSignUp, customCreateUser } from './saga'
 import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
+import GoogleLoginButton from '../GoogleLoginButton';
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 
@@ -72,6 +73,7 @@ function CustomSignUp() {
         <PureCustomSignUp
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
+          GoogleLoginButton={<GoogleLoginButton />}
           inputs={[
             {
               label: 'Enter your email address',

@@ -5,7 +5,7 @@ import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';
 import Footer from '../Footer';
-import GoogleLoginButton from '../../containers/GoogleLoginButton';
+import PropTypes from 'prop-types';
 
 const inputClasses = {
   container: {
@@ -13,17 +13,13 @@ const inputClasses = {
   },
 };
 
-export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) {
-  var color = '';
-
+export default function PureCustomSignUp({ inputs, onSubmit, disabled, GoogleLoginButton }) {
   return (
     <form onSubmit={onSubmit} className={styles.home}>
       <div className={styles.lander}>
         <div className={styles.greetContainer}>
           <Logo />
-          <div className={styles.ssoButton}>
-            <GoogleLoginButton />
-          </div>
+          <div className={styles.ssoButton}>{GoogleLoginButton}</div>
           <div className={styles.lineBreak}>
             <LineBreak />
           </div>
@@ -38,7 +34,6 @@ export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) 
           <Button
             disabled={disabled}
             style={{
-              background: color,
               border: '4px',
               shadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
               width: 312,
@@ -53,3 +48,17 @@ export default function PureCustomSignUp({ inputs = [{}], onSubmit, disabled }) 
     </form>
   );
 }
+
+PureCustomSignUp.prototype = {
+  inputs: PropTypes.arrayOf(PropTypes.object),
+  onSubmit: PropTypes.func,
+  disabled: PropTypes.bool,
+  GoogleLoginButton: PropTypes.node,
+};
+
+PureCustomSignUp.defaultProps = {
+  inputs: [{}],
+  onSubmit: () => {},
+  disabled: undefined,
+  GoogleLoginButton: undefined,
+};

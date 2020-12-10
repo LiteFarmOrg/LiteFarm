@@ -17,11 +17,12 @@
   --blue: #1e90ff;
 }
 
-.placeholder {
-  color: var(--blue);
+::placeholder {
+  color: var(--grey500);
 }
 
 .createAccountText {
   white-space: nowrap;
   text-align: center;
+  
 }

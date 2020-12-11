@@ -63,6 +63,7 @@ const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
 const signUpRoutes = require('./routes/signUpRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
+const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
@@ -98,6 +99,7 @@ app.use(bodyParser.json())
   .use('/stats', statsRoutes)
   .use('/sign_up', signUpRoutes)
   .use('/login', loginRoutes)
+  .use('/password_reset', passwordResetRoutes)
   // ACL middleware
   .use(checkJwt)
 

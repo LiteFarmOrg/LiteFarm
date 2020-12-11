@@ -383,7 +383,8 @@ const Routes = () => {
   } else if (!isAuthenticated()) {
     return (
       <Switch>
-        {/*<Route path="/callback" render={(props) => {*/}
+        {/* TODO: CREATE RESET PASSWORD COMPONENT (on /callback) TO DISPATCH ACTION FOR VALIDATING TOKEN */}
+        {/* <Route path="/callback" render={(props) => { */}
         {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
         {/*  return <Callback {...props} />*/}
         {/*}}/>*/}

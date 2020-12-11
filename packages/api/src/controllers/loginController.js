@@ -24,16 +24,13 @@ class loginController extends baseController {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body;
       try {
-        const data = await userModel.query()
-          .select('*')
-          .where('email', email)
-          .first();
+        const data = await userModel.query().select('*').where('email', email).first();
         const isMatch = await bcrypt.compare(password, data.password_hash);
         if (!isMatch) return res.sendStatus(401);
 
         delete data.password_hash;
 
-        const id_token = await createAccessToken({ ...data })
+        const id_token = await createAccessToken({ ...data });
         return res.status(200).send({
           id_token,
           user: data,
@@ -50,34 +47,41 @@ class loginController extends baseController {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
-        const user = await userModel.query().where({ email }).first();
+        // TODO optimize this query
+        const ssoUser = await userModel.query().findById(user_id);
+        const passwordUser = await userModel.query().where({ email }).first();
+        const user = ssoUser || passwordUser;
         const isUserNew = !user;
         if (isUserNew) {
           const newUser = { user_id, email, first_name, last_name };
           await userModel.query().insert(newUser);
         }
-        const isPasswordNeeded = user && user.user_id && user.user_id !== user_id;
-        const id_token = isPasswordNeeded ? null :
-          await createAccessToken({ user_id, email, first_name, last_name });
+        const isPasswordNeeded = !ssoUser && passwordUser;
+        const id_token = isPasswordNeeded
+          ? ''
+          : await createAccessToken({ user_id, email, first_name, last_name });
         return res.status(201).send({
           id_token,
-          user: { user_id: ((user && user.user_id) || user_id) },
+          user: {
+            user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
+            email,
+            first_name: passwordUser.first_name,
+          },
         });
       } catch (err) {
         return res.status(400).json({
           err,
         });
       }
-    }
-
+    };
   }
 
   static getUserNameByUserEmail() {
     return async (req, res) => {
       const { email } = req.params;
       try {
-        const data = await userModel.query()
-          .select('*').from('users').where('users.email', email).first()
+        const data = await userModel.query().select('*').from('users')
+          .where('users.email', email).first();
         if (!data) {
           res.status(200).send({
             user: null,

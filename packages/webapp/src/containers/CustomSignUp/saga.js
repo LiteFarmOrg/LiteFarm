@@ -15,40 +15,44 @@
 
 import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import { loginUrl as url } from '../../apiConfig';
+import { url } from '../../apiConfig';
 import history from '../../history';
 import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
 import { loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
-const loginUrl = (email) => `${url}/user/${email}`;
-const loginWithPasswordUrl = () => `${url}`;
+const loginUrl = (email) => `${url}/login/user/${email}`;
+const loginWithPasswordUrl = () => `${url}/login`;
+const userUrl = () => `${url}/user`;
+
 export const customSignUp = createAction(`customSignUpSaga`);
 
-export function* customSignUpSaga({ payload: email }) {
+export function* customSignUpSaga({ payload: { email, showSSOError } }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
       history.push({
         pathname: '/',
-        state: result.data.user,
+        state: { component: 'PureEnterPasswordPage', user: result.data.user },
       });
     } else if (!result.data.exists && !result.data.sso) {
       yield put(saveUserEmailSuccess(email));
       history.push({
-        pathname: '/create-user-account',
+        pathname: '/',
+        state: { component: 'PureCreateUserAccount', user: { email } },
       });
+    } else if (result.data.sso) {
+      showSSOError();
     }
   } catch (e) {
-    console.log('error is');
     console.log(e);
   }
 }
 
 export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga`);
 
-export function* customLoginWithPasswordSaga({ payload: user }) {
+export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...user } }) {
   try {
     const result = yield call(axios.post, loginWithPasswordUrl(), user);
 
@@ -60,14 +64,47 @@ export function* customLoginWithPasswordSaga({ payload: user }) {
 
     yield put(loginSuccess({ user_id }));
     history.push('/farm_selection');
-
   } catch (e) {
-    console.log(e);
-    toastr.error('Failed to login, please contact LiteFarm for assistance.');
+    if (e.response?.status === 401) {
+      showPasswordError();
+    } else {
+      console.log(e);
+      toastr.error('Unknown issue! Try again later.');
+    }
+  }
+}
+
+export const customCreateUser = createAction(`customCreateUserSaga`);
+
+export function* customCreateUserSaga({ payload: data }) {
+  try {
+    const name = data.name;
+    const full_name = name.split(' ');
+    const first_name = full_name[0];
+    const last_name = full_name[1] || '';
+    let email = yield select(manualSignUpSelector);
+    email = email.userEmail;
+    const password = data.password;
+
+    const result = yield call(axios.post, userUrl(), { email, first_name, last_name, password });
+
+    if (result) {
+      const {
+        token,
+        user: { user_id },
+      } = result.data;
+      localStorage.setItem('id_token', token);
+
+      yield put(loginSuccess({ user_id }));
+      history.push('/farm_selection');
+    }
+  } catch (e) {
+    toastr.error('Error with creating user account, please contact LiteFarm for assistance.');
   }
 }
 
 export default function* signUpSaga() {
   yield takeLatest(customSignUp.type, customSignUpSaga);
   yield takeLatest(customLoginWithPassword.type, customLoginWithPasswordSaga);
+  yield takeLatest(customCreateUser.type, customCreateUserSaga);
 }

@@ -9,6 +9,7 @@ import ProfilePicture from '../../../assets/images/navbar/defaultpfp.png';
 import PureMyFarmFloater from '../../MyFarmFloater';
 import PureNotificationFloater from '../../NotificationFloater';
 import clsx from 'clsx';
+import { logout } from '../../../util/jwt';
 
 export default function PureNavBar({
   logo,
@@ -26,6 +27,39 @@ export default function PureNavBar({
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
       resetSpotlight();
     }
+  };
+  //PureMyFarmFloater
+  const farmInfoClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: 'farm',
+    });
+    changeInteraction('myFarm');
+  };
+  const farmMapClick = () => {
+    history.push('/Field');
+    changeInteraction('myFarm');
+  };
+  const peopleClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: 'people',
+    });
+    changeInteraction('myFarm');
+  };
+
+  //PureProfileFloater
+  const helpClick = () => {};
+  const switchFarmClick = () => {
+    history.push('/farm_selection');
+    changeInteraction('profile');
+  };
+  const logOutClick = () => {
+    logout();
+  };
+  const myInfoClick = () => {
+    history.push('/Profile');
+    changeInteraction('profile');
   };
 
   return (
@@ -62,9 +96,10 @@ export default function PureNavBar({
           />
         )}
         <PureMyFarmFloater
-          closeInteraction={() => changeInteraction('myFarm')}
           openProfile={tooltipInteraction['myFarm']}
-          history={history}
+          farmInfoClick={farmInfoClick}
+          farmMapClick={farmMapClick}
+          peopleClick={peopleClick}
         >
           <input
             id="firstStep"
@@ -89,9 +124,11 @@ export default function PureNavBar({
         </PureNotificationFloater>
         <PureProfileFloater
           showSwitchFarm={showSwitchFarm}
-          closeInteraction={() => changeInteraction('profile')}
           openProfile={tooltipInteraction['profile']}
-          history={history}
+          helpClick={helpClick}
+          myInfoClick={myInfoClick}
+          logOutClick={logOutClick}
+          switchFarmClick={switchFarmClick}
         >
           <input
             data-testid="thirdStep"

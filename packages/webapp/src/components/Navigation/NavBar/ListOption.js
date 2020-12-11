@@ -3,7 +3,7 @@ import './styles.scss';
 export default function ListOption({
   iconText,
   clickFn,
-  iconSrc,
+  icon,
   customParagraphStyle = {},
   customIconStyle = {},
 }) {
@@ -24,8 +24,7 @@ export default function ListOption({
   return (
     <span className={'listOption'} onClick={clickFn}>
       <p style={paragraphStyle}>
-        {' '}
-        <img src={iconSrc} style={iconStyle} alt={iconText} />
+        <span style={iconStyle}>{icon}</span>
         {iconText}
       </p>
     </span>

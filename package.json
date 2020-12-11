@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "husky": "^4.3.5",
     "lerna": "^2.11.0"
   },
   "scripts": {
@@ -8,6 +9,11 @@
     "preinstall": "npx npm-force-resolutions",
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
+    }
   },
   "jest": {
     "testPathIgnorePatterns": [

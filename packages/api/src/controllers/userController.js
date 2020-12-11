@@ -52,7 +52,7 @@ class userController extends baseController {
         delete result.password_hash;
 
         // generate token, set to last a week
-        const token = await createAccessToken({ ...result })
+        const token = await createAccessToken({ ...result });
 
         // send welcome email
         try {
@@ -64,7 +64,7 @@ class userController extends baseController {
           const sender = 'system@litefarm.org';
           console.log('template_path:', template_path);
           if (result.email && template_path) {
-            await emailSender.sendEmail(template_path, subject, replacements, result.email, sender)
+            await emailSender.sendEmail(template_path, subject, replacements, result.email, sender);
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
@@ -91,18 +91,8 @@ class userController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const {
-          user_id,
-          farm_id,
-          first_name,
-          last_name,
-          wage,
-          email,
-        } = req.body;
-        const {
-          type: wageType,
-          amount: wageAmount,
-        } = wage || {};
+        const { user_id, farm_id, first_name, last_name, wage, email } = req.body;
+        const { type: wageType, amount: wageAmount } = wage || {};
 
         /* Start of input validation */
         const requiredProps = {
@@ -113,7 +103,7 @@ class userController extends baseController {
           email,
         };
 
-        if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
+        if (Object.keys(requiredProps).some((key) => !requiredProps[key])) {
           const errorMessageTitle = 'Missing Properties: ';
           const errorMessage = Object.keys(requiredProps).reduce((missingPropMsg, key) => {
             if (!requiredProps[key]) {
@@ -176,10 +166,11 @@ class userController extends baseController {
       try {
         const id = req.params.user_id;
 
-        const data = await userModel.query().findById(id).select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
+        const data = await userModel.query().findById(id)
+          .select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
 
         if (!data) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(data);
         }
@@ -188,7 +179,7 @@ class userController extends baseController {
         console.log(error);
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static async getAuth0Token() {
@@ -214,7 +205,7 @@ class userController extends baseController {
       const token = await this.getAuth0Token();
       const headers = {
         'content-type': 'application/json',
-        'Authorization': 'Bearer ' + token,
+        Authorization: 'Bearer ' + token,
       };
       // eslint-disable-next-line
       let result = await axios({
@@ -246,30 +237,38 @@ class userController extends baseController {
       // }
       const trx = await transaction.start(Model.knex());
       try {
-        const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id)
+        const rows = await userFarmModel
+          .query()
+          .select('*')
+          .where('userFarm.user_id', user_id)
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        const subject = 'You\'ve lost access to ' + rows[0].farm_name + ' on LiteFarm!'
+        const subject = "You've lost access to " + rows[0].farm_name + ' on LiteFarm!';
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
         };
         const sender = 'help@litefarm.org';
-        const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id)
-          .patch({
-            status: 'Inactive',
-          });
+        const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({
+          status: 'Inactive',
+        });
         await trx.commit();
         if (isUserFarmPatched) {
           res.sendStatus(200);
           //send email informing user their access revoked (unless user is no account worker - no email)
           try {
             if (rows[0].email) {
-              await emailSender.sendEmail(template_path, subject, replacements, rows[0].email, sender)
+              await emailSender.sendEmail(
+                template_path,
+                subject,
+                replacements,
+                rows[0].email,
+                sender,
+              );
             }
           } catch (e) {
-            console.log(e)
+            console.log(e);
           }
         } else {
           res.sendStatus(404);
@@ -280,7 +279,7 @@ class userController extends baseController {
           error,
         });
       }
-    }
+    };
   }
 
   static updateConsent() {
@@ -288,29 +287,26 @@ class userController extends baseController {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.id;
       try {
-        const updated = await userModel.query(trx).where('user_id', user_id)
-          .patch({
-            has_consent: true,
-          });
+        const updated = await userModel.query(trx).where('user_id', user_id).patch({
+          has_consent: true,
+        });
         await trx.commit();
         if (!updated) {
           res.status(409).send('Update failed');
         } else {
           res.sendStatus(200);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static updateUser() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-
         const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
@@ -318,14 +314,13 @@ class userController extends baseController {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static updateNotificationSetting() {
@@ -339,14 +334,13 @@ class userController extends baseController {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static async updateSetting(req, trx) {

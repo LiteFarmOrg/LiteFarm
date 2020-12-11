@@ -141,12 +141,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
-    "format": "npx prettier --write ./src"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "format": "npx prettier --write ./src",
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "*.{js}": [
@@ -215,7 +211,6 @@
     "cypress": "^3.8.3",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-react": "^7.19.0",
-    "husky": "^4.3.0",
     "i18next-parser": "^3.3.0",
     "lint-staged": "^10.5.3",
     "mini-css-extract-plugin": "^0.9.0",

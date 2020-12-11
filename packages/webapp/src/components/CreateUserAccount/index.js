@@ -1,28 +1,23 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
-import React, { useState } from 'react';
-import { Text, Title, Underlined } from '../Typography';
+import React from 'react';
+import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
-import history from '../../history';
-import { customCreateUser } from './saga';
-import { useDispatch, useSelector } from 'react-redux';
-import { manualSignUpSelector } from '../../containers/CustomSignUp/signUpSlice';
-import styles from './styles.scss';
+import { useTranslation } from 'react-i18next';
 
-export default function PureCreateUserAccount({ title = 'Create new user account' }) {
+export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const { register, handleSubmit, watch } = useForm();
-  const email = useSelector(manualSignUpSelector);
   const NAME = 'name';
   const name = watch(NAME, undefined);
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
   const required = watch(NAME, false);
-  const dispatch = useDispatch();
-
+  const { t } = useTranslation();
+  const title = t('CREATE_USER.TITLE');
   const {
     isValid,
     hasNoSymbol,
@@ -35,13 +30,9 @@ export default function PureCreateUserAccount({ title = 'Create new user account
 
   const disabled = !name || !isValid;
 
-  const goBack = () => {
-    history.push({ pathname: '/' });
-  };
-
   const onSubmit = (data) => {
     if (isValid) {
-      dispatch(customCreateUser(data));
+      onSignUp(data);
     }
   };
   const onError = (data) => {};
@@ -51,38 +42,22 @@ export default function PureCreateUserAccount({ title = 'Create new user account
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button
-            className={styles.createAccountText}
-            onClick={goBack}
-            color={'secondary'}
-            fullLength
-          >
-            Go Back
+          <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
+            {t('common:BACK')}
           </Button>
-          <Button
-            className={styles.createAccountText}
-            disabled={disabled}
-            type={'submit'}
-            fullLength
-          >
-            Create Account
+          <Button disabled={disabled} type={'submit'} fullLength>
+            {t('CREATE_USER.CREATE_BUTTON')}
           </Button>
         </>
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
-      <Input
-        style={{ marginBottom: '28px' }}
-        classes={styles.root}
-        label={'Email'}
-        disabled
-        defaultValue={email.userEmail}
-      />
+      <Input style={{ marginBottom: '28px' }} label={'Email'} disabled defaultValue={email} />
       <Input
         style={{ marginBottom: '28px' }}
         label={'Full name'}
-        placeholder={'e.g. Juan Perez'}
         name={NAME}
+        placeholder={'e.g. Juan Perez'}
         inputRef={refInput}
       />
       <Input
@@ -104,6 +79,5 @@ export default function PureCreateUserAccount({ title = 'Create new user account
 }
 
 PureCreateUserAccount.prototype = {
-  title: PropTypes.string,
   onLogin: PropTypes.func,
 };

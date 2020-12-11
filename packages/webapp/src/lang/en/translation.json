@@ -467,10 +467,17 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
-    "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "OOPS": "Oops!",
     "PLEASE_SIGNUP": "Please, sign up.",
-    "TITLE": "Sign Up"
+    "TITLE": "Sign Up",
+    "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
+    "SSO_ERROR": "Please login by clicking the Google button above",
+    "SIGN_IN": "Sign In",
+    "PASSWORD_ERROR": "Password incorrect"
+  },
+  "CREATE_USER": {
+    "TITLE": "Create new user account",
+    "CREATE_BUTTON": "Create Account"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

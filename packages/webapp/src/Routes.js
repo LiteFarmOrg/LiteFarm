@@ -96,7 +96,6 @@ import Balances from './containers/NewFinances/Balances';
 import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 
-import GoogleLoginButton from './containers/GoogleLoginButton';
 import CustomSignUp from './containers/CustomSignUp';
 
 import { useSelector } from 'react-redux';
@@ -394,8 +393,10 @@ const Routes = () => {
           component={SignUp}
         />
         <Route path="/" exact component={CustomSignUp} />
-        <Route path="/password" exact component={PureEnterPasswordPage} />
-        <Route path="/create-user-account" exact component={PureCreateUserAccount} />
+        <Redirect
+          to={'/'}
+          //TODO change to 404
+        />
       </Switch>
     );
   }

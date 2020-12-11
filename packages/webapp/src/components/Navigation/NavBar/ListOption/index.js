@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.scss';
+import styles from './listOption.scss';
 export default function ListOption({
   iconText,
   clickFn,
@@ -22,7 +22,7 @@ export default function ListOption({
   );
   const iconStyle = Object.assign({ paddingRight: '0.3rem' }, customIconStyle);
   return (
-    <span className={'listOption'} onClick={clickFn}>
+    <span className={styles.listOption} onClick={clickFn}>
       <p style={paragraphStyle}>
         <span style={iconStyle}>{icon}</span>
         {iconText}

@@ -117,7 +117,7 @@ export default function PureNavBar({
             id="secondStep"
             type="image"
             src={NotifIcon}
-            className={clsx(styles.actionItem)}
+            className={clsx(styles.actionItem, styles.inFloater)}
             onClick={() => changeInteraction('notification')}
           />
         </PureNotificationFloater>

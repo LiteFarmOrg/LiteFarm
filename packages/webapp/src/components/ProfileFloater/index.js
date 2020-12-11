@@ -38,7 +38,7 @@ export function PureProfileFloaterComponent({
            icon={<SwitchFarmIcon />}
         />
       )}
-      <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')}  icon={<HelpIcon />} />
+      <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} icon={<HelpIcon />} />
       <ListOption
         clickFn={onLogout}
         iconText={t('PROFILE_FLOATER.LOG_OUT')}

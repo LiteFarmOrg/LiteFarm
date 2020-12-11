@@ -73,6 +73,7 @@ describe('JWT Tests', () => {
     test('Validate a valid token', async (done) => {
       const resetPasswordToken = await createResetPasswordToken(newUser);
         const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+        console.log(user);
         expect(user.user_id).toEqual(newUser.user_id);
         done()
     })

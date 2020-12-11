@@ -112,7 +112,6 @@ export default function PureNavBar({
         <PureNotificationFloater
           closeInteraction={() => changeInteraction('notification')}
           openProfile={tooltipInteraction['notification']}
-          history={history}
         >
           <input
             id="secondStep"

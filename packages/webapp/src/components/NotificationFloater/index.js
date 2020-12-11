@@ -1,6 +1,5 @@
 import React from 'react';
-import NotificationTeaserIcon from '../../assets/images/notification/NotificationTeaser.svg';
-import ListOption from '../Navigation/NavBar/ListOption';
+import { ReactComponent as NotificationTeaserIcon } from '../../assets/images/notification/NotificationTeaser.svg';
 import { useTranslation } from 'react-i18next';
 
 import Floater from 'react-floater';
@@ -9,20 +8,20 @@ export function PureNotificationFloaterComponent({ notificationTeaser }) {
   const { t } = useTranslation();
   return (
     <div
+      onClick={notificationTeaser}
       style={{
         maxWidth: '148px',
-        minWidth: '138px',
+        minWidth: '150px',
         backgroundColor: 'white',
         borderRadius: '4px',
         marginRight: '-4px',
+        paddingLeft: '0.8rem',
+        paddingTop: '0.4rem',
+        paddingBottom: '0.4rem',
       }}
     >
-      <ListOption
-        clickFn={notificationTeaser}
-        iconText={t('NOTIFICATION.NOTIFICATION_TEASER')}
-        iconSrc={NotificationTeaserIcon}
-        customParagraphStyle={{ paddingTop: '0.5rem' }}
-      />
+      <NotificationTeaserIcon />
+      {t('NOTIFICATION.NOTIFICATION_TEASER')}
     </div>
   );
 }

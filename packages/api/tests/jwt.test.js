@@ -15,12 +15,13 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const jsonwebtoken = require("jsonwebtoken");
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment')
 let {usersFactory, farmFactory, userFarmFactory} = require('./mock.factories');
-const {createAccessTokenSync} = require('../src/util/jwt');
+const {createAccessTokenSync, createResetPasswordToken} = require('../src/util/jwt');
 jest.mock('jsdom')
 
 describe('JWT Tests', () => {
@@ -43,7 +44,7 @@ describe('JWT Tests', () => {
     done();
   });
 
-  describe('Delete a Farm', () => {
+  describe('Access jwt test', () => {
     test('should succeed on deleting a farm with valid token', async (done) => {
       const [farm] = await farmFactory();
       await userFarmFactory({promisedUser: [newUser], promisedFarm: [farm]}, {role_id: 1, status: 'Active'});
@@ -65,6 +66,15 @@ describe('JWT Tests', () => {
         expect(farmQuery.deleted).toBe(false);
         done()
       });
+    })
+  });
+
+  describe('Reset password jwt test', () => {
+    test('Validate a valid token', async (done) => {
+      const resetPasswordToken = await createResetPasswordToken(newUser);
+        const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+        expect(user.user_id).toEqual(newUser.user_id);
+        done()
     })
   });
 });

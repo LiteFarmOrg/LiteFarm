@@ -80,12 +80,8 @@ class loginController extends baseController {
     return async (req, res) => {
       const { email } = req.params;
       try {
-        const data = await userModel
-          .query()
-          .select('*')
-          .from('users')
-          .where('users.email', email)
-          .first();
+        const data = await userModel.query().select('*').from('users')
+          .where('users.email', email).first();
         if (!data) {
           res.status(200).send({
             user: null,

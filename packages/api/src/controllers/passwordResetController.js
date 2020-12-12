@@ -20,26 +20,32 @@ const { createAccessToken } = require('../util/jwt');
 
 class passwordResetController extends baseController {
   static sendResetEmail() {
-    // we will receive the email from the body
-    // get from db user_id and first_name from email (user table)
-
-    // get entry in db (password table) from user_id
-
-    // generate token
-    // payload: user_id, reset_token_version, email, first_name
-
-    // send the email
-    // contains link: {URL}/callback?reset_token={token}
-
-    return res.sendStatus(200);
+    return async (req, res) => {
+      // we will receive the email from the body
+      // get from db user_id and first_name from email (user table)
+  
+      // get entry in db (password table) from user_id
+  
+      // generate token
+      // payload: user_id, reset_token_version, email, first_name
+  
+      // send the email
+      // contains link: {URL}/callback?reset_token={token}
+  
+      return res.sendStatus(200);
+    }
   }
 
   static validateToken() {
-    return res.sendStatus(200);
+    return async (req, res) => {
+      return res.sendStatus(200);
+    }
   }
 
   static resetPassword() {
-    return res.sendStatus(200);
+    return async (req, res) => {
+      return res.sendStatus(200);
+    }
   }
 }
 

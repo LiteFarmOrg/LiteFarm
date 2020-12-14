@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
+ 
  .container {
     display: flex;
     align-items: center;
@@ -21,6 +21,8 @@
     height: 320px;
     background: #fafafd;
     border-radius: 7.05466px;
+    position: relative;
+    top: -35vw;
   }
   
   .imgContainer {

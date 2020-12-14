@@ -4,7 +4,7 @@ import Button from '../Form/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function PureResetPassword({ sendLink }) {
+export default function PureResetPassword({ }) {
   const { t } = useTranslation();
   const title = t('PASSWORD_RESET.TITLE');
   const descriptionTop = t('PASSWORD_RESET.DESCRIPTION_TOP');
@@ -35,7 +35,7 @@ export default function PureResetPassword({ sendLink }) {
         color="secondary"
         className={styles.bottomContainer}
         children={t('PASSWORD_RESET.BUTTON')}
-        onClick={sendLink}
+        // onClick={sendLink}
       />
     </div>
   );

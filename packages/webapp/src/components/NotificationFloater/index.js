@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as NotificationTeaserIcon } from '../../assets/images/notification/NotificationTeaser.svg';
 import { useTranslation } from 'react-i18next';
-import ListOption from '../Navigation/NavBar/ListOption/index';
+import ListOption from '../Navigation/NavBar/ListOption';
 
 import Floater from 'react-floater';
 

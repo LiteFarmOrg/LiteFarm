@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as FarmMapIcon } from '../../assets/images/farm-profile/farm-map.svg';
 import { ReactComponent as FarmInfoIcon } from '../../assets/images/farm-profile/farm-info.svg';
 import { ReactComponent as PeopleIcon } from '../../assets/images/farm-profile/people.svg';
-import ListOption from '../Navigation/NavBar/ListOption';
+import ListOption from '../Navigation/NavBar/ListOption/index';
 import { useTranslation } from 'react-i18next';
 
 import Floater from 'react-floater';

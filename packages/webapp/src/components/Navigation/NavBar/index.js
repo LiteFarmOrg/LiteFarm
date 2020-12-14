@@ -62,6 +62,11 @@ export default function PureNavBar({
     changeInteraction('profile');
   };
 
+  // Pure Notification Floater
+  const notificationTeaserClick = () => {
+    changeInteraction('notification');
+  }
+
   return (
     <div className={styles.navBar}>
       <div className={styles.actionItemContainer}>
@@ -110,8 +115,8 @@ export default function PureNavBar({
           />
         </PureMyFarmFloater>
         <PureNotificationFloater
-          closeInteraction={() => changeInteraction('notification')}
           openProfile={tooltipInteraction['notification']}
+          notificationTeaserClick={notificationTeaserClick}
         >
           <input
             id="secondStep"

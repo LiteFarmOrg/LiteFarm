@@ -90,10 +90,10 @@ export function* customCreateUserSaga({ payload: data }) {
 
     if (result) {
       const {
-        token,
+        id_token,
         user: { user_id },
       } = result.data;
-      localStorage.setItem('id_token', token);
+      localStorage.setItem('id_token', id_token);
 
       yield put(loginSuccess({ user_id }));
       history.push('/farm_selection');

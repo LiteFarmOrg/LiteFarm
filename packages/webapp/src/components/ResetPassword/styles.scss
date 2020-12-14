@@ -1,0 +1,68 @@
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (styles.scss) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+ .container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 312px;
+    height: 320px;
+    background: #fafafd;
+    border-radius: 7.05466px;
+  }
+  
+  .imgContainer {
+    padding-top: 20px;
+  }
+  
+  .title {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    text-align: center;
+    color: #028577;
+  }
+  
+  .descriptionTop {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .descriptionBottom {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+  }
+  
+  .bottomContainer {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.9rem;
+    margin-top: 30px;
+    width: 240px;
+  }

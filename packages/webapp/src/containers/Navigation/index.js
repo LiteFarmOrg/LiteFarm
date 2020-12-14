@@ -79,7 +79,7 @@ const NavBar = (props) => {
     dispatch(showSpotlight(false));
   };
 
-  const initialState = { profile: false, myFarm: false };
+  const initialState = { profile: false, myFarm: false, notification: false };
   const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
   const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
   const changeInteraction = (tooltipName, onOverlay = false) => {

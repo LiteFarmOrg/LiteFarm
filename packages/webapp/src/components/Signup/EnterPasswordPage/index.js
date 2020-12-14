@@ -39,7 +39,7 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
   };
   return (
     <Form
-      onSubmit={handleSubmit(onSubmit, onError, dismissModal)}
+      onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
           <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>

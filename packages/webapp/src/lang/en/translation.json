@@ -275,10 +275,11 @@
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
   "PASSWORD_RESET": {
-    "BUTTON": "Link Sent",
+    "BUTTON": "Resend Link",
+    "BUTTON_SENDING": "Sending...",
     "DESCRIPTION_BOTTOM": "Please check your email.",
     "DESCRIPTION_TOP": "A link has been sent.",
-    "TITLE": "Resend Link"
+    "TITLE": "Link Sent"
   },
   "PROFILE_FLOATER": {
     "HELP": "Help",

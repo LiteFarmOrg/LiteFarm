@@ -9,32 +9,35 @@ import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 import EnterPasswordPage from '../EnterPasswordPage';
+import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
 
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
+  const { user, component: componentToShow } = history.location;
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
   const dispatch = useDispatch();
-  const user = history.location?.state?.user;
   const email = watch(EMAIL, undefined);
   useEffect(() => {
     setValue(EMAIL, user?.email);
   }, [user, setValue]);
   const disabled = !email || !validEmailRegex.test(email);
-  const componentToShow = history.location?.state?.component;
-  const showPureEnterPasswordPage = componentToShow === 'PureEnterPasswordPage';
-  const showPureCreateUserAccount = componentToShow === 'PureCreateUserAccount';
+  const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
+  const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const { t } = useTranslation();
-  const showSSOError = () => {
+  const showSSOErrorAndRedirect = () => {
     setError(EMAIL, {
       type: 'manual',
       message: t('SIGNUP.SSO_ERROR'),
     });
+    // TODO: Create custom google login button pass in React google login along with ref
+    const googleLoginButton = document.getElementsByClassName('google-login-button')[0];
+    googleLoginButton.click();
   };
   const onSubmit = (data) => {
     const { email } = data;
-    dispatch(customSignUp({ email, showSSOError }));
+    dispatch(customSignUp({ email, showSSOError: showSSOErrorAndRedirect }));
   };
 
   const onSignUp = (user) => {
@@ -46,11 +49,20 @@ function CustomSignUp() {
   };
 
   const enterPasswordOnGoBack = () => {
-    history.push({ pathname: '/', state: { component: 'PureCustomSignUp', user: { email } } });
+    history.push({
+      pathname: '/',
+      component: CUSTOM_SIGN_UP,
+      user: { email },
+    });
   };
   const createUserAccountOnGoBack = () => {
-    history.push({ pathname: '/', state: { component: 'PureCustomSignUp', user: { email } } });
+    history.push({
+      pathname: '/',
+      component: CUSTOM_SIGN_UP,
+      user: { email },
+    });
   };
+
   return (
     <>
       <Suspense fallback={Spinner}>
@@ -73,7 +85,7 @@ function CustomSignUp() {
         <PureCustomSignUp
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
-          GoogleLoginButton={<GoogleLoginButton />}
+          GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
           inputs={[
             {
               label: 'Enter your email address',

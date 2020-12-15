@@ -18,6 +18,7 @@ import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
+import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
 import { loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
 
@@ -35,13 +36,18 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
       yield put(saveUserEmailSuccess(email));
       history.push({
         pathname: '/',
-        state: { component: 'PureEnterPasswordPage', user: result.data.user },
+        component: ENTER_PASSWORD_PAGE,
+        user: {
+          first_name: result.data.first_name,
+          email: result.data.email,
+        },
       });
     } else if (!result.data.exists && !result.data.sso) {
       yield put(saveUserEmailSuccess(email));
       history.push({
         pathname: '/',
-        state: { component: 'PureCreateUserAccount', user: { email } },
+        component: CREATE_USER_ACCOUNT,
+        user: { email },
       });
     } else if (result.data.sso) {
       showSSOError();

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { loginWithGoogle } from './saga';
 import styles from './googleLoginButton.scss';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 function GoogleLoginButton({ disabled }) {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function GoogleLoginButton({ disabled }) {
       onFailure={onFailure}
       disabled={disabled}
       clientId={clientId}
-      className={styles.googleButton}
+      className={clsx(styles.googleButton, 'google-login-button')}
     >
       {t('SIGNUP.GOOGLE_BUTTON')}
     </GoogleLogin>

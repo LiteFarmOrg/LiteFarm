@@ -34,7 +34,7 @@ describe('Sign Up Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => { 
+  afterAll((done) => {
     server.close(() => {
 	    done();
     });
@@ -78,7 +78,7 @@ describe('Sign Up Tests', () => {
 	    expect(res.status).toBe(200);
 		expect(res.body.exists).toBe(true);
 		expect(res.body.sso).toBe(false);
-		expect(res.body.user.first_name).toBe(name);
+		expect(res.body.first_name).toBe(name);
 		done();
 	  });
   });

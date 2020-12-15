@@ -80,11 +80,12 @@ class loginController extends baseController {
     return async (req, res) => {
       const { email } = req.params;
       try {
-        const data = await userModel.query().select('*').from('users')
-          .where('users.email', email).first();
+        const data = await userModel.query()
+          .select('user_id', 'first_name', 'email').from('users').where('users.email', email).first();
         if (!data) {
           res.status(200).send({
-            user: null,
+            first_name: null,
+            email: null,
             exists: false,
             sso: false,
           });
@@ -92,13 +93,15 @@ class loginController extends baseController {
           // User signed up with Google SSO
           if (/^\d+$/.test(data.user_id)) {
             res.status(200).send({
-              user: data,
+              first_name: data.first_name,
+              email: data.email,
               exists: true,
               sso: true,
             });
           } else {
             res.status(200).send({
-              user: data,
+              first_name: data.first_name,
+              email: data.email,
               exists: true,
               sso: false,
             });

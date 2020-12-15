@@ -18,15 +18,6 @@ function PasswordResetAccount() {
     <PureResetPasswordAccount
         email={email.userEmail}
         update={handleSubmit(onSubmit)}
-        // disabled={disabled}
-        // inputs={[
-        // {
-        //     label: 'Enter your email address',
-        //     inputRef: refInput,
-        //     name: EMAIL,
-        //     errors: errors[EMAIL] && (errors[EMAIL].message || 'Email is invalid'),
-        // },
-        // ]}
     />
     </>
   );

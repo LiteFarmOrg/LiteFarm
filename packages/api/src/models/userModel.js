@@ -57,7 +57,6 @@ class User extends Model {
         },
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },
-        password_hash: { type: 'string' },
       },
       additionalProperties: false,
     };

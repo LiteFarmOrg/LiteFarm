@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 import EnterPasswordPage from '../EnterPasswordPage';
-import PasswordResetAccount from '../PasswordResetAccount';
 
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
@@ -56,12 +55,11 @@ function CustomSignUp() {
     <>
       <Suspense fallback={Spinner}>
         <Hidden isVisible={showPureEnterPasswordPage}>
-          {/* <EnterPasswordPage
+          <EnterPasswordPage
             onLogin={onLogin}
             title={`Welcome back ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
-          /> */}
-          <PasswordResetAccount/>
+          />
         </Hidden>
         <Hidden isVisible={showPureCreateUserAccount}>
           <PureCreateUserAccount

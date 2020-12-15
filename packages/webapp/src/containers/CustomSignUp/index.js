@@ -26,15 +26,18 @@ function CustomSignUp() {
   const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const { t } = useTranslation();
-  const showSSOError = () => {
+  const showSSOErrorAndRedirect = () => {
     setError(EMAIL, {
       type: 'manual',
       message: t('SIGNUP.SSO_ERROR'),
     });
+    // TODO: Create custom google login button pass in React google login along with ref
+    const googleLoginButton = document.getElementsByClassName('google-login-button')[0];
+    googleLoginButton.click();
   };
   const onSubmit = (data) => {
     const { email } = data;
-    dispatch(customSignUp({ email, showSSOError }));
+    dispatch(customSignUp({ email, showSSOError: showSSOErrorAndRedirect }));
   };
 
   const onSignUp = (user) => {
@@ -82,7 +85,7 @@ function CustomSignUp() {
         <PureCustomSignUp
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
-          GoogleLoginButton={<GoogleLoginButton />}
+          GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
           inputs={[
             {
               label: 'Enter your email address',

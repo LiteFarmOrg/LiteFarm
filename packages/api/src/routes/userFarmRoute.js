@@ -51,9 +51,6 @@ router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm
 // [DEPRECATE] Get specific info related to userFarm
 router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
 
-// [DEPRECATE] Update user_farm
-router.patch('/update/farm/:farm_id/user/:user_id', checkEditPrivilege(), userFarmController.updateUser());
-
 // Update wage of userFarm
 router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), checkScope(['edit:user_wage']), userFarmController.updateWage());
 

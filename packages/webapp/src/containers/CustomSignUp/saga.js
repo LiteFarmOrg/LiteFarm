@@ -32,6 +32,7 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
+      yield put(saveUserEmailSuccess(email));
       history.push({
         pathname: '/',
         state: { component: 'PureEnterPasswordPage', user: result.data.user },

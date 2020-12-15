@@ -11,16 +11,17 @@ import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './cons
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 
-function CustomSignUp(props) {
+function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const { user, component: componentToShow } = history.location;
+  const params = new URLSearchParams(history.location.search.substring(1));
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
   useEffect(() => {
-    setValue(EMAIL, user?.email);
+    setValue(EMAIL, user?.email || params.get('email'));
   }, [user, setValue]);
   const disabled = !email || !validEmailRegex.test(email);
   const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;

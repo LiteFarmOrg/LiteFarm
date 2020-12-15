@@ -53,12 +53,11 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input
-        onClick={forgotPassword}
         style={{ marginBottom: '28px' }}
         label={'Password'}
         type={PASSWORD}
         name={PASSWORD}
-        icon={<Underlined>Forgot password?</Underlined>}
+        icon={<Underlined onClick={forgotPassword}>Forgot password?</Underlined>}
         inputRef={inputRegister}
         errors={errors[PASSWORD]?.message}
       />
@@ -73,17 +72,19 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
           />
         </div>
       )}
+      <div>
       {showModal && <ResetPassword/>}
-      {
-      showModal && 
-      <div onClick={dismissModal} style={{ position: "fixed",
-      zIndex: 100,
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      backgroundColor: "rgba(25, 25, 40, 0.8)"}} /> 
-      }
+    {
+    showModal && 
+    <div onClick={dismissModal} style={{ position: "fixed",
+    zIndex: 100,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: "rgba(25, 25, 40, 0.8)"}} /> 
+    }
+    </div>
     </Form>
   );
 }

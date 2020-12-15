@@ -7,7 +7,9 @@ import NotifIcon from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
 import ProfilePicture from '../../../assets/images/navbar/defaultpfp.png';
 import PureMyFarmFloater from '../../MyFarmFloater';
+import PureNotificationFloater from '../../NotificationFloater';
 import clsx from 'clsx';
+import { logout } from '../../../util/jwt';
 
 export default function PureNavBar({
   logo,
@@ -26,6 +28,44 @@ export default function PureNavBar({
       resetSpotlight();
     }
   };
+  //PureMyFarmFloater
+  const farmInfoClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: 'farm',
+    });
+    changeInteraction('myFarm');
+  };
+  const farmMapClick = () => {
+    history.push('/Field');
+    changeInteraction('myFarm');
+  };
+  const peopleClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: 'people',
+    });
+    changeInteraction('myFarm');
+  };
+
+  //PureProfileFloater
+  const helpClick = () => {};
+  const switchFarmClick = () => {
+    history.push('/farm_selection');
+    changeInteraction('profile');
+  };
+  const logOutClick = () => {
+    logout();
+  };
+  const myInfoClick = () => {
+    history.push('/Profile');
+    changeInteraction('profile');
+  };
+
+  // Pure Notification Floater
+  const notificationTeaserClick = () => {
+    changeInteraction('notification');
+  }
 
   return (
     <div className={styles.navBar}>
@@ -61,9 +101,10 @@ export default function PureNavBar({
           />
         )}
         <PureMyFarmFloater
-          closeInteraction={() => changeInteraction('myFarm')}
           openProfile={tooltipInteraction['myFarm']}
-          history={history}
+          farmInfoClick={farmInfoClick}
+          farmMapClick={farmMapClick}
+          peopleClick={peopleClick}
         >
           <input
             id="firstStep"
@@ -73,12 +114,25 @@ export default function PureNavBar({
             onClick={() => changeInteraction('myFarm')}
           />
         </PureMyFarmFloater>
-        <input id="secondStep" type="image" src={NotifIcon} className={styles.actionItem} />
+        <PureNotificationFloater
+          openProfile={tooltipInteraction['notification']}
+          notificationTeaserClick={notificationTeaserClick}
+        >
+          <input
+            id="secondStep"
+            type="image"
+            src={NotifIcon}
+            className={clsx(styles.actionItem, styles.inFloater)}
+            onClick={() => changeInteraction('notification')}
+          />
+        </PureNotificationFloater>
         <PureProfileFloater
           showSwitchFarm={showSwitchFarm}
-          closeInteraction={() => changeInteraction('profile')}
           openProfile={tooltipInteraction['profile']}
-          history={history}
+          helpClick={helpClick}
+          myInfoClick={myInfoClick}
+          logOutClick={logOutClick}
+          switchFarmClick={switchFarmClick}
         >
           <input
             data-testid="thirdStep"

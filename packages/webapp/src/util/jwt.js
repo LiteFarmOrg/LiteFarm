@@ -1,4 +1,5 @@
 import { purgeState } from '../index';
+import history from '../history';
 
 export const getAccessToken = () => {
   return localStorage.getItem('id_token');
@@ -9,5 +10,6 @@ export const setAccessToken = (token) => {
 export const isAuthenticated = () => !!getAccessToken();
 export const logout = () => {
   localStorage.removeItem('id_token');
-  return purgeState();
+  purgeState();
+  return history.push('/');
 };

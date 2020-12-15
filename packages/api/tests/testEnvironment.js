@@ -42,7 +42,7 @@ function tableCleanup(knex) {
     "yield", "cropCommonName", "cropDisease", "price", "cropSale", "sale", "waterBalance", "nitrogenBalance",
     "fieldCrop", "crop", "shiftTask", "shift", "field", "fertilizer", "farmExpense", "farmExpenseType", "disease",
     "pesticide", "taskType", "farmDataSchedule", "userFarm", "waterBalanceSchedule", "plan", "nitrogenSchedule",
-    "users", "farm", "weatherHourly", "weather", "weather_station" CASCADE;
+    "users", "farm", "weatherHourly", "weather", "weather_station", "organicCertifierSurvey" CASCADE;
   `)
 }
 

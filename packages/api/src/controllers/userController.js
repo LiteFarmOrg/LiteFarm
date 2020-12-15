@@ -16,6 +16,7 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
+const passwordModel = require('../models/passwordModel');
 //const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
@@ -43,38 +44,41 @@ class userController extends baseController {
       try {
         // hash password
         const salt = await bcrypt.genSalt(10);
-        userData.password_hash = await bcrypt.hash(password, salt);
+        const password_hash = await bcrypt.hash(password, salt);
 
         // persist user data
-        const result = await baseController.post(userModel, userData, trx);
+        const userResult = await baseController.post(userModel, userData, trx);
+
+        const pwData = {
+          user_id: userResult.user_id,
+          password_hash,
+        };
+        const pwResult = await baseController.post(passwordModel, pwData, trx);
         await trx.commit();
 
-        delete result.password_hash;
-
         // generate token, set to last a week
-        const token = await createAccessToken({ ...result });
+        const token = await createAccessToken({ ...userResult });
 
         // send welcome email
         try {
           const template_path = '../templates/welcome_email.html';
           const subject = 'Welcome to LiteFarm!';
           const replacements = {
-            first_name: result.first_name,
+            first_name: userResult.first_name,
           };
           const sender = 'system@litefarm.org';
           console.log('template_path:', template_path);
-          if (result.email && template_path) {
-            await emailSender.sendEmail(template_path, subject, replacements, result.email, sender);
+          if (userResult.email && template_path) {
+            await emailSender.sendEmail(template_path, subject, replacements, userResult.email, sender);
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
         }
 
         // send token and user data (sans password hash)
-        delete result.password_hash;
         res.status(201).send({
           token,
-          user: result,
+          user: userResult,
         });
       } catch (error) {
         // handle more exceptions

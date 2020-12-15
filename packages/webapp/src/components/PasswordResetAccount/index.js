@@ -11,11 +11,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function PureResetPasswordAccount({ email, update}) {
   const { register, handleSubmit, watch } = useForm();
-  const NAME = 'name';
-  const name = watch(NAME, undefined);
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
-  const required = watch(NAME, false);
   const { t } = useTranslation();
   const title = t('PASSWORD_RESET.NEW_ACCOUNT_TITLE');
   const {
@@ -26,7 +23,6 @@ export default function PureResetPasswordAccount({ email, update}) {
     isTooShort,
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
-  const refInput = register({ required: required });
 
   const disabled = !isValid;
 

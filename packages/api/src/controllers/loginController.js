@@ -30,7 +30,7 @@ class loginController extends baseController {
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
         if (!isMatch) return res.sendStatus(401);
 
-        const id_token = await createAccessToken({ ...userData });
+        const id_token = await createAccessToken({ user_id: userData.user_id });
         return res.status(200).send({
           id_token,
           user: userData,
@@ -59,7 +59,7 @@ class loginController extends baseController {
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded
           ? ''
-          : await createAccessToken({ user_id, email, first_name, last_name });
+          : await createAccessToken({ user_id });
         return res.status(201).send({
           id_token,
           user: {

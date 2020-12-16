@@ -57,7 +57,7 @@ class userController extends baseController {
         await trx.commit();
 
         // generate token, set to last a week
-        const id_token = await createAccessToken({ ...userResult });
+        const id_token = await createAccessToken({ user_id: userResult.user_id });
 
         // send welcome email
         try {

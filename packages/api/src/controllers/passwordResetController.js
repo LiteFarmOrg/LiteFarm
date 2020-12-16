@@ -69,6 +69,7 @@ class passwordResetController extends baseController {
           if (email && template_path) {
             await emailSender.sendEmail(template_path, subject, replacements, email, sender, true, resetURL);
           }
+          console.log(resetURL);
           return res.status(200).send('Email successfully sent');
         } catch (e) {
           console.log('Failed to send email: ', e);
@@ -84,11 +85,8 @@ class passwordResetController extends baseController {
   static validateToken() {
     return async (req, res) => {
       // passwordResetController.isTokenValid()
-      return res.sendStatus(200);
+      return res.status(200).json({ isValid: true });
     }
-  }
-
-  static isTokenValid() {
   }
 
   static resetPassword() {
@@ -98,7 +96,49 @@ class passwordResetController extends baseController {
       // set create_at to today on the password table
       // send email
       // log the user in
-      return res.sendStatus(200);
+      const { password } = req.body;
+      const { user_id } = req.user;
+      try {
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = await bcrypt.hash(password, salt);
+
+        const pwData = {
+          password_hash,
+          reset_token_version: 0,
+          created_at: new Date().toISOString(),
+        };
+        const pwResult = await passwordModel.query().findById(user_id).update(pwData);
+
+        // generate token for logging user in
+        const id_token = await createAccessToken({ user_id });
+
+        // send reset confirmation email
+        // try {
+        //   const template_path = '../templates/welcome_email.html';
+        //   const subject = 'Welcome to LiteFarm!';
+        //   const replacements = {
+        //     first_name: userResult.first_name,
+        //   };
+        //   const sender = 'system@litefarm.org';
+        //   console.log('template_path:', template_path);
+        //   if (userResult.email && template_path) {
+        //     await emailSender.sendEmail(template_path, subject, replacements, userResult.email, sender);
+        //   }
+        // } catch (e) {
+        //   console.log('Failed to send email: ', e);
+        // }
+
+        // send token and user data (sans password hash)
+        // res.status(200).send("Successfully reset password");
+        res.status(200).send({ id_token });
+      } catch (error) {
+        // handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
     }
   }
 }

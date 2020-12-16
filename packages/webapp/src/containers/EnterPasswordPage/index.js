@@ -6,21 +6,21 @@ function EnterPasswordPage({ title, onLogin, onGoBack }) {
 
   const forgotPassword = () => {
     setShowResetModal(true);
-  }
+  };
 
   const dismissModal = () => {
-      setShowResetModal(false);
-  }
+    setShowResetModal(false);
+  };
   return (
     <>
-    <PureEnterPasswordPage
+      <PureEnterPasswordPage
         onLogin={onLogin}
         title={title}
         onGoBack={onGoBack}
         forgotPassword={forgotPassword}
         showModal={showResetModal}
         dismissModal={dismissModal}
-    />
+      />
     </>
   );
 }

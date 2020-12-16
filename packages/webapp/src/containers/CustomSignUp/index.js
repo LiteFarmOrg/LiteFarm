@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
@@ -8,8 +8,8 @@ import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
-import EnterPasswordPage from '../EnterPasswordPage';
 import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
+const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
@@ -19,6 +19,13 @@ function CustomSignUp() {
   const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const forgotPassword = () => {
+    setShowResetModal(true);
+  }
+  const dismissModal = () => {
+    setShowResetModal(false);
+}
   useEffect(() => {
     setValue(EMAIL, user?.email);
   }, [user, setValue]);
@@ -67,10 +74,13 @@ function CustomSignUp() {
     <>
       <Suspense fallback={Spinner}>
         <Hidden isVisible={showPureEnterPasswordPage}>
-          <EnterPasswordPage
+          <PureEnterPasswordPage
             onLogin={onLogin}
             title={`Welcome back ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
+            forgotPassword={forgotPassword}
+            showModal={showResetModal}
+            dismissModal={dismissModal}
           />
         </Hidden>
         <Hidden isVisible={showPureCreateUserAccount}>

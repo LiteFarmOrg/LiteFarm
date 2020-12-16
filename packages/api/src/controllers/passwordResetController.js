@@ -15,24 +15,68 @@
 
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
+const passwordModel = require('../models/passwordModel');
 const bcrypt = require('bcryptjs');
-const { createAccessToken } = require('../util/jwt');
+const { createResetPasswordToken } = require('../util/jwt');
+const environmentMap = {
+  integration: 'https://beta.litefarm.org/',
+  production: 'https://app.litefarm.org/',
+  development: 'http://localhost:3000/',
+}
 
 class passwordResetController extends baseController {
   static sendResetEmail() {
     return async (req, res) => {
       // we will receive the email from the body
-      // get from db user_id and first_name from email (user table)
-  
-      // get entry in db (password table) from user_id
-  
-      // generate token
-      // payload: user_id, reset_token_version, email, first_name
-  
-      // send the email
-      // contains link: {URL}/callback?reset_token={token}
-  
-      return res.sendStatus(200);
+      const { email } = req.body;
+
+      try {
+        // get from db user_id and first_name from email (user table)
+        const userData = await userModel.query().select('user_id', 'first_name').where('email', email).first();
+
+        if (!userData) {
+          return res.status(400).send('Email is not registered in LiteFarm');
+        }
+
+        // get entry in db (password table) from user_id
+        const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
+
+        const tokenPayload = {
+          ...userData,
+          email,
+          reset_token_version: pwData.reset_token_version,
+        };
+
+        // generate token
+        // payload: user_id, reset_token_version, email, first_name
+        const token = await createResetPasswordToken(tokenPayload);
+    
+        // send the email
+        // contains link: {URL}/callback?reset_token={token}
+        try {
+          const template_path = '../templates/password_reset_email.html';
+          const subject = 'Did you forget your LiteFarm password?';
+          
+          const environment = process.env.NODE_ENV || 'development';
+          const baseURL = environmentMap[environment];
+          const resetURL = `${baseURL}/callback?reset_token=${token}`;
+          
+          const replacements = {
+            first_name: userData.first_name,
+          };
+          const sender = 'system@litefarm.org';
+          if (email && template_path) {
+            await emailSender.sendEmail(template_path, subject, replacements, email, sender, true, resetURL);
+          }
+          return res.status(200).send("Email successfully sent");
+        } catch (e) {
+          console.log('Failed to send email: ', e);
+          return res.status(400).send("Failed to send email");
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(400).json(error);
+      }
     }
   }
 

@@ -13,17 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Model } = require('objection');
 const passwordModel = require('./../../models/passwordModel');
 async function checkResetPasswordTokenContent(req, res, next) {
-  const { user_id } = req.user;
-  // const { token_version } = req.user;
-  // check whether the token is used by using {user_id, token_version} => token_version_in_database - token_version <= 3 or {user_id} => isValid to query the database
+  const { user_id, created_at } = req.user;
   const result = await passwordModel.query().select('created_at').where('user_id', user_id).first();
-  if(result.created_at.getTime() < req.user.iat) {
+  if(result.created_at.getTime() <= created_at) {
     next();
   }  else {
-    res.status(401).send({});
+    res.status(401).send('date error');
   }
 }
 

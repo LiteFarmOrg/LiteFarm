@@ -88,11 +88,12 @@ export function* customCreateUserSaga({ payload: data }) {
     const full_name = name.split(' ');
     const first_name = full_name[0];
     const last_name = full_name[1] || '';
+    const language_preference = localStorage.getItem('litefarm_lang');
     let email = yield select(manualSignUpSelector);
     email = email.userEmail;
     const password = data.password;
 
-    const result = yield call(axios.post, userUrl(), { email, first_name, last_name, password });
+    const result = yield call(axios.post, userUrl(), { email, first_name, last_name, password, language_preference});
 
     if (result) {
       const {

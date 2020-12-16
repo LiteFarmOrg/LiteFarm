@@ -54,6 +54,7 @@ const persistConfig = {
   storage,
   stateReconciler: autoMergeLevel2,
 };
+const languages = ['en', 'es', 'pt', 'fr'];
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -71,6 +72,11 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
     const newRootReducer = require('./reducer').default;
     store.replaceReducer(newRootReducer);
   });
+}
+if(!localStorage.getItem('litefarm_lang')) {
+  const currentLanguage = navigator.language.split('-')[0];
+  const selectedLanguage = languages.includes(currentLanguage) || 'en';
+  localStorage.setItem('litefarm_lang', selectedLanguage);
 }
 
 sagaMiddleware.run(homeSaga);

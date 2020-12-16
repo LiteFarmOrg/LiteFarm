@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
 import PureCustomSignUp from '../../components/CustomSignUp';
 import { customLoginWithPassword, customSignUp, customCreateUser } from './saga';
 import history from '../../history';
@@ -9,14 +10,13 @@ import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
-import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
 
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const { user, component: componentToShow } = history.location;
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
-  const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
+  const refInput = register({ pattern: validEmailRegex });
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
   useEffect(() => {

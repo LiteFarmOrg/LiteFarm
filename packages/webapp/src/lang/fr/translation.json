@@ -8,6 +8,10 @@
   "CONSENT": {
     "LABEL": "MISSING"
   },
+  "CREATE_USER": {
+    "CREATE_BUTTON": "MISSING",
+    "TITLE": "MISSING"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "MISSING",
@@ -283,10 +287,15 @@
     "ACCOUNT_TAB": "MISSING",
     "ACCOUNT": {
       "EMAIL": "MISSING",
+      "ENGLISH": "MISSING",
       "FIRST_NAME": "MISSING",
+      "FRENCH": "MISSING",
+      "LANGUAGE": "MISSING",
       "LAST_NAME": "MISSING",
       "PERSONAL_INFORMATION": "MISSING",
       "PHONE_NUMBER": "MISSING",
+      "PORTUGUESE": "MISSING",
+      "SPANISH": "MISSING",
       "USER_ADDRESS": "MISSING"
     },
     "FARM_TAB": "MISSING",
@@ -294,7 +303,6 @@
       "ADDRESS": "MISSING",
       "CURRENCY": "MISSING",
       "FARM_NAME": "MISSING",
-      "LANGUAGE": "MISSING",
       "MAKE_REQUEST": "MISSING",
       "PHONE_NUMBER": "MISSING",
       "REQUEST_DATA": "MISSING",
@@ -467,17 +475,13 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "MISSING",
-    "OOPS": "MISSING",
-    "PLEASE_SIGNUP": "MISSING",
-    "TITLE": "MISSING",
     "GOOGLE_BUTTON": "MISSING",
-    "SSO_ERROR": "Please login by clicking the Google button above",
+    "OOPS": "MISSING",
+    "PASSWORD_ERROR": "Password incorrect",
+    "PLEASE_SIGNUP": "MISSING",
     "SIGN_IN": "Sign In",
-    "PASSWORD_ERROR": "Password incorrect"
-  },
-  "CREATE_USER": {
-    "TITLE": "MISSING",
-    "CREATE_BUTTON": "MISSING"
+    "SSO_ERROR": "Please login by clicking the Google button above",
+    "TITLE": "MISSING"
   },
   "SLIDE_MENU": {
     "DEMOS": "MISSING",

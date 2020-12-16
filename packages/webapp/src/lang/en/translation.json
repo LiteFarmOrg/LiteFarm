@@ -8,6 +8,10 @@
   "CONSENT": {
     "LABEL": "I Agree"
   },
+  "CREATE_USER": {
+    "CREATE_BUTTON": "Create Account",
+    "TITLE": "Create new user account"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "New Expense (1 of 2)",
@@ -283,10 +287,15 @@
     "ACCOUNT_TAB": "Account",
     "ACCOUNT": {
       "EMAIL": "Email",
+      "ENGLISH": "English",
       "FIRST_NAME": "First Name",
+      "FRENCH": "French",
+      "LANGUAGE": "Language",
       "LAST_NAME": "Last Name",
       "PERSONAL_INFORMATION": "Personal Information",
       "PHONE_NUMBER": "Phone Number",
+      "PORTUGUESE": "Portuguese",
+      "SPANISH": "Spanish",
       "USER_ADDRESS": "User Address"
     },
     "FARM_TAB": "Farm",
@@ -294,7 +303,6 @@
       "ADDRESS": "Address",
       "CURRENCY": "Currency",
       "FARM_NAME": "Farm Name",
-      "LANGUAGE": "Language",
       "MAKE_REQUEST": "Make Request",
       "PHONE_NUMBER": "Phone Number",
       "REQUEST_DATA": "You can request a data download and we will send your farm's data to your email, in the form of csv.",
@@ -467,17 +475,13 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
-    "OOPS": "Oops!",
-    "PLEASE_SIGNUP": "Please, sign up.",
-    "TITLE": "Sign Up",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "SSO_ERROR": "Please login by clicking the Google button above",
+    "OOPS": "Oops!",
+    "PASSWORD_ERROR": "Password incorrect",
+    "PLEASE_SIGNUP": "Please, sign up.",
     "SIGN_IN": "Sign In",
-    "PASSWORD_ERROR": "Password incorrect"
-  },
-  "CREATE_USER": {
-    "TITLE": "Create new user account",
-    "CREATE_BUTTON": "Create Account"
+    "SSO_ERROR": "Please login by clicking the Google button above",
+    "TITLE": "Sign Up"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

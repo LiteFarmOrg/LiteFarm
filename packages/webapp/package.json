@@ -46,6 +46,7 @@
     "history": "^4.10.1",
     "html-webpack-plugin": "^4.5.0",
     "i18next": "^19.8.4",
+    "i18next-browser-languagedetector": "^6.0.1",
     "identity-obj-proxy": "3.0.0",
     "intro.js": "^3.0.1",
     "jest": "26.6.3",

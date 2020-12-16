@@ -16,12 +16,13 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
+const emailSender = require('../templates/sendEmailTemplate');
 const bcrypt = require('bcryptjs');
 const { createResetPasswordToken } = require('../util/jwt');
 const environmentMap = {
-  integration: 'https://beta.litefarm.org/',
-  production: 'https://app.litefarm.org/',
-  development: 'http://localhost:3000/',
+  integration: 'https://beta.litefarm.org',
+  production: 'https://app.litefarm.org',
+  development: 'http://localhost:3000',
 }
 
 class passwordResetController extends baseController {

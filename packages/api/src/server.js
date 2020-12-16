@@ -49,6 +49,7 @@ const logRoutes = require('./routes/logRoute');
 const shiftRoutes = require('./routes/shiftRoute');
 // const notificationSettingRoutes = require('./routes/notificationSettingRoute');
 const fieldCropRoutes = require('./routes/fieldCropRoute');
+const createUserRoutes = require('./routes/createUserRoute');
 const fertilizerRoutes = require('./routes/fertilizerRoute');
 const diseaseRoutes = require('./routes/diseaseRoute');
 const pesticideRoutes = require('./routes/pesticideRoute');
@@ -117,6 +118,7 @@ app.use(bodyParser.json())
   .use('/shift', shiftRoutes)
   // .use('/notification_setting', notificationSettingRoutes)
   .use('/field_crop', fieldCropRoutes)
+  .use('/create_user', createUserRoutes)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
   .use('/pesticide', pesticideRoutes)

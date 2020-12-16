@@ -34,11 +34,11 @@ describe('Sign Up Tests', () => {
     token = global.token;
   });
 
-  afterAll((done) => { 
+  afterAll((done) => {
     server.close(() => {
-	    done();
+      done();
     });
-  })
+  });
 
   // FUNCTIONS
 
@@ -50,9 +50,9 @@ describe('Sign Up Tests', () => {
   }
 
   beforeEach(async () => {
-    [ farm ] = await mocks.farmFactory();
-    [ newOwner ] = await mocks.usersFactory();
-    [ crop ] = await mocks.cropFactory({ promisedFarm: [ farm ] });
+    [farm] = await mocks.farmFactory();
+    [newOwner] = await mocks.usersFactory();
+    [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -78,32 +78,31 @@ describe('Sign Up Tests', () => {
 	    expect(res.status).toBe(200);
 		expect(res.body.exists).toBe(true);
 		expect(res.body.sso).toBe(false);
-		expect(res.body.user.first_name).toBe(name);
+		expect(res.body.first_name).toBe(name);
 		done();
 	  });
   });
 
 
-    // xtest('Get status of user from email address should return 200 and SSO true', async (done) => {
-    //   const [user] = await mocks.ssoUsersFactory();
-    //   const name = user.first_name;
-
-    //   getRequest({ email: user.email}, (err, res) => {
-    //     expect(res.status).toBe(200);
-    //     expect(res.body.exists).toBe(true);
-    //     expect(res.body.sso).toBe(true);
-    //     expect(res.body.user[0].first_name).toBe(name);
-    //     done();
-    //   });
-    // });
+    test('Get status of user from email address should return 200 and SSO true', async (done) => {
+      const [user] = await mocks.usersFactory(mocks.fakeSSOUser());
+      const name = user.first_name;
+      getRequest({ email: user.email }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.exists).toBe(true);
+        expect(res.body.sso).toBe(true);
+        expect(res.body.first_name).toBe(name);
+        done();
+      });
+    });
 
     test('Get status of user from email address should return 200 and sso false because user does not exist', async (done) => {
       const user = {
-        first_name: "Bobby",
-        last_name: "McBobson",
-        email: "bobby@gmail.com",
-        user_id: "1234466",
-        phone_number: "899-903-2343"
+        first_name: 'Bobby',
+        last_name: 'McBobson',
+        email: 'bobby@gmail.com',
+        user_id: '1234466',
+        phone_number: '899-903-2343',
       };
 
       getRequest({ email: user.email }, (err, res) => {

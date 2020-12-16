@@ -8,6 +8,10 @@
   "CONSENT": {
     "LABEL": "I Agree"
   },
+  "CREATE_USER": {
+    "CREATE_BUTTON": "Create Account",
+    "TITLE": "Create new user account"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "New Expense (1 of 2)",
@@ -273,6 +277,15 @@
     }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
+  "PASSWORD_RESET": {
+    "BUTTON": "Resend Link",
+    "BUTTON_SENDING": "Sending...",
+    "DESCRIPTION_BOTTOM": "Please check your email.",
+    "DESCRIPTION_TOP": "A link has been sent.",
+    "NEW_ACCOUNT_BUTTON": "Update",
+    "NEW_ACCOUNT_TITLE": "Set your new password",
+    "TITLE": "Link Sent"
+  },
   "PROFILE_FLOATER": {
     "HELP": "Help",
     "INFO": "My info",
@@ -467,17 +480,13 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
-    "OOPS": "Oops!",
-    "PLEASE_SIGNUP": "Please, sign up.",
-    "TITLE": "Sign Up",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "SSO_ERROR": "Please login by clicking the Google button above",
+    "OOPS": "Oops!",
+    "PASSWORD_ERROR": "Password incorrect",
+    "PLEASE_SIGNUP": "Please, sign up.",
     "SIGN_IN": "Sign In",
-    "PASSWORD_ERROR": "Password incorrect"
-  },
-  "CREATE_USER": {
-    "TITLE": "Create new user account",
-    "CREATE_BUTTON": "Create Account"
+    "SSO_ERROR": "Please login by clicking the Google button above",
+    "TITLE": "Sign Up"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

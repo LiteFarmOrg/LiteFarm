@@ -57,7 +57,7 @@ class userController extends baseController {
         await trx.commit();
 
         // generate token, set to last a week
-        const token = await createAccessToken({ ...userResult });
+        const id_token = await createAccessToken({ ...userResult });
 
         // send welcome email
         try {
@@ -77,7 +77,7 @@ class userController extends baseController {
 
         // send token and user data (sans password hash)
         res.status(201).send({
-          token,
+          id_token,
           user: userResult,
         });
       } catch (error) {

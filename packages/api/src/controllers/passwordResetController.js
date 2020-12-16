@@ -16,22 +16,22 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
-const { createAccessToken } = require('../util/jwt');
+const { createAccessToken, createResetPasswordToken } = require('../util/jwt');
 
 class passwordResetController extends baseController {
   static sendResetEmail() {
     return async (req, res) => {
       // we will receive the email from the body
       // get from db user_id and first_name from email (user table)
-  
+
       // get entry in db (password table) from user_id
-  
+
       // generate token
       // payload: user_id, reset_token_version, email, first_name
-  
+      const resetPasswordToken = await createResetPasswordToken(req.body);
       // send the email
       // contains link: {URL}/callback?reset_token={token}
-  
+
       return res.sendStatus(200);
     }
   }

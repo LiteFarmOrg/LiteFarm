@@ -23,6 +23,7 @@ const checkJwt = jwt({
   path: [
     '/user',
     '/login',
+    '/password_reset',
   ],
 });
 

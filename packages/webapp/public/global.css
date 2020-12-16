@@ -23,6 +23,10 @@
     --addition: #FFB800;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 /*button{*/
 /*    -webkit-appearance: none;*/
 /*}*/

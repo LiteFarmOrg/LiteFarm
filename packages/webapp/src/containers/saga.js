@@ -33,13 +33,16 @@ import {
   setUserInState,
 } from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import apiConfig, { userFarmUrl } from '../apiConfig';
+import { call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
+import apiConfig, { userFarmUrl, url } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import { loginSelector, loginSuccess } from './loginSlice';
 import { userFarmSelector, putUserSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { lastActiveDatetimeSelector, logUserInfoSuccess } from './userLogSlice';
+
+const logUserInfoUrl = () => `${url}/userLog`;
 
 const axios = require('axios');
 
@@ -53,7 +56,9 @@ export function getHeader(user_id, farm_id) {
     },
   };
 }
+
 export const updateUser = createAction('updateUserSaga');
+
 export function* updateUserSaga({ payload: user }) {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -167,6 +172,27 @@ export function* getFieldCropsByDateSaga() {
   }
 }
 
+export function* logUserInfoSaga() {
+  let { user_id, farm_id } = yield select(loginSelector);
+  if (!user_id) return;
+  const header = getHeader(user_id, farm_id);
+  try {
+    const hour = 1000 * 3600;
+    const lastActiveDatetimeAsNumber = yield select(lastActiveDatetimeSelector);
+    const currentDateAsNumber = new Date().getTime();
+    const screenSize = {
+      screen_width: window.innerWidth,
+      screen_height: window.innerHeight,
+    };
+    if (!lastActiveDatetimeAsNumber || currentDateAsNumber - lastActiveDatetimeAsNumber > hour) {
+      yield put(logUserInfoSuccess());
+      yield call(axios.post, logUserInfoUrl(), screenSize, header);
+    }
+  } catch (e) {
+    console.log('failed to fetch field crops by date');
+  }
+}
+
 const formatDate = (currDate) => {
   const d = currDate;
   let year = d.getFullYear(),
@@ -233,6 +259,7 @@ const formatDate = (currDate) => {
 // }
 
 export default function* getFarmIdSaga() {
+  yield takeLeading('*', logUserInfoSaga);
   yield takeLatest(updateUser.type, updateUserSaga);
   yield takeLatest(GET_FARM_INFO, getFarmInfo);
   yield takeLatest(UPDATE_FARM, updateFarm);

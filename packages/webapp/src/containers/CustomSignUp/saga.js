@@ -26,6 +26,7 @@ const axios = require('axios');
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
 const userUrl = () => `${url}/user`;
+const resetPasswordUrl = () => `${url}/password_reset/send_email`;
 
 export const customSignUp = createAction(`customSignUpSaga`);
 
@@ -110,8 +111,21 @@ export function* customCreateUserSaga({ payload: data }) {
   }
 }
 
+export const sendResetPasswordEmail = createAction(`sendResetPasswordEmailSaga`);
+
+export function* sendResetPasswordEmailSaga({ payload: email }) {
+  try {
+    console.log(email);
+    const result = yield call(axios.post, resetPasswordUrl(), { email });
+    console.log(result);
+  } catch (e) {
+    toastr.error('Error with sending password reset email, please contact LiteFarm for assistance.');
+  }
+}
+
 export default function* signUpSaga() {
   yield takeLatest(customSignUp.type, customSignUpSaga);
   yield takeLatest(customLoginWithPassword.type, customLoginWithPasswordSaga);
   yield takeLatest(customCreateUser.type, customCreateUserSaga);
+  yield takeLatest(sendResetPasswordEmail.type, sendResetPasswordEmailSaga);
 }

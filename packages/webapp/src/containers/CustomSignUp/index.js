@@ -2,7 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
-import { customLoginWithPassword, customSignUp, customCreateUser } from './saga';
+import { customLoginWithPassword, customSignUp, customCreateUser, sendResetPasswordEmail } from './saga';
 import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ function CustomSignUp() {
   const email = watch(EMAIL, undefined);
   const [showResetModal, setShowResetModal] = useState(false);
   const forgotPassword = () => {
+    dispatch(sendResetPasswordEmail(email));
     setShowResetModal(true);
   };
   const dismissModal = () => {
@@ -85,7 +86,7 @@ function CustomSignUp() {
           />
           {showResetModal && (
             <>
-              <ResetPassword />
+              <ResetPassword email={email} />
               <div
                 onClick={dismissModal}
                 style={{

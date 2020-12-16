@@ -18,7 +18,7 @@ const createAccessTokenSync = (payload) => {
 };
 
 const createResetPasswordToken = async (payload) => {
-  return sign(payload, process.env.JWT_SECRET, {
+  return sign(payload, process.env.JWT_RESET_SECRET, {
     expiresIn: RESET_PASSWORD_TOKEN_EXPIRES_IN,
     algorithm: 'HS256',
   });

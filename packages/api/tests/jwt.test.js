@@ -29,6 +29,53 @@ jest.mock('../src/util/jwt');
 
 describe('JWT Tests', () => {
   let newUser;
+  let accessToken;
+  function deleteFarmRequest(data, user, callback) {
+    chai.request(server).delete(`/farm/${data.farm_id}`)
+      .set('farm_id', data.farm_id)
+      .set('user_id', user)
+      .set('Authorization', getAuthorizationHeader(data))
+      .end(callback);
+  }
+
+  function deleteFarmRequestWithoutToken(data, user, callback) {
+    chai.request(server).delete(`/farm/${data.farm_id}`)
+      .set('farm_id', data.farm_id)
+      .set('user_id', user)
+      .set('Authorization', 'token')
+      .end(callback);
+  }
+
+  function postResetPasswordRequest(email, callback) {
+    chai.request(server).post(`/password_reset/send_email`)
+      .send({ email })
+      .end(callback);
+  }
+
+  function getValidateRequest(resetPasswordToken, user_id, callback) {
+    chai.request(server).delete(`/password_reset/validate`)
+      .set('user_id', user_id)
+      .set('Authorization', `Bearer ${resetPasswordToken}`)
+      .end(callback);
+  }
+
+  function putPasswordRequet(resetPasswordToken, user, callback) {
+    chai.request(server).delete(`/password_reset/validate`)
+      .set('user_id', user.user_id)
+      .set('Authorization', `Bearer ${resetPasswordToken}`)
+      .send(user)
+      .end(callback);
+  }
+
+  async function insertPasswordRow({ password = 'password', reset_token_version, created_at = new Date(), user_id }) {
+    const salt = await bcrypt.genSalt(10);
+    const password_hash = await bcrypt.hash(password, salt);
+    return await knex('password').insert({ password_hash, reset_token_version, created_at, user_id }).returning('*');
+  }
+
+  function getAuthorizationHeader(user_id) {
+    return 'Bearer ' + createAccessTokenSync({ user_id });
+  }
 
   afterAll((done) => {
     server.close(() => {
@@ -37,7 +84,29 @@ describe('JWT Tests', () => {
   });
 
 
+
   beforeEach(async () => {
+    let { createAccessToken, createAccessTokenSync } = require('../src/util/jwt');
+    createAccessToken.mockImplementation(async (user) => {
+      let localAccessToken = sign(user, process.env.JWT_SECRET, {
+        expiresIn: '7d',
+        algorithm: 'HS256',
+      });
+      accessToken = localAccessToken;
+      return localAccessToken;
+    });
+
+    createAccessTokenSync.mockImplementation( (user) => {
+      let localAccessToken = sign(user, process.env.JWT_SECRET, {
+        expiresIn: '7d',
+        algorithm: 'HS256',
+      });
+      accessToken = localAccessToken;
+      return localAccessToken;
+    });
+
+
+
     [newUser] = await usersFactory();
   });
 
@@ -80,11 +149,12 @@ describe('JWT Tests', () => {
         if (user.reset_token_version === undefined) {
           user.reset_token_version = 4;
         }
-        resetPasswordToken = sign(user, process.env.RESET_PASSWORD_JWT_PRIVATE_KEY, {
+        let localResetPasswordToken = sign(user, process.env.JWT_RESET_SECRET, {
           expiresIn: '1d',
-          algorithm: 'RS256',
+          algorithm: 'HS256',
         });
-        return resetPasswordToken;
+        resetPasswordToken = localResetPasswordToken;
+        return localResetPasswordToken;
       });
 
       resetPasswordToken = undefined;
@@ -93,7 +163,7 @@ describe('JWT Tests', () => {
     });
     test('Validate a valid token', async (done) => {
       const resetPasswordToken = await createResetPasswordToken(newUser);
-      const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+      const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
       console.log(user);
       expect(user.user_id).toEqual(newUser.user_id);
       done();
@@ -103,7 +173,7 @@ describe('JWT Tests', () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 0, user_id: newUser.user_id });
       postResetPasswordRequest(newUser.email, async (err, res) => {
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(user.reset_token_version).toBe(0);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(1);
@@ -120,7 +190,7 @@ describe('JWT Tests', () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 1, user_id: newUser.user_id });
       postResetPasswordRequest(newUser.email, async (err, res) => {
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(user.reset_token_version).toBe(1);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(2);
@@ -137,7 +207,7 @@ describe('JWT Tests', () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 2, user_id: newUser.user_id });
       postResetPasswordRequest(newUser.email, async (err, res) => {
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(user.reset_token_version).toBe(2);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(3);
@@ -172,7 +242,7 @@ describe('JWT Tests', () => {
       const oldRow = await insertPasswordRow({ reset_token_version: 1, user_id: newUser.user_id, created_at: oldDate });
       postResetPasswordRequest(newUser.email, async (err, res) => {
         expect(res.status).toBe(200);
-        const user = jsonwebtoken.verify(resetPasswordToken, process.env.RESET_PASSWORD_JWT_PUBLIC_KEY);
+        const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(user.reset_token_version).toBe(0);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(1);
@@ -212,49 +282,4 @@ describe('JWT Tests', () => {
   });
 });
 
-function deleteFarmRequest(data, user, callback) {
-  chai.request(server).delete(`/farm/${data.farm_id}`)
-    .set('farm_id', data.farm_id)
-    .set('user_id', user)
-    .set('Authorization', getAuthorizationHeader(data))
-    .end(callback);
-}
 
-function deleteFarmRequestWithoutToken(data, user, callback) {
-  chai.request(server).delete(`/farm/${data.farm_id}`)
-    .set('farm_id', data.farm_id)
-    .set('user_id', user)
-    .set('Authorization', 'token')
-    .end(callback);
-}
-
-function postResetPasswordRequest(email, callback) {
-  chai.request(server).post(`/password_reset/send_email`)
-    .send({ email })
-    .end(callback);
-}
-
-function getValidateRequest(resetPasswordToken, user_id, callback) {
-  chai.request(server).delete(`/password_reset/validate`)
-    .set('user_id', user_id)
-    .set('Authorization', `Bearer ${resetPasswordToken}`)
-    .end(callback);
-}
-
-function putPasswordRequet(resetPasswordToken, user, callback) {
-  chai.request(server).delete(`/password_reset/validate`)
-    .set('user_id', user.user_id)
-    .set('Authorization', `Bearer ${resetPasswordToken}`)
-    .send(user)
-    .end(callback);
-}
-
-async function insertPasswordRow({ password = 'password', reset_token_version, created_at = new Date(), user_id }) {
-  const salt = await bcrypt.genSalt(10);
-  const password_hash = await bcrypt.hash(password, salt);
-  return await knex('password').insert({ password_hash, reset_token_version, created_at, user_id }).returning('*');
-}
-
-function getAuthorizationHeader(user_id) {
-  return 'Bearer ' + createAccessTokenSync({ user_id });
-}

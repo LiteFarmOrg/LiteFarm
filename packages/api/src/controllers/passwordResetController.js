@@ -36,7 +36,7 @@ class passwordResetController extends baseController {
         const userData = await userModel.query().select('user_id', 'first_name').where('email', email).first();
 
         if (!userData) {
-          return res.status(400).send('Email is not registered in LiteFarm');
+          return res.status(404).send('Email is not registered in LiteFarm');
         }
 
         // get entry in db (password table) from user_id

@@ -8,9 +8,8 @@ import { useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 import { useTranslation } from 'react-i18next';
-import ResetPassword from '../../../containers/ResetPassword';
 
-export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgotPassword, showModal, dismissModal }) {
+export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgotPassword }) {
   const { register, handleSubmit, errors, setError, watch } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD);
@@ -62,7 +61,7 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
         errors={errors[PASSWORD]?.message}
       />
       {showErrors && (
-        <div onClick={dismissModal}>
+        <div>
           <Text>Hint</Text>
           <PasswordError
             hasNoDigit={hasNoDigit}
@@ -72,19 +71,7 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
           />
         </div>
       )}
-      <div>
-      {showModal && <ResetPassword/>}
-    {
-    showModal && 
-    <div onClick={dismissModal} style={{ position: "fixed",
-    zIndex: 100,
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: "rgba(25, 25, 40, 0.8)"}} /> 
-    }
-    </div>
+      <div></div>
     </Form>
   );
 }

@@ -7,8 +7,11 @@ import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
+import ResetPassword from '../ResetPassword';
+
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
+
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 
 function CustomSignUp() {
@@ -22,10 +25,10 @@ function CustomSignUp() {
   const [showResetModal, setShowResetModal] = useState(false);
   const forgotPassword = () => {
     setShowResetModal(true);
-  }
+  };
   const dismissModal = () => {
     setShowResetModal(false);
-}
+  };
   useEffect(() => {
     setValue(EMAIL, user?.email);
   }, [user, setValue]);
@@ -79,9 +82,24 @@ function CustomSignUp() {
             title={`Welcome back ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
-            showModal={showResetModal}
-            dismissModal={dismissModal}
           />
+          {showResetModal && (
+            <>
+              <ResetPassword />
+              <div
+                onClick={dismissModal}
+                style={{
+                  position: 'fixed',
+                  zIndex: 100,
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  backgroundColor: 'rgba(25, 25, 40, 0.8)',
+                }}
+              />
+            </>
+          )}
         </Hidden>
         <Hidden isVisible={showPureCreateUserAccount}>
           <PureCreateUserAccount

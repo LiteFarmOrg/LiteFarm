@@ -71,6 +71,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "sinon": "^9.1.0",
+    "ua-parser-js": "^0.7.23",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

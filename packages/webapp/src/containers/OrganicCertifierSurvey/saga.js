@@ -32,7 +32,7 @@ export function* getCertifiersSaga() {
     const result = yield call(axios.get, getUrl(farm_id), header);
     yield put(getCertifiersSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingCertifierSurveyFail());
+    yield put(onLoadingCertifierSurveyFail(e));
     console.log('failed to fetch certifiers from database');
   }
 }

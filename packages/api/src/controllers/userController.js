@@ -52,7 +52,7 @@ class userController extends baseController {
         delete result.password_hash;
 
         // generate token, set to last a week
-        const token = await createAccessToken({ ...result });
+        const id_token = await createAccessToken({ ...result });
 
         // send welcome email
         try {
@@ -73,7 +73,7 @@ class userController extends baseController {
         // send token and user data (sans password hash)
         delete result.password_hash;
         res.status(201).send({
-          token,
+          id_token,
           user: result,
         });
       } catch (error) {

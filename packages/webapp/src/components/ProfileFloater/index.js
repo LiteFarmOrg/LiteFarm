@@ -22,27 +22,27 @@ export function PureProfileFloaterComponent({
         minWidth: '138px',
         backgroundColor: 'white',
         borderRadius: '4px',
-        marginRight: '-4px',
+        transform: 'translateX(-12px)',
       }}
     >
       <ListOption
         clickFn={onInfo}
         iconText={t('PROFILE_FLOATER.INFO')}
-         icon={<MyInfoIcon />}
+        icon={<MyInfoIcon />}
         customParagraphStyle={{ paddingTop: '0.5rem' }}
       />
       {showSwitchFarm && (
         <ListOption
           clickFn={onSwitchFarm}
           iconText={t('PROFILE_FLOATER.SWITCH')}
-           icon={<SwitchFarmIcon />}
+          icon={<SwitchFarmIcon />}
         />
       )}
       <ListOption clickFn={onHelp} iconText={t('PROFILE_FLOATER.HELP')} icon={<HelpIcon />} />
       <ListOption
         clickFn={onLogout}
         iconText={t('PROFILE_FLOATER.LOG_OUT')}
-         icon={<LogoutIcon />}
+        icon={<LogoutIcon />}
         customParagraphStyle={{ paddingBottom: '0.5rem' }}
       />
     </div>
@@ -56,7 +56,7 @@ export default function PureProfileFloater({
   helpClick,
   myInfoClick,
   logOutClick,
-  switchFarmClick
+  switchFarmClick,
 }) {
   return (
     <Floater

@@ -9,7 +9,7 @@ import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 import { useTranslation } from 'react-i18next';
 
-export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin, onGoBack }) {
+export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgotPassword }) {
   const { register, handleSubmit, errors, setError, watch } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD);
@@ -56,7 +56,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
         label={'Password'}
         type={PASSWORD}
         name={PASSWORD}
-        icon={<Underlined>Forgot password?</Underlined>}
+        icon={<Underlined onClick={forgotPassword}>Forgot password?</Underlined>}
         inputRef={inputRegister}
         errors={errors[PASSWORD]?.message}
       />
@@ -71,6 +71,7 @@ export default function PureEnterPasswordPage({ title = 'Welcome back', onLogin,
           />
         </div>
       )}
+      <div></div>
     </Form>
   );
 }

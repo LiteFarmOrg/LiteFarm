@@ -30,7 +30,6 @@ class Password extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'password_hash'],
 
       properties: {
         user_id: { type: 'string' },
@@ -56,11 +55,6 @@ class Password extends Model {
 
   async $beforeInsert(context) {
     await super.$beforeInsert(context);
-    this.created_at = new Date().toISOString();
-  }
-
-  async $beforeUpdate(opt, context) {
-    await super.$beforeUpdate(opt, context);
     this.created_at = new Date().toISOString();
   }
 }

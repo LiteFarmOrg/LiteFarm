@@ -277,6 +277,15 @@
     }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
+  "PASSWORD_RESET": {
+    "BUTTON": "Resend Link",
+    "BUTTON_SENDING": "Sending...",
+    "DESCRIPTION_BOTTOM": "Please check your email.",
+    "DESCRIPTION_TOP": "A link has been sent.",
+    "NEW_ACCOUNT_BUTTON": "Update",
+    "NEW_ACCOUNT_TITLE": "Set your new password",
+    "TITLE": "Link Sent"
+  },
   "PROFILE_FLOATER": {
     "HELP": "Help",
     "INFO": "My info",

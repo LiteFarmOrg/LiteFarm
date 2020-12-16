@@ -12,7 +12,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
- 
+
  .container {
     display: flex;
     align-items: center;
@@ -22,13 +22,12 @@
     background: #fafafd;
     border-radius: 7.05466px;
     position: relative;
-    top: -35vw;
   }
-  
+
   .imgContainer {
     padding-top: 20px;
   }
-  
+
   .title {
     font-family: Open Sans;
     font-style: normal;
@@ -38,7 +37,7 @@
     text-align: center;
     color: #028577;
   }
-  
+
   .descriptionTop {
     font-family: Open Sans;
     font-style: normal;
@@ -51,7 +50,7 @@
     align-items: center;
     padding-top: 20px;
   }
-  
+
   .descriptionBottom {
     font-family: Open Sans;
     font-style: normal;
@@ -59,7 +58,7 @@
     font-size: 20px;
     line-height: 32px;
   }
-  
+
   .bottomContainer {
     margin: auto;
     display: flex;

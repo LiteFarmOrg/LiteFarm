@@ -16,8 +16,8 @@
 const jwt = require('express-jwt');
 
 const checkResetPasswordJwt = jwt({
-  secret: process.env.RESET_PASSWORD_JWT_PUBLIC_KEY,
-  algorithms: ['RS256'],
+  secret: process.env.JWT_SECRET,
+  algorithms: ['HS256'],
 });
 
 module.exports = checkResetPasswordJwt;

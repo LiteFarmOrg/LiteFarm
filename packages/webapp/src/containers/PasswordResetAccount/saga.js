@@ -39,7 +39,7 @@ export function* resetPasswordSaga() {
     // Get user_id from decoded token
 
     // Call resetPassword endpoint, pass user_id in request body
-    
+
     // Endpoint will generate a new hashed password, save in password table, set created_at to today, send password reset confirmation email, return access token
 
     // If access token is valid, call login user endpoint, else return error message
@@ -49,6 +49,18 @@ export function* resetPasswordSaga() {
   }
 }
 
+
+export const validateToken = createAction('validateTokenSaga')
+
+export function* validateTokenSaga({token}) {
+  // call validation endpoint with token
+  // if this is successful we proceed to PasswordResetAccount
+  // otherwise we want to go with another component to show error. < -- view is not designed.
+  // FOR NOW: move to main page
+}
+
+
 export default function* resetUserPasswordSaga() {
   yield takeLatest(resetPassword.type, resetPasswordSaga);
+  yield takeLatest(validateToken.type, validateTokenSaga);
 }

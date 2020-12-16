@@ -51,17 +51,17 @@ class passwordResetController extends baseController {
         // generate token
         // payload: user_id, reset_token_version, email, first_name
         const token = await createResetPasswordToken(tokenPayload);
-    
+
         // send the email
         // contains link: {URL}/callback?reset_token={token}
         try {
           const template_path = '../templates/password_reset_email.html';
           const subject = 'Did you forget your LiteFarm password?';
-          
+
           const environment = process.env.NODE_ENV || 'development';
           const baseURL = environmentMap[environment];
           const resetURL = `${baseURL}/callback?reset_token=${token}`;
-          
+
           const replacements = {
             first_name: userData.first_name,
           };
@@ -69,10 +69,10 @@ class passwordResetController extends baseController {
           if (email && template_path) {
             await emailSender.sendEmail(template_path, subject, replacements, email, sender, true, resetURL);
           }
-          return res.status(200).send("Email successfully sent");
+          return res.status(200).send('Email successfully sent');
         } catch (e) {
           console.log('Failed to send email: ', e);
-          return res.status(400).send("Failed to send email");
+          return res.status(400).send('Failed to send email');
         }
       } catch (error) {
         console.log(error);
@@ -83,12 +83,21 @@ class passwordResetController extends baseController {
 
   static validateToken() {
     return async (req, res) => {
+      // passwordResetController.isTokenValid()
       return res.sendStatus(200);
     }
   }
 
+  static isTokenValid() {
+  }
+
   static resetPassword() {
     return async (req, res) => {
+      // if(passwordResetController.isTokenValid())
+      // reset the password
+      // set create_at to today on the password table
+      // send email
+      // log the user in
       return res.sendStatus(200);
     }
   }

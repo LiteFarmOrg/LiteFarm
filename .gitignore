@@ -8,3 +8,4 @@ packages/webapp/.env
 packages/webapp/cypress/videos
 packages/webapp/cypress/screenshots
 .vscode
+.DS_Store

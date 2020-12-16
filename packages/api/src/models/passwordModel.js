@@ -57,11 +57,6 @@ class Password extends Model {
     await super.$beforeInsert(context);
     this.created_at = new Date().toISOString();
   }
-
-  async $beforeUpdate(opt, context) {
-    await super.$beforeUpdate(opt, context);
-    this.created_at = new Date().toISOString();
-  }
 }
 
 module.exports = Password;

@@ -2,7 +2,12 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
-import { customLoginWithPassword, customSignUp, customCreateUser } from './saga';
+import {
+  customLoginWithPassword,
+  customSignUp,
+  customCreateUser,
+  sendResetPasswordEmail,
+} from './saga';
 import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +28,7 @@ function CustomSignUp() {
   const email = watch(EMAIL, undefined);
   const [showResetModal, setShowResetModal] = useState(false);
   const forgotPassword = () => {
+    dispatch(sendResetPasswordEmail(email));
     setShowResetModal(true);
   };
   const dismissModal = () => {
@@ -82,23 +88,7 @@ function CustomSignUp() {
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
           />
-          {showResetModal && (
-            <>
-              <ResetPassword />
-              <div
-                onClick={dismissModal}
-                style={{
-                  position: 'fixed',
-                  zIndex: 100,
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  backgroundColor: 'rgba(25, 25, 40, 0.8)',
-                }}
-              />
-            </>
-          )}
+          {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>
         <Hidden isVisible={showPureCreateUserAccount}>
           <PureCreateUserAccount

@@ -54,7 +54,8 @@ img {
   background: #FCE38D;
   box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
   border-radius: 4px;
-  padding: 12px 100px;
+  padding: 12px 0;
+  width: 220px;
 
   font-style: normal;
   font-weight: 600;

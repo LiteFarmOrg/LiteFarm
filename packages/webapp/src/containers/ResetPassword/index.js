@@ -1,26 +1,22 @@
-import Floater from 'react-floater';
 import React, { useState } from 'react';
-import PureResetPassword from '../../components/ResetPassword';
+import ResetPasswordModal from '../../components/Modals/ResetPassword';
+import { sendResetPasswordEmail } from '../CustomSignUp/saga';
+import { useDispatch } from 'react-redux';
 
-export default function ResetPassword({ children }) {
+export default function ResetPassword({ email, dismissModal }) {
   const [changeText, setChangeText] = useState(false);
+
+  const dispatch = useDispatch();
 
   const resendLink = () => {
     setChangeText(true);
+    dispatch(sendResetPasswordEmail(email));
     setTimeout(() => {
       setChangeText(false);
     }, 3000);
   };
 
-  const Wrapper = <PureResetPassword resendLink={resendLink} changeText={changeText} />;
   return (
-    <Floater
-      autoOpen
-      component={Wrapper}
-      placement={'center'}
-      styles={{ floaterCentered: { transform: 'translate(-50%, -70%)' } }}
-    >
-      {children}
-    </Floater>
+    <ResetPasswordModal onClick={resendLink} changeText={changeText} dismissModal={dismissModal} />
   );
 }

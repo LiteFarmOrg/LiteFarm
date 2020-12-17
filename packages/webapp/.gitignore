@@ -26,3 +26,5 @@ yarn-error.log*
 ./cypress/integration/__snapshots__
 
 src/lang/*/*_old.json
+
+packages/.DS_Store

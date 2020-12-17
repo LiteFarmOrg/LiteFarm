@@ -1,20 +1,50 @@
-import React, { Suspense, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
-import { manualSignUpSelector } from '../CustomSignUp/signUpSlice';
-import { resetPassword } from './saga';
+import { resetPassword, validateToken } from './saga';
+import jwt from 'jsonwebtoken';
+import Callback from '../../components/Callback';
+import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 
-function PasswordResetAccount() {
-  const email = useSelector(manualSignUpSelector);
+function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
+  const params = new URLSearchParams(history.location.search.substring(1));
+  const token = params.get('reset_token');
+  const [email, setEmail] = useState('');
+  const [isValid, setIsValid] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
   const onSubmit = (data) => {
-    dispatch(resetPassword());
+    const { password } = data;
+    dispatch(resetPassword({ token, password, onPasswordResetSuccess }));
   };
+
+  useEffect(() => {
+    dispatch(validateToken({ token, setIsValid }));
+    setEmail(getEmailFromToken(token));
+  }, []);
+
+  function getEmailFromToken(token) {
+    const decoded = jwt.decode(token);
+    return decoded.email;
+  }
+
+  const onPasswordResetSuccess = () => {
+    setShowModal(true);
+    setTimeout(() => {
+      history.push('/farm_selection');
+    }, 2000);
+  };
+
+  const modalOnClick = () => {
+    history.push('/farm_selection');
+    setShowModal(false);
+  };
+
   return (
     <>
-      <PureResetPasswordAccount email={email.userEmail} update={handleSubmit(onSubmit)} />
+      {!isValid && <Callback />}
+      {isValid && <PureResetPasswordAccount email={email} update={onSubmit} />}
+      {showModal && <ResetSuccessModal onClick={modalOnClick} dismissModal={modalOnClick} />}
     </>
   );
 }

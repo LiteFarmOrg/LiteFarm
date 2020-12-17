@@ -16,22 +16,24 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
+const passwordModel = require('../models/passwordModel');
 //const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const { createAccessToken } = require('../util/jwt');
-const emailSender = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
-      const { email, first_name, last_name, password } = req.body;
+      const { email, first_name, last_name, password, language_preference } = req.body;
       const userData = {
         email,
         first_name,
         last_name,
+        language_preference,
       };
 
       // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
@@ -43,38 +45,40 @@ class userController extends baseController {
       try {
         // hash password
         const salt = await bcrypt.genSalt(10);
-        userData.password_hash = await bcrypt.hash(password, salt);
+        const password_hash = await bcrypt.hash(password, salt);
 
         // persist user data
-        const result = await baseController.post(userModel, userData, trx);
+        const userResult = await baseController.post(userModel, userData, trx);
+
+        const pwData = {
+          user_id: userResult.user_id,
+          password_hash,
+        };
+        const pwResult = await baseController.post(passwordModel, pwData, trx);
         await trx.commit();
 
-        delete result.password_hash;
-
         // generate token, set to last a week
-        const id_token = await createAccessToken({ ...result });
+        const id_token = await createAccessToken({ user_id: userResult.user_id });
 
         // send welcome email
         try {
-          const template_path = '../templates/welcome_email.html';
-          const subject = 'Welcome to LiteFarm!';
+          const template_path = emails.WELCOME;
           const replacements = {
-            first_name: result.first_name,
+            first_name: userResult.first_name,
           };
           const sender = 'system@litefarm.org';
           console.log('template_path:', template_path);
-          if (result.email && template_path) {
-            await emailSender.sendEmail(template_path, subject, replacements, result.email, sender);
+          if (userResult.email && template_path) {
+            await sendEmailTemplate.sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
         }
 
         // send token and user data (sans password hash)
-        delete result.password_hash;
         res.status(201).send({
           id_token,
-          user: result,
+          user: userResult,
         });
       } catch (error) {
         // handle more exceptions
@@ -225,7 +229,7 @@ class userController extends baseController {
     return async (req, res) => {
       const user_id = req.params.id;
       // const user = await baseController.getIndividual(userModel, user_id);
-      const template_path = '../templates/revocation_of_access_to_farm_email.html';
+      const template_path = emails.ACCESS_REVOKE;
       // if(user && user[0] && !user[0].is_pseudo){
       //   const isAuth0Deleted = await this.deleteAuth0User(user_id);
       //   if(!isAuth0Deleted){
@@ -244,7 +248,7 @@ class userController extends baseController {
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        const subject = "You've lost access to " + rows[0].farm_name + ' on LiteFarm!';
+        template_path.subject = `You've lost access to ${rows[0].farm_name} on LiteFarm!`;
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
@@ -259,12 +263,13 @@ class userController extends baseController {
           //send email informing user their access revoked (unless user is no account worker - no email)
           try {
             if (rows[0].email) {
-              await emailSender.sendEmail(
+              await sendEmailTemplate.sendEmail(
                 template_path,
-                subject,
                 replacements,
                 rows[0].email,
                 sender,
+                null,
+                rows[0].language_preference,
               );
             }
           } catch (e) {

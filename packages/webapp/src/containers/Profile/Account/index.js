@@ -40,11 +40,15 @@ class Account extends Component {
     localStorage.setItem('litefarm_lang', event.target.value);
   };
 
-
   handleSubmit(updated_user, user) {
     console.log('submitting');
     const { user_id, farm_id } = user;
-    const newUser = { ...updated_user, user_id, farm_id, language_preference: localStorage.getItem('litefarm_lang') };
+    const newUser = {
+      ...updated_user,
+      user_id,
+      farm_id,
+      language_preference: localStorage.getItem('litefarm_lang'),
+    };
     newUser.address = newUser.address ? newUser.address : '';
     delete newUser.profile_picture;
     this.props.dispatch(updateUser(newUser));
@@ -94,7 +98,8 @@ class Account extends Component {
               <select
                 defaultValue={this.currentLanguage}
                 style={{ marginLeft: '8px' }}
-                onChange={this.changeLanguage}>
+                onChange={this.changeLanguage}
+              >
                 <option value="en">{this.props.t('PROFILE.ACCOUNT.ENGLISH')}</option>
                 <option value="es">{this.props.t('PROFILE.ACCOUNT.SPANISH')}</option>
                 <option value="pt">{this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}</option>

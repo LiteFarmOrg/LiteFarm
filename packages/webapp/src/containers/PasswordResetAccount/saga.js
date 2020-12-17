@@ -31,19 +31,12 @@ export const resetPassword = createAction(`resetPasswordSaga`);
 
 export function* resetPasswordSaga() {
   try {
-
     // Get reset password link, which contains the encoded token
-
     // Decode token using reset_password_jwt_public_key
-
     // Get user_id from decoded token
-
     // Call resetPassword endpoint, pass user_id in request body
-    
     // Endpoint will generate a new hashed password, save in password table, set created_at to today, send password reset confirmation email, return access token
-
     // If access token is valid, call login user endpoint, else return error message
-
   } catch (e) {
     console.log(e);
   }

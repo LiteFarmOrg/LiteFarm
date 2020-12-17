@@ -27,7 +27,7 @@ const validateTokenUrl = () => `${url}/password_reset/validate`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);
 
-export function* resetPasswordSaga({ payload: { token, password } }) {
+export function* resetPasswordSaga({ payload: { token, password, onPasswordResetSuccess } }) {
   try {
     const result = yield call(
       axios.put,
@@ -47,7 +47,7 @@ export function* resetPasswordSaga({ payload: { token, password } }) {
     const { user_id } = decoded;
 
     yield put(loginSuccess({ user_id }));
-    history.push('/farm_selection');
+    onPasswordResetSuccess();
   } catch (e) {
     toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
   }

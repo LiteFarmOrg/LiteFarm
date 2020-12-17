@@ -4,6 +4,7 @@ import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword, validateToken } from './saga';
 import jwt from 'jsonwebtoken';
 import Callback from '../../components/Callback';
+import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 
 function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();
@@ -11,9 +12,10 @@ function PasswordResetAccount({ history }) {
   const token = params.get('reset_token');
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(undefined);
+  const [showModal, setShowModal] = useState(false);
   const onSubmit = (data) => {
     const { password } = data;
-    dispatch(resetPassword({ token, password }));
+    dispatch(resetPassword({ token, password, onPasswordResetSuccess }));
   };
 
   useEffect(() => {
@@ -26,10 +28,23 @@ function PasswordResetAccount({ history }) {
     return decoded.email;
   }
 
+  const onPasswordResetSuccess = () => {
+    setShowModal(true);
+    setTimeout(() => {
+      history.push('/farm_selection');
+    }, 2000);
+  };
+
+  const modalOnClick = () => {
+    history.push('/farm_selection');
+    setShowModal(false);
+  };
+
   return (
     <>
       {!isValid && <Callback />}
       {isValid && <PureResetPasswordAccount email={email} update={onSubmit} />}
+      {showModal && <ResetSuccessModal onClick={modalOnClick} dismissModal={modalOnClick} />}
     </>
   );
 }

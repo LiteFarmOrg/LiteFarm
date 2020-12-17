@@ -21,8 +21,17 @@ const path = require('path');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
+const emails = {
+  INVITATION: { subject: '', path: 'invitation_to_farm_email.html' },
+  CONFIRMATION: { subject: '', path: 'send_confirmation_email.html' },
+  WITHHELD_CONSENT: { subject: '', path: 'withheld_consent_email.html' },
+  ACCESS_RESTORE: { subject: '', path: 'restoration_of_access_to_farm_email.html' },
+  ACCESS_REVOKE: { subject: '', path: 'revocation_of_access_to_farm_email.html' },
+  WELCOME: { subject: 'Welcome to LiteFarm!', path: 'welcome_email.html' },
+}
+
 class sendEmailTemplate {
-  static async sendEmail(template_path, subject, replacements, email, sender, joinRelativeURL = null) {
+  static async sendEmail(template_path, replacements, email, sender, joinRelativeURL = null, language = 'en') {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -35,7 +44,7 @@ class sendEmailTemplate {
       },
     });
 
-    const filePath = path.join(__dirname, template_path);
+    const filePath = path.join(__dirname, `../templates/${language}/${template_path.path}`);
     const html = await fs.readFile(filePath, 'utf8');
 
     // this compiles the html file, but template itself is a function
@@ -46,13 +55,13 @@ class sendEmailTemplate {
 
     // this changes the join button href for invite a user email
     const html_templates = [
-      '../templates/invitation_to_farm_email.html',
-      '../templates/send_confirmation_email.html',
-      '../templates/withheld_consent_email.html',
-      '../templates/restoration_of_access_to_farm_email.html',
-      '../templates/welcome_email.html',
+      'invitation_to_farm_email.html',
+      'send_confirmation_email.html',
+      'withheld_consent_email.html',
+      'restoration_of_access_to_farm_email.html',
+      'welcome_email.html',
     ];
-    if (html_templates.includes(template_path)) {
+    if (html_templates.includes(template_path.path)) {
       // using JSDOM to dynamically set the href for the Join button
       const dom = new JSDOM(htmlToSend);
 
@@ -69,7 +78,7 @@ class sendEmailTemplate {
     const mailOptions = {
       from: 'LiteFarm <' + sender + '>',
       to: email,
-      subject,
+      subject: template_path.subject,
       html: htmlToSend,
       auth: {
         user: 'system@litefarm.org',
@@ -98,4 +107,7 @@ class sendEmailTemplate {
   }
 }
 
-module.exports = sendEmailTemplate;
+module.exports = {
+  sendEmailTemplate,
+  emails,
+};

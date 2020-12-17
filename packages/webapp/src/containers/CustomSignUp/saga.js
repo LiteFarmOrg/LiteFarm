@@ -117,7 +117,9 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
-    toastr.error('Error with sending password reset email, please contact LiteFarm for assistance.');
+    toastr.error(
+      'Error with sending password reset email, please contact LiteFarm for assistance.',
+    );
   }
 }
 

@@ -19,7 +19,7 @@ import { url } from '../../apiConfig';
 import history from '../../history';
 import { loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 const axios = require('axios');
 const resetPasswordUrl = () => `${url}/password_reset`;
@@ -27,13 +27,18 @@ const validateTokenUrl = () => `${url}/password_reset/validate`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);
 
-export function* resetPasswordSaga({ payload: {token, password} }) {
+export function* resetPasswordSaga({ payload: { token, password } }) {
   try {
-    const result = yield call(axios.put, resetPasswordUrl(), { password }, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    const result = yield call(
+      axios.put,
+      resetPasswordUrl(),
+      { password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
     const { id_token } = result.data;
     localStorage.setItem('id_token', id_token);
@@ -48,10 +53,9 @@ export function* resetPasswordSaga({ payload: {token, password} }) {
   }
 }
 
+export const validateToken = createAction('validateTokenSaga');
 
-export const validateToken = createAction('validateTokenSaga')
-
-export function* validateTokenSaga({ payload: {token, setIsValid} }) {
+export function* validateTokenSaga({ payload: { token, setIsValid } }) {
   // call validation endpoint with token
   // if this is successful we proceed to PasswordResetAccount
   // otherwise we want to go with another component to show error. < -- view is not designed.
@@ -59,8 +63,8 @@ export function* validateTokenSaga({ payload: {token, setIsValid} }) {
   try {
     const result = yield call(axios.get, validateTokenUrl(), {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     setIsValid(true);
   } catch (e) {
@@ -69,7 +73,6 @@ export function* validateTokenSaga({ payload: {token, setIsValid} }) {
     toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
   }
 }
-
 
 export default function* resetUserPasswordSaga() {
   yield takeLatest(resetPassword.type, resetPasswordSaga);

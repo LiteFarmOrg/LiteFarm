@@ -9,7 +9,7 @@ import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
 import { useTranslation } from 'react-i18next';
 
-export default function PureResetPasswordAccount({ email, update}) {
+export default function PureResetPasswordAccount({ email, update }) {
   const { register, handleSubmit, watch } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);

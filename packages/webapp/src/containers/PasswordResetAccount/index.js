@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
 import { resetPassword, validateToken } from './saga';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 import Callback from '../../components/Callback';
 
 function PasswordResetAccount({ history }) {
@@ -13,13 +13,13 @@ function PasswordResetAccount({ history }) {
   const [isValid, setIsValid] = useState(undefined);
   const onSubmit = (data) => {
     const { password } = data;
-    dispatch(resetPassword({ token, password }))
+    dispatch(resetPassword({ token, password }));
   };
 
   useEffect(() => {
-    dispatch(validateToken({token, setIsValid}));
+    dispatch(validateToken({ token, setIsValid }));
     setEmail(getEmailFromToken(token));
-  }, [])
+  }, []);
 
   function getEmailFromToken(token) {
     const decoded = jwt.decode(token);
@@ -28,11 +28,8 @@ function PasswordResetAccount({ history }) {
 
   return (
     <>
-      {!isValid && <Callback/>}
-      {isValid && <PureResetPasswordAccount
-        email={email}
-        update={onSubmit}
-      />}
+      {!isValid && <Callback />}
+      {isValid && <PureResetPasswordAccount email={email} update={onSubmit} />}
     </>
   );
 }

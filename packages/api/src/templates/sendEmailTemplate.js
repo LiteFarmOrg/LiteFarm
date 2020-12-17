@@ -18,11 +18,11 @@ const credentials = require('../credentials');
 const handlebars = require('handlebars');
 const fs = require('fs-extra');
 const path = require('path');
-const jsdom = require("jsdom");
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 class sendEmailTemplate {
-  static async sendEmail(template_path, subject, replacements, email, sender, modifyHTML=false, joinURL=null) {
+  static async sendEmail(template_path, subject, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -39,37 +39,34 @@ class sendEmailTemplate {
     const html = await fs.readFile(filePath, 'utf8');
 
     // this compiles the html file, but template itself is a function
-    let template = handlebars.compile(html);
+    const template = handlebars.compile(html);
 
     // after this the template is converted to strings
-    let htmlToSend = template(replacements);
+    let htmlToSend = template({
+      ...replacements,
+      url: sendEmailTemplate.homeUrl('https://beta.litefarm.org'),
+      year: new Date().getFullYear(),
+    });
 
     // this changes the join button href for invite a user email
     const html_templates = [
       '../templates/invitation_to_farm_email.html',
-      "../templates/send_confirmation_email.html",
-      "../templates/withheld_consent_email.html",
-      "../templates/restoration_of_access_to_farm_email.html",
-      "../templates/welcome_email.html",
-    ]
-    if(html_templates.includes(template_path)){
+      '../templates/send_confirmation_email.html',
+      '../templates/withheld_consent_email.html',
+      '../templates/restoration_of_access_to_farm_email.html',
+      '../templates/welcome_email.html',
+      '../templates/password_reset_email.html',
+      '../templates/reset_password_confirmation.html',
+    ];
+    if (html_templates.includes(template_path)) {
       // using JSDOM to dynamically set the href for the Join button
-      let dom = new JSDOM(htmlToSend);
+      const dom = new JSDOM(htmlToSend);
 
-      if(modifyHTML){
-        dom.window.document.getElementById('email-button').setAttribute('href', joinURL);
-      }else{
-        const environment = process.env.NODE_ENV || 'development';
-        let homeUrl;
-        // preferably with a switch case, but writing if statements is faster :)
-        if(environment === 'integration'){
-          homeUrl = 'https://beta.litefarm.org';
-        }else if(environment === 'production'){
-          homeUrl = 'https://app.litefarm.org';
-        }else if(environment === 'development'){
-          homeUrl = 'localhost:3000'
-        }
-        dom.window.document.getElementById('email-button').setAttribute('href', homeUrl);
+      if (joinRelativeURL) {
+        dom.window.document.getElementById('email-button').setAttribute('href', `${sendEmailTemplate.homeUrl()}${joinRelativeURL}`);
+      } else {
+        const url = `${sendEmailTemplate.homeUrl()}/?email=${email}`;
+        dom.window.document.getElementById('email-button').setAttribute('href', url);
       }
       // this exports the dom back to a string
       htmlToSend = dom.serialize();
@@ -86,13 +83,24 @@ class sendEmailTemplate {
       },
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function(error, info) {
       if (error) {
-        return console.log(error)
+        return console.log(error);
       }
       console.log('Message sent: ' + info.response);
     });
 
+  }
+
+  static homeUrl(defaultUrl = 'http://localhost:3000') {
+    const environment = process.env.NODE_ENV || 'development';
+    let homeUrl = defaultUrl;
+    if (environment === 'integration') {
+      homeUrl = 'https://beta.litefarm.org';
+    } else if (environment === 'production') {
+      homeUrl = 'https://app.litefarm.org';
+    }
+    return homeUrl;
   }
 }
 

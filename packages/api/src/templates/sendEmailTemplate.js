@@ -28,10 +28,12 @@ const emails = {
   ACCESS_RESTORE: { subject: '', path: 'restoration_of_access_to_farm_email.html' },
   ACCESS_REVOKE: { subject: '', path: 'revocation_of_access_to_farm_email.html' },
   WELCOME: { subject: 'Welcome to LiteFarm!', path: 'welcome_email.html' },
+  PASSWORD_RESET: { subject: 'Password Reset Request', path: 'password_reset_email.html' },
+  PASSWORD_RESET_CONFIRMATION: { subject: 'Your LiteFarm password has been changed', path: 'reset_password_confirmation.html' },
 }
 
 class sendEmailTemplate {
-  static async sendEmail(template_path, replacements, email, sender, joinRelativeURL = null, language = 'en') {
+  static async sendEmail(template_path, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null, language = 'en') {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -51,7 +53,11 @@ class sendEmailTemplate {
     const template = handlebars.compile(html);
 
     // after this the template is converted to strings
-    let htmlToSend = template({ ...replacements, url: sendEmailTemplate.homeUrl('https://beta.litefarm.org'), year: new Date().getFullYear() });
+    let htmlToSend = template({
+      ...replacements,
+      url: sendEmailTemplate.homeUrl('https://beta.litefarm.org'),
+      year: new Date().getFullYear(),
+    });
 
     // this changes the join button href for invite a user email
     const html_templates = [
@@ -60,6 +66,8 @@ class sendEmailTemplate {
       'withheld_consent_email.html',
       'restoration_of_access_to_farm_email.html',
       'welcome_email.html',
+      'password_reset_email.html',
+      'reset_password_confirmation.html',
     ];
     if (html_templates.includes(template_path.path)) {
       // using JSDOM to dynamically set the href for the Join button

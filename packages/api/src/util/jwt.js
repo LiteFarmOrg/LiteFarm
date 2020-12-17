@@ -1,20 +1,31 @@
 const { sign } = require('jsonwebtoken');
 
-const createAccessToken = async (user) => {
-  return sign(user, process.env.JWT_SECRET, {
-    expiresIn: '7d',
-    // algorithm: 'RS256',
+const ACCESS_TOKEN_EXPIRES_IN = '7d';
+const RESET_PASSWORD_TOKEN_EXPIRES_IN = '1d';
+
+const createAccessToken = async (payload) => {
+  return sign(payload, process.env.JWT_SECRET, {
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+    algorithm: 'HS256',
   });
 };
 
-const createAccessTokenSync = (user) => {
-  return sign(user, process.env.JWT_SECRET, {
-    expiresIn: '7d',
-    // algorithm: 'RS256',
+const createAccessTokenSync = (payload) => {
+  return sign(payload, process.env.JWT_SECRET, {
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+    algorithm: 'HS256',
+  });
+};
+
+const createResetPasswordToken = async (payload) => {
+  return sign(payload, process.env.JWT_RESET_SECRET, {
+    expiresIn: RESET_PASSWORD_TOKEN_EXPIRES_IN,
+    algorithm: 'HS256',
   });
 };
 
 module.exports = {
   createAccessToken,
   createAccessTokenSync,
+  createResetPasswordToken
 }

@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (checkJwt.js) is part of LiteFarm.
+ *  This file (styles.scss) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,18 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
-
-
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-  ],
-});
-
-module.exports = checkJwt;
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 312px;
+  width: 90vw;
+  background: #fafafd;
+  border-radius: 7.05466px;
+  position: relative;
+  padding: 28px 24px 30px 24px;
+}

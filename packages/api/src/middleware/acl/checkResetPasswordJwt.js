@@ -15,16 +15,9 @@
 
 const jwt = require('express-jwt');
 
-
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
+const checkResetPasswordJwt = jwt({
+  secret: process.env.JWT_RESET_SECRET,
   algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-  ],
 });
 
-module.exports = checkJwt;
+module.exports = checkResetPasswordJwt;

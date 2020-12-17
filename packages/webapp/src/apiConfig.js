@@ -57,6 +57,7 @@ const apiConfig = {
   rolesUrl: URI + '/roles',
   signUpUrl: `${URI}/sign_up`,
   loginUrl: `${URI}/login`,
+  resetPasswordUrl: `${URI}/password_reset`,
   url: URI,
 };
 

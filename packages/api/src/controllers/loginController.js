@@ -15,6 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
+const passwordModel = require('../models/passwordModel');
 const bcrypt = require('bcryptjs');
 const { createAccessToken } = require('../util/jwt');
 
@@ -24,16 +25,15 @@ class loginController extends baseController {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body;
       try {
-        const data = await userModel.query().select('*').where('email', email).first();
-        const isMatch = await bcrypt.compare(password, data.password_hash);
+        const userData = await userModel.query().select('*').where('email', email).first();
+        const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
+        const isMatch = await bcrypt.compare(password, pwData.password_hash);
         if (!isMatch) return res.sendStatus(401);
 
-        delete data.password_hash;
-
-        const id_token = await createAccessToken({ ...data });
+        const id_token = await createAccessToken({ user_id: userData.user_id });
         return res.status(200).send({
           id_token,
-          user: data,
+          user: userData,
         });
       } catch (error) {
         return res.status(400).json({
@@ -59,7 +59,7 @@ class loginController extends baseController {
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded
           ? ''
-          : await createAccessToken({ user_id, email, first_name, last_name });
+          : await createAccessToken({ user_id });
         return res.status(201).send({
           id_token,
           user: {

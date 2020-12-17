@@ -104,6 +104,7 @@ import { isAuthenticated } from './util/jwt';
 
 // action
 import { userFarmSelector } from './containers/userFarmSlice';
+import PasswordResetAccount from "./containers/PasswordResetAccount";
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -383,7 +384,9 @@ const Routes = () => {
   } else if (!isAuthenticated()) {
     return (
       <Switch>
-        {/*<Route path="/callback" render={(props) => {*/}
+        {/* TODO: CREATE RESET PASSWORD COMPONENT (on /callback) TO DISPATCH ACTION FOR VALIDATING TOKEN */}
+        <Route  path="/callback" component={PasswordResetAccount}/>
+        {/* <Route path="/callback" render={(props) => { */}
         {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
         {/*  return <Callback {...props} />*/}
         {/*}}/>*/}

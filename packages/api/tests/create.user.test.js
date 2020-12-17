@@ -19,7 +19,7 @@ describe('Create user', () => {
   beforeAll(() => {
     middleware = require('../src/middleware/acl/checkJwt');
     email = require('../src/templates/sendEmailTemplate');
-    email.sendEmail.mockResolvedValue({});
+
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
       req.user.user_id = req.get('user_id');

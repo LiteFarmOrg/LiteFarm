@@ -132,7 +132,7 @@ class insightController extends baseController {
           FROM "field" f
           LEFT JOIN "fieldCrop" fc
           ON fc.field_id = f.field_id
-          WHERE f.farm_id = ? and fc.deleted = false and fc.end_date >= NOW()
+          WHERE f.farm_id = ? 
           GROUP BY f.grid_points`, [farmID]);
         if (dataPoints.rows) {
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);

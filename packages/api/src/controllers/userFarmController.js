@@ -26,7 +26,7 @@ const knex = Model.knex();
 const lodash = require('lodash');
 const url = require('url');
 const generator = require('generate-password');
-const emailSender = require('../templates/sendEmailTemplate');
+const {sendEmailTemplate, emails} = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
 
 const validStatusChanges = {
@@ -270,18 +270,18 @@ class userFarmController extends baseController {
           farm: rows[0].farm_name,
         };
         if (has_consent === false) {
-          subject = 'You didn’t agree with the LiteFarm privacy policy – here are your options';
-          template_path = '../templates/withheld_consent_email.html';
+          template_path = emails.WITHHELD_CONSENT;
+          template_path.subject = 'You didn’t agree with the LiteFarm privacy policy – here are your options';
         } else {
-          subject = 'You\'ve successfully joined ' + rows[0].farm_name + '!';
-          template_path = '../templates/send_confirmation_email.html';
+          template_path = emails.CONFIRMATION;
+          template_path.subject = `You've successfully joined ${rows[0].farm_name}!`;
           replacements['role'] = rows[0].role
         }
         if (isPatched) {
           await trx.commit();
           res.sendStatus(200);
           //send out confirmation or withdrew consent email
-          await emailSender.sendEmail(template_path, subject, replacements, rows[0].email, sender)
+          await sendEmailTemplate.sendEmail(template_path, replacements, rows[0].email, sender, null, rows[0].language_preference)
         } else {
           await trx.rollback();
           res.sendStatus(404);
@@ -427,11 +427,11 @@ class userFarmController extends baseController {
 
         // check if access is revoked or restored: update email info based on this
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
-          template_path = '../templates/revocation_of_access_to_farm_email.html';
-          subject = 'You\'ve lost access to ' + targetUser.farm_name + ' on LiteFarm!';
+          template_path = emails.ACCESS_REVOKE;
+          template_path.subject = `You've lost access to ${targetUser.farm_name} on LiteFarm!`;
         } else if (currentStatus === 'Inactive') {
-          template_path = '../templates/restoration_of_access_to_farm_email.html';
-          subject = 'Your access to ' + targetUser.farm_name + ' has been restored!';
+          template_path = emails.ACCESS_RESTORE;
+          template_path.subject = `Your access to ${targetUser.farm_name} has been restored!`;
         }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
@@ -443,7 +443,7 @@ class userFarmController extends baseController {
           try {
             console.log('template_path:', template_path);
             if (targetUser.email && template_path) {
-              await emailSender.sendEmail(template_path, subject, replacements, targetUser.email, sender)
+              await sendEmailTemplate.sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference)
             }
           } catch (e) {
             console.log('Failed to send email: ', e);

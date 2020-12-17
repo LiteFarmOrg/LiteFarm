@@ -16,7 +16,7 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
-const emailSender = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const bcrypt = require('bcryptjs');
 const { createResetPasswordToken, createAccessToken } = require('../util/jwt');
 
@@ -65,13 +65,12 @@ class passwordResetController extends baseController {
         const token = await createResetPasswordToken(tokenPayload);
 
 
-        const template_path = '../templates/password_reset_email.html';
-        const subject = 'LiteFarm password reset';
+        const template_path = emails.PASSWORD_RESET;
         const replacements = {
           first_name: userData.first_name,
         };
         const sender = 'system@litefarm.org';
-        await emailSender.sendEmail(template_path, subject, replacements, email, sender, `/callback/?reset_token=${token}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`);
 
         return res.status(200).send('Email successfully sent');
       } catch (error) {
@@ -104,13 +103,12 @@ class passwordResetController extends baseController {
 
         const id_token = await createAccessToken({ user_id });
 
-        const template_path = '../templates/reset_password_confirmation.html';
-        const subject = 'Your LiteFarm password has been changed';
+        const template_path = emails.PASSWORD_RESET_CONFIRMATION;
         const replacements = {
           first_name,
         };
         const sender = 'system@litefarm.org';
-        await emailSender.sendEmail(template_path, subject, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
+        await emailSender.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
 
 
         return res.status(200).send({ id_token });

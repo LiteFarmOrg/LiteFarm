@@ -76,7 +76,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
 }
 if (!localStorage.getItem('litefarm_lang')) {
   const currentLanguage = navigator.language.split('-')[0];
-  const selectedLanguage = languages.includes(currentLanguage) || 'en';
+  const selectedLanguage = languages.includes(currentLanguage) ? currentLanguage : 'en';
   localStorage.setItem('litefarm_lang', selectedLanguage);
 }
 

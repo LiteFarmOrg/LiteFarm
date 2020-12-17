@@ -23,7 +23,7 @@ const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const axios = require('axios');
 const url = require('url');
-const emailSender = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const farmModel = require('../models/farmModel');
 const { v4: uuidv4 } = require('uuid');
 const environmentMap = {
@@ -139,7 +139,7 @@ class createUserController extends baseController {
     const environment = process.env.NODE_ENV || 'development';
     return async (req, res) => {
       let user_id;
-      const template_path = '../templates/invitation_to_farm_email.html';
+      const template_path = emails.INVITATION;
       const sender = 'help@litefarm.org';
 
       const { email, password, user_metadata, farm_id, role_id, wage } = req.body;
@@ -233,10 +233,10 @@ class createUserController extends baseController {
           res.status(500).send(error);
         }
         const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
-        const subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
+        template_path.subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
         const basePath = environmentMap[environment];
-        await emailSender.sendEmail(template_path, subject, { farm_name, first_name, link: basePath },
-          email, sender, true, environmentMap[environment]);
+        await sendEmailTemplate.sendEmail(template_path, { farm_name, first_name, link: basePath },
+          email, sender, true, environmentMap[environment], isUserAlreadyCreated.language_preference);
         return;
       }
       await this.postToAuth0(user).then(async (authResponse) => {
@@ -258,7 +258,7 @@ class createUserController extends baseController {
           first_name: lite_farm_user.first_name,
           farm_name: rows[0].farm_name,
         };
-        const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
+        template_path.subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
         const trx = await transaction.start(Model.knex());
         baseController.post(userModel, lite_farm_user, trx).then(async (user) => {
           const userFarm = await userFarmModel.query(trx).insert({
@@ -301,7 +301,8 @@ class createUserController extends baseController {
           } else {
             joinUrl = `${basePath}sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
           }
-          await emailSender.sendEmail(template_path, subject, { link: basePath, ...replacements }, lite_farm_user.email, sender, true, joinUrl);
+          // TODO: IF necessary, add language to this sendEmail
+          await sendEmailTemplate.sendEmail(template_path, { link: basePath, ...replacements }, lite_farm_user.email, sender, true, joinUrl);
         }).catch(async (err) => {
           console.log(err);
           if (await this.deleteAuth0User(user_id)) {
@@ -348,8 +349,8 @@ class createUserController extends baseController {
                 first_name: authResponse.data[0].user_metadata.first_name,
                 farm_name: rows[0].farm_name,
               };
-              const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
-              await emailSender.sendEmail(template_path, subject, replacements, authResponse.data[0].email, sender);
+              template_path.subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
+              await sendEmailTemplate.sendEmail(template_path, replacements, authResponse.data[0].email, sender, null, rows[0].language_preference);
             }
           } catch (addExistingUserError) {
             await trx.rollback();

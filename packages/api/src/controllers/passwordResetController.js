@@ -43,16 +43,12 @@ class passwordResetController extends baseController {
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         let { reset_token_version, created_at } = pwData;
 
-        const tokenPayload = {
-          ...userData,
-          email,
-          reset_token_version,
-        };
+
 
         const sendEmailDate = new Date();
         const diffDays = Math.abs(sendEmailDate - created_at) / (1000 * 60 * 60 * 24);
         if (diffDays > 1) {
-          reset_token_version = 0;
+          reset_token_version = 1;
           created_at = sendEmailDate;
         } else if (reset_token_version === 3) {
           return res.status(400).send('Reached maximum number of available reset tokens');
@@ -62,13 +58,21 @@ class passwordResetController extends baseController {
 
         // generate token
         // payload: user_id, reset_token_version, email, first_name
-        const token = await createResetPasswordToken(tokenPayload);
+
         const updateData = {
           reset_token_version,
           created_at: created_at.toISOString(),
         };
 
         const pwResult = await passwordModel.query().findById(userData.user_id).update(updateData);
+
+        const tokenPayload = {
+          ...userData,
+          email,
+          reset_token_version: reset_token_version - 1,
+          created_at: created_at.getTime(),
+        };
+        const token = await createResetPasswordToken(tokenPayload);
 
         // send the email
         // contains link: {URL}/callback?reset_token={token}

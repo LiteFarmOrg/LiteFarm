@@ -53,14 +53,14 @@ describe('JWT Tests', () => {
   }
 
   function getValidateRequest(resetPasswordToken, user_id, callback) {
-    chai.request(server).delete(`/password_reset/validate`)
+    chai.request(server).get(`/password_reset/validate`)
       .set('user_id', user_id)
       .set('Authorization', `Bearer ${resetPasswordToken}`)
       .end(callback);
   }
 
   function putPasswordRequet(resetPasswordToken, user, callback) {
-    chai.request(server).delete(`/password_reset/validate`)
+    chai.request(server).put(`/password_reset`)
       .set('user_id', user.user_id)
       .set('Authorization', `Bearer ${resetPasswordToken}`)
       .send(user)
@@ -70,7 +70,8 @@ describe('JWT Tests', () => {
   async function insertPasswordRow({ password = 'password', reset_token_version, created_at = new Date(), user_id }) {
     const salt = await bcrypt.genSalt(10);
     const password_hash = await bcrypt.hash(password, salt);
-    return await knex('password').insert({ password_hash, reset_token_version, created_at, user_id }).returning('*');
+    const rows = await knex('password').insert({ password_hash, reset_token_version, created_at, user_id }).returning('*');
+    return rows[0];
   }
 
   function getAuthorizationHeader(user_id) {
@@ -177,7 +178,8 @@ describe('JWT Tests', () => {
         expect(user.reset_token_version).toBe(0);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(1);
-        expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
+        console.log(oldRow);
+        expect(created_at.getTime()).toBeGreaterThanOrEqual(oldRow.created_at.getTime());
         getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
           expect(res.status).toBe(200);
           expect(res.body.isValid).toBe(true);
@@ -222,15 +224,23 @@ describe('JWT Tests', () => {
 
     test('Should reject when reset_token_version === 3', async (done) => {
       const oldRow = await insertPasswordRow({ reset_token_version: 3, user_id: newUser.user_id });
+      const tokenPayload = {
+        user_id: newUser.user_id,
+        email: newUser.email,
+        reset_token_version: 0,
+        created_at: new Date().getTime(),
+      };
+      let localResetPasswordToken = await createResetPasswordToken(tokenPayload);
+      resetPasswordToken = undefined;
       postResetPasswordRequest(newUser.email, async (err, res) => {
-        expect(res.status).toBe(429);
+        expect(res.status).toBe(400);
         expect(resetPasswordToken).toBe(undefined);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(oldRow.reset_token_version);
         expect(created_at.getTime()).toBe(oldRow.created_at.getTime());
-        getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
+        getValidateRequest(localResetPasswordToken, newUser.user_id, async (err, res) => {
           expect(res.status).toBe(200);
-          expect(res.body.isValid).toBe(false);
+          expect(res.body.isValid).toBe(true);
           done();
         });
       });
@@ -260,7 +270,10 @@ describe('JWT Tests', () => {
       const newPassword = 'newPassword';
       const oldRow = await insertPasswordRow({ reset_token_version: 2, user_id: newUser.user_id });
       postResetPasswordRequest(newUser.email, async (err, res) => {
+        const verified = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
+        expect(verified.user_id).toBe(newUser.user_id);
         putPasswordRequet(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
+          console.log(res,resetPasswordToken);
           expect(res.status).toBe(200);
           const {
             reset_token_version,

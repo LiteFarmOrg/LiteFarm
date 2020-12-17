@@ -18,7 +18,7 @@ const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const emailSender = require('../templates/sendEmailTemplate');
 const bcrypt = require('bcryptjs');
-const { createResetPasswordToken } = require('../util/jwt');
+const { createResetPasswordToken, createAccessToken } = require('../util/jwt');
 const environmentMap = {
   integration: 'https://beta.litefarm.org',
   production: 'https://app.litefarm.org',
@@ -43,16 +43,12 @@ class passwordResetController extends baseController {
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         let { reset_token_version, created_at } = pwData;
 
-        const tokenPayload = {
-          ...userData,
-          email,
-          reset_token_version,
-        };
-        
+
+
         const sendEmailDate = new Date();
         const diffDays = Math.abs(sendEmailDate - created_at) / (1000 * 60 * 60 * 24);
         if (diffDays > 1) {
-          reset_token_version = 0;
+          reset_token_version = 1;
           created_at = sendEmailDate;
         } else if (reset_token_version === 3) {
           return res.status(400).send('Reached maximum number of available reset tokens');
@@ -62,7 +58,7 @@ class passwordResetController extends baseController {
 
         // generate token
         // payload: user_id, reset_token_version, email, first_name
-        const token = await createResetPasswordToken(tokenPayload);
+
         const updateData = {
           reset_token_version,
           created_at: created_at.toISOString(),
@@ -70,29 +66,38 @@ class passwordResetController extends baseController {
 
         const pwResult = await passwordModel.query().findById(userData.user_id).update(updateData);
 
+        const tokenPayload = {
+          ...userData,
+          email,
+          reset_token_version: reset_token_version - 1,
+          created_at: created_at.getTime(),
+        };
+        const token = await createResetPasswordToken(tokenPayload);
+
         // send the email
         // contains link: {URL}/callback?reset_token={token}
-        try {
-          const template_path = '../templates/password_reset_email.html';
-          const subject = 'Did you forget your LiteFarm password?';
-
-          const environment = process.env.NODE_ENV || 'development';
-          const baseURL = environmentMap[environment];
-          const resetURL = `${baseURL}/callback?reset_token=${token}`;
-
-          const replacements = {
-            first_name: userData.first_name,
-          };
-          const sender = 'system@litefarm.org';
-          if (email && template_path) {
-            await emailSender.sendEmail(template_path, subject, replacements, email, sender, true, resetURL);
-          }
-          console.log(resetURL);
+        // try {
+        //   const template_path = '../templates/password_reset_email.html';
+        //   const subject = 'Did you forget your LiteFarm password?';
+        //
+        //   const environment = process.env.NODE_ENV || 'development';
+        //   const baseURL = environmentMap[environment];
+        //   const resetURL = `${baseURL}/callback?reset_token=${token}`;
+        //
+        //   const replacements = {
+        //     first_name: userData.first_name,
+        //   };
+        //   const sender = 'system@litefarm.org';
+        //   if (email && template_path) {
+        //     await emailSender.sendEmail(template_path, subject, replacements, email, sender, true, resetURL);
+        //   }
+        //   console.log(resetURL);
+        //   return res.status(200).send('Email successfully sent');
+        // } catch (e) {
+        //   console.log('Failed to send email: ', e);
+        //   return res.status(400).send('Failed to send email');
+        // }
           return res.status(200).send('Email successfully sent');
-        } catch (e) {
-          console.log('Failed to send email: ', e);
-          return res.status(400).send('Failed to send email');
-        }
       } catch (error) {
         console.log(error);
         return res.status(400).json(error);
@@ -148,11 +153,11 @@ class passwordResetController extends baseController {
         // }
 
         // send token and user data (sans password hash)
-        res.status(200).send({ id_token });
+        // res.status(200).send("Successfully reset password");
+        return res.status(200).send({ id_token });
       } catch (error) {
         // handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

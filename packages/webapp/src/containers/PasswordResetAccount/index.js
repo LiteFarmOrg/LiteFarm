@@ -11,26 +11,21 @@ function PasswordResetAccount({ history }) {
   const params = new URLSearchParams(history.location.search.substring(1));
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const onSubmit = (data) => {
-    dispatch(resetPassword())
+    dispatch(resetPassword());
   };
 
   useEffect(() => {
     const token = params.get('reset_token');
     const email = getEmailFromToken();
     dispatch(validateToken({ token }));
-  }, [])
-
+  }, []);
 
   function getEmailFromToken(token) {
     // either find a library or do base64Decode(token.split('.')[1]) < JSON.parse that.
   }
   return (
     <>
-
-      <PureResetPasswordAccount
-        email={email.userEmail}
-        update={handleSubmit(onSubmit)}
-      />
+      <PureResetPasswordAccount email={email.userEmail} update={handleSubmit(onSubmit)} />
     </>
   );
 }

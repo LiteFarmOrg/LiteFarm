@@ -233,7 +233,7 @@ class createUserController extends baseController {
           res.status(500).send(error);
         }
         const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
-        template_path.subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
+        template_path.subjectReplacements = farm_name;
         const basePath = environmentMap[environment];
         await sendEmailTemplate.sendEmail(template_path, { farm_name, first_name, link: basePath },
           email, sender, true, environmentMap[environment], isUserAlreadyCreated.language_preference);
@@ -258,7 +258,7 @@ class createUserController extends baseController {
           first_name: lite_farm_user.first_name,
           farm_name: rows[0].farm_name,
         };
-        template_path.subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
+        template_path.subjectReplacements = rows[0].farm_name;
         const trx = await transaction.start(Model.knex());
         baseController.post(userModel, lite_farm_user, trx).then(async (user) => {
           const userFarm = await userFarmModel.query(trx).insert({
@@ -349,7 +349,7 @@ class createUserController extends baseController {
                 first_name: authResponse.data[0].user_metadata.first_name,
                 farm_name: rows[0].farm_name,
               };
-              template_path.subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
+              template_path.subjectReplacements = rows[0].farm_name;
               await sendEmailTemplate.sendEmail(template_path, replacements, authResponse.data[0].email, sender, null, rows[0].language_preference);
             }
           } catch (addExistingUserError) {

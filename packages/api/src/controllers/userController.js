@@ -248,7 +248,7 @@ class userController extends baseController {
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        template_path.subject = `You've lost access to ${rows[0].farm_name} on LiteFarm!`;
+        template_path.subjectReplacements = rows[0].farm_name;
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,

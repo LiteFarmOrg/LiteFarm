@@ -16,20 +16,21 @@
 const nodemailer = require('nodemailer');
 const credentials = require('../credentials');
 const handlebars = require('handlebars');
+const subjectTranslation = require('./subject_translation.json');
 const fs = require('fs-extra');
 const path = require('path');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const emails = {
-  INVITATION: { subject: '', path: 'invitation_to_farm_email.html' },
-  CONFIRMATION: { subject: '', path: 'send_confirmation_email.html' },
-  WITHHELD_CONSENT: { subject: '', path: 'withheld_consent_email.html' },
-  ACCESS_RESTORE: { subject: '', path: 'restoration_of_access_to_farm_email.html' },
-  ACCESS_REVOKE: { subject: '', path: 'revocation_of_access_to_farm_email.html' },
-  WELCOME: { subject: 'Welcome to LiteFarm!', path: 'welcome_email.html' },
-  PASSWORD_RESET: { subject: 'Password Reset Request', path: 'password_reset_email.html' },
-  PASSWORD_RESET_CONFIRMATION: { subject: 'Your LiteFarm password has been changed', path: 'reset_password_confirmation.html' },
+  INVITATION: { subjectReplacements: '', path: 'invitation_to_farm_email.html' },
+  CONFIRMATION: { subjectReplacements: '', path: 'send_confirmation_email.html' },
+  WITHHELD_CONSENT: { path: 'withheld_consent_email.html' },
+  ACCESS_RESTORE: { subjectReplacements: '', path: 'restoration_of_access_to_farm_email.html' },
+  ACCESS_REVOKE: { subjectReplacements: '', path: 'revocation_of_access_to_farm_email.html' },
+  WELCOME: {  path: 'welcome_email.html' },
+  PASSWORD_RESET: {  path: 'password_reset_email.html' },
+  PASSWORD_RESET_CONFIRMATION: { path: 'reset_password_confirmation.html' },
 }
 
 class sendEmailTemplate {
@@ -45,7 +46,8 @@ class sendEmailTemplate {
         clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
       },
     });
-
+    const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
+    const subject = addReplacements(template_path, subjectTranslation[language][subjectKey]);
     const filePath = path.join(__dirname, `../templates/${language}/${template_path.path}`);
     const html = await fs.readFile(filePath, 'utf8');
 
@@ -86,7 +88,7 @@ class sendEmailTemplate {
     const mailOptions = {
       from: 'LiteFarm <' + sender + '>',
       to: email,
-      subject: template_path.subject,
+      subject,
       html: htmlToSend,
       auth: {
         user: 'system@litefarm.org',
@@ -113,6 +115,13 @@ class sendEmailTemplate {
     }
     return homeUrl;
   }
+}
+
+function addReplacements(template, subject){
+  if(subject.includes('??') && template.subjectReplacements){
+    return subject.replace('??', template.subjectReplacements)
+  }
+  return subject;
 }
 
 module.exports = {

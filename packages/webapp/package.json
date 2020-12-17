@@ -52,6 +52,7 @@
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
+    "jsonwebtoken": "^8.5.1",
     "mammoth": "^1.4.9",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",

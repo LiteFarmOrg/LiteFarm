@@ -1,36 +1,38 @@
-import React, { Suspense, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
-import { manualSignUpSelector } from '../CustomSignUp/signUpSlice';
 import { resetPassword, validateToken } from './saga';
+import jwt from 'jsonwebtoken'
+import Callback from '../../components/Callback';
 
 function PasswordResetAccount({ history }) {
-  const email = useSelector(manualSignUpSelector);
   const dispatch = useDispatch();
   const params = new URLSearchParams(history.location.search.substring(1));
-  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
+  const token = params.get('reset_token');
+  const [email, setEmail] = useState('');
+  const [isValid, setIsValid] = useState(undefined);
   const onSubmit = (data) => {
-    dispatch(resetPassword())
+    const { password } = data;
+    dispatch(resetPassword({ token, password }))
   };
 
   useEffect(() => {
-    const token = params.get('reset_token');
-    const email = getEmailFromToken();
-    dispatch(validateToken({ token }));
+    dispatch(validateToken({token, setIsValid}));
+    setEmail(getEmailFromToken(token));
   }, [])
 
-
   function getEmailFromToken(token) {
-    // either find a library or do base64Decode(token.split('.')[1]) < JSON.parse that.
+    const decoded = jwt.decode(token);
+    return decoded.email;
   }
+
   return (
     <>
-
-      <PureResetPasswordAccount
-        email={email.userEmail}
-        update={handleSubmit(onSubmit)}
-      />
+      {!isValid && <Callback/>}
+      {isValid && <PureResetPasswordAccount
+        email={email}
+        update={onSubmit}
+      />}
     </>
   );
 }

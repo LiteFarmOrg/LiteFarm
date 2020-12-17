@@ -24,8 +24,10 @@ const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 let { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories');
 const { createAccessTokenSync, createResetPasswordToken } = require('../src/util/jwt');
+const sendEmailTemplate = require('../src/templates/sendEmailTemplate')
 jest.mock('jsdom');
 jest.mock('../src/util/jwt');
+jest.mock('../src/templates/sendEmailTemplate');
 
 describe('JWT Tests', () => {
   let newUser;

@@ -28,6 +28,7 @@ jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
 
 const userModel = require('../src/models/userModel');
+const passwordModel = require('../src/models/passwordModel');
 const userFarmModel = require('../src/models/userFarmModel');
 
 describe('User Tests', () => {
@@ -330,13 +331,13 @@ describe('User Tests', () => {
         const password = "test password"
         fakeUser.password = password;
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
-          // const resUser = await userModel.query().findById(fakeUser.user_id);
-          const resUser = await userModel.query().select('*').where('email', fakeUser.email).first();
-          console.log(resUser);
+          const user_id = res.body.user.user_id;
+          const userSecret = await passwordModel.query().select('*').where('user_id', user_id).first();
+          const resUser = await userModel.query().select('*').where('user_id', user_id).first();
           validate(fakeUser, res, 201, resUser);
-          expect(resUser.password_hash).not.toBe(password);
+          expect(userSecret.password_hash).not.toBe(password);
           // check that the saved hash corresponds to the pw provided
-          const isMatch = await bcrypt.compare(password, resUser.password_hash);
+          const isMatch = await bcrypt.compare(password, userSecret.password_hash);
           expect(isMatch).toBe(true);
           done();
         })

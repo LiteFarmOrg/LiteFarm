@@ -23,7 +23,7 @@ function CustomSignUp() {
   const params = new URLSearchParams(history.location.search.substring(1));
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
-  const refInput = register({ pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i });
+  const refInput = register({ pattern: validEmailRegex });
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
   const [showResetModal, setShowResetModal] = useState(false);

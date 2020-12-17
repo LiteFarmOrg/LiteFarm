@@ -8,6 +8,7 @@ import fr from './fr/translation.json';
 import fr_common from './fr/common.json';
 import es from './es/translation.json';
 import es_common from './es/translation.json';
+import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {
   en: {
@@ -28,15 +29,20 @@ const resources = {
   },
 };
 
-i18n.use(initReactI18next).init({
-  resources,
-  lng: 'en',
+i18n
+  .use(I18nextBrowserLanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources,
+    fallbackLng: 'en',
+    detection: {
+      lookupLocalStorage: 'litefarm_lang',
+    },
+    keySeparator: '.', // we do not use keys in form messages.welcome
 
-  keySeparator: '.', // we do not use keys in form messages.welcome
-
-  interpolation: {
-    escapeValue: false,
-  },
-});
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
 export default i18n;

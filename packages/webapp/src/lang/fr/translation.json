@@ -301,10 +301,15 @@
     "ACCOUNT_TAB": "MISSING",
     "ACCOUNT": {
       "EMAIL": "MISSING",
+      "ENGLISH": "MISSING",
       "FIRST_NAME": "MISSING",
+      "FRENCH": "MISSING",
+      "LANGUAGE": "MISSING",
       "LAST_NAME": "MISSING",
       "PERSONAL_INFORMATION": "MISSING",
       "PHONE_NUMBER": "MISSING",
+      "PORTUGUESE": "MISSING",
+      "SPANISH": "MISSING",
       "USER_ADDRESS": "MISSING"
     },
     "FARM_TAB": "MISSING",
@@ -312,7 +317,6 @@
       "ADDRESS": "MISSING",
       "CURRENCY": "MISSING",
       "FARM_NAME": "MISSING",
-      "LANGUAGE": "MISSING",
       "MAKE_REQUEST": "MISSING",
       "PHONE_NUMBER": "MISSING",
       "REQUEST_DATA": "MISSING",

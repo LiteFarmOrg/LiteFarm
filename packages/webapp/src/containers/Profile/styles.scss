@@ -63,6 +63,17 @@
   background: #cef1d8;
 }
 
+.selectContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+  margin-bottom: 3%;
+  label {
+    min-width: 64px;
+  }
+}
+
 @media only screen and (min-width: 800px) {
   .profileContainer {
     width: 100%;

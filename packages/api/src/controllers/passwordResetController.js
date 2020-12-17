@@ -108,7 +108,7 @@ class passwordResetController extends baseController {
           first_name,
         };
         const sender = 'system@litefarm.org';
-        await emailSender.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
 
 
         return res.status(200).send({ id_token });

@@ -17,48 +17,62 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-// import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
 import { loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
+import jwt from 'jsonwebtoken';
 
 const axios = require('axios');
 const resetPasswordUrl = () => `${url}/password_reset`;
-const loginUrl = (email) => `${url}/login/user/${email}`;
-// const loginWithPasswordUrl = () => `${url}/login`;
-// const userUrl = () => `${url}/user`;
+const validateTokenUrl = () => `${url}/password_reset/validate`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);
 
-export function* resetPasswordSaga() {
+export function* resetPasswordSaga({ payload: { token, password } }) {
   try {
+    const result = yield call(
+      axios.put,
+      resetPasswordUrl(),
+      { password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
-    // Get reset password link, which contains the encoded token
+    const { id_token } = result.data;
+    localStorage.setItem('id_token', id_token);
 
-    // Decode token using reset_password_jwt_public_key
+    const decoded = jwt.decode(id_token);
+    const { user_id } = decoded;
 
-    // Get user_id from decoded token
-
-    // Call resetPassword endpoint, pass user_id in request body
-
-    // Endpoint will generate a new hashed password, save in password table, set created_at to today, send password reset confirmation email, return access token
-
-    // If access token is valid, call login user endpoint, else return error message
-
+    yield put(loginSuccess({ user_id }));
+    history.push('/farm_selection');
   } catch (e) {
-    console.log(e);
+    toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
   }
 }
 
+export const validateToken = createAction('validateTokenSaga');
 
-export const validateToken = createAction('validateTokenSaga')
-
-export function* validateTokenSaga({token}) {
+export function* validateTokenSaga({ payload: { token, setIsValid } }) {
   // call validation endpoint with token
   // if this is successful we proceed to PasswordResetAccount
   // otherwise we want to go with another component to show error. < -- view is not designed.
   // FOR NOW: move to main page
+  try {
+    const result = yield call(axios.get, validateTokenUrl(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setIsValid(true);
+  } catch (e) {
+    setIsValid(false);
+    history.push('/');
+    toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
+  }
 }
-
 
 export default function* resetUserPasswordSaga() {
   yield takeLatest(resetPassword.type, resetPasswordSaga);

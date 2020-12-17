@@ -78,7 +78,7 @@ class sendEmailTemplate {
       if (joinRelativeURL) {
         dom.window.document.getElementById('email-button').setAttribute('href', `${sendEmailTemplate.homeUrl()}${joinRelativeURL}`);
       } else {
-        const url = `${sendEmailTemplate.homeUrl()}/?email=${email}`;
+        const url = `${sendEmailTemplate.homeUrl()}/?email=${encodeURIComponent(email)}`;
         dom.window.document.getElementById('email-button').setAttribute('href', url);
       }
       // this exports the dom back to a string

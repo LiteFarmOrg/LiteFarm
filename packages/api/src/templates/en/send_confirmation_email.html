@@ -20,96 +20,94 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
      <style>
       .background {
-        font-family: "Open Sans", "SansSerif", sans-serif!important;
-        background: #FAFAFD!important;
-        margin: 0!important;
-        padding-bottom: 34px!important;
+          font-family: "Open Sans", "SansSerif", sans-serif !important;
+          background: #FAFAFD !important;
+          margin: 0 !important;
+          padding-bottom: 34px !important;
       }
 
       .header {
-        background: #C7EFD3!important;
+          background: #C7EFD3 !important;
       }
 
       img {
-        display: block!important;
-        margin: auto!important;
-        padding: 0px 28px!important;
-        background: white!important;
+          display: block !important;
+          margin: auto !important;
+          padding: 0px 28px !important;
+          background: white !important;
       }
 
       #logo {
-        height: 48px!important;
+          height: 48px !important;
       }
 
       .main-container {
-        background: white!important;
-        margin: auto!important;
-        width: 95%!important;
-        max-width: 568px!important;
-        border-bottom: 4px solid #C7EFD3!important;
+          background: white !important;
+          margin: auto !important;
+          width: 95% !important;
+          max-width: 568px !important;
+          border-bottom: 4px solid #C7EFD3 !important;
       }
 
       .main-content {
-        padding: 2vw 4vw!important;
+          padding: 2vw 4vw !important;
       }
 
       .main-content p {
-        font-style: normal!important;
-        font-weight: normal!important;
-        font-size: 16px!important;
-        line-height: 24px!important;
-        color: #262422!important;
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          color: #262422 !important;
       }
 
       .button-aligner {
-        text-align: center!important;
+          text-align: center !important;
       }
 
       .button {
-        -webkit-appearance: button!important;
-        -moz-appearance: button!important;
-
-        text-decoration: none!important;
-        color: #282B36 !important;
-        background: #FCE38D!important;
-        box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3)!important;
-        border-radius: 4px!important;
-          padding: 12px 0!important;
-          width: 220px!important;
-
-        font-style: normal!important;
-        font-weight: 600!important;
-        font-size: 16px!important;
-        line-height: 24px!important;
+          text-decoration: none !important;
+          color: #282B36 !important;
+          background: #FCE38D !important;
+          border-radius: 4px !important;
+          padding: 12px 12px !important;
+          width: 90% !important;
+          cursor: pointer !important;
+          border: none !important;
+          box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3) !important;
+          font-style: normal !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
       }
 
       p {
-        font-size: 20px!important;
+          font-size: 20px !important;
       }
 
       .footer {
-        text-align: center!important;
-        margin-top: 34px!important;
+          text-align: center !important;
+          margin-top: 34px !important;
       }
 
       .footer p {
-        font-style: normal!important;
-        font-weight: normal!important;
-        font-size: 12px!important;
-        line-height: 24px!important;
-        color: #9FAABE!important;
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 12px !important;
+          line-height: 24px !important;
+          color: #9FAABE !important;
       }
 
       .main-content p a, .footer a {
-        color: #38AA92!important;
-        text-decoration: none!important;
+          color: #38AA92 !important;
+          text-decoration: none !important;
       }
 
       .main-content p a:hover, .footer a:hover {
-        color: #38AA92!important;
-        text-decoration: underline!important;
+          color: #38AA92 !important;
+          text-decoration: underline !important;
       }
-    </style>
+  </style>
     <!-- used to check styles applied to all emails -->
     <!-- <link rel="stylesheet" href="styles.css"> -->
   </head>
@@ -123,8 +121,10 @@
           <p>Dear <strong>{{first_name}}</strong>,</p>
           <p>Congrats on becoming the newest <strong>{{role}}</strong> at <strong>{{farm}}</strong>!</p>
           <p>You can log-in (on any device) using the button below:</p>
-          <div class="button-aligner">
-            <a href=""  target="_blank" class="button" id="email-button">Log In</a>
+          <div class='button-aligner'>
+            <a href='' target='_blank' id='email-button'>
+              <button class='button'>Log In</button>
+            </a>
           </div>
           <p>
             Cheers,

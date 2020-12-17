@@ -24,18 +24,15 @@ const { createResetPasswordToken, createAccessToken } = require('../util/jwt');
 class passwordResetController extends baseController {
   static sendResetEmail() {
     return async (req, res) => {
-      // we will receive the email from the body
       const { email } = req.body;
 
       try {
-        // get from db user_id and first_name from email (user table)
         const userData = await userModel.query().select('user_id', 'first_name').where('email', email).first();
 
         if (!userData) {
           return res.status(404).send('Email is not registered in LiteFarm');
         }
 
-        // get entry in db (password table) from user_id
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         let { reset_token_version, created_at } = pwData;
 
@@ -51,15 +48,13 @@ class passwordResetController extends baseController {
           reset_token_version++;
         }
 
-        // generate token
-        // payload: user_id, reset_token_version, email, first_name
 
         const updateData = {
           reset_token_version,
           created_at: created_at.toISOString(),
         };
 
-        const pwResult = await passwordModel.query().findById(userData.user_id).update(updateData);
+        await passwordModel.query().findById(userData.user_id).update(updateData);
 
         const tokenPayload = {
           ...userData,
@@ -87,22 +82,15 @@ class passwordResetController extends baseController {
 
   static validateToken() {
     return async (req, res) => {
-      // passwordResetController.isTokenValid()
       return res.status(200).json({ isValid: true });
     };
   }
 
   static resetPassword() {
     return async (req, res) => {
-      // if(passwordResetController.isTokenValid())
-      // reset the password
-      // set create_at to today on the password table
-      // send email
-      // log the user in
       const { password } = req.body;
       const { user_id, email, first_name } = req.user;
       try {
-        // hash password
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
 
@@ -111,9 +99,8 @@ class passwordResetController extends baseController {
           reset_token_version: 0,
           created_at: new Date().toISOString(),
         };
-        const pwResult = await passwordModel.query().findById(user_id).update(pwData);
+        await passwordModel.query().findById(user_id).update(pwData);
 
-        // generate token for logging user in
         const id_token = await createAccessToken({ user_id });
 
         const template_path = emails.PASSWORD_RESET_CONFIRMATION;
@@ -121,12 +108,11 @@ class passwordResetController extends baseController {
           first_name,
         };
         const sender = 'system@litefarm.org';
-        await emailSender.sendEmail(template_path, subject, replacements, email, sender, `/?email=${email}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
 
 
         return res.status(200).send({ id_token });
       } catch (error) {
-        // handle more exceptions
         return res.status(400).json({
           error,
         });

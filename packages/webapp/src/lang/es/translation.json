@@ -12,6 +12,10 @@
     "CREATE_BUTTON": "MISSING",
     "TITLE": "MISSING"
   },
+  "ENTER_PASSWORD": {
+    "FORGOT": "MISSING",
+    "LABEL": "MISSING"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "MISSING",
@@ -278,6 +282,11 @@
     }
   },
   "OUTRO": "MISSING",
+  "PASSWORD_RESET_SUCCESS_MODAL": {
+    "BUTTON": "MISSING",
+    "DESCRIPTION": "MISSING",
+    "TITLE": "MISSING"
+  },
   "PASSWORD_RESET": {
     "BUTTON": "MISSING",
     "BUTTON_SENDING": "MISSING",
@@ -285,11 +294,6 @@
     "DESCRIPTION_TOP": "MISSING",
     "NEW_ACCOUNT_BUTTON": "MISSING",
     "NEW_ACCOUNT_TITLE": "MISSING",
-    "TITLE": "MISSING"
-  },
-  "PASSWORD_RESET_SUCCESS_MODAL": {
-    "BUTTON": "MISSING",
-    "DESCRIPTION": "MISSING",
     "TITLE": "MISSING"
   },
   "PROFILE_FLOATER": {
@@ -494,8 +498,8 @@
     "OOPS": "MISSING",
     "PASSWORD_ERROR": "Password incorrect",
     "PLEASE_SIGNUP": "MISSING",
-    "SIGN_IN": "Sign In",
-    "SSO_ERROR": "Please login by clicking the Google button above",
+    "SIGN_IN": "Iniciar Sesion",
+    "SSO_ERROR": "Por favor, inicie sesion con el boton de inicio de sesion con google",
     "TITLE": "MISSING"
   },
   "SLIDE_MENU": {

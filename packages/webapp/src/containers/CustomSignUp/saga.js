@@ -34,6 +34,7 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
+      localStorage.setItem('litefarm_lang', result.data.language)
       yield put(saveUserEmailSuccess(email));
       history.push({
         pathname: '/',

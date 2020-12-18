@@ -7,7 +7,7 @@ import pt_common from './pt/common.json';
 import fr from './fr/translation.json';
 import fr_common from './fr/common.json';
 import es from './es/translation.json';
-import es_common from './es/translation.json';
+import es_common from './es/common.json';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {

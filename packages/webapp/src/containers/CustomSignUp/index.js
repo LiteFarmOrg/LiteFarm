@@ -27,6 +27,11 @@ function CustomSignUp() {
   const dispatch = useDispatch();
   const email = watch(EMAIL, undefined);
   const [showResetModal, setShowResetModal] = useState(false);
+  const disabled = !email || !validEmailRegex.test(email);
+  const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
+  const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
+  const { t, i18n } = useTranslation();
+
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
     setShowResetModal(true);
@@ -37,10 +42,13 @@ function CustomSignUp() {
   useEffect(() => {
     setValue(EMAIL, user?.email || params.get('email'));
   }, [user, setValue]);
-  const disabled = !email || !validEmailRegex.test(email);
-  const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
-  const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
-  const { t } = useTranslation();
+
+  useEffect(() => {
+    if(componentToShow === ENTER_PASSWORD_PAGE && i18n.language !== localStorage.getItem('litefarm_lang')) {
+      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+    }
+  }, [componentToShow])
+
   const showSSOErrorAndRedirect = () => {
     setError(EMAIL, {
       type: 'manual',

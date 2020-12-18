@@ -27,7 +27,7 @@ class passwordResetController extends baseController {
       const { email } = req.body;
 
       try {
-        const userData = await userModel.query().select('user_id', 'first_name').where('email', email).first();
+        const userData = await userModel.query().select('user_id', 'first_name', 'language_preference').where('email', email).first();
 
         if (!userData) {
           return res.status(404).send('Email is not registered in LiteFarm');
@@ -70,7 +70,7 @@ class passwordResetController extends baseController {
           first_name: userData.first_name,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`, userData.language_preference);
 
         return res.status(200).send('Email successfully sent');
       } catch (error) {
@@ -89,7 +89,7 @@ class passwordResetController extends baseController {
   static resetPassword() {
     return async (req, res) => {
       const { password } = req.body;
-      const { user_id, email, first_name } = req.user;
+      const { user_id, email, first_name, language_preference } = req.user;
       try {
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
@@ -108,7 +108,7 @@ class passwordResetController extends baseController {
           first_name,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, language_preference);
 
 
         return res.status(200).send({ id_token });

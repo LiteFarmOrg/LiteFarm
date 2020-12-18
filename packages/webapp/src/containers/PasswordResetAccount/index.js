@@ -5,6 +5,7 @@ import { resetPassword, validateToken } from './saga';
 import jwt from 'jsonwebtoken';
 import Callback from '../../components/Callback';
 import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
+import { useTranslation } from 'react-i18next';
 
 function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function PasswordResetAccount({ history }) {
   const [email, setEmail] = useState('');
   const [isValid, setIsValid] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
+  const { i18n } = useTranslation();
   const onSubmit = (data) => {
     const { password } = data;
     dispatch(resetPassword({ token, password, onPasswordResetSuccess }));
@@ -26,6 +28,7 @@ function PasswordResetAccount({ history }) {
   function getEmailFromToken(token) {
     const decoded = jwt.decode(token);
     localStorage.setItem('litefarm_lang', decoded.language_preference);
+    i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
     return decoded.email;
   }
 

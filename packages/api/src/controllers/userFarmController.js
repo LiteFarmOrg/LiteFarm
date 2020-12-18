@@ -271,10 +271,9 @@ class userFarmController extends baseController {
         };
         if (has_consent === false) {
           template_path = emails.WITHHELD_CONSENT;
-          template_path.subject = 'You didn’t agree with the LiteFarm privacy policy – here are your options';
         } else {
           template_path = emails.CONFIRMATION;
-          template_path.subject = `You've successfully joined ${rows[0].farm_name}!`;
+          template_path.subjectReplacements = rows[0].farm_name;
           replacements['role'] = rows[0].role
         }
         if (isPatched) {
@@ -428,10 +427,10 @@ class userFarmController extends baseController {
         // check if access is revoked or restored: update email info based on this
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
           template_path = emails.ACCESS_REVOKE;
-          template_path.subject = `You've lost access to ${targetUser.farm_name} on LiteFarm!`;
+          template_path.subjectReplacements = targetUser.farm_name;
         } else if (currentStatus === 'Inactive') {
           template_path = emails.ACCESS_RESTORE;
-          template_path.subject = `Your access to ${targetUser.farm_name} has been restored!`;
+          template_path.subjectReplacements = targetUser.farm_name;
         }
         const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({

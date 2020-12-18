@@ -44,7 +44,7 @@ function CustomSignUp() {
   }, [user, setValue]);
 
   useEffect(() => {
-    if(componentToShow === ENTER_PASSWORD_PAGE) {
+    if(componentToShow === ENTER_PASSWORD_PAGE && i18n.language !== localStorage.getItem('litefarm_lang')) {
       i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
     }
   }, [componentToShow])

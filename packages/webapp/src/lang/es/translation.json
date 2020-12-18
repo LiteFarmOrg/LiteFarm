@@ -498,8 +498,8 @@
     "OOPS": "MISSING",
     "PASSWORD_ERROR": "Password incorrect",
     "PLEASE_SIGNUP": "MISSING",
-    "SIGN_IN": "Sign In",
-    "SSO_ERROR": "Please login by clicking the Google button above",
+    "SIGN_IN": "Iniciar Sesion",
+    "SSO_ERROR": "Por favor, inicie sesion con el boton de inicio de sesion con google",
     "TITLE": "MISSING"
   },
   "SLIDE_MENU": {

@@ -27,8 +27,10 @@ function PasswordResetAccount({ history }) {
 
   function getEmailFromToken(token) {
     const decoded = jwt.decode(token);
-    localStorage.setItem('litefarm_lang', decoded.language_preference);
-    i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+    if(localStorage.getItem('litefarm_lang') !== decoded.language_preference) {
+      localStorage.setItem('litefarm_lang', decoded.language_preference);
+      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
+    }
     return decoded.email;
   }
 

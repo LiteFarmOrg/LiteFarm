@@ -81,7 +81,7 @@ class loginController extends baseController {
       const { email } = req.params;
       try {
         const data = await userModel.query()
-          .select('user_id', 'first_name', 'email').from('users').where('users.email', email).first();
+          .select('user_id', 'first_name', 'email', 'language_preference').from('users').where('users.email', email).first();
         if (!data) {
           res.status(200).send({
             first_name: null,
@@ -97,6 +97,7 @@ class loginController extends baseController {
               email: data.email,
               exists: true,
               sso: true,
+              language: data.language_preference,
             });
           } else {
             res.status(200).send({
@@ -104,6 +105,7 @@ class loginController extends baseController {
               email: data.email,
               exists: true,
               sso: false,
+              language: data.language_preference,
             });
           }
         }

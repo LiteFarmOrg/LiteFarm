@@ -25,6 +25,7 @@ function PasswordResetAccount({ history }) {
 
   function getEmailFromToken(token) {
     const decoded = jwt.decode(token);
+    localStorage.setItem('litefarm_lang', decoded.language_preference);
     return decoded.email;
   }
 

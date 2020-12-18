@@ -13,9 +13,15 @@ const inputClasses = {
   },
 };
 
-export default function PureCustomSignUp({ inputs, onSubmit, disabled, GoogleLoginButton }) {
+export default function PureCustomSignUp({
+  inputs,
+  onSubmit,
+  disabled,
+  GoogleLoginButton,
+  classes,
+}) {
   return (
-    <form onSubmit={onSubmit} className={styles.home}>
+    <form onSubmit={onSubmit} className={styles.home} style={classes.form}>
       <div className={styles.lander}>
         <div className={styles.greetContainer}>
           <Logo />
@@ -29,7 +35,7 @@ export default function PureCustomSignUp({ inputs, onSubmit, disabled, GoogleLog
           </div>
         </div>
       </div>
-      <Footer style={{ position: 'sticky', bottom: 0 }}>
+      <Footer style={{ position: 'relative', bottom: 0 }}>
         <div className={styles.bottomButton}>
           <Button
             disabled={disabled}
@@ -54,6 +60,7 @@ PureCustomSignUp.prototype = {
   onSubmit: PropTypes.func,
   disabled: PropTypes.bool,
   GoogleLoginButton: PropTypes.node,
+  classes: PropTypes.objectOf(PropTypes.object),
 };
 
 PureCustomSignUp.defaultProps = {
@@ -61,4 +68,5 @@ PureCustomSignUp.defaultProps = {
   onSubmit: () => {},
   disabled: undefined,
   GoogleLoginButton: undefined,
+  classes: {},
 };

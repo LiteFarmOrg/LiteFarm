@@ -79,6 +79,7 @@ describe('Sign Up Tests', () => {
 		expect(res.body.exists).toBe(true);
 		expect(res.body.sso).toBe(false);
 		expect(res.body.first_name).toBe(name);
+		expect(req.body.language_preference).toBe('en'); // Default language
 		done();
 	  });
   });

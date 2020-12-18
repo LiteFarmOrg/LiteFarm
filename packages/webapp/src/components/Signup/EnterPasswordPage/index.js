@@ -53,10 +53,10 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
       <Input
         style={{ marginBottom: '28px' }}
-        label={'Password'}
+        label={t('ENTER_PASSWORD.LABEL')}
         type={PASSWORD}
         name={PASSWORD}
-        icon={<Underlined onClick={forgotPassword}>Forgot password?</Underlined>}
+        icon={<Underlined onClick={forgotPassword}>{t('ENTER_PASSWORD.FORGOT')}</Underlined>}
         inputRef={inputRegister}
         errors={errors[PASSWORD]?.message}
       />

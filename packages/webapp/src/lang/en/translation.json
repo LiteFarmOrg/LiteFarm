@@ -12,6 +12,10 @@
     "CREATE_BUTTON": "Create Account",
     "TITLE": "Create new user account"
   },
+  "ENTER_PASSWORD": {
+    "FORGOT": "Forgot password?",
+    "LABEL": "Password"
+  },
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "New Expense (1 of 2)",
@@ -277,6 +281,11 @@
     }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
+  "PASSWORD_RESET_SUCCESS_MODAL": {
+    "BUTTON": "Great!",
+    "DESCRIPTION": "Your password has been updated.",
+    "TITLE": "Success!"
+  },
   "PASSWORD_RESET": {
     "BUTTON": "Resend Link",
     "BUTTON_SENDING": "Sending...",
@@ -285,11 +294,6 @@
     "NEW_ACCOUNT_BUTTON": "Update",
     "NEW_ACCOUNT_TITLE": "Set your new password",
     "TITLE": "Link Sent"
-  },
-  "PASSWORD_RESET_SUCCESS_MODAL": {
-    "BUTTON": "Great!",
-    "DESCRIPTION": "Your password has been updated.",
-    "TITLE": "Success!"
   },
   "PROFILE_FLOATER": {
     "HELP": "Help",

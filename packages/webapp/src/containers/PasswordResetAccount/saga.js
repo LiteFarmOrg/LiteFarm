@@ -36,6 +36,7 @@ export function* resetPasswordSaga({ payload: { token, password, onPasswordReset
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          language: localStorage.getItem('litefarm_lang'),
         },
       },
     );

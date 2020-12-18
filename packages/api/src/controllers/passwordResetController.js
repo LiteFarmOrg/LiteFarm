@@ -64,13 +64,12 @@ class passwordResetController extends baseController {
         };
         const token = await createResetPasswordToken(tokenPayload);
 
-
         const template_path = emails.PASSWORD_RESET;
         const replacements = {
           first_name: userData.first_name,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`, req.headers.language);
 
         return res.status(200).send('Email successfully sent');
       } catch (error) {
@@ -108,7 +107,7 @@ class passwordResetController extends baseController {
           first_name,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`);
+        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, req.headers.language);
 
 
         return res.status(200).send({ id_token });

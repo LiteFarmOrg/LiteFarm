@@ -38,7 +38,7 @@ function PasswordResetAccount({ history }) {
     setShowModal(true);
     setTimeout(() => {
       history.push('/farm_selection');
-    }, 2000);
+    }, 5000);
   };
 
   const modalOnClick = () => {

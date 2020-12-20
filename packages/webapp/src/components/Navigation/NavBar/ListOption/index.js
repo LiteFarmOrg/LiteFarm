@@ -9,24 +9,23 @@ export default function ListOption({
 }) {
   const paragraphStyle = Object.assign(
     {
-      paddingLeft: '0.8rem',
-      paddingRight: '0.8rem',
       paddingBottom: '0.4rem',
       paddingTop: '0.4rem',
       fontFamily: '"Open Sans"," SansSerif", serif',
       fontSize: '0.88rem',
       marginBottom: '0px',
       cursor: 'pointer',
+      display: 'flex',
     },
     customParagraphStyle,
   );
-  const iconStyle = Object.assign({ paddingRight: '0.3rem' }, customIconStyle);
+  const iconStyle = Object.assign({ width: '44px', textAlign: 'center' }, customIconStyle);
   return (
     <span className={styles.listOption} onClick={clickFn}>
-      <p style={paragraphStyle}>
-        <span style={iconStyle}>{icon}</span>
+      <div style={paragraphStyle}>
+        <div style={iconStyle}>{icon}</div>
         {iconText}
-      </p>
+      </div>
     </span>
   );
 }

@@ -18,7 +18,6 @@ import history from '../../history';
 import moment from 'moment';
 
 import {
-  CREATE_FIELD_CROP,
   CREATE_PRICE,
   CREATE_YIELD,
   DELETE_FIELD,
@@ -82,25 +81,12 @@ export function* postFieldSaga(action) {
 }
 export const postFieldCrop = createAction(`postFieldCropSaga`);
 
-export function* postFieldCropSaga(action) {
+export function* postFieldCropSaga({payload: fieldCrop}) {
   const { fieldCropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-
-  const data = {
-    crop_id: action.cropId,
-    field_id: action.fieldId,
-    start_date: action.startDate,
-    end_date: action.endDate,
-    area_used: action.areaUsed,
-    estimated_production: action.estimatedProduction,
-    variety: action.variety,
-    estimated_revenue: action.estimatedRevenue,
-    is_by_bed: action.is_by_bed,
-    bed_config: action.bed_config,
-  };
   try {
-    const result = yield call(axios.post, fieldCropURL, data, header);
+    const result = yield call(axios.post, fieldCropURL, fieldCrop, header);
     yield put(postFieldCropSuccess(result.data));
   } catch (e) {
     console.log('failed to add fieldCrop to database');

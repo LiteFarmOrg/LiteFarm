@@ -1,6 +1,7 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
+import { fieldEntitiesSelector, fieldsSelector } from './fieldSlice';
 
 const getFieldCrop = (obj) => {
   const { field_crop_id, crop_id, field_id, start_date, end_date, area_used, estimated_production, variety, estimated_revenue, is_by_bed, bed_config, } = obj;
@@ -56,8 +57,8 @@ export const fieldCropReducerSelector = state => state.entitiesReducer[fieldCrop
 
 const fieldCropSelectors = fieldCropAdapter.getSelectors((state) => state.entitiesReducer[fieldCropReducer.name])
 
-export const fieldCropsSelector = createSelector([fieldCropSelectors.selectAll, loginSelector], (fieldCrops, { farm_id }) => {
-  return fieldCrops.filter((fieldCrop) => fieldCrop.farm_id === farm_id);
+export const fieldCropsSelector = createSelector([fieldCropSelectors.selectAll, fieldEntitiesSelector, loginSelector], (fieldCrops, fieldEntities, { farm_id }) => {
+  return fieldCrops.filter((fieldCrop) => fieldEntities[fieldCrop.field_id].farm_id === farm_id);
 })
 
 export const expiredFieldCropsSelector = (state) =>{

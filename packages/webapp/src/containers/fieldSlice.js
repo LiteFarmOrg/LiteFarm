@@ -53,6 +53,7 @@ export const fieldReducerSelector = state => state.entitiesReducer[fieldReducer.
 
 const fieldSelectors = fieldAdapter.getSelectors((state) => state.entitiesReducer[fieldReducer.name])
 
+export const fieldEntitiesSelector = fieldSelectors.selectEntities;
 export const fieldsSelector = createSelector([fieldSelectors.selectAll, loginSelector], (fields, { farm_id }) => {
   return fields.filter((field) => field.farm_id === farm_id);
 })

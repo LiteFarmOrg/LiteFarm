@@ -69,6 +69,7 @@ class EditField extends Component {
   // }
 
   componentDidUpdate(prevProps) {
+    console.log(this.props.fieldCrops);
     if (this.props.fieldCrops !== prevProps.fieldCrops) {
       const fieldCrops = this.props.fieldCrops.filter(fieldCrop => fieldCrop.field_id === this.state.fieldId);
       this.setState({ selectedFieldCrops: fieldCrops })

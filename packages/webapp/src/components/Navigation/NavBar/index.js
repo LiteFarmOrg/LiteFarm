@@ -69,7 +69,7 @@ export default function PureNavBar({
   };
 
   return (
-    <div className={styles.navBar}>
+    <nav className={styles.navBar}>
       <div className={styles.actionItemContainer}>
         {steps && (
           <ReactJoyride
@@ -161,6 +161,6 @@ export default function PureNavBar({
       </div>
       <div className={styles.itemContainer}>{logo}</div>
       {children}
-    </div>
+    </nav>
   );
 }

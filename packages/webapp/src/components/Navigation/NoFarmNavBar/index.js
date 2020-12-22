@@ -19,7 +19,7 @@ import MiddleLogo from '../../../assets/images/middle_logo.svg';
 
 export default function NoFarmNavBar({ history }) {
   return (
-    <div className={styles.navBar}>
+    <nav className={styles.navBar}>
       <div className={styles.itemContainer}>
         <img
           src={MiddleLogo}
@@ -28,6 +28,6 @@ export default function NoFarmNavBar({ history }) {
           onClick={() => history.push('/')}
         />
       </div>
-    </div>
+    </nav>
   );
 }

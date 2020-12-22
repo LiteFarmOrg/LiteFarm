@@ -15,6 +15,8 @@
 
 const baseController = require('../controllers/baseController');
 const supportTicketModel = require('../models/supportTicketModel');
+const userModel = require('../models/userModel');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
 class supportTicketController extends baseController {
   // Disabled
@@ -30,7 +32,6 @@ class supportTicketController extends baseController {
         }
       } catch (error) {
         //handle more exceptions
-        console.error(error);
         res.status(400).json({
           error,
         });
@@ -42,7 +43,13 @@ class supportTicketController extends baseController {
     return async (req, res) => {
       try {
         const user_id = req.user.user_id;
+        const user = await userModel.query().findById(user_id);
         const result = await supportTicketModel.query().context({ user_id }).insert(req.body).returning('*');
+        const replacements = {
+          first_name: user.first_name,
+        }
+        const email = (req.body.contact_method === 'email' && req.body.email) || user.email;
+        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, req.body.attachments);
         res.status(201).send(result);
       } catch (error) {
         res.status(400).json({

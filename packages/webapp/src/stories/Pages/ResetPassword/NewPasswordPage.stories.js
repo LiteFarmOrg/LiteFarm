@@ -1,7 +1,7 @@
 import React from 'react';
-import decorators from '../../config/decorators';
+import decorators from '../config/decorators';
 
-import PureResetPasswordAccount from '../../../../components/PasswordResetAccount';
+import PureResetPasswordAccount from '../../../components/PasswordResetAccount';
 
 export default {
   title: 'Form/ResetPassword/NewPasswordPage',

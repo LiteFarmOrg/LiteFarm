@@ -56,6 +56,7 @@ export default function PureNavBar({
   };
   const logOutClick = () => {
     logout();
+    changeInteraction('profile');
   };
   const myInfoClick = () => {
     history.push('/Profile');
@@ -65,10 +66,10 @@ export default function PureNavBar({
   // Pure Notification Floater
   const notificationTeaserClick = () => {
     changeInteraction('notification');
-  }
+  };
 
   return (
-    <div className={styles.navBar}>
+    <nav className={styles.navBar}>
       <div className={styles.actionItemContainer}>
         {steps && (
           <ReactJoyride
@@ -160,6 +161,6 @@ export default function PureNavBar({
       </div>
       <div className={styles.itemContainer}>{logo}</div>
       {children}
-    </div>
+    </nav>
   );
 }

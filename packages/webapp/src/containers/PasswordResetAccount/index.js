@@ -27,19 +27,27 @@ function PasswordResetAccount({ history }) {
 
   function getEmailFromToken(token) {
     const decoded = jwt.decode(token);
-    if(localStorage.getItem('litefarm_lang') !== decoded.language_preference) {
+    if (localStorage.getItem('litefarm_lang') !== decoded.language_preference) {
       localStorage.setItem('litefarm_lang', decoded.language_preference);
       i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
     }
     return decoded.email;
   }
 
+  const [hasTimeoutStarted, setHasTimeoutStarted] = useState(false);
   const onPasswordResetSuccess = () => {
     setShowModal(true);
-    setTimeout(() => {
-      history.push('/farm_selection');
-    }, 5000);
+    setHasTimeoutStarted(true);
   };
+  useEffect(() => {
+    let timeout;
+    if (hasTimeoutStarted) {
+      timeout = setTimeout(() => {
+        history.push('/farm_selection');
+      }, 10000);
+    }
+    return () => clearTimeout(timeout);
+  }, [hasTimeoutStarted]);
 
   const modalOnClick = () => {
     history.push('/farm_selection');

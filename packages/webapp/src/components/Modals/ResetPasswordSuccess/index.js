@@ -22,7 +22,7 @@ export function PureResetSuccessComponent({ onClick }) {
 
 export default function ResetSuccessModal({ onClick, dismissModal }) {
   return (
-    <Modal dismissModal={dismissModal}>
+    <Modal>
       <PureResetSuccessComponent onClick={onClick} />
     </Modal>
   );

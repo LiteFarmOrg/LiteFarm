@@ -56,6 +56,7 @@ export default function PureNavBar({
   };
   const logOutClick = () => {
     logout();
+    changeInteraction('profile');
   };
   const myInfoClick = () => {
     history.push('/Profile');
@@ -65,7 +66,7 @@ export default function PureNavBar({
   // Pure Notification Floater
   const notificationTeaserClick = () => {
     changeInteraction('notification');
-  }
+  };
 
   return (
     <div className={styles.navBar}>

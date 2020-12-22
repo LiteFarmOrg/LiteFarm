@@ -56,6 +56,7 @@ export default function PureNavBar({
   };
   const logOutClick = () => {
     logout();
+    changeInteraction('profile');
   };
   const myInfoClick = () => {
     history.push('/Profile');

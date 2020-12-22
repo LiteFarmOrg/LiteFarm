@@ -2,7 +2,6 @@ exports.up = function(knex) {
   return Promise.all([
     knex.schema.createTable('supportTicket', function (table) {
       table.uuid('support_ticket_id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-      // table.increments('support_ticket_number');
       table.enu('support_type',
         ['Request information', 'Report a bug', 'Request a feature', 'Other']).notNullable();
       table.text('message').notNullable();

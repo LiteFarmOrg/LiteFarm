@@ -30,7 +30,6 @@ class supportTicketModel extends BaseModel {
       required: ['support_type', 'message', 'contact_method'],
       properties: {
         support_ticket_id: { type: 'string' },
-        // support_ticket_number: { type: 'integer' },
         support_type: {
           type: 'string',
           enum: ['Request information', 'Report a bug', 'Request a feature', 'Other'],

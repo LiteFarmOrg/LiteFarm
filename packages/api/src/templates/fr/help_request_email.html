@@ -61,6 +61,26 @@ GNU General Public License for more details, see <https://www.gnu.org/licenses/>
           color: #262422 !important;
       }
 
+      .support-header {
+          font-weight: 600 !important;
+          font-style: normal !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          color: #262422 !important;
+      }
+
+      .support-content {
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          color: #262422 !important;
+      }
+
+      .support-container{
+          margin: 36px 0 !important;
+      }
+
       .button-aligner {
           text-align: center !important;
       }
@@ -118,9 +138,42 @@ GNU General Public License for more details, see <https://www.gnu.org/licenses/>
     </div>
     <div class='main-content'>
       <p>Dear <strong>{{first_name}}</strong>,</p>
-      <p>
-        Thanks for reaching out. Someone on our support team will be in touch within 48 hours.
-      </p>
+      <div class='support-container'>
+        <div class='support-content'>
+          Thanks for reaching out. Someone on our support team will be in touch within 48 hours.
+        </div>
+      </div>
+      <div class='support-container'>
+        <div class='support-header'>
+          Type of support:
+        </div>
+        <div class='support-content'>
+          {{support_type}}
+        </div>
+      </div>
+
+      <div class='support-container'>
+        <div class='support-header'>
+          Message:
+        </div>
+        <div class='support-content'>
+          {{message}}
+        </div>
+      </div>
+
+
+      <div class='support-container'>
+        <div class='support-header'>
+          Preferred contact method:
+        </div>
+        <div class='support-content'>
+          {{contact_method}}
+        </div>
+        <div class='support-content'>
+          {{contact}}
+        </div>
+      </div>
+
       <p>
         Cheers,
         <br>

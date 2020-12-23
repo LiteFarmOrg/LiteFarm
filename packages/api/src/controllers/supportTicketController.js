@@ -47,9 +47,14 @@ class supportTicketController extends baseController {
         const result = await supportTicketModel.query().context({ user_id }).insert(req.body).returning('*');
         const replacements = {
           first_name: user.first_name,
-        }
-        const email = (req.body.contact_method === 'email' && req.body.email) || user.email;
-        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, req.body.attachments);
+          support_type: result.support_type,
+          message: result.message,
+          contact_method: capitalize(result.contact_method),
+          contact: result[result.contact_method],
+        };
+        const email = req.body.contact_method === 'email' && req.body.email;
+        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, req.body.attachments);
+        email && email !== user.email && await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, req.body.attachments);
         res.status(201).send(result);
       } catch (error) {
         res.status(400).json({
@@ -76,5 +81,9 @@ class supportTicketController extends baseController {
     };
   }
 }
+
+const capitalize = string => {
+  return string[0].toUpperCase() + string.slice(1);
+};
 
 module.exports = supportTicketController;

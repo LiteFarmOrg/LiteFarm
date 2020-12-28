@@ -288,7 +288,9 @@ class EditFieldCropModal extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.handleShow}>Edit</Button>
+        <Button onClick={this.handleShow} style={{ padding: '0 24px' }}>
+          Edit
+        </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>

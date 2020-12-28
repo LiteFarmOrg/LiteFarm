@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '../../../Card';
 
-
 const ChooseFarmMenuItem = ({
   color = 'secondary',
   ownerName,
@@ -34,7 +33,9 @@ const ChooseFarmMenuItem = ({
         {ownerName && <p className={clsx(styles.address, styles[color])}>{ownerName}</p>}
       </div>
       <div className={styles.rightColumn}>
-        {address.map(row => <p className={clsx(styles.address, styles[color])}>{row}</p>)}
+        {address.map((row) => (
+          <p className={clsx(styles.address, styles[color])}>{row}</p>
+        ))}
       </div>
     </Card>
   );
@@ -47,6 +48,6 @@ ChooseFarmMenuItem.propTypes = {
   farmName: PropTypes.string,
   address: PropTypes.arrayOf(PropTypes.string),
   style: PropTypes.object,
-}
+};
 
 export default ChooseFarmMenuItem;

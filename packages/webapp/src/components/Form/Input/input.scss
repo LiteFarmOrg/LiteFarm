@@ -1,6 +1,6 @@
-@import "../../../assets/colors";
+@import '../../../assets/colors';
 .input {
-  border: 2px solid var(--border);
+  border: 1px solid var(--grey400);
   box-sizing: border-box;
   border-radius: 4px;
   height: 48px;
@@ -8,62 +8,72 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--fontColor);
+  // set lastpass fill password icon
+  background-position: calc(100% - 36px) calc(50%) !important;
 }
 
 .input ::placeholder {
-  color: var(--iconDefault);
-  opacity: 1;
+  color: var(--grey500);
 }
 
 .input:disabled {
   background-color: var(--inputDisabled);
-  color: var(--inputDefault);
+  color: var(--grey600);
   border-color: var(--inputDefault);
 }
 
-.fullLength{
+.fullLength {
   width: 100%;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   overflow: visible;
   position: relative;
 }
 
-.inputError{
+.inputError {
   border-color: var(--error);
 }
 
-.input:focus:enabled{
+.input:focus:enabled {
   outline: none;
   border-color: var(--inputActive);
 }
 
-.icon{
+.icon {
   position: absolute;
   right: 0;
   top: -8px;
   color: var(--iconDefault);
 }
-.icon > *{
+.icon > * {
   cursor: pointer;
 }
-.sm{
+.sm {
   margin-left: 8px;
 }
-.cross{
+.cross {
   position: absolute;
   right: 0;
   transform: translate(-17px, 13px);
+  cursor: pointer;
 }
-.searchIcon{
+.searchIcon {
   color: var(--iconDefault);
   position: absolute;
   font-size: 20px;
   transform: translate(11px, 15px);
 }
-.searchBar{
+.searchBar {
   padding-left: 40px;
+}
+.visibilityIcon {
+  position: absolute;
+  right: 0;
+  transform: translate(-8px, 32px);
+  font-size: 22px;
+  color: var(--iconDefault);
+  cursor: pointer;
 }

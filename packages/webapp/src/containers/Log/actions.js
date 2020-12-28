@@ -18,19 +18,19 @@ import { GET_LOGS, SET_LOGS_IN_STATE, SET_SELECTED_LOG } from './constants';
 export const getLogs = () => {
   return {
     type: GET_LOGS,
-  }
+  };
 };
 
 export const setLogsInState = (logs) => {
   return {
     type: SET_LOGS_IN_STATE,
-    logs
-  }
+    logs,
+  };
 };
 
 export const setSelectedLog = (log) => {
   return {
     type: SET_SELECTED_LOG,
-    log
-  }
+    log,
+  };
 };

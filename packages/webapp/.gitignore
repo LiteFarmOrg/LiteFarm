@@ -24,3 +24,7 @@ yarn-error.log*
 ./cypress/screenshots*
 ./cypress/videos*
 ./cypress/integration/__snapshots__
+
+src/lang/*/*_old.json
+
+packages/.DS_Store

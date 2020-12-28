@@ -28,7 +28,7 @@ const initialState = {
   availableDuration: 0,
   startEndObj: {},
   shifts: null,
-  selectedShift: {}
+  selectedShift: {},
 };
 
 function shiftReducer(state = initialState, action) {
@@ -58,7 +58,7 @@ function shiftReducer(state = initialState, action) {
         selectedShift: action.selectedShift,
       });
     default:
-      return state
+      return state;
   }
 }
 

@@ -24,39 +24,38 @@ class farmController extends baseController {
   static addFarm() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-
-      const { country } = req.body;
-      if (!country) {
-        return res.status(400).send('No country selected');
-      }
-
-      const units = await this.getCountry(country);
-      if (!units) {
-        await trx.rollback();
-        res.status(400).send('No unit info for given country');
-        return;
-      }
-
-      let infoBody = {
-        farm_name: req.body.farm_name,
-        address: req.body.address,
-        grid_points: req.body.grid_points,
-        units,
-      }
-
       try {
-        const result = await baseController.postWithResponse(farmModel, infoBody, trx);
-        // console.log('farm post result: ', result);
+
+        const { country } = req.body;
+        if (!country) {
+          await trx.rollback();
+          return res.status(400).send('No country selected');
+        }
+
+        const units = await this.getCountry(country);
+        if (!units) {
+          await trx.rollback();
+          return res.status(400).send('No unit info for given country');
+        }
+
+        const infoBody = {
+          farm_name: req.body.farm_name,
+          address: req.body.address,
+          grid_points: req.body.grid_points,
+          units,
+        }
+        const user_id = req.user.user_id;
+        const result = await baseController.postWithResponse(farmModel, infoBody, trx, { user_id });
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
         const userFarm = await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
         await trx.commit();
-        res.status(201).send(Object.assign({}, result, userFarm));
+        return res.status(201).send(Object.assign({}, result, userFarm));
       } catch (error) {
-        // console.log('farm post fail: ', error.message);
         //handle more exceptions
+        console.log(error);
         await trx.rollback();
-        res.status(400).send(error);
+        return res.status(400).send(error);
       }
     };
   }
@@ -129,7 +128,8 @@ class farmController extends baseController {
           req.body.units = await this.getCountry(req.body.country);
           delete req.body.country;
         }
-        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx);
+        const user_id = req.user.user_id
+        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx, { user_id });
 
         await trx.commit();
         if (!updated.length) {
@@ -151,7 +151,7 @@ class farmController extends baseController {
     // check if a user is making this call
     if (req.user) {
 
-      const uid = req.user.sub.split('|')[1] || req.user.sub.split('@')[0];
+      const uid = req.user.user_id;
 
       return await userModel.query(trx).where(userModel.idColumn, uid).returning('*');
     }

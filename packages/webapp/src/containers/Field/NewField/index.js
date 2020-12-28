@@ -24,27 +24,28 @@ import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from '
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { postField } from './saga';
+import { withTranslation } from 'react-i18next';
 
 const buttonStyles = {
-  font: "Open Sans",
-  fontSize: "16px",
-  lineHeight: "24px",
-  borderRadius: "4px",
-  display: "flex",
-  alignItems: "center",
-  textAlign: "center",
-  letterSpacing: "0.4005px",
-  backgroundColor: "#D4DAE3",
-  color: "#282B36",
-  border: "none",
-  cursor: "default",
-  boxShadow: "0px 2px 8px rgba(102, 115, 138, 0.3)"
-}
+  font: 'Open Sans',
+  fontSize: '16px',
+  lineHeight: '24px',
+  borderRadius: '4px',
+  display: 'flex',
+  alignItems: 'center',
+  textAlign: 'center',
+  letterSpacing: '0.4005px',
+  backgroundColor: '#D4DAE3',
+  color: '#282B36',
+  border: 'none',
+  cursor: 'default',
+  boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
+};
 
 const activeButtonStyles = {
-  backgroundColor: "#FCE38D",
-  cursor: ""
-}
+  backgroundColor: '#FCE38D',
+  cursor: '',
+};
 
 class NewField extends Component {
   static defaultProps = {
@@ -63,10 +64,16 @@ class NewField extends Component {
       google: null, //discuss usage
       polygon: null,
       step: 1,
-      fieldName: "",
+      fieldName: '',
       area: null,
-      center: (this.props.farm === null || this.props.farm.grid_points === null) ?  CENTER : {lat: this.props.farm.grid_points.lat, lng: this.props.farm.grid_points.lng},
-      showDetail: ["block"],
+      center:
+        this.props.farm === null || this.props.farm.grid_points === null
+          ? CENTER
+          : {
+              lat: this.props.farm.grid_points.lat,
+              lng: this.props.farm.grid_points.lng,
+            },
+      showDetail: ['block'],
       isMapLoaded: false,
       isSavePlanDisabled: true,
       map: null,
@@ -86,33 +93,36 @@ class NewField extends Component {
   }
 
   componentDidMount() {
-    const {fields, farm} = this.props;
+    const { fields, farm } = this.props;
 
     if (!(fields && fields.length)) {
-      this.setState({showToolTip: true})
+      this.setState({ showToolTip: true });
     }
 
-    if(farm && farm.grid_points && farm.grid_points.lat && farm.grid_points.lng){
-      this.setState({center: {lat: farm.grid_points.lat, lng: farm.grid_points.lng}});
+    if (farm && farm.grid_points && farm.grid_points.lat && farm.grid_points.lng) {
+      this.setState({
+        center: { lat: farm.grid_points.lat, lng: farm.grid_points.lng },
+      });
     }
-
-
   }
 
   getMapOptions = (maps) => {
-
     return {
       streetViewControl: false,
       scaleControl: true,
       fullscreenControl: false,
-      styles: [{
-        featureType: "poi.business",
-        elementType: "labels",
-        stylers: [{
-          visibility: "off"
-        }]
-      }],
-      gestureHandling: "greedy",
+      styles: [
+        {
+          featureType: 'poi.business',
+          elementType: 'labels',
+          stylers: [
+            {
+              visibility: 'off',
+            },
+          ],
+        },
+      ],
+      gestureHandling: 'greedy',
       disableDoubleClickZoom: true,
       minZoom: 10,
       maxZoom: 80,
@@ -126,15 +136,11 @@ class NewField extends Component {
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
-        mapTypeIds: [
-          maps.MapTypeId.ROADMAP,
-          maps.MapTypeId.SATELLITE,
-          maps.MapTypeId.HYBRID
-        ]
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
       },
 
       zoomControl: true,
-      clickableIcons: false
+      clickableIcons: false,
     };
   };
 
@@ -142,13 +148,12 @@ class NewField extends Component {
     const fieldName = this.state.fieldName;
     if (fieldName.length > 0) {
       if (this.state.isSavePlanDisabled) {
-        this.setState({ isSavePlanDisabled: false })
+        this.setState({ isSavePlanDisabled: false });
       }
       return 'success';
-    }
-    else {
+    } else {
       if (!this.state.isSavePlanDisabled) {
-        this.setState({ isSavePlanDisabled: true })
+        this.setState({ isSavePlanDisabled: true });
       }
       return 'warning';
     }
@@ -162,16 +167,16 @@ class NewField extends Component {
     let cropBeingEdited = {
       ...fieldCrops[index],
       [event.target.id]: event.target.value,
-    }
+    };
     fieldCrops[index] = cropBeingEdited;
-    this.setState({ fieldCrops: fieldCrops});
+    this.setState({ fieldCrops: fieldCrops });
   }
   handleYieldChange(event, index) {
     let fieldCrops = [...this.state.fieldCrops];
     let cropBeingEdited = {
       ...fieldCrops[index],
       estimated_production: event.target.value * this.state.price,
-    }
+    };
     fieldCrops[index] = cropBeingEdited;
     this.setState({
       fieldCrops: fieldCrops,
@@ -183,7 +188,7 @@ class NewField extends Component {
     let cropBeingEdited = {
       ...fieldCrops[index],
       estimated_production: event.target.value * this.state.yield,
-    }
+    };
     fieldCrops[index] = cropBeingEdited;
     this.setState({
       fieldCrops: fieldCrops,
@@ -197,7 +202,6 @@ class NewField extends Component {
     this.setState({ showDetail: showDetail });
   }
 
-
   handleGoogleMapApi(map, maps) {
     //create the drawing manager
     let drawingManager = new maps.drawing.DrawingManager({
@@ -205,9 +209,7 @@ class NewField extends Component {
       drawingControl: false,
       drawingControlOptions: {
         position: maps.ControlPosition.TOP_CENTER,
-        drawingModes: [
-          maps.drawing.OverlayType.POLYGON,
-        ]
+        drawingModes: [maps.drawing.OverlayType.POLYGON],
       },
       map: map,
     });
@@ -221,7 +223,7 @@ class NewField extends Component {
         strokeColor: '#FFB800',
         geodesic: true,
         suppressUndo: true,
-      }
+      },
     });
     //drawingManager.setMap(map);
 
@@ -235,12 +237,22 @@ class NewField extends Component {
       maps,
       isMapLoaded: true,
     });
-    maps.event.addListener(drawingManager, 'polygoncomplete', polygon => {
-      let vertices = polygon.getPath().getArray().map(vertice => { return { lat: vertice.lat(), lng: vertice.lng() } });
+    maps.event.addListener(drawingManager, 'polygoncomplete', (polygon) => {
+      let vertices = polygon
+        .getPath()
+        .getArray()
+        .map((vertice) => {
+          return { lat: vertice.lat(), lng: vertice.lng() };
+        });
       const updatePolygon = () => {
-        vertices = polygon.getPath().getArray().map(vertice => { return { lat: vertice.lat(), lng: vertice.lng() } });
+        vertices = polygon
+          .getPath()
+          .getArray()
+          .map((vertice) => {
+            return { lat: vertice.lat(), lng: vertice.lng() };
+          });
         this.setState({
-        gridPoints: vertices,
+          gridPoints: vertices,
           area: Math.round(maps.geometry.spherical.computeArea(polygon.getPath())),
         });
       };
@@ -250,25 +262,29 @@ class NewField extends Component {
       maps.event.addListener(polygon.getPath(), 'insert_at', function () {
         updatePolygon();
       });
-      maps.event.addListener(polygon.getPath(), 'dragend', function() {
+      maps.event.addListener(polygon.getPath(), 'dragend', function () {
         updatePolygon();
       });
 
       this.handlePolygonComplete(polygon, maps);
     });
-    if(this.state.polygon){
+    if (this.state.polygon) {
       this.state.polygon.overlay.setMap(map);
     }
-    maps.event.addListener(drawingManager, 'overlaycomplete', e => this.setState({ polygon: e }));
+    maps.event.addListener(drawingManager, 'overlaycomplete', (e) => this.setState({ polygon: e }));
   }
 
   handlePolygonComplete(polygon, maps) {
-    const vertices = polygon.getPath().getArray().map(vertice => { return { lat: vertice.lat(), lng: vertice.lng() } });
+    const vertices = polygon
+      .getPath()
+      .getArray()
+      .map((vertice) => {
+        return { lat: vertice.lat(), lng: vertice.lng() };
+      });
     this.handleModeChange(POLYGON_COMPLETE);
     this.setState({
       gridPoints: vertices,
       area: Math.round(maps.geometry.spherical.computeArea(polygon.getPath())),
-
     });
   }
   //Drawing Manager change mode
@@ -281,150 +297,188 @@ class NewField extends Component {
       case POLYGON_BUTTON:
         let isDraw = this.state.isDraw;
         let isMove = this.state.isMove;
-        this.state.drawingManager.setDrawingMode(isDraw ? null : this.state.supportedDrawingModes.POLYGON);
+        this.state.drawingManager.setDrawingMode(
+          isDraw ? null : this.state.supportedDrawingModes.POLYGON,
+        );
         this.setState({ isMove: !isMove, isDraw: !isDraw });
         break;
       case CLEAR_BUTTON:
         this.state.polygon.overlay.setMap(null);
         this.state.drawingManager.setDrawingMode(this.state.supportedDrawingModes.POLYGON);
-        this.setState({ isMove: false, isDraw: true, gridPoints: null, polygon: null, area: null});
+        this.setState({
+          isMove: false,
+          isDraw: true,
+          gridPoints: null,
+          polygon: null,
+          area: null,
+        });
         break;
       case NEXT_BUTTON:
         this.setState({ step: this.state.step + 1 });
         break;
-      case "CREATE_FIELD":
-        this.props.dispatch(postField(
-          {
+      case 'CREATE_FIELD':
+        this.props.dispatch(
+          postField({
             field_name: this.state.fieldName,
             grid_points: this.state.gridPoints,
             area: this.state.area,
-          },
-          ));
-        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null});
+          }),
+        );
+        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null });
         break;
       default:
         break;
     }
   }
 
-
   render() {
     const { gridPoints, isMapLoaded, map, maps } = this.state;
     //UBC Farm Title
-    const CenterDiv = ({ text }) => <div style={{ width: '30px', color: 'white', fontWeight: 'bold' }}>{text}</div>;
+    const CenterDiv = ({ text }) => (
+      <div style={{ width: '30px', color: 'white', fontWeight: 'bold' }}>{text}</div>
+    );
 
     //Drawing Manager Buttons
-    const PolygonButton = () =>
-      <Button id={POLYGON_BUTTON} size={'lg'} active={this.state.isDraw} disabled={this.state.isDraw} variant="default" onClick={() => this.handleModeChange(POLYGON_BUTTON)}>
+    const PolygonButton = () => (
+      <Button
+        id={POLYGON_BUTTON}
+        size={'lg'}
+        active={this.state.isDraw}
+        disabled={this.state.isDraw}
+        variant="default"
+        onClick={() => this.handleModeChange(POLYGON_BUTTON)}
+      >
         <BsPencil />
-        Draw
-      </Button>;
-    const ClearButton = () =>
-      <Button id={CLEAR_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" onClick={() => this.handleModeChange(CLEAR_BUTTON)}>
+        {this.props.t('FIELDS.NEW_FIELD.DRAW')}
+      </Button>
+    );
+    const ClearButton = () => (
+      <Button
+        id={CLEAR_BUTTON}
+        size={'lg'}
+        disabled={gridPoints === null}
+        variant="default"
+        onClick={() => this.handleModeChange(CLEAR_BUTTON)}
+      >
         <BsTrash />
-        Redraw
-          </Button>;
-    const NextButton = () =>
-      <Button id={NEXT_BUTTON}  size={'lg'} disabled={gridPoints === null} variant="default" style={{ marginLeft: "10px", }} onClick={() => this.handleModeChange(NEXT_BUTTON)}>
+        {this.props.t('FIELDS.NEW_FIELD.REDRAW')}
+      </Button>
+    );
+    const NextButton = () => (
+      <Button
+        id={NEXT_BUTTON}
+        size={'lg'}
+        disabled={gridPoints === null}
+        variant="default"
+        style={{ marginLeft: '10px' }}
+        onClick={() => this.handleModeChange(NEXT_BUTTON)}
+      >
         <BsCheck />
-        Confirm
-          </Button>;
+        {this.props.t('common:CONFIRM')}
+      </Button>
+    );
     const DrawingManager = () =>
-      gridPoints === null ?
+      gridPoints === null ? (
         <PolygonButton />
-        :
+      ) : (
         <div>
           <ClearButton />
           <NextButton />
         </div>
-      ;
-
+      );
     return (
       // Important! Always set the container height explicitly
       <div>
-        {this.state.step === 1 &&
-        <div className={styles.fieldContainer}>
-          <div className={styles.backButton}>
-            <button onClick={()=>history.push('/field')}>
-              <BsArrowLeftShort size={'lg'} style={{color: 'white'}}/>
-            </button>
-          </div>
-          <div className={styles.infoButton}>
-            <button onClick={() => {this.refs.child.toggleShow()}}>
-              <BsQuestionCircle style={{color: "white", fontSize: '1.7em'}} />
-            </button>
-          </div>
-          {isMapLoaded && <SearchBox map={map} mapsapi={maps} />}
-          <GoogleMap
-            bootstrapURLKeys={{
-              key: GMAPS_API_KEY,
-              libraries: ['drawing', 'geometry', 'places'] }}
-            center={this.state.center}
-            zoom={this.props.zoom}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
-            options={this.getMapOptions}
-          >
-            <CenterDiv
-              lat={CENTER.lat}
-              lng={CENTER.lng}
-              text={'UBC Farm'}
-            />
-          </GoogleMap>
-
-          <div className={styles.drawingToolBar}>
-            <DrawingManager />
-          </div>
-          <DrawingToolTipBox ref="child" initShow={this.state.showToolTip}/>
-        </div>}
-        {this.state.step === 2 &&
-          <div className={parentStyles.logContainer}>
-            <PageTitleFragment title="New Field (2 of 2)" onBackButtonClick={() => {
-              this.setState({ step: this.state.step - 1 });
-            }} />
-            <FormGroup
-              className={styles.centeredForm}
-              validationState={this.getValidationState()}
+        {this.state.step === 1 && (
+          <div className={styles.fieldContainer}>
+            <div className={styles.backButton}>
+              <button onClick={() => history.push('/field')}>
+                <BsArrowLeftShort size={'lg'} style={{ color: 'white' }} />
+              </button>
+            </div>
+            <div className={styles.infoButton}>
+              <button
+                onClick={() => {
+                  this.refs.child.toggleShow();
+                }}
+              >
+                <BsQuestionCircle style={{ color: 'white', fontSize: '1.7em' }} />
+              </button>
+            </div>
+            {isMapLoaded && <SearchBox map={map} mapsapi={maps} />}
+            <GoogleMap
+              bootstrapURLKeys={{
+                key: GMAPS_API_KEY,
+                libraries: ['drawing', 'geometry', 'places'],
+              }}
+              center={this.state.center}
+              zoom={this.props.zoom}
+              yesIWantToUseGoogleMapApiInternals
+              onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
+              options={this.getMapOptions}
             >
-              <FormLabel>Field Name</FormLabel>
-              {this.state.isSavePlanDisabled ?
+              <CenterDiv lat={CENTER.lat} lng={CENTER.lng} text={'UBC Farm'} />
+            </GoogleMap>
+
+            <div className={styles.drawingToolBar}>
+              <DrawingManager />
+            </div>
+            <DrawingToolTipBox ref="child" initShow={this.state.showToolTip} />
+          </div>
+        )}
+        {this.state.step === 2 && (
+          <div className={parentStyles.logContainer}>
+            <PageTitleFragment
+              title={this.props.t('FIELDS.NEW_FIELD.TITLE')}
+              onBackButtonClick={() => {
+                this.setState({ step: this.state.step - 1 });
+              }}
+            />
+            <FormGroup className={styles.centeredForm} validationState={this.getValidationState()}>
+              <FormLabel>{this.props.t('FIELDS.NEW_FIELD.FIELD_NAME')}</FormLabel>
+              {this.state.isSavePlanDisabled ? (
                 <FormControl
-                type="text"
-                autoFocus
-                value={this.state.fieldName}
-                placeholder="Enter Field Name"
-                onChange={this.handleFieldNameChange}
-                className={styles.buttonContainer}
-                style={{borderColor: '#D4DAE3'}}
+                  type="text"
+                  autoFocus
+                  value={this.state.fieldName}
+                  placeholder={this.props.t('FIELDS.NEW_FIELD.FIELD_NAME_PLACEHOLDER')}
+                  onChange={this.handleFieldNameChange}
+                  className={styles.buttonContainer}
+                  style={{ borderColor: '#D4DAE3' }}
                 />
-              :
-              <FormControl
-                type="text"
-                autoFocus
-                value={this.state.fieldName}
-                onChange={this.handleFieldNameChange}
-                className={styles.buttonContainer}
-                style={{borderColor: '#89D1C7'}}
-              />
-              }
+              ) : (
+                <FormControl
+                  type="text"
+                  autoFocus
+                  value={this.state.fieldName}
+                  onChange={this.handleFieldNameChange}
+                  className={styles.buttonContainer}
+                  style={{ borderColor: '#89D1C7' }}
+                />
+              )}
             </FormGroup>
-            <FormGroup
-              className={styles.centeredForm}>
+            <FormGroup className={styles.centeredForm}>
               <div className={styles.buttonContainer} style={{ bottom: 0 }}>
-                {
-                this.state.isSavePlanDisabled ?
-                <Button style={{...buttonStyles}} outline>Save Field</Button>
-                :
-                <Button style={{...buttonStyles, ...activeButtonStyles}}
+                {this.state.isSavePlanDisabled ? (
+                  <Button style={{ ...buttonStyles }} outline>
+                    {this.props.t('FIELDS.NEW_FIELD.SAVE_FIELD')}
+                  </Button>
+                ) : (
+                  <Button
+                    style={{ ...buttonStyles, ...activeButtonStyles }}
                     outline
                     onClick={() => {
-                      this.handleModeChange("CREATE_FIELD");
+                      this.handleModeChange('CREATE_FIELD');
                       this.setState({ step: this.state.step + 1 });
-                    }}>Save Field</Button>
-                  }
+                    }}
+                  >
+                    {this.props.t('FIELDS.NEW_FIELD.SAVE_FIELD')}
+                  </Button>
+                )}
               </div>
             </FormGroup>
-          </div>}
+          </div>
+        )}
       </div>
     );
   }
@@ -434,14 +488,13 @@ const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewField);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewField));

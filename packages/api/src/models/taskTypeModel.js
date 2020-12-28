@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const baseModel = require('./baseModel');
 
-class TaskName extends softDelete({ columnName: 'deleted' })(Model) {
+class TaskName extends baseModel {
   static get tableName() {
     return 'taskType';
   }
@@ -36,7 +35,7 @@ class TaskName extends softDelete({ columnName: 'deleted' })(Model) {
         task_id: { type: 'integer' },
         task_name: { type: 'string', minLength: 1, maxLength: 25 },
         farm_id: { type: 'string' },
-        deleted: { type: 'boolean' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };

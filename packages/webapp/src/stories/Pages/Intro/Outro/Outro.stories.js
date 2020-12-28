@@ -12,7 +12,7 @@ const Template = (args) => <PureOutroSplash {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  redirectFinish: () => {}
+  redirectFinish: () => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

@@ -33,16 +33,18 @@ import {
   setUserInState,
 } from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import apiConfig, { userFarmUrl } from '../apiConfig';
+import { call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
+import apiConfig, { userFarmUrl, url } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
-import Auth from '../Auth/Auth.js';
 import { loginSelector, loginSuccess } from './userFarmSlice';
 import { userFarmSelector, putUserSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
+import { lastActiveDatetimeSelector, logUserInfoSuccess } from './userLogSlice';
 import { getFieldsSuccess } from './fieldSlice';
 import { getCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
+
+const logUserInfoUrl = () => `${url}/userLog`;
 
 const axios = require('axios');
 
@@ -50,11 +52,11 @@ export function getHeader(user_id, farm_id) {
   return {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
+      Authorization: 'Bearer ' + localStorage.getItem('id_token'),
       user_id,
       farm_id,
     },
-  }
+  };
 }
 
 export const updateUser = createAction('updateUserSaga');
@@ -73,9 +75,9 @@ export function* updateUserSaga({ payload: user }) {
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
     yield put(putUserSuccess(user));
-    toastr.success('Successfully updated user info!')
+    toastr.success('Successfully updated user info!');
   } catch (e) {
-    toastr.error('Failed to update user info')
+    toastr.error('Failed to update user info');
   }
 }
 
@@ -130,12 +132,12 @@ export function* updateFarm(payload) {
       // yield put(setFarmInState(result.data[0]));
       // TODO (refactoring): Handle the response to be sent properly in backend so we
       // don't need to do this extra API call to keep redux consistent
-      yield put(updateConsentOfFarm(farm_id, result.data[0]))
+      yield put(updateConsentOfFarm(farm_id, result.data[0]));
       yield put(fetchFarmInfo());
       toastr.success('Successfully updated farm info!');
     }
   } catch (e) {
-    toastr.error('Failed to update farm info')
+    toastr.error('Failed to update farm info');
   }
 }
 
@@ -149,7 +151,7 @@ export function* getFieldsSaga() {
     const result = yield call(axios.get, fieldURL + '/farm/' + farm_id, header);
     yield put(getFieldsSuccess(result.data));
   } catch (e) {
-    console.log('failed to fetch fields from database')
+    console.log('failed to fetch fields from database');
   }
 }
 
@@ -175,19 +177,43 @@ export function* getFieldCropsByDateSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
+    const result = yield call(
+      axios.get,
+      fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate,
+      header,
+    );
     if (result) {
       yield put(setFieldCropsInState(result.data));
     }
   } catch (e) {
-    console.log('failed to fetch field crops by date')
+    console.log('failed to fetch field crops by date');
+  }
+}
+
+export function* logUserInfoSaga() {
+  let { user_id, farm_id } = yield select(loginSelector);
+  if (!user_id) return;
+  const header = getHeader(user_id, farm_id);
+  try {
+    const hour = 1000 * 3600;
+    const lastActiveDatetimeAsNumber = yield select(lastActiveDatetimeSelector);
+    const currentDateAsNumber = new Date().getTime();
+    const screenSize = {
+      screen_width: window.innerWidth,
+      screen_height: window.innerHeight,
+    };
+    if (!lastActiveDatetimeAsNumber || currentDateAsNumber - lastActiveDatetimeAsNumber > hour) {
+      yield put(logUserInfoSuccess());
+      yield call(axios.post, logUserInfoUrl(), screenSize, header);
+    }
+  } catch (e) {
+    console.log('failed to fetch field crops by date');
   }
 }
 
 const formatDate = (currDate) => {
   const d = currDate;
-  let
-    year = d.getFullYear(),
+  let year = d.getFullYear(),
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate();
 
@@ -251,6 +277,7 @@ const formatDate = (currDate) => {
 // }
 
 export default function* getFarmIdSaga() {
+  yield takeLeading('*', logUserInfoSaga);
   yield takeLatest(updateUser.type, updateUserSaga);
   yield takeLatest(GET_FARM_INFO, getFarmInfo);
   yield takeLatest(UPDATE_FARM, updateFarm);

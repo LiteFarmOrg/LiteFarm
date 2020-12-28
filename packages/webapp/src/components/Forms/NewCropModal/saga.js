@@ -1,14 +1,10 @@
-import {
-  CREATE_CROP,
-} from "./constants";
+import { CREATE_CROP } from './constants';
 
-import {
-  setCropsInState,
-} from "./actions";
+import { setCropsInState } from './actions';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
-import { toastr } from "react-redux-toastr";
+import { toastr } from 'react-redux-toastr';
 import { getHeader } from '../../../containers/saga';
 
 const axios = require('axios');
@@ -16,7 +12,7 @@ const axios = require('axios');
 export function* createCropSaga(action) {
   const { cropURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   const data = {
     crop_id: action.cropId,
@@ -79,7 +75,7 @@ export function* createCropSaga(action) {
         toastr.error('failed to fetch all crops from database');
       }
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add fieldCrop to database');
     toastr.error('failed to add fieldCrop to database');
   }

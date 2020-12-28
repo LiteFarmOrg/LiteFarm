@@ -19,13 +19,13 @@ const axios = require('axios');
 export function* getPesticideSaga() {
   const { pesticideUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
-  try{
+  const header = getHeader(user_id, farm_id);
+  try {
     const result = yield call(axios.get, pesticideUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setPesticideInState(result.data));
     }
-  }catch (e){
+  } catch (e) {
     console.error('failed to fetch diseases');
   }
 }
@@ -33,22 +33,22 @@ export function* getPesticideSaga() {
 export function* getDiseaseSaga() {
   const { diseaseUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, diseaseUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setDiseaseInState(result.data));
     }
-  } catch(e) {
-    console.error('failed to fetch disease from database')
+  } catch (e) {
+    console.error('failed to fetch disease from database');
   }
 }
 
 export function* addPesticideSaga(payload) {
   const { pesticideUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let pesticideConfig = payload.pesticideConfig;
   pesticideConfig.farm_id = farm_id;
@@ -58,7 +58,7 @@ export function* addPesticideSaga(payload) {
     if (result) {
       yield put(getPesticides());
     }
-  } catch(e) {
+  } catch (e) {
     console.error('failed to add pesticide');
   }
 }
@@ -66,7 +66,7 @@ export function* addPesticideSaga(payload) {
 export function* addPestControlLog(payload) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let pcLog = payload.pcConfig;
   pcLog.user_id = user_id;
@@ -77,7 +77,7 @@ export function* addPestControlLog(payload) {
       history.push('/log');
       toastr.success('Successfully added Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add log');
     toastr.error('Failed to add Log');
   }
@@ -86,7 +86,7 @@ export function* addPestControlLog(payload) {
 export function* editPestControlLog(payload) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let pcLog = payload.pcConfig;
   pcLog.user_id = user_id;
@@ -97,7 +97,7 @@ export function* editPestControlLog(payload) {
       history.push('/log');
       toastr.success('Successfully edited Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to edit log');
     toastr.error('Failed to edit Log');
   }
@@ -106,7 +106,7 @@ export function* editPestControlLog(payload) {
 export function* addDiseaseSaga(payload) {
   const { diseaseUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   let diseaseConfig = payload.diseaseConfig;
   diseaseConfig.farm_id = farm_id;
@@ -116,7 +116,7 @@ export function* addDiseaseSaga(payload) {
     if (result) {
       yield put(getDiseases());
     }
-  } catch(e) {
+  } catch (e) {
     console.error('failed to add pesticide');
   }
 }
@@ -127,5 +127,5 @@ export default function* pestControlSaga() {
   yield takeEvery(ADD_PESTICIDES, addPesticideSaga);
   yield takeEvery(ADD_DISEASES, addDiseaseSaga);
   yield takeEvery(ADD_PEST_CONTROL_LOG, addPestControlLog);
-  yield takeEvery(EDIT_PEST_CONTROL_LOG, editPestControlLog)
+  yield takeEvery(EDIT_PEST_CONTROL_LOG, editPestControlLog);
 }

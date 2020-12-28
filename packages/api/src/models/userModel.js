@@ -33,28 +33,29 @@ class User extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'first_name', 'last_name', 'email'],
+      required: ['first_name', 'last_name', 'email'],
 
       properties: {
         user_id: { type: 'string' },
         first_name: { type: 'string', minLength: 1, maxLength: 255 },
-        last_name: { type: 'string', minLength: 1, maxLength: 255 },
+        last_name: { type: 'string', maxLength: 255 },
         profile_picture: { type: 'string' },
-        phone_number: { type : 'string' },
-        address: { type : 'string' },
+        phone_number: { type: 'string' },
+        address: { type: 'string' },
         email: { type: 'email' },
         farm_id: { type: ['string', 'null'] },
         notification_setting: {
           type: 'object',
-          required:['alert_weather', 'alert_worker_finish', 'alert_action_after_scouting', 'alert_before_planned_date', 'alert_pest'],
-          properties:{
-            alert_weather: { type : 'boolean' },
-            alert_worker_finish: { type : 'boolean' },
-            alert_action_after_scouting: { type : 'boolean' },
-            alert_before_planned_date: { type : 'boolean' },
-            alert_pest: { type : 'boolean' },
+          required: ['alert_weather', 'alert_worker_finish', 'alert_action_after_scouting', 'alert_before_planned_date', 'alert_pest'],
+          properties: {
+            alert_weather: { type: 'boolean' },
+            alert_worker_finish: { type: 'boolean' },
+            alert_action_after_scouting: { type: 'boolean' },
+            alert_before_planned_date: { type: 'boolean' },
+            alert_pest: { type: 'boolean' },
           },
         },
+        language_preference: { type: 'string' },
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },
       },

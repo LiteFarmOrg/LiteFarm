@@ -16,14 +16,21 @@ import history from '../../history';
 import { call, put, select, takeLatest, all } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import { loginSelector, selectFarmSuccess } from '../userFarmSlice';
-import { postFarmSuccess, patchRoleStepTwoSuccess, userFarmSelector, patchFarmSuccess } from '../userFarmSlice';
+import {
+  postFarmSuccess,
+  patchRoleStepTwoSuccess,
+  userFarmSelector,
+  patchFarmSuccess,
+  loginSelector,
+  selectFarmSuccess,
+} from '../userFarmSlice';
 import { getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 const axios = require('axios');
 
-const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`
-const patchStepUrl = (farm_id, user_id) => `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
+const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
+const patchStepUrl = (farm_id, user_id) =>
+  `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
 
 export const postFarm = createAction('postFarmSaga');
 export function* postFarmSaga({ payload: farm }) {
@@ -40,8 +47,8 @@ export function* postFarmSaga({ payload: farm }) {
   try {
     const [addFarmResult, getUserResult] = yield all([
       call(axios.post, farmUrl, addFarmData, header),
-      call(axios.get, userUrl + '/' + user_id, header)
-      ]);
+      call(axios.get, userUrl + '/' + user_id, header),
+    ]);
     const farm = addFarmResult.data;
     const { farm_id } = farm;
     let step = {
@@ -50,9 +57,16 @@ export function* postFarmSaga({ payload: farm }) {
     };
     yield call(axios.patch, patchStepUrl(farm_id, user_id), step, getHeader(user_id, farm_id));
     const user = getUserResult?.data;
-    yield put(postFarmSuccess({ ...user, ...farm, ...step, country: addFarmData.country }));
+    yield put(
+      postFarmSuccess({
+        ...user,
+        ...farm,
+        ...step,
+        country: addFarmData.country,
+      }),
+    );
     yield put(selectFarmSuccess({ farm_id }));
-    history.push('/role_selection')
+    history.push('/role_selection');
   } catch (e) {
     console.log(e);
     toastr.error('Failed to add farm, please contact litefarm for assistance');
@@ -72,17 +86,15 @@ export function* patchFarmSaga({ payload: farm }) {
   };
 
   try {
-    const patchedFarm  = yield call(axios.patch, `${farmUrl}/${farm_id}`, patchFarmData, header);
+    const patchedFarm = yield call(axios.patch, `${farmUrl}/${farm_id}`, patchFarmData, header);
     const farm = patchedFarm.data[0];
-    yield put(patchFarmSuccess({...farm, user_id}));
+    yield put(patchFarmSuccess({ ...farm, user_id }));
     history.push('/role_selection');
   } catch (e) {
     console.error(e);
     toastr.error('Failed to add farm, please contact litefarm for assistance');
   }
 }
-
-
 
 export const patchRole = createAction('patchRoleSaga');
 export function* patchRoleSaga({ payload }) {
@@ -99,13 +111,12 @@ export function* patchRoleSaga({ payload }) {
     yield all([
       call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
-  ]);
+    ]);
     yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
     callback && callback();
   } catch (e) {
     console.log('fail to update role');
   }
-
 }
 
 export default function* addFarmSaga() {

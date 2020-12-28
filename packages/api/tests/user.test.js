@@ -17,18 +17,18 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment')
+const bcrypt = require('bcryptjs');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
 
 const userModel = require('../src/models/userModel');
+const passwordModel = require('../src/models/passwordModel');
 const userFarmModel = require('../src/models/userFarmModel');
 
 describe('User Tests', () => {
@@ -39,6 +39,12 @@ describe('User Tests', () => {
 
   beforeAll(() => {
     token = global.token;
+  });
+
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   afterAll((done) => {
@@ -111,15 +117,10 @@ describe('User Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next()
     });
   })
-
-  afterAll(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
 
   describe('Get && put user', () => {
 
@@ -322,9 +323,22 @@ describe('User Tests', () => {
 
       test('Should post then get a valid user', async (done) => {
         const fakeUser = mocks.fakeUser();
+
+        // don't need user_id or phone number when signing up user
+        delete fakeUser.user_id;
+        delete fakeUser.phone_number;
+
+        const password = "test password"
+        fakeUser.password = password;
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
-          const resUser = await userModel.query().findById(fakeUser.user_id);
-          validate(fakeUser,res,201, resUser);
+          const user_id = res.body.user.user_id;
+          const userSecret = await passwordModel.query().select('*').where('user_id', user_id).first();
+          const resUser = await userModel.query().select('*').where('user_id', user_id).first();
+          validate(fakeUser, res, 201, resUser);
+          expect(userSecret.password_hash).not.toBe(password);
+          // check that the saved hash corresponds to the pw provided
+          const isMatch = await bcrypt.compare(password, userSecret.password_hash);
+          expect(isMatch).toBe(true);
           done();
         })
       });

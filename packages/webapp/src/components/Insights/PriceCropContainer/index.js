@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import ReactChartKick, {AreaChart} from 'react-chartkick';
+import React, { Component } from 'react';
+import ReactChartKick, { AreaChart } from 'react-chartkick';
 import Chart from 'chart.js';
-import { roundToTwoDecimal } from "../../../util";
+import { roundToTwoDecimal } from '../../../util';
 
 ReactChartKick.addAdapter(Chart);
 
@@ -24,8 +24,12 @@ class PriceCropContainer extends Component {
 
     pricePoints.forEach((pricePoint, index) => {
       // Clean data: format crop_date into YY-MM-DD and round prices to two decimal places
-      ownPriceSeries[[pricePoint['crop_date'] + '-01']] = roundToTwoDecimal(pricePoint['crop_price']);
-      networkPriceSeries[[pricePoint['crop_date'] + '-01']] = roundToTwoDecimal(pricePoint['network_price']);
+      ownPriceSeries[[pricePoint['crop_date'] + '-01']] = roundToTwoDecimal(
+        pricePoint['crop_price'],
+      );
+      networkPriceSeries[[pricePoint['crop_date'] + '-01']] = roundToTwoDecimal(
+        pricePoint['network_price'],
+      );
     });
 
     // Find max datapoint across the two datasets for styling chart
@@ -39,7 +43,7 @@ class PriceCropContainer extends Component {
       networkPriceSeries,
       max: maxDataPoint,
     });
-  };
+  }
 
   componentDidMount() {
     this.formatState();
@@ -57,19 +61,21 @@ class PriceCropContainer extends Component {
         </h4>
         <div>
           <AreaChart
-            messages={{ empty: "Not data" }}
+            messages={{ empty: 'Not data' }}
             width="95%"
             height="85%"
             ytitle={yTitle}
             max={this.state.max}
             library={{
               scales: {
-                xAxes: [{
-                  type: 'time',
-                  time: {
-                    unit: 'month',
+                xAxes: [
+                  {
+                    type: 'time',
+                    time: {
+                      unit: 'month',
+                    },
                   },
-                }],
+                ],
               },
             }}
             data={[
@@ -90,10 +96,10 @@ class PriceCropContainer extends Component {
             ]}
           />
         </div>
-        <hr/>
+        <hr />
       </div>
-    )
+    );
   }
 }
 
-export default PriceCropContainer
+export default PriceCropContainer;

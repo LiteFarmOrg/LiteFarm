@@ -13,17 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import styles from './styles.scss';
 import history from '../../history';
 import InfoBoxComponent from '../InfoBoxComponent';
-import { BsChevronLeft } from "react-icons/bs";
+import { BsChevronLeft } from 'react-icons/bs';
 
 // takes 2 props
 // title - String
 // backUrl - String, e.g. '/log'
 class PageTitle extends Component {
-
   render() {
     const title = this.props.title;
     const backUrl = this.props.backUrl;
@@ -35,23 +34,30 @@ class PageTitle extends Component {
     return (
       <div>
         <div className={styles.titleContainer}>
-          <button className={styles.buttonContainer} onClick={() => {
-            history.push(backUrl)
-          }}>
+          <button
+            className={styles.buttonContainer}
+            onClick={() => {
+              history.push(backUrl);
+            }}
+          >
             <BsChevronLeft />
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
-          {rightIcon &&
-          <div>
-            <InfoBoxComponent title={rightIconTitle} body={rightIconBody}
-            deleteHandler={rightIconDeleteHandler} showDelete={showDelete}/>
-          </div>}
+          {rightIcon && (
+            <div>
+              <InfoBoxComponent
+                title={rightIconTitle}
+                body={rightIconBody}
+                deleteHandler={rightIconDeleteHandler}
+                showDelete={showDelete}
+              />
+            </div>
+          )}
         </div>
-        <hr/>
+        <hr />
       </div>
-    )
+    );
   }
-
 }
 
 export default PageTitle;

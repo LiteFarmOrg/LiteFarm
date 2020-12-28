@@ -21,7 +21,7 @@ class Callback extends Component {
   render() {
     return (
       <div>
-        <img className={styles.loading} src={Loader} alt="loading"/>
+        <img className={styles.loading} src={Loader} alt="loading" />
       </div>
     );
   }

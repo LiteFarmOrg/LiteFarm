@@ -1,3 +1,3 @@
 import Cross from './cross';
 
-export {Cross};
+export { Cross };

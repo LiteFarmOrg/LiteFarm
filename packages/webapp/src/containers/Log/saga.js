@@ -25,15 +25,15 @@ const axios = require('axios');
 export function* getLogsSaga() {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, logURL + `/farm/${farm_id}`, header);
     if (result) {
       yield put(setLogsInState(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch logs from database')
+  } catch (e) {
+    console.log('failed to fetch logs from database');
   }
 }
 

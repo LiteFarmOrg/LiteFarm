@@ -27,7 +27,7 @@ jest.mock('jsdom')
 jest.mock('../src/middleware/acl/isSelf')
 
 
-describe('These are tests for auth0 signup and user creation', () => {
+xdescribe('These are tests for auth0 signup and user creation', () => {
   let testSignUpToken = null;
   let oauth_user_id = null;
   let userID = null;
@@ -145,6 +145,7 @@ describe('These are tests for auth0 signup and user creation', () => {
   })
 
   test('POST user to DB', (done) => {
+    console.log(userID);
     chai.request(server).post('/user/')
       .set('content-type', 'application/json')
       .set('Authorization', 'Bearer ' + testSignUpToken)

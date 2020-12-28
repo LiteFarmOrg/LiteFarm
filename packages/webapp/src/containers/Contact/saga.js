@@ -32,7 +32,8 @@ export function* sendContactForm(action) {
   };
 
   try {
-    const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/u/1/d/e/1FAIpQLSfstT0bLmhp-DlJu_Iz9hcc58FTNcnT3HwBm8ZW6Q3Sb3seOg/formResponse';
+    const GOOGLE_FORM_ACTION_URL =
+      'https://docs.google.com/forms/u/1/d/e/1FAIpQLSfstT0bLmhp-DlJu_Iz9hcc58FTNcnT3HwBm8ZW6Q3Sb3seOg/formResponse';
     const GOOGLE_FORM_EMAIL_ID = 'emailAddress';
     const GOOGLE_FORM_MESSAGE_ID = 'entry.1602744550';
     const CORS_FIX = 'https://cors-anywhere.herokuapp.com/';
@@ -42,11 +43,11 @@ export function* sendContactForm(action) {
     formData.append(GOOGLE_FORM_EMAIL_ID, data.email);
     const result = yield call(axios.post, CORS_FIX + GOOGLE_FORM_ACTION_URL, formData);
     if (result) {
-      toastr.success('Submitted Contact Form!')
+      toastr.success('Submitted Contact Form!');
     }
   } catch (e) {
-    toastr.error("Error, Could Not Submit A Contact Form");
-    console.log("Unsuccessful in Sending Contact Form");
+    toastr.error('Error, Could Not Submit A Contact Form');
+    console.log('Unsuccessful in Sending Contact Form');
   }
 }
 

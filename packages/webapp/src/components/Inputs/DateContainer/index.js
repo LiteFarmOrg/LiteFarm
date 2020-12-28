@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import styles from './styles.scss';
 import 'react-dates/initialize';
 import { SingleDatePicker } from 'react-dates';
@@ -8,23 +8,33 @@ import moment from 'moment';
 // date: moment() , a moment obj
 // placeholder: for the title in the box
 // onDateChange: a function that accepts a date param, so you can set the date in the parent state
-class DateContainer extends Component{
-  constructor(props){
+class DateContainer extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       focused: false,
     };
   }
 
-  handleDate(date){
+  handleDate(date) {
     this.props.onDateChange(date);
   }
 
-  render(){
-
+  render() {
     let { date, style } = this.props;
-    let months = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+    let months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     let month = months[date.month()];
     let day = date.date();
@@ -35,7 +45,7 @@ class DateContainer extends Component{
           <div>
             <SingleDatePicker
               date={this.props.date} // momentPropTypes.momentObj or null
-              onDateChange={date => this.handleDate(date)} // PropTypes.func.isRequired
+              onDateChange={(date) => this.handleDate(date)} // PropTypes.func.isRequired
               focused={this.state.focused} // PropTypes.bool
               onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
               id="pick-date" // PropTypes.string.isRequired,
@@ -46,13 +56,21 @@ class DateContainer extends Component{
               withPortal
               isOutsideRange={() => false}
               readOnly={true}
-              displayFormat={() => "YYYY-MM-DD"}
+              displayFormat={() => 'YYYY-MM-DD'}
               renderMonthElement={({ month, onMonthSelect, onYearSelect }) => (
-                <div style={{ display: 'flex', justifyContent: 'center',  fontSize:'16px'}}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    fontSize: '16px',
+                  }}
+                >
                   <div>
                     <select
                       value={month.month()}
-                      onChange={(e) => { onMonthSelect(month, e.target.value); }}
+                      onChange={(e) => {
+                        onMonthSelect(month, e.target.value);
+                      }}
                     >
                       {moment.months().map((label, value) => (
                         <option value={value}>{label}</option>
@@ -62,7 +80,9 @@ class DateContainer extends Component{
                   <div>
                     <select
                       value={month.year()}
-                      onChange={(e) => { onYearSelect(month, e.target.value); }}
+                      onChange={(e) => {
+                        onYearSelect(month, e.target.value);
+                      }}
                     >
                       <option value={moment().year() - 10}>{moment().year() - 10}</option>
                       <option value={moment().year() - 9}>{moment().year() - 9}</option>
@@ -96,20 +116,17 @@ class DateContainer extends Component{
               )}
             />
           </div>
-
         </div>
-      )
+      );
     }
 
-    return(
+    return (
       <div className={styles.dateContainer}>
-        <div className={styles.dateString}>
-          { month + ' ' + day + ', ' + year }
-        </div>
+        <div className={styles.dateString}>{month + ' ' + day + ', ' + year}</div>
         <div className={styles.datePicker}>
           <SingleDatePicker
             date={null} // momentPropTypes.momentObj or null
-            onDateChange={date => this.handleDate(date)} // PropTypes.func.isRequired
+            onDateChange={(date) => this.handleDate(date)} // PropTypes.func.isRequired
             focused={this.state.focused} // PropTypes.bool
             onFocusChange={({ focused }) => this.setState({ focused })} // PropTypes.func.isRequired
             id="pick-date" // PropTypes.string.isRequired,
@@ -120,13 +137,21 @@ class DateContainer extends Component{
             withPortal
             isOutsideRange={() => false}
             readOnly={true}
-            displayFormat={() => "YYYY-MM-DD"}
+            displayFormat={() => 'YYYY-MM-DD'}
             renderMonthElement={({ month, onMonthSelect, onYearSelect }) => (
-              <div style={{ display: 'flex', justifyContent: 'center', fontSize:'16px'}}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  fontSize: '16px',
+                }}
+              >
                 <div>
                   <select
                     value={month.month()}
-                    onChange={(e) => { onMonthSelect(month, e.target.value); }}
+                    onChange={(e) => {
+                      onMonthSelect(month, e.target.value);
+                    }}
                   >
                     {moment.months().map((label, value) => (
                       <option value={value}>{label}</option>
@@ -136,7 +161,9 @@ class DateContainer extends Component{
                 <div>
                   <select
                     value={month.year()}
-                    onChange={(e) => { onYearSelect(month, e.target.value); }}
+                    onChange={(e) => {
+                      onYearSelect(month, e.target.value);
+                    }}
                   >
                     <option value={moment().year() - 10}>{moment().year() - 10}</option>
                     <option value={moment().year() - 9}>{moment().year() - 9}</option>
@@ -170,11 +197,9 @@ class DateContainer extends Component{
             )}
           />
         </div>
-
       </div>
-    )
+    );
   }
-
 }
 
 export default DateContainer;

@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
-import {rolesSelector} from './slice';
+import { rolesSelector } from './slice';
 
-import {
-  addPseudoWorker,
-  addUser,
-  deactivateUser,
-  getRoles,
-  reactivateUser,
-} from './saga';
-import {updateUserFarm} from './saga';
+import { addPseudoWorker, addUser, deactivateUser, getRoles, reactivateUser } from './saga';
+import { updateUserFarm } from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
 import Popup from 'reactjs-popup';
@@ -23,6 +17,7 @@ import Cleave from 'cleave.js/react.js';
 import { toastr } from 'react-redux-toastr';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from './saga';
+import { withTranslation } from 'react-i18next';
 
 const generator = require('generate-password');
 const { v4: uuidv4 } = require('uuid');
@@ -39,7 +34,7 @@ const summaryColumns = [
     Header: 'Email',
     accessor: 'email',
     minWidth: 95,
-    style: { 'whiteSpace': 'unset' },
+    style: { whiteSpace: 'unset' },
   },
   {
     id: 'role',
@@ -55,7 +50,7 @@ const summaryColumns = [
   },
 ];
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i)
+const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
 
 class People extends Component {
   constructor(props) {
@@ -82,13 +77,16 @@ class People extends Component {
   openEditModal = (user) => {
     // let editTitle = user.is_admin ? 'Admin' : 'Worker'
     let editTitle = 'User';
-    this.setState({
-      editUser: JSON.parse(JSON.stringify(user)),
-      editTitle,
-      editedUser: JSON.parse(JSON.stringify({wage: user.wage})),
-    }, () => {
-      this.setState({showEdit: true});
-    });
+    this.setState(
+      {
+        editUser: JSON.parse(JSON.stringify(user)),
+        editTitle,
+        editedUser: JSON.parse(JSON.stringify({ wage: user.wage })),
+      },
+      () => {
+        this.setState({ showEdit: true });
+      },
+    );
   };
 
   closeEditModal = () => {
@@ -131,7 +129,6 @@ class People extends Component {
       hasChanged = true;
     }
 
-
     // ADD ROLE CHANGE
     if (editedUser.role_id && editedUser.role_id !== user.role_id) {
       finalUser.role_id = editedUser.role_id;
@@ -140,7 +137,12 @@ class People extends Component {
     }
 
     // ADD EMAIL CHANGE
-    if (this.state.willConvertWorker && editedUser.email && editedUser.email.length && user.role_id === 4) {
+    if (
+      this.state.willConvertWorker &&
+      editedUser.email &&
+      editedUser.email.length &&
+      user.role_id === 4
+    ) {
       finalUser.email = editedUser.email;
       finalUser.email_needs_update = true;
       if (!finalUser.role_id) {
@@ -163,18 +165,10 @@ class People extends Component {
   }
 
   handleAddPerson(userInfo, farmID) {
-    const {
-      role,
-      email,
-      pay,
-      first_name,
-      last_name,
-    } = userInfo;
+    const { role, email, pay, first_name, last_name } = userInfo;
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
-    const amount = pay.amount && pay.amount.trim().length > 0
-      ? Number(pay.amount)
-      : 0; // TODO: convert this to null to indicate no wage is entered
+    const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered
     if (!isPseudo) {
       const pw = generator.generate({
         length: 10,
@@ -214,8 +208,7 @@ class People extends Component {
       this.props.dispatch(addPseudoWorker(user));
     }
 
-    this.closeAddModal()
-
+    this.closeAddModal();
   }
 
   componentDidMount() {
@@ -240,18 +233,18 @@ class People extends Component {
   };
 
   handleSearchValueChange = (event) => {
-    this.setState({searchValue: event.target.value});
-  }
+    this.setState({ searchValue: event.target.value });
+  };
 
   formatData = () => {
-    const {searchValue} = this.state;
-    const {users} = this.props;
-    const {farm_id, addedUser, roles, ...userGroups} = users;
+    const { searchValue } = this.state;
+    const { users } = this.props;
+    const { farm_id, addedUser, roles, ...userGroups } = users;
     const combinedUserGroups = Object.keys(userGroups).reduce(
       (prev, curr) => prev.concat(userGroups[curr]),
       [],
     );
-    const filteredUsers = combinedUserGroups.filter(user => {
+    const filteredUsers = combinedUserGroups.filter((user) => {
       const firstName = user.first_name.toLowerCase();
       const lastName = user.last_name.toLowerCase();
       const name = firstName.concat(' ', lastName);
@@ -264,41 +257,43 @@ class People extends Component {
     const { isAdmin } = this.props;
     const isClickable = rowInfo && isAdmin && column.id === 'name';
     const clickableStyle = {
-      'whiteSpace': 'unset',
-      'cursor': 'pointer',
-      'textDecoration': 'underline',
-      'color': '#0645AD',
+      whiteSpace: 'unset',
+      cursor: 'pointer',
+      textDecoration: 'underline',
+      color: '#0645AD',
     };
-    const normalTextStyle = { 'whiteSpace': 'unset' };
+    const normalTextStyle = { whiteSpace: 'unset' };
     return {
-      onClick: e => {
+      onClick: (e) => {
         if (isClickable) {
-          this.openEditModal(rowInfo.original)
+          this.openEditModal(rowInfo.original);
         }
       },
       style: isClickable ? clickableStyle : normalTextStyle,
-    }
-  }
+    };
+  };
 
   validationCheck = (event) => {
     let to_check = event.target.value;
     let error_message;
     if (event.target.type === 'text') {
-      error_message = validEmailRegex.test(to_check) ? '' : "Email must be valid";
-      this.setState({edit_email_error: error_message});
+      error_message = validEmailRegex.test(to_check) ? '' : 'Email must be valid';
+      this.setState({ edit_email_error: error_message });
     } else {
-      error_message = validWageRegex.test(to_check) ? '' : "Wage must be a valid, non-negative decimal";
-      this.setState({edit_wage_error: error_message})
+      error_message = validWageRegex.test(to_check)
+        ? ''
+        : 'Wage must be a valid, non-negative decimal';
+      this.setState({ edit_wage_error: error_message });
     }
   };
 
   enableUpdate = () => {
-    this.setState({updated_edit: true})
+    this.setState({ updated_edit: true });
   };
 
   updateEmail = (event) => {
     let email = event.target.value;
-    let {editedUser} = this.state;
+    let { editedUser } = this.state;
 
     editedUser.email = email;
     this.setState({
@@ -306,45 +301,45 @@ class People extends Component {
     });
 
     if (!this.state.edit_email_error) {
-      this.enableUpdate()
+      this.enableUpdate();
     }
   };
 
   updateRoleSelection = (event) => {
     let role_id = Number(event.target.value);
-    let {editedUser} = this.state;
+    let { editedUser } = this.state;
 
     editedUser.role_id = role_id;
     this.setState({
       editedUser: editedUser,
     });
-    this.enableUpdate()
+    this.enableUpdate();
   };
 
   updateWageAmount = (event) => {
     let amount = Number(event.target.value);
-    let {editedUser} = this.state;
+    let { editedUser } = this.state;
 
     editedUser.wage.amount = amount;
     this.setState({
       editedUser: editedUser,
     });
-    this.enableUpdate()
+    this.enableUpdate();
   };
 
   updateWageType = (event) => {
-    let type = event.target.value
-    let {editedUser} = this.state;
+    let type = event.target.value;
+    let { editedUser } = this.state;
 
     editedUser.wage.type = type;
     this.setState({
       editedUser: editedUser,
     });
-    this.enableUpdate()
+    this.enableUpdate();
   };
 
   toggleConvertWorker = (e) => {
-    let {editedUser, edit_email_error, cleaveEmailState} = this.state;
+    let { editedUser, edit_email_error, cleaveEmailState } = this.state;
     delete editedUser.email;
     if (!e.target.checked) {
       edit_email_error = '';
@@ -355,11 +350,11 @@ class People extends Component {
       willConvertWorker: e.target.checked,
       editedUser,
       edit_email_error,
-    })
+    });
   };
 
   onEditEmailInit = (cleave) => {
-    this.setState({cleaveEmailState: cleave});
+    this.setState({ cleaveEmailState: cleave });
   };
 
   isDisabled = () => {
@@ -367,7 +362,7 @@ class People extends Component {
     const { forms } = profileForms;
     const { addInfo } = forms;
     return !addInfo.$form.valid;
-  }
+  };
 
   isTextFieldErrorShown = (key) => {
     const { profileForms } = this.props;
@@ -384,7 +379,7 @@ class People extends Component {
     // conditions should follow the show prop in the <Errors /> component to
     // ensure that the input field's styling is consistent with <Errors />
     return !field.valid && field.touched && !field.focus;
-  }
+  };
 
   getTextFieldStyle = (key) => {
     const hasErrors = this.isTextFieldErrorShown(key);
@@ -392,18 +387,18 @@ class People extends Component {
       return styles.errorInputContainer;
     }
     return styles.inputContainer;
-  }
+  };
 
   getDropDownOptions = () => {
     const { roles } = this.props;
-    return roles.map(option => {
+    return roles.map((option) => {
       const { role_id, role } = option;
-      return ({
+      return {
         value: role_id,
         label: `Farm ${role}`,
-      });
-    })
-  }
+      };
+    });
+  };
 
   render() {
     const { isAdmin, profileForms } = this.props;
@@ -416,7 +411,7 @@ class People extends Component {
       return (
         <div className={styles.addUserContainer}>
           <div className={styles.addUserTitleContainer}>
-            <h3 className={styles.userTitle}>Invite a User</h3>
+            <h3 className={styles.userTitle}>{this.props.t('PROFILE.PEOPLE.INVITE_USER')}</h3>
           </div>
           <Form
             className={styles.formContainer}
@@ -425,7 +420,7 @@ class People extends Component {
           >
             <div className={styles.formBodyContainer}>
               <div className={this.getTextFieldStyle('first_name')}>
-                <label>First Name</label>
+                <label>{this.props.t('PROFILE.ACCOUNT.FIRST_NAME')}</label>
                 <Control.text
                   model=".addInfo.first_name"
                   validators={{
@@ -437,9 +432,9 @@ class People extends Component {
               <Errors
                 model="profileForms.addInfo.first_name"
                 messages={{
-                  required: 'First name cannot be empty',
+                  required: this.props.t('PROFILE.PEOPLE.FIRST_NAME_NOT_EMPTY'),
                 }}
-                show={field => field.touched && !field.focus}
+                show={(field) => field.touched && !field.focus}
                 component={(props) => (
                   <div className={styles.errorContainer}>
                     <div className={styles.errorText}>{props.children}</div>
@@ -447,11 +442,11 @@ class People extends Component {
                 )}
               />
               <div className={this.getTextFieldStyle('last_name')}>
-                <label>Last Name</label>
+                <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
                 <Control.text
                   model=".addInfo.last_name"
                   validators={{
-                    required: (val) => val.length
+                    required: (val) => val.length,
                   }}
                   defaultValue=""
                 />
@@ -459,9 +454,9 @@ class People extends Component {
               <Errors
                 model=".addInfo.last_name"
                 messages={{
-                  required: 'Last name cannot be empty',
+                  required: this.props.t('PROFILE.PEOPLE.LAST_NAME_NOT_EMPTY'),
                 }}
-                show={field => field.touched && !field.focus}
+                show={(field) => field.touched && !field.focus}
                 component={(props) => (
                   <div className={styles.errorContainer}>
                     <div className={styles.errorText}>{props.children}</div>
@@ -469,22 +464,24 @@ class People extends Component {
                 )}
               />
               <div className={styles.inputContainer}>
-                <label>Role</label>
+                <label>{this.props.t('PROFILE.PEOPLE.ROLE')}</label>
                 <Control.custom
                   model=".addInfo.role"
                   defaultValue="0"
                   onChange={(option) => {
-                    this.props.dispatch(actions.change('profileForms.addInfo.role', option.value))
-                    this.props.dispatch(actions.validate('profileForms.addInfo.email', {
-                      required: (val) => option.value === 3 ? true : val.length,
-                      validEmail: (val) => validEmailRegex.test(val),
-                    }));
+                    this.props.dispatch(actions.change('profileForms.addInfo.role', option.value));
+                    this.props.dispatch(
+                      actions.validate('profileForms.addInfo.email', {
+                        required: (val) => (option.value === 3 ? true : val.length),
+                        validEmail: (val) => validEmailRegex.test(val),
+                      }),
+                    );
                   }}
                   component={DropDown}
                   mapProps={{
                     isSearchable: false,
                     options: dropDownOptions,
-                    placeholder: 'Select role',
+                    placeholder: this.props.t('PROFILE.PEOPLE.SELECT_ROLE'),
                     styles: {
                       container: (provided, state) => ({
                         ...provided,
@@ -505,7 +502,7 @@ class People extends Component {
                         display: 'flex',
                         alignItems: 'center',
                       }),
-                      placeholder: (provided, state) => ({ color: '#9FAABE'}),
+                      placeholder: (provided, state) => ({ color: '#9FAABE' }),
                       indicatorSeparator: (provided, state) => ({
                         backgroundColor: 'none',
                       }),
@@ -522,7 +519,8 @@ class People extends Component {
                         alignItems: 'center',
                         padding: '8px 8px 8px',
                         backgroundColor: 'transparent',
-                        background: (state.isClicked || state.isFocused) ? 'rgb(223, 244, 232, 0.5)' : 'none',
+                        background:
+                          state.isClicked || state.isFocused ? 'rgb(223, 244, 232, 0.5)' : 'none',
                         color: '#282B36',
                         height: '40px',
                       }),
@@ -535,60 +533,53 @@ class People extends Component {
                         padding: 0,
                         margin: 0,
                       }),
-                    }
+                    },
                   }}
                 />
-          </div>
-              {
-                isRoleSelected
-                  && (
-                    <div>
-                    <div className={this.getTextFieldStyle('email')}>
-                        <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
-                        <Control.text
-                          model=".addInfo.email"
-                          validators={{
-                            required: (val) => addInfo.role === 3 ? true : val.length,
-                            validEmail: (val) => validEmailRegex.test(val),
-                          }}
-                          defaultValue=""
-                        />
-                        {
-                          addInfo.role === 3
-                            && (
-                              <p className={styles.emailInputReminder}>
-                                {`Users without an email won't be able to login`}
-                              </p>
-                            )
-                        }
+              </div>
+              {isRoleSelected && (
+                <div>
+                  <div className={this.getTextFieldStyle('email')}>
+                    <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
+                    <Control.text
+                      model=".addInfo.email"
+                      validators={{
+                        required: (val) => (addInfo.role === 3 ? true : val.length),
+                        validEmail: (val) => validEmailRegex.test(val),
+                      }}
+                      defaultValue=""
+                    />
+                    {addInfo.role === 3 && (
+                      <p className={styles.emailInputReminder}>
+                        {this.props.t('PROFILE.PEOPLE.USERS_NO_EMAIL_NO_LOGIN')}
+                      </p>
+                    )}
+                  </div>
+                  <Errors
+                    model=".addInfo.email"
+                    messages={{
+                      required: this.props.t('PROFILE.PEOPLE.EMAIL_CANNOT_BE_EMPTY'),
+                      validEmail: 'Email must be valid',
+                    }}
+                    show={(field) => field.touched && !field.focus}
+                    component={(props) => (
+                      <div className={styles.errorContainer}>
+                        <div className={styles.errorText}>{props.children}</div>
                       </div>
-                      <Errors
-                        model=".addInfo.email"
-                        messages={{
-                          required: 'Email cannot be empty for the selected role',
-                          validEmail: 'Email must be valid',
+                    )}
+                  />
+                  <div className={this.getTextFieldStyle('pay')}>
+                    <label>Wage (Optional)</label>
+                    <div className={styles.wageContainer}>
+                      <Control.text
+                        model=".addInfo.pay.amount"
+                        validators={{
+                          validWage: (val) => validWageRegex.test(val),
                         }}
-                        show={field => field.touched && !field.focus}
-                        component={(props) => (
-                          <div className={styles.errorContainer}>
-                            <div className={styles.errorText}>{props.children}</div>
-                          </div>
-                        )}
+                        defaultValue=""
                       />
-                    <div className={this.getTextFieldStyle('pay')}>
-                        <label>Wage (Optional)</label>
-                        <div className={styles.wageContainer}>
-                          <Control.text
-                            model=".addInfo.pay.amount"
-                            validators={{
-                              validWage: (val) => validWageRegex.test(val),
-                            }}
-                            defaultValue=""
-                          />
-                          <p className={styles.wageInputUnit}>
-                            {`${currencySymbol}/hr`}
-                          </p>
-                          {/* <div className={styles.payTypeContainer}>
+                      <p className={styles.wageInputUnit}>{`${currencySymbol}/hr`}</p>
+                      {/* <div className={styles.payTypeContainer}>
                                 <div className={styles.radioContainer}>
                                   <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
                                   <label htmlFor="hour">Hourly</label>
@@ -598,37 +589,29 @@ class People extends Component {
                                   <label htmlFor="daily">Daily</label>
                                 </div>
                               </div> */}
-                        </div>
-                      </div>
-                      <Errors
-                        model=".addInfo.pay.amount"
-                        messages={{
-                          validWage: 'Wage must be a valid, non-negative number (up to 2 decimal places)',
-                        }}
-                        show={field => field.touched && !field.focus}
-                        component={(props) => (
-                          <div className={styles.errorContainer}>
-                            <div className={styles.errorText}>{props.children}</div>
-                          </div>
-                        )}
-                      />
                     </div>
-                  )
-              }
+                  </div>
+                  <Errors
+                    model=".addInfo.pay.amount"
+                    messages={{
+                      validWage: this.props.t('PROFILE.PEOPLE.WAGE_MUST_BE_VALID'),
+                    }}
+                    show={(field) => field.touched && !field.focus}
+                    component={(props) => (
+                      <div className={styles.errorContainer}>
+                        <div className={styles.errorText}>{props.children}</div>
+                      </div>
+                    )}
+                  />
+                </div>
+              )}
             </div>
             <div className={styles.formActionsContainer}>
-              <button
-                className={styles.cancelButton}
-                onClick={() => this.closeAddModal()}
-              >
-                Cancel
+              <button className={styles.cancelButton} onClick={() => this.closeAddModal()}>
+                {this.props.t('common:CANCEL')}
               </button>
-              <button
-                type="submit"
-                className={styles.inviteButton}
-                disabled={this.isDisabled()}
-              >
-                Invite
+              <button type="submit" className={styles.inviteButton} disabled={this.isDisabled()}>
+                {this.props.t('PROFILE.PEOPLE.INVITE')}
               </button>
             </div>
           </Form>
@@ -640,16 +623,18 @@ class People extends Component {
       <div>
         <div className={styles.userListContainer}>
           <div className={styles.searchFieldContainer}>
-            <i className="material-icons">search</i>
             <input
               id="searchField"
               type="search"
+              placeholder={this.props.t('PROFILE.PEOPLE.SEARCH')}
               value={searchValue}
               onChange={(event) => this.handleSearchValueChange(event)}
               className={styles.searchField}
             />
           </div>
-          <label htmlFor="searchField" className={styles.searchLabel}>{`${filteredData.length} users found`}</label>
+          <label htmlFor="searchField" className={styles.searchLabel}>{`${
+            filteredData.length
+          } ${this.props.t('PROFILE.PEOPLE.USERS_FOUND')}`}</label>
           <Table
             columns={summaryColumns}
             data={filteredData}
@@ -659,136 +644,179 @@ class People extends Component {
             className="-striped -highlight"
             getTdProps={this.onRowEdit}
           />
-          {
-            isAdmin
-              ? (
-                <button
-                  className={styles.addButton}
-                  onClick={() => this.openAddModal(true)}
-                >
-                  Invite User
-                </button>
-              )
-              : null
-          }
+          {isAdmin ? (
+            <button className={styles.addButton} onClick={() => this.openAddModal(true)}>
+              {this.props.t('PROFILE.PEOPLE.INVITE_USER')}
+            </button>
+          ) : null}
         </div>
         <Popup
           open={this.state.showEdit}
           closeOnDocumentClick
           onClose={this.closeEditModal}
-          contentStyle={{display: 'flex', width: '100%', minHeight: '100vh', maxHeight: '120vh', padding: '0 5%', justifyContent: 'center'}}
-          overlayStyle={{zIndex: '1060', minHeight: '100vh', maxHeight: '120vh', top: 'auto'}}
+          contentStyle={{
+            display: 'flex',
+            width: '100%',
+            minHeight: '100vh',
+            maxHeight: '120vh',
+            padding: '0 5%',
+            justifyContent: 'center',
+          }}
+          overlayStyle={{
+            zIndex: '1060',
+            minHeight: '100vh',
+            maxHeight: '120vh',
+            top: 'auto',
+          }}
         >
           <div className={styles.modal}>
             <div className={styles.popupTitle}>
               <a className={styles.close} onClick={this.closeEditModal}>
-                <img src={closeButton} alt=""/>
+                <img src={closeButton} alt="" />
               </a>
-              <h3>Edit {editTitle}</h3>
+              <h3>
+                {this.props.t('common:EDIT')} {editTitle}
+              </h3>
             </div>
-            {
-              this.state.editUser && (
-                <div className={styles.formContainer}>
-                  <Form model="profileForms"
-                        onSubmit={() => this.handleSubmit(this.state.editedUser, this.state.editUser)}>
-                    {
-                      this.state.editUser.role_id === 4 && <div className={styles.labelContainer}>
-                        <label>Convert this worker to a user with account</label>
-                        <input style ={{"appearance": "auto"}} type="checkbox" value={this.state.willConvertWorker}
-                               onChange={(e) => this.toggleConvertWorker(e)}/>
+            {this.state.editUser && (
+              <div className={styles.formContainer}>
+                <Form
+                  model="profileForms"
+                  onSubmit={() => this.handleSubmit(this.state.editedUser, this.state.editUser)}
+                >
+                  {this.state.editUser.role_id === 4 && (
+                    <div className={styles.labelContainer}>
+                      <label>Convert this worker to a user with account</label>
+                      <input
+                        style={{ appearance: 'auto' }}
+                        type="checkbox"
+                        value={this.state.willConvertWorker}
+                        onChange={(e) => this.toggleConvertWorker(e)}
+                      />
+                    </div>
+                  )}
+                  <div className={styles.labelContainer}>
+                    <label>{this.props.t('PROFILE.ACCOUNT.FIRST_NAME')}</label>
+                    <Cleave
+                      type="text"
+                      model=".editInfo.first_name"
+                      disabled={true}
+                      value={this.state.editUser.first_name}
+                    />
+                  </div>
+                  <div className={styles.labelContainer}>
+                    <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
+                    <Cleave
+                      type="text"
+                      model=".editInfo.last_name"
+                      disabled={true}
+                      value={this.state.editUser.last_name}
+                    />
+                  </div>
+                  <div className={styles.labelContainer}>
+                    <label>{this.props.t('PROFILE.ACCOUNT.EMAIL')}</label>
+                    <Cleave
+                      type="text"
+                      model=".editInfo.email"
+                      onInit={this.onEditEmailInit}
+                      onChange={this.updateEmail}
+                      onBlur={this.validationCheck}
+                      value={this.state.editUser.email}
+                      disabled={this.state.editUser.role_id !== 4 || !this.state.willConvertWorker}
+                    />
+                  </div>
+                  {this.state.edit_email_error.length > 0 && (
+                    <span className={styles.error}>{this.state.edit_email_error}</span>
+                  )}
+                  {(this.state.editUser.role_id !== 4 || this.state.willConvertWorker) && (
+                    <div>
+                      <Alert variant="warning">
+                        {this.props.t('PROFILE.PEOPLE.ROLE_CHANGE_ALERT')}
+                      </Alert>
+                      <div className={styles.selectContainer}>
+                        <label>{this.props.t('PROFILE.PEOPLE.ROLE')}</label>
+                        <Control.select
+                          model=".editInfo.role"
+                          onChange={this.updateRoleSelection}
+                          defaultValue={
+                            this.state.editUser.role_id === 4 ? 3 : this.state.editUser.role_id
+                          }
+                        >
+                          <option value="5">{this.props.t('PROFILE.PEOPLE.EO')}</option>
+                          <option value="3">{this.props.t('PROFILE.PEOPLE.FARM_WORKER')}</option>
+                          <option value="2">{this.props.t('PROFILE.PEOPLE.FARM_MANAGER')}</option>
+                          <option value="1">{this.props.t('PROFILE.PEOPLE.FARM_OWNER')}</option>
+                        </Control.select>
                       </div>
-                    }
-                    <div className={styles.labelContainer}>
-                      <label>First<br/>Name</label>
-                      <Cleave type='text' model=".editInfo.first_name" disabled={true}
-                              value={this.state.editUser.first_name}/>
                     </div>
-                    <div className={styles.labelContainer}>
-                      <label>Last<br/>Name</label>
-                      <Cleave type='text' model=".editInfo.last_name" disabled={true}
-                              value={this.state.editUser.last_name}/>
-                    </div>
-                    <div className={styles.labelContainer}>
-                      <label>Email</label>
-                      <Cleave type='text'
-                              model=".editInfo.email"
-                              onInit={this.onEditEmailInit}
-                              onChange={this.updateEmail}
-                              onBlur={this.validationCheck}
-                              value={this.state.editUser.email}
-                              disabled={this.state.editUser.role_id !== 4 || !this.state.willConvertWorker}/>
-                    </div>
-                    {this.state.edit_email_error.length > 0 &&
-                    <span className={styles.error}>{this.state.edit_email_error}</span>}
-                    {
-                      (this.state.editUser.role_id !== 4 || this.state.willConvertWorker) && <div>
-                        <Alert variant="warning">
-                          Role change will take full effect upon next login. Workers cannot set themselves to Admins.
-                        </Alert>
-                        <div className={styles.selectContainer}>
-                          <label>Role</label>
-                          <Control.select model=".editInfo.role" onChange={this.updateRoleSelection}
-                                          defaultValue={this.state.editUser.role_id === 4 ? 3 : this.state.editUser.role_id}>
-                            <option value="5">Extension Officer</option>
-                            <option value="3">Farm Worker</option>
-                            <option value="2">Farm Manager</option>
-                            <option value="1">Farm Owner</option>
-                          </Control.select>
-                        </div>
-                      </div>
-                    }
-                    <div className={styles.selectContainer}>
-                      <label>Pay ({currencySymbol})</label>
-                      <Cleave model=".editInfo.pay.amount"
-                              type="number" step='0.01'
-                              value={this.state.editedUser.wage.amount}
-                              onChange={this.updateWageAmount}
-                              onBlur={this.validationCheck}/>
-                      <Control.select model=".editInfo.pay.type" onChange={this.updateWageType}
-                                      defaultValue={this.state.editedUser.wage.type}>
-                        <option value="hourly">hourly</option>
-                        {/*<option value="daily">daily</option>*/}
-                        {/*<option value="annually">annually</option>*/}
-                      </Control.select>
-                    </div>
-                    {this.state.edit_wage_error.length > 0 &&
-                    <span className={styles.error}>{this.state.edit_wage_error}</span>}
-                    <div className={defaultStyles.saveButton}>
-                      <Button type='submit' variant='primary' disabled={!this.state.updated_edit}>Update</Button>
-                    </div>
-                  </Form>
-                  {(this.state.editUser.status === 'Inactive') ?
-                    <div style={{"textAlign": "center"}}>
-                      {
-                        !this.state.editUser.is_admin && <button className={styles.removeButton}
-                                                                onClick={() => this.reactivate(this.state.editUser.user_id)}>
-                          Restore User Access</button>
-                      }
-                    </div> :
-                    <div style={{"textAlign": "center"}}>
-                      {
-                        !this.state.editUser.is_admin && <button className={styles.removeButton}
-                                                                onClick={() => this.deactivate(this.state.editUser.user_id)}>
-                          Revoke User Access</button>
-                      }
-                    </div>
-                  }
-
-                </div>
-              )
-            }
+                  )}
+                  <div className={styles.selectContainer}>
+                    <label>
+                      {this.props.t('PROFILE.PEOPLE.PAY')} ({currencySymbol})
+                    </label>
+                    <Cleave
+                      model=".editInfo.pay.amount"
+                      type="number"
+                      step="0.01"
+                      value={this.state.editedUser.wage.amount}
+                      onChange={this.updateWageAmount}
+                      onBlur={this.validationCheck}
+                    />
+                    <Control.select
+                      model=".editInfo.pay.type"
+                      onChange={this.updateWageType}
+                      defaultValue={this.state.editedUser.wage.type}
+                    >
+                      <option value="hourly">{this.props.t('PROFILE.PEOPLE.HOURLY')}</option>
+                      {/*<option value="daily">daily</option>*/}
+                      {/*<option value="annually">annually</option>*/}
+                    </Control.select>
+                  </div>
+                  {this.state.edit_wage_error.length > 0 && (
+                    <span className={styles.error}>{this.state.edit_wage_error}</span>
+                  )}
+                  <div className={defaultStyles.saveButton}>
+                    <Button type="submit" variant="primary" disabled={!this.state.updated_edit}>
+                      {this.props.t('common:UPDATE')}
+                    </Button>
+                  </div>
+                </Form>
+                {this.state.editUser.status === 'Inactive' ? (
+                  <div style={{ textAlign: 'center' }}>
+                    {!this.state.editUser.is_admin && (
+                      <button
+                        className={styles.removeButton}
+                        onClick={() => this.reactivate(this.state.editUser.user_id)}
+                      >
+                        {this.props.t('PROFILE.PEOPLE.RESTORE_ACCESS')}
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div style={{ textAlign: 'center' }}>
+                    {!this.state.editUser.is_admin && (
+                      <button
+                        className={styles.removeButton}
+                        onClick={() => this.deactivate(this.state.editUser.user_id)}
+                      >
+                        {this.props.t('PROFILE.PEOPLE.REVOKE_ACCESS')}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </Popup>
       </div>
     );
   }
-
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 const mapStateToProps = (state) => {
@@ -797,8 +825,7 @@ const mapStateToProps = (state) => {
     farm: userFarmSelector(state),
     roles: rolesSelector(state),
     profileForms: state.profileForms,
-  }
+  };
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(People);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(People));

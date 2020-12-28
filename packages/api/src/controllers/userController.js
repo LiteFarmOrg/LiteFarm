@@ -16,30 +16,70 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
+const passwordModel = require('../models/passwordModel');
 //const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const axios = require('axios');
-
-const emailSender = require('../templates/sendEmailTemplate');
-
+const bcrypt = require('bcryptjs');
+const { createAccessToken } = require('../util/jwt');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
 class userController extends baseController {
   static addUser() {
-    //TODO need validations email
     return async (req, res) => {
-      const { email } = req.body;
-      let userData = req.body;
+      const { email, first_name, last_name, password, language_preference } = req.body;
+      const userData = {
+        email,
+        first_name,
+        last_name,
+        language_preference,
+      };
 
-      const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-      if (!validEmailRegex.test(email)) {
-        userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
-      }
+      // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+      // if (!validEmailRegex.test(email)) {
+      //   userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
+      // }
+
       const trx = await transaction.start(Model.knex());
       try {
-        await baseController.post(userModel, userData, trx);
+        // hash password
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = await bcrypt.hash(password, salt);
+
+        // persist user data
+        const userResult = await baseController.post(userModel, userData, trx);
+
+        const pwData = {
+          user_id: userResult.user_id,
+          password_hash,
+        };
+        const pwResult = await baseController.post(passwordModel, pwData, trx);
         await trx.commit();
-        res.sendStatus(201);
+
+        // generate token, set to last a week
+        const id_token = await createAccessToken({ user_id: userResult.user_id });
+
+        // send welcome email
+        try {
+          const template_path = emails.WELCOME;
+          const replacements = {
+            first_name: userResult.first_name,
+          };
+          const sender = 'system@litefarm.org';
+          console.log('template_path:', template_path);
+          if (userResult.email && template_path) {
+            await sendEmailTemplate.sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
+          }
+        } catch (e) {
+          console.log('Failed to send email: ', e);
+        }
+
+        // send token and user data (sans password hash)
+        res.status(201).send({
+          id_token,
+          user: userResult,
+        });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
@@ -55,18 +95,8 @@ class userController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const {
-          user_id,
-          farm_id,
-          first_name,
-          last_name,
-          wage,
-          email,
-        } = req.body;
-        const {
-          type: wageType,
-          amount: wageAmount,
-        } = wage || {};
+        const { user_id, farm_id, first_name, last_name, wage, email } = req.body;
+        const { type: wageType, amount: wageAmount } = wage || {};
 
         /* Start of input validation */
         const requiredProps = {
@@ -77,7 +107,7 @@ class userController extends baseController {
           email,
         };
 
-        if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
+        if (Object.keys(requiredProps).some((key) => !requiredProps[key])) {
           const errorMessageTitle = 'Missing Properties: ';
           const errorMessage = Object.keys(requiredProps).reduce((missingPropMsg, key) => {
             if (!requiredProps[key]) {
@@ -88,19 +118,23 @@ class userController extends baseController {
             }
             return missingPropMsg;
           }, errorMessageTitle);
+          await trx.rollback();
           return res.status(400).send(errorMessage);
         }
 
         if (email !== `${user_id}@pseudo.com`) {
+          await trx.rollback();
           return res.status(400).send('Invalid pseudo user email');
         }
 
         const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
         if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
+          await trx.rollback();
           return res.status(400).send('Invalid wage amount');
         }
 
         if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+          await trx.rollback();
           return res.status(400).send('Current app version only allows hourly wage');
         }
         /* End of input validation */
@@ -136,10 +170,11 @@ class userController extends baseController {
       try {
         const id = req.params.user_id;
 
-        const data = await userModel.query().findById(id).select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
+        const data = await userModel.query().findById(id)
+          .select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
 
         if (!data) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(data);
         }
@@ -148,7 +183,7 @@ class userController extends baseController {
         console.log(error);
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static async getAuth0Token() {
@@ -174,7 +209,7 @@ class userController extends baseController {
       const token = await this.getAuth0Token();
       const headers = {
         'content-type': 'application/json',
-        'Authorization': 'Bearer ' + token,
+        Authorization: 'Bearer ' + token,
       };
       // eslint-disable-next-line
       let result = await axios({
@@ -194,7 +229,7 @@ class userController extends baseController {
     return async (req, res) => {
       const user_id = req.params.id;
       // const user = await baseController.getIndividual(userModel, user_id);
-      const template_path = '../templates/revocation_of_access_to_farm_email.html';
+      const template_path = emails.ACCESS_REVOKE;
       // if(user && user[0] && !user[0].is_pseudo){
       //   const isAuth0Deleted = await this.deleteAuth0User(user_id);
       //   if(!isAuth0Deleted){
@@ -206,30 +241,39 @@ class userController extends baseController {
       // }
       const trx = await transaction.start(Model.knex());
       try {
-        const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id)
+        const rows = await userFarmModel
+          .query()
+          .select('*')
+          .where('userFarm.user_id', user_id)
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        const subject = 'You\'ve lost access to ' + rows[0].farm_name + ' on LiteFarm!'
+        template_path.subjectReplacements = rows[0].farm_name;
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
         };
         const sender = 'help@litefarm.org';
-        const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id)
-          .patch({
-            status: 'Inactive',
-          });
+        const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({
+          status: 'Inactive',
+        });
         await trx.commit();
         if (isUserFarmPatched) {
           res.sendStatus(200);
           //send email informing user their access revoked (unless user is no account worker - no email)
           try {
             if (rows[0].email) {
-              await emailSender.sendEmail(template_path, subject, replacements, rows[0].email, sender)
+              await sendEmailTemplate.sendEmail(
+                template_path,
+                replacements,
+                rows[0].email,
+                sender,
+                null,
+                rows[0].language_preference,
+              );
             }
           } catch (e) {
-            console.log(e)
+            console.log(e);
           }
         } else {
           res.sendStatus(404);
@@ -240,7 +284,7 @@ class userController extends baseController {
           error,
         });
       }
-    }
+    };
   }
 
   static updateConsent() {
@@ -248,29 +292,26 @@ class userController extends baseController {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.id;
       try {
-        const updated = await userModel.query(trx).where('user_id', user_id)
-          .patch({
-            has_consent: true,
-          });
+        const updated = await userModel.query(trx).where('user_id', user_id).patch({
+          has_consent: true,
+        });
         await trx.commit();
         if (!updated) {
           res.status(409).send('Update failed');
         } else {
           res.sendStatus(200);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static updateUser() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-
         const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
@@ -278,14 +319,13 @@ class userController extends baseController {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static updateNotificationSetting() {
@@ -299,14 +339,13 @@ class userController extends baseController {
         } else {
           res.status(200).send(updated);
         }
-
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static async updateSetting(req, trx) {

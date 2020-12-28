@@ -51,12 +51,7 @@ class ReactWeather extends React.Component {
               <WeatherIcon name={todayIcon} />
             </div>
           </div>
-          <DaysForecast
-            unit={unit}
-            forecast={forecast}
-            daysData={days}
-            lang={lang}
-          />
+          <DaysForecast unit={unit} forecast={forecast} daysData={days} lang={lang} />
         </div>
       );
     }
@@ -78,7 +73,7 @@ class ReactWeather extends React.Component {
     const params = self._getParams();
     let promise = null;
     promise = self.api.getForecast(params);
-    promise.then(data => {
+    promise.then((data) => {
       self.setState({
         data,
       });

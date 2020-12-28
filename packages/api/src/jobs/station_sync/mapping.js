@@ -2,13 +2,12 @@ const { from } = require('rxjs');
 const { delay, concatMap, mergeMap, catchError } = require('rxjs/operators');
 const rp = require('request-promise');
 
-const { Model } = require('objection');
-const knex = Model.knex();
+const knex = require('./../../util/knex')
 const endPoints = require('../../endPoints');
 const { OPEN_WEATHER_APP_ID } = require('../../credentials');
 
 function mapFieldsToStationId(fieldsToSet) {
-  const fields = Promise.resolve(fieldsToSet) || fieldsWithNoStationId();
+  const fields = fieldsToSet ? Promise.resolve(fieldsToSet) : fieldsWithNoStationId();
   from(fields)
     .pipe(
       mergeMap((fields) => from(fields)),

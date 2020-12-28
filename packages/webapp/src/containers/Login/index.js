@@ -14,7 +14,6 @@
  */
 
 import React from 'react';
-import Auth from '../../Auth/Auth';
 import logo from '../../assets/images/logo2x.png';
 import picOne from '../../assets/images/introSliders/0.png';
 import picTwo from '../../assets/images/introSliders/1.png';
@@ -23,63 +22,68 @@ import picFour from '../../assets/images/introSliders/5.png';
 import picFive from '../../assets/images/introSliders/6.png';
 import LoginButton from './loginButton';
 import styles from './styles.scss';
-
+import { useTranslation } from 'react-i18next';
 import Carousel from 'nuka-carousel';
 
-const firstPage = <div style={{ height: '50vh' }}>
-      <img className={styles.logo} src={logo} alt="not found"/>
-      <h4 className={styles.bodyText}>Everything you need for managing your farm, in your pocket.</h4>
-    </div>;
 const slides = [
-    {
+  {
     header: 'Sustainability Reporting',
-    info: 'The world\'s first app that helps you manage your business, social, and environmental impacts at the same time',
-    img: picOne
-    },
-    {
+    info:
+      "The world's first app that helps you manage your business, social, and environmental impacts at the same time",
+    img: picOne,
+  },
+  {
     header: 'Real-Time Costing',
-    info: 'Our unique finances feature allows you to track cost of production by crops in real-time —  so you can make smart decisions within season.',
-    img: picTwo
-    },
-    {
+    info:
+      'Our unique finances feature allows you to track cost of production by crops in real-time —  so you can make smart decisions within season.',
+    img: picTwo,
+  },
+  {
     header: 'Field Design made easy',
-    info: 'Our easy to use mapping tool allow you to design and plan your crops for the coming season',
-    img: picThree
-    },
-    {
+    info:
+      'Our easy to use mapping tool allow you to design and plan your crops for the coming season',
+    img: picThree,
+  },
+  {
     header: 'Reliable File Storage',
-    info: 'Our simple to use filing system makes retrieving your farm records simple and intuitive.',
-    img: picFour
-    },
-    {
+    info:
+      'Our simple to use filing system makes retrieving your farm records simple and intuitive.',
+    img: picFour,
+  },
+  {
     header: 'Customize it the way you want it',
-    info: 'Every operation is different.  You can customize your application so it fits your farm, your team, your way.',
-    img: picFive
-    }
+    info:
+      'Every operation is different.  You can customize your application so it fits your farm, your team, your way.',
+    img: picFive,
+  },
 ];
 
-const auth = new Auth();
-
-class Login extends React.Component {
-    render() {
-        return <div className={styles.home} >
-        <div className={styles.lander}>
-            <div className={styles.textColor}>
-                <Carousel wrapAround withoutControls transitionMode='fade'>
-                    {firstPage}
-                    {slides.map((slide, index) => {
-                    return (<div key={'slide-' + index}>
-                        <h2>{slide.header}</h2>
-                        <h4 className={styles.bodyText}>{slide.info}</h4>
-                        <img className={styles.otherPhotos} src={slide.img} alt="not found" />
-                    </div>)
-                    })}
-                </Carousel>
+function Login() {
+  const { t, i18n } = useTranslation();
+  return (
+    <div className={styles.home}>
+      <div className={styles.lander}>
+        <div className={styles.textColor}>
+          <Carousel wrapAround withoutControls transitionMode="fade">
+            <div style={{ height: '50vh' }}>
+              <img className={styles.logo} src={logo} alt={t('common:NOT_FOUND')} />
+              <h4 className={styles.bodyText}>{t('LOGIN.TITLE')}</h4>
             </div>
-            <LoginButton auth={auth}/>
+            {slides.map((slide, index) => {
+              return (
+                <div key={'slide-' + index}>
+                  <h2>{slide.header}</h2>
+                  <h4 className={styles.bodyText}>{slide.info}</h4>
+                  <img className={styles.otherPhotos} src={slide.img} alt={t('common:NOT_FOUND')} />
+                </div>
+              );
+            })}
+          </Carousel>
         </div>
+        <LoginButton />
       </div>
-    }
+    </div>
+  );
 }
 
 export default Login;

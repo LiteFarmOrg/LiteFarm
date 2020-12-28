@@ -13,17 +13,18 @@ import { cropSelector as fieldCropSelector } from '../../selector';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
 
 class Labour extends Component {
   constructor(props) {
     super(props);
 
     let startDate, endDate;
-    const {dateRange} = this.props;
-    if(dateRange && dateRange.startDate && dateRange.endDate){
+    const { dateRange } = this.props;
+    if (dateRange && dateRange.startDate && dateRange.endDate) {
       startDate = moment(dateRange.startDate);
       endDate = moment(dateRange.endDate);
-    }else{
+    } else {
       startDate = moment().startOf('year');
       endDate = moment().endOf('year');
     }
@@ -46,62 +47,79 @@ class Labour extends Component {
     this.changeDate = this.changeDate.bind(this);
   }
 
-
   changeDate(type, date) {
     if (type === 'start') {
-      this.setState({startDate: date});
+      this.setState({ startDate: date });
     } else if (type === 'end') {
-      this.setState({endDate: date});
+      this.setState({ endDate: date });
     } else {
-      console.log("Error, type not specified")
+      console.log('Error, type not specified');
     }
   }
-  sortBy(type){
+  sortBy(type) {
     this.setState({
-      dropDownTitle: type
-    })
+      dropDownTitle: type,
+    });
   }
 
   render() {
     const i = 1;
-    const {dropDownTitle, dButtonStyle} = this.state;
-    const {farm} = this.props;
+    const { dropDownTitle, dButtonStyle } = this.state;
+    const { farm } = this.props;
     const symbol = grabCurrencySymbol(farm);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Labour'/>
-        <DateRangeSelector  changeDateMethod={this.changeDate}/>
+        <PageTitle backUrl="/Finances" title={this.props.t('SALE.LABOUR.TITLE')} />
+        <DateRangeSelector changeDateMethod={this.changeDate} />
         <div className={styles.topButtonContainer}>
-          <h4>By</h4>
+          <h4>{this.props.t('SALE.LABOUR.BY')}</h4>
           <div className={styles.dropDownContainer}>
-          <DropdownButton
-            variant={'default'}
-            title={dropDownTitle}
-            key={i}
-            id={`dropdown-basic-${i}`}
-            style={dButtonStyle}
-          >
-            <Dropdown.Item eventKey="1" onClick={()=>this.sortBy('Employees')}>Employees</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onClick={()=>this.sortBy('Crops')}>Crops</Dropdown.Item>
-            <Dropdown.Item eventKey="3" onClick={()=>this.sortBy('Tasks')}>Tasks</Dropdown.Item>
-          </DropdownButton>
+            <DropdownButton
+              variant={'default'}
+              title={dropDownTitle}
+              key={i}
+              id={`dropdown-basic-${i}`}
+              style={dButtonStyle}
+            >
+              <Dropdown.Item eventKey="1" onClick={() => this.sortBy('Employees')}>
+                {this.props.t('SALE.LABOUR.EMPLOYEES')}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey="2" onClick={() => this.sortBy('Crops')}>
+                {this.props.t('SALE.LABOUR.CROPS')}
+              </Dropdown.Item>
+              <Dropdown.Item eventKey="3" onClick={() => this.sortBy('Tasks')}>
+                {this.props.t('SALE.LABOUR.TASKS')}
+              </Dropdown.Item>
+            </DropdownButton>
           </div>
         </div>
-        {
-          dropDownTitle === 'Employees' &&
-          <Employee currencySymbol={symbol} shifts={this.props.shifts} startDate={this.state.startDate} endDate={this.state.endDate}/>
-        }
-        {
-          dropDownTitle === 'Crops' &&
-          <Crop currencySymbol={symbol} shifts={this.props.shifts} startDate={this.state.startDate} endDate={this.state.endDate} fieldCrops={this.props.fieldCrops}/>
-        }
-        {
-          dropDownTitle === 'Tasks' &&
-          <Task currencySymbol={symbol} shifts={this.props.shifts} startDate={this.state.startDate} endDate={this.state.endDate}/>
-        }
+        {dropDownTitle === 'Employees' && (
+          <Employee
+            currencySymbol={symbol}
+            shifts={this.props.shifts}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+          />
+        )}
+        {dropDownTitle === 'Crops' && (
+          <Crop
+            currencySymbol={symbol}
+            shifts={this.props.shifts}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            fieldCrops={this.props.fieldCrops}
+          />
+        )}
+        {dropDownTitle === 'Tasks' && (
+          <Task
+            currencySymbol={symbol}
+            shifts={this.props.shifts}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+          />
+        )}
       </div>
-
-    )
+    );
   }
 }
 
@@ -111,13 +129,13 @@ const mapStateToProps = (state) => {
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
     fieldCrops: fieldCropSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Labour);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Labour));

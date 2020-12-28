@@ -2,13 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { durationSelector, selectedShiftSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { cropSelector, } from '../../selector';
+import {
+  durationSelector,
+  selectedShiftSelector,
+  selectedTasksSelector,
+  startEndSelector,
+} from './selectors';
+import { cropSelector } from '../../selector';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import Select from 'react-select';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import closeButton from '../../../assets/images/grey_close_button.png'
+import closeButton from '../../../assets/images/grey_close_button.png';
 import Popup from 'reactjs-popup';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
@@ -17,9 +22,9 @@ import { shiftRatings } from '../constants';
 import { BsReplyFill } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
+import { withTranslation } from 'react-i18next';
 
 class EditShiftTwo extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -89,19 +94,22 @@ class EditShiftTwo extends Component {
       taskArr.push(c.task_id);
     }
 
-    let cropOptions = [], fieldOptions = [], addedCropID = [];
+    let cropOptions = [],
+      fieldOptions = [],
+      addedCropID = [];
     let originalDuration = this.props.availableDuration;
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({label: crop.crop_common_name, value: crop.crop_id});
+        cropOptions.push({ label: crop.crop_common_name, value: crop.crop_id });
         addedCropID.push(crop.crop_id);
       }
     }
     for (let field of fields) {
-      fieldOptions.push({label: field.field_name, value: field.field_id})
+      fieldOptions.push({ label: field.field_name, value: field.field_id });
     }
     let finalForm = {};
-    let defaultCrops = {}, defaultFields = {};
+    let defaultCrops = {},
+      defaultFields = {};
     let addedCrops = [];
     for (let task of selectedTasks) {
       if (taskArr.indexOf(task.task_id) > -1) {
@@ -112,7 +120,7 @@ class EditShiftTwo extends Component {
           duration += finalForm[task.task_id].duration;
         }
         if (task.is_field) {
-          val.push({id: task.field_id});
+          val.push({ id: task.field_id });
           let fieldName = this.getFieldName(task.field_id);
           if (defaultFields[task.task_id]) {
             let ids = defaultFields[task.task_id];
@@ -123,26 +131,29 @@ class EditShiftTwo extends Component {
               }
             }
             if (canAdd) {
-              defaultFields[task.task_id].push({"value": task.field_id, "label": fieldName});
+              defaultFields[task.task_id].push({
+                value: task.field_id,
+                label: fieldName,
+              });
             }
           } else {
-            defaultFields[task.task_id] = [{"value": task.field_id, "label": fieldName}];
+            defaultFields[task.task_id] = [{ value: task.field_id, label: fieldName }];
           }
-
         } else {
           let this_crop = this.getCropByFCID(task.field_crop_id);
-          val.push({id: this_crop.crop_id});
+          val.push({ id: this_crop.crop_id });
           let cropName = this_crop.crop_common_name;
           if (!addedCrops.includes(this_crop.crop_id)) {
             if (defaultCrops[task.task_id]) {
-              defaultCrops[task.task_id].push({"value": this_crop.crop_id, "label": cropName})
+              defaultCrops[task.task_id].push({
+                value: this_crop.crop_id,
+                label: cropName,
+              });
             } else {
-              defaultCrops[task.task_id] = [{"value": this_crop.crop_id, "label": cropName}];
+              defaultCrops[task.task_id] = [{ value: this_crop.crop_id, label: cropName }];
             }
             addedCrops.push(this_crop.crop_id);
           }
-
-
         }
         finalForm[task.task_id] = {
           is_field: task.is_field,
@@ -157,7 +168,7 @@ class EditShiftTwo extends Component {
           is_field: false,
           val: [],
           duration: 0,
-        }
+        };
       }
     }
 
@@ -174,13 +185,12 @@ class EditShiftTwo extends Component {
     });
 
     this.restoreSelection(selectedTasks);
-
   }
 
   isCurrentUserInShift = () => {
     const { users, selectedShift } = this.props;
     return users.user_id === selectedShift.user_id;
-  }
+  };
 
   getFieldName(field_id) {
     for (let field of this.props.fields) {
@@ -224,15 +234,14 @@ class EditShiftTwo extends Component {
           }
           totalDuration -= duration;
         }
-      }
-      else {
+      } else {
         let thisCrop = this.getCropByFCID(t.field_crop_id);
         if (cropDurations.hasOwnProperty(t.task_id)) {
           let hasFound = false;
           let i = 0;
-          for(i = 0 ; i < cropDurations[t.task_id].length; i++){
+          for (i = 0; i < cropDurations[t.task_id].length; i++) {
             let obj = cropDurations[t.task_id][i];
-            if(obj.crop_id === thisCrop.crop_id){
+            if (obj.crop_id === thisCrop.crop_id) {
               obj.duration += Number(t.duration);
               cropDurations[t.task_id][i] = obj;
               hasFound = true;
@@ -240,12 +249,12 @@ class EditShiftTwo extends Component {
             }
           }
 
-          if(!hasFound){
+          if (!hasFound) {
             cropDurations[t.task_id].push({
               duration: Number(t.duration),
               crop_id: thisCrop.crop_id,
               crop_name: thisCrop.crop_common_name,
-            })
+            });
           }
         } else {
           cropDurations[t.task_id] = [];
@@ -253,7 +262,7 @@ class EditShiftTwo extends Component {
             duration: Number(t.duration),
             crop_id: thisCrop.crop_id,
             crop_name: thisCrop.crop_common_name,
-          })
+          });
         }
         totalDuration -= Number(t.duration);
       }
@@ -262,7 +271,7 @@ class EditShiftTwo extends Component {
     this.setState({
       availableDuration: totalDuration,
       cropDurations,
-    })
+    });
   }
 
   toggleCropOrField(task_id, type) {
@@ -275,8 +284,7 @@ class EditShiftTwo extends Component {
           cropDiv.style.display = 'flex';
         }
       }
-    }
-    else {
+    } else {
       let containerDiv = document.getElementById(task_id);
       let fieldDiv = document.getElementById('field' + task_id);
       if (fieldDiv) {
@@ -289,14 +297,14 @@ class EditShiftTwo extends Component {
   }
 
   resetCropDuration = (task_id) => {
-    let {cropDurations} = this.state;
+    let { cropDurations } = this.state;
     let resetDurations = [];
     for (let cdObj of cropDurations[task_id]) {
       cdObj.duration = 0;
       resetDurations.push(cdObj);
     }
     cropDurations[task_id] = resetDurations;
-    this.setState({cropDurations});
+    this.setState({ cropDurations });
   };
 
   toggleBack(task_id, type) {
@@ -305,13 +313,12 @@ class EditShiftTwo extends Component {
     if (type === 'crop') {
       let cropDiv = document.getElementById('crop' + task_id);
       cropDiv.style.display = 'none';
-    }
-    else {
+    } else {
       let fieldDiv = document.getElementById('field' + task_id);
       fieldDiv.style.display = 'none';
     }
 
-    let {availableDuration, cropDurations} = this.state;
+    let { availableDuration, cropDurations } = this.state;
     let updatedDuration = availableDuration;
     // reset available duration
     if (type === 'crop') {
@@ -329,28 +336,27 @@ class EditShiftTwo extends Component {
       let value = input_element.value === '' ? 0 : input_element.value;
       updatedDuration = availableDuration + Number(value);
       input_element.value = 0;
-
     }
 
     this.setState({
       availableDuration: Number(updatedDuration),
-    })
+    });
   }
 
   handleCropChange = (selectedOption, task_id) => {
-    let {finalForm, cropDurations,} = this.state; //originalDuration
+    let { finalForm, cropDurations } = this.state; //originalDuration
     finalForm[task_id].is_field = false;
     finalForm[task_id].val = [];
     // for individual durations
     cropDurations[task_id] = [];
 
     for (let option of selectedOption) {
-      finalForm[task_id].val.push({id: option.value});
+      finalForm[task_id].val.push({ id: option.value });
       cropDurations[task_id].push({
         crop_id: option.value,
         crop_name: option.label,
         duration: 0,
-      })
+      });
     }
 
     this.setState({
@@ -365,22 +371,20 @@ class EditShiftTwo extends Component {
     finalForm[task_id].is_field = true;
     finalForm[task_id].val = [];
     for (let option of selectedOption) {
-      finalForm[task_id].val.push({id: option.value});
+      finalForm[task_id].val.push({ id: option.value });
     }
     this.setState({
       finalForm,
     });
     // console.log(this.state.finalForm)
-
   };
 
   changeDuration(event, task_id, is_crop, crop_id = null) {
     let value = event.target.value;
-    let {availableDuration, cropDurations, finalForm, originalDuration} = this.state;
+    let { availableDuration, cropDurations, finalForm, originalDuration } = this.state;
     let remainingDuration = originalDuration;
 
     if (is_crop) {
-
       for (let cdObj of cropDurations[task_id]) {
         if (cdObj.crop_id === crop_id) {
           cdObj.duration = value;
@@ -389,7 +393,6 @@ class EditShiftTwo extends Component {
       this.setState({
         cropDurations,
       });
-
     } else {
       finalForm[task_id].duration = value;
       this.setState({
@@ -423,7 +426,7 @@ class EditShiftTwo extends Component {
         background: availableDuration === 0 ? '#DFF0D8' : '#FCF8E3',
         zIndex: 2,
       },
-    })
+    });
   }
 
   closeEditModal = () => {
@@ -447,13 +450,16 @@ class EditShiftTwo extends Component {
 
     const finalForm = this.state.finalForm;
     const startEndObj = this.props.startEnd;
-    let b_duration = startEndObj.break === null || startEndObj.break === "" || startEndObj.break === undefined ? 0 : startEndObj.break;
+    let b_duration =
+      startEndObj.break === null || startEndObj.break === '' || startEndObj.break === undefined
+        ? 0
+        : startEndObj.break;
     let form = {
       start_time: startEndObj.start,
       end_time: startEndObj.end,
       break_duration: Number(parseInt(b_duration, 0)),
       mood: this.state.mood,
-      tasks: []
+      tasks: [],
     };
 
     let keys = Object.keys(finalForm);
@@ -486,7 +492,7 @@ class EditShiftTwo extends Component {
           for (let crop of crops) {
             if (crop.field_id === val.id) {
               crop_num++;
-              crops_on_field.push(crop)
+              crops_on_field.push(crop);
             }
           }
           if (crop_num === 0) {
@@ -495,16 +501,15 @@ class EditShiftTwo extends Component {
               duration: Number(parseFloat(duration).toFixed(0)),
               is_field: true,
               field_id: val.id,
-            })
-          }
-          else {
+            });
+          } else {
             duration = Number(parseFloat(duration).toFixed(0));
             let sub_duration = Math.round(Number(duration / crop_num));
             let i = 0;
             for (let crop of crops_on_field) {
               if (i === crop_num - 1) {
                 if (sub_duration * crop_num !== duration) {
-                  sub_duration = duration - (sub_duration * (crop_num - 1));
+                  sub_duration = duration - sub_duration * (crop_num - 1);
                 }
               }
               form.tasks.push({
@@ -517,10 +522,9 @@ class EditShiftTwo extends Component {
               i++;
             }
           }
-        }
-        else {
+        } else {
           let subDuration = 0;
-          let {cropDurations} = this.state;
+          let { cropDurations } = this.state;
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
@@ -548,14 +552,14 @@ class EditShiftTwo extends Component {
           }
           subDuration = subDuration / crop_arr.length;
 
-          for(let a_crop of crop_arr){
+          for (let a_crop of crop_arr) {
             form.tasks.push({
               task_id: key,
-              duration:  Number(parseFloat(subDuration).toFixed(3)),
+              duration: Number(parseFloat(subDuration).toFixed(3)),
               is_field: false,
               field_crop_id: a_crop.field_crop_id,
               field_id: a_crop.field_id,
-            })
+            });
           }
         }
         valIterator++;
@@ -565,7 +569,7 @@ class EditShiftTwo extends Component {
     form.user_id = this.props.selectedShift.user_id;
     form.wage_at_moment = Number(this.props.startEnd.wage_at_moment);
     this.props.dispatch(updateShift(form, this.props.selectedShift.shift_id));
-  };
+  }
 
   render() {
     const selectedTasks = this.props.selectedTasks;
@@ -574,12 +578,23 @@ class EditShiftTwo extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/edit_shift_one" title="Edit Shift (Step 2)" rightIcon={true}
-                   rightIconTitle="Time Allocation"
-                   rightIconBody="If you need to allocate labour for an activity to your whole farm, you can allocate it to all of your fields, and we will do the rest."/>
-        <div className={styles.taskTitle} style={{paddingBottom: '1.2em'}}>
+        <PageTitle
+          backUrl="/edit_shift_one"
+          title={this.props.t('SHIFT.EDIT_SHIFT.TITLE_2')}
+          rightIcon={true}
+          rightIconTitle={this.props.t('SHIFT.EDIT_SHIFT.TIME_ALLOCATION')}
+          rightIconBody={this.props.t('SHIFT.EDIT_SHIFT.ALLOCATE_ACTIVITY')}
+        />
+        <div className={styles.taskTitle} style={{ paddingBottom: '1.2em' }}>
           <div style={this.state.minBoxStyle}>
-            <strong> You have <span>{this.state.availableDuration} minutes</span> to assign</strong>
+            <strong>
+              {' '}
+              {this.props.t('SHIFT.EDIT_SHIFT.YOU_HAVE')}{' '}
+              <span>
+                {this.state.availableDuration} {this.props.t('SHIFT.EDIT_SHIFT.MINUTES')}
+              </span>{' '}
+              {this.props.t('SHIFT.EDIT_SHIFT.TO_ASSIGN')}
+            </strong>
           </div>
         </div>
         <div>
@@ -588,38 +603,43 @@ class EditShiftTwo extends Component {
               <div key={task.task_id} className={styles.taskBlock}>
                 <div className={styles.taskTitle}>
                   <strong>{task.task_name}</strong>
-                  <div>
-                    Assign time to task by
-                  </div>
+                  <div>{this.props.t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}</div>
                 </div>
-                <div id={task.task_id} style={{display: 'block'}}>
-                  <div className={styles.cropFieldContainer}
-                       onClick={() => this.toggleCropOrField(task.task_id, 'crop')}>
+                <div id={task.task_id} style={{ display: 'block' }}>
+                  <div
+                    className={styles.cropFieldContainer}
+                    onClick={() => this.toggleCropOrField(task.task_id, 'crop')}
+                  >
                     <div className={styles.cropButton}>
-                      <img src={cropImg} alt=""/>
+                      <img src={cropImg} alt="" />
                       <div className={styles.whiteText}>
-                        Crops on your farm
+                        {this.props.t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}
                       </div>
                     </div>
-                    <div className={styles.fieldButton} onClick={() => this.toggleCropOrField(task.task_id, 'field')}>
-                      <img src={fieldImg} alt=""/>
+                    <div
+                      className={styles.fieldButton}
+                      onClick={() => this.toggleCropOrField(task.task_id, 'field')}
+                    >
+                      <img src={fieldImg} alt="" />
                       <div className={styles.whiteText}>
-                        Fields on your farm
+                        {this.props.t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className={styles.selectContainer} id={'crop' + task.task_id}>
                   <div>
-                    <strong>Crops on this farm</strong>
-                    <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'crop')}>
-                      <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-                      Back
+                    <strong>{this.props.t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
+                    <div
+                      className={styles.backContainer}
+                      onClick={() => this.toggleBack(task.task_id, 'crop')}
+                    >
+                      <BsReplyFill style={{ transform: 'scaleX(-1)' }} />
+                      {this.props.t('common:BACK')}
                     </div>
                   </div>
                   <div className={styles.selectInner}>
-                    {
-                      this.state.defaultCrops[task.task_id] &&
+                    {this.state.defaultCrops[task.task_id] && (
                       <Select
                         defaultValue={this.state.defaultCrops[task.task_id]}
                         isMulti
@@ -629,11 +649,12 @@ class EditShiftTwo extends Component {
                         options={this.state.cropOptions}
                         className="basic-multi-select"
                         classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleCropChange(selectedOption, task.task_id)}
+                        onChange={(selectedOption) =>
+                          this.handleCropChange(selectedOption, task.task_id)
+                        }
                       />
-                    }
-                    {
-                      !this.state.defaultCrops[task.task_id] &&
+                    )}
+                    {!this.state.defaultCrops[task.task_id] && (
                       <Select
                         isMulti
                         isSearchable={false}
@@ -642,38 +663,46 @@ class EditShiftTwo extends Component {
                         options={this.state.cropOptions}
                         className="basic-multi-select"
                         classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleCropChange(selectedOption, task.task_id)}
+                        onChange={(selectedOption) =>
+                          this.handleCropChange(selectedOption, task.task_id)
+                        }
                       />
-                    }
-
+                    )}
                   </div>
-                  {
-                    cropDurations && cropDurations[task.task_id] &&
-                    <div className={styles.cropDurationContainer} style={{display: 'flex'}}>
+                  {cropDurations && cropDurations[task.task_id] && (
+                    <div className={styles.cropDurationContainer} style={{ display: 'flex' }}>
                       {cropDurations[task.task_id].map((cd) => {
-                        return <div className={styles.durationContainer} key={cd.crop_id}>
-                          <div>{cd.crop_name}</div>
-                          <div className={styles.durationInput}>
-                            <input type="number"
-                            placeholder={0}
-                                   onChange={(event) => this.changeDuration(event, task.task_id, true, cd.crop_id)}/>
+                        return (
+                          <div className={styles.durationContainer} key={cd.crop_id}>
+                            <div>{cd.crop_name}</div>
+                            <div className={styles.durationInput}>
+                              <input
+                                type="number"
+                                placeholder={0}
+                                onChange={(event) =>
+                                  this.changeDuration(event, task.task_id, true, cd.crop_id)
+                                }
+                              />
+                            </div>
                           </div>
-                        </div>
+                        );
                       })}
                     </div>
-                  }
+                  )}
                 </div>
                 <div className={styles.selectContainer} id={'field' + task.task_id}>
                   <div>
                     <strong>Fields on this farm</strong>
-                    <div className={styles.backContainer} onClick={() => this.toggleBack(task.task_id, 'field')}>
-                      <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-                      Back
+                    <div
+                      className={styles.backContainer}
+                      onClick={() => this.toggleBack(task.task_id, 'field')}
+                    >
+                      <BsReplyFill style={{ transform: 'scaleX(-1)' }} />
+                      {this.props.t('common:BACK')}
                     </div>
                   </div>
                   <div className={styles.selectInner}>
-                    {
-                      this.state.defaultFields && this.state.defaultFields[task.task_id] &&
+                    {this.state.defaultFields && this.state.defaultFields[task.task_id] && (
                       <Select
                         defaultValue={this.state.defaultFields[task.task_id]}
                         isMulti
@@ -682,11 +711,12 @@ class EditShiftTwo extends Component {
                         options={this.state.fieldOptions}
                         className="basic-multi-select"
                         classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleFieldChange(selectedOption, task.task_id)}
+                        onChange={(selectedOption) =>
+                          this.handleFieldChange(selectedOption, task.task_id)
+                        }
                       />
-                    }
-                    {
-                      !this.state.defaultFields[task.task_id] &&
+                    )}
+                    {!this.state.defaultFields[task.task_id] && (
                       <Select
                         isSearchable={false}
                         isMulti
@@ -694,45 +724,39 @@ class EditShiftTwo extends Component {
                         options={this.state.fieldOptions}
                         className="basic-multi-select"
                         classNamePrefix="select"
-                        onChange={(selectedOption) => this.handleFieldChange(selectedOption, task.task_id)}
+                        onChange={(selectedOption) =>
+                          this.handleFieldChange(selectedOption, task.task_id)
+                        }
                       />
-                    }
-
-
+                    )}
                   </div>
                   <div className={styles.durationContainer}>
-                    <div>Duration</div>
-                    <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number"
-                                                                 onChange={(event) => this.changeDuration(event, task.task_id, false)}/>
+                    <div>{this.props.t('SHIFT.EDIT_SHIFT.DURATION')}</div>
+                    <div className={styles.durationInput}>
+                      <input
+                        id={'input-field-' + task.task_id}
+                        type="number"
+                        onChange={(event) => this.changeDuration(event, task.task_id, false)}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className={styles.bottomContainer}>
                   <div className={styles.cancelButton} onClick={() => history.push('/my_shift')}>
-                    Cancel
+                    {this.props.t('common:CANCEL')}
                   </div>
-                  {
-                    isRatingEnabled
-                      ? (
-                        <button
-                          className='btn btn-primary'
-                          onClick={() => this.openEditModal()}
-                        >
-                          Next
-                        </button>
-                      )
-                      : (
-                        <button
-                          className='btn btn-primary'
-                          onClick={() => this.submitShift()}
-                        >
-                          Update
-                        </button>
-                      )
-                  }
+                  {isRatingEnabled ? (
+                    <button className="btn btn-primary" onClick={() => this.openEditModal()}>
+                      {this.props.t('common:NEXT')}
+                    </button>
+                  ) : (
+                    <button className="btn btn-primary" onClick={() => this.submitShift()}>
+                      {this.props.t('common:UPDATE')}
+                    </button>
+                  )}
                 </div>
               </div>
-            )
+            );
           })}
         </div>
         <Popup
@@ -740,7 +764,12 @@ class EditShiftTwo extends Component {
           open={this.state.showEdit}
           closeOnDocumentClick
           onClose={this.closeEditModal}
-          contentStyle={{ display: 'flex', width: '100%', height: '100vh', padding: '0 5%' }}
+          contentStyle={{
+            display: 'flex',
+            width: '100%',
+            height: '100vh',
+            padding: '0 5%',
+          }}
           overlayStyle={{ zIndex: '1060', height: '100vh' }}
         >
           <div className={styles.modal}>
@@ -749,35 +778,41 @@ class EditShiftTwo extends Component {
                 <img src={closeButton} alt="" />
               </a>
             </div>
-            <h3>How did this shift make you feel?</h3>
-            <Container fluid={true}
-              style={{ marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%' }}>
+            <h3>{this.props.t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
+            <Container
+              fluid={true}
+              style={{
+                marginLeft: 0,
+                marginRight: 0,
+                padding: '0 3%',
+                marginTop: '5%',
+                width: '100%',
+              }}
+            >
               <Row className="show-grid">
-                {
-                  shiftRatings.map((shiftRating) => {
-                    const { key, icon, label } = shiftRating;
-                    const { mood, moodSelected, moodUnSelected } = this.state;
-                    return (
-                      <Col xs={4} md={4}>
-                        <div className={styles.moodContainer} onClick={() => this.selectMood(key)}>
-                          <div style={mood === key ? moodSelected : moodUnSelected}>
-                            <h2>{icon}</h2>
-                          </div>
-                          <p>{label}</p>
+                {shiftRatings.map((shiftRating) => {
+                  const { key, icon, label } = shiftRating;
+                  const { mood, moodSelected, moodUnSelected } = this.state;
+                  return (
+                    <Col xs={4} md={4}>
+                      <div className={styles.moodContainer} onClick={() => this.selectMood(key)}>
+                        <div style={mood === key ? moodSelected : moodUnSelected}>
+                          <h2>{icon}</h2>
                         </div>
-                      </Col>
-                    );
-                  })
-                }
+                        <p>{label}</p>
+                      </div>
+                    </Col>
+                  );
+                })}
               </Row>
             </Container>
             <div className={styles.buttonContainer}>
-              <Button onClick={() => this.submitShift()}>Finish</Button>
+              <Button onClick={() => this.submitShift()}>{this.props.t('common:FINISH')}</Button>
             </div>
           </div>
         </Popup>
       </div>
-    )
+    );
   }
 }
 
@@ -790,13 +825,13 @@ const mapStateToProps = (state) => {
     startEnd: startEndSelector(state),
     selectedShift: selectedShiftSelector(state),
     users: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditShiftTwo);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditShiftTwo));

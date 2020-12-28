@@ -84,7 +84,7 @@ describe('Fertilizer Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next()
     });
   })
@@ -110,7 +110,7 @@ describe('Fertilizer Tests', () => {
     })
 
     test('should get seeded fertilizer', async (done)=>{
-      let [seedFertilizer] = await knex('fertilizer').insert({...mocks.fakeFertilizer(), farm_id: null}).returning('*');
+      let [seedFertilizer] = await mocks.fertilizerFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeFertilizer());
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body[1].fertilizer_id).toBe(seedFertilizer.fertilizer_id);
@@ -174,7 +174,7 @@ describe('Fertilizer Tests', () => {
     describe('Delete fertlizer', function () {
 
       test('should return 403 if user tries to delete a seeded fertilizer', async (done) => {
-        let [seedFertilizer] = await knex('fertilizer').insert({...mocks.fakeFertilizer(), farm_id: null}).returning('*');
+        let [seedFertilizer] = await mocks.fertilizerFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeFertilizer());
         deleteRequest({fertilizer_id: seedFertilizer.fertilizer_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();

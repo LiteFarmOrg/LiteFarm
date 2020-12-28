@@ -12,7 +12,7 @@ const axios = require('axios');
 export function* addLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.post, logURL, action.formValue, header);
@@ -20,7 +20,7 @@ export function* addLog(action) {
       history.push('/log');
       toastr.success('Successfully added new Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add log');
     toastr.error('Failed to add new Log');
   }
@@ -29,15 +29,20 @@ export function* addLog(action) {
 export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, action.formValue, header);
+    const result = yield call(
+      axios.put,
+      logURL + `/${action.formValue.activity_id}`,
+      action.formValue,
+      header,
+    );
     if (result) {
       history.push('/log');
       toastr.success('Successfully edited Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to edit log');
     toastr.error('Failed to edit Log');
   }
@@ -46,7 +51,7 @@ export function* editLog(action) {
 export function* deleteLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id );
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.delete, logURL + `/${action.id}`, header);
@@ -54,12 +59,11 @@ export function* deleteLog(action) {
       history.push('/log');
       toastr.success('Successfully deleted Log!');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to delete log');
     toastr.error('Failed to delete Log');
   }
 }
-
 
 export default function* defaultAddLogSaga() {
   yield takeEvery(ADD_LOG, addLog);

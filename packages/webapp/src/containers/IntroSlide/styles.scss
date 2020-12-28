@@ -13,8 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.slideContainer{
-  display:flex;
+.slideContainer {
+  display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 1024px;
@@ -23,35 +23,32 @@
   align-items: center;
   text-align: center;
 
-  img{
+  img {
     width: 70%;
     max-width: 350px;
     margin-top: 5vw;
-
   }
-  h3{
+  h3 {
     margin-top: 5%;
   }
 
   @media only screen and (max-width: 600px) {
-    img{
+    img {
       width: 70%;
       max-width: 350px;
       margin-top: 75px;
     }
   }
-
-
 }
 
-.description{
+.description {
   padding: 0 10%;
   margin-top: 15px;
   font-size: 20px;
   text-align: left;
 }
 
-.descriptionGreen{
+.descriptionGreen {
   padding: 0 10%;
   margin-top: 10px;
   font-size: 20px;
@@ -59,13 +56,13 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .description{
+  .description {
     padding: 0 10%;
     font-size: 20px;
     text-align: left;
   }
 
-  .descriptionGreen{
+  .descriptionGreen {
     padding: 0 10%;
     font-size: 20px;
     color: var(--buttonPrimary);
@@ -74,12 +71,12 @@
 
 @media only screen and (max-width: 360px) {
   .slideContainer {
-    .description{
+    .description {
       margin-top: 0;
       font-size: 15px;
     }
 
-    .descriptionGreen{
+    .descriptionGreen {
       font-size: 15px;
       margin-top: 0;
     }

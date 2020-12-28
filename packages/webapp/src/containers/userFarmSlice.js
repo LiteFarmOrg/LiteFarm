@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
-
 export function onLoadingStart(state) {
   state.loading = true;
 }
@@ -27,6 +26,7 @@ export const initialState = {
   },
   loading: false,
   error: undefined,
+  loaded: false,
   farm_id: undefined,
   user_id: undefined,
 };
@@ -35,12 +35,12 @@ const addUserFarm = (state, { payload: userFarm }) => {
   state.loading = false;
   state.error = null;
   const { farm_id, user_id } = userFarm;
-  if(!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])){
+  if (!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])) {
     state.farmIdUserIdTuple.push({ farm_id, user_id });
   }
   state.byFarmIdUserId[farm_id] = state.byFarmIdUserId[farm_id] || {};
   state.byFarmIdUserId[farm_id][user_id] = userFarm;
-}
+};
 
 const userFarmSlice = createSlice({
   name: 'userFarmReducer',
@@ -58,13 +58,14 @@ const userFarmSlice = createSlice({
       state.user_id = undefined;
       state.farm_id = undefined;
     },
-    deselectFarmSuccess: (state) => state.farm_id = undefined,
+    deselectFarmSuccess: (state) => (state.farm_id = undefined),
     getUserFarmsSuccess: (state, { payload: userFarms }) => {
       state.loading = false;
       state.error = null;
-      userFarms.forEach(userFarm => {
+      state.loaded = true;
+      userFarms.forEach((userFarm) => {
         const { farm_id, user_id } = userFarm;
-        if(!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])){
+        if (!(state.byFarmIdUserId[farm_id] && state.byFarmIdUserId[farm_id][user_id])) {
           state.farmIdUserIdTuple.push({ farm_id, user_id });
         }
         const prevUserFarms = state.byFarmIdUserId[farm_id] || {};
@@ -76,10 +77,21 @@ const userFarmSlice = createSlice({
     postFarmSuccess: addUserFarm,
     patchRoleStepTwoSuccess: (state, { payload }) => {
       const { step_two, step_two_end, role_id, farm_id, user_id } = payload;
-      Object.assign(state.byFarmIdUserId[farm_id][user_id], { step_two, step_two_end, role_id });
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
+        step_two,
+        step_two_end,
+        role_id,
+      });
     },
     patchConsentStepThreeSuccess: (state, { payload }) => {
-      const { step_three, step_three_end, has_consent, consent_version, farm_id, user_id } = payload;
+      const {
+        step_three,
+        step_three_end,
+        has_consent,
+        consent_version,
+        farm_id,
+        user_id,
+      } = payload;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
         step_three,
         step_three_end,
@@ -87,14 +99,24 @@ const userFarmSlice = createSlice({
         consent_version,
       });
     },
+    patchStatusConsentSuccess: (state, { payload }) => {
+      const { has_consent, consent_version, status, farm_id, user_id } = payload;
+      Object.assign(state.byFarmIdUserId[farm_id][user_id], {
+        has_consent,
+        consent_version,
+        status,
+      });
+    },
     patchStepFourSuccess: (state, { payload: { step_four, step_four_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        step_four, step_four_end,
+        step_four,
+        step_four_end,
       });
     },
     patchStepFiveSuccess: (state, { payload: { step_five, step_five_end, farm_id, user_id } }) => {
       Object.assign(state.byFarmIdUserId[farm_id][user_id], {
-        step_five, step_five_end,
+        step_five,
+        step_five_end,
       });
     },
     putUserSuccess: (state, { payload: user }) => {
@@ -114,30 +136,62 @@ const userFarmSlice = createSlice({
 });
 
 export const {
-  onLoadingUserFarmsStart, onLoadingUserFarmsFail, deselectFarmSuccess, loginSuccess, logoutSuccess, selectFarmSuccess, getUserFarmsSuccess, postFarmSuccess, patchRoleStepTwoSuccess,
-  patchConsentStepThreeSuccess, patchStepFourSuccess, patchStepFiveSuccess, putUserSuccess, postUserSuccess, patchUserStatusSuccess, patchFarmSuccess
+  onLoadingUserFarmsStart,
+  onLoadingUserFarmsFail,
+  getUserFarmsSuccess,
+  postFarmSuccess,
+  patchRoleStepTwoSuccess,
+  patchConsentStepThreeSuccess,
+  patchStepFourSuccess,
+  patchStepFiveSuccess,
+  putUserSuccess,
+  postUserSuccess,
+  patchUserStatusSuccess,
+  patchFarmSuccess,
+  patchStatusConsentSuccess,
+  deselectFarmSuccess,
+  loginSuccess,
+  logoutSuccess,
+  selectFarmSuccess,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
-
-export const userFarmReducerSelector = state => state.entitiesReducer[userFarmSlice.name];
-export const userFarmsByUserSelector = createSelector([userFarmReducerSelector], ({ user_id, byFarmIdUserId, loading, error, ...rest }) => {
-  return user_id ? getUserFarmsByUser(byFarmIdUserId, user_id) : [];
-});
-export const userFarmsByFarmSelector = createSelector([userFarmReducerSelector], ({ farm_id, byFarmIdUserId, loading, error, ...rest }) => {
-  return farm_id ? Object.values(byFarmIdUserId[farm_id]) : [];
-});
-export const userFarmSelector = createSelector([userFarmReducerSelector], ({ farm_id, user_id, byFarmIdUserId, loading, error }) => {
-  return (farm_id && user_id) ? byFarmIdUserId[farm_id][user_id] : {};
-});
-export const userFarmStatusSelector = createSelector(userFarmReducerSelector, ({ loading, error }) => ({
-  loading,
-  error,
-}));
-export const userFarmLengthSelector = createSelector(userFarmReducerSelector, ({farmIdUserIdTuple}) => {return farmIdUserIdTuple.length});
+export const userFarmReducerSelector = (state) => state.entitiesReducer[userFarmSlice.name];
+export const userFarmsByUserSelector = createSelector(
+  [loginSelector, userFarmReducerSelector],
+  ({ user_id }, { byFarmIdUserId, loading, error, ...rest }) => {
+    return user_id ? getUserFarmsByUser(byFarmIdUserId, user_id) : [];
+  },
+);
+export const userFarmsByFarmSelector = createSelector(
+  [loginSelector, userFarmReducerSelector],
+  ({ farm_id }, { byFarmIdUserId, loading, error, ...rest }) => {
+    return farm_id ? Object.values(byFarmIdUserId[farm_id]) : [];
+  },
+);
+export const userFarmSelector = createSelector(
+  [loginSelector, userFarmReducerSelector],
+  ({ farm_id, user_id }, { byFarmIdUserId, loading, error }) => {
+    return farm_id && user_id ? byFarmIdUserId[farm_id][user_id] : {};
+  },
+);
+export const userFarmStatusSelector = createSelector(
+  userFarmReducerSelector,
+  ({ loading, error, loaded }) => ({
+    loading,
+    error,
+    loaded,
+  }),
+);
+export const userFarmLengthSelector = createSelector(
+  userFarmReducerSelector,
+  ({ farmIdUserIdTuple }) => {
+    return farmIdUserIdTuple.length;
+  },
+);
 export const loginSelector = createSelector(userFarmReducerSelector, ({ farm_id, user_id }) => ({
   farm_id,
-  user_id
+  user_id,
 }));
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
@@ -145,5 +199,7 @@ const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
     by_user[user_id] && userFarms.push(by_user[user_id]);
   }
   //TODO order should be defined in farmIdUserIdTuple
-  return userFarms.sort((userFarm1, userFarm2) => userFarm1.farm_name > userFarm2.farm_name ? 1 : 0);
-}
+  return userFarms.sort((userFarm1, userFarm2) =>
+    userFarm1.farm_name > userFarm2.farm_name ? 1 : 0,
+  );
+};

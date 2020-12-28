@@ -1,0 +1,146 @@
+<!--
+  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+  This file (revocation_of_access_to_farm_email.html) is part of LiteFarm.
+
+  LiteFarm is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  LiteFarm is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Acceso a Granja en LiteFarm Restaurado</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+      .background {
+          font-family: "Open Sans", "SansSerif", sans-serif !important;
+          background: #FAFAFD !important;
+          margin: 0 !important;
+          padding-bottom: 34px !important;
+      }
+
+      .header {
+          background: #C7EFD3 !important;
+      }
+
+      img {
+          display: block !important;
+          margin: auto !important;
+          padding: 0px 28px !important;
+          background: white !important;
+      }
+
+      #logo {
+          height: 48px !important;
+      }
+
+      .main-container {
+          background: white !important;
+          margin: auto !important;
+          width: 95% !important;
+          max-width: 568px !important;
+          border-bottom: 4px solid #C7EFD3 !important;
+      }
+
+      .main-content {
+          padding: 2vw 4vw !important;
+      }
+
+      .main-content p {
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          color: #262422 !important;
+      }
+
+      .button-aligner {
+          text-align: center !important;
+      }
+
+      .button {
+          text-decoration: none !important;
+          color: #282B36 !important;
+          background: #FCE38D !important;
+          border-radius: 4px !important;
+          padding: 12px 12px !important;
+          width: 90% !important;
+          cursor: pointer !important;
+          border: none !important;
+          box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3) !important;
+          font-style: normal !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+      }
+
+      p {
+          font-size: 20px !important;
+      }
+
+      .footer {
+          text-align: center !important;
+          margin-top: 34px !important;
+      }
+
+      .footer p {
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 12px !important;
+          line-height: 24px !important;
+          color: #9FAABE !important;
+      }
+
+      .main-content p a, .footer a {
+          color: #38AA92 !important;
+          text-decoration: none !important;
+      }
+
+      .main-content p a:hover, .footer a:hover {
+          color: #38AA92 !important;
+          text-decoration: underline !important;
+      }
+  </style>
+    <!-- used to check styles applied to all emails -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<body>
+<div class="background">
+    <div class="main-container">
+        <div class="header">
+            <img id="logo" src="{{url}}/logo.png" alt="Logo">
+        </div>
+        <div class="main-content">
+            <p>Querido <strong>{{first_name}}</strong>,</p>
+            <p>
+                Parece que uno de los administradores en <strong>{{farm}}</strong> han renovado tu acceso a su granja.
+                Bienvenido de nuevo!
+            </p>
+            <p>Puedes iniciar sesion haciendo click abajo: </p>
+      <div class='button-aligner'>
+        <a href='' target='_blank' id='email-button'>
+          <button class='button'>Iniciar Sesion</button>
+        </a>
+      </div>
+            <p>
+                Saludos,
+                <br>
+                El equipo de Litefarm
+            </p>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Por favor, no respondas a este correo.</p>
+        <p>© {{year}} <a href="https://litefarm.org">LiteFarm.org</a></p>
+        <!--        <p>To get in touch with us, click <a href="">Help</a> or <a href="">contact us</a>.</p>-->
+    </div>
+</div>
+</body>
+</html>

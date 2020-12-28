@@ -13,10 +13,9 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const baseModel = require('./baseModel');
 
-class Shift extends softDelete({ columnName: 'deleted' })(Model) {
+class Shift extends baseModel {
   static get tableName() {
     return 'shift';
   }
@@ -37,7 +36,6 @@ class Shift extends softDelete({ columnName: 'deleted' })(Model) {
         shift_id: { type: 'string' },
         start_time: { type: 'date-time' },
         end_time: { type: 'date-time' },
-        deleted: { type: 'boolean' },
         user_id: { type: 'string' },
         farm_id: { type: 'string' },
         break_duration: { type: 'number' },
@@ -46,6 +44,7 @@ class Shift extends softDelete({ columnName: 'deleted' })(Model) {
           enum: ['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na'],
         },
         wage_at_moment: { type: 'number' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     }

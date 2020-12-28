@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, } from '../../selector';
+import { cropSelector } from '../../selector';
 import { getFieldCrops } from '../../../containers/actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
@@ -15,12 +15,13 @@ import parseFields from '../Utility/parseFields';
 import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
-    const {farm, dispatch} = this.props;
+    const { farm, dispatch } = this.props;
 
     this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
 
@@ -39,7 +40,7 @@ class HarvestLog extends Component {
   }
 
   handleSubmit(log) {
-    const {dispatch, fields} = this.props;
+    const { dispatch, fields } = this.props;
     const selectedCrops = parseCrops(log);
     const selectedFields = parseFields(log, fields);
 
@@ -58,31 +59,37 @@ class HarvestLog extends Component {
   }
 
   render() {
-    const {crops, fields} = this.props;
+    const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Harvest Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.harvestLog)}>
-          <LogFormOneCrop
-            model=".harvestLog"
-            fields={fields}
-            crops={crops}
-            notesField={false}
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_HARVEST.TITLE')} />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val.harvestLog)}
+        >
+          <LogFormOneCrop model=".harvestLog" fields={fields} crops={crops} notesField={false} />
+          <Unit
+            model=".harvestLog.quantity_kg"
+            title="Quantity"
+            type={this.state.quantity_unit}
+            validate
           />
-          <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
           <div>
-            <div className={styles.noteTitle}>
-              Notes
-            </div>
+            <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes"/>
+              <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter/>
+          <LogFooter />
         </Form>
       </div>
-    )
+    );
   }
 }
 
@@ -91,13 +98,13 @@ const mapStateToProps = (state) => {
     crops: cropSelector(state),
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HarvestLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestLog));

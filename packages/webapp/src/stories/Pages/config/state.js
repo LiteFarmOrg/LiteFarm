@@ -1,7 +1,7 @@
 export default {
   toastr: {
     toastrs: [],
-    confirm: null
+    confirm: null,
   },
   profileForms: {
     addInfo: {
@@ -11,8 +11,8 @@ export default {
       role: 'Worker',
       pay: {
         type: '',
-        amount: null
-      }
+        amount: null,
+      },
     },
     farm: {
       farm_name: '',
@@ -21,14 +21,14 @@ export default {
       unit: 'metric',
       currency: 'CAD',
       date: 'MM/DD/YY',
-      sandbox: false
+      sandbox: false,
     },
     notification: {
       alert_pest: true,
       alert_weather: true,
       alert_worker_finish: true,
       alert_before_planned_date: true,
-      alert_action_after_scouting: true
+      alert_action_after_scouting: true,
     },
     userInfo: {
       first_name: '',
@@ -36,7 +36,7 @@ export default {
       email: '',
       phone_number: '',
       address: '',
-      profile_picture: ''
+      profile_picture: '',
     },
     farmInfo: {
       farm_name: '',
@@ -46,7 +46,7 @@ export default {
       phone_number: '',
       phone_country: '',
       address: '',
-      gridPoints: {}
+      gridPoints: {},
     },
     editInfo: {
       first_name: '',
@@ -55,14 +55,14 @@ export default {
       role: 'Worker',
       pay: {
         type: 'hourly',
-        amount: 0
-      }
+        amount: 0,
+      },
     },
     signUpInfo: {
       first_name: '',
       last_name: '',
       email: '',
-      password: ''
+      password: '',
     },
     forms: {
       $form: {
@@ -74,8 +74,8 @@ export default {
             role: 'Worker',
             pay: {
               type: '',
-              amount: null
-            }
+              amount: null,
+            },
           },
           farm: {
             farm_name: '',
@@ -84,14 +84,14 @@ export default {
             unit: 'metric',
             currency: 'CAD',
             date: 'MM/DD/YY',
-            sandbox: false
+            sandbox: false,
           },
           notification: {
             alert_pest: true,
             alert_weather: true,
             alert_worker_finish: true,
             alert_before_planned_date: true,
-            alert_action_after_scouting: true
+            alert_action_after_scouting: true,
           },
           userInfo: {
             first_name: '',
@@ -99,7 +99,7 @@ export default {
             email: '',
             phone_number: '',
             address: '',
-            profile_picture: ''
+            profile_picture: '',
           },
           farmInfo: {
             farm_name: '',
@@ -109,7 +109,7 @@ export default {
             phone_number: '',
             phone_country: '',
             address: '',
-            gridPoints: {}
+            gridPoints: {},
           },
           editInfo: {
             first_name: '',
@@ -118,15 +118,15 @@ export default {
             role: 'Worker',
             pay: {
               type: 'hourly',
-              amount: 0
-            }
+              amount: 0,
+            },
           },
           signUpInfo: {
             first_name: '',
             last_name: '',
             email: '',
-            password: ''
-          }
+            password: '',
+          },
         },
         focus: false,
         pending: false,
@@ -150,8 +150,8 @@ export default {
             role: 'Worker',
             pay: {
               type: '',
-              amount: null
-            }
+              amount: null,
+            },
           },
           farm: {
             farm_name: '',
@@ -160,14 +160,14 @@ export default {
             unit: 'metric',
             currency: 'CAD',
             date: 'MM/DD/YY',
-            sandbox: false
+            sandbox: false,
           },
           notification: {
             alert_pest: true,
             alert_weather: true,
             alert_worker_finish: true,
             alert_before_planned_date: true,
-            alert_action_after_scouting: true
+            alert_action_after_scouting: true,
           },
           userInfo: {
             first_name: '',
@@ -175,7 +175,7 @@ export default {
             email: '',
             phone_number: '',
             address: '',
-            profile_picture: ''
+            profile_picture: '',
           },
           farmInfo: {
             farm_name: '',
@@ -185,7 +185,7 @@ export default {
             phone_number: '',
             phone_country: '',
             address: '',
-            gridPoints: {}
+            gridPoints: {},
           },
           editInfo: {
             first_name: '',
@@ -194,16 +194,16 @@ export default {
             role: 'Worker',
             pay: {
               type: 'hourly',
-              amount: 0
-            }
+              amount: 0,
+            },
           },
           signUpInfo: {
             first_name: '',
             last_name: '',
             email: '',
-            password: ''
-          }
-        }
+            password: '',
+          },
+        },
       },
       addInfo: {
         $form: {
@@ -214,8 +214,8 @@ export default {
             role: 'Worker',
             pay: {
               type: '',
-              amount: null
-            }
+              amount: null,
+            },
           },
           focus: false,
           pending: false,
@@ -238,9 +238,9 @@ export default {
             role: 'Worker',
             pay: {
               type: '',
-              amount: null
-            }
-          }
+              amount: null,
+            },
+          },
         },
         first_name: {
           initialValue: '',
@@ -258,7 +258,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.addInfo.first_name',
-          value: ''
+          value: '',
         },
         last_name: {
           initialValue: '',
@@ -276,7 +276,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.addInfo.last_name',
-          value: ''
+          value: '',
         },
         email: {
           initialValue: '',
@@ -294,7 +294,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.addInfo.email',
-          value: ''
+          value: '',
         },
         role: {
           initialValue: 'Worker',
@@ -312,13 +312,13 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.addInfo.role',
-          value: 'Worker'
+          value: 'Worker',
         },
         pay: {
           $form: {
             initialValue: {
               type: '',
-              amount: null
+              amount: null,
             },
             focus: false,
             pending: false,
@@ -336,8 +336,8 @@ export default {
             model: 'profileForms.addInfo.pay',
             value: {
               type: '',
-              amount: null
-            }
+              amount: null,
+            },
           },
           type: {
             initialValue: '',
@@ -355,7 +355,7 @@ export default {
             errors: {},
             intents: [],
             model: 'profileForms.addInfo.pay.type',
-            value: ''
+            value: '',
           },
           amount: {
             initialValue: null,
@@ -373,9 +373,9 @@ export default {
             errors: {},
             intents: [],
             model: 'profileForms.addInfo.pay.amount',
-            value: null
-          }
-        }
+            value: null,
+          },
+        },
       },
       farm: {
         $form: {
@@ -386,7 +386,7 @@ export default {
             unit: 'metric',
             currency: 'CAD',
             date: 'MM/DD/YY',
-            sandbox: false
+            sandbox: false,
           },
           focus: false,
           pending: false,
@@ -409,8 +409,8 @@ export default {
             unit: 'metric',
             currency: 'CAD',
             date: 'MM/DD/YY',
-            sandbox: false
-          }
+            sandbox: false,
+          },
         },
         farm_name: {
           initialValue: '',
@@ -428,7 +428,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farm.farm_name',
-          value: ''
+          value: '',
         },
         address: {
           initialValue: '',
@@ -446,7 +446,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farm.address',
-          value: ''
+          value: '',
         },
         gridPoints: {
           $form: {
@@ -465,8 +465,8 @@ export default {
             errors: {},
             intents: [],
             model: 'profileForms.farm.gridPoints',
-            value: {}
-          }
+            value: {},
+          },
         },
         unit: {
           initialValue: 'metric',
@@ -484,7 +484,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farm.unit',
-          value: 'metric'
+          value: 'metric',
         },
         currency: {
           initialValue: 'CAD',
@@ -502,7 +502,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farm.currency',
-          value: 'CAD'
+          value: 'CAD',
         },
         date: {
           initialValue: 'MM/DD/YY',
@@ -520,7 +520,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farm.date',
-          value: 'MM/DD/YY'
+          value: 'MM/DD/YY',
         },
         sandbox: {
           initialValue: false,
@@ -538,8 +538,8 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farm.sandbox',
-          value: false
-        }
+          value: false,
+        },
       },
       notification: {
         $form: {
@@ -548,7 +548,7 @@ export default {
             alert_weather: true,
             alert_worker_finish: true,
             alert_before_planned_date: true,
-            alert_action_after_scouting: true
+            alert_action_after_scouting: true,
           },
           focus: false,
           pending: false,
@@ -569,8 +569,8 @@ export default {
             alert_weather: true,
             alert_worker_finish: true,
             alert_before_planned_date: true,
-            alert_action_after_scouting: true
-          }
+            alert_action_after_scouting: true,
+          },
         },
         alert_pest: {
           initialValue: true,
@@ -588,7 +588,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.notification.alert_pest',
-          value: true
+          value: true,
         },
         alert_weather: {
           initialValue: true,
@@ -606,7 +606,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.notification.alert_weather',
-          value: true
+          value: true,
         },
         alert_worker_finish: {
           initialValue: true,
@@ -624,7 +624,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.notification.alert_worker_finish',
-          value: true
+          value: true,
         },
         alert_before_planned_date: {
           initialValue: true,
@@ -642,7 +642,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.notification.alert_before_planned_date',
-          value: true
+          value: true,
         },
         alert_action_after_scouting: {
           initialValue: true,
@@ -660,8 +660,8 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.notification.alert_action_after_scouting',
-          value: true
-        }
+          value: true,
+        },
       },
       userInfo: {
         $form: {
@@ -671,7 +671,7 @@ export default {
             email: '',
             phone_number: '',
             address: '',
-            profile_picture: ''
+            profile_picture: '',
           },
           focus: false,
           pending: false,
@@ -693,8 +693,8 @@ export default {
             email: '',
             phone_number: '',
             address: '',
-            profile_picture: ''
-          }
+            profile_picture: '',
+          },
         },
         first_name: {
           initialValue: '',
@@ -712,7 +712,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.userInfo.first_name',
-          value: ''
+          value: '',
         },
         last_name: {
           initialValue: '',
@@ -730,7 +730,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.userInfo.last_name',
-          value: ''
+          value: '',
         },
         email: {
           initialValue: '',
@@ -748,7 +748,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.userInfo.email',
-          value: ''
+          value: '',
         },
         phone_number: {
           initialValue: '',
@@ -766,7 +766,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.userInfo.phone_number',
-          value: ''
+          value: '',
         },
         address: {
           initialValue: '',
@@ -784,7 +784,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.userInfo.address',
-          value: ''
+          value: '',
         },
         profile_picture: {
           initialValue: '',
@@ -802,8 +802,8 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.userInfo.profile_picture',
-          value: ''
-        }
+          value: '',
+        },
       },
       farmInfo: {
         $form: {
@@ -815,7 +815,7 @@ export default {
             phone_number: '',
             phone_country: '',
             address: '',
-            gridPoints: {}
+            gridPoints: {},
           },
           focus: false,
           pending: false,
@@ -839,8 +839,8 @@ export default {
             phone_number: '',
             phone_country: '',
             address: '',
-            gridPoints: {}
-          }
+            gridPoints: {},
+          },
         },
         farm_name: {
           initialValue: '',
@@ -858,7 +858,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.farm_name',
-          value: ''
+          value: '',
         },
         unit: {
           initialValue: 'metric',
@@ -876,7 +876,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.unit',
-          value: 'metric'
+          value: 'metric',
         },
         currency: {
           initialValue: 'CAD',
@@ -894,7 +894,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.currency',
-          value: 'CAD'
+          value: 'CAD',
         },
         date: {
           initialValue: 'MM/DD/YY',
@@ -912,7 +912,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.date',
-          value: 'MM/DD/YY'
+          value: 'MM/DD/YY',
         },
         phone_number: {
           initialValue: '',
@@ -930,7 +930,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.phone_number',
-          value: ''
+          value: '',
         },
         phone_country: {
           initialValue: '',
@@ -948,7 +948,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.phone_country',
-          value: ''
+          value: '',
         },
         address: {
           initialValue: '',
@@ -966,7 +966,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.farmInfo.address',
-          value: ''
+          value: '',
         },
         gridPoints: {
           $form: {
@@ -985,9 +985,9 @@ export default {
             errors: {},
             intents: [],
             model: 'profileForms.farmInfo.gridPoints',
-            value: {}
-          }
-        }
+            value: {},
+          },
+        },
       },
       editInfo: {
         $form: {
@@ -998,8 +998,8 @@ export default {
             role: 'Worker',
             pay: {
               type: 'hourly',
-              amount: 0
-            }
+              amount: 0,
+            },
           },
           focus: false,
           pending: false,
@@ -1022,9 +1022,9 @@ export default {
             role: 'Worker',
             pay: {
               type: 'hourly',
-              amount: 0
-            }
-          }
+              amount: 0,
+            },
+          },
         },
         first_name: {
           initialValue: '',
@@ -1042,7 +1042,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.editInfo.first_name',
-          value: ''
+          value: '',
         },
         last_name: {
           initialValue: '',
@@ -1060,7 +1060,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.editInfo.last_name',
-          value: ''
+          value: '',
         },
         email: {
           initialValue: '',
@@ -1078,7 +1078,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.editInfo.email',
-          value: ''
+          value: '',
         },
         role: {
           initialValue: 'Worker',
@@ -1096,13 +1096,13 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.editInfo.role',
-          value: 'Worker'
+          value: 'Worker',
         },
         pay: {
           $form: {
             initialValue: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             focus: false,
             pending: false,
@@ -1120,8 +1120,8 @@ export default {
             model: 'profileForms.editInfo.pay',
             value: {
               type: 'hourly',
-              amount: 0
-            }
+              amount: 0,
+            },
           },
           type: {
             initialValue: 'hourly',
@@ -1139,7 +1139,7 @@ export default {
             errors: {},
             intents: [],
             model: 'profileForms.editInfo.pay.type',
-            value: 'hourly'
+            value: 'hourly',
           },
           amount: {
             initialValue: 0,
@@ -1157,9 +1157,9 @@ export default {
             errors: {},
             intents: [],
             model: 'profileForms.editInfo.pay.amount',
-            value: 0
-          }
-        }
+            value: 0,
+          },
+        },
       },
       signUpInfo: {
         $form: {
@@ -1167,7 +1167,7 @@ export default {
             first_name: '',
             last_name: '',
             email: '',
-            password: ''
+            password: '',
           },
           focus: false,
           pending: false,
@@ -1187,8 +1187,8 @@ export default {
             first_name: '',
             last_name: '',
             email: '',
-            password: ''
-          }
+            password: '',
+          },
         },
         first_name: {
           initialValue: '',
@@ -1206,7 +1206,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.signUpInfo.first_name',
-          value: ''
+          value: '',
         },
         last_name: {
           initialValue: '',
@@ -1224,7 +1224,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.signUpInfo.last_name',
-          value: ''
+          value: '',
         },
         email: {
           initialValue: '',
@@ -1242,7 +1242,7 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.signUpInfo.email',
-          value: ''
+          value: '',
         },
         password: {
           initialValue: '',
@@ -1260,54 +1260,57 @@ export default {
           errors: {},
           intents: [],
           model: 'profileForms.signUpInfo.password',
-          value: ''
-        }
-      }
-    }
+          value: '',
+        },
+      },
+    },
   },
   entitiesReducer: {
+    switchFarmReducer: {
+      switchFarm: false,
+    },
     loginReducer: {
       farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
-      user_id: '5fb2fbe57a371e00696833a9'
+      user_id: '5fb2fbe57a371e00696833a9',
     },
     userFarmReducer: {
       farmIdUserIdTuple: [
         {
           farm_id: '7dc9b8b4-285e-11eb-b999-abf6755cdebb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: '6920247e-285a-11eb-b999-abf6755cdebb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: '8c9b2c48-285d-11eb-b999-abf6755cdebb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: '52a3c704-28fb-11eb-bf21-d5db06fc85bb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: 'dd092ccc-28fb-11eb-bf21-d5db06fc85bb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: '3b67a638-285f-11eb-b999-abf6755cdebb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: '7dc091f2-285f-11eb-b999-abf6755cdebb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: 'a575e0fc-2860-11eb-b999-abf6755cdebb',
-          user_id: '5fb2fbe57a371e00696833a9'
+          user_id: '5fb2fbe57a371e00696833a9',
         },
         {
           farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
-          user_id: '5fb2fbe57a371e00696833a9'
-        }
+          user_id: '5fb2fbe57a371e00696833a9',
+        },
       ],
       byFarmIdUserId: {
         '7dc9b8b4-285e-11eb-b999-abf6755cdebb': {
@@ -1321,7 +1324,7 @@ export default {
             consent_version: '3.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-16T22:53:06.741Z',
@@ -1346,20 +1349,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'qwq',
             units: {
               currency: 'CAD',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 43.2335764,
-              lng: -79.7053655
+              lng: -79.7053655,
             },
-            owner_name: '1 2'
-          }
+            owner_name: '1 2',
+          },
         },
         '6920247e-285a-11eb-b999-abf6755cdebb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1372,7 +1375,7 @@ export default {
             consent_version: '1.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-16T22:23:54.148Z',
@@ -1397,20 +1400,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'ws',
             units: {
               currency: 'PHP',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 14.5832282,
-              lng: 121.0547872
+              lng: 121.0547872,
             },
-            owner_name: 'Rafael Davis'
-          }
+            owner_name: 'Rafael Davis',
+          },
         },
         '8c9b2c48-285d-11eb-b999-abf6755cdebb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1423,7 +1426,7 @@ export default {
             consent_version: '1.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-16T22:46:22.114Z',
@@ -1448,20 +1451,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: '123',
             units: {
               currency: 'EUR',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 53.648181,
-              lng: 10.1150728
+              lng: 10.1150728,
             },
-            owner_name: 'Rafael Davis'
-          }
+            owner_name: 'Rafael Davis',
+          },
         },
         '52a3c704-28fb-11eb-bf21-d5db06fc85bb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1474,7 +1477,7 @@ export default {
             consent_version: '1.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-17T17:35:45.345Z',
@@ -1499,20 +1502,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'sdf',
             units: {
               currency: 'USD',
-              measurement: 'imperial'
+              measurement: 'imperial',
             },
             grid_points: {
               lat: 40.7949503,
-              lng: -73.9220452
+              lng: -73.9220452,
             },
-            owner_name: 'Rafael Davis'
-          }
+            owner_name: 'Rafael Davis',
+          },
         },
         'dd092ccc-28fb-11eb-bf21-d5db06fc85bb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1525,7 +1528,7 @@ export default {
             consent_version: '3.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-17T17:39:37.537Z',
@@ -1550,20 +1553,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'wef',
             units: {
               currency: 'PLN',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 52.4061056,
-              lng: 16.9329438
+              lng: 16.9329438,
             },
-            owner_name: null
-          }
+            owner_name: null,
+          },
         },
         '3b67a638-285f-11eb-b999-abf6755cdebb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1576,7 +1579,7 @@ export default {
             consent_version: '1.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-16T22:58:24.865Z',
@@ -1595,26 +1598,27 @@ export default {
             profile_picture: 'https://cdn.auth0.com/avatars/f8.png',
             email: 'f84039701@nwytg.net',
             phone_number: null,
-            address: 'QD-8, Muni Maya Ram Jain Marg, Block QD, Dakshini Pitampura, Pitampura, Delhi, 110034, India',
+            address:
+              'QD-8, Muni Maya Ram Jain Marg, Block QD, Dakshini Pitampura, Pitampura, Delhi, 110034, India',
             notification_setting: {
               alert_pest: true,
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'sddgsg',
             units: {
               currency: 'INR',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 28.6993428,
-              lng: 77.1470987
+              lng: 77.1470987,
             },
-            owner_name: 'Rafael Davis'
-          }
+            owner_name: 'Rafael Davis',
+          },
         },
         '7dc091f2-285f-11eb-b999-abf6755cdebb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1627,7 +1631,7 @@ export default {
             consent_version: '3.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-16T23:00:16.181Z',
@@ -1652,20 +1656,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'asd',
             units: {
               currency: 'INR',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 23.0662333,
-              lng: 72.689436
+              lng: 72.689436,
             },
-            owner_name: 'Rafael Davis'
-          }
+            owner_name: 'Rafael Davis',
+          },
         },
         'a575e0fc-2860-11eb-b999-abf6755cdebb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1678,7 +1682,7 @@ export default {
             consent_version: '1.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-16T23:08:32.293Z',
@@ -1703,20 +1707,20 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'qwadaf',
             units: {
               currency: 'DKK',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 55.70136609999999,
-              lng: 12.5643473
+              lng: 12.5643473,
             },
-            owner_name: 'Rafael Davis'
-          }
+            owner_name: 'Rafael Davis',
+          },
         },
         '5763cdf4-2903-11eb-bf21-d5db06fc85bb': {
           '5fb2fbe57a371e00696833a9': {
@@ -1729,7 +1733,7 @@ export default {
             consent_version: '3.0',
             wage: {
               type: 'hourly',
-              amount: 0
+              amount: 0,
             },
             step_one: true,
             step_one_end: '2020-11-17T18:33:09.284Z',
@@ -1754,57 +1758,57 @@ export default {
               alert_weather: true,
               alert_worker_finish: true,
               alert_before_planned_date: true,
-              alert_action_after_scouting: true
+              alert_action_after_scouting: true,
             },
             updated_at: '2020-11-16T22:23:44.702Z',
             farm_name: 'das',
             units: {
               currency: 'GBP',
-              measurement: 'metric'
+              measurement: 'metric',
             },
             grid_points: {
               lat: 50.8871511,
-              lng: -1.9880366
-            }
-          }
-        }
+              lng: -1.9880366,
+            },
+          },
+        },
       },
       loading: false,
-      error: null
+      error: null,
     },
     certifierSurveyReducer: {
       ids: [
         'dd092ccc-28fb-11eb-bf21-d5db06fc85bb',
         '7dc091f2-285f-11eb-b999-abf6755cdebb',
-        '5763cdf4-2903-11eb-bf21-d5db06fc85bb'
+        '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
       ],
       entities: {
         'dd092ccc-28fb-11eb-bf21-d5db06fc85bb': {
           certifiers: [],
           interested: false,
           survey_id: 'c8cee02c-2b61-11eb-a304-6b04f62d88d1',
-          farm_id: 'dd092ccc-28fb-11eb-bf21-d5db06fc85bb'
+          farm_id: 'dd092ccc-28fb-11eb-bf21-d5db06fc85bb',
         },
         '7dc091f2-285f-11eb-b999-abf6755cdebb': {
           certifiers: [],
           interested: false,
           survey_id: '4d91fe2c-2b65-11eb-a304-6b04f62d88d1',
-          farm_id: '7dc091f2-285f-11eb-b999-abf6755cdebb'
+          farm_id: '7dc091f2-285f-11eb-b999-abf6755cdebb',
         },
         '5763cdf4-2903-11eb-bf21-d5db06fc85bb': {
           certifiers: [],
           interested: false,
           survey_id: '4fc0d03a-2b68-11eb-a304-6b04f62d88d1',
-          farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb'
-        }
+          farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
+        },
       },
       loading: false,
-      error: null
+      error: null,
     },
     rolesReducer: {
       roles: [],
-      loading: false
-    }
+      loading: false,
+    },
   },
   baseReducer: {
     users: null,
@@ -1818,7 +1822,7 @@ export default {
       consent_version: '3.0',
       wage: {
         type: 'hourly',
-        amount: 0
+        amount: 0,
       },
       step_one: true,
       step_one_end: '2020-11-17T18:33:09.284Z',
@@ -1843,19 +1847,19 @@ export default {
         alert_weather: true,
         alert_worker_finish: true,
         alert_before_planned_date: true,
-        alert_action_after_scouting: true
+        alert_action_after_scouting: true,
       },
       updated_at: '2020-11-16T22:23:44.702Z',
       farm_name: 'das',
       units: {
         currency: 'GBP',
-        measurement: 'metric'
+        measurement: 'metric',
       },
       grid_points: {
         lat: 50.8871511,
-        lng: -1.9880366
+        lng: -1.9880366,
       },
-      owner_name: null
+      owner_name: null,
     },
     fields: [
       {
@@ -1864,26 +1868,26 @@ export default {
         grid_points: [
           {
             lat: 50.89098179142557,
-            lng: -1.9902038248840181
+            lng: -1.9902038248840181,
           },
           {
             lat: 50.88313056561407,
-            lng: -1.9914912852111666
+            lng: -1.9914912852111666,
           },
           {
             lat: 50.88429479644519,
-            lng: -1.9815778406921236
-          }
+            lng: -1.9815778406921236,
+          },
         ],
         field_name: '1',
         area: 298387,
         station_id: 7290681,
-        deleted: false
-      }
+        deleted: false,
+      },
     ],
     fieldCrops: [],
     consent_version: null,
-    show_spotlight: false
+    show_spotlight: false,
   },
   logReducer: {
     forms: {
@@ -1899,26 +1903,26 @@ export default {
         field: [
           {
             value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-            label: 'gf'
-          }
-        ]
+            label: 'gf',
+          },
+        ],
       },
       fieldWorkLog: {
         type: {
           value: 'ridgeTill',
-          label: 'Ridge Till'
+          label: 'Ridge Till',
         },
         notes: 'wsffftwrt',
         field: [
           {
             value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-            label: 'gf'
-          }
-        ]
+            label: 'gf',
+          },
+        ],
       },
       harvestLog: {
         notes: '',
-        field: null
+        field: null,
       },
       irrigationLog: {
         activity_kind: 'irrigation',
@@ -1927,11 +1931,11 @@ export default {
         flow_rate: null,
         unit: 'l/min',
         hours: null,
-        field: null
+        field: null,
       },
       otherLog: {
         notes: '',
-        field: null
+        field: null,
       },
       pestControlLog: {
         quantity: 0,
@@ -1947,14 +1951,14 @@ export default {
         harvest_interval: 0,
         active_ingredients: '',
         concentration: 0,
-        field: null
+        field: null,
       },
       scoutingLog: {
         activity_kind: 'scouting',
         type: '',
         notes: '',
         action_needed: false,
-        field: null
+        field: null,
       },
       seedLog: {
         space_length: null,
@@ -1962,7 +1966,7 @@ export default {
         space_unit: null,
         rate: null,
         rate_unit: null,
-        field: null
+        field: null,
       },
       soilDataLog: {},
       forms: {
@@ -1977,16 +1981,16 @@ export default {
               nh4_n_ppm: 0,
               p_percentage: 0,
               k_percentage: 0,
-              field: null
+              field: null,
             },
             fieldWorkLog: {
               type: null,
               notes: '',
-              field: null
+              field: null,
             },
             harvestLog: {
               notes: '',
-              field: null
+              field: null,
             },
             irrigationLog: {
               activity_kind: 'irrigation',
@@ -1995,11 +1999,11 @@ export default {
               flow_rate: null,
               unit: 'l/min',
               hours: null,
-              field: null
+              field: null,
             },
             otherLog: {
               notes: '',
-              field: null
+              field: null,
             },
             pestControlLog: {
               quantity: 0,
@@ -2015,14 +2019,14 @@ export default {
               harvest_interval: 0,
               active_ingredients: '',
               concentration: 0,
-              field: null
+              field: null,
             },
             scoutingLog: {
               activity_kind: 'scouting',
               type: '',
               notes: '',
               action_needed: false,
-              field: null
+              field: null,
             },
             seedLog: {
               space_length: null,
@@ -2030,9 +2034,9 @@ export default {
               space_unit: null,
               rate: null,
               rate_unit: null,
-              field: null
+              field: null,
             },
-            soilDataLog: {}
+            soilDataLog: {},
           },
           focus: false,
           pending: false,
@@ -2061,26 +2065,26 @@ export default {
               field: [
                 {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              ]
+                  label: 'gf',
+                },
+              ],
             },
             fieldWorkLog: {
               type: {
                 value: 'ridgeTill',
-                label: 'Ridge Till'
+                label: 'Ridge Till',
               },
               notes: '',
               field: [
                 {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              ]
+                  label: 'gf',
+                },
+              ],
             },
             harvestLog: {
               notes: '',
-              field: null
+              field: null,
             },
             irrigationLog: {
               activity_kind: 'irrigation',
@@ -2089,11 +2093,11 @@ export default {
               flow_rate: null,
               unit: 'l/min',
               hours: null,
-              field: null
+              field: null,
             },
             otherLog: {
               notes: '',
-              field: null
+              field: null,
             },
             pestControlLog: {
               quantity: 0,
@@ -2109,14 +2113,14 @@ export default {
               harvest_interval: 0,
               active_ingredients: '',
               concentration: 0,
-              field: null
+              field: null,
             },
             scoutingLog: {
               activity_kind: 'scouting',
               type: '',
               notes: '',
               action_needed: false,
-              field: null
+              field: null,
             },
             seedLog: {
               space_length: null,
@@ -2124,10 +2128,10 @@ export default {
               space_unit: null,
               rate: null,
               rate_unit: null,
-              field: null
+              field: null,
             },
-            soilDataLog: {}
-          }
+            soilDataLog: {},
+          },
         },
         fertLog: {
           $form: {
@@ -2140,7 +2144,7 @@ export default {
               nh4_n_ppm: 0,
               p_percentage: 0,
               k_percentage: 0,
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -2156,8 +2160,8 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog',
             value: {
@@ -2172,10 +2176,10 @@ export default {
               field: [
                 {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              ]
-            }
+                  label: 'gf',
+                },
+              ],
+            },
           },
           fert_id: {
             initialValue: null,
@@ -2193,7 +2197,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.fertLog.fert_id',
-            value: null
+            value: null,
           },
           quantity_kg: {
             initialValue: 0,
@@ -2211,7 +2215,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.fertLog.quantity_kg',
-            value: 0
+            value: 0,
           },
           notes: {
             initialValue: '',
@@ -2229,11 +2233,11 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog.notes',
-            value: ''
+            value: '',
           },
           moisture_percentage: {
             initialValue: 0,
@@ -2251,11 +2255,11 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog.moisture_percentage',
-            value: 0
+            value: 0,
           },
           n_percentage: {
             initialValue: 0,
@@ -2273,11 +2277,11 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog.n_percentage',
-            value: 0
+            value: 0,
           },
           nh4_n_ppm: {
             initialValue: 0,
@@ -2295,11 +2299,11 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog.nh4_n_ppm',
-            value: 0
+            value: 0,
           },
           p_percentage: {
             initialValue: 0,
@@ -2317,11 +2321,11 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog.p_percentage',
-            value: 0
+            value: 0,
           },
           k_percentage: {
             initialValue: 0,
@@ -2339,14 +2343,14 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fertLog.k_percentage',
-            value: 0
+            value: 0,
           },
           field: {
-            '0': {
+            0: {
               value: {
                 initialValue: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
                 focus: false,
@@ -2363,7 +2367,7 @@ export default {
                 errors: {},
                 intents: [],
                 model: 'logReducer.forms.fertLog.field.0.value',
-                value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188'
+                value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
               },
               label: {
                 initialValue: 'gf',
@@ -2381,12 +2385,12 @@ export default {
                 errors: {},
                 intents: [],
                 model: 'logReducer.forms.fertLog.field.0.label',
-                value: 'gf'
+                value: 'gf',
               },
               $form: {
                 initialValue: {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
+                  label: 'gf',
                 },
                 focus: false,
                 pending: false,
@@ -2404,9 +2408,9 @@ export default {
                 model: 'logReducer.forms.fertLog.field.0',
                 value: {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              }
+                  label: 'gf',
+                },
+              },
             },
             $form: {
               focus: false,
@@ -2424,18 +2428,18 @@ export default {
               value: [
                 {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              ]
-            }
-          }
+                  label: 'gf',
+                },
+              ],
+            },
+          },
         },
         fieldWorkLog: {
           $form: {
             initialValue: {
               type: null,
               notes: '',
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -2451,23 +2455,23 @@ export default {
             errors: false,
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'logReducer.forms.fieldWorkLog',
             value: {
               type: {
                 value: 'ridgeTill',
-                label: 'Ridge Till'
+                label: 'Ridge Till',
               },
               notes: '',
               field: [
                 {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              ]
-            }
+                  label: 'gf',
+                },
+              ],
+            },
           },
           type: {
             value: {
@@ -2486,7 +2490,7 @@ export default {
               errors: {},
               intents: [],
               model: 'logReducer.forms.fieldWorkLog.type.value',
-              value: 'ridgeTill'
+              value: 'ridgeTill',
             },
             label: {
               initialValue: 'Ridge Till',
@@ -2504,7 +2508,7 @@ export default {
               errors: {},
               intents: [],
               model: 'logReducer.forms.fieldWorkLog.type.label',
-              value: 'Ridge Till'
+              value: 'Ridge Till',
             },
             $form: {
               focus: false,
@@ -2517,17 +2521,17 @@ export default {
               validating: false,
               validated: true,
               validity: {
-                required: true
+                required: true,
               },
               errors: {
-                required: false
+                required: false,
               },
               intents: [],
               value: {
                 value: 'ridgeTill',
-                label: 'Ridge Till'
-              }
-            }
+                label: 'Ridge Till',
+              },
+            },
           },
           notes: {
             initialValue: '',
@@ -2545,10 +2549,10 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.fieldWorkLog.notes',
-            value: 'wsffftwrt'
+            value: 'wsffftwrt',
           },
           field: {
-            '0': {
+            0: {
               value: {
                 initialValue: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
                 focus: false,
@@ -2565,7 +2569,7 @@ export default {
                 errors: {},
                 intents: [],
                 model: 'logReducer.forms.fieldWorkLog.field.0.value',
-                value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188'
+                value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
               },
               label: {
                 initialValue: 'gf',
@@ -2583,12 +2587,12 @@ export default {
                 errors: {},
                 intents: [],
                 model: 'logReducer.forms.fieldWorkLog.field.0.label',
-                value: 'gf'
+                value: 'gf',
               },
               $form: {
                 initialValue: {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
+                  label: 'gf',
                 },
                 focus: false,
                 pending: false,
@@ -2604,15 +2608,15 @@ export default {
                 errors: {},
                 intents: [
                   {
-                    type: 'validate'
-                  }
+                    type: 'validate',
+                  },
                 ],
                 model: 'logReducer.forms.fieldWorkLog.field.0',
                 value: {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              }
+                  label: 'gf',
+                },
+              },
             },
             $form: {
               focus: false,
@@ -2625,26 +2629,26 @@ export default {
               validating: false,
               validated: true,
               validity: {
-                required: true
+                required: true,
               },
               errors: {
-                required: false
+                required: false,
               },
               intents: [],
               value: [
                 {
                   value: 'af0a6a6b-b814-4018-a2a9-c8da93ff1188',
-                  label: 'gf'
-                }
-              ]
-            }
-          }
+                  label: 'gf',
+                },
+              ],
+            },
+          },
         },
         harvestLog: {
           $form: {
             initialValue: {
               notes: '',
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -2662,8 +2666,8 @@ export default {
             model: 'logReducer.forms.harvestLog',
             value: {
               notes: '',
-              field: null
-            }
+              field: null,
+            },
           },
           notes: {
             initialValue: '',
@@ -2681,7 +2685,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.harvestLog.notes',
-            value: ''
+            value: '',
           },
           field: {
             initialValue: null,
@@ -2699,8 +2703,8 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.harvestLog.field',
-            value: null
-          }
+            value: null,
+          },
         },
         irrigationLog: {
           $form: {
@@ -2711,7 +2715,7 @@ export default {
               flow_rate: null,
               unit: 'l/min',
               hours: null,
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -2734,8 +2738,8 @@ export default {
               flow_rate: null,
               unit: 'l/min',
               hours: null,
-              field: null
-            }
+              field: null,
+            },
           },
           activity_kind: {
             initialValue: 'irrigation',
@@ -2753,7 +2757,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.activity_kind',
-            value: 'irrigation'
+            value: 'irrigation',
           },
           type: {
             initialValue: '',
@@ -2771,7 +2775,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.type',
-            value: ''
+            value: '',
           },
           notes: {
             initialValue: '',
@@ -2789,7 +2793,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.notes',
-            value: ''
+            value: '',
           },
           flow_rate: {
             initialValue: null,
@@ -2807,7 +2811,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.flow_rate',
-            value: null
+            value: null,
           },
           unit: {
             initialValue: 'l/min',
@@ -2825,7 +2829,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.unit',
-            value: 'l/min'
+            value: 'l/min',
           },
           hours: {
             initialValue: null,
@@ -2843,7 +2847,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.hours',
-            value: null
+            value: null,
           },
           field: {
             initialValue: null,
@@ -2861,14 +2865,14 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.irrigationLog.field',
-            value: null
-          }
+            value: null,
+          },
         },
         otherLog: {
           $form: {
             initialValue: {
               notes: '',
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -2886,8 +2890,8 @@ export default {
             model: 'logReducer.forms.otherLog',
             value: {
               notes: '',
-              field: null
-            }
+              field: null,
+            },
           },
           notes: {
             initialValue: '',
@@ -2905,7 +2909,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.otherLog.notes',
-            value: ''
+            value: '',
           },
           field: {
             initialValue: null,
@@ -2923,8 +2927,8 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.otherLog.field',
-            value: null
-          }
+            value: null,
+          },
         },
         pestControlLog: {
           $form: {
@@ -2942,7 +2946,7 @@ export default {
               harvest_interval: 0,
               active_ingredients: '',
               concentration: 0,
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -2972,8 +2976,8 @@ export default {
               harvest_interval: 0,
               active_ingredients: '',
               concentration: 0,
-              field: null
-            }
+              field: null,
+            },
           },
           quantity: {
             initialValue: 0,
@@ -2991,7 +2995,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.quantity',
-            value: 0
+            value: 0,
           },
           notes: {
             initialValue: '',
@@ -3009,7 +3013,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.notes',
-            value: ''
+            value: '',
           },
           custom_pesticide_name: {
             initialValue: '',
@@ -3027,7 +3031,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.custom_pesticide_name',
-            value: ''
+            value: '',
           },
           custom_disease_scientific_name: {
             initialValue: '',
@@ -3045,7 +3049,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.custom_disease_scientific_name',
-            value: ''
+            value: '',
           },
           custom_disease_common_name: {
             initialValue: '',
@@ -3063,7 +3067,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.custom_disease_common_name',
-            value: ''
+            value: '',
           },
           custom_disease_group: {
             initialValue: 'Other',
@@ -3081,7 +3085,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.custom_disease_group',
-            value: 'Other'
+            value: 'Other',
           },
           pesticide_id: {
             initialValue: null,
@@ -3099,7 +3103,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.pesticide_id',
-            value: null
+            value: null,
           },
           disease_id: {
             initialValue: 1,
@@ -3117,7 +3121,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.disease_id',
-            value: 1
+            value: 1,
           },
           type: {
             initialValue: '',
@@ -3135,7 +3139,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.type',
-            value: ''
+            value: '',
           },
           entry_interval: {
             initialValue: 0,
@@ -3153,7 +3157,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.entry_interval',
-            value: 0
+            value: 0,
           },
           harvest_interval: {
             initialValue: 0,
@@ -3171,7 +3175,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.harvest_interval',
-            value: 0
+            value: 0,
           },
           active_ingredients: {
             initialValue: '',
@@ -3189,7 +3193,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.active_ingredients',
-            value: ''
+            value: '',
           },
           concentration: {
             initialValue: 0,
@@ -3207,7 +3211,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.concentration',
-            value: 0
+            value: 0,
           },
           field: {
             initialValue: null,
@@ -3225,8 +3229,8 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.pestControlLog.field',
-            value: null
-          }
+            value: null,
+          },
         },
         scoutingLog: {
           $form: {
@@ -3235,7 +3239,7 @@ export default {
               type: '',
               notes: '',
               action_needed: false,
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -3256,8 +3260,8 @@ export default {
               type: '',
               notes: '',
               action_needed: false,
-              field: null
-            }
+              field: null,
+            },
           },
           activity_kind: {
             initialValue: 'scouting',
@@ -3275,7 +3279,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.scoutingLog.activity_kind',
-            value: 'scouting'
+            value: 'scouting',
           },
           type: {
             initialValue: '',
@@ -3293,7 +3297,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.scoutingLog.type',
-            value: ''
+            value: '',
           },
           notes: {
             initialValue: '',
@@ -3311,7 +3315,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.scoutingLog.notes',
-            value: ''
+            value: '',
           },
           action_needed: {
             initialValue: false,
@@ -3329,7 +3333,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.scoutingLog.action_needed',
-            value: false
+            value: false,
           },
           field: {
             initialValue: null,
@@ -3347,8 +3351,8 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.scoutingLog.field',
-            value: null
-          }
+            value: null,
+          },
         },
         seedLog: {
           $form: {
@@ -3358,7 +3362,7 @@ export default {
               space_unit: null,
               rate: null,
               rate_unit: null,
-              field: null
+              field: null,
             },
             focus: false,
             pending: false,
@@ -3380,8 +3384,8 @@ export default {
               space_unit: null,
               rate: null,
               rate_unit: null,
-              field: null
-            }
+              field: null,
+            },
           },
           space_length: {
             initialValue: null,
@@ -3399,7 +3403,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.seedLog.space_length',
-            value: null
+            value: null,
           },
           space_width: {
             initialValue: null,
@@ -3417,7 +3421,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.seedLog.space_width',
-            value: null
+            value: null,
           },
           space_unit: {
             initialValue: null,
@@ -3435,7 +3439,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.seedLog.space_unit',
-            value: null
+            value: null,
           },
           rate: {
             initialValue: null,
@@ -3453,7 +3457,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.seedLog.rate',
-            value: null
+            value: null,
           },
           rate_unit: {
             initialValue: null,
@@ -3471,7 +3475,7 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.seedLog.rate_unit',
-            value: null
+            value: null,
           },
           field: {
             initialValue: null,
@@ -3489,8 +3493,8 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.seedLog.field',
-            value: null
-          }
+            value: null,
+          },
         },
         soilDataLog: {
           $form: {
@@ -3509,10 +3513,10 @@ export default {
             errors: {},
             intents: [],
             model: 'logReducer.forms.soilDataLog',
-            value: {}
-          }
-        }
-      }
+            value: {},
+          },
+        },
+      },
     },
     logReducer: {
       logs: [
@@ -3534,28 +3538,28 @@ export default {
               grid_points: [
                 {
                   lat: 52.41231005264721,
-                  lng: 16.932557561901863
+                  lng: 16.932557561901863,
                 },
                 {
                   lat: 52.40804294896428,
-                  lng: 16.931141355542
+                  lng: 16.931141355542,
                 },
                 {
                   lat: 52.40702192430392,
-                  lng: 16.940797307995613
-                }
+                  lng: 16.940797307995613,
+                },
               ],
               field_name: 'gf',
               area: 161205,
               station_id: 3088171,
-              deleted: false
-            }
+              deleted: false,
+            },
           ],
           fieldWorkLog: {
             activity_id: 79,
-            type: 'ridgeTill'
-          }
-        }
+            type: 'ridgeTill',
+          },
+        },
       ],
       selectedLog: {
         first_name: 'Rafael',
@@ -3575,28 +3579,28 @@ export default {
             grid_points: [
               {
                 lat: 52.41231005264721,
-                lng: 16.932557561901863
+                lng: 16.932557561901863,
               },
               {
                 lat: 52.40804294896428,
-                lng: 16.931141355542
+                lng: 16.931141355542,
               },
               {
                 lat: 52.40702192430392,
-                lng: 16.940797307995613
-              }
+                lng: 16.940797307995613,
+              },
             ],
             field_name: 'gf',
             area: 161205,
             station_id: 3088171,
-            deleted: false
-          }
+            deleted: false,
+          },
         ],
         fieldWorkLog: {
           activity_id: 79,
-          type: 'ridgeTill'
-        }
-      }
+          type: 'ridgeTill',
+        },
+      },
     },
     fertReducer: {
       fertilizers: [
@@ -3610,7 +3614,7 @@ export default {
           k_percentage: 0.5,
           farm_id: null,
           mineralization_rate: 0.1,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 2,
@@ -3622,7 +3626,7 @@ export default {
           k_percentage: 0.8,
           farm_id: null,
           mineralization_rate: 0.1,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 3,
@@ -3634,7 +3638,7 @@ export default {
           k_percentage: 0.67,
           farm_id: null,
           mineralization_rate: 0.3,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 4,
@@ -3646,7 +3650,7 @@ export default {
           k_percentage: 0.3,
           farm_id: null,
           mineralization_rate: 0.3,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 5,
@@ -3658,7 +3662,7 @@ export default {
           k_percentage: 0.19,
           farm_id: null,
           mineralization_rate: 0.3,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 6,
@@ -3670,7 +3674,7 @@ export default {
           k_percentage: 1.14,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 7,
@@ -3682,7 +3686,7 @@ export default {
           k_percentage: 1.14,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 8,
@@ -3694,7 +3698,7 @@ export default {
           k_percentage: 1.04,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 9,
@@ -3706,7 +3710,7 @@ export default {
           k_percentage: 1.71,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 10,
@@ -3718,7 +3722,7 @@ export default {
           k_percentage: 1.51,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 11,
@@ -3730,7 +3734,7 @@ export default {
           k_percentage: 0.43,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 12,
@@ -3742,7 +3746,7 @@ export default {
           k_percentage: 0.3,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 13,
@@ -3754,7 +3758,7 @@ export default {
           k_percentage: 0.3,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 14,
@@ -3766,7 +3770,7 @@ export default {
           k_percentage: 0.25,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 15,
@@ -3778,7 +3782,7 @@ export default {
           k_percentage: 0.16,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 16,
@@ -3790,7 +3794,7 @@ export default {
           k_percentage: 0.12,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 17,
@@ -3802,7 +3806,7 @@ export default {
           k_percentage: 1.03,
           farm_id: null,
           mineralization_rate: 0.21,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 18,
@@ -3814,7 +3818,7 @@ export default {
           k_percentage: 0.15,
           farm_id: null,
           mineralization_rate: 0.4,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 19,
@@ -3826,7 +3830,7 @@ export default {
           k_percentage: 0.5,
           farm_id: null,
           mineralization_rate: 0.4,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 20,
@@ -3838,7 +3842,7 @@ export default {
           k_percentage: 0.25,
           farm_id: null,
           mineralization_rate: 0.2,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 21,
@@ -3850,7 +3854,7 @@ export default {
           k_percentage: 0.79,
           farm_id: null,
           mineralization_rate: 0.2,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 22,
@@ -3862,7 +3866,7 @@ export default {
           k_percentage: 0.76,
           farm_id: null,
           mineralization_rate: 0.2,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 23,
@@ -3874,7 +3878,7 @@ export default {
           k_percentage: 0.59,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 24,
@@ -3886,7 +3890,7 @@ export default {
           k_percentage: 1.31,
           farm_id: null,
           mineralization_rate: 0.55,
-          deleted: false
+          deleted: false,
         },
         {
           fertilizer_id: 25,
@@ -3898,9 +3902,9 @@ export default {
           k_percentage: 0.03,
           farm_id: null,
           mineralization_rate: 0.18,
-          deleted: false
-        }
-      ]
+          deleted: false,
+        },
+      ],
     },
     pestControlReducer: {
       pesticides: [
@@ -3912,8 +3916,8 @@ export default {
           active_ingredients: 'glyphosate',
           concentration: 50.2,
           farm_id: null,
-          deleted: false
-        }
+          deleted: false,
+        },
       ],
       diseases: [
         {
@@ -3922,7 +3926,7 @@ export default {
           disease_common_name: 'Bacterial Soft Rot of Pepper',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 2,
@@ -3930,7 +3934,7 @@ export default {
           disease_common_name: 'Bacterial Black Spot of Mango',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 3,
@@ -3938,7 +3942,7 @@ export default {
           disease_common_name: 'Bacterial Blight of Rice',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 4,
@@ -3946,7 +3950,7 @@ export default {
           disease_common_name: 'Angular Leaf Spot Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 5,
@@ -3954,7 +3958,7 @@ export default {
           disease_common_name: 'Bacterial Leaf Streak',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 6,
@@ -3962,7 +3966,7 @@ export default {
           disease_common_name: 'Bacterial Spot',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 7,
@@ -3970,7 +3974,7 @@ export default {
           disease_common_name: 'Bacterial Canker of Mango',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 8,
@@ -3978,7 +3982,7 @@ export default {
           disease_common_name: 'Halo Blight',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 9,
@@ -3986,7 +3990,7 @@ export default {
           disease_common_name: 'Fire Blight',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 10,
@@ -3994,7 +3998,7 @@ export default {
           disease_common_name: 'Black Rot',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 11,
@@ -4002,7 +4006,7 @@ export default {
           disease_common_name: 'Angular Leaf Spot of Strawberry',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 12,
@@ -4010,7 +4014,7 @@ export default {
           disease_common_name: 'Bacterial Canker',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 13,
@@ -4018,7 +4022,7 @@ export default {
           disease_common_name: 'Potato Scab',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 14,
@@ -4026,7 +4030,7 @@ export default {
           disease_common_name: 'Blast of Citrus',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 15,
@@ -4034,7 +4038,7 @@ export default {
           disease_common_name: 'Chlorotic Leaf Roll of Apricot',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 16,
@@ -4042,7 +4046,7 @@ export default {
           disease_common_name: 'Sugarcane Ratoon Stunting Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 17,
@@ -4050,7 +4054,7 @@ export default {
           disease_common_name: 'Holcus Spot',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 18,
@@ -4058,7 +4062,7 @@ export default {
           disease_common_name: 'Blackleg',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 19,
@@ -4066,7 +4070,7 @@ export default {
           disease_common_name: 'Bacterial Wilt',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 20,
@@ -4074,7 +4078,7 @@ export default {
           disease_common_name: 'Bacterial Leaf Blight of Sugarcane',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 21,
@@ -4082,7 +4086,7 @@ export default {
           disease_common_name: 'Citrus Stubborn Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 22,
@@ -4090,7 +4094,7 @@ export default {
           disease_common_name: 'Bacterial Blight of Cotton',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 23,
@@ -4098,7 +4102,7 @@ export default {
           disease_common_name: 'Citrus Canker',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 24,
@@ -4106,7 +4110,7 @@ export default {
           disease_common_name: 'Banana Xanthomonas Wilt',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 25,
@@ -4114,7 +4118,7 @@ export default {
           disease_common_name: 'Bacterial Spot on Stone Fruits',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 26,
@@ -4122,7 +4126,7 @@ export default {
           disease_common_name: 'Bacterial Spot of Citrus',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 27,
@@ -4130,7 +4134,7 @@ export default {
           disease_common_name: 'Bacterial Soft Rot of Banana',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 28,
@@ -4138,7 +4142,7 @@ export default {
           disease_common_name: 'Phony Peach Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 29,
@@ -4146,7 +4150,7 @@ export default {
           disease_common_name: 'Bacterial Fruit Blotch',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 30,
@@ -4154,7 +4158,7 @@ export default {
           disease_common_name: 'Bacterial Canker of Tomato',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 31,
@@ -4162,7 +4166,7 @@ export default {
           disease_common_name: 'Bacterial Speck of Tomato',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 32,
@@ -4170,7 +4174,7 @@ export default {
           disease_common_name: 'Bacterial Panicle Blight',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 33,
@@ -4178,7 +4182,7 @@ export default {
           disease_common_name: 'Crown Gall',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 34,
@@ -4186,7 +4190,7 @@ export default {
           disease_common_name: 'Moko Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 35,
@@ -4194,15 +4198,15 @@ export default {
           disease_common_name: 'Cassava Phytoplasma Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 36,
           disease_scientific_name: 'Clavibacter michiganensis',
-          disease_common_name: 'Goss\'s Wilt',
+          disease_common_name: "Goss's Wilt",
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 37,
@@ -4210,7 +4214,7 @@ export default {
           disease_common_name: 'Citrus Variegated Chlorosis',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 38,
@@ -4218,7 +4222,7 @@ export default {
           disease_common_name: 'Citrus Greening Disease',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 39,
@@ -4226,7 +4230,7 @@ export default {
           disease_common_name: 'Bacterial Stalk Rot of Maize',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 40,
@@ -4234,7 +4238,7 @@ export default {
           disease_common_name: 'Olive Knot',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 41,
@@ -4242,7 +4246,7 @@ export default {
           disease_common_name: 'Bacterial Pustule',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 42,
@@ -4250,7 +4254,7 @@ export default {
           disease_common_name: 'Bacterial Leaf Blight',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 43,
@@ -4258,7 +4262,7 @@ export default {
           disease_common_name: 'Cassava Bacterial Blight',
           disease_group: 'Bacteria',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 44,
@@ -4266,7 +4270,7 @@ export default {
           disease_common_name: 'Tomato Late Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 45,
@@ -4274,7 +4278,7 @@ export default {
           disease_common_name: 'Powdery Mildew of Mango',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 46,
@@ -4282,7 +4286,7 @@ export default {
           disease_common_name: 'Late and Early Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 47,
@@ -4290,7 +4294,7 @@ export default {
           disease_common_name: 'Peanut Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 48,
@@ -4298,7 +4302,7 @@ export default {
           disease_common_name: 'Anthracnose of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 49,
@@ -4306,7 +4310,7 @@ export default {
           disease_common_name: 'Citrus Scab',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 50,
@@ -4314,7 +4318,7 @@ export default {
           disease_common_name: 'Common Rust of Maize',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 51,
@@ -4322,7 +4326,7 @@ export default {
           disease_common_name: 'Brown Spot of Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 52,
@@ -4330,7 +4334,7 @@ export default {
           disease_common_name: 'Peach Leaf Curl',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 53,
@@ -4338,7 +4342,7 @@ export default {
           disease_common_name: 'Yellow  Sigatoka',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 54,
@@ -4346,7 +4350,7 @@ export default {
           disease_common_name: 'Blight of Pepper',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 55,
@@ -4354,7 +4358,7 @@ export default {
           disease_common_name: 'Sheath Rot of Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 56,
@@ -4362,7 +4366,7 @@ export default {
           disease_common_name: 'Turcicum Leaf Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 57,
@@ -4370,7 +4374,7 @@ export default {
           disease_common_name: 'Bean Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 58,
@@ -4378,7 +4382,7 @@ export default {
           disease_common_name: 'Cherry Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 59,
@@ -4386,7 +4390,7 @@ export default {
           disease_common_name: 'Corn Grey Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 60,
@@ -4394,7 +4398,7 @@ export default {
           disease_common_name: 'Early Blight of Potato',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 61,
@@ -4402,7 +4406,7 @@ export default {
           disease_common_name: 'Anthracnose of Citrus',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 62,
@@ -4410,7 +4414,7 @@ export default {
           disease_common_name: 'Anthracnose Leaf Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 63,
@@ -4418,7 +4422,7 @@ export default {
           disease_common_name: 'Black Sigatoka',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 64,
@@ -4426,7 +4430,7 @@ export default {
           disease_common_name: 'False Smut',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 65,
@@ -4434,7 +4438,7 @@ export default {
           disease_common_name: 'Anthracnose of Papaya and Mango',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 66,
@@ -4442,7 +4446,7 @@ export default {
           disease_common_name: 'Black Spot Disease of Papaya',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 67,
@@ -4450,7 +4454,7 @@ export default {
           disease_common_name: 'Anthracnose of Banana',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 68,
@@ -4458,7 +4462,7 @@ export default {
           disease_common_name: 'Phaeosphaeria Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 69,
@@ -4466,7 +4470,7 @@ export default {
           disease_common_name: 'Alternaria Brown Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 70,
@@ -4474,7 +4478,7 @@ export default {
           disease_common_name: 'Early Blight of Tomato',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 71,
@@ -4482,7 +4486,7 @@ export default {
           disease_common_name: 'Powdery Mildew',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 72,
@@ -4490,7 +4494,7 @@ export default {
           disease_common_name: 'Peach Scab',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 73,
@@ -4498,7 +4502,7 @@ export default {
           disease_common_name: 'Frogeye Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 74,
@@ -4506,7 +4510,7 @@ export default {
           disease_common_name: 'Rust of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 75,
@@ -4514,7 +4518,7 @@ export default {
           disease_common_name: 'Apple Scab',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 76,
@@ -4522,7 +4526,7 @@ export default {
           disease_common_name: 'Target Spot of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 77,
@@ -4530,7 +4534,7 @@ export default {
           disease_common_name: 'Eyespot of Corn',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 78,
@@ -4538,7 +4542,7 @@ export default {
           disease_common_name: 'Rust on Blackgram',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 79,
@@ -4546,7 +4550,7 @@ export default {
           disease_common_name: 'Leaf Scald of Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 80,
@@ -4554,7 +4558,7 @@ export default {
           disease_common_name: 'Stem rot of Peanut',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 81,
@@ -4562,7 +4566,7 @@ export default {
           disease_common_name: 'Rice Sheath Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 82,
@@ -4570,7 +4574,7 @@ export default {
           disease_common_name: 'Maize Smut',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 83,
@@ -4578,7 +4582,7 @@ export default {
           disease_common_name: 'Verticillium Wilt',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 84,
@@ -4586,7 +4590,7 @@ export default {
           disease_common_name: 'Blast of Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 85,
@@ -4594,7 +4598,7 @@ export default {
           disease_common_name: 'Anthracnose of Pepper',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 86,
@@ -4602,7 +4606,7 @@ export default {
           disease_common_name: 'Sooty Mold',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 87,
@@ -4610,7 +4614,7 @@ export default {
           disease_common_name: 'Cercospora Leaf Spot of Gram',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 88,
@@ -4618,7 +4622,7 @@ export default {
           disease_common_name: 'Phyllosticta Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 89,
@@ -4626,7 +4630,7 @@ export default {
           disease_common_name: 'Downy Mildew',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 90,
@@ -4634,7 +4638,7 @@ export default {
           disease_common_name: 'Phytophthora Root Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 91,
@@ -4642,7 +4646,7 @@ export default {
           disease_common_name: 'Crown Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 92,
@@ -4650,7 +4654,7 @@ export default {
           disease_common_name: 'Powdery Mildew of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 93,
@@ -4658,7 +4662,7 @@ export default {
           disease_common_name: 'Phomopsis Cane and Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 94,
@@ -4666,7 +4670,7 @@ export default {
           disease_common_name: 'Leaf and Glume Blotch of Wheat',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 95,
@@ -4674,7 +4678,7 @@ export default {
           disease_common_name: 'Leaf Mold of Tomato',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 96,
@@ -4682,7 +4686,7 @@ export default {
           disease_common_name: 'Fusarium Wilt',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 97,
@@ -4690,7 +4694,7 @@ export default {
           disease_common_name: 'Rough Leaf Spot Of Sorghum',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 98,
@@ -4698,7 +4702,7 @@ export default {
           disease_common_name: 'Root Rot of Cotton',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 99,
@@ -4706,7 +4710,7 @@ export default {
           disease_common_name: 'Head Smut',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 100,
@@ -4714,7 +4718,7 @@ export default {
           disease_common_name: 'Olive Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 101,
@@ -4722,7 +4726,7 @@ export default {
           disease_common_name: 'Anthracnose of Almond',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 102,
@@ -4730,7 +4734,7 @@ export default {
           disease_common_name: 'Cercospora Leaf Spot of Cotton',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 103,
@@ -4738,7 +4742,7 @@ export default {
           disease_common_name: 'Common Bunt of Wheat',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 104,
@@ -4746,7 +4750,7 @@ export default {
           disease_common_name: 'Freckle of Banana',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 105,
@@ -4754,7 +4758,7 @@ export default {
           disease_common_name: 'Millet Cercospora Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 106,
@@ -4762,7 +4766,7 @@ export default {
           disease_common_name: 'Tan Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 107,
@@ -4770,7 +4774,7 @@ export default {
           disease_common_name: 'Yellow Stripe Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 108,
@@ -4778,7 +4782,7 @@ export default {
           disease_common_name: 'European Pear Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 109,
@@ -4786,7 +4790,7 @@ export default {
           disease_common_name: 'Leek Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 110,
@@ -4794,7 +4798,7 @@ export default {
           disease_common_name: 'Stem Rot of RIce',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 111,
@@ -4802,7 +4806,7 @@ export default {
           disease_common_name: 'Chocolate Spot of Broad Bean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 112,
@@ -4810,7 +4814,7 @@ export default {
           disease_common_name: 'Northern Stem Canker',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 113,
@@ -4818,7 +4822,7 @@ export default {
           disease_common_name: 'Sudden Death Syndrome',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 114,
@@ -4826,7 +4830,7 @@ export default {
           disease_common_name: 'Blossom Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 115,
@@ -4834,7 +4838,7 @@ export default {
           disease_common_name: 'Angular Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 116,
@@ -4842,7 +4846,7 @@ export default {
           disease_common_name: 'Leaf Spot of Citrus',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 117,
@@ -4850,7 +4854,7 @@ export default {
           disease_common_name: 'Zonate Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 118,
@@ -4858,7 +4862,7 @@ export default {
           disease_common_name: 'Leaf Spot of Beet',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 119,
@@ -4866,7 +4870,7 @@ export default {
           disease_common_name: 'Leaf Blight of Cucurbits',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 120,
@@ -4874,7 +4878,7 @@ export default {
           disease_common_name: 'Ergot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 121,
@@ -4882,7 +4886,7 @@ export default {
           disease_common_name: 'Didymella Stem Rot of Tomato',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 122,
@@ -4890,7 +4894,7 @@ export default {
           disease_common_name: 'Black Scurf',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 123,
@@ -4898,7 +4902,7 @@ export default {
           disease_common_name: 'Black Spot Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 124,
@@ -4906,7 +4910,7 @@ export default {
           disease_common_name: 'Constriction Canker of Peach',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 125,
@@ -4914,7 +4918,7 @@ export default {
           disease_common_name: 'Lettuce Big-Vein Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 126,
@@ -4922,7 +4926,7 @@ export default {
           disease_common_name: 'Cercospora Leaf Spot of Eggplant',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 127,
@@ -4930,7 +4934,7 @@ export default {
           disease_common_name: 'Pea Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 128,
@@ -4938,7 +4942,7 @@ export default {
           disease_common_name: 'Bottom Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 129,
@@ -4946,7 +4950,7 @@ export default {
           disease_common_name: 'Bud Necrosis',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 130,
@@ -4954,7 +4958,7 @@ export default {
           disease_common_name: 'Esca',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 131,
@@ -4962,7 +4966,7 @@ export default {
           disease_common_name: 'Jacket Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 132,
@@ -4970,7 +4974,7 @@ export default {
           disease_common_name: 'Armillaria Root Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 133,
@@ -4978,7 +4982,7 @@ export default {
           disease_common_name: 'Brown Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 134,
@@ -4986,7 +4990,7 @@ export default {
           disease_common_name: 'Pear Scab',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 135,
@@ -4994,7 +4998,7 @@ export default {
           disease_common_name: 'Anthracnose of Cotton',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 136,
@@ -5002,7 +5006,7 @@ export default {
           disease_common_name: 'Angular Leaf Scorch',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 137,
@@ -5010,7 +5014,7 @@ export default {
           disease_common_name: 'Silver Scurf',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 138,
@@ -5018,7 +5022,7 @@ export default {
           disease_common_name: 'American Gooseberry Mildew',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 139,
@@ -5026,7 +5030,7 @@ export default {
           disease_common_name: 'Gummy Stem Blight of Cucurbits',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 140,
@@ -5034,7 +5038,7 @@ export default {
           disease_common_name: 'Cucumber Scab',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 141,
@@ -5042,7 +5046,7 @@ export default {
           disease_common_name: 'White Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 142,
@@ -5050,7 +5054,7 @@ export default {
           disease_common_name: 'Plum Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 143,
@@ -5058,7 +5062,7 @@ export default {
           disease_common_name: 'Karnal Bunt of Wheat',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 144,
@@ -5066,7 +5070,7 @@ export default {
           disease_common_name: 'Eyespot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 145,
@@ -5074,7 +5078,7 @@ export default {
           disease_common_name: 'Downy Mildew on Grape',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 146,
@@ -5082,7 +5086,7 @@ export default {
           disease_common_name: 'Clubroot of Canola',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 147,
@@ -5090,7 +5094,7 @@ export default {
           disease_common_name: 'Common Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 148,
@@ -5098,7 +5102,7 @@ export default {
           disease_common_name: 'Raspberry Spur Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 149,
@@ -5106,7 +5110,7 @@ export default {
           disease_common_name: 'White Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 150,
@@ -5114,7 +5118,7 @@ export default {
           disease_common_name: 'Southern Rust of Maize',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 151,
@@ -5122,7 +5126,7 @@ export default {
           disease_common_name: 'Botrytis Blight in Lettuce',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 152,
@@ -5130,7 +5134,7 @@ export default {
           disease_common_name: 'Pocket Plum Gall',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 153,
@@ -5138,7 +5142,7 @@ export default {
           disease_common_name: 'Brown Rust of Barley',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 154,
@@ -5146,7 +5150,7 @@ export default {
           disease_common_name: 'Pomegranate Wilt',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 155,
@@ -5154,7 +5158,7 @@ export default {
           disease_common_name: 'Stem and Root Rot of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 156,
@@ -5162,7 +5166,7 @@ export default {
           disease_common_name: 'White Pine Blister Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 157,
@@ -5170,7 +5174,7 @@ export default {
           disease_common_name: 'Phoma Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 158,
@@ -5178,7 +5182,7 @@ export default {
           disease_common_name: 'Lentil Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 159,
@@ -5186,7 +5190,7 @@ export default {
           disease_common_name: 'Brown Rot of Fruits',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 160,
@@ -5194,7 +5198,7 @@ export default {
           disease_common_name: 'Pear Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 161,
@@ -5202,7 +5206,7 @@ export default {
           disease_common_name: 'Dieback of Stone Fruit',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 162,
@@ -5210,7 +5214,7 @@ export default {
           disease_common_name: 'Powdery Mildew of Strawberry',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 163,
@@ -5218,7 +5222,7 @@ export default {
           disease_common_name: 'Black Mold',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 164,
@@ -5226,7 +5230,7 @@ export default {
           disease_common_name: 'Botrytis Leaf Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 165,
@@ -5234,7 +5238,7 @@ export default {
           disease_common_name: 'Ascochyta Blight of Lentil',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 166,
@@ -5242,7 +5246,7 @@ export default {
           disease_common_name: 'Anthracnose of Lentil',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 167,
@@ -5250,7 +5254,7 @@ export default {
           disease_common_name: 'Soreshin',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 168,
@@ -5258,7 +5262,7 @@ export default {
           disease_common_name: 'Cherry Leaf Scorch',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 169,
@@ -5266,7 +5270,7 @@ export default {
           disease_common_name: 'Bitter Rot on Apple',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 170,
@@ -5274,7 +5278,7 @@ export default {
           disease_common_name: 'Powdery Scab',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 171,
@@ -5282,7 +5286,7 @@ export default {
           disease_common_name: 'Dead Arm',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 172,
@@ -5290,7 +5294,7 @@ export default {
           disease_common_name: 'Valsa Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 173,
@@ -5298,7 +5302,7 @@ export default {
           disease_common_name: 'Fruit Tree Canker',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 174,
@@ -5306,7 +5310,7 @@ export default {
           disease_common_name: 'Sclerotium Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 175,
@@ -5314,7 +5318,7 @@ export default {
           disease_common_name: 'Constriction Canker',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 176,
@@ -5322,7 +5326,7 @@ export default {
           disease_common_name: 'Powdery Mildew of Grape',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 177,
@@ -5330,7 +5334,7 @@ export default {
           disease_common_name: 'Net Blotch',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 178,
@@ -5338,7 +5342,7 @@ export default {
           disease_common_name: 'Black Leg of Rapeseed',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 179,
@@ -5346,7 +5350,7 @@ export default {
           disease_common_name: 'Potato Late Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 180,
@@ -5354,7 +5358,7 @@ export default {
           disease_common_name: 'Black Shank',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 181,
@@ -5362,7 +5366,7 @@ export default {
           disease_common_name: 'Brown Spot of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 182,
@@ -5370,7 +5374,7 @@ export default {
           disease_common_name: 'Root Rot of Lentil',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 183,
@@ -5378,7 +5382,7 @@ export default {
           disease_common_name: 'Pyricularia Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 184,
@@ -5386,7 +5390,7 @@ export default {
           disease_common_name: 'Ramularia Leaf Spot of Beet',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 185,
@@ -5394,7 +5398,7 @@ export default {
           disease_common_name: 'Tropical Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 186,
@@ -5402,7 +5406,7 @@ export default {
           disease_common_name: 'Sclerotinia Stem Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 187,
@@ -5410,7 +5414,7 @@ export default {
           disease_common_name: 'Shothole Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 188,
@@ -5418,7 +5422,7 @@ export default {
           disease_common_name: 'Anthracnose of Pomegranate',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 189,
@@ -5426,7 +5430,7 @@ export default {
           disease_common_name: 'Fusarium Head Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 492,
@@ -5434,7 +5438,7 @@ export default {
           disease_common_name: 'Soybean Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 190,
@@ -5442,7 +5446,7 @@ export default {
           disease_common_name: 'Alternaria Black Spot and Fruit Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 191,
@@ -5450,7 +5454,7 @@ export default {
           disease_common_name: 'Cercospora Fruit and Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 192,
@@ -5458,7 +5462,7 @@ export default {
           disease_common_name: 'Anthracnose of Currant & Gooseberry',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 193,
@@ -5466,7 +5470,7 @@ export default {
           disease_common_name: 'Ergot of Sorghum',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 194,
@@ -5474,7 +5478,7 @@ export default {
           disease_common_name: 'Bakanae and Foot Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 195,
@@ -5482,7 +5486,7 @@ export default {
           disease_common_name: 'Septoria Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 196,
@@ -5490,7 +5494,7 @@ export default {
           disease_common_name: 'Alternaria Leaf Spot of Peanut',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 197,
@@ -5498,7 +5502,7 @@ export default {
           disease_common_name: 'Anthracnose of Apple',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 198,
@@ -5506,7 +5510,7 @@ export default {
           disease_common_name: 'Ashy Stem Blight of Bean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 199,
@@ -5514,7 +5518,7 @@ export default {
           disease_common_name: 'Silver Leaf',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 200,
@@ -5522,7 +5526,7 @@ export default {
           disease_common_name: 'Cigar End Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 201,
@@ -5530,7 +5534,7 @@ export default {
           disease_common_name: 'Chilli Damping-off',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 202,
@@ -5538,7 +5542,7 @@ export default {
           disease_common_name: 'Narrow Brown Leaf Spot of Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 203,
@@ -5546,7 +5550,7 @@ export default {
           disease_common_name: 'Downy Mildew on Cucurbits',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 204,
@@ -5554,7 +5558,7 @@ export default {
           disease_common_name: 'Black Leaf Spot of Banana',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 205,
@@ -5562,7 +5566,7 @@ export default {
           disease_common_name: 'Papaya Brown Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 206,
@@ -5570,7 +5574,7 @@ export default {
           disease_common_name: 'Rhizoctonia Root Rot of Olive',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 207,
@@ -5578,7 +5582,7 @@ export default {
           disease_common_name: 'Northern Corn Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 208,
@@ -5586,7 +5590,7 @@ export default {
           disease_common_name: 'Greasy Spot of Citrus',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 209,
@@ -5594,7 +5598,7 @@ export default {
           disease_common_name: 'Charcoal Stalk Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 210,
@@ -5602,7 +5606,7 @@ export default {
           disease_common_name: 'Loose Smut',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 211,
@@ -5610,7 +5614,7 @@ export default {
           disease_common_name: 'Alternaria Leaf Spot of Cotton',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 212,
@@ -5618,7 +5622,7 @@ export default {
           disease_common_name: 'Brown leaf spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 213,
@@ -5626,7 +5630,7 @@ export default {
           disease_common_name: 'Phoma Sorghina in Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 214,
@@ -5634,7 +5638,7 @@ export default {
           disease_common_name: 'Leaf Stripe of Barley',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 215,
@@ -5642,7 +5646,7 @@ export default {
           disease_common_name: 'Phytophthora Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 216,
@@ -5650,7 +5654,7 @@ export default {
           disease_common_name: 'Sugarcane Common Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 217,
@@ -5658,7 +5662,7 @@ export default {
           disease_common_name: 'Powdery Mildew of Papaya',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 218,
@@ -5666,7 +5670,7 @@ export default {
           disease_common_name: 'Rose Mildew',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 219,
@@ -5674,7 +5678,7 @@ export default {
           disease_common_name: 'Take All',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 220,
@@ -5682,7 +5686,7 @@ export default {
           disease_common_name: 'Rhizoctonia Aerial Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 221,
@@ -5690,7 +5694,7 @@ export default {
           disease_common_name: 'Sugarcane Pineapple Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 222,
@@ -5698,7 +5702,7 @@ export default {
           disease_common_name: 'Purple Seed Stain of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 223,
@@ -5706,7 +5710,7 @@ export default {
           disease_common_name: 'Anthracnose of Blackgram',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 224,
@@ -5714,7 +5718,7 @@ export default {
           disease_common_name: 'Gummosis',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 225,
@@ -5722,7 +5726,7 @@ export default {
           disease_common_name: 'Millet Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 226,
@@ -5730,7 +5734,7 @@ export default {
           disease_common_name: 'Chilli Cercospora Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 227,
@@ -5738,7 +5742,7 @@ export default {
           disease_common_name: 'Powdery Mildew of Cereals',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 228,
@@ -5746,7 +5750,7 @@ export default {
           disease_common_name: 'Septoria Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 229,
@@ -5754,7 +5758,7 @@ export default {
           disease_common_name: 'Melanose',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 230,
@@ -5762,7 +5766,7 @@ export default {
           disease_common_name: 'Brown Rust of Rye',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 231,
@@ -5770,7 +5774,7 @@ export default {
           disease_common_name: 'Damping-Off',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 232,
@@ -5778,7 +5782,7 @@ export default {
           disease_common_name: 'Vascular Wilt of Banana',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 233,
@@ -5786,7 +5790,7 @@ export default {
           disease_common_name: 'Chickpea Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 234,
@@ -5794,7 +5798,7 @@ export default {
           disease_common_name: 'Mal Secco',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 235,
@@ -5802,7 +5806,7 @@ export default {
           disease_common_name: 'Snow Mold of Cereals',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 236,
@@ -5810,7 +5814,7 @@ export default {
           disease_common_name: 'Leaf Blotch of Banana',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 237,
@@ -5818,7 +5822,7 @@ export default {
           disease_common_name: 'Penicillium ear rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 238,
@@ -5826,7 +5830,7 @@ export default {
           disease_common_name: 'Charcoal Rot of Soybean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 239,
@@ -5834,7 +5838,7 @@ export default {
           disease_common_name: 'Almond Red Leaf Blotch',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 240,
@@ -5842,7 +5846,7 @@ export default {
           disease_common_name: 'Grey Mildew of Cotton',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 241,
@@ -5850,7 +5854,7 @@ export default {
           disease_common_name: 'Wilt Disease of Sugarcane',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 242,
@@ -5858,7 +5862,7 @@ export default {
           disease_common_name: 'Southern Corn Leaf Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 243,
@@ -5866,7 +5870,7 @@ export default {
           disease_common_name: 'Wheat Leaf  Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 244,
@@ -5874,7 +5878,7 @@ export default {
           disease_common_name: 'Crown Rust of Grasses',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 245,
@@ -5882,7 +5886,7 @@ export default {
           disease_common_name: 'Septoria Tritici Blotch',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 246,
@@ -5890,7 +5894,7 @@ export default {
           disease_common_name: 'Red Stripe Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 247,
@@ -5898,7 +5902,7 @@ export default {
           disease_common_name: 'Ascochyta Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 248,
@@ -5906,7 +5910,7 @@ export default {
           disease_common_name: 'Phytophthora Gummosis',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 249,
@@ -5914,7 +5918,7 @@ export default {
           disease_common_name: 'Anthracnose of Cucurbits',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 250,
@@ -5922,7 +5926,7 @@ export default {
           disease_common_name: 'Anthracnose of Lime',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 251,
@@ -5930,7 +5934,7 @@ export default {
           disease_common_name: 'Smut of Sugarcane',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 252,
@@ -5938,7 +5942,7 @@ export default {
           disease_common_name: 'Botrytis Blight',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 253,
@@ -5946,7 +5950,7 @@ export default {
           disease_common_name: 'Anthracnose of Grape',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 254,
@@ -5954,7 +5958,7 @@ export default {
           disease_common_name: 'Dry Root Rot of Bean',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 255,
@@ -5962,7 +5966,7 @@ export default {
           disease_common_name: 'Wheat Stem Rust',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 256,
@@ -5970,7 +5974,7 @@ export default {
           disease_common_name: 'Cercospora Leaf Spot of Olive',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 257,
@@ -5978,7 +5982,7 @@ export default {
           disease_common_name: 'Rhynchosporium',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 258,
@@ -5986,7 +5990,7 @@ export default {
           disease_common_name: 'Citrus Black Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 259,
@@ -5994,7 +5998,7 @@ export default {
           disease_common_name: 'Mango Dieback Disease',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 260,
@@ -6002,7 +6006,7 @@ export default {
           disease_common_name: 'Botryosphaeria Dieback',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 261,
@@ -6010,7 +6014,7 @@ export default {
           disease_common_name: 'Fusarium Ear Rot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 262,
@@ -6018,7 +6022,7 @@ export default {
           disease_common_name: 'Ramularia Leaf Spot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 263,
@@ -6026,7 +6030,7 @@ export default {
           disease_common_name: 'Wheat Blast',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 264,
@@ -6034,7 +6038,7 @@ export default {
           disease_common_name: 'Clubroot',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 265,
@@ -6042,7 +6046,7 @@ export default {
           disease_common_name: 'Udbatta Disease of Rice',
           disease_group: 'Fungus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 266,
@@ -6050,7 +6054,7 @@ export default {
           disease_common_name: 'Mealybug on Papaya',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 267,
@@ -6058,7 +6062,7 @@ export default {
           disease_common_name: 'Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 268,
@@ -6066,7 +6070,7 @@ export default {
           disease_common_name: 'Rice Leafroller',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 269,
@@ -6074,7 +6078,7 @@ export default {
           disease_common_name: 'Green Peach Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 270,
@@ -6082,7 +6086,7 @@ export default {
           disease_common_name: 'Potato Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 271,
@@ -6090,7 +6094,7 @@ export default {
           disease_common_name: 'Jassids on Eggplant',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 272,
@@ -6098,7 +6102,7 @@ export default {
           disease_common_name: 'Woolly Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 273,
@@ -6106,7 +6110,7 @@ export default {
           disease_common_name: 'Spotted Stemborer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 274,
@@ -6114,7 +6118,7 @@ export default {
           disease_common_name: 'Rice Hispa',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 275,
@@ -6122,7 +6126,7 @@ export default {
           disease_common_name: 'Mango Blister Midge',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 276,
@@ -6130,7 +6134,7 @@ export default {
           disease_common_name: 'Citrus Leaf Miner',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 277,
@@ -6138,7 +6142,7 @@ export default {
           disease_common_name: 'Papaya Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 278,
@@ -6146,7 +6150,7 @@ export default {
           disease_common_name: 'Bean Leaf Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 279,
@@ -6154,7 +6158,7 @@ export default {
           disease_common_name: 'Citrus Whitefly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 280,
@@ -6162,7 +6166,7 @@ export default {
           disease_common_name: 'Leaf Miner Flies',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 281,
@@ -6170,7 +6174,7 @@ export default {
           disease_common_name: 'Apple Leaf Miner',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 282,
@@ -6178,7 +6182,7 @@ export default {
           disease_common_name: 'Yellow Stem Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 283,
@@ -6186,7 +6190,7 @@ export default {
           disease_common_name: 'Violet Stem Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 284,
@@ -6194,7 +6198,7 @@ export default {
           disease_common_name: 'European Corn Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 285,
@@ -6202,7 +6206,7 @@ export default {
           disease_common_name: 'Corn Earworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 286,
@@ -6210,7 +6214,7 @@ export default {
           disease_common_name: 'Jassids on Peanut',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 287,
@@ -6218,7 +6222,7 @@ export default {
           disease_common_name: 'Mealybug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 288,
@@ -6226,7 +6230,7 @@ export default {
           disease_common_name: 'Cottony Cushion Scale',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 289,
@@ -6234,7 +6238,7 @@ export default {
           disease_common_name: 'Mango Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 290,
@@ -6242,7 +6246,7 @@ export default {
           disease_common_name: 'Flea Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 291,
@@ -6250,7 +6254,7 @@ export default {
           disease_common_name: 'Greenhouse Whitefly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 292,
@@ -6258,7 +6262,7 @@ export default {
           disease_common_name: 'Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 293,
@@ -6266,7 +6270,7 @@ export default {
           disease_common_name: 'African Mole Cricket',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 294,
@@ -6274,7 +6278,7 @@ export default {
           disease_common_name: 'Variegated Grasshopper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 295,
@@ -6282,7 +6286,7 @@ export default {
           disease_common_name: 'Black Cutworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 296,
@@ -6290,7 +6294,7 @@ export default {
           disease_common_name: 'Fall Armyworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 297,
@@ -6298,7 +6302,7 @@ export default {
           disease_common_name: 'Mealybug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 298,
@@ -6306,7 +6310,7 @@ export default {
           disease_common_name: 'Redcurrant Blister Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 299,
@@ -6314,7 +6318,7 @@ export default {
           disease_common_name: 'Cotton Leaf Hopper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 300,
@@ -6322,7 +6326,7 @@ export default {
           disease_common_name: 'Sorghum Midge',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 301,
@@ -6330,7 +6334,7 @@ export default {
           disease_common_name: 'Helicoverpa on Soybean',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 302,
@@ -6338,7 +6342,7 @@ export default {
           disease_common_name: 'Semilooper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 303,
@@ -6346,7 +6350,7 @@ export default {
           disease_common_name: 'Banana Scale Insect',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 304,
@@ -6354,7 +6358,7 @@ export default {
           disease_common_name: 'Pea Blue Butterfly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 305,
@@ -6362,7 +6366,7 @@ export default {
           disease_common_name: 'Oriental Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 306,
@@ -6370,7 +6374,7 @@ export default {
           disease_common_name: 'Rice Grasshopper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 307,
@@ -6378,7 +6382,7 @@ export default {
           disease_common_name: 'Red Hairy Caterpillar',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 308,
@@ -6386,7 +6390,7 @@ export default {
           disease_common_name: 'Vine Flea Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 309,
@@ -6394,7 +6398,7 @@ export default {
           disease_common_name: 'Pink Bollworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 310,
@@ -6402,7 +6406,7 @@ export default {
           disease_common_name: 'Rice Bug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 311,
@@ -6410,7 +6414,7 @@ export default {
           disease_common_name: 'Olive Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 312,
@@ -6418,7 +6422,7 @@ export default {
           disease_common_name: 'Rice Skipper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 313,
@@ -6426,7 +6430,7 @@ export default {
           disease_common_name: 'Lesser cornstalk borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 314,
@@ -6434,7 +6438,7 @@ export default {
           disease_common_name: 'Black Scale',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 315,
@@ -6442,7 +6446,7 @@ export default {
           disease_common_name: 'Cassava Root Mealybug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 316,
@@ -6450,7 +6454,7 @@ export default {
           disease_common_name: 'Cabbage Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 317,
@@ -6458,7 +6462,7 @@ export default {
           disease_common_name: 'Sugarcane White Grub',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 318,
@@ -6466,7 +6470,7 @@ export default {
           disease_common_name: 'Cut Worm on Banana',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 319,
@@ -6474,7 +6478,7 @@ export default {
           disease_common_name: 'Mealy Plum Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 320,
@@ -6482,7 +6486,7 @@ export default {
           disease_common_name: 'Rice Mealybug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 321,
@@ -6490,7 +6494,7 @@ export default {
           disease_common_name: 'Banana Fruit-Scarring Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 322,
@@ -6498,7 +6502,7 @@ export default {
           disease_common_name: 'Mango Nut Weevil',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 323,
@@ -6506,7 +6510,7 @@ export default {
           disease_common_name: 'Green Paddy Leafhoppers',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 324,
@@ -6514,7 +6518,7 @@ export default {
           disease_common_name: 'Fruit Tree Leafroller',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 325,
@@ -6522,7 +6526,7 @@ export default {
           disease_common_name: 'Bean Leaf Webber',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 326,
@@ -6530,7 +6534,7 @@ export default {
           disease_common_name: 'Sugarcane Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 327,
@@ -6538,7 +6542,7 @@ export default {
           disease_common_name: 'Mediterranean Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 328,
@@ -6546,7 +6550,7 @@ export default {
           disease_common_name: 'Citrus Wolly Whitefly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 329,
@@ -6554,7 +6558,7 @@ export default {
           disease_common_name: 'Pseudostem Weevil',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 330,
@@ -6562,7 +6566,7 @@ export default {
           disease_common_name: 'Banana Rust Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 331,
@@ -6570,7 +6574,7 @@ export default {
           disease_common_name: 'Eggplant Leaf Roller',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 332,
@@ -6578,7 +6582,7 @@ export default {
           disease_common_name: 'Grape Bud Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 333,
@@ -6586,7 +6590,7 @@ export default {
           disease_common_name: 'Soybean Stalk Weevil',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 334,
@@ -6594,7 +6598,7 @@ export default {
           disease_common_name: 'Bean Leafroller',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 335,
@@ -6602,7 +6606,7 @@ export default {
           disease_common_name: 'Green Citrus Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 336,
@@ -6610,7 +6614,7 @@ export default {
           disease_common_name: 'Western Flower Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 337,
@@ -6618,7 +6622,7 @@ export default {
           disease_common_name: 'Western Plant Bug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 338,
@@ -6626,7 +6630,7 @@ export default {
           disease_common_name: 'Black Parlatoria Scale',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 339,
@@ -6634,7 +6638,7 @@ export default {
           disease_common_name: 'Stink Bugs on Corn, Millet and Sorghum',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 340,
@@ -6642,7 +6646,7 @@ export default {
           disease_common_name: 'Whorl Maggot',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 341,
@@ -6650,7 +6654,7 @@ export default {
           disease_common_name: 'Greenhorned Caterpillars',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 342,
@@ -6658,7 +6662,7 @@ export default {
           disease_common_name: 'Oriental Fruit Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 343,
@@ -6666,7 +6670,7 @@ export default {
           disease_common_name: 'Grape Berry Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 344,
@@ -6674,7 +6678,7 @@ export default {
           disease_common_name: 'Castor Hairy Caterpillar',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 345,
@@ -6682,7 +6686,7 @@ export default {
           disease_common_name: 'Tomato Fruit Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 346,
@@ -6690,7 +6694,7 @@ export default {
           disease_common_name: 'Thrips in Mango',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 347,
@@ -6698,7 +6702,7 @@ export default {
           disease_common_name: 'Cherry Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 348,
@@ -6706,7 +6710,7 @@ export default {
           disease_common_name: 'Banana Scab Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 349,
@@ -6714,7 +6718,7 @@ export default {
           disease_common_name: 'Citrus Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 350,
@@ -6722,7 +6726,7 @@ export default {
           disease_common_name: 'Pea Pod Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 351,
@@ -6730,7 +6734,7 @@ export default {
           disease_common_name: 'Small and Large Cabbage White',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 352,
@@ -6738,7 +6742,7 @@ export default {
           disease_common_name: 'Boll Weevil',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 353,
@@ -6746,7 +6750,7 @@ export default {
           disease_common_name: 'Citrus Flatid Plant Hopper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 354,
@@ -6754,7 +6758,7 @@ export default {
           disease_common_name: 'Mango Fruit Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 355,
@@ -6762,7 +6766,7 @@ export default {
           disease_common_name: 'Onion Leaf Miner',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 356,
@@ -6770,7 +6774,7 @@ export default {
           disease_common_name: 'Cucumber Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 357,
@@ -6778,7 +6782,7 @@ export default {
           disease_common_name: 'Banana Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 358,
@@ -6786,7 +6790,7 @@ export default {
           disease_common_name: 'Black Citrus Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 359,
@@ -6794,7 +6798,7 @@ export default {
           disease_common_name: 'Olive Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 360,
@@ -6802,7 +6806,7 @@ export default {
           disease_common_name: 'Mango Seed Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 361,
@@ -6810,7 +6814,7 @@ export default {
           disease_common_name: 'Velvetbean Caterpillar',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 362,
@@ -6818,7 +6822,7 @@ export default {
           disease_common_name: 'Grapevine Leafroller',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 363,
@@ -6826,7 +6830,7 @@ export default {
           disease_common_name: 'Paddy Swarming Caterpillar',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 364,
@@ -6834,7 +6838,7 @@ export default {
           disease_common_name: 'Rice Ear-Cutting Caterpillar',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 365,
@@ -6842,7 +6846,7 @@ export default {
           disease_common_name: 'Brown Planthopper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 366,
@@ -6850,7 +6854,7 @@ export default {
           disease_common_name: 'Pomegranate Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 367,
@@ -6858,7 +6862,7 @@ export default {
           disease_common_name: 'Mango Gall Midge',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 368,
@@ -6866,7 +6870,7 @@ export default {
           disease_common_name: 'Asian Rice Gall Midge',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 369,
@@ -6874,7 +6878,7 @@ export default {
           disease_common_name: 'Olive Psyllid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 370,
@@ -6882,7 +6886,7 @@ export default {
           disease_common_name: 'Cabbage Whitefly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 371,
@@ -6890,7 +6894,7 @@ export default {
           disease_common_name: 'Melon Fruit Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 372,
@@ -6898,7 +6902,7 @@ export default {
           disease_common_name: 'Poplar Lace Bug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 373,
@@ -6906,7 +6910,7 @@ export default {
           disease_common_name: 'Rice Case Worm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 374,
@@ -6914,7 +6918,7 @@ export default {
           disease_common_name: 'Potato Tuber Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 375,
@@ -6922,7 +6926,7 @@ export default {
           disease_common_name: 'Winter Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 376,
@@ -6930,7 +6934,7 @@ export default {
           disease_common_name: 'Hairy Caterpillars',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 377,
@@ -6938,7 +6942,7 @@ export default {
           disease_common_name: 'Bright Line Brown Eye',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 378,
@@ -6946,7 +6950,7 @@ export default {
           disease_common_name: 'Silverleaf Whitefly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 379,
@@ -6954,7 +6958,7 @@ export default {
           disease_common_name: 'Early Shoot Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 380,
@@ -6962,7 +6966,7 @@ export default {
           disease_common_name: 'Mango Shoot Psyllid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 381,
@@ -6970,7 +6974,7 @@ export default {
           disease_common_name: 'Stem Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 382,
@@ -6978,7 +6982,7 @@ export default {
           disease_common_name: 'Spotted Pod Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 383,
@@ -6986,7 +6990,7 @@ export default {
           disease_common_name: 'Bean Shoot Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 384,
@@ -6994,7 +6998,7 @@ export default {
           disease_common_name: 'Grape Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 385,
@@ -7002,7 +7006,7 @@ export default {
           disease_common_name: 'Gram Pod Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 386,
@@ -7010,7 +7014,7 @@ export default {
           disease_common_name: 'Strawberry Whitefly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 387,
@@ -7018,7 +7022,7 @@ export default {
           disease_common_name: 'Strawberry Blossom Weevil',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 388,
@@ -7026,7 +7030,7 @@ export default {
           disease_common_name: 'Fruit Tree Bark Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 389,
@@ -7034,7 +7038,7 @@ export default {
           disease_common_name: 'Rice Stalk Stinkbug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 390,
@@ -7042,7 +7046,7 @@ export default {
           disease_common_name: 'Black Cherry Aphid',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 391,
@@ -7050,7 +7054,7 @@ export default {
           disease_common_name: 'Brinjal Fruit Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 392,
@@ -7058,7 +7062,7 @@ export default {
           disease_common_name: 'Root Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 393,
@@ -7066,7 +7070,7 @@ export default {
           disease_common_name: 'Rice Thrips',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 394,
@@ -7074,7 +7078,7 @@ export default {
           disease_common_name: 'Cotton Bollworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 395,
@@ -7082,7 +7086,7 @@ export default {
           disease_common_name: 'Green Leafhopper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 396,
@@ -7090,7 +7094,7 @@ export default {
           disease_common_name: 'Grape Tortrix Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 397,
@@ -7098,7 +7102,7 @@ export default {
           disease_common_name: 'Banana Lace Wing Bug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 398,
@@ -7106,7 +7110,7 @@ export default {
           disease_common_name: 'Carrot Fly',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 399,
@@ -7114,7 +7118,7 @@ export default {
           disease_common_name: 'Olive Scale',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 400,
@@ -7122,7 +7126,7 @@ export default {
           disease_common_name: 'Onion Maggots',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 401,
@@ -7130,7 +7134,7 @@ export default {
           disease_common_name: 'Mango Shoot Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 402,
@@ -7138,7 +7142,7 @@ export default {
           disease_common_name: 'Curculio Weevil',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 403,
@@ -7146,7 +7150,7 @@ export default {
           disease_common_name: 'Stink Bug on Cotton',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 404,
@@ -7154,7 +7158,7 @@ export default {
           disease_common_name: 'Almond Bark Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 405,
@@ -7162,7 +7166,7 @@ export default {
           disease_common_name: 'Leafhopper on Grape',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 406,
@@ -7170,7 +7174,7 @@ export default {
           disease_common_name: 'Olive Bark Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 407,
@@ -7178,7 +7182,7 @@ export default {
           disease_common_name: 'Cassava scale',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 408,
@@ -7186,7 +7190,7 @@ export default {
           disease_common_name: 'Ermine Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 409,
@@ -7194,7 +7198,7 @@ export default {
           disease_common_name: 'Mango Hoppers',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 410,
@@ -7202,7 +7206,7 @@ export default {
           disease_common_name: 'Oriental Armyworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 411,
@@ -7210,7 +7214,7 @@ export default {
           disease_common_name: 'Southern Armyworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 412,
@@ -7218,7 +7222,7 @@ export default {
           disease_common_name: 'Head Miner',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 413,
@@ -7226,7 +7230,7 @@ export default {
           disease_common_name: 'Peach Twig Borer',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 414,
@@ -7234,7 +7238,7 @@ export default {
           disease_common_name: 'Leaf Eating Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 415,
@@ -7242,7 +7246,7 @@ export default {
           disease_common_name: 'Codling Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 416,
@@ -7250,7 +7254,7 @@ export default {
           disease_common_name: 'Tobacco Caterpillar',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 417,
@@ -7258,7 +7262,7 @@ export default {
           disease_common_name: 'Olive Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 418,
@@ -7266,7 +7270,7 @@ export default {
           disease_common_name: 'White Grub on Peanut',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 419,
@@ -7274,7 +7278,7 @@ export default {
           disease_common_name: 'Stink Bugs on Soybean',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 420,
@@ -7282,7 +7286,7 @@ export default {
           disease_common_name: 'Tuta Absoluta',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 421,
@@ -7290,7 +7294,7 @@ export default {
           disease_common_name: 'Jasmine Moth',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 422,
@@ -7298,7 +7302,7 @@ export default {
           disease_common_name: 'Oleander Scale',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 423,
@@ -7306,7 +7310,7 @@ export default {
           disease_common_name: 'Castor Semilooper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 424,
@@ -7314,7 +7318,7 @@ export default {
           disease_common_name: 'Cereal Leaf Beetle',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 425,
@@ -7322,7 +7326,7 @@ export default {
           disease_common_name: 'Bean Bollworm',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 426,
@@ -7330,7 +7334,7 @@ export default {
           disease_common_name: 'European Earwig',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 427,
@@ -7338,7 +7342,7 @@ export default {
           disease_common_name: 'Eggplant Lace Bug',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 428,
@@ -7346,7 +7350,7 @@ export default {
           disease_common_name: 'Soybean Looper',
           disease_group: 'Insect',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 429,
@@ -7354,7 +7358,7 @@ export default {
           disease_common_name: 'Common Red Spider Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 430,
@@ -7362,7 +7366,7 @@ export default {
           disease_common_name: 'European Red Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 431,
@@ -7370,7 +7374,7 @@ export default {
           disease_common_name: 'Citrus Red Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 432,
@@ -7378,7 +7382,7 @@ export default {
           disease_common_name: 'Red Palm Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 433,
@@ -7386,7 +7390,7 @@ export default {
           disease_common_name: 'Grape Rust Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 434,
@@ -7394,7 +7398,7 @@ export default {
           disease_common_name: 'Cassava Green Spider Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 435,
@@ -7402,7 +7406,7 @@ export default {
           disease_common_name: 'Brown Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 436,
@@ -7410,7 +7414,7 @@ export default {
           disease_common_name: 'Pear Leaf Blister Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 437,
@@ -7418,7 +7422,7 @@ export default {
           disease_common_name: 'Yellow Vine Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 438,
@@ -7426,7 +7430,7 @@ export default {
           disease_common_name: 'Citrus Bud Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 439,
@@ -7434,7 +7438,7 @@ export default {
           disease_common_name: 'Rice Panicle Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 440,
@@ -7442,7 +7446,7 @@ export default {
           disease_common_name: 'Olive Bud Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 441,
@@ -7450,7 +7454,7 @@ export default {
           disease_common_name: 'Mango  Spider Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 442,
@@ -7458,7 +7462,7 @@ export default {
           disease_common_name: 'Rice Leaf Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 443,
@@ -7466,7 +7470,7 @@ export default {
           disease_common_name: 'Grape Blister Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 444,
@@ -7474,7 +7478,7 @@ export default {
           disease_common_name: 'Gall Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 445,
@@ -7482,7 +7486,7 @@ export default {
           disease_common_name: 'Broad Mite',
           disease_group: 'Mite',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 446,
@@ -7490,7 +7494,7 @@ export default {
           disease_common_name: 'Root-Knot Nematode',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 447,
@@ -7498,7 +7502,7 @@ export default {
           disease_common_name: 'Root-Knot Nematode in Soybean',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 448,
@@ -7506,7 +7510,7 @@ export default {
           disease_common_name: 'Slug',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 449,
@@ -7514,7 +7518,7 @@ export default {
           disease_common_name: 'Physiological Leaf Spot',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 450,
@@ -7522,7 +7526,7 @@ export default {
           disease_common_name: 'Giant Arrowhead',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 451,
@@ -7530,7 +7534,7 @@ export default {
           disease_common_name: 'Alkalinity',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 452,
@@ -7538,7 +7542,7 @@ export default {
           disease_common_name: 'Ear Cockle Eelworm',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 453,
@@ -7546,7 +7550,7 @@ export default {
           disease_common_name: 'Vole',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 454,
@@ -7554,7 +7558,7 @@ export default {
           disease_common_name: 'Citrus Nematode',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 455,
@@ -7562,7 +7566,7 @@ export default {
           disease_common_name: 'Cyst Nematode',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 456,
@@ -7570,7 +7574,7 @@ export default {
           disease_common_name: 'Biomphalaria Snails',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 457,
@@ -7578,7 +7582,7 @@ export default {
           disease_common_name: 'Lesion Nematode',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 458,
@@ -7586,7 +7590,7 @@ export default {
           disease_common_name: 'Abiotic Sunburn',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 459,
@@ -7594,7 +7598,7 @@ export default {
           disease_common_name: 'Abiotic Sunburn in Pistachio',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 460,
@@ -7602,7 +7606,7 @@ export default {
           disease_common_name: 'Nematode',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 461,
@@ -7610,7 +7614,7 @@ export default {
           disease_common_name: 'Fertilizer or Pesticide Burn',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 462,
@@ -7618,7 +7622,7 @@ export default {
           disease_common_name: 'Algal Leaf Spot',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 463,
@@ -7626,7 +7630,7 @@ export default {
           disease_common_name: 'Golden Apple Snail',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 464,
@@ -7634,7 +7638,7 @@ export default {
           disease_common_name: 'Healthy',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 465,
@@ -7642,7 +7646,7 @@ export default {
           disease_common_name: 'Pesticide Burn',
           disease_group: 'Other',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 466,
@@ -7650,7 +7654,7 @@ export default {
           disease_common_name: 'Mungbean Yellow Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 467,
@@ -7658,7 +7662,7 @@ export default {
           disease_common_name: 'Urd Bean Leaf Crinkle Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 468,
@@ -7666,7 +7670,7 @@ export default {
           disease_common_name: 'Bean Common Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 469,
@@ -7674,7 +7678,7 @@ export default {
           disease_common_name: 'Bud Necrosis Disease',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 470,
@@ -7682,7 +7686,7 @@ export default {
           disease_common_name: 'Ring Spot Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 471,
@@ -7690,7 +7694,7 @@ export default {
           disease_common_name: 'Papaya Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 472,
@@ -7698,7 +7702,7 @@ export default {
           disease_common_name: 'Cucumber Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 473,
@@ -7706,7 +7710,7 @@ export default {
           disease_common_name: 'Apple Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 474,
@@ -7714,7 +7718,7 @@ export default {
           disease_common_name: 'Watermelon mosaic virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 475,
@@ -7722,7 +7726,7 @@ export default {
           disease_common_name: 'Citrus Exocortis Viroid',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 476,
@@ -7730,7 +7734,7 @@ export default {
           disease_common_name: 'Stecklenberger Disease',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 477,
@@ -7738,7 +7742,7 @@ export default {
           disease_common_name: 'Grapevine Leafroll Disease',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 478,
@@ -7746,7 +7750,7 @@ export default {
           disease_common_name: 'Potato Y Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 479,
@@ -7754,7 +7758,7 @@ export default {
           disease_common_name: 'Citrus Chlorotic Dwarf Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 480,
@@ -7762,7 +7766,7 @@ export default {
           disease_common_name: 'Potato Leafroll Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 481,
@@ -7770,7 +7774,7 @@ export default {
           disease_common_name: 'Bean Golden Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 482,
@@ -7778,7 +7782,7 @@ export default {
           disease_common_name: 'Tobacco Streak Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 483,
@@ -7786,7 +7790,7 @@ export default {
           disease_common_name: 'Cucumber Green Mottle Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 484,
@@ -7794,7 +7798,7 @@ export default {
           disease_common_name: 'Maize Leaf Streak Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 485,
@@ -7802,7 +7806,7 @@ export default {
           disease_common_name: 'Plum Pox Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 486,
@@ -7810,7 +7814,7 @@ export default {
           disease_common_name: 'Banana Streak Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 487,
@@ -7818,7 +7822,7 @@ export default {
           disease_common_name: 'Potato X Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 488,
@@ -7826,7 +7830,7 @@ export default {
           disease_common_name: 'Cassava Brown Streak Disease',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 489,
@@ -7834,7 +7838,7 @@ export default {
           disease_common_name: 'Tungro',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 490,
@@ -7842,7 +7846,7 @@ export default {
           disease_common_name: 'Papaya Leaf Curl',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 491,
@@ -7850,7 +7854,7 @@ export default {
           disease_common_name: 'Sterility Mosaic',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 493,
@@ -7858,7 +7862,7 @@ export default {
           disease_common_name: 'Wheat Dwarf Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 494,
@@ -7866,7 +7870,7 @@ export default {
           disease_common_name: 'Maize Lethal Necrosis Disease',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 495,
@@ -7874,7 +7878,7 @@ export default {
           disease_common_name: 'Tomato Yellow Leaf Curl Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 496,
@@ -7882,7 +7886,7 @@ export default {
           disease_common_name: 'Cucumber Mosaic Virus on Banana',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 497,
@@ -7890,7 +7894,7 @@ export default {
           disease_common_name: 'Banana Bract Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 498,
@@ -7898,7 +7902,7 @@ export default {
           disease_common_name: 'Tomato Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 499,
@@ -7906,7 +7910,7 @@ export default {
           disease_common_name: 'Bunchy Top Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 500,
@@ -7914,7 +7918,7 @@ export default {
           disease_common_name: 'Cassava Mosaic Disease',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 501,
@@ -7922,7 +7926,7 @@ export default {
           disease_common_name: 'Citrus Psorosis Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 502,
@@ -7930,7 +7934,7 @@ export default {
           disease_common_name: 'Rice Yellow Mottle Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 503,
@@ -7938,7 +7942,7 @@ export default {
           disease_common_name: 'Bean Yellow Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 504,
@@ -7946,7 +7950,7 @@ export default {
           disease_common_name: 'Tomato Spotted Wilt Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 505,
@@ -7954,7 +7958,7 @@ export default {
           disease_common_name: 'Onion Yellow Dwarf Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 506,
@@ -7962,7 +7966,7 @@ export default {
           disease_common_name: 'Citrus Tristeza Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 507,
@@ -7970,7 +7974,7 @@ export default {
           disease_common_name: 'Sugarcane Mosaic Virus',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 508,
@@ -7978,7 +7982,7 @@ export default {
           disease_common_name: 'Citrus Leprosis',
           disease_group: 'Virus',
           farm_id: null,
-          deleted: false
+          deleted: false,
         },
         {
           disease_id: 509,
@@ -7986,10 +7990,10 @@ export default {
           disease_common_name: 'Striga',
           disease_group: 'Weed',
           farm_id: null,
-          deleted: false
-        }
-      ]
-    }
+          deleted: false,
+        },
+      ],
+    },
   },
   shiftReducer: {
     taskTypes: [
@@ -7997,97 +8001,97 @@ export default {
         task_id: 1,
         task_name: 'Bed Preparation',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 2,
         task_name: 'Delivery',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 3,
         task_name: 'Sales',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 4,
         task_name: 'Social Event',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 5,
         task_name: 'Seeding',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 6,
         task_name: 'Fertilizing',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 7,
         task_name: 'Scouting',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 8,
         task_name: 'Harvesting',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 9,
         task_name: 'Weeding',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 10,
         task_name: 'Wash and Pack',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 11,
         task_name: 'Pest Control',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 12,
         task_name: 'Other',
         farm_id: null,
-        deleted: false
+        deleted: false,
       },
       {
         task_id: 13,
         task_name: '123',
         farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
-        deleted: false
-      }
+        deleted: false,
+      },
     ],
     selectedTasks: [
       {
         task_id: 1,
         task_name: 'Bed Preparation',
         farm_id: null,
-        deleted: false
-      }
+        deleted: false,
+      },
     ],
     availableDuration: 1.0000166666666668,
     startEndObj: {
       start: '2020-11-20T11:42:27-08:00',
       end: '2020-11-20T11:43:27-08:00',
-      'break': 0,
+      break: 0,
       shiftUserId: '5fb2fbe57a371e00696833a9',
       wage: 0,
-      isMulti: false
+      isMulti: false,
     },
     shifts: [
       {
@@ -8115,7 +8119,7 @@ export default {
         farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
         wage: {
           type: 'hourly',
-          amount: 0
+          amount: 0,
         },
         first_name: 'Rafael',
         last_name: 'Davis',
@@ -8127,10 +8131,10 @@ export default {
             field_crop_id: null,
             field_id: 'da04b695-2e3a-4560-a0ab-cf474839a803',
             is_field: true,
-            shift_id: '8be69fe0-2b68-11eb-a304-6b04f62d88d1'
-          }
-        ]
-      }
+            shift_id: '8be69fe0-2b68-11eb-a304-6b04f62d88d1',
+          },
+        ],
+      },
     ],
     selectedShift: {
       task_name: 'Bed Preparation',
@@ -8157,7 +8161,7 @@ export default {
       farm_id: '5763cdf4-2903-11eb-bf21-d5db06fc85bb',
       wage: {
         type: 'hourly',
-        amount: 0
+        amount: 0,
       },
       first_name: 'Rafael',
       last_name: 'Davis',
@@ -8169,63 +8173,63 @@ export default {
           field_crop_id: null,
           field_id: 'da04b695-2e3a-4560-a0ab-cf474839a803',
           is_field: true,
-          shift_id: '8be69fe0-2b68-11eb-a304-6b04f62d88d1'
-        }
-      ]
-    }
+          shift_id: '8be69fe0-2b68-11eb-a304-6b04f62d88d1',
+        },
+      ],
+    },
   },
   fieldReducer: {
     crops: null,
     expiredCrops: null,
-    selectedField: null
+    selectedField: null,
   },
   insightReducer: {
     cropNutritionData: {
       preview: 0,
-      data: []
+      data: [],
     },
     soilOMData: {
       preview: 0,
-      data: []
+      data: [],
     },
     labourHappinessData: {
       preview: 0,
-      data: []
+      data: [],
     },
     biodiversityData: {
       preview: 0,
-      data: []
+      data: [],
     },
     pricesData: {
       preview: 0,
       amountOfFarms: 0,
-      data: []
+      data: [],
     },
     waterBalanceData: {
       preview: 0,
-      data: []
+      data: [],
     },
     waterBalanceSchedule: {},
     nitrogenBalanceData: {
       preview: 0,
-      data: []
+      data: [],
     },
     nitrogenFrequencyData: {},
-    pricesDistance: 5
+    pricesDistance: 5,
   },
   financeReducer: {
     forms: {
       addSale: {
-        name: 'r'
+        name: 'r',
       },
       editSale: {},
       expenseDetail: {
         '5c328490-0916-11eb-b91d-a1487041b0dd': [
           {
             note: '1',
-            value: '3'
-          }
-        ]
+            value: '3',
+          },
+        ],
       },
       date_range: null,
       forms: {
@@ -8233,11 +8237,11 @@ export default {
           initialValue: {
             addSale: {
               fieldCrop: null,
-              name: null
+              name: null,
             },
             editSale: {},
             expenseDetail: {},
-            date_range: null
+            date_range: null,
           },
           focus: false,
           pending: false,
@@ -8256,25 +8260,25 @@ export default {
           value: {
             addSale: {
               fieldCrop: null,
-              name: null
+              name: null,
             },
             editSale: {},
             expenseDetail: {
               '5c328490-0916-11eb-b91d-a1487041b0dd': [
                 {
                   note: '',
-                  value: 0
-                }
-              ]
+                  value: 0,
+                },
+              ],
             },
-            date_range: null
-          }
+            date_range: null,
+          },
         },
         addSale: {
           $form: {
             initialValue: {
               fieldCrop: null,
-              name: null
+              name: null,
             },
             focus: false,
             pending: false,
@@ -8290,14 +8294,14 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'reset'
-              }
+                type: 'reset',
+              },
             ],
             model: 'financeReducer.forms.addSale',
             value: {
               fieldCrop: null,
-              name: null
-            }
+              name: null,
+            },
           },
           fieldCrop: {
             initialValue: null,
@@ -8315,7 +8319,7 @@ export default {
             errors: {},
             intents: [],
             model: 'financeReducer.forms.addSale.fieldCrop',
-            value: null
+            value: null,
           },
           name: {
             initialValue: null,
@@ -8330,15 +8334,15 @@ export default {
             validating: false,
             validated: false,
             validity: {
-              required: true
+              required: true,
             },
             errors: {
-              required: false
+              required: false,
             },
             intents: [],
             model: 'financeReducer.forms.addSale.name',
-            value: 'r'
-          }
+            value: 'r',
+          },
         },
         editSale: {
           $form: {
@@ -8357,12 +8361,12 @@ export default {
             errors: {},
             intents: [],
             model: 'financeReducer.forms.editSale',
-            value: {}
-          }
+            value: {},
+          },
         },
         expenseDetail: {
           '5c328490-0916-11eb-b91d-a1487041b0dd': {
-            '0': {
+            0: {
               note: {
                 initialValue: '',
                 focus: false,
@@ -8378,8 +8382,9 @@ export default {
                 validity: {},
                 errors: {},
                 intents: [],
-                model: 'financeReducer.forms.expenseDetail.5c328490-0916-11eb-b91d-a1487041b0dd.0.note',
-                value: '1'
+                model:
+                  'financeReducer.forms.expenseDetail.5c328490-0916-11eb-b91d-a1487041b0dd.0.note',
+                value: '1',
               },
               value: {
                 initialValue: 0,
@@ -8395,20 +8400,21 @@ export default {
                 validated: false,
                 validity: {
                   rangeUnderflow: true,
-                  badInput: true
+                  badInput: true,
                 },
                 errors: {
                   rangeUnderflow: false,
-                  badInput: false
+                  badInput: false,
                 },
                 intents: [],
-                model: 'financeReducer.forms.expenseDetail.5c328490-0916-11eb-b91d-a1487041b0dd.0.value',
-                value: '3'
+                model:
+                  'financeReducer.forms.expenseDetail.5c328490-0916-11eb-b91d-a1487041b0dd.0.value',
+                value: '3',
               },
               $form: {
                 initialValue: {
                   note: '',
-                  value: 0
+                  value: 0,
                 },
                 focus: false,
                 pending: false,
@@ -8424,22 +8430,22 @@ export default {
                 errors: {},
                 intents: [
                   {
-                    type: 'validate'
-                  }
+                    type: 'validate',
+                  },
                 ],
                 model: 'financeReducer.forms.expenseDetail.5c328490-0916-11eb-b91d-a1487041b0dd.0',
                 value: {
                   note: '',
-                  value: 0
-                }
-              }
+                  value: 0,
+                },
+              },
             },
             $form: {
               initialValue: [
                 {
                   note: '',
-                  value: 0
-                }
+                  value: 0,
+                },
               ],
               focus: false,
               pending: false,
@@ -8455,17 +8461,17 @@ export default {
               errors: {},
               intents: [
                 {
-                  type: 'validate'
-                }
+                  type: 'validate',
+                },
               ],
               model: 'financeReducer.forms.expenseDetail.5c328490-0916-11eb-b91d-a1487041b0dd',
               value: [
                 {
                   note: '',
-                  value: 0
-                }
-              ]
-            }
+                  value: 0,
+                },
+              ],
+            },
           },
           $form: {
             initialValue: {},
@@ -8483,19 +8489,19 @@ export default {
             errors: {},
             intents: [
               {
-                type: 'validate'
-              }
+                type: 'validate',
+              },
             ],
             model: 'financeReducer.forms.expenseDetail',
             value: {
               '5c328490-0916-11eb-b91d-a1487041b0dd': [
                 {
                   note: '',
-                  value: 0
-                }
-              ]
-            }
-          }
+                  value: 0,
+                },
+              ],
+            },
+          },
         },
         date_range: {
           initialValue: null,
@@ -8513,9 +8519,9 @@ export default {
           errors: {},
           intents: [],
           model: 'financeReducer.forms.date_range',
-          value: null
-        }
-      }
+          value: null,
+        },
+      },
     },
     financeReducer: {
       sales: [],
@@ -8524,7 +8530,7 @@ export default {
       fieldCrops: [],
       date_range: {
         startDate: '2020-01-01T08:00:00.000Z',
-        endDate: '2021-01-01T07:59:59.999Z'
+        endDate: '2021-01-01T07:59:59.999Z',
       },
       expenses: [
         {
@@ -8535,69 +8541,67 @@ export default {
           expense_type_id: '5c328490-0916-11eb-b91d-a1487041b0dd',
           farm_expense_id: '073c1900-2b63-11eb-a304-6b04f62d88d1',
           value: 3,
-          deleted: false
-        }
+          deleted: false,
+        },
       ],
       expense_types: [
         {
           expense_name: 'Equipment',
           farm_id: null,
           expense_type_id: '5c328490-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Fertilizer',
           farm_id: null,
           expense_type_id: '5c328491-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Pesticide',
           farm_id: null,
           expense_type_id: '5c328492-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Fuel',
           farm_id: null,
           expense_type_id: '5c328493-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Machinery',
           farm_id: null,
           expense_type_id: '5c328494-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Land',
           farm_id: null,
           expense_type_id: '5c328495-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Seeds',
           farm_id: null,
           expense_type_id: '5c328496-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
+          deleted: false,
         },
         {
           expense_name: 'Other',
           farm_id: null,
           expense_type_id: '5c328497-0916-11eb-b91d-a1487041b0dd',
-          deleted: false
-        }
+          deleted: false,
+        },
       ],
-      selected_expense: [
-        '5c328490-0916-11eb-b91d-a1487041b0dd'
-      ]
-    }
+      selected_expense: ['5c328490-0916-11eb-b91d-a1487041b0dd'],
+    },
   },
   farmReducer: {
-    farm_data_schedule: null
+    farm_data_schedule: null,
   },
   _persist: {
     version: -1,
-    rehydrated: true
-  }
-}
+    rehydrated: true,
+  },
+};

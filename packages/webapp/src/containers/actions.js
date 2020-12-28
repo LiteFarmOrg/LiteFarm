@@ -26,92 +26,88 @@ import {
   SET_FIELD_CROPS_IN_STATE,
   SET_FIELDS_IN_STATE,
   UPDATE_AGREEMENT,
-  SHOW_SPOTLIGHT
-} from "./constants";
+  SHOW_SPOTLIGHT,
+} from './constants';
 
-export const getUserInfo = (loadFromHome=false) => {
+export const getUserInfo = (loadFromHome = false) => {
   return {
     type: GET_USER_INFO,
-    loadFromHome
-  }
+    loadFromHome,
+  };
 };
 
 export const fetchFarmInfo = () => {
   return {
     type: GET_FARM_INFO,
-  }
+  };
 };
-
 
 export const updateFarm = (farm) => {
   return {
     type: UPDATE_FARM,
-    farm
-  }
+    farm,
+  };
 };
 
 export const setUserInState = (users) => {
   return {
     type: SET_USER_IN_STATE,
-    users
-  }
+    users,
+  };
 };
-
 
 export const updateUserInfo = (user) => {
   return {
     type: UPDATE_USER_INFO,
-    user
-  }
+    user,
+  };
 };
 
 export const setFarmInState = (farm) => {
   return {
     type: SET_FARM_IN_STATE,
-    farm
-  }
+    farm,
+  };
 };
 
 export const getFieldCrops = () => {
   return {
     type: GET_FIELD_CROPS,
-  }
+  };
 };
 
 export const getFieldCropsByDate = () => {
   return {
     type: GET_FIELD_CROPS_BY_DATE,
-  }
+  };
 };
-
 
 export const setFieldsInState = (fields) => {
   return {
     type: SET_FIELDS_IN_STATE,
-    fields
-  }
+    fields,
+  };
 };
 
 export const setFieldCropsInState = (fieldCrops) => {
   return {
     type: SET_FIELD_CROPS_IN_STATE,
-    fieldCrops
-  }
+    fieldCrops,
+  };
 };
 
-export const updateAgreement = (consent_bool, consent_version,callback) => {
+export const updateAgreement = (consent_bool, consent_version, callback) => {
   return {
     type: UPDATE_AGREEMENT,
     consent_bool: consent_bool,
     consent_version,
     callback,
-  }
+  };
 };
 
 export const showSpotlight = (show_spotlight) => {
   return {
     type: SHOW_SPOTLIGHT,
     show_spotlight,
-  }
-
+  };
 };

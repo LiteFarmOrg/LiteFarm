@@ -8,8 +8,10 @@ import PureConsent from '../../components/Consent';
 import history from '../../history';
 import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
+import { useTranslation } from 'react-i18next';
 
 function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_in_organic' }) {
+  const { t } = useTranslation();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
@@ -25,11 +27,11 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
   const checkboxName = 'consentCheckbox';
   const goBack = () => {
     history.push(goBackTo);
-  }
+  };
 
   const updateConsent = (data) => {
     dispatch(patchConsent({ has_consent: true, consent_version: consentVersion }));
-  }
+  };
 
   useEffect(() => {
     let consentForm = role.role_id === 3 ? workerConsent : ownerConsent;
@@ -37,23 +39,23 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
       .then((r) => r.text())
       .then((text) => {
         setConsentText(text);
-      })
+      });
   }, []);
 
   return (
-    <PureConsent checkboxArgs={{
-      inputRef: checkBoxRef,
-      label: 'I Agree',
-      name: checkboxName,
-      errors: errors[checkboxName] && errors[checkboxName].message,
-    }}
-                 onSubmit={handleSubmit(updateConsent)}
-                 onGoBack={goBack}
-                 text={consent}
-                 disabled={!hasConsent}
-    >
-    </PureConsent>
-  )
+    <PureConsent
+      checkboxArgs={{
+        inputRef: checkBoxRef,
+        label: t('CONSENT.LABEL'),
+        name: checkboxName,
+        errors: errors[checkboxName] && errors[checkboxName].message,
+      }}
+      onSubmit={handleSubmit(updateConsent)}
+      onGoBack={goBackTo ? goBack : null}
+      text={consent}
+      disabled={!hasConsent}
+    ></PureConsent>
+  );
 }
 
 export default ConsentForm;

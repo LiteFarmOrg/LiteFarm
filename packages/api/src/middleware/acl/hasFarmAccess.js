@@ -101,7 +101,7 @@ async function fromFields(fields) {
 }
 
 async function fromActivity(req) {
-  const user_id = req.user.sub.split('|')[1];
+  const user_id = req.user.user_id
   const { activity_id } = req.params;
   const { farm_id } = req.headers;
 

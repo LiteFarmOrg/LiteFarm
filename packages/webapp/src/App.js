@@ -17,17 +17,32 @@ import React, { Component } from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
-import Auth from './Auth/Auth.js';
+import './lang/i18n';
 
 class App extends Component {
   render() {
-    const auth = new Auth();
     return (
       <>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight:'100vh' }}>
-          <NavBar auth={auth} history={history}/>
-          <div className="app" style={{ width: '100%', maxWidth: '1024px', flex: '1', display: 'flex', flexDirection: 'column' }}>
-            <Routes/>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <NavBar history={history} />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Routes />
           </div>
         </div>
       </>

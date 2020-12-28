@@ -24,66 +24,89 @@ class Unit extends React.Component {
     return (
       <div className={styles.textContainer}>
         {showLabel && <label>{title}</label>}
-        {dropdown && <>
-          <div className={styles.selectContainer}>
-            <Control.input data-test='unit-input' type='number' step="any" model={model}
-                           validators={{ positive: this.isPositive }}
-                           parser={this.parseNumber}/>
-            <Control.select data-test='unit-select' model=".unit">
-              {options.map((o, index) => {
-                return (<option key={'option-' + index} value={o}>{o}</option>)
-              })}
-            </Control.select>
-          </div>
-          <Errors
-            className='required'
-            model={model}
-            show={{ touched: true, focus: false }}
-            messages={{
-              positive: `Must be a non negative number`,
-            }}
-          /></>
-        }
-        {!dropdown && !validate && <>
-          <div className={styles.inputNunit}><Control.input
-            data-test='unit-input'
-            type='number'
-            step="any"
-            model={model}
-            validators={{ positive: this.isPositive }}
-            parser={this.parseNumber}
-          />{type}</div>
-          <Errors
-            className='required'
-            model={model}
-            show={{ touched: true, focus: false }}
-            messages={{
-              positive: `Must be a non negative number`,
-            }}
-          />
-        </>
-        }
-        {!dropdown && validate && <>
-          <div className={styles.inputNunit}>
-            <Control.input
-              data-test='unit-input'
-              type='number'
-              step="any"
+        {dropdown && (
+          <>
+            <div className={styles.selectContainer}>
+              <Control.input
+                data-test="unit-input"
+                type="number"
+                step="any"
+                model={model}
+                validators={{ positive: this.isPositive }}
+                parser={this.parseNumber}
+              />
+              <Control.select data-test="unit-select" model=".unit">
+                {options.map((o, index) => {
+                  return (
+                    <option key={'option-' + index} value={o}>
+                      {o}
+                    </option>
+                  );
+                })}
+              </Control.select>
+            </div>
+            <Errors
+              className="required"
               model={model}
-              validators={{ required: (val) => val, positive: this.isPositive }}
-              parser={this.parseNumber}
-            />{type}</div>
-          <Errors
-            className='required'
-            model={model}
-            show={{ touched: true, focus: false }}
-            messages={{
-              required: 'Required', positive: `Must be a non negative number`,
-            }}
-          /></>
-        }
+              show={{ touched: true, focus: false }}
+              messages={{
+                positive: `Must be a non negative number`,
+              }}
+            />
+          </>
+        )}
+        {!dropdown && !validate && (
+          <>
+            <div className={styles.inputNunit}>
+              <Control.input
+                data-test="unit-input"
+                type="number"
+                step="any"
+                model={model}
+                validators={{ positive: this.isPositive }}
+                parser={this.parseNumber}
+              />
+              {type}
+            </div>
+            <Errors
+              className="required"
+              model={model}
+              show={{ touched: true, focus: false }}
+              messages={{
+                positive: `Must be a non negative number`,
+              }}
+            />
+          </>
+        )}
+        {!dropdown && validate && (
+          <>
+            <div className={styles.inputNunit}>
+              <Control.input
+                data-test="unit-input"
+                type="number"
+                step="any"
+                model={model}
+                validators={{
+                  required: (val) => val,
+                  positive: this.isPositive,
+                }}
+                parser={this.parseNumber}
+              />
+              {type}
+            </div>
+            <Errors
+              className="required"
+              model={model}
+              show={{ touched: true, focus: false }}
+              messages={{
+                required: 'Required',
+                positive: `Must be a non negative number`,
+              }}
+            />
+          </>
+        )}
       </div>
-    )
+    );
   }
 }
 

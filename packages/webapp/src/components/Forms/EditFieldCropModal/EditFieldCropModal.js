@@ -24,7 +24,6 @@ class EditFieldCropModal extends React.Component {
     this.handleValuesReset = this.handleValuesReset.bind(this);
     this.handleSubmitEditFieldCrop = this.handleSubmitEditFieldCrop.bind(this);
 
-
     this.state = {
       show: false,
       field: null,
@@ -40,26 +39,28 @@ class EditFieldCropModal extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      dispatch,
-    } = this.props;
+    const { dispatch } = this.props;
     const { estimated_unit, area_unit } = this.state;
 
     dispatch(getCrops());
     let fieldCrop = JSON.parse(JSON.stringify(this.state.fieldCrop));
     fieldCrop.estimated_yield = roundToTwoDecimal(
-      convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg')
-      /
-      convertFromMetric(fieldCrop.area_used, area_unit, 'm2'));
+      convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg') /
+        convertFromMetric(fieldCrop.area_used, area_unit, 'm2'),
+    );
 
-    fieldCrop.estimated_price = fieldCrop.estimated_production <= 0 ? 0 : roundToTwoDecimal(fieldCrop.estimated_revenue / convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg'));
+    fieldCrop.estimated_price =
+      fieldCrop.estimated_production <= 0
+        ? 0
+        : roundToTwoDecimal(
+            fieldCrop.estimated_revenue /
+              convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg'),
+          );
 
     this.setState({
       fieldCrop,
       crops: this.props.crops,
     });
-
-
   }
 
   componentDidUpdate(prevProps) {
@@ -104,8 +105,12 @@ class EditFieldCropModal extends React.Component {
       return;
     }
 
-    let estimatedProduction = isByArea ? editedFieldCrop.estimated_yield * editedFieldCrop.area_used : editedFieldCrop.estimated_yield * bed_config.bed_num;
-    let estimatedRevenue = isByArea ? estimatedProduction * editedFieldCrop.estimated_price : bed_config.bed_num * editedFieldCrop.estimated_price * editedFieldCrop.estimated_yield;
+    let estimatedProduction = isByArea
+      ? editedFieldCrop.estimated_yield * editedFieldCrop.area_used
+      : editedFieldCrop.estimated_yield * bed_config.bed_num;
+    let estimatedRevenue = isByArea
+      ? estimatedProduction * editedFieldCrop.estimated_price
+      : bed_config.bed_num * editedFieldCrop.estimated_price * editedFieldCrop.estimated_yield;
 
     estimatedProduction = convertToMetric(estimatedProduction, estimated_unit, 'kg');
 
@@ -136,7 +141,8 @@ class EditFieldCropModal extends React.Component {
         estimatedRevenue,
         !isByArea,
         bed_config,
-      ));
+      ),
+    );
     this.setState({ show: false });
 
     this.handleValuesReset();
@@ -164,24 +170,39 @@ class EditFieldCropModal extends React.Component {
 
     let percentage = 0;
     if (is_by_bed) {
-      fieldCrop.estimated_yield = bed_config.bed_num <= 0 ? 0 : roundToTwoDecimal(convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg') / bed_config.bed_num);
-      fieldCrop.estimated_price = fieldCrop.estimated_production <= 0 ? 0 : roundToTwoDecimal(fieldCrop.estimated_revenue / bed_config.bed_num / fieldCrop.estimated_yield);
+      fieldCrop.estimated_yield =
+        bed_config.bed_num <= 0
+          ? 0
+          : roundToTwoDecimal(
+              convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg') /
+                bed_config.bed_num,
+            );
+      fieldCrop.estimated_price =
+        fieldCrop.estimated_production <= 0
+          ? 0
+          : roundToTwoDecimal(
+              fieldCrop.estimated_revenue / bed_config.bed_num / fieldCrop.estimated_yield,
+            );
     } else {
       fieldCrop.estimated_yield = roundToTwoDecimal(
-        convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg')
-        /
-        convertFromMetric(fieldCrop.area_used, area_unit, 'm2'));
+        convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg') /
+          convertFromMetric(fieldCrop.area_used, area_unit, 'm2'),
+      );
 
-      fieldCrop.estimated_price = fieldCrop.estimated_production <= 0 ? 0 :
-        roundToTwoDecimal(
-          fieldCrop.estimated_revenue
-          /
-          convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg'));
+      fieldCrop.estimated_price =
+        fieldCrop.estimated_production <= 0
+          ? 0
+          : roundToTwoDecimal(
+              fieldCrop.estimated_revenue /
+                convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg'),
+            );
 
       percentage = Number(((fieldCrop.area_used / this.props.fieldArea) * 100).toFixed(2));
     }
 
-    fieldCrop.area_used = roundToTwoDecimal(convertFromMetric(fieldCrop.area_used, area_unit, 'm2'));
+    fieldCrop.area_used = roundToTwoDecimal(
+      convertFromMetric(fieldCrop.area_used, area_unit, 'm2'),
+    );
 
     this.setState({
       fieldCrop: fieldCrop,
@@ -195,7 +216,8 @@ class EditFieldCropModal extends React.Component {
     e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_length = e.target.value;
     let { bed_config, fieldCrop } = this.state;
-    fieldCrop.area_used = Number(bed_length) * Number(bed_config.bed_width) * Number(bed_config.bed_num);
+    fieldCrop.area_used =
+      Number(bed_length) * Number(bed_config.bed_width) * Number(bed_config.bed_num);
     bed_config.bed_length = bed_length;
     this.setState({
       fieldCrop,
@@ -207,7 +229,8 @@ class EditFieldCropModal extends React.Component {
     e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_width = e.target.value;
     let { bed_config, fieldCrop } = this.state;
-    fieldCrop.area_used = Number(bed_config.bed_length) * Number(bed_width) * Number(bed_config.bed_num);
+    fieldCrop.area_used =
+      Number(bed_config.bed_length) * Number(bed_width) * Number(bed_config.bed_num);
     bed_config.bed_width = bed_width;
     this.setState({
       fieldCrop,
@@ -219,7 +242,8 @@ class EditFieldCropModal extends React.Component {
     e.target.value = e.target.value >= 0 ? e.target.value : 0;
     let bed_num = e.target.value;
     let { bed_config, fieldCrop } = this.state;
-    fieldCrop.area_used = Number(bed_config.bed_length) * Number(bed_config.bed_width) * Number(bed_num);
+    fieldCrop.area_used =
+      Number(bed_config.bed_length) * Number(bed_config.bed_width) * Number(bed_num);
     bed_config.bed_num = bed_num;
     this.setState({
       fieldCrop,
@@ -250,13 +274,13 @@ class EditFieldCropModal extends React.Component {
   onStartDateChange = (date) => {
     const currentCrop = this.state.fieldCrop;
     currentCrop.start_date = date.format('YYYY-MM-DD');
-    this.setState({ fieldCrop: currentCrop })
+    this.setState({ fieldCrop: currentCrop });
   };
 
   onEndDateChange = (date) => {
     const currentCrop = this.state.fieldCrop;
     currentCrop.end_date = date.format('YYYY-MM-DD');
-    this.setState({ fieldCrop: currentCrop })
+    this.setState({ fieldCrop: currentCrop });
   };
 
   render() {
@@ -264,21 +288,22 @@ class EditFieldCropModal extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.handleShow}>
-          Edit
-        </Button>
+        <Button onClick={this.handleShow}>Edit</Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit - {this.props.cropBeingEdited.crop_common_name},
-              Variety: {this.props.cropBeingEdited.variety}</Modal.Title>
+            <Modal.Title>
+              Edit - {this.props.cropBeingEdited.crop_common_name}, Variety:{' '}
+              {this.props.cropBeingEdited.variety}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <FormGroup>
-              <h4 style={{ textAlign: 'center' }}>Edit how much of the field you are using
-                ({this.state.area_unit_label}&sup2;)</h4>
-              {
-                isByArea && <div>
+              <h4 style={{ textAlign: 'center' }}>
+                Edit how much of the field you are using ({this.state.area_unit_label}&sup2;)
+              </h4>
+              {isByArea && (
+                <div>
                   <FormGroup>
                     <label>Percentage: </label>
                     <FormControl
@@ -287,7 +312,8 @@ class EditFieldCropModal extends React.Component {
                       min={0}
                       max={100}
                       placeholder={this.state.percentage}
-                      onChange={(e) => this.handlePercentage(e)}/>
+                      onChange={(e) => this.handlePercentage(e)}
+                    />
                   </FormGroup>
                   <FormGroup>
                     <label>Area used in hectare: </label>
@@ -299,11 +325,10 @@ class EditFieldCropModal extends React.Component {
                     />
                   </FormGroup>
                 </div>
-              }
-              {
-                !isByArea && bed_config && <div>
-                  <FormGroup
-                  >
+              )}
+              {!isByArea && bed_config && (
+                <div>
+                  <FormGroup>
                     <label>Bed Length: </label>
                     <FormControl
                       type="number"
@@ -312,8 +337,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
-                  <FormGroup
-                  >
+                  <FormGroup>
                     <label>Bed Width: </label>
                     <FormControl
                       type="number"
@@ -322,8 +346,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.onBedWidthChange(e)}
                     />
                   </FormGroup>
-                  <FormGroup
-                  >
+                  <FormGroup>
                     <label>Number of Beds: </label>
                     <FormControl
                       type="number"
@@ -333,39 +356,48 @@ class EditFieldCropModal extends React.Component {
                     />
                   </FormGroup>
                 </div>
-              }
+              )}
               <FormGroup>
                 <label>Area used in {this.state.area_unit_label}&sup2;: </label>
-                <FormControl
-                  type="number"
-                  disabled={true}
-                  value={this.state.fieldCrop.area_used}
-                />
+                <FormControl type="number" disabled={true} value={this.state.fieldCrop.area_used} />
               </FormGroup>
               <h4 style={{ textAlign: 'center' }}>Edit start and finish dates</h4>
               <FormGroup controlId="start_date">
-                <DateContainer date={moment(this.state.fieldCrop.start_date)} onDateChange={this.onStartDateChange}
-                               placeholder="Choose a start date"/>
+                <DateContainer
+                  date={moment(this.state.fieldCrop.start_date)}
+                  onDateChange={this.onStartDateChange}
+                  placeholder="Choose a start date"
+                />
               </FormGroup>
               <FormGroup controlId="end_date">
-                <DateContainer date={moment(this.state.fieldCrop.end_date)} onDateChange={this.onEndDateChange}
-                               placeholder="Choose a end date"/>
+                <DateContainer
+                  date={moment(this.state.fieldCrop.end_date)}
+                  onDateChange={this.onEndDateChange}
+                  placeholder="Choose a end date"
+                />
               </FormGroup>
-              <h4 style={{ textAlign: 'center' }}>Edit estimated price for the crop ($/{this.state.estimated_unit})</h4>
+              <h4 style={{ textAlign: 'center' }}>
+                Edit estimated price for the crop ($/{this.state.estimated_unit})
+              </h4>
               <FormGroup controlId="estimated_price">
                 <FormControl
                   type="number"
                   value={this.state.fieldCrop.estimated_price}
-                  onChange={(e) => this.handleFieldCropPropertiesChange(e)}/>
+                  onChange={(e) => this.handleFieldCropPropertiesChange(e)}
+                />
               </FormGroup>
-              {
-                isByArea && <h4 style={{ textAlign: 'center' }}>Edit estimated yield for the crop
-                  ({this.state.estimated_unit}/{this.state.area_unit_label}&sup2;)</h4>
-              }
-              {
-                !isByArea && <h4 style={{ textAlign: 'center' }}>Edit estimated yield for the crop
-                  ({this.state.estimated_unit}/bed)</h4>
-              }
+              {isByArea && (
+                <h4 style={{ textAlign: 'center' }}>
+                  Edit estimated yield for the crop ({this.state.estimated_unit}/
+                  {this.state.area_unit_label}&sup2;)
+                </h4>
+              )}
+              {!isByArea && (
+                <h4 style={{ textAlign: 'center' }}>
+                  Edit estimated yield for the crop ({this.state.estimated_unit}
+                  /bed)
+                </h4>
+              )}
               <FormGroup controlId="estimated_yield">
                 <FormControl
                   type="number"
@@ -373,39 +405,36 @@ class EditFieldCropModal extends React.Component {
                   onChange={(e) => this.handleFieldCropPropertiesChange(e)}
                 />
               </FormGroup>
-
             </FormGroup>
-
-
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => {
-              this.handleSubmitEditFieldCrop();
-              this.props.handler()
-            }}>Save</Button>
+            <Button
+              onClick={() => {
+                this.handleSubmitEditFieldCrop();
+                this.props.handler();
+              }}
+            >
+              Save
+            </Button>
             <Button onClick={this.handleClose}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
     );
   }
-
-
 }
-
 
 const mapStateToProps = (state) => {
   return {
     crops: cropsSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditFieldCropModal);
-

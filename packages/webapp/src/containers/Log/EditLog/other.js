@@ -13,9 +13,10 @@ import parseFields from '../Utility/parseFields';
 import { deleteLog, editLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import ConfirmModal from '../../../components/Modals/Confirm';
+import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 
-class OtherLog extends Component{
+class OtherLog extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(actions.reset('logReducer.forms.otherLog'));
@@ -31,12 +32,12 @@ class OtherLog extends Component{
   componentDidMount() {
     const { selectedLog, dispatch } = this.props;
     this.setState({
-      date: selectedLog && moment.utc(selectedLog.date)
+      date: selectedLog && moment.utc(selectedLog.date),
     });
     dispatch(actions.change('logReducer.forms.otherLog.notes', selectedLog.notes));
   }
 
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
@@ -58,36 +59,54 @@ class OtherLog extends Component{
     dispatch(editLog(formValue));
   }
 
-  render(){
+  render() {
     const { crops, fields, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({ value: f.field_id, label: f.field_name }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({ value: fc.field_crop_id, label: fc.crop.crop_common_name, field_id: fc.field_id }));
+    const selectedFields = selectedLog.field.map((f) => ({
+      value: f.field_id,
+      label: f.field_name,
+    }));
+    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
+      value: fc.field_crop_id,
+      label: fc.crop.crop_common_name,
+      field_id: fc.field_id,
+    }));
 
-    return(
+    return (
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Other Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.otherLog)}>
+        <PageTitle
+          backUrl="/log"
+          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_OTHER.TITLE')}`}
+        />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val.otherLog)}
+        >
           <DefaultLogForm
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             model=".otherLog"
             fields={fields}
             crops={crops}
             notesField={true}
             isCropNotRequired={true}
           />
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })}/>
+          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -97,13 +116,13 @@ const mapStateToProps = (state) => {
     fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OtherLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(OtherLog));

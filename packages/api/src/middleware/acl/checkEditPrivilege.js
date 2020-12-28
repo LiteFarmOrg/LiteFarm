@@ -21,7 +21,7 @@ const checkEditPrivilege = () => {
     const knex = Model.knex();
     const farm_id = req.params.farm_id;
     const edit_user_id = req.params.user_id;
-    const request_user_id = req.user.sub.split('|')[1];
+    const request_user_id = req.user.user_id
     const ALLOWED_ROLES = [1, 2, 5];
     if (farm_id) {
       // console.log(farm_id);

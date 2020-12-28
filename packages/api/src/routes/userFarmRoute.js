@@ -25,10 +25,10 @@ const checkEditPrivilege = require('../middleware/acl/checkEditPrivilege');
 router.get('/user/:user_id', userFarmController.getUserFarmByUserID());
 
 // Get info on all users (userFarm) at a farm
-router.get('/farm/:farm_id', hasFarmAccess({params: 'farm_id'}), checkScope(['get:user_farm_info']), userFarmController.getUserFarmsByFarmID());
+router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:user_farm_info']), userFarmController.getUserFarmsByFarmID());
 
 // Get info on all active users (userFarm) at a farm
-router.get('/active/farm/:farm_id', hasFarmAccess({params: 'farm_id'}), checkScope(['get:user_farm_info']), userFarmController.getActiveUserFarmsByFarmID());
+router.get('/active/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:user_farm_info']), userFarmController.getActiveUserFarmsByFarmID());
 
 // [DEPRECATE] Displays list of permissions for user calling this endpoint
 // router.get('/role/permissions', userFarmController.getAllRolePermissions());
@@ -38,23 +38,21 @@ router.get('/active/farm/:farm_id', hasFarmAccess({params: 'farm_id'}), checkSco
 // router.post('/', hasFarmAccess(), checkScope(['add:users']), userFarmController.addUserFarm());
 
 // Update consent status for a userFarm referenced by user_id
+// If userFarm status is Inactive or Invited, status will be set to Active
 // no permission limits
 router.patch('/consent/farm/:farm_id/user/:user_id', userFarmController.updateConsent());
 
 // Update the role on a userFarm
-router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), checkScope(['edit:user_role']), userFarmController.updateRole());
+router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_role']), userFarmController.updateRole());
 
 // Update the status on a userFarm
-router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), checkScope(['edit:user_status']), userFarmController.updateStatus());
+router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.updateStatus());
 
 // [DEPRECATE] Get specific info related to userFarm
 router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
 
-// [DEPRECATE] Update user_farm
-router.patch('/update/farm/:farm_id/user/:user_id', checkEditPrivilege(), userFarmController.updateUser());
-
 // Update wage of userFarm
-router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({params: 'farm_id'}), checkScope(['edit:user_wage']), userFarmController.updateWage());
+router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_wage']), userFarmController.updateWage());
 
 // Update step_one
 router.patch('/onboarding/farm/:farm_id/user/:user_id', userFarmController.updateOnboardingFlags());

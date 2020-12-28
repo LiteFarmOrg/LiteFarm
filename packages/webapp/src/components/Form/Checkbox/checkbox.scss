@@ -1,5 +1,5 @@
-@import "../../../assets/colors";
-@import "../../../assets/mixin";
+@import '../../../assets/colors';
+@import '../../../assets/mixin';
 .container {
   display: inline-block;
   position: relative;
@@ -43,7 +43,7 @@
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
@@ -65,15 +65,15 @@
   transform: rotate(45deg);
 }
 
-.disabled{
+.disabled {
   cursor: auto;
 }
 
-.disabled .checkmark{
+.disabled .checkmark {
   background-color: var(--btnDisabled);
   border: none;
 }
 
-.error{
+.error {
   margin-top: 0;
 }

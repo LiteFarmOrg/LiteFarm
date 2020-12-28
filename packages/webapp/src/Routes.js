@@ -15,15 +15,16 @@
 
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Callback from './components/Callback';
-import Auth from './Auth/Auth';
+// import Callback from './components/Callback';
 import Home from './containers/Home';
+import PureEnterPasswordPage from './components/Signup/EnterPasswordPage';
 import Profile from './containers/Profile';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
-import Login from './containers/Login'
+// import Login from './containers/Login';
 import SignUp from './containers/SignUp';
+import PureCreateUserAccount from './components/CreateUserAccount';
 import NewLog from './containers/Log/NewLog';
 import FertilizingLog from './containers/Log/FertilizingLog';
 import PestControlLog from './containers/Log/PestControlLog';
@@ -74,7 +75,7 @@ import Labour from './containers/Finances/Labour';
 import OtherExpense from './containers/Finances/OtherExpense';
 import ExpenseDetail from './containers/Finances/ExpenseDetail';
 import ExpenseCategories from './containers/Finances/NewExpense/ExpenseCategories';
-import AddExpense from './containers/Finances/NewExpense/AddExpense'
+import AddExpense from './containers/Finances/NewExpense/AddExpense';
 import EditAddExpense from './containers/Finances/EditExpense/EditAddExpense';
 import EditExpenseCategories from './containers/Finances/EditExpense/EditExpenseCategories';
 
@@ -94,283 +95,310 @@ import Balances from './containers/NewFinances/Balances';
 
 import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
-import RoleSelection from './containers/RoleSelection';
-import { useDispatch, useSelector } from 'react-redux';
+
+import CustomSignUp from './containers/CustomSignUp';
+
+import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
+import { isAuthenticated } from './util/jwt';
 
 // action
 import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
-
-const auth = new Auth();
-
-const handleAuthentication = (nextState, loginSuccess = () => {
-}) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication(loginSuccess);
-  }
-};
-
+import PasswordResetAccount from './containers/PasswordResetAccount';
 
 const Routes = () => {
-  const dispatch = useDispatch();
-  const isAuthenticated = auth.isAuthenticated();
-  const dispatchLoginSuccess = (user_id) => {
-    dispatch(loginSuccess({ user_id }))
-  };
-  const userFarm = useSelector(userFarmSelector, (pre, next) => pre.step_five === next.step_five
-    && pre.has_consent === next.has_consent && pre.role_id === next.role_id);
-  let { step_five, has_consent, role_id } = userFarm;
-  if (isAuthenticated) {
+  const userFarm = useSelector(
+    userFarmSelector,
+    (pre, next) =>
+      pre.step_five === next.step_five &&
+      pre.has_consent === next.has_consent &&
+      pre.role_id === next.role_id &&
+      pre.step_one === next.step_one &&
+      pre.farm_id === next.farm_id,
+  );
+  let { step_five, has_consent, role_id, status, step_one, farm_id } = userFarm;
+  const hasSelectedFarm = !!farm_id;
+  const isUserInvited = !step_one;
+  const hasFinishedOnBoardingFlow = step_five;
+  if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (!step_five) {
-      return <OnboardingFlow {...userFarm}/>
-    } else if (step_five && !has_consent) {
-      return <Switch>
-        <Route path="/farm_selection" exact component={ChooseFarm}/>
-        <Route path="/consent" exact component={ConsentForm}/>
-        //TODO add new consent form and allow users to withdraw consent
-        <Redirect to={'/consent'}/>
-      </Switch>
+    if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
+      return <OnboardingFlow {...userFarm} />;
+    } else if (status === 'Invited') {
+      return (
+        <Switch>
+          <Route path="/farm_selection" exact component={ChooseFarm} />
+          <Route
+            path="/consent"
+            exact
+            component={() => <ConsentForm goForwardTo={'outro'} goBackTo={null} />}
+            //TODO add new consent form and allow users to withdraw consent
+          />
+          {!has_consent && <Redirect to={'/consent'} />}
+        </Switch>
+      );
     } else if (role_id === 1) {
       return (
         <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/home" exact component={Home}/>
-          <Route path="/profile" exact component={Profile}/>
-          <Route path="/intro" exact component={IntroSlide}/>
-          <Route path="/consent" exact component={ConsentForm}/>
-          <Route path="/log" exact component={Log}/>
-          <Route path="/new_log" exact component={NewLog}/>
-          <Route path="/fertilizing_log" exact component={FertilizingLog}/>
-          <Route path="/pest_control_log" exact component={PestControlLog}/>
-          <Route path="/field_work_log" exact component={FieldWorkLog}/>
-          <Route path="/harvest_log" exact component={HarvestLog}/>
-          <Route path="/irrigation_log" exact component={IrrigationLog}/>
-          <Route path="/scouting_log" exact component={ScoutingLog}/>
-          <Route path="/seeding_log" exact component={SeedingLog}/>
-          <Route path="/soil_data_log" exact component={soilDataLog}/>
-          <Route path="/other_log" exact component={OtherLog}/>
-          <Route path="/seeding_log/edit" exact component={EditSeedingLog}/>
-          <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog}/>
-          <Route path="/pest_control_log/edit" exact component={EditPestControlLog}/>
-          <Route path="/field_work_log/edit" exact component={EditFieldWorkLog}/>
-          <Route path="/harvest_log/edit" exact component={EditHarvestLog}/>
-          <Route path="/irrigation_log/edit" exact component={EditIrrigationLog}/>
-          <Route path="/scouting_log/edit" exact component={EditScoutingLog}/>
-          <Route path="/soil_data_log/edit" exact component={EditSoilDataLog}/>
-          <Route path="/other_log/edit" exact component={EditOtherLog}/>
-          <Route path="/shift" exact component={Shift}/>
-          <Route path="/shift_step_one" exact component={ShiftStepOne}/>
-          <Route path="/shift_step_two" exact component={ShiftStepTwo}/>
-          <Route path="/my_shift" exact component={MyShift}/>
-          <Route path="/edit_shift_one" exact component={EditShiftOne}/>
-          <Route path="/edit_shift_two" exact component={EditShiftTwo}/>
-          <Route path="/field" exact component={Field}/>
-          <Route path="/new_field" exact component={NewField}/>
-          <Route path="/finances" exact component={Finances}/>
-
-          <Route path="/edit_field" exact component={EditField}/>
-          <Route path="/insights" exact component={Insights}/>
-          <Route path="/insights/peoplefed" exact component={PeopleFed}/>
-          <Route path="/insights/soilom" exact component={SoilOM}/>
-          <Route path="/insights/labourhappiness" exact component={LabourHappiness}/>
-          <Route path="/insights/biodiversity" exact component={Biodiversity}/>
-          <Route path="/insights/prices" exact component={Prices}/>
-          <Route path="/insights/waterbalance" exact component={WaterBalance}/>
-          <Route path="/insights/erosion" exact component={Erosion}/>
-          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
-
-          <Route path="/newfinances" exact component={NewFinances}/>
-          <Route path="/newfinances/expenses" exact component={Expenses}/>
-          <Route path="/newfinances/expenses/expense_categories" exact component={NewExpenseCategories}/>
-          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense}/>
-          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail}/>
-          <Route path="/newfinances/expenses/edit_add_expense" exact component={NewExpenseEditExpense}/>
-          <Route path="/newfinances/expenses/edit_expense_categories" exact component={NewExpenseEditCategories}/>
-          <Route path="/newfinances/sales" exact component={Sales}/>
-          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale}/>
-          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale}/>
-          <Route path="/newfinances/balances" exact component={Balances}/>
-
-          <Route path="/sales_summary" exact component={SalesSummary}/>
-          <Route path="/add_sale" exact component={AddSale}/>
-          <Route path="/edit_sale" exact component={EditSale}/>
-          <Route path="/estimated_revenue" exact component={EstimatedRevenue}/>
-          <Route path="/labour" exact component={Labour}/>
-          <Route path="/other_expense" exact component={OtherExpense}/>
-          <Route path="/expense_detail" exact component={ExpenseDetail}/>
-          <Route path="/expense_categories" exact component={ExpenseCategories}/>
-          <Route path="/add_expense" exact component={AddExpense}/>
-          <Route path="/edit_expense_categories" exact component={EditExpenseCategories}/>
-          <Route path="/edit_add_expense" exact component={EditAddExpense}/>
+          <Route path="/" exact component={Home} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/intro" exact component={IntroSlide} />
+          <Route path="/consent" exact component={ConsentForm} />
+          <Route path="/log" exact component={Log} />
+          <Route path="/new_log" exact component={NewLog} />
+          <Route path="/fertilizing_log" exact component={FertilizingLog} />
+          <Route path="/pest_control_log" exact component={PestControlLog} />
+          <Route path="/field_work_log" exact component={FieldWorkLog} />
+          <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/irrigation_log" exact component={IrrigationLog} />
+          <Route path="/scouting_log" exact component={ScoutingLog} />
+          <Route path="/seeding_log" exact component={SeedingLog} />
+          <Route path="/soil_data_log" exact component={soilDataLog} />
+          <Route path="/other_log" exact component={OtherLog} />
+          <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
+          <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
+          <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
+          <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
+          <Route path="/harvest_log/edit" exact component={EditHarvestLog} />
+          <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
+          <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
+          <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
+          <Route path="/other_log/edit" exact component={EditOtherLog} />
+          <Route path="/shift" exact component={Shift} />
+          <Route path="/shift_step_one" exact component={ShiftStepOne} />
+          <Route path="/shift_step_two" exact component={ShiftStepTwo} />
+          <Route path="/my_shift" exact component={MyShift} />
+          <Route path="/edit_shift_one" exact component={EditShiftOne} />
+          <Route path="/edit_shift_two" exact component={EditShiftTwo} />
+          <Route path="/field" exact component={Field} />
+          <Route path="/new_field" exact component={NewField} />
+          <Route path="/finances" exact component={Finances} />
+          <Route path="/edit_field" exact component={EditField} />
+          <Route path="/insights" exact component={Insights} />
+          <Route path="/insights/peoplefed" exact component={PeopleFed} />
+          <Route path="/insights/soilom" exact component={SoilOM} />
+          <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
+          <Route path="/insights/biodiversity" exact component={Biodiversity} />
+          <Route path="/insights/prices" exact component={Prices} />
+          <Route path="/insights/waterbalance" exact component={WaterBalance} />
+          <Route path="/insights/erosion" exact component={Erosion} />
+          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
+          <Route path="/newfinances" exact component={NewFinances} />
+          <Route path="/newfinances/expenses" exact component={Expenses} />
+          <Route
+            path="/newfinances/expenses/expense_categories"
+            exact
+            component={NewExpenseCategories}
+          />
+          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense} />
+          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail} />
+          <Route
+            path="/newfinances/expenses/edit_add_expense"
+            exact
+            component={NewExpenseEditExpense}
+          />
+          <Route
+            path="/newfinances/expenses/edit_expense_categories"
+            exact
+            component={NewExpenseEditCategories}
+          />
+          <Route path="/newfinances/sales" exact component={Sales} />
+          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale} />
+          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale} />
+          <Route path="/newfinances/balances" exact component={Balances} />
+          <Route path="/sales_summary" exact component={SalesSummary} />
+          <Route path="/add_sale" exact component={AddSale} />
+          <Route path="/edit_sale" exact component={EditSale} />
+          <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
+          <Route path="/labour" exact component={Labour} />
+          <Route path="/other_expense" exact component={OtherExpense} />
+          <Route path="/expense_detail" exact component={ExpenseDetail} />
+          <Route path="/expense_categories" exact component={ExpenseCategories} />
+          <Route path="/add_expense" exact component={AddExpense} />
+          <Route path="/edit_expense_categories" exact component={EditExpenseCategories} />
+          <Route path="/edit_add_expense" exact component={EditAddExpense} />
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
-          <Route path="/sale_detail" exact component={SaleDetail}/>
-          <Route path="/farm_selection" exact component={ChooseFarm}/>
-          <Route path="/callback" render={(props) => {
-            handleAuthentication(props, dispatchLoginSuccess);
-            return <Callback {...props} />
-          }}/>
-          <Route path="/log_detail" exact component={LogDetail}/>
-          //TODO change to 404
-          <Redirect to={'/'}/>
+          <Route path="/sale_detail" exact component={SaleDetail} />
+          <Route path="/farm_selection" exact component={ChooseFarm} />
+          {/*<Route path="/callback" render={(props) => {*/}
+          {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+          {/*  return <Callback {...props} />*/}
+          {/*}}/>*/}
+          <Route path="/log_detail" exact component={LogDetail} />
+          <Redirect
+            to={'/'}
+            //TODO change to 404
+          />
         </Switch>
       );
     } else if (role_id === 2 || role_id === 5) {
       return (
         <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/home" exact component={Home}/>
-          <Route path="/profile" exact component={Profile}/>
-          <Route path="/intro" exact component={IntroSlide}/>
-          <Route path="/consent" exact component={ConsentForm}/>
-          <Route path="/log" exact component={Log}/>
-          <Route path="/new_log" exact component={NewLog}/>
-          <Route path="/fertilizing_log" exact component={FertilizingLog}/>
-          <Route path="/pest_control_log" exact component={PestControlLog}/>
-          <Route path="/field_work_log" exact component={FieldWorkLog}/>
-          <Route path="/harvest_log" exact component={HarvestLog}/>
-          <Route path="/irrigation_log" exact component={IrrigationLog}/>
-          <Route path="/scouting_log" exact component={ScoutingLog}/>
-          <Route path="/seeding_log" exact component={SeedingLog}/>
-          <Route path="/soil_data_log" exact component={soilDataLog}/>
-          <Route path="/other_log" exact component={OtherLog}/>
-          <Route path="/seeding_log/edit" exact component={EditSeedingLog}/>
-          <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog}/>
-          <Route path="/pest_control_log/edit" exact component={EditPestControlLog}/>
-          <Route path="/field_work_log/edit" exact component={EditFieldWorkLog}/>
-          <Route path="/harvest_log/edit" exact component={EditHarvestLog}/>
-          <Route path="/irrigation_log/edit" exact component={EditIrrigationLog}/>
-          <Route path="/scouting_log/edit" exact component={EditScoutingLog}/>
-          <Route path="/soil_data_log/edit" exact component={EditSoilDataLog}/>
-          <Route path="/other_log/edit" exact component={EditOtherLog}/>
-          <Route path="/shift" exact component={Shift}/>
-          <Route path="/shift_step_one" exact component={ShiftStepOne}/>
-          <Route path="/shift_step_two" exact component={ShiftStepTwo}/>
-          <Route path="/my_shift" exact component={MyShift}/>
-          <Route path="/edit_shift_one" exact component={EditShiftOne}/>
-          <Route path="/edit_shift_two" exact component={EditShiftTwo}/>
-          <Route path="/field" exact component={Field}/>
-          <Route path="/new_field" exact component={NewField}/>
-
-          <Route path="/finances" exact component={Finances}/>
-          <Route path="/newfinances" exact component={NewFinances}/>
-          <Route path="/newfinances/expenses" exact component={Expenses}/>
-          <Route path="/newfinances/expenses/expense_categories" exact component={NewExpenseCategories}/>
-          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense}/>
-          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail}/>
-          <Route path="/newfinances/expenses/edit_add_expense" exact component={NewExpenseEditExpense}/>
-          <Route path="/newfinances/expenses/edit_expense_categories" exact component={NewExpenseEditCategories}/>
-          <Route path="/newfinances/sales" exact component={Sales}/>
-          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale}/>
-          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale}/>
-          <Route path="/newfinances/balances" exact component={Balances}/>
-
-          <Route path="/sales_summary" exact component={SalesSummary}/>
-          <Route path="/add_sale" exact component={AddSale}/>
-          <Route path="/edit_sale" exact component={EditSale}/>
-          <Route path="/estimated_revenue" exact component={EstimatedRevenue}/>
-          <Route path="/labour" exact component={Labour}/>
-          <Route path="/other_expense" exact component={OtherExpense}/>
-          <Route path="/expense_detail" exact component={ExpenseDetail}/>
-          <Route path="/expense_categories" exact component={ExpenseCategories}/>
-          <Route path="/add_expense" exact component={AddExpense}/>
-          <Route path="/edit_expense_categories" exact component={EditExpenseCategories}/>
-          <Route path="/edit_add_expense" exact component={EditAddExpense}/>
-          <Route path="/contact" exact component={ContactForm}/>
-          <Route path="/sale_detail" exact component={SaleDetail}/>
-          <Route path="/farm_selection" exact component={ChooseFarm}/>
-
-          <Route path="/edit_field" exact component={EditField}/>
-          <Route path="/insights" exact component={Insights}/>
-          <Route path="/insights/peoplefed" exact component={PeopleFed}/>
-          <Route path="/insights/soilom" exact component={SoilOM}/>
-          <Route path="/insights/labourhappiness" exact component={LabourHappiness}/>
-          <Route path="/insights/biodiversity" exact component={Biodiversity}/>
-          <Route path="/insights/prices" exact component={Prices}/>
-          <Route path="/insights/waterbalance" exact component={WaterBalance}/>
-          <Route path="/insights/erosion" exact component={Erosion}/>
-          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
-
+          <Route path="/" exact component={Home} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/intro" exact component={IntroSlide} />
+          <Route path="/consent" exact component={ConsentForm} />
+          <Route path="/log" exact component={Log} />
+          <Route path="/new_log" exact component={NewLog} />
+          <Route path="/fertilizing_log" exact component={FertilizingLog} />
+          <Route path="/pest_control_log" exact component={PestControlLog} />
+          <Route path="/field_work_log" exact component={FieldWorkLog} />
+          <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/irrigation_log" exact component={IrrigationLog} />
+          <Route path="/scouting_log" exact component={ScoutingLog} />
+          <Route path="/seeding_log" exact component={SeedingLog} />
+          <Route path="/soil_data_log" exact component={soilDataLog} />
+          <Route path="/other_log" exact component={OtherLog} />
+          <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
+          <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
+          <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
+          <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
+          <Route path="/harvest_log/edit" exact component={EditHarvestLog} />
+          <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
+          <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
+          <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
+          <Route path="/other_log/edit" exact component={EditOtherLog} />
+          <Route path="/shift" exact component={Shift} />
+          <Route path="/shift_step_one" exact component={ShiftStepOne} />
+          <Route path="/shift_step_two" exact component={ShiftStepTwo} />
+          <Route path="/my_shift" exact component={MyShift} />
+          <Route path="/edit_shift_one" exact component={EditShiftOne} />
+          <Route path="/edit_shift_two" exact component={EditShiftTwo} />
+          <Route path="/field" exact component={Field} />
+          <Route path="/new_field" exact component={NewField} />
+          <Route path="/finances" exact component={Finances} />
+          <Route path="/newfinances" exact component={NewFinances} />
+          <Route path="/newfinances/expenses" exact component={Expenses} />
+          <Route
+            path="/newfinances/expenses/expense_categories"
+            exact
+            component={NewExpenseCategories}
+          />
+          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense} />
+          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail} />
+          <Route
+            path="/newfinances/expenses/edit_add_expense"
+            exact
+            component={NewExpenseEditExpense}
+          />
+          <Route
+            path="/newfinances/expenses/edit_expense_categories"
+            exact
+            component={NewExpenseEditCategories}
+          />
+          <Route path="/newfinances/sales" exact component={Sales} />
+          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale} />
+          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale} />
+          <Route path="/newfinances/balances" exact component={Balances} />
+          <Route path="/sales_summary" exact component={SalesSummary} />
+          <Route path="/add_sale" exact component={AddSale} />
+          <Route path="/edit_sale" exact component={EditSale} />
+          <Route path="/estimated_revenue" exact component={EstimatedRevenue} />
+          <Route path="/labour" exact component={Labour} />
+          <Route path="/other_expense" exact component={OtherExpense} />
+          <Route path="/expense_detail" exact component={ExpenseDetail} />
+          <Route path="/expense_categories" exact component={ExpenseCategories} />
+          <Route path="/add_expense" exact component={AddExpense} />
+          <Route path="/edit_expense_categories" exact component={EditExpenseCategories} />
+          <Route path="/edit_add_expense" exact component={EditAddExpense} />
+          <Route path="/contact" exact component={ContactForm} />
+          <Route path="/sale_detail" exact component={SaleDetail} />
+          <Route path="/farm_selection" exact component={ChooseFarm} />
+          <Route path="/edit_field" exact component={EditField} />
+          <Route path="/insights" exact component={Insights} />
+          <Route path="/insights/peoplefed" exact component={PeopleFed} />
+          <Route path="/insights/soilom" exact component={SoilOM} />
+          <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
+          <Route path="/insights/biodiversity" exact component={Biodiversity} />
+          <Route path="/insights/prices" exact component={Prices} />
+          <Route path="/insights/waterbalance" exact component={WaterBalance} />
+          <Route path="/insights/erosion" exact component={Erosion} />
+          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
-          <Route path="/farm_selection" exact component={ChooseFarm}/>
-          <Route path="/callback" render={(props) => {
-            handleAuthentication(props, dispatchLoginSuccess);
-            return <Callback {...props} />
-          }}/>
-          <Route path="/log_detail" exact component={LogDetail}/>
-          //TODO change to 404
-          <Redirect to={'/'}/>
+          <Route path="/farm_selection" exact component={ChooseFarm} />
+          {/*<Route path="/callback" render={(props) => {*/}
+          {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+          {/*  return <Callback {...props} />*/}
+          {/*}}/>*/}
+          <Route path="/log_detail" exact component={LogDetail} />
+          <Redirect to={'/'} />
         </Switch>
       );
     } else {
       return (
         <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/home" exact component={Home}/>
-          <Route path="/profile" exact component={Profile}/>
-          <Route path="/intro" exact component={IntroSlide}/>
-          <Route path="/consent" exact component={ConsentForm}/>
-          <Route path="/log" exact component={Log}/>
-          <Route path="/new_log" exact component={NewLog}/>
-          <Route path="/fertilizing_log" exact component={FertilizingLog}/>
-          <Route path="/pest_control_log" exact component={PestControlLog}/>
-          <Route path="/field_work_log" exact component={FieldWorkLog}/>
-          <Route path="/harvest_log" exact component={HarvestLog}/>
-          <Route path="/irrigation_log" exact component={IrrigationLog}/>
-          <Route path="/scouting_log" exact component={ScoutingLog}/>
-          <Route path="/seeding_log" exact component={SeedingLog}/>
-          <Route path="/soil_data_log" exact component={soilDataLog}/>
-          <Route path="/other_log" exact component={OtherLog}/>
-          <Route path="/seeding_log/edit" exact component={EditSeedingLog}/>
-          <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog}/>
-          <Route path="/pest_control_log/edit" exact component={EditPestControlLog}/>
-          <Route path="/field_work_log/edit" exact component={EditFieldWorkLog}/>
-          <Route path="/harvest_log/edit" exact component={EditHarvestLog}/>
-          <Route path="/irrigation_log/edit" exact component={EditIrrigationLog}/>
-          <Route path="/scouting_log/edit" exact component={EditScoutingLog}/>
-          <Route path="/soil_data_log/edit" exact component={EditSoilDataLog}/>
-          <Route path="/other_log/edit" exact component={EditOtherLog}/>
-          <Route path="/shift" exact component={Shift}/>
-          <Route path="/shift_step_one" exact component={ShiftStepOne}/>
-          <Route path="/shift_step_two" exact component={ShiftStepTwo}/>
-          <Route path="/my_shift" exact component={MyShift}/>
-          <Route path="/edit_shift_one" exact component={EditShiftOne}/>
-          <Route path="/edit_shift_two" exact component={EditShiftTwo}/>
+          <Route path="/" exact component={Home} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/profile" exact component={Profile} />
+          <Route path="/intro" exact component={IntroSlide} />
+          <Route path="/consent" exact component={ConsentForm} />
+          <Route path="/log" exact component={Log} />
+          <Route path="/new_log" exact component={NewLog} />
+          <Route path="/fertilizing_log" exact component={FertilizingLog} />
+          <Route path="/pest_control_log" exact component={PestControlLog} />
+          <Route path="/field_work_log" exact component={FieldWorkLog} />
+          <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/irrigation_log" exact component={IrrigationLog} />
+          <Route path="/scouting_log" exact component={ScoutingLog} />
+          <Route path="/seeding_log" exact component={SeedingLog} />
+          <Route path="/soil_data_log" exact component={soilDataLog} />
+          <Route path="/other_log" exact component={OtherLog} />
+          <Route path="/seeding_log/edit" exact component={EditSeedingLog} />
+          <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
+          <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
+          <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
+          <Route path="/harvest_log/edit" exact component={EditHarvestLog} />
+          <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
+          <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
+          <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
+          <Route path="/other_log/edit" exact component={EditOtherLog} />
+          <Route path="/shift" exact component={Shift} />
+          <Route path="/shift_step_one" exact component={ShiftStepOne} />
+          <Route path="/shift_step_two" exact component={ShiftStepTwo} />
+          <Route path="/my_shift" exact component={MyShift} />
+          <Route path="/edit_shift_one" exact component={EditShiftOne} />
+          <Route path="/edit_shift_two" exact component={EditShiftTwo} />
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
-          <Route path="/log_detail" exact component={LogDetail}/>
-          <Route path="/farm_selection" exact component={ChooseFarm}/>
-          <Route path="/callback" render={(props) => {
-            handleAuthentication(props, dispatchLoginSuccess);
-            return <Callback {...props} />
-          }}/>
-          <Route path="/insights" exact component={Insights}/>
-          <Route path="/insights/peoplefed" exact component={PeopleFed}/>
-          <Route path="/insights/soilom" exact component={SoilOM}/>
-          <Route path="/insights/labourhappiness" exact component={LabourHappiness}/>
-          <Route path="/insights/biodiversity" exact component={Biodiversity}/>
-          <Route path="/insights/prices" exact component={Prices}/>
-          <Route path="/insights/waterbalance" exact component={WaterBalance}/>
-          <Route path="/insights/erosion" exact component={Erosion}/>
-          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance}/>
-          //TODO change to 404
-          <Redirect to={'/'}/>
+          <Route path="/log_detail" exact component={LogDetail} />
+          <Route path="/farm_selection" exact component={ChooseFarm} />
+          {/*<Route path="/callback" render={(props) => {*/}
+          {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
+          {/*  return <Callback {...props} />*/}
+          {/*}}/>*/}
+          <Route path="/insights" exact component={Insights} />
+          <Route path="/insights/peoplefed" exact component={PeopleFed} />
+          <Route path="/insights/soilom" exact component={SoilOM} />
+          <Route path="/insights/labourhappiness" exact component={LabourHappiness} />
+          <Route path="/insights/biodiversity" exact component={Biodiversity} />
+          <Route path="/insights/prices" exact component={Prices} />
+          <Route path="/insights/waterbalance" exact component={WaterBalance} />
+          <Route path="/insights/erosion" exact component={Erosion} />
+          <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
+          <Redirect to={'/'} />
         </Switch>
       );
     }
-  } else if (!auth.isAuthenticated()) {
+  } else if (!isAuthenticated()) {
     return (
       <Switch>
-        <Route path="/callback" render={(props) => {
-          handleAuthentication(props, dispatchLoginSuccess);
-          return <Callback {...props} />
-        }}/>
-        <Route path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name" exact component={SignUp}/>
-        <Route path="/*" exact component={Login}/>
+        <Route path="/callback" component={PasswordResetAccount} />
+        <Route
+          path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name"
+          exact
+          component={SignUp}
+        />
+        <Route path="/" exact component={CustomSignUp} />
+        <Redirect
+          to={'/'}
+          //TODO change to 404
+        />
       </Switch>
     );
   }
-}
+};
 
 export default Routes;

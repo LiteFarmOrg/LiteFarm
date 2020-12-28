@@ -25,8 +25,12 @@ import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
+import manualSignUpReducer from '../containers/CustomSignUp/signUpSlice';
+import loginReducer from '../containers/loginSlice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
+import userLogReducer from '../containers/userLogSlice';
+
 import fieldReducer from '../containers/fieldSlice';
 import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
@@ -46,7 +50,7 @@ const initialNotification = {
   alert_weather: true,
   alert_worker_finish: true,
   alert_before_planned_date: true,
-  alert_action_after_scouting: true
+  alert_action_after_scouting: true,
 };
 
 const initialUserInfo = {
@@ -88,7 +92,7 @@ const addUserInfo = {
   pay: {
     type: '',
     amount: null,
-  }
+  },
 };
 
 const signUpUserInfo = {
@@ -98,36 +102,45 @@ const signUpUserInfo = {
   password: '',
 };
 
-const entitiesReducer= combineReducers({
+const entitiesReducer = combineReducers({
   userFarmReducer,
   // userReducer,
   certifierSurveyReducer,
+  manualSignUpReducer,
   rolesReducer,
   fieldReducer,
   cropReducer,
   fieldCropReducer,
 });
 
+const persistedStateReducer = combineReducers({
+  userLogReducer,
+});
+
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
   toastr: toastrReducer,
-  profileForms: combineForms({
-    addInfo: addUserInfo,
-    farm: initialFarmState,
-    notification: initialNotification,
-    userInfo: initialUserInfo,
-    farmInfo: initialFarmInfo,
-    editInfo: editUserInfo,
-    signUpInfo: signUpUserInfo,
-  }, 'profileForms'),
+  profileForms: combineForms(
+    {
+      addInfo: addUserInfo,
+      farm: initialFarmState,
+      notification: initialNotification,
+      userInfo: initialUserInfo,
+      farmInfo: initialFarmInfo,
+      editInfo: editUserInfo,
+      signUpInfo: signUpUserInfo,
+    },
+    'profileForms',
+  ),
   entitiesReducer,
+  persistedStateReducer,
   baseReducer,
   logReducer,
   shiftReducer,
   fieldReducer1,
   insightReducer,
   financeReducer,
-  farmReducer
+  farmReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -13,22 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  DELETE_FIELD,
-  DELETE_FIELD_CROP,
-} from './constants';
+import { DELETE_FIELD, DELETE_FIELD_CROP } from './constants';
 
 export const deleteFieldCrop = (fieldCropId, fieldId) => {
   return {
     type: DELETE_FIELD_CROP,
     fieldCropId,
     fieldId,
-  }
+  };
 };
 
 export const deleteField = (fieldId) => {
   return {
     type: DELETE_FIELD,
     fieldId,
-  }
+  };
 };

@@ -1,5 +1,5 @@
-@import "../../../assets/colors";
-@import "../../../assets/mixin";
+@import '../../../assets/colors';
+@import '../../../assets/mixin';
 .container {
   display: inline-block;
   position: relative;
@@ -38,7 +38,7 @@
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
@@ -62,11 +62,11 @@
   transform: translateY(-4px);
 }
 
-.disabled{
+.disabled {
   cursor: auto;
 }
 
-.disabled .checkmark{
+.disabled .checkmark {
   background-color: var(--btnDisabled);
   border: none;
 }

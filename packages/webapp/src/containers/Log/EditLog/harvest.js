@@ -15,9 +15,10 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 
-class HarvestLog extends Component{
+class HarvestLog extends Component {
   constructor(props) {
     super(props);
     const { farm, dispatch } = this.props;
@@ -32,7 +33,7 @@ class HarvestLog extends Component{
     dispatch(getFieldCrops());
   }
 
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
@@ -40,7 +41,18 @@ class HarvestLog extends Component{
 
   componentDidMount() {
     const { selectedLog, dispatch } = this.props;
-    dispatch(actions.change('logReducer.forms.harvestLog.quantity_kg', roundToFourDecimal(convertFromMetric(parseFloat(selectedLog.harvestLog.quantity_kg), this.state.quantity_unit, 'kg')).toString()));
+    dispatch(
+      actions.change(
+        'logReducer.forms.harvestLog.quantity_kg',
+        roundToFourDecimal(
+          convertFromMetric(
+            parseFloat(selectedLog.harvestLog.quantity_kg),
+            this.state.quantity_unit,
+            'kg',
+          ),
+        ).toString(),
+      ),
+    );
     dispatch(actions.change('logReducer.forms.harvestLog.notes', selectedLog.notes));
   }
 
@@ -49,7 +61,7 @@ class HarvestLog extends Component{
     const selectedCrop = log['crop'];
     const selectedField = log['field'];
     const toSubmitCrop = {};
-    const toSubmitField = {field_id: selectedField['value']};
+    const toSubmitField = { field_id: selectedField['value'] };
     for (const key in selectedCrop) {
       if (key === selectedField.value) {
         if (Array.isArray(selectedCrop[key])) {
@@ -76,47 +88,67 @@ class HarvestLog extends Component{
     dispatch(editLog(formValue));
   }
 
-  render(){
+  render() {
     const { crops, fields, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({ value: f.field_id, label: f.field_name }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({ value: fc.field_crop_id, label: fc.crop.crop_common_name, field_id: fc.field_id }));
+    const selectedFields = selectedLog.field.map((f) => ({
+      value: f.field_id,
+      label: f.field_name,
+    }));
+    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
+      value: fc.field_crop_id,
+      label: fc.crop.crop_common_name,
+      field_id: fc.field_id,
+    }));
 
-
-    return(
+    return (
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Harvest Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.harvestLog)}>
+        <PageTitle
+          backUrl="/log"
+          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_HARVEST.TITLE')}`}
+        />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val.harvestLog)}
+        >
           <LogFormOneCrop
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             model=".harvestLog"
             fields={fields}
             crops={crops}
             notesField={false}
           />
 
-          <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
+          <Unit
+            model=".harvestLog.quantity_kg"
+            title={this.props.t('LOG_COMMON.QUANTITY')}
+            type={this.state.quantity_unit}
+            validate
+          />
 
           <div>
-            <div className={styles.noteTitle}>
-              Notes
-            </div>
+            <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes"/>
+              <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })}/>
+          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -127,13 +159,13 @@ const mapStateToProps = (state) => {
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HarvestLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestLog));

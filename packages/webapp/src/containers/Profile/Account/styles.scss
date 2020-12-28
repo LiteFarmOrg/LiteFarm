@@ -1,13 +1,13 @@
-.formContainer{
+.formContainer {
   margin-top: 5%;
-  label{
+  label {
     font-family: 'Avenir', sans-serif;
     font-weight: normal;
   }
-  input{
+  input {
     width: 50%;
     height: 30px;
-    border: 1px solid #C3C0C0;
+    border: 1px solid #c3c0c0;
     border-radius: 3px;
     padding: 0 3%;
   }
@@ -16,7 +16,7 @@
     text-align: center;
   }
 }
-.labelContainer{
+.labelContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -24,18 +24,18 @@
   margin-bottom: 3%;
 }
 
-.headerTitle{
+.headerTitle {
   margin-top: 24px;
 }
 
 @media only screen and (max-width: 800px) {
-  .formContainer{
+  .formContainer {
     margin-top: 5%;
-    label{
+    label {
       font-family: 'Avenir', sans-serif;
       font-weight: normal;
     }
-    input{
+    input {
       width: 77%;
       height: 30px;
     }

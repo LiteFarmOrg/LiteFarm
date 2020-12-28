@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import {connect} from 'react-redux';
-import {nitrogenBalanceSelector, nitrogenFrequencySelector} from "../selectors";
+import { connect } from 'react-redux';
+import { nitrogenBalanceSelector, nitrogenFrequencySelector } from '../selectors';
 import NitrogenBalanceInfo from '../../../components/Insights/NitrogenBalanceInfo';
 import FrequencySelectorComponent from '../../../components/Insights/FrequencySelectorComponent';
-import {delFrequencyNitrogenBalance} from "../actions";
+import { delFrequencyNitrogenBalance } from '../actions';
 import styles from './styles.scss';
 
 class NitrogenBalance extends Component {
@@ -24,31 +24,35 @@ class NitrogenBalance extends Component {
   }
 
   handleFormSubmit(futureDate, freq) {
-    this.setState({firstRun: false});
-    this.setState({rightIconShowDelete: true});
-    this.setState({refreshDate: formatFirstDate(futureDate)});
-    this.setState({frequency: freq})
+    this.setState({ firstRun: false });
+    this.setState({ rightIconShowDelete: true });
+    this.setState({ refreshDate: formatFirstDate(futureDate) });
+    this.setState({ frequency: freq });
   }
 
   handleFormatRefreshTime(nitrogenScheduleData) {
     if (nitrogenScheduleData) {
-      this.setState({refreshDate: formatDate(nitrogenScheduleData['scheduled_at'])});
-      this.setState({frequency: nitrogenScheduleData['frequency']});
+      this.setState({
+        refreshDate: formatDate(nitrogenScheduleData['scheduled_at']),
+      });
+      this.setState({ frequency: nitrogenScheduleData['frequency'] });
     } else {
-      this.setState({firstRun: true});
-      this.setState({rightIconShowDelete: false});
+      this.setState({ firstRun: true });
+      this.setState({ rightIconShowDelete: false });
     }
   }
 
   componentDidMount() {
-    this.handleFormatRefreshTime(this.props.nitrogenFrequencyData)
+    this.handleFormatRefreshTime(this.props.nitrogenFrequencyData);
   }
 
   handleRightIconDelete() {
-    if (window.confirm("Are you sure you want to delete your Schedule?")) {
-      this.props.dispatch(delFrequencyNitrogenBalance(this.props.nitrogenFrequencyData.nitrogen_schedule_id));
-      this.setState({firstRun: true});
-      this.setState({rightIconShowDelete: false});
+    if (window.confirm('Are you sure you want to delete your Schedule?')) {
+      this.props.dispatch(
+        delFrequencyNitrogenBalance(this.props.nitrogenFrequencyData.nitrogen_schedule_id),
+      );
+      this.setState({ firstRun: true });
+      this.setState({ rightIconShowDelete: false });
     }
   }
 
@@ -59,18 +63,23 @@ class NitrogenBalance extends Component {
     if (!this.state.firstRun) {
       if (Array.isArray(nitrogenBalanceDataByField) && nitrogenBalanceDataByField.length > 0) {
         renderedComponent = nitrogenBalanceDataByField.map((field, index) => {
-          return (
-            <NitrogenBalanceInfo key={'item-nitrogen-' + index} field={field}/>
-          )
-        })
+          return <NitrogenBalanceInfo key={'item-nitrogen-' + index} field={field} />;
+        });
       } else {
-        renderedComponent = <div>Your Nitrogen Balance is on a {this.state.frequency} months cycle and data will show on: {this.state.refreshDate}</div>
+        renderedComponent = (
+          <div>
+            Your Nitrogen Balance is on a {this.state.frequency} months cycle and data will show on:{' '}
+            {this.state.refreshDate}
+          </div>
+        );
       }
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <h4>It looks like it's your first time running this! Please select a frequency to calculate your nitrogen
-          balance.</h4>
+          <h4>
+            It looks like it's your first time running this! Please select a frequency to calculate
+            your nitrogen balance.
+          </h4>
           <FrequencySelectorComponent handler={this.handleFormSubmit} />
         </div>
       );
@@ -78,35 +87,43 @@ class NitrogenBalance extends Component {
 
     return (
       <div className={insightStyles.insightContainer}>
-        <PageTitle title="Nitrogen Balance" backUrl="/Insights/"
-                   rightIcon={true} rightIconTitle={'Every ' + this.state.frequency + ' months: ' + this.state.refreshDate}
-                   rightIconBody={infoBoxBody}
-                   rightIconDeleteHandler={this.handleRightIconDelete} showDelete={this.state.rightIconShowDelete}/>
-        <div>
-          {renderedComponent}
-        </div>
+        <PageTitle
+          title="Nitrogen Balance"
+          backUrl="/Insights/"
+          rightIcon={true}
+          rightIconTitle={'Every ' + this.state.frequency + ' months: ' + this.state.refreshDate}
+          rightIconBody={infoBoxBody}
+          rightIconDeleteHandler={this.handleRightIconDelete}
+          showDelete={this.state.rightIconShowDelete}
+        />
+        <div>{renderedComponent}</div>
       </div>
-    )
+    );
   }
 }
 
-const infoBoxBody = <div>
-  <p>The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs.  You can run the balance on your desired time interval.</p>
-  <p>Click the delete button to reset your schedule.</p>
-</div>;
-
+const infoBoxBody = (
+  <div>
+    <p>
+      The nitrogen balance tells you if you have applied too little or too much fertilizer. It
+      relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can
+      run the balance on your desired time interval.
+    </p>
+    <p>Click the delete button to reset your schedule.</p>
+  </div>
+);
 
 const mapStateToProps = (state) => {
   return {
     nitrogenBalanceData: nitrogenBalanceSelector(state),
     nitrogenFrequencyData: nitrogenFrequencySelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 const formatDate = (date) => {
@@ -116,8 +133,7 @@ const formatDate = (date) => {
 
 const formatFirstDate = (date) => {
   const year = date.getFullYear();
-  let
-    month = '' + (date.getMonth() + 1),
+  let month = '' + (date.getMonth() + 1),
     day = '' + date.getDate();
 
   if (month.length < 2) month = '0' + month;

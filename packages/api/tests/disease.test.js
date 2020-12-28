@@ -108,7 +108,7 @@ describe('Disease Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next();
     });
   });
@@ -136,7 +136,7 @@ describe('Disease Tests', () => {
     });
 
     test('Should get seeded disease', async (done) => {
-      let [seededDisease] = await knex('disease').insert({ ...mocks.fakeDisease(), farm_id: null }).returning('*');
+      let [seededDisease] = await mocks.diseaseFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeDisease());
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body[1].disease_id).toBe(seededDisease.disease_id);
@@ -179,7 +179,7 @@ describe('Disease Tests', () => {
 
     describe('Delete disease tests', function () {
       test('should return 403 if user tries to delete a seeded disease', async (done) => {
-        let [seedDisease] = await knex('disease').insert({ ...mocks.fakeDisease(), farm_id: null }).returning('*');
+        let [seedDisease] = await mocks.diseaseFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeDisease());
         deleteRequest({ disease_id: seedDisease.disease_id }, async (err, res) => {
           expect(res.status).toBe(403);
           done();

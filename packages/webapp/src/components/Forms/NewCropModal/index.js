@@ -1,18 +1,24 @@
 import React from 'react';
-import {Button, Modal, FormGroup, FormControl, FormLabel, Form} from 'react-bootstrap';
-import {CROP_GROUPS, DUMMY_NEW_CROP, INITIAL_STATE, CROP_DICT, NUTRIENT_DICT, NUTRIENT_ARRAY} from './constants';
-import {connect} from 'react-redux';
-import {toastr} from "react-redux-toastr";
-import {createCropAction} from './actions';
-import {getCrops} from '../../../containers/saga'
+import { Button, Modal, FormGroup, FormControl, FormLabel, Form } from 'react-bootstrap';
+import {
+  CROP_GROUPS,
+  DUMMY_NEW_CROP,
+  INITIAL_STATE,
+  CROP_DICT,
+  NUTRIENT_DICT,
+  NUTRIENT_ARRAY,
+} from './constants';
+import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
+import { createCropAction } from './actions';
+import { getCrops } from '../../../containers/saga';
 import styles from './styles.scss';
 import Select from 'react-select';
-import {crop_nutrient_data} from '../../../assets/data/crop_nutrient';
-import {crop_physiology_data} from '../../../assets/data/crop_physiology';
+import { crop_nutrient_data } from '../../../assets/data/crop_nutrient';
+import { crop_physiology_data } from '../../../assets/data/crop_physiology';
 import InfoBoxComponent from '../../../components/InfoBoxComponent';
-import {roundToTwoDecimal}  from '../../../util';
+import { roundToTwoDecimal } from '../../../util';
 import { cropsSelector } from '../../../containers/cropSlice';
-
 
 class NewCropModal extends React.Component {
   constructor(props, context) {
@@ -75,18 +81,14 @@ class NewCropModal extends React.Component {
       variety: '',
       expand_nutrient: false,
       is_using_template: true,
-      physiology_properties: ["initial_kc", "mid_kc", "end_kc", "max_height", "max_rooting_depth",],
+      physiology_properties: ['initial_kc', 'mid_kc', 'end_kc', 'max_height', 'max_rooting_depth'],
       nutrient_credits: null,
     };
   }
 
   componentDidMount() {
-    const {
-      dispatch,
-      crops
-    } = this.props;
-    if(!(crops && crops.length))
-    dispatch(getCrops());
+    const { dispatch, crops } = this.props;
+    if (!(crops && crops.length)) dispatch(getCrops());
   }
 
   handleClose() {
@@ -94,7 +96,7 @@ class NewCropModal extends React.Component {
   }
 
   handleShow() {
-    this.setState({show: true});
+    this.setState({ show: true });
   }
 
   handleValidate() {
@@ -116,7 +118,6 @@ class NewCropModal extends React.Component {
     if (currentState.crop_group === '') {
       errors += 'Crop Group, ';
       validated = false;
-
     }
     if (currentState.crop_subgroup === '') {
       errors += 'Crop Subgroup, ';
@@ -127,34 +128,32 @@ class NewCropModal extends React.Component {
       validated = false;
     }
 
-
     if (!validated) {
       if (errors !== '') {
-        toastr.error(errors + 'is not filled out')
+        toastr.error(errors + 'is not filled out');
       }
     }
 
-    return validated
+    return validated;
   }
 
   handleSaveNewCrop() {
-    const {variety} = this.state;
+    const { variety } = this.state;
 
     if (this.handleValidate()) {
       // currently sending dummy
       let newCrop = DUMMY_NEW_CROP;
 
       if (variety.trim() !== '') {
-        newCrop.crop_common_name = this.state.crop_common_name + ' - ' + variety
-      }
-      else newCrop.crop_common_name = this.state.crop_common_name;
+        newCrop.crop_common_name = this.state.crop_common_name + ' - ' + variety;
+      } else newCrop.crop_common_name = this.state.crop_common_name;
 
       newCrop.crop_genus = this.state.crop_genus;
       newCrop.crop_specie = this.state.crop_specie;
       newCrop.crop_group = this.state.crop_group;
       newCrop.crop_subgroup = this.state.crop_subgroup;
 
-      for(let nutrient of NUTRIENT_ARRAY){
+      for (let nutrient of NUTRIENT_ARRAY) {
         newCrop[nutrient] = this.state[nutrient];
       }
 
@@ -174,9 +173,8 @@ class NewCropModal extends React.Component {
 
   validateNotEmptyLength(state) {
     if (state.length > 0) return 'success';
-    return 'error'
-  };
-
+    return 'error';
+  }
 
   handleCropChange = (selected) => {
     if (selected.value !== 'new') {
@@ -198,9 +196,9 @@ class NewCropModal extends React.Component {
         is_using_template: false,
       });
 
-      for(let nutrient of NUTRIENT_ARRAY){
+      for (let nutrient of NUTRIENT_ARRAY) {
         this.setState({
-          [nutrient]: Number(selected.value[nutrient])
+          [nutrient]: Number(selected.value[nutrient]),
         });
       }
     } else {
@@ -248,29 +246,29 @@ class NewCropModal extends React.Component {
         is_avg_nutrient: null,
         is_using_template: true,
         nutrient_credits: null,
-      })
+      });
     }
   };
 
-  expandNutrient = () =>{
-    const {expand_nutrient} = this.state;
+  expandNutrient = () => {
+    const { expand_nutrient } = this.state;
     this.setState({
       expand_nutrient: !expand_nutrient,
-    })
+    });
   };
 
   loadDefaultCropData = (e) => {
-    const {is_using_template} = this.state;
+    const { is_using_template } = this.state;
     const crop_subgroup = e.target.value;
     this.setState({
-      crop_subgroup
+      crop_subgroup,
     });
 
-    if(is_using_template){
-      for(let n of NUTRIENT_ARRAY){
+    if (is_using_template) {
+      for (let n of NUTRIENT_ARRAY) {
         this.setState({
-          [n]: Number(crop_nutrient_data[crop_subgroup][n])
-        })
+          [n]: Number(crop_nutrient_data[crop_subgroup][n]),
+        });
       }
       this.setState({
         initial_kc: crop_physiology_data[crop_subgroup]['initial_kc'],
@@ -279,37 +277,42 @@ class NewCropModal extends React.Component {
         max_rooting_depth: crop_physiology_data[crop_subgroup]['max_rooting_depth'],
         depletion_fraction: crop_physiology_data[crop_subgroup]['depletion_fraction'],
         max_height: crop_physiology_data[crop_subgroup]['max_height'],
-      })
+      });
     }
   };
 
   render() {
-    let {subGroups, expand_nutrient, physiology_properties} = this.state;
-    let {crops} = this.props;
+    let { subGroups, expand_nutrient, physiology_properties } = this.state;
+    let { crops } = this.props;
     let cropOptions = [];
     if (crops && crops.length) {
       for (let c of crops) {
         cropOptions.push({
           value: c,
           label: c.crop_common_name,
-        })
+        });
       }
 
-      cropOptions.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0));
+      cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
 
-      cropOptions.unshift({value: 'new', label: 'New'});
+      cropOptions.unshift({ value: 'new', label: 'New' });
     }
 
     return (
       <div>
-        {!this.props.isLink &&
-        <Button style={{fillColor: '#7CCFA2', width: '100%'}} onClick={this.handleShow}>
-          New Crop
-        </Button>
-        }
-        {this.props.isLink &&
-        <p>or <a onClick={this.handleShow} style={{textDecoration: 'underline'}}>Add New Crop or Variety</a></p>
-        }
+        {!this.props.isLink && (
+          <Button style={{ fillColor: '#7CCFA2', width: '100%' }} onClick={this.handleShow}>
+            New Crop
+          </Button>
+        )}
+        {this.props.isLink && (
+          <p>
+            or{' '}
+            <a onClick={this.handleShow} style={{ textDecoration: 'underline' }}>
+              Add New Crop or Variety
+            </a>
+          </p>
+        )}
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -317,11 +320,14 @@ class NewCropModal extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <h4>Enter Crop Details</h4>
-            <br/>
+            <br />
 
             <div className={styles.cropTemplate}>
               <h4>Select a crop template</h4>
-              <Select options={cropOptions} onChange={(selectedOption) => this.handleCropChange(selectedOption)}/>
+              <Select
+                options={cropOptions}
+                onChange={(selectedOption) => this.handleCropChange(selectedOption)}
+              />
             </div>
 
             <FormLabel>Common Name, Species, and Genus</FormLabel>
@@ -332,21 +338,23 @@ class NewCropModal extends React.Component {
                 placeholder="Common Name"
                 value={this.state.crop_common_name}
                 onChange={(e) => {
-                  this.setState({crop_common_name: e.target.value});
-                }}/>
+                  this.setState({ crop_common_name: e.target.value });
+                }}
+              />
             </FormGroup>
 
-            <FormGroup controlId="crop_variety"
-            validationState={this.validateNotEmptyLength(this.state.variety)}
+            <FormGroup
+              controlId="crop_variety"
+              validationState={this.validateNotEmptyLength(this.state.variety)}
             >
               <FormControl
                 type="text"
                 placeholder="Variety Name"
                 value={this.state.variety}
                 onChange={(e) => {
-                  this.setState({variety: e.target.value});
+                  this.setState({ variety: e.target.value });
                 }}
-                />
+              />
             </FormGroup>
 
             <FormGroup controlId="crop_genus">
@@ -355,8 +363,9 @@ class NewCropModal extends React.Component {
                 placeholder="Genus"
                 value={this.state.crop_genus}
                 onChange={(e) => {
-                  this.setState({crop_genus: e.target.value});
-                }}/>
+                  this.setState({ crop_genus: e.target.value });
+                }}
+              />
             </FormGroup>
             <FormGroup controlId="crop_specie">
               <FormControl
@@ -364,8 +373,9 @@ class NewCropModal extends React.Component {
                 placeholder="Species"
                 value={this.state.crop_specie}
                 onChange={(e) => {
-                  this.setState({crop_specie: e.target.value});
-                }}/>
+                  this.setState({ crop_specie: e.target.value });
+                }}
+              />
             </FormGroup>
             <FormLabel>Crop Group and Subgroup</FormLabel>
             <FormGroup controlId="crop_group">
@@ -373,69 +383,91 @@ class NewCropModal extends React.Component {
                 as="select"
                 placeholder="Select crop group"
                 value={this.state.crop_group}
-                onChange={(e) =>
-                  this.handleMatchCrop(e.target.value)
-                }>
-                <option key={"select crop group"} value={"select crop group"}>Select crop group</option>
-                {CROP_GROUPS && CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
-                  <option key={cropGroupIndex} value={cropGroup}>{cropGroup}</option>
-                ))}
+                onChange={(e) => this.handleMatchCrop(e.target.value)}
+              >
+                <option key={'select crop group'} value={'select crop group'}>
+                  Select crop group
+                </option>
+                {CROP_GROUPS &&
+                  CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
+                    <option key={cropGroupIndex} value={cropGroup}>
+                      {cropGroup}
+                    </option>
+                  ))}
               </Form.Control>
             </FormGroup>
-            < FormGroup controlId="crop_subgroup">
+            <FormGroup controlId="crop_subgroup">
               <Form.Control
                 as="select"
                 placeholder="Select crop subgroup"
                 value={this.state.crop_subgroup}
-                onChange={(e) =>
-                  this.loadDefaultCropData(e)}>
-                <option key={"select crop subgroup"} value={"select crop subgroup"}>Select crop subgroup</option>
-                {subGroups && subGroups.map((cropSubGroup, cropSubGroupIndex) => (
-                  <option key={cropSubGroupIndex} value={cropSubGroup}>{cropSubGroup}</option>
-                ))}
+                onChange={(e) => this.loadDefaultCropData(e)}
+              >
+                <option key={'select crop subgroup'} value={'select crop subgroup'}>
+                  Select crop subgroup
+                </option>
+                {subGroups &&
+                  subGroups.map((cropSubGroup, cropSubGroupIndex) => (
+                    <option key={cropSubGroupIndex} value={cropSubGroup}>
+                      {cropSubGroup}
+                    </option>
+                  ))}
               </Form.Control>
             </FormGroup>
             <div className={styles.cropGroupTitle}>
-              <div onClick={()=>this.expandNutrient()} style={{marginBottom: '10px'}}>
+              <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px' }}>
                 <a>Edit Crop Detail</a>
               </div>
-              <InfoBoxComponent customStyle={{float: 'right', fontSize: '80%', marginTop: '0.2em'}} title={"Crop Group Info"}
-                                body={'If you have information on the details of your crop or variety such as it’s nutrient content, ' +
-                                'or physiological traits, you can edit them here.'}/>
+              <InfoBoxComponent
+                customStyle={{
+                  float: 'right',
+                  fontSize: '80%',
+                  marginTop: '0.2em',
+                }}
+                title={'Crop Group Info'}
+                body={
+                  'If you have information on the details of your crop or variety such as it’s nutrient content, ' +
+                  'or physiological traits, you can edit them here.'
+                }
+              />
             </div>
-            {
-              expand_nutrient && <div>
+            {expand_nutrient && (
+              <div>
                 <FormLabel>Physiology and Anatomy</FormLabel>
-                <br/>
+                <br />
                 <FormGroup controlId="crop_nutrient">
-                  {
-                    NUTRIENT_ARRAY.map((nutrient) => {
-
-                      if(physiology_properties.includes(nutrient)) {
-                        return <div key={nutrient}>
-                          <p className={styles.nutrientLabel}>{NUTRIENT_DICT[nutrient]} {this.state[nutrient] === 0 && <p>{' ' + 'No Data'}</p>}</p>
+                  {NUTRIENT_ARRAY.map((nutrient) => {
+                    if (physiology_properties.includes(nutrient)) {
+                      return (
+                        <div key={nutrient}>
+                          <p className={styles.nutrientLabel}>
+                            {NUTRIENT_DICT[nutrient]}{' '}
+                            {this.state[nutrient] === 0 && <p>{' ' + 'No Data'}</p>}
+                          </p>
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
                             placeholder={NUTRIENT_DICT[nutrient]}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
-                              this.setState({[nutrient]: Number(e.target.value)});
-                            }}/>
+                              this.setState({
+                                [nutrient]: Number(e.target.value),
+                              });
+                            }}
+                          />
                         </div>
-                      }
-                    })
-                  }
+                      );
+                    }
+                  })}
                 </FormGroup>
 
                 <FormLabel>Nutrients in Edible Portion (per 100g)</FormLabel>
-                <br/>
+                <br />
                 <FormGroup controlId="crop_nutrient">
-                  {
-                    NUTRIENT_ARRAY.map((nutrient) => {
-
-                      if(!physiology_properties.includes(nutrient)) {
-                        return <div key={nutrient}>
+                  {NUTRIENT_ARRAY.map((nutrient) => {
+                    if (!physiology_properties.includes(nutrient)) {
+                      return (
+                        <div key={nutrient}>
                           <p className={styles.nutrientLabel}>{NUTRIENT_DICT[nutrient]}</p>
                           <FormControl
                             className={styles.nutrientInput}
@@ -443,22 +475,28 @@ class NewCropModal extends React.Component {
                             placeholder={NUTRIENT_DICT[nutrient]}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
-                              this.setState({[nutrient]: Number(e.target.value)});
-                            }}/>
+                              this.setState({
+                                [nutrient]: Number(e.target.value),
+                              });
+                            }}
+                          />
                         </div>
-                      }
-                    })
-                  }
+                      );
+                    }
+                  })}
                 </FormGroup>
               </div>
-            }
-
+            )}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => {
-              this.handleSaveNewCrop();
-              this.props.handler()
-            }}>Save</Button>
+            <Button
+              onClick={() => {
+                this.handleSaveNewCrop();
+                this.props.handler();
+              }}
+            >
+              Save
+            </Button>
             <Button onClick={this.handleClose}>Close</Button>
           </Modal.Footer>
         </Modal>
@@ -470,14 +508,13 @@ class NewCropModal extends React.Component {
 const mapStateToProps = (state) => {
   return {
     crops: cropsSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewCropModal);

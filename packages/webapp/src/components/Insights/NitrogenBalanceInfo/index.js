@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import insightStyles from '../../../containers/Insights/styles.scss';
 import BarBalanceComponent from '../BalanceBarComponent';
 
@@ -9,15 +9,17 @@ class NitrogenBalanceInfo extends Component {
     const title = currentKey.substr(currentKey.indexOf(' ') + 1);
     const value = currentField[currentKey];
 
-    return(
+    return (
       <div>
-        <h4><b>{title}</b></h4>
+        <h4>
+          <b>{title}</b>
+        </h4>
         <hr className={insightStyles.defaultLine} />
-        <BarBalanceComponent value={value} unit={'kg'}/>
+        <BarBalanceComponent value={value} unit={'kg'} />
         <hr />
       </div>
-    )
+    );
   }
 }
 
-export default NitrogenBalanceInfo
+export default NitrogenBalanceInfo;

@@ -3,7 +3,6 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { Label } from '../../Typography';
 
-
 export const styles = {
   option: (provided, state) => ({
     ...provided,
@@ -59,18 +58,15 @@ export const styles = {
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
   }),
-}
+};
 
-const ReactSelect = ({
-  label,
-  placeholder,
-  options,
-  ...props
-}) => {
-  return (<>
-    {label && <Label>{label}</Label>}
-    <Select customStyles styles={styles} placeholder={placeholder} options={options} {...props}/>
-  </>);
+const ReactSelect = ({ label, placeholder, options, ...props }) => {
+  return (
+    <>
+      {label && <Label>{label}</Label>}
+      <Select customStyles styles={styles} placeholder={placeholder} options={options} {...props} />
+    </>
+  );
 };
 
 ReactSelect.propTypes = {
@@ -80,5 +76,5 @@ ReactSelect.propTypes = {
    To use with react-hook-form see page https://react-hook-form.com/api/#Controller and sandbox https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js:3850-3861
    */
   options: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)),
-}
+};
 export default ReactSelect;

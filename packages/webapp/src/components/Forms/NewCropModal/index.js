@@ -101,6 +101,7 @@ class NewCropModal extends React.Component {
 
   handleValidate() {
     const currentState = this.state;
+    console.log(this.state.crop_group, this.state.crop_subgroup);
     let validated = true;
     let errors = '';
     if (currentState.crop_common_name === '') {
@@ -115,14 +116,14 @@ class NewCropModal extends React.Component {
       errors += 'Crop Species, ';
       validated = false;
     }
-    if (currentState.crop_group === '') {
-      errors += 'Crop Group, ';
-      validated = false;
-    }
-    if (currentState.crop_subgroup === '') {
-      errors += 'Crop Subgroup, ';
-      validated = false;
-    }
+    // if (currentState.crop_group === '') {
+    //   errors += 'Crop Group, ';
+    //   validated = false;
+    // }
+    // if (currentState.crop_subgroup === '') {
+    //   errors += 'Crop Subgroup, ';
+    //   validated = false;
+    // }
     if (currentState.variety === '') {
       errors += 'Variety Name, ';
       validated = false;
@@ -150,11 +151,11 @@ class NewCropModal extends React.Component {
 
       newCrop.crop_genus = this.state.crop_genus;
       newCrop.crop_specie = this.state.crop_specie;
-      newCrop.crop_group = this.state.crop_group;
-      newCrop.crop_subgroup = this.state.crop_subgroup;
+      newCrop.crop_group = this.state.crop_group || 'Other crops';
+      newCrop.crop_subgroup = this.state.crop_subgroup || 'Other crops';
 
       for (let nutrient of NUTRIENT_ARRAY) {
-        newCrop[nutrient] = this.state[nutrient];
+        newCrop[nutrient] = this.state[nutrient] ?? 0;
       }
 
       this.props.dispatch(createCropAction(newCrop)); // create field
@@ -377,43 +378,45 @@ class NewCropModal extends React.Component {
                 }}
               />
             </FormGroup>
-            <FormLabel>Crop Group and Subgroup</FormLabel>
-            <FormGroup controlId="crop_group">
-              <Form.Control
-                as="select"
-                placeholder="Select crop group"
-                value={this.state.crop_group}
-                onChange={(e) => this.handleMatchCrop(e.target.value)}
-              >
-                <option key={'select crop group'} value={'select crop group'}>
-                  Select crop group
-                </option>
-                {CROP_GROUPS &&
-                  CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
-                    <option key={cropGroupIndex} value={cropGroup}>
-                      {cropGroup}
-                    </option>
-                  ))}
-              </Form.Control>
-            </FormGroup>
-            <FormGroup controlId="crop_subgroup">
-              <Form.Control
-                as="select"
-                placeholder="Select crop subgroup"
-                value={this.state.crop_subgroup}
-                onChange={(e) => this.loadDefaultCropData(e)}
-              >
-                <option key={'select crop subgroup'} value={'select crop subgroup'}>
-                  Select crop subgroup
-                </option>
-                {subGroups &&
-                  subGroups.map((cropSubGroup, cropSubGroupIndex) => (
-                    <option key={cropSubGroupIndex} value={cropSubGroup}>
-                      {cropSubGroup}
-                    </option>
-                  ))}
-              </Form.Control>
-            </FormGroup>
+            <span style={{ display: 'none' }}>
+              <FormLabel>Crop Group and Subgroup</FormLabel>
+              <FormGroup controlId="crop_group">
+                <Form.Control
+                  as="select"
+                  placeholder="Select crop group"
+                  value={this.state.crop_group}
+                  onChange={(e) => this.handleMatchCrop(e.target.value)}
+                >
+                  <option key={'select crop group'} value={'select crop group'}>
+                    Select crop group
+                  </option>
+                  {CROP_GROUPS &&
+                    CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
+                      <option key={cropGroupIndex} value={cropGroup}>
+                        {cropGroup}
+                      </option>
+                    ))}
+                </Form.Control>
+              </FormGroup>
+              <FormGroup controlId="crop_subgroup">
+                <Form.Control
+                  as="select"
+                  placeholder="Select crop subgroup"
+                  value={this.state.crop_subgroup}
+                  onChange={(e) => this.loadDefaultCropData(e)}
+                >
+                  <option key={'select crop subgroup'} value={'select crop subgroup'}>
+                    Select crop subgroup
+                  </option>
+                  {subGroups &&
+                    subGroups.map((cropSubGroup, cropSubGroupIndex) => (
+                      <option key={cropSubGroupIndex} value={cropSubGroup}>
+                        {cropSubGroup}
+                      </option>
+                    ))}
+                </Form.Control>
+              </FormGroup>
+            </span>
             <div className={styles.cropGroupTitle}>
               <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px' }}>
                 <a>Edit Crop Detail</a>

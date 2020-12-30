@@ -30,7 +30,7 @@ class Crop extends BaseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_common_name', 'crop_group', 'crop_subgroup', 'farm_id'],
+      required: ['crop_common_name', 'farm_id'],
 
       properties: {
         crop_id: { type: 'integer' },
@@ -39,12 +39,12 @@ class Crop extends BaseModel {
         crop_genus: { type: 'string', minLength: 1, maxLength: 255 },
         crop_specie: { type: 'string', minLength: 1, maxLength: 255 },
         crop_group: {
-          type: 'string',
+          type: 'string, null',
           enum:  ['Other crops', 'Fruit and nuts', 'Beverage and spice crops', 'Potatoes and yams'
             , 'Vegetables and melons', 'Cereals', 'Leguminous crops', 'Sugar crops', 'Oilseed crops'],
         },
         crop_subgroup: {
-          type: 'string',
+          type: 'string, null',
           enum: ['Fibre crops', 'Grasses and other fodder crops', 'Nuts',
             'Temporary spice crops', 'Pome fruits and stone fruits', 'Other crops',
             'High starch Root/tuber crops', 'Leafy or stem vegetables',

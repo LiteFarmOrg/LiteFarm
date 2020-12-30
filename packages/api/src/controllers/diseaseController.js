@@ -42,7 +42,10 @@ class diseaseController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id
-        const result = await baseController.postWithResponse(diseaseModel, req.body, trx, { user_id });
+        const data = req.body;
+        data.disease_name_translation_key = data.disease_common_name;
+        data.disease_group_translation_key = data.disease_group;
+        const result = await baseController.postWithResponse(diseaseModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

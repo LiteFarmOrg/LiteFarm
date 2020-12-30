@@ -313,7 +313,7 @@ class Finances extends Component {
             result[cp.crop.crop_id].profit += Number(cp.sale_value);
           } else {
             result[cp.crop.crop_id] = {
-              crop: cp.crop.crop_common_name,
+              crop: this.props.t(`crop:${cp.crop.crop_translation_key}`),
               field_id: 'not available',
               crop_id: cp.crop.crop_id,
               profit: Number(cp.sale_value),

@@ -87,7 +87,7 @@ class LogDetail extends Component {
 
     for (let d of diseases) {
       if (d.disease_id === d_id) {
-        return d.disease_common_name;
+        return this.props.t(`disease:name.${d.disease_name_translation_key}`);
       }
     }
 
@@ -263,11 +263,11 @@ class LogDetail extends Component {
                     if (hasDup) {
                       return (
                         <div className={styles.innerList} key={fc.field_crop_id}>
-                          <div>{fc.crop.crop_common_name}</div>
+                          <div>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</div>
                           <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
                         </div>
                       );
-                    } else return <p key={fc.field_crop_id}>{fc.crop.crop_common_name}</p>;
+                    } else return <p key={fc.field_crop_id}>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</p>;
                   })}
                 </div>
               </div>

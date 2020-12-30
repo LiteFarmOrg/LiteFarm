@@ -96,6 +96,7 @@ class Crop extends BaseModel {
         nutrient_notes: { type : 'string' },
         refuse: { type : 'string' },
         nutrient_credits: { type : 'number' },
+        crop_translation_key: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

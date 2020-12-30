@@ -24,7 +24,9 @@ class farmExpenseTypeController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id
-        const result = await baseController.postWithResponse(expenseTypeModel, req.body, trx, { user_id });
+        const data = req.body;
+        data.expense_translation_key = data.expense_name;
+        const result = await baseController.postWithResponse(expenseTypeModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

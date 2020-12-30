@@ -118,7 +118,7 @@ class Log extends Component {
     // data needed to populate dropdowns and tables
     let cropOptions = (crops &&
       crops.map((c) => {
-        return { label: c.crop_common_name, value: c.crop_id };
+        return { label: this.props.t(`crop:${c.crop_translation_key}`), value: c.crop_id };
       })) || [{ value: '', label: '' }];
     cropOptions.unshift({ value: 'all', label: 'All Crops' });
     let fieldOptions = (fields &&
@@ -176,7 +176,7 @@ class Log extends Component {
           if (d.fieldCrop.length > 1) {
             return 'Multiple';
           } else {
-            return d.fieldCrop.map((fc) => fc.crop.crop_common_name);
+            return d.fieldCrop.map((fc) => this.props.t(`crop:${fc.crop.crop_translation_key}`));
           }
         },
         minWidth: 70,

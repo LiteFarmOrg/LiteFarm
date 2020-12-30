@@ -281,11 +281,6 @@
     }
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
-  "REQUEST_CONFIRMATION_MODAL": {
-    "BUTTON": "Got it",
-    "DESCRIPTION": "Someone wil be in touch within 48 hours.",
-    "TITLE": "Help request submitted"
-  },
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Great!",
     "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 10 seconds...",
@@ -354,6 +349,11 @@
       "USERS_NO_EMAIL_NO_LOGIN": "Users without an email won't be able to login",
       "WAGE_MUST_BE_VALID": "Wage must be a valid, non-negative number (up to 2 decimal places)"
     }
+  },
+  "REQUEST_CONFIRMATION_MODAL": {
+    "BUTTON": "Got it",
+    "DESCRIPTION": "Someone wil be in touch within 48 hours.",
+    "TITLE": "Help request submitted"
   },
   "ROLE_SELECTION": {
     "FARM_EO": "Extension Officer",

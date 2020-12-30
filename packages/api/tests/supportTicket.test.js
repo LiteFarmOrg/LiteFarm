@@ -20,8 +20,10 @@ chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment')
-jest.mock('jsdom')
-jest.mock('../src/middleware/acl/checkJwt')
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt');
+jest.mock('../src/templates/sendEmailTemplate');
+
 const mocks = require('./mock.factories');
 
 

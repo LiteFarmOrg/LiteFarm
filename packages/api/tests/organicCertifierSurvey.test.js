@@ -324,7 +324,7 @@ describe('organicCertifierSurvey Tests', () => {
         }, fakeUserFarm(1));
       })
 
-      test('Owner patch certifiers', async (done) => {
+      test('Owner post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, {}, async (err, res) => {
           expect(res.status).toBe(201);
           const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
@@ -335,7 +335,7 @@ describe('organicCertifierSurvey Tests', () => {
         })
       });
 
-      test('Manager patch certifiers', async (done) => {
+      test('Manager post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, { user_id: manager.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
           const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
@@ -346,7 +346,7 @@ describe('organicCertifierSurvey Tests', () => {
         })
       });
 
-      test('Extension officer patch certifiers', async (done) => {
+      test('Extension officer post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, { user_id: extensionOfficer.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
           const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);

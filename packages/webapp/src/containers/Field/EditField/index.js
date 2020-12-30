@@ -223,11 +223,7 @@ class EditField extends Component {
         {this.state.selectedField && (
           <div className={styles.mapContainer} id="gmapcontainer">
             <GoogleMap
-              style={
-                isSafari
-                  ? { width: mapWidth, height: mapHeight, position: 'relative' }
-                  : { width: '100%', height: '100%', position: 'relative' }
-              }
+              style={{ width: '100%', height: '100%', position: 'relative' }}
               bootstrapURLKeys={{
                 key: GMAPS_API_KEY,
                 libraries: ['drawing', 'geometry'],
@@ -289,6 +285,7 @@ class EditField extends Component {
                         onClick={() => {
                           this.handleDeleteCrop(crop.field_crop_id);
                         }}
+                        style={{ padding: '0 24px' }}
                       >
                         {this.props.t('common:DELETE')}
                       </Button>

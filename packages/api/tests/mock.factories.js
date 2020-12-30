@@ -11,7 +11,7 @@ function fakeStation() {
     name: faker.address.country(),
     country: faker.address.countryCode(),
     timezone: faker.random.number(1000),
-  }
+  };
 }
 
 function usersFactory(userObject = fakeUser()) {
@@ -24,8 +24,8 @@ function fakeUser() {
     last_name: faker.name.lastName(),
     email: faker.lorem.word() + faker.internet.email(),
     user_id: faker.random.uuid(),
-    phone_number: faker.phone.phoneNumber()
-  }
+    phone_number: faker.phone.phoneNumber(),
+  };
 }
 
 
@@ -35,14 +35,14 @@ function fakeSSOUser() {
     last_name: faker.name.lastName(),
     email: faker.lorem.word() + faker.internet.email(),
     user_id: faker.random.number(10),
-    phone_number: faker.phone.phoneNumber()
-  }
+    phone_number: faker.phone.phoneNumber(),
+  };
 }
 
 async function farmFactory(farmObject = fakeFarm()) {
-  const [{user_id}] =  await usersFactory();
+  const [{ user_id }] = await usersFactory();
   const base = baseProperties(user_id);
-  return knex('farm').insert({...farmObject, ...base}).returning('*');
+  return knex('farm').insert({ ...farmObject, ...base }).returning('*');
 }
 
 function fakeFarm() {
@@ -53,11 +53,14 @@ function fakeFarm() {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     },
-    farm_phone_number: faker.phone.phoneNumber()
-  }
+    farm_phone_number: faker.phone.phoneNumber(),
+  };
 }
 
-async function userFarmFactory({ promisedUser = usersFactory(), promisedFarm = farmFactory() } = {}, userFarm = fakeUserFarm()) {
+async function userFarmFactory({
+  promisedUser = usersFactory(),
+  promisedFarm = farmFactory(),
+} = {}, userFarm = fakeUserFarm()) {
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
   const [{ user_id }] = user;
   const [{ farm_id }] = farm;
@@ -70,10 +73,13 @@ function fakeUserFarm() {
     status: 'Active',
     has_consent: true,
     step_one: false,
-  }
+  };
 }
 
-async function farmDataScheduleFactory({ promisedUser = usersFactory(), promisedFarm = farmFactory() } = {}, farmDataSchedule = fakeFarmDataSchedule()) {
+async function farmDataScheduleFactory({
+  promisedUser = usersFactory(),
+  promisedFarm = farmFactory(),
+} = {}, farmDataSchedule = fakeFarmDataSchedule()) {
   const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
   const [{ user_id }] = user;
   const [{ farm_id }] = farm;
@@ -83,10 +89,13 @@ async function farmDataScheduleFactory({ promisedUser = usersFactory(), promised
 function fakeFarmDataSchedule() {
   return {
     has_failed: false,
-  }
+  };
 }
 
-async function fieldFactory({ promisedStation = weather_stationFactory(), promisedFarm = farmFactory() } = {}, field = fakeField()) {
+async function fieldFactory({
+  promisedStation = weather_stationFactory(),
+  promisedFarm = farmFactory(),
+} = {}, field = fakeField()) {
   const [station, farm, user] = await Promise.all([promisedStation, promisedFarm, usersFactory()]);
   const [{ station_id }] = station;
   const [{ farm_id }] = farm;
@@ -104,7 +113,7 @@ function fakeField() {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }]),
-  }
+  };
 }
 
 function fakeFieldForTests() {
@@ -113,7 +122,7 @@ function fakeFieldForTests() {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }],
-  }
+  };
 }
 
 function fakePriceInsightForTests() {
@@ -122,15 +131,15 @@ function fakePriceInsightForTests() {
     lat: faker.address.latitude(),
     long: faker.address.latitude(),
     startdate: faker.date.future(),
-  }
+  };
 }
 
 async function cropFactory({ promisedFarm = farmFactory(), createdUser = usersFactory() } = {}, crop = fakeCrop()) {
   const [farm, user] = await Promise.all([promisedFarm, createdUser]);
   const [{ farm_id }] = farm;
-  const [ {user_id} ] = user;
+  const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('crop').insert({ farm_id, ...crop, ...base}).returning('*');
+  return knex('crop').insert({ farm_id, ...crop, ...base }).returning('*');
 }
 
 async function yieldFactory({ promisedCrop = cropFactory() } = {}, yield1 = fakeYield()) {
@@ -151,7 +160,7 @@ async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, exp
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const base = baseProperties(user_id)
+  const base = baseProperties(user_id);
   return knex('farmExpenseType').insert({ farm_id, ...expense_type, ...base }).returning('*');
 }
 
@@ -216,7 +225,7 @@ function fakeCrop() {
     user_added: faker.random.boolean(),
     deleted: false,
     nutrient_credits: faker.random.number(10),
-  }
+  };
 }
 
 function fakeYield() {
@@ -224,7 +233,7 @@ function fakeYield() {
     yield_id: faker.random.number(0x7FFFFFFF),
     'quantity_kg/m2': faker.random.number(10),
     date: faker.date.future(),
-  }
+  };
 }
 
 function fakePrice() {
@@ -232,18 +241,21 @@ function fakePrice() {
     price_id: faker.random.number(0x7FFFFFFF),
     'value_$/kg': faker.random.number(100),
     date: faker.date.future(),
-  }
+  };
 }
 
 function fakeExpense() {
   return {
     expense_date: faker.date.future(),
     value: faker.random.number(100),
-    note: faker.helpers.randomize()
-  }
+    note: faker.helpers.randomize(),
+  };
 }
 
-async function fieldCropFactory({ promisedField = fieldFactory(), promisedCrop = cropFactory() } = {}, fieldCrop = fakeFieldCrop()) {
+async function fieldCropFactory({
+  promisedField = fieldFactory(),
+  promisedCrop = cropFactory(),
+} = {}, fieldCrop = fakeFieldCrop()) {
   const [field, crop] = await Promise.all([promisedField, promisedCrop]);
   const [{ field_id, created_by_user_id }] = field;
   const [{ crop_id }] = crop;
@@ -261,7 +273,7 @@ function fakeFieldCrop() {
     variety: faker.lorem.word(),
     estimated_revenue: faker.random.number(3000),
     is_by_bed: faker.random.boolean(),
-  }
+  };
 }
 
 async function fertilizerFactory({ promisedFarm = farmFactory() } = {}, fertilizer = fakeFertilizer()) {
@@ -281,7 +293,7 @@ function fakeFertilizer() {
     p_percentage: faker.random.number(100),
     k_percentage: faker.random.number(100),
     mineralization_rate: faker.random.number(100),
-  }
+  };
 }
 
 async function activityLogFactory({ promisedUser = usersFactory() } = {}, activityLog = fakeActivityLog()) {
@@ -298,7 +310,7 @@ function fakeActivityLog() {
       'seeding', 'fieldWork', 'weatherData', 'soilData', 'other']),
     date: faker.date.future(),
     notes: faker.lorem.words(),
-  }
+  };
 }
 
 async function fertilizerLogFactory({
@@ -308,11 +320,11 @@ async function fertilizerLogFactory({
   const [activityLog, fertilizer] = await Promise.all([promisedActivityLog, promisedFertilizer]);
   const [{ activity_id }] = activityLog;
   const [{ fertilizer_id }] = fertilizer;
-  return knex('fertilizerLog').insert({ activity_id, fertilizer_id, ...fertilizerLog }).returning('*')
+  return knex('fertilizerLog').insert({ activity_id, fertilizer_id, ...fertilizerLog }).returning('*');
 }
 
 function fakeFertilizerLog() {
-  return { quantity_kg: faker.random.number(200) }
+  return { quantity_kg: faker.random.number(200) };
 
 }
 
@@ -323,7 +335,7 @@ async function activityCropsFactory({
   const [activityLog, fieldCrop] = await Promise.all([promisedActivityLog, promisedFieldCrop]);
   const [{ activity_id }] = activityLog;
   const [{ field_crop_id }] = fieldCrop;
-  return knex('activityCrops').insert({ activity_id, field_crop_id }).returning('*')
+  return knex('activityCrops').insert({ activity_id, field_crop_id }).returning('*');
 }
 
 async function activityFieldsFactory({
@@ -333,7 +345,7 @@ async function activityFieldsFactory({
   const [activityLog, field] = await Promise.all([promisedActivityLog, promisedField]);
   const [{ activity_id }] = activityLog;
   const [{ field_id }] = field;
-  return knex('activityFields').insert({ activity_id, field_id }).returning('*')
+  return knex('activityFields').insert({ activity_id, field_id }).returning('*');
 }
 
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
@@ -351,29 +363,29 @@ function fakePesticide() {
     harvest_interval: faker.random.number(20),
     active_ingredients: faker.lorem.words(),
     concentration: faker.random.number(3000),
-  }
+  };
 }
 
 function fakeTaskType() {
   return {
     task_name: faker.lorem.word(),
-  }
+  };
 }
 
 async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType = fakeTaskType()) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
-  const base =  baseProperties(user_id);
+  const base = baseProperties(user_id);
   return knex('taskType').insert({ farm_id, ...taskType, ...base }).returning('*');
 }
 
 async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
-  const [{user_id}] = user;
+  const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('disease').insert({ farm_id, ...disease, ...base}).returning('*');
+  return knex('disease').insert({ farm_id, ...disease, ...base }).returning('*');
 }
 
 function fakeDisease() {
@@ -381,7 +393,7 @@ function fakeDisease() {
     disease_scientific_name: faker.lorem.words(),
     disease_common_name: faker.lorem.words(),
     disease_group: faker.random.arrayElement(['Fungus', 'Insect', 'Bacteria', 'Virus', 'Deficiency', 'Mite', 'Other', 'Weed']),
-  }
+  };
 }
 
 
@@ -405,7 +417,7 @@ function fakePestControlLog() {
   return {
     quantity_kg: faker.random.number(2000),
     type: faker.random.arrayElement(['systemicSpray', 'foliarSpray', 'handPick', 'biologicalControl', 'burning', 'soilFumigation', 'heatTreatment']),
-  }
+  };
 }
 
 async function harvestLogFactory({ promisedActivity = activityLogFactory() } = {}, harvestLog = fakeHarvestLog()) {
@@ -417,7 +429,7 @@ async function harvestLogFactory({ promisedActivity = activityLogFactory() } = {
 function fakeHarvestLog() {
   return {
     quantity_kg: faker.random.number(1000),
-  }
+  };
 }
 
 
@@ -434,7 +446,7 @@ function fakeSeedLog() {
     space_length_cm: faker.random.number(1000),
     space_width_cm: faker.random.number(1000),
     'rate_seeds/m2': faker.random.number(1000),
-  }
+  };
 }
 
 async function fieldWorkLogFactory({ promisedActivity = activityLogFactory() } = {}, fieldWorkLog = fakeFieldWorkLog()) {
@@ -446,7 +458,7 @@ async function fieldWorkLogFactory({ promisedActivity = activityLogFactory() } =
 function fakeFieldWorkLog() {
   return {
     type: faker.random.arrayElement(['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']),
-  }
+  };
 }
 
 async function soilDataLogFactory({ promisedActivity = activityLogFactory() } = {}, soilDataLog = fakeSoilDataLog()) {
@@ -479,7 +491,7 @@ function fakeSoilDataLog() {
     na: faker.random.number(1000),
     total_carbon: faker.random.number(1000),
     depth_cm: faker.random.arrayElement(['5', '10', '20', '30', '50', '100']),
-  }
+  };
 }
 
 async function irrigationLogFactory({ promisedActivity = activityLogFactory() } = {}, irrigationLog = fakeIrrigationLog()) {
@@ -493,7 +505,7 @@ function fakeIrrigationLog() {
     type: faker.random.arrayElement(['sprinkler', 'drip', 'subsurface', 'flood']),
     hours: faker.random.number(10),
     'flow_rate_l/min': faker.random.number(10),
-  }
+  };
 }
 
 async function scoutingLogFactory({ promisedActivity = activityLogFactory() } = {}, scoutingLog = fakeScoutingLog()) {
@@ -505,7 +517,7 @@ async function scoutingLogFactory({ promisedActivity = activityLogFactory() } = 
 function fakeScoutingLog() {
   return {
     type: faker.random.arrayElement(['harvest', 'pest', 'disease', 'weed', 'other']),
-  }
+  };
 }
 
 async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift = fakeShift()) {
@@ -522,7 +534,7 @@ function fakeShift() {
     break_duration: faker.random.number(10),
     mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
     wage_at_moment: faker.random.number(20),
-  }
+  };
 }
 
 async function shiftTaskFactory({
@@ -542,7 +554,7 @@ function fakeShiftTask() {
   return {
     is_field: faker.random.boolean(),
     duration: faker.random.number(200),
-  }
+  };
 }
 
 async function saleFactory({ promisedFarm = farmFactory() } = {}, sale = fakeSale()) {
@@ -556,13 +568,13 @@ function fakeSale() {
   return {
     customer_name: faker.name.findName(),
     sale_date: faker.date.recent(),
-  }
+  };
 }
 
 function fakeExpenseType() {
   return {
-    expense_name: faker.finance.transactionType()
-  }
+    expense_name: faker.finance.transactionType(),
+  };
 }
 
 function fakeWaterBalance() {
@@ -570,7 +582,7 @@ function fakeWaterBalance() {
     created_at: faker.date.future(),
     soil_water: faker.random.number(2000),
     plant_available_water: faker.random.number(2000),
-  }
+  };
 }
 
 async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() } = {}, waterBalance = fakeWaterBalance()) {
@@ -584,7 +596,7 @@ function fakeNitrogenSchedule() {
     created_at: faker.date.past(),
     scheduled_at: faker.date.future(),
     frequency: faker.random.number(10),
-  }
+  };
 }
 
 async function nitrogenScheduleFactory({ promisedFarm = farmFactory() } = {}, nitrogenSchedule = fakeNitrogenSchedule()) {
@@ -597,41 +609,84 @@ function fakeCropSale() {
   return {
     sale_value: faker.random.number(1000),
     quantity_kg: faker.random.number(1000),
-  }
+  };
 }
 
-async function cropSaleFactory({ promisedFieldCrop = fieldCropFactory(), promisedSale = saleFactory() } = {}, cropSale = fakeCropSale()) {
+async function cropSaleFactory({
+  promisedFieldCrop = fieldCropFactory(),
+  promisedSale = saleFactory(),
+} = {}, cropSale = fakeCropSale()) {
   const [fieldCrop, sale] = await Promise.all([promisedFieldCrop, promisedSale]);
   const [{ crop_id, field_crop_id }] = fieldCrop;
   const [{ sale_id }] = sale;
   return knex('cropSale').insert({ crop_id, field_crop_id, sale_id, ...cropSale }).returning('*');
 }
 
-function fakeOrganicCertifierSurvey() {
+function fakeSupportTicket(farm_id) {
+  const support_type = ['Request information', 'Report a bug', 'Request a feature', 'Other'];
+  const contact_method = ['email', 'whatsapp'];
+  const status = ['Open', 'Closed', 'In progress'];
+  const numberOfImage = faker.random.number(10);
+  const attachments = [];
+  for (let i = 0; i < numberOfImage; i++) {
+    attachments.push(faker.image.imageUrl());
+  }
+
+  return {
+    support_type: faker.random.arrayElement(support_type),
+    contact_method: faker.random.arrayElement(contact_method),
+    status: faker.random.arrayElement(status),
+    message: faker.lorem.paragraphs(),
+    attachments,
+    email: faker.internet.email(),
+    whatsapp: faker.phone.phoneNumber(),
+    farm_id
+  };
+}
+
+async function supportTicketFactory({
+  promisedUser = usersFactory(),
+  promisedFarm = {},
+} = {}, supportTicket = fakeSupportTicket()) {
+  const [user, farm] = await Promise.all([promisedUser, promisedFarm]);
+  const { user_id } = user;
+  const { farm_id } = farm;
+  const base = baseProperties(user_id);
+  return knex('supportTicket').insert({ farm_id, ...supportTicket, ...base, attachments: JSON.stringify(supportTicket.attachments) }).returning('*');
+}
+
+function fakeOrganicCertifierSurvey(farm_id) {
   const survey = ['COABC', faker.lorem.word()];
-  const past =  faker.date.past();
+  const past = faker.date.past();
   const now = new Date();
   return {
     certifiers: faker.random.arrayElements(survey),
     created_at: past,
-    updated_at: faker.date.between(past,now),
+    updated_at: faker.date.between(past, now),
     interested: faker.random.boolean(),
-  }
+    farm_id
+  };
 }
 
-function baseProperties(user_id){
+function baseProperties(user_id) {
   return {
     created_by_user_id: user_id,
     updated_by_user_id: user_id,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
-  }
+    updated_at: new Date().toISOString(),
+  };
 }
 
-async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactory()} = {}, organicCertifierSurvey = fakeOrganicCertifierSurvey()) {
+async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactory() } = {}, organicCertifierSurvey = fakeOrganicCertifierSurvey()) {
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ farm_id, user_id }] = userFarm;
-  return knex('organicCertifierSurvey').insert({ ...organicCertifierSurvey, farm_id, created_by_user_id: user_id, updated_by_user_id: user_id, certifiers: JSON.stringify(organicCertifierSurvey.certifiers) }).returning('*');
+  return knex('organicCertifierSurvey').insert({
+    ...organicCertifierSurvey,
+    farm_id,
+    created_by_user_id: user_id,
+    updated_by_user_id: user_id,
+    certifiers: JSON.stringify(organicCertifierSurvey.certifiers),
+  }).returning('*');
 }
 
 
@@ -671,5 +726,6 @@ module.exports = {
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFarmDataSchedule, farmDataScheduleFactory,
   fakePriceInsightForTests,
-  fakeOrganicCertifierSurvey, organicCertifierSurveyFactory
-}
+  fakeOrganicCertifierSurvey, organicCertifierSurveyFactory,
+  fakeSupportTicket, supportTicketFactory,
+};

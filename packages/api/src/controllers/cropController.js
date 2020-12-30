@@ -113,7 +113,9 @@ class cropController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id
-        const updated = await baseController.put(cropModel, req.params.crop_id, req.body, trx, { user_id });
+        const data = req.body;
+        data.crop_translation_key = data.crop_common_name;
+        const updated = await baseController.put(cropModel, req.params.crop_id, data, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -124,6 +126,7 @@ class cropController extends baseController {
 
       }
       catch (error) {
+        console.log(error);
         await trx.rollback();
         res.status(400).json({
           error,

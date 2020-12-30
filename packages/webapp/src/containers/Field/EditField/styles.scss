@@ -61,6 +61,11 @@
   border-color: #d6e9c6;
   display: flex;
 }
+@media (max-width: 576px) {
+  .cardHeaderSuccess {
+    flex-direction: column;
+  }
+}
 
 .deleteButton {
   margin-left: 0.5em;

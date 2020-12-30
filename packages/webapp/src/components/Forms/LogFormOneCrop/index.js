@@ -11,6 +11,7 @@ import { Alert } from 'react-bootstrap';
 import { fieldsSelector } from '../../../containers/fieldSlice';
 import { getFields } from '../../../containers/saga';
 import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
+import { withTranslation } from 'react-i18next';
 
 class LogFormOneCrop extends React.Component {
   constructor(props) {
@@ -81,12 +82,14 @@ class LogFormOneCrop extends React.Component {
         if (hasDup) {
           return {
             value: c.field_crop_id,
-            label: c.crop_common_name + `(${moment(c.start_date).format('YYYY-MM-DD')})`,
+            label:
+              this.props.t(`crop:${c.crop_translation_key}`) +
+              `(${moment(c.start_date).format('YYYY-MM-DD')})`,
           };
         } else
           return {
             value: c.field_crop_id,
-            label: c.crop_common_name,
+            label: this.props.t(`crop:${c.crop_translation_key}`),
           };
       });
 
@@ -268,4 +271,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogFormOneCrop);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(LogFormOneCrop));

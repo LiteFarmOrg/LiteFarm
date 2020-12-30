@@ -80,7 +80,7 @@ class FertilizingLog extends Component {
     this.props.dispatch(
       actions.change('logReducer.forms.fertLog.fert_id', {
         value: fert_id,
-        label: fert.fertilizer_type,
+        label: this.props.t(`fertilizer:${fert.fertilizer_type}`),
       }),
     );
     this.props.dispatch(actions.change('logReducer.forms.fertLog.n_percentage', fert.n_percentage));
@@ -198,7 +198,10 @@ class FertilizingLog extends Component {
             label: f.fertilizer_type,
           });
         } else {
-          fertOptions.push({ value: f.fertilizer_id, label: f.fertilizer_type });
+          fertOptions.push({
+            value: f.fertilizer_id,
+            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+          });
         }
       }
 

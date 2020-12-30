@@ -57,11 +57,10 @@ class FertilizingLog extends Component {
       const selectedFertilizer = fertilizers.filter(
         (f) => f.fertilizer_id === selectedLog.fertilizerLog.fertilizer_id,
       )[0];
-      console.log('ahshadh', selectedLog);
       dispatch(
         actions.change('logReducer.forms.fertLog.fert_id', {
           value: selectedFertilizer.fertilizer_id,
-          label: selectedFertilizer.fertilizer_type,
+          label: this.props.t(`fertilizer:${selectedFertilizer.fertilizer_translation_key}`),
         }),
       );
       dispatch(
@@ -235,7 +234,10 @@ class FertilizingLog extends Component {
             label: f.fertilizer_type,
           });
         } else {
-          fertOptions.push({ value: f.fertilizer_id, label: f.fertilizer_type });
+          fertOptions.push({
+            value: f.fertilizer_id,
+            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+          });
         }
       }
 
@@ -258,7 +260,7 @@ class FertilizingLog extends Component {
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
-      label: fc.crop.crop_common_name,
+      label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       field_id: fc.field_id,
     }));
 

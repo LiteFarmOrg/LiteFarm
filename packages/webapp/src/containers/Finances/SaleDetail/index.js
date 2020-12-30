@@ -116,7 +116,9 @@ class SaleDetail extends Component {
             sale.cropSale.map((cs) => {
               return (
                 <div key={sale.sale_id} className={styles.cropSaleRow}>
-                  <div className={styles.cropName}>{cs.crop.crop_common_name}</div>
+                  <div className={styles.cropName}>
+                    {this.props.t(`crop:${cs.crop.crop_translation_key}`)}
+                  </div>
                   <div className={styles.cropQuantVal}>
                     {roundToTwoDecimal(
                       convertFromMetric(

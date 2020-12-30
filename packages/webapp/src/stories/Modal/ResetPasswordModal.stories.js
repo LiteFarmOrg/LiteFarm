@@ -1,13 +1,13 @@
 import React from 'react';
-import { PureResetPasswordComponent } from '../../../../components/Modals/ResetPassword';
+import ResetPasswordModal from '../../components/Modals/ResetPassword';
 
 export default {
   title: 'Components/Modals/ResetPasswordModal',
   decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
-  component: PureResetPasswordComponent,
+  component: ResetPasswordModal,
 };
 
-const Template = (args) => <PureResetPasswordComponent {...args} />;
+const Template = (args) => <ResetPasswordModal {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

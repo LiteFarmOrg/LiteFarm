@@ -221,11 +221,7 @@ class EditField extends Component {
         {this.state.selectedField && (
           <div className={styles.mapContainer} id="gmapcontainer">
             <GoogleMap
-              style={
-                isSafari
-                  ? { width: mapWidth, height: mapHeight, position: 'relative' }
-                  : { width: '100%', height: '100%', position: 'relative' }
-              }
+              style={{ width: '100%', height: '100%', position: 'relative' }}
               bootstrapURLKeys={{
                 key: GMAPS_API_KEY,
                 libraries: ['drawing', 'geometry'],
@@ -266,7 +262,7 @@ class EditField extends Component {
                 <Card.Header className={styles.cardHeaderSuccess} as="h3">
                   <div>
                     <Card.Title componentClass="h2" style={{ fontSize: '19px' }}>
-                      {crop.crop_common_name}
+                      {this.props.t(`crop:${crop.crop_translation_key}`)}
                     </Card.Title>
                     <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
                       {crop.variety
@@ -287,6 +283,7 @@ class EditField extends Component {
                         onClick={() => {
                           this.handleDeleteCrop(crop.field_crop_id);
                         }}
+                        style={{ padding: '0 24px' }}
                       >
                         {this.props.t('common:DELETE')}
                       </Button>
@@ -340,7 +337,7 @@ class EditField extends Component {
                 <Card.Header className={styles.panelHeading} as="h3">
                   <div>
                     <Card.Title componentClass="h2" style={{ fontSize: '19px' }}>
-                      {crop.crop_common_name}
+                      {this.props.t(`crop:${crop.crop_translation_key}`)}
                     </Card.Title>
                     <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
                       {crop.variety

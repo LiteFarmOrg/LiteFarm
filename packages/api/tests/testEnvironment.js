@@ -38,6 +38,7 @@ class TestEnvironment extends NodeEnvironment {
 async function tableCleanup(knex) {
   return knex.raw(`
     update public.users set farm_id = null;
+    DELETE FROM "supportTicket";
     DELETE FROM "organicCertifierSurvey";
     DELETE FROM "password";
     DELETE FROM "userLog";

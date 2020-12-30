@@ -117,7 +117,9 @@ class ExpenseCategories extends Component {
                           <img src={OtherImg} alt="" className={styles.circleImg} id="t-8" />
                         )}
                       </div>
-                      <div className={styles.typeName}>{type.expense_name}</div>
+                      <div className={styles.typeName}>
+                        {this.props.t(`expense:${type.expense_translation_key}`)}
+                      </div>
                     </div>
                   </Col>
                 );

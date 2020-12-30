@@ -101,7 +101,10 @@ class EditShiftTwo extends Component {
     let originalDuration = this.props.availableDuration;
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({ label: crop.crop_common_name, value: crop.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${crop.crop_translation_key}`),
+          value: crop.crop_id,
+        });
         addedCropID.push(crop.crop_id);
       }
     }
@@ -143,7 +146,7 @@ class EditShiftTwo extends Component {
         } else {
           let this_crop = this.getCropByFCID(task.field_crop_id);
           val.push({ id: this_crop.crop_id });
-          let cropName = this_crop.crop_common_name;
+          let cropName = this.props.t(`crop:${this_crop.crop_translation_key}`);
           if (!addedCrops.includes(this_crop.crop_id)) {
             if (defaultCrops[task.task_id]) {
               defaultCrops[task.task_id].push({
@@ -205,7 +208,7 @@ class EditShiftTwo extends Component {
   getCropName(crop_id) {
     for (let crop of this.props.crops) {
       if (crop.crop_id === crop_id) {
-        return crop.crop_common_name;
+        return this.props.t(`crop:${crop.crop_translation_key}`);
       }
     }
     return 'no name';
@@ -254,7 +257,7 @@ class EditShiftTwo extends Component {
             cropDurations[t.task_id].push({
               duration: Number(t.duration),
               crop_id: thisCrop.crop_id,
-              crop_name: thisCrop.crop_common_name,
+              crop_name: this.props.t(`crop:${thisCrop.crop_translation_key}`),
             });
           }
         } else {
@@ -262,7 +265,7 @@ class EditShiftTwo extends Component {
           cropDurations[t.task_id].push({
             duration: Number(t.duration),
             crop_id: thisCrop.crop_id,
-            crop_name: thisCrop.crop_common_name,
+            crop_name: this.props.t(`crop:${thisCrop.crop_translation_key}`),
           });
         }
         totalDuration -= Number(t.duration);
@@ -603,7 +606,7 @@ class EditShiftTwo extends Component {
             return (
               <div key={task.task_id} className={styles.taskBlock}>
                 <div className={styles.taskTitle}>
-                  <strong>{task.task_name}</strong>
+                  <strong>{this.props.t(`task:${task.task_translation_key}`)}</strong>
                   <div>{this.props.t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}</div>
                 </div>
                 <div id={task.task_id} style={{ display: 'block' }}>

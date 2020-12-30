@@ -311,7 +311,7 @@ class NewFieldCropModal extends React.Component {
       for (let c of crops) {
         cropOptions.push({
           value: c,
-          label: c.crop_common_name,
+          label: this.props.t(`crop:${c.crop_translation_key}`),
         });
       }
       cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
@@ -346,7 +346,7 @@ class NewFieldCropModal extends React.Component {
                   options={this.getCropOptions()}
                   value={{
                     value: this.state.crop_option,
-                    label: this.state.crop_option.crop_common_name,
+                    label: this.props.t(`crop:${this.state.crop_option.crop_translation_key}`),
                   }}
                   onChange={(selectedOption) => this.handleCropSelect(selectedOption)}
                   required

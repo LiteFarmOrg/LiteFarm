@@ -70,6 +70,7 @@ const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
 const userLogRoute = require('./routes/userLogRoute');
+const supportTicketRoute = require('./routes/supportTicketRoute');
 
 // register API
 const router = promiseRouter();
@@ -134,6 +135,7 @@ app.use(bodyParser.json())
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
   .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
+  .use('/support_ticket', supportTicketRoute)
 
   // handle errors
   .use((req, res, next) => {

@@ -12,6 +12,7 @@ import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { createPrice, createYield, putFieldCrop } from '../../../containers/Field/saga';
+import { withTranslation } from 'react-i18next';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -289,13 +290,15 @@ class EditFieldCropModal extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.handleShow}>Edit</Button>
+        <Button onClick={this.handleShow} style={{ padding: '0 24px' }}>
+          Edit
+        </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              Edit - {this.props.cropBeingEdited.crop_common_name}, Variety:{' '}
-              {this.props.cropBeingEdited.variety}
+              Edit - {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)},
+              Variety: {this.props.cropBeingEdited.variety}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -438,4 +441,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditFieldCropModal);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditFieldCropModal));

@@ -13,7 +13,7 @@ export function* addLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const log = { ...action.formValue, user_id };
+  const log = { ...action.formValue, user_id, farm_id };
   try {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
@@ -30,7 +30,7 @@ export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const log = { ...action.formValue, user_id };
+  const log = { ...action.formValue, user_id, farm_id };
   try {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {

@@ -63,11 +63,12 @@ class EstimatedRevenue extends Component {
         (this.state.startDate && this.state.startDate._d) <= endDate &&
         (this.state.endDate && this.state.endDate._d) >= endDate
       ) {
-        if (!cropRevenueMap[f.crop.crop_common_name]) {
-          cropRevenueMap[f.crop.crop_common_name] = f.estimated_revenue;
+        const key = this.props.t(`crop:${f.crop.crop_translation_key}`);
+        if (!cropRevenueMap[key]) {
+          cropRevenueMap[key] = f.estimated_revenue;
         } else {
-          const curRevenue = cropRevenueMap[f.crop.crop_common_name];
-          cropRevenueMap[f.crop.crop_common_name] = f.estimated_revenue + curRevenue;
+          const curRevenue = cropRevenueMap[key];
+          cropRevenueMap[key] = f.estimated_revenue + curRevenue;
         }
         totalRevenue += f.estimated_revenue;
       }

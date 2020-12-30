@@ -79,7 +79,10 @@ class ShiftStepTwo extends Component {
     );
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({ label: crop.crop_common_name, value: crop.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${crop.crop_translation_key}`),
+          value: crop.crop_id,
+        });
         addedCropID.push(crop.crop_id);
       }
     }
@@ -146,9 +149,12 @@ class ShiftStepTwo extends Component {
         if (!addedCropID.includes(c.crop_id)) {
           defaultCrops[task_id].push({
             value: c.crop_id,
-            label: c.crop_common_name,
+            label: this.props.t(`crop:${c.crop_translation_key}`),
           });
-          cropOptions.push({ value: c.crop_id, label: c.crop_common_name });
+          cropOptions.push({
+            value: c.crop_id,
+            label: this.props.t(`crop:${c.crop_translation_key}`),
+          });
           addedCropID.push(c.crop_id);
         }
       }
@@ -740,7 +746,7 @@ function InputDuration({
   return (
     <div key={task.task_id} className={styles.taskBlock}>
       <div className={styles.taskTitle}>
-        <strong>{task.task_name}</strong>
+        <strong>{t(`task:${task.task_translation_key}`)}</strong>
         <div>{t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}</div>
       </div>
       <div id={task.task_id} style={{ display: 'block' }}>

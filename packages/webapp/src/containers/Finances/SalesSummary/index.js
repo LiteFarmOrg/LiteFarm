@@ -60,10 +60,11 @@ class SalesSummary extends Component {
     if (sales.length) {
       sales.map((s) => {
         return s.cropSale.forEach((cs) => {
-          if (cropMap[cs.crop.crop_common_name]) {
-            cropMap[cs.crop.crop_common_name] += cs.sale_value;
+          const key = this.props.t(`crop:${cs.crop.crop_translation_key}`);
+          if (cropMap[key]) {
+            cropMap[key] += cs.sale_value;
           } else {
-            cropMap[cs.crop.crop_common_name] = cs.sale_value || 0;
+            cropMap[key] = cs.sale_value || 0;
           }
         });
       });
@@ -93,7 +94,7 @@ class SalesSummary extends Component {
           value += cs.sale_value;
         });
       } else {
-        crop = s.cropSale[0].crop.crop_common_name;
+        crop = this.props.t(`crop:${s.cropSale[0].crop.crop_translation_key}`);
         value = s.cropSale[0].sale_value;
       }
       return {

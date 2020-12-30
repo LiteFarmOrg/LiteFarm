@@ -268,7 +268,7 @@ class EditField extends Component {
                 <Card.Header className={styles.cardHeaderSuccess} as="h3">
                   <div>
                     <Card.Title componentClass="h2" style={{ fontSize: '19px' }}>
-                      {crop.crop_common_name}
+                      {this.props.t(`crop:${crop.crop_translation_key}`)}
                     </Card.Title>
                     <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
                       {crop.variety
@@ -342,7 +342,7 @@ class EditField extends Component {
                 <Card.Header className={styles.panelHeading} as="h3">
                   <div>
                     <Card.Title componentClass="h2" style={{ fontSize: '19px' }}>
-                      {crop.crop_common_name}
+                      {this.props.t(`crop:${crop.crop_translation_key}`)}
                     </Card.Title>
                     <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
                       {crop.variety

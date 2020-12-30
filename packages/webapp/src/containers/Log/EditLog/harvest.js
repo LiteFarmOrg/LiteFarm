@@ -81,7 +81,6 @@ class HarvestLog extends Component {
       crops: [toSubmitCrop],
       fields: [toSubmitField],
       notes: log.notes,
-      user_id: localStorage.getItem('user_id'),
       quantity_kg: convertToMetric(parseFloat(log.quantity_kg), this.state.quantity_unit, 'kg'),
     };
     dispatch(editLog(formValue));
@@ -95,7 +94,7 @@ class HarvestLog extends Component {
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
-      label: fc.crop.crop_common_name,
+      label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       field_id: fc.field_id,
     }));
 

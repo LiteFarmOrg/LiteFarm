@@ -206,8 +206,8 @@ class shiftController extends baseController {
         const { user_id }  = req.headers;
         const role = req.role;
         const data = await knex.select([
-            'taskType.task_name', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
-            'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id',
+            'taskType.task_name','taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
+            'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
             'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production',
             'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.start_time',
             'shift.end_time', 'shift.wage_at_moment', 'shift.mood', 'shift.break_duration', 'userFarm.user_id',

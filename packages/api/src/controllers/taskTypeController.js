@@ -24,7 +24,9 @@ class taskTypeController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id
-        const result = await baseController.postWithResponse(TaskTypeModel, req.body, trx, { user_id });
+        const data = req.body;
+        data.task_translation_key = data.task_name;
+        const result = await baseController.postWithResponse(TaskTypeModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

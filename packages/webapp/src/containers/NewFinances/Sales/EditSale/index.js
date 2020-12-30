@@ -24,7 +24,7 @@ class EditSale extends Component {
     const chosenOptions =
       sale &&
       sale.cropSale.map((cs) => {
-        const crop = cs.fieldCrop.crop.crop_common_name;
+        const crop = this.props.t(`crop:${cs.crop.crop_translation_key}`);
         return { label: crop, value: cs.field_crop_id };
       });
     this.state = {
@@ -34,7 +34,7 @@ class EditSale extends Component {
     };
     sale &&
       sale.cropSale.forEach((cs) => {
-        const crop = cs.fieldCrop.crop.crop_common_name;
+        const crop = this.props.t(`crop:${cs.crop.crop_translation_key}`)
         this.props.dispatch(
           actions.change(
             `financeReducer.forms.editSale.${crop}.quantity_kg`,
@@ -92,7 +92,7 @@ class EditSale extends Component {
   render() {
     let fieldCrops = this.props.fieldCrops || [];
     const cropOptions = fieldCrops.map((fc) => {
-      return { label: fc.crop_common_name, value: fc.field_crop_id };
+      return { label: this.props.t(`crop:${fc.crop_translation_key}`), value: fc.field_crop_id };
     });
     return (
       <div className={defaultStyles.financesContainer}>

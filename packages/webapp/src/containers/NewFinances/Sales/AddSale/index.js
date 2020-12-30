@@ -62,7 +62,7 @@ class AddSale extends Component {
   render() {
     let fieldCrops = this.props.fieldCrops || [];
     const cropOptions = fieldCrops.map((fc) => {
-      return { label: fc.crop_common_name, value: fc.field_crop_id };
+      return { label: this.props.t(`crop:${fc.crop_translation_key}`), value: fc.field_crop_id };
     });
     return (
       <div className={defaultStyles.financesContainer}>

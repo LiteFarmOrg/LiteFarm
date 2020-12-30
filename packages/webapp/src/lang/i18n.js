@@ -1,32 +1,16 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import en_translation from './en/translation.json';
-import en_common from './en/common.json';
-import pt from './pt/translation.json';
-import pt_common from './pt/common.json';
-import fr from './fr/translation.json';
-import fr_common from './fr/common.json';
-import es from './es/translation.json';
-import es_common from './es/common.json';
+import english from './en';
+import spanish from './es';
+import french from './fr';
+import portuguese from './pt';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {
-  en: {
-    translation: en_translation,
-    common: en_common,
-  },
-  es: {
-    translation: es,
-    common: es_common,
-  },
-  pt: {
-    translation: pt,
-    common: pt_common,
-  },
-  fr: {
-    translation: fr,
-    common: fr_common,
-  },
+  en: english,
+  es: spanish,
+  pt: portuguese,
+  fr: french,
 };
 
 i18n
@@ -38,7 +22,7 @@ i18n
     detection: {
       lookupLocalStorage: 'litefarm_lang',
     },
-    keySeparator: '.', // we do not use keys in form messages.welcome
+    keySeparator: '.',
 
     interpolation: {
       escapeValue: false,

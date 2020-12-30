@@ -77,7 +77,7 @@ class AddSale extends Component {
 
     for (let fc of fieldCrops) {
       if (!cropSet.has(fc.crop_id)) {
-        cropOptions.push({ label: fc.crop_common_name, value: fc.crop_id });
+        cropOptions.push({ label: this.props.t(`crop:${fc.crop_translation_key}`), value: fc.crop_id });
         cropSet.add(fc.crop_id);
       }
     }

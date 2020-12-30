@@ -44,12 +44,14 @@ class fertilizerController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const body_farm_id = req.body.farm_id;
+        const data = req.body;
+        data.fertilizer_translation_key = data.fertilizer_type;
         // another check for farm_id after ACL
         if(farm_id !== body_farm_id){
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
         const user_id = req.user.user_id
-        const result = await baseController.postWithResponse(fertilizerModel, req.body, trx, { user_id });
+        const result = await baseController.postWithResponse(fertilizerModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

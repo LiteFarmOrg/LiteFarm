@@ -142,7 +142,7 @@ class PestControlLog extends Component {
     this.setState({
       original_disease: {
         value: disease[0].disease_id,
-        label: disease[0].disease_common_name,
+        label: this.props.t(`disease:${disease[0].disease_name_translation_key}`),
       },
     });
   }
@@ -327,7 +327,7 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: d.disease_common_name,
+        label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const selectedFields = selectedLog.field.map((f) => ({
       value: f.field_id,
@@ -335,7 +335,7 @@ class PestControlLog extends Component {
     }));
     const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
       value: fc.field_crop_id,
-      label: fc.crop.crop_common_name,
+      label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
       field_id: fc.field_id,
     }));
 
@@ -570,7 +570,7 @@ class PestControlLog extends Component {
                     component={DropDown}
                     options={this.state.diseaseGroup.map((d) => ({
                       value: d,
-                      label: d,
+                      label: this.props.t(`disease:group.${d.toUpperCase()}`),
                     }))}
                     placeholder={this.props.t('LOG_PESTICIDE.CHOOSE_GROUP_PLACEHOLDER')}
                   />

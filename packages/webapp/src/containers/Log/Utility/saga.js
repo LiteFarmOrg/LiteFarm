@@ -15,7 +15,7 @@ export function* addLog(action) {
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.post, logURL, action.formValue, header);
+    const result = yield call(axios.post, logURL, { ...action.formValue, user_id, farm_id }, header);
     if (result) {
       history.push('/log');
       toastr.success('Successfully added new Log!');
@@ -35,7 +35,7 @@ export function* editLog(action) {
     const result = yield call(
       axios.put,
       logURL + `/${action.formValue.activity_id}`,
-      action.formValue,
+      { ...action.formValue, farm_id, user_id },
       header,
     );
     if (result) {

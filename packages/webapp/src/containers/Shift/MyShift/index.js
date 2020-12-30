@@ -70,7 +70,7 @@ class MyShift extends Component {
         if (!newTasks.hasOwnProperty(task.task_id)) {
           newTask.taskName = this.getTaskName(task.task_id);
           newTask.aoiNames.push({
-            name: thisCrop.crop_common_name,
+            name: this.props.t(`crop:${thisCrop.crop_translation_key}`),
             is_field: false,
           });
           newTask.duration = duration;
@@ -80,7 +80,7 @@ class MyShift extends Component {
           newTasks[task.task_id].duration += duration;
           if (!addedCrops.includes(thisCrop.crop_id)) {
             newTasks[task.task_id].aoiNames.push({
-              name: thisCrop.crop_common_name,
+              name: this.props.t(`crop:${thisCrop.crop_translation_key}`),
               is_field: false,
             });
           }
@@ -138,7 +138,7 @@ class MyShift extends Component {
   getTaskName(task_id) {
     for (let task of this.props.taskType) {
       if (task.task_id === task_id) {
-        return task.task_name;
+        return this.props.t(`task:${task.task_translation_key}`);
       }
     }
     return 'no name';

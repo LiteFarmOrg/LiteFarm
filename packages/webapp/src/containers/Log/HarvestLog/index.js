@@ -51,7 +51,6 @@ class HarvestLog extends Component {
       crops: selectedCrops,
       fields: selectedFields,
       notes: log.notes,
-      user_id: localStorage.getItem('user_id'),
       quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
     };
     dispatch(addLog(formValue));

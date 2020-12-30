@@ -74,7 +74,7 @@ class EditAddExpense extends Component {
 
     for (let e of expenseTypes) {
       if (e.expense_type_id === id) {
-        return e.expense_name;
+        return this.props.t(`expense:${e.expense_translation_key}`);
       }
     }
     return 'NAME NOT FOUND';

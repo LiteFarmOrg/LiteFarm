@@ -18,6 +18,7 @@ import { crop_nutrient_data } from '../../../assets/data/crop_nutrient';
 import { crop_physiology_data } from '../../../assets/data/crop_physiology';
 import InfoBoxComponent from '../../../components/InfoBoxComponent';
 import { roundToTwoDecimal } from '../../../util';
+import { withTranslation } from "react-i18next";
 
 class NewCropModal extends React.Component {
   constructor(props, context) {
@@ -145,8 +146,8 @@ class NewCropModal extends React.Component {
       let newCrop = DUMMY_NEW_CROP;
 
       if (variety.trim() !== '') {
-        newCrop.crop_common_name = this.state.crop_common_name + ' - ' + variety;
-      } else newCrop.crop_common_name = this.state.crop_common_name;
+        newCrop.crop_common_name = this.props.t(`crop:${this.state.crop_translation_key}`) + ' - ' + variety;
+      } else newCrop.crop_common_name = this.props.t(`crop:${this.state.crop_translation_key}`);
 
       newCrop.crop_genus = this.state.crop_genus;
       newCrop.crop_specie = this.state.crop_specie;
@@ -289,7 +290,7 @@ class NewCropModal extends React.Component {
       for (let c of crops) {
         cropOptions.push({
           value: c,
-          label: c.crop_common_name,
+          label: this.props.t(`crop:${c.crop_translation_key}`),
         });
       }
 
@@ -519,4 +520,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewCropModal);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewCropModal));

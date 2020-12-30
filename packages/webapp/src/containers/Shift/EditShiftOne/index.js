@@ -345,7 +345,7 @@ class EditShiftOne extends Component {
           <Row className="show-grid">
             {taskTypes &&
               taskTypes.map((type) => {
-                const taskName = type.task_name;
+                const taskName = this.props.t(`task:${type.task_translation_key}`);
                 const buttonImg = this.assignImage(taskName);
                 return (
                   <Col

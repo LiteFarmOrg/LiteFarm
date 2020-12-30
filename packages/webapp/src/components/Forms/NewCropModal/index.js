@@ -144,11 +144,12 @@ class NewCropModal extends React.Component {
     if (this.handleValidate()) {
       // currently sending dummy
       let newCrop = DUMMY_NEW_CROP;
-
+      const crop_common_name = this.state.crop_translation_key
+        ? this.props.t(`crop:${this.state.crop_translation_key}`)
+        : this.state.crop_common_name;
       if (variety.trim() !== '') {
-        newCrop.crop_common_name =
-          this.props.t(`crop:${this.state.crop_translation_key}`) + ' - ' + variety;
-      } else newCrop.crop_common_name = this.props.t(`crop:${this.state.crop_translation_key}`);
+        newCrop.crop_common_name = crop_common_name + ' - ' + variety;
+      } else newCrop.crop_common_name = crop_common_name;
 
       newCrop.crop_genus = this.state.crop_genus;
       newCrop.crop_specie = this.state.crop_specie;
@@ -196,6 +197,7 @@ class NewCropModal extends React.Component {
         is_avg_kc: null,
         is_avg_nutrient: null,
         is_using_template: false,
+        crop_translation_key: selected.value.crop_translation_key,
       });
 
       for (let nutrient of NUTRIENT_ARRAY) {

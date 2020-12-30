@@ -65,7 +65,14 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: [...getDefaultMiddleware(), ...middlewares],
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware({
+      thunk: false,
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
+    ...middlewares,
+  ],
   devTools: process.env.REACT_APP_ENV !== 'production',
 });
 

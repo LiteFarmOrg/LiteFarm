@@ -15,30 +15,16 @@
 
 import {
   GET_FARM_INFO,
-  GET_FIELD_CROPS,
-  GET_FIELD_CROPS_BY_DATE,
-  GET_FIELDS,
-  GET_USER_INFO,
   // UPDATE_AGREEMENT,
   UPDATE_FARM,
-  UPDATE_USER_INFO,
 } from './constants';
-import {
-  fetchFarmInfo,
-  getFieldCrops,
-  // getFields,
-  // setFarmInState,
-  setFieldCropsInState,
-  setFieldsInState,
-  setUserInState,
-} from './actions';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
 import { call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl, url } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import { loginSelector, loginSuccess } from './userFarmSlice';
-import { userFarmSelector, putUserSuccess } from './userFarmSlice';
+import { userFarmSelector, putUserSuccess, patchFarmSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { lastActiveDatetimeSelector, logUserInfoSuccess } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldStart, onLoadingFieldFail } from './fieldSlice';
@@ -102,8 +88,9 @@ export function* getCropsSaga() {
     console.error('failed to fetch all crops from database');
   }
 }
+export const getFarmInfo = createAction(`getFarmInfoSaga`);
 
-export function* getFarmInfo() {
+export function* getFarmInfoSaga() {
   try {
     let userFarm = yield select(userFarmSelector);
 
@@ -120,27 +107,22 @@ export function* getFarmInfo() {
     toastr.error('failed to fetch farm from database');
   }
 }
+export const putFarm = createAction(`putFarmSaga`);
 
-export function* updateFarm(payload) {
+export function* putFarmSaga({ payload: farm }) {
   const { farmUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
   // OC: We should never update address information of a farm.
-  let { address, grid_points, ...data } = payload.farm;
+  let { address, grid_points, ...data } = farm;
   if (data.farm_phone_number === null) {
     delete data.farm_phone_number;
   }
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
-    if (result && result.data && result.data.length > 0) {
-      // yield put(setFarmInState(result.data[0]));
-      // TODO (refactoring): Handle the response to be sent properly in backend so we
-      // don't need to do this extra API call to keep redux consistent
-      yield put(updateConsentOfFarm(farm_id, result.data[0]));
-      yield put(fetchFarmInfo());
-      toastr.success('Successfully updated farm info!');
-    }
+    yield put(patchFarmSuccess(data));
+    toastr.success('Successfully updated farm info!');
   } catch (e) {
     toastr.error('Failed to update farm info');
   }
@@ -161,6 +143,8 @@ export function* getFieldsSaga() {
     console.log('failed to fetch fields from database');
   }
 }
+
+export const getFieldCrops = createAction('getFieldCropsSaga');
 
 export function* getFieldCropsSaga() {
   const { fieldCropURL } = apiConfig;
@@ -288,11 +272,11 @@ const formatDate = (currDate) => {
 export default function* getFarmIdSaga() {
   yield takeLeading('*', logUserInfoSaga);
   yield takeLatest(updateUser.type, updateUserSaga);
-  yield takeLatest(GET_FARM_INFO, getFarmInfo);
-  yield takeLatest(UPDATE_FARM, updateFarm);
+  yield takeLatest(getFarmInfo.type, getFarmInfoSaga);
+  yield takeLatest(putFarm.type, putFarmSaga);
   yield takeLatest(getFields.type, getFieldsSaga);
   yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
-  // yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
+  yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

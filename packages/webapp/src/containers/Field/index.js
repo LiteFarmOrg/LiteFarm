@@ -18,7 +18,6 @@ import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import { Button, Tab, Table, Tabs } from 'react-bootstrap';
-import { cropSelector as fieldCropSelector } from '../selector';
 import history from '../../history';
 import moment from 'moment';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
@@ -28,7 +27,7 @@ import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
 import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
-import { currentFieldCropsSelector, fieldCropStatusSelector } from '../fieldCropSlice';
+import { currentFieldCropsSelector } from '../fieldCropSlice';
 
 class Field extends Component {
   static defaultProps = {

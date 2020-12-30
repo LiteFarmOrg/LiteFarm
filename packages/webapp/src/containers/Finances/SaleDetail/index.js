@@ -5,7 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import history from '../../../history';
-import { cropSelector } from '../../selector';
+
 import { deleteSale } from '../actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { selectedSaleSelector } from '../selectors';

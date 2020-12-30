@@ -5,8 +5,6 @@ import defaultStyles from '../../../Finances/styles.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../../components/Forms/Sale';
 import { selectedSaleSelector } from '../../../Finances/selectors';
-import { cropSelector as fieldCropSelector, farmSelector } from '../../../selector';
-import { getFieldCrops } from '../../../actions';
 import DateContainer from '../../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { addOrUpdateSale, deleteSale } from '../../../Finances/actions';
@@ -16,6 +14,7 @@ import history from '../../../../history';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../../fieldCropSlice';
+import { getFieldCrops } from '../../../saga';
 
 class EditSale extends Component {
   constructor(props) {

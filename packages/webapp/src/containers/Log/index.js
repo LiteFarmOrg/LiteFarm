@@ -25,7 +25,6 @@ import moment from 'moment';
 import { getLogs, setSelectedLog } from './actions';
 import { getFieldCropsByDate } from '../saga';
 import { logSelector } from './selectors';
-import { cropSelector } from '../selector';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
 import { getDiseases, getPesticides } from './PestControlLog/actions';

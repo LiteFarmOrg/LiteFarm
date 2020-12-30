@@ -1,5 +1,3 @@
-import { CREATE_CROP } from './constants';
-
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';

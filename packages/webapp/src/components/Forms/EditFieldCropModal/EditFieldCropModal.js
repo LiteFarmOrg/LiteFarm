@@ -3,8 +3,6 @@ import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { cropsSelector } from '../../../containers/cropSlice';
 import { getCrops } from '../../../containers/saga';
-import { createPriceAction, createYieldAction } from '../../../containers/Field/NewField/actions';
-import { editFieldCropAction } from '../../../containers/Field/EditField/actions';
 import { DEC_RADIX } from '../../../containers/Field/constants';
 import { convertFromMetric, getUnit, roundToTwoDecimal, convertToMetric } from '../../../util';
 import DateContainer from '../../../components/Inputs/DateContainer';

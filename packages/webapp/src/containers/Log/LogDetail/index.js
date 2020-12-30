@@ -5,7 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
-import { cropSelector } from '../../selector';
+
 import { currentLogSelector } from './selectors';
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
 import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';

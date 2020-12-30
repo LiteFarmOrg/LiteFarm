@@ -4,11 +4,6 @@ import { connect } from 'react-redux';
 import { cropsSelector } from '../../../containers/cropSlice';
 import { getCrops } from '../../../containers/saga';
 import { FIELD_CROPS_INIT, DEC_RADIX } from '../../../containers/Field/constants';
-import {
-  createFieldCropAction,
-  createPriceAction,
-  createYieldAction,
-} from '../../../containers/Field/NewField/actions';
 import NewCropModal from '../NewCropModal';
 import styles from '../../../containers/Field/styles.scss';
 import newFieldStyles from './styles.scss';

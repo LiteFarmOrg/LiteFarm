@@ -51,6 +51,7 @@ const getCrop = (obj) => {
     user_added,
     deleted,
     nutrient_credits,
+    crop_translation_key,
   } = obj;
   return {
     crop_id,
@@ -100,6 +101,7 @@ const getCrop = (obj) => {
     user_added,
     deleted,
     nutrient_credits,
+    crop_translation_key,
   };
 };
 const addOneCrop = (state, { payload }) => {

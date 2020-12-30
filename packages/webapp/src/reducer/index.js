@@ -20,7 +20,6 @@ import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
-import fieldReducer1 from '../containers/Field/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
@@ -136,7 +135,6 @@ const appReducer = combineReducers({
   baseReducer,
   logReducer,
   shiftReducer,
-  fieldReducer1,
   insightReducer,
   financeReducer,
   farmReducer,

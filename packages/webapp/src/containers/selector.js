@@ -17,25 +17,6 @@ import { createSelector } from 'reselect/es';
 
 const baseSelector = (state) => state.baseReducer;
 
-const spotlightSelector = createSelector(
-  baseSelector,
-  (state) => state.show_spotlight
+const spotlightSelector = createSelector(baseSelector, (state) => state.show_spotlight);
 
-);
-
-const cropSelector = createSelector(
-  baseSelector,
-  (state) => (state.fieldCrops || []).slice().sort((a, b) => (
-    a.crop_common_name.localeCompare(
-      b.crop_common_name,
-      'en',
-      { sensitivity: 'base' },
-    )
-  )),
-);
-
-
-export {
-  cropSelector,
-  spotlightSelector,
-};
+export { spotlightSelector };

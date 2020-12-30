@@ -6,15 +6,13 @@ import { connect } from 'react-redux';
 import defaultStyles from '../../../Finances/styles.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../../components/Forms/Sale';
-import { getFieldCrops } from '../../../actions';
-import { cropSelector as fieldCropSelector } from '../../../selector';
 import { addOrUpdateSale } from '../../../Finances/actions';
 import { convertToMetric, getUnit } from '../../../../util';
-import { fetchFarmInfo } from '../../../actions';
 import history from '../../../../history';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../../fieldCropSlice';
+import { getFarmInfo, getFieldCrops } from '../../../saga';
 
 class AddSale extends Component {
   constructor(props) {
@@ -31,7 +29,7 @@ class AddSale extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo());
+    this.props.dispatch(getFarmInfo());
   }
 
   handleSubmit(sale) {

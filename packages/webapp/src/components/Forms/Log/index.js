@@ -1,14 +1,12 @@
 import React from 'react';
 import { Fieldset, Control, actions, Errors } from 'react-redux-form';
-import { getFieldCrops } from '../../../containers/actions';
 import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { cropSelector } from '../../../containers/selector';
 import { Alert } from 'react-bootstrap';
 import { fieldsSelector } from '../../../containers/fieldSlice';
-import { getFields } from '../../../containers/saga';
+import { getFieldCrops, getFields } from '../../../containers/saga';
 import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 

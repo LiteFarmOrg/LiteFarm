@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector } from '../../selector';
-import { getFieldCrops } from '../../../containers/actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
@@ -18,6 +16,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { getFieldCrops } from '../../saga';
 
 class HarvestLog extends Component {
   constructor(props) {

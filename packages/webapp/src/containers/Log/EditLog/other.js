@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import { currentLogSelector, logSelector } from '../selectors';
-import { cropSelector } from '../../selector';
+
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';

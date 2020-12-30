@@ -9,7 +9,6 @@ import Employee from './Employee';
 import Crop from './Crop';
 import Task from './Task';
 import { dateRangeSelector, shiftSelector } from '../selectors';
-import { cropSelector as fieldCropSelector } from '../../selector';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';

@@ -37,7 +37,6 @@ export const BACK_TO_STEP_ONE = 'backToStepOne';
 export const POLYGON_COMPLETE = 'polygonComplete';
 
 export const GET_CROPS = 'GET_CROPS_EDIT_FIELD';
-export const GET_EXPIRED_CROPS = 'GET_EXPIRED_CROPS';
 
 export const SET_CROPS_IN_STATE = 'SET_CROPS_IN_STATE_EDIT_FIELD';
 export const SET_EXPIRED_CROPS_IN_STATE = 'SET_EXPIRED_CROPS_IN_STATE';

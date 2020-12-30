@@ -238,16 +238,10 @@ var DUMMY_NEW_CROP = {
   nutrient_credits: 0,
 };
 
-// constants for getting and putting crops
-const GET_CROPS = 'GET_CROPS_IN_FIELD';
-const CREATE_CROP = 'CREATE_CROP';
-
 export {
   CROP_GROUPS,
   CROP_SUBGROUPS,
   DUMMY_NEW_CROP,
-  GET_CROPS,
-  CREATE_CROP,
   INITIAL_STATE,
   NUTRIENT_DICT,
   NUTRIENT_ARRAY,

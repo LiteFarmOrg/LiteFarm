@@ -5,8 +5,6 @@ import defaultStyles from '../styles.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../components/Forms/Sale';
 import { selectedSaleSelector } from '../selectors';
-import { cropSelector as fieldCropSelector } from '../../selector';
-import { getFieldCrops } from '../../actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { deleteSale, updateSale } from '../actions';
@@ -22,6 +20,7 @@ import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { getFieldCrops } from '../../saga';
 
 class EditSale extends Component {
   constructor(props) {

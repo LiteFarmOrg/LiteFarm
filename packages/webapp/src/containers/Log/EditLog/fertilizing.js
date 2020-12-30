@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector } from '../../selector';
+
 import { fertSelector, fertTypeSelector } from '../FertilizingLog/selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';

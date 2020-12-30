@@ -8,7 +8,7 @@ import {
   selectedTasksSelector,
   startEndSelector,
 } from './selectors';
-import { cropSelector } from '../../selector';
+
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import Select from 'react-select';

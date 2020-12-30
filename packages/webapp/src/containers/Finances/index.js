@@ -20,10 +20,8 @@ import { Button } from 'react-bootstrap';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { salesSelector, shiftSelector, expenseSelector, dateRangeSelector } from './selectors';
-import { cropSelector as fieldCropSelector } from '../selector';
 import { getExpense, getSales, getShifts, getDefaultExpenseType, setDateRange } from './actions';
 import { calcTotalLabour, calcOtherExpense, filterSalesByCurrentYear } from './util';
-import { fetchFarmInfo, getFieldCrops } from '../actions';
 import Moment from 'moment';
 import { Alert } from 'react-bootstrap';
 import { roundToTwoDecimal, grabCurrencySymbol } from '../../util';
@@ -33,6 +31,7 @@ import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { getFieldCrops } from '../saga';
 
 const moment = extendMoment(Moment);
 

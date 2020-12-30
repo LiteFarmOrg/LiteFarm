@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { cropSelector } from '../../selector';
+
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';

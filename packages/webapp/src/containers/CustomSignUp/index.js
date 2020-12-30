@@ -17,6 +17,21 @@ const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
 
+const navbarCoverStyle = {
+  backgroundColor: 'white',
+  zIndex: 1,
+  transform: 'translateY(-76px)',
+  height: '76px',
+  position: 'fixed',
+  width: '100%',
+};
+
+const PureCustomSignUpStyle = {
+  form: {
+    zIndex: 2,
+  },
+};
+
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const { user, component: componentToShow } = history.location;
@@ -30,6 +45,7 @@ function CustomSignUp() {
   const disabled = !email || !validEmailRegex.test(email);
   const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
+  const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;
   const { t, i18n } = useTranslation();
 
   const forgotPassword = () => {
@@ -44,10 +60,13 @@ function CustomSignUp() {
   }, [user, setValue]);
 
   useEffect(() => {
-    if(componentToShow === ENTER_PASSWORD_PAGE && i18n.language !== localStorage.getItem('litefarm_lang')) {
+    if (
+      componentToShow === ENTER_PASSWORD_PAGE &&
+      i18n.language !== localStorage.getItem('litefarm_lang')
+    ) {
       i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
     }
-  }, [componentToShow])
+  }, [componentToShow]);
 
   const showSSOErrorAndRedirect = () => {
     setError(EMAIL, {
@@ -106,8 +125,10 @@ function CustomSignUp() {
           />
         </Hidden>
       </Suspense>
-      <Hidden isVisible={!showPureCreateUserAccount && !showPureEnterPasswordPage}>
+      <Hidden isVisible={showPureCustomSignUp}>
+        <div style={navbarCoverStyle} />
         <PureCustomSignUp
+          classes={PureCustomSignUpStyle}
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
           GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}

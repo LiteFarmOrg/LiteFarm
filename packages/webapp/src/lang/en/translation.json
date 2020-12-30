@@ -283,8 +283,13 @@
   "OUTRO": "And finally, let us show you a couple of important things!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Great!",
-    "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 5 seconds...",
+    "DESCRIPTION": "Your password has been updated. Redirecting you to your farms in 10 seconds...",
     "TITLE": "Success!"
+  },
+  "REQUEST_CONFIRMATION_MODAL": {
+    "BUTTON": "Got it",
+    "DESCRIPTION": "Someone wil be in touch within 48 hours.",
+    "TITLE": "Help request submitted"
   },
   "PASSWORD_RESET": {
     "BUTTON": "Resend Link",
@@ -519,7 +524,7 @@
     "TITLE": "Switching Farms"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Lets get started",
+    "BUTTON": "Let's get started",
     "SVG_ALT": "Welcome to LiteFarm"
   },
   "LOGIN_BUTTON": "Log In or Sign Up"

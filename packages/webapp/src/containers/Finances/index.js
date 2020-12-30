@@ -32,6 +32,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../fieldCropSlice';
 
 const moment = extendMoment(Moment);
 
@@ -536,7 +537,7 @@ const mapStateToProps = (state) => {
     sales: salesSelector(state),
     shifts: shiftSelector(state),
     expenses: expenseSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
   };

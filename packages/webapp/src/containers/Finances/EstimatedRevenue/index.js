@@ -10,6 +10,7 @@ import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class EstimatedRevenue extends Component {
   constructor(props) {
@@ -135,7 +136,7 @@ class EstimatedRevenue extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

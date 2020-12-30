@@ -27,6 +27,7 @@ import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -569,7 +570,7 @@ class PestControlLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),

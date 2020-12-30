@@ -19,7 +19,7 @@ import { url } from '../../apiConfig';
 import history from '../../history';
 import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
 import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
-import { loginSuccess } from '../loginSlice';
+import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');

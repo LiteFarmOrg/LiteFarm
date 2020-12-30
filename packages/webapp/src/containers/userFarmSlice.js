@@ -8,6 +8,7 @@ export function onLoadingStart(state) {
 export function onLoadingFail(state, { payload: { error } }) {
   state.loading = false;
   state.error = error;
+  state.loaded = true;
 }
 
 export const initialState = {
@@ -157,6 +158,10 @@ export const {
 export default userFarmSlice.reducer;
 
 export const userFarmReducerSelector = (state) => state.entitiesReducer[userFarmSlice.name];
+export const loginSelector = createSelector(userFarmReducerSelector, ({ farm_id, user_id }) => ({
+  farm_id,
+  user_id,
+}));
 export const userFarmsByUserSelector = createSelector(
   [loginSelector, userFarmReducerSelector],
   ({ user_id }, { byFarmIdUserId, loading, error, ...rest }) => {
@@ -189,10 +194,7 @@ export const userFarmLengthSelector = createSelector(
     return farmIdUserIdTuple.length;
   },
 );
-export const loginSelector = createSelector(userFarmReducerSelector, ({ farm_id, user_id }) => ({
-  farm_id,
-  user_id,
-}));
+
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
   for (let by_user of Object.values(byFarmIdUserId)) {

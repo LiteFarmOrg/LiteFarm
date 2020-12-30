@@ -14,6 +14,7 @@ import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class Labour extends Component {
   constructor(props) {
@@ -128,7 +129,7 @@ const mapStateToProps = (state) => {
     shifts: shiftSelector(state),
     dateRange: dateRangeSelector(state),
     farm: userFarmSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
   };
 };
 

@@ -6,9 +6,9 @@ import parentStyles from '../styles.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
-import { deleteField, deleteFieldCrop } from '../actions';
-import { getExpiredFieldCrops } from '../saga';
-import { getFieldCropsByDate } from '../../actions';
+import { deleteField } from '../saga';
+import { getExpiredFieldCrops, deleteFieldCrop } from '../saga';
+import { getFieldCropsByDate } from '../../saga';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { toastr } from 'react-redux-toastr';
@@ -19,7 +19,11 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { getFields } from '../../saga';
 import { fieldsSelector } from '../../fieldSlice';
 import { putField } from './saga';
-import { expiredFieldCropsSelector, fieldCropsSelector } from '../../fieldCropSlice';
+import {
+  currentFieldCropsSelector,
+  expiredFieldCropsSelector,
+  fieldCropsSelector,
+} from '../../fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 
 class EditField extends Component {
@@ -62,12 +66,6 @@ class EditField extends Component {
     this.setState({ showModal: true });
     this.setState({ selectedFieldCrop: id });
   }
-
-  // handleConfirmDeleteCrop() {
-  //   this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId));
-  //   this.setState({ showModal: false });
-  //   this.props.dispatch(getFieldCrops());
-  // }
 
   componentDidUpdate(prevProps) {
     if (this.props.fieldCrops !== prevProps.fieldCrops) {
@@ -185,8 +183,7 @@ class EditField extends Component {
       toastr.error('Field name cannot be empty');
       return;
     }
-    selectedField.field_name = field_name;
-    this.props.dispatch(putField(selectedField));
+    this.props.dispatch(putField({ ...selectedField, field_name }));
     this.setState({ showFieldNameModal: false });
   };
 
@@ -412,9 +409,7 @@ class EditField extends Component {
             open={this.state.showModal}
             onClose={() => this.setState({ showModal: false })}
             onConfirm={() => {
-              this.props.dispatch(
-                deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId),
-              );
+              this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop));
               this.setState({ showModal: false });
             }}
             message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
@@ -453,7 +448,7 @@ class EditField extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
-    fieldCrops: fieldCropsSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
     expiredFieldCrops: expiredFieldCropsSelector(state),
   };

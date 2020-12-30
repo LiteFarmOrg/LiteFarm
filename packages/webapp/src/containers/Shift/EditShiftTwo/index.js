@@ -23,6 +23,7 @@ import { BsReplyFill } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class EditShiftTwo extends Component {
   constructor(props) {
@@ -820,7 +821,7 @@ const mapStateToProps = (state) => {
   return {
     availableDuration: durationSelector(state),
     selectedTasks: selectedTasksSelector(state),
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     startEnd: startEndSelector(state),
     selectedShift: selectedShiftSelector(state),

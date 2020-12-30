@@ -14,6 +14,7 @@ import { fetchFarmInfo } from '../../../actions';
 import history from '../../../../history';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../../fieldCropSlice';
 
 class AddSale extends Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class AddSale extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

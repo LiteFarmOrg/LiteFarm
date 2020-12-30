@@ -13,6 +13,7 @@ import { addLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class OtherLog extends Component {
   constructor(props) {
@@ -41,7 +42,6 @@ class OtherLog extends Component {
       crops: selectedCrops,
       fields: selectedFields,
       notes: log.notes,
-      user_id: localStorage.getItem('user_id'),
     };
     dispatch(addLog(formValue));
   }
@@ -79,7 +79,7 @@ class OtherLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
   };
 };

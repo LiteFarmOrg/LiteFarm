@@ -25,7 +25,7 @@ import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { postFieldCrop } from '../../../containers/Field/saga';
+import { createPrice, createYield, postFieldCrop } from '../../../containers/Field/saga';
 
 class NewFieldCropModal extends React.Component {
   // props:
@@ -127,8 +127,8 @@ class NewFieldCropModal extends React.Component {
         date: newFieldCrop.end_date,
       };
 
-      this.props.dispatch(createYieldAction(yieldData));
-      this.props.dispatch(createPriceAction(priceData));
+      this.props.dispatch(createYield(yieldData));
+      this.props.dispatch(createPrice(priceData));
 
       let bed_config = null;
       if (!isByArea) {

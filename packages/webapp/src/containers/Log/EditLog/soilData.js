@@ -25,6 +25,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 const parsedTextureOptions = [
   { label: 'Sand', value: 'sand' },
@@ -339,7 +340,7 @@ class soilDataLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),

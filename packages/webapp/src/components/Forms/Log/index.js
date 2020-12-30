@@ -8,13 +8,14 @@ import moment from 'moment';
 import { cropSelector } from '../../../containers/selector';
 import { Alert } from 'react-bootstrap';
 import { fieldsSelector } from '../../../containers/fieldSlice';
+import { getFields } from '../../../containers/saga';
+import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
     super(props);
     const { selectedFields, selectedCrops, dispatch, parent, model } = this.props;
     dispatch(getFieldCrops());
-    //TODO add getfieldSaga
     dispatch(getFields());
 
     let selectedCropsMap = {};
@@ -318,7 +319,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
   };
 };

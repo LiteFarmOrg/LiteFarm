@@ -41,8 +41,13 @@ import { loginSelector, loginSuccess } from './userFarmSlice';
 import { userFarmSelector, putUserSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { lastActiveDatetimeSelector, logUserInfoSuccess } from './userLogSlice';
-import { getFieldsSuccess } from './fieldSlice';
+import { getFieldsSuccess, onLoadingFieldStart, onLoadingFieldFail } from './fieldSlice';
 import { getCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
+import {
+  getFieldCropsSuccess,
+  onLoadingFieldCropFail,
+  onLoadingFieldCropStart,
+} from './fieldCropSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 
@@ -148,9 +153,11 @@ export function* getFieldsSaga() {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
+    yield put(onLoadingFieldStart());
     const result = yield call(axios.get, fieldURL + '/farm/' + farm_id, header);
     yield put(getFieldsSuccess(result.data));
   } catch (e) {
+    yield put(onLoadingFieldFail());
     console.log('failed to fetch fields from database');
   }
 }
@@ -161,14 +168,16 @@ export function* getFieldCropsSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
+    yield put(onLoadingFieldCropStart());
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setFieldCropsInState(result.data));
-    }
+    yield put(getFieldCropsSuccess(result.data));
   } catch (e) {
+    yield put(onLoadingFieldCropFail());
     console.log('failed to fetch field crops from db');
   }
 }
+
+export const getFieldCropsByDate = createAction('getFieldCropsByDateSaga');
 
 export function* getFieldCropsByDateSaga() {
   let currentDate = formatDate(new Date());
@@ -177,15 +186,15 @@ export function* getFieldCropsByDateSaga() {
   const header = getHeader(user_id, farm_id);
 
   try {
+    yield put(onLoadingFieldCropStart());
     const result = yield call(
       axios.get,
       fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate,
       header,
     );
-    if (result) {
-      yield put(setFieldCropsInState(result.data));
-    }
+    yield put(getFieldCropsSuccess(result.data));
   } catch (e) {
+    yield put(onLoadingFieldCropFail());
     console.log('failed to fetch field crops by date');
   }
 }
@@ -282,8 +291,8 @@ export default function* getFarmIdSaga() {
   yield takeLatest(GET_FARM_INFO, getFarmInfo);
   yield takeLatest(UPDATE_FARM, updateFarm);
   yield takeLatest(getFields.type, getFieldsSaga);
-  yield takeLatest(GET_FIELD_CROPS, getFieldCropsSaga);
-  yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
+  yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
+  // yield takeLatest(GET_FIELD_CROPS_BY_DATE, getFieldCropsByDateSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

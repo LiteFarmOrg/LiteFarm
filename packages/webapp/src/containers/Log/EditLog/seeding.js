@@ -18,6 +18,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -179,7 +180,7 @@ class SeedingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     logs: logSelector(state),

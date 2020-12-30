@@ -13,6 +13,7 @@ import { addLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class FieldWorkLog extends Component {
   constructor(props) {
@@ -42,7 +43,6 @@ class FieldWorkLog extends Component {
       fields: selectedFields,
       type: log.type.value,
       notes: log.notes,
-      user_id: localStorage.getItem('user_id'),
     };
     dispatch(addLog(formValue));
   }
@@ -82,7 +82,7 @@ class FieldWorkLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
   };
 };

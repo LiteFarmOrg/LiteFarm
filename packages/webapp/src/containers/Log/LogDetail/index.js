@@ -16,6 +16,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -557,7 +558,7 @@ const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),

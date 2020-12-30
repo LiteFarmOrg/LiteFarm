@@ -20,6 +20,7 @@ import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -398,7 +399,7 @@ class FertilizingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),

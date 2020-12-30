@@ -11,6 +11,7 @@ import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { createPrice, createYield, putFieldCrop } from '../../../containers/Field/saga';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -126,22 +127,22 @@ class EditFieldCropModal extends React.Component {
       date: moment().format(),
     };
 
-    this.props.dispatch(createYieldAction(yieldData));
-    this.props.dispatch(createPriceAction(priceData));
+    this.props.dispatch(createYield(yieldData));
+    this.props.dispatch(createPrice(priceData));
     this.props.dispatch(
-      editFieldCropAction(
-        parseInt(this.props.cropBeingEdited.field_crop_id, DEC_RADIX),
-        parseInt(editedFieldCrop.crop_id, DEC_RADIX),
-        this.props.cropBeingEdited.field_id,
-        editedFieldCrop.start_date,
-        editedFieldCrop.end_date,
-        convertToMetric(editedFieldCrop.area_used, area_unit, 'm2'),
-        estimatedProduction,
-        editedFieldCrop.variety || '',
-        estimatedRevenue,
-        !isByArea,
+      putFieldCrop({
+        field_crop_id: parseInt(this.props.cropBeingEdited.field_crop_id, DEC_RADIX),
+        crop_id: parseInt(editedFieldCrop.crop_id, DEC_RADIX),
+        field_id: this.props.cropBeingEdited.field_id,
+        start_date: editedFieldCrop.start_date,
+        end_date: editedFieldCrop.end_date,
+        area_used: convertToMetric(editedFieldCrop.area_used, area_unit, 'm2'),
+        estimated_production: estimatedProduction,
+        variety: editedFieldCrop.variety || '',
+        estimated_revenue: estimatedRevenue,
+        is_by_bed: !isByArea,
         bed_config,
-      ),
+      }),
     );
     this.setState({ show: false });
 

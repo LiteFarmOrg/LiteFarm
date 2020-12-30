@@ -12,6 +12,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class MyShift extends Component {
   constructor(props) {
@@ -277,7 +278,7 @@ const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
     fields: fieldsSelector(state),
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),

@@ -27,7 +27,8 @@ import { BsChevronDown, BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
-import { fieldsSelector } from '../fieldSlice';
+import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
+import { currentFieldCropsSelector, fieldCropStatusSelector } from '../fieldCropSlice';
 
 class Field extends Component {
   static defaultProps = {
@@ -257,27 +258,29 @@ class Field extends Component {
             id="controlled-tab-example"
           >
             <Tab eventKey={1} title={this.props.t('FIELDS.MAP')}>
-              {this.state.isPropReceived && (
-                <div style={{ width: '100%', height: '400px' }}>
-                  <GoogleMap
-                    bootstrapURLKeys={{
-                      key: GMAPS_API_KEY,
-                      libraries: ['drawing', 'geometry', 'places'],
-                    }}
-                    defaultCenter={this.state.center}
-                    defaultZoom={this.props.zoom}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
-                    options={this.getMapOptions}
-                  >
-                    <CenterDiv
-                      lat={this.state.center.lat}
-                      lng={this.state.center.lng}
-                      text={'' && this.props.farm.farm_name}
-                    />
-                  </GoogleMap>
-                </div>
-              )}
+              {this.state.isPropReceived &&
+                !this.props.fieldStats.loading &&
+                this.props.fieldStats.loaded && (
+                  <div style={{ width: '100%', height: '400px' }}>
+                    <GoogleMap
+                      bootstrapURLKeys={{
+                        key: GMAPS_API_KEY,
+                        libraries: ['drawing', 'geometry', 'places'],
+                      }}
+                      defaultCenter={this.state.center}
+                      defaultZoom={this.props.zoom}
+                      yesIWantToUseGoogleMapApiInternals
+                      onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
+                      options={this.getMapOptions}
+                    >
+                      <CenterDiv
+                        lat={this.state.center.lat}
+                        lng={this.state.center.lng}
+                        text={'' && this.props.farm.farm_name}
+                      />
+                    </GoogleMap>
+                  </div>
+                )}
             </Tab>
             <Tab eventKey={2} title={this.props.t('FIELDS.LIST')}>
               <Table>
@@ -330,8 +333,9 @@ class Field extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
+    fieldStats: fieldStatusSelector(state),
   };
 };
 

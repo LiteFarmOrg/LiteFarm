@@ -16,6 +16,7 @@ import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -53,7 +54,6 @@ class SeedingLog extends Component {
       space_length_cm: convertToMetric(log.space_length_cm, this.state.space_unit, 'cm'),
       space_width_cm: convertToMetric(log.space_width_cm, this.state.space_unit, 'cm'),
       'rate_seeds/m2': convertToMetric(log['rate_seeds/m2'], this.state.rate_unit, 'm2', true),
-      user_id: localStorage.getItem('user_id'),
     };
     dispatch(addLog(formValue));
   }
@@ -116,7 +116,7 @@ class SeedingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
   };

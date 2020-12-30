@@ -21,6 +21,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class EditSale extends Component {
   constructor(props) {
@@ -170,7 +171,7 @@ class EditSale extends Component {
 const mapStateToProps = (state) => {
   return {
     sale: selectedSaleSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

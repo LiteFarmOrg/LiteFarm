@@ -10,7 +10,7 @@ import {
 } from './constants';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { createCropAction } from './actions';
+import { postCrop } from './saga';
 import { getCrops } from '../../../containers/saga';
 import styles from './styles.scss';
 import Select from 'react-select';
@@ -157,7 +157,7 @@ class NewCropModal extends React.Component {
         newCrop[nutrient] = this.state[nutrient];
       }
 
-      this.props.dispatch(createCropAction(newCrop)); // create field
+      this.props.dispatch(postCrop(newCrop)); // create field
       this.handleClose();
     }
   }

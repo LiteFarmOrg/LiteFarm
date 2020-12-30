@@ -13,6 +13,7 @@ import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } fro
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class SaleDetail extends Component {
   constructor(props) {
@@ -147,7 +148,7 @@ class SaleDetail extends Component {
 const mapStateToProps = (state) => {
   return {
     fields: fieldsSelector(state),
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     sale: selectedSaleSelector(state),
     farm: userFarmSelector(state),
   };

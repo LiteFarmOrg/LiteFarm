@@ -11,6 +11,7 @@ import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { withTranslation } from "react-i18next";
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -41,6 +42,7 @@ class EditFieldCropModal extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { estimated_unit, area_unit } = this.state;
+    console.log(this.props);
 
     dispatch(getCrops());
     let fieldCrop = JSON.parse(JSON.stringify(this.state.fieldCrop));
@@ -288,12 +290,14 @@ class EditFieldCropModal extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.handleShow}>Edit</Button>
+        <Button onClick={this.handleShow} style={{ padding: '0 24px' }}>
+          Edit
+        </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              Edit - {this.props.cropBeingEdited.crop_common_name}, Variety:{' '}
+              Edit - {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)}, Variety:{' '}
               {this.props.cropBeingEdited.variety}
             </Modal.Title>
           </Modal.Header>
@@ -437,4 +441,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditFieldCropModal);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(EditFieldCropModal));

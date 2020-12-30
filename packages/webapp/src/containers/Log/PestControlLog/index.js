@@ -274,7 +274,7 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: d.disease_common_name,
+        label: this.props.t(`disease:name.${d.disease_name_translation_key}`)
       }));
     return (
       <div className="page-container" style={{ styles }}>

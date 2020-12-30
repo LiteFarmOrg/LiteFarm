@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { cropSelector, fieldSelector } from '../../../containers/selector';
 import { Alert } from 'react-bootstrap';
+import { withTranslation } from "react-i18next";
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
@@ -86,9 +87,9 @@ class DefaultLogForm extends React.Component {
             if (hasDup) {
               return {
                 value: c.field_crop_id,
-                label: c.crop_common_name + `(${moment(c.start_date).format('YYYY-MM-DD')})`,
+                label: `${this.props.t(`crop:${c.crop_translation_key}`)}  (${moment(c.start_date).format('YYYY-MM-DD')})`,
               };
-            } else return { value: c.field_crop_id, label: c.crop_common_name };
+            } else return { value: c.field_crop_id, label: this.props.t(`crop:${c.crop_translation_key}`) };
           }));
       });
     } else {
@@ -100,9 +101,9 @@ class DefaultLogForm extends React.Component {
             if (hasDup) {
               return {
                 value: c.field_crop_id,
-                label: c.crop_common_name + `(${moment(c.start_date).format('YYYY-MM-DD')})`,
+                label: `${this.props.t(`crop:${c.crop_translation_key}`)}  (${moment(c.start_date).format('YYYY-MM-DD')})`,
               };
-            } else return { value: c.field_crop_id, label: c.crop_common_name };
+            } else return { value: c.field_crop_id, label: this.props.t(`crop:${c.crop_translation_key}`) };
           }));
       });
     }
@@ -321,4 +322,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultLogForm);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(DefaultLogForm));

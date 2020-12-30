@@ -150,7 +150,7 @@ class OtherExpense extends Component {
     const { expenseTypes } = this.props;
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return type.expense_name;
+        return this.props.t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';

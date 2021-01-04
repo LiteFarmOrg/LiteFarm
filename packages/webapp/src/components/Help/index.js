@@ -84,6 +84,8 @@ export default function PureHelpRequestPage({ onSubmit}) {
           label={t('HELP.ATTACHMENT_LABEL')}
           optional={true}
           style={{flexGrow: 4}}
+          disabled={!!file}
+          value={file ? file.name : ''}
         />
         <div style={{flexGrow: 1, marginTop: "16px", marginLeft:"8px", marginRight:"-8px"}}>
           <label htmlFor="uploader">

@@ -24,6 +24,7 @@ function fakeUser() {
     last_name: faker.name.lastName(),
     email: faker.lorem.word() + faker.internet.email(),
     user_id: faker.random.uuid(),
+    status: 1,
     phone_number: faker.phone.phoneNumber(),
   };
 }

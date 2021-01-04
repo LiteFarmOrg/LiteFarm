@@ -109,7 +109,7 @@ class passwordResetController extends baseController {
         };
         const sender = 'system@litefarm.org';
         await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, language_preference);
-
+        await userModel.query().findById(user_id).patch({ status: 1 });
 
         return res.status(200).send({ id_token });
       } catch (error) {

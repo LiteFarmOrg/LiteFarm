@@ -352,7 +352,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
-    "DESCRIPTION": "Someone wil be in touch within 48 hours.",
+    "DESCRIPTION": "Someone will be in touch within 48 hours.",
     "TITLE": "Help request submitted"
   },
   "ROLE_SELECTION": {

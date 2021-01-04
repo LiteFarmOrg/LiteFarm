@@ -18,7 +18,7 @@ import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
-import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
+import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT, inlineErrors } from './constants';
 import { loginSuccess } from '../loginSlice';
 import { toastr } from 'react-redux-toastr';
 
@@ -44,6 +44,10 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
           email: result.data.email,
         },
       });
+    } else if(result.data.invited){
+      showSSOError(inlineErrors.invited);
+    } else if(result.data.expired){
+      showSSOError(inlineErrors.expired);
     } else if (!result.data.exists && !result.data.sso) {
       yield put(saveUserEmailSuccess(email));
       history.push({
@@ -52,7 +56,7 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
         user: { email },
       });
     } else if (result.data.sso) {
-      showSSOError();
+      showSSOError(inlineErrors.sso);
     }
   } catch (e) {
     console.log(e);

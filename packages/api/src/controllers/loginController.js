@@ -16,8 +16,11 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
+const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
-const { createAccessToken } = require('../util/jwt');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+
+const { createAccessToken, createResetPasswordToken } = require('../util/jwt');
 
 class loginController extends baseController {
   static authenticateUser() {
@@ -81,15 +84,41 @@ class loginController extends baseController {
       const { email } = req.params;
       try {
         const data = await userModel.query()
-          .select('user_id', 'first_name', 'email', 'language_preference').from('users').where('users.email', email).first();
+          .select('user_id', 'first_name', 'email', 'language_preference', 'status').from('users').where('users.email', email).first();
         if (!data) {
           res.status(200).send({
             first_name: null,
             email: null,
             exists: false,
             sso: false,
+            invited: false,
+            expired: false,
           });
         } else {
+          if (data.status === 2) {
+            await sendMissingInvitations(data);
+            return res.status(200).send({
+              first_name: data.first_name,
+              email: null,
+              exists: false,
+              sso: false,
+              invited: true,
+              expired: false,
+            });
+          }
+
+          if (data.status === 3) {
+            await sendPasswordReset(data);
+            return res.status(200).send({
+              first_name: data.first_name,
+              email: data.email,
+              exists: false,
+              sso: false,
+              language: data.language_preference,
+              invited: false,
+              expired: true,
+            });
+          }
           // User signed up with Google SSO
           if (/^\d+$/.test(data.user_id)) {
             res.status(200).send({
@@ -98,6 +127,8 @@ class loginController extends baseController {
               exists: true,
               sso: true,
               language: data.language_preference,
+              invited: false,
+              expired: false,
             });
           } else {
             res.status(200).send({
@@ -106,16 +137,60 @@ class loginController extends baseController {
               exists: true,
               sso: false,
               language: data.language_preference,
+              invited: false,
+              expired: false
             });
           }
         }
       } catch (error) {
+        console.log(error);
         return res.status(400).json({
           error,
         });
       }
     };
   }
+}
+
+async function sendMissingInvitations(user) {
+  const environment = process.env.NODE_ENV || 'development';
+  const environmentMap = {
+    integration: 'https://beta.litefarm.org/',
+    production: 'https://app.litefarm.org/',
+    development: 'http://localhost:3000/',
+  }
+  const basePath = environmentMap[environment];
+  const userFarms = await userFarmModel.query().select('*')
+    .join('farm', 'userFarm.farm_id', 'farm.farm_id')
+    .join('users', 'users.user_id', 'userFarm.user_id')
+    .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited')
+  if (userFarms) {
+    const template = emails.INVITATION;
+    await userFarms.map(({ farm_name, first_name, email, language_preference }) => {
+      template.subjectReplacements = farm_name;
+      return sendEmailTemplate.sendEmail(template, { farm_name, first_name, link: basePath },
+        email, 'help@litefarm.org', true, language_preference);
+    })
+  }
+}
+
+async function sendPasswordReset(data) {
+  const created_at = new Date();
+  const pw = await passwordModel.query()
+    .insert({ user_id: data.user_id, reset_token_version: 1, password_hash: `${Math.random()}`, created_at: created_at.toISOString()}).returning('*');
+  const tokenPayload = {
+    ...data,
+    reset_token_version: 0,
+    created_at: pw.created_at.getTime(),
+  };
+  const token = await createResetPasswordToken(tokenPayload);
+  const template_path = emails.PASSWORD_RESET;
+  const replacements = {
+    first_name: data.first_name,
+  };
+  const sender = 'system@litefarm.org';
+  await sendEmailTemplate.sendEmail(template_path, replacements, data.email, sender,
+    `/callback/?reset_token=${token}`, data.language_preference);
 }
 
 module.exports = loginController;

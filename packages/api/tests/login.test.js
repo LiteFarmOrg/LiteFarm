@@ -23,14 +23,18 @@ const { tableCleanup } = require('./testEnvironment');
 jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 jest.mock('../src/jobs/station_sync/mapping');
+jest.mock('../src/templates/sendEmailTemplate');
 const mocks = require('./mock.factories');
 
 describe('Sign Up Tests', () => {
   let middleware;
+  let emailMiddleware
+  let mockEmail = jest.fn();
   let farm;
   let newOwner;
 
   beforeAll(() => {
+    emailMiddleware = require('../src/templates/sendEmailTemplate');
     token = global.token;
   });
 
@@ -39,6 +43,10 @@ describe('Sign Up Tests', () => {
       done();
     });
   });
+
+  beforeEach(() => {
+    emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
+  })
 
   // FUNCTIONS
 
@@ -114,5 +122,47 @@ describe('Sign Up Tests', () => {
       });
     });
   });
+
+  describe('Exists', () => {
+    test('should send missing invitation to user if checks existance and has no farms', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 2});
+      const [userFarm] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      getRequest({email: user.email}, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.exists).toBe(false);
+        expect(res.body.invited).toBe(true);
+        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalled();
+        done();
+      })
+    })
+
+    test('should send missing invitation(s) to user if checks existance and has no farms but many invites', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 2});
+      const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      const [userFarm2] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      const [userFarm3] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      const [userFarm4] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      getRequest({email: user.email}, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.exists).toBe(false);
+        expect(res.body.invited).toBe(true);
+        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(4);
+        done();
+      })
+    })
+
+    test('should send a password reset email to user if he was legacy ', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 3});
+      const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]});
+      getRequest({email: user.email}, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.exists).toBe(false);
+        expect(res.body.expired).toBe(true);
+        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(1);
+        done();
+      })
+    })
+
+  })
 
 });

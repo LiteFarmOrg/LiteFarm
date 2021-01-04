@@ -499,7 +499,9 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "MISSING",
+    "EXPIRED_ERROR": "MISSING",
     "GOOGLE_BUTTON": "MISSING",
+    "INVITED_ERROR": "MISSING",
     "OOPS": "MISSING",
     "PASSWORD_ERROR": "Password incorrect",
     "PLEASE_SIGNUP": "MISSING",

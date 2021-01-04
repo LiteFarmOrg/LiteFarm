@@ -24,7 +24,6 @@ import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
-import manualSignUpReducer from '../containers/CustomSignUp/signUpSlice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
@@ -104,7 +103,6 @@ const entitiesReducer = combineReducers({
   userFarmReducer,
   // userReducer,
   certifierSurveyReducer,
-  manualSignUpReducer,
   rolesReducer,
   fieldReducer,
   cropReducer,

@@ -14,10 +14,11 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { takeLatest, call } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { toastr } from 'react-redux-toastr';
+import { postHelpRequestSuccess } from '../Home/homeSlice';
 const axios = require('axios');
 const supportUrl = () => `${url}/support_ticket`;
 
@@ -26,16 +27,16 @@ export const supportFileUpload = createAction(`supportFileUploadSaga`);
 export function* supportFileUploadSaga({ payload: { file, form } }) {
   try {
     const formData = new FormData();
-    formData.append('_file_', file)
+    formData.append('_file_', file);
     formData.append('data', JSON.stringify(form));
     const result = yield call(axios.post, supportUrl(), formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
-        "Authorization": 'Bearer ' + localStorage.getItem('id_token')
-      }
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + localStorage.getItem('id_token'),
+      },
     });
     if (result) {
-      toastr.success('Request ticket sent');
+      yield put(postHelpRequestSuccess());
       history.push('/');
     } else {
       toastr.error('Failed to upload attachments');

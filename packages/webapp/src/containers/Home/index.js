@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
 import { toastr } from 'react-redux-toastr';
 import WeatherBoard from '../../containers/WeatherBoard';
@@ -9,12 +9,18 @@ import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import history from '../../history';
 import { spotlightSelector } from '../selector';
+import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
+import RequestConfirmationComponent, {
+  PureRequestConfirmationComponent,
+} from '../../components/Modals/RequestConfirmationModal';
+import { showHelpRequestModalSelector, dismissHelpRequestModal } from './homeSlice';
 
 export default function Home() {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
   const showSpotlight = useSelector(spotlightSelector);
+  const dispatch = useDispatch();
   const detectBrowser = () => {
     // ripped off stackoverflow: https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome
     const isChromium = window.chrome;
@@ -46,6 +52,8 @@ export default function Home() {
   const [switchFarm, setSwitchFarm] = useState(history.location.state);
   const dismissPopup = () => setSwitchFarm(false);
 
+  const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
+  const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   return (
     <PureHome title={`${t('HOME.GREETING')} ${userFarm?.first_name}`} imgUrl={imgUrl}>
       {userFarm ? (
@@ -70,6 +78,13 @@ export default function Home() {
             bottom: 0,
             backgroundColor: 'rgba(25, 25, 40, 0.8)',
           }}
+        />
+      )}
+
+      {showHelpRequestModal && (
+        <RequestConfirmationComponent
+          onClick={showRequestConfirmationModalOnClick}
+          dismissModal={showRequestConfirmationModalOnClick}
         />
       )}
     </PureHome>

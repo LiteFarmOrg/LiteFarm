@@ -20,9 +20,9 @@ export function PureRequestConfirmationComponent({ onClick }) {
   );
 }
 
-export default function requestConfirmationComponent({ onClick, dismissModal }) {
+export default function RequestConfirmationComponent({ onClick, dismissModal }) {
   return (
-    <Modal>
+    <Modal dismissModal={dismissModal}>
       <PureRequestConfirmationComponent onClick={onClick} dismissModal={dismissModal} />
     </Modal>
   );

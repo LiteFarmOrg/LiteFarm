@@ -27,6 +27,7 @@ class User extends Model {
   static get idColumn() {
     return 'user_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
@@ -56,8 +57,9 @@ class User extends Model {
           },
         },
         language_preference: { type: 'string' },
-        created_at: { type : 'date-time' },
-        updated_at: { type : 'date-time' },
+        status: { type: 'number' },
+        created_at: { type: 'date-time' },
+        updated_at: { type: 'date-time' },
       },
       additionalProperties: false,
     };

@@ -12,7 +12,12 @@ import history from '../../history';
 import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
-import { CUSTOM_SIGN_UP, ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT } from './constants';
+import {
+  CUSTOM_SIGN_UP,
+  ENTER_PASSWORD_PAGE,
+  CREATE_USER_ACCOUNT,
+  inlineErrors,
+} from './constants';
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
@@ -68,14 +73,23 @@ function CustomSignUp() {
     }
   }, [componentToShow]);
 
-  const showSSOErrorAndRedirect = () => {
+  const showSSOErrorAndRedirect = (error) => {
+    //OC: Dynamically setting the error is not an option because of the need to reflect the key on the translation file
+    const allMessages = {
+      sso: t('SIGNUP.SSO_ERROR'),
+      expired: t('SIGNUP.EXPIRED_ERROR'),
+      invited: t('SIGNUP.INVITED_ERROR'),
+    };
+    const message = allMessages[error];
     setError(EMAIL, {
       type: 'manual',
-      message: t('SIGNUP.SSO_ERROR'),
+      message,
     });
-    // TODO: Create custom google login button pass in React google login along with ref
-    const googleLoginButton = document.getElementsByClassName('google-login-button')[0];
-    googleLoginButton.click();
+    if (error === inlineErrors.sso) {
+      // TODO: Create custom google login button pass in React google login along with ref
+      const googleLoginButton = document.getElementsByClassName('google-login-button')[0];
+      googleLoginButton.click();
+    }
   };
   const onSubmit = (data) => {
     const { email } = data;

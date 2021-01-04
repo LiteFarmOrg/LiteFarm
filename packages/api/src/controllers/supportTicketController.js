@@ -43,7 +43,7 @@ class supportTicketController extends baseController {
     return async (req, res) => {
       try {
         const data = JSON.parse(req.body.data);
-        data.attachments = req.file ? [req.file.path] : null;
+        data.attachments = req.file ? [req.file.path] : [];
         const user_id = req.user.user_id;
         const user = await userModel.query().findById(user_id);
         const result = await supportTicketModel.query().context({ user_id }).insert(data).returning('*');

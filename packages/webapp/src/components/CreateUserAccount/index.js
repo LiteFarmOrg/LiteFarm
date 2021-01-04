@@ -14,7 +14,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const NAME = 'name';
   const name = watch(NAME, undefined);
   const PASSWORD = 'password';
-  const EMAIL = 'email';
   const password = watch(PASSWORD, undefined);
   const required = watch(NAME, false);
   const { t } = useTranslation();
@@ -33,7 +32,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
 
   const onSubmit = (data) => {
     if (isValid) {
-      onSignUp(data);
+      onSignUp({ ...data, email });
     }
   };
   const onError = (data) => {};
@@ -53,13 +52,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
-      <Input
-        style={{ marginBottom: '28px' }}
-        label={'Email'}
-        disabled
-        defaultValue={email}
-        name={EMAIL}
-      />
+      <Input style={{ marginBottom: '28px' }} label={'Email'} disabled defaultValue={email} />
       <Input
         style={{ marginBottom: '28px' }}
         label={'Full name'}

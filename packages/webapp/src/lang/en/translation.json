@@ -100,6 +100,7 @@
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
     "MESSAGE_LABEL": "Message",
+    "REQUIRED_LABEL": "Required Field",
     "OPTIONS": {
       "OTHER": "Other",
       "REPORT_BUG": "Report a bug",

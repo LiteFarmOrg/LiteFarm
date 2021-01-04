@@ -2,7 +2,7 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import {ReactComponent as AddFile} from './../../assets/images/help/AddFile.svg';
 import React, {useState} from 'react';
-import { Title } from '../Typography';
+import {Error, Title} from '../Typography';
 import PropTypes from 'prop-types';
 import { useForm, Controller} from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,7 @@ import {Label} from '../Typography/index'
 
 export default function PureHelpRequestPage({ onSubmit}) {
   const [file, setFile] = useState(null)
-  const { register, handleSubmit, watch, control } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm();
   const CONTACT_METHOD = 'contact_method';
   const contactMethodSelection = watch(CONTACT_METHOD)
   const MESSAGE = 'message';
@@ -71,12 +71,14 @@ export default function PureHelpRequestPage({ onSubmit}) {
           />
         )}
       />
+      {errors[SUPPORT_TYPE] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       <TextArea
         label={t('HELP.MESSAGE_LABEL')}
         inputRef={register({ required: true })}
         name={MESSAGE}
         style={{marginTop:'30px', marginBottom: '36px'}}
       />
+      {errors[MESSAGE] ? <Error style={{marginTop:'-36px', marginBottom: '30px'}}>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
       <div style={{display: "flex", flexDirection: "row", marginBottom: '36px'}}>
         <Input
           label={t('HELP.ATTACHMENT_LABEL')}
@@ -103,7 +105,7 @@ export default function PureHelpRequestPage({ onSubmit}) {
               name={CONTACT_METHOD}
       />
       <Input label={contactMethodSelection === 'email' ? t('HELP.EMAIL'): t('HELP.WHATSAPP_NUMBER_LABEL')} inputRef={register({required: true})} name={CONTACT_INFO} />
-
+      {errors[CONTACT_INFO] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
     </Form>
   );
 }

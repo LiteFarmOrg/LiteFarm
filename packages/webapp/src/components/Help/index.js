@@ -12,7 +12,7 @@ import Input from "../Form/Input";
 import Radio from "../Form/Radio";
 import {Label} from '../Typography/index'
 
-export default function PureHelpRequestPage({ onSubmit}) {
+export default function PureHelpRequestPage({ onSubmit, goBack}) {
   const [file, setFile] = useState(null)
   const { register, handleSubmit, watch, control, errors } = useForm();
   const CONTACT_METHOD = 'contact_method';
@@ -47,7 +47,7 @@ export default function PureHelpRequestPage({ onSubmit}) {
       onSubmit={handleSubmit(submit, onError)}
       buttonGroup={
         <>
-          <Button fullLength color={'secondary'}>
+          <Button fullLength color={'secondary'} onClick={goBack}>
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} fullLength>

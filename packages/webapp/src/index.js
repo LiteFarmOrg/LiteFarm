@@ -38,6 +38,7 @@ import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
+import supportSaga from './containers/Help/saga'
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import { Provider } from 'react-redux';
@@ -63,7 +64,11 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: [...getDefaultMiddleware(), ...middlewares],
+  middleware: [...getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions:[ 'supportFileUploadSaga']
+    }
+  }), ...middlewares],
   devTools: process.env.REACT_APP_ENV !== 'production',
 });
 
@@ -102,6 +107,7 @@ sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
 sagaMiddleware.run(loginSaga);
+sagaMiddleware.run(supportSaga);
 
 const persistor = persistStore(store);
 

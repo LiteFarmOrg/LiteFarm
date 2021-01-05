@@ -49,7 +49,10 @@ export default function PureNavBar({
   };
 
   //PureProfileFloater
-  const helpClick = () => {};
+  const helpClick = () => {
+    history.push('/help');
+    changeInteraction('profile');
+  };
   const switchFarmClick = () => {
     history.push('/farm_selection');
     changeInteraction('profile');

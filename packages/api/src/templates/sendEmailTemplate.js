@@ -28,13 +28,14 @@ const emails = {
   WITHHELD_CONSENT: { path: 'withheld_consent_email.html' },
   ACCESS_RESTORE: { subjectReplacements: '', path: 'restoration_of_access_to_farm_email.html' },
   ACCESS_REVOKE: { subjectReplacements: '', path: 'revocation_of_access_to_farm_email.html' },
-  WELCOME: {  path: 'welcome_email.html' },
-  PASSWORD_RESET: {  path: 'password_reset_email.html' },
+  WELCOME: { path: 'welcome_email.html' },
+  PASSWORD_RESET: { path: 'password_reset_email.html' },
   PASSWORD_RESET_CONFIRMATION: { path: 'reset_password_confirmation.html' },
-}
+  HELP_REQUEST_EMAIL: { path: 'help_request_email.html' },
+};
 
 class sendEmailTemplate {
-  static async sendEmail(template_path, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null, language = 'en') {
+  static async sendEmail(template_path, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null, language = 'en', attachments = []) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -70,6 +71,7 @@ class sendEmailTemplate {
       'welcome_email.html',
       'password_reset_email.html',
       'reset_password_confirmation.html',
+      'help_request_email.html',
     ];
     if (html_templates.includes(template_path.path)) {
       // using JSDOM to dynamically set the href for the Join button
@@ -78,8 +80,11 @@ class sendEmailTemplate {
       if (joinRelativeURL) {
         dom.window.document.getElementById('email-button').setAttribute('href', `${sendEmailTemplate.homeUrl()}${joinRelativeURL}`);
       } else {
-        const url = `${sendEmailTemplate.homeUrl()}/?email=${encodeURIComponent(email)}`;
-        dom.window.document.getElementById('email-button').setAttribute('href', url);
+        const $button = dom.window.document.getElementById('email-button');
+        if ($button) {
+          const url = `${sendEmailTemplate.homeUrl()}/?email=${encodeURIComponent(email)}`;
+          dom.window.document.getElementById('email-button').setAttribute('href', url);
+        }
       }
       // this exports the dom back to a string
       htmlToSend = dom.serialize();
@@ -96,6 +101,12 @@ class sendEmailTemplate {
       },
     };
 
+    if (template_path === emails.HELP_REQUEST_EMAIL) {
+      mailOptions.cc = 'support@litefarm.org';
+      if (attachments.length) {
+        mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
+      }
+    }
     transporter.sendMail(mailOptions, function(error, info) {
       if (error) {
         return console.log(error);
@@ -117,9 +128,9 @@ class sendEmailTemplate {
   }
 }
 
-function addReplacements(template, subject){
-  if(subject.includes('??') && template.subjectReplacements){
-    return subject.replace('??', template.subjectReplacements)
+function addReplacements(template, subject) {
+  if (subject.includes('??') && template.subjectReplacements) {
+    return subject.replace('??', template.subjectReplacements);
   }
   return subject;
 }

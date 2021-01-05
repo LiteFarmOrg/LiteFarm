@@ -275,7 +275,6 @@ class NewField extends Component {
       });
     };
 
-    // KAAVYA: THIS IS WHERE EXISTING FIELDS ARE ADDED TO MAP
     if (this.state.fields && this.state.fields.length >= 1) {
       len = this.state.fields.length;
       let i;

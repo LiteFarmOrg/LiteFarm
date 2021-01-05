@@ -96,6 +96,24 @@
     },
     "TITLE": "FIELDS"
   },
+  "HELP": {
+    "ATTACHMENT_LABEL": "Upload screenshot or file",
+    "EMAIL": "Email",
+    "MESSAGE_LABEL": "Message",
+    "REQUIRED_LABEL": "Required Field",
+    "OPTIONS": {
+      "OTHER": "Other",
+      "REPORT_BUG": "Report a bug",
+      "REQUEST_FEATURE": "Request a feature",
+      "REQUEST_INFO": "Request information"
+    },
+    "PREFERRED_CONTACT": "Preferred Contact method",
+    "TITLE": "Request Help",
+    "TYPE_SUPPORT_LABEL": "Type of help",
+    "TYPE_SUPPORT_PLACEHOLDER": "Ask for explanation",
+    "WHATSAPP": "Whatsapp",
+    "WHATSAPP_NUMBER_LABEL": "Whatsapp number"
+  },
   "HOME": {
     "CHROME_WARNING": "Warning: The app is designed for Chrome, some layouts could be misplaced.",
     "GREETING": "Good day, "
@@ -352,7 +370,7 @@
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
-    "DESCRIPTION": "Someone wil be in touch within 48 hours.",
+    "DESCRIPTION": "Someone will be in touch within 48 hours.",
     "TITLE": "Help request submitted"
   },
   "ROLE_SELECTION": {
@@ -498,9 +516,7 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
-    "EXPIRED_ERROR": "Your password has expired. Please check your email for a reset link.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
-    "INVITED_ERROR": "Please check your email (including spam) and log-in with the invitation(s) we just sent you",
     "OOPS": "Oops!",
     "PASSWORD_ERROR": "Password incorrect",
     "PLEASE_SIGNUP": "Please, sign up.",

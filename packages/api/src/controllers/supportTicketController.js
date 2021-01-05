@@ -15,6 +15,8 @@
 
 const baseController = require('../controllers/baseController');
 const supportTicketModel = require('../models/supportTicketModel');
+const userModel = require('../models/userModel');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
 class supportTicketController extends baseController {
   // Disabled
@@ -30,7 +32,6 @@ class supportTicketController extends baseController {
         }
       } catch (error) {
         //handle more exceptions
-        console.error(error);
         res.status(400).json({
           error,
         });
@@ -41,10 +42,24 @@ class supportTicketController extends baseController {
   static addSupportTicket() {
     return async (req, res) => {
       try {
+        const data = JSON.parse(req.body.data);
+        data.attachments = [];
         const user_id = req.user.user_id;
-        const result = await supportTicketModel.query().context({ user_id }).insert(req.body).returning('*');
+        const user = await userModel.query().findById(user_id);
+        const result = await supportTicketModel.query().context({ user_id }).insert(data).returning('*');
+        const replacements = {
+          first_name: user.first_name,
+          support_type: result.support_type,
+          message: result.message,
+          contact_method: capitalize(result.contact_method),
+          contact: result[result.contact_method],
+        };
+        const email = data.contact_method === 'email' && data.email;
+        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
+        email && email !== user.email && await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, data.attachments);
         res.status(201).send(result);
       } catch (error) {
+        console.log(error);
         res.status(400).json({
           error,
         });
@@ -69,5 +84,9 @@ class supportTicketController extends baseController {
     };
   }
 }
+
+const capitalize = string => {
+  return string[0].toUpperCase() + string.slice(1);
+};
 
 module.exports = supportTicketController;

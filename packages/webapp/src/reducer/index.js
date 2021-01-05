@@ -31,6 +31,7 @@ import userLogReducer from '../containers/userLogSlice';
 import fieldReducer from '../containers/fieldSlice';
 import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
+import homeReducer from '../containers/Home/homeSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -113,6 +114,10 @@ const persistedStateReducer = combineReducers({
   userLogReducer,
 });
 
+const tempStateReducer = combineReducers({
+  homeReducer,
+});
+
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
   toastr: toastrReducer,
@@ -130,6 +135,7 @@ const appReducer = combineReducers({
   ),
   entitiesReducer,
   persistedStateReducer,
+  tempStateReducer,
   baseReducer,
   logReducer,
   shiftReducer,

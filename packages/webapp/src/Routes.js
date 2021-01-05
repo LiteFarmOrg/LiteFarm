@@ -18,6 +18,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 // import Callback from './components/Callback';
 import Home from './containers/Home';
 import PureEnterPasswordPage from './components/Signup/EnterPasswordPage';
+import HelpRequest from './containers/Help';
 import Profile from './containers/Profile';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
@@ -188,6 +189,7 @@ const Routes = () => {
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
           <Route path="/newfinances" exact component={NewFinances} />
           <Route path="/newfinances/expenses" exact component={Expenses} />
+          <Route path="/help" exact component={HelpRequest} />
           <Route
             path="/newfinances/expenses/expense_categories"
             exact
@@ -248,6 +250,7 @@ const Routes = () => {
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/help" exact component={HelpRequest} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
           <Route path="/seeding_log" exact component={SeedingLog} />

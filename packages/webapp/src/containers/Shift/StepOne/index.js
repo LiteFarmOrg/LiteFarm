@@ -430,7 +430,7 @@ class ShiftStepOne extends Component {
             {taskTypes &&
               taskTypes.map((type) => {
                 const taskName = this.props.t(`task:${type.task_translation_key}`);
-                const buttonImg = this.assignImage(taskName);
+                const buttonImg = this.assignImage(type.task_name);
                 return (
                   <Col
                     xs={4}

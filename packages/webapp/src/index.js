@@ -38,6 +38,7 @@ import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
+import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import { Provider } from 'react-redux';
@@ -113,6 +114,7 @@ sagaMiddleware.run(consentSaga);
 sagaMiddleware.run(newFieldSaga);
 sagaMiddleware.run(editFieldSaga);
 sagaMiddleware.run(loginSaga);
+sagaMiddleware.run(supportSaga);
 
 const persistor = persistStore(store);
 

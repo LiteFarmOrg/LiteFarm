@@ -126,12 +126,9 @@ describe('Expense Type Tests', () => {
     });
   });
 
-  afterEach(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
 
   afterAll(async (done) => {
+    await tableCleanup(knex);
     await knex.destroy();
     done();
   });

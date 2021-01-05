@@ -1,0 +1,18 @@
+.textArea {
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 139px;
+  padding-left: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  resize: none;
+  color: var(--fontColor);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  position: relative;
+}

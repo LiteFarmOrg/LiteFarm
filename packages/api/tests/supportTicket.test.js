@@ -20,8 +20,10 @@ chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment')
-jest.mock('jsdom')
-jest.mock('../src/middleware/acl/checkJwt')
+jest.mock('jsdom');
+jest.mock('../src/middleware/acl/checkJwt');
+jest.mock('../src/templates/sendEmailTemplate');
+
 const mocks = require('./mock.factories');
 
 
@@ -45,10 +47,13 @@ describe('supportTicket Tests', () => {
 
   function postRequest(data, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
     chai.request(server).post(`/support_ticket`)
-      .set('Content-Type', 'application/json')
+      .set('Content-Type', 'multipart/form-data')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send(data)
+      .field({
+        _file_: data.attachments,
+        data: JSON.stringify(data)
+      })
       .end(callback)
   }
 
@@ -89,7 +94,6 @@ describe('supportTicket Tests', () => {
         const supportTickets = await supportTicketModel.query().where('support_ticket_id', res.body.support_ticket_id);
         expect(supportTickets.length).toBe(1);
         expect(supportTickets[0].created_by_user_id).toBe(owner.user_id);
-        expect(supportTickets[0].attachments).toEqual(fakeSupportTicket.attachments);
         done();
       })
     });

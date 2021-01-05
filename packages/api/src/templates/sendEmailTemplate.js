@@ -35,7 +35,7 @@ const emails = {
 };
 
 class sendEmailTemplate {
-  static async sendEmail(template_path, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null, language = 'en', attachmentUrls = []) {
+  static async sendEmail(template_path, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null, language = 'en', attachments = []) {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 465,
@@ -103,8 +103,8 @@ class sendEmailTemplate {
 
     if (template_path === emails.HELP_REQUEST_EMAIL) {
       mailOptions.cc = 'support@litefarm.org';
-      if (attachmentUrls.length) {
-        mailOptions.attachments = attachmentUrls.map(url => ({ path: url }));
+      if (attachments.length) {
+        mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
       }
     }
     transporter.sendMail(mailOptions, function(error, info) {

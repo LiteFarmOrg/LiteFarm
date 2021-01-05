@@ -43,7 +43,7 @@ class supportTicketController extends baseController {
     return async (req, res) => {
       try {
         const data = JSON.parse(req.body.data);
-        data.attachments = req.file ? [req.file.path] : [];
+        data.attachments = [];
         const user_id = req.user.user_id;
         const user = await userModel.query().findById(user_id);
         const result = await supportTicketModel.query().context({ user_id }).insert(data).returning('*');
@@ -55,7 +55,7 @@ class supportTicketController extends baseController {
           contact: result[result.contact_method],
         };
         const email = data.contact_method === 'email' && data.email;
-        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, data.attachments);
+        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
         email && email !== user.email && await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, data.attachments);
         res.status(201).send(result);
       } catch (error) {

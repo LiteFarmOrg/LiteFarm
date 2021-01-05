@@ -107,10 +107,10 @@
       "REQUEST_FEATURE": "Request a feature",
       "REQUEST_INFO": "Request information"
     },
-    "PREFERRED_CONTACT": "Preferred Contact method",
+    "PREFERRED_CONTACT": "Preferred contact method",
     "TITLE": "Request Help",
-    "TYPE_SUPPORT_LABEL": "Type of help",
-    "TYPE_SUPPORT_PLACEHOLDER": "Ask for explanation",
+    "TYPE_SUPPORT_LABEL": "Type of support",
+    "TYPE_SUPPORT_PLACEHOLDER": "Choose type of support",
     "WHATSAPP": "Whatsapp",
     "WHATSAPP_NUMBER_LABEL": "Whatsapp number"
   },

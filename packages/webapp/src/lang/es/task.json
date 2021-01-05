@@ -1,5 +1,5 @@
 {
-  "BED PREPARATION": "Preparacion de Camas",
+  "BED_PREPARATION": "Preparacion de Camas",
   "DELIVERY": "Despacho",
   "SALES": "Ventas",
   "SOCIAL EVENT": "Eventos Sociales",
@@ -8,7 +8,7 @@
   "SCOUTING": "Busqueda",
   "HARVESTING": "Cosecha",
   "WEEDING": "Weeding",
-  "WASH AND PACK": "Limpiar y empacar",
-  "PEST CONTROL": "Control de Pestes",
+  "WASH_AND_PACK": "Limpiar y empacar",
+  "PEST_CONTROL": "Control de Pestes",
   "OTHER": "Otras"
 }

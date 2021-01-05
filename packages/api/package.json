@@ -38,7 +38,7 @@
   "dependencies": {
     "adm-zip": "^0.4.16",
     "async-file": "^2.0.2",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",

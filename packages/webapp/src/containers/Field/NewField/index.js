@@ -15,6 +15,7 @@ import {
   NEXT_BUTTON,
   POLYGON_BUTTON,
   POLYGON_COMPLETE,
+  TREE_ICON,
 } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
 import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
@@ -67,6 +68,7 @@ class NewField extends Component {
       polygon: null,
       step: 1,
       fieldName: '',
+      fields: this.props.fields,
       area: null,
       center:
         this.props.farm === null || this.props.farm.grid_points === null
@@ -205,7 +207,17 @@ class NewField extends Component {
   }
 
   handleGoogleMapApi(map, maps) {
-    //create the drawing manager
+    let farmBounds = new maps.LatLngBounds();
+    let len = 0;
+    let fieldIcon = {
+      path: TREE_ICON,
+      fillColor: styles.primaryColor,
+      fillOpacity: 0,
+      strokeWeight: 0,
+      scale: 0.5,
+    };
+
+    // Create the drawing manager
     let drawingManager = new maps.drawing.DrawingManager({
       drawingMode: null,
       drawingControl: false,
@@ -215,6 +227,7 @@ class NewField extends Component {
       },
       map: map,
     });
+
     drawingManager.setOptions({
       polygonOptions: {
         strokeWeight: 2,
@@ -227,8 +240,65 @@ class NewField extends Component {
         suppressUndo: true,
       },
     });
-    //drawingManager.setMap(map);
 
+    maps.Polygon.prototype.getPolygonBounds = function () {
+      var bounds = new maps.LatLngBounds();
+      this.getPath().forEach(function (element, index) {
+        bounds.extend(element);
+      });
+      return bounds;
+    };
+
+    let addListenersOnPolygonAndMarker = function (polygon, fieldObject) {
+      // creates field marker
+      var fieldMarker = new maps.Marker({
+        position: polygon.getPolygonBounds().getCenter(),
+        map: map,
+        icon: fieldIcon,
+        label: { text: fieldObject.field_name, color: 'white' },
+      });
+
+      // attach on click listeners
+      //activeInfoWindow = null;
+
+      function pushToHist() {
+        history.push('./edit_field?' + fieldObject.field_id);
+      }
+
+      fieldMarker.setMap(map);
+
+      maps.event.addListener(fieldMarker, 'click', function (event) {
+        pushToHist();
+      });
+      maps.event.addListener(polygon, 'click', function (event) {
+        pushToHist();
+      });
+    };
+
+    // KAAVYA: THIS IS WHERE EXISTING FIELDS ARE ADDED TO MAP
+    if (this.state.fields && this.state.fields.length >= 1) {
+      len = this.state.fields.length;
+      let i;
+
+      for (i = 0; i < len; i++) {
+        // ensure that the map shows this field
+        this.state.fields[i].grid_points.forEach((grid_point) => {
+          farmBounds.extend(grid_point);
+        });
+        // creates the polygon to be displayed on the map
+        var polygon = new maps.Polygon({
+          paths: this.state.fields[i].grid_points,
+          strokeColor: styles.primaryColor,
+          strokeOpacity: 0.8,
+          strokeWeight: 3,
+          fillColor: styles.primaryColor,
+          fillOpacity: 0.35,
+        });
+        polygon.setMap(map);
+        addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
+      }
+      map.fitBounds(farmBounds);
+    }
     this.setState({
       drawingManager: drawingManager,
       supportedDrawingModes: {

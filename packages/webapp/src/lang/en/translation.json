@@ -498,7 +498,9 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
+    "EXPIRED_ERROR": "Your password has expired. Please check your email for a reset link.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
+    "INVITED_ERROR": "Please check your email (including spam) and log-in with the invitation(s) we just sent you",
     "OOPS": "Oops!",
     "PASSWORD_ERROR": "Password incorrect",
     "PLEASE_SIGNUP": "Please, sign up.",

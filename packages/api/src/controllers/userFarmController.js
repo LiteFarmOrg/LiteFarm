@@ -404,7 +404,8 @@ class userFarmController extends baseController {
       let subject;
 
       try {
-        const targetUser = await userFarmModel.query().select('*')
+        const targetUser = await userFarmModel.query().select('users.first_name', 'users.last_name',
+          'farm.farm_name', 'userFarm.status', 'users.email', 'users.language_preference')
           .where({ 'userFarm.user_id': user_id, 'userFarm.farm_id': farm_id })
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')

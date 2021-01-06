@@ -18,15 +18,16 @@ import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
 import { Button, Tab, Table, Tabs } from 'react-bootstrap';
-import { cropSelector as fieldCropSelector, fieldSelector } from '../selector';
 import history from '../../history';
 import moment from 'moment';
-import { getFields } from '../actions';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
 import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../util';
 import { BsChevronDown, BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { getFields } from '../saga';
+import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
+import { currentFieldCropsSelector } from '../fieldCropSlice';
 
 class Field extends Component {
   static defaultProps = {
@@ -70,13 +71,19 @@ class Field extends Component {
       }
       this.setState({ isVisible: visArray });
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
     this.setState({
-      fields: nextProps.fields,
+      fields: this.props.fields,
       isPropReceived: true,
     });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.fields !== this.props.fields) {
+      this.setState({
+        fields: this.props.fields,
+        isPropReceived: true,
+      });
+    }
   }
 
   handleSelectTab(selectedTab) {
@@ -250,27 +257,29 @@ class Field extends Component {
             id="controlled-tab-example"
           >
             <Tab eventKey={1} title={this.props.t('FIELDS.MAP')}>
-              {this.state.isPropReceived && (
-                <div style={{ width: '100%', height: '400px' }}>
-                  <GoogleMap
-                    bootstrapURLKeys={{
-                      key: GMAPS_API_KEY,
-                      libraries: ['drawing', 'geometry', 'places'],
-                    }}
-                    defaultCenter={this.state.center}
-                    defaultZoom={this.props.zoom}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
-                    options={this.getMapOptions}
-                  >
-                    <CenterDiv
-                      lat={this.state.center.lat}
-                      lng={this.state.center.lng}
-                      text={'' && this.props.farm.farm_name}
-                    />
-                  </GoogleMap>
-                </div>
-              )}
+              {this.state.isPropReceived &&
+                !this.props.fieldStats.loading &&
+                this.props.fieldStats.loaded && (
+                  <div style={{ width: '100%', height: '400px' }}>
+                    <GoogleMap
+                      bootstrapURLKeys={{
+                        key: GMAPS_API_KEY,
+                        libraries: ['drawing', 'geometry', 'places'],
+                      }}
+                      defaultCenter={this.state.center}
+                      defaultZoom={this.props.zoom}
+                      yesIWantToUseGoogleMapApiInternals
+                      onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
+                      options={this.getMapOptions}
+                    >
+                      <CenterDiv
+                        lat={this.state.center.lat}
+                        lng={this.state.center.lng}
+                        text={'' && this.props.farm.farm_name}
+                      />
+                    </GoogleMap>
+                  </div>
+                )}
             </Tab>
             <Tab eventKey={2} title={this.props.t('FIELDS.LIST')}>
               <Table>
@@ -322,9 +331,10 @@ class Field extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fields: fieldsSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
+    fieldStats: fieldStatusSelector(state),
   };
 };
 

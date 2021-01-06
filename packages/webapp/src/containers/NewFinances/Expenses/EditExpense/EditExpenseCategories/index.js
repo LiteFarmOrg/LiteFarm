@@ -130,7 +130,9 @@ class EditExpenseCategories extends Component {
                           <img src={OtherImg} alt="" className={styles.circleImg} />
                         )}
                       </div>
-                      <div className={styles.typeName}>{this.props.t(`expense:${type.expense_translation_key}`)}</div>
+                      <div className={styles.typeName}>
+                        {this.props.t(`expense:${type.expense_translation_key}`)}
+                      </div>
                     </div>
                   </Col>
                 );

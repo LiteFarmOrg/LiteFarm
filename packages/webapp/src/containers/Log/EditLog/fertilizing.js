@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import { fertSelector, fertTypeSelector } from '../FertilizingLog/selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
@@ -23,6 +23,8 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -232,7 +234,10 @@ class FertilizingLog extends Component {
             label: f.fertilizer_type,
           });
         } else {
-          fertOptions.push({ value: f.fertilizer_id, label: this.props.t(`fertilizer:${f.fertilizer_type}`) });
+          fertOptions.push({
+            value: f.fertilizer_id,
+            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+          });
         }
       }
 
@@ -442,8 +447,8 @@ class FertilizingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     fertilizers: fertSelector(state),
     fertLog: fertTypeSelector(state),

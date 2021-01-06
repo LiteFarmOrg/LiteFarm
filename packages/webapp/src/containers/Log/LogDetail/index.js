@@ -5,7 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import { currentLogSelector } from './selectors';
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
 import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
@@ -15,6 +15,8 @@ import { deleteLog } from '../Utility/actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -267,7 +269,12 @@ class LogDetail extends Component {
                           <p>{moment(fc.start_date).format('YYYY-MM-DD')}</p>
                         </div>
                       );
-                    } else return <p key={fc.field_crop_id}>{this.props.t(`crop:${fc.crop.crop_translation_key}`)}</p>;
+                    } else
+                      return (
+                        <p key={fc.field_crop_id}>
+                          {this.props.t(`crop:${fc.crop.crop_translation_key}`)}
+                        </p>
+                      );
                   })}
                 </div>
               </div>
@@ -554,9 +561,9 @@ class LogDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
-    crops: cropSelector(state),
+    crops: currentFieldCropsSelector(state),
     users: userFarmSelector(state),
     selectedLog: currentLogSelector(state),
     diseases: diseaseSelector(state),

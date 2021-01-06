@@ -17,7 +17,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-import { loginSuccess } from '../loginSlice';
+import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import jwt from 'jsonwebtoken';
 

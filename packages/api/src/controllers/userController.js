@@ -17,18 +17,27 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
-//const roleModel = require('../models/roleModel');
-const { transaction, Model } = require('objection');
+const roleModel = require('../models/roleModel');
+const farmModel = require('../models/farmModel');
+const emailTokenModel = require('../models/emailTokenModel');
+const {transaction, Model} = require('objection');
 const auth0Config = require('../auth0Config');
+const url = require('url');
+const {v4: uuidv4} = require('uuid');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
-const { createAccessToken } = require('../util/jwt');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const {createToken} = require('../util/jwt');
+const {sendEmailTemplate, emails} = require('../templates/sendEmailTemplate');
+const environmentMap = {
+  integration: 'https://beta.litefarm.org/',
+  production: 'https://app.litefarm.org/',
+  development: 'http://localhost:3000/',
+}
 
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
-      const { email, first_name, last_name, password, language_preference } = req.body;
+      const {email, first_name, last_name, password, language_preference} = req.body;
       const userData = {
         email,
         first_name,
@@ -58,7 +67,7 @@ class userController extends baseController {
         await trx.commit();
 
         // generate token, set to last a week
-        const id_token = await createAccessToken({ user_id: userResult.user_id });
+        const id_token = await createToken('access', {user_id: userResult.user_id});
 
         // send welcome email
         try {
@@ -90,13 +99,126 @@ class userController extends baseController {
     };
   }
 
+  static addInvitedUser() {
+    return async (req, res) => {
+      const { first_name, last_name, email, farm_id, role_id, wage } = req.body;
+      const { type: wageType, amount: wageAmount } = wage || {};
+
+      /* Start of input validation */
+      const requiredProps = {
+        email,
+        first_name,
+        last_name,
+        farm_id,
+        role_id,
+      };
+
+      if (Object.keys(requiredProps).some(key => !requiredProps[key])) {
+        const errorMessageTitle = 'Missing Properties: ';
+        const errorMessage = Object.keys(requiredProps).reduce((missingPropMsg, key) => {
+          if (!requiredProps[key]) {
+            const concatMsg = [missingPropMsg, key];
+            return missingPropMsg === errorMessageTitle
+              ? concatMsg.join('') // to avoid prepending first item in list with comma
+              : concatMsg.join(', ');
+          }
+          return missingPropMsg;
+        }, errorMessageTitle);
+        return res.status(400).send(errorMessage);
+      }
+
+      const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+      if (!validEmailRegex.test(email)) {
+        return res.status(400).send('Invalid email');
+      }
+
+      const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
+      if (wage && wageAmount && !validWageRegex.test(wageAmount)) {
+        return res.status(400).send('Invalid wage amount');
+      }
+
+      if (wage && wageType && wageType.toLowerCase() !== 'hourly') {
+        return res.status(400).send('Current app version only allows hourly wage');
+      }
+
+      const isUserAlreadyCreated = await userModel.query().where('email', email).first();
+      const created_user_id = isUserAlreadyCreated ? isUserAlreadyCreated.user_id : null;
+      const userExistOnThisFarm = await userFarmModel.query()
+        .where('user_id', created_user_id).andWhere('farm_id', farm_id).first();
+
+      if (userExistOnThisFarm) {
+        res.status(409).send({ error: 'User already exists on this farm' });
+        return;
+      }
+      const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
+      if (isUserAlreadyCreated) {
+        try {
+          const trx = await transaction.start(Model.knex());
+          const userFarm = await userFarmModel.query(trx).insert({
+            user_id: created_user_id,
+            farm_id,
+            status: 'Invited',
+            consent_version: '1.0',
+            role_id,
+            wage,
+            has_consent: false,
+            step_one: true,
+            step_two: true,
+            step_three: false,
+            step_four: true,
+            step_five: true,
+          });
+          trx.commit();
+          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
+          const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
+          await this.sendTokenEmail(farm_name, { email, first_name }, token)
+        } catch (error) {
+          res.status(500).send(error);
+        }
+      } else {
+        try {
+          const trx = await transaction.start(Model.knex());
+          const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx)
+          const userFarm = await userFarmModel.query(trx).insert({
+            user_id: user.user_id,
+            farm_id,
+            status: 'Invited',
+            consent_version: '1.0',
+            role_id,
+            has_consent: false,
+            wage,
+            step_one: true,
+            step_two: true,
+            step_three: false,
+            step_four: true,
+            step_five: true,
+          });
+          await trx.commit();
+          res.status(201).send({ ...user, ...userFarm });
+          const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
+          await this.sendTokenEmail(farm_name, user, token);
+        } catch (e) {
+          res.status(500).send(e);
+        }
+      }
+    };
+  }
+
+  static async sendTokenEmail(farm, user, token) {
+    const sender = 'system@litefarm.org';
+    const template_path = emails.INVITATION;
+    template_path.subjectReplacements = farm;
+    await sendEmailTemplate.sendEmail(template_path, { first_name: user.first_name, farm },
+      user.email, sender, `/callback/?invite_token=${token}`);
+  }
+
   static addPseudoUser() {
     // Add pseudo user endpoint
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const { user_id, farm_id, first_name, last_name, wage, email } = req.body;
-        const { type: wageType, amount: wageAmount } = wage || {};
+        const {user_id, farm_id, first_name, last_name, wage, email} = req.body;
+        const {type: wageType, amount: wageAmount} = wage || {};
 
         /* Start of input validation */
         const requiredProps = {
@@ -154,7 +276,7 @@ class userController extends baseController {
           step_five: true,
         });
         await trx.commit();
-        res.status(201).send({ ...user, ...userFarm });
+        res.status(201).send({...user, ...userFarm});
       } catch (error) {
         // handle more exceptions
         await trx.rollback();

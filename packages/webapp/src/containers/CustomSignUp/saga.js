@@ -17,9 +17,8 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-import { manualSignUpSelector, saveUserEmailSuccess, saveUserNameSuccess } from './signUpSlice';
 import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT, inlineErrors } from './constants';
-import { loginSuccess } from '../loginSlice';
+import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
@@ -34,8 +33,7 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
   try {
     const result = yield call(axios.get, loginUrl(email));
     if (result.data.exists && !result.data.sso) {
-      localStorage.setItem('litefarm_lang', result.data.language)
-      yield put(saveUserEmailSuccess(email));
+      localStorage.setItem('litefarm_lang', result.data.language);
       history.push({
         pathname: '/',
         component: ENTER_PASSWORD_PAGE,
@@ -44,12 +42,11 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
           email: result.data.email,
         },
       });
-    } else if(result.data.invited){
+    } else if (result.data.invited) {
       showSSOError(inlineErrors.invited);
-    } else if(result.data.expired){
+    } else if (result.data.expired) {
       showSSOError(inlineErrors.expired);
     } else if (!result.data.exists && !result.data.sso) {
-      yield put(saveUserEmailSuccess(email));
       history.push({
         pathname: '/',
         component: CREATE_USER_ACCOUNT,
@@ -96,8 +93,7 @@ export function* customCreateUserSaga({ payload: data }) {
     const first_name = full_name[0];
     const last_name = full_name[1] || '';
     const language_preference = localStorage.getItem('litefarm_lang');
-    let email = yield select(manualSignUpSelector);
-    email = email.userEmail;
+    const email = data.email;
     const password = data.password;
 
     const result = yield call(axios.post, userUrl(), {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import { currentLogSelector, logSelector } from '../selectors';
-import { cropSelector, fieldSelector } from '../../selector';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
@@ -10,12 +9,14 @@ import moment from 'moment';
 import styles from '../styles.scss';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';
 import { deleteLog, editLog } from '../Utility/actions';
-import { getFieldCrops } from '../../actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import LogFormOneCrop from '../../../components/Forms/LogFormOneCrop';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { getFieldCrops } from '../../saga';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -152,8 +153,8 @@ class HarvestLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
     farm: userFarmSelector(state),

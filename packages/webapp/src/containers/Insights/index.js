@@ -53,7 +53,6 @@ import {
   waterBalanceScheduleSelector,
 } from './selectors';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
-import { fetchFarmInfo } from '../actions';
 import { BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 const MILLIMETER_TO_INCH = 0.0393701;

@@ -6,7 +6,6 @@ import parentStyles from '../styles.scss';
 import {
   CENTER,
   CLEAR_BUTTON,
-  CREATE_FIELD,
   DEFAULT_ZOOM,
   DISPLAY_DEFAULT,
   DISPLAY_NONE,
@@ -18,14 +17,13 @@ import {
 } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
 import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { createFieldAction } from './actions';
 import { connect } from 'react-redux';
-import { cropSelector } from '../selectors';
 import SearchBox from '../../../components/Inputs/GoogleMapSearchBox/GoogleMapSearchBox';
 import history from '../../../history';
-import { fieldSelector } from '../../selector';
 import { BsArrowLeftShort, BsCheck, BsPencil, BsQuestionCircle, BsTrash } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
+import { postField } from './saga';
 import { withTranslation } from 'react-i18next';
 
 const buttonStyles = {
@@ -374,17 +372,15 @@ class NewField extends Component {
       case NEXT_BUTTON:
         this.setState({ step: this.state.step + 1 });
         break;
-      case CREATE_FIELD:
+      case 'CREATE_FIELD':
         this.props.dispatch(
-          createFieldAction(this.state.fieldName, this.state.gridPoints, this.state.area),
+          postField({
+            field_name: this.state.fieldName,
+            grid_points: this.state.gridPoints,
+            area: this.state.area,
+          }),
         );
-        this.setState({
-          isMove: true,
-          isDraw: false,
-          gridPoints: null,
-          polygon: null,
-          area: null,
-        });
+        this.setState({ isMove: true, isDraw: false, gridPoints: null, polygon: null, area: null });
         break;
       default:
         break;
@@ -528,7 +524,7 @@ class NewField extends Component {
                     style={{ ...buttonStyles, ...activeButtonStyles }}
                     outline
                     onClick={() => {
-                      this.handleModeChange(CREATE_FIELD);
+                      this.handleModeChange('CREATE_FIELD');
                       this.setState({ step: this.state.step + 1 });
                     }}
                   >
@@ -546,8 +542,7 @@ class NewField extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
   };
 };

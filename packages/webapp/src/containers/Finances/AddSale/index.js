@@ -6,13 +6,13 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../components/Forms/Sale';
-import { getFieldCrops } from '../../actions';
-import { cropSelector as fieldCropSelector } from '../../selector';
 import { addOrUpdateSale } from '../actions';
 import { convertToMetric, getUnit, grabCurrencySymbol } from '../../../util';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { getFieldCrops } from '../../saga';
 
 class AddSale extends Component {
   constructor(props) {
@@ -77,7 +77,10 @@ class AddSale extends Component {
 
     for (let fc of fieldCrops) {
       if (!cropSet.has(fc.crop_id)) {
-        cropOptions.push({ label: this.props.t(`crop:${fc.crop_translation_key}`), value: fc.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${fc.crop_translation_key}`),
+          value: fc.crop_id,
+        });
         cropSet.add(fc.crop_id);
       }
     }
@@ -118,7 +121,7 @@ class AddSale extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

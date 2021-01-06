@@ -23,9 +23,8 @@ import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { getLogs, setSelectedLog } from './actions';
-import { fetchFarmInfo, getFieldCropsByDate, getFields } from '../actions';
+import { getFieldCropsByDate } from '../saga';
 import { logSelector } from './selectors';
-import { cropSelector, fieldSelector } from '../selector';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
 import { getDiseases, getPesticides } from './PestControlLog/actions';
@@ -34,6 +33,9 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { getFields } from '../saga';
+import { fieldsSelector } from '../fieldSlice';
+import { currentFieldCropsSelector } from '../fieldCropSlice';
 
 class Log extends Component {
   constructor(props) {
@@ -335,8 +337,8 @@ class Log extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),
   };

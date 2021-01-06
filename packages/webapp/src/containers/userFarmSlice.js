@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { onLoadingStart, onLoadingFail, loginSelector } from './loginSlice';
 import { createSelector } from 'reselect';
+
+export function onLoadingStart(state) {
+  state.loading = true;
+}
+
+export function onLoadingFail(state, { payload: { error } }) {
+  state.loading = false;
+  state.error = error;
+  state.loaded = true;
+}
 
 export const initialState = {
   farmIdUserIdTuple: [
@@ -19,6 +28,8 @@ export const initialState = {
   loading: false,
   error: undefined,
   loaded: false,
+  farm_id: undefined,
+  user_id: undefined,
 };
 
 const addUserFarm = (state, { payload: userFarm }) => {
@@ -38,6 +49,17 @@ const userFarmSlice = createSlice({
   reducers: {
     onLoadingUserFarmsStart: onLoadingStart,
     onLoadingUserFarmsFail: onLoadingFail,
+    loginSuccess: (state, { payload: { user_id } }) => {
+      state.user_id = user_id;
+    },
+    selectFarmSuccess: (state, { payload: { farm_id } }) => {
+      state.farm_id = farm_id;
+    },
+    logoutSuccess: (state) => {
+      state.user_id = undefined;
+      state.farm_id = undefined;
+    },
+    deselectFarmSuccess: (state) => (state.farm_id = undefined),
     getUserFarmsSuccess: (state, { payload: userFarms }) => {
       state.loading = false;
       state.error = null;
@@ -128,10 +150,18 @@ export const {
   patchUserStatusSuccess,
   patchFarmSuccess,
   patchStatusConsentSuccess,
+  deselectFarmSuccess,
+  loginSuccess,
+  logoutSuccess,
+  selectFarmSuccess,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
 export const userFarmReducerSelector = (state) => state.entitiesReducer[userFarmSlice.name];
+export const loginSelector = createSelector(userFarmReducerSelector, ({ farm_id, user_id }) => ({
+  farm_id,
+  user_id,
+}));
 export const userFarmsByUserSelector = createSelector(
   [loginSelector, userFarmReducerSelector],
   ({ user_id }, { byFarmIdUserId, loading, error, ...rest }) => {

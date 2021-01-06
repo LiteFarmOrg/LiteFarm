@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
@@ -13,6 +13,8 @@ import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class ScoutingLog extends Component {
   constructor(props) {
@@ -43,7 +45,6 @@ class ScoutingLog extends Component {
       action_needed: log.action_needed,
       type: log.type.value.toLowerCase(),
       notes: log.notes || '',
-      user_id: localStorage.getItem('user_id'),
     };
     dispatch(addLog(formValue));
   }
@@ -92,8 +93,8 @@ class ScoutingLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
   };
 };
 

@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateFarm } from '../../actions';
 import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
 import { actions, Control, Form } from 'react-redux-form';
@@ -11,6 +10,7 @@ import { farmDataSelector } from './selector';
 import Popup from 'reactjs-popup';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { putFarm } from '../../saga';
 
 class Farm extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class Farm extends Component {
     newFarm.farm_id = farm.farm_id;
     newFarm.user_id = farm.user_id;
 
-    this.props.dispatch(updateFarm(newFarm));
+    this.props.dispatch(putFarm(newFarm));
   }
 
   sendRequest() {
@@ -73,14 +73,19 @@ class Farm extends Component {
       <div>
         <div className={styles.formContainer}>
           {farm && farm.farm_name && (
-            <Form model="profileForms" onSubmit={(val) => this.handleSubmit(val.farmInfo, farm)}>
+            <Form
+              model="profileForms"
+              onSubmit={(val) => {
+                this.handleSubmit(val.farmInfo, farm);
+              }}
+            >
               <div className={styles.labelContainer}>
                 <label>{this.props.t('PROFILE.FARM.FARM_NAME')}</label>
                 <Control.text
                   model=".farmInfo.farm_name"
                   validators={{
                     required: (val) => val.length,
-                    length: (val) => val.length > 2,
+                    // length: (val) => val.length > 2,
                   }}
                   defaultValue={farm.farm_name}
                 />

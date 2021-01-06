@@ -164,10 +164,14 @@ class userController extends baseController {
           });
           trx.commit();
           res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
-          const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
-          await this.sendTokenEmail(farm_name, { email, first_name }, token)
+          try {
+            const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
+            await this.sendTokenEmail(farm_name, { email, first_name }, token);
+          } catch (e) {
+            console.error('Failed to send email', e)
+          }
         } catch (error) {
-          res.status(500).send(error);
+          return res.status(500).send(error);
         }
       } else {
         try {
@@ -189,8 +193,12 @@ class userController extends baseController {
           });
           await trx.commit();
           res.status(201).send({ ...user, ...userFarm });
-          const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
-          await this.sendTokenEmail(farm_name, user, token);
+          try {
+            const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
+            await this.sendTokenEmail(farm_name, user, token);
+          } catch (e) {
+            console.error('Failed to send email', e)
+          }
         } catch (e) {
           res.status(500).send(e);
         }

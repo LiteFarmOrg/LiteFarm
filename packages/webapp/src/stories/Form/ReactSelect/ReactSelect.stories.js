@@ -26,3 +26,13 @@ Default.args = {
   placeholder: 'placeholder',
   defaultMenuIsOpen: true,
 };
+
+export const WithTooltip = Template.bind({});
+WithTooltip.args = {
+  options: options,
+  label: 'label',
+  placeholder: 'placeholder',
+  defaultMenuIsOpen: true,
+  toolTipContent:
+    'Gender information is collected for research purposes only and will only be shared with  personally identifying information removed',
+};

@@ -77,3 +77,8 @@
   color: var(--iconDefault);
   cursor: pointer;
 }
+.labelContainer{
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+}

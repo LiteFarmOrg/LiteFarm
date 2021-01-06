@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './input.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { Cross } from '../../Icons';
 import { MdVisibilityOff, MdVisibility } from 'react-icons/all';
 import { BiSearchAlt2 } from 'react-icons/all';
 import { mergeRefs } from '../utils';
+import MoreInfo from '../../Tooltip/MoreInfo';
 
 const Input = ({
   disabled = false,
@@ -20,36 +21,48 @@ const Input = ({
   inputRef,
   isSearchBar,
   type = 'text',
+  toolTipContent,
   ...props
 }) => {
   const input = useRef();
   const onClear = () => {
-    if (input.current && input.current.value) input.current.value = '';
+    if (input.current && input.current.value) {
+      input.current.value = '';
+      setShowError(false);
+    }
   };
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
+  const [showError, setShowError] = useState(isPassword);
+  useEffect(() => {
+    errors: setShowError(!!errors);
+  }, [errors]);
   return (
     <div
       className={clsx(styles.container)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      {label && (
-        <Label>
-          {label}{' '}
-          {optional && (
-            <Label sm className={styles.sm}>
-              (optional)
-            </Label>
-          )}
-        </Label>
+      {(label || toolTipContent || icon) && (
+        <div className={styles.labelContainer}>
+          <Label>
+            {label}{' '}
+            {optional && (
+              <Label sm className={styles.sm}>
+                (optional)
+              </Label>
+            )}
+          </Label>
+          {toolTipContent && <MoreInfo content={toolTipContent} />}
+          {icon && <span className={styles.icon}>{icon}</span>}
+        </div>
       )}
-      {errors && <Cross onClick={onClear} className={styles.cross} />}
+      {showError && <Cross onClick={onClear} className={styles.cross} />}
       {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
       {isPassword &&
-        !errors &&
+        !showError &&
         (showPassword ? (
           <MdVisibility className={styles.visibilityIcon} onClick={setVisibility} />
         ) : (
@@ -57,16 +70,19 @@ const Input = ({
         ))}
       <input
         disabled={disabled}
-        className={clsx(styles.input, errors && styles.inputError, isSearchBar && styles.searchBar)}
+        className={clsx(
+          styles.input,
+          showError && styles.inputError,
+          isSearchBar && styles.searchBar,
+        )}
         style={classes.input}
-        aria-invalid={errors ? 'true' : 'false'}
+        aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(inputRef, input)}
         type={inputType}
         {...props}
       />
-      {icon && <span className={styles.icon}>{icon}</span>}
       {info && !errors && <Info style={classes.info}>{info}</Info>}
-      {errors && !disabled ? <Error>{errors}</Error> : null}
+      {showError && !disabled ? <Error>{errors}</Error> : null}
     </div>
   );
 };
@@ -91,6 +107,7 @@ Input.propTypes = {
   style: PropTypes.object,
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
+  toolTipContent: PropTypes.string,
 };
 
 export default Input;

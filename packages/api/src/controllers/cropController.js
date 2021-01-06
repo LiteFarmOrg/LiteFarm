@@ -15,7 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const cropModel = require('../models/cropModel');
-const { transaction, Model } = require('objection');
+const { transaction, Model, UniqueViolationError } = require('objection');
 
 class cropController extends baseController {
   constructor() {
@@ -23,10 +23,13 @@ class cropController extends baseController {
   }
 
   static addCropWithFarmID() {
+    console.log("addCropWithFarmID")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        console.log("enter try")
         const data = req.body;
+        console.log(data)
         data.user_added = true;
         data.crop_translation_key = data.crop_common_name;
         const user_id = req.user.user_id
@@ -34,11 +37,23 @@ class cropController extends baseController {
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
+        if (error instanceof UniqueViolationError) {
+          await trx.rollback();
+          res.status(406).json({
+            error,
+          });
+          console.log("error is instance of UniqueViolationError")
+          console.log(error)
+        }
+        
         //handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
+        else {
+          await trx.rollback();
+          res.status(400).json({
+            error,
+          });
+        }
+        
       }
     };
   }

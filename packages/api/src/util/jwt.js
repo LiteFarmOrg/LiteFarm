@@ -21,5 +21,7 @@ function createToken(type, payload) {
 }
 
 module.exports = {
-  createToken
+  createToken,
+  expireTime,
+  tokenType
 }

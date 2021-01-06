@@ -19,20 +19,14 @@ const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
 const roleModel = require('../models/roleModel');
 const farmModel = require('../models/farmModel');
-const emailTokenModel = require('../models/emailTokenModel');
-const {transaction, Model} = require('objection');
+const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const url = require('url');
-const {v4: uuidv4} = require('uuid');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
-const {createToken} = require('../util/jwt');
-const {sendEmailTemplate, emails} = require('../templates/sendEmailTemplate');
-const environmentMap = {
-  integration: 'https://beta.litefarm.org/',
-  production: 'https://app.litefarm.org/',
-  development: 'http://localhost:3000/',
-}
+const { createToken } = require('../util/jwt');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+
 
 class userController extends baseController {
   static addUser() {

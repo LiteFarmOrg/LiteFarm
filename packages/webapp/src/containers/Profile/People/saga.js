@@ -39,10 +39,10 @@ export function* addUserSaga({ payload: user }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   user.farm_id = farm_id;
-  const { createUserUrl } = apiConfig;
+  const { inviteUserUrl } = apiConfig;
 
   try {
-    const result = yield call(axios.post, createUserUrl, user, header);
+    const result = yield call(axios.post, inviteUserUrl, user, header);
     //TODO post should return id. Remove nested saga call.
 
     yield put(postUserSuccess(result.data));

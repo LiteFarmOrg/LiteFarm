@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import connect from 'react-redux/es/connect/connect';
-import { cropSelector as fieldCropSelector } from '../../selector';
-import { getFieldCrops } from '../../actions';
 import moment from 'moment';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { getFieldCrops } from '../../saga';
 
 class EstimatedRevenue extends Component {
   constructor(props) {
@@ -62,7 +62,7 @@ class EstimatedRevenue extends Component {
         (this.state.startDate && this.state.startDate._d) <= endDate &&
         (this.state.endDate && this.state.endDate._d) >= endDate
       ) {
-        const key = this.props.t(`crop:${f.crop.crop_translation_key}`)
+        const key = this.props.t(`crop:${f.crop.crop_translation_key}`);
         if (!cropRevenueMap[key]) {
           cropRevenueMap[key] = f.estimated_revenue;
         } else {
@@ -136,7 +136,7 @@ class EstimatedRevenue extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

@@ -41,9 +41,13 @@ export function PureMyFarmFloaterComponent({ farmInfo, farmMap, people }) {
   );
 }
 
-export default function PureMyFarmFloater({ children, openProfile, farmInfoClick, farmMapClick, peopleClick }) {
-
-
+export default function PureMyFarmFloater({
+  children,
+  openProfile,
+  farmInfoClick,
+  farmMapClick,
+  peopleClick,
+}) {
   const Wrapper = (
     <PureMyFarmFloaterComponent
       farmInfo={farmInfoClick}

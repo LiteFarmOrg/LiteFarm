@@ -1,17 +1,16 @@
 import React from 'react';
 import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { cropSelector } from '../../../containers/Field/selectors';
-import { getCrops } from '../../../containers/Field/actions';
-import { createPriceAction, createYieldAction } from '../../../containers/Field/NewField/actions';
-import { editFieldCropAction } from '../../../containers/Field/EditField/actions';
+import { cropsSelector } from '../../../containers/cropSlice';
+import { getCrops } from '../../../containers/saga';
 import { DEC_RADIX } from '../../../containers/Field/constants';
 import { convertFromMetric, getUnit, roundToTwoDecimal, convertToMetric } from '../../../util';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
-import { withTranslation } from "react-i18next";
+import { createPrice, createYield, putFieldCrop } from '../../../containers/Field/saga';
+import { withTranslation } from 'react-i18next';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -42,7 +41,6 @@ class EditFieldCropModal extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { estimated_unit, area_unit } = this.state;
-    console.log(this.props);
 
     dispatch(getCrops());
     let fieldCrop = JSON.parse(JSON.stringify(this.state.fieldCrop));
@@ -128,22 +126,22 @@ class EditFieldCropModal extends React.Component {
       date: moment().format(),
     };
 
-    this.props.dispatch(createYieldAction(yieldData));
-    this.props.dispatch(createPriceAction(priceData));
+    this.props.dispatch(createYield(yieldData));
+    this.props.dispatch(createPrice(priceData));
     this.props.dispatch(
-      editFieldCropAction(
-        parseInt(this.props.cropBeingEdited.field_crop_id, DEC_RADIX),
-        parseInt(editedFieldCrop.crop_id, DEC_RADIX),
-        this.props.cropBeingEdited.field_id,
-        editedFieldCrop.start_date,
-        editedFieldCrop.end_date,
-        convertToMetric(editedFieldCrop.area_used, area_unit, 'm2'),
-        estimatedProduction,
-        editedFieldCrop.variety || '',
-        estimatedRevenue,
-        !isByArea,
+      putFieldCrop({
+        field_crop_id: parseInt(this.props.cropBeingEdited.field_crop_id, DEC_RADIX),
+        crop_id: parseInt(editedFieldCrop.crop_id, DEC_RADIX),
+        field_id: this.props.cropBeingEdited.field_id,
+        start_date: editedFieldCrop.start_date,
+        end_date: editedFieldCrop.end_date,
+        area_used: convertToMetric(editedFieldCrop.area_used, area_unit, 'm2'),
+        estimated_production: estimatedProduction,
+        variety: editedFieldCrop.variety || '',
+        estimated_revenue: estimatedRevenue,
+        is_by_bed: !isByArea,
         bed_config,
-      ),
+      }),
     );
     this.setState({ show: false });
 
@@ -297,8 +295,8 @@ class EditFieldCropModal extends React.Component {
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              Edit - {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)}, Variety:{' '}
-              {this.props.cropBeingEdited.variety}
+              Edit - {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)},
+              Variety: {this.props.cropBeingEdited.variety}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -430,7 +428,7 @@ class EditFieldCropModal extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: cropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

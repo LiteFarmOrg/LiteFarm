@@ -1,7 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import { ReactComponent as AddFile } from './../../assets/images/help/AddFile.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Error, Title } from '../Typography';
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
@@ -11,10 +11,13 @@ import TextArea from '../Form/TextArea';
 import Input from '../Form/Input';
 import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
+import { useSelector } from 'react-redux';
+import { userFarmSelector } from '../../containers/userFarmSlice';
 
-export default function PureHelpRequestPage({ onSubmit, goBack }) {
+export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number }) {
   const [file, setFile] = useState(null);
-  const { register, handleSubmit, watch, control, errors } = useForm();
+  const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  const { register, handleSubmit, watch, control, errors, setValue } = useForm();
   const CONTACT_METHOD = 'contact_method';
   const contactMethodSelection = watch(CONTACT_METHOD, 'email');
   const MESSAGE = 'message';
@@ -29,9 +32,13 @@ export default function PureHelpRequestPage({ onSubmit, goBack }) {
   ];
 
   const onError = (error) => {
-    // Show inline errors
     console.log(error);
   };
+
+  useEffect(() => {
+    const contactInformation = contactMethodSelection === 'email' ? email : phone_number;
+    setValue(CONTACT_INFO, contactInformation);
+  }, [contactMethodSelection]);
   const submit = (data) => {
     data.support_type = data.support_type.value;
     data[data[CONTACT_METHOD]] = data.contactInfo;
@@ -125,10 +132,18 @@ export default function PureHelpRequestPage({ onSubmit, goBack }) {
         label={
           contactMethodSelection === 'email' ? t('HELP.EMAIL') : t('HELP.WHATSAPP_NUMBER_LABEL')
         }
-        inputRef={register({ required: true })}
+        inputRef={register({
+          required: true,
+          pattern: contactMethodSelection === 'email' ? validEmailRegex : /./g,
+        })}
         name={CONTACT_INFO}
       />
-      {errors[CONTACT_INFO] ? <Error>{t('HELP.REQUIRED_LABEL')}</Error> : ''}
+      {errors[CONTACT_INFO] && errors[CONTACT_INFO].type !== 'pattern' ? (
+        <Error>{t('HELP.REQUIRED_LABEL')}</Error>
+      ) : (
+        ''
+      )}
+      {errors[CONTACT_INFO]?.type === 'pattern' ? <Error>Invalid Email</Error> : ''}
     </Form>
   );
 }

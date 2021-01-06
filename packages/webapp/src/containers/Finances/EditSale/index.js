@@ -5,8 +5,6 @@ import defaultStyles from '../styles.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../components/Forms/Sale';
 import { selectedSaleSelector } from '../selectors';
-import { cropSelector as fieldCropSelector } from '../../selector';
-import { getFieldCrops } from '../../actions';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { deleteSale, updateSale } from '../actions';
@@ -21,6 +19,8 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { getFieldCrops } from '../../saga';
 
 class EditSale extends Component {
   constructor(props) {
@@ -119,7 +119,10 @@ class EditSale extends Component {
 
     for (let fc of fieldCrops) {
       if (!cropSet.has(fc.crop_id)) {
-        cropOptions.push({ label: this.props.t(`crop:${fc.crop_translation_key}`), value: fc.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${fc.crop_translation_key}`),
+          value: fc.crop_id,
+        });
         cropSet.add(fc.crop_id);
       }
     }
@@ -170,7 +173,7 @@ class EditSale extends Component {
 const mapStateToProps = (state) => {
   return {
     sale: selectedSaleSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

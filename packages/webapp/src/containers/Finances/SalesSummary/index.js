@@ -60,7 +60,7 @@ class SalesSummary extends Component {
     if (sales.length) {
       sales.map((s) => {
         return s.cropSale.forEach((cs) => {
-          const key = this.props.t(`crop:${cs.crop.crop_translation_key}`)
+          const key = this.props.t(`crop:${cs.crop.crop_translation_key}`);
           if (cropMap[key]) {
             cropMap[key] += cs.sale_value;
           } else {

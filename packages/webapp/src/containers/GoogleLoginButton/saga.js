@@ -3,7 +3,7 @@ import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
 import { onLoadingUserFarmsStart, onLoadingUserFarmsFail } from '../userFarmSlice';
 import history from '../../history';
-import { loginSelector, loginSuccess } from '../loginSlice';
+import { loginSelector, loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');

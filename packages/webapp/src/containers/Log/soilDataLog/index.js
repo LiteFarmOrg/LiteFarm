@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Errors, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
@@ -16,6 +16,8 @@ import { addLog } from '../Utility/actions';
 import { convertToMetric, getUnit } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 const parsedTextureOptions = [
   { label: 'Sand', value: 'sand' },
@@ -114,7 +116,6 @@ class soilDataLog extends Component {
       cu: parseInt(log.cu, 10) || 0,
       b: parseInt(log.b, 10) || 0,
       cec: convertToMetric(parseFloat(log.cec), cec_unit, 'kg') || 0,
-      user_id: localStorage.getItem('user_id'),
     };
     dispatch(addLog(formValue));
   }
@@ -243,8 +244,8 @@ class soilDataLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
   };
 };

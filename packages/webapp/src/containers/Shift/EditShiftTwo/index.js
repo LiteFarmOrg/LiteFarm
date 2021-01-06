@@ -8,7 +8,7 @@ import {
   selectedTasksSelector,
   startEndSelector,
 } from './selectors';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import Select from 'react-select';
@@ -21,7 +21,9 @@ import { updateShift } from '../actions';
 import { shiftRatings } from '../constants';
 import { BsReplyFill } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class EditShiftTwo extends Component {
   constructor(props) {
@@ -99,7 +101,10 @@ class EditShiftTwo extends Component {
     let originalDuration = this.props.availableDuration;
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({ label: this.props.t(`crop:${crop.crop_translation_key}`), value: crop.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${crop.crop_translation_key}`),
+          value: crop.crop_id,
+        });
         addedCropID.push(crop.crop_id);
       }
     }
@@ -819,8 +824,8 @@ const mapStateToProps = (state) => {
   return {
     availableDuration: durationSelector(state),
     selectedTasks: selectedTasksSelector(state),
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     startEnd: startEndSelector(state),
     selectedShift: selectedShiftSelector(state),
     users: userFarmSelector(state),

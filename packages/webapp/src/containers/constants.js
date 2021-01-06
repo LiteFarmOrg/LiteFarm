@@ -13,20 +13,8 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-export const GET_USER_INFO = 'GET_USER_INFO';
-export const SET_USER_IN_STATE = 'SET_USER_IN_STATE';
-export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
-
 export const GET_FARM_INFO = 'GET_FARM_INFO';
-export const SET_FARM_IN_STATE = 'SET_FARM_IN_STATE';
 export const UPDATE_FARM = 'UPDATE_FARM';
-
-export const GET_FIELDS = 'GET_FIELDS';
-export const GET_FIELD_CROPS = 'GET_FIELD_CROPS';
-export const GET_FIELD_CROPS_BY_DATE = 'GET_FIELD_CROPS_BY_DATE';
-
-export const SET_FIELDS_IN_STATE = 'SET_FIELDS_IN_STATE';
-export const SET_FIELD_CROPS_IN_STATE = 'SET_FIELD_CROPS_IN_STATE';
 
 export const UPDATE_AGREEMENT = 'UPDATE_AGREEMENT';
 

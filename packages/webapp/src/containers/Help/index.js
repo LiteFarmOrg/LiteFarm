@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PureHelpRequestPage from '../../components/Help';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { supportFileUpload } from './saga';
 import history from '../../history';
+import { userFarmSelector } from '../userFarmSlice';
 export default function HelpRequest() {
   const dispatch = useDispatch();
 
@@ -12,6 +13,13 @@ export default function HelpRequest() {
   const handleBack = () => {
     history.push('/');
   };
-
-  return <PureHelpRequestPage onSubmit={handleSubmit} goBack={handleBack} />;
+  const { email, phone_number } = useSelector(userFarmSelector);
+  return (
+    <PureHelpRequestPage
+      onSubmit={handleSubmit}
+      goBack={handleBack}
+      email={email}
+      phone_number={phone_number}
+    />
+  );
 }

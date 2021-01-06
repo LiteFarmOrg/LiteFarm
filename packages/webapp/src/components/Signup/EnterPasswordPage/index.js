@@ -44,7 +44,7 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
           <Button color={'secondary'} type={'button'} fullLength onClick={onGoBack}>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength disabled={errors[PASSWORD]}>
+          <Button type={'submit'} fullLength disabled={errors[PASSWORD] || !password}>
             {t('SIGNUP.SIGN_IN')}
           </Button>
         </>
@@ -71,7 +71,6 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
           />
         </div>
       )}
-      <div></div>
     </Form>
   );
 }

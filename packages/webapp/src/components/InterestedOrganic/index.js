@@ -35,13 +35,10 @@ export default function PureInterestedOrganic({
       <Main style={{ marginBottom: '24px' }}>{paragraph}</Main>
       <Radio {...inputs[0]} defaultChecked={true} />
       <Radio style={{ marginBottom: '32px' }} {...inputs[1]} />
-      <OverlayTooltip
-        content={content}
-        marginTop={'12px'}
-        arrowTranslateX={'16px'}
-        placement={'bottom-start'}
-      >
-        <Underlined>{underlined}</Underlined>
+      <OverlayTooltip content={content} offset={8} eventDelay={0} placement={'bottom-start'}>
+        <Underlined style={{ marginLeft: '-100px', transform: 'translateX(100px)' }}>
+          {underlined}
+        </Underlined>
       </OverlayTooltip>
     </Form>
   );

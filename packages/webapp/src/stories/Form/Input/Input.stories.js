@@ -15,6 +15,13 @@ Default.args = {
   label: 'default',
 };
 
+export const WithTooltip = Template.bind({});
+WithTooltip.args = {
+  label: 'With Tooltip',
+  toolTipContent:
+    'Gender information is collected for research purposes only and will only be shared with  personally identifying information removed',
+};
+
 export const WithDefaultValue = Template.bind({});
 WithDefaultValue.args = {
   label: 'With default value',

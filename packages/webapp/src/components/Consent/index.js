@@ -46,7 +46,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
         }}
       ></div>
       <div>
-        <Checkbox {...checkboxArgs} />
+        <Checkbox style={{ marginBottom: 0 }} {...checkboxArgs} />
       </div>
     </Form>
   );

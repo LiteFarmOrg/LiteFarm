@@ -58,6 +58,11 @@ class User extends Model {
         },
         language_preference: { type: 'string' },
         status: { type: 'number' },
+        gender: {
+          type: 'string',
+          enum: ['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE'],
+        },
+        birth_year: { type: 'number', multipleOf: 1.0, minimum: 1900, maximum: new Date().getFullYear() },
         created_at: { type: 'date-time' },
         updated_at: { type: 'date-time' },
       },

@@ -177,10 +177,8 @@ class People extends Component {
       });
       const user = {
         email,
-        user_metadata: {
-          first_name,
-          last_name,
-        },
+        first_name,
+        last_name,
         farm_id: farmID,
         role_id: Number(role),
         wage: {

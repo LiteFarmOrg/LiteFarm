@@ -23,7 +23,7 @@ const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 let { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories');
-const { createAccessTokenSync, createResetPasswordToken } = require('../src/util/jwt');
+const { createToken, tokenType } = require('../src/util/jwt');
 const sendEmailTemplate = require('../src/templates/sendEmailTemplate')
 jest.mock('jsdom');
 jest.mock('../src/util/jwt');
@@ -32,11 +32,12 @@ jest.mock('../src/templates/sendEmailTemplate');
 describe('JWT Tests', () => {
   let newUser;
   let accessToken;
-  function deleteFarmRequest(data, user, callback) {
+  async function deleteFarmRequest(data, user, callback) {
+    const token = await getAuthorizationHeader(data);
     chai.request(server).delete(`/farm/${data.farm_id}`)
       .set('farm_id', data.farm_id)
       .set('user_id', user)
-      .set('Authorization', getAuthorizationHeader(data))
+      .set('Authorization', token)
       .end(callback);
   }
 
@@ -61,7 +62,7 @@ describe('JWT Tests', () => {
       .end(callback);
   }
 
-  function putPasswordRequet(resetPasswordToken, user, callback) {
+  function putPasswordRequest(resetPasswordToken, user, callback) {
     chai.request(server).put(`/password_reset`)
       .set('user_id', user.user_id)
       .set('Authorization', `Bearer ${resetPasswordToken}`)
@@ -76,8 +77,9 @@ describe('JWT Tests', () => {
     return rows[0];
   }
 
-  function getAuthorizationHeader(user_id) {
-    return 'Bearer ' + createAccessTokenSync({ user_id });
+  async function getAuthorizationHeader(user_id) {
+    const token = await createToken('access', { user_id });
+    return 'Bearer ' + token;
   }
 
   afterAll((done) => {
@@ -89,27 +91,15 @@ describe('JWT Tests', () => {
 
 
   beforeEach(async () => {
-    let { createAccessToken, createAccessTokenSync } = require('../src/util/jwt');
-    createAccessToken.mockImplementation(async (user) => {
-      let localAccessToken = sign(user, process.env.JWT_SECRET, {
+    let { createToken } = require('../src/util/jwt');
+    createToken.mockImplementation(async (type, user) => {
+      let localAccessToken = sign(user, tokenType[type], {
         expiresIn: '7d',
         algorithm: 'HS256',
       });
       accessToken = localAccessToken;
       return localAccessToken;
     });
-
-    createAccessTokenSync.mockImplementation( (user) => {
-      let localAccessToken = sign(user, process.env.JWT_SECRET, {
-        expiresIn: '7d',
-        algorithm: 'HS256',
-      });
-      accessToken = localAccessToken;
-      return localAccessToken;
-    });
-
-
-
     [newUser] = await usersFactory();
   });
 
@@ -147,12 +137,12 @@ describe('JWT Tests', () => {
     let resetPasswordToken;
 
     beforeEach(async (done) => {
-      let { createResetPasswordToken } = require('../src/util/jwt');
-      createResetPasswordToken.mockImplementation(async (user) => {
+      let { createToken } = require('../src/util/jwt');
+      createToken.mockImplementation(async (type, user) => {
         if (user.reset_token_version === undefined) {
           user.reset_token_version = 4;
         }
-        let localResetPasswordToken = sign(user, process.env.JWT_RESET_SECRET, {
+        let localResetPasswordToken = sign(user, tokenType[type], {
           expiresIn: '1d',
           algorithm: 'HS256',
         });
@@ -165,9 +155,8 @@ describe('JWT Tests', () => {
       done();
     });
     test('Validate a valid token', async (done) => {
-      const resetPasswordToken = await createResetPasswordToken(newUser);
+      const resetPasswordToken = await createToken('passwordReset', newUser);
       const user = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
-      console.log(user);
       expect(user.user_id).toEqual(newUser.user_id);
       done();
     });
@@ -232,7 +221,7 @@ describe('JWT Tests', () => {
         reset_token_version: 0,
         created_at: new Date().getTime(),
       };
-      let localResetPasswordToken = await createResetPasswordToken(tokenPayload);
+      let localResetPasswordToken = await createToken('passwordReset', tokenPayload);
       resetPasswordToken = undefined;
       postResetPasswordRequest(newUser.email, async (err, res) => {
         expect(res.status).toBe(400);
@@ -274,7 +263,7 @@ describe('JWT Tests', () => {
       postResetPasswordRequest(newUser.email, async (err, res) => {
         const verified = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(verified.user_id).toBe(newUser.user_id);
-        putPasswordRequet(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
+        putPasswordRequest(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
           console.log(res,resetPasswordToken);
           expect(res.status).toBe(200);
           const {
@@ -286,7 +275,7 @@ describe('JWT Tests', () => {
           expect(isMatch).toBeTruthy();
           expect(reset_token_version).toBe(0);
           expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
-          putPasswordRequet(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
+          putPasswordRequest(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
             expect(res.status).toBe(401);
             done();
           });

@@ -26,18 +26,16 @@ describe('Create user', () => {
       next()
     });
   })
-  afterEach(async (done) => {
-    await tableCleanup(knex);
-    done();
-  })
+
 
   afterAll(async (done) => {
+    await tableCleanup(knex);
     await knex.destroy();
     done();
   });
 
   function postCreateUser({ user_id, farm_id }, data, callback) {
-    chai.request(server).post('/create_user')
+    chai.request(server).post('/user/invited')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .set('Content-Type', 'application/json')
@@ -50,18 +48,14 @@ describe('Create user', () => {
     return {
       email,
       user_id: 'auth0|1291912991',
-      user_metadata: {
-        first_name,
-        last_name,
-      },
+      first_name,
+      last_name,
       farm_id,
       role_id,
       wage: {
         type: 'hourly',
         amount: 2000,
       },
-      password: '123456',
-      picture: 'http://image.com'
     }
   }
 

@@ -24,6 +24,8 @@ router.get('/:user_id', isSelf, userController.getUserByID());
 
 router.post('/', userController.addUser());
 
+router.post('/invited', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
+
 router.post('/pseudo', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addPseudoUser());
 
 router.put('/:user_id', isSelf, userController.updateUser());

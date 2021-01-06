@@ -10,7 +10,6 @@ import {
   DEFAULT_ZOOM,
   DISPLAY_DEFAULT,
   DISPLAY_NONE,
-  FARM_BOUNDS,
   GMAPS_API_KEY,
   NEXT_BUTTON,
   POLYGON_BUTTON,
@@ -51,10 +50,6 @@ const activeButtonStyles = {
 };
 
 class NewField extends Component {
-  static defaultProps = {
-    zoom: DEFAULT_ZOOM,
-    bounds: FARM_BOUNDS,
-  };
   constructor(props) {
     super(props);
 
@@ -132,8 +127,6 @@ class NewField extends Component {
       maxZoom: 80,
       tilt: 0,
       center: null,
-      zoom: DEFAULT_ZOOM,
-      bounds: FARM_BOUNDS,
 
       mapTypeControl: true,
       mapTypeId: maps.MapTypeId.SATELLITE,
@@ -207,7 +200,6 @@ class NewField extends Component {
   }
 
   handleGoogleMapApi(map, maps) {
-    let farmBounds = new maps.LatLngBounds();
     let len = 0;
     let fieldIcon = {
       path: TREE_ICON,
@@ -280,10 +272,6 @@ class NewField extends Component {
       let i;
 
       for (i = 0; i < len; i++) {
-        // ensure that the map shows this field
-        this.state.fields[i].grid_points.forEach((grid_point) => {
-          farmBounds.extend(grid_point);
-        });
         // creates the polygon to be displayed on the map
         var polygon = new maps.Polygon({
           paths: this.state.fields[i].grid_points,
@@ -296,7 +284,6 @@ class NewField extends Component {
         polygon.setMap(map);
         addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
       }
-      map.fitBounds(farmBounds);
     }
     this.setState({
       drawingManager: drawingManager,
@@ -485,7 +472,7 @@ class NewField extends Component {
                 libraries: ['drawing', 'geometry', 'places'],
               }}
               center={this.state.center}
-              zoom={this.props.zoom}
+              zoom={DEFAULT_ZOOM}
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
               options={this.getMapOptions}

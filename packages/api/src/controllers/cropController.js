@@ -37,13 +37,16 @@ class cropController extends baseController {
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
+        let violationError = false;
         if (error instanceof UniqueViolationError) {
+          console.log("unique violation")
+          violationError = true;
           await trx.rollback();
-          res.status(406).json({
+          res.status(400).json({
             error,
+            violationError,
           });
-          console.log("error is instance of UniqueViolationError")
-          console.log(error)
+          
         }
         
         //handle more exceptions
@@ -51,6 +54,7 @@ class cropController extends baseController {
           await trx.rollback();
           res.status(400).json({
             error,
+            violationError,
           });
         }
         

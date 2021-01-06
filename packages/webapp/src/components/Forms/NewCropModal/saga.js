@@ -64,6 +64,7 @@ export function* postCropSaga({ payload: crop }) {
     const result = yield call(axios.post, cropURL + '/', data, header);
     yield put(postCropSuccess(result.data));
     toastr.success('Successfully saved Crop!');
+    console.log(result);
     if (result) {
       const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
       if (result) {
@@ -75,7 +76,7 @@ export function* postCropSaga({ payload: crop }) {
       }
     }
   } catch (e) {
-    if (e.response.status === 406) {
+    if (e.response.data.violationError) {
       toastr.error('A crop with that variety name already exists, please try another.');
       console.log('failed to add fieldCrop to database');
     } else {
@@ -83,6 +84,17 @@ export function* postCropSaga({ payload: crop }) {
       toastr.error('failed to add fieldCrop to database');
     }
   }
+  // catch (e) {
+  //   console.log("result is")
+  //   console.log(e)
+  //   if (e.response.status === 406) {
+  //     toastr.error('A crop with that variety name already exists, please try another.');
+  //     console.log('failed to add fieldCrop to database');
+  //   } else {
+  //     console.log('failed to add fieldCrop to database');
+  //     toastr.error('failed to add fieldCrop to database');
+  //   }
+  // }
 }
 
 export default function* cropSaga() {

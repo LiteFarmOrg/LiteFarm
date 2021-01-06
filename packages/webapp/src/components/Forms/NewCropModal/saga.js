@@ -81,7 +81,6 @@ export function* createCropSaga(action) {
   };
   try {
     const result = yield call(axios.post, cropURL + '/', data, header);
-    console.log(result);
     if (result) {
       const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
       if (result) {
@@ -93,9 +92,8 @@ export function* createCropSaga(action) {
       }
     }
   } catch (e) {
-    console.log(e.response.status);
     if (e.response.status === 406) {
-      toastr.error('A crop with that name already exists, please try another.');
+      toastr.error('A crop with that variety name already exists, please try another.');
       console.log('failed to add fieldCrop to database');
     } else {
       console.log('failed to add fieldCrop to database');

@@ -23,13 +23,10 @@ class cropController extends baseController {
   }
 
   static addCropWithFarmID() {
-    console.log("addCropWithFarmID")
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        console.log("enter try")
         const data = req.body;
-        console.log(data)
         data.user_added = true;
         data.crop_translation_key = data.crop_common_name;
         const user_id = req.user.user_id
@@ -39,7 +36,6 @@ class cropController extends baseController {
       } catch (error) {
         let violationError = false;
         if (error instanceof UniqueViolationError) {
-          console.log("unique violation")
           violationError = true;
           await trx.rollback();
           res.status(400).json({

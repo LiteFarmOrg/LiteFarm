@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import { diseaseSelector, pesticideSelector, pestLogSelector } from './selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
@@ -26,6 +26,8 @@ import Select from 'react-select';
 import Unit from '../../../components/Inputs/Unit';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -274,7 +276,7 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: this.props.t(`disease:name.${d.disease_name_translation_key}`)
+        label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     return (
       <div className="page-container" style={{ styles }}>
@@ -568,8 +570,8 @@ class PestControlLog extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     diseases: diseaseSelector(state),
     pesticides: pesticideSelector(state),

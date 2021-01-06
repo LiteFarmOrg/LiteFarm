@@ -1,6 +1,6 @@
 import React from 'react';
 import { authenticatedDecorators } from '../config/decorators';
-import PureHelpRequestPage from "../../../components/Help";
+import PureHelpRequestPage from '../../../components/Help';
 
 export default {
   title: 'Form/Help/PureHelp',

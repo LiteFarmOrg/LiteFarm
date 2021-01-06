@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { cropSelector, fieldSelector } from '../../selector';
+
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -15,7 +15,9 @@ import { toastr } from 'react-redux-toastr';
 import { submitMultiShift, submitShift } from '../actions';
 import { BsReplyFill } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
 import { useTranslation, withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class ShiftStepTwo extends Component {
   constructor(props) {
@@ -77,7 +79,10 @@ class ShiftStepTwo extends Component {
     );
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({ label: this.props.t(`crop:${crop.crop_translation_key}`), value: crop.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${crop.crop_translation_key}`),
+          value: crop.crop_id,
+        });
         addedCropID.push(crop.crop_id);
       }
     }
@@ -146,7 +151,10 @@ class ShiftStepTwo extends Component {
             value: c.crop_id,
             label: this.props.t(`crop:${c.crop_translation_key}`),
           });
-          cropOptions.push({ value: c.crop_id, label: this.props.t(`crop:${c.crop_translation_key}`) });
+          cropOptions.push({
+            value: c.crop_id,
+            label: this.props.t(`crop:${c.crop_translation_key}`),
+          });
           addedCropID.push(c.crop_id);
         }
       }
@@ -738,7 +746,7 @@ function InputDuration({
   return (
     <div key={task.task_id} className={styles.taskBlock}>
       <div className={styles.taskTitle}>
-        <strong>{  t(`task:${task.task_translation_key}`)}</strong>
+        <strong>{t(`task:${task.task_translation_key}`)}</strong>
         <div>{t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}</div>
       </div>
       <div id={task.task_id} style={{ display: 'block' }}>
@@ -963,8 +971,8 @@ const mapStateToProps = (state) => {
   return {
     availableDuration: durationSelector(state),
     selectedTasks: selectedTasksSelector(state),
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     startEnd: startEndSelector(state),
     farm: userFarmSelector(state),
     users: userFarmSelector(state),

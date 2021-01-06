@@ -20,16 +20,17 @@ import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
-import fieldReducer from '../containers/Field/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
 import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
-import manualSignUpReducer from '../containers/CustomSignUp/signUpSlice';
-import loginReducer from '../containers/loginSlice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
+
+import fieldReducer from '../containers/fieldSlice';
+import cropReducer from '../containers/cropSlice';
+import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
 // all the initial state for the forms
 const initialFarmState = {
@@ -100,12 +101,13 @@ const signUpUserInfo = {
 };
 
 const entitiesReducer = combineReducers({
-  loginReducer,
   userFarmReducer,
   // userReducer,
   certifierSurveyReducer,
-  manualSignUpReducer,
   rolesReducer,
+  fieldReducer,
+  cropReducer,
+  fieldCropReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -137,7 +139,6 @@ const appReducer = combineReducers({
   baseReducer,
   logReducer,
   shiftReducer,
-  fieldReducer,
   insightReducer,
   financeReducer,
   farmReducer,

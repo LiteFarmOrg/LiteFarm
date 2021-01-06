@@ -26,7 +26,6 @@ import {
   SET_SELECTED_EDIT_EXPENSE,
   SET_DATE_RANGE,
 } from './constants';
-import { SET_FIELD_CROPS_IN_STATE } from '../constants';
 
 import { combineForms } from 'react-redux-form';
 import { combineReducers } from 'redux';
@@ -46,10 +45,6 @@ function financeReducer(state = initialState, action) {
     case SET_CROP_SALES_IN_STATE:
       return Object.assign({}, state, {
         cropSales: action.cropSales,
-      });
-    case SET_FIELD_CROPS_IN_STATE:
-      return Object.assign({}, state, {
-        fieldCrops: action.fieldCrops,
       });
     case SET_SELECTED_SALE:
       return Object.assign({}, state, {

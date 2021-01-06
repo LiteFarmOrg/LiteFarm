@@ -6,29 +6,15 @@ import { Label } from '../../Typography';
 
 import { mergeRefs } from '../utils';
 
-const TextArea = ({
-                 classes = {},
-                 style,
-                 label,
-                 inputRef,
-                 ...props
-               }) => {
+const TextArea = ({ classes = {}, style, label, inputRef, ...props }) => {
   const input = useRef();
   return (
     <div
       className={clsx(styles.container)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
-      {label && (
-        <Label>
-          {label}
-        </Label>
-      )}
-      <textarea
-        className={clsx(styles.textArea)}
-        ref={mergeRefs(inputRef, input)}
-        {...props}
-      />
+      {label && <Label>{label}</Label>}
+      <textarea className={clsx(styles.textArea)} ref={mergeRefs(inputRef, input)} {...props} />
     </div>
   );
 };

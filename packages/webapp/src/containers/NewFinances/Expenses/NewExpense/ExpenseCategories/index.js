@@ -15,7 +15,7 @@ import OtherImg from '../../../../../assets/images/log/other.svg';
 import LandImg from '../../../../../assets/images/log/land.svg';
 import { setSelectedExpense } from '../../../../Finances/actions';
 import history from '../../../../../history';
-import { withTranslation } from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class ExpenseCategories extends Component {
   constructor(props) {
@@ -117,7 +117,9 @@ class ExpenseCategories extends Component {
                           <img src={OtherImg} alt="" className={styles.circleImg} />
                         )}
                       </div>
-                      <div className={styles.typeName}>{this.props.t(`expense:${type.expense_translation_key}`)}</div>
+                      <div className={styles.typeName}>
+                        {this.props.t(`expense:${type.expense_translation_key}`)}
+                      </div>
                     </div>
                   </Col>
                 );

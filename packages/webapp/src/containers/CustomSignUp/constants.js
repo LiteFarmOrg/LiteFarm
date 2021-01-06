@@ -5,4 +5,4 @@ export const inlineErrors = {
   sso: 'sso',
   expired: 'expired',
   invited: 'invited',
-}
+};

@@ -32,7 +32,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
 
   const onSubmit = (data) => {
     if (isValid) {
-      onSignUp(data);
+      onSignUp({ ...data, email });
     }
   };
   const onError = (data) => {};

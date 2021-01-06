@@ -4,7 +4,7 @@ import { call, select, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
-import { loginSelector } from '../../loginSlice';
+import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 
 const axios = require('axios');
@@ -13,9 +13,9 @@ export function* addLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-
+  const log = { ...action.formValue, user_id, farm_id };
   try {
-    const result = yield call(axios.post, logURL, { ...action.formValue, user_id, farm_id }, header);
+    const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
       toastr.success('Successfully added new Log!');
@@ -30,14 +30,9 @@ export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-
+  const log = { ...action.formValue, user_id, farm_id };
   try {
-    const result = yield call(
-      axios.put,
-      logURL + `/${action.formValue.activity_id}`,
-      { ...action.formValue, farm_id, user_id },
-      header,
-    );
+    const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {
       history.push('/log');
       toastr.success('Successfully edited Log!');

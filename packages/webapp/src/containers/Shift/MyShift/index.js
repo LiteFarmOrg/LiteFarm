@@ -7,10 +7,11 @@ import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 import { selectedShiftSelector, taskTypeSelector } from './selectors';
-import { cropSelector, fieldSelector } from '../../selector';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class MyShift extends Component {
   constructor(props) {
@@ -275,8 +276,8 @@ class MyShift extends Component {
 const mapStateToProps = (state) => {
   return {
     selectedShift: selectedShiftSelector(state),
-    fields: fieldSelector(state),
-    crops: cropSelector(state),
+    fields: fieldsSelector(state),
+    crops: currentFieldCropsSelector(state),
     taskType: taskTypeSelector(state),
     users: userFarmSelector(state),
     farm: userFarmSelector(state),

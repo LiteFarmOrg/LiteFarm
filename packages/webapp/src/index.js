@@ -38,7 +38,7 @@ import insightSaga from './containers/Insights/saga';
 import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
-import supportSaga from './containers/Help/saga'
+import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import { Provider } from 'react-redux';
@@ -49,6 +49,8 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducer';
 import { unregister } from './registerServiceWorker';
 import loginSaga from './containers/GoogleLoginButton/saga';
+import newFieldSaga from './containers/Field/NewField/saga';
+import editFieldSaga from './containers/Field/EditField/saga';
 
 // config for redux-persist
 const persistConfig = {
@@ -64,11 +66,14 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: [...getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions:[ 'supportFileUploadSaga']
-    }
-  }), ...middlewares],
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware({
+      thunk: false,
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
+    ...middlewares,
+  ],
   devTools: process.env.REACT_APP_ENV !== 'production',
 });
 
@@ -106,6 +111,8 @@ sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);
 sagaMiddleware.run(consentSaga);
+sagaMiddleware.run(newFieldSaga);
+sagaMiddleware.run(editFieldSaga);
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 

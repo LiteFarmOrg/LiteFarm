@@ -19,14 +19,4 @@ const baseSelector = (state) => state.baseReducer;
 
 const spotlightSelector = createSelector(baseSelector, (state) => state.show_spotlight);
 
-const fieldSelector = createSelector(baseSelector, (state) => state.fields);
-
-const cropSelector = createSelector(baseSelector, (state) =>
-  (state.fieldCrops || []).slice().sort((a, b) =>
-    a.crop_common_name.localeCompare(b.crop_common_name, 'en', {
-      sensitivity: 'base',
-    }),
-  ),
-);
-
-export { fieldSelector, cropSelector, spotlightSelector };
+export { spotlightSelector };

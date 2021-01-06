@@ -5,13 +5,15 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import history from '../../../history';
-import { fieldSelector, cropSelector } from '../../selector';
+
 import { deleteSale } from '../actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { selectedSaleSelector } from '../selectors';
 import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class SaleDetail extends Component {
   constructor(props) {
@@ -114,7 +116,9 @@ class SaleDetail extends Component {
             sale.cropSale.map((cs) => {
               return (
                 <div key={sale.sale_id} className={styles.cropSaleRow}>
-                  <div className={styles.cropName}>{this.props.t(`crop:${cs.crop.crop_translation_key}`)}</div>
+                  <div className={styles.cropName}>
+                    {this.props.t(`crop:${cs.crop.crop_translation_key}`)}
+                  </div>
                   <div className={styles.cropQuantVal}>
                     {roundToTwoDecimal(
                       convertFromMetric(
@@ -145,8 +149,8 @@ class SaleDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
-    crops: cropSelector(state),
+    fields: fieldsSelector(state),
+    crops: currentFieldCropsSelector(state),
     sale: selectedSaleSelector(state),
     farm: userFarmSelector(state),
   };

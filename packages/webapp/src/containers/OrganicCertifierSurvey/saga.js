@@ -11,7 +11,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import { userFarmUrl } from '../../apiConfig';
-import { loginSelector } from '../loginSlice';
+import { loginSelector } from '../userFarmSlice';
 import { patchStepFourSuccess } from '../userFarmSlice';
 import { getHeader } from '../saga';
 

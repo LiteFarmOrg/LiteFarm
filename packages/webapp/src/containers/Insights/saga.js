@@ -41,7 +41,7 @@ import {
   GET_FREQUENCY_WATER_BALANCE,
   CREATE_FREQUENCY_WATER_BALANCE,
 } from './constants';
-import { loginSelector } from '../loginSlice';
+import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 
 const axios = require('axios');

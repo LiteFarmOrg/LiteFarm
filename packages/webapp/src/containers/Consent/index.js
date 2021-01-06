@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
-import { updateAgreement } from '../actions';
 import ownerConsent from './Owner.Consent.md';
 import workerConsent from './Worker.Consent.md';
 import { useDispatch, useSelector } from 'react-redux';

@@ -15,9 +15,8 @@
 
 .bottomContainer {
   width: 100%;
-  max-width: 1024px;
   left: 0;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   display: flex;
   flex-direction: row;

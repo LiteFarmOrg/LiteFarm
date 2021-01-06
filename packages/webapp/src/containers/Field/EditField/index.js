@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 import styles from './styles.scss';
 import parentStyles from '../styles.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
-import { cropSelector as fieldCropSelector, fieldSelector } from '../../selector';
-import { expiredCropSelector } from '../selectors';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
-import { deleteField, deleteFieldCrop, getExpiredCrops } from '../actions';
-import { getFieldCropsByDate, getFields } from '../../actions';
-import { updateField } from './actions';
+import { deleteField } from '../saga';
+import { getExpiredFieldCrops, deleteFieldCrop } from '../saga';
+import { getFieldCropsByDate } from '../../saga';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { toastr } from 'react-redux-toastr';
@@ -18,6 +16,14 @@ import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/Edi
 import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
 import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
+import { getFields } from '../../saga';
+import { fieldsSelector } from '../../fieldSlice';
+import { putField } from './saga';
+import {
+  currentFieldCropsSelector,
+  expiredFieldCropsSelector,
+  fieldCropsSelector,
+} from '../../fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 
 class EditField extends Component {
@@ -53,19 +59,13 @@ class EditField extends Component {
 
   handleAddCrop() {
     this.props.dispatch(getFieldCropsByDate());
-    this.props.dispatch(getExpiredCrops());
+    this.props.dispatch(getExpiredFieldCrops());
   }
 
   handleDeleteCrop(id) {
     this.setState({ showModal: true });
     this.setState({ selectedFieldCrop: id });
   }
-
-  // handleConfirmDeleteCrop() {
-  //   this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId));
-  //   this.setState({ showModal: false });
-  //   this.props.dispatch(getFieldCrops());
-  // }
 
   componentDidUpdate(prevProps) {
     if (this.props.fieldCrops !== prevProps.fieldCrops) {
@@ -92,7 +92,7 @@ class EditField extends Component {
   componentDidMount() {
     this.props.dispatch(getFields());
     this.props.dispatch(getFieldCropsByDate());
-    this.props.dispatch(getExpiredCrops());
+    this.props.dispatch(getExpiredFieldCrops());
     const urlVars = window.location.search.substring(1).split('&');
     const fieldId = urlVars[0];
     this.setState({
@@ -183,9 +183,7 @@ class EditField extends Component {
       toastr.error('Field name cannot be empty');
       return;
     }
-    const field = { selectedField: { ...selectedField, field_name } };
-    this.setState(field);
-    this.props.dispatch(updateField(field.selectedField));
+    this.props.dispatch(putField({ ...selectedField, field_name }));
     this.setState({ showFieldNameModal: false });
   };
 
@@ -408,9 +406,7 @@ class EditField extends Component {
             open={this.state.showModal}
             onClose={() => this.setState({ showModal: false })}
             onConfirm={() => {
-              this.props.dispatch(
-                deleteFieldCrop(this.state.selectedFieldCrop, this.state.fieldId),
-              );
+              this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop));
               this.setState({ showModal: false });
             }}
             message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
@@ -448,10 +444,10 @@ class EditField extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
-    fieldCrops: fieldCropSelector(state),
+    fields: fieldsSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
     farm: userFarmSelector(state),
-    expiredFieldCrops: expiredCropSelector(state),
+    expiredFieldCrops: expiredFieldCropsSelector(state),
   };
 };
 

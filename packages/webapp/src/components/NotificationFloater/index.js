@@ -20,17 +20,24 @@ export function PureNotificationFloaterComponent({ notificationTeaser }) {
       <ListOption
         clickFn={notificationTeaser}
         iconText={t('NOTIFICATION.NOTIFICATION_TEASER')}
-         icon={<NotificationTeaserIcon />}
+        icon={<NotificationTeaserIcon />}
         customParagraphStyle={{ paddingTop: '0.5rem' }}
       />
     </div>
   );
 }
 
-export default function PureNotificationFloater({ children, openProfile, notificationTeaserClick }) {
-  
+export default function PureNotificationFloater({
+  children,
+  openProfile,
+  notificationTeaserClick,
+}) {
   return (
-    <Floater component={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick}/>} placement={'bottom-end'} open={openProfile}>
+    <Floater
+      component={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick} />}
+      placement={'bottom-end'}
+      open={openProfile}
+    >
       {children}
     </Floater>
   );

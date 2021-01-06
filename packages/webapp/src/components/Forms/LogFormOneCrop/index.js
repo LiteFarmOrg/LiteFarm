@@ -1,14 +1,15 @@
 /* eslint-disable */
 import React from 'react';
 import { Fieldset, Control, actions, Errors } from 'react-redux-form';
-import { getFieldCrops, getFields } from '../../../containers/actions';
 import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { cropSelector, fieldSelector } from '../../../containers/selector';
 import { Alert } from 'react-bootstrap';
-import { withTranslation } from "react-i18next";
+import { fieldsSelector } from '../../../containers/fieldSlice';
+import { getFieldCrops, getFields } from '../../../containers/saga';
+import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
+import { withTranslation } from 'react-i18next';
 
 class LogFormOneCrop extends React.Component {
   constructor(props) {
@@ -79,7 +80,9 @@ class LogFormOneCrop extends React.Component {
         if (hasDup) {
           return {
             value: c.field_crop_id,
-            label: this.props.t(`crop:${c.crop_translation_key}`) + `(${moment(c.start_date).format('YYYY-MM-DD')})`,
+            label:
+              this.props.t(`crop:${c.crop_translation_key}`) +
+              `(${moment(c.start_date).format('YYYY-MM-DD')})`,
           };
         } else
           return {
@@ -261,8 +264,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
   };
 };
 

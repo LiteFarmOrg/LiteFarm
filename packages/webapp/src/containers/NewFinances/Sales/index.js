@@ -35,7 +35,7 @@ class SalesSummary extends Component {
     if (sales.length) {
       sales.map((s) => {
         return s.cropSale.forEach((cs) => {
-          const cropName = this.props.t(`crop:${cs.fieldCrop.crop.crop_translation_key}`)
+          const cropName = this.props.t(`crop:${cs.fieldCrop.crop.crop_translation_key}`);
           if (cropMap[cropName]) {
             cropMap[cropName] += cs.sale_value;
           } else {
@@ -69,7 +69,7 @@ class SalesSummary extends Component {
           value += cs.sale_value;
         });
       } else {
-        crop = this.props.t(`crop:${s.cropSale[0].fieldCrop.crop.crop_translation_key}`)
+        crop = this.props.t(`crop:${s.cropSale[0].fieldCrop.crop.crop_translation_key}`);
         value = s.cropSale[0].sale_value;
       }
       return {

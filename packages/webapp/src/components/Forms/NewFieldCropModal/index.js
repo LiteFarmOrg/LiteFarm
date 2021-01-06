@@ -1,14 +1,9 @@
 import React from 'react';
 import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { cropSelector } from '../NewCropModal/selectors';
-import { getCrops } from '../NewCropModal/actions';
+import { cropsSelector } from '../../../containers/cropSlice';
+import { getCrops } from '../../../containers/saga';
 import { FIELD_CROPS_INIT, DEC_RADIX } from '../../../containers/Field/constants';
-import {
-  createFieldCropAction,
-  createPriceAction,
-  createYieldAction,
-} from '../../../containers/Field/NewField/actions';
 import NewCropModal from '../NewCropModal';
 import styles from '../../../containers/Field/styles.scss';
 import newFieldStyles from './styles.scss';
@@ -25,6 +20,7 @@ import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { createPrice, createYield, postFieldCrop } from '../../../containers/Field/saga';
 
 class NewFieldCropModal extends React.Component {
   // props:
@@ -126,8 +122,8 @@ class NewFieldCropModal extends React.Component {
         date: newFieldCrop.end_date,
       };
 
-      this.props.dispatch(createYieldAction(yieldData));
-      this.props.dispatch(createPriceAction(priceData));
+      this.props.dispatch(createYield(yieldData));
+      this.props.dispatch(createPrice(priceData));
 
       let bed_config = null;
       if (!isByArea) {
@@ -138,17 +134,17 @@ class NewFieldCropModal extends React.Component {
         };
       }
       this.props.dispatch(
-        createFieldCropAction(
-          parseInt(newFieldCrop.crop_id, DEC_RADIX),
-          this.props.field.field_id,
-          newFieldCrop.start_date,
-          newFieldCrop.end_date,
-          convertToMetric(newFieldCrop.area_used, area_unit, 'm2'),
-          estimatedProduction,
-          estimatedRevenue,
-          !isByArea,
-          bed_config,
-        ),
+        postFieldCrop({
+          crop_id: newFieldCrop.crop_id,
+          field_id: this.props.field.field_id,
+          start_date: newFieldCrop.start_date,
+          end_date: newFieldCrop.end_date,
+          area_used: convertToMetric(newFieldCrop.area_used, area_unit, 'm2'),
+          estimated_production: estimatedProduction,
+          estimated_revenue: estimatedRevenue,
+          is_by_bed: !isByArea,
+          bed_config: bed_config,
+        }),
       );
       this.setState({ show: false });
       this.setState({ fieldCrop: FIELD_CROPS_INIT });
@@ -548,7 +544,7 @@ class NewFieldCropModal extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
+    crops: cropsSelector(state),
     farm: userFarmSelector(state),
   };
 };

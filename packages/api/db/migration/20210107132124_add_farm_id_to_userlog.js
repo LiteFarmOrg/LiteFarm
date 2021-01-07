@@ -1,7 +1,7 @@
 
 exports.up = function(knex) {
   return knex.schema.alterTable('userLog', (t) => {
-    t.foreign('farm_id').references('farm_id').inTable('farm');
+    t.uuid('farm_id').references('farm_id').inTable('farm');
   })
 };
 

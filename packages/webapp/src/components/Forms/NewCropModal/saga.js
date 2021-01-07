@@ -64,16 +64,6 @@ export function* postCropSaga({ payload: crop }) {
     const result = yield call(axios.post, cropURL + '/', data, header);
     yield put(postCropSuccess(result.data));
     toastr.success('Successfully saved Crop!');
-    if (result) {
-      const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setCropsInState(result.data));
-        toastr.success('Successfully saved Crop!');
-      } else {
-        console.log('failed to fetch all crops from database');
-        toastr.error('failed to fetch all crops from database');
-      }
-    }
   } catch (e) {
     if (e.response.data.violationError) {
       toastr.error('A crop with that variety name already exists, please try another.');

@@ -13,10 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+const userFarmModel = require('../../models/userFarmModel');
 
 async function checkInvitationTokenContent(req, res, next) {
 
-
+  const { status } = await userFarmModel.query().where({ user_id: invitation_token_content.user_id, farm_id: invitation_token_content.farm_id }).first();
+  if (status !== 'Invited') {
+    return res.status(401).send('Invitation link is used');
+  }
   return next();
 }
 

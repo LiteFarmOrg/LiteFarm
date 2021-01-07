@@ -474,7 +474,7 @@ class userController extends baseController {
           const { role_id } = await userFarmModel.query(trx).where({
             user_id,
             farm_id,
-          }).update({ status: 'Active' }).returning('*');
+          }).update({ status: 'Active' }).returning('*').first();
           // await emailTokenModel.query(trx).where({ token }).update({ is_used: true });
           try {
             const { farm_name } = await farmModel.query().findById(farm_id);
@@ -524,7 +524,7 @@ class userController extends baseController {
           const { role_id } = await userFarmModel.query(trx).where({
             user_id,
             farm_id,
-          }).update({ status: 'Active' }).returning('*');
+          }).update({ status: 'Active' }).returning('*').first();
           await userFarmModel.query(trx).where({ user_id }).update({ user_id: sub });
           // await emailTokenModel.query(trx).where({ token }).update({ is_used: true });
           await userModel.query(trx).findById(user_id).delete();

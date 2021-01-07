@@ -19,11 +19,13 @@ const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
 const roleModel = require('../models/roleModel');
 const farmModel = require('../models/farmModel');
+const emailTokenModel = require('../models/emailTokenModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const url = require('url');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
+const jsonwebtoken = require('jsonwebtoken');
 const { createToken } = require('../util/jwt');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
@@ -31,7 +33,7 @@ const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
-      const {email, first_name, last_name, password, language_preference} = req.body;
+      const { email, first_name, last_name, password, language_preference } = req.body;
       const userData = {
         email,
         first_name,
@@ -61,7 +63,7 @@ class userController extends baseController {
         await trx.commit();
 
         // generate token, set to last a week
-        const id_token = await createToken('access', {user_id: userResult.user_id});
+        const id_token = await createToken('access', { user_id: userResult.user_id });
 
         // send welcome email
         try {
@@ -163,12 +165,12 @@ class userController extends baseController {
             step_five: true,
           });
           trx.commit();
-          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
+          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm });
           try {
             const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
             await this.sendTokenEmail(farm_name, { email, first_name }, token);
           } catch (e) {
-            console.error('Failed to send email', e)
+            console.error('Failed to send email', e);
           }
         } catch (error) {
           return res.status(500).send(error);
@@ -176,7 +178,7 @@ class userController extends baseController {
       } else {
         try {
           const trx = await transaction.start(Model.knex());
-          const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx)
+          const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
           const userFarm = await userFarmModel.query(trx).insert({
             user_id: user.user_id,
             farm_id,
@@ -197,7 +199,7 @@ class userController extends baseController {
             const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
             await this.sendTokenEmail(farm_name, user, token);
           } catch (e) {
-            console.error('Failed to send email', e)
+            console.error('Failed to send email', e);
           }
         } catch (e) {
           res.status(500).send(e);
@@ -219,8 +221,8 @@ class userController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const {user_id, farm_id, first_name, last_name, wage, email} = req.body;
-        const {type: wageType, amount: wageAmount} = wage || {};
+        const { user_id, farm_id, first_name, last_name, wage, email } = req.body;
+        const { type: wageType, amount: wageAmount } = wage || {};
 
         /* Start of input validation */
         const requiredProps = {
@@ -278,7 +280,7 @@ class userController extends baseController {
           step_five: true,
         });
         await trx.commit();
-        res.status(201).send({...user, ...userFarm});
+        res.status(201).send({ ...user, ...userFarm });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
@@ -445,6 +447,107 @@ class userController extends baseController {
         }
       } catch (error) {
         await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
+  static acceptInvitationAndPostPassword() {
+    return async (req, res) => {
+      try {
+        await userModel.transaction(async trx => {
+          const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
+          const { user_id, farm_id, email, token } = req.user;
+          const salt = await bcrypt.genSalt(10);
+          const password_hash = await bcrypt.hash(password, salt);
+          await passwordModel.query(trx).insert({ user_id, password_hash });
+          await userModel.query(trx).findById(user_id).update({
+            first_name,
+            last_name,
+            gender,
+            birth_year,
+            language_preference,
+            status: 1,
+          });
+          const { role_id } = await userFarmModel.query(trx).where({
+            user_id,
+            farm_id,
+          }).update({ status: 'Active' }).returning('*');
+          await emailTokenModel.query(trx).where({ token }).update({ is_used: true });
+          try {
+            const { farm_name } = await farmModel.query().findById(farm_id);
+            const { role } = await roleModel.query().findById(role_id);
+            const replacements = { first_name, farm: farm_name, role };
+            const sender = 'system@litefarm.org';
+            await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
+          } catch (e) {
+            console.log(e);
+          }
+          const id_token = await createToken('access', { user_id });
+          return res.status(201).send({
+            id_token,
+            user: {
+              user_id: req.user.sub,
+              farm_id: req.user.farm_id,
+              first_name: req.user.first_name,
+            },
+          });
+        });
+      } catch (error) {
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
+  static acceptInvitationWithGoogleAccount() {
+    return async (req, res) => {
+      try {
+        await userModel.transaction(async trx => {
+          const { sub, user_id, farm_id, email, token } = req.user;
+          const { first_name, last_name, gender, birth_year, language_preference } = req.body.user;
+          const user = await userModel.query(trx).context({ showHidden: true }).findById(user_id).update({ email: '' }).returning('*');
+          await userModel.query(trx).insert({
+            ...user,
+            user_id: sub,
+            status: 1,
+            email,
+            first_name,
+            last_name,
+            gender,
+            birth_year,
+            language_preference,
+          });
+          const { role_id } = await userFarmModel.query(trx).where({
+            user_id,
+            farm_id,
+          }).update({ status: 'Active' }).returning('*');
+          await userFarmModel.query(trx).where({ user_id }).update({ user_id: sub });
+          await emailTokenModel.query(trx).where({ token }).update({ is_used: true });
+          await userModel.query(trx).findById(user_id).delete();
+          try {
+            const { farm_name } = await farmModel.query().findById(farm_id);
+            const { role } = await roleModel.query().findById(role_id);
+            const replacements = { first_name, farm: farm_name, role };
+            const sender = 'system@litefarm.org';
+            await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
+          } catch (e) {
+            console.log(e);
+          }
+          const id_token = await createToken('access', { user_id });
+          return res.status(200).send({
+            id_token,
+            user: {
+              user_id: req.user.sub,
+              farm_id: req.user.farm_id,
+              first_name: req.user.first_name,
+            },
+          });
+        });
+      } catch (error) {
         res.status(400).json({
           error,
         });

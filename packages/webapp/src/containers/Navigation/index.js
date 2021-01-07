@@ -72,6 +72,13 @@ const NavBar = (props) => {
       },
       placement: 'right-start',
       showCloseButton: false,
+      floaterProps: {
+        styles: {
+          floater: {
+            marginRight: '12px',
+          },
+        },
+      },
     },
   ];
 

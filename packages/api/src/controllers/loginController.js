@@ -18,9 +18,10 @@ const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
+const userController = require("./userController");
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
-const { createAccessToken, createResetPasswordToken } = require('../util/jwt');
+const { createToken } = require('../util/jwt');
 
 class loginController extends baseController {
   static authenticateUser() {
@@ -33,7 +34,7 @@ class loginController extends baseController {
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
         if (!isMatch) return res.sendStatus(401);
 
-        const id_token = await createAccessToken({ user_id: userData.user_id });
+        const id_token = await createToken('access', { user_id: userData.user_id });
         return res.status(200).send({
           id_token,
           user: userData,
@@ -62,7 +63,7 @@ class loginController extends baseController {
         const isPasswordNeeded = !ssoUser && passwordUser;
         const id_token = isPasswordNeeded
           ? ''
-          : await createAccessToken({ user_id });
+          : await createToken('access', { user_id });
         return res.status(201).send({
           id_token,
           user: {
@@ -153,23 +154,16 @@ class loginController extends baseController {
 }
 
 async function sendMissingInvitations(user) {
-  const environment = process.env.NODE_ENV || 'development';
-  const environmentMap = {
-    integration: 'https://beta.litefarm.org/',
-    production: 'https://app.litefarm.org/',
-    development: 'http://localhost:3000/',
-  }
-  const basePath = environmentMap[environment];
   const userFarms = await userFarmModel.query().select('*')
     .join('farm', 'userFarm.farm_id', 'farm.farm_id')
     .join('users', 'users.user_id', 'userFarm.user_id')
     .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited')
   if (userFarms) {
     const template = emails.INVITATION;
-    await userFarms.map(({ farm_name, first_name, email, language_preference }) => {
-      template.subjectReplacements = farm_name;
-      return sendEmailTemplate.sendEmail(template, { farm_name, first_name, link: basePath },
-        email, 'help@litefarm.org', true, language_preference);
+    await userFarms.map((userFarm) => {
+      template.subjectReplacements = userFarm.farm_name;
+      const token = createToken('invite', { user, userFarm });
+      return userController.sendTokenEmail(userFarm.farm_name, user, token);
     })
   }
 }
@@ -183,7 +177,7 @@ async function sendPasswordReset(data) {
     reset_token_version: 0,
     created_at: pw.created_at.getTime(),
   };
-  const token = await createResetPasswordToken(tokenPayload);
+  const token = await createToken('passwordReset', tokenPayload);
   const template_path = emails.PASSWORD_RESET;
   const replacements = {
     first_name: data.first_name,

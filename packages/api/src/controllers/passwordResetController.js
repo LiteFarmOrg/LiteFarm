@@ -18,7 +18,7 @@ const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const bcrypt = require('bcryptjs');
-const { createResetPasswordToken, createAccessToken } = require('../util/jwt');
+const { createToken } = require('../util/jwt');
 
 
 class passwordResetController extends baseController {
@@ -62,7 +62,7 @@ class passwordResetController extends baseController {
           reset_token_version: reset_token_version - 1,
           created_at: created_at.getTime(),
         };
-        const token = await createResetPasswordToken(tokenPayload);
+        const token = await createToken('passwordReset', tokenPayload);
 
 
         const template_path = emails.PASSWORD_RESET;
@@ -101,7 +101,7 @@ class passwordResetController extends baseController {
         };
         await passwordModel.query().findById(user_id).update(pwData);
 
-        const id_token = await createAccessToken({ user_id });
+        const id_token = await createToken('access', { user_id });
 
         const template_path = emails.PASSWORD_RESET_CONFIRMATION;
         const replacements = {

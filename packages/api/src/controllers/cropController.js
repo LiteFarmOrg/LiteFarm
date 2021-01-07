@@ -15,7 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const cropModel = require('../models/cropModel');
-const { transaction, Model } = require('objection');
+const { transaction, Model, UniqueViolationError } = require('objection');
 
 class cropController extends baseController {
   constructor() {
@@ -34,11 +34,26 @@ class cropController extends baseController {
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
+        let violationError = false;
+        if (error instanceof UniqueViolationError) {
+          violationError = true;
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+          
+        }
+        
         //handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
+        else {
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+        }
+        
       }
     };
   }

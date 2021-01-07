@@ -15,6 +15,7 @@
 
 const jsonwebtoken = require('jsonwebtoken');
 const userFarmModel = require('../../models/userFarmModel');
+const emailTokenModel = require('../../models/emailTokenModel');
 
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;
@@ -22,6 +23,10 @@ async function checkInvitationTokenContent(req, res, next) {
     invitation_token_content = jsonwebtoken.verify(req.body.invitation_token, process.env.JWT_INVITE_SECRET);
   } catch (error) {
     return res.status(401).send('Invitation link expired');
+  }
+  const { is_used } = await emailTokenModel.query().where({ token: invitation_token_content.token });
+  if (is_used) {
+    return res.status(401).send('Invitation link is used');
   }
   const { status } = await userFarmModel.query().where({ user_id: invitation_token_content.user_id, farm_id: invitation_token_content.farm_id }).first();
   if (status !== 'Invited') {

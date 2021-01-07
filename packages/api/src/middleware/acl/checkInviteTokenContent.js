@@ -14,10 +14,14 @@
  */
 
 const userFarmModel = require('../../models/userFarmModel');
+const emailTokenModel = require('../../models/emailTokenModel');
 
 async function checkInvitationTokenContent(req, res, next) {
-
-  const { status } = await userFarmModel.query().where({ user_id: invitation_token_content.user_id, farm_id: invitation_token_content.farm_id }).first();
+  const { is_used } = await emailTokenModel.query().where({ token: req.user.token });
+  if (is_used) {
+    return res.status(401).send('Invitation link is used');
+  }
+  const { status } = await userFarmModel.query().where({ user_id: req.user.user_id, farm_id: req.user.farm_id }).first();
   if (status !== 'Invited') {
     return res.status(401).send('Invitation link is used');
   }

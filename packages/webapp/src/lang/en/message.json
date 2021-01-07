@@ -1,0 +1,13 @@
+{
+  "EDIT_FIELD_CROP": {
+    "ERROR": {
+      "FIELD_AREA": "Field crop area cannot be greater than field area",
+      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date"
+    }
+  },
+  "NEW_FIELD_CROP": {
+    "ERROR": {
+      "NOT_FILLED": "is not filled out"
+    }
+  }
+}

@@ -190,13 +190,13 @@ class NewFieldCropModal extends React.Component {
     let errors = '';
 
     if (moment(currentFieldCrop.end_date).isSameOrBefore(moment(currentFieldCrop.start_date))) {
-      toastr.error('End Date cannot be the same or before Start Date');
+      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
       isValid = false;
       return isValid;
     }
 
     if (currentFieldCrop.area_used > fieldArea) {
-      toastr.error('Field crop area cannot be greater than field area');
+      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.FIELD_AREA'));
       isValid = false;
       return isValid;
     }
@@ -209,7 +209,7 @@ class NewFieldCropModal extends React.Component {
     }
 
     if (!isValid) {
-      toastr.error(errors + ' is not filled');
+      toastr.error(errors + ' is not f illed');
     } else {
       toastr.success('Successfully Saved New Crop');
     }

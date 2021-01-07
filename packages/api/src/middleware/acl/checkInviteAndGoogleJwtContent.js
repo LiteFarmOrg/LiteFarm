@@ -14,7 +14,7 @@
  */
 
 const jsonwebtoken = require('jsonwebtoken');
-const emailTokenModel = require('../../models/emailTokenModel');
+const userModel = require('../../models/userModel');
 
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;
@@ -23,8 +23,8 @@ async function checkInvitationTokenContent(req, res, next) {
   } catch (error) {
     return res.status(401).send('Invitation link expired');
   }
-  const { is_used } = await emailTokenModel.query().where({ token: invitation_token_content.token });
-  if (is_used) {
+  const { status } = await userModel.query().where({ user_id: invitation_token_content.user_id });
+  if (status !== 2) {
     return res.status(401).send('Invitation link is used');
   }
   if (req.user.email !== invitation_token_content.email) {

@@ -166,6 +166,8 @@ describe('User Tests', () => {
         test('Owner should get user by user id', async (done) => {
           getRequest({ user_id: owner.user_id }, (err, res) => {
             validate({ ...owner, ...ownerFarm }, res, 200);
+            expect(res.body.gender).toBe(owner.gender);
+            expect(res.body.birth_year).toBe(owner.birth_year);
             done();
           });
         })

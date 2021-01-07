@@ -285,6 +285,15 @@ describe('User Farm Tests', () => {
           expect(res.body.length).toBe(4);
           // check if sensitive info can be accessed
           expect(res.body[0].address).toBeDefined();
+          for(const userFarm of res.body){
+            if(userFarm.user_id === owner.user_id){
+              expect(userFarm.gender).toBe(owner.gender);
+              expect(userFarm.birth_year).toBe(owner.birth_year);
+            }else{
+              expect(userFarm.gender).toBeUndefined();
+              expect(userFarm.birth_year).toBeUndefined();
+            }
+          }
           done();
         });
       });

@@ -255,7 +255,7 @@ describe('FieldCrop Tests', () => {
       test('should delete a fieldCrop by owner', async (done) => {
         deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const fieldCropRes = await fieldCropModel.query().where('field_crop_id', fieldCrop.field_crop_id);
+          const fieldCropRes = await fieldCropModel.query().context({showHidden: true}).where('field_crop_id', fieldCrop.field_crop_id);
           expect(fieldCropRes.length).toBe(1);
           expect(fieldCropRes[0].deleted).toBe(true);
           done();
@@ -265,7 +265,7 @@ describe('FieldCrop Tests', () => {
       test('should delete a fieldCrop by manager', async (done) => {
         deleteRequest(`/field_crop/${fieldCrop.field_crop_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const fieldCropRes = await fieldCropModel.query().where('field_crop_id', fieldCrop.field_crop_id);
+          const fieldCropRes = await fieldCropModel.query().context({showHidden: true}).where('field_crop_id', fieldCrop.field_crop_id);
           expect(fieldCropRes.length).toBe(1);
           expect(fieldCropRes[0].deleted).toBe(true);
           done();
@@ -302,7 +302,7 @@ describe('FieldCrop Tests', () => {
         fieldCrop.area_used = field.area * 0.1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
           expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
           done();
         })
@@ -322,7 +322,7 @@ describe('FieldCrop Tests', () => {
         fieldCrop.estimated_production = 1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
           expect(newFieldCrop.estimated_production).toBe(1);
           done();
         })
@@ -333,7 +333,7 @@ describe('FieldCrop Tests', () => {
         fieldCrop.estimated_revenue = 1;
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
           expect(newFieldCrop.estimated_revenue).toBe(1);
           done();
         })
@@ -356,7 +356,7 @@ describe('FieldCrop Tests', () => {
         fieldCrop.end_date = moment().add(10, 'd').toDate();
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
           expect(newFieldCrop.end_date.toDateString()).toBe(fieldCrop.end_date.toDateString());
           done();
         })
@@ -367,7 +367,7 @@ describe('FieldCrop Tests', () => {
         fieldCrop.end_date = moment().subtract(10, 'd').toDate();
         putFieldCropRequest(fieldCrop, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
           expect(newFieldCrop.end_date.toDateString()).toBe(fieldCrop.end_date.toDateString());
           done();
         })
@@ -416,7 +416,7 @@ describe('FieldCrop Tests', () => {
           fieldCrop.area_used = field.area * 0.1;
           putFieldCropRequest(fieldCrop, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+            const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
             expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
             done();
           })
@@ -537,7 +537,7 @@ describe('FieldCrop Tests', () => {
       fieldCrop.estimated_production = 1;
       postFieldCropRequest(fieldCrop, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+        const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
         expect(newFieldCrop.field_id).toBe(field.field_id);
         done();
       })
@@ -564,7 +564,7 @@ describe('FieldCrop Tests', () => {
       fieldCrop.end_date = moment().subtract(20, 'd').toDate();
       postFieldCropRequest(fieldCrop, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+        const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
         expect(newFieldCrop.field_id).toBe(field.field_id);
         done();
       })
@@ -604,7 +604,7 @@ describe('FieldCrop Tests', () => {
         fieldCrop.estimated_production = 1;
         postFieldCropRequest(fieldCrop, { user_id: manager.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const newFieldCrop = await fieldCropModel.query().where('crop_id', crop.crop_id).first();
+          const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
           expect(newFieldCrop.field_id).toBe(field.field_id);
           done();
         })

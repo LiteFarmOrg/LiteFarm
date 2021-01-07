@@ -28,6 +28,33 @@ class User extends Model {
     return 'user_id';
   }
 
+  static get hidden() {
+    return ['created_at', 'updated_at'];
+  }
+
+  static get hiddenFromOtherUsers() {
+    return ['gender', 'birth_year', 'notification_setting'];
+  }
+
+  async $afterFind(queryContext) {
+    await super.$afterFind(queryContext);
+    const { hidden, hiddenFromOtherUsers } = this.constructor;
+    if (hidden.length > 0) {
+      const { showHidden, user_id } = queryContext;
+      if (!showHidden) {
+        let fieldsToBeHidden = [];
+        if (this.user_id === user_id) {
+          fieldsToBeHidden = hidden;
+        }else{
+          fieldsToBeHidden = [...hidden, ...hiddenFromOtherUsers]
+        }
+        for (const property of fieldsToBeHidden) {
+          delete this[property];
+        }
+      }
+    }
+  }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.

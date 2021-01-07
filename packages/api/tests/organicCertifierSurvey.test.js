@@ -232,7 +232,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Owner should delete a certifier survey', async (done) => {
         deleteRequest({survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
           expect(res.status).toBe(200);
-          const SurveyRes = await organicCertifierSurveyModel.query().where('survey_id',organicCertifierSurvey.survey_id);
+          const SurveyRes = await organicCertifierSurveyModel.query().context({showHidden: true}).where('survey_id',organicCertifierSurvey.survey_id);
           expect(SurveyRes.length).toBe(1);
           expect(SurveyRes[0].deleted).toBe(true);
           done();
@@ -242,7 +242,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Manager should delete a certifier survey', async (done) => {
         deleteRequest({user_id:manager.user_id, survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
           expect(res.status).toBe(200);
-          const SurveyRes = await organicCertifierSurveyModel.query().where('survey_id',organicCertifierSurvey.survey_id);
+          const SurveyRes = await organicCertifierSurveyModel.query().context({showHidden: true}).where('survey_id',organicCertifierSurvey.survey_id);
           expect(SurveyRes.length).toBe(1);
           expect(SurveyRes[0].deleted).toBe(true);
           done();
@@ -327,7 +327,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Owner post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, {}, async (err, res) => {
           expect(res.status).toBe(201);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -338,7 +338,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Manager post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, { user_id: manager.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(manager.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -349,7 +349,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Extension officer post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, { user_id: extensionOfficer.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(extensionOfficer.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -404,7 +404,7 @@ describe('organicCertifierSurvey Tests', () => {
     test('Owner should patch interested', async (done) => {
       patchInterestedRequest({ interested: false }, { survey_id: organicCertifierSurvey.survey_id }, async (err, res) => {
         expect(res.status).toBe(200);
-        const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+        const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
         expect(organicCertifierSurveys.length).toBe(1);
         expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
         expect(organicCertifierSurveys[0].interested).toBe(false);
@@ -448,7 +448,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Owner should patch certifiers', async (done) => {
         patchCertifierRequest(fakeOrganicCertifierSurvey, { survey_id: organicCertifierSurvey.survey_id }, async (err, res) => {
           expect(res.status).toBe(200);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -462,7 +462,7 @@ describe('organicCertifierSurvey Tests', () => {
           survey_id: organicCertifierSurvey.survey_id,
         }, async (err, res) => {
           expect(res.status).toBe(200);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].updated_by_user_id).toBe(manager.user_id);
@@ -477,7 +477,7 @@ describe('organicCertifierSurvey Tests', () => {
           survey_id: organicCertifierSurvey.survey_id,
         }, async (err, res) => {
           expect(res.status).toBe(200);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].updated_by_user_id).toBe(extensionOfficer.user_id);

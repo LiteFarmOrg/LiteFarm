@@ -91,7 +91,7 @@ describe('supportTicket Tests', () => {
     test('Owner post support ticket', async (done) => {
       postRequest(fakeSupportTicket, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const supportTickets = await supportTicketModel.query().where('support_ticket_id', res.body.support_ticket_id);
+        const supportTickets = await supportTicketModel.query().context({showHidden: true}).where('support_ticket_id', res.body.support_ticket_id);
         expect(supportTickets.length).toBe(1);
         expect(supportTickets[0].created_by_user_id).toBe(owner.user_id);
         done();

@@ -294,8 +294,8 @@ class userController extends baseController {
       try {
         const id = req.params.user_id;
 
-        const data = await userModel.query().findById(id)
-          .select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
+        const data = await userModel.query().context({ user_id: req.user.user_id }).findById(id)
+          .select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id', 'gender', 'birth_year');
 
         if (!data) {
           res.sendStatus(404);

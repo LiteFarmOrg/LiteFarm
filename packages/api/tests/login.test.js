@@ -163,6 +163,24 @@ describe('Sign Up Tests', () => {
       })
     })
 
+    test('should fail at the 4th request of a user who had a pending invitation', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 2});
+      const [userFarm] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      getRequest({email: user.email}, () => {
+        getRequest({email: user.email}, () => {
+          getRequest({email: user.email}, () => {
+            getRequest({email: user.email}, (err, res) => {
+              expect(res.status).toBe(200);
+              expect(res.body.exists).toBe(false);
+              expect(res.body.invited).toBe(true);
+              expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(3);
+              done();
+            })
+          })
+        })
+      })
+    })
+
   })
 
 });

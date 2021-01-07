@@ -154,17 +154,14 @@ class loginController extends baseController {
 }
 
 async function sendMissingInvitations(user) {
-  const userFarms = await userFarmModel.query().select('*')
+  const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
     .join('farm', 'userFarm.farm_id', 'farm.farm_id')
     .join('users', 'users.user_id', 'userFarm.user_id')
     .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited')
   if (userFarms) {
-    const template = emails.INVITATION;
-    await userFarms.map((userFarm) => {
-      template.subjectReplacements = userFarm.farm_name;
-      const token = createToken('invite', { user, userFarm });
-      return userController.sendTokenEmail(userFarm.farm_name, user, token);
-    })
+    await Promise.all(userFarms.map((userFarm) => {
+      return userController.createTokenSendEmail(user, userFarm, userFarm.farm_name)
+    }))
   }
 }
 

@@ -448,7 +448,7 @@ class EditShiftTwo extends Component {
   submitShift() {
     //console.log(this.state.availableDuration);
     if (this.state.availableDuration !== 0) {
-      toastr.error('Please assign all your available work minutes');
+      toastr.error(this.props.t('message:SHIFT.ERROR.ASSIGN_ALL_MINUTES'));
       return;
     }
 
@@ -473,13 +473,13 @@ class EditShiftTwo extends Component {
       let is_field = finalForm[key].is_field;
       const val_num = vals.length;
       if (val_num === 0) {
-        toastr.error('Please assign crops or fields for each task');
+        toastr.error(this.props.t('message:SHIFT.ERROR.ASSIGN_ALL_CROPS'));
         return;
       }
       let valIterator = 0;
       for (let val of vals) {
         if (!Number.isInteger(Number(finalForm[key].duration))) {
-          toastr.error('Please assign only integers to durations');
+          toastr.error(this.props.t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
           return;
         }
         let duration = Number(parseFloat(Number(finalForm[key].duration) / val_num).toFixed(0));
@@ -532,11 +532,11 @@ class EditShiftTwo extends Component {
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
-                toastr.error('Please assign a duration for each crop.');
+                toastr.error(this.props.t('message:SHIFT.ERROR.DURATION_FOR_CROPS'));
                 return;
               }
               if (!Number.isInteger(Number(cdObj.duration))) {
-                toastr.error('Please assign only integers to durations');
+                toastr.error(this.props.t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
                 return;
               }
               if (cdObj.crop_id === val.id) {
@@ -544,7 +544,7 @@ class EditShiftTwo extends Component {
               }
             }
           } else {
-            toastr.error("Sumbit shift with crops failed. Litefarm's issue.");
+            toastr.error(this.props.t('message:SHIFT.ERROR.SUBMIT_SHIFT'));
             return;
           }
           let crops = this.props.crops;

@@ -375,7 +375,7 @@ class ShiftStepTwo extends Component {
 
   submitShift() {
     if (this.state.availableDuration !== 0) {
-      toastr.error('Please assign all your available work minutes');
+      toastr.error(this.props.t('message:SHIFT.ERROR.ASSIGN_ALL_MINUTES'));
       return;
     }
     let finalForm = this.state.finalForm;
@@ -423,14 +423,14 @@ class ShiftStepTwo extends Component {
       let is_field = finalForm[key].is_field;
       let val_num = vals.length;
       if (val_num === 0) {
-        toastr.error('Please assign crops or fields for each task');
+        toastr.error(this.props.t('message:SHIFT.ERROR.CROP_FIELDS_EACH'));
         return;
       }
       let valIterator = 0;
       for (let val of vals) {
         if (is_field) {
           if (!Number.isInteger(Number(finalForm[key].duration))) {
-            toastr.error('Please assign only integers to durations');
+            toastr.error(this.props.t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
             return;
           }
 
@@ -486,11 +486,11 @@ class ShiftStepTwo extends Component {
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
-                toastr.error('Please assign a duration for each crop.');
+                toastr.error(this.props.t('message:SHIFT.ERROR.DURATION_FOR_CROPS'));
                 return;
               }
               if (!Number.isInteger(Number(cdObj.duration))) {
-                toastr.error('Please assign only integers to durations');
+                toastr.error(this.props.t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
                 return;
               }
               if (cdObj.crop_id === val.id) {
@@ -498,7 +498,7 @@ class ShiftStepTwo extends Component {
               }
             }
           } else {
-            toastr.error("Sumbit shift with crops failed. Litefarm's issue.");
+            toastr.error(this.props.t('message:SHIFT.ERROR.SUBMIT_SHIFT'));
             return;
           }
 

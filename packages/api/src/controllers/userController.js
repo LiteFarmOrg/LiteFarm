@@ -19,13 +19,11 @@ const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
 const emailTokenModel = require('../models/emailTokenModel');
 const farmModel = require('../models/farmModel');
-const emailTokenModel = require('../models/emailTokenModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
 const url = require('url');
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
-const jsonwebtoken = require('jsonwebtoken');
 const { createToken } = require('../util/jwt');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
@@ -207,19 +205,22 @@ class userController extends baseController {
   }
 
   static async createTokenSendEmail(user, userFarm, farm_name) {
-    const token = createToken('invite', { user, userFarm });
-    const emailSent = await emailTokenModel.query().where({ user_id : user.user_id, farm_id: userFarm.farm_id }).first();
-    if(!emailSent || emailSent.times_sent < 3) {
+    const token = createToken('invite', { ...user, ...userFarm });
+    const emailSent = await emailTokenModel.query().where({ user_id: user.user_id, farm_id: userFarm.farm_id }).first();
+    if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
-      if(timesSent === 1) {
+      if (timesSent === 1) {
         await emailTokenModel.query().insert({
           user_id: user.user_id,
           farm_id: userFarm.farm_id,
           token,
-          times_sent : timesSent,
+          times_sent: timesSent,
         });
       } else {
-        await emailTokenModel.query().patch({ times_sent: timesSent }).where({user_id: user.user_id, farm_id: userFarm.farm_id})
+        await emailTokenModel.query().patch({ times_sent: timesSent }).where({
+          user_id: user.user_id,
+          farm_id: userFarm.farm_id,
+        });
       }
       await this.sendTokenEmail(farm_name, user, token);
     }
@@ -474,13 +475,13 @@ class userController extends baseController {
   static acceptInvitationAndPostPassword() {
     return async (req, res) => {
       try {
+        const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
+        const { user_id, farm_id, email, token } = req.user;
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = await bcrypt.hash(password, salt);
         await userModel.transaction(async trx => {
-          const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
-          const { user_id, farm_id, email, token } = req.user;
-          const salt = await bcrypt.genSalt(10);
-          const password_hash = await bcrypt.hash(password, salt);
           await passwordModel.query(trx).insert({ user_id, password_hash });
-          await userModel.query(trx).findById(user_id).update({
+          await userModel.query(trx).findById(user_id).patch({
             first_name,
             last_name,
             gender,
@@ -491,26 +492,28 @@ class userController extends baseController {
           const { role_id } = await userFarmModel.query(trx).where({
             user_id,
             farm_id,
-          }).update({ status: 'Active' }).returning('*').first();
-          await emailTokenModel.query(trx).where({ token }).update({ is_used: true });
-          try {
-            const { farm_name } = await farmModel.query().findById(farm_id);
-            const { role } = await roleModel.query().findById(role_id);
-            const replacements = { first_name, farm: farm_name, role };
-            const sender = 'system@litefarm.org';
-            await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
-          } catch (e) {
-            console.log(e);
-          }
-          const id_token = await createToken('access', { user_id });
-          return res.status(201).send({
-            id_token,
-            user: {
-              user_id: req.user.sub,
-              farm_id: req.user.farm_id,
-              first_name: req.user.first_name,
-            },
-          });
+          }).patch({ status: 'Active' }).returning('*').first();
+        });
+        try {
+          const result = await userFarmModel.query().withGraphFetched('[role, farm]').where({ farm_id, user_id });
+          const [{
+            farm: { farm_name },
+            role: { role },
+          }] = result;
+          const replacements = { first_name, farm: farm_name, role };
+          const sender = 'system@litefarm.org';
+          await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
+        } catch (e) {
+          console.log(e);
+        }
+        const id_token = await createToken('access', { user_id });
+        return res.status(201).send({
+          id_token,
+          user: {
+            user_id: req.user.sub,
+            farm_id: req.user.farm_id,
+            first_name: req.user.first_name,
+          },
         });
       } catch (error) {
         res.status(400).json({
@@ -522,11 +525,13 @@ class userController extends baseController {
 
   static acceptInvitationWithGoogleAccount() {
     return async (req, res) => {
+      const { sub, user_id, farm_id, email } = req.user;
+      const { first_name, last_name, gender, birth_year, language_preference } = req.body;
       try {
         await userModel.transaction(async trx => {
-          const { sub, user_id, farm_id, email, token } = req.user;
-          const { first_name, last_name, gender, birth_year, language_preference } = req.body.user;
-          const user = await userModel.query(trx).context({ showHidden: true }).findById(user_id).update({ email: '' }).returning('*');
+          const user = await userModel.query(trx).context({ showHidden: true }).findById(user_id).patch({ email: user_id }).returning('*');
+          delete user.profile_picture;
+          delete user.address;
           await userModel.query(trx).insert({
             ...user,
             user_id: sub,
@@ -538,34 +543,35 @@ class userController extends baseController {
             birth_year,
             language_preference,
           });
-          const { role_id } = await userFarmModel.query(trx).where({
+          await userFarmModel.query(trx).where({
             user_id,
             farm_id,
-          }).update({ status: 'Active' }).returning('*').first();
-          await userFarmModel.query(trx).where({ user_id }).update({ user_id: sub });
-          await emailTokenModel.query(trx).where({ token }).update({ is_used: true });
+          }).patch({ status: 'Active' }).returning('*').first();
+          await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
           await userModel.query(trx).findById(user_id).delete();
-          try {
-            const { farm_name } = await farmModel.query().findById(farm_id);
-            const { role } = await roleModel.query().findById(role_id);
-            const replacements = { first_name, farm: farm_name, role };
-            const sender = 'system@litefarm.org';
-            await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
-          } catch (e) {
-            console.log(e);
-          }
-          const id_token = await createToken('access', { user_id });
-          return res.status(200).send({
-            id_token,
-            user: {
-              user_id: req.user.sub,
-              farm_id: req.user.farm_id,
-              first_name: req.user.first_name,
-            },
-          });
+        });
+        try {
+          const [{
+            farm: { farm_name },
+            role: { role },
+          }] = await userFarmModel.query().withGraphFetched('[role, farm]').where({ farm_id, user_id });
+          const replacements = { first_name, farm: farm_name, role };
+          const sender = 'system@litefarm.org';
+          await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
+        } catch (e) {
+          console.log(e);
+        }
+        const id_token = await createToken('access', { user_id });
+        return res.status(200).send({
+          id_token,
+          user: {
+            user_id: req.user.sub,
+            farm_id: req.user.farm_id,
+            first_name: req.user.first_name,
+          },
         });
       } catch (error) {
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

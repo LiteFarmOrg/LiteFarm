@@ -339,10 +339,12 @@ class NewFieldCropModal extends React.Component {
               >
                 <Select
                   options={this.getCropOptions()}
-                  value={{
-                    value: this.state.crop_option,
-                    label: this.props.t(`crop:${this.state.crop_option.crop_translation_key}`),
-                  }}
+                  value={
+                    this.state.crop_option.crop_id && {
+                      value: this.state.crop_option,
+                      label: this.props.t(`crop:${this.state.crop_option.crop_translation_key}`),
+                    }
+                  }
                   onChange={(selectedOption) => this.handleCropSelect(selectedOption)}
                   required
                 />

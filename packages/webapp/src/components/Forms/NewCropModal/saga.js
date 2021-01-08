@@ -65,8 +65,13 @@ export function* postCropSaga({ payload: crop }) {
     yield put(postCropSuccess(result.data));
     toastr.success('Successfully saved Crop!');
   } catch (e) {
-    console.log('failed to add fieldCrop to database');
-    toastr.error('failed to add fieldCrop to database');
+    if (e.response.data.violationError) {
+      toastr.error('A crop with that variety name already exists, please try another.');
+      console.log('failed to add fieldCrop to database');
+    } else {
+      console.log('failed to add fieldCrop to database');
+      toastr.error('failed to add fieldCrop to database');
+    }
   }
 }
 

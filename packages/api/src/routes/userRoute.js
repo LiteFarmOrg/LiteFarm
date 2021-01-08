@@ -19,12 +19,15 @@ const userController = require('../controllers/userController');
 const checkScope = require('../middleware/acl/checkScope');
 const isSelf = require('../middleware/acl/isSelf');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+const checkInviteJwt = require('../middleware/acl/checkInviteToken');
 
 router.get('/:user_id', isSelf, userController.getUserByID());
 
 router.post('/', userController.addUser());
 
-router.post('/invited', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
+router.post('/invite', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
+
+router.get('/invite/validate', checkInviteJwt, userController.validateInviteToken());
 
 router.post('/pseudo', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addPseudoUser());
 

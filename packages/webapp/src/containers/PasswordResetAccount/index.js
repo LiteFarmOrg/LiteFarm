@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PureResetPasswordAccount from '../../components/PasswordResetAccount';
-import { resetPassword, validateToken } from './saga';
+import { resetPassword } from './saga';
 import jwt from 'jsonwebtoken';
-import Callback from '../../components/Callback';
 import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
 
 function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();
-  const params = new URLSearchParams(history.location.search.substring(1));
-  const token = params.get('reset_token');
+  const { token } = history.location;
   const [email, setEmail] = useState('');
-  const [isValid, setIsValid] = useState(undefined);
   const [showModal, setShowModal] = useState(false);
   const { i18n } = useTranslation();
   const onSubmit = (data) => {
@@ -21,8 +18,11 @@ function PasswordResetAccount({ history }) {
   };
 
   useEffect(() => {
-    dispatch(validateToken({ token, setIsValid }));
-    setEmail(getEmailFromToken(token));
+    if (!token) {
+      history.push('/');
+    } else {
+      setEmail(getEmailFromToken(token));
+    }
   }, []);
 
   function getEmailFromToken(token) {
@@ -56,8 +56,7 @@ function PasswordResetAccount({ history }) {
 
   return (
     <>
-      {!isValid && <Callback />}
-      {isValid && <PureResetPasswordAccount email={email} update={onSubmit} />}
+      {token && <PureResetPasswordAccount email={email} update={onSubmit} />}
       {showModal && <ResetSuccessModal onClick={modalOnClick} dismissModal={modalOnClick} />}
     </>
   );

@@ -209,9 +209,9 @@ class NewFieldCropModal extends React.Component {
     }
 
     if (!isValid) {
-      toastr.error(errors + ' is not f illed');
+      toastr.error(errors + this.props.t('message:NEW_FIELD_CROP.ERROR.NOT_FILLED'));
     } else {
-      toastr.success('Successfully Saved New Crop');
+      toastr.success(this.props.t('message:NEW_FIELD_CROP.SUCCESS.SAVE'));
     }
 
     return isValid;

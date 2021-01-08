@@ -7,7 +7,30 @@
   },
   "NEW_FIELD_CROP": {
     "ERROR": {
-      "NOT_FILLED": "is not filled out"
+      "NOT_FILLED": "is not filled out",
+      "GENERAL": "failed to add fieldCrop to database",
+      "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
+    },
+    "SUCCESS" : {
+      "SAVE": "Successfully saved Crop!"
+    }
+  },
+  "USER": {
+    "SUCCESS": {
+      "UPDATE": "Successfully updated user info!"
+    },
+    "ERROR": {
+      "UPDATE": "Failed to update user info"
+    }
+  },
+
+  "FARM": {
+    "SUCCESS": {
+      "UPDATE": "Successfully updated farm info!"
+    },
+    "ERROR": {
+      "UPDATE": "Failed to update farm info",
+      "FETCH": "failed to fetch farm from database"
     }
   }
 }

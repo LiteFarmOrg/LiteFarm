@@ -68,7 +68,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
-      thunk: false,
+      thunk: true,
       immutableCheck: false,
       serializableCheck: false,
     }),

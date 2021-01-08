@@ -13,14 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const userFarmModel = require('../../models/userFarmModel');
+const passwordModel = require('../../models/passwordModel');
+const userModel = require('../../models/userModel');
 
-async function checkInvitationTokenContent(req, res, next) {
-  const { status } = await userFarmModel.query().where({ user_id: req.user.user_id, farm_id: req.user.farm_id }).first();
-  if (status !== 'Invited') {
+async function checkPasswordCreated(req, res, next) {
+  const passwordRows = await passwordModel.query().whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
+  const userRows = await userModel.query().whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
+  if (passwordRows.length || userRows.reduce((notValid, user)=> notValid || user.status !== 2, false)) {
     return res.status(401).send('Invitation link is used');
   }
   return next();
 }
 
-module.exports = checkInvitationTokenContent;
+module.exports = checkPasswordCreated;

@@ -72,7 +72,7 @@ async function userFarmFactory({
 
 function fakeUserFarm() {
   return {
-    role_id: faker.random.arrayElement([1, 2, 3]),
+    role_id: faker.random.arrayElement([1, 2, 3, 5]),
     status: 'Active',
     has_consent: true,
     step_one: false,

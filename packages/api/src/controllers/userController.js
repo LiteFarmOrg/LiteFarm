@@ -17,7 +17,7 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
-const roleModel = require('../models/roleModel');
+const emailTokenModel = require('../models/emailTokenModel');
 const farmModel = require('../models/farmModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
@@ -165,8 +165,7 @@ class userController extends baseController {
           trx.commit();
           res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
           try {
-            const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
-            await this.sendTokenEmail(farm_name, { email, first_name }, token);
+            await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
           } catch (e) {
             console.error('Failed to send email', e)
           }
@@ -194,8 +193,7 @@ class userController extends baseController {
           await trx.commit();
           res.status(201).send({ ...user, ...userFarm });
           try {
-            const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
-            await this.sendTokenEmail(farm_name, user, token);
+            await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
           } catch (e) {
             console.error('Failed to send email', e)
           }
@@ -204,6 +202,25 @@ class userController extends baseController {
         }
       }
     };
+  }
+
+  static async createTokenSendEmail(user, userFarm, farm_name) {
+    const token = createToken('invite', { user, userFarm });
+    const emailSent = await emailTokenModel.query().where({ user_id : user.user_id, farm_id: userFarm.farm_id }).first();
+    if(!emailSent || emailSent.times_sent < 3) {
+      const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
+      if(timesSent === 1) {
+        await emailTokenModel.query().insert({
+          user_id: user.user_id,
+          farm_id: userFarm.farm_id,
+          token,
+          times_sent : timesSent,
+        });
+      } else {
+        await emailTokenModel.query().patch({ times_sent: timesSent }).where({user_id: user.user_id, farm_id: userFarm.farm_id})
+      }
+      await this.sendTokenEmail(farm_name, user, token);
+    }
   }
 
   static async sendTokenEmail(farm, user, token) {

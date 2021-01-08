@@ -289,7 +289,6 @@ describe('JWT Tests', () => {
           password: newPassword,
           user_id: newUser.user_id,
         }, async (err, res) => {
-          console.log(res, resetPasswordToken);
           expect(res.status).toBe(200);
           const {
             reset_token_version,

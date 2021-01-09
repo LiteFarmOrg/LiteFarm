@@ -66,9 +66,9 @@ export function* updateUserSaga({ payload: user }) {
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
     yield put(putUserSuccess(user));
-    toastr.success('Successfully updated user info!');
+    toastr.success(this.props.t('message:USER.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error('Failed to update user info');
+    toastr.error(this.props.t('message:USER.ERROR.UPDATE'));
   }
 }
 
@@ -104,7 +104,7 @@ export function* getFarmInfoSaga() {
     yield put(getFieldCrops());
   } catch (e) {
     console.log(e);
-    toastr.error('failed to fetch farm from database');
+    toastr.error(this.props.t('message:FARM.ERROR.FETCH'));
   }
 }
 export const putFarm = createAction(`putFarmSaga`);
@@ -122,9 +122,9 @@ export function* putFarmSaga({ payload: farm }) {
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
     yield put(patchFarmSuccess(data));
-    toastr.success('Successfully updated farm info!');
+    toastr.success(this.props.t('message:FARM.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error('Failed to update farm info');
+    toastr.error(this.props.t('message:FARM.ERROR.UPDATE'));
   }
 }
 

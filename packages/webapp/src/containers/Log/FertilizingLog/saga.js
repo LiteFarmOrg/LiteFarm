@@ -52,7 +52,7 @@ export function* addFertilizerToDB(payload) {
     }
   } catch (e) {
     console.log('failed to add fert');
-    toastr.error('failed to add fertilizer');
+    toastr.error(this.props.t('message:FERTILIZER.ERROR.ADD'));
   }
 }
 
@@ -77,11 +77,11 @@ export function* addLog(payload) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully added Log!');
+      toastr.success(this.props.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add log');
-    toastr.error('Failed to add Log');
+    toastr.error(this.props.t('message:LOG.ERROR.ADD'));
   }
 }
 
@@ -107,11 +107,11 @@ export function* editLog(payload) {
     const result = yield call(axios.put, logURL + `/${fertConfig.activity_id}`, log, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully edited Log!');
+      toastr.success(this.props.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error('Failed to edit Log');
+    toastr.error(this.props.t('message:LOG.ERROR.EDIT'));
   }
 }
 

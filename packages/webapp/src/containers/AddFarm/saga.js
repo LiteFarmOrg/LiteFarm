@@ -69,7 +69,7 @@ export function* postFarmSaga({ payload: farm }) {
     history.push('/role_selection');
   } catch (e) {
     console.log(e);
-    toastr.error('Failed to add farm, please contact litefarm for assistance');
+    toastr.error(this.props.t('message:FARM.ERROR.ADD'));
   }
 }
 
@@ -92,7 +92,7 @@ export function* patchFarmSaga({ payload: farm }) {
     history.push('/role_selection');
   } catch (e) {
     console.error(e);
-    toastr.error('Failed to add farm, please contact litefarm for assistance');
+    toastr.error(this.props.t('message:FARM.ERROR.ADD'));
   }
 }
 

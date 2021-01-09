@@ -17,9 +17,9 @@ export function* putFieldSaga({ payload: field }) {
     const header = getHeader(user_id, farm_id);
     yield call(axios.put, putUrl(field.field_id), field, header);
     yield put(putFieldSuccess(field));
-    toastr.success('Successfully changed field name');
+    toastr.success(this.props.t('message:FIELD.SUCCESS.UPDATE_NAME'));
   } catch (e) {
-    toastr.error('Failed To update Field name');
+    toastr.error(this.props.t('message:FIELD.ERROR.UPDATE_NAME'));
   }
 }
 

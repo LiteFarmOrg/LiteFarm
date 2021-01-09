@@ -59,7 +59,7 @@ export function* patchConsentSaga({ payload }) {
       history.push('/interested_in_organic');
     }
   } catch (e) {
-    toastr.error('Failed to update user agreement');
+    toastr.error(this.props.t('message:USER.ERROR.AGREEMENT'));
   }
 }
 

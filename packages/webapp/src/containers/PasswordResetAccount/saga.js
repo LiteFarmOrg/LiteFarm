@@ -49,7 +49,7 @@ export function* resetPasswordSaga({ payload: { token, password, onPasswordReset
     yield put(loginSuccess({ user_id }));
     onPasswordResetSuccess();
   } catch (e) {
-    toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
+    toastr.error(this.props.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
   }
 }
 
@@ -70,7 +70,7 @@ export function* validateTokenSaga({ payload: { token, setIsValid } }) {
   } catch (e) {
     setIsValid(false);
     history.push('/');
-    toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
+    toastr.error(this.props.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
   }
 }
 

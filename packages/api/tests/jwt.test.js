@@ -30,6 +30,7 @@ const checkGoogleJwt = require('../src/middleware/acl/checkGoogleJwt.js');
 const sendEmailTemplate = require('../src/templates/sendEmailTemplate');
 const userFarmModel = require('../src/models/userFarmModel');
 const userModel = require('../src/models/userModel');
+const emailMiddleware = require('../src/templates/sendEmailTemplate');
 jest.mock('jsdom');
 jest.mock('../src/util/jwt');
 jest.mock('../src/templates/sendEmailTemplate');
@@ -370,6 +371,7 @@ describe('JWT Tests', () => {
         req.user = googleUser;
         return next();
       });
+      emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
       invitationToken = undefined;
       reqBody = fakeReqBody();
       googleUser = fakeGoogleTokenContent();
@@ -435,6 +437,11 @@ describe('JWT Tests', () => {
           const [resUserFarm] = await knex('userFarm').where({user_id: googleUser.sub, farm_id});
           expect(resUserFarm.status).toBe(getUserFarmStatus(farm_id));
           const [resUserFarm1] = await knex('userFarm').where({user_id: googleUser.sub, farm_id: userFarm1.farm_id});
+          expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+          const emailTokens = await knex('emailToken').where({user_id: googleUser.sub});
+          expect(emailTokens.length).toBe(2);
+          const oldEmailTokens = await knex('emailToken').where({user_id});
+          expect(oldEmailTokens.length).toBe(0);
           expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
           putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
             expect(res.status).toBe(401);

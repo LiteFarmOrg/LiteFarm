@@ -205,7 +205,7 @@ class userController extends baseController {
   }
 
   static async createTokenSendEmail(user, userFarm, farm_name) {
-    const token = createToken('invite', { ...user, ...userFarm });
+    const token = await createToken('invite', { ...user, ...userFarm });
     const emailSent = await emailTokenModel.query().where({ user_id: user.user_id, farm_id: userFarm.farm_id }).first();
     if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
@@ -548,13 +548,15 @@ class userController extends baseController {
             farm_id,
           }).patch({ status: 'Active' }).returning('*').first();
           await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
           await userModel.query(trx).findById(user_id).delete();
         });
         try {
           const [{
             farm: { farm_name },
             role: { role },
-          }] = await userFarmModel.query().withGraphFetched('[role, farm]').where({ farm_id, user_id });
+          }] = await userFarmModel.query().withGraphFetched('[role, farm]').where({ farm_id, user_id: sub });
           const replacements = { first_name, farm: farm_name, role };
           const sender = 'system@litefarm.org';
           await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);

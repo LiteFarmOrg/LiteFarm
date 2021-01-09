@@ -41,6 +41,7 @@ import chooseFarmSaga from './containers/ChooseFarm/saga';
 import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
+import callbackSaga from './containers/Callback/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -115,6 +116,7 @@ sagaMiddleware.run(newFieldSaga);
 sagaMiddleware.run(editFieldSaga);
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
+sagaMiddleware.run(callbackSaga);
 
 const persistor = persistStore(store);
 

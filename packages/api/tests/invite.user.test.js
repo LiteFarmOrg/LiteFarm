@@ -35,7 +35,7 @@ describe('Create user', () => {
   });
 
   function postCreateUser({ user_id, farm_id }, data, callback) {
-    chai.request(server).post('/user/invited')
+    chai.request(server).post('/user/invite')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .set('Content-Type', 'application/json')

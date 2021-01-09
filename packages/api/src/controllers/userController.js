@@ -145,61 +145,38 @@ class userController extends baseController {
         return;
       }
       const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
-      if (isUserAlreadyCreated) {
-        try {
-          const trx = await transaction.start(Model.knex());
-          const userFarm = await userFarmModel.query(trx).insert({
-            user_id: created_user_id,
-            farm_id,
-            status: 'Invited',
-            consent_version: '1.0',
-            role_id,
-            wage,
-            has_consent: false,
-            step_one: true,
-            step_two: true,
-            step_three: false,
-            step_four: true,
-            step_five: true,
-          });
-          trx.commit();
-          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm });
-          try {
-            await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
-          } catch (e) {
-            console.error('Failed to send email', e);
-          }
-        } catch (error) {
-          return res.status(500).send(error);
+      try {
+        const trx = await transaction.start(Model.knex());
+        let user;
+        if (!isUserAlreadyCreated) {
+          user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
+        } else {
+          user = isUserAlreadyCreated;
         }
-      } else {
+        const { user_id } = user;
+        const userFarm = await userFarmModel.query(trx).insert({
+          user_id,
+          farm_id,
+          status: 'Invited',
+          consent_version: '1.0',
+          role_id,
+          has_consent: false,
+          wage,
+          step_one: true,
+          step_two: true,
+          step_three: false,
+          step_four: true,
+          step_five: true,
+        });
+        await trx.commit();
+        res.status(201).send({ ...user, ...userFarm });
         try {
-          const trx = await transaction.start(Model.knex());
-          const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
-          const userFarm = await userFarmModel.query(trx).insert({
-            user_id: user.user_id,
-            farm_id,
-            status: 'Invited',
-            consent_version: '1.0',
-            role_id,
-            has_consent: false,
-            wage,
-            step_one: true,
-            step_two: true,
-            step_three: false,
-            step_four: true,
-            step_five: true,
-          });
-          await trx.commit();
-          res.status(201).send({ ...user, ...userFarm });
-          try {
-            await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
-          } catch (e) {
-            console.error('Failed to send email', e);
-          }
+          await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
         } catch (e) {
-          res.status(500).send(e);
+          console.error('Failed to send email', e)
         }
+      } catch (error) {
+        return res.status(400).send(error);
       }
     };
   }
@@ -232,6 +209,25 @@ class userController extends baseController {
     template_path.subjectReplacements = farm;
     await sendEmailTemplate.sendEmail(template_path, { first_name: user.first_name, farm },
       user.email, sender, `/callback/?invite_token=${token}`);
+  }
+
+  static validateInviteToken() {
+    return async (req, res) => {
+      const { email } = req.user;
+
+      try {
+        const user = await userModel.query().where('email', email).first();
+        console.log(req.user);
+        if (user.status === 2) {
+          res.status(200).send(user);
+        } else {
+          // TODO: send back bad response if user is not invited
+          res.status(200).send(user);
+        }
+      } catch (error) {
+        res.status(400).send(error);
+      }
+    };
   }
 
   static addPseudoUser() {

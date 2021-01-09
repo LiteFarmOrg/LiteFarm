@@ -107,6 +107,7 @@ import { isAuthenticated } from './util/jwt';
 import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import PasswordResetAccount from './containers/PasswordResetAccount';
+import Callback from './containers/Callback';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -388,12 +389,14 @@ const Routes = () => {
   } else if (!isAuthenticated()) {
     return (
       <Switch>
-        <Route path="/callback" component={PasswordResetAccount} />
-        <Route
+        <Route path="/callback" component={Callback} />
+        {/* <Route path="/invite" component={InviteAccount} /> */}
+        <Route path="/password_reset" component={PasswordResetAccount} />
+        {/* <Route
           path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name"
           exact
           component={SignUp}
-        />
+        /> */}
         <Route path="/" exact component={CustomSignUp} />
         <Redirect
           to={'/'}

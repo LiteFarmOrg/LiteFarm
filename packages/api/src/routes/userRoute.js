@@ -27,7 +27,7 @@ const checkGoogleJwt = require('../middleware/acl/checkGoogleJwt');
 
 router.post('/', userController.addUser());
 
-router.post('/invited', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
+router.post('/invite', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
 
 router.get('/invite/validate', checkInviteJwt, userController.validateInviteToken());
 

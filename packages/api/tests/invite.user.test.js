@@ -4,6 +4,7 @@ const moment = require('moment');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
+const emailMiddleware = require('../src/templates/sendEmailTemplate');
 jest.mock('jsdom');
 jest.mock('axios');
 jest.mock('../src/middleware/acl/checkJwt');
@@ -25,6 +26,7 @@ describe('Create user', () => {
       req.user.user_id = req.get('user_id');
       next()
     });
+    emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
   })
 
 

@@ -183,12 +183,12 @@ class userController extends baseController {
 
   static async createTokenSendEmail(user, userFarm, farm_name) {
     const token = await createToken('invite', { ...user, ...userFarm });
-    const emailSent = await emailTokenModel.query().where({ user_id: user.user_id, farm_id: userFarm.farm_id }).first();
+    const emailSent = await emailTokenModel.query().where({ user_id: userFarm.user_id, farm_id: userFarm.farm_id }).first();
     if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
       if (timesSent === 1) {
         await emailTokenModel.query().insert({
-          user_id: user.user_id,
+          user_id: userFarm.user_id,
           farm_id: userFarm.farm_id,
           token,
           times_sent: timesSent,

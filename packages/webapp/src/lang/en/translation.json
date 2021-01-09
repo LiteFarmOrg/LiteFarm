@@ -556,5 +556,13 @@
     "BUTTON": "Let's get started",
     "SVG_ALT": "Welcome to LiteFarm"
   },
-  "LOGIN_BUTTON": "Log In or Sign Up"
+  "LOGIN_BUTTON": "Log In or Sign Up",
+  "INVITE_SIGN_UP": {
+    "TITLE": "Create your account",
+    "HOW_TO_CREATE": "How do you want to create your new acount?",
+    "ERROR0": "You'll need user",
+    "ERROR1": "to accept this farm invitation.",
+    "SIGN_IN_WITH": "Sign in with",
+    "LITEFARM_ACCOUNT": "Create a LiteFarm account"
+  }
 }

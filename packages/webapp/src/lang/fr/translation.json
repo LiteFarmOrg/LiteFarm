@@ -555,5 +555,13 @@
   "WELCOME_SCREEN": {
     "BUTTON": "MISSING",
     "SVG_ALT": "MISSING"
+  },
+  "INVITE_SIGN_UP": {
+    "TITLE": "MISSING",
+    "HOW_TO_CREATE": "MISSING",
+    "ERROR0": "MISSING",
+    "ERROR1": "MISSING",
+    "SIGN_IN_WITH": "MISSING",
+    "LITEFARM_ACCOUNT": "MISSING"
   }
 }

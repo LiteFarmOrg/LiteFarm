@@ -75,12 +75,11 @@ export function* addPestControlLog(payload) {
     const result = yield call(axios.post, logURL, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully added Log!');
+      this.props.t('message:LOG.SUCCESS.ADD')
     }
   } catch (e) {
     console.log('failed to add log');
-    toastr.error('Failed to add Log');
-  }
+    this.props.t('message:LOG.ERROR.ADD')  }
 }
 
 export function* editPestControlLog(payload) {
@@ -95,11 +94,11 @@ export function* editPestControlLog(payload) {
     const result = yield call(axios.put, logURL + `/${pcLog.activity_id}`, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully edited Log!');
+      toastr.error(this.props.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error('Failed to edit Log');
+    toastr.error(this.props.t('message:LOG.ERROR.EDIT'));
   }
 }
 

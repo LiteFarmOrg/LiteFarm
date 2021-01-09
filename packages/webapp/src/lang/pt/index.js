@@ -5,5 +5,6 @@ import disease from './disease.json';
 import task from './task.json';
 import expense from './expense.json';
 import fertilizer from './fertilizer.json';
-const portuguese = { translation, crop, common, disease, task, expense, fertilizer };
+import message from './message.json'
+const portuguese = { translation, crop, common, disease, task, expense, fertilizer, message };
 export default portuguese;

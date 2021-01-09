@@ -64,7 +64,15 @@ export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga
 
 export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...user } }) {
   try {
-    const result = yield call(axios.post, loginWithPasswordUrl(), user);
+    const screenSize = {
+      screen_width: window.innerWidth,
+      screen_height: window.innerHeight,
+    };
+    const data = {
+      screenSize: screenSize,
+      user: user,
+    };
+    const result = yield call(axios.post, loginWithPasswordUrl(), data);
 
     const {
       id_token,

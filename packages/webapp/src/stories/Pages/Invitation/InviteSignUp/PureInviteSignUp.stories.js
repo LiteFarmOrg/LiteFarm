@@ -1,7 +1,7 @@
 import React from 'react';
-import decorators from '../config/decorators';
-import PureInviteSignup from '../../../components/InviteSignup';
-import { Button } from '../../index';
+import decorators from '../../config/decorators';
+import PureInviteSignup from '../../../../components/InviteSignup';
+import { Button } from '../../../index';
 
 export default {
   title: 'Page/PureInviteSignUpScreen',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { authenticatedDecorators } from '../config/decorators';
-import PureInvitedUserCreateAccountPage from '../../../components/InvitedUserCreateAccount';
+import { authenticatedDecorators } from '../../config/decorators';
+import PureInvitedUserCreateAccountPage from '../../../../components/InvitedUserCreateAccount';
 
 export default {
   title: 'Form/PureInvitedUserCreateAccountPage',

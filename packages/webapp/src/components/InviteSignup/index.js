@@ -1,7 +1,7 @@
 import Layout from '../Layout';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Title, Error, Main } from '../Typography';
+import { Text, Title, Error, Main, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Card from '../Card';
 import { ReactComponent as GoogleLogo } from '../../assets/images/inviteSignUp/google-logo.svg';
@@ -31,8 +31,10 @@ export default function PureInviteSignup({
         color={selectedKey === 1 ? 'active' : 'secondary'}
         isButton
       >
-        {t(`INVITE_SIGN_UP.SIGN_IN_WITH`)}{' '}
-        <GoogleLogo style={{ marginLeft: '8px', transform: 'translateY(2px)' }} />
+        <Semibold style={{ margin: 0 }}>
+          {t(`INVITE_SIGN_UP.SIGN_IN_WITH`)}{' '}
+          <GoogleLogo style={{ marginLeft: '8px', transform: 'translateY(2px)' }} />
+        </Semibold>
       </Card>
       <Card
         key={2}
@@ -40,7 +42,7 @@ export default function PureInviteSignup({
         color={selectedKey === 2 ? 'active' : 'secondary'}
         isButton
       >
-        {t(`INVITE_SIGN_UP.LITEFARM_ACCOUNT`)}
+        <Semibold style={{ margin: 0 }}> {t(`INVITE_SIGN_UP.LITEFARM_ACCOUNT`)}</Semibold>
       </Card>
     </Layout>
   );

@@ -392,11 +392,6 @@ const Routes = () => {
         <Route path="/callback" component={Callback} />
         {/* <Route path="/invite" component={InviteAccount} /> */}
         <Route path="/password_reset" component={PasswordResetAccount} />
-        {/* <Route
-          path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name"
-          exact
-          component={SignUp}
-        /> */}
         <Route path="/" exact component={CustomSignUp} />
         <Redirect
           to={'/'}

@@ -564,5 +564,9 @@
     "ERROR1": "to accept this farm invitation.",
     "SIGN_IN_WITH": "Sign in with",
     "LITEFARM_ACCOUNT": "Create a LiteFarm account"
+  },
+  "JOIN_FARM_SUCCESS": {
+    "SUCCESSFULLY_JOINED": "You have successfully joined",
+    "IMPORTANT_THINGS": "Let us show you a couple of important things!"
   }
 }

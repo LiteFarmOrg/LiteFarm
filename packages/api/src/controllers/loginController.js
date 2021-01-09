@@ -20,6 +20,8 @@ const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
 const userController = require("./userController");
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const parser = require('ua-parser-js');
+const userLogModel = require('../models/userLogModel');
 
 const { createToken } = require('../util/jwt');
 
@@ -27,12 +29,34 @@ class loginController extends baseController {
   static authenticateUser() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
-      const { email, password } = req.body;
+      const { email, password } = req.body.user;
+      const { screen_width, screen_height } = req.body.screenSize;
       try {
         const userData = await userModel.query().select('*').where('email', email).first();
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
-        if (!isMatch) return res.sendStatus(401);
+        const ip = req.connection.remoteAddress;
+        const ua = parser(req.headers['user-agent']);
+        const languages = req.acceptsLanguages();
+        const userID = userData.user_id;
+        if (!isMatch) {
+          await userLogModel.query().insert({
+            user_id: userID,
+            ip,
+            languages,
+            browser: ua.browser.name,
+            browser_version: ua.browser.version,
+            os: ua.os.name,
+            os_version: ua.os.version,
+            device_vendor: ua.device.vendor,
+            device_model: ua.device.model,
+            device_type: ua.device.type,
+            screen_width,
+            screen_height,
+            reason_for_failure: 'password_mismatch',
+          });
+          return res.sendStatus(401)
+        };
 
         const id_token = await createToken('access', { user_id: userData.user_id });
         return res.status(200).send({
@@ -40,6 +64,21 @@ class loginController extends baseController {
           user: userData,
         });
       } catch (error) {
+        await userLogModel.query().insert({
+          user_id: userID,
+          ip,
+          languages,
+          browser: ua.browser.name,
+          browser_version: ua.browser.version,
+          os: ua.os.name,
+          os_version: ua.os.version,
+          device_vendor: ua.device.vendor,
+          device_model: ua.device.model,
+          device_type: ua.device.type,
+          screen_width,
+          screen_height,
+          reason_for_failure: 'other',
+        });
         return res.status(400).json({
           error,
         });

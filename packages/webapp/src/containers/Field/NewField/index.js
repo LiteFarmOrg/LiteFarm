@@ -9,11 +9,11 @@ import {
   DEFAULT_ZOOM,
   DISPLAY_DEFAULT,
   DISPLAY_NONE,
-  FARM_BOUNDS,
   GMAPS_API_KEY,
   NEXT_BUTTON,
   POLYGON_BUTTON,
   POLYGON_COMPLETE,
+  TREE_ICON,
 } from '../constants';
 import PageTitleFragment from '../../../components/PageTitleFragment';
 import { Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
@@ -48,10 +48,6 @@ const activeButtonStyles = {
 };
 
 class NewField extends Component {
-  static defaultProps = {
-    zoom: DEFAULT_ZOOM,
-    bounds: FARM_BOUNDS,
-  };
   constructor(props) {
     super(props);
 
@@ -65,6 +61,7 @@ class NewField extends Component {
       polygon: null,
       step: 1,
       fieldName: '',
+      fields: this.props.fields,
       area: null,
       center:
         this.props.farm === null || this.props.farm.grid_points === null
@@ -128,8 +125,6 @@ class NewField extends Component {
       maxZoom: 80,
       tilt: 0,
       center: null,
-      zoom: DEFAULT_ZOOM,
-      bounds: FARM_BOUNDS,
 
       mapTypeControl: true,
       mapTypeId: maps.MapTypeId.SATELLITE,
@@ -203,7 +198,16 @@ class NewField extends Component {
   }
 
   handleGoogleMapApi(map, maps) {
-    //create the drawing manager
+    let len = 0;
+    let fieldIcon = {
+      path: TREE_ICON,
+      fillColor: styles.primaryColor,
+      fillOpacity: 0,
+      strokeWeight: 0,
+      scale: 0.5,
+    };
+
+    // Create the drawing manager
     let drawingManager = new maps.drawing.DrawingManager({
       drawingMode: null,
       drawingControl: false,
@@ -213,6 +217,7 @@ class NewField extends Component {
       },
       map: map,
     });
+
     drawingManager.setOptions({
       polygonOptions: {
         strokeWeight: 2,
@@ -225,8 +230,59 @@ class NewField extends Component {
         suppressUndo: true,
       },
     });
-    //drawingManager.setMap(map);
 
+    maps.Polygon.prototype.getPolygonBounds = function () {
+      var bounds = new maps.LatLngBounds();
+      this.getPath().forEach(function (element, index) {
+        bounds.extend(element);
+      });
+      return bounds;
+    };
+
+    let addListenersOnPolygonAndMarker = function (polygon, fieldObject) {
+      // creates field marker
+      var fieldMarker = new maps.Marker({
+        position: polygon.getPolygonBounds().getCenter(),
+        map: map,
+        icon: fieldIcon,
+        label: { text: fieldObject.field_name, color: 'white' },
+      });
+
+      // attach on click listeners
+      //activeInfoWindow = null;
+
+      function pushToHist() {
+        history.push('./edit_field?' + fieldObject.field_id);
+      }
+
+      fieldMarker.setMap(map);
+
+      maps.event.addListener(fieldMarker, 'click', function (event) {
+        pushToHist();
+      });
+      maps.event.addListener(polygon, 'click', function (event) {
+        pushToHist();
+      });
+    };
+
+    if (this.state.fields && this.state.fields.length >= 1) {
+      len = this.state.fields.length;
+      let i;
+
+      for (i = 0; i < len; i++) {
+        // creates the polygon to be displayed on the map
+        var polygon = new maps.Polygon({
+          paths: this.state.fields[i].grid_points,
+          strokeColor: styles.primaryColor,
+          strokeOpacity: 0.8,
+          strokeWeight: 3,
+          fillColor: styles.primaryColor,
+          fillOpacity: 0.35,
+        });
+        polygon.setMap(map);
+        addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
+      }
+    }
     this.setState({
       drawingManager: drawingManager,
       supportedDrawingModes: {
@@ -412,7 +468,7 @@ class NewField extends Component {
                 libraries: ['drawing', 'geometry', 'places'],
               }}
               center={this.state.center}
-              zoom={this.props.zoom}
+              zoom={DEFAULT_ZOOM}
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
               options={this.getMapOptions}

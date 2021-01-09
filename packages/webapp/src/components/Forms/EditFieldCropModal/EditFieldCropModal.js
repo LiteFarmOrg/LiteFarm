@@ -96,12 +96,12 @@ class EditFieldCropModal extends React.Component {
     }
 
     if (moment(editedFieldCrop.end_date).isSameOrBefore(moment(editedFieldCrop.start_date))) {
-      toastr.error('End Date cannot be the same or before Start Date');
+      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
       return;
     }
 
     if (editedFieldCrop.area_used > fieldArea) {
-      toastr.error('Field crop area cannot be greater than field area');
+      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.FIELD_AREA'));
       return;
     }
 

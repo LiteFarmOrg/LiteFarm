@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 function PasswordResetAccount({ history }) {
   const dispatch = useDispatch();
-  const { reset_token } = history.location;
+  const reset_token = history.location.state;
   const [email, setEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
   const { i18n } = useTranslation();

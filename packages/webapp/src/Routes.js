@@ -98,6 +98,7 @@ import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 
 import CustomSignUp from './containers/CustomSignUp';
+import ExpiredTokenScreen from './containers/ExpiredTokenScreen';
 
 import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
@@ -393,6 +394,7 @@ const Routes = () => {
         <Route path="/callback" component={Callback} />
         <Route path="/invite_sign_up" component={InviteSignUp} />
         <Route path="/password_reset" component={PasswordResetAccount} />
+        <Route path={'/expired'} component={ExpiredTokenScreen} />
         <Route path="/" exact component={CustomSignUp} />
         <Redirect
           to={'/'}

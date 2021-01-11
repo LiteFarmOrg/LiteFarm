@@ -133,6 +133,7 @@ const userFarmSlice = createSlice({
       const { farm_id, user_id } = farm;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
     },
+    acceptInvitationSuccess: addUserFarm,
   },
 });
 
@@ -154,6 +155,7 @@ export const {
   loginSuccess,
   logoutSuccess,
   selectFarmSuccess,
+  acceptInvitationSuccess,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 

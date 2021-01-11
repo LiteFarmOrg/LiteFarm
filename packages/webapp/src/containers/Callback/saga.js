@@ -17,46 +17,58 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
+import { acceptInvitationSuccess } from '../userFarmSlice';
 
 const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
-const validateInviteTokenUrl = () => `${url}/user/invite/validate`;
+const patchUserFarmStatusUrl = () => `${url}/userFarm/accept_invitation`;
 
 export const validateResetToken = createAction('validateResetTokenSaga');
 
 export function* validateResetTokenSaga({ payload: { reset_token } }) {
-  // call validation endpoint with token
-  // if this is successful we proceed to PasswordResetAccount
-  // otherwise we want to go with another component to show error. < -- view is not designed.
-  // FOR NOW: move to main page
   try {
     const result = yield call(axios.get, validateResetTokenUrl(), {
       headers: {
         Authorization: `Bearer ${reset_token}`,
       },
     });
-    history.push('password_reset', { reset_token });
+    history.push('/password_reset', reset_token);
   } catch (e) {
-    history.push('/');
+    history.push('/expired', 'RESET_PASSWORD');
   }
 }
 
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
-export function* patchUserFarmStatusSaga({ payload: { reset_token } }) {
+export function* patchUserFarmStatusSaga({ payload: { invitation_token } }) {
   // call validation endpoint with token
   // if this is successful we proceed to PasswordResetAccount
   // otherwise we want to go with another component to show error. < -- view is not designed.
   // FOR NOW: move to main page
   try {
-    const result = yield call(axios.get, validateResetTokenUrl(), {
-      headers: {
-        Authorization: `Bearer ${reset_token}`,
+    const language_preference = localStorage.getItem('language_preference');
+    const result = yield call(
+      axios.patch,
+      patchUserFarmStatusUrl(),
+      { language_preference },
+      {
+        headers: {
+          Authorization: `Bearer ${invitation_token}`,
+        },
       },
-    });
-    history.push('password_reset', { reset_token });
+    );
+    const { user, id_token } = result.data;
+    localStorage.setItem('id_token', id_token);
+    yield put(acceptInvitationSuccess(user));
+    history.push('/farm_selection', user);
   } catch (e) {
-    history.push('/');
+    console.log(e);
+    if (e?.response?.status === 404) {
+      // and message === 'user does not exist
+      history.push('/invite_sign_up', invitation_token);
+    } else {
+      history.push('/expired', 'INVITATION');
+    }
   }
 }
 

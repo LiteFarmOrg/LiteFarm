@@ -58,6 +58,7 @@ function ChooseFarm() {
 
   const onSelectFarm = (farm_id) => {
     setFarmId(farm_id);
+    console.log(farm_id);
   };
 
   const onCreateFarm = () => {

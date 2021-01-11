@@ -8,17 +8,17 @@ export default function ExpiredTokenScreen({ history }) {
   const [translation_key, setTranslationKey] = useState();
 
   useEffect(() => {
-    const { translation_key } = history.location;
+    const translation_key = history.location.state;
     if (translation_key) {
       setTranslationKey(translation_key);
     } else {
       history.push('/');
     }
   }, []);
+
   return <PureExpiredTokenScreen text={t(`EXPIRED_TOKEN.${translation_key || 'DEFAULT'}`)} />;
 }
 
 ExpiredTokenScreen.prototype = {
-  onClick: PropTypes.func,
-  text: PropTypes.string,
+  history: PropTypes.object,
 };

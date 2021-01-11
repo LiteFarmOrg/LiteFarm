@@ -568,5 +568,9 @@
   "JOIN_FARM_SUCCESS": {
     "SUCCESSFULLY_JOINED": "You have successfully joined",
     "IMPORTANT_THINGS": "Let us show you a couple of important things!"
+  },
+  "EXPIRED_TOKEN": {
+    "INVITATION": "MISSING",
+    "DEFAULT": "MISSING"
   }
 }

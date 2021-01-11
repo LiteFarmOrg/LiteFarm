@@ -17,7 +17,6 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
@@ -28,38 +27,45 @@ const validateTokenUrlMap = {
   reset: validateResetTokenUrl,
 };
 
-const redirectUrlMap = {
-  invite: '/invite',
-  reset: '/password_reset',
-};
+export const validateResetToken = createAction('validateResetTokenSaga');
 
-export const validateToken = createAction('validateTokenSaga');
-
-export function* validateTokenSaga({ payload: { token, tokenType, setIsValid } }) {
+export function* validateResetTokenSaga({ payload: { reset_token } }) {
   // call validation endpoint with token
   // if this is successful we proceed to PasswordResetAccount
   // otherwise we want to go with another component to show error. < -- view is not designed.
   // FOR NOW: move to main page
-  console.log(tokenType);
   try {
-    const result = yield call(axios.get, validateTokenUrlMap[tokenType](), {
+    const result = yield call(axios.get, validateResetTokenUrl(), {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${reset_token}`,
       },
     });
-    setIsValid(true);
-    history.push({
-      pathname: redirectUrlMap[tokenType],
-      token,
-    });
+    history.push('password_reset', { reset_token });
   } catch (e) {
-    setIsValid(false);
     history.push('/');
-    console.log('Token either invalid or used');
-    toastr.error('Error in token validation, please contact LiteFarm for assistance.');
+  }
+}
+
+export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
+
+export function* patchUserFarmStatusSaga({ payload: { reset_token } }) {
+  // call validation endpoint with token
+  // if this is successful we proceed to PasswordResetAccount
+  // otherwise we want to go with another component to show error. < -- view is not designed.
+  // FOR NOW: move to main page
+  try {
+    const result = yield call(axios.get, validateResetTokenUrl(), {
+      headers: {
+        Authorization: `Bearer ${reset_token}`,
+      },
+    });
+    history.push('password_reset', { reset_token });
+  } catch (e) {
+    history.push('/');
   }
 }
 
 export default function* callbackSaga() {
-  yield takeLatest(validateToken.type, validateTokenSaga);
+  yield takeLatest(validateResetToken.type, validateResetTokenSaga);
+  yield takeLatest(patchUserFarmStatus.type, patchUserFarmStatusSaga);
 }

@@ -12,7 +12,7 @@ const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 
 
-describe('Create user', () => {
+describe('Invite user', () => {
   let middleware;
   let email;
   let axios;

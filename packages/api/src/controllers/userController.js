@@ -145,82 +145,58 @@ class userController extends baseController {
         return;
       }
       const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
-      if (isUserAlreadyCreated) {
-        try {
-          const trx = await transaction.start(Model.knex());
-          const userFarm = await userFarmModel.query(trx).insert({
-            user_id: created_user_id,
-            farm_id,
-            status: 'Invited',
-            consent_version: '1.0',
-            role_id,
-            wage,
-            has_consent: false,
-            step_one: true,
-            step_two: true,
-            step_three: false,
-            step_four: true,
-            step_five: true,
-          });
-          trx.commit();
-          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm });
-          try {
-            await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
-          } catch (e) {
-            console.error('Failed to send email', e);
-          }
-        } catch (error) {
-          return res.status(500).send(error);
+      const trx = await transaction.start(Model.knex());
+      try {
+        let user;
+        if (!isUserAlreadyCreated) {
+          user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
+        } else {
+          user = isUserAlreadyCreated;
         }
-      } else {
+        const { user_id } = user;
+        const userFarm = await userFarmModel.query(trx).insert({
+          user_id,
+          farm_id,
+          status: 'Invited',
+          consent_version: '1.0',
+          role_id,
+          wage,
+          has_consent: false,
+          step_one: true,
+          step_two: true,
+          step_three: false,
+          step_four: true,
+          step_five: true,
+        });
+        trx.commit();
+        res.status(201).send({ ...user, ...userFarm });
         try {
-          const trx = await transaction.start(Model.knex());
-          const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
-          const userFarm = await userFarmModel.query(trx).insert({
-            user_id: user.user_id,
-            farm_id,
-            status: 'Invited',
-            consent_version: '1.0',
-            role_id,
-            has_consent: false,
-            wage,
-            step_one: true,
-            step_two: true,
-            step_three: false,
-            step_four: true,
-            step_five: true,
-          });
-          await trx.commit();
-          res.status(201).send({ ...user, ...userFarm });
-          try {
-            await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
-          } catch (e) {
-            console.error('Failed to send email', e);
-          }
+          await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
         } catch (e) {
           console.error('Failed to send email', e);
-          res.status(500).send(e);
         }
+      } catch (error) {
+        await trx.rollback();
+        return res.status(500).send(error);
       }
     };
   }
 
   static async createTokenSendEmail(user, userFarm, farm_name) {
     const token = await createToken('invite', { ...user, ...userFarm });
-    console.log(token);
-    const emailSent = await emailTokenModel.query().where({ user_id: user.user_id, farm_id: userFarm.farm_id }).first();
+    const emailSent = await emailTokenModel.query().where({ user_id : userFarm.user_id, farm_id: userFarm.farm_id }).first();
     if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
       if (timesSent === 1) {
         await emailTokenModel.query().insert({
-          user_id: user.user_id,
+          user_id: userFarm.user_id,
           farm_id: userFarm.farm_id,
           token,
           times_sent: timesSent,
         });
       } else {
         await emailTokenModel.query().patch({ times_sent: timesSent }).where({
-          user_id: user.user_id,
+          user_id: userFarm.user_id,
           farm_id: userFarm.farm_id,
         });
       }

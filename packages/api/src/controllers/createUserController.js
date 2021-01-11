@@ -31,6 +31,7 @@ const environmentMap = {
   production: 'https://app.litefarm.org/',
   development: 'http://localhost:3000/',
 }
+const { createToken } = require('../util/jwt');
 const auth0Uri = findAuth0Uri();
 
 class createUserController extends baseController {
@@ -275,17 +276,13 @@ class createUserController extends baseController {
             step_five: true,
           });
 
-          // create invite token
-          let token = uuidv4();
-          // gets rid of the dashes
-          token = token.replace(/[-]/g, '');
           // add a row in emailToken table
-          await emailTokenModel.query(trx).insert({
+          const [emailToken] = await emailTokenModel.query(trx).insert({
             user_id: lite_farm_user.user_id,
             farm_id: lite_farm_user.farm_id,
-            token,
-            is_used: false,
-          });
+          }).returning('*');
+
+          const token = await createToken('invite', { ...user, ...userFarm, invitation_id: emailToken.invitation_id });
 
           await trx.commit();
           res.status(201).send({ ...user, ...userFarm });

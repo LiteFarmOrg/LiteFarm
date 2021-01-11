@@ -29,8 +29,6 @@ router.post('/', userController.addUser());
 
 router.post('/invite', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
 
-router.get('/invite/validate', checkInviteJwt, userController.validateInviteToken());
-
 router.post('/pseudo', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addPseudoUser());
 
 router.post('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, checkPasswordCreated, userController.acceptInvitationAndPostPassword());

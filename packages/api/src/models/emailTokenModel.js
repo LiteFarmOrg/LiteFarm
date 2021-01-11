@@ -6,7 +6,7 @@ class emailTokenModel extends Model {
   }
 
   static get idColumn() {
-    return  ['user_id', 'farm_id'];
+    return  ['invitation_id'];
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -20,7 +20,7 @@ class emailTokenModel extends Model {
       properties: {
         user_id: {type: 'string'},
         farm_id: {type: 'string'},
-        token: {type: 'string'},
+        invitation_id: {type: 'string'},
         times_sent: {type: 'integer'},
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },

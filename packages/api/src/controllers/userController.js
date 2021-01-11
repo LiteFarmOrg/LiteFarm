@@ -182,22 +182,23 @@ class userController extends baseController {
   }
 
   static async createTokenSendEmail(user, userFarm, farm_name) {
-    const token = await createToken('invite', { ...user, ...userFarm });
+    let token;
     const emailSent = await emailTokenModel.query().where({ user_id: userFarm.user_id, farm_id: userFarm.farm_id }).first();
     if (!emailSent || emailSent.times_sent < 3) {
       const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
       if (timesSent === 1) {
-        await emailTokenModel.query().insert({
+        const emailToken = await emailTokenModel.query().insert({
           user_id: userFarm.user_id,
           farm_id: userFarm.farm_id,
-          token,
           times_sent: timesSent,
-        });
+        }).returning('*');
+        token = await createToken('invite', { ...user, ...userFarm, invitation_id: emailToken.invitation_id })
       } else {
-        await emailTokenModel.query().patch({ times_sent: timesSent }).where({
+        const [emailToken] = await emailTokenModel.query().patch({ times_sent: timesSent }).where({
           user_id: user.user_id,
           farm_id: userFarm.farm_id,
-        });
+        }).returning('*');
+        token = await createToken('invite', { ...user, ...userFarm, invitation_id: emailToken.invitation_id })
       }
       await this.sendTokenEmail(farm_name, user, token);
     }
@@ -209,25 +210,6 @@ class userController extends baseController {
     template_path.subjectReplacements = farm;
     await sendEmailTemplate.sendEmail(template_path, { first_name: user.first_name, farm },
       user.email, sender, `/callback/?invite_token=${token}`);
-  }
-
-  static validateInviteToken() {
-    return async (req, res) => {
-      const { email } = req.user;
-
-      try {
-        const user = await userModel.query().where('email', email).first();
-        console.log(req.user);
-        if (user.status === 2) {
-          res.status(200).send(user);
-        } else {
-          // TODO: send back bad response if user is not invited
-          res.status(200).send(user);
-        }
-      } catch (error) {
-        res.status(400).send(error);
-      }
-    };
   }
 
   static addPseudoUser() {
@@ -472,7 +454,7 @@ class userController extends baseController {
     return async (req, res) => {
       try {
         const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
-        const { user_id, farm_id, email, token } = req.user;
+        const { user_id, farm_id, email } = req.user;
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
         await userModel.transaction(async trx => {

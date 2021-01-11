@@ -19,6 +19,8 @@ const userFarmController = require('../controllers/userFarmController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
 const checkEditPrivilege = require('../middleware/acl/checkEditPrivilege');
+const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
+const checkInvitationAndGoogleJwtContent = require('../middleware/acl/checkInviteAndGoogleJwtContent');
 
 // Get all userFarms for a specified user
 // no permission limits
@@ -47,6 +49,9 @@ router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_
 
 // Update the status on a userFarm
 router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.updateStatus());
+
+// Accept an invitation and validate invitation token
+router.patch('/accept_invitation', checkInvitationTokenContent, checkInvitationAndGoogleJwtContent, userFarmController.acceptInvitation());
 
 // [DEPRECATE] Get specific info related to userFarm
 router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());

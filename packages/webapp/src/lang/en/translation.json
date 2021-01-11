@@ -558,5 +558,11 @@
     "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "YOUR_INFORMATION": "Your information",
     "SAVE": "Save"
+  },
+  "INVITE_SIGN_UP": {
+    "TITLE": "Create your account",
+    "PARAGRAPH": "How do you want to create your new account?",
+    "WITH_GOOGLE": "Sign in with googogogogogogogoogel",
+    "WITH_LITEFARM": "Create a LiteFarm account"
   }
 }

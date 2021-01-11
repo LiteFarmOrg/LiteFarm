@@ -149,9 +149,9 @@ class userController extends baseController {
         const trx = await transaction.start(Model.knex());
         let user;
         if (isUserAlreadyCreated) {
-          user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
-        } else {
           user = isUserAlreadyCreated;
+        } else {
+          user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
         }
         const { user_id } = user;
         const userFarm = await userFarmModel.query(trx).insert({
@@ -220,7 +220,7 @@ class userController extends baseController {
           res.status(200).send(user);
         } else {
           // TODO: send back bad response if user is not invited
-          res.status(200).send(user);
+          res.status(400).send(user);
         }
       } catch (error) {
         res.status(500).send(error);

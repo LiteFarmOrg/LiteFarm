@@ -29,7 +29,7 @@ const validateTokenUrlMap = {
 }
 
 const redirectUrlMap = {
-  'invite': '/invite',
+  'invite': '/invite_sign_up',
   'reset': '/password_reset',
 }
 

@@ -8,7 +8,7 @@ function Callback({ history }) {
   useEffect(() => {
     const params = new URLSearchParams(history.location.search.substring(1));
     const isResetLink = params.has('reset_token');
-    const isInviteLink = params.has('invitation_token');
+    const isInviteLink = params.has('invite_token');
     if (isResetLink) {
       dispatch(validateResetToken({ reset_token: params.get('reset_token') }));
     } else if (isInviteLink) {

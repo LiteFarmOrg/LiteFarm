@@ -14,9 +14,10 @@
  */
 
 const jwt = require('express-jwt');
+const { tokenType } = require('../../../src/util/jwt');
 
 const checkInviteToken = jwt({
-  secret: process.env.JWT_INVITE_SECRET,
+  secret: tokenType.invite,
   algorithms: ['HS256'],
 });
 

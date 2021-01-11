@@ -172,23 +172,7 @@ class userController extends baseController {
         } catch (error) {
           return res.status(500).send(error);
         }
-        const { user_id } = user;
-        const userFarm = await userFarmModel.query(trx).insert({
-          user_id,
-          farm_id,
-          status: 'Invited',
-          consent_version: '1.0',
-          role_id,
-          has_consent: false,
-          wage,
-          step_one: true,
-          step_two: true,
-          step_three: false,
-          step_four: true,
-          step_five: true,
-        });
-        await trx.commit();
-        res.status(201).send({ ...user, ...userFarm });
+      } else {
         try {
           const trx = await transaction.start(Model.knex());
           const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
@@ -214,7 +198,8 @@ class userController extends baseController {
             console.error('Failed to send email', e);
           }
         } catch (e) {
-          console.error('Failed to send email', e)
+          console.error('Failed to send email', e);
+          res.status(500).send(e);
         }
       }
     };

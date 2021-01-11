@@ -107,6 +107,7 @@ import { isAuthenticated } from './util/jwt';
 import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import PasswordResetAccount from './containers/PasswordResetAccount';
+import InviteSignUp from './containers/InviteSignUp';
 import Callback from './containers/Callback';
 
 const Routes = () => {
@@ -390,7 +391,7 @@ const Routes = () => {
     return (
       <Switch>
         <Route path="/callback" component={Callback} />
-        {/* <Route path="/invite" component={InviteAccount} /> */}
+        <Route path="/invite_sign_up" component={InviteSignUp} />
         <Route path="/password_reset" component={PasswordResetAccount} />
         <Route path="/" exact component={CustomSignUp} />
         <Redirect

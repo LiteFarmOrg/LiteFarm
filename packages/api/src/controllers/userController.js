@@ -145,8 +145,8 @@ class userController extends baseController {
         return;
       }
       const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
+      const trx = await transaction.start(Model.knex());
       try {
-        const trx = await transaction.start(Model.knex());
         let user;
         if (!isUserAlreadyCreated) {
           user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
@@ -160,8 +160,8 @@ class userController extends baseController {
           status: 'Invited',
           consent_version: '1.0',
           role_id,
-          has_consent: false,
           wage,
+          has_consent: false,
           step_one: true,
           step_two: true,
           step_three: false,
@@ -173,9 +173,10 @@ class userController extends baseController {
         try {
           await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
         } catch (e) {
-          console.error('Failed to send email', e)
+          console.error('Failed to send email', e);
         }
       } catch (error) {
+        await trx.rollback();
         return res.status(400).send(error);
       }
     };

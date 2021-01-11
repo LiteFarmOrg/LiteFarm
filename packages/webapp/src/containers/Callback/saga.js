@@ -22,11 +22,6 @@ const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const validateInviteTokenUrl = () => `${url}/user/invite/validate`;
 
-const validateTokenUrlMap = {
-  invite: validateInviteTokenUrl,
-  reset: validateResetTokenUrl,
-};
-
 export const validateResetToken = createAction('validateResetTokenSaga');
 
 export function* validateResetTokenSaga({ payload: { reset_token } }) {

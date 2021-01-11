@@ -39,6 +39,4 @@ router.get('/:user_id', isSelf, userController.getUserByID());
 
 router.put('/:user_id', isSelf, userController.updateUser());
 
-
-
 module.exports = router;

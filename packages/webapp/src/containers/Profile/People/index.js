@@ -157,7 +157,7 @@ class People extends Component {
       this.props.dispatch(updateUserFarm(finalUser));
       this.closeEditModal();
     } else {
-      toastr.success("Nothing's changed");
+      toastr.success(this.props.t('message:USER.ERROR.NOTHING_CHANGED'));
       this.closeEditModal();
     }
     // this.props.dispatch(updateUserSaga(user));

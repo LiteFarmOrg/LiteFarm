@@ -142,7 +142,7 @@ describe('Expense Type Tests', () => {
 
       postExpenseTypeRequest(expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(201);
-        const expense_types = await farmExpenseTypeModel.query().where('farm_id', mainFarm.farm_id);
+        const expense_types = await farmExpenseTypeModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
         expect(expense_types.length).toBe(1);
         expect(expense_types[0].value).toBe(expense_type.value);
         done();
@@ -154,7 +154,7 @@ describe('Expense Type Tests', () => {
 
       postExpenseTypeRequest(expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(201);
-        const expense_types = await farmExpenseTypeModel.query().where('farm_id', mainFarm.farm_id);
+        const expense_types = await farmExpenseTypeModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
         expect(expense_types.length).toBe(1);
         expect(expense_types[0].value).toBe(expense_type.value);
         done();
@@ -327,7 +327,7 @@ describe('Expense Type Tests', () => {
 
       deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(200);
-        const [deletedField] = await farmExpenseTypeModel.query().where('expense_type_id', expense.expense_type.expense_type_id);
+        const [deletedField] = await farmExpenseTypeModel.query().context({showHidden: true}).where('expense_type_id', expense.expense_type.expense_type_id);
         expect(deletedField.deleted).toBe(true);
         done();
       });
@@ -338,7 +338,7 @@ describe('Expense Type Tests', () => {
 
       deleteRequest(expense.expense_type, { user_id: user.user_id, farm_id: mainFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(200);
-        const [deletedField] = await farmExpenseTypeModel.query().where('expense_type_id', expense.expense_type.expense_type_id);
+        const [deletedField] = await farmExpenseTypeModel.query().context({showHidden: true}).where('expense_type_id', expense.expense_type.expense_type_id);
         expect(deletedField.deleted).toBe(true);
         done();
       });

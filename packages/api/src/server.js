@@ -60,7 +60,6 @@ const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
-const signUpRoutes = require('./routes/signUpRoute');
 const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
 const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 
@@ -98,7 +97,6 @@ app.use(bodyParser.json())
   .use(router)
   .set('json spaces', 2)
   .use('/stats', statsRoutes)
-  .use('/sign_up', signUpRoutes)
   .use('/login', loginRoutes)
   .use('/password_reset', passwordResetRoutes)
   // ACL middleware

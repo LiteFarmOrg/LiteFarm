@@ -135,7 +135,7 @@ describe('Authorization Tests', () => {
         test('Owner should delete a fertlizer', async (done) => {
           deleteRequest({pesticide_id: pesticide.pesticide_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const pesticideRes = await pesiticideModel.query().where('pesticide_id',pesticide.pesticide_id);
+            const pesticideRes = await pesiticideModel.query().context({showHidden: true}).where('pesticide_id',pesticide.pesticide_id);
             expect(pesticideRes.length).toBe(1);
             expect(pesticideRes[0].deleted).toBe(true);
             done();
@@ -145,7 +145,7 @@ describe('Authorization Tests', () => {
         test('Manager should delete a pesticide', async (done) => {
           deleteRequest({user_id:manager.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const pesticideRes = await pesiticideModel.query().where('pesticide_id',pesticide.pesticide_id);
+            const pesticideRes = await pesiticideModel.query().context({showHidden: true}).where('pesticide_id',pesticide.pesticide_id);
             expect(pesticideRes.length).toBe(1);
             expect(pesticideRes[0].deleted).toBe(true);
             done();
@@ -227,7 +227,7 @@ describe('Authorization Tests', () => {
       test('Owner should post and get a valid crop', async (done) => {
         postRequest(fakepesticide, {}, async (err, res) => {
           expect(res.status).toBe(201);
-          const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
+          const pesticides = await pesiticideModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
           expect(pesticides[0].pesticide_name).toBe(fakepesticide.pesticide_name);
           done();
@@ -237,7 +237,7 @@ describe('Authorization Tests', () => {
       test('Manager should post and get a valid crop', async (done) => {
         postRequest(fakepesticide, {user_id: manager.user_id}, async (err, res) => {
           expect(res.status).toBe(201);
-          const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
+          const pesticides = await pesiticideModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
           expect(pesticides[0].pesticide_name).toBe(fakepesticide.pesticide_name);
           done();
@@ -314,7 +314,7 @@ describe('Authorization Tests', () => {
         let newCrop = {...crop, ...mocks.fakeCrop()}
         putCropRequest(newCrop,{}, async (err, res) => {
           expect(res.status).toBe(200);
-          const cropRes = await cropModel.query().where('crop_id',crop.crop_id).first();
+          const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',crop.crop_id).first();
           expect(cropRes.crop_genus).toBe(newCrop.crop_genus);
           done();
         })
@@ -324,7 +324,7 @@ describe('Authorization Tests', () => {
         let newCrop = {...crop, ...mocks.fakeCrop()}
         putCropRequest(newCrop,{user_id: manager.user_id}, async (err, res) => {
           expect(res.status).toBe(200);
-          const cropRes = await cropModel.query().where('crop_id',crop.crop_id).first();
+          const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',crop.crop_id).first();
           expect(cropRes.crop_genus).toBe(newCrop.crop_genus);
           done();
         })
@@ -334,7 +334,7 @@ describe('Authorization Tests', () => {
         let newCrop = {...crop, ...mocks.fakeCrop()}
         putCropRequest(newCrop,{user_id: newWorker.user_id}, async (err, res) => {
           expect(res.status).toBe(403);
-          const cropRes = await cropModel.query().where('crop_id',crop.crop_id).first();
+          const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',crop.crop_id).first();
           expect(cropRes.crop_genus).toBe(crop.crop_genus);
           done();
         })
@@ -344,7 +344,7 @@ describe('Authorization Tests', () => {
         let newCrop = {...crop, ...mocks.fakeCrop()}
         putCropRequest(newCrop,{user_id: unAuthorizedUser.user_id}, async (err, res) => {
           expect(res.status).toBe(403);
-          const cropRes = await cropModel.query().where('crop_id',crop.crop_id).first();
+          const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',crop.crop_id).first();
           expect(cropRes.crop_genus).toBe(crop.crop_genus);
           done();
         })
@@ -355,7 +355,7 @@ describe('Authorization Tests', () => {
           let newCrop = {...crop, ...mocks.fakeCrop()}
           putCropRequest(newCrop,{user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
             expect(res.status).toBe(403);
-            const cropRes = await cropModel.query().where('crop_id',crop.crop_id).first();
+            const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',crop.crop_id).first();
             expect(cropRes.crop_genus).toBe(crop.crop_genus);
             done();
           })
@@ -365,7 +365,7 @@ describe('Authorization Tests', () => {
           let newCrop = {...crop, ...mocks.fakeCrop(), farm_id: farmunAuthorizedUser.farm_id}
           putCropRequest(newCrop,{user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
             expect(res.status).toBe(403);
-            const cropRes = await cropModel.query().where('crop_id',newCrop.crop_id).first();
+            const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',newCrop.crop_id).first();
             expect(cropRes.farm_id).toBe(crop.farm_id);
             done();
           })
@@ -377,7 +377,7 @@ describe('Authorization Tests', () => {
           let newCrop = {...cropUnauthorizedUser, ...mocks.fakeCrop(), farm_id: farm.farm_id}
           putCropRequest(newCrop,{user_id: unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id}, async (err, res) => {
             // expect(res.status).toBe(403);
-            const cropRes = await cropModel.query().where('crop_id',cropUnauthorizedUser.crop_id).first();
+            const cropRes = await cropModel.query().context({showHidden: true}).where('crop_id',cropUnauthorizedUser.crop_id).first();
             expect(cropRes.farm_id).toBe(cropUnauthorizedUser.farm_id);
             done();
           })

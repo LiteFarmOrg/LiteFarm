@@ -137,7 +137,7 @@ describe('Expense Tests', () => {
 
       postExpenseRequest(expensesArray, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(201);
-        const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
+        const expenses = await farmExpenseModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
         expect(expenses.length).toBe(1);
         expect(expenses[0].value).toBe(expense.value);
         done();
@@ -154,7 +154,7 @@ describe('Expense Tests', () => {
 
       postExpenseRequest(expensesArray, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(201);
-        const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
+        const expenses = await farmExpenseModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
         expect(expenses.length).toBe(1);
         expect(expenses[0].value).toBe(expense.value);
         done();
@@ -171,7 +171,7 @@ describe('Expense Tests', () => {
 
       postExpenseRequest(expensesArray, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(201);
-        const expenses = await farmExpenseModel.query().where('farm_id', mainFarm.farm_id);
+        const expenses = await farmExpenseModel.query().context({showHidden: true}).where('farm_id', mainFarm.farm_id);
         expect(expenses.length).toBe(1);
         expect(expenses[0].value).toBe(expense.value);
         done();
@@ -254,7 +254,7 @@ describe('Expense Tests', () => {
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
-        const [deletedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        const [deletedField] = await farmExpenseModel.query().context({showHidden: true}).where('farm_expense_id', expense.farm_expense_id);
         expect(deletedField.deleted).toBe(true);
         done();
       });
@@ -265,7 +265,7 @@ describe('Expense Tests', () => {
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
-        const [deletedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        const [deletedField] = await farmExpenseModel.query().context({showHidden: true}).where('farm_expense_id', expense.farm_expense_id);
         expect(deletedField.deleted).toBe(true);
         done();
       });

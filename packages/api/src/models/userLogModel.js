@@ -49,6 +49,7 @@ class userLogModel extends Model{
         created_at: { type: 'date-time' },
         screen_width: { type: 'number' },
         screen_height: { type: 'number' },
+        reason_for_failure: { type: 'string'},
       },
       additionalProperties: false,
     };

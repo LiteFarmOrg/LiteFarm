@@ -180,7 +180,7 @@ class EditField extends Component {
   changeFieldName = () => {
     let { selectedField, field_name } = this.state;
     if (field_name === '' || !field_name) {
-      toastr.error('Field name cannot be empty');
+      toastr.error(this.props.t('message:FIELD.ERROR.EMPTY_NAME'));
       return;
     }
     this.props.dispatch(putField({ ...selectedField, field_name }));

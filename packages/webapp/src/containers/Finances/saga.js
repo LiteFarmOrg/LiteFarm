@@ -79,7 +79,7 @@ export function* updateSaleSaga(action) {
   try {
     const result = yield call(axios.patch, salesURL, action.sale, header);
     if (result) {
-      toastr.success(`Successfully updated sale!`);
+      toastr.success(this.props.t('message:SALE.SUCCESS.UPDATE'));
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);
       if (result) {
         yield put(setSalesInState(result.data));
@@ -87,7 +87,7 @@ export function* updateSaleSaga(action) {
     }
   } catch (e) {
     console.log(`failed to update sale`);
-    toastr.error(`Failed to update  Sale`);
+    toastr.error(this.props.t('message:SALE.ERROR.UPDATE'));
   }
 }
 
@@ -103,11 +103,11 @@ export function* deleteSale(action) {
       if (result) {
         yield put(setSalesInState(result.data));
       }
-      toastr.success(`Successfully deleted Sale!`);
+      toastr.success(this.props.t('message:SALE.SUCCESS.DELETE'));
     }
   } catch (e) {
     console.log(`failed to delete sale`);
-    toastr.error(`Failed to delete new Sale`);
+    toastr.error(this.props.t('message:SALE.ERROR.DELETE'));
   }
 }
 
@@ -167,14 +167,14 @@ export function* addExpensesSaga(action) {
   try {
     const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
     if (result) {
-      toastr.success(`Successfully added new expenses!`);
+      toastr.success(this.props.t('message:EXPENSE.SUCCESS.ADD'));
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
   } catch (e) {
-    toastr.error(`Failed to add new expenses`);
+    toastr.error(this.props.t('message:EXPENSE.ERROR.ADD'));
   }
 }
 
@@ -186,14 +186,15 @@ export function* deleteExpensesSaga(action) {
   try {
     const result = yield call(axios.put, expenseUrl, action.ids, header);
     if (result) {
-      toastr.success(`Successfully deleted expenses!`);
+      toastr.success(this.props.t('message:EXPENSE.SUCCESS.DELETE'));
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
   } catch (e) {
-    toastr.error(`Failed to delete expenses`);
+    toastr.success();
+    toastr.error(this.props.t('message:EXPENSE.ERROR.DELETE'));
   }
 }
 
@@ -209,7 +210,7 @@ export function* addRemoveExpenseSaga(action) {
     if (result) {
       result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
       if (result) {
-        toastr.success(`Successfully updated expenses!`);
+        toastr.success(this.props.t('message:EXPENSE.SUCCESS.UPDATE'));
         const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
         if (result) {
           yield put(setExpense(result.data));
@@ -217,7 +218,7 @@ export function* addRemoveExpenseSaga(action) {
       }
     }
   } catch (e) {
-    toastr.error(`Failed to update expenses`);
+    toastr.error(this.props.t('message:EXPENSE.ERROR.UPDATE'));
   }
 }
 

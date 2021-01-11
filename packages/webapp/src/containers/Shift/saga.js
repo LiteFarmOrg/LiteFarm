@@ -86,11 +86,10 @@ export function* addShift(action) {
     );
     if (result) {
       history.push('/shift');
-      toastr.success('Successfully added new shift!');
+      toastr.success(this.props.t('message:SHIFT.SUCCESS.ADD'));
     }
   } catch (e) {
-    console.log('failed to add shift');
-    toastr.error('Failed to add new shift');
+    toastr.error(this.props.t('message:SHIFT.ERROR.ADD'));
   }
 }
 
@@ -104,11 +103,11 @@ export function* addMultiShiftSaga(action) {
     const result = yield call(axios.post, shiftUrl + '/multi', shiftObj, header);
     if (result) {
       history.push('/shift');
-      toastr.success('Successfully added new shift!');
+      toastr.success(this.props.t('message:SHIFT.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add shift');
-    toastr.error('Failed to add new shift');
+    toastr.error(this.props.t('message:SHIFT.ERROR.ADD'));
   }
 }
 
@@ -184,11 +183,11 @@ export function* deleteShiftSaga(action) {
   try {
     const result = yield call(axios.delete, shiftUrl + '/' + shiftId, header);
     if (result) {
-      toastr.success('Deleted shift!');
+      toastr.success(this.props.t('message:SHIFT.SUCCESS.DELETE'));
       history.push('/shift');
     }
   } catch (e) {
-    toastr.error('Failed to delete the shift :(');
+    toastr.error(this.props.t('message:SHIFT.ERROR.DELETE'));
   }
 }
 
@@ -208,12 +207,12 @@ export function* updateShiftSaga(action) {
       header,
     );
     if (result) {
-      toastr.success('Successfully updated shift!');
+      toastr.success(this.props.t('message:SHIFT.SUCCESS.UPDATE'));
       history.push('/shift');
     }
   } catch (e) {
     console.log('failed to add shift');
-    toastr.error('Failed to update shift');
+    toastr.error(this.props.t('message:SHIFT.ERROR.UPDATE'));
   }
 }
 

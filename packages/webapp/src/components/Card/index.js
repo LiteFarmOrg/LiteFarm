@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 
 const Card = ({ color = 'primary', children = 'card', onClick, isButton, ...props }) => {
   return (
-    <div className={clsx(styles.container, styles[color], isButton && styles.btn)} {...props}>
+    <div
+      className={clsx(styles.container, styles[color], isButton && styles.btn)}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </div>
   );

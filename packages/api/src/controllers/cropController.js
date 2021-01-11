@@ -42,9 +42,9 @@ class cropController extends baseController {
             error,
             violationError,
           });
-          
+
         }
-        
+
         //handle more exceptions
         else {
           await trx.rollback();
@@ -53,7 +53,7 @@ class cropController extends baseController {
             violationError,
           });
         }
-        
+
       }
     };
   }

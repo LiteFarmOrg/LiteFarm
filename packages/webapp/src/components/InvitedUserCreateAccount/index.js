@@ -93,7 +93,7 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1800, max: new Date().getFullYear() })}
+        inputRef={register({ min: 1900, max: new Date().getFullYear() })}
         name={BIRTHYEAR}
         toolTipContent={t('INVITATION.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}

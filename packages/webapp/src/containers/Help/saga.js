@@ -39,10 +39,10 @@ export function* supportFileUploadSaga({ payload: { file, form } }) {
       yield put(postHelpRequestSuccess());
       history.push('/');
     } else {
-      toastr.error('Failed to upload attachments');
+      toastr.error(this.props.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     }
   } catch (e) {
-    toastr.error('Failed to upload attachments');
+    toastr.error(this.props.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     console.log(e);
   }
 }

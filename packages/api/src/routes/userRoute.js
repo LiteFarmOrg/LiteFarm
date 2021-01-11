@@ -19,18 +19,28 @@ const userController = require('../controllers/userController');
 const checkScope = require('../middleware/acl/checkScope');
 const isSelf = require('../middleware/acl/isSelf');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const checkInviteJwt = require('../middleware/acl/checkInviteToken');
-
-router.get('/:user_id', isSelf, userController.getUserByID());
+const checkInviteToken = require('../middleware/acl/checkInviteToken');
+const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
+const checkInvitationAndGoogleJwtContent = require('../middleware/acl/checkInviteAndGoogleJwtContent');
+const checkPasswordCreated = require('../middleware/acl/checkPasswordCreated');
+const checkGoogleJwt = require('../middleware/acl/checkGoogleJwt');
 
 router.post('/', userController.addUser());
 
 router.post('/invite', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addInvitedUser());
 
-router.get('/invite/validate', checkInviteJwt, userController.validateInviteToken());
+router.get('/invite/validate', checkInviteToken, userController.validateInviteToken());
 
 router.post('/pseudo', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:users']), userController.addPseudoUser());
 
+router.post('/accept_invitation', checkInviteToken, checkInvitationTokenContent, checkPasswordCreated, userController.acceptInvitationAndPostPassword());
+
+router.put('/accept_invitation', checkGoogleJwt, checkInvitationAndGoogleJwtContent, checkPasswordCreated, userController.acceptInvitationWithGoogleAccount());
+
+router.get('/:user_id', isSelf, userController.getUserByID());
+
 router.put('/:user_id', isSelf, userController.updateUser());
+
+
 
 module.exports = router;

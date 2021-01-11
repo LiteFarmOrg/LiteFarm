@@ -48,9 +48,30 @@ export function* resetPasswordSaga({ payload: { token, password, onPasswordReset
     yield put(loginSuccess({ user_id }));
     onPasswordResetSuccess();
   } catch (e) {
-    toastr.error('Error in reset password page, please contact LiteFarm for assistance.');
+    toastr.error(this.props.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
   }
 }
+
+// export const validateToken = createAction('validateTokenSaga');
+
+// export function* validateTokenSaga({ payload: { token, setIsValid } }) {
+//   // call validation endpoint with token
+//   // if this is successful we proceed to PasswordResetAccount
+//   // otherwise we want to go with another component to show error. < -- view is not designed.
+//   // FOR NOW: move to main page
+//   try {
+//     const result = yield call(axios.get, validateTokenUrl(), {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     setIsValid(true);
+//   } catch (e) {
+//     setIsValid(false);
+//     history.push('/');
+//     toastr.error(this.props.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
+//   }
+// }
 
 export default function* resetUserPasswordSaga() {
   yield takeLatest(resetPassword.type, resetPasswordSaga);

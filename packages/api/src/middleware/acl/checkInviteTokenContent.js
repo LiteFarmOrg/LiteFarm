@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (checkJwt.js) is part of LiteFarm.
+ *  This file (authFarmId.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,19 +13,14 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+const userFarmModel = require('../../models/userFarmModel');
 
+async function checkInvitationTokenContent(req, res, next) {
+  const { status } = await userFarmModel.query().where({ user_id: req.user.user_id, farm_id: req.user.farm_id }).first();
+  if (status !== 'Invited') {
+    return res.status(401).send('Invitation link is used');
+  }
+  return next();
+}
 
-const checkJwt = jwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ['HS256'],
-}).unless({
-  path: [
-    '/user',
-    '/login',
-    '/password_reset',
-    '/user/accept_invitation',
-  ],
-});
-
-module.exports = checkJwt;
+module.exports = checkInvitationTokenContent;

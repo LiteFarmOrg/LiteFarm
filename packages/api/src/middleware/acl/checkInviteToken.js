@@ -15,9 +15,9 @@
 
 const jwt = require('express-jwt');
 
-const checkInviteJwt = jwt({
+const checkInviteToken = jwt({
   secret: process.env.JWT_INVITE_SECRET,
   algorithms: ['HS256'],
 });
 
-module.exports = checkInviteJwt;
+module.exports = checkInviteToken;

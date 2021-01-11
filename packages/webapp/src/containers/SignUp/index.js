@@ -135,7 +135,7 @@ class SignUp extends React.Component {
       if (error.response) {
         console.error(error.response.data);
       } else {
-        toastr.error('Token verification failed');
+        toastr.error(this.props.t('message:TOKEN.ERROR.VERIFICATION'));
       }
     }
   }
@@ -170,7 +170,7 @@ class SignUp extends React.Component {
       if (error.response) {
         toastr.error(error.response.data);
       } else {
-        toastr.error('Failed to sign up');
+        toastr.error(this.props.t('message:USER.ERROR.SIGNUP'));
       }
     }
   };

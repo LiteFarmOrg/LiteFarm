@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import PureInviteSignUp from '../../components/InviteSignUp';
+import PureInviteSignup from '../../components/InviteSignup';
 // import { resetPassword } from './saga';
 import jwt from 'jsonwebtoken';
 // import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
@@ -61,7 +61,7 @@ function InviteSignUp({ history }) {
     <>
       {/* {token && <PureInviteSignUp email={email} update={onSubmit} />} */}
       {/* <PureInviteSignUp email={email} update={onSubmit} /> */}
-      <PureInviteSignUp onProceed={onProceed} disabled={true} />
+      <PureInviteSignup onProceed={onProceed} disabled={true} />
     </>
   );
 }

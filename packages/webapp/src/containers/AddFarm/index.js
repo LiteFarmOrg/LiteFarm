@@ -13,13 +13,14 @@ const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 const errorMessage = {
   required: 'Address is required',
   placeSelected: 'Please enter a valid address or coordinate',
-  countryFound: 'No country was found for given coordinates: Please enter working coordinates',
+  countryFound: 'Invalid farm location',
+  noAddress: 'No location found! Try latitude and longitude'
 };
 
 const AddFarm = () => {
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
-  const { register, handleSubmit, getValues, setValue, errors } = useForm();
+  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const [isGettingLocation, setIsGettingLocation] = useState(false);
@@ -41,6 +42,12 @@ const AddFarm = () => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
   }, []);
+
+  useEffect(() => {
+    if(Object.keys(gridPoints)) {
+      clearErrors(ADDRESS);
+    }
+  }, [gridPoints])
 
   const onSubmit = (data) => {
     const farmInfo = {
@@ -88,6 +95,7 @@ const AddFarm = () => {
         console.error(
           'Error getting geocoding results, or no country was found at given coordinates',
         );
+        setError(ADDRESS, { type: 'countryFound' });
         setCountry('');
       }
       callback();
@@ -142,6 +150,9 @@ const AddFarm = () => {
       let lat = coords[0];
       let lng = coords[1];
       if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+        setError(ADDRESS, {
+          type: 'placeSelected'
+        });
         clearState();
         return;
       }
@@ -204,10 +215,13 @@ const AddFarm = () => {
             inputRef: ref1,
             id: 'autocomplete',
             name: ADDRESS,
+            clearErrors,
             errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
             onBlur: handleBlur,
           },
         ]}
+        gridPoints={gridPoints}
+        isGettingLocation={isGettingLocation}
       />
     </>
   );

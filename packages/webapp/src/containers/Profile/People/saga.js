@@ -13,6 +13,7 @@ import {
 } from '../../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { onLoadingRolesStart, onLoadingRolesFail, getRolesSuccess } from './slice';
+import i18n from "../../../lang/i18n";
 
 const axios = require('axios');
 
@@ -46,12 +47,12 @@ export function* addUserSaga({ payload: user }) {
     //TODO post should return id. Remove nested saga call.
 
     yield put(postUserSuccess(result.data));
-    toastr.success(this.props.t('message:USER.SUCCESS.ADD'));
+    toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
   } catch (err) {
     //console.log(err.response.status);
     if (err.response.status === 409) {
-      toastr.error(this.props.t('message:USER.ERROR.EXISTS'));
-    } else toastr.error(this.props.t('message:USER.ERROR.ADD'));
+      toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
+    } else toastr.error(i18n.t('message:USER.ERROR.ADD'));
   }
 }
 
@@ -66,10 +67,10 @@ export function* addPseudoWorkerSaga({ payload: user }) {
   try {
     const result = yield call(axios.post, pseudoUserUrl, user, header);
     yield put(postUserSuccess(result.data));
-    toastr.success(this.props.t('message:USER.SUCCESS.ADD'));
+    toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
   } catch (err) {
     console.error(err);
-    toastr.error(this.props.t('message:USER.ERROR.ADD'));
+    toastr.error(i18n.t('message:USER.ERROR.ADD'));
   }
 }
 
@@ -91,9 +92,9 @@ export function* deactivateUserSaga({ payload: target_user_id }) {
       header,
     );
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
-    toastr.success(this.props.t('message:USER.SUCCESS.REVOKE'));
+    toastr.success(i18n.t('message:USER.SUCCESS.REVOKE'));
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.REVOKE'));
+    toastr.error(i18n.t('message:USER.ERROR.REVOKE'));
   }
 }
 
@@ -116,9 +117,9 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
       header,
     );
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
-    toastr.success(this.props.t('message:USER.SUCCESS.RESTORE'));
+    toastr.success(i18n.t('message:USER.SUCCESS.RESTORE'));
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.RESTORE'));
+    toastr.error(i18n.t('message:USER.ERROR.RESTORE'));
   }
 }
 
@@ -137,9 +138,9 @@ export function* updateUserFarmSaga({ payload: user }) {
       header,
     );
     yield put(putUserSuccess({ ...user, farm_id, user_id: target_user_id }));
-    toastr.success(this.props.t('message:USER.SUCCESS.UPDATE'));
+    toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.UPDATE'));
+    toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
     console.error(e);
   }
 }

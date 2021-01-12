@@ -22,12 +22,14 @@ const Input = ({
   isSearchBar,
   type = 'text',
   toolTipContent,
+  clearErrors = () => {},
   ...props
 }) => {
   const input = useRef();
   const onClear = () => {
     if (input.current && input.current.value) {
       input.current.value = '';
+      clearErrors(props.name);
       setShowError(false);
     }
   };
@@ -93,6 +95,7 @@ Input.propTypes = {
   optional: PropTypes.bool,
   info: PropTypes.string,
   errors: PropTypes.string,
+  clearErrors: PropTypes.func,
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,

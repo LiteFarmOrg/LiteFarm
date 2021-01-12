@@ -6,6 +6,7 @@ import Input from '../Form/Input';
 import React from 'react';
 import Footer from '../Footer';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 const inputClasses = {
   container: {
@@ -19,12 +20,23 @@ export default function PureCustomSignUp({
   disabled,
   GoogleLoginButton,
   classes,
+  isChrome,
 }) {
+  const { t } = useTranslation();
+  const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
+  const wrongBrowserBottom = t('SIGNUP.WRONG_BROWSER_BOTTOM');
   return (
     <form onSubmit={onSubmit} className={styles.home} style={classes.form}>
       <div className={styles.lander}>
         <div className={styles.greetContainer}>
           <Logo />
+          {!isChrome && (
+            <div className={styles.otherBrowserMessageTop}>
+              {wrongBrowserTop}
+              <div className={styles.otherBrowserMessageBottom}>{wrongBrowserBottom}</div>
+            </div>
+          )}
+
           <div className={styles.ssoButton}>{GoogleLoginButton}</div>
           <div className={styles.lineBreak}>
             <LineBreak />

@@ -533,7 +533,9 @@
     "PLEASE_SIGNUP": "Please, sign up.",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
-    "TITLE": "Sign Up"
+    "TITLE": "Sign Up",
+    "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
+    "WRONG_BROWSER_BOTTOM": "Please %{href}."
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

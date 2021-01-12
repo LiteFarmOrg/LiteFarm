@@ -13,7 +13,8 @@ const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 const errorMessage = {
   required: 'Address is required',
   placeSelected: 'Please enter a valid address or coordinate',
-  countryFound: 'No country was found for given coordinates: Please enter working coordinates',
+  countryFound: 'Invalid farm location',
+  noAddress: 'No location found! Try latitude and longitude'
 };
 
 const AddFarm = () => {
@@ -88,6 +89,7 @@ const AddFarm = () => {
         console.error(
           'Error getting geocoding results, or no country was found at given coordinates',
         );
+        setError(ADDRESS, { type: 'countryFound' });
         setCountry('');
       }
       callback();
@@ -144,7 +146,7 @@ const AddFarm = () => {
       if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
         setError(ADDRESS, {
           type: 'placeSelected'
-        })
+        });
         clearState();
         return;
       }
@@ -210,6 +212,7 @@ const AddFarm = () => {
             clearErrors,
             errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
             onBlur: handleBlur,
+            onFocus: () => clearErrors(ADDRESS)
           },
         ]}
         gridPoints={gridPoints}

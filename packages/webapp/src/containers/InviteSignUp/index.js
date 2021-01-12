@@ -1,67 +1,97 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PureInviteSignup from '../../components/InviteSignup';
-// import { resetPassword } from './saga';
 import jwt from 'jsonwebtoken';
-// import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
 import { useTranslation } from 'react-i18next';
+import GoogleLogin from 'react-google-login';
+
+import { inviteSelector } from '../InvitedUserCreateAccount/inviteSignUpSlice';
+import Button from '../../components/Form/Button';
 
 function InviteSignUp({ history }) {
   const dispatch = useDispatch();
-  const { token } = history.location;
-  const [email, setEmail] = useState('');
-  // const [showModal, setShowModal] = useState(false);
-  const { i18n } = useTranslation();
-  // const onSubmit = (data) => {
-  //   const { password } = data;
-  //   dispatch(resetPassword({ token, password, onPasswordResetSuccess }));
-  // };
-  const onProceed = () => {
-    console.log('onProceed clicked');
-  };
+  const invite_token = history.location.state;
+  // const { email, showError } = useSelector(inviteSelector);
+  const GOOGLE = 1;
+  const LITEFARM = 2;
+  const [selectedKey, setSelectedKey] = useState(0);
+  const { i18n, t } = useTranslation();
+  const [email, setEmail] = useState();
+  const [showError, setShowError] = useState();
 
   useEffect(() => {
-    if (!token) {
-      // history.push('/');
+    if (!invite_token) {
+      history.push('/');
     } else {
-      setEmail(getEmailFromToken(token));
+      const { email } = getTokenContent(invite_token);
+      setEmail(email);
     }
   }, []);
 
-  function getEmailFromToken(token) {
+  function getTokenContent(token) {
     const decoded = jwt.decode(token);
-    if (localStorage.getItem('litefarm_lang') !== decoded.language_preference) {
-      localStorage.setItem('litefarm_lang', decoded.language_preference);
-      i18n.changeLanguage(localStorage.getItem('litefarm_lang'));
-    }
-    return decoded.email;
+    return decoded;
   }
 
-  //   const [hasTimeoutStarted, setHasTimeoutStarted] = useState(false);
-  //   const onPasswordResetSuccess = () => {
-  //     setShowModal(true);
-  //     setHasTimeoutStarted(true);
-  //   };
-  // useEffect(() => {
-  //   let timeout;
-  //   if (hasTimeoutStarted) {
-  //     timeout = setTimeout(() => {
-  //       history.push('/farm_selection');
-  //     }, 10000);
-  //   }
-  //   return () => clearTimeout(timeout);
-  // }, [hasTimeoutStarted]);
+  const onClick = (selectedKey) => {
+    setSelectedKey(selectedKey);
+  };
 
-  //   const modalOnClick = () => {
-  //     history.push('/farm_selection');
-  //     setShowModal(false);
-  //   };
+  const onSuccessGoogle = (res) => {
+    if (res.profileObj.email === email) {
+      history.push('/accept_invitation/create_account', {
+        email,
+        google_id_token: res.tokenObj.id_token,
+        invite_token,
+        name: res.profileObj.name,
+      });
+    } else {
+      setShowError(true);
+    }
+  };
+  const onFailureGoogle = (res) => {
+    console.log(res);
+  };
+  const onClickGoogle = (renderProps) => () => {
+    if (selectedKey === GOOGLE) {
+      renderProps.onClick();
+    } else {
+      const { email, first_name, last_name } = getTokenContent(invite_token);
+      history.push('/accept_invitation/create_account', {
+        invite_token,
+        email,
+        name: `${first_name} ${last_name}`,
+      });
+    }
+  };
+  const clientId = process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID;
 
   return (
     <>
-      {/* {token && <PureInviteSignUp email={email} update={onSubmit} />} */}
-      {/* <PureInviteSignUp email={email} update={onSubmit} /> */}
-      <PureInviteSignup onProceed={onProceed} disabled={true} />
+      <PureInviteSignup
+        googleButton={
+          <GoogleLogin
+            render={(renderProps) => (
+              <Button
+                onClick={onClickGoogle(renderProps)}
+                disabled={(selectedKey === GOOGLE && renderProps.disabled) || !selectedKey}
+                fullLength
+              >
+                {t('common:PROCEED')}
+              </Button>
+            )}
+            onSuccess={onSuccessGoogle}
+            onFailure={onFailureGoogle}
+            clientId={clientId}
+          >
+            {t('SIGNUP.GOOGLE_BUTTON')}
+          </GoogleLogin>
+        }
+        showError={showError}
+        selectedKey={selectedKey}
+        email={email}
+        onClick={onClick}
+      />
     </>
   );
 }

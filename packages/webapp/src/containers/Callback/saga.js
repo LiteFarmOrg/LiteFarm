@@ -18,10 +18,11 @@ import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess } from '../userFarmSlice';
+import { purgeState } from '../../index';
 
 const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
-const patchUserFarmStatusUrl = () => `${url}/userFarm/accept_invitation`;
+const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
 
 export const validateResetToken = createAction('validateResetTokenSaga');
 
@@ -40,32 +41,33 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
 
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
-export function* patchUserFarmStatusSaga({ payload: { invitation_token } }) {
+export function* patchUserFarmStatusSaga({ payload: invite_token }) {
   // call validation endpoint with token
   // if this is successful we proceed to PasswordResetAccount
   // otherwise we want to go with another component to show error. < -- view is not designed.
   // FOR NOW: move to main page
   try {
-    const language_preference = localStorage.getItem('language_preference');
+    const language_preference = localStorage.getItem('litefarm_lang');
     const result = yield call(
       axios.patch,
       patchUserFarmStatusUrl(),
       { language_preference },
       {
         headers: {
-          Authorization: `Bearer ${invitation_token}`,
+          Authorization: `Bearer ${invite_token}`,
         },
       },
     );
     const { user, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
+    purgeState();
     yield put(acceptInvitationSuccess(user));
-    history.push('/farm_selection', user);
+    history.push('/consent');
   } catch (e) {
-    console.log(e);
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
-      history.push('/invite_sign_up', invitation_token);
+      console.log(e);
+      history.push('/accept_invitation/sign_up', invite_token);
     } else {
       history.push('/expired', 'INVITATION');
     }

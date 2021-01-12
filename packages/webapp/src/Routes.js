@@ -109,7 +109,9 @@ import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import PasswordResetAccount from './containers/PasswordResetAccount';
 import InviteSignUp from './containers/InviteSignUp';
+import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
 import Callback from './containers/Callback';
+import { invitationSelector } from './containers/InvitedUserCreateAccount/invitationSlice';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -119,9 +121,11 @@ const Routes = () => {
       pre.has_consent === next.has_consent &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&
-      pre.farm_id === next.farm_id,
+      pre.farm_id === next.farm_id &&
+      pre.step_three === next.step_three,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id } = userFarm;
+  const isOnInvitationFlow = useSelector(invitationSelector);
+  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
   const isUserInvited = !step_one;
   const hasFinishedOnBoardingFlow = step_five;
@@ -130,16 +134,21 @@ const Routes = () => {
     // TODO check every step
     if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
       return <OnboardingFlow {...userFarm} />;
-    } else if (status === 'Invited') {
+    } else if (isOnInvitationFlow) {
       return (
         <Switch>
-          <Route path="/farm_selection" exact component={ChooseFarm} />
           <Route
             path="/consent"
             exact
-            component={() => <ConsentForm goForwardTo={'outro'} goBackTo={null} />}
-            //TODO add new consent form and allow users to withdraw consent
+            component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
           />
+          {has_consent && (
+            <Route
+              path="/consent"
+              exact
+              component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
+            />
+          )}
           {!has_consent && <Redirect to={'/consent'} />}
         </Switch>
       );
@@ -392,7 +401,8 @@ const Routes = () => {
     return (
       <Switch>
         <Route path="/callback" component={Callback} />
-        <Route path="/invite_sign_up" component={InviteSignUp} />
+        <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+        <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
         <Route path="/password_reset" component={PasswordResetAccount} />
         <Route path={'/expired'} component={ExpiredTokenScreen} />
         <Route path="/" exact component={CustomSignUp} />

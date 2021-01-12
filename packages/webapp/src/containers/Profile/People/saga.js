@@ -28,7 +28,7 @@ export function* getAllUserFarmsByFarmIDSaga() {
     const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id, header);
     yield put(getUserFarmsSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingUserFarmsFail());
+    yield put(onLoadingUserFarmsFail(e));
     console.log('failed to fetch users from database');
   }
 }

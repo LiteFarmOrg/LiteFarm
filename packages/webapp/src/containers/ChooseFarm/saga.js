@@ -37,7 +37,7 @@ export function* getUserFarmsSaga() {
     const result = yield call(axios.get, userFarmUrl + '/user/' + user_id, header);
     yield put(getUserFarmsSuccess(result.data));
   } catch (error) {
-    yield put(onLoadingUserFarmsFail({ error }));
+    yield put(onLoadingUserFarmsFail(error));
     console.log('failed to fetch task types from database');
   }
 }

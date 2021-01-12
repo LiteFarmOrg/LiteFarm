@@ -5,7 +5,7 @@ export function onLoadingStart(state) {
   state.loading = true;
 }
 
-export function onLoadingFail(state, { payload: { error } }) {
+export function onLoadingFail(state, { payload: error }) {
   state.loading = false;
   state.error = error;
   state.loaded = true;
@@ -133,7 +133,11 @@ const userFarmSlice = createSlice({
       const { farm_id, user_id } = farm;
       Object.assign(state.byFarmIdUserId[farm_id][user_id], farm);
     },
-    acceptInvitationSuccess: addUserFarm,
+    acceptInvitationSuccess: (state, { payload: userFarm }) => {
+      addUserFarm(state, { payload: userFarm });
+      state.user_id = userFarm.user_id;
+      state.farm_id = userFarm.farm_id;
+    },
   },
 });
 

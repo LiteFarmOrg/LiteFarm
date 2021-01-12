@@ -25,7 +25,7 @@ SSO.args = {
   onSubmit: (data) => console.log(data),
   email: 'example@gmail.com',
   name: 'liteFarm',
-  title: 'Create your account',
+  title: 'Your information',
   buttonText: 'Save',
 };
 

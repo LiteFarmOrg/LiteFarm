@@ -468,11 +468,12 @@ class userFarmController extends baseController {
 
   static acceptInvitation() {
     return async (req, res) => {
+      let result;
       const { user_id, farm_id, invitation_id, email } = req.user;
       const { language_preference } = req.body;
       const user = await userModel.query().findById(user_id).patch({ language_preference }).returning('*');
       const passwordRow = await passwordModel.query().findById(user_id);
-      if (passwordRow || user.status !== 2) {
+      if (!passwordRow || user.status === 2) {
         return res.status(404).send('User does not exist');
       }
       const userFarm = await userFarmModel.query().where({
@@ -480,19 +481,23 @@ class userFarmController extends baseController {
         farm_id,
       }).patch({ status: 'Active' }).returning('*');
       try {
-        const result = await userFarmModel.query().withGraphFetched('[role, farm]').where({ farm_id, user_id });
-        const [{
+        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
+        const {
           farm: { farm_name },
           role: { role },
-        }] = result;
+        } = result;
         const replacements = { first_name: user.first_name, farm: farm_name, role };
         const sender = 'system@litefarm.org';
         await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
       } catch (e) {
         console.log(e);
       }
+      result = {  ...result.user, ...result, ...result.role, ...result.farm };
+      delete result.farm;
+      delete result.user;
+      delete result.role;
       const id_token = await createToken('access', { user_id });
-      return res.status(200).send({ id_token, user: { ...user, ...userFarm } });
+      return res.status(200).send({ id_token, user: result });
     };
   }
 

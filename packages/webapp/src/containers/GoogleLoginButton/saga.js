@@ -33,7 +33,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       history.push('/farm_selection');
     }
   } catch (e) {
-    yield put(onLoadingUserFarmsFail());
+    yield put(onLoadingUserFarmsFail(e));
     toastr.error(this.props.t('message:LOGIN.ERROR.LOGIN_FAIL'));
   }
 }

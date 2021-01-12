@@ -100,7 +100,7 @@ export const fieldCropsSelector = createSelector(
   [fieldCropSelectors.selectAll, fieldEntitiesSelector, cropEntitiesSelector, loginSelector],
   (fieldCrops, fieldEntities, cropEntities, { farm_id }) => {
     const fieldCropsOfCurrentFarm = fieldCrops.filter(
-      (fieldCrop) => fieldEntities[fieldCrop.field_id].farm_id === farm_id,
+      (fieldCrop) => fieldEntities[fieldCrop.field_id]?.farm_id === farm_id,
     );
     return fieldCropsOfCurrentFarm.map((fieldCrop) => ({
       ...cropEntities[fieldCrop.crop_id],

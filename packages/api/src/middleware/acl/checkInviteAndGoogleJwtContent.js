@@ -20,7 +20,7 @@ const emailTokenModel = require('../../models/emailTokenModel');
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;
   try {
-    invitation_token_content = jsonwebtoken.verify(req.body.invitation_token, process.env.JWT_INVITE_SECRET);
+    invitation_token_content = jsonwebtoken.verify(req.body.invite_token, process.env.JWT_INVITE_SECRET);
   } catch (error) {
     return res.status(401).send('Invitation link expired');
   }

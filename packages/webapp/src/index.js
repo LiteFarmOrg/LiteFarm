@@ -52,6 +52,7 @@ import { unregister } from './registerServiceWorker';
 import loginSaga from './containers/GoogleLoginButton/saga';
 import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
+import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 
 // config for redux-persist
 const persistConfig = {
@@ -117,6 +118,7 @@ sagaMiddleware.run(editFieldSaga);
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
+sagaMiddleware.run(inviteSaga);
 
 const persistor = persistStore(store);
 

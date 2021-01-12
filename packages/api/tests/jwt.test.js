@@ -329,7 +329,7 @@ describe('JWT Tests', () => {
     function putAcceptInvitationWithGoogleAccountRequest(invitationToken, callback) {
       delete reqBody.password;
       chai.request(server).put(`/user/accept_invitation`)
-        .send({ ...reqBody, invitation_token: invitationToken })
+        .send({ ...reqBody, invite_token: invitationToken })
         .end(callback);
     }
 

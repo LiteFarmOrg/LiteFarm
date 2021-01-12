@@ -129,6 +129,7 @@ function CustomSignUp() {
             title={`Welcome back ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
+            isChrome={isChrome}
           />
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>

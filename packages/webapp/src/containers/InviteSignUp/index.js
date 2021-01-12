@@ -5,13 +5,10 @@ import jwt from 'jsonwebtoken';
 import { useTranslation } from 'react-i18next';
 import GoogleLogin from 'react-google-login';
 
-import { inviteSelector } from '../InvitedUserCreateAccount/inviteSignUpSlice';
 import Button from '../../components/Form/Button';
 
 function InviteSignUp({ history }) {
-  const dispatch = useDispatch();
   const invite_token = history.location.state;
-  // const { email, showError } = useSelector(inviteSelector);
   const GOOGLE = 1;
   const LITEFARM = 2;
   const [selectedKey, setSelectedKey] = useState(0);

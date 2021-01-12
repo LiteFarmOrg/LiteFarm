@@ -112,6 +112,7 @@ import InviteSignUp from './containers/InviteSignUp';
 import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
 import Callback from './containers/Callback';
 import { invitationSelector } from './containers/InvitedUserCreateAccount/invitationSlice';
+import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -135,8 +136,23 @@ const Routes = () => {
     if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
       return <OnboardingFlow {...userFarm} />;
     } else if (isOnInvitationFlow) {
+      console.log('invitation');
       return (
         <Switch>
+          <Route
+            path="/consent"
+            exact
+            component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
+          />
+          {has_consent && <Route path="/outro" exact component={JoinFarmSuccessScreen} />}
+          {!has_consent && <Redirect to={'/consent'} />}
+          {has_consent && !hasFinishedOnBoardingFlow && <Redirect to={'/outro'} />}
+        </Switch>
+      );
+    } else if (!has_consent) {
+      return (
+        <Switch>
+          <Route path="/farm_selection" exact component={ChooseFarm} />
           <Route
             path="/consent"
             exact
@@ -242,6 +258,11 @@ const Routes = () => {
           {/*  return <Callback {...props} />*/}
           {/*}}/>*/}
           <Route path="/log_detail" exact component={LogDetail} />
+          <Route path="/callback" component={Callback} />
+          <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+          <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+          <Route path="/password_reset" component={PasswordResetAccount} />
+          <Route path={'/expired'} component={ExpiredTokenScreen} />
           <Redirect
             to={'/'}
             //TODO change to 404
@@ -340,6 +361,11 @@ const Routes = () => {
           {/*  return <Callback {...props} />*/}
           {/*}}/>*/}
           <Route path="/log_detail" exact component={LogDetail} />
+          <Route path="/callback" component={Callback} />
+          <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+          <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+          <Route path="/password_reset" component={PasswordResetAccount} />
+          <Route path={'/expired'} component={ExpiredTokenScreen} />
           <Redirect to={'/'} />
         </Switch>
       );
@@ -393,6 +419,12 @@ const Routes = () => {
           <Route path="/insights/waterbalance" exact component={WaterBalance} />
           <Route path="/insights/erosion" exact component={Erosion} />
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
+
+          <Route path="/callback" component={Callback} />
+          <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+          <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+          <Route path="/password_reset" component={PasswordResetAccount} />
+          <Route path={'/expired'} component={ExpiredTokenScreen} />
           <Redirect to={'/'} />
         </Switch>
       );

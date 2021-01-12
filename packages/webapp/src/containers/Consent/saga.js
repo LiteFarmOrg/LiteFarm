@@ -56,7 +56,7 @@ export function* patchConsentSaga({ payload }) {
       history.push('/');
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
-      history.push('/interested_in_organic');
+      history.push(payload.goForwardTo);
     }
   } catch (e) {
     toastr.error(this.props.t('message:USER.ERROR.AGREEMENT'));

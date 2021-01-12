@@ -19,7 +19,7 @@ const errorMessage = {
 const AddFarm = () => {
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
-  const { register, handleSubmit, getValues, setValue, errors } = useForm();
+  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const [isGettingLocation, setIsGettingLocation] = useState(false);
@@ -142,6 +142,9 @@ const AddFarm = () => {
       let lat = coords[0];
       let lng = coords[1];
       if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+        setError(ADDRESS, {
+          type: 'placeSelected'
+        })
         clearState();
         return;
       }
@@ -204,10 +207,13 @@ const AddFarm = () => {
             inputRef: ref1,
             id: 'autocomplete',
             name: ADDRESS,
+            clearErrors,
             errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
             onBlur: handleBlur,
           },
         ]}
+        gridPoints={gridPoints}
+        isGettingLocation={isGettingLocation}
       />
     </>
   );

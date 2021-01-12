@@ -11,8 +11,6 @@ import TextArea from '../Form/TextArea';
 import Input from '../Form/Input';
 import Radio from '../Form/Radio';
 import { Label } from '../Typography/index';
-import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
 
 export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number }) {
   const [file, setFile] = useState(null);

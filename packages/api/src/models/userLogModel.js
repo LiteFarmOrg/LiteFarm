@@ -32,6 +32,7 @@ class userLogModel extends Model{
       properties: {
         user_log_id: { type: 'string' },
         user_id: { type: 'string' },
+        farm_id: { type: 'string' },
         ip: { type: 'string' },
         languages: {
           type: 'array',

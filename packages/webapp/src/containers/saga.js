@@ -26,7 +26,7 @@ import history from '../history';
 import { loginSelector, loginSuccess } from './userFarmSlice';
 import { userFarmSelector, putUserSuccess, patchFarmSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { lastActiveDatetimeSelector, logUserInfoSuccess } from './userLogSlice';
+import { userLogReducerSelector, logUserInfoSuccess } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldStart, onLoadingFieldFail } from './fieldSlice';
 import { getCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
@@ -190,15 +190,19 @@ export function* logUserInfoSaga() {
   const header = getHeader(user_id, farm_id);
   try {
     const hour = 1000 * 3600;
-    const lastActiveDatetimeAsNumber = yield select(lastActiveDatetimeSelector);
+    const { lastActiveDatetime, farm_id: prev_farm_id } = yield select(userLogReducerSelector);
     const currentDateAsNumber = new Date().getTime();
-    const screenSize = {
+    const data = {
       screen_width: window.innerWidth,
       screen_height: window.innerHeight,
+      farm_id,
     };
-    if (!lastActiveDatetimeAsNumber || currentDateAsNumber - lastActiveDatetimeAsNumber > hour) {
-      yield put(logUserInfoSuccess());
-      yield call(axios.post, logUserInfoUrl(), screenSize, header);
+    if (!lastActiveDatetime || currentDateAsNumber - lastActiveDatetime > hour) {
+      yield put(logUserInfoSuccess(farm_id));
+      yield call(axios.post, logUserInfoUrl(), data, header);
+    } else if (prev_farm_id !== farm_id) {
+      yield put(logUserInfoSuccess(farm_id));
+      yield call(axios.post, logUserInfoUrl(), data, header);
     }
   } catch (e) {
     console.log('failed to fetch field crops by date');

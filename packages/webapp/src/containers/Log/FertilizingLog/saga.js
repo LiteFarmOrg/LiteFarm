@@ -11,6 +11,7 @@ import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
+import i18n from "../../../lang/i18n";
 
 const axios = require('axios');
 
@@ -52,7 +53,7 @@ export function* addFertilizerToDB(payload) {
     }
   } catch (e) {
     console.log('failed to add fert');
-    toastr.error(this.props.t('message:FERTILIZER.ERROR.ADD'));
+    toastr.error(i18n.t('message:FERTILIZER.ERROR.ADD'));
   }
 }
 
@@ -77,11 +78,11 @@ export function* addLog(payload) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
-      toastr.success(this.props.t('message:LOG.SUCCESS.ADD'));
+      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add log');
-    toastr.error(this.props.t('message:LOG.ERROR.ADD'));
+    toastr.error(i18n.t('message:LOG.ERROR.ADD'));
   }
 }
 
@@ -107,11 +108,11 @@ export function* editLog(payload) {
     const result = yield call(axios.put, logURL + `/${fertConfig.activity_id}`, log, header);
     if (result) {
       history.push('/log');
-      toastr.success(this.props.t('message:LOG.SUCCESS.EDIT'));
+      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error(this.props.t('message:LOG.ERROR.EDIT'));
+    toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }
 }
 

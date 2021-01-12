@@ -34,7 +34,7 @@ import {
   onLoadingFieldCropFail,
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
-
+import i18n from '../lang/i18n';
 const logUserInfoUrl = () => `${url}/userLog`;
 
 const axios = require('axios');
@@ -66,9 +66,9 @@ export function* updateUserSaga({ payload: user }) {
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
     yield put(putUserSuccess(user));
-    toastr.success(this.props.t('message:USER.SUCCESS.UPDATE'));
+    toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.UPDATE'));
+    toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
   }
 }
 
@@ -104,7 +104,7 @@ export function* getFarmInfoSaga() {
     yield put(getFieldCrops());
   } catch (e) {
     console.log(e);
-    toastr.error(this.props.t('message:FARM.ERROR.FETCH'));
+    toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
   }
 }
 export const putFarm = createAction(`putFarmSaga`);
@@ -122,9 +122,9 @@ export function* putFarmSaga({ payload: farm }) {
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
     yield put(patchFarmSuccess(data));
-    toastr.success(this.props.t('message:FARM.SUCCESS.UPDATE'));
+    toastr.success(i18n.t('message:FARM.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error(this.props.t('message:FARM.ERROR.UPDATE'));
+    toastr.error(i18n.t('message:FARM.ERROR.UPDATE'));
   }
 }
 

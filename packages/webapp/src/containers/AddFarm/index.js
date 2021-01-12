@@ -43,6 +43,12 @@ const AddFarm = () => {
     setValue(ADDRESS, farm?.address ? farm.address : '');
   }, []);
 
+  useEffect(() => {
+    if(Object.keys(gridPoints)) {
+      clearErrors(ADDRESS);
+    }
+  }, [gridPoints])
+
   const onSubmit = (data) => {
     const farmInfo = {
       ...data,
@@ -212,7 +218,6 @@ const AddFarm = () => {
             clearErrors,
             errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
             onBlur: handleBlur,
-            onFocus: () => clearErrors(ADDRESS)
           },
         ]}
         gridPoints={gridPoints}

@@ -36,7 +36,7 @@ export function* editLog(action) {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {
       history.push('/log');
-      toastr.success(toastr.error(i18n.t('message:LOG.SUCCESS.EDIT')));
+      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');

@@ -14,7 +14,7 @@
 //  */
 
 .home .lander {
-  text-align: left;
+  text-align: center;
   color: var(--primary);
   display: flex;
   flex: 1;
@@ -40,6 +40,20 @@
 .bottom {
   padding: 10vh 0 0 0;
   // padding-top: 2px;
+}
+
+.otherBrowserMessageTop {
+  padding-top: 70px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #000000;
+}
+.otherBrowserMessageBottom {
+  // text-align: left;
+  font-size: 14px;
+  color: #282b36;
 }
 
 .lineBreak {

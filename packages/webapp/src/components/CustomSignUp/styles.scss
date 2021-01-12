@@ -14,7 +14,7 @@
 //  */
 
 .home .lander {
-  text-align: left;
+  text-align: center;
   color: var(--primary);
   display: flex;
   flex: 1;
@@ -43,21 +43,17 @@
 }
 
 .otherBrowserMessageTop {
-
-/* H4 - Regular 14 */
   padding-top: 70px;
-
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   color: #000000;
-  // line-height: 18px;
 }
 .otherBrowserMessageBottom {
-  text-align: left;
+  // text-align: left;
   font-size: 14px;
-  color: #000000;
+  color: #282b36;
 }
 
 .lineBreak {

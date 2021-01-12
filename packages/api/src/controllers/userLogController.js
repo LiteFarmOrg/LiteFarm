@@ -23,7 +23,7 @@ class userLogController extends baseController {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { user_id } = req.user;
-      const { screen_width, screen_height } = req.body;
+      const { screen_width, screen_height, farm_id } = req.body;
       try {
         const ip = req.connection.remoteAddress;
         const ua = parser(req.headers['user-agent']);
@@ -41,6 +41,7 @@ class userLogController extends baseController {
           device_type: ua.device.type,
           screen_width,
           screen_height,
+          farm_id,
         });
         return res.status(201).json({
           ua,

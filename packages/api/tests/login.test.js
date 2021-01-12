@@ -163,6 +163,33 @@ describe('Sign Up Tests', () => {
       })
     })
 
+    test('should fail at the 4th request of a user who had a pending invitation', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 2});
+      const [userFarm] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      const {user_id, farm_id} = userFarm;
+      getRequest({email: user.email}, async() => {
+        const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+        expect(emailTokenRow.times_sent).toBe(1);
+        getRequest({email: user.email}, async() => {
+          const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+          expect(emailTokenRow.times_sent).toBe(2);
+          getRequest({email: user.email}, async() => {
+            const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+            expect(emailTokenRow.times_sent).toBe(3);
+            getRequest({email: user.email}, async(err, res) => {
+              expect(res.status).toBe(200);
+              const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+              expect(emailTokenRow.times_sent).toBe(3);
+              expect(res.body.exists).toBe(false);
+              expect(res.body.invited).toBe(true);
+              expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(3);
+              done();
+            })
+          })
+        })
+      })
+    })
+
   })
 
 });

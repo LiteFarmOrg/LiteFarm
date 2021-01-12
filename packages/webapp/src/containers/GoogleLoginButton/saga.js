@@ -34,7 +34,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     }
   } catch (e) {
     yield put(onLoadingUserFarmsFail());
-    toastr.error('Failed to login user info');
+    toastr.error(this.props.t('message:LOGIN.ERROR.LOGIN_FAIL'));
   }
 }
 

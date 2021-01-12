@@ -24,6 +24,24 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
     delete this.created_at;
   }
 
+  static get hidden () {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at', 'deleted' ]
+  }
+
+  async $afterFind (queryContext) {
+    await super.$afterFind(queryContext);
+    const { hidden } = this.constructor
+    if (hidden.length > 0) {
+      const { showHidden } = queryContext;
+      if(!showHidden){
+        for (const property of hidden) {
+          delete this[property]
+        }
+      }
+    }
+  }
+
+
   static get baseProperties() {
     return ({
       created_by_user_id: { type: 'string' },

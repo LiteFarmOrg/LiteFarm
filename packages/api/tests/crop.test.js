@@ -237,7 +237,7 @@ describe('Crop Tests', () => {
       test('Owner should delete a crop that is referenced by a fieldCrop', async (done) => {
         deleteRequest(`/crop/${crop.crop_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const crops = await cropModel.query().whereDeleted().where('farm_id', farm.farm_id);
+          const crops = await cropModel.query().whereDeleted().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(crops.length).toBe(1);
           expect(crops[0].deleted).toBe(true);
           expect(crops[0].crop_genus).toBe(crop.crop_genus);
@@ -249,7 +249,7 @@ describe('Crop Tests', () => {
       test('should delete a crop that is not in use', async (done) => {
         deleteRequest(`/crop/${cropNotInUse.crop_id}`, {}, async (err, res) => {
           expect(res.status).toBe(200);
-          const cropsDeleted = await cropModel.query().whereDeleted().where('farm_id', farm.farm_id);
+          const cropsDeleted = await cropModel.query().whereDeleted().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(cropsDeleted.length).toBe(1);
           expect(cropsDeleted[0].deleted).toBe(true);
           expect(cropsDeleted[0].crop_genus).toBe(cropNotInUse.crop_genus);
@@ -301,7 +301,7 @@ describe('Crop Tests', () => {
         test('Manager should delete a crop that is not in use', async (done) => {
           deleteRequest(`/crop/${cropNotInUse.crop_id}`, { user_id: manager.user_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const cropsDeleted = await cropModel.query().whereDeleted().where('farm_id', farm.farm_id);
+            const cropsDeleted = await cropModel.query().whereDeleted().context({showHidden: true}).where('farm_id', farm.farm_id);
             expect(cropsDeleted.length).toBe(1);
             expect(cropsDeleted[0].deleted).toBe(true);
             expect(cropsDeleted[0].crop_genus).toBe(cropNotInUse.crop_genus);

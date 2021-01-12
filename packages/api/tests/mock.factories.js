@@ -26,6 +26,8 @@ function fakeUser() {
     user_id: faker.random.uuid(),
     status: 1,
     phone_number: faker.phone.phoneNumber(),
+    gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
+    birth_year: faker.random.number({min: 1900, max: new Date().getFullYear()})
   };
 }
 
@@ -70,7 +72,7 @@ async function userFarmFactory({
 
 function fakeUserFarm() {
   return {
-    role_id: faker.random.arrayElement([1, 2, 3]),
+    role_id: faker.random.arrayElement([1, 2, 3, 5]),
     status: 'Active',
     has_consent: true,
     step_one: false,

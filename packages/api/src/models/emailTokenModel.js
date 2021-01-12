@@ -21,7 +21,7 @@ class emailTokenModel extends Model {
         user_id: {type: 'string'},
         farm_id: {type: 'string'},
         token: {type: 'string'},
-        is_used: {type: 'boolean'},
+        times_sent: {type: 'integer'},
         created_at: { type : 'date-time' },
         updated_at: { type : 'date-time' },
       },

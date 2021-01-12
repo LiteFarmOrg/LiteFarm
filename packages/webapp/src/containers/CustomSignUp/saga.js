@@ -64,7 +64,15 @@ export const customLoginWithPassword = createAction(`customLoginWithPasswordSaga
 
 export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...user } }) {
   try {
-    const result = yield call(axios.post, loginWithPasswordUrl(), user);
+    const screenSize = {
+      screen_width: window.innerWidth,
+      screen_height: window.innerHeight,
+    };
+    const data = {
+      screenSize: screenSize,
+      user: user,
+    };
+    const result = yield call(axios.post, loginWithPasswordUrl(), data);
 
     const {
       id_token,
@@ -79,7 +87,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
       showPasswordError();
     } else {
       console.log(e);
-      toastr.error('Unknown issue! Try again later.');
+      toastr.error(this.props.t('message:USER.ERROR.SIGNUP_UNKNOWN'));
     }
   }
 }
@@ -115,7 +123,7 @@ export function* customCreateUserSaga({ payload: data }) {
       history.push('/farm_selection');
     }
   } catch (e) {
-    toastr.error('Error with creating user account, please contact LiteFarm for assistance.');
+    toastr.error(this.props.t('message:USER.ERROR.INVITE'));
   }
 }
 
@@ -125,9 +133,7 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
-    toastr.error(
-      'Error with sending password reset email, please contact LiteFarm for assistance.',
-    );
+    toastr.error(this.props.t('message:USER.ERROR.RESET_PASSWORD'));
   }
 }
 

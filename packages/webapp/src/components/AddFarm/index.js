@@ -25,6 +25,9 @@ export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit }) {
       <Title>{title}</Title>
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
+      <div style={{width: '100%', height: '152px', marginTop:'28px',marginBottom:'28px', backgroundColor:'var(--grey200)'}}>
+
+      </div>
     </Form>
   );
 }

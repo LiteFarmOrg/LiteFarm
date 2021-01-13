@@ -27,7 +27,7 @@ const resetPasswordUrl = () => `${url}/password_reset`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);
 
-export function* resetPasswordSaga({ payload: { token, password, onPasswordResetSuccess } }) {
+export function* resetPasswordSaga({ payload: { reset_token, password, onPasswordResetSuccess } }) {
   try {
     const result = yield call(
       axios.put,
@@ -35,7 +35,7 @@ export function* resetPasswordSaga({ payload: { token, password, onPasswordReset
       { password },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${reset_token}`,
         },
       },
     );

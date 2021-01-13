@@ -477,18 +477,7 @@ class userController extends baseController {
             farm_id,
           }).patch({ status: 'Active' }).returning('*').first();
         });
-        try {
-          result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
-          const {
-            farm: { farm_name },
-            role: { role },
-          } = result;
-          const replacements = { first_name, farm: farm_name, role };
-          const sender = 'system@litefarm.org';
-          await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
-        } catch (e) {
-          console.log(e);
-        }
+        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
         result = {  ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
         delete result.user;
@@ -514,7 +503,7 @@ class userController extends baseController {
       const { first_name, last_name, gender, birth_year, language_preference } = req.body;
       try {
         await userModel.transaction(async trx => {
-          const user = await userModel.query(trx).context({ showHidden: true }).findById(user_id).patch({ email: user_id }).returning('*');
+          const user = await userModel.query(trx).context({ showHidden: true, shouldUpdateEmail: true }).findById(user_id).patch({ email: user_id }).returning('*');
           delete user.profile_picture;
           delete user.address;
           user.phone_number = user.phone_number ? user.phone_number : undefined;
@@ -538,25 +527,14 @@ class userController extends baseController {
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
           await userModel.query(trx).findById(user_id).delete();
         });
-        try {
-          result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([
-            sub, farm_id,
-          ]);
-          const {
-            farm: { farm_name },
-            role: { role },
-          } = result;
-          const replacements = { first_name, farm: farm_name, role };
-          const sender = 'system@litefarm.org';
-          await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
-        } catch (e) {
-          console.log(e);
-        }
+        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([
+          sub, farm_id,
+        ]);
         result = { ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
         delete result.user;
         delete result.role;
-        const id_token = await createToken('access', { user_id });
+        const id_token = await createToken('access', { user_id: sub });
         return res.status(200).send({
           id_token,
           user: result,

@@ -27,7 +27,6 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
-import invitationReducer from '../containers/InvitedUserCreateAccount/invitationSlice';
 
 import fieldReducer from '../containers/fieldSlice';
 import cropReducer from '../containers/cropSlice';
@@ -117,7 +116,6 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
-  invitationReducer,
 });
 
 // combine all reducers here and pass it to application

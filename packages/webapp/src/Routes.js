@@ -111,8 +111,8 @@ import PasswordResetAccount from './containers/PasswordResetAccount';
 import InviteSignUp from './containers/InviteSignUp';
 import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
 import Callback from './containers/Callback';
-import { invitationSelector } from './containers/InvitedUserCreateAccount/invitationSlice';
 import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
+import history from './history';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -125,30 +125,27 @@ const Routes = () => {
       pre.farm_id === next.farm_id &&
       pre.step_three === next.step_three,
   );
-  const isOnInvitationFlow = useSelector(invitationSelector);
   let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
-  const isUserInvited = !step_one;
   const hasFinishedOnBoardingFlow = step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
-      return <OnboardingFlow {...userFarm} />;
-    } else if (isOnInvitationFlow) {
-      console.log('invitation');
+    if (history.location.state?.isInvitationFlow) {
       return (
         <Switch>
+          <Route path="/farm_selection" exact component={ChooseFarm} />
           <Route
             path="/consent"
             exact
             component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
           />
-          {has_consent && <Route path="/outro" exact component={JoinFarmSuccessScreen} />}
+          <Route path="/outro" exact component={JoinFarmSuccessScreen} />}
           {!has_consent && <Redirect to={'/consent'} />}
-          {has_consent && !hasFinishedOnBoardingFlow && <Redirect to={'/outro'} />}
         </Switch>
       );
+    } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
+      return <OnboardingFlow {...userFarm} />;
     } else if (!has_consent) {
       return (
         <Switch>

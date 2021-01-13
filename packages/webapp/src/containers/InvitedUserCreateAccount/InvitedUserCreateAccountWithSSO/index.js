@@ -20,7 +20,6 @@ export default function InvitedUserCreateAccountWithSSO({ history }) {
       name={name}
       title={t('INVITATION.YOUR_INFORMATION')}
       buttonText={t('common:SAVE')}
-      autoOpen
     />
   );
 }

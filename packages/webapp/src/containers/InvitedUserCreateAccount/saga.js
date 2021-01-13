@@ -11,7 +11,7 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
-import { enterInvitationFlow } from './invitationSlice';
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
@@ -36,6 +36,7 @@ export function* acceptInvitationWithSSOSaga({
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
+    !user.birth_year && delete user.birth_year;
     const result = yield call(
       axios.put,
       acceptInvitationWithSSOUrl(),
@@ -46,12 +47,16 @@ export function* acceptInvitationWithSSOSaga({
     localStorage.setItem('id_token', id_token);
     purgeState();
     yield put(acceptInvitationSuccess(resUser));
-    yield put(enterInvitationFlow());
-    history.push('/consent');
+    history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    history.push('/expired', 'INVITATION');
-    toastr.error(this.props.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    if (e.response.status === 401) {
+      history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
+        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+      });
+    } else {
+      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    }
   }
 }
 
@@ -72,17 +77,23 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
+    !user.birth_year && delete user.birth_year;
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
     const { id_token, user: resUser } = result.data;
     localStorage.setItem('id_token', id_token);
     purgeState();
     yield put(acceptInvitationSuccess(resUser));
-    yield put(enterInvitationFlow());
-    history.push('/consent');
+    history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    history.push('/expired', 'INVITATION');
-    toastr.error(this.props.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    if (e.response.status === 401) {
+      // TODO: check error message, if token is used, return token used error instead
+      history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
+        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+      });
+    } else {
+      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    }
   }
 }
 

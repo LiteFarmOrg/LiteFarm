@@ -537,7 +537,9 @@
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "MISSING",
     "WRONG_BROWSER": "MISSING",
-    "WRONG_BROWSER_BOTTOM": "MISSING"
+    "WRONG_BROWSER_BOTTOM": "MISSING",
+    "USED_INVITATION_LINK_ERROR": "MISSING",
+    "EXPIRED_INVITATION_LINK_ERROR": "MISSING"
   },
   "SLIDE_MENU": {
     "DEMOS": "MISSING",

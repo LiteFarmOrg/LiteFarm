@@ -120,6 +120,7 @@ function CustomSignUp() {
     });
   };
 
+  const errorMessage = history.location.state?.error;
   return (
     <>
       <Suspense fallback={Spinner}>
@@ -149,6 +150,7 @@ function CustomSignUp() {
           disabled={disabled}
           GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
           isChrome={isChrome}
+          errorMessage={errorMessage}
           inputs={[
             {
               label: 'Enter your email address',

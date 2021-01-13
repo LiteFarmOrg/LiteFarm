@@ -319,7 +319,6 @@ describe('JWT Tests', () => {
     let googleUser;
 
     function postAcceptInvitationWithPasswordRequest(invitationToken, callback) {
-
       chai.request(server).post(`/user/accept_invitation`)
         .set('Authorization', `Bearer ${invitationToken}`)
         .send(reqBody)
@@ -407,6 +406,22 @@ describe('JWT Tests', () => {
             expect(res.status).toBe(401);
             done();
           });
+        });
+      });
+    });
+
+    test('User should accept invitation when birth year is undefined', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status: 2 });
+      const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      getRequest(user, async (err, res) => {
+        delete reqBody.birth_year;
+        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+          const [resUser] = await userModel.query().where({ user_id: user.user_id });
+          validate({ ...user, ...reqBody, status: 1 }, res, 201, resUser);
+          done();
         });
       });
     });

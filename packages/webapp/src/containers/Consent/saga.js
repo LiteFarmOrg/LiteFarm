@@ -20,6 +20,7 @@ import {
   userFarmSelector,
   patchConsentStepThreeSuccess,
   patchStatusConsentSuccess,
+  deselectFarmSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { getHeader } from '../saga';
@@ -30,7 +31,7 @@ const axios = require('axios');
 export const patchConsent = createAction('patchConsentSaga');
 export function* patchConsentSaga({ payload }) {
   const userFarm = yield select(userFarmSelector);
-  const { user_id, farm_id, step_three, step_three_end, status } = userFarm;
+  const { user_id, farm_id, step_three, step_three_end, status, farm_name } = userFarm;
   const patchStepUrl = (farm_id, user_id) =>
     `${userFarmUrl}/onboarding/farm/${farm_id}/user/${user_id}`;
   const header = getHeader(user_id, farm_id);
@@ -52,9 +53,11 @@ export function* patchConsentSaga({ payload }) {
       ),
       !step_three && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
-    if (status === 'Invited') {
+    const { isInvitationFlow, showSpotLight } = history.location.state || {};
+    if (isInvitationFlow) {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
-      history.push('/');
+      yield put(deselectFarmSuccess());
+      history.push('/outro', { isInvitationFlow, farm_id, farm_name, showSpotLight });
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
       history.push(payload.goForwardTo);

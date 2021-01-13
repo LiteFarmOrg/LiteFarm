@@ -15,7 +15,7 @@ export default function PureEnterPasswordPage({
   onLogin,
   onGoBack,
   forgotPassword,
-  isChrome,
+  isChrome = true,
 }) {
   const { register, handleSubmit, errors, setError, watch } = useForm();
   const PASSWORD = 'password';
@@ -94,4 +94,6 @@ PureEnterPasswordPage.prototype = {
   title: PropTypes.string,
   onLogin: PropTypes.func,
   onGoBack: PropTypes.func,
+  forgotPassword: PropTypes.func,
+  isChrome: PropTypes.bool,
 };

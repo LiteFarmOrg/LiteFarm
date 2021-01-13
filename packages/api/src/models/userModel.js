@@ -18,6 +18,7 @@ const Model = require('objection').Model;
 class User extends Model {
   $beforeUpdate() {
     this.updated_at = new Date().toISOString();
+    delete this.email;
   }
 
   static get tableName() {

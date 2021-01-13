@@ -19,10 +19,12 @@ import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess } from '../userFarmSlice';
 import { purgeState } from '../../index';
-
+import jwt from 'jsonwebtoken';
 const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
+import i18n from '../../lang/i18n';
+import { toastr } from 'react-redux-toastr';
 
 export const validateResetToken = createAction('validateResetTokenSaga');
 
@@ -42,10 +44,6 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
 export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
 export function* patchUserFarmStatusSaga({ payload: invite_token }) {
-  // call validation endpoint with token
-  // if this is successful we proceed to PasswordResetAccount
-  // otherwise we want to go with another component to show error. < -- view is not designed.
-  // FOR NOW: move to main page
   try {
     const language_preference = localStorage.getItem('litefarm_lang');
     const result = yield call(
@@ -68,8 +66,13 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
       // and message === 'user does not exist
       console.log(e);
       history.push('/accept_invitation/sign_up', invite_token);
+    } else if (e?.response?.status === 401) {
+      const { email } = jwt.decode(invite_token);
+      history.push(`/?email=${encodeURIComponent(email)}`, {
+        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+      });
     } else {
-      history.push('/expired', 'INVITATION');
+      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
     }
   }
 }

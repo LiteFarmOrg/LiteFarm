@@ -538,7 +538,9 @@
     "SSO_ERROR": "Por favor, inicie sesion con el boton de inicio de sesion con google",
     "TITLE": "MISSING",
     "WRONG_BROWSER": "MISSING",
-    "WRONG_BROWSER_BOTTOM": "MISSING"
+    "WRONG_BROWSER_BOTTOM": "MISSING",
+    "USED_INVITATION_LINK_ERROR": "MISSING",
+    "EXPIRED_INVITATION_LINK_ERROR": "MISSING"
   },
   "SLIDE_MENU": {
     "DEMOS": "MISSING",

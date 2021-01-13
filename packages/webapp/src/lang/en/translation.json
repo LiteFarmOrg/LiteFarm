@@ -537,7 +537,9 @@
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "Sign Up",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
-    "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
+    "WRONG_BROWSER_BOTTOM": "Please login using Chrome.",
+    "USED_INVITATION_LINK_ERROR": "This invitation has already been used, please log in to access this farm",
+    "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",

@@ -48,11 +48,13 @@ export function* acceptInvitationWithSSOSaga({
     purgeState();
     yield put(acceptInvitationSuccess(resUser));
     yield put(enterInvitationFlow());
-    history.push('/consent');
+    history.push('/consent', { isInvitationFlow: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      history.push('/expired', 'INVITATION');
+      history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
+        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+      });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
     }
@@ -82,11 +84,14 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     purgeState();
     yield put(acceptInvitationSuccess(resUser));
     yield put(enterInvitationFlow());
-    history.push('/consent');
+    history.push('/consent', { isInvitationFlow: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      history.push('/expired', 'INVITATION');
+      // TODO: check error message, if token is used, return token used error instead
+      history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
+        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+      });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
     }

@@ -15,7 +15,12 @@
 
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
-import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../userFarmSlice';
+import {
+  selectFarmSuccess,
+  deselectFarmSuccess,
+  loginSelector,
+  userFarmSelector,
+} from '../userFarmSlice';
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
@@ -51,9 +56,13 @@ function ChooseFarm() {
     history.goBack();
   };
 
+  const farm = useSelector(userFarmSelector);
   const onProceed = () => {
     dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    history.push({ pathname: '/', state: !!currentFarmId });
+    const isInvited = farm.has_consent === false && farm.step_three === false;
+    isInvited
+      ? history.push('/consent', { isInvitationFlow: true, showSpotLight: farms.length === 1 })
+      : history.push({ pathname: '/', state: !!currentFarmId });
   };
 
   const onSelectFarm = (farm_id) => {

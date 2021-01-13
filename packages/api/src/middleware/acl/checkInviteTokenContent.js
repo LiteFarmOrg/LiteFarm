@@ -18,7 +18,7 @@ const emailTokenModel = require('../../models/emailTokenModel');
 
 async function checkInvitationTokenContent(req, res, next) {
   const emailToken = await emailTokenModel.query().findById(req.user.invitation_id);
-  const { user_id, farm_id } = emailToken;
+  const { user_id, farm_id } = emailToken || {};
   req.user.user_id = user_id;
   req.user.farm_id = farm_id;
   const { status } = await userFarmModel.query().where({

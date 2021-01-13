@@ -17,14 +17,15 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-import { acceptInvitationSuccess } from '../userFarmSlice';
+import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
 import { purgeState } from '../../index';
 import jwt from 'jsonwebtoken';
+import i18n from '../../lang/i18n';
+import { toastr } from 'react-redux-toastr';
+import { logout } from '../../util/jwt';
 const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
-import i18n from '../../lang/i18n';
-import { toastr } from 'react-redux-toastr';
 
 export const validateResetToken = createAction('validateResetTokenSaga');
 
@@ -60,14 +61,16 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
     localStorage.setItem('id_token', id_token);
     purgeState();
     yield put(acceptInvitationSuccess(user));
-    history.push('/consent');
+    history.push('/consent', { isInvitationFlow: true, showSpotLight: false });
   } catch (e) {
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
       console.log(e);
       history.push('/accept_invitation/sign_up', invite_token);
     } else if (e?.response?.status === 401) {
+      const { email: currentEmail } = yield select(userFarmSelector);
       const { email } = jwt.decode(invite_token);
+      currentEmail !== email && logout();
       history.push(`/?email=${encodeURIComponent(email)}`, {
         error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
       });

@@ -4,12 +4,16 @@ import ownerConsent from './Owner.Consent.md';
 import workerConsent from './Worker.Consent.md';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
-import history from '../../history';
 import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_in_organic' }) {
+function ConsentForm({
+  goBackTo = '/role_selection',
+  goForwardTo = '/interested_in_organic',
+  history,
+}) {
   const { t } = useTranslation();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
@@ -58,3 +62,9 @@ function ConsentForm({ goBackTo = '/role_selection', goForwardTo = '/interested_
 }
 
 export default ConsentForm;
+
+ConsentForm.prototype = {
+  goBackTo: PropTypes.string,
+  goForwardTo: PropTypes.string,
+  history: PropTypes.object,
+};

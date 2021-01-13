@@ -11,7 +11,6 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
-import { enterInvitationFlow } from './invitationSlice';
 import i18n from '../../lang/i18n';
 
 const axios = require('axios');
@@ -37,6 +36,7 @@ export function* acceptInvitationWithSSOSaga({
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
+    !user.birth_year && delete user.birth_year;
     const result = yield call(
       axios.put,
       acceptInvitationWithSSOUrl(),
@@ -47,8 +47,7 @@ export function* acceptInvitationWithSSOSaga({
     localStorage.setItem('id_token', id_token);
     purgeState();
     yield put(acceptInvitationSuccess(resUser));
-    yield put(enterInvitationFlow());
-    history.push('/consent', { isInvitationFlow: true });
+    history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
@@ -78,13 +77,13 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
+    !user.birth_year && delete user.birth_year;
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
     const { id_token, user: resUser } = result.data;
     localStorage.setItem('id_token', id_token);
     purgeState();
     yield put(acceptInvitationSuccess(resUser));
-    yield put(enterInvitationFlow());
-    history.push('/consent', { isInvitationFlow: true });
+    history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {

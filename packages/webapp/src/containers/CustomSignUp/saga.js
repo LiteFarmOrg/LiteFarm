@@ -20,6 +20,7 @@ import history from '../../history';
 import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 const loginUrl = (email) => `${url}/login/user/${email}`;
@@ -87,7 +88,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
       showPasswordError();
     } else {
       console.log(e);
-      toastr.error(this.props.t('message:USER.ERROR.SIGNUP_UNKNOWN'));
+      toastr.error(i18n.t('message:USER.ERROR.SIGNUP_UNKNOWN'));
     }
   }
 }
@@ -123,7 +124,7 @@ export function* customCreateUserSaga({ payload: data }) {
       history.push('/farm_selection');
     }
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.INVITE'));
+    toastr.error(i18n.t('message:USER.ERROR.INVITE'));
   }
 }
 
@@ -133,7 +134,7 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.RESET_PASSWORD'));
+    toastr.error(i18n.t('message:USER.ERROR.RESET_PASSWORD'));
   }
 }
 

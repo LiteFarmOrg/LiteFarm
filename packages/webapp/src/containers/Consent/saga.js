@@ -24,6 +24,7 @@ import {
 import { createAction } from '@reduxjs/toolkit';
 import { getHeader } from '../saga';
 import history from '../../history';
+import i18n from '../../lang/i18n';
 const axios = require('axios');
 
 export const patchConsent = createAction('patchConsentSaga');
@@ -59,7 +60,7 @@ export function* patchConsentSaga({ payload }) {
       history.push(payload.goForwardTo);
     }
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.AGREEMENT'));
+    toastr.error(i18n.t('message:USER.ERROR.AGREEMENT'));
   }
 }
 

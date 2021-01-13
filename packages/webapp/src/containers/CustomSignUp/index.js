@@ -52,6 +52,7 @@ function CustomSignUp() {
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;
   const { t, i18n } = useTranslation();
+  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
@@ -128,6 +129,7 @@ function CustomSignUp() {
             title={`Welcome back ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
+            isChrome={isChrome}
           />
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>
@@ -146,6 +148,7 @@ function CustomSignUp() {
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
           GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
+          isChrome={isChrome}
           inputs={[
             {
               label: 'Enter your email address',

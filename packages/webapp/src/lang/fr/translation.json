@@ -535,7 +535,9 @@
     "PLEASE_SIGNUP": "MISSING",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
-    "TITLE": "MISSING"
+    "TITLE": "MISSING",
+    "WRONG_BROWSER": "MISSING",
+    "WRONG_BROWSER_BOTTOM": "MISSING"
   },
   "SLIDE_MENU": {
     "DEMOS": "MISSING",

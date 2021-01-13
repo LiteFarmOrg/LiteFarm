@@ -26,7 +26,7 @@ import history from '../history';
 import { loginSelector, loginSuccess } from './userFarmSlice';
 import { userFarmSelector, putUserSuccess, patchFarmSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { lastActiveDatetimeSelector, logUserInfoSuccess } from './userLogSlice';
+import { userLogReducerSelector, logUserInfoSuccess } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldStart, onLoadingFieldFail } from './fieldSlice';
 import { getCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
 import {
@@ -34,7 +34,7 @@ import {
   onLoadingFieldCropFail,
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
-
+import i18n from '../lang/i18n';
 const logUserInfoUrl = () => `${url}/userLog`;
 
 const axios = require('axios');
@@ -66,9 +66,9 @@ export function* updateUserSaga({ payload: user }) {
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
     yield put(putUserSuccess(user));
-    toastr.success(this.props.t('message:USER.SUCCESS.UPDATE'));
+    toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error(this.props.t('message:USER.ERROR.UPDATE'));
+    toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
   }
 }
 
@@ -104,7 +104,7 @@ export function* getFarmInfoSaga() {
     yield put(getFieldCrops());
   } catch (e) {
     console.log(e);
-    toastr.error(this.props.t('message:FARM.ERROR.FETCH'));
+    toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
   }
 }
 export const putFarm = createAction(`putFarmSaga`);
@@ -122,9 +122,9 @@ export function* putFarmSaga({ payload: farm }) {
   try {
     const result = yield call(axios.put, farmUrl + '/' + farm_id, data, header);
     yield put(patchFarmSuccess(data));
-    toastr.success(this.props.t('message:FARM.SUCCESS.UPDATE'));
+    toastr.success(i18n.t('message:FARM.SUCCESS.UPDATE'));
   } catch (e) {
-    toastr.error(this.props.t('message:FARM.ERROR.UPDATE'));
+    toastr.error(i18n.t('message:FARM.ERROR.UPDATE'));
   }
 }
 
@@ -190,15 +190,19 @@ export function* logUserInfoSaga() {
   const header = getHeader(user_id, farm_id);
   try {
     const hour = 1000 * 3600;
-    const lastActiveDatetimeAsNumber = yield select(lastActiveDatetimeSelector);
+    const { lastActiveDatetime, farm_id: prev_farm_id } = yield select(userLogReducerSelector);
     const currentDateAsNumber = new Date().getTime();
-    const screenSize = {
+    const data = {
       screen_width: window.innerWidth,
       screen_height: window.innerHeight,
+      farm_id,
     };
-    if (!lastActiveDatetimeAsNumber || currentDateAsNumber - lastActiveDatetimeAsNumber > hour) {
-      yield put(logUserInfoSuccess());
-      yield call(axios.post, logUserInfoUrl(), screenSize, header);
+    if (!lastActiveDatetime || currentDateAsNumber - lastActiveDatetime > hour) {
+      yield put(logUserInfoSuccess(farm_id));
+      yield call(axios.post, logUserInfoUrl(), data, header);
+    } else if (prev_farm_id !== farm_id) {
+      yield put(logUserInfoSuccess(farm_id));
+      yield call(axios.post, logUserInfoUrl(), data, header);
     }
   } catch (e) {
     console.log('failed to fetch field crops by date');

@@ -534,7 +534,7 @@ class userController extends baseController {
         delete result.farm;
         delete result.user;
         delete result.role;
-        const id_token = await createToken('access', { user_id });
+        const id_token = await createToken('access', { user_id: sub });
         return res.status(200).send({
           id_token,
           user: result,

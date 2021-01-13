@@ -12,6 +12,7 @@ import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
 import { enterInvitationFlow } from './invitationSlice';
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
@@ -50,8 +51,11 @@ export function* acceptInvitationWithSSOSaga({
     history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    history.push('/expired', 'INVITATION');
-    toastr.error(this.props.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    if (e.response.status === 401) {
+      history.push('/expired', 'INVITATION');
+    } else {
+      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    }
   }
 }
 
@@ -81,8 +85,11 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
-    history.push('/expired', 'INVITATION');
-    toastr.error(this.props.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    if (e.response.status === 401) {
+      history.push('/expired', 'INVITATION');
+    } else {
+      toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
+    }
   }
 }
 

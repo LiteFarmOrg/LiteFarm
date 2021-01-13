@@ -503,7 +503,7 @@ class userController extends baseController {
       const { first_name, last_name, gender, birth_year, language_preference } = req.body;
       try {
         await userModel.transaction(async trx => {
-          const user = await userModel.query(trx).context({ showHidden: true }).findById(user_id).patch({ email: user_id }).returning('*');
+          const user = await userModel.query(trx).context({ showHidden: true, shouldUpdateEmail: true }).findById(user_id).patch({ email: user_id }).returning('*');
           delete user.profile_picture;
           delete user.address;
           user.phone_number = user.phone_number ? user.phone_number : undefined;

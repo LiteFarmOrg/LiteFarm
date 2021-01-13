@@ -16,9 +16,10 @@
 const Model = require('objection').Model;
 
 class User extends Model {
-  $beforeUpdate() {
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext);
     this.updated_at = new Date().toISOString();
-    delete this.email;
+    !queryContext.shouldUpdateEmail && delete this.email;
   }
 
   static get tableName() {

@@ -477,7 +477,6 @@ class userController extends baseController {
             farm_id,
           }).patch({ status: 'Active' }).returning('*').first();
         });
-        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
         result = {  ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
         delete result.user;

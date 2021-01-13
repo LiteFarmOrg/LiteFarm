@@ -480,18 +480,7 @@ class userFarmController extends baseController {
         user_id,
         farm_id,
       }).patch({ status: 'Active' }).returning('*');
-      try {
-        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
-        const {
-          farm: { farm_name },
-          role: { role },
-        } = result;
-        const replacements = { first_name: user.first_name, farm: farm_name, role };
-        const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
-      } catch (e) {
-        console.log(e);
-      }
+      result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
       result = {  ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;
       delete result.user;

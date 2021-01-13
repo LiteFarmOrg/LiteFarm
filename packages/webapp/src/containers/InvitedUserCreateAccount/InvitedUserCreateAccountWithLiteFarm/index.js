@@ -21,7 +21,6 @@ export default function InvitedUserCreateAccountWithLiteFarm({ history }) {
       title={t('INVITATION.YOUR_INFORMATION')}
       buttonText={t('common:SAVE')}
       isNotSSO
-      autoOpen
     />
   );
 }

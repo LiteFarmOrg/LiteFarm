@@ -29,7 +29,7 @@ import {
   deleteFieldCropSuccess,
 } from '../fieldCropSlice';
 import { deleteFieldSuccess } from '../fieldSlice';
-import i18n from "../../lang/i18n";
+import i18n from '../../lang/i18n';
 const axios = require('axios');
 const DEC = 10;
 

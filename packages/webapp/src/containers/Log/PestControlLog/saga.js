@@ -13,7 +13,7 @@ import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
-import i18n from "../../../lang/i18n";
+import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
 
@@ -76,11 +76,12 @@ export function* addPestControlLog(payload) {
     const result = yield call(axios.post, logURL, pcLog, header);
     if (result) {
       history.push('/log');
-      i18n.t('message:LOG.SUCCESS.ADD')
+      i18n.t('message:LOG.SUCCESS.ADD');
     }
   } catch (e) {
     console.log('failed to add log');
-    i18n.t('message:LOG.ERROR.ADD')  }
+    i18n.t('message:LOG.ERROR.ADD');
+  }
 }
 
 export function* editPestControlLog(payload) {

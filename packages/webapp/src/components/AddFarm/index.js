@@ -14,7 +14,13 @@ const style = {
   marginBottom: '28px',
 };
 
-export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, gridPoints, isGettingLocation}) {
+export default function PureAddFarm({
+  title,
+  inputs = [{}, {}],
+  onSubmit,
+  gridPoints,
+  isGettingLocation,
+}) {
   // const { title: titleClass, ...inputClasses } = styles;
   const { t } = useTranslation();
   return (
@@ -29,9 +35,19 @@ export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, gridPo
       <Title>{title}</Title>
       <Input style={style} {...inputs[0]} />
       <Input style={style} {...inputs[1]} />
-      <div style={{width: '100vw', maxWidth:'1024px', height: '152px', position:'relative', marginLeft:'-24px',
-        marginTop:'28px',marginBottom:'28px', backgroundColor:'var(--grey200)'}}>
-        { gridPoints && gridPoints.lat  &&
+      <div
+        style={{
+          width: '100vw',
+          maxWidth: '1024px',
+          height: '152px',
+          position: 'relative',
+          marginLeft: '-24px',
+          marginTop: '28px',
+          marginBottom: '28px',
+          backgroundColor: 'var(--grey200)',
+        }}
+      >
+        {(gridPoints && gridPoints.lat && (
           <GoogleMap
             defaultCenter={gridPoints}
             defaultZoom={14}
@@ -42,22 +58,24 @@ export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, gridPo
               zoomControl: true,
               streetViewControl: false,
               scaleControl: true,
-              fullscreenControl: false
-            })}>
+              fullscreenControl: false,
+            })}
+          >
             <MapPin {...gridPoints} />
           </GoogleMap>
-         ||
-          <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', height:'152px' }}>
-            {
-              !!inputs[1].errors &&
-                <MapErrorPin />
-                 ||
-              (
-                isGettingLocation ? <LoadingAnimation />: <MapPin />
-              )
-            }
+        )) || (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '152px',
+            }}
+          >
+            {(!!inputs[1].errors && <MapErrorPin />) ||
+              (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
           </div>
-        }
+        )}
       </div>
     </Form>
   );

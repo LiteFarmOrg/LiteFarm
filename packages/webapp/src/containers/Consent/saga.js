@@ -24,7 +24,7 @@ import {
 import { createAction } from '@reduxjs/toolkit';
 import { getHeader } from '../saga';
 import history from '../../history';
-import i18n from "../../lang/i18n";
+import i18n from '../../lang/i18n';
 const axios = require('axios');
 
 export const patchConsent = createAction('patchConsentSaga');
@@ -57,7 +57,7 @@ export function* patchConsentSaga({ payload }) {
       history.push('/');
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
-      history.push('/interested_in_organic');
+      history.push(payload.goForwardTo);
     }
   } catch (e) {
     toastr.error(i18n.t('message:USER.ERROR.AGREEMENT'));

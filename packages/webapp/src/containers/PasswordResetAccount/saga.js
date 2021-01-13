@@ -20,11 +20,10 @@ import history from '../../history';
 import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import jwt from 'jsonwebtoken';
-import i18n from "../../lang/i18n";
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 const resetPasswordUrl = () => `${url}/password_reset`;
-const validateTokenUrl = () => `${url}/password_reset/validate`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);
 
@@ -54,28 +53,6 @@ export function* resetPasswordSaga({ payload: { token, password, onPasswordReset
   }
 }
 
-export const validateToken = createAction('validateTokenSaga');
-
-export function* validateTokenSaga({ payload: { token, setIsValid } }) {
-  // call validation endpoint with token
-  // if this is successful we proceed to PasswordResetAccount
-  // otherwise we want to go with another component to show error. < -- view is not designed.
-  // FOR NOW: move to main page
-  try {
-    const result = yield call(axios.get, validateTokenUrl(), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setIsValid(true);
-  } catch (e) {
-    setIsValid(false);
-    history.push('/');
-    toastr.error(i18n.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
-  }
-}
-
 export default function* resetUserPasswordSaga() {
   yield takeLatest(resetPassword.type, resetPasswordSaga);
-  yield takeLatest(validateToken.type, validateTokenSaga);
 }

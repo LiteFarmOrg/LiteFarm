@@ -155,6 +155,7 @@ export function* getFieldCropsSaga() {
     yield put(onLoadingFieldCropStart());
     const result = yield call(axios.get, fieldCropURL + '/farm/' + farm_id, header);
     yield put(getFieldCropsSuccess(result.data));
+    yield put(getCropsSuccess(result.data.map((fieldCrop) => fieldCrop.crop)));
   } catch (e) {
     yield put(onLoadingFieldCropFail());
     console.log('failed to fetch field crops from db');

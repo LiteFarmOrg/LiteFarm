@@ -6,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 import styles from './styles.scss';
 import apiConfig from '../../apiConfig';
 // import Auth from '../../Auth/Auth';
-import Callback from '../../components/Callback';
+import PureCallback from '../../components/Callback';
 import InvalidToken from './InvalidToken';
 import { withTranslation } from 'react-i18next';
 
@@ -304,7 +304,7 @@ class SignUp extends React.Component {
       );
     }
 
-    return <Callback />;
+    return <PureCallback />;
   }
 }
 

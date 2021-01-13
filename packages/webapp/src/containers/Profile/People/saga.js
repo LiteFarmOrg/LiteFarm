@@ -13,7 +13,7 @@ import {
 } from '../../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { onLoadingRolesStart, onLoadingRolesFail, getRolesSuccess } from './slice';
-import i18n from "../../../lang/i18n";
+import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
 
@@ -29,7 +29,7 @@ export function* getAllUserFarmsByFarmIDSaga() {
     const result = yield call(axios.get, userFarmUrl + '/farm/' + farm_id, header);
     yield put(getUserFarmsSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingUserFarmsFail());
+    yield put(onLoadingUserFarmsFail(e));
     console.log('failed to fetch users from database');
   }
 }

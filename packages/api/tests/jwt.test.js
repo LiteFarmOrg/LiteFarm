@@ -192,7 +192,6 @@ describe('JWT Tests', () => {
         expect(user.reset_token_version).toBe(0);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(1);
-        console.log(oldRow);
         expect(created_at.getTime()).toBeGreaterThanOrEqual(oldRow.created_at.getTime());
         getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
           expect(res.status).toBe(200);
@@ -330,7 +329,7 @@ describe('JWT Tests', () => {
     function putAcceptInvitationWithGoogleAccountRequest(invitationToken, callback) {
       delete reqBody.password;
       chai.request(server).put(`/user/accept_invitation`)
-        .send({ ...reqBody, invitation_token: invitationToken })
+        .send({ ...reqBody, invite_token: invitationToken })
         .end(callback);
     }
 

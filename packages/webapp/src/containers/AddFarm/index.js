@@ -14,7 +14,7 @@ const errorMessage = {
   required: 'Address is required',
   placeSelected: 'Please enter a valid address or coordinate',
   countryFound: 'Invalid farm location',
-  noAddress: 'No location found! Try latitude and longitude'
+  noAddress: 'No location found! Try latitude and longitude',
 };
 
 const AddFarm = () => {
@@ -44,10 +44,10 @@ const AddFarm = () => {
   }, []);
 
   useEffect(() => {
-    if(Object.keys(gridPoints)) {
+    if (Object.keys(gridPoints)) {
       clearErrors(ADDRESS);
     }
-  }, [gridPoints])
+  }, [gridPoints]);
 
   const onSubmit = (data) => {
     const farmInfo = {
@@ -151,7 +151,7 @@ const AddFarm = () => {
       let lng = coords[1];
       if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
         setError(ADDRESS, {
-          type: 'placeSelected'
+          type: 'placeSelected',
         });
         clearState();
         return;

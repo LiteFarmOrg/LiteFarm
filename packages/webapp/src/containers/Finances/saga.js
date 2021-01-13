@@ -31,7 +31,7 @@ import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
-import i18n from "../../lang/i18n";
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 

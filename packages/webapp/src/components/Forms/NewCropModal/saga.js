@@ -5,7 +5,7 @@ import { toastr } from 'react-redux-toastr';
 import { getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { postCropSuccess } from '../../../containers/cropSlice';
-import i18n from "../../../lang/i18n";
+import i18n from '../../../lang/i18n';
 const axios = require('axios');
 export const postCrop = createAction(`postCropSaga`);
 

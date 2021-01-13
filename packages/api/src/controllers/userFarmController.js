@@ -17,6 +17,7 @@ const baseController = require('../controllers/baseController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
 const farmModel = require('../models/farmModel');
+const passwordModel = require('../models/passwordModel');
 const emailTokenModel = require('../models/emailTokenModel');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const { transaction, Model } = require('objection');
@@ -28,6 +29,8 @@ const url = require('url');
 const generator = require('generate-password');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
+const { createToken } = require('../util/jwt');
+
 
 const validStatusChanges = {
   'Active': ['Inactive'],
@@ -394,6 +397,7 @@ class userFarmController extends baseController {
   }
 
   static updateStatus() {
+    //TODO clean up
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const farm_id = req.params.farm_id;
@@ -459,6 +463,41 @@ class userFarmController extends baseController {
         await trx.rollback();
         res.status(400).send(error);
       }
+    };
+  }
+
+  static acceptInvitation() {
+    return async (req, res) => {
+      let result;
+      const { user_id, farm_id, invitation_id, email } = req.user;
+      const { language_preference } = req.body;
+      const user = await userModel.query().findById(user_id).patch({ language_preference }).returning('*');
+      const passwordRow = await passwordModel.query().findById(user_id);
+      if (!passwordRow || user.status === 2) {
+        return res.status(404).send('User does not exist');
+      }
+      const userFarm = await userFarmModel.query().where({
+        user_id,
+        farm_id,
+      }).patch({ status: 'Active' }).returning('*');
+      try {
+        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
+        const {
+          farm: { farm_name },
+          role: { role },
+        } = result;
+        const replacements = { first_name: user.first_name, farm: farm_name, role };
+        const sender = 'system@litefarm.org';
+        await sendEmailTemplate.sendEmail(emails.CONFIRMATION, replacements, email, sender, null, language_preference);
+      } catch (e) {
+        console.log(e);
+      }
+      result = {  ...result.user, ...result, ...result.role, ...result.farm };
+      delete result.farm;
+      delete result.user;
+      delete result.role;
+      const id_token = await createToken('access', { user_id });
+      return res.status(200).send({ id_token, user: result });
     };
   }
 

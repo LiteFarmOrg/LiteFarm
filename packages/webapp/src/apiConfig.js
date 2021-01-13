@@ -31,7 +31,7 @@ const apiConfig = {
   userUrl: `${URI}/user`,
   pseudoUserUrl: `${URI}/user/pseudo`,
   farmUrl: `${URI}/farm`,
-  inviteUserUrl: `${URI}/user/invited`,
+  inviteUserUrl: `${URI}/user/invite`,
   fieldURL: `${URI}/field`,
   cropURL: `${URI}/crop`,
   logURL: `${URI}/log`,

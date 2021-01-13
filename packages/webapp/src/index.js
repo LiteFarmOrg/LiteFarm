@@ -41,6 +41,7 @@ import chooseFarmSaga from './containers/ChooseFarm/saga';
 import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
+import callbackSaga from './containers/Callback/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -51,6 +52,7 @@ import { unregister } from './registerServiceWorker';
 import loginSaga from './containers/GoogleLoginButton/saga';
 import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
+import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 
 // config for redux-persist
 const persistConfig = {
@@ -68,7 +70,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
-      thunk: false,
+      thunk: true,
       immutableCheck: false,
       serializableCheck: false,
     }),
@@ -115,6 +117,8 @@ sagaMiddleware.run(newFieldSaga);
 sagaMiddleware.run(editFieldSaga);
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(supportSaga);
+sagaMiddleware.run(callbackSaga);
+sagaMiddleware.run(inviteSaga);
 
 const persistor = persistStore(store);
 

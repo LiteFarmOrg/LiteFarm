@@ -6,6 +6,7 @@ import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
+import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
 
@@ -18,11 +19,11 @@ export function* addLog(action) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully added new Log!');
+      toastr.error(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add log');
-    toastr.error('Failed to add new Log');
+    toastr.error(i18n.t('message:LOG.ERROR.ADD'));
   }
 }
 
@@ -35,11 +36,11 @@ export function* editLog(action) {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully edited Log!');
+      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error('Failed to edit Log');
+    toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }
 }
 
@@ -52,11 +53,11 @@ export function* deleteLog(action) {
     const result = yield call(axios.delete, logURL + `/${action.id}`, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully deleted Log!');
+      toastr.success(i18n.t('message:LOG.SUCCESS.DELETE'));
     }
   } catch (e) {
     console.log('failed to delete log');
-    toastr.error('Failed to delete Log');
+    toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
   }
 }
 

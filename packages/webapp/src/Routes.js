@@ -98,6 +98,7 @@ import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
 
 import CustomSignUp from './containers/CustomSignUp';
+import ExpiredTokenScreen from './containers/ExpiredTokenScreen';
 
 import { useSelector } from 'react-redux';
 import OnboardingFlow from './routes/Onboarding';
@@ -107,6 +108,11 @@ import { isAuthenticated } from './util/jwt';
 import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import PasswordResetAccount from './containers/PasswordResetAccount';
+import InviteSignUp from './containers/InviteSignUp';
+import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
+import Callback from './containers/Callback';
+import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
+import history from './history';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -116,27 +122,46 @@ const Routes = () => {
       pre.has_consent === next.has_consent &&
       pre.role_id === next.role_id &&
       pre.step_one === next.step_one &&
-      pre.farm_id === next.farm_id,
+      pre.farm_id === next.farm_id &&
+      pre.step_three === next.step_three,
   );
-  let { step_five, has_consent, role_id, status, step_one, farm_id } = userFarm;
+  let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
-  const isUserInvited = !step_one;
   const hasFinishedOnBoardingFlow = step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (!hasSelectedFarm || (!isUserInvited && !hasFinishedOnBoardingFlow)) {
-      return <OnboardingFlow {...userFarm} />;
-    } else if (status === 'Invited') {
+    if (history.location.state?.isInvitationFlow) {
       return (
         <Switch>
           <Route path="/farm_selection" exact component={ChooseFarm} />
           <Route
             path="/consent"
             exact
-            component={() => <ConsentForm goForwardTo={'outro'} goBackTo={null} />}
-            //TODO add new consent form and allow users to withdraw consent
+            component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
           />
+          <Route path="/outro" exact component={JoinFarmSuccessScreen} />}
+          {!has_consent && <Redirect to={'/consent'} />}
+        </Switch>
+      );
+    } else if (!hasSelectedFarm || !hasFinishedOnBoardingFlow) {
+      return <OnboardingFlow {...userFarm} />;
+    } else if (!has_consent) {
+      return (
+        <Switch>
+          <Route path="/farm_selection" exact component={ChooseFarm} />
+          <Route
+            path="/consent"
+            exact
+            component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
+          />
+          {has_consent && (
+            <Route
+              path="/consent"
+              exact
+              component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
+            />
+          )}
           {!has_consent && <Redirect to={'/consent'} />}
         </Switch>
       );
@@ -230,6 +255,11 @@ const Routes = () => {
           {/*  return <Callback {...props} />*/}
           {/*}}/>*/}
           <Route path="/log_detail" exact component={LogDetail} />
+          <Route path="/callback" component={Callback} />
+          <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+          <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+          <Route path="/password_reset" component={PasswordResetAccount} />
+          <Route path={'/expired'} component={ExpiredTokenScreen} />
           <Redirect
             to={'/'}
             //TODO change to 404
@@ -328,6 +358,11 @@ const Routes = () => {
           {/*  return <Callback {...props} />*/}
           {/*}}/>*/}
           <Route path="/log_detail" exact component={LogDetail} />
+          <Route path="/callback" component={Callback} />
+          <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+          <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+          <Route path="/password_reset" component={PasswordResetAccount} />
+          <Route path={'/expired'} component={ExpiredTokenScreen} />
           <Redirect to={'/'} />
         </Switch>
       );
@@ -381,6 +416,12 @@ const Routes = () => {
           <Route path="/insights/waterbalance" exact component={WaterBalance} />
           <Route path="/insights/erosion" exact component={Erosion} />
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
+
+          <Route path="/callback" component={Callback} />
+          <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+          <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+          <Route path="/password_reset" component={PasswordResetAccount} />
+          <Route path={'/expired'} component={ExpiredTokenScreen} />
           <Redirect to={'/'} />
         </Switch>
       );
@@ -388,12 +429,11 @@ const Routes = () => {
   } else if (!isAuthenticated()) {
     return (
       <Switch>
-        <Route path="/callback" component={PasswordResetAccount} />
-        <Route
-          path="/sign_up/:token/:user_id/:farm_id/:email/:first_name/:last_name"
-          exact
-          component={SignUp}
-        />
+        <Route path="/callback" component={Callback} />
+        <Route path="/accept_invitation/sign_up" component={InviteSignUp} />
+        <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
+        <Route path="/password_reset" component={PasswordResetAccount} />
+        <Route path={'/expired'} component={ExpiredTokenScreen} />
         <Route path="/" exact component={CustomSignUp} />
         <Redirect
           to={'/'}

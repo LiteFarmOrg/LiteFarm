@@ -6,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 import styles from './styles.scss';
 import apiConfig from '../../apiConfig';
 // import Auth from '../../Auth/Auth';
-import Callback from '../../components/Callback';
+import PureCallback from '../../components/Callback';
 import InvalidToken from './InvalidToken';
 import { withTranslation } from 'react-i18next';
 
@@ -135,7 +135,7 @@ class SignUp extends React.Component {
       if (error.response) {
         console.error(error.response.data);
       } else {
-        toastr.error('Token verification failed');
+        toastr.error(this.props.t('message:TOKEN.ERROR.VERIFICATION'));
       }
     }
   }
@@ -170,7 +170,7 @@ class SignUp extends React.Component {
       if (error.response) {
         toastr.error(error.response.data);
       } else {
-        toastr.error('Failed to sign up');
+        toastr.error(this.props.t('message:USER.ERROR.SIGNUP'));
       }
     }
   };
@@ -304,7 +304,7 @@ class SignUp extends React.Component {
       );
     }
 
-    return <Callback />;
+    return <PureCallback />;
   }
 }
 

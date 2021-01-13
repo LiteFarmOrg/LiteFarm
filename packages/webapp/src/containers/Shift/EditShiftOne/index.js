@@ -192,7 +192,7 @@ class EditShiftOne extends Component {
     if (this.state.customTaskName !== '') {
       this.props.dispatch(addTaskType(this.state.customTaskName));
       this.closeAddModal();
-    } else toastr.error('A task name is required'); //alert('A task name is required');
+    } else toastr.error(this.props.t('message:SHIFT.ERROR.REQUIRED_TASK')); //alert('A task name is required');
   };
 
   assignImage(taskName) {
@@ -221,13 +221,13 @@ class EditShiftOne extends Component {
     let beforeBreakDuration = moment.duration(moment(new_end).diff(moment(new_start))).asMinutes();
 
     if (beforeBreakDuration < 1) {
-      toastr.error('Please enter a valid start-end duration');
+      toastr.error(this.props.t('message:SHIFT.ERROR.VALID_START_END'));
       return;
     }
 
     const afterBreakDuration = beforeBreakDuration - this.state.break_duration;
     if (afterBreakDuration < 1) {
-      toastr.error('Break duration > work duration 😂');
+      toastr.error(this.props.t('message:SHIFT.ERROR.BREAK_>_WORK'));
       return;
     }
 
@@ -235,7 +235,7 @@ class EditShiftOne extends Component {
 
     const preSelectedTasks = this.state.selectedTasks;
     if (preSelectedTasks.length < 1) {
-      toastr.error('Please select at least one task.');
+      toastr.error(this.props.t('message:SHIFT.ERROR.ONE_TASK'));
       return;
     }
     let tasksToSet = [];

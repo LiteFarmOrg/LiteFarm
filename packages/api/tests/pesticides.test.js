@@ -101,7 +101,7 @@ describe('Pesticide Tests', () => {
     })
 
     test('Should filter out deleted pesticides', async (done)=>{
-      await pesiticideModel.query().findById(pesticide.pesticide_id).delete();
+      await pesiticideModel.query().context({showHidden: true}).findById(pesticide.pesticide_id).delete();
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
@@ -209,7 +209,7 @@ describe('Pesticide Tests', () => {
         test('Owner should delete a fertlizer', async (done) => {
           deleteRequest({pesticide_id: pesticide.pesticide_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const pesticideRes = await pesiticideModel.query().where('pesticide_id',pesticide.pesticide_id);
+            const pesticideRes = await pesiticideModel.query().context({showHidden: true}).where('pesticide_id',pesticide.pesticide_id);
             expect(pesticideRes.length).toBe(1);
             expect(pesticideRes[0].deleted).toBe(true);
             done();
@@ -219,7 +219,7 @@ describe('Pesticide Tests', () => {
         test('Manager should delete a pesticide', async (done) => {
           deleteRequest({user_id:manager.user_id, pesticide_id: pesticide.pesticide_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const pesticideRes = await pesiticideModel.query().where('pesticide_id',pesticide.pesticide_id);
+            const pesticideRes = await pesiticideModel.query().context({showHidden: true}).where('pesticide_id',pesticide.pesticide_id);
             expect(pesticideRes.length).toBe(1);
             expect(pesticideRes[0].deleted).toBe(true);
             done();
@@ -298,7 +298,7 @@ describe('Pesticide Tests', () => {
       test('Owner should post and get a valid pesticide', async (done) => {
         postRequest(fakePesticide, {}, async (err, res) => {
           expect(res.status).toBe(201);
-          const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
+          const pesticides = await pesiticideModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
           expect(pesticides[0].pesticide_name).toBe(fakePesticide.pesticide_name);
           done();
@@ -308,7 +308,7 @@ describe('Pesticide Tests', () => {
       test('Manager should post and get a valid pesticide', async (done) => {
         postRequest(fakePesticide, {user_id: manager.user_id}, async (err, res) => {
           expect(res.status).toBe(201);
-          const pesticides = await pesiticideModel.query().where('farm_id',farm.farm_id);
+          const pesticides = await pesiticideModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(pesticides.length).toBe(1);
           expect(pesticides[0].pesticide_name).toBe(fakePesticide.pesticide_name);
           done();

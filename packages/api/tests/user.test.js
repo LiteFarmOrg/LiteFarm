@@ -166,6 +166,8 @@ describe('User Tests', () => {
         test('Owner should get user by user id', async (done) => {
           getRequest({ user_id: owner.user_id }, (err, res) => {
             validate({ ...owner, ...ownerFarm }, res, 200);
+            expect(res.body.gender).toBe(owner.gender);
+            expect(res.body.birth_year).toBe(owner.birth_year);
             done();
           });
         })
@@ -229,6 +231,7 @@ describe('User Tests', () => {
 
         test('should edit and the area_used field by owner', async (done) => {
           sampleData = fakeUser(owner.user_id);
+          sampleData.email = owner.email;
           putRequest(sampleData, { user_id: owner.user_id }, async (err, res) => {
             const resUser = await userModel.query().findById(owner.user_id);
             validate(sampleData, res, 200, resUser);
@@ -237,7 +240,8 @@ describe('User Tests', () => {
         });
 
         test('should edit and the area_used field by manager', async (done) => {
-          sampleData = fakeUser(manager.user_id);
+          sampleData = fakeUser(manager.user_id);          sampleData.email = owner.email;
+          sampleData.email = manager.email;
           putRequest(sampleData, { user_id: manager.user_id }, async (err, res) => {
             const resUser = await userModel.query().findById(manager.user_id);
             validate(sampleData, res, 200, resUser);
@@ -247,6 +251,7 @@ describe('User Tests', () => {
 
         test('should edit and the area_used field by worker', async (done) => {
           sampleData = fakeUser(worker.user_id);
+          sampleData.email = worker.email;
           putRequest(sampleData, { user_id: worker.user_id }, async (err, res) => {
             const resUser = await userModel.query().findById(worker.user_id);
             validate(sampleData, res, 200, resUser);
@@ -393,5 +398,7 @@ describe('User Tests', () => {
     });
 
   })
+
+
 
 });

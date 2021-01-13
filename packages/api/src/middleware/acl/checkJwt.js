@@ -24,6 +24,8 @@ const checkJwt = jwt({
     '/user',
     '/login',
     '/password_reset',
+    '/user/accept_invitation',
+    '/user_farm/accept_invitation',
   ],
 });
 

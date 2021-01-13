@@ -6,6 +6,8 @@ import Input from '../Form/Input';
 import React from 'react';
 import Footer from '../Footer';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { Error } from '../Typography';
 
 const inputClasses = {
   container: {
@@ -19,12 +21,30 @@ export default function PureCustomSignUp({
   disabled,
   GoogleLoginButton,
   classes,
+  isChrome,
+  errorMessage,
 }) {
+  const { t } = useTranslation();
+  const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
+  const wrongBrowserBottom = t('SIGNUP.WRONG_BROWSER_BOTTOM');
   return (
     <form onSubmit={onSubmit} className={styles.home} style={classes.form}>
       <div className={styles.lander}>
         <div className={styles.greetContainer}>
           <Logo />
+          {(!isChrome || !!errorMessage) && (
+            <div className={styles.otherBrowserMessageTop}>
+              {!!errorMessage ? (
+                <Error>{errorMessage}</Error>
+              ) : (
+                <>
+                  {wrongBrowserTop}
+                  <div className={styles.otherBrowserMessageBottom}>{wrongBrowserBottom}</div>
+                </>
+              )}
+            </div>
+          )}
+
           <div className={styles.ssoButton}>{GoogleLoginButton}</div>
           <div className={styles.lineBreak}>
             <LineBreak />
@@ -61,6 +81,7 @@ PureCustomSignUp.prototype = {
   disabled: PropTypes.bool,
   GoogleLoginButton: PropTypes.node,
   classes: PropTypes.objectOf(PropTypes.object),
+  errorMessage: PropTypes.string,
 };
 
 PureCustomSignUp.defaultProps = {
@@ -69,4 +90,6 @@ PureCustomSignUp.defaultProps = {
   disabled: undefined,
   GoogleLoginButton: undefined,
   classes: {},
+  isChrome: true,
+  errorMessage: undefined,
 };

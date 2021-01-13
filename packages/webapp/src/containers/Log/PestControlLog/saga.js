@@ -13,6 +13,7 @@ import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
+import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
 
@@ -75,11 +76,11 @@ export function* addPestControlLog(payload) {
     const result = yield call(axios.post, logURL, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully added Log!');
+      i18n.t('message:LOG.SUCCESS.ADD');
     }
   } catch (e) {
     console.log('failed to add log');
-    toastr.error('Failed to add Log');
+    i18n.t('message:LOG.ERROR.ADD');
   }
 }
 
@@ -95,11 +96,11 @@ export function* editPestControlLog(payload) {
     const result = yield call(axios.put, logURL + `/${pcLog.activity_id}`, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully edited Log!');
+      toastr.error(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');
-    toastr.error('Failed to edit Log');
+    toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }
 }
 

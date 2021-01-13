@@ -17,7 +17,7 @@ const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
-const roleModel = require('../models/roleModel');
+const emailTokenModel = require('../models/emailTokenModel');
 const farmModel = require('../models/farmModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
@@ -31,7 +31,7 @@ const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
-      const {email, first_name, last_name, password, language_preference} = req.body;
+      const { email, first_name, last_name, password, language_preference } = req.body;
       const userData = {
         email,
         first_name,
@@ -61,7 +61,7 @@ class userController extends baseController {
         await trx.commit();
 
         // generate token, set to last a week
-        const id_token = await createToken('access', {user_id: userResult.user_id});
+        const id_token = await createToken('access', { user_id: userResult.user_id });
 
         // send welcome email
         try {
@@ -145,65 +145,67 @@ class userController extends baseController {
         return;
       }
       const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
-      if (isUserAlreadyCreated) {
-        try {
-          const trx = await transaction.start(Model.knex());
-          const userFarm = await userFarmModel.query(trx).insert({
-            user_id: created_user_id,
-            farm_id,
-            status: 'Invited',
-            consent_version: '1.0',
-            role_id,
-            wage,
-            has_consent: false,
-            step_one: true,
-            step_two: true,
-            step_three: false,
-            step_four: true,
-            step_five: true,
-          });
-          trx.commit();
-          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
-          try {
-            const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
-            await this.sendTokenEmail(farm_name, { email, first_name }, token);
-          } catch (e) {
-            console.error('Failed to send email', e)
-          }
-        } catch (error) {
-          return res.status(500).send(error);
+      const trx = await transaction.start(Model.knex());
+      try {
+        let user;
+        if (!isUserAlreadyCreated) {
+          user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx);
+        } else {
+          user = isUserAlreadyCreated;
         }
-      } else {
+        const { user_id } = user;
+        const userFarm = await userFarmModel.query(trx).insert({
+          user_id,
+          farm_id,
+          status: 'Invited',
+          consent_version: '1.0',
+          role_id,
+          wage,
+          has_consent: false,
+          step_one: true,
+          step_two: true,
+          step_three: false,
+          step_four: true,
+          step_five: true,
+        });
+        await trx.commit();
+        res.status(201).send({ ...user, ...userFarm });
         try {
-          const trx = await transaction.start(Model.knex());
-          const user = await baseController.post(userModel, { email, first_name, last_name, status: 2 }, trx)
-          const userFarm = await userFarmModel.query(trx).insert({
-            user_id: user.user_id,
-            farm_id,
-            status: 'Invited',
-            consent_version: '1.0',
-            role_id,
-            has_consent: false,
-            wage,
-            step_one: true,
-            step_two: true,
-            step_three: false,
-            step_four: true,
-            step_five: true,
-          });
-          await trx.commit();
-          res.status(201).send({ ...user, ...userFarm });
-          try {
-            const token = createToken('invite', { user: { email, first_name, last_name }, userFarm });
-            await this.sendTokenEmail(farm_name, user, token);
-          } catch (e) {
-            console.error('Failed to send email', e)
-          }
+          await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
         } catch (e) {
-          res.status(500).send(e);
+          console.error('Failed to send email', e);
         }
+      } catch (error) {
+        await trx.rollback();
+        return res.status(400).send(error);
       }
     };
+  }
+
+  static async createTokenSendEmail(user, userFarm, farm_name) {
+    let token;
+    const emailSent = await emailTokenModel.query().where({
+      user_id: userFarm.user_id,
+      farm_id: userFarm.farm_id,
+    }).first();
+    if (!emailSent || emailSent.times_sent < 3) {
+      const timesSent = emailSent && emailSent.times_sent ? ++emailSent.times_sent : 1;
+      if (timesSent === 1) {
+        const emailToken = await emailTokenModel.query().insert({
+          user_id: userFarm.user_id,
+          farm_id: userFarm.farm_id,
+          times_sent: timesSent,
+        }).returning('*');
+        token = await createToken('invite', { ...user, ...userFarm, invitation_id: emailToken.invitation_id });
+      } else {
+        const [emailToken] = await emailTokenModel.query().patch({ times_sent: timesSent }).where({
+          user_id: user.user_id,
+          farm_id: userFarm.farm_id,
+        }).returning('*');
+        token = await createToken('invite', { ...user, ...userFarm, invitation_id: emailToken.invitation_id });
+      }
+      await this.sendTokenEmail(farm_name, user, token);
+    }
   }
 
   static async sendTokenEmail(farm, user, token) {
@@ -219,8 +221,8 @@ class userController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const {user_id, farm_id, first_name, last_name, wage, email} = req.body;
-        const {type: wageType, amount: wageAmount} = wage || {};
+        const { user_id, farm_id, first_name, last_name, wage, email } = req.body;
+        const { type: wageType, amount: wageAmount } = wage || {};
 
         /* Start of input validation */
         const requiredProps = {
@@ -278,7 +280,7 @@ class userController extends baseController {
           step_five: true,
         });
         await trx.commit();
-        res.status(201).send({...user, ...userFarm});
+        res.status(201).send({ ...user, ...userFarm });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
@@ -294,8 +296,8 @@ class userController extends baseController {
       try {
         const id = req.params.user_id;
 
-        const data = await userModel.query().findById(id)
-          .select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id');
+        const data = await userModel.query().context({ user_id: req.user.user_id }).findById(id)
+          .select('first_name', 'last_name', 'profile_picture', 'email', 'phone_number', 'user_id', 'gender', 'birth_year');
 
         if (!data) {
           res.sendStatus(404);
@@ -446,6 +448,99 @@ class userController extends baseController {
       } catch (error) {
         await trx.rollback();
         res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
+  static acceptInvitationAndPostPassword() {
+    return async (req, res) => {
+      let result;
+      try {
+        const { password, first_name, last_name, gender, birth_year, language_preference } = req.body;
+        const { user_id, farm_id, email } = req.user;
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = await bcrypt.hash(password, salt);
+        await userModel.transaction(async trx => {
+          await passwordModel.query(trx).insert({ user_id, password_hash });
+          await userModel.query(trx).findById(user_id).patch({
+            first_name,
+            last_name,
+            gender,
+            birth_year,
+            language_preference,
+            status: 1,
+          });
+          const { role_id } = await userFarmModel.query(trx).where({
+            user_id,
+            farm_id,
+          }).patch({ status: 'Active' }).returning('*').first();
+        });
+        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
+        result = {  ...result.user, ...result, ...result.role, ...result.farm };
+        delete result.farm;
+        delete result.user;
+        delete result.role;
+        const id_token = await createToken('access', { user_id });
+        return res.status(201).send({
+          id_token,
+          user: result,
+        });
+      } catch (error) {
+        console.log(error);
+        res.status(400).json({
+          error,
+        });
+      }
+    };
+  }
+
+  static acceptInvitationWithGoogleAccount() {
+    return async (req, res) => {
+      let result;
+      const { sub, user_id, farm_id, email } = req.user;
+      const { first_name, last_name, gender, birth_year, language_preference } = req.body;
+      try {
+        await userModel.transaction(async trx => {
+          const user = await userModel.query(trx).context({ showHidden: true, shouldUpdateEmail: true }).findById(user_id).patch({ email: user_id }).returning('*');
+          delete user.profile_picture;
+          delete user.address;
+          user.phone_number = user.phone_number ? user.phone_number : undefined;
+          await userModel.query(trx).insert({
+            ...user,
+            user_id: sub,
+            status: 1,
+            email,
+            first_name,
+            last_name,
+            gender,
+            birth_year,
+            language_preference,
+          });
+          await userFarmModel.query(trx).where({
+            user_id,
+            farm_id,
+          }).patch({ status: 'Active' }).first().returning('*');
+          await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await userModel.query(trx).findById(user_id).delete();
+        });
+        result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([
+          sub, farm_id,
+        ]);
+        result = { ...result.user, ...result, ...result.role, ...result.farm };
+        delete result.farm;
+        delete result.user;
+        delete result.role;
+        const id_token = await createToken('access', { user_id: sub });
+        return res.status(200).send({
+          id_token,
+          user: result,
+        });
+      } catch (error) {
+        return res.status(400).json({
           error,
         });
       }

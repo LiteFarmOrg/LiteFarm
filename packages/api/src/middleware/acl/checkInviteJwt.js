@@ -14,10 +14,11 @@
  */
 
 const jwt = require('express-jwt');
+const { tokenType } = require('../../../src/util/jwt');
 
-const checkResetPasswordJwt = jwt({
-  secret: process.env.JWT_INVITE_SECRET,
+const checkInviteToken = jwt({
+  secret: tokenType.invite,
   algorithms: ['HS256'],
 });
 
-module.exports = checkResetPasswordJwt;
+module.exports = checkInviteToken;

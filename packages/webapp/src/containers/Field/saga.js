@@ -29,6 +29,7 @@ import {
   deleteFieldCropSuccess,
 } from '../fieldCropSlice';
 import { deleteFieldSuccess } from '../fieldSlice';
+import i18n from '../../lang/i18n';
 const axios = require('axios');
 const DEC = 10;
 
@@ -98,10 +99,10 @@ export function* putFieldCropSaga({ payload: fieldCrop }) {
       header,
     );
     yield put(putFieldCropSuccess(fieldCrop));
-    toastr.success('Successfully Edited Crop');
+    toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
   } catch (e) {
     console.log('Failed to add fieldCrop to database');
-    toastr.error('Failed To Edit Field Crop');
+    toastr.error(i18n.t('message:CROP.ERROR.EDIT'));
   }
 }
 
@@ -116,10 +117,10 @@ export function* deleteFieldCropSaga({ payload: field_crop_id }) {
   try {
     const result = yield call(axios.delete, fieldCropURL + `/${field_crop_id}`, header);
     yield put(deleteFieldCropSuccess(field_crop_id));
-    toastr.success('Successfully Deleted Crop');
+    toastr.success(i18n.t('message:CROP.SUCCESS.DELETE'));
   } catch (e) {
     console.log('Failed To Delete Field Crop Error: ', e);
-    toastr.error('Failed To Delete Field Crop');
+    toastr.error(i18n.t('message:CROP.ERROR.DELETE'));
   }
 }
 
@@ -174,10 +175,10 @@ export function* deleteFieldSaga({ payload: field_id }) {
     const result = yield call(axios.delete, fieldURL + `/${field_id}`, header);
     history.push('/field');
     yield put(deleteFieldSuccess(field_id));
-    toastr.success('Successfully Deleted Field');
+    toastr.success(i18n.t('message:FIELD.SUCCESS.DELETE'));
   } catch (e) {
     console.log('Failed To Delete Field: ', e);
-    toastr.error('Failed To Delete Field');
+    toastr.error(i18n.t('message:FIELD.ERROR.DELETE'));
   }
 }
 

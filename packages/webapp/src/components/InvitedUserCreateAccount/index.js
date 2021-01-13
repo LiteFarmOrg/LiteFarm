@@ -19,7 +19,7 @@ export default function PureInvitedUserCreateAccountPage({
   buttonText,
   autoOpen,
 }) {
-  const { register, handleSubmit, watch, control } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
@@ -27,10 +27,10 @@ export default function PureInvitedUserCreateAccountPage({
   const EMAIL = 'email';
   const { t } = useTranslation();
   const genderOptions = [
-    { value: 'Request information', label: t('HELP.OPTIONS.REQUEST_INFO') },
-    { value: 'Report a bug', label: t('HELP.OPTIONS.REPORT_BUG') },
-    { value: 'Request a feature', label: t('HELP.OPTIONS.REQUEST_FEATURE') },
-    { value: 'Other', label: t('HELP.OPTIONS.OTHER') },
+    { value: 'MALE', label: t('gender:MALE') },
+    { value: 'FEMALE', label: t('gender:FEMALE') },
+    { value: 'OTHER', label: t('gender:OTHER') },
+    { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 
@@ -46,9 +46,13 @@ export default function PureInvitedUserCreateAccountPage({
     isTooShort,
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
+  const onHandleSubmit = (data) => {
+    data[GENDER] = data[GENDER].value;
+    onSubmit(data);
+  };
   return (
     <Form
-      onSubmit={handleSubmit(onSubmit, onError)}
+      onSubmit={handleSubmit(onHandleSubmit, onError)}
       buttonGroup={
         <>
           <Button type={'submit'} fullLength>
@@ -64,6 +68,7 @@ export default function PureInvitedUserCreateAccountPage({
           inputRef={register({ required: true, pattern: validEmailRegex })}
           name={EMAIL}
           defaultValue={email}
+          disabled
           style={{ marginBottom: '24px' }}
         />
       )}
@@ -93,10 +98,15 @@ export default function PureInvitedUserCreateAccountPage({
       <Input
         label={t('INVITATION.BIRTH_YEAR')}
         type="number"
-        inputRef={register({ min: 1800, max: new Date().getFullYear() })}
+        inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
         name={BIRTHYEAR}
         toolTipContent={t('INVITATION.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
+        errors={
+          errors[BIRTHYEAR] &&
+          (errors[BIRTHYEAR].message ||
+            `Birth year needs to be between 1900 and ${new Date().getFullYear()}`)
+        }
         optional
       />
       {isNotSSO && (

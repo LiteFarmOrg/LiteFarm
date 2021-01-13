@@ -5,6 +5,7 @@ import { onLoadingUserFarmsStart, onLoadingUserFarmsFail } from '../userFarmSlic
 import history from '../../history';
 import { loginSelector, loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 const loginUrl = () => `${url}/google`;
@@ -33,8 +34,8 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
       history.push('/farm_selection');
     }
   } catch (e) {
-    yield put(onLoadingUserFarmsFail());
-    toastr.error('Failed to login user info');
+    yield put(onLoadingUserFarmsFail(e));
+    toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
   }
 }
 

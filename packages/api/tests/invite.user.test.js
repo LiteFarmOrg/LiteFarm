@@ -4,6 +4,7 @@ const moment = require('moment');
 chai.use(chaiHttp);
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
+const emailMiddleware = require('../src/templates/sendEmailTemplate');
 jest.mock('jsdom');
 jest.mock('axios');
 jest.mock('../src/middleware/acl/checkJwt');
@@ -12,7 +13,7 @@ const mocks = require('./mock.factories');
 const { tableCleanup } = require('./testEnvironment');
 
 
-describe('Create user', () => {
+describe('Invite user', () => {
   let middleware;
   let email;
   let axios;
@@ -25,6 +26,7 @@ describe('Create user', () => {
       req.user.user_id = req.get('user_id');
       next()
     });
+    emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
   })
 
 
@@ -35,7 +37,7 @@ describe('Create user', () => {
   });
 
   function postCreateUser({ user_id, farm_id }, data, callback) {
-    chai.request(server).post('/user/invited')
+    chai.request(server).post('/user/invite')
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .set('Content-Type', 'application/json')

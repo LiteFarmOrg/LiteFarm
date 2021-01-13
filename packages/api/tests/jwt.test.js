@@ -15,23 +15,31 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+chai.use(chaiHttp);
 const jsonwebtoken = require('jsonwebtoken');
 const { sign } = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-chai.use(chaiHttp);
+let faker = require('faker');
 const server = require('./../src/server');
 const knex = require('../src/util/knex');
 const { tableCleanup } = require('./testEnvironment');
 let { usersFactory, farmFactory, userFarmFactory } = require('./mock.factories');
+const mocks = require('./mock.factories');
 const { createToken, tokenType } = require('../src/util/jwt');
-const sendEmailTemplate = require('../src/templates/sendEmailTemplate')
+const checkGoogleJwt = require('../src/middleware/acl/checkGoogleJwt.js');
+const sendEmailTemplate = require('../src/templates/sendEmailTemplate');
+const userFarmModel = require('../src/models/userFarmModel');
+const userModel = require('../src/models/userModel');
+const emailMiddleware = require('../src/templates/sendEmailTemplate');
 jest.mock('jsdom');
 jest.mock('../src/util/jwt');
 jest.mock('../src/templates/sendEmailTemplate');
+jest.mock('../src/middleware/acl/checkGoogleJwt.js');
 
 describe('JWT Tests', () => {
   let newUser;
   let accessToken;
+
   async function deleteFarmRequest(data, user, callback) {
     const token = await getAuthorizationHeader(data);
     chai.request(server).delete(`/farm/${data.farm_id}`)
@@ -73,7 +81,12 @@ describe('JWT Tests', () => {
   async function insertPasswordRow({ password = 'password', reset_token_version, created_at = new Date(), user_id }) {
     const salt = await bcrypt.genSalt(10);
     const password_hash = await bcrypt.hash(password, salt);
-    const rows = await knex('password').insert({ password_hash, reset_token_version, created_at, user_id }).returning('*');
+    const rows = await knex('password').insert({
+      password_hash,
+      reset_token_version,
+      created_at,
+      user_id,
+    }).returning('*');
     return rows[0];
   }
 
@@ -82,12 +95,22 @@ describe('JWT Tests', () => {
     return 'Bearer ' + token;
   }
 
+  function validate(expected, res, status, received = undefined) {
+    expect(res.status).toBe(status);
+    received = received ? received : (res.body[0] || res.body);
+    expect(Object.keys(received).length).toBeGreaterThan(0);
+    for (const key of Object.keys(received)) {
+      if (expected[key] && typeof expected[key] === 'string' || typeof expected[key] === 'number') {
+        expect([key, received[key]]).toStrictEqual([key, expected[key]]);
+      }
+    }
+  }
+
   afterAll((done) => {
     server.close(() => {
       done();
     });
   });
-
 
 
   beforeEach(async () => {
@@ -169,7 +192,6 @@ describe('JWT Tests', () => {
         expect(user.reset_token_version).toBe(0);
         const { reset_token_version, created_at } = await knex('password').where({ user_id: newUser.user_id }).first();
         expect(reset_token_version).toBe(1);
-        console.log(oldRow);
         expect(created_at.getTime()).toBeGreaterThanOrEqual(oldRow.created_at.getTime());
         getValidateRequest(resetPasswordToken, newUser.user_id, async (err, res) => {
           expect(res.status).toBe(200);
@@ -263,8 +285,10 @@ describe('JWT Tests', () => {
       postResetPasswordRequest(newUser.email, async (err, res) => {
         const verified = jsonwebtoken.verify(resetPasswordToken, process.env.JWT_RESET_SECRET);
         expect(verified.user_id).toBe(newUser.user_id);
-        putPasswordRequest(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
-          console.log(res,resetPasswordToken);
+        putPasswordRequest(resetPasswordToken, {
+          password: newPassword,
+          user_id: newUser.user_id,
+        }, async (err, res) => {
           expect(res.status).toBe(200);
           const {
             reset_token_version,
@@ -275,7 +299,165 @@ describe('JWT Tests', () => {
           expect(isMatch).toBeTruthy();
           expect(reset_token_version).toBe(0);
           expect(created_at.getTime()).toBeGreaterThan(oldRow.created_at.getTime());
-          putPasswordRequest(resetPasswordToken, { password: newPassword, user_id: newUser.user_id }, async (err, res) => {
+          putPasswordRequest(resetPasswordToken, {
+            password: newPassword,
+            user_id: newUser.user_id,
+          }, async (err, res) => {
+            expect(res.status).toBe(401);
+            done();
+          });
+        });
+      });
+    });
+
+  });
+
+  describe('Accept invitation jwt test', () => {
+    let invitationToken;
+    let google_id = 104942873090000000000;
+    let reqBody;
+    let googleUser;
+
+    function postAcceptInvitationWithPasswordRequest(invitationToken, callback) {
+      chai.request(server).post(`/user/accept_invitation`)
+        .set('Authorization', `Bearer ${invitationToken}`)
+        .send(reqBody)
+        .end(callback);
+    }
+
+    function putAcceptInvitationWithGoogleAccountRequest(invitationToken, callback) {
+      delete reqBody.password;
+      chai.request(server).put(`/user/accept_invitation`)
+        .send({ ...reqBody, invite_token: invitationToken })
+        .end(callback);
+    }
+
+    function getRequest({ email = user.email }, callback) {
+      chai.request(server)
+        .get(`/login/user/${email}`)
+        .set('email', email)
+        .end(callback);
+    }
+
+    function fakeGoogleTokenContent() {
+      const user = mocks.fakeUser();
+      return {
+        sub: (google_id++).toString(),
+        email: faker.internet.email(user.first_name, user.last_name, 'gmail.com'),
+      };
+    }
+
+    function fakeReqBody() {
+      const { first_name, last_name, gender, birth_year, language_preference } = mocks.fakeUser();
+      return {
+        first_name, last_name, gender, birth_year, language_preference,
+        password: faker.internet.password(),
+      };
+    }
+
+    beforeEach(async (done) => {
+      let { createToken } = require('../src/util/jwt');
+      createToken.mockImplementation(async (type, user) => {
+        let localInvitationToken = sign(user, tokenType[type], {
+          expiresIn: '7d',
+          algorithm: 'HS256',
+        });
+        invitationToken = localInvitationToken;
+        return localInvitationToken;
+      });
+      checkGoogleJwt.mockImplementation(async (req, res, next) => {
+        req.user = googleUser;
+        return next();
+      });
+      emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
+      invitationToken = undefined;
+      reqBody = fakeReqBody();
+      googleUser = fakeGoogleTokenContent();
+      done();
+    });
+    test('Validate a valid token', async (done) => {
+      const resetPasswordToken = await createToken('invite', newUser);
+      const user = jsonwebtoken.verify(resetPasswordToken, tokenType.invite);
+      expect(user.user_id).toEqual(newUser.user_id);
+      done();
+    });
+
+    test('Should create password when user status is invited', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status: 2 });
+      const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      const {user_id, farm_id} = userFarm;
+      getRequest(user, async (err, res) => {
+        const verified = jsonwebtoken.verify(invitationToken, tokenType.invite);
+        expect(verified.user_id).toBe(user.user_id);
+        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+          const [resUser] = await userModel.query().where({ user_id: user.user_id });
+          validate({ ...user, ...reqBody, status: 1 }, res, 201, resUser);
+          const {
+            password_hash,
+          } = await knex('password').where({ user_id: user.user_id }).first();
+          const isMatch = await bcrypt.compare(reqBody.password, password_hash);
+          expect(isMatch).toBeTruthy();
+          const [resUserFarm] = await knex('userFarm').where({user_id, farm_id});
+          expect(resUserFarm.status).toBe('Active');
+          postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+            expect(res.status).toBe(401);
+            done();
+          });
+        });
+      });
+    });
+
+    test('User should accept invitation when birth year is undefined', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status: 2 });
+      const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      getRequest(user, async (err, res) => {
+        delete reqBody.birth_year;
+        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+          const [resUser] = await userModel.query().where({ user_id: user.user_id });
+          validate({ ...user, ...reqBody, status: 1 }, res, 201, resUser);
+          done();
+        });
+      });
+    });
+
+    test('Should modify user_id when login with google and user status is invited', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status: 2, email: googleUser.email});
+      const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      const [userFarm1] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      const {user_id, farm_id} = userFarm;
+      getRequest(user, async (err, res) => {
+        const verified = jsonwebtoken.verify(invitationToken, tokenType.invite);
+        expect(verified.user_id).toBe(user.user_id);
+        const getUserFarmStatus = (farm_id) => verified.farm_id === farm_id ? 'Active': 'Invited';
+        putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
+          const oldUserRows = await userModel.query().where({ user_id: user.user_id });
+          expect(oldUserRows.length).toBe(0);
+          const [resUser] = await userModel.query().where({ user_id: googleUser.sub });
+          validate({ ...user, ...reqBody, email: googleUser.email, user_id: googleUser.user_id, status: 1 }, res, 200, resUser);
+          const oldUserFarms = await knex('userFarm').where({user_id});
+          expect(oldUserFarms.length).toBe(0);
+          const [resUserFarm] = await knex('userFarm').where({user_id: googleUser.sub, farm_id});
+          expect(resUserFarm.status).toBe(getUserFarmStatus(farm_id));
+          const [resUserFarm1] = await knex('userFarm').where({user_id: googleUser.sub, farm_id: userFarm1.farm_id});
+          expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+          const emailTokens = await knex('emailToken').where({user_id: googleUser.sub});
+          expect(emailTokens.length).toBe(2);
+          const oldEmailTokens = await knex('emailToken').where({user_id});
+          expect(oldEmailTokens.length).toBe(0);
+          expect(resUserFarm1.status).toBe(getUserFarmStatus(userFarm1.farm_id));
+          putAcceptInvitationWithGoogleAccountRequest(invitationToken, async (err, res) => {
             expect(res.status).toBe(401);
             done();
           });

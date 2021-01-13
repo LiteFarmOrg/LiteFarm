@@ -18,6 +18,7 @@ import { SEND_CONTACT_FORM } from './constants';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
+import i18n from '../../lang/i18n';
 
 const axios = require('axios');
 
@@ -43,10 +44,10 @@ export function* sendContactForm(action) {
     formData.append(GOOGLE_FORM_EMAIL_ID, data.email);
     const result = yield call(axios.post, CORS_FIX + GOOGLE_FORM_ACTION_URL, formData);
     if (result) {
-      toastr.success('Submitted Contact Form!');
+      toastr.success(i18n.t('message:CONTACT.SUCCESS.SUBMIT_CONTACT_FORM'));
     }
   } catch (e) {
-    toastr.error('Error, Could Not Submit A Contact Form');
+    toastr.error(i18n.t('message:CONTACT.ERROR.SUBMIT_CONTACT_FORM'));
     console.log('Unsuccessful in Sending Contact Form');
   }
 }

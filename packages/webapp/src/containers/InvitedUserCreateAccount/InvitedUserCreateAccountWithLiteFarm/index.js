@@ -18,8 +18,8 @@ export default function InvitedUserCreateAccountWithLiteFarm({ history }) {
       onSubmit={onSubmit}
       email={email}
       name={name}
-      title={t('INVITATION.YOUR_INFORMATION')}
-      buttonText={t('common:SAVE')}
+      title={t('INVITATION.CREATE_ACCOUNT')}
+      buttonText={t('INVITATION.CREATE_NEW_ACCOUNT')}
       isNotSSO
     />
   );

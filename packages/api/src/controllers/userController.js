@@ -95,9 +95,9 @@ class userController extends baseController {
 
   static addInvitedUser() {
     return async (req, res) => {
-      const { first_name, last_name, email, farm_id, role_id, wage } = req.body;
+      const { first_name, last_name, email: reqEmail, farm_id, role_id, wage } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
-
+      const email = reqEmail && reqEmail.toLowerCase();
       /* Start of input validation */
       const requiredProps = {
         email,

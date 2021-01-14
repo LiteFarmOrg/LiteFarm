@@ -27,4 +27,7 @@ yarn-error.log*
 
 src/lang/*/*_old.json
 
+src/__snapshots__/*
+build-storybook.log
+
 packages/.DS_Store

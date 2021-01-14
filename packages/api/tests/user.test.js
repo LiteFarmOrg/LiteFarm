@@ -294,9 +294,9 @@ describe('User Tests', () => {
       beforeEach(async () => {
         const fakeuser = mocks.fakeUser();
         const fakeuserfarm = mocks.fakeUserFarm();
-        const user_id = fakeuser.first_name+fakeuser.last_name;
+        const user_id = fakeuser.user_id;
         sampleData = {
-          email: `${user_id}@pseudo.com`,
+          email: `${user_id}@pseudo.com`.toLowerCase(),
           first_name: fakeuser.first_name,
           'last_name': fakeuser.last_name,
           'farm_id': farm.farm_id,

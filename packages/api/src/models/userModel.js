@@ -22,6 +22,16 @@ class User extends Model {
     !queryContext.shouldUpdateEmail && delete this.email;
   }
 
+  async $beforeInsert(context) {
+    await super.$beforeInsert(context);
+    this.email && (this.email = this.email.toLowerCase());
+  }
+
+  static async beforeFind(args) {
+    await super.beforeFind(args);
+    this.email && (this.email = this.email.toLowerCase());
+  }
+
   static get tableName() {
     return 'users';
   }

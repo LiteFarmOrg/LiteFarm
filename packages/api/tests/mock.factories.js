@@ -19,10 +19,11 @@ function usersFactory(userObject = fakeUser()) {
 }
 
 function fakeUser() {
+  const email = faker.lorem.word() + faker.internet.email();
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
-    email: faker.lorem.word() + faker.internet.email(),
+    email: email.toLowerCase(),
     user_id: faker.random.uuid(),
     status: 1,
     phone_number: faker.phone.phoneNumber(),
@@ -33,10 +34,11 @@ function fakeUser() {
 
 
 function fakeSSOUser() {
+  const email = faker.lorem.word() + faker.internet.email();
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
-    email: faker.lorem.word() + faker.internet.email(),
+    email:  email.toLowerCase(),
     user_id: faker.random.number(10),
     phone_number: faker.phone.phoneNumber(),
   };

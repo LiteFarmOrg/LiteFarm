@@ -12,11 +12,21 @@ export default function PureInviteSignup({
   selectedKey = 0,
   onClick,
   email,
+  isChrome,
 }) {
   const { t } = useTranslation();
+  const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
+  const wrongBrowserBottom = t('SIGNUP.WRONG_BROWSER_BOTTOM');
   return (
     <Layout hasWhiteBackground buttonGroup={googleButton}>
       <Title style={{ marginBottom: '24px' }}>{t(`INVITE_SIGN_UP.TITLE`)}</Title>
+      {!isChrome && (
+        <div className={styles.otherBrowserMessageTop}>
+          {wrongBrowserTop}
+          <div className={styles.otherBrowserMessageBottom}>{wrongBrowserBottom}</div>
+        </div>
+      )}
+
       {showError ? (
         <Error style={{ marginBottom: '24px', marginTop: 0 }}>
           {t(`INVITE_SIGN_UP.ERROR0`)} <strong>{email}</strong> {t(`INVITE_SIGN_UP.ERROR1`)}

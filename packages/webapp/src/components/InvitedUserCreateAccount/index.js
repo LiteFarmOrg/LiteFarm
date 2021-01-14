@@ -47,7 +47,7 @@ export default function PureInvitedUserCreateAccountPage({
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
   const onHandleSubmit = (data) => {
-    data[GENDER] = data[GENDER].value;
+    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     onSubmit(data);
   };
   return (
@@ -82,7 +82,6 @@ export default function PureInvitedUserCreateAccountPage({
       <Controller
         control={control}
         name={GENDER}
-        rules={{ required: true }}
         render={({ onChange, onBlur, value }) => (
           <ReactSelect
             label={t('INVITATION.GENDER')}
@@ -92,6 +91,7 @@ export default function PureInvitedUserCreateAccountPage({
             toolTipContent={t('INVITATION.GENDER_TOOLTIP')}
             style={{ marginBottom: '24px' }}
             autoOpen={autoOpen}
+            defaultValue={genderOptions[3]}
           />
         )}
       />

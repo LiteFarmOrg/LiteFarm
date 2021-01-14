@@ -27,7 +27,7 @@ class userLogModel extends Model{
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'ip', 'languages', 'browser', 'browser_version', 'os', 'os_version',
+      required: ['user_id', 'ip', 'languages', 'browser', 'browser_version',
         'screen_width', 'screen_height'],
       properties: {
         user_log_id: { type: 'string' },

@@ -59,11 +59,11 @@
     "ERROR": {
       "DELETE": "MISSING",
       "EMPTY_NAME": "MISSING",
-      "UPDATE_NAME": "Editaste exitosamente el nombre del campo"
+      "UPDATE_NAME": "Fallo el cambio de nombre del campo"
     },
     "SUCCESS": {
       "DELETE": "MISSING",
-      "UPDATE_NAME": "MISSING"
+      "UPDATE_NAME": "Editaste exitosamente el nombre del campo"
     }
   },
   "LOG": {

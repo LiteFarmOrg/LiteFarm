@@ -343,7 +343,7 @@ describe('JWT Tests', () => {
       const user = mocks.fakeUser();
       return {
         sub: (google_id++).toString(),
-        email: faker.internet.email(user.first_name, user.last_name, 'gmail.com'),
+        email: faker.internet.email(user.first_name, user.last_name, 'gmail.com').toLowerCase(),
       };
     }
 

@@ -294,9 +294,9 @@ describe('User Tests', () => {
       beforeEach(async () => {
         const fakeuser = mocks.fakeUser();
         const fakeuserfarm = mocks.fakeUserFarm();
-        const user_id = fakeuser.first_name+fakeuser.last_name;
+        const user_id = fakeuser.user_id;
         sampleData = {
-          email: `${user_id}@pseudo.com`,
+          email: `${user_id}@pseudo.com`.toLowerCase(),
           first_name: fakeuser.first_name,
           'last_name': fakeuser.last_name,
           'farm_id': farm.farm_id,
@@ -350,6 +350,7 @@ describe('User Tests', () => {
 
       test('Owner should post a pseudo user', async (done) => {
         postPseudoUserRequest(sampleData, {}, async (err, res) => {
+          console.log(sampleData.email)
           const resUser = await userModel.query().where({email: sampleData.email}).first();
           const resUserFarm = await userFarmModel.query().where({user_id: resUser.user_id, farm_id: farm.farm_id}).first();
           validate({ ...sampleData, role_id:4 }, res,201, {...resUser, ...resUserFarm});

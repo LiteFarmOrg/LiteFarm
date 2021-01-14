@@ -5,6 +5,7 @@ import { Text, Title, Error, Main, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Card from '../Card';
 import { ReactComponent as GoogleLogo } from '../../assets/images/inviteSignUp/google-logo.svg';
+import styles from './styles.scss';
 
 export default function PureInviteSignup({
   googleButton,
@@ -12,7 +13,7 @@ export default function PureInviteSignup({
   selectedKey = 0,
   onClick,
   email,
-  isChrome,
+  isChrome = true,
 }) {
   const { t } = useTranslation();
   const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
@@ -20,7 +21,7 @@ export default function PureInviteSignup({
   return (
     <Layout hasWhiteBackground buttonGroup={googleButton}>
       <Title style={{ marginBottom: '24px' }}>{t(`INVITE_SIGN_UP.TITLE`)}</Title>
-      {!isChrome && (
+      {!isChrome && !showError && (
         <div className={styles.otherBrowserMessageTop}>
           {wrongBrowserTop}
           <div className={styles.otherBrowserMessageBottom}>{wrongBrowserBottom}</div>

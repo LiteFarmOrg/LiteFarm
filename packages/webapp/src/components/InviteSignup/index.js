@@ -65,4 +65,5 @@ PureInviteSignup.prototype = {
   email: PropTypes.string,
   selectedKey: PropTypes.oneOf([0, 1, 2]),
   onClick: PropTypes.func,
+  isChrome: PropTypes.bool,
 };

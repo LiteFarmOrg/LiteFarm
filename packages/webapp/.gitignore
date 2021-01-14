@@ -29,5 +29,6 @@ src/lang/*/*_old.json
 
 src/__snapshots__/*
 build-storybook.log
+storybook-static/*
 
 packages/.DS_Store

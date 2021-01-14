@@ -98,7 +98,6 @@ class userController extends baseController {
       const { first_name, last_name, email: reqEmail, farm_id, role_id, wage } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
       const email = reqEmail && reqEmail.toLowerCase();
-      console.log(email)
       /* Start of input validation */
       const requiredProps = {
         email,
@@ -172,7 +171,6 @@ class userController extends baseController {
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
-          console.log(email);
           await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
         } catch (e) {
           console.error('Failed to send email', e);

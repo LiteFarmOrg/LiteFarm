@@ -350,7 +350,6 @@ describe('User Tests', () => {
 
       test('Owner should post a pseudo user', async (done) => {
         postPseudoUserRequest(sampleData, {}, async (err, res) => {
-          console.log(sampleData.email)
           const resUser = await userModel.query().where({email: sampleData.email}).first();
           const resUserFarm = await userFarmModel.query().where({user_id: resUser.user_id, farm_id: farm.farm_id}).first();
           validate({ ...sampleData, role_id:4 }, res,201, {...resUser, ...resUserFarm});

@@ -62,7 +62,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
-      <Input style={{ marginBottom: '28px' }} label={t('CREATE_USER.email')} disabled defaultValue={email} />
+      <Input style={{ marginBottom: '28px' }} label={t('CREATE_USER.EMAIL')} disabled defaultValue={email} />
       <Input
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.FULL_NAME')}

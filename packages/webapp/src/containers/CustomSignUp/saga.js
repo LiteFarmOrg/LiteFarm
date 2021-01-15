@@ -99,8 +99,7 @@ export const customCreateUser = createAction(`customCreateUserSaga`);
 export function* customCreateUserSaga({ payload: data }) {
   try {
     const name = data.name;
-    const full_name = name.split(' ');
-    const [first_name, last_name] = getFirstNameLastName(full_name);
+    const { first_name, last_name } = getFirstNameLastName(name);
     const language_preference = localStorage.getItem('litefarm_lang');
     const email = data.email;
     const password = data.password;

@@ -16,6 +16,7 @@
 import { getFirstNameLastName } from '../util';
 
 describe('Util test', () => {
+  //TODO: fix jest config
   it('getFirstNameLastName test', () => {
     let [first_name, last_name] = getFirstNameLastName('first');
     expect(first_name).be('first');

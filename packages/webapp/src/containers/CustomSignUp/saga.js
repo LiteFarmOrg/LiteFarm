@@ -97,21 +97,25 @@ export const customCreateUser = createAction(`customCreateUserSaga`);
 
 export function* customCreateUserSaga({ payload: data }) {
   try {
-    const name = data.name;
+    const { name, email, password, gender, birth_year } = data;
     const full_name = name.split(' ');
     const first_name = full_name[0];
     const last_name = full_name[1] || '';
     const language_preference = localStorage.getItem('litefarm_lang');
-    const email = data.email;
-    const password = data.password;
 
-    const result = yield call(axios.post, userUrl(), {
+    let reqBody = {
       email,
       first_name,
       last_name,
       password,
+      gender,
+      birth_year,
       language_preference,
-    });
+    };
+
+    !reqBody.birth_year && delete reqBody.birth_year;
+
+    const result = yield call(axios.post, userUrl(), reqBody);
 
     if (result) {
       const {

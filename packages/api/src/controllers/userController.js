@@ -31,11 +31,13 @@ const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
-      const { email, first_name, last_name, password, language_preference } = req.body;
+      const { email, first_name, last_name, password, gender, birth_year, language_preference } = req.body;
       const userData = {
         email,
         first_name,
         last_name,
+        gender,
+        birth_year,
         language_preference,
       };
 
@@ -79,14 +81,14 @@ class userController extends baseController {
         }
 
         // send token and user data (sans password hash)
-        res.status(201).send({
+        return res.status(201).send({
           id_token,
           user: userResult,
         });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

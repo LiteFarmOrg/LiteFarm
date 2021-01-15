@@ -89,7 +89,9 @@
   "resolutions": {
     "braces": "^3.0.2",
     "set-value": "^3.0.2",
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "node-notifier": "^8.0.1",
+    "ini": "^1.3.8"
   },
   "lint-staged": {
     "*.{js}": [

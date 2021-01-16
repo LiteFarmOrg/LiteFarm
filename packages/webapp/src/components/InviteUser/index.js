@@ -2,7 +2,7 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';
-import { Title } from '../Typography';
+import { Title, Info } from '../Typography';
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../Signup/utils';
@@ -57,10 +57,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       buttonGroup={
         <>
           <Button onClick={onGoBack} color={'secondary'} type={'button'} fullLength>
-            {t('common:BACK')}
+            {t('common:CANCEL')}
           </Button>
           <Button disabled={disabled} type={'submit'} fullLength>
-            {t('INVITE_USER.CREATE_BUTTON')}
+            {t('INVITE_USER.INVITE')}
           </Button>
         </>
       }
@@ -88,11 +88,12 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         )}
       />
       <Input
-        style={{ marginBottom: '28px' }}
+        // style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.EMAIL')}
         name={EMAIL}
         inputRef={register({ required: true })}
       />
+      <Info style={{ marginBottom: '16px' }}>{t('INVITE_USER.EMAIL_INFO')}</Info>
       <Controller
         control={control}
         name={GENDER}

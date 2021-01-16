@@ -130,6 +130,21 @@
     "CREATE_NEW_ACCOUNT": "Create New Account",
     "YOUR_INFORMATION": "Your information"
   },
+  "INVITE_USER": {
+    "TITLE": "Invite a user",
+    "FULL_NAME":"Full name",
+    "ROLE": "Role",
+    "CHOOSE_ROLE": "Choose Role",
+    "EMAIL": "Email",
+    "EMAIL_INFO": "Users without an email won't be able to login",
+    "GENDER": "Gender",
+    "BIRTH_YEAR": "Birth Year",
+    "WAGE": "Wage",
+    "PHONE": "Phone",
+    "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with personally identifying information removed",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with personally identifying information removed",
+    "INVITE": "Invite"
+  },
   "LOG_COMMON": {
     "ACTION": "Action",
     "ACTIVITY": "Activity",

@@ -14,6 +14,7 @@
  */
 
 const baseModel = require('./baseModel');
+const Model = require('objection').Model;
 
 class Shift extends baseModel {
   static get tableName() {
@@ -49,6 +50,18 @@ class Shift extends baseModel {
       additionalProperties: false,
     }
   }
+  // static get relationMappings() {
+  //   return {
+  //     userFarm:{
+  //       modelClass:require('./userFarmModel'),
+  //       relation: Model.BelongsToOneRelation,
+  //       join: {
+  //         from: ['shift.user_id', 'shift.farm_id'],
+  //         to: ['userFarm.user_id', 'userFarm.farm_id'],
+  //       },
+  //     },
+  //   }
+  // }
 }
 
 module.exports = Shift;

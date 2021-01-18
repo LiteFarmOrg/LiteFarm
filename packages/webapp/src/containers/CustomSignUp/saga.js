@@ -21,6 +21,7 @@ import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT, inlineErrors } from './consta
 import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../lang/i18n';
+import { getFirstNameLastName } from '../../util';
 
 const axios = require('axios');
 const loginUrl = (email) => `${url}/login/user/${email}`;
@@ -98,9 +99,7 @@ export const customCreateUser = createAction(`customCreateUserSaga`);
 export function* customCreateUserSaga({ payload: data }) {
   try {
     const { name, email, password, gender, birth_year } = data;
-    const full_name = name.split(' ');
-    const first_name = full_name[0];
-    const last_name = full_name[1] || '';
+    const { first_name, last_name } = getFirstNameLastName(name);
     const language_preference = localStorage.getItem('litefarm_lang');
 
     let reqBody = {

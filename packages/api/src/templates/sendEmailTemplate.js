@@ -48,7 +48,7 @@ class sendEmailTemplate {
       },
     });
     const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
-    const subject = addReplacements(template_path, subjectTranslation[language][subjectKey] || subjectTranslation[language]['en']);
+    const subject = addReplacements(template_path, subjectTranslation[language.substring(0, 2)][subjectKey]);
     const filePath = path.join(__dirname, `../templates/${language}/${template_path.path}`);
     const html = await fs.readFile(filePath, 'utf8');
 

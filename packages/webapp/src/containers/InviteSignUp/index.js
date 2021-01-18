@@ -15,6 +15,7 @@ function InviteSignUp({ history }) {
   const { i18n, t } = useTranslation();
   const [email, setEmail] = useState();
   const [showError, setShowError] = useState();
+  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
   useEffect(() => {
     if (!invite_token) {
@@ -88,6 +89,7 @@ function InviteSignUp({ history }) {
         selectedKey={selectedKey}
         email={email}
         onClick={onClick}
+        isChrome={isChrome}
       />
     </>
   );

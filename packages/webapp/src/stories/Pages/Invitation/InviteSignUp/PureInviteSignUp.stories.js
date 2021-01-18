@@ -43,3 +43,26 @@ WithError.args = {
 SelectGoogle.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };
+
+export const WithErrorAndIsNotChrome = Template.bind({});
+WithErrorAndIsNotChrome.args = {
+  googleButton: <Button fullLength>Proceed</Button>,
+  showError: true,
+  selectedKey: 1,
+  email: 'example@litefarm.org',
+  isChrome: false,
+};
+WithErrorAndIsNotChrome.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};
+
+export const isNotChrome = Template.bind({});
+isNotChrome.args = {
+  googleButton: <Button fullLength>Proceed</Button>,
+  selectedKey: 1,
+  email: 'example@litefarm.org',
+  isChrome: false,
+};
+isNotChrome.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};

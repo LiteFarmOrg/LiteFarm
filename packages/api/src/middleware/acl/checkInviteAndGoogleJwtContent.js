@@ -16,11 +16,12 @@
 const jsonwebtoken = require('jsonwebtoken');
 const userFarmModel = require('../../models/userFarmModel');
 const emailTokenModel = require('../../models/emailTokenModel');
+const {tokenType} = require('../../util/jwt');
 
 async function checkInvitationTokenContent(req, res, next) {
   let invitation_token_content;
   try {
-    invitation_token_content = jsonwebtoken.verify(req.body.invite_token, process.env.JWT_INVITE_SECRET);
+    invitation_token_content = jsonwebtoken.verify(req.body.invite_token, tokenType.invite);
   } catch (error) {
     return res.status(401).send('Invitation link expired');
   }

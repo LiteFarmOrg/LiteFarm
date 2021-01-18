@@ -71,8 +71,12 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
       const { email: currentEmail } = yield select(userFarmSelector);
       const { email } = jwt.decode(invite_token);
       currentEmail !== email && logout();
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));

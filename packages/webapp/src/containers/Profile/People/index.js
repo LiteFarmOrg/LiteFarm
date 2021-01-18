@@ -4,7 +4,7 @@ import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
 import { rolesSelector } from './slice';
 
-import { addPseudoWorker, addUser, deactivateUser, getRoles, reactivateUser } from './saga';
+import { addPseudoWorker, addUser, deactivateUser, reactivateUser } from './saga';
 import { updateUserFarm } from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -213,7 +213,7 @@ class People extends Component {
     const { dispatch } = this.props;
     dispatch(getAllUserFarmsByFarmId());
     dispatch(actions.reset('profileForms.addInfo'));
-    dispatch(getRoles());
+    // dispatch(getRoles());
   }
 
   deactivate = (user_id) => {

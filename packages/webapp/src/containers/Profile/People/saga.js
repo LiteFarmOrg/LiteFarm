@@ -145,21 +145,21 @@ export function* updateUserFarmSaga({ payload: user }) {
   }
 }
 
-export const getRoles = createAction('getRolesSaga');
+// export const getRoles = createAction('getRolesSaga');
 
-export function* getRolesSaga() {
-  const { rolesUrl } = apiConfig;
-  const { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-  try {
-    yield put(onLoadingRolesStart());
-    const result = yield call(axios.get, rolesUrl, header);
-    yield put(getRolesSuccess(result.data));
-  } catch (e) {
-    yield put(onLoadingRolesFail());
-    console.log('failed to fetch roles from database');
-  }
-}
+// export function* getRolesSaga() {
+//   const { rolesUrl } = apiConfig;
+//   const { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
+//   try {
+//     yield put(onLoadingRolesStart());
+//     const result = yield call(axios.get, rolesUrl, header);
+//     yield put(getRolesSuccess(result.data));
+//   } catch (e) {
+//     yield put(onLoadingRolesFail());
+//     console.log('failed to fetch roles from database');
+//   }
+// }
 
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
@@ -167,6 +167,6 @@ export default function* peopleSaga() {
   yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
   yield takeLatest(deactivateUser.type, deactivateUserSaga);
   yield takeLatest(updateUserFarm.type, updateUserFarmSaga);
-  yield takeLatest(getRoles.type, getRolesSaga);
+  // yield takeLatest(getRoles.type, getRolesSaga);
   yield takeLatest(reactivateUser.type, reactivateUserSaga);
 }

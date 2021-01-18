@@ -1,6 +1,6 @@
 import React from 'react';
-import { authenticatedDecorators } from '../config/decorators';
-import PureInvitedUserCreateAccountPage from '../../../components/InvitedUserCreateAccount';
+import { authenticatedDecorators } from '../../config/decorators';
+import PureInvitedUserCreateAccountPage from '../../../../components/InvitedUserCreateAccount';
 
 export default {
   title: 'Form/PureInvitedUserCreateAccountPage',
@@ -25,7 +25,7 @@ SSO.args = {
   onSubmit: (data) => console.log(data),
   email: 'example@gmail.com',
   name: 'liteFarm',
-  title: 'Create your account',
+  title: 'Your information',
   buttonText: 'Save',
 };
 

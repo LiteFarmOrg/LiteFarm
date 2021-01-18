@@ -128,11 +128,11 @@ class insightController extends baseController {
       try {
         const farmID = req.params.farm_id;
         const dataPoints = await knex.raw(
-          `SELECT f.grid_points, COUNT(fc.crop_id)
+          `SELECT f.grid_points, SUM(CASE WHEN fc.deleted = false and fc.end_date >= NOW() THEN 1 ELSE 0 END) as count
           FROM "field" f
           LEFT JOIN "fieldCrop" fc
           ON fc.field_id = f.field_id
-          WHERE f.farm_id = ? and fc.deleted = false and fc.end_date >= NOW()
+          WHERE f.farm_id = ?
           GROUP BY f.grid_points`, [farmID]);
         if (dataPoints.rows) {
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);

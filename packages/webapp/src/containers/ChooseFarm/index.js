@@ -69,6 +69,13 @@ function ChooseFarm() {
     setFilter(e.target.value.toLowerCase());
   };
 
+  useEffect(() => {
+    const { farm_id } = history.location.state || {};
+    if (farm_id) {
+      setFarmId(farm_id);
+    }
+  }, []);
+
   return loaded && farms.length ? (
     <PureChooseFarmScreen
       farms={getFormattedFarms({

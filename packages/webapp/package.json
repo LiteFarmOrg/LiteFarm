@@ -11,7 +11,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "auth0-js": "^9.13.2",
     "autoprefixer": "7.1.6",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "babel-eslint": "10.1.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "8.1.0",
@@ -82,7 +82,7 @@
     "react-dom": "^16.13.1",
     "react-floater": "^0.7.2",
     "react-google-login": "^5.1.25",
-    "react-hook-form": "^6.9.6",
+    "react-hook-form": "^6.14.1",
     "react-i18next": "^11.7.3",
     "react-icons": "^3.11.0",
     "react-image": "^1.5.1",
@@ -91,7 +91,7 @@
     "react-load-script": "0.0.6",
     "react-markdown": "^5.0.2",
     "react-mobile-picker-scroll": "^0.2.14",
-    "react-open-weather": "^0.5.2",
+    "react-open-weather": "^1.1.1",
     "react-player": "^1.15.3",
     "react-redux": "^7.2.1",
     "react-redux-form": "^1.16.14",
@@ -115,7 +115,7 @@
     "shepherd.js": "^8.1.0",
     "style-loader": "^2.0.0",
     "sw-precache-webpack-plugin": "0.11.4",
-    "terser-webpack-plugin": "2.3.5",
+    "terser-webpack-plugin": "^4.2.3",
     "ts-pnp": "1.1.6",
     "typescript": "~3.7.2",
     "update": "^0.7.4",
@@ -135,7 +135,6 @@
     "test": "jest",
     "lint": "eslint src",
     "i18n": "npx i18next 'src/**/*.js'",
-    "preinstall": "npx npm-force-resolutions",
     "cypress-ui": "./node_modules/.bin/cypress open",
     "record-cypress": "./node_modules/.bin/cypress run --browser chrome --record --key 7651a84f-409b-476d-bff9-3302074dea6a --parallel",
     "cypress": "./node_modules/.bin/cypress run --browser chrome",
@@ -144,7 +143,8 @@
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
     "format": "npx prettier --write ./src",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "preinstall": "npx npm-force-resolutions"
   },
   "lint-staged": {
     "*.{js}": [
@@ -200,19 +200,19 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^6.1.1",
-    "@storybook/addon-actions": "^6.1.1",
-    "@storybook/addon-essentials": "^6.1.1",
-    "@storybook/addon-jest": "^6.1.11",
-    "@storybook/addon-links": "^6.1.1",
-    "@storybook/addon-storyshots": "^6.1.1",
-    "@storybook/addon-storysource": "^6.1.11",
-    "@storybook/react": "^6.1.1",
+    "@storybook/addon-a11y": "^6.1.12",
+    "@storybook/addon-actions": "^6.1.12",
+    "@storybook/addon-essentials": "^6.1.12",
+    "@storybook/addon-jest": "^6.1.12",
+    "@storybook/addon-links": "^6.1.12",
+    "@storybook/addon-storyshots": "^6.1.12",
+    "@storybook/addon-storysource": "^6.1.12",
+    "@storybook/react": "^6.1.12",
     "@svgr/webpack": "^5.4.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "chromatic": "^5.3.0",
-    "cypress": "^3.8.3",
+    "cypress": "^6.2.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-react": "^7.19.0",
     "i18next-parser": "^3.3.0",
@@ -222,7 +222,7 @@
     "prettier": "2.2.1",
     "react-is": "^16.13.1",
     "react-test-renderer": "^17.0.1",
-    "start-server-and-test": "^1.11.0"
+    "start-server-and-test": "^1.11.7"
   },
   "resolutions": {
     "braces": "^3.0.2",
@@ -230,11 +230,14 @@
     "cryptiles": "^4.1.3",
     "tar": "^6.0.5",
     "minimist": "^1.2.5",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "lodash": "^4.17.20",
     "yargs-parser": "^20.2.1",
     "js-yaml": "^3.14.0",
-    "mem": "^7.0.0-1"
+    "mem": "^7.0.0-1",
+    "assign-deep": "^1.0.1",
+    "set-value": "^3.0.2",
+    "ini": "^1.3.8"
   },
   "browserslist": {
     "production": [

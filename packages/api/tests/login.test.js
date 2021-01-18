@@ -125,7 +125,7 @@ describe('Sign Up Tests', () => {
 
   describe('Exists', () => {
     test('should send missing invitation to user if checks existance and has no farms', async (done) => {
-      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 2});
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 2});
       const [userFarm] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
       getRequest({email: user.email}, (err, res) => {
         expect(res.status).toBe(200);
@@ -137,7 +137,7 @@ describe('Sign Up Tests', () => {
     })
 
     test('should send missing invitation(s) to user if checks existance and has no farms but many invites', async (done) => {
-      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 2});
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 2});
       const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
       const [userFarm2] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
       const [userFarm3] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
@@ -152,7 +152,7 @@ describe('Sign Up Tests', () => {
     })
 
     test('should send a password reset email to user if he was legacy ', async (done) => {
-      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status: 3});
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 3});
       const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]});
       getRequest({email: user.email}, (err, res) => {
         expect(res.status).toBe(200);
@@ -160,6 +160,33 @@ describe('Sign Up Tests', () => {
         expect(res.body.expired).toBe(true);
         expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(1);
         done();
+      })
+    })
+
+    test('should fail at the 4th request of a user who had a pending invitation', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 2});
+      const [userFarm] = await mocks.userFarmFactory({promisedUser: [user]}, {status: 'Invited'});
+      const {user_id, farm_id} = userFarm;
+      getRequest({email: user.email}, async() => {
+        const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+        expect(emailTokenRow.times_sent).toBe(1);
+        getRequest({email: user.email}, async() => {
+          const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+          expect(emailTokenRow.times_sent).toBe(2);
+          getRequest({email: user.email}, async() => {
+            const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+            expect(emailTokenRow.times_sent).toBe(3);
+            getRequest({email: user.email}, async(err, res) => {
+              expect(res.status).toBe(200);
+              const [emailTokenRow] = await knex('emailToken').where({user_id, farm_id});
+              expect(emailTokenRow.times_sent).toBe(3);
+              expect(res.body.exists).toBe(false);
+              expect(res.body.invited).toBe(true);
+              expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(3);
+              done();
+            })
+          })
+        })
       })
     })
 

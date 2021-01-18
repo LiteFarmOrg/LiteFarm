@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (checkJwt.js) is part of LiteFarm.
+ *  This file (farm.test.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,11 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const jwt = require('express-jwt');
+import { getFirstNameLastName } from '../util';
 
-const checkResetPasswordJwt = jwt({
-  secret: process.env.JWT_INVITE_SECRET,
-  algorithms: ['HS256'],
+describe('Util test', () => {
+  //TODO: fix jest config
+  it('getFirstNameLastName test', () => {
+    let [first_name, last_name] = getFirstNameLastName('first');
+    expect(first_name).be('first');
+    expect(last_name).be('');
+    [first_name, last_name] = getFirstNameLastName('first last');
+    expect(first_name).be('first');
+    expect(last_name).be('last');
+    [first_name, last_name] = getFirstNameLastName('first middle last');
+    expect(first_name).be('first');
+    expect(last_name).be('middle last');
+  });
 });
-
-module.exports = checkResetPasswordJwt;

@@ -1,4 +1,5 @@
 import Form from '../../Form';
+import styles from './styles.scss';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import React, { useState } from 'react';
@@ -9,7 +10,13 @@ import { validatePasswordWithErrors } from '../utils';
 import { PasswordError } from '../../Form/Errors';
 import { useTranslation } from 'react-i18next';
 
-export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgotPassword }) {
+export default function PureEnterPasswordPage({
+  title,
+  onLogin,
+  onGoBack,
+  forgotPassword,
+  isChrome = true,
+}) {
   const { register, handleSubmit, errors, setError, watch } = useForm();
   const PASSWORD = 'password';
   const password = watch(PASSWORD);
@@ -36,6 +43,8 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
   const onError = (data) => {
     setShowErrors(true);
   };
+  const wrongBrowserTop = t('SIGNUP.WRONG_BROWSER');
+  const wrongBrowserBottom = t('SIGNUP.WRONG_BROWSER_BOTTOM');
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -51,6 +60,12 @@ export default function PureEnterPasswordPage({ title, onLogin, onGoBack, forgot
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
+      {!isChrome && (
+        <div className={styles.otherBrowserMessageTop}>
+          {wrongBrowserTop}
+          <div className={styles.otherBrowserMessageBottom}>{wrongBrowserBottom}</div>
+        </div>
+      )}
       <Input
         style={{ marginBottom: '28px' }}
         label={t('ENTER_PASSWORD.LABEL')}
@@ -79,4 +94,6 @@ PureEnterPasswordPage.prototype = {
   title: PropTypes.string,
   onLogin: PropTypes.func,
   onGoBack: PropTypes.func,
+  forgotPassword: PropTypes.func,
+  isChrome: PropTypes.bool,
 };

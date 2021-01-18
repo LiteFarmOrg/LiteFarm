@@ -20,6 +20,8 @@ const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
 const userController = require("./userController");
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const parser = require('ua-parser-js');
+const userLogModel = require('../models/userLogModel');
 
 const { createToken } = require('../util/jwt');
 
@@ -27,12 +29,34 @@ class loginController extends baseController {
   static authenticateUser() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
-      const { email, password } = req.body;
+      const { email, password } = req.body.user;
+      const { screen_width, screen_height } = req.body.screenSize;
       try {
         const userData = await userModel.query().select('*').where('email', email).first();
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
-        if (!isMatch) return res.sendStatus(401);
+        const ip = req.connection.remoteAddress;
+        const ua = parser(req.headers['user-agent']);
+        const languages = req.acceptsLanguages();
+        const userID = userData.user_id;
+        if (!isMatch) {
+          await userLogModel.query().insert({
+            user_id: userID,
+            ip,
+            languages,
+            browser: ua.browser.name,
+            browser_version: ua.browser.version,
+            os: ua.os.name,
+            os_version: ua.os.version,
+            device_vendor: ua.device.vendor,
+            device_model: ua.device.model,
+            device_type: ua.device.type,
+            screen_width,
+            screen_height,
+            reason_for_failure: 'password_mismatch',
+          });
+          return res.sendStatus(401)
+        };
 
         const id_token = await createToken('access', { user_id: userData.user_id });
         return res.status(200).send({
@@ -40,6 +64,21 @@ class loginController extends baseController {
           user: userData,
         });
       } catch (error) {
+        await userLogModel.query().insert({
+          user_id: userID,
+          ip,
+          languages,
+          browser: ua.browser.name,
+          browser_version: ua.browser.version,
+          os: ua.os.name,
+          os_version: ua.os.version,
+          device_vendor: ua.device.vendor,
+          device_model: ua.device.model,
+          device_type: ua.device.type,
+          screen_width,
+          screen_height,
+          reason_for_failure: 'other',
+        });
         return res.status(400).json({
           error,
         });
@@ -85,7 +124,7 @@ class loginController extends baseController {
       const { email } = req.params;
       try {
         const data = await userModel.query()
-          .select('user_id', 'first_name', 'email', 'language_preference', 'status').from('users').where('users.email', email).first();
+          .select('user_id', 'first_name', 'email', 'language_preference', 'status_id').from('users').where('users.email', email).first();
         if (!data) {
           res.status(200).send({
             first_name: null,
@@ -96,7 +135,7 @@ class loginController extends baseController {
             expired: false,
           });
         } else {
-          if (data.status === 2) {
+          if (data.status_id === 2) {
             await sendMissingInvitations(data);
             return res.status(200).send({
               first_name: data.first_name,
@@ -108,7 +147,7 @@ class loginController extends baseController {
             });
           }
 
-          if (data.status === 3) {
+          if (data.status_id === 3) {
             await sendPasswordReset(data);
             return res.status(200).send({
               first_name: data.first_name,
@@ -154,17 +193,14 @@ class loginController extends baseController {
 }
 
 async function sendMissingInvitations(user) {
-  const userFarms = await userFarmModel.query().select('*')
+  const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
     .join('farm', 'userFarm.farm_id', 'farm.farm_id')
     .join('users', 'users.user_id', 'userFarm.user_id')
     .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited')
   if (userFarms) {
-    const template = emails.INVITATION;
-    await userFarms.map((userFarm) => {
-      template.subjectReplacements = userFarm.farm_name;
-      const token = createToken('invite', { user, userFarm });
-      return userController.sendTokenEmail(userFarm.farm_name, user, token);
-    })
+    await Promise.all(userFarms.map((userFarm) => {
+      return userController.createTokenSendEmail(user, userFarm, userFarm.farm_name)
+    }))
   }
 }
 

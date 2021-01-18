@@ -5,6 +5,7 @@ import { toastr } from 'react-redux-toastr';
 import { getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { postCropSuccess } from '../../../containers/cropSlice';
+import i18n from '../../../lang/i18n';
 const axios = require('axios');
 export const postCrop = createAction(`postCropSaga`);
 
@@ -63,14 +64,14 @@ export function* postCropSaga({ payload: crop }) {
   try {
     const result = yield call(axios.post, cropURL + '/', data, header);
     yield put(postCropSuccess(result.data));
-    toastr.success('Successfully saved Crop!');
+    toastr.success(i18n.t('message:NEW_FIELD_CROP.SUCCESS.SAVE'));
   } catch (e) {
     if (e.response.data.violationError) {
-      toastr.error('A crop with that variety name already exists, please try another.');
+      toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.VARIETY_EXISTS'));
       console.log('failed to add fieldCrop to database');
     } else {
       console.log('failed to add fieldCrop to database');
-      toastr.error('failed to add fieldCrop to database');
+      toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.GENERAL'));
     }
   }
 }

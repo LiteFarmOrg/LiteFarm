@@ -40,7 +40,6 @@ const PureCustomSignUpStyle = {
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const { user, component: componentToShow } = history.location;
-  const params = new URLSearchParams(history.location.search.substring(1));
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const refInput = register({ pattern: validEmailRegex });
@@ -52,6 +51,7 @@ function CustomSignUp() {
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;
   const { t, i18n } = useTranslation();
+  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
@@ -61,6 +61,7 @@ function CustomSignUp() {
     setShowResetModal(false);
   };
   useEffect(() => {
+    const params = new URLSearchParams(history.location.search.substring(1));
     setValue(EMAIL, user?.email || params.get('email'));
   }, [user, setValue]);
 
@@ -119,6 +120,7 @@ function CustomSignUp() {
     });
   };
 
+  const errorMessage = history.location.state?.error;
   return (
     <>
       <Suspense fallback={Spinner}>
@@ -128,6 +130,7 @@ function CustomSignUp() {
             title={`Welcome back ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
+            isChrome={isChrome}
           />
           {showResetModal && <ResetPassword email={email} dismissModal={dismissModal} />}
         </Hidden>
@@ -146,6 +149,8 @@ function CustomSignUp() {
           onSubmit={handleSubmit(onSubmit)}
           disabled={disabled}
           GoogleLoginButton={<GoogleLoginButton className={'google-login-button'} />}
+          isChrome={isChrome}
+          errorMessage={errorMessage}
           inputs={[
             {
               label: 'Enter your email address',

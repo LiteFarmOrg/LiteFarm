@@ -180,7 +180,7 @@ class EditField extends Component {
   changeFieldName = () => {
     let { selectedField, field_name } = this.state;
     if (field_name === '' || !field_name) {
-      toastr.error('Field name cannot be empty');
+      toastr.error(this.props.t('message:FIELD.ERROR.EMPTY_NAME'));
       return;
     }
     this.props.dispatch(putField({ ...selectedField, field_name }));
@@ -294,7 +294,7 @@ class EditField extends Component {
                   <div>
                     <Card.Title style={{ fontSize: '13px' }}>
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}:{' '}
-                      {crop.start_date && crop.start_date.split('T')[0]}
+                      {crop.start_date && crop.start_date.split('T')[0]}{' '}
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}:{' '}
                       {crop.end_date && crop.end_date.split('T')[0]}
                     </Card.Title>
@@ -367,7 +367,7 @@ class EditField extends Component {
                   <div>
                     <Card.Title componentClass="h3" style={{ fontSize: '13px' }}>
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.START_DATE')}:{' '}
-                      {crop.start_date && crop.start_date.split('T')[0]}
+                      {crop.start_date && crop.start_date.split('T')[0]}{' '}
                       {this.props.t('FIELDS.EDIT_FIELD.CROP.END_DATE')}:{' '}
                       {crop.end_date && crop.end_date.split('T')[0]}
                     </Card.Title>

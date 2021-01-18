@@ -131,7 +131,7 @@ class NewCropModal extends React.Component {
 
     if (!validated) {
       if (errors !== '') {
-        toastr.error(errors + 'is not filled out');
+        toastr.error(errors + this.props.t('message:NEW_FIELD_CROP.ERROR.NOT_FILLED'));
       }
     }
 

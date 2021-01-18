@@ -10,7 +10,14 @@
   },
   "CREATE_USER": {
     "CREATE_BUTTON": "Create Account",
-    "TITLE": "Create new user account"
+    "TITLE": "Create new user account",
+    "EMAIL": "Email",
+    "FULL_NAME":"Full name",
+    "PASSWORD": "Password",
+    "GENDER": "Gender",
+    "BIRTH_YEAR": "Birth year",
+    "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -100,7 +107,6 @@
     "ATTACHMENT_LABEL": "Upload screenshot or file",
     "EMAIL": "Email",
     "MESSAGE_LABEL": "Message",
-    "REQUIRED_LABEL": "Required Field",
     "OPTIONS": {
       "OTHER": "Other",
       "REPORT_BUG": "Report a bug",
@@ -108,6 +114,7 @@
       "REQUEST_INFO": "Request information"
     },
     "PREFERRED_CONTACT": "Preferred contact method",
+    "REQUIRED_LABEL": "Required Field",
     "TITLE": "Request Help",
     "TYPE_SUPPORT_LABEL": "Type of support",
     "TYPE_SUPPORT_PLACEHOLDER": "Choose type of support",
@@ -117,6 +124,18 @@
   "HOME": {
     "CHROME_WARNING": "Warning: The app is designed for Chrome, some layouts could be misplaced.",
     "GREETING": "Good day, "
+  },
+  "INVITATION": {
+    "BIRTH_YEAR": "Birth year",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "EMAIL": "Email",
+    "FULL_NAME": "Full name",
+    "GENDER": "Gender",
+    "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "PASSWORD": "Password",
+    "CREATE_ACCOUNT": "Create your account",
+    "CREATE_NEW_ACCOUNT": "Create New Account",
+    "YOUR_INFORMATION": "Your information"
   },
   "LOG_COMMON": {
     "ACTION": "Action",
@@ -516,13 +535,19 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
+    "EXPIRED_ERROR": "MISSING",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
+    "INVITED_ERROR": "MISSING",
     "OOPS": "Oops!",
     "PASSWORD_ERROR": "Password incorrect",
     "PLEASE_SIGNUP": "Please, sign up.",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
-    "TITLE": "Sign Up"
+    "TITLE": "Sign Up",
+    "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
+    "WRONG_BROWSER_BOTTOM": "Please login using Chrome.",
+    "USED_INVITATION_LINK_ERROR": "This invitation has already been used, please log in to access this farm",
+    "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation"
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",
@@ -546,17 +571,21 @@
     "SVG_ALT": "Welcome to LiteFarm"
   },
   "LOGIN_BUTTON": "Log In or Sign Up",
-  "INVITATION": {
-    "CREATE_ACCOUNT": "Create New Account",
-    "EMAIL": "Email",
-    "CREATE_YOUR_ACCOUNT": "Create your account",
-    "FULL_NAME": "Full name",
-    "GENDER": "Gender",
-    "BIRTH_YEAR": "Birth year",
-    "PASSWORD": "Password",
-    "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "YOUR_INFORMATION": "Your information",
-    "SAVE": "Save"
+  "INVITE_SIGN_UP": {
+    "TITLE": "Create your account",
+    "HOW_TO_CREATE": "How do you want to create your new account?",
+    "ERROR0": "You'll need user",
+    "ERROR1": "to accept this farm invitation.",
+    "SIGN_IN_WITH": "Sign in with",
+    "LITEFARM_ACCOUNT": "Create a LiteFarm account"
+  },
+  "JOIN_FARM_SUCCESS": {
+    "SUCCESSFULLY_JOINED": "You have successfully joined",
+    "IMPORTANT_THINGS": "Let us show you a couple of important things!"
+  },
+  "EXPIRED_TOKEN": {
+    "INVITATION": "MISSING",
+    "DEFAULT": "MISSING",
+    "RESET_PASSWORD": "MISSING"
   }
 }

@@ -176,7 +176,7 @@ describe('Field Tests', () => {
     test('Owner should post and get valid field', async (done) => {
       postFieldRequest(fakeField, { user_id: newOwner.user_id, farm_id: ownerFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(201);
-        const fields = await fieldModel.query().where('farm_id', farm.farm_id);
+        const fields = await fieldModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
         expect(fields.length).toBe(1);
         expect(fields[0].field_name).toBe(fakeField.field_name);
         done();
@@ -186,7 +186,7 @@ describe('Field Tests', () => {
     test('Manager should post and get a valid field', async (done) => {
       postFieldRequest(fakeField, { user_id: newManager.user_id, farm_id: managerFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(201);
-        const fields = await fieldModel.query().where('farm_id', farm.farm_id);
+        const fields = await fieldModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
         expect(fields.length).toBe(1);
         expect(fields[0].field_name).toBe(fakeField.field_name);
         done();
@@ -444,7 +444,7 @@ describe('Field Tests', () => {
         farm_id: managerFarm.farm_id
       }, async (err, res) => {
         expect(res.status).toBe(200);
-        const [deletedField] = await fieldModel.query().where('field_id', fieldToBeDeleted.field_id);
+        const [deletedField] = await fieldModel.query().context({showHidden: true}).where('field_id', fieldToBeDeleted.field_id);
         expect(deletedField.deleted).toBe(true);
         done();
       });
@@ -455,7 +455,7 @@ describe('Field Tests', () => {
       [fieldToBeDeleted] = await mocks.fieldFactory({ promisedFarm: [ownerFarm] });
       deleteRequest(fieldToBeDeleted, { user_id: ownerUser.user_id, farm_id: ownerFarm.farm_id }, async (err, res) => {
         expect(res.status).toBe(200);
-        const [deletedField] = await fieldModel.query().where('field_id', fieldToBeDeleted.field_id);
+        const [deletedField] = await fieldModel.query().context({showHidden: true}).where('field_id', fieldToBeDeleted.field_id);
         expect(deletedField.deleted).toBe(true);
         done();
       });

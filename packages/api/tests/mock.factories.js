@@ -19,22 +19,26 @@ function usersFactory(userObject = fakeUser()) {
 }
 
 function fakeUser() {
+  const email = faker.lorem.word() + faker.internet.email();
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
-    email: faker.lorem.word() + faker.internet.email(),
+    email: email.toLowerCase(),
     user_id: faker.random.uuid(),
-    status: 1,
+    status_id: 1,
     phone_number: faker.phone.phoneNumber(),
+    gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
+    birth_year: faker.random.number({min: 1900, max: new Date().getFullYear()})
   };
 }
 
 
 function fakeSSOUser() {
+  const email = faker.lorem.word() + faker.internet.email();
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
-    email: faker.lorem.word() + faker.internet.email(),
+    email:  email.toLowerCase(),
     user_id: faker.random.number(10),
     phone_number: faker.phone.phoneNumber(),
   };
@@ -70,7 +74,7 @@ async function userFarmFactory({
 
 function fakeUserFarm() {
   return {
-    role_id: faker.random.arrayElement([1, 2, 3]),
+    role_id: faker.random.arrayElement([1, 2, 3, 5]),
     status: 'Active',
     has_consent: true,
     step_one: false,

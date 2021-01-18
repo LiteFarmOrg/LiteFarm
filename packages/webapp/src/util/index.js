@@ -81,7 +81,7 @@ const getConvertedString = (
 
 export const getFirstNameLastName = (fullName) => {
   const nameArray = fullName.split(/ (.+)/);
-  return { first_name: nameArray[0], last_name: nameArray[1] };
+  return { first_name: nameArray[0], last_name: nameArray[1] || '' };
 };
 
 export const getFormatedTemperature = (temperature, measurement = getMeasurementFromStore()) => {

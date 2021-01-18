@@ -49,7 +49,7 @@ class organicCertifierSurveyModel extends BaseModel {
     return {
       userFarm:{
         modelClass: require('./userFarmModel'),
-        relation: Model.HasOneRelation,
+        relation: Model.BelongsToOneRelation,
         join: {
           from: ['organicCertifierSurvey.updated_by_user_id', 'organicCertifierSurvey.farm_id'],
           to: ['userFarm.user_id', 'userFarm.farm_id'],
@@ -57,7 +57,7 @@ class organicCertifierSurveyModel extends BaseModel {
       },
       farm: {
         modelClass: require('./farmModel'),
-        relation: Model.HasOneRelation,
+        relation: Model.BelongsToOneRelation,
         join: {
           from: 'organicCertifierSurvey.farm_id',
           to: 'farm.farm_id',

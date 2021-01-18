@@ -478,7 +478,7 @@ class userFarmController extends baseController {
       if (!/^\d+$/.test(user_id)) {
         const user = await userModel.query().findById(user_id).patch({ language_preference }).returning('*');
         const passwordRow = await passwordModel.query().findById(user_id);
-        if (!passwordRow || user.status === 2) {
+        if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');
         }
       }

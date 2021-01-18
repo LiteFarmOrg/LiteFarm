@@ -40,7 +40,6 @@ const PureCustomSignUpStyle = {
 function CustomSignUp() {
   const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
   const { user, component: componentToShow } = history.location;
-  const params = new URLSearchParams(history.location.search.substring(1));
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
   const refInput = register({ pattern: validEmailRegex });
@@ -62,6 +61,7 @@ function CustomSignUp() {
     setShowResetModal(false);
   };
   useEffect(() => {
+    const params = new URLSearchParams(history.location.search.substring(1));
     setValue(EMAIL, user?.email || params.get('email'));
   }, [user, setValue]);
 

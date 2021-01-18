@@ -19,7 +19,7 @@ const userModel = require('../../models/userModel');
 async function checkPasswordCreated(req, res, next) {
   const passwordRows = await passwordModel.query().whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
   const userRows = await userModel.query().whereIn('user_id', [req.user.sub || req.user.user_id, req.user.user_id]);
-  if (passwordRows.length || userRows.reduce((notValid, user)=> notValid || user.status !== 2, false)) {
+  if (passwordRows.length || userRows.reduce((notValid, user)=> notValid || user.status_id !== 2, false)) {
     return res.status(401).send('Invitation link is used');
   }
   return next();

@@ -22,6 +22,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const name = watch(NAME, undefined);
   const email = watch(EMAIL, undefined);
   const role = watch(ROLE, undefined);
+  const selectedRoleId = role?.value;
   // const password = watch(PASSWORD, undefined);
   // const required = watch(NAME, false);
   const { t } = useTranslation();
@@ -42,7 +43,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = !name || !email;
+  const disabled = !name || !role || (selectedRoleId !== 3 ? !email : false);
 
   const onSubmit = (data) => {
     console.log('submit: ', data);
@@ -96,8 +97,8 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         // style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.EMAIL')}
         name={EMAIL}
-        inputRef={register({ required: role?.value !== 3, pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ })}
-        optional={role?.value === 3}
+        inputRef={register({ required: selectedRoleId !== 3, pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ })}
+        optional={selectedRoleId === 3}
       />
       <Info style={{ marginBottom: '16px' }}>{t('INVITE_USER.EMAIL_INFO')}</Info>
       <Controller

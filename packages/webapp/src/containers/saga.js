@@ -221,7 +221,7 @@ export function* logUserInfoSaga() {
 export const handleError = createAction('handleErrorSaga');
 
 export function* handleErrorSaga({ payload: error }) {
-  if (error.response.status === 401) {
+  if (error?.response?.status === 401) {
     if (localStorage.getItem('id_token')) {
       logout();
     }

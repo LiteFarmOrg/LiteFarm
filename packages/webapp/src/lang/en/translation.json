@@ -12,7 +12,7 @@
     "CREATE_BUTTON": "Create Account",
     "TITLE": "Create new user account",
     "EMAIL": "Email",
-    "FULL_NAME":"Full name",
+    "FULL_NAME": "Full name",
     "PASSWORD": "Password",
     "GENDER": "Gender",
     "BIRTH_YEAR": "Birth year",
@@ -587,5 +587,9 @@
     "INVITATION": "MISSING",
     "DEFAULT": "MISSING",
     "RESET_PASSWORD": "MISSING"
+  },
+  "WEATHER": {
+    "WIND": "Wind",
+    "HUMIDITY": "Humidity"
   }
 }

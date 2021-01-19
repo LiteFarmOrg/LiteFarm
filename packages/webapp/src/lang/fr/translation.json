@@ -12,7 +12,7 @@
     "CREATE_BUTTON": "MISSING",
     "TITLE": "MISSING",
     "EMAIL": "MISSING",
-    "FULL_NAME":"MISSING",
+    "FULL_NAME": "MISSING",
     "PASSWORD": "MISSING",
     "GENDER": "MISSING",
     "BIRTH_YEAR": "MISSING",
@@ -586,5 +586,9 @@
     "INVITATION": "MISSING",
     "DEFAULT": "MISSING",
     "RESET_PASSWORD": "MISSING"
+  },
+  "WEATHER": {
+    "WIND": "MISSING",
+    "HUMIDITY": "MISSING"
   }
 }

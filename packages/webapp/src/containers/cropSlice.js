@@ -129,7 +129,7 @@ const cropAdapter = createEntityAdapter({
   selectId: (crop) => crop.crop_id,
 });
 
-const cropReducer = createSlice({
+const cropSlice = createSlice({
   name: 'cropReducer',
   initialState: cropAdapter.getInitialState({ loading: false, error: undefined }),
   reducers: {
@@ -151,12 +151,12 @@ export const {
   putCropSuccess,
   onLoadingCropStart,
   onLoadingCropFail,
-} = cropReducer.actions;
-export default cropReducer.reducer;
+} = cropSlice.actions;
+export default cropSlice.reducer;
 
-export const cropReducerSelector = (state) => state.entitiesReducer[cropReducer.name];
+export const cropReducerSelector = (state) => state.entitiesReducer[cropSlice.name];
 
-const cropSelectors = cropAdapter.getSelectors((state) => state.entitiesReducer[cropReducer.name]);
+const cropSelectors = cropAdapter.getSelectors((state) => state.entitiesReducer[cropSlice.name]);
 
 export const cropsSelector = createSelector(
   [cropSelectors.selectAll, loginSelector],

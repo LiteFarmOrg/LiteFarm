@@ -15,13 +15,13 @@
 
 const Model = require('objection').Model;
 
-class HarvestLog extends Model {
+class HarvestUseType extends Model {
   static get tableName() {
-    return 'harvestLog';
+    return 'harvestUseType';
   }
 
   static get idColumn() {
-    return 'activity_id';
+    return 'harvest_use_type_id';
   }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
@@ -29,10 +29,11 @@ class HarvestLog extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['quantity_kg'],
+      required: ['harvest_use_type_name'],
 
       properties: {
-        quantity_kg: { type: 'float' },
+        harvest_use_type_id: { type: 'integer' },
+        harvest_use_type_name: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -41,30 +42,18 @@ class HarvestLog extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      activityLog: {
-        relation: Model.BelongsToOneRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./activityLogModel'),
-        join: {
-          from: 'harvestLog.activity_id',
-          to: 'activityLog.activity_id',
-        },
 
-      },
-
-      harvestUseType:{
-        modelClass:require('./harvestUseTypeModel'),
+      harvestLog:{
+        modelClass:require('./harvestLogModel'),
         relation:Model.ManyToManyRelation,
         join:{
-          from: 'harvestLog.activity_id',
+          from: 'harvestUseType.harvest_use_type_id',
           through: {
             modelClass: require('./harvestUseModel'),
             from: 'harvestUse.activity_id',
             to: 'harvestUse.harvest_use_type_id',
           },
-          to: 'harvestUseType.harvest_use_type_id',
+          to: 'harvestLog.activity_id',
         },
 
       },
@@ -73,4 +62,4 @@ class HarvestLog extends Model {
   }
 }
 
-module.exports = HarvestLog;
+module.exports = HarvestUseType;

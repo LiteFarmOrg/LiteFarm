@@ -13,10 +13,10 @@ const Template = (args) => <PureInviteUser {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   roleOptions: [
-    { value: 'OWNER', label: 'Farm Owner' },
-    { value: 'MANAGER', label: 'Farm Manager' },
-    { value: 'WORKER', label: 'Farm Worker' },
-    { value: 'EXTENSION', label: 'Extension Officer' },
+    { value: 1, label: 'Farm Owner' },
+    { value: 2, label: 'Farm Manager' },
+    { value: 3, label: 'Farm Worker' },
+    { value: 5, label: 'Extension Officer' },
   ]
 };
 Primary.parameters = {

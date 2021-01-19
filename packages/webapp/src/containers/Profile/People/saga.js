@@ -34,45 +34,45 @@ export function* getAllUserFarmsByFarmIDSaga() {
   }
 }
 
-export const addUser = createAction('addUserSaga');
+// export const addUser = createAction('addUserSaga');
 
-export function* addUserSaga({ payload: user }) {
-  const { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-  user.farm_id = farm_id;
-  const { inviteUserUrl } = apiConfig;
+// export function* addUserSaga({ payload: user }) {
+//   const { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
+//   user.farm_id = farm_id;
+//   const { inviteUserUrl } = apiConfig;
 
-  try {
-    const result = yield call(axios.post, inviteUserUrl, user, header);
-    //TODO post should return id. Remove nested saga call.
+//   try {
+//     const result = yield call(axios.post, inviteUserUrl, user, header);
+//     //TODO post should return id. Remove nested saga call.
 
-    yield put(postUserSuccess(result.data));
-    toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
-  } catch (err) {
-    //console.log(err.response.status);
-    if (err.response.status === 409) {
-      toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
-    } else toastr.error(i18n.t('message:USER.ERROR.ADD'));
-  }
-}
+//     yield put(postUserSuccess(result.data));
+//     toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
+//   } catch (err) {
+//     //console.log(err.response.status);
+//     if (err.response.status === 409) {
+//       toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
+//     } else toastr.error(i18n.t('message:USER.ERROR.ADD'));
+//   }
+// }
 
-export const addPseudoWorker = createAction('addPseudoWorkerSaga');
+// export const addPseudoWorker = createAction('addPseudoWorkerSaga');
 
-export function* addPseudoWorkerSaga({ payload: user }) {
-  const { pseudoUserUrl } = apiConfig;
-  const { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-  user.farm_id = farm_id;
+// export function* addPseudoWorkerSaga({ payload: user }) {
+//   const { pseudoUserUrl } = apiConfig;
+//   const { user_id, farm_id } = yield select(loginSelector);
+//   const header = getHeader(user_id, farm_id);
+//   user.farm_id = farm_id;
 
-  try {
-    const result = yield call(axios.post, pseudoUserUrl, user, header);
-    yield put(postUserSuccess(result.data));
-    toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
-  } catch (err) {
-    console.error(err);
-    toastr.error(i18n.t('message:USER.ERROR.ADD'));
-  }
-}
+//   try {
+//     const result = yield call(axios.post, pseudoUserUrl, user, header);
+//     yield put(postUserSuccess(result.data));
+//     toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
+//   } catch (err) {
+//     console.error(err);
+//     toastr.error(i18n.t('message:USER.ERROR.ADD'));
+//   }
+// }
 
 export const deactivateUser = createAction('deactivateUserSaga');
 
@@ -163,8 +163,8 @@ export function* updateUserFarmSaga({ payload: user }) {
 
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
-  yield takeLatest(addUser.type, addUserSaga);
-  yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
+  // yield takeLatest(addUser.type, addUserSaga);
+  // yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
   yield takeLatest(deactivateUser.type, deactivateUserSaga);
   yield takeLatest(updateUserFarm.type, updateUserFarmSaga);
   // yield takeLatest(getRoles.type, getRolesSaga);

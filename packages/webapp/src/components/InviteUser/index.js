@@ -21,6 +21,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const WAGE = 'wage';
   const name = watch(NAME, undefined);
   const email = watch(EMAIL, undefined);
+  const role = watch(ROLE, undefined);
   // const password = watch(PASSWORD, undefined);
   // const required = watch(NAME, false);
   const { t } = useTranslation();
@@ -44,12 +45,16 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const disabled = !name || !email;
 
   const onSubmit = (data) => {
+    console.log('submit: ', data);
     // if (isValid) {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
+    data[ROLE] = data?.[ROLE]?.value;
     onInvite({ ...data, email });
     // }
   };
-  const onError = (data) => {};
+  const onError = (data) => {
+    console.log("error: ", data)
+  };
 
   return (
     <Form
@@ -70,7 +75,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.FULL_NAME')}
         name={NAME}
-        inputRef={register({ required: true, pattern: /^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/ })}
+        inputRef={register({ required: true })}
       />
       <Controller
         control={control}
@@ -83,15 +88,16 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
             value={value}
             style={{ marginBottom: '24px' }}
             placeholder={t('INVITE_USER.CHOOSE_ROLE')}
-            // defaultValue={roleOptions[3]}
           />
         )}
+        rules={{ required: true }}
       />
       <Input
         // style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.EMAIL')}
         name={EMAIL}
-        inputRef={register({ required: true })}
+        inputRef={register({ required: role?.value !== 3, pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ })}
+        optional={role?.value === 3}
       />
       <Info style={{ marginBottom: '16px' }}>{t('INVITE_USER.EMAIL_INFO')}</Info>
       <Controller

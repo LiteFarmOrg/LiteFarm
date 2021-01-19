@@ -187,7 +187,7 @@ class People extends Component {
         },
         password: pw,
       };
-      this.props.dispatch(addUser(user));
+      // this.props.dispatch(addUser(user));
       // alert('user created with password: ' + pw);
     } else {
       const pseudoId = uuidv4();
@@ -203,7 +203,7 @@ class People extends Component {
         profile_picture: 'https://cdn.auth0.com/avatars/na.png',
         user_id: pseudoId,
       };
-      this.props.dispatch(addPseudoWorker(user));
+      // this.props.dispatch(addPseudoWorker(user));
     }
 
     this.closeAddModal();

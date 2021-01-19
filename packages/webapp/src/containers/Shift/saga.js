@@ -29,7 +29,7 @@ import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import i18n from '../../lang/i18n';
 
 const axios = require('axios');
@@ -45,6 +45,7 @@ export function* getTaskTypesSaga() {
       yield put(setTaskTypesInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch task types from database');
   }
 }
@@ -66,6 +67,7 @@ export function* addTaskTypeSaga(payload) {
       yield put(getTaskTypes());
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to add task type');
   }
 }
@@ -90,6 +92,7 @@ export function* addShift(action) {
       toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
   }
 }
@@ -107,6 +110,7 @@ export function* addMultiShiftSaga(action) {
       toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add shift');
     toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
   }
@@ -123,6 +127,7 @@ export function* getShiftsSaga() {
       yield put(setShifts(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to fetch shifts from database');
   }
 }
@@ -171,6 +176,7 @@ export function* getAllShiftSaga() {
       yield put(setShifts(sortedShifts));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to fetch shifts from database');
   }
 }
@@ -188,6 +194,7 @@ export function* deleteShiftSaga(action) {
       history.push('/shift');
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:SHIFT.ERROR.DELETE'));
   }
 }
@@ -212,6 +219,7 @@ export function* updateShiftSaga(action) {
       history.push('/shift');
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add shift');
     toastr.error(i18n.t('message:SHIFT.ERROR.UPDATE'));
   }

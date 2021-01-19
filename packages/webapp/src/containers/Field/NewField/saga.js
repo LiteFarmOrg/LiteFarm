@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 import { postFieldSuccess } from '../../fieldSlice';
 import history from '../../../history';
 const axios = require('axios');
@@ -20,6 +20,7 @@ export function* postFieldSaga({ payload }) {
     yield put(postFieldSuccess(result.data));
     history.push('/field');
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add certifiers');
   }
 }

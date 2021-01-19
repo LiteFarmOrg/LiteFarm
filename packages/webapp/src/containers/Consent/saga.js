@@ -23,7 +23,7 @@ import {
   deselectFarmSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import history from '../../history';
 import i18n from '../../lang/i18n';
 const axios = require('axios');
@@ -63,6 +63,7 @@ export function* patchConsentSaga({ payload }) {
       history.push(payload.goForwardTo);
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.AGREEMENT'));
   }
 }

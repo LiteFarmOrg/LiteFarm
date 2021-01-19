@@ -2,7 +2,7 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 import {
   getUserFarmsSuccess,
   putUserSuccess,
@@ -30,6 +30,7 @@ export function* getAllUserFarmsByFarmIDSaga() {
     yield put(getUserFarmsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
+    yield put(handleError(e));
     console.log('failed to fetch users from database');
   }
 }
@@ -50,6 +51,7 @@ export function* addUserSaga({ payload: user }) {
     toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
   } catch (err) {
     //console.log(err.response.status);
+    yield put(handleError(err));
     if (err.response.status === 409) {
       toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
     } else toastr.error(i18n.t('message:USER.ERROR.ADD'));
@@ -70,6 +72,7 @@ export function* addPseudoWorkerSaga({ payload: user }) {
     toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
   } catch (err) {
     console.error(err);
+    yield put(handleError(err));
     toastr.error(i18n.t('message:USER.ERROR.ADD'));
   }
 }
@@ -94,6 +97,7 @@ export function* deactivateUserSaga({ payload: target_user_id }) {
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     toastr.success(i18n.t('message:USER.SUCCESS.REVOKE'));
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.REVOKE'));
   }
 }
@@ -119,6 +123,7 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
     yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
     toastr.success(i18n.t('message:USER.SUCCESS.RESTORE'));
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.RESTORE'));
   }
 }
@@ -140,6 +145,7 @@ export function* updateUserFarmSaga({ payload: user }) {
     yield put(putUserSuccess({ ...user, farm_id, user_id: target_user_id }));
     toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
     console.error(e);
   }
@@ -157,6 +163,7 @@ export function* getRolesSaga() {
     yield put(getRolesSuccess(result.data));
   } catch (e) {
     yield put(onLoadingRolesFail());
+    yield put(handleError(e));
     console.log('failed to fetch roles from database');
   }
 }

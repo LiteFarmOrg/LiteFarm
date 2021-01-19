@@ -2,7 +2,7 @@ import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
 import { toastr } from 'react-redux-toastr';
-import { getHeader } from '../../../containers/saga';
+import { getHeader, handleError } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { postCropSuccess } from '../../../containers/cropSlice';
 import i18n from '../../../lang/i18n';
@@ -66,6 +66,7 @@ export function* postCropSaga({ payload: crop }) {
     yield put(postCropSuccess(result.data));
     toastr.success(i18n.t('message:NEW_FIELD_CROP.SUCCESS.SAVE'));
   } catch (e) {
+    yield put(handleError(e));
     if (e.response.data.violationError) {
       toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.VARIETY_EXISTS'));
       console.log('failed to add fieldCrop to database');

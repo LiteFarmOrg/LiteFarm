@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 import { putFieldSuccess } from '../../fieldSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../../lang/i18n';
@@ -20,6 +20,7 @@ export function* putFieldSaga({ payload: field }) {
     yield put(putFieldSuccess(field));
     toastr.success(i18n.t('message:FIELD.SUCCESS.UPDATE_NAME'));
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:FIELD.ERROR.UPDATE_NAME'));
   }
 }

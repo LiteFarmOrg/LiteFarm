@@ -20,6 +20,7 @@ import history from '../../history';
 import { toastr } from 'react-redux-toastr';
 import { postHelpRequestSuccess } from '../Home/homeSlice';
 import i18n from '../../lang/i18n';
+import { handleError } from '../saga';
 const axios = require('axios');
 const supportUrl = () => `${url}/support_ticket`;
 
@@ -43,6 +44,7 @@ export function* supportFileUploadSaga({ payload: { file, form } }) {
       toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     console.log(e);
   }

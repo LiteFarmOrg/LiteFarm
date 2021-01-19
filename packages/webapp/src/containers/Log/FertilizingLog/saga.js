@@ -10,7 +10,7 @@ import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
@@ -25,6 +25,7 @@ export function* getFertilizerSaga() {
       yield put(setFertilizersInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('fail to fetch fertilizers');
   }
 }
@@ -52,6 +53,7 @@ export function* addFertilizerToDB(payload) {
       yield put(getFertilizers());
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add fert');
     toastr.error(i18n.t('message:FERTILIZER.ERROR.ADD'));
   }
@@ -81,6 +83,7 @@ export function* addLog(payload) {
       toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add log');
     toastr.error(i18n.t('message:LOG.ERROR.ADD'));
   }
@@ -111,6 +114,7 @@ export function* editLog(payload) {
       toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to edit log');
     toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }

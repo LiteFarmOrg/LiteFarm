@@ -35,6 +35,7 @@ import {
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
 import i18n from '../lang/i18n';
+import { logout } from '../util/jwt';
 const logUserInfoUrl = () => `${url}/userLog`;
 
 const axios = require('axios');
@@ -68,6 +69,7 @@ export function* updateUserSaga({ payload: user }) {
     yield put(putUserSuccess(user));
     toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
   }
 }
@@ -84,6 +86,7 @@ export function* getCropsSaga() {
     const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
     yield put(getCropsSuccess(result.data));
   } catch (e) {
+    yield put(handleError(e));
     yield put(onLoadingCropFail());
     console.error('failed to fetch all crops from database');
   }
@@ -103,6 +106,7 @@ export function* getFarmInfoSaga() {
     yield put(getFields());
     yield put(getFieldCrops());
   } catch (e) {
+    yield put(handleError(e));
     console.log(e);
     toastr.error(i18n.t('message:FARM.ERROR.FETCH'));
   }
@@ -124,6 +128,7 @@ export function* putFarmSaga({ payload: farm }) {
     yield put(patchFarmSuccess(data));
     toastr.success(i18n.t('message:FARM.SUCCESS.UPDATE'));
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:FARM.ERROR.UPDATE'));
   }
 }
@@ -140,6 +145,7 @@ export function* getFieldsSaga() {
     yield put(getFieldsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingFieldFail());
+    yield put(handleError(e));
     console.log('failed to fetch fields from database');
   }
 }
@@ -158,6 +164,7 @@ export function* getFieldCropsSaga() {
     yield put(getCropsSuccess(result.data.map((fieldCrop) => fieldCrop.crop)));
   } catch (e) {
     yield put(onLoadingFieldCropFail());
+    yield put(handleError(e));
     console.log('failed to fetch field crops from db');
   }
 }
@@ -180,6 +187,7 @@ export function* getFieldCropsByDateSaga() {
     yield put(getFieldCropsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingFieldCropFail());
+    yield put(handleError(e));
     console.log('failed to fetch field crops by date');
   }
 }
@@ -205,7 +213,18 @@ export function* logUserInfoSaga() {
       yield call(axios.post, logUserInfoUrl(), data, header);
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch field crops by date');
+  }
+}
+
+export const handleError = createAction('handleErrorSaga');
+
+export function* handleErrorSaga({ payload: error }) {
+  if (error.response.status === 401) {
+    if (localStorage.getItem('id_token')) {
+      logout();
+    }
   }
 }
 
@@ -283,5 +302,6 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
+  yield takeLatest(handleError.type, handleErrorSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

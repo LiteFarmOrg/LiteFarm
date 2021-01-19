@@ -18,7 +18,7 @@ import apiConfig from '../../apiConfig';
 import { patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import history from '../../history';
 
 const axios = require('axios');
@@ -45,6 +45,7 @@ export function* patchOutroStepSaga() {
     yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
     history.push('/');
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to update table');
   }
 }

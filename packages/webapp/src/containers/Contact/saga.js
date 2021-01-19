@@ -13,11 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { SEND_CONTACT_FORM } from './constants';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import i18n from '../../lang/i18n';
 
 const axios = require('axios');
@@ -47,6 +47,7 @@ export function* sendContactForm(action) {
       toastr.success(i18n.t('message:CONTACT.SUCCESS.SUBMIT_CONTACT_FORM'));
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:CONTACT.ERROR.SUBMIT_CONTACT_FORM'));
     console.log('Unsuccessful in Sending Contact Form');
   }

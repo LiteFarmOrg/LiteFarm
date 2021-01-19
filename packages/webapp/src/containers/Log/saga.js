@@ -18,7 +18,7 @@ import { setLogsInState } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 
 const axios = require('axios');
 
@@ -33,6 +33,7 @@ export function* getLogsSaga() {
       yield put(setLogsInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch logs from database');
   }
 }

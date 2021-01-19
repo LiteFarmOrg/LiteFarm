@@ -12,7 +12,7 @@ import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
@@ -27,6 +27,7 @@ export function* getPesticideSaga() {
       yield put(setPesticideInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to fetch diseases');
   }
 }
@@ -42,6 +43,7 @@ export function* getDiseaseSaga() {
       yield put(setDiseaseInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to fetch disease from database');
   }
 }
@@ -60,6 +62,7 @@ export function* addPesticideSaga(payload) {
       yield put(getPesticides());
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to add pesticide');
   }
 }
@@ -79,6 +82,7 @@ export function* addPestControlLog(payload) {
       i18n.t('message:LOG.SUCCESS.ADD');
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add log');
     i18n.t('message:LOG.ERROR.ADD');
   }
@@ -99,6 +103,7 @@ export function* editPestControlLog(payload) {
       toastr.error(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to edit log');
     toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }
@@ -118,6 +123,7 @@ export function* addDiseaseSaga(payload) {
       yield put(getDiseases());
     }
   } catch (e) {
+    yield put(handleError(e));
     console.error('failed to add pesticide');
   }
 }

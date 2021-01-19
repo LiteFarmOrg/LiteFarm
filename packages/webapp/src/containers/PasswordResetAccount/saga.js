@@ -21,6 +21,7 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
+import { handleError } from '../saga';
 
 const axios = require('axios');
 const resetPasswordUrl = () => `${url}/password_reset`;
@@ -49,6 +50,7 @@ export function* resetPasswordSaga({ payload: { reset_token, password, onPasswor
     yield put(loginSuccess({ user_id }));
     onPasswordResetSuccess();
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
   }
 }

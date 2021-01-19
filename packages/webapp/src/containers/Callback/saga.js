@@ -23,6 +23,7 @@ import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
 import { toastr } from 'react-redux-toastr';
 import { logout } from '../../util/jwt';
+import { handleError } from '../saga';
 const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
@@ -38,6 +39,7 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
     });
     history.push('/password_reset', reset_token);
   } catch (e) {
+    yield put(handleError(e));
     history.push('/expired', 'RESET_PASSWORD');
   }
 }
@@ -63,6 +65,7 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
     yield put(acceptInvitationSuccess(user));
     history.push('/consent', { isInvitationFlow: true, showSpotLight: false });
   } catch (e) {
+    yield put(handleError(e));
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
       console.log(e);

@@ -4,7 +4,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 
 const axios = require('axios');
 
@@ -24,6 +24,7 @@ export function* sendRequestSaga() {
       toastr.success('Request success');
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to request');
   }
 }
@@ -39,6 +40,7 @@ export function* getFarmDataScheduleSaga() {
       yield put(setFarmSchedule(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch users from database');
   }
 }

@@ -12,6 +12,7 @@ import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
 import i18n from '../../lang/i18n';
+import { handleError } from '../saga';
 
 const axios = require('axios');
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
@@ -50,6 +51,7 @@ export function* acceptInvitationWithSSOSaga({
     history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
+    yield put(handleError(e));
     if (e.response.status === 401) {
       const translateKey =
         e.response.data === 'Invitation link is used'
@@ -90,6 +92,7 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
+    yield put(handleError(e));
     if (e.response.status === 401) {
       const translateKey =
         e.response.data === 'Invitation link is used'

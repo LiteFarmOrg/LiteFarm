@@ -13,7 +13,7 @@ import { url } from '../../apiConfig';
 import { userFarmUrl } from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { patchStepFourSuccess } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 
 const axios = require('axios');
 const getUrl = (farm_id) => `${url}/farm/${farm_id}/organic_certifier_survey`;
@@ -33,6 +33,7 @@ export function* getCertifiersSaga() {
     yield put(getCertifiersSuccess(result.data));
   } catch (e) {
     yield put(onLoadingCertifierSurveyFail(e));
+    yield put(handleError(e));
     console.log('failed to fetch certifiers from database');
   }
 }
@@ -58,6 +59,7 @@ export function* postCertifiersSaga({ payload }) {
     }
     callback && callback();
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add certifiers');
   }
 }
@@ -83,6 +85,7 @@ export function* patchCertifiersSaga({ payload }) {
     }
     callback && callback();
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add certifiers');
   }
 }
@@ -108,6 +111,7 @@ export function* patchInterestedSaga({ payload }) {
     }
     callback && callback();
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add certifiers');
   }
 }

@@ -1,11 +1,11 @@
 // saga
 import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
-import { call, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, handleError } from '../../saga';
 import i18n from '../../../lang/i18n';
 
 const axios = require('axios');
@@ -22,6 +22,7 @@ export function* addLog(action) {
       toastr.error(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add log');
     toastr.error(i18n.t('message:LOG.ERROR.ADD'));
   }
@@ -39,6 +40,7 @@ export function* editLog(action) {
       toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to edit log');
     toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }
@@ -56,6 +58,7 @@ export function* deleteLog(action) {
       toastr.success(i18n.t('message:LOG.SUCCESS.DELETE'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to delete log');
     toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
   }

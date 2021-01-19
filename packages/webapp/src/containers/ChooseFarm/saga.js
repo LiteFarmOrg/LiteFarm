@@ -22,7 +22,7 @@ import {
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector, loginSuccess } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import { toastr } from 'react-redux-toastr';
 
 const axios = require('axios');
@@ -37,7 +37,9 @@ export function* getUserFarmsSaga() {
     const result = yield call(axios.get, userFarmUrl + '/user/' + user_id, header);
     yield put(getUserFarmsSuccess(result.data));
   } catch (error) {
+    yield put(handleError(e));
     yield put(onLoadingUserFarmsFail(error));
+    yield put(handleError(error));
     console.log('failed to fetch task types from database');
   }
 }

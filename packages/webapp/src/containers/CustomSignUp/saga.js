@@ -22,6 +22,7 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../lang/i18n';
 import { getFirstNameLastName } from '../../util';
+import { handleError } from '../saga';
 
 const axios = require('axios');
 const loginUrl = (email) => `${url}/login/user/${email}`;
@@ -58,6 +59,7 @@ export function* customSignUpSaga({ payload: { email, showSSOError } }) {
       showSSOError(inlineErrors.sso);
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log(e);
   }
 }
@@ -85,6 +87,7 @@ export function* customLoginWithPasswordSaga({ payload: { showPasswordError, ...
     yield put(loginSuccess({ user_id }));
     history.push('/farm_selection');
   } catch (e) {
+    yield put(handleError(e));
     if (e.response?.status === 401) {
       showPasswordError();
     } else {
@@ -127,6 +130,7 @@ export function* customCreateUserSaga({ payload: data }) {
       history.push('/farm_selection');
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.INVITE'));
   }
 }
@@ -137,6 +141,7 @@ export function* sendResetPasswordEmailSaga({ payload: email }) {
   try {
     const result = yield call(axios.post, resetPasswordUrl(), { email });
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:USER.ERROR.RESET_PASSWORD'));
   }
 }

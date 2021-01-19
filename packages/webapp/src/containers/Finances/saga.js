@@ -30,7 +30,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import i18n from '../../lang/i18n';
 
 const axios = require('axios');
@@ -46,6 +46,7 @@ export function* getSales() {
       yield put(setSalesInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch fields from database');
   }
 }
@@ -67,6 +68,7 @@ export function* addSale(action) {
       }
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log(`failed to ${addOrUpdateFail} sale`);
     toastr.error(`Failed to ${addOrUpdateFail} new Sale`);
   }
@@ -87,6 +89,7 @@ export function* updateSaleSaga(action) {
       }
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log(`failed to update sale`);
     toastr.error(i18n.t('message:SALE.ERROR.UPDATE'));
   }
@@ -107,6 +110,7 @@ export function* deleteSale(action) {
       toastr.success(i18n.t('message:SALE.SUCCESS.DELETE'));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log(`failed to delete sale`);
     toastr.error(i18n.t('message:SALE.ERROR.DELETE'));
   }
@@ -123,6 +127,7 @@ export function* getShiftsSaga() {
       yield put(setShifts(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch shifts from database');
   }
 }
@@ -138,6 +143,7 @@ export function* getExpenseSaga() {
       yield put(setExpense(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     if (e.response.status === 404) {
       yield put(setExpense([]));
     }
@@ -156,6 +162,7 @@ export function* getDefaultExpenseTypeSaga() {
       yield put(setDefaultExpenseType(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch expenses from database');
   }
 }
@@ -175,6 +182,7 @@ export function* addExpensesSaga(action) {
       }
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:EXPENSE.ERROR.ADD'));
   }
 }
@@ -194,6 +202,7 @@ export function* deleteExpensesSaga(action) {
       }
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.success();
     toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
   }
@@ -219,6 +228,7 @@ export function* addRemoveExpenseSaga(action) {
       }
     }
   } catch (e) {
+    yield put(handleError(e));
     toastr.error(i18n.t('message:EXPENSE.ERROR.UPDATE'));
   }
 }

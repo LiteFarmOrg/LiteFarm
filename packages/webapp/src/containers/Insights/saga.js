@@ -42,7 +42,7 @@ import {
   CREATE_FREQUENCY_WATER_BALANCE,
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 
 const axios = require('axios');
 
@@ -57,6 +57,7 @@ export function* getCropsSoldNutrition() {
       yield put(setCropsSoldNutritionInState(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch fields from db');
   }
 }
@@ -73,6 +74,7 @@ export function* getSoldOMData() {
       yield put(setSoilOMData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch soil om data from db');
   }
 }
@@ -88,6 +90,7 @@ export function* getLabourHappinessData() {
       yield put(setLabourHappinessData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch labour happiness data from db');
   }
 }
@@ -103,6 +106,7 @@ export function* getBiodiversityData() {
       yield put(setBiodiversityData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch biodiversity data from db');
   }
 }
@@ -119,6 +123,7 @@ export function* getPricesData() {
       yield put(setPricesData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch prices data from db');
   }
 }
@@ -141,6 +146,7 @@ export function* getPricesWithDistanceData(data) {
       yield put(setPricesData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch prices data from db');
   }
 }
@@ -156,6 +162,7 @@ export function* getWaterBalanceData() {
       yield put(setWaterBalanceData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch water balance data from db');
   }
 }
@@ -171,6 +178,7 @@ export function* getWaterBalanceSchedule() {
       yield put(setWaterBalanceSchedule(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch schedule water balance from db');
   }
 }
@@ -196,6 +204,7 @@ export function* createWaterBalanceSchedule() {
       }
     }
   } catch (error) {
+    yield put(handleError(error));
     console.log(error + ' Could not emit waterBalanceSchedule action');
   }
 }
@@ -211,6 +220,7 @@ export function* getNitrogenBalanceData() {
       yield put(setNitrogenBalanceData(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch nitrogen data from db');
   }
 }
@@ -230,6 +240,7 @@ export function* getNitrogenBalanceFrequency() {
       yield put(setFrequencyNitrogenBalance(result.data));
     }
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to fetch schedule nitrogen balance from db');
   }
 }
@@ -258,6 +269,7 @@ export function* postNitrogenBalanceFrequency(action) {
       }
     }
   } catch (error) {
+    yield put(handleError(error));
     console.log(error + ' Could not emit postNitrogenFrequency action');
   }
 }
@@ -278,6 +290,7 @@ export function* deleteNitrogenBalanceFrequency(action) {
       console.log('Eyy, its deleted ' + result);
     }
   } catch (error) {
+    yield put(handleError(error));
     console.log(error + ' could not emit deleteNitrogenFrequencyAction');
   }
 }

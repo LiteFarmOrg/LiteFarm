@@ -24,7 +24,7 @@ import {
   loginSelector,
   selectFarmSuccess,
 } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from './../../lang/i18n';
 const axios = require('axios');
@@ -68,6 +68,7 @@ export function* postFarmSaga({ payload: farm }) {
     yield put(selectFarmSuccess({ farm_id }));
     history.push('/role_selection');
   } catch (e) {
+    yield put(handleError(e));
     console.log(e);
     toastr.error(i18n.t('message:FARM.ERROR.ADD'));
   }
@@ -91,6 +92,7 @@ export function* patchFarmSaga({ payload: farm }) {
     yield put(patchFarmSuccess({ ...farm, user_id }));
     history.push('/role_selection');
   } catch (e) {
+    yield put(handleError(e));
     console.error(e);
     toastr.error(i18n.t('message:FARM.ERROR.ADD'));
   }
@@ -115,6 +117,7 @@ export function* patchRoleSaga({ payload }) {
     yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));
     callback && callback();
   } catch (e) {
+    yield put(handleError(e));
     console.log('fail to update role');
   }
 }

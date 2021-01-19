@@ -18,7 +18,7 @@ import history from '../../history';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, handleError } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   getFieldCropsSuccess,
@@ -46,6 +46,7 @@ export function* getExpiredFieldCropsSaga() {
     yield put(getFieldCropsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingFieldCropFail());
+    yield put(handleError(e));
     console.error('failed to fetch expired crops from database');
   }
 }
@@ -67,6 +68,7 @@ export function* postFieldSaga(action) {
     yield call(axios.post, fieldURL, fieldData, header);
     history.push('/field');
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add field to database');
   }
 }
@@ -80,6 +82,7 @@ export function* postFieldCropSaga({ payload: fieldCrop }) {
     const result = yield call(axios.post, fieldCropURL, fieldCrop, header);
     yield put(postFieldCropSuccess(result.data));
   } catch (e) {
+    yield put(handleError(e));
     console.log('failed to add fieldCrop to database');
   }
 }
@@ -101,6 +104,7 @@ export function* putFieldCropSaga({ payload: fieldCrop }) {
     yield put(putFieldCropSuccess(fieldCrop));
     toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
   } catch (e) {
+    yield put(handleError(e));
     console.log('Failed to add fieldCrop to database');
     toastr.error(i18n.t('message:CROP.ERROR.EDIT'));
   }
@@ -119,6 +123,7 @@ export function* deleteFieldCropSaga({ payload: field_crop_id }) {
     yield put(deleteFieldCropSuccess(field_crop_id));
     toastr.success(i18n.t('message:CROP.SUCCESS.DELETE'));
   } catch (e) {
+    yield put(handleError(e));
     console.log('Failed To Delete Field Crop Error: ', e);
     toastr.error(i18n.t('message:CROP.ERROR.DELETE'));
   }
@@ -141,6 +146,7 @@ export function* createYieldSaga({ payload: yieldData }) {
   try {
     const result = yield call(axios.post, yieldURL, data, header);
   } catch (e) {
+    yield put(handleError(e));
     console.log('Error: Could Not Emit Create Yield Action');
   }
 }
@@ -161,6 +167,7 @@ export function* createPriceSaga({ payload: price }) {
   try {
     const result = yield call(axios.post, priceURL, data, header);
   } catch (e) {
+    yield put(handleError(e));
     console.log('Error: Could not Emit Create Price Action');
   }
 }
@@ -177,6 +184,7 @@ export function* deleteFieldSaga({ payload: field_id }) {
     yield put(deleteFieldSuccess(field_id));
     toastr.success(i18n.t('message:FIELD.SUCCESS.DELETE'));
   } catch (e) {
+    yield put(handleError(e));
     console.log('Failed To Delete Field: ', e);
     toastr.error(i18n.t('message:FIELD.ERROR.DELETE'));
   }

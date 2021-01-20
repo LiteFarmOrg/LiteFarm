@@ -13,6 +13,12 @@
   font-family: 'Open Sans', 'SansSerif', serif;
 }
 
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .input ::placeholder {
   color: var(--grey500);
 }

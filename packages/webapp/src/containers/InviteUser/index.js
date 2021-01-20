@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getRoles, inviteUserToFarm, addPseudoWorker } from './saga';
 import history from '../../history';
-import { showSpotlight } from '../actions';
 import PureInviteUser from '../../components/InviteUser';
-// import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
-import { getCertifiers } from '../OrganicCertifierSurvey/saga';
-import { patchOutroStep } from './saga';
 import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector } from '../userFarmSlice';
 
@@ -40,11 +36,6 @@ function InviteUser() {
     const isPseudo = role === 3 && email.trim().length === 0;
     // const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered
     if (!isPseudo) {
-      // const pw = generator.generate({
-      //   length: 10,
-      //   numbers: true,
-      //   symbols: true,
-      // });
       const user = {
         email,
         first_name,
@@ -55,7 +46,6 @@ function InviteUser() {
           type: 'hourly',
           amount,
         },
-        // password: pw,
         gender,
         birth_year,
         phone_number,
@@ -64,7 +54,6 @@ function InviteUser() {
       !user.phone_number && delete user.phone_number;
 
       dispatch(inviteUserToFarm(user));
-      // alert('user created with password: ' + pw);
     } else {
       const pseudoId = uuidv4();
       const user = {
@@ -95,9 +84,7 @@ function InviteUser() {
   };
 
   useEffect(() => {
-    // if (!survey.survey_id) {
     dispatch(getRoles());
-    // }
   }, []);
 
   return <PureInviteUser onGoBack={onGoBack} onInvite={onInvite} roleOptions={roleOptions} />;

@@ -17,26 +17,14 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const EMAIL = 'email';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
-  // const PASSWORD = 'password';
   const WAGE = 'wage';
   const PHONE = 'phone_number';
   const name = watch(NAME, undefined);
   const email = watch(EMAIL, undefined);
   const role = watch(ROLE, undefined);
   const selectedRoleId = role?.value;
-  // const password = watch(PASSWORD, undefined);
-  // const required = watch(NAME, false);
   const { t } = useTranslation();
   const title = t('INVITE_USER.TITLE');
-  // const {
-  //   isValid,
-  //   hasNoSymbol,
-  //   hasNoDigit,
-  //   hasNoUpperCase,
-  //   isTooShort,
-  // } = validatePasswordWithErrors(password);
-  // const inputRegister = register({ validate: () => isValid });
-  // const refInput = register({ required: required });
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
@@ -157,19 +145,6 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         }
         optional
       />
-      {/* <Input
-        style={{ marginBottom: '28px' }}
-        label={t('CREATE_USER.PASSWORD')}
-        type={PASSWORD}
-        name={PASSWORD}
-        inputRef={inputRegister}
-      />
-      <PasswordError
-        hasNoDigit={hasNoDigit}
-        hasNoSymbol={hasNoSymbol}
-        hasNoUpperCase={hasNoUpperCase}
-        isTooShort={isTooShort}
-      /> */}
     </Form>
   );
 }

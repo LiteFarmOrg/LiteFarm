@@ -25,7 +25,6 @@ export function* inviteUserToFarmSaga({ payload: user }) {
     yield put(postUserSuccess(result.data));
     toastr.success(i18n.t('message:USER.SUCCESS.ADD'));
   } catch (err) {
-    //console.log(err.response.status);
     if (err.response.status === 409) {
       toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
     } else {

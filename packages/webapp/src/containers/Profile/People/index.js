@@ -4,7 +4,7 @@ import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
 import { rolesSelector } from './slice';
 
-import { addPseudoWorker, addUser, deactivateUser, reactivateUser } from './saga';
+import { deactivateUser, reactivateUser } from './saga';
 import { updateUserFarm } from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -19,9 +19,6 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from './saga';
 import { withTranslation } from 'react-i18next';
 import history from '../../../history';
-
-// const generator = require('generate-password');
-// const { v4: uuidv4 } = require('uuid');
 
 const summaryColumns = [
   {
@@ -100,20 +97,6 @@ class People extends Component {
     });
   };
 
-  // openAddModal = (isAdmin, isPseudo = false) => {
-  //   this.setState({
-  //     showAdd: true,
-  //     isAdmin,
-  //     isPseudo,
-  //   });
-  // };
-
-  // closeAddModal = () => {
-  //   const { dispatch } = this.props;
-  //   dispatch(actions.reset('profileForms.addInfo'));
-  //   this.setState({ showAdd: false });
-  // };
-
   handleSubmit(editedUser, user) {
     if (this.state.edit_wage_error || this.state.edit_email_error) {
       return;
@@ -165,56 +148,10 @@ class People extends Component {
     // this.closeEditModal();
   }
 
-  // handleAddPerson(userInfo, farmID) {
-  //   const { role, email, pay, first_name, last_name } = userInfo;
-  //   // Pseudo worker is a worker with no email filled out
-  //   const isPseudo = role === 3 && email.trim().length === 0;
-  //   const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered
-  //   if (!isPseudo) {
-  //     const pw = generator.generate({
-  //       length: 10,
-  //       numbers: true,
-  //       symbols: true,
-  //     });
-  //     const user = {
-  //       email,
-  //       first_name,
-  //       last_name,
-  //       farm_id: farmID,
-  //       role_id: Number(role),
-  //       wage: {
-  //         type: pay.type || 'hourly',
-  //         amount,
-  //       },
-  //       password: pw,
-  //     };
-  //     // this.props.dispatch(addUser(user));
-  //     // alert('user created with password: ' + pw);
-  //   } else {
-  //     const pseudoId = uuidv4();
-  //     const user = {
-  //       email: pseudoId + '@pseudo.com',
-  //       first_name,
-  //       last_name,
-  //       farm_id: farmID,
-  //       wage: {
-  //         type: pay.type || 'hourly',
-  //         amount,
-  //       },
-  //       profile_picture: 'https://cdn.auth0.com/avatars/na.png',
-  //       user_id: pseudoId,
-  //     };
-  //     // this.props.dispatch(addPseudoWorker(user));
-  //   }
-
-  //   this.closeAddModal();
-  // }
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(getAllUserFarmsByFarmId());
     dispatch(actions.reset('profileForms.addInfo'));
-    // dispatch(getRoles());
   }
 
   deactivate = (user_id) => {
@@ -388,235 +325,11 @@ class People extends Component {
     return styles.inputContainer;
   };
 
-  getDropDownOptions = () => {
-    const { roles } = this.props;
-    return roles.map((option) => {
-      const { role_id, role } = option;
-      return {
-        value: role_id,
-        label: `Farm ${role}`,
-      };
-    });
-  };
-
   render() {
     const { isAdmin, profileForms } = this.props;
     const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
-    const isRoleSelected = addInfo.role !== '0';
-    const dropDownOptions = this.getDropDownOptions();
-    // if (this.state.showAdd) {
-    //   return (
-    //     <div className={styles.addUserContainer}>
-    //       <div className={styles.addUserTitleContainer}>
-    //         <h3 className={styles.userTitle}>{this.props.t('PROFILE.PEOPLE.INVITE_USER')}</h3>
-    //       </div>
-    //       <Form
-    //         className={styles.formContainer}
-    //         model="profileForms"
-    //         // onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
-    //       >
-    //         <div className={styles.formBodyContainer}>
-    //           <div className={this.getTextFieldStyle('first_name')}>
-    //             <label>{this.props.t('PROFILE.ACCOUNT.FIRST_NAME')}</label>
-    //             <Control.text
-    //               model=".addInfo.first_name"
-    //               validators={{
-    //                 required: (val) => val.length,
-    //               }}
-    //               defaultValue=""
-    //             />
-    //           </div>
-    //           <Errors
-    //             model="profileForms.addInfo.first_name"
-    //             messages={{
-    //               required: this.props.t('PROFILE.PEOPLE.FIRST_NAME_NOT_EMPTY'),
-    //             }}
-    //             show={(field) => field.touched && !field.focus}
-    //             component={(props) => (
-    //               <div className={styles.errorContainer}>
-    //                 <div className={styles.errorText}>{props.children}</div>
-    //               </div>
-    //             )}
-    //           />
-    //           <div className={this.getTextFieldStyle('last_name')}>
-    //             <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
-    //             <Control.text
-    //               model=".addInfo.last_name"
-    //               validators={{
-    //                 required: (val) => val.length,
-    //               }}
-    //               defaultValue=""
-    //             />
-    //           </div>
-    //           <Errors
-    //             model=".addInfo.last_name"
-    //             messages={{
-    //               required: this.props.t('PROFILE.PEOPLE.LAST_NAME_NOT_EMPTY'),
-    //             }}
-    //             show={(field) => field.touched && !field.focus}
-    //             component={(props) => (
-    //               <div className={styles.errorContainer}>
-    //                 <div className={styles.errorText}>{props.children}</div>
-    //               </div>
-    //             )}
-    //           />
-    //           <div className={styles.inputContainer}>
-    //             <label>{this.props.t('PROFILE.PEOPLE.ROLE')}</label>
-    //             <Control.custom
-    //               model=".addInfo.role"
-    //               defaultValue="0"
-    //               onChange={(option) => {
-    //                 this.props.dispatch(actions.change('profileForms.addInfo.role', option.value));
-    //                 this.props.dispatch(
-    //                   actions.validate('profileForms.addInfo.email', {
-    //                     required: (val) => (option.value === 3 ? true : val.length),
-    //                     validEmail: (val) => validEmailRegex.test(val),
-    //                   }),
-    //                 );
-    //               }}
-    //               component={DropDown}
-    //               mapProps={{
-    //                 isSearchable: false,
-    //                 options: dropDownOptions,
-    //                 placeholder: this.props.t('PROFILE.PEOPLE.SELECT_ROLE'),
-    //                 styles: {
-    //                   container: (provided, state) => ({
-    //                     ...provided,
-    //                     margin: '0.25em 0 1em 0',
-    //                     outline: 'none',
-    //                   }),
-    //                   control: (provided, state) => ({
-    //                     background: '#FFFFFF',
-    //                     border: '1px solid',
-    //                     borderColor: state.isFocused ? '#89D1C7' : '#D4DAE3',
-    //                     boxSizing: 'border-box',
-    //                     borderRadius: '4px',
-    //                     padding: '0.75em 0.5em',
-    //                     height: '48px',
-    //                     fontSize: '16px',
-    //                     color: '#282B36',
-    //                     outline: 'none',
-    //                     display: 'flex',
-    //                     alignItems: 'center',
-    //                   }),
-    //                   placeholder: (provided, state) => ({ color: '#9FAABE' }),
-    //                   indicatorSeparator: (provided, state) => ({
-    //                     backgroundColor: 'none',
-    //                   }),
-    //                   menuList: (provided, state) => ({
-    //                     ...provided,
-    //                     padding: 0,
-    //                     margin: 0,
-    //                     borderRadius: '4px',
-    //                     background: '#FFFFFF',
-    //                     boxShadow: '0px 1px 2px rgba(102, 115, 138, 0.25)',
-    //                   }),
-    //                   option: (provided, state) => ({
-    //                     display: 'flex',
-    //                     alignItems: 'center',
-    //                     padding: '8px 8px 8px',
-    //                     backgroundColor: 'transparent',
-    //                     background:
-    //                       state.isClicked || state.isFocused ? 'rgb(223, 244, 232, 0.5)' : 'none',
-    //                     color: '#282B36',
-    //                     height: '40px',
-    //                   }),
-    //                   valueContainer: (provided, state) => ({
-    //                     ...provided,
-    //                     padding: 0,
-    //                   }),
-    //                   singleValue: (provided, state) => ({
-    //                     ...provided,
-    //                     padding: 0,
-    //                     margin: 0,
-    //                   }),
-    //                 },
-    //               }}
-    //             />
-    //           </div>
-    //           {isRoleSelected && (
-    //             <div>
-    //               <div className={this.getTextFieldStyle('email')}>
-    //                 <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
-    //                 <Control.text
-    //                   model=".addInfo.email"
-    //                   validators={{
-    //                     required: (val) => (addInfo.role === 3 ? true : val.length),
-    //                     validEmail: (val) => validEmailRegex.test(val),
-    //                   }}
-    //                   defaultValue=""
-    //                 />
-    //                 {addInfo.role === 3 && (
-    //                   <p className={styles.emailInputReminder}>
-    //                     {this.props.t('PROFILE.PEOPLE.USERS_NO_EMAIL_NO_LOGIN')}
-    //                   </p>
-    //                 )}
-    //               </div>
-    //               <Errors
-    //                 model=".addInfo.email"
-    //                 messages={{
-    //                   required: this.props.t('PROFILE.PEOPLE.EMAIL_CANNOT_BE_EMPTY'),
-    //                   validEmail: 'Email must be valid',
-    //                 }}
-    //                 show={(field) => field.touched && !field.focus}
-    //                 component={(props) => (
-    //                   <div className={styles.errorContainer}>
-    //                     <div className={styles.errorText}>{props.children}</div>
-    //                   </div>
-    //                 )}
-    //               />
-    //               <div className={this.getTextFieldStyle('pay')}>
-    //                 <label>Wage (Optional)</label>
-    //                 <div className={styles.wageContainer}>
-    //                   <Control.text
-    //                     model=".addInfo.pay.amount"
-    //                     validators={{
-    //                       validWage: (val) => validWageRegex.test(val),
-    //                     }}
-    //                     defaultValue=""
-    //                   />
-    //                   <p className={styles.wageInputUnit}>{`${currencySymbol}/hr`}</p>
-    //                   {/* <div className={styles.payTypeContainer}>
-    //                             <div className={styles.radioContainer}>
-    //                               <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
-    //                               <label htmlFor="hour">Hourly</label>
-    //                             </div>
-    //                             <div className={styles.radioContainer}>
-    //                               <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
-    //                               <label htmlFor="daily">Daily</label>
-    //                             </div>
-    //                           </div> */}
-    //                 </div>
-    //               </div>
-    //               <Errors
-    //                 model=".addInfo.pay.amount"
-    //                 messages={{
-    //                   validWage: this.props.t('PROFILE.PEOPLE.WAGE_MUST_BE_VALID'),
-    //                 }}
-    //                 show={(field) => field.touched && !field.focus}
-    //                 component={(props) => (
-    //                   <div className={styles.errorContainer}>
-    //                     <div className={styles.errorText}>{props.children}</div>
-    //                   </div>
-    //                 )}
-    //               />
-    //             </div>
-    //           )}
-    //         </div>
-    //         <div className={styles.formActionsContainer}>
-    //           <button className={styles.cancelButton} onClick={() => this.closeAddModal()}>
-    //             {this.props.t('common:CANCEL')}
-    //           </button>
-    //           <button type="submit" className={styles.inviteButton} disabled={this.isDisabled()}>
-    //             {this.props.t('PROFILE.PEOPLE.INVITE')}
-    //           </button>
-    //         </div>
-    //       </Form>
-    //     </div>
-    //   );
-    // }
 
     return (
       <div>

@@ -309,6 +309,20 @@ async function activityLogFactory({ promisedUser = usersFactory() } = {}, activi
 
 }
 
+async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  const [{ user_id }] = user;
+  const base = baseProperties(user_id);
+  return knex('harvestUseType').insert({ farm_id, ...harvestUseType, ...base }).returning('*');
+}
+
+function fakeHarvestUseType() {
+  return {
+    harvest_use_type_name: faker.lorem.word(),
+  };
+}
+
 function fakeActivityLog() {
   return {
     activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest',
@@ -706,6 +720,7 @@ module.exports = {
   fieldCropFactory, fakeFieldCrop,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
+  harvestUseTypeFactory, fakeHarvestUseType,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

@@ -20,7 +20,6 @@ import styles from './styles.scss';
 class LogFooter extends React.Component {
   render() {
     const { onClick, edit, harvestLog } = this.props;
-    console.log(onClick);
     return (
       <div className={styles.bottomContainer}>
         {edit ? (

@@ -47,11 +47,11 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
 
   const onSubmit = (data) => {
     console.log('submit: ', data);
-    // if (isValid) {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
-    onInvite({ ...data, email });
-    // }
+    const i = data.name.indexOf(' ');
+    const [first_name, last_name] = [data.name.slice(0,i), data.name.slice(i+1)];
+    onInvite({ ...data, email, first_name, last_name });
   };
   const onError = (data) => {
     console.log("error: ", data)

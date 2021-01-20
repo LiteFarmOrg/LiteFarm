@@ -312,15 +312,12 @@ async function activityLogFactory({ promisedUser = usersFactory() } = {}, activi
 async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
-  const [{ user_id }] = user;
-  // const base = baseProperties(user_id);
   return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
 }
 
 function fakeHarvestUseType() {
   return {
-    harvest_use_type_name: faker.random.arrayElement(['Sales', 'Self-consumption', 'Animal feed', 'Compost', 'Gift',
-    'Exchange', 'Save for seed', 'Not Sure', 'Other']),
+    harvest_use_type_name: faker.lorem.words(),
   };
 }
 

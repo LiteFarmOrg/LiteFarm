@@ -19,7 +19,7 @@ export function* addLog(action) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
-      toastr.error(i18n.t('message:LOG.SUCCESS.ADD'));
+      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add log');

@@ -182,7 +182,7 @@ class userController extends baseController {
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
-          await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
+          await this.createTokenSendEmail({ email, first_name, last_name, gender, birth_year }, userFarm, farm_name);
         } catch (e) {
           console.error('Failed to send email', e);
         }

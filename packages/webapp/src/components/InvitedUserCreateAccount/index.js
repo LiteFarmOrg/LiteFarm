@@ -18,6 +18,8 @@ export default function PureInvitedUserCreateAccountPage({
   isNotSSO,
   buttonText,
   autoOpen,
+  gender,
+  birthYear,
 }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
@@ -91,7 +93,7 @@ export default function PureInvitedUserCreateAccountPage({
             toolTipContent={t('INVITATION.GENDER_TOOLTIP')}
             style={{ marginBottom: '24px' }}
             autoOpen={autoOpen}
-            defaultValue={genderOptions[3]}
+            defaultValue={gender ? genderOptions.filter(option => option.value === gender) : genderOptions[3]}
           />
         )}
       />
@@ -107,6 +109,7 @@ export default function PureInvitedUserCreateAccountPage({
           (errors[BIRTHYEAR].message ||
             `Birth year needs to be between 1900 and ${new Date().getFullYear()}`)
         }
+        defaultValue={birthYear}
         optional
       />
       {isNotSSO && (

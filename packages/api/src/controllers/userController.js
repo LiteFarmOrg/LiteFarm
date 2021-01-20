@@ -18,6 +18,7 @@ const userModel = require('../models/userModel');
 const userFarmModel = require('../models/userFarmModel');
 const passwordModel = require('../models/passwordModel');
 const emailTokenModel = require('../models/emailTokenModel');
+const shiftModel = require('../models/shiftModel');
 const farmModel = require('../models/farmModel');
 const { transaction, Model } = require('objection');
 const auth0Config = require('../auth0Config');
@@ -31,11 +32,13 @@ const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 class userController extends baseController {
   static addUser() {
     return async (req, res) => {
-      const { email, first_name, last_name, password, language_preference } = req.body;
+      const { email, first_name, last_name, password, gender, birth_year, language_preference } = req.body;
       const userData = {
         email,
         first_name,
         last_name,
+        gender,
+        birth_year,
         language_preference,
       };
 
@@ -79,14 +82,14 @@ class userController extends baseController {
         }
 
         // send token and user data (sans password hash)
-        res.status(201).send({
+        return res.status(201).send({
           id_token,
           user: userResult,
         });
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }
@@ -153,7 +156,7 @@ class userController extends baseController {
             email,
             first_name,
             last_name,
-            status: 2,
+            status_id: 2,
             gender,
             birth_year,
             phone_number,
@@ -478,7 +481,7 @@ class userController extends baseController {
             gender,
             birth_year,
             language_preference,
-            status: 1,
+            status_id: 1,
           });
           const { role_id } = await userFarmModel.query(trx).where({
             user_id,
@@ -486,7 +489,7 @@ class userController extends baseController {
           }).patch({ status: 'Active' }).returning('*').first();
         });
         result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
-        result = {  ...result.user, ...result, ...result.role, ...result.farm };
+        result = { ...result.user, ...result, ...result.role, ...result.farm };
         delete result.farm;
         delete result.user;
         delete result.role;
@@ -511,14 +514,17 @@ class userController extends baseController {
       const { first_name, last_name, gender, birth_year, language_preference } = req.body;
       try {
         await userModel.transaction(async trx => {
-          const user = await userModel.query(trx).context({ showHidden: true, shouldUpdateEmail: true }).findById(user_id).patch({ email: user_id }).returning('*');
+          const user = await userModel.query(trx).context({
+            showHidden: true,
+            shouldUpdateEmail: true,
+          }).findById(user_id).patch({ email: user_id }).returning('*');
           delete user.profile_picture;
           delete user.address;
           user.phone_number = user.phone_number ? user.phone_number : undefined;
           await userModel.query(trx).insert({
             ...user,
             user_id: sub,
-            status: 1,
+            status_id: 1,
             email,
             first_name,
             last_name,
@@ -529,10 +535,12 @@ class userController extends baseController {
           await userFarmModel.query(trx).where({
             user_id,
             farm_id,
-          }).patch({ status: 'Active' }).first().returning('*');
-          await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
-          await userFarmModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          }).patch({ status: 'Active' });
+          const userFarms = await userFarmModel.query(trx).where({ user_id });
+          await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
+          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub }).first().returning('*');
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
+          await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();
         });
         result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([

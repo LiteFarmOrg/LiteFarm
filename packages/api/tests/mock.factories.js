@@ -25,7 +25,7 @@ function fakeUser() {
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.random.uuid(),
-    status: 1,
+    status_id: 1,
     phone_number: faker.phone.phoneNumber(),
     gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.random.number({min: 1900, max: new Date().getFullYear()})

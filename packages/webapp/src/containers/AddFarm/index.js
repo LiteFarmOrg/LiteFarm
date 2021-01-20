@@ -7,17 +7,12 @@ import { userFarmSelector } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
+import { useTranslation } from 'react-i18next';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
 
-const errorMessage = {
-  required: 'Address is required',
-  placeSelected: 'Please enter a valid address or coordinate',
-  countryFound: 'Invalid farm location',
-  noAddress: 'No location found! Try latitude and longitude',
-};
-
 const AddFarm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
   const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm();
@@ -28,15 +23,21 @@ const AddFarm = () => {
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
   const [country, setCountry] = useState(farm?.country ? farm.country : '');
   const ref0 = register({
-    required: { value: true, message: 'Farm name is required' },
+    required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
   });
   const ref1 = register({
-    required: { value: true, message: 'Address is required' },
+    required: { value: true, message: t('ADD_FARM.ADDRESS_IS_REQUIRED') },
     validate: {
       placeSelected: (data) => address && gridPoints && data[address],
       countryFound: (data) => country && data[address],
     },
   });
+  const errorMessage = {
+    required: t('ADD_FARM.ADDRESS_IS_REQUIRED'),
+    placeSelected: t('ADD_FARM.ENTER_A_VALID_ADDRESS'),
+    countryFound: t('ADD_FARM.INVALID_FARM_LOCATION'),
+    noAddress: t('ADD_FARM.NO_ADDRESS'),
+  };
 
   useEffect(() => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
@@ -195,18 +196,17 @@ const AddFarm = () => {
       />
       <PureAddFarm
         onSubmit={handleSubmit(onSubmit)}
-        title={'Tell us about your farm'}
+        title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
         inputs={[
           {
-            label: 'Farm name',
+            label: t('ADD_FARM.FARM_NAME'),
             inputRef: ref0,
             name: FARMNAME,
             errors: errors[FARMNAME] && errors[FARMNAME].message,
           },
           {
-            label: 'Farm location',
-            info:
-              'Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)',
+            label: t('ADD_FARM.FARM_LOCATION'),
+            info: t('ADD_FARM.FARM_LOCATION_INPUT_INFO'),
             icon: isGettingLocation ? (
               <span>Locating...</span>
             ) : (

@@ -6,8 +6,8 @@ import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 
-import { currentLogSelector } from './selectors';
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
+import { currentLogSelector } from './selectors';
 import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
 import { getFertilizers } from '../FertilizingLog/actions';
 import { fertSelector } from '../FertilizingLog/selectors';

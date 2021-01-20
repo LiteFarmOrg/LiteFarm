@@ -228,7 +228,7 @@
   },
   "LOG_HARVEST": {
     "HARVEST_QUANTITY": "Harvest Quantity",
-    "TITLE": "Harvest Log"
+    "TITLE": "Harvest Log (step 1)"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",

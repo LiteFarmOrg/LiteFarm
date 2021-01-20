@@ -1,5 +1,5 @@
 // actions
-import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES } from './constants';
 
 export const addLog = (formValue) => {
   return {
@@ -19,5 +19,12 @@ export const deleteLog = (id) => {
   return {
     type: DELETE_LOG,
     id,
+  };
+};
+
+export const getHarvestUseTypes = (formValue) => {
+  return {
+    type: GET_HARVEST_USE_TYPES,
+    formValue,
   };
 };

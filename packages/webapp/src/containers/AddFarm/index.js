@@ -254,6 +254,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
     <div
       style={{
         width: '100vw',
+        maxWidth: '1024px',
         minHeight: '152px',
         flexGrow: 1,
         position: 'relative',

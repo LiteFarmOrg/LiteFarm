@@ -35,15 +35,14 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const disabled = !name || !role || (selectedRoleId !== 3 ? !email : false);
 
   const onSubmit = (data) => {
-    console.log('submit: ', data);
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
     const i = data.name.indexOf(' ');
-    const [first_name, last_name] = [data.name.slice(0,i), data.name.slice(i+1)];
+    const [first_name, last_name] = [data.name.slice(0, i), data.name.slice(i + 1)];
     onInvite({ ...data, email, first_name, last_name });
   };
   const onError = (data) => {
-    console.log("error: ", data)
+    console.log('error: ', data);
   };
 
   return (
@@ -83,10 +82,13 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         rules={{ required: true }}
       />
       <Input
-        // style={{ marginBottom: '28px' }}
         label={t('INVITE_USER.EMAIL')}
         name={EMAIL}
-        inputRef={register({ required: selectedRoleId !== 3, pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ })}
+        inputRef={register({
+          required: selectedRoleId !== 3,
+          pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+        })}
+        errors={errors[EMAIL] && t('INVITE_USER.INVALID_EMAIL_ERROR')}
         optional={selectedRoleId === 3}
       />
       <Info style={{ marginBottom: '16px' }}>{t('INVITE_USER.EMAIL_INFO')}</Info>
@@ -112,37 +114,31 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         name={BIRTHYEAR}
         toolTipContent={t('INVITE_USER.BIRTH_YEAR_TOOLTIP')}
         style={{ marginBottom: '24px' }}
-        placeholder={"xxxx"}
+        placeholder={'xxxx'}
         errors={
           errors[BIRTHYEAR] &&
           (errors[BIRTHYEAR].message ||
-            `Birth year needs to be between 1900 and ${new Date().getFullYear()}`)
+            `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
       />
       <Input
         label={t('INVITE_USER.WAGE')}
-        type="string"
-        inputRef={register({ min: 0, valueAsNumber: true, pattern: /^[0-9]+(\.[0-9][0-9]?)?$/ })}
+        step="0.01"
+        type="number"
+        inputRef={register({ min: 0, valueAsNumber: true })}
         name={WAGE}
         style={{ marginBottom: '24px' }}
-        errors={
-          errors[WAGE] &&
-          (errors[WAGE].message ||
-            `Wage must be a valid, non-negative decimal number`)
-        }
+        errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
       />
       <Input
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
-        inputRef={register({ pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/ })}
+        type={'number'}
+        inputRef={register({ pattern: /\d*/ })}
         name={PHONE}
-        errors={
-          errors[PHONE] &&
-          (errors[PHONE].message ||
-            `Please enter a valid phone number`)
-        }
+        errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional
       />
     </Form>

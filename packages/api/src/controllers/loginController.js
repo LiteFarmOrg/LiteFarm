@@ -124,7 +124,7 @@ class loginController extends baseController {
       const { email } = req.params;
       try {
         const data = await userModel.query()
-          .select('user_id', 'first_name', 'email', 'language_preference', 'status').from('users').where('users.email', email).first();
+          .select('user_id', 'first_name', 'email', 'language_preference', 'status_id').from('users').where('users.email', email).first();
         if (!data) {
           res.status(200).send({
             first_name: null,
@@ -135,7 +135,7 @@ class loginController extends baseController {
             expired: false,
           });
         } else {
-          if (data.status === 2) {
+          if (data.status_id === 2) {
             await sendMissingInvitations(data);
             return res.status(200).send({
               first_name: data.first_name,
@@ -147,7 +147,7 @@ class loginController extends baseController {
             });
           }
 
-          if (data.status === 3) {
+          if (data.status_id === 3) {
             await sendPasswordReset(data);
             return res.status(200).send({
               first_name: data.first_name,

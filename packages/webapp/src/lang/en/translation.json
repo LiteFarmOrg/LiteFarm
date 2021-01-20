@@ -10,7 +10,14 @@
   },
   "CREATE_USER": {
     "CREATE_BUTTON": "Create Account",
-    "TITLE": "Create new user account"
+    "TITLE": "Create new user account",
+    "EMAIL": "Email",
+    "FULL_NAME":"Full name",
+    "PASSWORD": "Password",
+    "GENDER": "Gender",
+    "BIRTH_YEAR": "Birth year",
+    "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",

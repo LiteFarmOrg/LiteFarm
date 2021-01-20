@@ -7,14 +7,15 @@ import PureInviteUser from '../../components/InviteUser';
 import { rolesSelector } from '../Profile/People/slice';
 import { loginSelector } from '../userFarmSlice';
 
-const generator = require('generate-password');
+import i18n from '../../lang/i18n';
+
 const { v4: uuidv4 } = require('uuid');
 
 const dropDownMap = {
-  1: "Farm Owner",
-  2: "Farm Manager",
-  3: "Farm Worker",
-  5: "Extension Officer"
+  1: i18n.t('role:OWNER'),
+  2: i18n.t('role:MANAGER'),
+  3: i18n.t('role:WORKER'),
+  5: i18n.t('role:EXTENSION_OFFICER'),
 }
 
 function InviteUser() {

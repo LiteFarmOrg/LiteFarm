@@ -42,10 +42,12 @@ class HarvestUseType extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-
+      
       harvestLog:{
+        
         modelClass:require('./harvestLogModel'),
         relation:Model.ManyToManyRelation,
+        
         join:{
           from: 'harvestUseType.harvest_use_type_id',
           through: {
@@ -53,6 +55,7 @@ class HarvestUseType extends Model {
             from: 'harvestUse.activity_id',
             to: 'harvestUse.harvest_use_type_id',
           },
+          
           to: 'harvestLog.activity_id',
         },
 

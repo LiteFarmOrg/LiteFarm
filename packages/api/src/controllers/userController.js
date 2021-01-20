@@ -98,7 +98,7 @@ class userController extends baseController {
 
   static addInvitedUser() {
     return async (req, res) => {
-      const { first_name, last_name, email: reqEmail, farm_id, role_id, wage } = req.body;
+      const { first_name, last_name, email: reqEmail, farm_id, role_id, wage, gender, birth_year, phone_number } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
       const email = reqEmail && reqEmail.toLowerCase();
       /* Start of input validation */
@@ -152,7 +152,15 @@ class userController extends baseController {
       try {
         let user;
         if (!isUserAlreadyCreated) {
-          user = await baseController.post(userModel, { email, first_name, last_name, status_id: 2 }, trx);
+          user = await baseController.post(userModel, {
+            email,
+            first_name,
+            last_name,
+            status_id: 2,
+            gender,
+            birth_year,
+            phone_number,
+          }, trx);
         } else {
           user = isUserAlreadyCreated;
         }
@@ -174,7 +182,7 @@ class userController extends baseController {
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
-          await this.createTokenSendEmail({ email, first_name, last_name }, userFarm, farm_name);
+          await this.createTokenSendEmail({ email, first_name, last_name, gender, birth_year }, userFarm, farm_name);
         } catch (e) {
           console.error('Failed to send email', e);
         }

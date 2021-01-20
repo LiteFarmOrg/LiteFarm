@@ -40,11 +40,11 @@ function InviteUser() {
     const isPseudo = role === 3 && email.trim().length === 0;
     // const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered
     if (!isPseudo) {
-      const pw = generator.generate({
-        length: 10,
-        numbers: true,
-        symbols: true,
-      });
+      // const pw = generator.generate({
+      //   length: 10,
+      //   numbers: true,
+      //   symbols: true,
+      // });
       const user = {
         email,
         first_name,
@@ -55,13 +55,15 @@ function InviteUser() {
           type: 'hourly',
           amount,
         },
-        password: pw,
+        // password: pw,
         gender,
         birth_year,
         phone_number,
       };
-      console.log(pw, user);
-      // dispatch(inviteUserToFarm(user));
+      !user.birth_year && delete user.birth_year;
+      !user.phone_number && delete user.phone_number;
+
+      dispatch(inviteUserToFarm(user));
       // alert('user created with password: ' + pw);
     } else {
       const pseudoId = uuidv4();

@@ -28,7 +28,9 @@ export function* inviteUserToFarmSaga({ payload: user }) {
     //console.log(err.response.status);
     if (err.response.status === 409) {
       toastr.error(i18n.t('message:USER.ERROR.EXISTS'));
-    } else toastr.error(i18n.t('message:USER.ERROR.ADD'));
+    } else {
+      toastr.error(i18n.t('message:USER.ERROR.ADD'));
+    }
   }
 }
 

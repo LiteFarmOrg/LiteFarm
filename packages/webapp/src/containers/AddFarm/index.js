@@ -1,12 +1,16 @@
 import { useForm } from 'react-hook-form';
 import React, { useState, useEffect } from 'react';
 import Script from 'react-load-script';
+import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
+import { ReactComponent as MapPin } from '../../assets/images/signUp/map_pin.svg';
+import { ReactComponent as MapErrorPin } from '../../assets/images/signUp/map_error_pin.svg';
+import { ReactComponent as LoadingAnimation } from '../../assets/images/signUp/animated_loading_farm.svg';
 import { useTranslation } from 'react-i18next';
 
 const coordRegex = /^(-?\d+(\.\d+)?)[,\s]\s*(-?\d+(\.\d+)?)$/;
@@ -22,10 +26,10 @@ const AddFarm = () => {
   const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
   const [country, setCountry] = useState(farm?.country ? farm.country : '');
-  const ref0 = register({
+  const farmNameRef = register({
     required: { value: true, message: t('ADD_FARM.FARM_IS_REQUIRED') },
   });
-  const ref1 = register({
+  const addressRef = register({
     required: { value: true, message: t('ADD_FARM.ADDRESS_IS_REQUIRED') },
     validate: {
       placeSelected: (data) => address && gridPoints && data[address],
@@ -38,6 +42,8 @@ const AddFarm = () => {
     countryFound: t('ADD_FARM.INVALID_FARM_LOCATION'),
     noAddress: t('ADD_FARM.NO_ADDRESS'),
   };
+
+  const addressErrors = errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type];
 
   useEffect(() => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
@@ -61,11 +67,10 @@ const AddFarm = () => {
   };
 
   let autocomplete;
-
   const handleScriptLoad = () => {
     const options = {
       types: ['address'],
-      language: 'en-US',
+      language: localStorage.getItem('litefarm_lang'),
     }; // To disable any eslint 'google not defined' errors
 
     // Initialize Google Autocomplete
@@ -170,22 +175,34 @@ const AddFarm = () => {
     }
   };
 
+  const handleGetGeoError = (e) => {
+    console.log(e);
+  };
+
+  const getGeoOptions = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 10000,
+  };
+
+  const handleGetGeoSuccess = (position) => {
+    let gridPoints = {};
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    const formattedAddress = `${lat}, ${lng}`;
+    setCountryFromLatLng({ lat, lng }, () => {
+      gridPoints['lat'] = lat;
+      gridPoints['lng'] = lng;
+      setGridPoints(gridPoints);
+      setAddress(formattedAddress);
+      setValue(ADDRESS, formattedAddress);
+      setIsGettingLocation(false);
+    });
+  };
+
   const getGeoLocation = () => {
     setIsGettingLocation(true);
-    navigator.geolocation.getCurrentPosition(function (position) {
-      let gridPoints = {};
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      const formattedAddress = `${lat}, ${lng}`;
-      setCountryFromLatLng({ lat, lng }, () => {
-        gridPoints['lat'] = lat;
-        gridPoints['lng'] = lng;
-        setGridPoints(gridPoints);
-        setAddress(formattedAddress);
-        setValue(ADDRESS, formattedAddress);
-        setIsGettingLocation(false);
-      });
-    });
+    navigator.geolocation.getCurrentPosition(handleGetGeoSuccess, handleGetGeoError, getGeoOptions);
   };
 
   return (
@@ -200,7 +217,7 @@ const AddFarm = () => {
         inputs={[
           {
             label: t('ADD_FARM.FARM_NAME'),
-            inputRef: ref0,
+            inputRef: farmNameRef,
             name: FARMNAME,
             errors: errors[FARMNAME] && errors[FARMNAME].message,
           },
@@ -212,19 +229,76 @@ const AddFarm = () => {
             ) : (
               <VscLocation size={27} onClick={getGeoLocation} />
             ),
-            inputRef: ref1,
+            inputRef: addressRef,
             id: 'autocomplete',
             name: ADDRESS,
             clearErrors,
-            errors: errors[ADDRESS] && errorMessage[errors[ADDRESS]?.type],
+            errors: addressErrors,
             onBlur: handleBlur,
           },
         ]}
-        gridPoints={gridPoints}
-        isGettingLocation={isGettingLocation}
+        map={
+          <Map
+            gridPoints={gridPoints}
+            isGettingLocation={isGettingLocation}
+            errors={addressErrors}
+          />
+        }
       />
     </>
   );
 };
+
+function Map({ gridPoints, errors, isGettingLocation }) {
+  return (
+    <div
+      style={{
+        width: '100vw',
+        minHeight: '152px',
+        flexGrow: 1,
+        position: 'relative',
+        transform: 'translateX(-24px)',
+        marginTop: '28px',
+        backgroundColor: 'var(--grey200)',
+        display: 'flex',
+      }}
+    >
+      {(gridPoints && gridPoints.lat && (
+        <GoogleMap
+          style={{ flexGrow: 1 }}
+          defaultCenter={gridPoints}
+          defaultZoom={14}
+          yesIWantToUseGoogleMapApiInternals
+          options={(maps) => ({
+            mapTypeId: maps.MapTypeId.SATELLITE,
+            disableDoubleClickZoom: true,
+            zoomControl: true,
+            streetViewControl: false,
+            scaleControl: true,
+            fullscreenControl: false,
+          })}
+        >
+          <MapPinWrapper {...gridPoints} />
+        </GoogleMap>
+      )) || (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '152px',
+            flexGrow: 1,
+          }}
+        >
+          {(!!errors && <MapErrorPin />) || (isGettingLocation ? <LoadingAnimation /> : <MapPin />)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MapPinWrapper() {
+  return <MapPin />;
+}
 
 export default AddFarm;

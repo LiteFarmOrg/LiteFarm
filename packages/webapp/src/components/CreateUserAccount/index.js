@@ -62,7 +62,12 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
       }
     >
       <Title style={{ marginBottom: '32px' }}>{title}</Title>
-      <Input style={{ marginBottom: '28px' }} label={t('CREATE_USER.EMAIL')} disabled defaultValue={email} />
+      <Input
+        style={{ marginBottom: '28px' }}
+        label={t('CREATE_USER.EMAIL')}
+        disabled
+        defaultValue={email}
+      />
       <Input
         style={{ marginBottom: '28px' }}
         label={t('CREATE_USER.FULL_NAME')}
@@ -95,7 +100,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         errors={
           errors[BIRTHYEAR] &&
           (errors[BIRTHYEAR].message ||
-            `Birth year needs to be between 1900 and ${new Date().getFullYear()}`)
+            `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
       />

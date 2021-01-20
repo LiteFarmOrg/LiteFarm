@@ -30,6 +30,7 @@ const SeedLog = require('../models/seedLogModel');
 const fieldCrop = require('../models/fieldCropModel');
 const HarvestLog = require('../models/harvestLogModel');
 const field = require('../models/fieldModel');
+const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
 
 class logController extends baseController {
   static addLog() {
@@ -86,6 +87,27 @@ class logController extends baseController {
       }
     }
   }
+
+  static getHarvestUseTypesByFarmID(){
+    return async (req, res) => {
+      try{
+        const farm_id = req.params.farm_id;
+        const rows = await HarvestUseTypeModel.query().where('farm_id', null).orWhere({farm_id});
+        if (!rows.length) {
+          res.sendStatus(404);
+        }
+        else {
+          res.status(200).send(rows);
+        }  
+    }
+    catch (error) {
+      //handle more exceptions
+      res.status(400).json({
+        error,
+      });
+    }
+  }
+}
 
   static deleteLog(){
     return async (req, res) => {

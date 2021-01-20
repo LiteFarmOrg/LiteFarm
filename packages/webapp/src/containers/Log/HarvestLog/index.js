@@ -85,7 +85,7 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter />
+          <LogFooter harvestLog={true} />
         </Form>
       </div>
     );

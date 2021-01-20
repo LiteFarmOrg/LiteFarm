@@ -62,7 +62,7 @@ class HarvestUseType extends Component {
     const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <PageTitle backUrl="/harvest_log" title={this.props.t('LOG_HARVEST.TITLE')} />
+        <PageTitle backUrl="/harvest_log" title={this.props.t('LOG_HARVEST.HARVEST_TYPE_TITLE')} />
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}

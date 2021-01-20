@@ -122,8 +122,8 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       />
       <Input
         label={t('INVITE_USER.WAGE')}
-        type="number"
-        inputRef={register({ min: 0, valueAsNumber: true, pattern: /[0-9]+(\.[0-9][0-9]?)?/ })}
+        type="string"
+        inputRef={register({ min: 0, valueAsNumber: true, pattern: /^[0-9]+(\.[0-9][0-9]?)?$/ })}
         name={WAGE}
         style={{ marginBottom: '24px' }}
         errors={

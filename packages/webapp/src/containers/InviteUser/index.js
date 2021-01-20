@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getRoles } from './saga';
+import { getRoles, inviteUserToFarm, addPseudoWorker } from './saga';
 import history from '../../history';
 import { showSpotlight } from '../actions';
 import PureInviteUser from '../../components/InviteUser';
@@ -34,7 +34,7 @@ function InviteUser() {
   };
 
   const onInvite = (userInfo) => {
-    const { role, email, wage: amount, first_name, last_name } = userInfo;
+    const { role, email, wage: amount, first_name, last_name, gender, birth_year, phone_number } = userInfo;
     console.log(userInfo);
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
@@ -56,9 +56,12 @@ function InviteUser() {
           amount,
         },
         password: pw,
+        gender,
+        birth_year,
+        phone_number,
       };
       console.log(pw, user);
-      // this.props.dispatch(addUser(user));
+      // dispatch(inviteUserToFarm(user));
       // alert('user created with password: ' + pw);
     } else {
       const pseudoId = uuidv4();
@@ -73,14 +76,20 @@ function InviteUser() {
         },
         profile_picture: 'https://cdn.auth0.com/avatars/na.png',
         user_id: pseudoId,
+        gender,
+        birth_year,
+        phone_number,
       };
-      console.log(pseudoId, user);
-      // this.props.dispatch(addPseudoWorker(user));
+      !user.birth_year && delete user.birth_year;
+      !user.phone_number && delete user.phone_number;
+
+      dispatch(addPseudoWorker(user));
     }
-    // dispatch(inviteUser());
-    // setTimeout(() => {
-    //   dispatch(showSpotlight(true));
-    // }, 200);
+    
+    history.push({
+      pathname: '/Profile',
+      state: 'people',
+    });
   };
 
   useEffect(() => {

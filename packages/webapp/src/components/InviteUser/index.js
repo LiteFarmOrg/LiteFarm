@@ -19,6 +19,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const BIRTHYEAR = 'birth_year';
   // const PASSWORD = 'password';
   const WAGE = 'wage';
+  const PHONE = 'phone_number';
   const name = watch(NAME, undefined);
   const email = watch(EMAIL, undefined);
   const role = watch(ROLE, undefined);
@@ -148,11 +149,11 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         label={t('INVITE_USER.PHONE')}
         inputRef={register({ pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/ })}
-        name={WAGE}
+        name={PHONE}
         errors={
-          errors[BIRTHYEAR] &&
-          (errors[BIRTHYEAR].message ||
-            `Birth year needs to be between 1900 and ${new Date().getFullYear()}`)
+          errors[PHONE] &&
+          (errors[PHONE].message ||
+            `Please enter a valid phone number`)
         }
         optional
       />

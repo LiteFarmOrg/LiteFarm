@@ -6,11 +6,13 @@ import { createAction } from '@reduxjs/toolkit';
 import { getHeader } from '../saga';
 import i18n from '../../lang/i18n';
 
+import { onLoadingRolesStart, onLoadingRolesFail, getRolesSuccess } from '../Profile/People/slice';
+
 const axios = require('axios');
 
-export const addUser = createAction('addUserSaga');
+export const inviteUserToFarm = createAction('inviteUserToFarmSaga');
 
-export function* addUserSaga({ payload: user }) {
+export function* inviteUserToFarmSaga({ payload: user }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   user.farm_id = farm_id;
@@ -64,8 +66,8 @@ export function* getRolesSaga() {
   }
 }
 
-export default function* peopleSaga() {
-  yield takeLatest(addUser.type, addUserSaga);
+export default function* inviteUserSaga() {
+  yield takeLatest(inviteUserToFarm.type, inviteUserToFarmSaga);
   yield takeLatest(addPseudoWorker.type, addPseudoWorkerSaga);
   yield takeLatest(getRoles.type, getRolesSaga);
 }

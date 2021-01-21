@@ -231,7 +231,8 @@ class ShiftStepTwo extends Component {
     this.setState({ cropDurations, availableDuration, finalForm });
   }
 
-  handleCropChange = (selectedOption, duration, task_id) => {
+  handleCropChange = (selectedOptions, duration, task_id) => {
+    let options = selectedOptions || [];
     let { finalForm, cropDurations } = this.state;
     finalForm[task_id].is_field = false;
     finalForm[task_id].val = [];
@@ -243,12 +244,12 @@ class ShiftStepTwo extends Component {
       totalTimeInput.value = 0;
     }
 
-    for (let option of selectedOption) {
+    for (let option of options) {
       finalForm[task_id].val.push({ id: option.value });
       cropDurations[task_id].push({
         crop_id: option.value,
         crop_name: option.label,
-        duration: duration / selectedOption.length,
+        duration: duration / options.length,
       });
     }
 
@@ -258,11 +259,12 @@ class ShiftStepTwo extends Component {
     });
   };
 
-  handleFieldChange = (selectedOption, task_id) => {
+  handleFieldChange = (selectedOptions, task_id) => {
+    const options = selectedOptions || [];
     let finalForm = this.state.finalForm;
     finalForm[task_id].is_field = true;
     finalForm[task_id].val = [];
-    for (let option of selectedOption) {
+    for (let option of options) {
       finalForm[task_id].val.push({ id: option.value });
     }
     this.setState({

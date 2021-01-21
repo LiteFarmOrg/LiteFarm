@@ -7,6 +7,7 @@ import expense from './expense.json';
 import fertilizer from './fertilizer.json';
 import message from './message.json';
 import gender from './gender.json';
+import role from './role.json';
 const portuguese = {
   translation,
   crop,
@@ -17,5 +18,6 @@ const portuguese = {
   fertilizer,
   message,
   gender,
+  role,
 };
 export default portuguese;

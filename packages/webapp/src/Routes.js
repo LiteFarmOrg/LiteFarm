@@ -113,6 +113,7 @@ import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
 import Callback from './containers/Callback';
 import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
 import history from './history';
+import InviteUser from './containers/InviteUser';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -260,6 +261,7 @@ const Routes = () => {
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
           <Route path="/password_reset" component={PasswordResetAccount} />
           <Route path={'/expired'} component={ExpiredTokenScreen} />
+          <Route path="/invite_user" exact component={InviteUser} />
           <Redirect
             to={'/'}
             //TODO change to 404
@@ -363,6 +365,7 @@ const Routes = () => {
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
           <Route path="/password_reset" component={PasswordResetAccount} />
           <Route path={'/expired'} component={ExpiredTokenScreen} />
+          <Route path="/invite_user" exact component={InviteUser} />
           <Redirect to={'/'} />
         </Switch>
       );

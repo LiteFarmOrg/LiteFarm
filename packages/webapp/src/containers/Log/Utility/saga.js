@@ -1,5 +1,5 @@
 // saga
-import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES } from './constants';
 import { call, select, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
@@ -19,11 +19,28 @@ export function* addLog(action) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
-      toastr.error(i18n.t('message:LOG.SUCCESS.ADD'));
+      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add log');
     toastr.error(i18n.t('message:LOG.ERROR.ADD'));
+  }
+}
+
+export function* getHarvestUseTypes() {
+  const { logURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
+    if (result) {
+      history.push('/harvest_use_type');
+      // toastr.success(i18n.t('message:LOG.SUCCESS.DELETE'));
+    }
+  } catch (e) {
+    console.log('failed to delete log');
+    toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
   }
 }
 
@@ -65,4 +82,5 @@ export default function* defaultAddLogSaga() {
   yield takeEvery(ADD_LOG, addLog);
   yield takeEvery(EDIT_LOG, editLog);
   yield takeEvery(DELETE_LOG, deleteLog);
+  yield takeEvery(GET_HARVEST_USE_TYPES, getHarvestUseTypes);
 }

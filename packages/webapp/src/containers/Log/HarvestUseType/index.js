@@ -18,7 +18,7 @@ import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 
-class HarvestLog extends Component {
+class HarvestUseType extends Component {
   constructor(props) {
     super(props);
     const { farm, dispatch } = this.props;
@@ -62,7 +62,7 @@ class HarvestLog extends Component {
     const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_HARVEST.TITLE')} />
+        <PageTitle backUrl="/harvest_log" title={this.props.t('LOG_HARVEST.TITLE')} />
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
@@ -107,4 +107,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestLog));
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestUseType));

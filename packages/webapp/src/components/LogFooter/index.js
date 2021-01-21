@@ -19,7 +19,7 @@ import styles from './styles.scss';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit } = this.props;
+    const { onClick, edit, harvestLog } = this.props;
     return (
       <div className={styles.bottomContainer}>
         {edit ? (
@@ -32,7 +32,7 @@ class LogFooter extends React.Component {
           </div>
         )}
         <div className={styles.cancelButton}>
-          <button className="btn btn-primary">Save</button>
+          <button className="btn btn-primary">{harvestLog ? 'Next' : 'Save'}</button>
         </div>
       </div>
     );

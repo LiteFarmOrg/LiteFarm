@@ -17,6 +17,9 @@ import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
 import { setSelectedUseTypes } from '../actions';
+import PurePopupMiniForm from '../../../components/PopupMiniForm'
+import Popup from 'reactjs-popup';
+import { addCustomHarvestUseType } from '../Utility/saga';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -64,6 +67,7 @@ class HarvestUseType extends Component {
       useTypeClicked: false,
       currId: 0,
       disabled: true,
+      showAdd: false,
     };
     this.assignImage = this.assignImage.bind(this);
   }
@@ -102,6 +106,21 @@ class HarvestUseType extends Component {
 
     console.log(this.state.selectedUseTypes);
   }
+
+  openAddModal = () => {
+    this.setState({ showAdd: true });
+  };
+
+  closeAddModal = () => {
+    this.setState({ showAdd: false });
+  };
+
+  addCustomType = () => {
+    if (this.state.customTaskName !== '') {
+      // this.props.dispatch(addCustomHarvestUseType("test value"));
+      this.closeAddModal();
+    } else toastr.error(this.props.t('message:SHIFT.ERROR.REQUIRED_TASK')); //alert('A task name is required');
+  };
 
   render() {
     return (
@@ -154,9 +173,9 @@ class HarvestUseType extends Component {
           </Row>
         </Container>
 
-        {this.props.users.role_id != 3 && (
+        {this.props.users.role_id !== 3 && (
           <div className={styles.buttonContainer}>
-            <Button>{this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}</Button>
+            <Button onClick={this.openAddModal}>{this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}</Button>
           </div>
         )}
 
@@ -172,6 +191,26 @@ class HarvestUseType extends Component {
             {this.props.t('common:NEXT')}
           </button>
         </div>
+
+        <Popup
+          open={this.state.showAdd}
+          closeOnDocumentClick
+          onClose={this.closeAddModal}
+          contentStyle={{
+            display: 'flex',
+            width: '100%',
+            height: '100vh',
+            padding: '0 5%',
+          }}
+          overlayStyle={{ zIndex: '1060', height: '100vh' }}
+        >
+          <PurePopupMiniForm
+            title={"Add a harvest use"}
+            inputInfo={"Name of the custom harvest use"}
+            onClose={this.closeAddModal}
+            onSubmit={this.addCustomType}
+          />
+        </Popup>
       </div>
     );
   }

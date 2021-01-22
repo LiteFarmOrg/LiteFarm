@@ -12,13 +12,9 @@ import Button from '../Form/Button';
 export default function PurePopupMiniForm({
   title,
   inputInfo,
+  onClose,
+  onSubmit,
 }) {
-  const closeModal = () => {
-    console.log("end it all please");
-  }
-  const onSubmit = () => {
-    console.log("front end work sucks");
-  }
 
   return (
     <>
@@ -28,7 +24,7 @@ export default function PurePopupMiniForm({
         </a>
         <Title>{title}</Title>
       </div> */}
-      <a className={styles.close} onClick={closeModal}>
+      <a className={styles.close} onClick={onClose}>
         <img src={closeButton} alt="" />
       </a>
       <Title>{title}</Title>
@@ -48,4 +44,6 @@ export default function PurePopupMiniForm({
 PurePopupMiniForm.prototype = {
   title: PropTypes.string,
   inputInfo: PropTypes.string,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
 };

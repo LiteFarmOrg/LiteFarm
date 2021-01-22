@@ -1,5 +1,5 @@
 // saga
-import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES } from './constants';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES, ADD_HARVEST_USE_TYPE } from './constants';
 import { call, select, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
@@ -48,6 +48,26 @@ export function* getHarvestUseTypes() {
   }
 }
 
+export function* addCustomHarvestUseType() {
+  const { logURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, header);
+    // if (result) {
+    //   history.push({
+    //     pathname: '/harvest_use_type',
+    //     state: result.data,
+    //   });
+    // }
+  } catch (e) {
+    console.log('failed to add custom harvest use type');
+    // toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
+    toastr.error('failed to add custom harvest use type'); // TODO: i18n
+  }
+}
+
 export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
@@ -87,4 +107,5 @@ export default function* defaultAddLogSaga() {
   yield takeEvery(EDIT_LOG, editLog);
   yield takeEvery(DELETE_LOG, deleteLog);
   yield takeEvery(GET_HARVEST_USE_TYPES, getHarvestUseTypes);
+  yield takeEvery(ADD_HARVEST_USE_TYPE, addCustomHarvestUseType);
 }

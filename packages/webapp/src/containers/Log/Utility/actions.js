@@ -4,7 +4,7 @@ import {
   DELETE_LOG,
   EDIT_LOG,
   GET_HARVEST_USE_TYPES,
-  SET_SELECTED_USE_TYPES,
+  ADD_HARVEST_USE_TYPE,
 } from './constants';
 
 export const addLog = (formValue) => {
@@ -39,5 +39,13 @@ export const setSelectedUseTypes = (selectedUses) => {
   return {
     type: SET_SELECTED_USE_TYPES,
     selectedUses,
+  };
+};
+
+export const addHarvestUseType = (typeName, closeModal) => {
+  return {
+    type: ADD_HARVEST_USE_TYPE,
+    typeName,
+    closeModal,
   };
 };

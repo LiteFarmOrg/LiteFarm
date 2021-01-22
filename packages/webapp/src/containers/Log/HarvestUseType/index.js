@@ -19,7 +19,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { setSelectedUseTypes } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm'
 import Popup from 'reactjs-popup';
-import { addCustomHarvestUseType } from '../Utility/saga';
+import { addHarvestUseType } from '../Utility/actions';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -117,8 +117,7 @@ class HarvestUseType extends Component {
 
   addCustomType = (typeName) => {
     if (typeName !== '') {
-      // this.props.dispatch(addCustomHarvestUseType("test value"));
-      this.closeAddModal();
+      this.props.dispatch(addHarvestUseType(typeName, this.closeAddModal));
     }
   };
 

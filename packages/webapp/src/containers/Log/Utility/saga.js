@@ -48,19 +48,20 @@ export function* getHarvestUseTypes() {
   }
 }
 
-export function* addCustomHarvestUseType() {
+export function* addCustomHarvestUseType(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
+  const { typeName, closeModal } = action;
+
+  const body = { name: typeName }
 
   try {
-    const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, header);
-    // if (result) {
-    //   history.push({
-    //     pathname: '/harvest_use_type',
-    //     state: result.data,
-    //   });
-    // }
+    const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, body, header);
+    if (result) {
+      closeModal();
+      toastr.success('Successfully added custom harvest type');
+    }
   } catch (e) {
     console.log('failed to add custom harvest use type');
     // toastr.error(i18n.t('message:LOG.ERROR.DELETE'));

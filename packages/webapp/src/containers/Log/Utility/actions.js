@@ -1,11 +1,5 @@
 // actions
-import {
-  ADD_LOG,
-  DELETE_LOG,
-  EDIT_LOG,
-  GET_HARVEST_USE_TYPES,
-  SET_SELECTED_USE_TYPES,
-} from './constants';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES } from './constants';
 
 export const addLog = (formValue) => {
   return {
@@ -32,12 +26,5 @@ export const getHarvestUseTypes = (formValue) => {
   return {
     type: GET_HARVEST_USE_TYPES,
     formValue,
-  };
-};
-
-export const setSelectedUseTypes = (selectedUseTypes) => {
-  return {
-    type: SET_SELECTED_USE_TYPES,
-    selectedUseTypes,
   };
 };

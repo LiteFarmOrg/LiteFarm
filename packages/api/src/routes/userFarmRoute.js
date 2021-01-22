@@ -36,10 +36,6 @@ router.get('/active/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkS
 // [DEPRECATE] Displays list of permissions for user calling this endpoint
 // router.get('/role/permissions', userFarmController.getAllRolePermissions());
 
-// Create userFarm
-// to be used in the future
-// router.post('/', hasFarmAccess(), checkScope(['add:users']), userFarmController.addUserFarm());
-
 // Update consent status for a userFarm referenced by user_id
 // If userFarm status is Inactive or Invited, status will be set to Active
 // no permission limits

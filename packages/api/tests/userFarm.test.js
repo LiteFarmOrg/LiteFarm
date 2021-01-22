@@ -73,11 +73,11 @@ describe('User Farm Tests', () => {
   }
 
   // TODO: eventually change how role is passed into endpoint
-  function updateRoleRequest(role, {user_id, farm_id}, target_user_id, callback) {
+  function updateRoleRequest(role_id, {user_id, farm_id}, target_user_id, callback) {
     chai.request(server).patch(`/user_farm/role/farm/${farm_id}/user/${target_user_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .send({role})
+      .send({role_id})
       .end(callback);
   }
 
@@ -419,7 +419,7 @@ describe('User Farm Tests', () => {
         const target_role = 'Manager';
         const target_role_id = 2;
         const target_user_id = worker.user_id;
-        updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role_id, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
           const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
           expect(updatedUserFarm.role_id).toBe(target_role_id);
@@ -433,7 +433,7 @@ describe('User Farm Tests', () => {
         const target_role = 'Manager';
         const target_role_id = 2;
         const target_user_id = worker.user_id;
-        updateRoleRequest(target_role, {user_id: manager.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role_id, {user_id: manager.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
           const updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
           expect(updatedUserFarm.role_id).toBe(target_role_id);
@@ -470,7 +470,7 @@ describe('User Farm Tests', () => {
         const target_role_id = 3;
         let target_user_id = manager.user_id;
         // turn manager to worker
-        updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role_id, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
           let updatedUserFarm = await userFarmModel.query().where('farm_id', farm.farm_id).andWhere('user_id', target_user_id).first();
           expect(updatedUserFarm.role_id).toBe(target_role_id);
@@ -489,7 +489,7 @@ describe('User Farm Tests', () => {
         const target_role = 'Manager';
         const target_role_id = 2;
         const target_user_id = unauthorizedUser.user_id;
-        updateRoleRequest(target_role, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
+        updateRoleRequest(target_role_id, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(404);
           done();
         });

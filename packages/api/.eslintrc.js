@@ -1,15 +1,16 @@
-{
+module.exports = {
   "extends": [
     "eslint:recommended",
     "prettier"
   ],
   "env": {
-    "node": true,
-    "es6": true
+    "es6": true,
+    node: true
   },
   "parserOptions": {
     "ecmaVersion": 2018
   },
+  "parser": "@babel/eslint-parser",
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "comma-spacing": ["error", { "before": false, "after": true }],

@@ -423,12 +423,15 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
     }
     if (!(element['year_month'] in organizeByNameThenByDate[element['crop_common_name']])) {
       organizeByNameThenByDate[element['crop_common_name']][element['year_month']] = {
-        'crop_price': 0,
+        'crop_price_total': 0,
+        'sale_quant_total': 0,
         'network_price': 0,
       }
     }
     if (element['farm_id'] === myFarmID) {
-      organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['crop_price'] = element['sale_value'] / element['sale_quant'];
+      organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['crop_price_total'] += element['sale_value'];
+      organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['sale_quant_total'] +=  element['sale_quant'];
+
       if (Array.isArray(organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'])) {
         organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'].push(element)
       } else {
@@ -454,10 +457,10 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
         runningNetworkQuantity += sale['sale_quant'];
         runningNetworkValue += sale['sale_value'];
       });
-      const networkPrice = runningNetworkQuantity / runningNetworkValue;
+      const networkPrice =  runningNetworkValue / runningNetworkQuantity;
       const cropData = {
         crop_date: date,
-        crop_price: roundToTwoDecimal(organizeByNameThenByDate[crop_name][date]['crop_price']),
+        crop_price: roundToTwoDecimal(organizeByNameThenByDate[crop_name][date]['crop_price_total']/(organizeByNameThenByDate[crop_name][date]['sale_quant_total'] || 1)),
         network_price: roundToTwoDecimal(networkPrice),
       };
       if (crop_name in organizeByMonthAndYear) {

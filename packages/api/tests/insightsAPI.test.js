@@ -28,6 +28,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 let faker = require('faker');
 const moment = require('moment');
+const insigntController = require('../src/controllers/insightController');
 
 describe('insights test', () => {
   let middleware;
@@ -159,8 +160,139 @@ describe('insights test', () => {
         done();
       });
 
+      test('FormatPricesNearByData Test', async (done) => {
+        const salesByCropsFarmIdMonth = [
+          {
+            'year_month': '2020-12',
+            'crop_common_name': 'quaerat rerum fugiat',
+            'sale_quant': 793,
+            'sale_value': 98,
+            'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
+            'grid_points': {
+              'lat': 62.990967,
+              'lng': -71.463767,
+            },
+          },
+          {
+            'year_month': '2020-12',
+            'crop_common_name': 'quaerat rerum fugiat',
+            'sale_quant': 73,
+            'sale_value': 98,
+            'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
+            'grid_points': {
+              'lat': 62.990967,
+              'lng': -71.463767,
+            },
+          },
+          {
+            'year_month': '2020-12',
+            'crop_common_name': 'quaerat rerum fugiat',
+            'sale_quant': 182,
+            'sale_value': 607,
+            'farm_id': '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
+            'grid_points': {
+              'lat': 62.990967,
+              'lng': -71.553767,
+            },
+          },
+          {
+            'year_month': '2020-12',
+            'crop_common_name': 'ullam molestiae doloribus',
+            'sale_quant': 618,
+            'sale_value': 600,
+            'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
+            'grid_points': {
+              'lat': 62.990967,
+              'lng': -71.463767,
+            },
+          },
+          {
+            'year_month': '2021-01',
+            'crop_common_name': 'quaerat rerum fugiat',
+            'sale_quant': 1258,
+            'sale_value': 770,
+            'farm_id': '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
+            'grid_points': {
+              'lat': 62.990967,
+              'lng': -71.553767,
+            },
+          },
+        ];
+
+        const farm1_id = '87827ed7-5c36-11eb-b3aa-9f566fe0899e';
+        const farm2_id = '8788ef8b-5c36-11eb-b3aa-9f566fe0899e';
+
+        const formatted1 = insightHelpers.formatPricesNearbyData(farm1_id, salesByCropsFarmIdMonth);
+        const expected1 = {
+          'preview': 65,
+          'data': [
+            {
+              'quaerat rerum fugiat': [
+                {
+                  'crop_date': '2020-12',
+                  'crop_price': 0.22632794457274827,
+                  'network_price': 0.7662213740458015,
+                },
+                {
+                  'crop_date': '2021-01',
+                  'crop_price': 0,
+                  'network_price': 0.6120826709062003,
+                },
+              ],
+            },
+            {
+              'ullam molestiae doloribus': [
+                {
+                  'crop_date': '2020-12',
+                  'crop_price': 0.970873786407767,
+                  'network_price': 0.970873786407767,
+                },
+              ],
+            },
+          ],
+          'amountOfFarms': 1,
+        };
+
+        expect(formatted1).toEqual(expected1);
+
+        const formatted2 = insightHelpers.formatPricesNearbyData(farm2_id, salesByCropsFarmIdMonth);
+
+        const expected2 = {
+          'preview': 268,
+          'data': [
+            {
+              'quaerat rerum fugiat': [
+                {
+                  'crop_date': '2020-12',
+                  'crop_price': 3.335164835164835,
+                  'network_price': 0.7662213740458015,
+                },
+                {
+                  'crop_date': '2021-01',
+                  'crop_price': 0.6120826709062003,
+                  'network_price': 0.6120826709062003,
+                },
+              ],
+            },
+            {
+              'ullam molestiae doloribus': [
+                {
+                  'crop_date': '2020-12',
+                  'crop_price': 0,
+                  'network_price': 0.970873786407767,
+                },
+              ],
+            },
+          ],
+          'amountOfFarms': 1,
+        };
+
+        expect(formatted2).toEqual(expected2);
+        done();
+      });
+
       test('queryCropSalesNearByStartDateAndFarmId test', async (done) => {
-        const startdate = moment().format("YYYY-MM-DD");
+        const startdate = moment('2020-12-01').format('YYYY-MM-DD');
         const gridPoint0 = { lat: 62.990967, lng: -71.463767 };
         const gridPoint5West = { lat: 62.990967, lng: -71.553767 };
         const gridPoint10West = { lat: 62.990967, lng: -71.653767 };
@@ -172,57 +304,126 @@ describe('insights test', () => {
 
         const gridPoints = [gridPoint0, gridPoint5West, gridPoint10West, gridPoint15West, gridPoint20West, gridPoint25West, gridPoint30West, gridPoint5East];
         const crops = [];
-        for(let i = 0; i < 3; i++){
+        for (let i = 0; i < 3; i++) {
           const [crop] = await mocks.cropFactory();
-          await knex('crop').where({crop_id: crop.crop_id}).update({farm_id: null});
+          await knex('crop').where({ crop_id: crop.crop_id }).update({ farm_id: null });
           crop.farm_id = null;
           crops.push(crop);
         }
         const crop0Sales = [];
         const crop1Sales = [];
         const crop2Sales = [];
-        // for(const grid_points of gridPoints){
-        //   const cropSale = await mocks.cropSaleFactory();
-        //   const {field_crop_id} = await knex('cropSale').where({sale_id: cropSale.sale_id}).first();
-        //   const {field_id} = await knex('fieldCrop').where({field_crop_id}).first();
-        //   const {farm_id} = await knex('field').where({field_id}).first();
-        //   await knex('farm').where(farm_id).update({grid_points});
-        //
-        // }
 
         const farms = [];
-        const fields = []
-        for(const grid_points of gridPoints){
-          const [farm] = await mocks.farmFactory({...mocks.fakeFarm(), grid_points});
-          const [field] = await mocks.fieldFactory({promisedFarm: [farm]});
-          const [fieldCrop] = await mocks.fieldCropFactory({promisedCrop: [crops[0]], promisedField: [field]});
-          const [cropSale] = await mocks.cropSaleFactory({promisedFieldCrop: [fieldCrop]});
+        const fields = [];
+        for (const grid_points of gridPoints) {
+          const [farm] = await mocks.farmFactory({ ...mocks.fakeFarm(), grid_points });
+          const [field] = await mocks.fieldFactory({ promisedFarm: [farm] });
+          const [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crops[0]], promisedField: [field] });
+          const [cropSale] = await mocks.cropSaleFactory({
+            promisedFieldCrop: [fieldCrop],
+            promisedSale: mocks.saleFactory({ promisedFarm: [farm] }, {
+              ...mocks.fakeSale(),
+              sale_date: moment('2020-12-01').format(),
+            }),
+          });
           fields.push(field);
           farms.push(farm);
           crop0Sales.push(cropSale);
         }
+        const crop12020Sales = [];
+        for (let i = 0; i < 2; i++) {
+          const [fieldCrop1] = await mocks.fieldCropFactory({ promisedField: [fields[i]], promisedCrop: [crops[1]] });
+          const [crop1Sale] = await mocks.cropSaleFactory({
+            promisedFieldCrop: [fieldCrop1],
+            promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }),
+          });
+          const [crop11Sale] = await mocks.cropSaleFactory({
+            promisedFieldCrop: [fieldCrop1],
+            promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }),
+          });
+          const [crop12Sale] = await mocks.cropSaleFactory({
+            promisedFieldCrop: [fieldCrop1],
+            promisedSale: mocks.saleFactory({ promisedFarm: [farms[i]] }, {
+              ...mocks.fakeSale(),
+              sale_date: moment('2020-12-01').format(),
+            }),
+          });
+          crop12020Sales.push(crop12Sale);
 
-        for(let i = 0; i < 2; i++){
-          const [fieldCrop1] = await mocks.fieldCropFactory({promisedField: [fields[i]], promisedCrop: [crops[1]]});
-          const [crop1Sale] = await mocks.cropSaleFactory({promisedFieldCrop: [fieldCrop1]});
           crop1Sales.push(crop1Sale);
-          const [fieldCrop2] = await mocks.fieldCropFactory({promisedField: [fields[i+1]], promisedCrop: [crops[2]]});
-          const [crop2Sale] = await mocks.cropSaleFactory({promisedFieldCrop: [fieldCrop2]});
+          crop1Sales.push(crop11Sale);
+          const [fieldCrop2] = await mocks.fieldCropFactory({
+            promisedField: [fields[i + 1]],
+            promisedCrop: [crops[2]],
+          });
+          const [crop2Sale] = await mocks.cropSaleFactory({
+            promisedFieldCrop: [fieldCrop2],
+            promisedSale: mocks.saleFactory({ promisedFarm: [farms[i + 1]] }),
+          });
           crop2Sales.push(crop2Sale);
         }
+        const [{
+          user_id,
+          farm_id,
+        }] = await mocks.userFarmFactory({ promisedFarm: [farms[0]] }, { ...mocks.fakeUserFarm(), role_id: 1 });
 
+        const { rows: salesOfAFarm2020 } = await insigntController.queryCropSalesNearByStartDateAndFarmId(startdate, farm_id);
+        expect(salesOfAFarm2020.length).toBe(12);
+        const { rows: salesOfAFarmCurrentYear } = await insigntController.queryCropSalesNearByStartDateAndFarmId(moment().format('YYYY-MM-DD'), farm_id);
+        expect(salesOfAFarmCurrentYear.length).toBe(2);
         const getQuery = (distance) => ({
           distance: distance,
           lat: gridPoint0.lat,
           long: gridPoint0.lng,
           startdate,
-        })
+        });
 
-        const [{user_id, farm_id}] = await mocks.userFarmFactory({promisedFarm: [farms[0]]}, {...mocks.fakeUserFarm(), role_id: 1})
         getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(5), (err, res) => {
-          console.log(res);
           expect(res.status).toBe(200);
-          done();
+          const crop0CommonName = crops[0].crop_common_name;
+          const crop0TotalPrice = crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[7].sale_value;
+          const crop0TotalQuantity = crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[7].quantity_kg;
+
+          const crop1CommonName = crops[1].crop_common_name;
+          const crop1TotalPrice = crop1Sales[0].sale_value + crop1Sales[1].sale_value + crop1Sales[2].sale_value + crop1Sales[3].sale_value;
+          const crop1TotalQuantity = crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg + crop1Sales[2].quantity_kg + crop1Sales[3].quantity_kg;
+
+          const crop12020CommonName = crops[1].crop_common_name;
+          const crop12020TotalPrice = crop12020Sales[0].sale_value + crop12020Sales[1].sale_value;
+          const crop12020TotalQuantity = crop12020Sales[0].quantity_kg + crop12020Sales[1].quantity_kg;
+          const data = res.body.data;
+          for(const cropSaleRes of data){
+            if(cropSaleRes[crop0CommonName]){
+              expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
+              expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value/crop0Sales[0].quantity_kg).toBeLessThan(0.01);
+              expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice/crop0TotalQuantity).toBeLessThan(0.01);
+            }else if(cropSaleRes[crop1CommonName]){
+              expect(cropSaleRes[crop1CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
+              expect(cropSaleRes[crop1CommonName][0].crop_price - crop12020Sales[0].sale_value/crop12020Sales[0].quantity_kg ).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][0].network_price - crop12020TotalPrice/crop12020TotalQuantity).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][1].crop_date).toBe(moment().format('YYYY-MM'));
+              expect(cropSaleRes[crop1CommonName][1].crop_price - (crop1Sales[0].sale_value + crop1Sales[1].sale_value)/(crop1Sales[0].quantity_kg + crop1Sales[1].quantity_kg) ).toBeLessThan(0.01);
+              expect(cropSaleRes[crop1CommonName][1].network_price - crop1TotalPrice/crop1TotalQuantity).toBeLessThan(0.01);
+            }
+
+          }
+
+          getInsightWithQuery(farm_id, user_id, 'prices/distance', getQuery(10), (err, res) => {
+            expect(res.status).toBe(200);
+            const crop0CommonName = crops[0].crop_common_name;
+            const crop0TotalPrice = crop0Sales[0].sale_value + crop0Sales[1].sale_value + crop0Sales[2].sale_value + crop0Sales[7].sale_value;
+            const crop0TotalQuantity = crop0Sales[0].quantity_kg + crop0Sales[1].quantity_kg + crop0Sales[2].quantity_kg + crop0Sales[7].quantity_kg;
+            const data = res.body.data;
+            for(const cropSaleRes of data){
+              if(cropSaleRes[crop0CommonName]){
+                expect(cropSaleRes[crop0CommonName][0].crop_date).toBe(moment('2020-12-01').format('YYYY-MM'));
+                expect(cropSaleRes[crop0CommonName][0].crop_price - crop0Sales[0].sale_value/crop0Sales[0].quantity_kg ).toBeLessThan(0.01);
+                expect(cropSaleRes[crop0CommonName][0].network_price - crop0TotalPrice/crop0TotalQuantity).toBeLessThan(0.01);
+              }
+            }
+            done();
+          });
         });
       });
     });

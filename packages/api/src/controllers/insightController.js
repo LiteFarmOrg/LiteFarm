@@ -182,11 +182,12 @@ class insightController extends baseController {
           JOIN "cropSale" cs on cs.sale_id = s.sale_id
           JOIN "crop" c on c.crop_id = cs.crop_id
           JOIN "farm" fa on fa.farm_id = s.farm_id
-          WHERE s.sale_date >= ? and c.crop_id IN (
+          WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT fc.crop_id
-          FROM "fieldCrop" fc, "field" f
-          WHERE fc.field_id = f.field_id and f.farm_id = ?)
-          GROUP BY year_month, c.crop_common_name, fa.farm_id, fa.grid_points
+          FROM "fieldCrop" fc 
+          join "field" f on fc.field_id = f.field_id 
+          where f.farm_id = ?)
+          GROUP BY year_month, c.crop_common_name, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
   }
 

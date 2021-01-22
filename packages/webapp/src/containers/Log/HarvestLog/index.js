@@ -6,7 +6,7 @@ import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import { addLog } from '../Utility/actions';
+import { addLog, getHarvestUseTypes } from '../Utility/actions';
 import { convertToMetric, getUnit } from '../../../util';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
@@ -54,14 +54,19 @@ class HarvestLog extends Component {
       notes: log.notes,
       quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
     };
-    dispatch(addLog(formValue));
+    // dispatch(addLog(formValue));
+    dispatch(getHarvestUseTypes());
   }
 
   render() {
     const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_HARVEST.TITLE')} />
+        <PageTitle
+          backUrl="/new_log"
+          title={this.props.t('LOG_HARVEST.TITLE')}
+          isHarvestLogStep={true}
+        />
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}

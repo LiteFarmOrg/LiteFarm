@@ -35,6 +35,8 @@ export function* getHarvestUseTypes() {
   try {
     const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
     if (result) {
+      // result.data.move(8,9);
+      console.log(result.data);
       history.push({
         pathname: '/harvest_use_type',
         state: result.data,

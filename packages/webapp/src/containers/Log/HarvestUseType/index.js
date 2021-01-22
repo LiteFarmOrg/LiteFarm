@@ -12,6 +12,7 @@ import ExchangeImg from '../../../assets/images/harvestUseType/Exchange.svg';
 import SavedForSeedImg from '../../../assets/images/harvestUseType/SavedForSeed.svg';
 import NotSureImg from '../../../assets/images/harvestUseType/NotSure.svg';
 import OtherImg from '../../../assets/images/harvestUseType/Other.svg';
+import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
@@ -40,8 +41,11 @@ class HarvestUseType extends Component {
         Exchange: ExchangeImg,
         'Saved for seed': SavedForSeedImg,
         'Not Sure': NotSureImg,
+        Donation: DonationImg,
         Other: OtherImg,
       },
+      selectedUseTypes: [],
+      useTypeClicked: false,
     };
     this.assignImage = this.assignImage.bind(this);
   }
@@ -53,7 +57,6 @@ class HarvestUseType extends Component {
   }
 
   render() {
-    console.log(this.props.users.role_id);
     return (
       <div className={styles.logContainer}>
         <div className={styles.textContainer}>
@@ -83,10 +86,10 @@ class HarvestUseType extends Component {
                   xs={4}
                   md={4}
                   className={styles.imgCol}
-                  // onClick={() => this.logClick(type.task_id)}
-                  // key={type.task_id}
+                  //   onClick={() => this.logClick(type.harvest_use_type_id)}
+                  //   key={type.harvest_use_type_id}
                 >
-                  <div className={styles.circleButton}>
+                  <div className={styles.circleButtonOnClick}>
                     <img src={buttonImg} alt="" />
                   </div>
                   <div className={styles.buttonName}>{taskName}</div>
@@ -116,8 +119,6 @@ class HarvestUseType extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state to props');
-  console.log(userFarmSelector(state));
   return {
     users: userFarmSelector(state),
   };

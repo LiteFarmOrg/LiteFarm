@@ -18,7 +18,7 @@ class Prices extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currencySymbol: grabCurrencySymbol(this.props.farm),
+      currencySymbol: grabCurrencySymbol(),
       open: false,
     };
     this.handleChange = this.handleChange.bind(this);

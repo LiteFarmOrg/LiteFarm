@@ -91,3 +91,10 @@ export const getFormatedTemperature = (temperature, measurement = getMeasurement
 export const getDistance = (distance, measurement = getMeasurementFromStore()) => {
   return getConvertedString(distance, measurement, 'km', 'mi');
 };
+
+export const getMassUnit = (measurement = getMeasurementFromStore()) => {
+  return measurement === METRIC ? 'kg' : 'lb';
+};
+
+export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
+  measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');

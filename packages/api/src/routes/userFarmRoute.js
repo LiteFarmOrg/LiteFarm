@@ -53,7 +53,6 @@ router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, 
 // [DEPRECATE] Get specific info related to userFarm
 router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
 
-// [DEPRECATE] Update user_farm
 router.patch('/invite/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkEditPrivilege(['edit:users']), userFarmController.patchPseudoUserEmail());
 
 // Update wage of userFarm

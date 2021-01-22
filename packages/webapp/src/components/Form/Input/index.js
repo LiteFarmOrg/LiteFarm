@@ -8,6 +8,7 @@ import { MdVisibilityOff, MdVisibility } from 'react-icons/all';
 import { BiSearchAlt2 } from 'react-icons/all';
 import { mergeRefs } from '../utils';
 import MoreInfo from '../../Tooltip/MoreInfo';
+import { useTranslation } from 'react-i18next';
 
 const Input = ({
   disabled = false,
@@ -25,6 +26,7 @@ const Input = ({
   clearErrors = () => {},
   ...props
 }) => {
+  const { t } = useTranslation();
   const input = useRef();
   const onClear = () => {
     if (input.current && input.current.value) {
@@ -53,7 +55,7 @@ const Input = ({
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>
-                (optional)
+                ({t('common:OPTIONAL')})
               </Label>
             )}
           </Label>

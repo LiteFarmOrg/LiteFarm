@@ -88,9 +88,9 @@ class logController extends baseController {
     }
   }
 
-  static getHarvestUseTypesByFarmID(){
+  static getHarvestUseTypesByFarmID() {
     return async (req, res) => {
-      try{
+      try {
         const farm_id = req.params.farm_id;
         const rows = await HarvestUseTypeModel.query().where('farm_id', null).orWhere({farm_id});
         if (!rows.length) {
@@ -99,15 +99,37 @@ class logController extends baseController {
         else {
           res.status(200).send(rows);
         }  
-    }
-    catch (error) {
-      //handle more exceptions
-      res.status(400).json({
-        error,
-      });
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
     }
   }
-}
+
+  static addHarvestUseType() {
+    return async (req, res) => {
+      const { farm_id } = req.headers;
+      const { name } = req.body;
+      const trx = await transaction.start(Model.knex());
+      try {
+        const harvest_use_type = {
+          farm_id,
+          harvest_use_type_name: name,
+        }
+        const result = await baseController.post(HarvestUseTypeModel, harvest_use_type, trx);
+        await trx.commit();
+        res.status(201).send(result);
+      } catch (error) {
+        //handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
 
   static deleteLog(){
     return async (req, res) => {

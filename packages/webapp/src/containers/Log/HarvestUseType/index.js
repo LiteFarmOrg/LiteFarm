@@ -16,6 +16,7 @@ import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
+import { setSelectedUseTypes } from '../actions';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class HarvestUseType extends Component {
         'Exchange',
         'Saved for seed',
         'Not Sure',
+        'Donation',
         'Other',
       ],
       imgDict: {
@@ -44,8 +46,24 @@ class HarvestUseType extends Component {
         Donation: DonationImg,
         Other: OtherImg,
       },
+      useTypeSelected: {
+        width: '80px',
+        height: '80px',
+        background: '#00756A',
+        borderRadius: '50px',
+        margin: '0 auto',
+      },
+      useTypeUnSelected: {
+        width: '80px',
+        height: '80px',
+        background: '#7BCFA2',
+        borderRadius: '50px',
+        margin: '0 auto',
+      },
       selectedUseTypes: [],
       useTypeClicked: false,
+      currId: 0,
+      disabled: true,
     };
     this.assignImage = this.assignImage.bind(this);
   }
@@ -54,6 +72,35 @@ class HarvestUseType extends Component {
     if (this.state.defaultUseTypeNames.includes(useTypeName)) {
       return this.state.imgDict[useTypeName];
     } else return OtherImg;
+  }
+
+  logClick(id) {
+    this.setState({
+      useTypeClicked: !this.state.useTypeClicked,
+      currId: id,
+    });
+    if (!this.state.selectedUseTypes.includes(id)) {
+      let selectedUses = this.state.selectedUseTypes;
+      selectedUses.push(id);
+      this.setState({
+        selectedUses: selectedUses,
+      });
+    } else {
+      if (this.state.selectedUseTypes.includes(id)) {
+        let index = this.state.selectedUseTypes.indexOf(id);
+        let selectedUses = this.state.selectedUseTypes;
+        selectedUses.splice(index, 1);
+        this.setState({
+          selectedUses: selectedUses,
+        });
+      }
+    }
+
+    this.state.selectedUseTypes.length >= 1
+      ? (this.state.disabled = false)
+      : (this.state.disabled = true);
+
+    console.log(this.state.selectedUseTypes);
   }
 
   render() {
@@ -86,10 +133,18 @@ class HarvestUseType extends Component {
                   xs={4}
                   md={4}
                   className={styles.imgCol}
-                  //   onClick={() => this.logClick(type.harvest_use_type_id)}
-                  //   key={type.harvest_use_type_id}
+                  onClick={() => {
+                    this.logClick(type.harvest_use_type_id);
+                  }}
                 >
-                  <div className={styles.circleButtonOnClick}>
+                  <div
+                    style={
+                      this.state.selectedUseTypes.includes(type.harvest_use_type_id)
+                        ? this.state.useTypeSelected
+                        : this.state.useTypeUnSelected
+                    }
+                    className={styles.circleButton}
+                  >
                     <img src={buttonImg} alt="" />
                   </div>
                   <div className={styles.buttonName}>{taskName}</div>
@@ -101,15 +156,19 @@ class HarvestUseType extends Component {
 
         {this.props.users.role_id != 3 && (
           <div className={styles.buttonContainer}>
-            <Button>{this.props.t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}</Button>
+            <Button>{this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}</Button>
           </div>
         )}
 
         <div className={styles.bottomContainer}>
-          <div className={styles.cancelButton} onClick={() => history.push('/harvest_log')}>
+          <div className={styles.backButton} onClick={() => history.push('/harvest_log')}>
             {this.props.t('common:BACK')}
           </div>
-          <button className="btn btn-primary-round" onClick={this.nextPage}>
+          <button
+            className="btn btn-primary-round"
+            onClick={this.nextPage}
+            disabled={this.state.disabled}
+          >
             {this.props.t('common:NEXT')}
           </button>
         </div>

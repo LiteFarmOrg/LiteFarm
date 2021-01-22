@@ -230,7 +230,8 @@
     "HARVEST_QUANTITY": "Harvest Quantity",
     "TITLE": "Harvest Log (step 1)",
     "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
-    "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?"
+    "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
+    "ADD_CUSTOM_USE_TYPE": "Add custom use"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",

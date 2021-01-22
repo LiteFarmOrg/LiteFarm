@@ -47,7 +47,7 @@
     }
   }
 
-  .circleButtonOnClick {
+  .circleButton {
     width: 80px;
     height: 80px;
     border-radius: 50px;
@@ -55,25 +55,13 @@
     background: rgb(130, 207, 156);
     box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
     img {
-      width: 80%;
       display: block;
       margin: 0 auto;
-      padding-top: 10%;
+      padding-top: 24%;
     }
-
   }
 
-  .circleButton {
-    width: 80px; 
-    height: 80px; 
-    border-radius: 50px; 
-    margin: 0px auto; 
-    background: rgb(130, 207, 156); 
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
-
-  }
-
-  .cancelButton {
+  .backButton {
     width: 40%;
     font-size: 20px;
     color: #4d4d4d;

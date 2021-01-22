@@ -440,6 +440,7 @@ describe('insights test', () => {
     });
     test('Should get prices distance if Im on my farm as a manager', async (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(2);
+      const query = mocks.fakePriceInsightForTests();
       getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
         expect(res.status).toBe(200);
         done();
@@ -448,6 +449,7 @@ describe('insights test', () => {
 
     test('Should get prices distance if Im on my farm as a worker', async (done) => {
       const [{ user_id, farm_id }] = await createUserFarm(3);
+      const query = mocks.fakePriceInsightForTests();
       getInsightWithQuery(farm_id, user_id, 'prices/distance', query, (err, res) => {
         expect(res.status).toBe(200);
         done();

@@ -18,10 +18,10 @@ const router = express.Router();
 const userFarmController = require('../controllers/userFarmController');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
-const checkEditPrivilege = require('../middleware/acl/checkEditPrivilege');
+const isSelf = require('../middleware/acl/isSelf');
 const checkInviteJwt = require('../middleware/acl/checkInviteJwt');
 const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
-const checkInvitationAndGoogleJwtContent = require('../middleware/acl/checkInviteAndGoogleJwtContent');
+const isUseFarmActive = require('../middleware/acl/isUseFarmActive');
 
 // Get all userFarms for a specified user
 // no permission limits
@@ -43,7 +43,7 @@ router.get('/active/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkS
 // Update consent status for a userFarm referenced by user_id
 // If userFarm status is Inactive or Invited, status will be set to Active
 // no permission limits
-router.patch('/consent/farm/:farm_id/user/:user_id', userFarmController.updateConsent());
+router.patch('/consent/farm/:farm_id/user/:user_id', isSelf, hasFarmAccess({ params: 'farm_id' }), isUseFarmActive, userFarmController.updateConsent());
 
 // Update the role on a userFarm
 router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_role']), userFarmController.updateRole());

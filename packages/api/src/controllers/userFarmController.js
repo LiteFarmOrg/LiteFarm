@@ -283,9 +283,9 @@ class userFarmController extends baseController {
           await trx.commit();
           res.sendStatus(200);
           //send out confirmation or withdrew consent email
-          try{
+          try {
             await sendEmailTemplate.sendEmail(template_path, replacements, rows[0].email, sender, null, rows[0].language_preference);
-          }catch (e){
+          } catch (e) {
             console.log(e);
           }
         } else {
@@ -522,6 +522,13 @@ class userFarmController extends baseController {
         await trx.rollback();
         res.status(400).send(error);
       }
+    };
+  }
+
+  static patchPseudoUserEmail() {
+    return async (req, res) => {
+      const { email, role_id, wage } = req.body;
+
     };
   }
 }

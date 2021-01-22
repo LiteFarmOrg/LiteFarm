@@ -115,11 +115,11 @@ class HarvestUseType extends Component {
     this.setState({ showAdd: false });
   };
 
-  addCustomType = () => {
-    if (this.state.customTaskName !== '') {
+  addCustomType = (typeName) => {
+    if (typeName !== '') {
       // this.props.dispatch(addCustomHarvestUseType("test value"));
       this.closeAddModal();
-    } else toastr.error(this.props.t('message:SHIFT.ERROR.REQUIRED_TASK')); //alert('A task name is required');
+    }
   };
 
   render() {
@@ -208,7 +208,7 @@ class HarvestUseType extends Component {
             title={"Add a harvest use"}
             inputInfo={"Name of the custom harvest use"}
             onClose={this.closeAddModal}
-            onSubmit={this.addCustomType}
+            onFormSubmit={this.addCustomType}
           />
         </Popup>
       </div>

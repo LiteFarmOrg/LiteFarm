@@ -117,7 +117,8 @@ class HarvestUseType extends Component {
 
   addCustomType = (typeName) => {
     if (typeName !== '') {
-      this.props.dispatch(addHarvestUseType(typeName, this.closeAddModal));
+      this.props.dispatch(addHarvestUseType(typeName));
+      this.closeAddModal();
     }
   };
 

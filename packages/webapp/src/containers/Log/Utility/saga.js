@@ -1,12 +1,13 @@
 // saga
 import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES, ADD_HARVEST_USE_TYPE } from './constants';
-import { call, select, takeEvery } from 'redux-saga/effects';
+import { call, select, takeEvery, put } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import i18n from '../../../lang/i18n';
+import { getHarvestUseTypes } from './actions'
 
 const axios = require('axios');
 
@@ -27,7 +28,7 @@ export function* addLog(action) {
   }
 }
 
-export function* getHarvestUseTypes() {
+export function* getHarvestUseTypesSaga() {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -48,18 +49,18 @@ export function* getHarvestUseTypes() {
   }
 }
 
-export function* addCustomHarvestUseType(action) {
+export function* addCustomHarvestUseTypeSaga(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const { typeName, closeModal } = action;
+  const { typeName } = action;
 
   const body = { name: typeName }
 
   try {
     const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, body, header);
     if (result) {
-      closeModal();
+      // yield put(getHarvestUseTypes()); // TODO call some kind of get use type function
       toastr.success('Successfully added custom harvest type');
     }
   } catch (e) {
@@ -107,6 +108,6 @@ export default function* defaultAddLogSaga() {
   yield takeEvery(ADD_LOG, addLog);
   yield takeEvery(EDIT_LOG, editLog);
   yield takeEvery(DELETE_LOG, deleteLog);
-  yield takeEvery(GET_HARVEST_USE_TYPES, getHarvestUseTypes);
-  yield takeEvery(ADD_HARVEST_USE_TYPE, addCustomHarvestUseType);
+  yield takeEvery(GET_HARVEST_USE_TYPES, getHarvestUseTypesSaga);
+  yield takeEvery(ADD_HARVEST_USE_TYPE, addCustomHarvestUseTypeSaga);
 }

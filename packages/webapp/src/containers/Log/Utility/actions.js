@@ -42,10 +42,9 @@ export const setSelectedUseTypes = (selectedUses) => {
   };
 };
 
-export const addHarvestUseType = (typeName, closeModal) => {
+export const addHarvestUseType = (typeName) => {
   return {
     type: ADD_HARVEST_USE_TYPE,
     typeName,
-    closeModal,
   };
 };

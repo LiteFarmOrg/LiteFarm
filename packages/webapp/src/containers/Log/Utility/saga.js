@@ -1,12 +1,14 @@
 // saga
-import { ADD_LOG, DELETE_LOG, EDIT_LOG, GET_HARVEST_USE_TYPES } from './constants';
-import { call, select, takeEvery } from 'redux-saga/effects';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
+import { GET_HARVEST_USE_TYPES } from '../constants';
+import { call, select, takeEvery, put } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import i18n from '../../../lang/i18n';
+import { setAllHarvestUseTypes } from '../actions';
 
 const axios = require('axios');
 
@@ -18,8 +20,8 @@ export function* addLog(action) {
   try {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
-      history.push('/log');
-      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
+      // history.push('/log');
+      // toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
     console.log('failed to add log');
@@ -35,11 +37,9 @@ export function* getHarvestUseTypes() {
   try {
     const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
     if (result) {
-      // result.data.move(8,9);
-      console.log(result.data);
+      yield put(setAllHarvestUseTypes(result.data));
       history.push({
         pathname: '/harvest_use_type',
-        state: result.data,
       });
     }
   } catch (e) {

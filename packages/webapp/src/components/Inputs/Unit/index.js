@@ -13,7 +13,16 @@ class Unit extends React.Component {
   }
 
   render() {
-    const { model, title, dropdown, options, type, validate, hideLabel } = this.props;
+    const {
+      model,
+      title,
+      dropdown,
+      options,
+      type,
+      validate,
+      hideLabel,
+      isHarvestAllocation,
+    } = this.props;
     let showLabel;
     if (!hideLabel) {
       showLabel = true;
@@ -22,7 +31,10 @@ class Unit extends React.Component {
     }
 
     return (
-      <div className={styles.textContainer}>
+      <div
+        style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '1.8rem' }}
+        className={styles.textContainer}
+      >
         {showLabel && <label>{title}</label>}
         {dropdown && (
           <>

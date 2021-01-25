@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { Col, Container, Row, Button } from 'react-bootstrap';
@@ -20,6 +20,7 @@ import { setSelectedUseTypes } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm'
 import Popup from 'reactjs-popup';
 import { addHarvestUseType } from '../Utility/actions';
+import { setAllHarvestUseTypesSelector } from '../selectors';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -78,20 +79,33 @@ class HarvestUseType extends Component {
     } else return OtherImg;
   }
 
-  logClick(id) {
+  logClick(type) {
     this.setState({
       useTypeClicked: !this.state.useTypeClicked,
-      currId: id,
+      currId: type.harvest_use_type_id,
     });
-    if (!this.state.selectedUseTypes.includes(id)) {
+
+    if (
+      !this.state.selectedUseTypes.some(
+        (item) => item.harvest_use_type_id === type.harvest_use_type_id,
+      )
+    ) {
       let selectedUses = this.state.selectedUseTypes;
-      selectedUses.push(id);
+      selectedUses.push(type);
       this.setState({
         selectedUses: selectedUses,
       });
     } else {
-      if (this.state.selectedUseTypes.includes(id)) {
-        let index = this.state.selectedUseTypes.indexOf(id);
+      if (
+        this.state.selectedUseTypes.some(
+          (item) => item.harvest_use_type_id === type.harvest_use_type_id,
+        )
+      ) {
+        let index = this.state.selectedUseTypes
+          .map(function (x) {
+            return x.harvest_use_type_id;
+          })
+          .indexOf(type.harvest_use_type_id);
         let selectedUses = this.state.selectedUseTypes;
         selectedUses.splice(index, 1);
         this.setState({
@@ -103,8 +117,6 @@ class HarvestUseType extends Component {
     this.state.selectedUseTypes.length >= 1
       ? (this.state.disabled = false)
       : (this.state.disabled = true);
-
-    console.log(this.state.selectedUseTypes);
   }
 
   openAddModal = () => {
@@ -144,7 +156,7 @@ class HarvestUseType extends Component {
           }}
         >
           <Row className="show-grid">
-            {this.props.location.state.map((type) => {
+            {this.props.allUseType.map((type) => {
               const taskName = this.props.t(`task:${type.harvest_use_type_name}`);
               const buttonImg = this.assignImage(taskName);
               return (
@@ -153,12 +165,14 @@ class HarvestUseType extends Component {
                   md={4}
                   className={styles.imgCol}
                   onClick={() => {
-                    this.logClick(type.harvest_use_type_id);
+                    this.logClick(type);
                   }}
                 >
                   <div
                     style={
-                      this.state.selectedUseTypes.includes(type.harvest_use_type_id)
+                      this.state.selectedUseTypes.some(
+                        (item) => item.harvest_use_type_id === type.harvest_use_type_id,
+                      )
                         ? this.state.useTypeSelected
                         : this.state.useTypeUnSelected
                     }
@@ -185,7 +199,10 @@ class HarvestUseType extends Component {
           </div>
           <button
             className="btn btn-primary-round"
-            onClick={this.nextPage}
+            onClick={() => {
+              this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
+              history.push('/harvest_allocation');
+            }}
             disabled={this.state.disabled}
           >
             {this.props.t('common:NEXT')}
@@ -219,6 +236,7 @@ class HarvestUseType extends Component {
 const mapStateToProps = (state) => {
   return {
     users: userFarmSelector(state),
+    allUseType: setAllHarvestUseTypesSelector(state),
   };
 };
 

@@ -13,7 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SET_LOGS_IN_STATE, SET_SELECTED_LOG } from './constants';
+import {
+  SET_LOGS_IN_STATE,
+  SET_SELECTED_LOG,
+  SET_FORM_DATA,
+  SET_SELECTED_USE_TYPES,
+  SET_ALL_HARVEST_USE_TYPES,
+} from './constants';
 import { combineReducers } from 'redux';
 import { combineForms } from 'react-redux-form';
 import fertReducer from './FertilizingLog/reducer';
@@ -32,6 +38,18 @@ function logReducer(state = initialState, action) {
     case SET_SELECTED_LOG:
       return Object.assign({}, state, {
         selectedLog: action.log,
+      });
+    case SET_FORM_DATA:
+      return Object.assign({}, state, {
+        formData: action.formData,
+      });
+    case SET_SELECTED_USE_TYPES:
+      return Object.assign({}, state, {
+        useType: action.useType,
+      });
+    case SET_ALL_HARVEST_USE_TYPES:
+      return Object.assign({}, state, {
+        allUseType: action.allUseType,
       });
     default:
       return state;
@@ -93,6 +111,8 @@ const harvestLog = {
   field: null,
 };
 
+const harvestAllocation = {};
+
 const pcLog = {
   quantity: 0,
   notes: '',
@@ -122,6 +142,7 @@ export default combineReducers({
       scoutingLog: scoutingLog,
       seedLog: seedLog,
       soilDataLog: {},
+      harvestAllocation: harvestAllocation,
     },
     'logReducer.forms',
   ),

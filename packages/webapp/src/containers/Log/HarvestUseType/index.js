@@ -16,10 +16,9 @@ import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
-import { setSelectedUseTypes } from '../actions';
+import { setSelectedUseTypes, addHarvestUseType } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm'
 import Popup from 'reactjs-popup';
-import { addHarvestUseType } from '../Utility/actions';
 import { setAllHarvestUseTypesSelector } from '../selectors';
 
 class HarvestUseType extends Component {

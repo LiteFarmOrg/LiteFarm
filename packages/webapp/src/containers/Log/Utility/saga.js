@@ -1,6 +1,6 @@
 // saga
-import { ADD_LOG, DELETE_LOG, EDIT_LOG, ADD_HARVEST_USE_TYPE } from './constants';
-import { GET_HARVEST_USE_TYPES } from '../constants';
+import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
+import { GET_HARVEST_USE_TYPES, ADD_HARVEST_USE_TYPE } from '../constants';
 import { call, select, takeEvery, put } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';

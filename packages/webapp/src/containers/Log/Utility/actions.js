@@ -3,7 +3,6 @@ import {
   ADD_LOG,
   DELETE_LOG,
   EDIT_LOG,
-  ADD_HARVEST_USE_TYPE,
 } from './constants';
 
 export const addLog = (formValue) => {
@@ -24,12 +23,5 @@ export const deleteLog = (id) => {
   return {
     type: DELETE_LOG,
     id,
-  };
-};
-
-export const addHarvestUseType = (typeName) => {
-  return {
-    type: ADD_HARVEST_USE_TYPE,
-    typeName,
   };
 };

@@ -1,14 +1,11 @@
-// import Floater from 'react-floater';
 import React from 'react';
 import styles from './styles.scss';
-import { Info, Title } from '../Typography';
-// import ModalComponent from './ModalComponent';
+import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import Input from '../Form/Input';
 import closeButton from '../../assets/images/grey_close_button.png';
 import Button from '../Form/Button';
 import Form from '../Form';
-// import { Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import Popup from 'reactjs-popup';
 

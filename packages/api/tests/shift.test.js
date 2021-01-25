@@ -338,6 +338,7 @@ describe('Shift tests', () => {
       let [otherUserFarm] = await mocks.userFarmFactory({promisedFarm: [{farm_id: userFarm.farm_id}]}, {status: 'Active', role_id: 1});
       let [field] = await mocks.fieldFactory({promisedFarm: [otherUserFarm]})
       let shift = mocks.fakeShift();
+      shift.mood = 'na';
       shift.tasks = [mocks.fakeShiftTask()]
       shift.tasks[0].field_id = field.field_id;
       shift.user_id = otherUserFarm.user_id;

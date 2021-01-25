@@ -208,25 +208,13 @@ class HarvestUseType extends Component {
           </button>
         </div>
 
-        <Popup
-          open={this.state.showAdd}
-          closeOnDocumentClick
+        <PurePopupMiniForm
+          title={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.TITLE')}
+          inputInfo={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.INPUT_LABEL')}
           onClose={this.closeAddModal}
-          contentStyle={{
-            display: 'flex',
-            width: '100%',
-            height: '100vh',
-            padding: '0 5%',
-          }}
-          overlayStyle={{ zIndex: '1060', height: '100vh' }}
-        >
-          <PurePopupMiniForm
-            title={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.TITLE')}
-            inputInfo={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.INPUT_LABEL')}
-            onClose={this.closeAddModal}
-            onFormSubmit={this.addCustomType}
-          />
-        </Popup>
+          onFormSubmit={this.addCustomType}
+          isOpen={this.state.showAdd}
+        />
       </div>
     );
   }

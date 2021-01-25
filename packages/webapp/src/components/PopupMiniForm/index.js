@@ -10,12 +10,14 @@ import Button from '../Form/Button';
 import Form from '../Form';
 // import { Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import Popup from 'reactjs-popup';
 
 export default function PurePopupMiniForm({
   title,
   inputInfo,
   onClose,
   onFormSubmit,
+  isOpen,
 }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
@@ -26,36 +28,29 @@ export default function PurePopupMiniForm({
   const onError = (data) => {}
 
   return (
-    // <>
-    //   {/* <div className={styles.popupTitle}>
-    //     <a className={styles.close} onClick={closeModal}>
-    //       <img src={closeButton} alt="" />
-    //     </a>
-    //     <Title>{title}</Title>
-    //   </div> */}
-    //   <a className={styles.close} onClick={onClose}>
-    //     <img src={closeButton} alt="" />
-    //   </a>
-    //   <Title>{title}</Title>
-    //   <div className={styles.customContainer}>
-    //     <Info>{inputInfo}</Info>
-    //     <Input/>
-    //   </div>
-    //   {/* <Info>{inputInfo}</Info>
-    //   <Input/> */}
-    //   <div className={styles.buttonContainer}>
-    //     <Button style={{background: '#028577', color: 'white'}} onClick={handleSubmit}>{"Save"}</Button>
-    //   </div>
-    // </>
-    <>
-      <a className={styles.close} onClick={onClose}>
-        <img src={closeButton} alt="Close" />
-      </a>
-      <Title>{title}</Title>
-      <Form
-        onSubmit={handleSubmit(onSubmit, onError)}
-      >
-        <div className={styles.customContainer}>
+    <Popup
+      open={isOpen}
+      closeOnDocumentClick
+      onClose={onClose}
+      contentStyle={{
+        display: 'flex',
+        width: '100%',
+        height: '100vh',
+        padding: '0 5%',
+      }}
+      overlayStyle={{ zIndex: '1060', height: '100vh' }}
+    >
+      <div className={styles.modal}>
+        <div className={styles.popupTitle}>
+          <a className={styles.close} onClick={onClose}>
+            <img src={closeButton} alt="Close" />
+          </a>
+          <Title className={styles.heading}>{title}</Title>
+          <div className={styles.padding} />
+        </div>
+        <Form
+          onSubmit={handleSubmit(onSubmit, onError)}
+        >
           <Input
             name={NAME}
             label={inputInfo}
@@ -65,13 +60,14 @@ export default function PurePopupMiniForm({
               (errors[NAME].message ||
                 "A use type name is required")
             }
+            style={{'margin-bottom': '20px'}}
           />
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button style={{background: '#028577', color: 'white'}} type={'submit'}>{"Save"}</Button>
-        </div>
-      </Form>
-    </>
+          <div className={styles.buttonContainer}>
+            <Button style={{background: '#028577', color: 'white'}} type={'submit'}>{"Save"}</Button>
+          </div>
+        </Form>
+      </div>
+    </Popup>
   );
 }
 
@@ -80,4 +76,5 @@ PurePopupMiniForm.prototype = {
   inputInfo: PropTypes.string,
   onClose: PropTypes.func,
   onFormSubmit: PropTypes.func,
+  isOpen: PropTypes.bool,
 };

@@ -38,9 +38,6 @@ export function* getHarvestUseTypesSaga() {
     const result = yield call(axios.get, logURL + `/harvest_use_types/farm/${farm_id}`, header);
     if (result) {
       yield put(setAllHarvestUseTypes(result.data));
-      history.push({
-        pathname: '/harvest_use_type',
-      });
     }
   } catch (e) {
     console.log('failed to get harvest use types');
@@ -54,12 +51,17 @@ export function* addCustomHarvestUseTypeSaga(action) {
   const header = getHeader(user_id, farm_id);
   const { typeName } = action;
 
-  const body = { name: typeName }
+  const body = { name: typeName };
 
   try {
-    const result = yield call(axios.post, logURL + `/harvest_use_types/farm/${farm_id}`, body, header);
+    const result = yield call(
+      axios.post,
+      logURL + `/harvest_use_types/farm/${farm_id}`,
+      body,
+      header,
+    );
     if (result) {
-      // yield put(getHarvestUseTypes()); // TODO call some kind of get use type function
+      yield put(getHarvestUseTypes()); // TODO call some kind of get use type function
       toastr.success('Successfully added custom harvest type');
     }
   } catch (e) {

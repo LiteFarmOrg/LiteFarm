@@ -58,6 +58,9 @@ export default function PurePopupMiniForm({
                 "A use type name is required")
             }
             style={{'margin-bottom': '20px'}}
+            classes={{
+              errors: { "display": "flex" }
+            }}
           />
           <div className={styles.buttonContainer}>
             <Button style={{background: '#028577', color: 'white'}} type={'submit'}>{"Save"}</Button>

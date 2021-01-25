@@ -5,7 +5,6 @@ import {
   EDIT_LOG,
   ADD_HARVEST_USE_TYPE,
 } from './constants';
-import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
 
 export const addLog = (formValue) => {
   return {

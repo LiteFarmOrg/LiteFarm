@@ -51,8 +51,12 @@ export function* acceptInvitationWithSSOSaga({
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
@@ -87,9 +91,12 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      // TODO: check error message, if token is used, return token used error instead
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));

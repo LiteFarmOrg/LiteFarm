@@ -21,6 +21,7 @@ i18n
     fallbackLng: 'en',
     detection: {
       lookupLocalStorage: 'litefarm_lang',
+      order: ['localStorage'],
     },
     keySeparator: '.',
 

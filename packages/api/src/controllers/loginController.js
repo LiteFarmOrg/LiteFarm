@@ -35,7 +35,13 @@ class loginController extends baseController {
         const userData = await userModel.query().select('*').where('email', email).first();
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
-        const ip = req.connection.remoteAddress;
+        let ip = req.headers['x-forwarded-for'];
+        if (ip) {
+          const list = ip.split(',');
+          ip = list[list.length - 1];
+        } else {
+          ip = req.connection.remoteAddress;
+        }
         const ua = parser(req.headers['user-agent']);
         const languages = req.acceptsLanguages();
         const userID = userData.user_id;

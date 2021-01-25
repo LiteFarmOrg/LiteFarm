@@ -538,7 +538,7 @@ class userController extends baseController {
           }).patch({ status: 'Active' });
           const userFarms = await userFarmModel.query(trx).where({ user_id });
           await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
-          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub }).first().returning('*');
+          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub });
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
           await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();

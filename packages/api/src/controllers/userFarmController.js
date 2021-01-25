@@ -14,12 +14,15 @@
  */
 
 const baseController = require('../controllers/baseController');
+const userController = require('../controllers/userController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
+const userLogModel = require('../models/userLogModel');
 const farmModel = require('../models/farmModel');
 const passwordModel = require('../models/passwordModel');
 const emailTokenModel = require('../models/emailTokenModel');
 const roleModel = require('../models/roleModel');
+const shiftModel = require('../models/shiftModel');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const { transaction, Model } = require('objection');
 const axios = require('axios');
@@ -36,6 +39,7 @@ const { createToken } = require('../util/jwt');
 const validStatusChanges = {
   'Active': ['Inactive'],
   'Inactive': ['Active'],
+  'Invited': ['Inactive']
 };
 
 class userFarmController extends baseController {
@@ -338,6 +342,7 @@ class userFarmController extends baseController {
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
 
       } catch (error) {
+        console.log(error);
         return res.status(400).send(error);
       }
     };
@@ -466,10 +471,78 @@ class userFarmController extends baseController {
   static patchPseudoUserEmail() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
-
       const { email } = req.body;
-      const roleIdAndWage = lodash.pick(req.body, ['wage', 'role_id']);
-
+      const roleIdAndWage = {};
+      roleIdAndWage.role_id = (!req.body.role_id || req.body.role_id === 4) ? 3 : req.body.role_id;
+      if (req.body.wage) {
+        roleIdAndWage.wage = req.body.wage;
+      }
+      try {
+        await userFarmModel.transaction(async trx => {
+          const userFarm = await userFarmModel.query(trx).findById([user_id, farm_id]);
+          if (userFarm.role_id !== 4) {
+            // TODO: move validation
+            throw new Error('User already has an account');
+          }
+          const user = await userModel.query(trx).where({ email }).first();
+          const isExistingAccount = !!user;
+          const isUserAMemberOfFarm = isExistingAccount ? !!await userFarmModel.query(trx).findById([user.user_id, farm_id]) : false;
+          if (isUserAMemberOfFarm) {
+            const { user_id: newUserId } = user;
+            await userFarmModel.query(trx).findById([user.user_id, farm_id]).patch({
+              status: 'Invited',
+              step_three: false,
+              has_consent: false,
+              ...roleIdAndWage,
+            });
+            await shiftModel.query(trx).context({ user_id: newUserId }).where({ user_id }).patch({ user_id: newUserId });
+            await userFarmModel.query(trx).where({ user_id }).delete();
+            await userLogModel.query(trx).where({ user_id }).delete();
+            await userModel.query(trx).findById(user_id).delete();
+          } else if (isExistingAccount) {
+            const { user_id: newUserId } = user;
+            await userFarmModel.query(trx).insert({
+              ...userFarm,
+              user_id: newUserId,
+              status: 'Invited',
+              step_three: false,
+              has_consent: false,
+              ...roleIdAndWage,
+            });
+            await shiftModel.query(trx).context({ user_id: newUserId }).where({ user_id }).patch({ user_id: newUserId });
+            await userFarmModel.query(trx).where({ user_id }).delete();
+            await userLogModel.query(trx).where({ user_id }).delete();
+            await userModel.query(trx).findById(user_id).delete();
+            return;
+          } else {
+            await userModel.query(trx).context({ shouldUpdateEmail: true }).findById(user_id).patch({
+              email,
+              status_id: 2,
+            }).returning('*');
+            await userFarmModel.query(trx).findById([user_id, farm_id]).patch({
+              status: 'Invited',
+              step_three: false,
+              has_consent: false,
+              ...roleIdAndWage,
+            });
+            return;
+          }
+        });
+        res.sendStatus(200);
+      } catch (e) {
+        res.status(400).send(e);
+      }
+      try {
+        const userFarm = await userFarmModel.query()
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
+        const { farm_name } = userFarm;
+        await userController.createTokenSendEmail(userFarm, userFarm, farm_name);
+      } catch (e) {
+        console.log(e);
+      }
     };
   }
 }

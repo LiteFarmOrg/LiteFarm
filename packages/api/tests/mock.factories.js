@@ -78,6 +78,7 @@ function fakeUserFarm() {
     status: 'Active',
     has_consent: true,
     step_one: false,
+    wage: {type: 'hourly', amount: faker.random.number(300)}
   };
 }
 
@@ -541,7 +542,7 @@ async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
   const base = baseProperties(user_id);
-  return knex('shift').insert({ user_id, farm_id, ...shift, ...base }).returning('*');
+  return knex('shift').insert({ user_id, farm_id, ...base, ...shift }).returning('*');
 }
 
 function fakeShift() {

@@ -41,7 +41,7 @@ export function* getHarvestUseTypesSaga() {
     }
   } catch (e) {
     console.log('failed to get harvest use types');
-    toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
+    toastr.error(i18n.t('message:LOG_HARVEST.ERROR.GET_TYPES'));
   }
 }
 
@@ -61,13 +61,12 @@ export function* addCustomHarvestUseTypeSaga(action) {
       header,
     );
     if (result) {
-      yield put(getHarvestUseTypes()); // TODO call some kind of get use type function
-      toastr.success('Successfully added custom harvest type');
+      yield put(getHarvestUseTypes());
+      toastr.success(i18n.t('message:LOG_HARVEST.SUCCESS.ADD_USE_TYPE'));
     }
   } catch (e) {
     console.log('failed to add custom harvest use type');
-    // toastr.error(i18n.t('message:LOG.ERROR.DELETE'));
-    toastr.error('failed to add custom harvest use type'); // TODO: i18n
+    toastr.error(i18n.t('message:LOG_HARVEST.ERROR.ADD_USE_TYPE'));
   }
 }
 

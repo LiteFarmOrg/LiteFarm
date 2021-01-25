@@ -66,8 +66,8 @@ class HarvestUseType extends Component {
       selectedUseTypes: [],
       useTypeClicked: false,
       currId: 0,
-      disabled: true,
       showAdd: false,
+      disabled: true,
     };
     this.assignImage = this.assignImage.bind(this);
   }
@@ -221,8 +221,8 @@ class HarvestUseType extends Component {
           overlayStyle={{ zIndex: '1060', height: '100vh' }}
         >
           <PurePopupMiniForm
-            title={"Add a harvest use"}
-            inputInfo={"Name of the custom harvest use"}
+            title={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.TITLE')}
+            inputInfo={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.INPUT_LABEL')}
             onClose={this.closeAddModal}
             onFormSubmit={this.addCustomType}
           />

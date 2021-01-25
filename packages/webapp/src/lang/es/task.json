@@ -1,14 +1,14 @@
 {
-  "BED_PREPARATION": "Preparacion de Camas",
-  "DELIVERY": "Despacho",
-  "SALES": "Ventas",
-  "SOCIAL_EVENT": "Eventos Sociales",
-  "SEEDING": "Siembra",
-  "FERTILIZING": "Fertilizacion",
-  "SCOUTING": "Busqueda",
-  "HARVESTING": "Cosecha",
-  "WEEDING": "Desmalezado",
-  "WASH_AND_PACK": "Limpiar y empacar",
-  "PEST_CONTROL": "Control de Pestes",
-  "OTHER": "Otras"
-}
+	  "BED_PREPARATION": "Preparación de camas",
+	  "DELIVERY": "Despacho",
+	  "SALES": "Ventas",
+	  "SOCIAL_EVENT": "Evento Social",
+	  "SEEDING": "Siembra",
+	  "FERTILIZING": "Fertilización",
+	  "SCOUTING": "Búsqueda",
+	  "HARVESTING": "Cosecha",
+	  "WEEDING": "Desmalezar",
+	  "WASH_AND_PACK": "Lavar y guardar",
+	  "PEST_CONTROL": "Control de pestes",
+	  "OTHER": "Otro"
+	}

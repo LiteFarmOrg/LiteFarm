@@ -114,6 +114,11 @@ class logController extends baseController {
       const { name } = req.body;
       const trx = await transaction.start(Model.knex());
       try {
+        const check = await HarvestUseTypeModel.query().where({farm_id, harvest_use_type_name: name}).first();
+        if (check) {
+          await trx.rollback();
+          return res.status(400).send("Cannot make duplicate type for this farm");
+        }
         const harvest_use_type = {
           farm_id,
           harvest_use_type_name: name,

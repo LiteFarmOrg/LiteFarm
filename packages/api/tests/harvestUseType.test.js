@@ -125,8 +125,8 @@ describe('harvestUseType Tests', () => {
           expect(res.body[5].harvest_use_type_name).toBe('Exchange');
           expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
           expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[10].harvest_use_type_name).toBe('Donation');
-          expect(res.body[11].harvest_use_type_name).toBe('Other');
+          expect(res.body[8].harvest_use_type_name).toBe('Donation');
+          expect(res.body[9].harvest_use_type_name).toBe('Other');
           done();
         });
       })
@@ -142,8 +142,8 @@ describe('harvestUseType Tests', () => {
           expect(res.body[5].harvest_use_type_name).toBe('Exchange');
           expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
           expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[10].harvest_use_type_name).toBe('Donation');
-          expect(res.body[11].harvest_use_type_name).toBe('Other');
+          expect(res.body[8].harvest_use_type_name).toBe('Donation');
+          expect(res.body[9].harvest_use_type_name).toBe('Other');
           done();
         });
       })
@@ -159,8 +159,8 @@ describe('harvestUseType Tests', () => {
           expect(res.body[5].harvest_use_type_name).toBe('Exchange');
           expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
           expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[10].harvest_use_type_name).toBe('Donation');
-          expect(res.body[11].harvest_use_type_name).toBe('Other');
+          expect(res.body[8].harvest_use_type_name).toBe('Donation');
+          expect(res.body[9].harvest_use_type_name).toBe('Other');
           done();
         });
       })

@@ -8,5 +8,16 @@ import fertilizer from './fertilizer.json';
 import message from './message.json';
 import gender from './gender.json';
 import role from './role.json';
-const english = { translation, crop, common, disease, task, expense, fertilizer, message, gender, role };
+const english = {
+  translation,
+  crop,
+  common,
+  disease,
+  task,
+  expense,
+  fertilizer,
+  message,
+  gender,
+  role,
+};
 export default english;

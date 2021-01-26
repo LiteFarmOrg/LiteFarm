@@ -28,7 +28,7 @@ const fieldAdapter = createEntityAdapter({
   selectId: (field) => field.field_id,
 });
 
-const fieldReducer = createSlice({
+const fieldSlice = createSlice({
   name: 'fieldReducer',
   initialState: fieldAdapter.getInitialState({
     loading: false,
@@ -57,14 +57,12 @@ export const {
   onLoadingFieldStart,
   onLoadingFieldFail,
   deleteFieldSuccess,
-} = fieldReducer.actions;
-export default fieldReducer.reducer;
+} = fieldSlice.actions;
+export default fieldSlice.reducer;
 
-export const fieldReducerSelector = (state) => state.entitiesReducer[fieldReducer.name];
+export const fieldReducerSelector = (state) => state.entitiesReducer[fieldSlice.name];
 
-const fieldSelectors = fieldAdapter.getSelectors(
-  (state) => state.entitiesReducer[fieldReducer.name],
-);
+const fieldSelectors = fieldAdapter.getSelectors((state) => state.entitiesReducer[fieldSlice.name]);
 
 export const fieldEntitiesSelector = fieldSelectors.selectEntities;
 export const fieldsSelector = createSelector(

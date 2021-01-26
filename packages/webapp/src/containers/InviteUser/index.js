@@ -16,12 +16,12 @@ const dropDownMap = {
   2: i18n.t('role:MANAGER'),
   3: i18n.t('role:WORKER'),
   5: i18n.t('role:EXTENSION_OFFICER'),
-}
+};
 
 function InviteUser() {
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelector);
-  const roleOptions = roles.map(({role_id}) => ({ value: role_id, label: dropDownMap[role_id]}));
+  const roleOptions = roles.map(({ role_id }) => ({ value: role_id, label: dropDownMap[role_id] }));
   const { farm_id } = useSelector(loginSelector);
   const onGoBack = () => {
     history.push({
@@ -31,7 +31,16 @@ function InviteUser() {
   };
 
   const onInvite = (userInfo) => {
-    const { role, email, wage: amount, first_name, last_name, gender, birth_year, phone_number } = userInfo;
+    const {
+      role,
+      email,
+      wage: amount,
+      first_name,
+      last_name,
+      gender,
+      birth_year,
+      phone_number,
+    } = userInfo;
     console.log(userInfo);
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
@@ -77,7 +86,7 @@ function InviteUser() {
 
       dispatch(addPseudoWorker(user));
     }
-    
+
     history.push({
       pathname: '/Profile',
       state: 'people',

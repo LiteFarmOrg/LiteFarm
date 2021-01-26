@@ -1,10 +1,10 @@
 {
-  "EQUIPMENT": "Equipment",
-  "FERTILIZER": "Fertilizer",
-  "MACHINERY": "Machinery",
-  "PESTICIDE": "Pesticide",
-  "FUEL": "Fuel",
-  "LAND": "Land",
-  "SEEDS": "Seeds",
-  "OTHER": "Other"
+  "EQUIPMENT": "Equipamento",
+  "FERTILIZER": "Fertilizante",
+  "MACHINERY": "Maquinário",
+  "PESTICIDE": "Pesticida",
+  "FUEL": "Combustível",
+  "LAND": "Terra",
+  "SEEDS": "Sementes",
+  "OTHER": "Outro"
 }

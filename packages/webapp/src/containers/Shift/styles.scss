@@ -270,8 +270,9 @@ input:disabled {
 .popupTitle {
   display: flex;
   flex-direction: row;
-  width: 70%;
-  justify-content: space-between;
+  h3{
+    flex-grow: 1;
+  }
   align-items: center;
   margin-bottom: 10%;
   margin-top: 2em;

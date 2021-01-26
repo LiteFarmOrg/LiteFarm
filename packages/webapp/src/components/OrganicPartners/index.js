@@ -28,6 +28,7 @@ export function PureOrganicPartners({ inputs = [{}, {}], onSubmit, onGoBack, dis
       }
     >
       <img src={signup7} alt={'Avatar'} className={styles.svg} loading={'lazy'} />
+
       <div className={styles.svgtitle}>{t('common:GREAT')}! </div>
       <Text style={{ marginBottom: '24px' }}>
         {' '}

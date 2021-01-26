@@ -100,6 +100,11 @@ function ChooseFarm() {
 }
 
 const getFormattedFarms = ({ filter, farms, currentFarmId, selectedFarmId }) => {
+  const farmOrderByStatus = {
+    Active: 1,
+    Invited: 2,
+    Inactive: 3,
+  };
   const filteredFarms = filter
     ? farms.filter(
         (farm) =>
@@ -111,7 +116,9 @@ const getFormattedFarms = ({ filter, farms, currentFarmId, selectedFarmId }) => 
     : farms;
 
   const sortedFarm = filteredFarms.sort((farm1, farm2) => {
-    if (farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId) {
+    if (farm1.status !== farm2.status) {
+      return farmOrderByStatus[farm1.status] - farmOrderByStatus[farm2.status];
+    } else if (farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId) {
       return farm1.farm_name.localeCompare(farm2.farm_name);
     } else {
       return farm1.farm_id === currentFarmId ? -1 : 1;
@@ -142,7 +149,7 @@ const getAddress = (farm, newFarm) => {
 };
 
 const getColor = (farm, selectedFarmId, currentFarmId) => {
-  if (farm.farm_id === currentFarmId) {
+  if (farm.farm_id === currentFarmId || farm.status === 'Inactive') {
     return 'disabled';
   } else if (farm.farm_id === selectedFarmId) {
     return 'active';

@@ -405,7 +405,7 @@ class LogDetail extends Component {
                   </div>
                   {selectedLog.harvestUse?.map((use) => (
                     <div className={styles.harvestUseItem}>
-                      <span>{use.harvest_use_type_id}</span>
+                      <span>{use.harvestUseType.harvest_use_type_name}</span>
                       <div>{quantity_unit === 'lb' ? 
                         convertFromMetric(
                           use.quantity_kg,

@@ -32,7 +32,6 @@ const fieldWorkLogModel = require('../src/models/fieldWorkLogModel');
 const soilDataLogModel = require('../src/models/soilDataLogModel');
 const seedLogModel = require('../src/models/seedLogModel');
 const harvestLogModel = require('../src/models/harvestLogModel');
-const harvestUseTypeModel = require('../src/models/harvestUseTypeModel');
 const activityLogModel = require('../src/models/activityLogModel');
 const activityFieldsModel = require('../src/models/activityFieldsModel');
 const activityCropsModel = require('../src/models/activityCropsModel');
@@ -73,15 +72,6 @@ describe('Log Tests', () => {
       .set('farm_id', farm_id)
       .end(callback)
   }
-
-  function getHarvestUseTypeByFarmID({ user_id = owner.user_id, farm_id = farm.farm_id, url = `/log/harvest_use_types/farm/${farm.farm_id}` }, callback) {
-    chai.request(server).get(url)
-      .set('user_id', user_id)
-      .set('farm_id', farm_id)
-      .end(callback)
-  }
-
-
 
   function getRequestWithBody({ user_id = owner.user_id, farm_id = farm.farm_id, url = `/log/farm/${farm.farm_id}`, body = { farm_id: farm.farm_id } }, callback) {
     chai.request(server).get(url)
@@ -150,7 +140,6 @@ describe('Log Tests', () => {
       let activityLog;
       let activityCropLog;
       let activityFieldLog;
-      let harvestUseType;
       let crop;
       let field;
       let fieldCrop;
@@ -165,7 +154,6 @@ describe('Log Tests', () => {
           ...mocks.fakeActivityLog(),
           activity_kind: 'fertilizing',
         });
-        [harvestUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: [{farm_id: null}]});
         [fertilizerLog] = await mocks.fertilizerLogFactory({
           promisedActivityLog: [activityLog],
           promisedFertilizer: [fertilizer],
@@ -1190,21 +1178,6 @@ describe('Log Tests', () => {
           });
         })
 
-        test.only('Owner should get harvestUseType by farm id', async (done)=>{
-          getHarvestUseTypeByFarmID({user_id: owner.user_id},(err,res)=>{
-            expect(res.status).toBe(200);
-            console.log(res.body);
-            expect(res.body.length).toBe(9);
-            expect(res.body[0].harvest_use_type_name).toBe('Sales');
-            expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
-            expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
-            expect(res.body[3].harvest_use_type_name).toBe('Compost');
-            expect(res.body[4].harvest_use_type_name).toBe('Gift');
-            expect(res.body[5].harvest_use_type_name).toBe('Exchange');
-            expect(res.body[5].harvest_use_type_name).toBe('Exchange');
-            done();
-          });
-        })
 
         test('Get by farm_id', async (done) => {
           let [activityLog1] = await mocks.activityLogFactory({ promisedUser: [owner] }, {

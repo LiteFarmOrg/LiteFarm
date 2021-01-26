@@ -18,7 +18,7 @@ const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
-const userController = require("./userController");
+const userController = require('./userController');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
@@ -61,7 +61,7 @@ class loginController extends baseController {
             screen_height,
             reason_for_failure: 'password_mismatch',
           });
-          return res.sendStatus(401)
+          return res.sendStatus(401);
         };
 
         const id_token = await createToken('access', { user_id: userData.user_id });
@@ -167,7 +167,7 @@ class loginController extends baseController {
           }
           // User signed up with Google SSO
           if (/^\d+$/.test(data.user_id)) {
-            res.status(200).send({
+            return res.status(200).send({
               first_name: data.first_name,
               email: data.email,
               exists: true,
@@ -176,15 +176,17 @@ class loginController extends baseController {
               invited: false,
               expired: false,
             });
+          } else if (/^.*@pseudo\.com$/.test(data.email)) {
+            return res.sendStatus(400);
           } else {
-            res.status(200).send({
+            return res.status(200).send({
               first_name: data.first_name,
               email: data.email,
               exists: true,
               sso: false,
               language: data.language_preference,
               invited: false,
-              expired: false
+              expired: false,
             });
           }
         }
@@ -202,18 +204,23 @@ async function sendMissingInvitations(user) {
   const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
     .join('farm', 'userFarm.farm_id', 'farm.farm_id')
     .join('users', 'users.user_id', 'userFarm.user_id')
-    .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited')
+    .where('users.user_id', user.user_id).andWhere('userFarm.status', 'Invited');
   if (userFarms) {
     await Promise.all(userFarms.map((userFarm) => {
-      return userController.createTokenSendEmail(user, userFarm, userFarm.farm_name)
-    }))
+      return userController.createTokenSendEmail(user, userFarm, userFarm.farm_name);
+    }));
   }
 }
 
 async function sendPasswordReset(data) {
   const created_at = new Date();
   const pw = await passwordModel.query()
-    .insert({ user_id: data.user_id, reset_token_version: 1, password_hash: `${Math.random()}`, created_at: created_at.toISOString()}).returning('*');
+    .insert({
+      user_id: data.user_id,
+      reset_token_version: 1,
+      password_hash: `${Math.random()}`,
+      created_at: created_at.toISOString(),
+    }).returning('*');
   const tokenPayload = {
     ...data,
     reset_token_version: 0,

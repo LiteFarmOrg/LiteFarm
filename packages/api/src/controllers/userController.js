@@ -461,6 +461,7 @@ class userController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        delete req.body.status_id;
         const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {

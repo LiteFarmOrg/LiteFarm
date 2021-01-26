@@ -14,12 +14,12 @@ exports.up = function(knex) {
             table.unique(['activity_id', 'harvest_use_type_id']);
         }),
     ]);
-  
+
 };
 
 exports.down = function(knex) {
     return Promise.all([
-        knex('harvestUse').del(),
+        knex.schema.dropTable('harvestUse'),
     ]);
-  
+
 };

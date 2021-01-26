@@ -477,9 +477,10 @@ class userFarmController extends baseController {
       if (req.body.wage) {
         roleIdAndWage.wage = req.body.wage;
       }
+      let userFarm;
       try {
         await userFarmModel.transaction(async trx => {
-          const userFarm = await userFarmModel.query(trx).findById([user_id, farm_id]);
+          userFarm = await userFarmModel.query(trx).findById([user_id, farm_id]);
           if (userFarm.role_id !== 4) {
             // TODO: move validation
             throw new Error('User already has an account');
@@ -528,16 +529,17 @@ class userFarmController extends baseController {
             return;
           }
         });
-        res.sendStatus(200);
+        userFarm = await userFarmModel.query()
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .join('role', 'userFarm.role_id', '=', 'role.role_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
+        res.status(201).send(userFarm);
       } catch (e) {
         res.status(400).send(e);
       }
       try {
-        const userFarm = await userFarmModel.query()
-          .join('users', 'userFarm.user_id', '=', 'users.user_id')
-          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
-          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
-          .select('*');
         const { farm_name } = userFarm;
         await userController.createTokenSendEmail(userFarm, userFarm, farm_name);
       } catch (e) {

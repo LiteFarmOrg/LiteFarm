@@ -9,6 +9,7 @@ import {
   patchUserStatusSuccess,
   onLoadingUserFarmsFail,
   onLoadingUserFarmsStart,
+  invitePseudoUserSuccess,
 } from '../../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../../lang/i18n';
@@ -103,9 +104,37 @@ export function* updateUserFarmSaga({ payload: user }) {
   }
 }
 
+export const invitePseudoUser = createAction('invitePseudoUserSaga');
+
+export function* invitePseudoUserSaga({ payload: user }) {
+  let target_user_id = user.user_id;
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    delete user.user_id;
+    const result = yield call(
+      axios.post,
+      apiConfig.userFarmUrl + '/invite/' + `farm/${farm_id}/user/${target_user_id}`,
+      user,
+      header,
+    );
+    yield put(
+      invitePseudoUserSuccess({
+        newUserFarm: result.data,
+        pseudoUserFarm: { farm_id, user_id: target_user_id },
+      }),
+    );
+    toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));
+  } catch (e) {
+    toastr.error(i18n.t('message:USER.ERROR.UPDATE'));
+    console.error(e);
+  }
+}
+
 export default function* peopleSaga() {
   yield takeLatest(getAllUserFarmsByFarmId.type, getAllUserFarmsByFarmIDSaga);
   yield takeLatest(deactivateUser.type, deactivateUserSaga);
   yield takeLatest(updateUserFarm.type, updateUserFarmSaga);
   yield takeLatest(reactivateUser.type, reactivateUserSaga);
+  yield takeLatest(invitePseudoUser.type, invitePseudoUserSaga);
 }

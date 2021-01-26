@@ -117,8 +117,8 @@ describe('harvestUseType Tests', () => {
 
       test('Owner should get harvestUseType by farm id', async (done) => {
         getHarvestUseTypeByFarmID({ user_id: newOwner.user_id }, (err, res) => {
+          console.log(res.body)
           expect(res.status).toBe(200);
-          // expect(res.body.length).toBe(9);
           expect(res.body[0].harvest_use_type_name).toBe('Sales');
           expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
           expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
@@ -127,7 +127,8 @@ describe('harvestUseType Tests', () => {
           expect(res.body[5].harvest_use_type_name).toBe('Exchange');
           expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
           expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[8].harvest_use_type_name).toBe('Other');
+          expect(res.body[10].harvest_use_type_name).toBe('Donation');
+          expect(res.body[11].harvest_use_type_name).toBe('Other');
           done();
         });
       })
@@ -135,7 +136,6 @@ describe('harvestUseType Tests', () => {
       test('Manager should get harvestUseType by farm id', async (done) => {
         getHarvestUseTypeByFarmID({ user_id: manager.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.length).toBe(9);
           expect(res.body[0].harvest_use_type_name).toBe('Sales');
           expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
           expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
@@ -144,7 +144,8 @@ describe('harvestUseType Tests', () => {
           expect(res.body[5].harvest_use_type_name).toBe('Exchange');
           expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
           expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[8].harvest_use_type_name).toBe('Other');
+          expect(res.body[10].harvest_use_type_name).toBe('Donation');
+          expect(res.body[11].harvest_use_type_name).toBe('Other');
           done();
         });
       })
@@ -152,7 +153,6 @@ describe('harvestUseType Tests', () => {
       test('Worker should get harvestUseType by farm id', async (done) => {
         getHarvestUseTypeByFarmID({ user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.length).toBe(9);
           expect(res.body[0].harvest_use_type_name).toBe('Sales');
           expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
           expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
@@ -161,7 +161,8 @@ describe('harvestUseType Tests', () => {
           expect(res.body[5].harvest_use_type_name).toBe('Exchange');
           expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
           expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[8].harvest_use_type_name).toBe('Other');
+          expect(res.body[10].harvest_use_type_name).toBe('Donation');
+          expect(res.body[11].harvest_use_type_name).toBe('Other');
           done();
         });
       })

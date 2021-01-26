@@ -608,5 +608,16 @@
     "INVITATION": "MISSING",
     "DEFAULT": "MISSING",
     "RESET_PASSWORD": "MISSING"
+  },
+  "ADD_FARM": {
+    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",
+    "FARM_NAME": "Farm name",
+    "FARM_LOCATION": "Farm location",
+    "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
+    "FARM_IS_REQUIRED": "Farm name is required",
+    "ADDRESS_IS_REQUIRED": "Address is required",
+    "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
+    "INVALID_FARM_LOCATION": "Invalid farm location",
+    "NO_ADDRESS": "No location found! Try latitude and longitude"
   }
 }

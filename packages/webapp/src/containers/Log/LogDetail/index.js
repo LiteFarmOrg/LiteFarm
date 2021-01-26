@@ -382,7 +382,7 @@ class LogDetail extends Component {
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
                   <div>
-                    {this.props.t('LOG_HARVEST.HARVEST_QUANTITY')}({quantity_unit})
+                  {`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}
                   </div>
                   {quantity_unit === 'lb' && (
                     <span>
@@ -395,6 +395,20 @@ class LogDetail extends Component {
                     </span>
                   )}
                   {quantity_unit === 'kg' && <span>{selectedLog.harvestLog.quantity_kg}</span>}
+                </div>
+              </div>
+              <div className={styles.infoBlock}>
+                <div className={styles.harvestUseInfo}>
+                  <div className={styles.harvestUseHeader}>
+                    <div>{this.props.t('LOG_HARVEST.HARVEST_USE')}</div>
+                    <div>{`${this.props.t('LOG_HARVEST.QUANTITY')} (${quantity_unit})`}</div>
+                  </div>
+                  {selectedLog.harvestUse?.map((use) => (
+                    <div className={styles.harvestUseItem}>
+                      <span>{use.harvest_use_type_id}</span>
+                      <div>{use.quantity_kg}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

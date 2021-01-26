@@ -238,7 +238,10 @@ class logServices extends baseController {
 
       // get related models for specialized logs
       var logKind = getActivityModelKind(log.activity_kind);
-      if (!logKind.isOther) {
+      if (logKind === HarvestLog) {
+        await super.getRelated(log, HarvestLog);
+        await super.getRelated(log, HarvestUseModel);
+      } else if (!logKind.isOther) {
         await super.getRelated(log, logKind);
       }
     }

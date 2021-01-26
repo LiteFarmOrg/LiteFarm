@@ -212,9 +212,20 @@ describe('User Farm Tests', () => {
     });
   });
 
-  test('Invited/inactive user should not update userFarm', async (done) => {
+  test('Invited user should not update userFarm', async (done) => {
     const {user: owner, farm} = await setupUserFarm({});
     const noConsentUser = await createUserFarmAtFarm({role_id: 3, has_consent: false, status: 'Invited'}, farm);
+    let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
+    expect(targetUser.has_consent).toBe(false);
+    updateUserFarmConsentRequest({user_id: noConsentUser.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(403);
+      done();
+    });
+  });
+
+  test('Inactive user should not update userFarm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    const noConsentUser = await createUserFarmAtFarm({role_id: 3, has_consent: false, status: 'Inactive'}, farm);
     let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
     expect(targetUser.has_consent).toBe(false);
     updateUserFarmConsentRequest({user_id: noConsentUser.user_id, farm_id: farm.farm_id}, async (err, res) => {

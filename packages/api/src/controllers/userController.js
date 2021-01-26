@@ -165,7 +165,7 @@ class userController extends baseController {
           user = isUserAlreadyCreated;
         }
         const { user_id } = user;
-        const userFarm = await userFarmModel.query(trx).insert({
+        await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
           status: 'Invited',
@@ -179,6 +179,12 @@ class userController extends baseController {
           step_four: true,
           step_five: true,
         });
+        const userFarm = await userFarmModel.query(trx)
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .join('role', 'userFarm.role_id', '=', 'role.role_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
@@ -277,7 +283,7 @@ class userController extends baseController {
         /* End of input validation */
 
         const user = await baseController.post(userModel, req.body, trx);
-        const userFarm = await userFarmModel.query(trx).insert({
+        await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
           status: 'Active',
@@ -290,8 +296,14 @@ class userController extends baseController {
           step_four: true,
           step_five: true,
         });
+        const userFarm = await userFarmModel.query(trx)
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .join('role', 'userFarm.role_id', '=', 'role.role_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
         await trx.commit();
-        res.status(201).send({ ...user, ...userFarm });
+        res.status(201).send(userFarm);
       } catch (error) {
         // handle more exceptions
         await trx.rollback();

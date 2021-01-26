@@ -59,7 +59,7 @@ const fieldCropAdapter = createEntityAdapter({
   selectId: (fieldCrop) => fieldCrop.field_crop_id,
 });
 
-const fieldCropReducer = createSlice({
+const fieldCropSlice = createSlice({
   name: 'fieldCropReducer',
   initialState: fieldCropAdapter.getInitialState({
     loading: false,
@@ -87,13 +87,13 @@ export const {
   onLoadingFieldCropStart,
   onLoadingFieldCropFail,
   deleteFieldCropSuccess,
-} = fieldCropReducer.actions;
-export default fieldCropReducer.reducer;
+} = fieldCropSlice.actions;
+export default fieldCropSlice.reducer;
 
-export const fieldCropReducerSelector = (state) => state.entitiesReducer[fieldCropReducer.name];
+export const fieldCropReducerSelector = (state) => state.entitiesReducer[fieldCropSlice.name];
 
 const fieldCropSelectors = fieldCropAdapter.getSelectors(
-  (state) => state.entitiesReducer[fieldCropReducer.name],
+  (state) => state.entitiesReducer[fieldCropSlice.name],
 );
 
 export const fieldCropsSelector = createSelector(

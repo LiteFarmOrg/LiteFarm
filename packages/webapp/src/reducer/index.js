@@ -27,6 +27,7 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
+import weatherReducer from '../containers/WeatherBoard/weatherSlice';
 
 import fieldReducer from '../containers/fieldSlice';
 import cropReducer from '../containers/cropSlice';
@@ -108,6 +109,7 @@ const entitiesReducer = combineReducers({
   fieldReducer,
   cropReducer,
   fieldCropReducer,
+  weatherReducer,
 });
 
 const persistedStateReducer = combineReducers({

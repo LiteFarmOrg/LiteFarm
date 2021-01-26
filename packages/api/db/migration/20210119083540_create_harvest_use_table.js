@@ -19,7 +19,7 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
     return Promise.all([
-        knex('harvestUse').del(),
+      knex.schema.dropTable('harvestUse'),
     ]);
   
 };

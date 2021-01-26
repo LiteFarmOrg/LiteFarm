@@ -245,57 +245,35 @@ class userFarmController extends baseController {
 
   static updateConsent() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      const user_id = req.params.user_id;
-      const farm_id = req.params.farm_id;
-
-      let subject;
-      let template_path;
-      const has_consent = req.body.has_consent;
-      const consent_version = req.body.consent_version;
-      const sender = 'system@litefarm.org';
-
       try {
-
-        const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
-          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        const patch = { has_consent, consent_version };
-        if (has_consent) {
-          patch.status = 'Active';
-        }
-        const isPatched = await userFarmModel.query(trx).where('user_id', user_id).andWhere('farm_id', farm_id)
-          .patch(patch);
-
-        const replacements = {
-          first_name: rows[0].first_name,
-          farm: rows[0].farm_name,
-        };
-        if (has_consent === false) {
-          template_path = emails.WITHHELD_CONSENT;
-        } else {
-          template_path = emails.CONFIRMATION;
-          template_path.subjectReplacements = rows[0].farm_name;
-          replacements['role'] = rows[0].role;
-        }
-        if (isPatched) {
-          await trx.commit();
-          res.sendStatus(200);
-          //send out confirmation or withdrew consent email
-          try{
-            await sendEmailTemplate.sendEmail(template_path, replacements, rows[0].email, sender, null, rows[0].language_preference);
-          }catch (e){
-            console.log(e);
+        const { user_id, farm_id } = req.params;
+        const { has_consent, consent_version } = req.body;
+        await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
+        res.sendStatus(200);
+        try {
+          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
+          let template_path;
+          const sender = 'system@litefarm.org';
+          const replacements = {
+            first_name: userFarm.first_name,
+            farm: userFarm.farm_name,
+          };
+          if (has_consent === false) {
+            template_path = emails.WITHHELD_CONSENT;
+          } else {
+            template_path = emails.CONFIRMATION;
+            template_path.subjectReplacements = userFarm.farm_name;
+            replacements['role'] = userFarm.role;
           }
-        } else {
-          await trx.rollback();
-          res.sendStatus(404);
+          return await sendEmailTemplate.sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
+        } catch (e) {
+          console.log(e);
         }
       } catch (error) {
-        //handle more exceptions
-        await trx.rollback();
-        res.status(400).send(error);
+        return res.status(400).send(error);
       }
     };
   }

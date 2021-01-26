@@ -189,26 +189,22 @@ class logServices extends baseController {
     //insert crops,fields and beds
     await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
     await super.relateModels(activityLog, field, body.fields, transaction);
-    if (!logModel.isOther && !logModel.tableName === 'harvestLog') {
+    if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
       await super.postRelated(activityLog, logModel, body, transaction);
-    }
-    else if (logModel.tableName === 'harvestLog') {
-      
+    } else if (logModel.tableName === 'harvestLog') {
       await super.postRelated(activityLog, logModel, body, transaction);
       const uses = body.selectedUseTypes.map(async (use) => {
-        let data = {
+        const data = {
           activity_id: activityLog.activity_id,
           harvest_use_type_id: use.harvest_use_type_id,
-          quantity_kg: use.quantity
+          quantity_kg: use.quantity,
         }
         return super.post(HarvestUseModel, data, transaction)
       });
       await Promise.all(uses);
-      
-    } 
-    return activityLog;
-
     }
+    return activityLog;
+  }
 
   static async getLogById(id){
     const log = await super.getIndividual(ActivityLogModel, id);

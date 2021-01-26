@@ -17,9 +17,10 @@ import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
 import { setSelectedUseTypes, addHarvestUseType } from '../actions';
-import PurePopupMiniForm from '../../../components/PopupMiniForm'
+import PurePopupMiniForm from '../../../components/PopupMiniForm';
 import Popup from 'reactjs-popup';
 import { setAllHarvestUseTypesSelector } from '../selectors';
+import LogFooter from '../../../components/LogFooter';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -132,6 +133,9 @@ class HarvestUseType extends Component {
       this.closeAddModal();
     }
   };
+  handleSubmit() {
+    console.log('handle submit');
+  }
 
   render() {
     return (
@@ -153,6 +157,7 @@ class HarvestUseType extends Component {
             marginTop: '5%',
             width: '100%',
           }}
+          onSubmit={this.handleSubmit()}
         >
           <Row className="show-grid">
             {this.props.allUseType.map((type) => {
@@ -164,6 +169,7 @@ class HarvestUseType extends Component {
                   md={4}
                   className={styles.imgCol}
                   onClick={() => {
+                    console.log(type);
                     this.logClick(type);
                   }}
                 >
@@ -188,9 +194,13 @@ class HarvestUseType extends Component {
 
         {this.props.users.role_id !== 3 && (
           <div className={styles.buttonContainer}>
-            <Button onClick={this.openAddModal}>{this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}</Button>
+            <Button onClick={this.openAddModal}>
+              {this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}
+            </Button>
           </div>
         )}
+
+        {/* <LogFooter backButtonName={"Back"} forwardButtonName={"Next"} history={this.props.history} backButtonClick={'/harvest_log'}/> */}
 
         <div className={styles.bottomContainer}>
           <div className={styles.backButton} onClick={() => history.push('/harvest_log')}>
@@ -199,6 +209,12 @@ class HarvestUseType extends Component {
           <button
             className="btn btn-primary-round"
             onClick={() => {
+              this.state.selectedUseTypes = this.state.selectedUseTypes.map(function (x) {
+                let o = Object.assign({}, x);
+                o.quantity = 0;
+                return o;
+              });
+              console.log(this.state.selectedUseTypes);
               this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
               history.push('/harvest_allocation');
             }}

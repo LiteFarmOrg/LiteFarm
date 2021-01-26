@@ -9,6 +9,8 @@ import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import i18n from '../../../lang/i18n';
 import { setAllHarvestUseTypes, getHarvestUseTypes } from '../actions';
+// import { setAllHarvestUseTypes } from '../actions';
+import { selectedUseTypeSelector } from '../selectors';
 
 const axios = require('axios');
 
@@ -16,14 +18,25 @@ export function* addLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const log = { ...action.formValue, user_id, farm_id };
+  const selectedUseTypes = yield select(selectedUseTypeSelector);
+  console.log('selected use types');
+  console.log(selectedUseTypes);
+  const log = { ...action.formValue, user_id, farm_id, selectedUseTypes };
+  const data = {
+    log: log,
+    selectedUseTypes: selectedUseTypes,
+  };
   try {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
-      // history.push('/log');
-      // toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
+      // console.log("result")
+      // console.log(result)
+      // console.log(result.config.data)
+      history.push('/log');
+      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
   } catch (e) {
+    console.log(e);
     console.log('failed to add log');
     toastr.error(i18n.t('message:LOG.ERROR.ADD'));
   }

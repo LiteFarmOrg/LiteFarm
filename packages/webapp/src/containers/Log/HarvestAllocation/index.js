@@ -9,8 +9,10 @@ import { getUnit } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops } from '../../saga';
-import { formDataSelector, selectedUseTypeSelector } from '../selectors';
+import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
 import { toastr } from 'react-redux-toastr';
+import { addLog } from '../Utility/actions';
+import { setSelectedUseTypes } from '../actions';
 
 class HarvestAllocation extends Component {
   constructor(props) {
@@ -33,6 +35,11 @@ class HarvestAllocation extends Component {
   }
 
   handleSubmit(val) {
+    this.props.useType.map((obj) => {
+      if (obj.harvest_use_type_name in val) {
+        obj.quantity = val[obj.harvest_use_type_name];
+      }
+    });
     let sum = 0;
     Object.keys(val).forEach(function (key) {
       sum += parseInt(val[key]);
@@ -40,6 +47,9 @@ class HarvestAllocation extends Component {
 
     if (sum != this.props.formData.quantity_kg) {
       toastr.error('Total does not equal the amount to allocate');
+    } else {
+      console.log(this.props.useType);
+      this.props.dispatch(addLog(this.props.formValue));
     }
   }
 
@@ -62,7 +72,7 @@ class HarvestAllocation extends Component {
         <Form model="logReducer.forms" onSubmit={(val) => this.handleSubmit(val.harvestAllocation)}>
           {this.props.useType.map((type, index) => {
             const typeName = type.harvest_use_type_name;
-            let model = '.harvestAllocation.harvest' + index;
+            let model = '.harvestAllocation.' + type.harvest_use_type_name;
             return (
               <div style={index === 0 ? { paddingTop: '5px' } : { paddingTop: '35px' }}>
                 <Unit
@@ -76,16 +86,22 @@ class HarvestAllocation extends Component {
             );
           })}
 
+          {/* <LogFooter backButtonName={"Cancel"} forwardButtonName={"Next"} /> */}
+
           <div className={styles.bottomContainer}>
-            <div className={styles.backButton} onClick={() => history.push('/harvest_log')}>
+            <div
+              className={styles.backButton}
+              onClick={() => this.props.history.push('/harvest_use_type')}
+            >
               {this.props.t('common:BACK')}
             </div>
             <button
               className="btn btn-primary-round"
-              onClick={() => {
-                // this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
-                // history.push('/harvest_allocation');
-              }}
+              //   onClick={() => {
+              //     console.log("use types")
+              //     console.log(this.props.useType)
+              //     // history.push('/harvest_allocation');
+              //   }}
               disabled={this.state.disabled}
             >
               {this.props.t('common:NEXT')}
@@ -101,6 +117,7 @@ const mapStateToProps = (state) => {
   return {
     formData: formDataSelector(state),
     useType: selectedUseTypeSelector(state),
+    formValue: formValueSelector(state),
   };
 };
 

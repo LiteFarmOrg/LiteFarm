@@ -22,6 +22,7 @@ import {
   SET_ALL_HARVEST_USE_TYPES,
   SET_SELECTED_USE_TYPES,
   ADD_HARVEST_USE_TYPE,
+  SET_FORM_VALUE,
 } from './constants';
 
 export const getLogs = () => {
@@ -75,5 +76,12 @@ export const addHarvestUseType = (typeName) => {
   return {
     type: ADD_HARVEST_USE_TYPE,
     typeName,
+  };
+};
+
+export const setFormValue = (formValue) => {
+  return {
+    type: SET_FORM_VALUE,
+    formValue,
   };
 };

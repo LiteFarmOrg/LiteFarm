@@ -27,10 +27,13 @@ const setAllHarvestUseTypesSelector = createSelector(logPageSelector, (state) =>
 
 const selectedUseTypeSelector = createSelector(logPageSelector, (state) => state.useType);
 
+const formValueSelector = createSelector(logPageSelector, (state) => state.formValue);
+
 export {
   logSelector,
   currentLogSelector,
   formDataSelector,
   selectedUseTypeSelector,
   setAllHarvestUseTypesSelector,
+  formValueSelector,
 };

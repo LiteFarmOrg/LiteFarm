@@ -18,13 +18,15 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
-import { setFormData } from '../actions';
-import { formDataSelector } from '../selectors';
+import { setFormData, setFormValue } from '../actions';
+import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
+import history from '../../../history';
 
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
-    const { farm, dispatch } = this.props;
+    console.log(props);
+    const { farm, dispatch, history } = this.props;
     this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
 
     this.state = {
@@ -42,6 +44,7 @@ class HarvestLog extends Component {
   }
 
   handleSubmit(log) {
+    console.log('handle submit');
     const { dispatch, fields } = this.props;
     const selectedCrops = parseCrops(log);
     const selectedFields = parseFields(log, fields);
@@ -54,18 +57,25 @@ class HarvestLog extends Component {
       quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
     };
     this.props.dispatch(setFormData(log));
+    this.props.dispatch(setFormValue(formValue));
     dispatch(getHarvestUseTypes());
-    this.props.history.push({
-      pathname: '/harvest_use_type',
-    });
+    this.props.history.push('/harvest_use_type');
     // dispatch(addLog(formValue));
+  }
+
+  handleBackButton() {
+    console.log('back button');
+    // console.log(this.props)
+    // history.push('/new_log')
+    // console.log(this.props)
+    // this.props.history.push('/harvest_use_type')
   }
 
   render() {
     const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <div>
+        <div className={styles.textContainer}>
           <PageTitle
             backUrl="/new_log"
             title={this.props.t('LOG_HARVEST.TITLE')}
@@ -95,7 +105,12 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter />
+          <LogFooter
+            backButtonName={'Cancel'}
+            forwardButtonName={'Next'}
+            history={this.props.history}
+            backButtonClick={'/new_log'}
+          />
         </Form>
       </div>
     );
@@ -108,6 +123,8 @@ const mapStateToProps = (state) => {
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
     formData: formDataSelector(state),
+    useType: selectedUseTypeSelector(state),
+    formValue: formValueSelector(state),
   };
 };
 

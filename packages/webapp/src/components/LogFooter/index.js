@@ -13,13 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import history from '../../history';
+// import history from '../../history';
 import React from 'react';
 import styles from './styles.scss';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit } = this.props;
+    const { backButtonName, forwardButtonName, backButtonClick, onClick, edit } = this.props;
     return (
       <div className={styles.bottomContainer}>
         {edit ? (
@@ -27,12 +27,17 @@ class LogFooter extends React.Component {
             Delete
           </div>
         ) : (
-          <div className={styles.cancelButton} onClick={() => history.push('/new_log')}>
-            Cancel
+          <div
+            className={styles.cancelButton}
+            onClick={() => {
+              this.props.history.push(backButtonClick);
+            }}
+          >
+            {backButtonName}
           </div>
         )}
         <div className={styles.cancelButton}>
-          <button className="btn btn-primary">Save</button>
+          <button className="btn btn-primary">{forwardButtonName}</button>
         </div>
       </div>
     );

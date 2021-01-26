@@ -62,6 +62,7 @@ class NewLog extends Component {
               md={3}
               className={styles.col}
               onClick={() => {
+                console.log('harvest log');
                 history.push('/harvest_log');
               }}
             >

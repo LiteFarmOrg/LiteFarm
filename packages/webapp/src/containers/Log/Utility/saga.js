@@ -29,9 +29,6 @@ export function* addLog(action) {
   try {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
-      // console.log("result")
-      // console.log(result)
-      // console.log(result.config.data)
       history.push('/log');
       toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }

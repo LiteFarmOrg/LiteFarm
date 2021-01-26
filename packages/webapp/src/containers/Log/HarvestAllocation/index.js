@@ -13,6 +13,7 @@ import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '..
 import { toastr } from 'react-redux-toastr';
 import { addLog } from '../Utility/actions';
 import { setSelectedUseTypes } from '../actions';
+import { userFarmSelector } from '../../userFarmSlice';
 
 class HarvestAllocation extends Component {
   constructor(props) {
@@ -48,7 +49,6 @@ class HarvestAllocation extends Component {
     if (sum != this.props.formData.quantity_kg) {
       toastr.error('Total does not equal the amount to allocate');
     } else {
-      console.log(this.props.useType);
       this.props.dispatch(addLog(this.props.formValue));
     }
   }
@@ -74,7 +74,13 @@ class HarvestAllocation extends Component {
             const typeName = type.harvest_use_type_name;
             let model = '.harvestAllocation.' + type.harvest_use_type_name;
             return (
-              <div style={index === 0 ? { paddingTop: '5px' } : { paddingTop: '35px' }}>
+              <div
+                style={
+                  index === this.props.useType.length - 1
+                    ? { marginBottom: '100px', paddingTop: '20px' }
+                    : { paddingTop: '20px' }
+                }
+              >
                 <Unit
                   model={model}
                   title={typeName}
@@ -86,8 +92,6 @@ class HarvestAllocation extends Component {
             );
           })}
 
-          {/* <LogFooter backButtonName={"Cancel"} forwardButtonName={"Next"} /> */}
-
           <div className={styles.bottomContainer}>
             <div
               className={styles.backButton}
@@ -95,15 +99,7 @@ class HarvestAllocation extends Component {
             >
               {this.props.t('common:BACK')}
             </div>
-            <button
-              className="btn btn-primary-round"
-              //   onClick={() => {
-              //     console.log("use types")
-              //     console.log(this.props.useType)
-              //     // history.push('/harvest_allocation');
-              //   }}
-              disabled={this.state.disabled}
-            >
+            <button className="btn btn-primary-round" disabled={this.state.disabled}>
               {this.props.t('common:NEXT')}
             </button>
           </div>
@@ -115,6 +111,7 @@ class HarvestAllocation extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    farm: userFarmSelector(state),
     formData: formDataSelector(state),
     useType: selectedUseTypeSelector(state),
     formValue: formValueSelector(state),

@@ -25,7 +25,6 @@ import history from '../../../history';
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     const { farm, dispatch, history } = this.props;
     this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
 
@@ -44,7 +43,6 @@ class HarvestLog extends Component {
   }
 
   handleSubmit(log) {
-    console.log('handle submit');
     const { dispatch, fields } = this.props;
     const selectedCrops = parseCrops(log);
     const selectedFields = parseFields(log, fields);
@@ -59,16 +57,9 @@ class HarvestLog extends Component {
     this.props.dispatch(setFormData(log));
     this.props.dispatch(setFormValue(formValue));
     dispatch(getHarvestUseTypes());
-    this.props.history.push('/harvest_use_type');
-    // dispatch(addLog(formValue));
-  }
-
-  handleBackButton() {
-    console.log('back button');
-    // console.log(this.props)
-    // history.push('/new_log')
-    // console.log(this.props)
-    // this.props.history.push('/harvest_use_type')
+    setTimeout(() => {
+      this.props.history.push('/harvest_use_type');
+    }, 200);
   }
 
   render() {

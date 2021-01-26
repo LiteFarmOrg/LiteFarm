@@ -78,8 +78,9 @@ class Unit extends React.Component {
                 validators={{ positive: this.isPositive }}
                 parser={this.parseNumber}
               />
-              {type}
             </div>
+            <div className={styles.typeUnit}>{type}</div>
+
             <Errors
               className="required"
               model={model}
@@ -104,8 +105,17 @@ class Unit extends React.Component {
                 }}
                 parser={this.parseNumber}
               />
-              {type}
+              <div
+                style={
+                  isHarvestAllocation
+                    ? { marginLeft: '-40px', marginTop: '6px', color: '#9FAABE' }
+                    : {}
+                }
+              >
+                {type}
+              </div>
             </div>
+
             <Errors
               className="required"
               model={model}

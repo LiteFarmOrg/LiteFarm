@@ -101,6 +101,7 @@ class logController extends baseController {
           res.status(200).send(rows);
         }  
       } catch (error) {
+        console.log(error)
         //handle more exceptions
         res.status(400).json({
           error,

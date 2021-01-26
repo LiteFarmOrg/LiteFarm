@@ -309,18 +309,6 @@ async function activityLogFactory({ promisedUser = usersFactory() } = {}, activi
 
 }
 
-async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
-  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
-  const [{ farm_id }] = farm;
-  return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
-}
-
-function fakeHarvestUseType() {
-  return {
-    harvest_use_type_name: faker.lorem.words(),
-  };
-}
-
 function fakeActivityLog() {
   return {
     activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest',
@@ -395,6 +383,35 @@ async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType =
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
   return knex('taskType').insert({ farm_id, ...taskType, ...base }).returning('*');
+}
+
+async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
+  const [farm] = await Promise.all([promisedFarm, usersFactory()]);
+  const [{ farm_id }] = farm;
+  console.log(harvestUseType)
+  console.log(farm_id)
+  return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
+}
+
+function fakeHarvestUseType() {
+  // console.log("enter fakeHarvestUseType")
+  // console.log(farm_id)
+  
+    return {
+      harvest_use_type_name: faker.lorem.words(),
+    }
+}
+
+function createDefaultState() {
+  const useTypes = [
+    'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other'
+  ]
+  useTypes.map((type) => {
+    let data = {
+      harvest_use_type_name: type
+    }
+    return data;
+  })
 }
 
 async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {

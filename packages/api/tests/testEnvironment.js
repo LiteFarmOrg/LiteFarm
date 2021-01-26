@@ -85,6 +85,7 @@ async function tableCleanup(knex) {
     DELETE FROM "weatherHourly";
     DELETE FROM "weather";
     DELETE FROM "weather_station";
+    DELETE FROM "harvestUseType";
   `);
 }
 

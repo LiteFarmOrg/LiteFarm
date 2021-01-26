@@ -86,7 +86,7 @@ const Input = ({
         {...props}
       />
       {info && !errors && <Info style={classes.info}>{info}</Info>}
-      {showError && !disabled ? <Error>{errors}</Error> : null}
+      {showError && !disabled ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
   );
 };
@@ -103,6 +103,7 @@ Input.propTypes = {
     label: PropTypes.object,
     container: PropTypes.object,
     info: PropTypes.object,
+    errors: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   inputRef: PropTypes.oneOfType([

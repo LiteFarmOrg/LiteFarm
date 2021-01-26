@@ -16,7 +16,9 @@ import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
-import { setSelectedUseTypes } from '../actions';
+import { setSelectedUseTypes, addHarvestUseType } from '../actions';
+import PurePopupMiniForm from '../../../components/PopupMiniForm'
+import Popup from 'reactjs-popup';
 import { setAllHarvestUseTypesSelector } from '../selectors';
 
 class HarvestUseType extends Component {
@@ -64,6 +66,7 @@ class HarvestUseType extends Component {
       selectedUseTypes: [],
       useTypeClicked: false,
       currId: 0,
+      showAdd: false,
       disabled: true,
     };
     this.assignImage = this.assignImage.bind(this);
@@ -114,6 +117,21 @@ class HarvestUseType extends Component {
       ? (this.state.disabled = false)
       : (this.state.disabled = true);
   }
+
+  openAddModal = () => {
+    this.setState({ showAdd: true });
+  };
+
+  closeAddModal = () => {
+    this.setState({ showAdd: false });
+  };
+
+  addCustomType = (typeName) => {
+    if (typeName !== '') {
+      this.props.dispatch(addHarvestUseType(typeName));
+      this.closeAddModal();
+    }
+  };
 
   render() {
     return (
@@ -168,9 +186,9 @@ class HarvestUseType extends Component {
           </Row>
         </Container>
 
-        {this.props.users.role_id != 3 && (
+        {this.props.users.role_id !== 3 && (
           <div className={styles.buttonContainer}>
-            <Button>{this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}</Button>
+            <Button onClick={this.openAddModal}>{this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}</Button>
           </div>
         )}
 
@@ -189,6 +207,14 @@ class HarvestUseType extends Component {
             {this.props.t('common:NEXT')}
           </button>
         </div>
+
+        <PurePopupMiniForm
+          title={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.TITLE')}
+          inputInfo={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.INPUT_LABEL')}
+          onClose={this.closeAddModal}
+          onFormSubmit={this.addCustomType}
+          isOpen={this.state.showAdd}
+        />
       </div>
     );
   }

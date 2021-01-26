@@ -55,6 +55,9 @@ class HarvestLog extends Component {
     };
     this.props.dispatch(setFormData(log));
     dispatch(getHarvestUseTypes());
+    this.props.history.push({
+      pathname: '/harvest_use_type',
+    });
     // dispatch(addLog(formValue));
   }
 

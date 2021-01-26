@@ -34,6 +34,7 @@ class HarvestUseType extends Model {
       properties: {
         harvest_use_type_id: { type: 'integer' },
         harvest_use_type_name: { type: 'string' },
+        farm_id: { type: 'string' },
       },
       additionalProperties: false,
     };

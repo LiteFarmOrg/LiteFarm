@@ -37,8 +37,10 @@ describe('User Farm Tests', () => {
   }
 
   // note: the object that is sent should be adjusted to not include consent_version
-  function updateUserFarmConsentRequest({user_id, farm_id}, callback) {
-    chai.request(server).patch(`/user_farm/consent/farm/${farm_id}/user/${user_id}`)
+  function updateUserFarmConsentRequest({user_id, farm_id, params_user_id, params_farm_id}, callback) {
+    chai.request(server).patch(`/user_farm/consent/farm/${params_farm_id || farm_id}/user/${params_user_id || user_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
       .send({has_consent: true, consent_version: '3.0'})
       .end(callback);
   }
@@ -197,6 +199,28 @@ describe('User Farm Tests', () => {
       expect(res.status).toBe(200);
       targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
       expect(targetUser.has_consent).toBe(true);
+      done();
+    });
+  });
+
+  test('Invited/inactive user should not update userFarm', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    const noConsentUser = await createUserFarmAtFarm({role_id: 3, has_consent: false, status: 'Invited'}, farm);
+    let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
+    expect(targetUser.has_consent).toBe(false);
+    updateUserFarmConsentRequest({user_id: noConsentUser.user_id, farm_id: farm.farm_id}, async (err, res) => {
+      expect(res.status).toBe(403);
+      done();
+    });
+  });
+
+  test('Owner should not accept/reject consent on behalf of another user', async (done) => {
+    const {user: owner, farm} = await setupUserFarm({});
+    const noConsentUser = await createUserFarmAtFarm({role_id: 3, has_consent: false, status: 'Invited'}, farm);
+    let targetUser = await userFarmModel.query().where('user_id', noConsentUser.user_id).first();
+    expect(targetUser.has_consent).toBe(false);
+    updateUserFarmConsentRequest({user_id: owner.user_id, farm_id: farm.farm_id, params_user_id:noConsentUser}, async (err, res) => {
+      expect(res.status).toBe(403);
       done();
     });
   });

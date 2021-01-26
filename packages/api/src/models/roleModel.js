@@ -16,7 +16,24 @@
 const Model = require('objection').Model;
 const softDelete = require('objection-soft-delete');
 
-class Role extends softDelete({columnName: 'deleted'})(Model){
+class Role extends softDelete({ columnName: 'deleted' })(Model) {
+  static get hidden() {
+    return ['deleted'];
+  }
+
+  async $afterFind(queryContext) {
+    await super.$afterFind(queryContext);
+    const { hidden } = this.constructor;
+    if (hidden.length > 0) {
+      const { showHidden } = queryContext;
+      if (!showHidden) {
+        for (const property of hidden) {
+          delete this[property];
+        }
+      }
+    }
+  }
+
   static get tableName() {
     return 'role';
   }
@@ -25,29 +42,13 @@ class Role extends softDelete({columnName: 'deleted'})(Model){
     return 'role_id';
   }
 
-  static get hidden () {
-    return [ 'deleted' ]
-  }
-
-  async $afterFind (queryContext) {
-    await super.$afterFind(queryContext);
-    const { hidden } = this.constructor
-    if (hidden.length > 0) {
-      const { showHidden } = queryContext;
-      if(!showHidden){
-        for (const property of hidden) {
-          delete this[property]
-        }
-      }
-    }
-  }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [ 'role' ],
+      required: ['role'],
       properties: {
         role_id: { type: 'integer' },
         role: {

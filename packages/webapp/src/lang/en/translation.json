@@ -610,6 +610,10 @@
     "DEFAULT": "MISSING",
     "RESET_PASSWORD": "MISSING"
   },
+  "WEATHER": {
+    "WIND": "Wind",
+    "HUMIDITY": "Humidity"
+  },
   "ADD_FARM": {
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",
     "FARM_NAME": "Farm name",

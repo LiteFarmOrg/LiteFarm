@@ -612,6 +612,10 @@
     "DEFAULT": "MISSING",
     "RESET_PASSWORD": "MISSING"
   },
+  "WEATHER": {
+    "WIND": "Viento",
+    "HUMIDITY": "Humedad"
+  },
   "ADD_FARM": {
     "TELL_US_ABOUT_YOUR_FARM": "MISSING",
     "FARM_NAME": "MISSING",

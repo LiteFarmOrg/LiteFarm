@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import Popup from "reactjs-popup";
-import clsx from "clsx";
-import { toastr } from "react-redux-toastr";
-import { useTranslation } from "react-i18next";
-import Select from "react-select";
-import { BsReplyFill } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "../../Form/Button";
-import TitleLayout from "../../Layout/TitleLayout";
-import styles from "../../../containers/Shift/styles.scss";
-import styles2 from "./styles.scss";
-import cropImg from "../../../assets/images/log/crop_white.svg";
-import fieldImg from "../../../assets/images/log/field_white.svg";
-import { stepOneSelector } from "../../../containers/shiftSlice";
-import { currentFieldCropsSelector } from "../../../containers/fieldCropSlice";
-import { fieldsSelector } from "../../../containers/fieldSlice";
-import { userFarmSelector } from "../../../containers/userFarmSlice";
-import closeButton from "../../../assets/images/grey_close_button.png";
+import Popup from 'reactjs-popup';
+import clsx from 'clsx';
+import { toastr } from 'react-redux-toastr';
+import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
+import { BsReplyFill } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import Button from '../../Form/Button';
+import TitleLayout from '../../Layout/TitleLayout';
+import styles from '../../../containers/Shift/styles.scss';
+import styles2 from './styles.scss';
+import cropImg from '../../../assets/images/log/crop_white.svg';
+import fieldImg from '../../../assets/images/log/field_white.svg';
+import { stepOneSelector } from '../../../containers/shiftSlice';
+import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
+import { fieldsSelector } from '../../../containers/fieldSlice';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import closeButton from '../../../assets/images/grey_close_button.png';
 
-function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, cropDurations, setCropDurations, mood, setMood}) {
+function PureStepTwo({
+  onGoBack,
+  onNext,
+  indicateMood,
+  finalForm,
+  setFinalForm,
+  cropDurations,
+  setCropDurations,
+  mood,
+  setMood,
+}) {
   const { t } = useTranslation();
   let [cropOptions, setCropOptions] = useState([]);
   let [fieldOptions, setFieldOptions] = useState([]);
@@ -47,16 +57,14 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
     for (let field of fields) {
       availableFieldOptions.push({ label: field.field_name, value: field.field_id });
     }
-    setFieldOptions(availableFieldOptions)
+    setFieldOptions(availableFieldOptions);
     setCropOptions(availableCropOptions);
-  }, [])
-
+  }, []);
 
   const changeDuration = (event, task_id, is_crop, crop_id = null, setDuration = () => {}) => {
     let value = event.target.value;
     let duration = 0;
-    const mutatingCropDurations = {...cropDurations};
-    console.log(value);
+    const mutatingCropDurations = { ...cropDurations };
     if (is_crop) {
       for (let cdObj of mutatingCropDurations[task_id]) {
         if (cdObj.crop_id === crop_id) {
@@ -67,9 +75,9 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
       setDuration(duration);
       setCropDurations(mutatingCropDurations);
     } else {
-      setFinalForm({...finalForm, [task_id]: { ...finalForm[task_id], duration: value }});
+      setFinalForm({ ...finalForm, [task_id]: { ...finalForm[task_id], duration: value } });
     }
-  }
+  };
 
   const resetCropDuration = (task_id) => {
     let resetDurations = [];
@@ -78,10 +86,10 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
         cdObj.duration = '';
         resetDurations.push(cdObj);
       }
-      setCropDurations({...cropDurations, [task_id]: resetDurations});
+      setCropDurations({ ...cropDurations, [task_id]: resetDurations });
     }
     if (finalForm?.hasOwnProperty(task_id)) {
-      setFinalForm({...finalForm, [task_id] : {...finalForm[task_id], duration : 0 } });
+      setFinalForm({ ...finalForm, [task_id]: { ...finalForm[task_id], duration: 0 } });
     }
   };
 
@@ -108,8 +116,6 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
       });
     }
     setCropDurations(mutatingCropDuration);
-    console.log('handleCropChange: resetCropDuration')
-    console.log(mutatingFinalForm)
     setFinalForm(mutatingFinalForm);
   };
 
@@ -120,8 +126,6 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
     for (let option of selectedOption) {
       mutatingFinalForm[task_id].val.push({ id: option.value });
     }
-    console.log('handleFieldChange:')
-    console.log(mutatingFinalForm)
     setFinalForm(mutatingFinalForm);
   };
 
@@ -155,9 +159,9 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
       }
       setDefaultFields(mutatingDefaultFields);
     }
-  }
+  };
 
-  const toggleCropOrField = (task_id, type) =>  {
+  const toggleCropOrField = (task_id, type) => {
     if (type === 'crop') {
       let containerDiv = document.getElementById(task_id);
       let cropDiv = document.getElementById('crop' + task_id);
@@ -173,7 +177,7 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
         fieldDiv.style.display = 'flex';
       }
     }
-  }
+  };
 
   const toggleBack = (task_id, type) => {
     let containerDiv = document.getElementById(task_id);
@@ -195,10 +199,8 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
       mutatingCropDurations[task_id] = [];
     }
     setCropDurations(mutatingCropDurations);
-    console.log('toggleBack: ')
-    console.log(mutatingFinalForm)
     setFinalForm(mutatingFinalForm);
-  }
+  };
 
   const toggleCropTimeMethod = (task_id, is_total, total = 0) => {
     let cropTotalTimeDiv = document.getElementById('allduration-' + task_id);
@@ -226,7 +228,7 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
       indy_id_btn.className = 'duration-btn-selected';
       all_id_btn.className = 'duration-btn-unselected';
     }
-  }
+  };
 
   const cropTotalTimeAssign = (duration, task_id) => {
     if (cropDurations.hasOwnProperty(task_id)) {
@@ -250,25 +252,29 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
     setShowEdit(true);
   };
 
-  const finishOrIndicateMood = () =>  {
+  const finishOrIndicateMood = () => {
     if (indicateMood) {
       openEditModal();
     } else {
       onNext();
     }
-  }
+  };
 
   return (
-    <TitleLayout onGoBack={onGoBack} title={t('SHIFT.NEW_SHIFT.STEP_TWO')} buttonGroup={<>
-      <Button onClick={onGoBack} color={'secondary'} fullLength>
-        {t('common:BACK')}
-      </Button>
-      <Button type={'submit'}  fullLength onClick={finishOrIndicateMood}>
-         { indicateMood ? t('common:NEXT') : t('common:FINISH')}
-      </Button>
-    </>}
+    <TitleLayout
+      onGoBack={onGoBack}
+      title={t('SHIFT.NEW_SHIFT.STEP_TWO')}
+      buttonGroup={
+        <>
+          <Button onClick={onGoBack} color={'secondary'} fullLength>
+            {t('common:BACK')}
+          </Button>
+          <Button type={'submit'} fullLength onClick={finishOrIndicateMood}>
+            {indicateMood ? t('common:NEXT') : t('common:FINISH')}
+          </Button>
+        </>
+      }
     >
-
       {selectedTasks.map((task) => (
         <InputDuration
           key={task.task_id}
@@ -280,23 +286,38 @@ function PureStepTwo({onGoBack, onNext, indicateMood, finalForm, setFinalForm, c
           isRatingEnabled={indicateMood}
           toggleCropOrField={toggleCropOrField}
           task={task}
-          state={{defaultFields, defaultCrops, cropOptions, fieldOptions }}
+          state={{ defaultFields, defaultCrops, cropOptions, fieldOptions }}
           toggleBack={toggleBack}
           toggleCropTimeMethod={toggleCropTimeMethod}
           cropTotalTimeAssign={cropTotalTimeAssign}
           resetCropDuration={resetCropDuration}
         />
       ))}
-      <MoodPopup showEditModal={showEdit} closeEditModal={() => setShowEdit(false)} finish={onNext}
-                 setMood={setMood} mood={mood}/>
+      <MoodPopup
+        showEditModal={showEdit}
+        closeEditModal={() => setShowEdit(false)}
+        finish={onNext}
+        setMood={setMood}
+        mood={mood}
+      />
     </TitleLayout>
-  )
+  );
 }
 
-function InputDuration({ task, cropDurations, toggleCropOrField,
-                         addAll, toggleBack, handleCropChange, toggleCropTimeMethod,
-                         changeDuration, handleFieldChange, state,
-                         cropTotalTimeAssign, resetCropDuration}) {
+function InputDuration({
+  task,
+  cropDurations,
+  toggleCropOrField,
+  addAll,
+  toggleBack,
+  handleCropChange,
+  toggleCropTimeMethod,
+  changeDuration,
+  handleFieldChange,
+  state,
+  cropTotalTimeAssign,
+  resetCropDuration,
+}) {
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
@@ -518,7 +539,7 @@ function InputDuration({ task, cropDurations, toggleCropOrField,
   );
 }
 
-function MoodPopup({closeEditModal, showEditModal, mood, setMood, finish}) {
+function MoodPopup({ closeEditModal, showEditModal, mood, setMood, finish }) {
   const { t } = useTranslation();
   return (
     <Popup
@@ -529,7 +550,7 @@ function MoodPopup({closeEditModal, showEditModal, mood, setMood, finish}) {
         display: 'flex',
         width: '100%',
         height: '100vh',
-        overflowY:'auto',
+        overflowY: 'auto',
         padding: '0 5%',
       }}
       overlayStyle={{ zIndex: '1060', height: '100vh' }}
@@ -552,19 +573,39 @@ function MoodPopup({closeEditModal, showEditModal, mood, setMood, finish}) {
           }}
         >
           <div className={styles2.matrixContainer}>
-            <MoodFace currentMood={mood} face={'😃'} mood={'happy'} setMood={() => setMood('happy')}>
+            <MoodFace
+              currentMood={mood}
+              face={'😃'}
+              mood={'happy'}
+              setMood={() => setMood('happy')}
+            >
               {t('SHIFT.EDIT_SHIFT.HAPPY')}
             </MoodFace>
-            <MoodFace currentMood={mood} face={'😆'} mood={'very happy'} setMood={() => setMood('very happy')}>
+            <MoodFace
+              currentMood={mood}
+              face={'😆'}
+              mood={'very happy'}
+              setMood={() => setMood('very happy')}
+            >
               {t('SHIFT.EDIT_SHIFT.VERY_HAPPY')}
             </MoodFace>
-            <MoodFace currentMood={mood} face={'😕'} mood={'neutral'} setMood={() => setMood('neutral')}>
+            <MoodFace
+              currentMood={mood}
+              face={'😕'}
+              mood={'neutral'}
+              setMood={() => setMood('neutral')}
+            >
               {t('SHIFT.EDIT_SHIFT.NEUTRAL')}
             </MoodFace>
             <MoodFace currentMood={mood} face={'😢'} mood={'sad'} setMood={() => setMood('sad')}>
               {t('SHIFT.EDIT_SHIFT.SAD')}
             </MoodFace>
-            <MoodFace currentMood={mood} face={'😭'} mood={'very sad'} setMood={() => setMood('very sad')}>
+            <MoodFace
+              currentMood={mood}
+              face={'😭'}
+              mood={'very sad'}
+              setMood={() => setMood('very sad')}
+            >
               {t('SHIFT.EDIT_SHIFT.VERY_SAD')}
             </MoodFace>
             <MoodFace currentMood={mood} face={'🤭'} mood={'na'} setMood={() => setMood('na')}>
@@ -577,10 +618,10 @@ function MoodPopup({closeEditModal, showEditModal, mood, setMood, finish}) {
         </div>
       </div>
     </Popup>
-  )
+  );
 }
 
-function MoodFace({ mood, currentMood, face, setMood, children}) {
+function MoodFace({ mood, currentMood, face, setMood, children }) {
   return (
     <div className={styles2.matrixItem} onClick={setMood}>
       <div className={styles.moodContainer}>
@@ -590,7 +631,7 @@ function MoodFace({ mood, currentMood, face, setMood, children}) {
       </div>
       <p>{children}</p>
     </div>
-  )
+  );
 }
 
 export default PureStepTwo;

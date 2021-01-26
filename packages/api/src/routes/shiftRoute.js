@@ -54,8 +54,5 @@ router.get('/farm/:farm_id',
   checkScope(['get:shifts']),
   ShiftController.getShiftByFarmID());
 
-function isMyShiftOrPermitted(req, res, next) {
-
-}
 
 module.exports = router;

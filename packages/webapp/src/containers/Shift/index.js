@@ -30,13 +30,12 @@ import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops, getFields } from '../saga';
-import { getDurationString } from "../../util";
-import clsx from "clsx";
+import { getDurationString } from '../../util';
+import clsx from 'clsx';
 
 class Shift extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.users)
     this.state = {
       startDate: moment().startOf('year'),
       endDate: moment().endOf('year'),

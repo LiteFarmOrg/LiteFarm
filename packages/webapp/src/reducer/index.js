@@ -110,7 +110,6 @@ const entitiesReducer = combineReducers({
   fieldReducer,
   cropReducer,
   fieldCropReducer,
-  shiftStepReducer,
   weatherReducer,
 });
 
@@ -120,6 +119,7 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
+  shiftStepReducer,
 });
 
 // combine all reducers here and pass it to application

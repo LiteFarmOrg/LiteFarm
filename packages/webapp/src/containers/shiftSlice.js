@@ -22,8 +22,8 @@ const shiftStepReducer = createSlice({
 export const { stepOneData } = shiftStepReducer.actions;
 export default shiftStepReducer.reducer;
 export const stepOneSelector = (state) => ({
-    worker: state?.entitiesReducer[shiftStepReducer.name].worker,
-    shift_date: state?.entitiesReducer[shiftStepReducer.name].shift_date,
-    selectedTasks: state?.entitiesReducer[shiftStepReducer.name].selectedTasks
+  worker: state?.tempStateReducer[shiftStepReducer.name].worker,
+  shift_date: state?.tempStateReducer[shiftStepReducer.name].shift_date,
+  selectedTasks: state?.tempStateReducer[shiftStepReducer.name].selectedTasks,
 });
-export const shiftReducerSelector = (state) => state?.entitiesReducer[shiftStepReducer.name];
+export const shiftReducerSelector = (state) => state?.tempStateReducer[shiftStepReducer.name];

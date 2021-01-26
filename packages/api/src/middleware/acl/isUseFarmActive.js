@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
+ *  This file (authFarmId.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -12,24 +12,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
+const userFarmModel = require('../../models/userFarmModel');
 
-.bottomContainer {
-  width: 100%;
-  left: 0;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-weight: 600;
-  align-items: center;
-  padding: 10px 5%;
-  background: white;
-  box-shadow: 0 -5px 5px -5px #333;
-  border-radius: 10px;
+async function isUserFarmActive(req, res, next) {
+  const { user_id, farm_id } = req.headers;
+  const userFarm = await userFarmModel.query().where({ user_id, farm_id }).first();
+  return userFarm && userFarm.status === 'Active' ? next() : res.status(403).send('Do not have access to this farm');
 }
 
-.cancelButton {
-  font-size: 20px;
-  color: #4d4d4d;
-}
+module.exports = isUserFarmActive;

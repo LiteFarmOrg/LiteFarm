@@ -42,6 +42,7 @@ import supportSaga from './containers/Help/saga';
 import certifierSurveySaga from './containers/OrganicCertifierSurvey/saga';
 import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
+import inviteUserSaga from './containers/InviteUser/saga';
 import { Provider } from 'react-redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -121,6 +122,7 @@ sagaMiddleware.run(supportSaga);
 sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
 sagaMiddleware.run(weatherSaga);
+sagaMiddleware.run(inviteUserSaga);
 
 const persistor = persistStore(store);
 

@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (styles.scss) is part of LiteFarm.
+ *  This file (20200617081549_add_has_failed_to_data_schedule.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,23 +13,20 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.bottomContainer {
-  width: 100%;
-  left: 0;
-  position: fixed;
-  bottom: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-weight: 600;
-  align-items: center;
-  padding: 10px 5%;
-  background: white;
-  box-shadow: 0 -5px 5px -5px #333;
-  border-radius: 10px;
-}
-
-.cancelButton {
-  font-size: 20px;
-  color: #4d4d4d;
-}
+exports.up = function(knex) {
+    return Promise.all([
+      knex.schema.table('harvestUseType', (table) => {
+        table.uuid('farm_id').defaultTo(null);
+      }),
+    ])
+  };
+  
+  exports.down = function(knex) {
+    return Promise.all([
+      knex.schema.table('harvestUseType', (table) => {
+        table.dropColumn('farm_id');
+      }),
+    ])
+  };
+  
+  

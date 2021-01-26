@@ -24,8 +24,6 @@ jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
 
-const harvestUseTypeModel = require('../src/models/harvestUseTypeModel');
-
 describe('harvestUseType Tests', () => {
   let middleware;
   let owner;

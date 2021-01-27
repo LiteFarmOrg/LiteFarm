@@ -1,12 +1,25 @@
-import Popup from "reactjs-popup";
-import styles from "./styles.scss";
-import closeButton from "../../../assets/images/grey_close_button.png";
-import Button from "../../Form/Button";
-import React from "react";
-import { useTranslation } from "react-i18next";
+import Popup from 'reactjs-popup';
+import styles from './styles.scss';
+import closeButton from '../../../assets/images/grey_close_button.png';
+import Button from '../../Form/Button';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-function PureAddTaskModal({showModal, switchShowModal, customTaskName, addCustomTask}) {
+function PureAddTaskModal({ showModal, switchShowModal, addTaskType, showTaskRequiredError }) {
   const { t } = useTranslation();
+  const [taskName, setTaskName] = useState('');
+
+  const addCustomTask = () => {
+    if (taskName !== '') {
+      addTaskType(taskName);
+      switchShowModal(false);
+    } else showTaskRequiredError();
+  };
+
+  const customTaskName = (event) => {
+    const value = event.target.value;
+    setTaskName(value);
+  };
   return (
     <Popup
       open={showModal}
@@ -39,7 +52,6 @@ function PureAddTaskModal({showModal, switchShowModal, customTaskName, addCustom
       </div>
     </Popup>
   );
-
 }
 
 export default PureAddTaskModal;

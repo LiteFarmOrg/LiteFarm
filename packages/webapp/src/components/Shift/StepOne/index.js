@@ -20,9 +20,19 @@ import WashImg from '../../../assets/images/log/wash.svg';
 import WeedImg from '../../../assets/images/log/weed.svg';
 import OtherImg from '../../../assets/images/log/other.svg';
 import { Semibold, Text } from '../../Typography';
-import AddTaskModal from "../../../containers/Shift/AddTaskModal";
+import AddTaskModal from '../../../components/Shift/AddTaskModal';
 
-function PureStepOne({ onGoBack, onNext, workers, defaultWorker, farm, taskTypes, defaultData }) {
+function PureStepOne({
+  onGoBack,
+  onNext,
+  workers,
+  defaultWorker,
+  farm,
+  taskTypes,
+  defaultData,
+  addTaskType,
+  showTaskRequiredError,
+}) {
   const { t } = useTranslation();
   let workerOptions = workers.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
@@ -94,7 +104,12 @@ function PureStepOne({ onGoBack, onNext, workers, defaultWorker, farm, taskTypes
         defaultValue={defaultWorker}
       />
       <Semibold>What tasks did you do today?</Semibold>
-      <TaskTypeMatrix t={t} selected={selectedTasks} setTasks={setSelectedTask} taskTypes={taskTypes} />
+      <TaskTypeMatrix
+        t={t}
+        selected={selectedTasks}
+        setTasks={setSelectedTask}
+        taskTypes={taskTypes}
+      />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
         <div className={styles.buttonContainer}>
           <Button color={'secondary'} onClick={() => switchShowModal(true)}>
@@ -102,11 +117,15 @@ function PureStepOne({ onGoBack, onNext, workers, defaultWorker, farm, taskTypes
           </Button>
         </div>
       )}
-      <AddTaskModal showModal={showAddModal} switchShowModal={switchShowModal} />
+      <AddTaskModal
+        showModal={showAddModal}
+        switchShowModal={switchShowModal}
+        addTaskType={addTaskType}
+        showTaskRequiredError={showTaskRequiredError}
+      />
     </TitleLayout>
   );
 }
-
 
 function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
   const { t } = useTranslation();

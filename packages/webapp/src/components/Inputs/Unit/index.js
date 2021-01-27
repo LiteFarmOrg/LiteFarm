@@ -13,7 +13,16 @@ class Unit extends React.Component {
   }
 
   render() {
-    const { model, title, dropdown, options, type, validate, hideLabel } = this.props;
+    const {
+      model,
+      title,
+      dropdown,
+      options,
+      type,
+      validate,
+      hideLabel,
+      isHarvestAllocation,
+    } = this.props;
     let showLabel;
     if (!hideLabel) {
       showLabel = true;
@@ -22,7 +31,10 @@ class Unit extends React.Component {
     }
 
     return (
-      <div className={styles.textContainer}>
+      <div
+        style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '1.8rem' }}
+        className={styles.textContainer}
+      >
         {showLabel && <label>{title}</label>}
         {dropdown && (
           <>
@@ -66,8 +78,9 @@ class Unit extends React.Component {
                 validators={{ positive: this.isPositive }}
                 parser={this.parseNumber}
               />
-              {type}
             </div>
+            <div className={styles.typeUnit}>{type}</div>
+
             <Errors
               className="required"
               model={model}
@@ -92,8 +105,17 @@ class Unit extends React.Component {
                 }}
                 parser={this.parseNumber}
               />
-              {type}
+              <div
+                style={
+                  isHarvestAllocation
+                    ? { marginLeft: '-40px', marginTop: '6px', color: '#9FAABE' }
+                    : {}
+                }
+              >
+                {type}
+              </div>
             </div>
+
             <Errors
               className="required"
               model={model}

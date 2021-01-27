@@ -78,6 +78,15 @@
       "EDIT": "MISSING"
     }
   },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "MISSING",
+      "GET_TYPES": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "MISSING"
+    }
+  },
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "MISSING"

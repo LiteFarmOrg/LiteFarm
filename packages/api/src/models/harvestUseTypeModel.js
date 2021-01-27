@@ -23,17 +23,20 @@ class HarvestUseType extends Model {
   static get idColumn() {
     return 'harvest_use_type_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['harvest_use_type_name'],
+      required: [ 'harvest_use_type_name' ],
 
       properties: {
         harvest_use_type_id: { type: 'integer' },
         harvest_use_type_name: { type: 'string' },
+        farm_id: { type: 'string' },
+        harvest_use_type_translation_key: { type: 'string' },
       },
       additionalProperties: false,
     };
@@ -42,20 +45,20 @@ class HarvestUseType extends Model {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      
-      harvestLog:{
-        
-        modelClass:require('./harvestLogModel'),
-        relation:Model.ManyToManyRelation,
-        
-        join:{
+
+      harvestLog: {
+
+        modelClass: require('./harvestLogModel'),
+        relation: Model.ManyToManyRelation,
+
+        join: {
           from: 'harvestUseType.harvest_use_type_id',
           through: {
             modelClass: require('./harvestUseModel'),
             from: 'harvestUse.activity_id',
             to: 'harvestUse.harvest_use_type_id',
           },
-          
+
           to: 'harvestLog.activity_id',
         },
 

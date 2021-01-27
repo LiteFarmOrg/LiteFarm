@@ -29,7 +29,7 @@ class HarvestUse extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['harvest_use_id', 'activity_id', 'harvest_use_type_id', 'quantity_kg'],
+      required: ['activity_id', 'harvest_use_type_id', 'quantity_kg'],
 
       properties: {
         harvest_use_id: { type: 'integer' },

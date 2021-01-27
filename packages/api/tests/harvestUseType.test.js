@@ -24,8 +24,6 @@ jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
 
-const harvestUseTypeModel = require('../src/models/harvestUseTypeModel');
-
 describe('harvestUseType Tests', () => {
   let middleware;
   let owner;
@@ -84,6 +82,7 @@ describe('harvestUseType Tests', () => {
     let manager;
     let unAuthorizedUser;
     let farmunAuthorizedUser;
+   
 
     beforeEach(async () => {
       [worker] = await mocks.usersFactory();
@@ -102,6 +101,8 @@ describe('harvestUseType Tests', () => {
       let worker;
       let manager;
       let unAuthorizedUser;
+      let defaultState;
+      let customUseType;
 
       beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
@@ -113,38 +114,27 @@ describe('harvestUseType Tests', () => {
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({ promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] }, fakeUserFarm(1));
+        defaultState = await mocks.createDefaultState();
+        [customUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: farm });
       })
 
       test('Owner should get harvestUseType by farm id', async (done) => {
         getHarvestUseTypeByFarmID({ user_id: newOwner.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.length).toBe(9);
-          expect(res.body[0].harvest_use_type_name).toBe('Sales');
-          expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
-          expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
-          expect(res.body[3].harvest_use_type_name).toBe('Compost');
-          expect(res.body[4].harvest_use_type_name).toBe('Gift');
-          expect(res.body[5].harvest_use_type_name).toBe('Exchange');
-          expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
-          expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[8].harvest_use_type_name).toBe('Other');
+          for (let item of defaultState) {
+            expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
+          }
           done();
         });
+
       })
 
       test('Manager should get harvestUseType by farm id', async (done) => {
         getHarvestUseTypeByFarmID({ user_id: manager.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.length).toBe(9);
-          expect(res.body[0].harvest_use_type_name).toBe('Sales');
-          expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
-          expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
-          expect(res.body[3].harvest_use_type_name).toBe('Compost');
-          expect(res.body[4].harvest_use_type_name).toBe('Gift');
-          expect(res.body[5].harvest_use_type_name).toBe('Exchange');
-          expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
-          expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[8].harvest_use_type_name).toBe('Other');
+          for (let item of defaultState) {
+            expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
+          }
           done();
         });
       })
@@ -152,16 +142,9 @@ describe('harvestUseType Tests', () => {
       test('Worker should get harvestUseType by farm id', async (done) => {
         getHarvestUseTypeByFarmID({ user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(200);
-          // expect(res.body.length).toBe(9);
-          expect(res.body[0].harvest_use_type_name).toBe('Sales');
-          expect(res.body[1].harvest_use_type_name).toBe('Self-Consumption');
-          expect(res.body[2].harvest_use_type_name).toBe('Animal Feed');
-          expect(res.body[3].harvest_use_type_name).toBe('Compost');
-          expect(res.body[4].harvest_use_type_name).toBe('Gift');
-          expect(res.body[5].harvest_use_type_name).toBe('Exchange');
-          expect(res.body[6].harvest_use_type_name).toBe('Saved for seed');
-          expect(res.body[7].harvest_use_type_name).toBe('Not Sure');
-          expect(res.body[8].harvest_use_type_name).toBe('Other');
+          for (let item of defaultState) {
+            expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
+          }
           done();
         });
       })
@@ -179,6 +162,8 @@ describe('harvestUseType Tests', () => {
       let worker;
       let manager;
       let unAuthorizedUser;
+      let fakeHarvestUseType;
+      let existingCustomUseType;
 
       beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
@@ -190,32 +175,52 @@ describe('harvestUseType Tests', () => {
         [unAuthorizedUser] = await mocks.usersFactory();
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({ promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] }, fakeUserFarm(1));
+        fakeHarvestUseType = mocks.fakeHarvestUseType();
+        [existingCustomUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: farm });
       })
 
       test('Owner should add harvestUseType', async (done) => {
-        addHarvestUseType({ name: "owner test harvest use type" }, { user_id: newOwner.user_id }, (err, res) => {
+        addHarvestUseType({ name: fakeHarvestUseType.harvest_use_type_name }, { user_id: newOwner.user_id }, (err, res) => {
           expect(res.status).toBe(201);
+          expect(res.body.harvest_use_type_name).toBe(fakeHarvestUseType.harvest_use_type_name);
+          expect(res.body.farm_id).toBe(farm.farm_id);
           done();
         });
       })
 
       test('Manager should add harvestUseType', async (done) => {
-        addHarvestUseType({ name: "manager test harvest use type" }, { user_id: manager.user_id }, (err, res) => {
+        addHarvestUseType({ name: fakeHarvestUseType.harvest_use_type_name }, { user_id: manager.user_id }, (err, res) => {
           expect(res.status).toBe(201);
+          expect(res.body.harvest_use_type_name).toBe(fakeHarvestUseType.harvest_use_type_name);
+          expect(res.body.farm_id).toBe(farm.farm_id);
           done();
         });
       })
 
       test('Worker should not add harvestUseType', async (done) => {
-        addHarvestUseType({ name: "worker test harvest use type" }, { user_id: worker.user_id }, (err, res) => {
+        addHarvestUseType({ name: fakeHarvestUseType.harvest_use_type_name }, { user_id: worker.user_id }, (err, res) => {
           expect(res.status).toBe(403);
           done();
         });
       })
 
       test('Unauthorized user should not add harvestUseType', async (done) => {
-        addHarvestUseType({ name: "unauthorized test harvest use type" }, { user_id: unAuthorizedUser.user_id }, (err, res) => {
+        addHarvestUseType({ name: fakeHarvestUseType.harvest_use_type_name }, { user_id: unAuthorizedUser.user_id }, (err, res) => {
           expect(res.status).toBe(403);
+          done();
+        });
+      })
+
+      test('Owner should fail to add duplicate harvestUseType', async (done) => {
+        addHarvestUseType({ name: existingCustomUseType.harvest_use_type_name }, { user_id: newOwner.user_id }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+      })
+
+      test('Manager should fail to add duplicate harvestUseType', async (done) => {
+        addHarvestUseType({ name: existingCustomUseType.harvest_use_type_name }, { user_id: manager.user_id }, (err, res) => {
+          expect(res.status).toBe(400);
           done();
         });
       })

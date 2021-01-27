@@ -13,19 +13,19 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = async function(knex) {
-    return Promise.all([
-  
-      knex.schema.createTable('harvestUseType', function (table) {
-        table.increments('harvest_use_type_id');
-        table.string('harvest_use_type_name').notNullable();
-      }),
-    ])
-  };
-  
-  exports.down = function(knex) {
-    //remove all the tables
-    return Promise.all([
-      knex.schema.dropTable('harvestUseType'),
-    ])
-  };
+exports.up = async function (knex) {
+  return Promise.all([
+
+    knex.schema.createTable('harvestUseType', function (table) {
+      table.increments('harvest_use_type_id');
+      table.string('harvest_use_type_name').notNullable();
+    }),
+  ])
+};
+
+exports.down = function (knex) {
+  //remove all the tables
+  return Promise.all([
+    knex.schema.dropTable('harvestUseType'),
+  ])
+};

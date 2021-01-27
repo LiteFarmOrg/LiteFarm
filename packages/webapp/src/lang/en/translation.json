@@ -228,7 +228,19 @@
   },
   "LOG_HARVEST": {
     "HARVEST_QUANTITY": "Harvest Quantity",
-    "TITLE": "Harvest Log (step 1)"
+    "QUANTITY": "Quantity",
+    "HARVEST_USE": "Harvest Use",
+    "TITLE": "Harvest Log (step 1)",
+    "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
+    "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
+    "ADD_CUSTOM_USE_TYPE": "Add custom use",
+    "HARVEST_ALLOCATION_TITLE": "Harvest Log (step 3)",
+    "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate",
+    "ADD_CUSTOM_TYPE": {
+      "TITLE": "Add a harvest use",
+      "INPUT_LABEL": "Name of the custom harvest use"
+    }
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",
@@ -511,6 +523,7 @@
       "ASSIGN_TIME_TO_TASK": "Assign time to task by",
       "BREAK_DURATION": "Break Duration",
       "CHOOSE_DATE": "Choose a Date",
+      "CHOOSE_WORKERS": "Choose worker",
       "CROPS_ON_THIS_FARM": "Crops on this farm",
       "CROPS_ON_YOUR_FARM": "Crops on your farm",
       "DURATION": "Duration",
@@ -549,9 +562,14 @@
       "TASK": "Task",
       "TITLE": "My Shift"
     },
+    "NEW_SHIFT": {
+      "STEP_ONE": "New Shift (Step 1)",
+      "STEP_TWO": "New Shift (Step 2)",
+      "WHAT_TASKS_RECORD": "What tasks would you like to record?"
+    },
     "NAME": "Name",
     "SHIFT_HISTORY": "Shift History",
-    "START_TIME": "Start Time",
+    "SHIFT_DATE": "Date",
     "TITLE": "Shifts",
     "TO": "To"
   },
@@ -608,7 +626,8 @@
   "EXPIRED_TOKEN": {
     "INVITATION": "MISSING",
     "DEFAULT": "MISSING",
-    "RESET_PASSWORD": "MISSING"
+    "RESET_PASSWORD": "This link has expired.",
+    "RESET_PASSWORD_LINK": "Send new password link."
   },
   "WEATHER": {
     "WIND": "Wind",

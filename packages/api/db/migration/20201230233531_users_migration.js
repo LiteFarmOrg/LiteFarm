@@ -15,7 +15,6 @@ exports.up = function (knex) {
   }).then(() => {
     // Evaluating users WITHOUT userfarms
     return knex.raw('SELECT user_id FROM users u WHERE user_id NOT IN (SELECT user_id FROM "userFarm" WHERE user_id = u.user_id)').then(({ rows: users }) => {
-      console.log(users);
       const active = users.filter(({ user_id }) => /^\d+$/.test(user_id)).map(({ user_id }) => user_id);
       const legacy = users.filter(({ user_id }) => !active.includes(user_id)).map(({ user_id }) => user_id);
       return Promise.all([

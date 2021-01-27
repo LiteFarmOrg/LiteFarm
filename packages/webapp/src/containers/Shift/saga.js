@@ -78,7 +78,6 @@ export function* addShift(action) {
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
-    shiftObj.tasks.forEach((t) => (t.task_id = Number(t.task_id)));
     const result = yield call(
       axios.post,
       shiftUrl,

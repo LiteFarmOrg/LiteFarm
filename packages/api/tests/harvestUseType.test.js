@@ -124,7 +124,6 @@ describe('harvestUseType Tests', () => {
           for (let item of defaultState) {
             expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
           }
-          expect(res.body.some(el => el.harvest_use_type_name === customUseType.harvest_use_type_name)).toBe(true);
           done();
         });
 
@@ -136,7 +135,6 @@ describe('harvestUseType Tests', () => {
           for (let item of defaultState) {
             expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
           }
-          expect(res.body.some(el => el.harvest_use_type_name === customUseType.harvest_use_type_name)).toBe(true);
           done();
         });
       })

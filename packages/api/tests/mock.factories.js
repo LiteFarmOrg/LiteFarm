@@ -402,6 +402,21 @@ function fakeHarvestUseType() {
     }
 }
 
+async function harvestUseFactory({promisedHarvestUseType = harvestUseTypeFactory()} = {}, harvestUse = fakeHarvestUse()) {
+  console.log("promisedHarvestUseType")
+  console.log(promisedHarvestUseType)
+  // const {harvest_use_type_id, harvest_use_type_name}
+  console.log("harvestUse")
+  console.log(harvestUse)
+  return knex('harvestUse').insert({ farm_id, ...harvestUseType }).returning('*');
+}
+
+function fakeHarvestUse() {
+    return {
+      quantity_kg: faker.random.number(200),
+    }
+}
+
 async function createDefaultState() {
   const useTypes = [
     'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other'
@@ -739,6 +754,7 @@ module.exports = {
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
   createDefaultState,
+  harvestUseFactory, fakeHarvestUse,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

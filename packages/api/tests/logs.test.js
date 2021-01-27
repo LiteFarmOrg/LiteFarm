@@ -2487,7 +2487,7 @@ describe('Log Tests', () => {
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
         [fakeHarvestUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: [farm] });
-        [harvestUseFactory] = await mocks.harvestUseFactory({ promisedHarvestUseType: fakeHarvestUseType });
+        // [harvestUseFactory] = await mocks.harvestUseFactory({ promisedHarvestUseType: fakeHarvestUseType });
         fakeHarvestUse = mocks.fakeHarvestUse();
         fakeHarvestUseType.quantity = fakeHarvestUse.quantity_kg;
 

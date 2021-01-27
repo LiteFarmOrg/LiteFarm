@@ -124,6 +124,7 @@ class logController extends baseController {
         const harvest_use_type = {
           farm_id,
           harvest_use_type_name: name,
+          harvest_use_type_translation_key: name,
         }
         const result = await baseController.post(HarvestUseTypeModel, harvest_use_type, trx);
         await trx.commit();

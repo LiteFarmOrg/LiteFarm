@@ -625,7 +625,8 @@
   "EXPIRED_TOKEN": {
     "INVITATION": "MISSING",
     "DEFAULT": "MISSING",
-    "RESET_PASSWORD": "MISSING"
+    "RESET_PASSWORD": "This link has expired.",
+    "RESET_PASSWORD_LINK": "Send new password link."
   },
   "WEATHER": {
     "WIND": "Wind",

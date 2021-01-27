@@ -31,7 +31,7 @@ const fieldCrop = require('../models/fieldCropModel');
 const HarvestLog = require('../models/harvestLogModel');
 const field = require('../models/fieldModel');
 const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
-const HarvestUseModel = require('../models/HarvestUseModel');
+const HarvestUseModel = require('../models/harvestUseModel');
 
 class logController extends baseController {
   static addLog() {

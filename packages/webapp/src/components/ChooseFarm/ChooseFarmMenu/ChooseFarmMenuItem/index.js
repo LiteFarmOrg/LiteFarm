@@ -10,7 +10,6 @@ const ChooseFarmMenuItem = ({
   ownerName,
   farmName = 'Farm name',
   address,
-  coordinate,
   style,
   onClick,
   ...props

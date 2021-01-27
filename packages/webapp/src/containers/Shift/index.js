@@ -50,7 +50,6 @@ class Shift extends Component {
     dispatch(getFields());
     dispatch(getTaskTypes());
     dispatch(getAllShifts());
-    //TODO: fix getShiftByUserEndPoint
 
     // if (users.role_id === 1 || users.role_id === 2 || users.role_id === 5) {
     //   dispatch(getAllShifts());

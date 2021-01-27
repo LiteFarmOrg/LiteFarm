@@ -90,8 +90,9 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         })}
         errors={errors[EMAIL] && t('INVITE_USER.INVALID_EMAIL_ERROR')}
         optional={selectedRoleId === 3}
+        info={t('INVITE_USER.EMAIL_INFO')}
+        style={{ marginBottom: '16px' }}
       />
-      <Info style={{ marginBottom: '16px' }}>{t('INVITE_USER.EMAIL_INFO')}</Info>
       <Controller
         control={control}
         name={GENDER}

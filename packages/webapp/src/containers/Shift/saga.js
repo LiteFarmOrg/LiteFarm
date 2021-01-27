@@ -28,7 +28,7 @@ import {
 import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
-import { loginSelector } from '../userFarmSlice';
+import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import i18n from '../../lang/i18n';
 
@@ -113,13 +113,13 @@ export function* addMultiShiftSaga(action) {
 
 export function* getShiftsSaga() {
   const { shiftUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
+  let { user_id, farm_id, first_name, last_name } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, shiftUrl + '/user/' + user_id, header);
     if (result) {
-      yield put(setShifts(result.data));
+      yield put(setShifts(result.data.map((shift) => ({ ...shift, first_name, last_name }))));
     }
   } catch (e) {
     console.error('failed to fetch shifts from database');

@@ -17,6 +17,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { Semibold } from "../../../components/Typography";
 
 class LogDetail extends Component {
   constructor(props) {
@@ -382,7 +383,7 @@ class LogDetail extends Component {
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
                   <div>
-                    {this.props.t('LOG_HARVEST.HARVEST_QUANTITY')}({quantity_unit})
+                  {`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}
                   </div>
                   {quantity_unit === 'lb' && (
                     <span>
@@ -395,6 +396,30 @@ class LogDetail extends Component {
                     </span>
                   )}
                   {quantity_unit === 'kg' && <span>{selectedLog.harvestLog.quantity_kg}</span>}
+                </div>
+              </div>
+              <div className={styles.infoBlock}>
+                <div className={styles.harvestUseInfo}>
+                  <div className={styles.harvestUseHeader}>
+                    <div>{this.props.t('LOG_HARVEST.HARVEST_USE')}</div>
+                    <div>{`${this.props.t('LOG_HARVEST.QUANTITY')} (${quantity_unit})`}</div>
+                  </div>
+                  {selectedLog.harvestUse?.map((use) => (
+                    <div className={styles.harvestUseItem}>
+                      <Semibold style={{color: 'var(--teal900)'}}>{this.props.t(`harvest_uses:${use.harvestUseType.harvest_use_type_translation_key}`)}</Semibold>
+                      <div>
+                        <Semibold style={{color: 'var(--teal900)'}}>
+                          {quantity_unit === 'lb' ?
+                            convertFromMetric(
+                            use.quantity_kg,
+                            quantity_unit,
+                            'kg',
+                            false,
+                            ) :
+                            use.quantity_kg}
+                        </Semibold></div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

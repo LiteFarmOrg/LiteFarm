@@ -618,3 +618,26 @@ input:disabled {
   font-size: 18px;
   text-align: left;
 }
+
+.harvestUseInfo {
+  padding: 0.5em 5% 0.5em 5%;
+  width: 100%;
+  border-bottom: 1px solid #979797;
+  display: block;
+  font-size: 18px;
+  color: var(--typePrimary);
+  span {
+    color: var(--typeAction);
+  }
+}
+
+.harvestUseHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.harvestUseItem {
+  display: flex;
+  justify-content: space-between;
+}

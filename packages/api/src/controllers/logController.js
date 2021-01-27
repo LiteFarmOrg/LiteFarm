@@ -30,6 +30,7 @@ const SeedLog = require('../models/seedLogModel');
 const fieldCrop = require('../models/fieldCropModel');
 const HarvestLog = require('../models/harvestLogModel');
 const field = require('../models/fieldModel');
+const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
 
 class logController extends baseController {
   static addLog() {
@@ -83,6 +84,49 @@ class logController extends baseController {
       }catch(exception){
         const error = ExceptionHandler.handleException(exception);
         res.status(error.status).json({ error:error.message });
+      }
+    }
+  }
+
+  static getHarvestUseTypesByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const rows = await HarvestUseTypeModel.query().where('farm_id', null).orWhere({farm_id});
+        if (!rows.length) {
+          res.sendStatus(404);
+        }
+        else {
+          res.status(200).send(rows);
+        }  
+      } catch (error) {
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
+
+  static addHarvestUseType() {
+    return async (req, res) => {
+      const { farm_id } = req.headers;
+      const { name } = req.body;
+      const trx = await transaction.start(Model.knex());
+      try {
+        const harvest_use_type = {
+          farm_id,
+          harvest_use_type_name: name,
+        }
+        const result = await baseController.post(HarvestUseTypeModel, harvest_use_type, trx);
+        await trx.commit();
+        res.status(201).send(result);
+      } catch (error) {
+        //handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
       }
     }
   }

@@ -19,24 +19,40 @@ import {
   UPDATE_FARM,
 } from './constants';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
-import { call, put, select, takeLatest, takeLeading, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeLeading, takeEvery, all } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl, url } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
-import { loginSelector, loginSuccess } from './userFarmSlice';
+import {
+  getUserFarmsSuccess,
+  loginSelector,
+  loginSuccess,
+  userFarmsByFarmSelector,
+  selectFarmSuccess,
+  acceptInvitationSuccess,
+} from './userFarmSlice';
 import { userFarmSelector, putUserSuccess, patchFarmSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { userLogReducerSelector, logUserInfoSuccess } from './userLogSlice';
 import { getFieldsSuccess, onLoadingFieldStart, onLoadingFieldFail } from './fieldSlice';
-import { getCropsSuccess, onLoadingCropFail, onLoadingCropStart } from './cropSlice';
+import {
+  getCropsSuccess,
+  onLoadingCropFail,
+  onLoadingCropStart,
+  getAllCropsSuccess,
+  cropStatusSelector,
+} from './cropSlice';
 import {
   getFieldCropsSuccess,
   onLoadingFieldCropFail,
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
 import i18n from '../lang/i18n';
+import { getLogs } from './Log/actions';
+import { getAllShifts, getShifts } from './Shift/actions';
+import { getExpense, getSales } from './Finances/actions';
 const logUserInfoUrl = () => `${url}/userLog`;
-
+const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
 const axios = require('axios');
 
 export function getHeader(user_id, farm_id) {
@@ -82,7 +98,7 @@ export function* getCropsSaga() {
   try {
     yield put(onLoadingCropStart());
     const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-    yield put(getCropsSuccess(result.data));
+    yield put(getAllCropsSuccess(result.data));
   } catch (e) {
     yield put(onLoadingCropFail());
     console.error('failed to fetch all crops from database');
@@ -209,6 +225,44 @@ export function* logUserInfoSaga() {
   }
 }
 
+export function* fetchAllSaga({ payload: userFarmIds }) {
+  try {
+    const farm_id = userFarmIds.farm_id;
+    const selectedUserFarmIds = yield select(loginSelector);
+    const user_id = userFarmIds.user_id || selectedUserFarmIds.user_id;
+
+    const header = getHeader(user_id, farm_id);
+    if (!user_id) return;
+
+    const tasks = [];
+    const onTaskSuccess = [];
+
+    const cropStatus = yield select(cropStatusSelector);
+    if (!cropStatus.loaded) {
+      tasks.push(call(axios.get, getCropsByFarmIdUrl(farm_id), header));
+      onTaskSuccess.push(getAllCropsSuccess);
+    }
+
+    tasks.push(call(axios.get, apiConfig.fieldURL + '/farm/' + farm_id, header));
+    onTaskSuccess.push(getFieldsSuccess);
+
+    tasks.push(call(axios.get, apiConfig.fieldCropURL + '/farm/' + farm_id, header));
+    onTaskSuccess.push(getFieldCropsSuccess);
+
+    const userFarms = yield select(userFarmsByFarmSelector);
+    if (userFarms?.length < 2) {
+      tasks.push(call(axios.get, userFarmUrl + '/farm/' + farm_id, header));
+      onTaskSuccess.push(getUserFarmsSuccess);
+    }
+
+    const responses = yield all(tasks);
+    yield all(responses.map((response, index) => put(onTaskSuccess[index](response.data))));
+    yield all([put(getLogs()), put(getAllShifts()), put(getSales()), put(getExpense())]);
+  } catch (e) {
+    console.error('failed to fetch farm info', e);
+  }
+}
+
 const formatDate = (currDate) => {
   const d = currDate;
   let year = d.getFullYear(),
@@ -283,5 +337,6 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFieldCropsByDate.type, getFieldCropsSaga);
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
+  yield takeLatest(selectFarmSuccess.type, fetchAllSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

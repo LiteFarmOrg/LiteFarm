@@ -54,6 +54,21 @@ class HarvestLog extends Model {
 
       },
 
+      harvestUseType:{
+        modelClass:require('./harvestUseTypeModel'),
+        relation:Model.ManyToManyRelation,
+        join:{
+          from: 'harvestLog.activity_id',
+          through: {
+            modelClass: require('./harvestUseModel'),
+            from: 'harvestUse.activity_id',
+            to: 'harvestUse.harvest_use_type_id',
+          },
+          to: 'harvestUseType.harvest_use_type_id',
+        },
+
+      },
+
     };
   }
 }

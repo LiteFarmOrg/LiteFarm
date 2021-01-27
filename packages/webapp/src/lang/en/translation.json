@@ -17,7 +17,8 @@
     "GENDER": "Gender",
     "BIRTH_YEAR": "Birth year",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed"
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -135,7 +136,27 @@
     "PASSWORD": "Password",
     "CREATE_ACCOUNT": "Create your account",
     "CREATE_NEW_ACCOUNT": "Create New Account",
-    "YOUR_INFORMATION": "Your information"
+    "YOUR_INFORMATION": "Your information",
+    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and"
+  },
+  "INVITE_USER": {
+    "TITLE": "Invite a user",
+    "FULL_NAME": "Full name",
+    "ROLE": "Role",
+    "CHOOSE_ROLE": "Choose Role",
+    "EMAIL": "Email",
+    "EMAIL_INFO": "Users without an email won't be able to login",
+    "GENDER": "Gender",
+    "BIRTH_YEAR": "Birth Year",
+    "WAGE": "Wage",
+    "PHONE": "Phone",
+    "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with personally identifying information removed",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with personally identifying information removed",
+    "INVITE": "Invite",
+    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
+    "PHONE_ERROR": "Please enter a valid phone number",
+    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
+    "INVALID_EMAIL_ERROR": "Please enter a valid email"
   },
   "LOG_COMMON": {
     "ACTION": "Action",
@@ -207,7 +228,7 @@
   },
   "LOG_HARVEST": {
     "HARVEST_QUANTITY": "Harvest Quantity",
-    "TITLE": "Harvest Log"
+    "TITLE": "Harvest Log (step 1)"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",
@@ -588,6 +609,10 @@
     "DEFAULT": "MISSING",
     "RESET_PASSWORD": "This link has expired.",
     "RESET_PASSWORD_LINK": "Send new password link."
+  },
+  "WEATHER": {
+    "WIND": "Wind",
+    "HUMIDITY": "Humidity"
   },
   "ADD_FARM": {
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",

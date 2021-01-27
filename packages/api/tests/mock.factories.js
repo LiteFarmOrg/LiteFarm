@@ -387,31 +387,35 @@ async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType =
 
 async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
   const [farm] = await Promise.all([promisedFarm, usersFactory()]);
-  const [{ farm_id }] = farm;
-  console.log(harvestUseType)
-  console.log(farm_id)
+  let farm_id;
+  if (farm.farm_id) {
+    [{ farm_id }] = farm;
+  }
+  else {
+    farm_id = null;
+
+  }
   return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
 }
 
 function fakeHarvestUseType() {
-  // console.log("enter fakeHarvestUseType")
-  // console.log(farm_id)
-  
     return {
       harvest_use_type_name: faker.lorem.words(),
     }
 }
 
-function createDefaultState() {
+async function createDefaultState() {
   const useTypes = [
     'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other'
   ]
-  useTypes.map((type) => {
+  const uses = await Promise.all(useTypes.map(async (type) => {
     let data = {
       harvest_use_type_name: type
     }
-    return data;
-  })
+    const [use] = await knex('harvestUseType').insert( data ).returning('*');
+    return use;
+  }));
+  return uses;
 }
 
 async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {
@@ -736,6 +740,7 @@ module.exports = {
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
+  createDefaultState,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

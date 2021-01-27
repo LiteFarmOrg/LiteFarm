@@ -30,6 +30,8 @@ import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops, getFields } from '../saga';
+import { getDurationString } from '../../util';
+import clsx from 'clsx';
 
 class Shift extends Component {
   constructor(props) {
@@ -112,7 +114,7 @@ class Shift extends Component {
         {
           id: 'date',
           Header: 'Date(Y-M-D)',
-          accessor: (d) => moment(d.start_time).format('YYYY-MM-DD'),
+          accessor: (d) => moment(d.shift_date).format('YYYY-MM-DD'),
           minWidth: 60,
         },
         {
@@ -123,7 +125,7 @@ class Shift extends Component {
             for (let task of d.tasks) {
               mins += task.duration;
             }
-            return (mins / 60).toFixed(2);
+            return getDurationString(mins);
           },
           minWidth: 40,
         },
@@ -133,7 +135,7 @@ class Shift extends Component {
           accessor: () => {
             return <BsCaretRight />;
           },
-          minWidth: 25,
+          minWidth: 20,
         },
       ]);
     }
@@ -175,7 +177,7 @@ class Shift extends Component {
                 />
               </div>
               <LocalForm model="logDates">
-                <span className={styles.pullLeft}>
+                <div className={clsx(styles.dateContainer, styles.pullLeft)}>
                   <label>{this.props.t('SHIFT.FROM')}</label>
                   <DateContainer
                     style={styles.date}
@@ -186,8 +188,8 @@ class Shift extends Component {
                       this.filterShifts();
                     }}
                   />
-                </span>
-                <span className={styles.pullRight}>
+                </div>
+                <div className={clsx(styles.dateContainer, styles.pullRight)}>
                   <label>{this.props.t('SHIFT.TO')}</label>
                   <DateContainer
                     style={styles.date}
@@ -198,7 +200,7 @@ class Shift extends Component {
                       this.filterShifts();
                     }}
                   />
-                </span>
+                </div>
               </LocalForm>
             </div>
           </div>

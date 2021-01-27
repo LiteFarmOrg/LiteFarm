@@ -571,9 +571,7 @@ async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift
 
 function fakeShift() {
   return {
-    start_time: faker.date.past(),
-    end_time: faker.date.future(),
-    break_duration: faker.random.number(10),
+    shift_date: new Date(),
     mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
     wage_at_moment: faker.random.number(20),
   };

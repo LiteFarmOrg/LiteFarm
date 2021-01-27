@@ -18,9 +18,7 @@ import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
 import { setSelectedUseTypes, addHarvestUseType } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm';
-import Popup from 'reactjs-popup';
 import { setAllHarvestUseTypesSelector } from '../selectors';
-import LogFooter from '../../../components/LogFooter';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -165,7 +163,6 @@ class HarvestUseType extends Component {
                   md={4}
                   className={styles.imgCol}
                   onClick={() => {
-                    console.log(type);
                     this.logClick(type);
                   }}
                 >

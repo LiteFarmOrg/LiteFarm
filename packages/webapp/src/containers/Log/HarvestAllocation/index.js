@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import { actions, Form } from 'react-redux-form';
-import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
 import { getUnit } from '../../../util';
@@ -12,7 +11,6 @@ import { getFieldCrops } from '../../saga';
 import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
 import { toastr } from 'react-redux-toastr';
 import { addLog } from '../Utility/actions';
-import { setSelectedUseTypes } from '../actions';
 import { userFarmSelector } from '../../userFarmSlice';
 
 class HarvestAllocation extends Component {

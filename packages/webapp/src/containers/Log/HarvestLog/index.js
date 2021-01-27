@@ -6,7 +6,6 @@ import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import { addLog } from '../Utility/actions';
 import { getHarvestUseTypes } from '../actions';
 import { convertToMetric, getUnit } from '../../../util';
 import parseCrops from '../Utility/parseCrops';
@@ -20,7 +19,6 @@ import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import { setFormData, setFormValue } from '../actions';
 import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
-import history from '../../../history';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -96,12 +94,7 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter
-            backButtonName={'Cancel'}
-            forwardButtonName={'Next'}
-            history={this.props.history}
-            backButtonClick={'/new_log'}
-          />
+          <LogFooter isHarvestLog={true} />
         </Form>
       </div>
     );

@@ -10,7 +10,7 @@ import { withTranslation } from 'react-i18next';
 import { getFieldCrops } from '../../saga';
 import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
 import { toastr } from 'react-redux-toastr';
-import { addLog } from '../Utility/actions';
+import { addLog, editLog } from '../Utility/actions';
 import { userFarmSelector } from '../../userFarmSlice';
 
 class HarvestAllocation extends Component {
@@ -42,10 +42,17 @@ class HarvestAllocation extends Component {
     let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
 
     if (sum !== Number(this.props.formData.quantity_kg)) {
-      console.log(sum, this.props.formData.quantity_kg)
       toastr.error('Total does not equal the amount to allocate');
     } else {
-      this.props.dispatch(addLog(this.props.formValue));
+      if (!!this.props.formValue?.activity_id) {
+        console.log(val);
+        console.log(this.props.formData);
+        this.props.dispatch(editLog(this.props.formValue));
+      } else {
+        console.log(val);
+        console.log(this.props.formData);
+        this.props.dispatch(addLog(this.props.formValue));
+      }
     }
   }
 
@@ -96,7 +103,7 @@ class HarvestAllocation extends Component {
               {this.props.t('common:BACK')}
             </div>
             <button className="btn btn-primary-round" disabled={this.state.disabled}>
-              {this.props.t('common:NEXT')}
+              {this.props.t('common:FINISH')}
             </button>
           </div>
         </Form>

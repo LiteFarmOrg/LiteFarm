@@ -99,7 +99,7 @@ class logController extends baseController {
         }
         else {
           res.status(200).send(rows);
-        }  
+        }
       } catch (error) {
         console.log(error)
         //handle more exceptions
@@ -227,28 +227,28 @@ class logServices extends baseController {
       .join('userFarm', 'userFarm.farm_id', '=', 'field.farm_id')
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
-    for(var log of logs){
+    for(let log of logs){
       // get fields and fieldCrops associated with log
       await log.$fetchGraph('fieldCrop.crop');
       await super.getRelated(log, field);
 
       // get related models for specialized logs
-      var logKind = getActivityModelKind(log.activity_kind);
+      const logKind = getActivityModelKind(log.activity_kind);
+      if (!logKind.isOther) {
+        await super.getRelated(log, logKind);
+      }
       if (logKind === HarvestLog) {
-        await super.getRelated(log, HarvestLog);
         await super.getRelated(log, HarvestUseModel);
-        for(var use of log.harvestUse) {
+        for(const use of log.harvestUse) {
           await super.getRelated(use, HarvestUseTypeModel);
         }
-      } else if (!logKind.isOther) {
-        await super.getRelated(log, logKind);
       }
     }
     return logs;
   }
 
   static async patchLog(logId, transaction, { body, user }){
-    var log = await super.getIndividual(ActivityLogModel, logId);
+    const log = await super.getIndividual(ActivityLogModel, logId);
     const user_id = user.user_id;
     const activityLog = await super.updateIndividualById(ActivityLogModel, logId, body, transaction, { user_id });
 
@@ -258,14 +258,25 @@ class logServices extends baseController {
     // TODO: Deprecate fields field in req.body
     await super.relateModels(activityLog, field, body.fields, transaction);
 
-    var logKind = getActivityModelKind(log[0].activity_kind);
+    const logKind = getActivityModelKind(log[0].activity_kind);
     if (!logKind.isOther) {
       await super.updateIndividualById(logKind, logId, body, transaction, { user_id })
     }
+    if(log[0].activity_kind === 'harvest') {
+      await HarvestUseModel.query().where({ activity_id: logId }).delete();
+      for(const use of body.selectedUseTypes) {
+        const data = {
+          activity_id: activityLog.activity_id,
+          harvest_use_type_id: use.harvest_use_type_id,
+          quantity_kg: use.quantity,
+        }
+        await super.post(HarvestUseModel, data, transaction)
+      }
+    }
   }
 
-  static async deleteLog(logId, trasnaction){
-    await super.delete(ActivityLogModel, logId, trasnaction);
+  static async deleteLog(logId, transaction){
+    await super.delete(ActivityLogModel, logId, transaction);
   }
 }
 

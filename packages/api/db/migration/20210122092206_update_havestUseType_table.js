@@ -13,16 +13,16 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
-    return Promise.all([
-        knex('harvestUseType').insert([
-            { harvest_use_type_name: 'Donation'},
-        ]),
-    ]);
+exports.up = function (knex) {
+  return Promise.all([
+    knex('harvestUseType').insert([
+      { harvest_use_type_name: 'Donation' },
+    ]),
+  ]);
 };
 
-exports.down = function(knex) {
-    return Promise.all([
-      knex('harvestUseType').del(),
-    ]);
-  };
+exports.down = function (knex) {
+  return Promise.all([
+    knex('harvestUseType').where({ harvest_use_type_name: 'Donation' }).del(),
+  ]);
+};

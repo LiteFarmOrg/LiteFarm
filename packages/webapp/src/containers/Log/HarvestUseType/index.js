@@ -155,7 +155,7 @@ class HarvestUseType extends Component {
         >
           <Row className="show-grid">
             {this.props.allUseType.map((type) => {
-              const taskName = this.props.t(`task:${type.harvest_use_type_name}`);
+              const taskName = this.props.t(`harvest_uses:${type.harvest_use_type_translation_key}`);
               const buttonImg = this.assignImage(taskName);
               return (
                 <Col

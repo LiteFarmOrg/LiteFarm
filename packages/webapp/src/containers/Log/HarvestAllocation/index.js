@@ -39,12 +39,10 @@ class HarvestAllocation extends Component {
         obj.quantity = val[obj.harvest_use_type_name];
       }
     });
-    let sum = 0;
-    Object.keys(val).forEach(function (key) {
-      sum += parseInt(val[key]);
-    });
+    let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
 
-    if (sum != this.props.formData.quantity_kg) {
+    if (sum !== Number(this.props.formData.quantity_kg)) {
+      console.log(sum, this.props.formData.quantity_kg)
       toastr.error('Total does not equal the amount to allocate');
     } else {
       this.props.dispatch(addLog(this.props.formValue));

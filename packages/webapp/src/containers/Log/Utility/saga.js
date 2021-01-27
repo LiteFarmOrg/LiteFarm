@@ -81,7 +81,9 @@ export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const log = { ...action.formValue, user_id, farm_id };
+  const selectedUseTypes = yield select(selectedUseTypeSelector);
+  const log = { ...action.formValue, user_id, farm_id, selectedUseTypes };
+
   try {
     const result = yield call(axios.put, logURL + `/${action.formValue.activity_id}`, log, header);
     if (result) {

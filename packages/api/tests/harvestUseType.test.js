@@ -102,6 +102,7 @@ describe('harvestUseType Tests', () => {
       let manager;
       let unAuthorizedUser;
       let defaultState;
+      let customUseType;
 
       beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
@@ -114,6 +115,7 @@ describe('harvestUseType Tests', () => {
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({ promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] }, fakeUserFarm(1));
         defaultState = await mocks.createDefaultState();
+        [customUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: farm });
       })
 
       test('Owner should get harvestUseType by farm id', async (done) => {
@@ -122,6 +124,7 @@ describe('harvestUseType Tests', () => {
           for (let item of defaultState) {
             expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
           }
+          expect(res.body.some(el => el.harvest_use_type_name === customUseType.harvest_use_type_name)).toBe(true);
           done();
         });
 
@@ -133,6 +136,7 @@ describe('harvestUseType Tests', () => {
           for (let item of defaultState) {
             expect(res.body.some(el => el.harvest_use_type_name === item.harvest_use_type_name)).toBe(true);
           }
+          expect(res.body.some(el => el.harvest_use_type_name === customUseType.harvest_use_type_name)).toBe(true);
           done();
         });
       })
@@ -161,6 +165,7 @@ describe('harvestUseType Tests', () => {
       let manager;
       let unAuthorizedUser;
       let fakeHarvestUseType;
+      let existingCustomUseType;
 
       beforeEach(async () => {
         [newOwner] = await mocks.usersFactory();
@@ -173,7 +178,7 @@ describe('harvestUseType Tests', () => {
         [farmunAuthorizedUser] = await mocks.farmFactory();
         const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({ promisedUser: [unAuthorizedUser], promisedFarm: [farmunAuthorizedUser] }, fakeUserFarm(1));
         fakeHarvestUseType = mocks.fakeHarvestUseType();
-
+        [existingCustomUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: farm });
       })
 
       test('Owner should add harvestUseType', async (done) => {
@@ -204,6 +209,20 @@ describe('harvestUseType Tests', () => {
       test('Unauthorized user should not add harvestUseType', async (done) => {
         addHarvestUseType({ name: fakeHarvestUseType.harvest_use_type_name }, { user_id: unAuthorizedUser.user_id }, (err, res) => {
           expect(res.status).toBe(403);
+          done();
+        });
+      })
+
+      test('Owner should fail to add duplicate harvestUseType', async (done) => {
+        addHarvestUseType({ name: existingCustomUseType.harvest_use_type_name }, { user_id: newOwner.user_id }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+      })
+
+      test('Manager should fail to add duplicate harvestUseType', async (done) => {
+        addHarvestUseType({ name: existingCustomUseType.harvest_use_type_name }, { user_id: manager.user_id }, (err, res) => {
+          expect(res.status).toBe(400);
           done();
         });
       })

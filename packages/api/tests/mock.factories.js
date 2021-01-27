@@ -389,11 +389,9 @@ async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harves
   const [farm] = await Promise.all([promisedFarm, usersFactory()]);
   let farm_id;
   if (farm.farm_id) {
-    [{ farm_id }] = farm;
-  }
-  else {
+    farm_id = farm.farm_id;
+  } else {
     farm_id = null;
-
   }
   return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
 }

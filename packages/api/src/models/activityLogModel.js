@@ -126,6 +126,17 @@ class activityLogModel extends BaseModel {
           to: 'harvestLog.activity_id',
         },
       },
+      harvestUse:{
+        relation: Model.HasManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: require('./harvestUseModel'),
+        join: {
+          from: 'activityLog.activity_id',
+          to: 'harvestUse.activity_id',
+        },
+      },
       seedLog:{
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model

@@ -228,6 +228,8 @@
   },
   "LOG_HARVEST": {
     "HARVEST_QUANTITY": "Harvest Quantity",
+    "QUANTITY": "Quantity",
+    "HARVEST_USE": "Harvest Use",
     "TITLE": "Harvest Log (step 1)",
     "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",

@@ -31,6 +31,8 @@ import FertilizingLog from './containers/Log/FertilizingLog';
 import PestControlLog from './containers/Log/PestControlLog';
 import FieldWorkLog from './containers/Log/FieldWorkLog';
 import HarvestLog from './containers/Log/HarvestLog';
+import HarvestUseType from './containers/Log/HarvestUseType';
+import HarvestAllocation from './containers/Log/HarvestAllocation';
 import IrrigationLog from './containers/Log/IrrigationLog';
 import ScoutingLog from './containers/Log/ScoutingLog';
 import SeedingLog from './containers/Log/SeedingLog';
@@ -180,6 +182,8 @@ const Routes = () => {
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/harvest_use_type" exact component={HarvestUseType} />
+          <Route path="/harvest_allocation" exact component={HarvestAllocation} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
           <Route path="/seeding_log" exact component={SeedingLog} />
@@ -282,6 +286,8 @@ const Routes = () => {
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/harvest_use_type" exact component={HarvestUseType} />
+          <Route path="/harvest_allocation" exact component={HarvestAllocation} />
           <Route path="/help" exact component={HelpRequest} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
@@ -383,6 +389,8 @@ const Routes = () => {
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/harvest_use_type" exact component={HarvestUseType} />
+          <Route path="/harvest_allocation" exact component={HarvestAllocation} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
           <Route path="/seeding_log" exact component={SeedingLog} />

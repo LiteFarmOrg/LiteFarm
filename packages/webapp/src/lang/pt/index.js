@@ -8,6 +8,7 @@ import fertilizer from './fertilizer.json';
 import message from './message.json';
 import gender from './gender.json';
 import role from './role.json';
+import harvest_uses from './harvest_uses.json';
 const portuguese = {
   translation,
   crop,
@@ -19,5 +20,6 @@ const portuguese = {
   message,
   gender,
   role,
+  harvest_uses
 };
 export default portuguese;

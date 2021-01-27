@@ -19,7 +19,9 @@ import styles from './styles.scss';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit } = this.props;
+    const { onClick, edit, isHarvestLog } = this.props;
+    let url;
+    isHarvestLog ? (url = '/harvest_use_types') : '/new_log';
     return (
       <div className={styles.bottomContainer}>
         {edit ? (
@@ -27,12 +29,12 @@ class LogFooter extends React.Component {
             Delete
           </div>
         ) : (
-          <div className={styles.cancelButton} onClick={() => history.push('/new_log')}>
+          <div className={styles.cancelButton} onClick={() => history.push(url)}>
             Cancel
           </div>
         )}
         <div className={styles.cancelButton}>
-          <button className="btn btn-primary">Save</button>
+          <button className="btn btn-primary">{isHarvestLog ? 'Next' : 'Save'}</button>
         </div>
       </div>
     );

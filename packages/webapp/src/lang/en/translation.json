@@ -228,7 +228,17 @@
   },
   "LOG_HARVEST": {
     "HARVEST_QUANTITY": "Harvest Quantity",
-    "TITLE": "Harvest Log (step 1)"
+    "TITLE": "Harvest Log (step 1)",
+    "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
+    "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
+    "ADD_CUSTOM_USE_TYPE": "Add custom use",
+    "HARVEST_ALLOCATION_TITLE": "Harvest Log (step 3)",
+    "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate",
+    "ADD_CUSTOM_TYPE": {
+      "TITLE": "Add a harvest use",
+      "INPUT_LABEL": "Name of the custom harvest use"
+    }
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",

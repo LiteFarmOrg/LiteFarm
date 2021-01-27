@@ -78,6 +78,15 @@
       "EDIT": "Successfully edited Log!"
     }
   },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "GET_TYPES": "Failed to fetch harvest use types"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+    }
+  },
   "LOGIN": {
     "ERROR": {
       "LOGIN_FAIL": "Failed to login user info"

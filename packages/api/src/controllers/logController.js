@@ -31,6 +31,7 @@ const fieldCrop = require('../models/fieldCropModel');
 const HarvestLog = require('../models/harvestLogModel');
 const field = require('../models/fieldModel');
 const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
+const HarvestUseModel = require('../models/harvestUseModel');
 
 class logController extends baseController {
   static addLog() {
@@ -100,6 +101,7 @@ class logController extends baseController {
           res.status(200).send(rows);
         }  
       } catch (error) {
+        console.log(error)
         //handle more exceptions
         res.status(400).json({
           error,
@@ -114,6 +116,11 @@ class logController extends baseController {
       const { name } = req.body;
       const trx = await transaction.start(Model.knex());
       try {
+        const check = await HarvestUseTypeModel.query().where({farm_id, harvest_use_type_name: name}).first();
+        if (check) {
+          await trx.rollback();
+          return res.status(400).send("Cannot make duplicate type for this farm");
+        }
         const harvest_use_type = {
           farm_id,
           harvest_use_type_name: name,
@@ -182,9 +189,21 @@ class logServices extends baseController {
     //insert crops,fields and beds
     await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
     await super.relateModels(activityLog, field, body.fields, transaction);
-    if (!logModel.isOther) {
+    if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
       await super.postRelated(activityLog, logModel, body, transaction);
+    } else if (logModel.tableName === 'harvestLog') {
+      await super.postRelated(activityLog, logModel, body, transaction);
+      const uses = body.selectedUseTypes.map(async (use) => {
+        const data = {
+          activity_id: activityLog.activity_id,
+          harvest_use_type_id: use.harvest_use_type_id,
+          quantity_kg: use.quantity,
+        }
+        return super.post(HarvestUseModel, data, transaction)
+      });
+      await Promise.all(uses);
     }
+    return activityLog;
   }
 
   static async getLogById(id){

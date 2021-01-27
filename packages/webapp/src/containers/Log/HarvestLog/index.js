@@ -6,7 +6,7 @@ import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import { addLog } from '../Utility/actions';
+import { getHarvestUseTypes } from '../actions';
 import { convertToMetric, getUnit } from '../../../util';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
@@ -17,12 +17,13 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
+import { setFormData, setFormValue } from '../actions';
+import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
 
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
-    const { farm, dispatch } = this.props;
-
+    const { farm, dispatch, history } = this.props;
     this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
 
     this.state = {
@@ -43,9 +44,6 @@ class HarvestLog extends Component {
     const { dispatch, fields } = this.props;
     const selectedCrops = parseCrops(log);
     const selectedFields = parseFields(log, fields);
-
-    //let selectedFields = parseFields(log, fields);
-    //let selectedCrops = parseCrops(log);
     let formValue = {
       activity_kind: 'harvest',
       date: this.state.date,
@@ -54,14 +52,25 @@ class HarvestLog extends Component {
       notes: log.notes,
       quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
     };
-    dispatch(addLog(formValue));
+    this.props.dispatch(setFormData(log));
+    this.props.dispatch(setFormValue(formValue));
+    dispatch(getHarvestUseTypes());
+    setTimeout(() => {
+      this.props.history.push('/harvest_use_type');
+    }, 200);
   }
 
   render() {
     const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <PageTitle backUrl="/new_log" title={this.props.t('LOG_HARVEST.TITLE')} />
+        <div className={styles.textContainer}>
+          <PageTitle
+            backUrl="/new_log"
+            title={this.props.t('LOG_HARVEST.TITLE')}
+            isHarvestLogStep={true}
+          />
+        </div>
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
@@ -85,7 +94,7 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter />
+          <LogFooter isHarvestLog={true} />
         </Form>
       </div>
     );
@@ -97,6 +106,9 @@ const mapStateToProps = (state) => {
     crops: currentFieldCropsSelector(state),
     fields: fieldsSelector(state),
     farm: userFarmSelector(state),
+    formData: formDataSelector(state),
+    useType: selectedUseTypeSelector(state),
+    formValue: formValueSelector(state),
   };
 };
 

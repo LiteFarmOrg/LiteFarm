@@ -309,18 +309,6 @@ async function activityLogFactory({ promisedUser = usersFactory() } = {}, activi
 
 }
 
-async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
-  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
-  const [{ farm_id }] = farm;
-  return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
-}
-
-function fakeHarvestUseType() {
-  return {
-    harvest_use_type_name: faker.lorem.words(),
-  };
-}
-
 function fakeActivityLog() {
   return {
     activity_kind: faker.random.arrayElement(['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest',
@@ -395,6 +383,43 @@ async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType =
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
   return knex('taskType').insert({ farm_id, ...taskType, ...base }).returning('*');
+}
+
+async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
+  const [farm] = await Promise.all([promisedFarm, usersFactory()]);
+  let farm_id;
+  if (farm.farm_id) {
+    farm_id = farm.farm_id;
+  } else {
+    farm_id = null;
+  }
+  return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
+}
+
+function fakeHarvestUseType() {
+    return {
+      harvest_use_type_name: faker.lorem.words(),
+    }
+}
+
+function fakeHarvestUse() {
+    return {
+      quantity_kg: faker.random.number(200),
+    }
+}
+
+async function createDefaultState() {
+  const useTypes = [
+    'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other'
+  ]
+  const uses = await Promise.all(useTypes.map(async (type) => {
+    let data = {
+      harvest_use_type_name: type
+    }
+    const [use] = await knex('harvestUseType').insert( data ).returning('*');
+    return use;
+  }));
+  return uses;
 }
 
 async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {
@@ -717,6 +742,8 @@ module.exports = {
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
+  createDefaultState, 
+  fakeHarvestUse,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

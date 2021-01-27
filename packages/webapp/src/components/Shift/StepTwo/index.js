@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import clsx from 'clsx';
-import { toastr } from 'react-redux-toastr';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { BsReplyFill } from 'react-icons/bs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Button from '../../Form/Button';
 import TitleLayout from '../../Layout/TitleLayout';
 import styles from '../../../containers/Shift/styles.scss';
@@ -15,7 +14,6 @@ import fieldImg from '../../../assets/images/log/field_white.svg';
 import { stepOneSelector } from '../../../containers/shiftSlice';
 import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { fieldsSelector } from '../../../containers/fieldSlice';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 import closeButton from '../../../assets/images/grey_close_button.png';
 
 function PureStepTwo({
@@ -33,10 +31,8 @@ function PureStepTwo({
   let [cropOptions, setCropOptions] = useState([]);
   let [fieldOptions, setFieldOptions] = useState([]);
   const { selectedTasks, worker } = useSelector(stepOneSelector);
-  const dispatch = useDispatch();
   const crops = useSelector(currentFieldCropsSelector);
   const fields = useSelector(fieldsSelector);
-  const users = useSelector(userFarmSelector);
   const [defaultCrops, setDefaultCrops] = useState({});
   const [defaultFields, setDefaultFields] = useState({});
   const [showEdit, setShowEdit] = useState(false);
@@ -131,10 +127,10 @@ function PureStepTwo({
 
   const addAll = (task_id, type, duration = 0) => {
     if (type === 'crop') {
-      let mutatingDefaultCrops = defaultCrops;
+      let mutatingDefaultCrops = { ...defaultCrops };
       mutatingDefaultCrops[task_id] = [];
-      let cropOptions = [],
-        addedCropID = [];
+      let cropOptions = [];
+      let addedCropID = [];
       for (let c of crops) {
         if (!addedCropID.includes(c.crop_id)) {
           mutatingDefaultCrops[task_id].push({
@@ -198,6 +194,9 @@ function PureStepTwo({
     if (mutatingCropDurations && mutatingCropDurations[task_id]) {
       mutatingCropDurations[task_id] = [];
     }
+    const mutatedDefaultCrops = {...defaultCrops};
+    mutatedDefaultCrops[task_id] = [];
+    setDefaultCrops(mutatedDefaultCrops);
     setCropDurations(mutatingCropDurations);
     setFinalForm(mutatingFinalForm);
   };
@@ -286,7 +285,8 @@ function PureStepTwo({
           isRatingEnabled={indicateMood}
           toggleCropOrField={toggleCropOrField}
           task={task}
-          state={{ defaultFields, defaultCrops, cropOptions, fieldOptions }}
+          state={{ defaultFields, cropOptions, fieldOptions }}
+          defaultCrops={defaultCrops}
           toggleBack={toggleBack}
           toggleCropTimeMethod={toggleCropTimeMethod}
           cropTotalTimeAssign={cropTotalTimeAssign}
@@ -317,6 +317,7 @@ function InputDuration({
   state,
   cropTotalTimeAssign,
   resetCropDuration,
+  defaultCrops
 }) {
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
@@ -325,10 +326,15 @@ function InputDuration({
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   };
+
   const onDurationChange = (duration, task_id) => {
     setDuration(duration);
     cropTotalTimeAssign(duration, task_id);
   };
+
+  useEffect(() => {
+    setSelectedCrops(defaultCrops[task.task_id]);
+  }, [defaultCrops])
   return (
     <div key={task.task_id} className={styles.taskBlock}>
       <div className={styles.taskTitle}>
@@ -376,9 +382,7 @@ function InputDuration({
           </div>
         </div>
         <div className={styles.selectInner}>
-          {state.defaultCrops[task.task_id] && (
             <Select
-              defaultValue={state.defaultCrops[task.task_id]}
               isMulti
               isSearchable={false}
               name="selectByCrops"
@@ -388,25 +392,10 @@ function InputDuration({
               classNamePrefix="select"
               value={selectedCrops}
               onChange={(selectedOption) => {
-                setSelectedCrops(selectedOption);
+                defaultCrops[task.task_id] && setSelectedCrops(selectedOption);
                 handleCropChange(selectedOption, duration, task.task_id);
               }}
             />
-          )}
-          {!state.defaultCrops[task.task_id] && (
-            <Select
-              isMulti
-              isSearchable={false}
-              name="selectByCrops"
-              placeholder="Select Crops..."
-              options={state.cropOptions}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              onChange={(selectedOption) =>
-                handleCropChange(selectedOption, duration, task.task_id)
-              }
-            />
-          )}
         </div>
         {cropDurations && cropDurations[task.task_id] && (
           <div>

@@ -15,7 +15,12 @@
 
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
-import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../userFarmSlice';
+import {
+  selectFarmSuccess,
+  deselectFarmSuccess,
+  loginSelector,
+  userFarmEntitiesSelector,
+} from '../userFarmSlice';
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
@@ -28,8 +33,9 @@ function ChooseFarm() {
   const dispatch = useDispatch();
 
   const [selectedFarmId, setFarmId] = useState();
-  const { farm_id: currentFarmId } = useSelector(loginSelector);
+  const { farm_id: currentFarmId, user_id } = useSelector(loginSelector);
   const [filter, setFilter] = useState();
+  const userFarmEntities = useSelector(userFarmEntitiesSelector);
 
   useEffect(() => {
     dispatch(getUserFarms());
@@ -52,8 +58,13 @@ function ChooseFarm() {
   };
 
   const onProceed = () => {
-    dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    history.push({ pathname: '/', state: !!currentFarmId });
+    const farm = userFarmEntities[setFarmId][user_id];
+    if (farm.status === 'Active') {
+      dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
+      history.push({ pathname: '/', state: !!currentFarmId });
+    } else {
+      dispatch(patchUserFarmStatusWithAccessToken());
+    }
   };
 
   const onSelectFarm = (farm_id) => {

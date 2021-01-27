@@ -39,7 +39,7 @@ const { createToken } = require('../util/jwt');
 const validStatusChanges = {
   'Active': ['Inactive'],
   'Inactive': ['Active'],
-  'Invited': ['Inactive']
+  'Invited': ['Inactive'],
 };
 
 class userFarmController extends baseController {
@@ -227,7 +227,10 @@ class userFarmController extends baseController {
         await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
         res.sendStatus(200);
         try {
-          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
+          const userFarm = await userFarmModel.query().select('*').where({
+            'userFarm.user_id': user_id,
+            'userFarm.farm_id': farm_id,
+          })
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
@@ -391,10 +394,10 @@ class userFarmController extends baseController {
     };
   }
 
-  static acceptInvitation() {
+  static acceptInvitationWithInvitationToken() {
     return async (req, res) => {
       let result;
-      const { user_id, farm_id, invitation_id, email } = req.user;
+      const { user_id, farm_id } = req.user;
       const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
         const user = await userModel.query().findById(user_id).patch({ language_preference }).returning('*');
@@ -403,10 +406,10 @@ class userFarmController extends baseController {
           return res.status(404).send('User does not exist');
         }
       }
-      const userFarm = await userFarmModel.query().where({
+      await userFarmModel.query().where({
         user_id,
         farm_id,
-      }).patch({ status: 'Active' }).returning('*');
+      }).patch({ status: 'Active' });
       result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;
@@ -414,6 +417,14 @@ class userFarmController extends baseController {
       delete result.role;
       const id_token = await createToken('access', { user_id });
       return res.status(200).send({ id_token, user: result });
+    };
+  }
+
+  static acceptInvitationWithAccessToken() {
+    return async (req, res) => {
+      const { farm_id } = req.params;
+      req.user.farm_id = farm_id;
+      return await userFarmController.acceptInvitationWithInvitationToken()(req, res);
     };
   }
 

@@ -21,7 +21,7 @@ const checkScope = require('../middleware/acl/checkScope');
 const isSelf = require('../middleware/acl/isSelf');
 const checkInviteJwt = require('../middleware/acl/checkInviteJwt');
 const checkInvitationTokenContent = require('../middleware/acl/checkInviteTokenContent');
-const isUseFarmActive = require('../middleware/acl/isUseFarmActive');
+const checkUserFarmStatus = require('../middleware/acl/checkUserFarmStatus');
 
 // Get all userFarms for a specified user
 // no permission limits
@@ -39,7 +39,7 @@ router.get('/active/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkS
 // Update consent status for a userFarm referenced by user_id
 // If userFarm status is Inactive or Invited, status will be set to Active
 // no permission limits
-router.patch('/consent/farm/:farm_id/user/:user_id', isSelf, hasFarmAccess({ params: 'farm_id' }), isUseFarmActive, userFarmController.updateConsent());
+router.patch('/consent/farm/:farm_id/user/:user_id', isSelf, hasFarmAccess({ params: 'farm_id' }), checkUserFarmStatus('Active'), userFarmController.updateConsent());
 
 // Update the role on a userFarm
 router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_role']), userFarmController.updateRole());
@@ -48,10 +48,13 @@ router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_
 router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.updateStatus());
 
 // Accept an invitation and validate invitation token
-router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, userFarmController.acceptInvitation());
+router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, userFarmController.acceptInvitationWithInvitationToken());
+
+// Accept an invitation and validate accessToken
+router.patch('/accept_invitation/farm/farm_id', hasFarmAccess({ params: 'farm_id' }), checkUserFarmStatus('Invited'), userFarmController.acceptInvitationWithAccessToken());
 
 // [DEPRECATE] Get specific info related to userFarm
-router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
+router.get('/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
 
 router.post('/invite/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:users']), userFarmController.patchPseudoUserEmail());
 

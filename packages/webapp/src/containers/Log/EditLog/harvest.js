@@ -17,13 +17,14 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
+import { setFormData, setFormValue, setSelectedUseTypes } from "../actions";
 
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
     const { farm, dispatch } = this.props;
 
-    this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
+    dispatch(actions.reset('logReducer.forms.harvestLog'));
 
     this.state = {
       date: moment(),
@@ -84,7 +85,12 @@ class HarvestLog extends Component {
       notes: log.notes,
       quantity_kg: convertToMetric(parseFloat(log.quantity_kg), this.state.quantity_unit, 'kg'),
     };
-    dispatch(editLog(formValue));
+    dispatch(setFormData(log));
+    dispatch(setFormValue(formValue));
+    dispatch(setSelectedUseTypes(selectedLog.harvestUse));
+    setTimeout(() => {
+      this.props.history.push('/harvest_use_type');
+    }, 200);
   }
 
   render() {
@@ -138,7 +144,7 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
+          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} isHarvestLog={true} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}

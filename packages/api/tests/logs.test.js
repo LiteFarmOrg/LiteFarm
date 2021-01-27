@@ -1230,6 +1230,7 @@ describe('Log Tests', () => {
             date: fakeActivityLog.date,
             user_id: owner.user_id,
             notes: fakeActivityLog.notes,
+            selectedUseTypes: [],
             crops: [{ field_crop_id: fieldCrop.field_crop_id }, { field_crop_id: fieldCrop1.field_crop_id }],
             fields: [{ field_id: field.field_id }, { field_id: field1.field_id }],
             ...fakeHarvestLog,

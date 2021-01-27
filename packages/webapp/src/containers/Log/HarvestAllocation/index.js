@@ -45,12 +45,8 @@ class HarvestAllocation extends Component {
       toastr.error('Total does not equal the amount to allocate');
     } else {
       if (!!this.props.formValue?.activity_id) {
-        console.log(val);
-        console.log(this.props.formData);
         this.props.dispatch(editLog(this.props.formValue));
       } else {
-        console.log(val);
-        console.log(this.props.formData);
         this.props.dispatch(addLog(this.props.formValue));
       }
     }

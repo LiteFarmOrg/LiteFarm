@@ -20,8 +20,8 @@ import styles from './styles.scss';
 class LogFooter extends React.Component {
   render() {
     const { onClick, edit, isHarvestLog } = this.props;
-    let url;
-    isHarvestLog ? (url = '/harvest_use_types') : '/new_log';
+    let url = isHarvestLog ? '/harvest_use_types' : '/new_log';
+
     return (
       <div className={styles.bottomContainer}>
         {edit ? (

@@ -85,7 +85,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             onChange={onChange}
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
-            style={{ marginBottom: '24px' }}
+            style={{ marginBottom: '28px' }}
             defaultValue={genderOptions[3]}
           />
         )}
@@ -96,7 +96,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
         name={BIRTHYEAR}
         toolTipContent={t('CREATE_USER.BIRTH_YEAR_TOOLTIP')}
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '28px' }}
         errors={
           errors[BIRTHYEAR] &&
           (errors[BIRTHYEAR].message ||

@@ -152,7 +152,9 @@ const getColor = (farm, selectedFarmId, currentFarmId) => {
   if (farm.farm_id === currentFarmId || farm.status === 'Inactive') {
     return 'disabled';
   } else if (farm.farm_id === selectedFarmId) {
-    return 'active';
+    return farm.status === 'Invited' ? 'blueActive' : 'active';
+  } else if (farm.status === 'Invited') {
+    return 'blue';
   } else return 'secondary';
 };
 

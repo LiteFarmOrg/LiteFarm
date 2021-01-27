@@ -8,10 +8,9 @@
 }
 .rightColumn {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   width: 42.3%;
-  margin: 8px 8px 8px 0;
 }
 .farmName {
   color: var(--fontColor);
@@ -39,11 +38,55 @@
   margin: 0;
 }
 .secondary {
-  color: var(--grey600);
+  h5{
+    color: var(--fontColor);
+  }
+  p{
+    color: var(--grey600);
+  }
 }
 .active {
-  color: var(--teal700);
+  h5{
+    color: var(--teal700);
+  }
+  p{
+    color: var(--teal700);
+  }
 }
 .disabled {
-  color: var(--grey600);
+  h5{
+    color: var(--fontColor);
+  }
+  p{
+    color: var(--grey600);
+  }
 }
+.blue{
+  h5{
+    color: var(--blue700);
+  }
+  p{
+    color: var(--blue700);
+  }
+}
+.blueActive{
+  h5{
+    color: var(--blue700);
+  }
+  p{
+    color: var(--blue700);
+  }
+}
+.emailIcon{
+  transform: translate(1px, -1px);
+  display: flex;
+}
+.addressContainer{
+  display: flex;
+  flex-direction: column;
+  margin: 8px 8px 8px 0;
+  flex-grow: 1;
+}
+
+
+

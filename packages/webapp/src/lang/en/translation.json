@@ -510,6 +510,7 @@
       "ASSIGN_TIME_TO_TASK": "Assign time to task by",
       "BREAK_DURATION": "Break Duration",
       "CHOOSE_DATE": "Choose a Date",
+      "CHOOSE_WORKERS": "Choose worker",
       "CROPS_ON_THIS_FARM": "Crops on this farm",
       "CROPS_ON_YOUR_FARM": "Crops on your farm",
       "DURATION": "Duration",
@@ -548,9 +549,14 @@
       "TASK": "Task",
       "TITLE": "My Shift"
     },
+    "NEW_SHIFT": {
+      "STEP_ONE": "New Shift (Step 1)",
+      "STEP_TWO": "New Shift (Step 2)",
+      "WHAT_TASKS_RECORD": "What tasks would you like to record?"
+    },
     "NAME": "Name",
     "SHIFT_HISTORY": "Shift History",
-    "START_TIME": "Start Time",
+    "SHIFT_DATE": "Date",
     "TITLE": "Shifts",
     "TO": "To"
   },

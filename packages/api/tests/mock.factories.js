@@ -402,15 +402,6 @@ function fakeHarvestUseType() {
     }
 }
 
-// async function harvestUseFactory({promisedHarvestUseType = harvestUseTypeFactory()} = {}, harvestUse = fakeHarvestUse()) {
-//   console.log("promisedHarvestUseType")
-//   console.log(promisedHarvestUseType)
-//   // const {harvest_use_type_id, harvest_use_type_name}
-//   console.log("harvestUse")
-//   console.log(harvestUse)
-//   return knex('harvestUse').insert({ farm_id, ...harvestUseType }).returning('*');
-// }
-
 function fakeHarvestUse() {
     return {
       quantity_kg: faker.random.number(200),
@@ -753,8 +744,7 @@ module.exports = {
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
-  createDefaultState,
-  // harvestUseFactory, 
+  createDefaultState, 
   fakeHarvestUse,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,

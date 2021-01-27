@@ -40,7 +40,7 @@ const fieldModel = require('../src/models/fieldModel');
 const fieldCropModel = require('../src/models/fieldCropModel');
 const pesticideModel = require('../src/models/pesiticideModel');
 const diseaseModel = require('../src/models/diseaseModel');
-const harvestUseTypeModel = require('../src/models/harvestUseTypeModel');
+const harvestUseModel = require('../src/models/harvestUseModel');
 
 
 describe('Log Tests', () => {
@@ -2478,7 +2478,6 @@ describe('Log Tests', () => {
       let sampleRequestBody;
       let fakeHarvestUseType;
       let fakeHarvestUse;
-      let harvestUseFactory;
       beforeEach(async () => {
         fakeActivityLog = newFakeActivityLog('harvest');
         fakeHarvestLog = mocks.fakeHarvestLog();
@@ -2487,7 +2486,6 @@ describe('Log Tests', () => {
         [field1] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
         [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
         [fakeHarvestUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: [farm] });
-        // [harvestUseFactory] = await mocks.harvestUseFactory({ promisedHarvestUseType: fakeHarvestUseType });
         fakeHarvestUse = mocks.fakeHarvestUse();
         fakeHarvestUseType.quantity = fakeHarvestUse.quantity_kg;
 
@@ -2517,8 +2515,9 @@ describe('Log Tests', () => {
           const harvestLog = await harvestLogModel.query().context({showHidden: true}).where('activity_id', activityLog[0].activity_id);
           expect(harvestLog.length).toBe(1);
           expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
-          const harvestUseType = await harvestUseTypeModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
-          console.log(harvestUseType)
+          const harvestUse = await harvestUseModel.query().context({showHidden: true}).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+          expect(harvestLog.length).toBe(1);
+          expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
           done();
         })
       });
@@ -2545,6 +2544,9 @@ describe('Log Tests', () => {
           const activityCropss = await activityCropsModel.query().context({showHidden: true}).where('activity_id', activityLog[0].activity_id);
           expect(activityCropss.length).toBe(3);
           expect(activityCropss[1].field_crop_id).toBe(fieldCrop2.field_crop_id);
+          const harvestUse = await harvestUseModel.query().context({showHidden: true}).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+          expect(harvestLog.length).toBe(1);
+          expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
           done();
         })
       });
@@ -2587,6 +2589,9 @@ describe('Log Tests', () => {
             const harvestLog = await harvestLogModel.query().context({showHidden: true}).where('activity_id', activityLog[0].activity_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
+            const harvestUse = await harvestUseModel.query().context({showHidden: true}).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+            expect(harvestLog.length).toBe(1);
+            expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
             done();
           })
         });
@@ -2601,6 +2606,9 @@ describe('Log Tests', () => {
             const harvestLog = await harvestLogModel.query().context({showHidden: true}).where('activity_id', activityLog[0].activity_id);
             expect(harvestLog.length).toBe(1);
             expect(harvestLog[0].quantity_kg).toBe(fakeHarvestLog.quantity_kg);
+            const harvestUse = await harvestUseModel.query().context({showHidden: true}).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
+            expect(harvestLog.length).toBe(1);
+            expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
             done();
           })
         });

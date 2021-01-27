@@ -350,7 +350,7 @@ describe('Shift tests', () => {
     })
 
     test('should not be able to create a shift that is not mine if I am Worker'  , async (done) => {
-      let [userFarm] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 1});
+      let [userFarm] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 3});
       let [otherUserFarm] = await mocks.userFarmFactory({promisedFarm: [{farm_id: userFarm.farm_id}]}, {status: 'Active', role_id: 3});
       let [field] = await mocks.fieldFactory({promisedFarm: [otherUserFarm]})
       let shift = mocks.fakeShift();

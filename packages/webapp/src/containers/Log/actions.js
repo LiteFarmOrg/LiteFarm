@@ -13,7 +13,17 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GET_LOGS, SET_LOGS_IN_STATE, SET_SELECTED_LOG } from './constants';
+import {
+  GET_LOGS,
+  SET_LOGS_IN_STATE,
+  SET_SELECTED_LOG,
+  GET_HARVEST_USE_TYPES,
+  SET_FORM_DATA,
+  SET_ALL_HARVEST_USE_TYPES,
+  SET_SELECTED_USE_TYPES,
+  ADD_HARVEST_USE_TYPE,
+  SET_FORM_VALUE,
+} from './constants';
 
 export const getLogs = () => {
   return {
@@ -32,5 +42,46 @@ export const setSelectedLog = (log) => {
   return {
     type: SET_SELECTED_LOG,
     log,
+  };
+};
+
+export const getHarvestUseTypes = () => {
+  return {
+    type: GET_HARVEST_USE_TYPES,
+  };
+};
+
+export const setFormData = (formData) => {
+  return {
+    type: SET_FORM_DATA,
+    formData,
+  };
+};
+
+export const setAllHarvestUseTypes = (allUseType) => {
+  return {
+    type: SET_ALL_HARVEST_USE_TYPES,
+    allUseType,
+  };
+};
+
+export const setSelectedUseTypes = (useType) => {
+  return {
+    type: SET_SELECTED_USE_TYPES,
+    useType,
+  };
+};
+
+export const addHarvestUseType = (typeName) => {
+  return {
+    type: ADD_HARVEST_USE_TYPE,
+    typeName,
+  };
+};
+
+export const setFormValue = (formValue) => {
+  return {
+    type: SET_FORM_VALUE,
+    formValue,
   };
 };

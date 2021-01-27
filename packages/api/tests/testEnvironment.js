@@ -44,7 +44,9 @@ async function tableCleanup(knex) {
     DELETE FROM "userLog";
     DELETE FROM "activityFields";
     DELETE FROM "fieldWorkLog";
+    DELETE FROM "harvestUse";
     DELETE FROM "harvestLog";
+    DELETE FROM "harvestUseType";
     DELETE FROM "irrigationLog";
     DELETE FROM "activityCrops";
     DELETE FROM "scoutingLog";
@@ -85,6 +87,8 @@ async function tableCleanup(knex) {
     DELETE FROM "weatherHourly";
     DELETE FROM "weather";
     DELETE FROM "weather_station";
+    
+    
   `);
 }
 

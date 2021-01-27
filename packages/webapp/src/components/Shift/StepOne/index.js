@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import clsx from 'clsx';
-import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
 import TitleLayout from '../../Layout/TitleLayout';
 import DateContainer from '../../Inputs/DateContainer';
 import ReactSelect from '../../Form/ReactSelect';
-import { taskTypeSelector } from '../../../containers/Shift/MyShift/selectors';
-import { userFarmSelector } from '../../../containers/userFarmSlice';
 import styles from './styles.scss';
 import BedImg from '../../../assets/images/log/bed.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
@@ -23,13 +20,9 @@ import WashImg from '../../../assets/images/log/wash.svg';
 import WeedImg from '../../../assets/images/log/weed.svg';
 import OtherImg from '../../../assets/images/log/other.svg';
 import { Semibold, Text } from '../../Typography';
-import Popup from 'reactjs-popup';
-import closeButton from '../../../assets/images/grey_close_button.png';
-import { addTaskType } from '../../../containers/Shift/actions';
-import { toastr } from 'react-redux-toastr';
-import { stepOneSelector } from '../../../containers/shiftSlice';
+import AddTaskModal from "../../../containers/Shift/AddTaskModal";
 
-function PureStepOne({ onGoBack, onNext, workers, defaultWorker }) {
+function PureStepOne({ onGoBack, onNext, workers, defaultWorker, farm, taskTypes, defaultData }) {
   const { t } = useTranslation();
   let workerOptions = workers.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
@@ -38,10 +31,7 @@ function PureStepOne({ onGoBack, onNext, workers, defaultWorker }) {
   const [date, setDate] = useState(moment());
   const [selectedTasks, setSelectedTask] = useState([]);
   const [showAddModal, switchShowModal] = useState(false);
-  const farm = useSelector(userFarmSelector);
-  const taskTypes = useSelector(taskTypeSelector);
   const [worker, setWorker] = useState(null);
-  const defaultData = useSelector(stepOneSelector);
 
   useEffect(() => {
     const shrinkSelectedTasks = selectedTasks.map(({ task_id }) => task_id);
@@ -104,7 +94,7 @@ function PureStepOne({ onGoBack, onNext, workers, defaultWorker }) {
         defaultValue={defaultWorker}
       />
       <Semibold>What tasks did you do today?</Semibold>
-      <TaskTypeMatrix t={t} selected={selectedTasks} setTasks={setSelectedTask} />
+      <TaskTypeMatrix t={t} selected={selectedTasks} setTasks={setSelectedTask} taskTypes={taskTypes} />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
         <div className={styles.buttonContainer}>
           <Button color={'secondary'} onClick={() => switchShowModal(true)}>
@@ -117,59 +107,8 @@ function PureStepOne({ onGoBack, onNext, workers, defaultWorker }) {
   );
 }
 
-function AddTaskModal({ showModal, switchShowModal }) {
-  const { t } = useTranslation();
-  const [taskName, setTaskName] = useState('');
-  const dispatch = useDispatch();
 
-  const addCustomTask = () => {
-    if (taskName !== '') {
-      dispatch(addTaskType(taskName));
-      switchShowModal(false);
-    } else toastr.error(t('message:SHIFT.ERROR.REQUIRED_TASK'));
-  };
-
-  const customTaskName = (event) => {
-    const value = event.target.value;
-    setTaskName(value);
-  };
-
-  return (
-    <Popup
-      open={showModal}
-      closeOnDocumentClick
-      onClose={() => switchShowModal(false)}
-      contentStyle={{
-        display: 'flex',
-        width: '100%',
-        height: '100vh',
-        padding: '0 5%',
-      }}
-      overlayStyle={{ zIndex: '1060', height: '100vh' }}
-    >
-      <div className={styles.modal}>
-        <div className={styles.popupTitle}>
-          <a className={styles.close} onClick={() => switchShowModal(false)}>
-            <img src={closeButton} alt="" />
-          </a>
-          <h3>{t('SHIFT.EDIT_SHIFT.ADD_TASK')}</h3>
-        </div>
-        <div className={styles.customContainer}>
-          <div className={styles.taskTitle}>{t('SHIFT.EDIT_SHIFT.NAME_TASK')}</div>
-          <div className={styles.taskInput}>
-            <input type="text" maxLength="20" onChange={customTaskName} />
-          </div>
-        </div>
-        <div className={styles.buttonContainer}>
-          <Button onClick={addCustomTask}>{t('common:FINISH')}</Button>
-        </div>
-      </div>
-    </Popup>
-  );
-}
-
-function TaskTypeMatrix({ selected, setTasks }) {
-  const taskTypes = useSelector(taskTypeSelector);
+function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
   const { t } = useTranslation();
   const imgDict = {
     'Bed Preparation': BedImg,

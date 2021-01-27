@@ -8,6 +8,8 @@ import history from "../../../history";
 import { submitShift } from "../actions";
 import { currentFieldCropsSelector } from "../../fieldCropSlice";
 import { useTranslation } from "react-i18next";
+import { fieldsSelector } from "../../fieldSlice";
+import PureStepOne from "../../../components/Shift/StepOne";
 
 function StepTwo() {
   const { t } = useTranslation();
@@ -17,7 +19,10 @@ function StepTwo() {
   const [mood, setMood] = useState(null);
   const crops = useSelector(currentFieldCropsSelector);
   const users = useSelector(userFarmSelector);
+  const fields = useSelector(fieldsSelector);
+
   const dispatch = useDispatch();
+
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);
 
 
@@ -37,7 +42,6 @@ function StepTwo() {
   const finishShift = () => {
     let mutatingFinalForm = { ...finalForm };
     let usersObj = { ...worker };
-    console.log(worker);
     let form = {
       user_id: usersObj.user_id,
       wage_at_moment: Number(usersObj.wage.amount),
@@ -50,7 +54,6 @@ function StepTwo() {
     let keys = Object.keys(mutatingFinalForm);
     // key here is task_id
     // keys.map()
-    console.log(mutatingFinalForm);
     for (let key of keys) {
       let vals = mutatingFinalForm[key].val;
       let is_field = mutatingFinalForm[key].is_field;
@@ -166,7 +169,8 @@ function StepTwo() {
 
   return (
     <PureStepTwo indicateMood={allowedToSetMood} cropDurations={cropDurations} setCropDurations={setCropDurations} mood={mood} setMood={setMood}
-                 finalForm={finalForm} setFinalForm={setFinalForm} onNext={finishShift} onGoBack={() => history.push('/shift_step_one')}  />
+                 finalForm={finalForm} setFinalForm={setFinalForm} crops={crops} fields={fields} selectedTasks={selectedTasks}
+                 onNext={finishShift} onGoBack={() => history.push('/shift_step_one')}  />
   )
 }
 

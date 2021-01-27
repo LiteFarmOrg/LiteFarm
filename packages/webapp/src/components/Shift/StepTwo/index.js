@@ -4,16 +4,12 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { BsReplyFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import Button from '../../Form/Button';
 import TitleLayout from '../../Layout/TitleLayout';
 import styles from '../../../containers/Shift/styles.scss';
 import styles2 from './styles.scss';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
-import { stepOneSelector } from '../../../containers/shiftSlice';
-import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
-import { fieldsSelector } from '../../../containers/fieldSlice';
 import closeButton from '../../../assets/images/grey_close_button.png';
 
 function PureStepTwo({
@@ -26,13 +22,13 @@ function PureStepTwo({
   setCropDurations,
   mood,
   setMood,
+  crops,
+  fields,
+  selectedTasks
 }) {
   const { t } = useTranslation();
   let [cropOptions, setCropOptions] = useState([]);
   let [fieldOptions, setFieldOptions] = useState([]);
-  const { selectedTasks, worker } = useSelector(stepOneSelector);
-  const crops = useSelector(currentFieldCropsSelector);
-  const fields = useSelector(fieldsSelector);
   const [defaultCrops, setDefaultCrops] = useState({});
   const [defaultFields, setDefaultFields] = useState({});
   const [showEdit, setShowEdit] = useState(false);

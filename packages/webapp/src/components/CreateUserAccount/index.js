@@ -11,7 +11,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
-  const { register, handleSubmit, watch, control, errors } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
@@ -38,7 +38,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = !name || !isValid || (birth_year && (birth_year < 1900 || birth_year > new Date().getFullYear()));
+  const disabled = !name || !isValid || Object.keys(errors).length;
 
   const onSubmit = (data) => {
     if (isValid) {

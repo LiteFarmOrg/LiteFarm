@@ -43,7 +43,7 @@ function ChooseFarm() {
 
   const farms = useSelector(userFarmsByUserSelector);
   useEffect(() => {
-    if (farms?.length === 1) {
+    if (farms?.length === 1 && ['Invited', 'Active'].includes(farms[0].status)) {
       setFarmId(farms[0].farm_id);
     }
   }, [farms]);

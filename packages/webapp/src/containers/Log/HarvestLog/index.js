@@ -23,7 +23,7 @@ import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '..
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
-    const { farm, dispatch, history } = this.props;
+    const { farm, dispatch } = this.props;
     dispatch(actions.reset('logReducer.forms.harvestLog'));
 
     this.state = {
@@ -52,12 +52,14 @@ class HarvestLog extends Component {
       notes: log.notes,
       quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
     };
-    this.props.dispatch(setFormData(log));
-    this.props.dispatch(setFormValue(formValue));
+    dispatch(setFormData(log));
+    dispatch(setFormValue(formValue));
+    this.props.history.push('/harvest_use_type');
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
     dispatch(getHarvestUseTypes());
-    setTimeout(() => {
-      this.props.history.push('/harvest_use_type');
-    }, 200);
   }
 
   render() {

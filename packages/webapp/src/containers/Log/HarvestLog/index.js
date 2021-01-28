@@ -44,7 +44,6 @@ class HarvestLog extends Component {
     this.setState({
       date: date,
     });
-    console.log(date._i);
     dispatch(setDefaultDate(date._i));
   }
 
@@ -68,6 +67,7 @@ class HarvestLog extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(getHarvestUseTypes());
+    console.log(this.props.formData);
   }
 
   render() {
@@ -99,11 +99,15 @@ class HarvestLog extends Component {
             type={this.state.quantity_unit}
             validate
             isHarvestLog={true}
+            defaultValue={this.props.formData.quantity_kg}
           />
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes" />
+              <Control.textarea
+                model=".harvestLog.notes"
+                defaultValue={this.props.formData.notes}
+              />
             </div>
           </div>
           <LogFooter isHarvestLog={true} />

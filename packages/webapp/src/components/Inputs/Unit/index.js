@@ -22,6 +22,7 @@ class Unit extends React.Component {
       validate,
       hideLabel,
       isHarvestAllocation,
+      defaultValue,
     } = this.props;
     let showLabel;
     if (!hideLabel) {
@@ -99,6 +100,7 @@ class Unit extends React.Component {
                 type="number"
                 step="any"
                 model={model}
+                defaultValue={defaultValue}
                 validators={{
                   required: (val) => val,
                   positive: this.isPositive,

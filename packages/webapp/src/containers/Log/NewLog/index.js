@@ -14,11 +14,12 @@ import irrigationImg from '../../../assets/images/log/irrigation.svg';
 import history from '../../../history';
 import scoutImg from '../../../assets/images/log/scout.svg';
 import { withTranslation } from 'react-i18next';
-import { setDefaultDate } from '../actions';
+import { setDefaultDate, setFormData } from '../actions';
 
 class NewLog extends Component {
   componentDidMount() {
     this.props.dispatch(setDefaultDate(''));
+    this.props.dispatch(setFormData({ notes: '', field: {}, crop: {}, quantity_kg: null }));
   }
   render() {
     return (

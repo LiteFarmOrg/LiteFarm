@@ -37,7 +37,7 @@ function OnboardingFlow({
   farm_id,
 }) {
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
-  const { hasUserFarms } = useSelector(userFarmLengthSelector);
+  const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
     <Switch>
       <Route path="/farm_selection" exact component={() => <ChooseFarm />} />

@@ -552,7 +552,7 @@ function MoodPopup({ closeEditModal, showEditModal, mood, setMood, finish, isCur
             <img src={closeButton} alt="" />
           </a>
         </div>
-        <h3>{t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
+        <h3>{(!isCurrentShiftUser && isEO) ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD') : t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
 
         <div
           style={{

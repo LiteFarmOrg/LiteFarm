@@ -40,7 +40,7 @@ class Shift extends baseModel {
         shift_date: { type: 'date' },
         mood: {
           type: 'string',
-          enum: ['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na'],
+          enum: ['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na', 'no answer'],
         },
         wage_at_moment: { type: 'number' },
         ...this.baseProperties,

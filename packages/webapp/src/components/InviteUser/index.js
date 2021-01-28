@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 
 export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
-  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const ROLE = 'role';
   const EMAIL = 'email';

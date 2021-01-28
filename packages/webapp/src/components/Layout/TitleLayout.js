@@ -12,10 +12,7 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children }) {
           order: '1',
           flexGrow: '0',
           flexShrink: '9',
-          borderBottomStyle: 'solid',
           maxBlockSize: '40px',
-          borderBottomColor: 'var(--grey400)',
-          borderBottomWidth: '5px',
         }}
       >
         <div style={{ width: '100%' }}>

@@ -4,7 +4,7 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import PureStepOne from '../../../components/Shift/StepOne';
 import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
 import history from '../../../history';
-import { stepOneData, stepOneSelector } from '../../shiftSlice';
+import { resetStepOne, stepOneData, stepOneSelector } from '../../shiftSlice';
 import { taskTypeSelector } from '../MyShift/selectors';
 import { addTaskType } from '../actions';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,11 @@ function StepOne() {
     history.push('/shift_step_two');
   };
 
+  const onBack = () => {
+    dispatch(resetStepOne());
+    history.push('/shift');
+  }
+
   const dispatchAddTaskType = (taskName) => dispatch(addTaskType(taskName));
 
   const showTaskRequiredError = () => toastr.error(t('message:SHIFT.ERROR.REQUIRED_TASK'));
@@ -38,7 +43,7 @@ function StepOne() {
       workers={users}
       defaultData={defaultData}
       onNext={onNext}
-      onGoBack={() => history.push('/shift')}
+      onGoBack={onBack}
       farm={farm}
       taskTypes={taskTypes}
       addTaskType={dispatchAddTaskType}

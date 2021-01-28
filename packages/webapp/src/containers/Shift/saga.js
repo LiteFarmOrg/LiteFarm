@@ -31,6 +31,7 @@ import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import i18n from '../../lang/i18n';
+import { resetStepOne } from "../shiftSlice";
 
 const axios = require('axios');
 
@@ -85,6 +86,7 @@ export function* addShift(action) {
       header,
     );
     if (result) {
+      yield put(resetStepOne());
       history.push('/shift');
       toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
     }

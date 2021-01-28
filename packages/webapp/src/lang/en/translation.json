@@ -1,66 +1,80 @@
 {
+  "ADD_FARM": {
+    "ADDRESS_IS_REQUIRED": "Address is required",
+    "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
+    "FARM_IS_REQUIRED": "Farm name is required",
+    "FARM_LOCATION": "Farm location",
+    "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
+    "FARM_NAME": "Farm name",
+    "INVALID_FARM_LOCATION": "Invalid farm location",
+    "NO_ADDRESS": "No location found! Try latitude and longitude",
+    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
+  },
   "CHOOSE_FARM": {
-    "ADD_NEW": "Add new farm",
-    "CHOOSE_TITLE": "Choose your farm",
-    "INPUT_PLACEHOLDER": "Search",
-    "SWITCH_TITLE": "Switch to another farm"
+    "ADD_NEW": "Agrega otra finca",
+    "CHOOSE_TITLE": "Elige otra finca",
+    "INPUT_PLACEHOLDER": "Buscar",
+    "SWITCH_TITLE": "Cambiar a otra finca"
   },
   "CONSENT": {
-    "LABEL": "I Agree"
+    "LABEL": "Estoy de acuerdo"
   },
   "CREATE_USER": {
-    "CREATE_BUTTON": "Create Account",
-    "TITLE": "Create new user account",
+    "BIRTH_YEAR": "Birth year",
+    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "CREATE_BUTTON": "Crear cuenta",
     "EMAIL": "Email",
     "FULL_NAME": "Full name",
-    "PASSWORD": "Password",
     "GENDER": "Gender",
-    "BIRTH_YEAR": "Birth year",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and"
+    "PASSWORD": "Password",
+    "TITLE": "Crear nueva cuenta de usuario"
   },
   "ENTER_PASSWORD": {
-    "FORGOT": "Forgot password?",
-    "LABEL": "Password"
+    "FORGOT": "Olvidó contraseña?",
+    "LABEL": "Contraseña"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)"
+      "TITLE_1": "Nuevo gasto (1 de 2)",
+      "TITLE_2": "Nuevo gasto (2 de 2)"
     },
-    "ADD_MORE_ITEMS": "Add more items",
-    "DETAILED_HISTORY": "Detailed History",
+    "ADD_MORE_ITEMS": "Agrega más unidades",
+    "DETAILED_HISTORY": "Historia detallada",
     "EDIT_EXPENSE": {
-      "DATE_PLACEHOLDER": "Choose a Date",
-      "DESELECTING_CATEGORY": "Deselecting a category will remove existing expenses under this category for this expenses log.",
-      "REMOVE_ALL": "You removed all expenses, click Save to submit.",
-      "TITLE_1": "Edit Expense(1 of 2)",
-      "TITLE_2": "Edit Expense (2 of 2)"
+      "DATE_PLACEHOLDER": "Elige una fecha",
+      "DESELECTING_CATEGORY": "Anular la selección de una categoría eliminará los gastos existentes bajo dicha categoria para este registro de gastos.",
+      "REMOVE_ALL": "Ud. eliminó todos los gastos, haga clic en Guardar y así actualizar el cambio.",
+      "TITLE_1": "Editar gastos (1 de 2)",
+      "TITLE_2": "Editar gastos (2 de 2)"
     },
-    "ITEM": "Item",
-    "NAME": "Name",
-    "NO_EXPENSE": "No expense found",
-    "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
-    "OTHER_EXPENSES_TITLE": "Other Expenses",
-    "SUMMARY": "Summary",
-    "VALUE": "Value"
+    "ITEM": "Unidad",
+    "NAME": "Nombre",
+    "NO_EXPENSE": "Sin gasto",
+    "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",
+    "OTHER_EXPENSES_TITLE": "Otros gastos",
+    "SUMMARY": "Resumen",
+    "VALUE": "Valor"
+  },
+  "EXPIRED_TOKEN": {
+    "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FIELDS": {
-    "ACTION": "Action",
-    "ADD_NEW_FIELD": "Add New Field",
+    "ACTION": "Acción",
+    "ADD_NEW_FIELD": "Agregue nueva área",
     "EDIT_FIELD": {
       "CROP": {
-        "AREA_USED": "Area Used",
-        "AREA_USED_HECTARE": "Area used in hectare",
-        "AREA_USED_IN": "Area Used in",
-        "BED": "bed",
-        "BED_LENGTH": "Bed Length",
-        "BED_WIDTH": "Bed Width",
-        "BY_AREA": "By Area",
-        "BY_BEDS": "By Bed",
-        "CHOOSE_END_DATE": "Choose end date",
-        "CHOOSE_START_DATE": "Choose start date",
+        "AREA_USED": "Area usada",
+        "AREA_USED_HECTARE": "Area usada en una hectárea",
+        "AREA_USED_IN": "Area usada en",
+        "BED": "Cama",
+        "BED_LENGTH": "Largo de cama",
+        "BED_WIDTH": "Ancho de cama",
+        "BY_AREA": "Por area",
+        "BY_BEDS": "Por cama",
+        "CHOOSE_END_DATE": "Elija fecha de têrmino",
+        "CHOOSE_START_DATE": "Elija fecha de inicio",
         "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
         "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
         "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",
@@ -123,40 +137,51 @@
     "WHATSAPP_NUMBER_LABEL": "Whatsapp number"
   },
   "HOME": {
-    "CHROME_WARNING": "Warning: The app is designed for Chrome, some layouts could be misplaced.",
     "GREETING": "Good day, "
   },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
+    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
     "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
+    "CREATE_ACCOUNT": "Create New Account",
+    "CREATE_NEW_ACCOUNT": "Create New Account",
     "EMAIL": "Email",
     "FULL_NAME": "Full name",
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "PASSWORD": "Password",
-    "CREATE_ACCOUNT": "Create your account",
-    "CREATE_NEW_ACCOUNT": "Create New Account",
-    "YOUR_INFORMATION": "Your information",
-    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and"
+    "YOUR_INFORMATION": "Your information"
+  },
+  "INVITE_SIGN_UP": {
+    "ERROR0": "You'll need user",
+    "ERROR1": "to accept this farm invitation.",
+    "HOW_TO_CREATE": "How do you want to create your new account?",
+    "LITEFARM_ACCOUNT": "Create a LiteFarm account",
+    "SIGN_IN_WITH": "Sign in with",
+    "TITLE": "Create your account"
   },
   "INVITE_USER": {
-    "TITLE": "Invite a user",
-    "FULL_NAME": "Full name",
-    "ROLE": "Role",
+    "BIRTH_YEAR": "Birth Year",
+    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
+    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with personally identifying information removed",
     "CHOOSE_ROLE": "Choose Role",
     "EMAIL": "Email",
     "EMAIL_INFO": "Users without an email won't be able to login",
+    "FULL_NAME": "Full name",
     "GENDER": "Gender",
-    "BIRTH_YEAR": "Birth Year",
-    "WAGE": "Wage",
-    "PHONE": "Phone",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with personally identifying information removed",
-    "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with personally identifying information removed",
+    "INVALID_EMAIL_ERROR": "Please enter a valid email",
     "INVITE": "Invite",
-    "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
+    "PHONE": "Phone",
     "PHONE_ERROR": "Please enter a valid phone number",
-    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number",
-    "INVALID_EMAIL_ERROR": "Please enter a valid email"
+    "ROLE": "Role",
+    "TITLE": "Invite a user",
+    "WAGE": "Wage",
+    "WAGE_ERROR": "Wage must be a valid, non-negative decimal number"
+  },
+  "JOIN_FARM_SUCCESS": {
+    "IMPORTANT_THINGS": "Let us show you a couple of important things!",
+    "SUCCESSFULLY_JOINED": "You have successfully joined"
   },
   "LOG_COMMON": {
     "ACTION": "Action",
@@ -227,20 +252,20 @@
     "TITLE": "Field Work Log"
   },
   "LOG_HARVEST": {
-    "HARVEST_QUANTITY": "Harvest Quantity",
-    "QUANTITY": "Quantity",
-    "HARVEST_USE": "Harvest Use",
-    "TITLE": "Harvest Log (step 1)",
-    "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
-    "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
+    "ADD_CUSTOM_TYPE": {
+      "INPUT_LABEL": "Name of the custom harvest use",
+      "TITLE": "Add a harvest use"
+    },
     "ADD_CUSTOM_USE_TYPE": "Add custom use",
-    "HARVEST_ALLOCATION_TITLE": "Harvest Log (step 3)",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
     "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate",
-    "ADD_CUSTOM_TYPE": {
-      "TITLE": "Add a harvest use",
-      "INPUT_LABEL": "Name of the custom harvest use"
-    }
+    "HARVEST_ALLOCATION_TITLE": "Harvest Log (step 3)",
+    "HARVEST_QUANTITY": "Harvest Quantity",
+    "HARVEST_USE": "Harvest Use",
+    "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
+    "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
+    "QUANTITY": "Quantity",
+    "TITLE": "Harvest Log (step 1)"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",
@@ -374,6 +399,7 @@
   "PROFILE": {
     "ACCOUNT_TAB": "Account",
     "ACCOUNT": {
+      "CONVERT_TO_HAVE_ACCOUNT": "Convert this worker to a user with account",
       "EMAIL": "Email",
       "ENGLISH": "English",
       "FIRST_NAME": "First Name",
@@ -384,8 +410,7 @@
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
       "SPANISH": "Spanish",
-      "USER_ADDRESS": "User Address",
-      "CONVERT_TO_HAVE_ACCOUNT": "Convert this worker to a user with account"
+      "USER_ADDRESS": "User Address"
     },
     "FARM_TAB": "Farm",
     "FARM": {
@@ -399,26 +424,19 @@
     },
     "PEOPLE_TAB": "People",
     "PEOPLE": {
-      "EMAIL_CANNOT_BE_EMPTY": "Email cannot be empty for the selected role",
       "EO": "Extension Officer",
       "FARM_MANAGER": "Farm Manager",
       "FARM_OWNER": "Farm Owner",
       "FARM_WORKER": "Farm Worker",
-      "FIRST_NAME_NOT_EMPTY": "First name cannot be empty",
       "HOURLY": "hourly",
-      "INVITE": "Invite",
       "INVITE_USER": "Invite User",
-      "LAST_NAME_NOT_EMPTY": "Last Name cannot be empty",
       "PAY": "Pay",
       "RESTORE_ACCESS": "Restore User Access",
       "REVOKE_ACCESS": "Revoke User Access",
       "ROLE": "Role",
       "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",
-      "SELECT_ROLE": "Select Role",
-      "USERS_FOUND": "Users found",
-      "USERS_NO_EMAIL_NO_LOGIN": "Users without an email won't be able to login",
-      "WAGE_MUST_BE_VALID": "Wage must be a valid, non-negative number (up to 2 decimal places)"
+      "USERS_FOUND": "Users found"
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -526,6 +544,7 @@
       "CHOOSE_WORKERS": "Choose worker",
       "CROPS_ON_THIS_FARM": "Crops on this farm",
       "CROPS_ON_YOUR_FARM": "Crops on your farm",
+      "DID_NOT_PROVIDE_ANSWER": "Did not provide answer",
       "DURATION": "Duration",
       "FIELDS_ON_YOUR_FARM": "Fields on your farm",
       "HAPPY": "Happy",
@@ -550,6 +569,7 @@
       "VERY_SAD": "Very Sad",
       "WAGE_FOR_SHIFT": "Wage for this shift",
       "WHAT_TASKS_YOU_DID": "What tasks did you do today?",
+      "WORKER_MOOD": "How did this worker feel during this shift?",
       "YOU_HAVE": "You have"
     },
     "END_TIME": "End Time",
@@ -562,14 +582,14 @@
       "TASK": "Task",
       "TITLE": "My Shift"
     },
+    "NAME": "Name",
     "NEW_SHIFT": {
       "STEP_ONE": "New Shift (Step 1)",
-      "STEP_TWO": "New Shift (Step 2)",
-      "WHAT_TASKS_RECORD": "What tasks would you like to record?"
+      "STEP_TWO": "New Shift (Step 2)"
     },
-    "NAME": "Name",
-    "SHIFT_HISTORY": "Shift History",
     "SHIFT_DATE": "Date",
+    "SHIFT_HISTORY": "Shift History",
+    "START_TIME": "MISSING",
     "TITLE": "Shifts",
     "TO": "To"
   },
@@ -585,9 +605,7 @@
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "Sign Up",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
-    "WRONG_BROWSER_BOTTOM": "Please login using Chrome.",
-    "USED_INVITATION_LINK_ERROR": "This invitation has already been used, please log in to access this farm",
-    "EXPIRED_INVITATION_LINK_ERROR": "Invalid or expired invitation"
+    "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
     "DEMOS": "Demos",
@@ -606,42 +624,13 @@
     "DESCRIPTION_TOP": "The barn door is secure.",
     "TITLE": "Switching Farms"
   },
+  "WEATHER": {
+    "HUMIDITY": "Humidity",
+    "WIND": "Wind"
+  },
   "WELCOME_SCREEN": {
     "BUTTON": "Let's get started",
     "SVG_ALT": "Welcome to LiteFarm"
   },
-  "LOGIN_BUTTON": "Log In or Sign Up",
-  "INVITE_SIGN_UP": {
-    "TITLE": "Create your account",
-    "HOW_TO_CREATE": "How do you want to create your new account?",
-    "ERROR0": "You'll need user",
-    "ERROR1": "to accept this farm invitation.",
-    "SIGN_IN_WITH": "Sign in with",
-    "LITEFARM_ACCOUNT": "Create a LiteFarm account"
-  },
-  "JOIN_FARM_SUCCESS": {
-    "SUCCESSFULLY_JOINED": "You have successfully joined",
-    "IMPORTANT_THINGS": "Let us show you a couple of important things!"
-  },
-  "EXPIRED_TOKEN": {
-    "INVITATION": "MISSING",
-    "DEFAULT": "MISSING",
-    "RESET_PASSWORD": "This link has expired.",
-    "RESET_PASSWORD_LINK": "Send new password link."
-  },
-  "WEATHER": {
-    "WIND": "Wind",
-    "HUMIDITY": "Humidity"
-  },
-  "ADD_FARM": {
-    "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm",
-    "FARM_NAME": "Farm name",
-    "FARM_LOCATION": "Farm location",
-    "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
-    "FARM_IS_REQUIRED": "Farm name is required",
-    "ADDRESS_IS_REQUIRED": "Address is required",
-    "ENTER_A_VALID_ADDRESS": "Please enter a valid address or coordinate",
-    "INVALID_FARM_LOCATION": "Invalid farm location",
-    "NO_ADDRESS": "No location found! Try latitude and longitude"
-  }
+  "LOGIN_BUTTON": "Log In or Sign Up"
 }

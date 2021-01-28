@@ -1476,6 +1476,15 @@ export default {
       loaded: true,
       error: null,
     },
+  },
+  persistedStateReducer: {
+    userLogReducer: {
+      lastActiveDatetime: 1611317838641,
+      farm_id: 'eeb2293a-5699-11eb-9407-244bfe993436',
+    },
+  },
+  tempStateReducer: {
+    homeReducer: {},
     shiftStepReducer: {
       worker: {
         user_id: 'ebdb01b4-5699-11eb-b6ec-244bfe993436',
@@ -1491,14 +1500,7 @@ export default {
       ],
     },
   },
-  persistedStateReducer: {
-    userLogReducer: {
-      lastActiveDatetime: 1611317838641,
-      farm_id: 'eeb2293a-5699-11eb-9407-244bfe993436',
-    },
-  },
-  tempStateReducer: { homeReducer: {} },
-  baseReducer: {},
+  baseReducer: { show_spotlight: false },
   logReducer: {
     forms: {
       fertLog: {

@@ -18,6 +18,7 @@ import SeedImg from '../../../assets/images/log/seeding.svg';
 import SocialImg from '../../../assets/images/log/social.svg';
 import WashImg from '../../../assets/images/log/wash.svg';
 import WeedImg from '../../../assets/images/log/weed.svg';
+import BreakImg from '../../../assets/images/log/break.svg';
 import OtherImg from '../../../assets/images/log/other.svg';
 import { Semibold, Text } from '../../Typography';
 import AddTaskModal from '../../../components/Shift/AddTaskModal';
@@ -44,8 +45,10 @@ function PureStepOne({
   const [worker, setWorker] = useState(null);
 
   useEffect(() => {
-    const shrinkSelectedTasks = selectedTasks.map(({ task_id }) => task_id);
-    const currentUser = workers.find(({ user_id }) => farm.user_id === user_id);
+    const shrinkSelectedTasks = defaultData.selectedTasks.map(({ task_id }) => task_id);
+    const currentUser = workers.find(({ user_id }) => {
+      return defaultData.worker ? defaultData.worker.user_id === user_id : farm.user_id === user_id;
+    });
     setDate(moment(defaultData.shift_date));
     setSelectedTask(shrinkSelectedTasks);
     setWorker(
@@ -112,7 +115,10 @@ function PureStepOne({
       />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
         <div className={styles.buttonContainer}>
-          <Button color={'secondary'} onClick={() => switchShowModal(true)}>
+          <Button
+            style={{ backgroundColor: 'var(--teal700)', color: 'white' }}
+            onClick={() => switchShowModal(true)}
+          >
             {t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}
           </Button>
         </div>
@@ -141,6 +147,7 @@ function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
     'Social Event': SocialImg,
     'Wash and Pack': WashImg,
     Weeding: WeedImg,
+    Break: BreakImg,
     Other: OtherImg,
   };
 

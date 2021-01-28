@@ -9,11 +9,11 @@ import { submitShift } from '../actions';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { useTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
-import PureStepOne from '../../../components/Shift/StepOne';
 
 function StepTwo() {
   const { t } = useTranslation();
-  const [allowedToSetMood, allowMoodChange] = useState(false);
+  const EXTENSION_OFFICER_ROLE = 5;
+  const [currentShiftUSer, allowMoodChange] = useState(false);
   const [finalForm, setFinalForm] = useState({});
   const [cropDurations, setCropDurations] = useState({});
   const [mood, setMood] = useState(null);
@@ -164,12 +164,12 @@ function StepTwo() {
   };
 
   const isCurrentUserInShift = () => {
-    allowMoodChange(users.role_id === 5 || worker.user_id === users.user_id);
+    allowMoodChange(worker.user_id === users.user_id);
   };
 
   return (
     <PureStepTwo
-      indicateMood={allowedToSetMood}
+      isCurrentShiftUser={currentShiftUSer}
       cropDurations={cropDurations}
       setCropDurations={setCropDurations}
       mood={mood}
@@ -180,6 +180,7 @@ function StepTwo() {
       fields={fields}
       selectedTasks={selectedTasks}
       onNext={finishShift}
+      isEO={users.role_id === EXTENSION_OFFICER_ROLE}
       onGoBack={() => history.push('/shift_step_one')}
     />
   );

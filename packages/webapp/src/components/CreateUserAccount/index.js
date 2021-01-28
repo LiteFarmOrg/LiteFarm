@@ -9,7 +9,6 @@ import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import { blockInvalidChar } from "../../util/blockInvalidChar";
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
@@ -38,7 +37,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     { value: 'OTHER', label: t('gender:OTHER') },
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
-  console.log(birth_year);
+
   const disabled = !name || !isValid || (birth_year && (birth_year < 1900 || birth_year > new Date().getFullYear()));
 
   const onSubmit = (data) => {
@@ -105,7 +104,6 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
-        onKeyDown={blockInvalidChar}
       />
       <Input
         style={{ marginBottom: '28px' }}

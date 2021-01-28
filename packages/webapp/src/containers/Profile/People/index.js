@@ -491,7 +491,7 @@ class People extends Component {
                     </Button>
                   </div>
                 </Form>
-                {this.state.editUser.status === 'Inactive' ? (
+                {this.state.editUser.status === 'Inactive' && this.state.editUser.role_id !== 4 ? (
                   <div style={{ textAlign: 'center' }}>
                     {!this.state.editUser.is_admin && (
                       <button
@@ -504,7 +504,7 @@ class People extends Component {
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center' }}>
-                    {!this.state.editUser.is_admin && (
+                    {!this.state.editUser.is_admin && this.state.editUser.role_id !== 4 && (
                       <button
                         className={styles.removeButton}
                         onClick={() => this.deactivate(this.state.editUser.user_id)}

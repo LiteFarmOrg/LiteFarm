@@ -114,7 +114,7 @@ class loginController extends baseController {
           user: {
             user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
             email,
-            first_name: passwordUser.first_name,
+            first_name: isPasswordNeeded ? passwordUser.first_name: first_name,
           },
         });
       } catch (err) {

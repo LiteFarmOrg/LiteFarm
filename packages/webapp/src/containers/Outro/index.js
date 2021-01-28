@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import { showSpotlight } from '../actions';
 import PureOutroSplash from '../../components/Outro';
 import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
 import { getCertifiers } from '../OrganicCertifierSurvey/saga';
 import { patchOutroStep } from './saga';
+import { loginSelector } from '../userFarmSlice';
+import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 
 function Outro() {
+  const userFarm = useSelector(loginSelector);
   const dispatch = useDispatch();
   const onGoBack = () => {
     history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
   };
   const onContinue = () => {
     dispatch(patchOutroStep());
-    setTimeout(() => {
-      dispatch(showSpotlight(true));
-    }, 200);
+    dispatch(startSpotLight(userFarm.farm_id));
   };
   const survey = useSelector(certifierSurveySelector);
   useEffect(() => {

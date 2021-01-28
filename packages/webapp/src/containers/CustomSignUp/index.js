@@ -94,7 +94,7 @@ function CustomSignUp() {
   };
   const onSubmit = (data) => {
     const { email } = data;
-    dispatch(customSignUp({ email, showSSOError: showSSOErrorAndRedirect }));
+    dispatch(customSignUp({ email: email?.toLowerCase(), showSSOError: showSSOErrorAndRedirect }));
   };
 
   const onSignUp = (user) => {

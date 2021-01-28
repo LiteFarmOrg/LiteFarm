@@ -40,6 +40,7 @@ class LogFormOneCrop extends React.Component {
       displayLiveCropMessage: false,
     };
     this.setCropsOnFieldSelect = this.setCropsOnFieldSelect.bind(this);
+    this.setCropValue = this.setCropValue.bind(this);
 
     if (selectedFields) {
       this.setCropsOnFieldSelect(selectedFields[0]);
@@ -106,8 +107,15 @@ class LogFormOneCrop extends React.Component {
     this.filterLiveCrops();
     this.props.dispatch(actions.change(`${parent}${model}.field`, this.state.selectedFields));
 
-    if (Object.keys(this.props.defaultField).length > 0) {
-      this.setCropsOnFieldSelect(this.props.defaultField);
+    if (this.props.defaultField && Object.keys(this.props.defaultField).length > 0) {
+      this.state.selectedFields = this.props.defaultField;
+      this.setCropsOnFieldSelect;
+    }
+  }
+
+  setCropValue() {
+    if (this.props.defaultCrop && Object.keys(this.props.defaultCrop).length > 0) {
+      return this.props.defaultCrop[this.props.defaultField.value];
     }
   }
 
@@ -189,7 +197,9 @@ class LogFormOneCrop extends React.Component {
             placeholder="Select Field"
             isSearchable={false}
             defaultValue={
-              !Object.keys(defaultField).length ? this.state.selectedFields : defaultField
+              !defaultField || !Object.keys(defaultField).length
+                ? this.state.selectedFields
+                : defaultField
             }
             validators={{
               required: (val) => {
@@ -216,7 +226,7 @@ class LogFormOneCrop extends React.Component {
               component={DropDown}
               options={this.state.cropOptionsMap[this.state.selectedFields.value]}
               placeholder="Select Field Crop"
-              // defaultValue={!Object.keys(defaultCrop).length ? null : defaultCrop}
+              defaultValue={this.setCropValue}
               isSearchable={false}
               validators={
                 isCropNotRequired

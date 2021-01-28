@@ -2,13 +2,12 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';
-import { Title, Info } from '../Typography';
+import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
-import { validatePasswordWithErrors } from '../Signup/utils';
-import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
+import { getFirstNameLastName } from '../../util';
 
 export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
   const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
@@ -37,8 +36,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
-    const i = data.name.indexOf(' ');
-    const [first_name, last_name] = [data.name.slice(0, i), data.name.slice(i + 1)];
+    const { first_name, last_name } = getFirstNameLastName(data.name);
     onInvite({ ...data, email, first_name, last_name });
   };
   const onError = (data) => {

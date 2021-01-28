@@ -105,6 +105,10 @@ class LogFormOneCrop extends React.Component {
     // if 'all' is selected in fields dropdown, set field in redux state with all field options instead of option 'all'
     this.filterLiveCrops();
     this.props.dispatch(actions.change(`${parent}${model}.field`, this.state.selectedFields));
+
+    if (Object.keys(this.props.defaultField).length > 0) {
+      this.setCropsOnFieldSelect(this.props.defaultField);
+    }
   }
 
   filterLiveCrops = () => {
@@ -160,6 +164,8 @@ class LogFormOneCrop extends React.Component {
       customFieldset,
       isCropNotRequired,
       isCropNotNeeded,
+      defaultField,
+      defaultCrop,
     } = this.props;
     const { displayLiveCropMessage, fieldOptions } = this.state;
     // format options for react-select dropdown components
@@ -182,7 +188,9 @@ class LogFormOneCrop extends React.Component {
             options={fieldOptions || []}
             placeholder="Select Field"
             isSearchable={false}
-            value={this.state.selectedFields}
+            defaultValue={
+              !Object.keys(defaultField).length ? this.state.selectedFields : defaultField
+            }
             validators={{
               required: (val) => {
                 if (val) {
@@ -200,7 +208,7 @@ class LogFormOneCrop extends React.Component {
             }}
           />
         </div>
-        {!isCropNotNeeded && this.state.selectedFields && this.state.selectedFields && (
+        {!isCropNotNeeded && this.state.selectedFields && (
           <div className={styles.defaultFormDropDown}>
             <label>Crop</label>
             <Control
@@ -208,6 +216,7 @@ class LogFormOneCrop extends React.Component {
               component={DropDown}
               options={this.state.cropOptionsMap[this.state.selectedFields.value]}
               placeholder="Select Field Crop"
+              // defaultValue={!Object.keys(defaultCrop).length ? null : defaultCrop}
               isSearchable={false}
               validators={
                 isCropNotRequired

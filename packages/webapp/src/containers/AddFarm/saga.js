@@ -22,7 +22,7 @@ import {
   userFarmSelector,
   patchFarmSuccess,
   loginSelector,
-  selectFarmSuccess,
+  selectFarmSuccess, onLoadingStart, setLoadingStart, setLoadingEnd,
 } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
@@ -35,7 +35,7 @@ const patchStepUrl = (farm_id, user_id) =>
 export const postFarm = createAction('postFarmSaga');
 export function* postFarmSaga({ payload: farm }) {
   const { user_id } = yield select(loginSelector);
-
+  yield put(setLoadingStart());
   let addFarmData = {
     farm_name: farm.farmName,
     address: farm.address,
@@ -68,6 +68,7 @@ export function* postFarmSaga({ payload: farm }) {
     yield put(selectFarmSuccess({ farm_id }));
     history.push('/role_selection');
   } catch (e) {
+    yield put(setLoadingEnd());
     console.log(e);
     toastr.error(i18n.t('message:FARM.ERROR.ADD'));
   }

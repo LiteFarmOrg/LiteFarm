@@ -1,6 +1,6 @@
 {
-  "OWNER": "Farm Owner",
+  "EXTENSION_OFFICER": "Extension Officer",
   "MANAGER": "Farm Manager",
-  "WORKER": "Farm Worker",
-  "EXTENSION_OFFICER": "Extension Officer"
+  "OWNER": "Farm Owner",
+  "WORKER": "Farm Worker"
 }

@@ -11,7 +11,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
-  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';

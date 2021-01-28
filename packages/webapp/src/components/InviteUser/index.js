@@ -11,7 +11,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 
 export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
-  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const ROLE = 'role';
   const EMAIL = 'email';

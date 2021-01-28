@@ -17,7 +17,7 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
-import { setFormData, setFormValue, setSelectedUseTypes } from "../actions";
+import { setFormData, setFormValue, setSelectedUseTypes } from '../actions';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -144,7 +144,11 @@ class HarvestLog extends Component {
               <Control.textarea model=".harvestLog.notes" />
             </div>
           </div>
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} isHarvestLog={true} />
+          <LogFooter
+            edit={true}
+            onClick={() => this.setState({ showModal: true })}
+            isHarvestLog={true}
+          />
         </Form>
         <ConfirmModal
           open={this.state.showModal}

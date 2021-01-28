@@ -17,8 +17,13 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
-import { setFormData, setFormValue } from '../actions';
-import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
+import { setFormData, setFormValue, setDefaultDate } from '../actions';
+import {
+  formDataSelector,
+  selectedUseTypeSelector,
+  formValueSelector,
+  defaultDateSelector,
+} from '../selectors';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -35,9 +40,12 @@ class HarvestLog extends Component {
   }
 
   setDate(date) {
+    const { dispatch } = this.props;
     this.setState({
       date: date,
     });
+    console.log(date._i);
+    dispatch(setDefaultDate(date._i));
   }
 
   handleSubmit(log) {
@@ -77,6 +85,7 @@ class HarvestLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          defaultDate={this.props.defaultDate}
         />
         <Form
           model="logReducer.forms"
@@ -112,6 +121,7 @@ const mapStateToProps = (state) => {
     formData: formDataSelector(state),
     useType: selectedUseTypeSelector(state),
     formValue: formValueSelector(state),
+    defaultDate: defaultDateSelector(state),
   };
 };
 

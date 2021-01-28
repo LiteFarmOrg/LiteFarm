@@ -14,8 +14,12 @@ import irrigationImg from '../../../assets/images/log/irrigation.svg';
 import history from '../../../history';
 import scoutImg from '../../../assets/images/log/scout.svg';
 import { withTranslation } from 'react-i18next';
+import { setDefaultDate } from '../actions';
 
 class NewLog extends Component {
+  componentDidMount() {
+    this.props.dispatch(setDefaultDate(''));
+  }
   render() {
     return (
       <div className={styles.logContainer}>

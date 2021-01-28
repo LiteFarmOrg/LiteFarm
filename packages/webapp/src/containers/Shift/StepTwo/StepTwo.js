@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { userFarmSelector } from "../../userFarmSlice";
-import { stepOneSelector } from "../../shiftSlice";
-import PureStepTwo from "../../../components/Shift/StepTwo";
-import { toastr } from "react-redux-toastr";
-import history from "../../../history";
-import { submitShift } from "../actions";
-import { currentFieldCropsSelector } from "../../fieldCropSlice";
-import { useTranslation } from "react-i18next";
-import { fieldsSelector } from "../../fieldSlice";
-import PureStepOne from "../../../components/Shift/StepOne";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { userFarmSelector } from '../../userFarmSlice';
+import { stepOneSelector } from '../../shiftSlice';
+import PureStepTwo from '../../../components/Shift/StepTwo';
+import { toastr } from 'react-redux-toastr';
+import history from '../../../history';
+import { submitShift } from '../actions';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { useTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import PureStepOne from '../../../components/Shift/StepOne';
 
 function StepTwo() {
   const { t } = useTranslation();
@@ -25,7 +25,6 @@ function StepTwo() {
 
   const { selectedTasks, worker, shift_date } = useSelector(stepOneSelector);
 
-
   useEffect(() => {
     let mutateFinalForm = {};
     for (let task of selectedTasks) {
@@ -37,7 +36,7 @@ function StepTwo() {
     }
     setFinalForm(mutateFinalForm);
     isCurrentUserInShift();
-  }, [])
+  }, []);
 
   const finishShift = () => {
     let mutatingFinalForm = { ...finalForm };
@@ -49,7 +48,6 @@ function StepTwo() {
       shift_date,
       tasks: [],
     };
-
 
     let keys = Object.keys(mutatingFinalForm);
     // key here is task_id
@@ -70,7 +68,9 @@ function StepTwo() {
             return;
           }
 
-          let duration = Number(parseFloat(Number(mutatingFinalForm[key].duration) / val_num).toFixed(3));
+          let duration = Number(
+            parseFloat(Number(mutatingFinalForm[key].duration) / val_num).toFixed(3),
+          );
           if (valIterator === val_num - 1) {
             if (duration * val_num !== Number(mutatingFinalForm[key].duration)) {
               duration = Number(mutatingFinalForm[key].duration) - duration * (val_num - 1);
@@ -79,7 +79,7 @@ function StepTwo() {
           // duration / # of crops on field
           let crop_num = 0;
           let crops_on_field = [];
-          let cropsCopy = [...crops] ;
+          let cropsCopy = [...crops];
           for (let crop of cropsCopy) {
             if (crop.field_id === val.id) {
               crop_num++;
@@ -137,7 +137,7 @@ function StepTwo() {
             return;
           }
 
-          let cropsCopy = [...crops ];
+          let cropsCopy = [...crops];
           let crop_arr = [];
           for (let crop of cropsCopy) {
             if (crop.crop_id === val.id) {
@@ -161,17 +161,28 @@ function StepTwo() {
     }
 
     dispatch(submitShift(form));
-  }
+  };
 
   const isCurrentUserInShift = () => {
     allowMoodChange(users.role_id === 5 || worker.user_id === users.user_id);
   };
 
   return (
-    <PureStepTwo indicateMood={allowedToSetMood} cropDurations={cropDurations} setCropDurations={setCropDurations} mood={mood} setMood={setMood}
-                 finalForm={finalForm} setFinalForm={setFinalForm} crops={crops} fields={fields} selectedTasks={selectedTasks}
-                 onNext={finishShift} onGoBack={() => history.push('/shift_step_one')}  />
-  )
+    <PureStepTwo
+      indicateMood={allowedToSetMood}
+      cropDurations={cropDurations}
+      setCropDurations={setCropDurations}
+      mood={mood}
+      setMood={setMood}
+      finalForm={finalForm}
+      setFinalForm={setFinalForm}
+      crops={crops}
+      fields={fields}
+      selectedTasks={selectedTasks}
+      onNext={finishShift}
+      onGoBack={() => history.push('/shift_step_one')}
+    />
+  );
 }
 
 export default StepTwo;

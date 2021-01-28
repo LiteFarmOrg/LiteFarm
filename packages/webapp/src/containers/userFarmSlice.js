@@ -45,6 +45,17 @@ const addUserFarm = (state, { payload: userFarm }) => {
   state.byFarmIdUserId[farm_id][user_id] = userFarm;
 };
 
+const removeUserFarm = (state, { payload: userFarm }) => {
+  const { farm_id, user_id } = userFarm;
+  if (state.byFarmIdUserId[farm_id]?.[user_id]) {
+    delete state.byFarmIdUserId[farm_id]?.[user_id];
+    state.farmIdUserIdTuple = state.farmIdUserIdTuple.filter(
+      (farmIdUserIdTuple) =>
+        farmIdUserIdTuple.farm_id !== farm_id && farmIdUserIdTuple.user_id !== user_id,
+    );
+  }
+};
+
 const userFarmSlice = createSlice({
   name: 'userFarmReducer',
   initialState,
@@ -140,6 +151,10 @@ const userFarmSlice = createSlice({
       state.user_id = userFarm.user_id;
       state.farm_id = userFarm.farm_id;
     },
+    invitePseudoUserSuccess: (state, { payload: { newUserFarm, pseudoUserFarm } }) => {
+      removeUserFarm(state, { payload: pseudoUserFarm });
+      addUserFarm(state, { payload: newUserFarm });
+    },
   },
 });
 
@@ -162,6 +177,7 @@ export const {
   logoutSuccess,
   selectFarmSuccess,
   acceptInvitationSuccess,
+  invitePseudoUserSuccess,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
@@ -179,10 +195,11 @@ export const userFarmsByUserSelector = createSelector(
 export const userFarmsByFarmSelector = createSelector(
   [loginSelector, userFarmReducerSelector],
   ({ farm_id, user_id }, { byFarmIdUserId, loading, error, ...rest }) => {
-    if(!farm_id)
-      return [];
+    if (!farm_id) return [];
     const userRole = byFarmIdUserId[farm_id][user_id]?.role_id;
-    return adminRoles.includes(userRole) ? Object.values(byFarmIdUserId[farm_id]) : [byFarmIdUserId[farm_id][user_id]];
+    return adminRoles.includes(userRole)
+      ? Object.values(byFarmIdUserId[farm_id])
+      : [byFarmIdUserId[farm_id][user_id]];
   },
 );
 export const userFarmSelector = createSelector(

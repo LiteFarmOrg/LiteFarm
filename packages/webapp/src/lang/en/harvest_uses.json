@@ -2,11 +2,11 @@
   "SALES": "Sales",
   "SELF-CONSUMPTION": "Self-Consumption",
   "ANIMAL_FEED": "Animal Feed",
-  "COMPOST":"Compost",
+  "COMPOST": "Compost",
   "GIFT": "Gift",
-  "EXCHANGE":"Exchange",
+  "EXCHANGE": "Exchange",
   "SAVED_FOR_SEED": "Saved for seed",
-  "NOT_SURE":"Not Sure",
+  "NOT_SURE": "Not Sure",
   "DONATION": "Donation",
-  "OTHER":"Other"
+  "OTHER": "Other"
 }

@@ -7,6 +7,13 @@ import Card from '../Card';
 import { ReactComponent as GoogleLogo } from '../../assets/images/inviteSignUp/google-logo.svg';
 import styles from './styles.scss';
 
+const cardStyle = {
+  minHeight: '64px',
+  display: 'flex',
+  paddingLeft: '16px',
+  alignItems: 'center',
+};
+
 export default function PureInviteSignup({
   googleButton,
   showError,
@@ -36,11 +43,10 @@ export default function PureInviteSignup({
         <Main style={{ marginBottom: '24px' }}>{t(`INVITE_SIGN_UP.HOW_TO_CREATE`)}</Main>
       )}
       <Card
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '24px', ...cardStyle }}
         key={1}
         onClick={() => onClick(1)}
         color={selectedKey === 1 ? 'active' : 'secondary'}
-        isButton
       >
         <Semibold style={{ margin: 0 }}>
           {t(`INVITE_SIGN_UP.SIGN_IN_WITH`)}{' '}
@@ -51,7 +57,7 @@ export default function PureInviteSignup({
         key={2}
         onClick={() => onClick(2)}
         color={selectedKey === 2 ? 'active' : 'secondary'}
-        isButton
+        style={cardStyle}
       >
         <Semibold style={{ margin: 0 }}> {t(`INVITE_SIGN_UP.LITEFARM_ACCOUNT`)}</Semibold>
       </Card>

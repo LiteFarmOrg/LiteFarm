@@ -41,6 +41,10 @@ const Input = ({
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
   const [showError, setShowError] = useState(isPassword);
+  const onKeyDown =
+    type === 'number'
+      ? (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
+      : undefined;
   useEffect(() => {
     errors: setShowError(!!errors);
   }, [errors]);
@@ -83,9 +87,10 @@ const Input = ({
         aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(inputRef, input)}
         type={inputType}
+        onKeyDown={onKeyDown}
         {...props}
       />
-      {info && !errors && <Info style={classes.info}>{info}</Info>}
+      {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError && !disabled ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
   );

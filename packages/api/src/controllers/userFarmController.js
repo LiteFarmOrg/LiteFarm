@@ -38,7 +38,7 @@ const { createToken } = require('../util/jwt');
 
 const validStatusChanges = {
   'Active': ['Inactive'],
-  'Inactive': ['Active'],
+  'Inactive': ['Invited'],
   'Invited': ['Inactive']
 };
 

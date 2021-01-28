@@ -31,7 +31,7 @@ function StepOne() {
   const onBack = () => {
     dispatch(resetStepOne());
     history.push('/shift');
-  }
+  };
 
   const dispatchAddTaskType = (taskName) => dispatch(addTaskType(taskName));
 

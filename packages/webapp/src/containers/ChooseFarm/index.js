@@ -15,11 +15,16 @@
 
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
-import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../userFarmSlice';
+import {
+  selectFarmSuccess,
+  deselectFarmSuccess,
+  loginSelector,
+  userFarmEntitiesSelector,
+} from '../userFarmSlice';
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
-import { getUserFarms } from './saga';
+import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 
@@ -28,8 +33,9 @@ function ChooseFarm() {
   const dispatch = useDispatch();
 
   const [selectedFarmId, setFarmId] = useState();
-  const { farm_id: currentFarmId } = useSelector(loginSelector);
+  const { farm_id: currentFarmId, user_id } = useSelector(loginSelector);
   const [filter, setFilter] = useState();
+  const userFarmEntities = useSelector(userFarmEntitiesSelector);
 
   useEffect(() => {
     dispatch(getUserFarms());
@@ -37,7 +43,7 @@ function ChooseFarm() {
 
   const farms = useSelector(userFarmsByUserSelector);
   useEffect(() => {
-    if (farms?.length === 1) {
+    if (farms?.length === 1 && ['Invited', 'Active'].includes(farms[0].status)) {
       setFarmId(farms[0].farm_id);
     }
   }, [farms]);
@@ -52,8 +58,13 @@ function ChooseFarm() {
   };
 
   const onProceed = () => {
-    dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    history.push({ pathname: '/', state: !!currentFarmId });
+    const farm = userFarmEntities[selectedFarmId][user_id];
+    if (farm.status === 'Active') {
+      dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
+      history.push({ pathname: '/', state: !!currentFarmId });
+    } else {
+      dispatch(patchUserFarmStatusWithIDToken(farm));
+    }
   };
 
   const onSelectFarm = (farm_id) => {

@@ -1,38 +1,38 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "Failed to upload attachments"
+      "FAILED_UPLOAD": "Falla al subir los archivos adjuntos"
     }
   },
   "CONTACT": {
     "ERROR": {
-      "SUBMIT_CONTACT_FORM": "Error, Could Not Submit A Contact Form"
+      "SUBMIT_CONTACT_FORM": "Error, Ud. no pudo enviar un formulario de contacto"
     },
     "SUCCESS": {
-      "SUBMIT_CONTACT_FORM": "Submitted Contact Form!"
+      "SUBMIT_CONTACT_FORM": "Formulario de contacto enviado!"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field Crop",
-      "EDIT": "Failed To Edit Field Crop"
+      "DELETE": "No pudo borrar campo de cultivo",
+      "EDIT": "No pudo editar campo de cultivo"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Crop",
-      "EDIT": "Successfully Edited Crop"
+      "DELETE": "Cultivo borrado exitosamente",
+      "EDIT": "Cultivo editado exitosamente"
     }
   },
   "EDIT_FIELD_CROP": {
     "ERROR": {
-      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date",
-      "FIELD_AREA": "Field crop area cannot be greater than field area"
+      "END_DATE_BEFORE": "Fecha de término no puede ser la misma o anterior a la fecha de inicio",
+      "FIELD_AREA": "El area de campo de cultivo no puede ser más grande que el área del campo"
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "Failed to add new expenses",
-      "DELETE": "Failed to delete expenses",
-      "UPDATE": "Failed to update expenses!"
+      "ADD": "No pudo agregar nuevos gastos",
+      "DELETE": "No pudo borrar gastos",
+      "UPDATE": "No pudo actualizar gastos!"
     },
     "SUCCESS": {
       "ADD": "Successfully added new expenses!",

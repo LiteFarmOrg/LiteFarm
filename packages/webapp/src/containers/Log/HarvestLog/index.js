@@ -24,7 +24,7 @@ class HarvestLog extends Component {
   constructor(props) {
     super(props);
     const { farm, dispatch, history } = this.props;
-    this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
+    dispatch(actions.reset('logReducer.forms.harvestLog'));
 
     this.state = {
       date: moment(),

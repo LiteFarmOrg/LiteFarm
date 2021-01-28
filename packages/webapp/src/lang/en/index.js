@@ -20,6 +20,6 @@ const english = {
   message,
   gender,
   role,
-  harvest_uses
+  harvest_uses,
 };
 export default english;

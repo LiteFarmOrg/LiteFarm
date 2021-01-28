@@ -20,6 +20,6 @@ const portuguese = {
   message,
   gender,
   role,
-  harvest_uses
+  harvest_uses,
 };
 export default portuguese;

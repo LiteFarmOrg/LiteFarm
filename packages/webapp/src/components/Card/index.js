@@ -3,24 +3,19 @@ import styles from './card.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-const Card = ({ color = 'primary', children = 'card', onClick, isButton, ...props }) => {
+const Card = ({ color = 'primary', children = 'card', onClick, ...props }) => {
   return (
-    <div
-      className={clsx(styles.container, styles[color], isButton && styles.btn)}
-      onClick={onClick}
-      {...props}
-    >
+    <div className={clsx(styles.container, styles[color])} onClick={onClick} {...props}>
       {children}
     </div>
   );
 };
 
 Card.propTypes = {
-  color: PropTypes.oneOf(['primary', 'secondary', 'active', 'disabled']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'active', 'disabled', 'blue', 'blueActive']),
   children: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
-  isButton: PropTypes.bool,
 };
 
 export default Card;

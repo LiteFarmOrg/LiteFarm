@@ -44,8 +44,10 @@ function PureStepOne({
   const [worker, setWorker] = useState(null);
 
   useEffect(() => {
-    const shrinkSelectedTasks = selectedTasks.map(({ task_id }) => task_id);
-    const currentUser = workers.find(({ user_id }) => farm.user_id === user_id);
+    const shrinkSelectedTasks = defaultData.selectedTasks.map(({ task_id }) => task_id);
+    const currentUser = workers.find(({ user_id }) => {
+      return defaultData.worker ? defaultData.worker.user_id === user_id : farm.user_id === user_id
+    });
     setDate(moment(defaultData.shift_date));
     setSelectedTask(shrinkSelectedTasks);
     setWorker(

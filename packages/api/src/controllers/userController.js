@@ -105,7 +105,6 @@ class userController extends baseController {
       const requiredProps = {
         email,
         first_name,
-        last_name,
         farm_id,
         role_id,
       };

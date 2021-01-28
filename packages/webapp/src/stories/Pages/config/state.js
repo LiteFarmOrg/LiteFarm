@@ -1476,7 +1476,6 @@ export default {
       loaded: true,
       error: null,
     },
-
   },
   persistedStateReducer: {
     userLogReducer: {
@@ -1484,7 +1483,9 @@ export default {
       farm_id: 'eeb2293a-5699-11eb-9407-244bfe993436',
     },
   },
-  tempStateReducer: { homeReducer: {}, shiftStepReducer: {
+  tempStateReducer: {
+    homeReducer: {},
+    shiftStepReducer: {
       worker: {
         user_id: 'ebdb01b4-5699-11eb-b6ec-244bfe993436',
       },
@@ -1497,7 +1498,8 @@ export default {
           task_translation_key: 'BED_PREPARATION',
         },
       ],
-    },},
+    },
+  },
   baseReducer: { show_spotlight: false },
   logReducer: {
     forms: {

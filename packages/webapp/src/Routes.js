@@ -107,15 +107,14 @@ import OnboardingFlow from './routes/Onboarding';
 import { isAuthenticated } from './util/jwt';
 
 // action
-import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import PasswordResetAccount from './containers/PasswordResetAccount';
 import InviteSignUp from './containers/InviteSignUp';
 import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
 import Callback from './containers/Callback';
 import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
-import history from './history';
 import InviteUser from './containers/InviteUser';
+import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -128,13 +127,17 @@ const Routes = () => {
       pre.farm_id === next.farm_id &&
       pre.step_three === next.step_three,
   );
+  const { isInvitationFlow } = useSelector(
+    chooseFarmFlowSelector,
+    (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
+  );
   let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (history.location.state?.isInvitationFlow) {
+    if (isInvitationFlow) {
       return (
         <Switch>
           <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -156,15 +159,8 @@ const Routes = () => {
           <Route
             path="/consent"
             exact
-            component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
+            component={() => <ConsentForm goForwardTo={'/'} goBackTo={null} />}
           />
-          {has_consent && (
-            <Route
-              path="/consent"
-              exact
-              component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
-            />
-          )}
           {!has_consent && <Redirect to={'/consent'} />}
         </Switch>
       );

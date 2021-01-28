@@ -17,6 +17,4 @@ import { createSelector } from 'reselect/es';
 
 const baseSelector = (state) => state.baseReducer;
 
-const spotlightSelector = createSelector(baseSelector, (state) => state.show_spotlight);
-
-export { spotlightSelector };
+export {};

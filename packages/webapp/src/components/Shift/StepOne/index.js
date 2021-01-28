@@ -47,7 +47,7 @@ function PureStepOne({
   useEffect(() => {
     const shrinkSelectedTasks = defaultData.selectedTasks.map(({ task_id }) => task_id);
     const currentUser = workers.find(({ user_id }) => {
-      return defaultData.worker ? defaultData.worker.user_id === user_id : farm.user_id === user_id
+      return defaultData.worker ? defaultData.worker.user_id === user_id : farm.user_id === user_id;
     });
     setDate(moment(defaultData.shift_date));
     setSelectedTask(shrinkSelectedTasks);
@@ -98,15 +98,20 @@ function PureStepOne({
         placeholder={t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')}
       />
       <div style={{ marginTop: '24px' }} />
-      <ReactSelect
-        label={t('SHIFT.EDIT_SHIFT.CHOOSE_WORKERS')}
-        options={workerOptions}
-        onChange={setWorker}
-        value={worker}
-        style={{ marginBottom: '24px' }}
-        defaultValue={defaultWorker}
-      />
-      <Semibold>What tasks did you do today?</Semibold>
+      {Number(farm.role_id) === 3 && (
+        <Semibold>{`${t('SHIFT.EDIT_SHIFT.WORKER')}: ${workerOptions[0].label}`}</Semibold>
+      )}
+      {[1, 2, 5].includes(Number(farm.role_id)) && (
+        <ReactSelect
+          label={t('SHIFT.EDIT_SHIFT.CHOOSE_WORKERS')}
+          options={workerOptions}
+          onChange={setWorker}
+          value={worker}
+          style={{ marginBottom: '24px' }}
+          defaultValue={defaultWorker}
+        />
+      )}
+      <Semibold>{t('SHIFT.EDIT_SHIFT.WHAT_TASKS_YOU_DID')}</Semibold>
       <TaskTypeMatrix
         t={t}
         selected={selectedTasks}
@@ -115,7 +120,10 @@ function PureStepOne({
       />
       {[1, 2, 5].includes(Number(farm.role_id)) && (
         <div className={styles.buttonContainer}>
-          <Button style={{backgroundColor: 'var(--teal700)', color: 'white'}} onClick={() => switchShowModal(true)}>
+          <Button
+            style={{ backgroundColor: 'var(--teal700)', color: 'white' }}
+            onClick={() => switchShowModal(true)}
+          >
             {t('SHIFT.EDIT_SHIFT.ADD_CUSTOM_TASK')}
           </Button>
         </div>

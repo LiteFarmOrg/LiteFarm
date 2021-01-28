@@ -4,7 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import { actions, Form } from 'react-redux-form';
 import moment from 'moment';
 import styles from '../styles.scss';
-import { getUnit } from '../../../util';
+import { getUnit, convertToMetric } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops } from '../../saga';
@@ -47,6 +47,9 @@ class HarvestAllocation extends Component {
       if (!!this.props.formValue?.activity_id) {
         this.props.dispatch(editLog(this.props.formValue));
       } else {
+        this.props.useType.forEach((element) => {
+          element.quantity = convertToMetric(element.quantity, this.state.quantity_unit, 'kg');
+        });
         this.props.dispatch(addLog(this.props.formValue));
       }
     }

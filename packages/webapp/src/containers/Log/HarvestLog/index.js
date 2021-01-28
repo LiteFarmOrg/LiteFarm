@@ -89,6 +89,7 @@ class HarvestLog extends Component {
             title="Quantity"
             type={this.state.quantity_unit}
             validate
+            isHarvestLog={true}
           />
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>

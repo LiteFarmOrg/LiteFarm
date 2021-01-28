@@ -32,7 +32,7 @@ class Unit extends React.Component {
 
     return (
       <div
-        style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '1.8rem' }}
+        style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '18px' }}
         className={styles.textContainer}
       >
         {showLabel && <label>{title}</label>}

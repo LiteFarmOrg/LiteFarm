@@ -164,7 +164,7 @@ function StepTwo() {
   };
 
   const isCurrentUserInShift = () => {
-    allowMoodChange( worker.user_id === users.user_id);
+    allowMoodChange(worker.user_id === users.user_id);
   };
 
   return (

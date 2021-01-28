@@ -31,7 +31,7 @@ import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { getHeader } from '../saga';
 import i18n from '../../lang/i18n';
-import { resetStepOne } from "../shiftSlice";
+import { resetStepOne } from '../shiftSlice';
 
 const axios = require('axios');
 

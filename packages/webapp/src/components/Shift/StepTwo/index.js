@@ -11,7 +11,7 @@ import styles2 from './styles.scss';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
-import Checkbox from "../../Form/Checkbox";
+import Checkbox from '../../Form/Checkbox';
 
 function PureStepTwo({
   onGoBack,
@@ -26,7 +26,7 @@ function PureStepTwo({
   crops,
   fields,
   selectedTasks,
-  isEO
+  isEO,
 }) {
   const { t } = useTranslation();
   let [cropOptions, setCropOptions] = useState([]);
@@ -266,8 +266,8 @@ function PureStepTwo({
           <Button onClick={onGoBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'}  fullLength onClick={finishOrIndicateMood}>
-            {(isCurrentShiftUser || isEO) ? t('common:NEXT') : t('common:FINISH')}
+          <Button type={'submit'} fullLength onClick={finishOrIndicateMood}>
+            {isCurrentShiftUser || isEO ? t('common:NEXT') : t('common:FINISH')}
           </Button>
         </>
       }
@@ -363,7 +363,7 @@ function InputDuration({
           <strong>{t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'crop', duration)} sm={true}  >
+              <Button onClick={() => addAll(task.task_id, 'crop', duration)} sm={true}>
                 {t('SHIFT.EDIT_SHIFT.ALL')}
               </Button>
             </div>
@@ -527,11 +527,19 @@ function InputDuration({
   );
 }
 
-function MoodPopup({ closeEditModal, showEditModal, mood, setMood, finish, isCurrentShiftUser, isEO}) {
+function MoodPopup({
+  closeEditModal,
+  showEditModal,
+  mood,
+  setMood,
+  finish,
+  isCurrentShiftUser,
+  isEO,
+}) {
   const { t } = useTranslation();
   const setNotProvided = (event) => {
     setMood(event.currentTarget.checked ? 'no answer' : null);
-  }
+  };
   return (
     <Popup
       open={showEditModal}
@@ -552,7 +560,11 @@ function MoodPopup({ closeEditModal, showEditModal, mood, setMood, finish, isCur
             <img src={closeButton} alt="" />
           </a>
         </div>
-        <h3>{(!isCurrentShiftUser && isEO) ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD') : t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
+        <h3>
+          {!isCurrentShiftUser && isEO
+            ? t('SHIFT.EDIT_SHIFT.WORKER_MOOD')
+            : t('SHIFT.EDIT_SHIFT.MOOD')}
+        </h3>
 
         <div
           style={{
@@ -604,13 +616,19 @@ function MoodPopup({ closeEditModal, showEditModal, mood, setMood, finish, isCur
             </MoodFace>
           </div>
         </div>
-        { !isCurrentShiftUser && isEO &&
+        {!isCurrentShiftUser && isEO && (
           <div className={styles.buttonContainer}>
-            <Checkbox checked={mood === 'no answer'} onChange={setNotProvided} label={t('SHIFT.EDIT_SHIFT.DID_NOT_PROVIDE_ANSWER')} />
+            <Checkbox
+              checked={mood === 'no answer'}
+              onChange={setNotProvided}
+              label={t('SHIFT.EDIT_SHIFT.DID_NOT_PROVIDE_ANSWER')}
+            />
           </div>
-        }
+        )}
         <div className={styles.buttonContainer}>
-          <Button onClick={() => finish()} disabled={mood === null} >{t('common:FINISH')}</Button>
+          <Button onClick={() => finish()} disabled={mood === null}>
+            {t('common:FINISH')}
+          </Button>
         </div>
       </div>
     </Popup>

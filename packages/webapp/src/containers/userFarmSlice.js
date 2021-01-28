@@ -222,6 +222,10 @@ export const userFarmLengthSelector = createSelector(
     return farmIdUserIdTuple.length;
   },
 );
+export const userFarmEntitiesSelector = createSelector(
+  userFarmReducerSelector,
+  ({ byFarmIdUserId }) => byFarmIdUserId,
+);
 
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];

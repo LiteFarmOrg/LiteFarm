@@ -14,18 +14,23 @@
  */
 
 import { put, takeLatest, call, select } from 'redux-saga/effects';
-import apiConfig from './../../apiConfig';
+import apiConfig, { url } from './../../apiConfig';
 import {
   onLoadingUserFarmsStart,
   onLoadingUserFarmsFail,
   getUserFarmsSuccess,
+  acceptInvitationSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector, loginSuccess } from '../userFarmSlice';
 import { getHeader } from '../saga';
-import { toastr } from 'react-redux-toastr';
+import history from '../../history';
+import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
 
 const axios = require('axios');
+
+const patchUserFarmStatusWithIdTokenUrl = (farm_id) =>
+  `${url}/user_farm/accept_invitation/farm/${farm_id}`;
 
 export const getUserFarms = createAction('getUserFarmsSaga');
 export function* getUserFarmsSaga() {
@@ -41,7 +46,23 @@ export function* getUserFarmsSaga() {
     console.log('failed to fetch task types from database');
   }
 }
+export const patchUserFarmStatusWithIDToken = createAction('patchUserFarmStatusWithIDTokenSaga');
+
+export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
+  try {
+    const { farm_id, user_id } = userFarm;
+    const header = getHeader(user_id, farm_id);
+    const result = yield call(axios.patch, patchUserFarmStatusWithIdTokenUrl(farm_id), {}, header);
+    const { user: resUserFarm } = result.data;
+    yield put(acceptInvitationSuccess(resUserFarm));
+    yield put(startInvitationFlowOnChooseFarmScreen(resUserFarm.farm_id));
+    history.push('/consent');
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 export default function* chooseFarmSaga() {
   yield takeLatest(getUserFarms.type, getUserFarmsSaga);
+  yield takeLatest(patchUserFarmStatusWithIDToken.type, patchUserFarmStatusWithIDTokenSaga);
 }

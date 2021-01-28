@@ -15,6 +15,12 @@ Default.args = {
   label: 'default',
 };
 
+export const Number = Template.bind({});
+Number.args = {
+  label: 'number',
+  type: 'number',
+};
+
 export const WithTooltip = Template.bind({});
 WithTooltip.args = {
   label: 'With Tooltip',

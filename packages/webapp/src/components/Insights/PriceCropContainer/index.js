@@ -52,7 +52,7 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
   const yTitle = `Price (${currencySymbol}/${getMassUnit()})`;
 
   return (
-    <div>
+    <div style={{ marginBottom: '12px' }}>
       <h4>
         <b>{name}</b>
       </h4>
@@ -93,7 +93,6 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
           ]}
         />
       </div>
-      <hr />
     </div>
   );
 }

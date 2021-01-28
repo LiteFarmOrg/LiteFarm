@@ -88,7 +88,7 @@ class Prices extends Component {
           rightIconTitle={'Prices'}
         />
         {this.props.pricesDistance && (
-          <div>
+          <div style={{ marginBottom: '8px' }}>
             <div style={{ float: 'left' }}>
               <b>
                 Sales from {distanceToDisplay} {unit} away
@@ -97,7 +97,6 @@ class Prices extends Component {
             <div style={{ float: 'right' }}>
               <PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse} />
             </div>
-            <hr />
             <div style={{ float: 'left' }}>
               <Collapse in={this.state.open}>
                 <div>
@@ -125,7 +124,6 @@ class Prices extends Component {
                       );
                     }
                   })}
-                  <hr />
                 </div>
               </Collapse>
             </div>

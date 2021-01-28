@@ -10,6 +10,13 @@
   color: var(--fontColor);
   // set lastpass fill password icon
   background-position: calc(100% - 36px) calc(50%) !important;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .input ::placeholder {

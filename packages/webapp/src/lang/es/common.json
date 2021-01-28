@@ -1,6 +1,6 @@
 {
   "BACK": "Atrás",
- "CANCEL": "Cancelar",
+  "CANCEL": "Cancelar",
   "CLOSE": "Cerrar",
   "CONFIRM": "Confirmar",
   "CONTINUE": "Continuar",
@@ -18,6 +18,7 @@
   "PROCEED": "Proceder",
   "REMOVE": "Remover",
   "SAVE": "Guardar",
+  "OPTIONAL": "Opcional",
   "SAVE_CHANGES": "Guardar cambios",
   "SUBMIT": "Enviar",
   "TO": "Para",

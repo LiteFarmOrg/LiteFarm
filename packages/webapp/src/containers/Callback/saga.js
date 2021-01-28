@@ -38,7 +38,8 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
     });
     history.push('/password_reset', reset_token);
   } catch (e) {
-    history.push('/expired', 'RESET_PASSWORD');
+    const { email } = jwt.decode(reset_token);
+    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
 
@@ -71,8 +72,12 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
       const { email: currentEmail } = yield select(userFarmSelector);
       const { email } = jwt.decode(invite_token);
       currentEmail !== email && logout();
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));

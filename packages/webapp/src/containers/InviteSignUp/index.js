@@ -14,14 +14,19 @@ function InviteSignUp({ history }) {
   const [selectedKey, setSelectedKey] = useState(0);
   const { i18n, t } = useTranslation();
   const [email, setEmail] = useState();
+  const [gender, setGender] = useState();
+  const [birth_year, setBirthYear] = useState();
   const [showError, setShowError] = useState();
+  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
   useEffect(() => {
     if (!invite_token) {
       history.push('/');
     } else {
-      const { email } = getTokenContent(invite_token);
+      const { email, gender, birth_year } = getTokenContent(invite_token);
       setEmail(email);
+      setGender(gender);
+      setBirthYear(birth_year);
     }
   }, []);
 
@@ -41,6 +46,8 @@ function InviteSignUp({ history }) {
         google_id_token: res.tokenObj.id_token,
         invite_token,
         name: res.profileObj.name,
+        gender,
+        birth_year,
       });
     } else {
       setShowError(true);
@@ -58,6 +65,8 @@ function InviteSignUp({ history }) {
         invite_token,
         email,
         name: `${first_name} ${last_name}`,
+        gender,
+        birth_year,
       });
     }
   };
@@ -88,6 +97,7 @@ function InviteSignUp({ history }) {
         selectedKey={selectedKey}
         email={email}
         onClick={onClick}
+        isChrome={isChrome}
       />
     </>
   );

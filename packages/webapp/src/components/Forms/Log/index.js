@@ -63,14 +63,15 @@ class DefaultLogForm extends React.Component {
     return false;
   };
 
-  setCropsOnFieldSelect(option) {
+  setCropsOnFieldSelect(selectedOptions) {
     const { fields, parent, model } = this.props;
     const { crops } = this.state;
     let cropOptionsMap = this.state.cropOptionsMap;
     let selectedFields;
+    const options = selectedOptions || [];
 
     // remove associated crop selections for field if field is removed from dropdown
-    const activeFields = option.map((o) => o.value);
+    const activeFields = options.map((o) => o.value);
     const removedFields = fields.filter((f) => activeFields.indexOf(f.field_id) === -1);
     removedFields &&
       removedFields.map((rm) => {
@@ -78,7 +79,7 @@ class DefaultLogForm extends React.Component {
       });
 
     // map field_crops to fields that are selected in dropdown
-    if (option.find((o) => o.value === 'all')) {
+    if (options.find((o) => o.value === 'all')) {
       selectedFields = this.state.fieldOptionsWithoutAll;
       fields.map((f) => {
         return (cropOptionsMap[f.field_id] = crops
@@ -100,7 +101,7 @@ class DefaultLogForm extends React.Component {
           }));
       });
     } else {
-      option.map((o) => {
+      options.map((o) => {
         return (cropOptionsMap[o.value] = crops
           .filter((c) => c.field_id === o.value)
           .map((c) => {
@@ -121,7 +122,7 @@ class DefaultLogForm extends React.Component {
       });
     }
     this.setState({
-      selectedFields: selectedFields || option,
+      selectedFields: selectedFields || options,
       cropOptionsMap,
       fieldSelected: true,
       cropValue: undefined,

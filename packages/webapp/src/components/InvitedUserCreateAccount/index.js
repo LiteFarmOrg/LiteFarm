@@ -18,8 +18,10 @@ export default function PureInvitedUserCreateAccountPage({
   isNotSSO,
   buttonText,
   autoOpen,
+  gender,
+  birthYear,
 }) {
-  const { register, handleSubmit, watch, control, errors } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
@@ -47,15 +49,16 @@ export default function PureInvitedUserCreateAccountPage({
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ validate: () => isValid });
   const onHandleSubmit = (data) => {
-    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
+    data[GENDER] = data?.[GENDER]?.value || gender || 'PREFER_NOT_TO_SAY';
     onSubmit(data);
   };
+  const disabled = Object.keys(errors).length;
   return (
     <Form
       onSubmit={handleSubmit(onHandleSubmit, onError)}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} disabled={disabled} fullLength>
             {buttonText}
           </Button>
         </>
@@ -91,7 +94,9 @@ export default function PureInvitedUserCreateAccountPage({
             toolTipContent={t('INVITATION.GENDER_TOOLTIP')}
             style={{ marginBottom: '24px' }}
             autoOpen={autoOpen}
-            defaultValue={genderOptions[3]}
+            defaultValue={
+              gender ? genderOptions.filter((option) => option.value === gender) : genderOptions[3]
+            }
           />
         )}
       />
@@ -105,8 +110,9 @@ export default function PureInvitedUserCreateAccountPage({
         errors={
           errors[BIRTHYEAR] &&
           (errors[BIRTHYEAR].message ||
-            `Birth year needs to be between 1900 and ${new Date().getFullYear()}`)
+            `${t('INVITATION.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
+        defaultValue={birthYear}
         optional
       />
       {isNotSSO && (

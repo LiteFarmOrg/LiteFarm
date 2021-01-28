@@ -51,6 +51,27 @@
   }
 }
 
+.bottomContainer {
+  width: 100%;
+  max-width: 1024px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: 600;
+  align-items: center;
+  padding: 2% 5% 2% 5%;
+  margin-left: -5%;
+  background: white;
+  box-shadow: 0 -5px 5px -5px #333;
+  border-radius: 10px;
+}
+
+.inputBody {
+  margin-bottom: 100px;
+}
+
 .pullLeft {
   label {
     line-height: 4.5rem;
@@ -227,6 +248,7 @@ input:disabled {
 .formContainer {
   font-size: 18px;
   width: 100%;
+  padding-bottom: 68px;
   select {
     width: 100px;
     color: #349289;

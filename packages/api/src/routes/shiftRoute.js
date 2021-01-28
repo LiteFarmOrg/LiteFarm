@@ -18,20 +18,14 @@ const express = require('express');
 const router = express.Router();
 // const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
-const isOwnerOrAssignee = require('../middleware/acl/isOwnerOrAssigne');
+const { isShiftOwnerOrIsAdmin, isOwnerOrAssignee } = require('../middleware/acl/isOwnerOrAssigne');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const conditionallyApplyMiddleware = require("../middleware/acl/conditionally.apply");
 
-//router.post('/', checkScope(['add:shifts']),  ShiftController.addShift());
 router.post('/',
-  isOwnerOrAssignee({ body: 'user_id' }),
+  isShiftOwnerOrIsAdmin,
   hasFarmAccess({ body: 'farm_id' }),
   checkScope(['add:shifts']),
   ShiftController.addShift());
-// router.post('/multi',
-//   isOwnerOrAssignee({ body: 'user_id' }),
-//   checkScope(['add:shifts']),
-//   ShiftController.addMultiShift());
 
 router.delete('/:shift_id',
   hasFarmAccess({ params: 'shift_id' }),

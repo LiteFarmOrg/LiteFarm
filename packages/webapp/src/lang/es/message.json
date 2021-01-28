@@ -66,6 +66,15 @@
       "UPDATE_NAME": "Editaste exitosamente el nombre del campo"
     }
   },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "MISSING",
+      "GET_TYPES": "MISSING"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "MISSING"
+    }
+  },
   "LOG": {
     "ERROR": {
       "ADD": "MISSING",
@@ -91,11 +100,6 @@
     },
     "SUCCESS": {
       "SAVE": "MISSING"
-    }
-  },
-  "RESET_PASSWORD": {
-    "ERROR": {
-      "LOGIN_ERROR": "MISSING"
     }
   },
   "SALE": {

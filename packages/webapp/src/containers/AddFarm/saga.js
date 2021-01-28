@@ -109,7 +109,7 @@ export function* patchRoleSaga({ payload }) {
       step_two_end: step_two_end || new Date(),
     };
     yield all([
-      call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header),
+      call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
     yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));

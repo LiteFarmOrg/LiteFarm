@@ -6,6 +6,7 @@ import { Title, Underlined, Main } from '../Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import PureWarningBox from '../WarningBox';
 
 export default function PureInterestedOrganic({
   title,
@@ -32,6 +33,7 @@ export default function PureInterestedOrganic({
       }
     >
       <Title>{title}</Title>
+      <PureWarningBox text={t('ORGANIC.WARNING')} style={{ marginBottom: '24px' }}/>
       <Main style={{ marginBottom: '24px' }}>{paragraph}</Main>
       <Radio {...inputs[0]} defaultChecked={true} />
       <Radio style={{ marginBottom: '32px' }} {...inputs[1]} />

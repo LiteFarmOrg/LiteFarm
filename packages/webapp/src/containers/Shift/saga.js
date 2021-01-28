@@ -29,11 +29,9 @@ import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import i18n from '../../lang/i18n';
-import { resetStepOne } from "../shiftSlice";
-
-const axios = require('axios');
+import { resetStepOne } from '../shiftSlice';
 
 export function* getTaskTypesSaga() {
   const { taskTypeUrl } = apiConfig;

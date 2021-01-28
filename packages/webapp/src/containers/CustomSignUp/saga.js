@@ -22,8 +22,8 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../lang/i18n';
 import { getFirstNameLastName } from '../../util';
+import { axios } from '../saga';
 
-const axios = require('axios');
 const loginUrl = (email) => `${url}/login/user/${email}`;
 const loginWithPasswordUrl = () => `${url}/login`;
 const userUrl = () => `${url}/user`;

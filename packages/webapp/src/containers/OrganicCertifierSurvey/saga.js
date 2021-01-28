@@ -13,9 +13,8 @@ import { url } from '../../apiConfig';
 import { userFarmUrl } from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
 import { patchStepFourSuccess } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 
-const axios = require('axios');
 const getUrl = (farm_id) => `${url}/farm/${farm_id}/organic_certifier_survey`;
 const postUrl = () => url + '/organic_certifier_survey';
 const patchCertifierUrl = (survey_id) => `${url}/organic_certifier_survey/${survey_id}/certifiers`;

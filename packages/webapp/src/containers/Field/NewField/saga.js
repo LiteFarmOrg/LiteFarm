@@ -2,10 +2,10 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, axios } from '../../saga';
 import { postFieldSuccess } from '../../fieldSlice';
 import history from '../../../history';
-const axios = require('axios');
+
 const postUrl = () => fieldURL;
 
 export const postField = createAction(`postFieldSaga`);

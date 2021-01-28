@@ -21,11 +21,8 @@ import {
   getUserFarmsSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { loginSelector, loginSuccess } from '../userFarmSlice';
-import { getHeader } from '../saga';
-import { toastr } from 'react-redux-toastr';
-
-const axios = require('axios');
+import { loginSelector } from '../userFarmSlice';
+import { getHeader, axios } from '../saga';
 
 export const getUserFarms = createAction('getUserFarmsSaga');
 export function* getUserFarmsSaga() {

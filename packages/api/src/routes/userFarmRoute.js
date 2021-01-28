@@ -48,10 +48,10 @@ router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_
 router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.updateStatus());
 
 // Accept an invitation and validate invitation token
-router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, userFarmController.acceptInvitationWithInvitationToken());
+router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, userFarmController.acceptInvitation());
 
 // Accept an invitation and validate accessToken
-router.patch('/accept_invitation/farm/farm_id', hasFarmAccess({ params: 'farm_id' }), checkUserFarmStatus('Invited'), userFarmController.acceptInvitationWithAccessToken());
+router.patch('/accept_invitation/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkUserFarmStatus('Invited'), userFarmController.acceptInvitationWithAccessToken());
 
 // [DEPRECATE] Get specific info related to userFarm
 router.get('/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());

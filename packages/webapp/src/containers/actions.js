@@ -12,12 +12,3 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-
-import { SHOW_SPOTLIGHT } from './constants';
-
-export const showSpotlight = (show_spotlight) => {
-  return {
-    type: SHOW_SPOTLIGHT,
-    show_spotlight,
-  };
-};

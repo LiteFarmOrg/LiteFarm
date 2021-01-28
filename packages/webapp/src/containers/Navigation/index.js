@@ -21,18 +21,19 @@ import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 import styles1 from './styles1.scss';
-import { spotlightSelector } from '../selector';
+import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import PureNavBar from '../../components/Navigation/NavBar';
 import { useTranslation } from 'react-i18next';
-
-import { showSpotlight } from '../actions';
 import { userFarmSelector, userFarmLengthSelector } from '../userFarmSlice';
 import { isAuthenticated } from '../../util/jwt';
+import { endSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 
 const NavBar = (props) => {
   const { t } = useTranslation();
-  const { history, farm, show_spotlight, dispatch, numberOfUserFarm } = props;
-  const isFarmSelected = isAuthenticated() && farm && farm.has_consent && farm?.step_five === true;
+  const { history, farm, farmState, dispatch, numberOfUserFarm } = props;
+  const { showSpotLight, isInvitationFlow } = farmState;
+  const isFarmSelected =
+    isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && !isInvitationFlow;
   const farmSpotlight = t('NAVIGATION.SPOTLIGHT.FARM');
   const notificationsSpotlight = t('NAVIGATION.SPOTLIGHT.NOTIFICATION');
   const myProfileSpotlight = t('NAVIGATION.SPOTLIGHT.PROFILE');
@@ -83,7 +84,7 @@ const NavBar = (props) => {
   ];
 
   const resetSpotlight = () => {
-    dispatch(showSpotlight(false));
+    dispatch(endSpotLight(farm.farm_id));
   };
 
   const initialState = { profile: false, myFarm: false, notification: false };
@@ -103,7 +104,7 @@ const NavBar = (props) => {
   return isFarmSelected ? (
     <PureNavBar
       logo={<Logo history={history} />}
-      steps={show_spotlight && steps}
+      steps={showSpotLight && steps}
       resetSpotlight={resetSpotlight}
       isOneTooltipOpen={isOneTooltipOpen}
       changeInteraction={changeInteraction}
@@ -144,7 +145,7 @@ const Logo = ({ history }) => {
 const mapStateToProps = (state) => {
   return {
     farm: userFarmSelector(state),
-    show_spotlight: spotlightSelector(state),
+    farmState: chooseFarmFlowSelector(state),
     numberOfUserFarm: userFarmLengthSelector(state),
   };
 };

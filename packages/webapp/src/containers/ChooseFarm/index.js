@@ -24,7 +24,7 @@ import {
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
-import { getUserFarms } from './saga';
+import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
 
@@ -58,12 +58,12 @@ function ChooseFarm() {
   };
 
   const onProceed = () => {
-    const farm = userFarmEntities[setFarmId][user_id];
+    const farm = userFarmEntities[selectedFarmId][user_id];
     if (farm.status === 'Active') {
       dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
       history.push({ pathname: '/', state: !!currentFarmId });
     } else {
-      dispatch(patchUserFarmStatusWithAccessToken());
+      dispatch(patchUserFarmStatusWithIDToken(farm));
     }
   };
 

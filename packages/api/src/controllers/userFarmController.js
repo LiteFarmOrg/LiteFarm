@@ -391,7 +391,7 @@ class userFarmController extends baseController {
     };
   }
 
-  static acceptInvitationWithInvitationToken() {
+  static acceptInvitation() {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
@@ -421,7 +421,7 @@ class userFarmController extends baseController {
     return async (req, res) => {
       const { farm_id } = req.params;
       req.user.farm_id = farm_id;
-      return await userFarmController.acceptInvitationWithInvitationToken()(req, res);
+      return await userFarmController.acceptInvitation()(req, res);
     };
   }
 

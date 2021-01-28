@@ -3,8 +3,8 @@ import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
 
 const getFarmState = (payload) => {
-  const { farm_id, isInvitationFlow } = payload;
-  return { farm_id, isInvitationFlow };
+  const { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm } = payload;
+  return { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm };
 };
 
 const chooseFarmFlowAdapter = createEntityAdapter({
@@ -22,22 +22,49 @@ const chooseFarmFlowSlice = createSlice({
     startInvitationFlow: (state, { payload: farm_id }) => {
       updateFarmState(state, { farm_id, isInvitationFlow: true });
     },
+    startInvitationFlowOnChooseFarmScreen: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, isInvitationFlow: true, skipChooseFarm: true });
+    },
     endInvitationFlow: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, isInvitationFlow: false });
+      updateFarmState(state, {
+        farm_id,
+        isInvitationFlow: false,
+        showSpotLight: state.entities[farm_id]?.showSpotLight,
+      });
+    },
+    startSpotLight: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, showSpotLight: true });
+    },
+    endSpotLight: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, showSpotLight: false });
+    },
+    startInvitationFlowWithSpotLight: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, isInvitationFlow: true, showSpotLight: true });
     },
   },
 });
-export const { startInvitationFlow } = chooseFarmFlowSlice.actions;
+export const {
+  startInvitationFlow,
+  startInvitationFlowWithSpotLight,
+  endInvitationFlow,
+  startSpotLight,
+  endSpotLight,
+  startInvitationFlowOnChooseFarmScreen,
+} = chooseFarmFlowSlice.actions;
 export default chooseFarmFlowSlice.reducer;
 
 export const chooseFarmFlowReducerSelector = (state) =>
   state.persistedStateReducer[chooseFarmFlowSlice.name];
 const chooseFarmFlowSelectors = chooseFarmFlowAdapter.getSelectors(
-  (state) => state.entitiesReducer[chooseFarmFlowSlice.name],
+  (state) => state.persistedStateReducer[chooseFarmFlowSlice.name],
 );
 export const chooseFarmFlowSelector = createSelector(
   [chooseFarmFlowSelectors.selectEntities, loginSelector],
   (chooseFarmFlowEntities, { farm_id }) => {
     return chooseFarmFlowEntities[farm_id] || {};
   },
+);
+export const spotLightSelector = createSelector(
+  chooseFarmFlowSelector,
+  (farmState) => farmState.showSpotLight,
 );

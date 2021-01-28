@@ -1498,7 +1498,7 @@ export default {
     },
   },
   tempStateReducer: { homeReducer: {} },
-  baseReducer: { show_spotlight: false },
+  baseReducer: {},
   logReducer: {
     forms: {
       fertLog: {

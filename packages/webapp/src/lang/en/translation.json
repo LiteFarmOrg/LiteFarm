@@ -373,7 +373,8 @@
       "SELECT_CERTIFIER": "Please select your certifier",
       "THROUGH_APP": "throughout the app!",
       "WILL_INDICATE": "We'll indicate data required for organic certification with"
-    }
+    },
+    "WARNING": "This feature is currently under development and may not be ready this season. However, clicking 'Yes' will turn it on for your farm when it's ready."
   },
   "OUTRO": "And finally, let us show you a couple of important things!",
   "PASSWORD_RESET_SUCCESS_MODAL": {

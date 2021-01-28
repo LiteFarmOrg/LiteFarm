@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from '../../components/Card';
-import { Semibold } from '../../components/Typography';
 
 export default {
   title: 'Components/Card',
@@ -33,16 +32,14 @@ Disabled.args = {
   children: 'Disabled',
 };
 
-export const Button = Template.bind({});
-Button.args = {
-  color: 'secondary',
-  children: <Semibold style={{ marginBottom: 0 }}>Secondary</Semibold>,
-  isButton: true,
+export const Blue = Template.bind({});
+Blue.args = {
+  color: 'blue',
+  children: 'blue',
 };
 
-export const ButtonActive = Template.bind({});
-ButtonActive.args = {
-  color: 'active',
-  children: <Semibold style={{ marginBottom: 0 }}>Active</Semibold>,
-  isButton: true,
+export const BlueActive = Template.bind({});
+BlueActive.args = {
+  color: 'blueActive',
+  children: 'blueActive',
 };

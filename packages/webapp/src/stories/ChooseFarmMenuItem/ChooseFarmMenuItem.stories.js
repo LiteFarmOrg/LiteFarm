@@ -38,3 +38,17 @@ SecondaryWithoutOwnerName.args = {
   children: 'Secondary',
   address: address,
 };
+
+export const Invited = Template.bind({});
+Invited.args = {
+  color: 'blue',
+  ownerName: 'Owner name',
+  address: coordinate,
+};
+
+export const InvitedActive = Template.bind({});
+InvitedActive.args = {
+  color: 'blueActive',
+  ownerName: 'Owner name',
+  address: coordinate,
+};

@@ -24,7 +24,7 @@ function PureStepTwo({
   setMood,
   crops,
   fields,
-  selectedTasks
+  selectedTasks,
 }) {
   const { t } = useTranslation();
   let [cropOptions, setCropOptions] = useState([]);
@@ -190,7 +190,7 @@ function PureStepTwo({
     if (mutatingCropDurations && mutatingCropDurations[task_id]) {
       mutatingCropDurations[task_id] = [];
     }
-    const mutatedDefaultCrops = {...defaultCrops};
+    const mutatedDefaultCrops = { ...defaultCrops };
     mutatedDefaultCrops[task_id] = [];
     setDefaultCrops(mutatedDefaultCrops);
     setCropDurations(mutatingCropDurations);
@@ -313,7 +313,7 @@ function InputDuration({
   state,
   cropTotalTimeAssign,
   resetCropDuration,
-  defaultCrops
+  defaultCrops,
 }) {
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
@@ -330,7 +330,7 @@ function InputDuration({
 
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
-  }, [defaultCrops])
+  }, [defaultCrops]);
   return (
     <div key={task.task_id} className={styles.taskBlock}>
       <div className={styles.taskTitle}>
@@ -378,20 +378,20 @@ function InputDuration({
           </div>
         </div>
         <div className={styles.selectInner}>
-            <Select
-              isMulti
-              isSearchable={false}
-              name="selectByCrops"
-              placeholder="Select Crops..."
-              options={state.cropOptions}
-              className="basic-multi-select"
-              classNamePrefix="select"
-              value={selectedCrops}
-              onChange={(selectedOption) => {
-                defaultCrops[task.task_id] && setSelectedCrops(selectedOption);
-                handleCropChange(selectedOption, duration, task.task_id);
-              }}
-            />
+          <Select
+            isMulti
+            isSearchable={false}
+            name="selectByCrops"
+            placeholder="Select Crops..."
+            options={state.cropOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            value={selectedCrops}
+            onChange={(selectedOption) => {
+              defaultCrops[task.task_id] && setSelectedCrops(selectedOption);
+              handleCropChange(selectedOption, duration, task.task_id);
+            }}
+          />
         </div>
         {cropDurations && cropDurations[task.task_id] && (
           <div>

@@ -310,6 +310,30 @@ describe('JWT Tests', () => {
       });
     });
 
+    test('Should reject when an invited user tries to get reset password token', async (done) => {
+      const [invitedUser] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 2});
+      postResetPasswordRequest(invitedUser.email, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('Should reject when a pseudo user tries to get reset password token', async (done) => {
+      const [pseudoUser] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 1, email: `${faker.random.uuid()}@pseudo.com`});
+      postResetPasswordRequest(pseudoUser.email, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
+    test('Should reject when an auth0 legacy user tries to get reset password token', async (done) => {
+      const [invitedUser] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 3});
+      postResetPasswordRequest(newUser.email, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
+    });
+
   });
 
   describe('Accept invitation jwt test', () => {
@@ -420,6 +444,40 @@ describe('JWT Tests', () => {
         postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
           const [resUser] = await userModel.query().where({ user_id: user.user_id });
           validate({ ...user, ...reqBody, status_id: 1 }, res, 201, resUser);
+          done();
+        });
+      });
+    });
+
+    test('Should return 401 when userFarm status Inactive', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
+      const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      getRequest(user, async (err, res) => {
+        const {farm_id, user_id} = userFarm;
+        delete reqBody.birth_year;
+        await userFarmModel.query().findById([user_id,farm_id]).patch({status: 'Inactive'});
+        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+          expect(res.status).toBe(401);
+          done();
+        });
+      });
+    });
+
+    test('Should return 401 when userFarm status Active', async (done) => {
+      const [user] = await mocks.usersFactory({ ...mocks.fakeUser(), status_id: 2 });
+      const [userFarm] = await mocks.userFarmFactory({ promisedUser: [user] }, {
+        ...mocks.fakeUserFarm(),
+        status: 'Invited',
+      });
+      getRequest(user, async (err, res) => {
+        const {farm_id, user_id} = userFarm;
+        delete reqBody.birth_year;
+        await userFarmModel.query().findById([user_id,farm_id]).patch({status: 'Active'});
+        postAcceptInvitationWithPasswordRequest(invitationToken, async (err, res) => {
+          expect(res.status).toBe(401);
           done();
         });
       });

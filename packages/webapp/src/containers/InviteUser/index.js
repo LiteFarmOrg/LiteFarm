@@ -41,7 +41,6 @@ function InviteUser() {
       birth_year,
       phone_number,
     } = userInfo;
-    console.log(userInfo);
     // Pseudo worker is a worker with no email filled out
     const isPseudo = role === 3 && email.trim().length === 0;
     // const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered

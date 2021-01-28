@@ -1,15 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PureJoinFarmSuccessScreen from '../../components/JoinFarmSuccessScreen';
-import { useDispatch } from 'react-redux';
-import { showSpotlight } from '../actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { chooseFarmFlowSelector, endInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
+import { deselectFarmSuccess, loginSelector } from '../userFarmSlice';
 
 export default function JoinFarmSuccessScreen({ history }) {
   const dispatch = useDispatch();
-  const { showSpotLight, farm_name, farm_id } = history.location.state || {};
+  const { farm_id } = useSelector(loginSelector);
+  const { showSpotLight, skipChooseFarm } = useSelector(chooseFarmFlowSelector);
+  const { farm_name } = history.location.state || {};
   const onClick = () => {
-    showSpotLight && dispatch(showSpotlight(true));
-    history.push('/farm_selection', { farm_id });
+    if (skipChooseFarm) {
+      dispatch(endInvitationFlow(farm_id));
+      history.push('/');
+    } else {
+      dispatch(endInvitationFlow(farm_id));
+      dispatch(deselectFarmSuccess());
+      history.push('/farm_selection', { farm_id });
+    }
   };
   return (
     <PureJoinFarmSuccessScreen

@@ -28,6 +28,7 @@ import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
 import weatherReducer from '../containers/WeatherBoard/weatherSlice';
+import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 
 import fieldReducer from '../containers/fieldSlice';
 import shiftStepReducer from '../containers/shiftSlice';
@@ -115,6 +116,7 @@ const entitiesReducer = combineReducers({
 
 const persistedStateReducer = combineReducers({
   userLogReducer,
+  chooseFarmFlowReducer,
 });
 
 const tempStateReducer = combineReducers({

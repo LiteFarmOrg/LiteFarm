@@ -7,17 +7,16 @@ import { userFarmSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
 import history from '../../history';
-import { spotlightSelector } from '../selector';
 import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
 import { showHelpRequestModalSelector, dismissHelpRequestModal } from './homeSlice';
+import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 
 export default function Home() {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
-  const showSpotlight = useSelector(spotlightSelector);
+  const { showSpotLight } = useSelector(chooseFarmFlowSelector);
   const dispatch = useDispatch();
-
   const [switchFarm, setSwitchFarm] = useState(history.location.state);
   const dismissPopup = () => setSwitchFarm(false);
 
@@ -26,9 +25,9 @@ export default function Home() {
   return (
     <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
       {userFarm ? <WeatherBoard /> : null}
-      {switchFarm && !showSpotlight && <FarmSwitchOutro onFinish={dismissPopup} />}
+      {switchFarm && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
-      {switchFarm && !showSpotlight && (
+      {switchFarm && !showSpotLight && (
         <div
           onClick={dismissPopup}
           style={{

@@ -14,10 +14,10 @@
  */
 const userFarmModel = require('../../models/userFarmModel');
 
-async function isUserFarmActive(req, res, next) {
+const checkUserFarmStatus = (status = 'Active') => async (req, res, next) => {
   const { user_id, farm_id } = req.headers;
   const userFarm = await userFarmModel.query().where({ user_id, farm_id }).first();
-  return userFarm && userFarm.status === 'Active' ? next() : res.status(403).send('Do not have access to this farm');
+  return userFarm && userFarm.status === status ? next() : res.status(403).send('Do not have access to this farm');
 }
 
-module.exports = isUserFarmActive;
+module.exports = checkUserFarmStatus;

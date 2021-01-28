@@ -13,18 +13,10 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { SHOW_SPOTLIGHT } from './constants';
-
-const initialState = {
-  show_spotlight: false,
-};
+const initialState = {};
 
 function baseReducer(state = initialState, action) {
   switch (action.type) {
-    case SHOW_SPOTLIGHT:
-      return Object.assign({}, state, {
-        show_spotlight: action.show_spotlight,
-      });
     default:
       return state;
   }

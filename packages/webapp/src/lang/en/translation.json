@@ -384,7 +384,8 @@
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
       "SPANISH": "Spanish",
-      "USER_ADDRESS": "User Address"
+      "USER_ADDRESS": "User Address",
+      "CONVERT_TO_HAVE_ACCOUNT": "Convert this worker to a user with account"
     },
     "FARM_TAB": "Farm",
     "FARM": {

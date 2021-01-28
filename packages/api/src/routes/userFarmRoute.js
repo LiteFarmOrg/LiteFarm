@@ -36,10 +36,6 @@ router.get('/active/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkS
 // [DEPRECATE] Displays list of permissions for user calling this endpoint
 // router.get('/role/permissions', userFarmController.getAllRolePermissions());
 
-// Create userFarm
-// to be used in the future
-// router.post('/', hasFarmAccess(), checkScope(['add:users']), userFarmController.addUserFarm());
-
 // Update consent status for a userFarm referenced by user_id
 // If userFarm status is Inactive or Invited, status will be set to Active
 // no permission limits
@@ -56,6 +52,8 @@ router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, 
 
 // [DEPRECATE] Get specific info related to userFarm
 router.get('/farm/:farm_id/user/:user_id', checkScope(['get:user_farm_info']), userFarmController.getFarmInfo());
+
+router.post('/invite/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:users']), userFarmController.patchPseudoUserEmail());
 
 // Update wage of userFarm
 router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_wage']), userFarmController.updateWage());

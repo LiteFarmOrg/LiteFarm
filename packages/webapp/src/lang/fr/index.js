@@ -20,6 +20,6 @@ const french = {
   message,
   gender,
   role,
-  harvest_uses
+  harvest_uses,
 };
 export default french;

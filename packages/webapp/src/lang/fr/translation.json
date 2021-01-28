@@ -384,7 +384,8 @@
       "PHONE_NUMBER": "MISSING",
       "PORTUGUESE": "MISSING",
       "SPANISH": "MISSING",
-      "USER_ADDRESS": "MISSING"
+      "USER_ADDRESS": "MISSING",
+      "CONVERT_TO_HAVE_ACCOUNT": "MISSING"
     },
     "FARM_TAB": "MISSING",
     "FARM": {

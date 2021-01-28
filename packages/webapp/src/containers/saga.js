@@ -20,7 +20,7 @@ import {
 } from './constants';
 import { updateConsentOfFarm } from './ChooseFarm/actions.js';
 import { call, put, select, takeLatest, takeLeading, takeEvery, all } from 'redux-saga/effects';
-import apiConfig, { userFarmUrl, url } from '../apiConfig';
+import apiConfig, { userFarmUrl, url, rolesUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import {
@@ -51,6 +51,7 @@ import i18n from '../lang/i18n';
 import { getLogs } from './Log/actions';
 import { getAllShifts, getShifts } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
+import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
 const axios = require('axios');
@@ -248,6 +249,12 @@ export function* fetchAllSaga({ payload: userFarmIds }) {
 
     tasks.push(call(axios.get, apiConfig.fieldCropURL + '/farm/' + farm_id, header));
     onTaskSuccess.push(getFieldCropsSuccess);
+
+    const roleStatus = yield select(rolesStatusSelector);
+    if (!roleStatus.loaded) {
+      tasks.push(call(axios.get, rolesUrl, header));
+      onTaskSuccess.push(getRolesSuccess);
+    }
 
     const userFarms = yield select(userFarmsByFarmSelector);
     if (userFarms?.length < 2) {

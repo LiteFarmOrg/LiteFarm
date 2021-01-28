@@ -8,21 +8,17 @@ import Button from '../Form/Button';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import Popup from 'reactjs-popup';
+import { useTranslation } from 'react-i18next';
 
-export default function PurePopupMiniForm({
-  title,
-  inputInfo,
-  onClose,
-  onFormSubmit,
-  isOpen,
-}) {
+export default function PurePopupMiniForm({ title, inputInfo, onClose, onFormSubmit, isOpen }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
+  const { t } = useTranslation();
 
   const onSubmit = (data) => {
     onFormSubmit(data.name);
-  }
-  const onError = (data) => {}
+  };
+  const onError = (data) => {};
 
   return (
     <Popup
@@ -45,25 +41,21 @@ export default function PurePopupMiniForm({
           <Title className={styles.heading}>{title}</Title>
           <div className={styles.padding} />
         </div>
-        <Form
-          onSubmit={handleSubmit(onSubmit, onError)}
-        >
+        <Form onSubmit={handleSubmit(onSubmit, onError)}>
           <Input
             name={NAME}
             label={inputInfo}
             inputRef={register({ required: true })}
-            errors={
-              errors[NAME] &&
-              (errors[NAME].message ||
-                "A use type name is required")
-            }
-            style={{'margin-bottom': '20px'}}
+            errors={errors[NAME] && (errors[NAME].message || 'A use type name is required')}
+            style={{ 'margin-bottom': '20px' }}
             classes={{
-              errors: { "display": "flex" }
+              errors: { display: 'flex' },
             }}
           />
           <div className={styles.buttonContainer}>
-            <Button style={{background: '#028577', color: 'white'}} type={'submit'}>{"Save"}</Button>
+            <Button style={{ background: '#028577', color: 'white' }} type={'submit'}>
+              {t('common:SAVE')}
+            </Button>
           </div>
         </Form>
       </div>

@@ -25,6 +25,8 @@ jest.mock('../src/middleware/acl/checkJwt');
 jest.mock('../src/jobs/station_sync/mapping');
 jest.mock('../src/templates/sendEmailTemplate');
 const mocks = require('./mock.factories');
+let faker = require('faker');
+
 
 describe('Sign Up Tests', () => {
   let middleware;
@@ -159,6 +161,16 @@ describe('Sign Up Tests', () => {
         expect(res.body.exists).toBe(false);
         expect(res.body.expired).toBe(true);
         expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(1);
+        done();
+      })
+    })
+
+    test('should reject when a pseudo user tries to login', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 1, email: `${faker.random.uuid()}@pseudo.com`});
+      const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]});
+      getRequest({email: user.email}, (err, res) => {
+        expect(res.status).toBe(400);
+        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(0);
         done();
       })
     })

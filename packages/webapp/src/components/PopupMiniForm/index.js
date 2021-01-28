@@ -8,10 +8,12 @@ import Button from '../Form/Button';
 import Form from '../Form';
 import { useForm } from 'react-hook-form';
 import Popup from 'reactjs-popup';
+import { useTranslation } from 'react-i18next';
 
 export default function PurePopupMiniForm({ title, inputInfo, onClose, onFormSubmit, isOpen }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
+  const { t } = useTranslation();
 
   const onSubmit = (data) => {
     onFormSubmit(data.name);
@@ -52,7 +54,7 @@ export default function PurePopupMiniForm({ title, inputInfo, onClose, onFormSub
           />
           <div className={styles.buttonContainer}>
             <Button style={{ background: '#028577', color: 'white' }} type={'submit'}>
-              {'Save'}
+              {t('common:SAVE')}
             </Button>
           </div>
         </Form>

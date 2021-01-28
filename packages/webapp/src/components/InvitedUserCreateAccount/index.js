@@ -21,7 +21,7 @@ export default function PureInvitedUserCreateAccountPage({
   gender,
   birthYear,
 }) {
-  const { register, handleSubmit, watch, control, errors } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
@@ -52,12 +52,13 @@ export default function PureInvitedUserCreateAccountPage({
     data[GENDER] = data?.[GENDER]?.value || gender || 'PREFER_NOT_TO_SAY';
     onSubmit(data);
   };
+  const disabled = Object.keys(errors).length;
   return (
     <Form
       onSubmit={handleSubmit(onHandleSubmit, onError)}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} disabled={disabled} fullLength>
             {buttonText}
           </Button>
         </>

@@ -38,8 +38,8 @@ const { createToken } = require('../util/jwt');
 
 const validStatusChanges = {
   'Active': ['Inactive'],
-  'Inactive': ['Active'],
-  'Invited': ['Inactive'],
+  'Inactive': ['Invited'],
+  'Invited': ['Inactive']
 };
 
 class userFarmController extends baseController {
@@ -227,10 +227,7 @@ class userFarmController extends baseController {
         await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
         res.sendStatus(200);
         try {
-          const userFarm = await userFarmModel.query().select('*').where({
-            'userFarm.user_id': user_id,
-            'userFarm.farm_id': farm_id,
-          })
+          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();

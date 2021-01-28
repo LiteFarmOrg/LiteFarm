@@ -49,11 +49,14 @@ class Shift extends Component {
     dispatch(getFieldCrops());
     dispatch(getFields());
     dispatch(getTaskTypes());
-    if (users.role_id === 1 || users.role_id === 2 || users.role_id === 5) {
-      dispatch(getAllShifts());
-    } else {
-      dispatch(getShifts());
-    }
+    dispatch(getAllShifts());
+    //TODO: fix getShiftByUserEndPoint
+
+    // if (users.role_id === 1 || users.role_id === 2 || users.role_id === 5) {
+    //   dispatch(getAllShifts());
+    // } else {
+    //   dispatch(getShifts());
+    // }
   }
 
   checkFilter = (l = [], attribute, constraint) => {

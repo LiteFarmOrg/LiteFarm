@@ -58,6 +58,8 @@ router.get('/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }),
 
 router.post('/invite/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:users']), userFarmController.patchPseudoUserEmail());
 
+router.post('/invite/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:users']), userFarmController.patchPseudoUserEmail());
+
 // Update wage of userFarm
 router.patch('/wage/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_wage']), userFarmController.updateWage());
 

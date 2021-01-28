@@ -589,10 +589,10 @@ describe('User Farm Tests', () => {
         });
       });
 
-      test('Allowed status change: Inactive -> Active', async (done) => {
+      test('Allowed status change: Inactive -> Invited', async (done) => {
         const {user: owner, farm} = await setupUserFarm({role_id: 1});
         const inactiveUser = await createUserFarmAtFarm({role_id: 3, status: 'Inactive'}, farm);
-        const target_status = 'Active';
+        const target_status = 'Invited';
         const target_user_id = inactiveUser.user_id;
         updateStatusRequest(target_status, {user_id: owner.user_id, farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(200);
@@ -602,10 +602,10 @@ describe('User Farm Tests', () => {
         });
       });
 
-      test('Forbidden status change: Inactive -> Invited', async (done) => {
+      test('Forbidden status change: Inactive -> Active', async (done) => {
         const {user: owner, farm} = await setupUserFarm({role_id: 1});
         const inactiveUser = await createUserFarmAtFarm({role_id: 3, status: 'Inactive'}, farm);
-        const target_status = 'Invited';
+        const target_status = 'Active';
         const target_user_id = inactiveUser.user_id;
         updateStatusRequest(target_status, {user_id: owner.user_id , farm_id: farm.farm_id}, target_user_id, async (err, res) => {
           expect(res.status).toBe(400);

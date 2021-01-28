@@ -69,7 +69,7 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
   const header = getHeader(user_id, farm_id);
 
   const body = {
-    status: 'Active',
+    status: 'Invited',
   };
 
   try {

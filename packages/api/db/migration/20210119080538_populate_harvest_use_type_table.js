@@ -13,24 +13,24 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-exports.up = function(knex) {
-    return Promise.all([
-        knex('harvestUseType').insert([
-            { harvest_use_type_name: 'Sales'},
-            { harvest_use_type_name: 'Self-Consumption'},
-            { harvest_use_type_name: 'Animal Feed'},
-            { harvest_use_type_name: 'Compost'},
-            { harvest_use_type_name: 'Gift'},
-            { harvest_use_type_name: 'Exchange'},
-            { harvest_use_type_name: 'Saved for seed'},
-            { harvest_use_type_name: 'Not Sure'},
-            { harvest_use_type_name: 'Other'},
-        ]),
-    ]);
+exports.up = function (knex) {
+  return Promise.all([
+    knex('harvestUseType').insert([
+      { harvest_use_type_name: 'Sales' },
+      { harvest_use_type_name: 'Self-Consumption' },
+      { harvest_use_type_name: 'Animal Feed' },
+      { harvest_use_type_name: 'Compost' },
+      { harvest_use_type_name: 'Gift' },
+      { harvest_use_type_name: 'Exchange' },
+      { harvest_use_type_name: 'Saved for seed' },
+      { harvest_use_type_name: 'Not Sure' },
+      { harvest_use_type_name: 'Other' },
+    ]),
+  ]);
 };
 
-exports.down = function(knex) {
-    return Promise.all([
-      knex('harvestUseType').del(),
-    ]);
-  };
+exports.down = function (knex) {
+  return Promise.all([
+    knex('harvestUseType').del(),
+  ]);
+};

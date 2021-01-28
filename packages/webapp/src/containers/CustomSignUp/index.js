@@ -38,7 +38,9 @@ const PureCustomSignUpStyle = {
 };
 
 function CustomSignUp() {
-  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({ mode: 'onBlur' });
+  const { register, handleSubmit, errors, watch, setValue, setError } = useForm({
+    mode: 'onTouched',
+  });
   const { user, component: componentToShow } = history.location;
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
   const EMAIL = 'email';
@@ -94,7 +96,7 @@ function CustomSignUp() {
   };
   const onSubmit = (data) => {
     const { email } = data;
-    dispatch(customSignUp({ email, showSSOError: showSSOErrorAndRedirect }));
+    dispatch(customSignUp({ email: email?.toLowerCase(), showSSOError: showSSOErrorAndRedirect }));
   };
 
   const onSignUp = (user) => {

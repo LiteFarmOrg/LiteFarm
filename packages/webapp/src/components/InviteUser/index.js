@@ -2,16 +2,15 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
 import React from 'react';
-import { Title, Info } from '../Typography';
+import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
-import { validatePasswordWithErrors } from '../Signup/utils';
-import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
+import { getFirstNameLastName } from '../../util';
 
 export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
-  const { register, handleSubmit, watch, control, errors } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const ROLE = 'role';
   const EMAIL = 'email';
@@ -32,13 +31,12 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = !name || !role || (selectedRoleId !== 3 ? !email : false);
+  const disabled = Object.keys(errors).length || (selectedRoleId !== 3 ? !email : false);
 
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
-    const i = data.name.indexOf(' ');
-    const [first_name, last_name] = [data.name.slice(0, i), data.name.slice(i + 1)];
+    const { first_name, last_name } = getFirstNameLastName(data.name);
     onInvite({ ...data, email, first_name, last_name });
   };
   const onError = (data) => {
@@ -90,8 +88,9 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         })}
         errors={errors[EMAIL] && t('INVITE_USER.INVALID_EMAIL_ERROR')}
         optional={selectedRoleId === 3}
+        info={t('INVITE_USER.EMAIL_INFO')}
+        style={{ marginBottom: '16px' }}
       />
-      <Info style={{ marginBottom: '16px' }}>{t('INVITE_USER.EMAIL_INFO')}</Info>
       <Controller
         control={control}
         name={GENDER}

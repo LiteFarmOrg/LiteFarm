@@ -38,7 +38,8 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
     });
     history.push('/password_reset', reset_token);
   } catch (e) {
-    history.push('/expired', 'RESET_PASSWORD');
+    const { email } = jwt.decode(reset_token);
+    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
 

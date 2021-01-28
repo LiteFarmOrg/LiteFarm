@@ -14,7 +14,7 @@ function PasswordResetAccount({ history }) {
   const { i18n } = useTranslation();
   const onSubmit = (data) => {
     const { password } = data;
-    dispatch(resetPassword({ reset_token, password, onPasswordResetSuccess }));
+    dispatch(resetPassword({ reset_token, password, onPasswordResetSuccess, email }));
   };
 
   useEffect(() => {

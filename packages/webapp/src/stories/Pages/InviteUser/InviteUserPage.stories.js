@@ -17,7 +17,7 @@ Primary.args = {
     { value: 2, label: 'Farm Manager' },
     { value: 3, label: 'Farm Worker' },
     { value: 5, label: 'Extension Officer' },
-  ]
+  ],
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

@@ -11,7 +11,7 @@ import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
-  const { register, handleSubmit, watch, control, errors } = useForm();
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
@@ -19,6 +19,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const name = watch(NAME, undefined);
   const password = watch(PASSWORD, undefined);
   const required = watch(NAME, false);
+  const birth_year = watch(BIRTHYEAR, undefined);
   const { t } = useTranslation();
   const title = t('CREATE_USER.TITLE');
   const {
@@ -37,7 +38,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = !name || !isValid;
+  const disabled = !name || !isValid || Object.keys(errors).length;
 
   const onSubmit = (data) => {
     if (isValid) {
@@ -85,7 +86,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             onChange={onChange}
             value={value}
             toolTipContent={t('CREATE_USER.GENDER_TOOLTIP')}
-            style={{ marginBottom: '24px' }}
+            style={{ marginBottom: '28px' }}
             defaultValue={genderOptions[3]}
           />
         )}
@@ -96,7 +97,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
         inputRef={register({ min: 1900, max: new Date().getFullYear(), valueAsNumber: true })}
         name={BIRTHYEAR}
         toolTipContent={t('CREATE_USER.BIRTH_YEAR_TOOLTIP')}
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '28px' }}
         errors={
           errors[BIRTHYEAR] &&
           (errors[BIRTHYEAR].message ||

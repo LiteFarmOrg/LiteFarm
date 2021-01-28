@@ -31,9 +31,12 @@ class PageTitle extends Component {
     const rightIconBody = this.props.rightIconBody;
     const rightIconDeleteHandler = this.props.rightIconDeleteHandler;
     const showDelete = this.props.showDelete;
+    const isHarvestLogStep = this.props.isHarvestLogStep;
     return (
       <div>
-        <div className={styles.titleContainer}>
+        <div
+          className={isHarvestLogStep ? styles.harvestLogStepTitleContainer : styles.titleContainer}
+        >
           <button
             className={styles.buttonContainer}
             onClick={() => {

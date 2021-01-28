@@ -4,9 +4,9 @@ import { ReactComponent } from '../../assets/images/expiredToken/expiredToken.sv
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Semibold } from '../Typography';
+import { Semibold, Underlined } from '../Typography';
 
-export default function PureExpiredTokenScreen({ onClick, text }) {
+export default function PureExpiredTokenScreen({ onClick, text, linkText, forgotPassword }) {
   const { t } = useTranslation();
   return (
     <Layout
@@ -35,7 +35,8 @@ export default function PureExpiredTokenScreen({ onClick, text }) {
       </div>
 
       <Semibold style={{ margin: 0 }}> {t('common:SORRY')}!</Semibold>
-      <Semibold style={{ margin: 0 }}>{text}</Semibold>
+      <Semibold style={{ marginBottom: '24px' }}>{text}</Semibold>
+      {linkText && <Underlined onClick={forgotPassword}>{linkText}</Underlined>}
     </Layout>
   );
 }
@@ -43,4 +44,6 @@ export default function PureExpiredTokenScreen({ onClick, text }) {
 PureExpiredTokenScreen.prototype = {
   onClick: PropTypes.func,
   text: PropTypes.string,
+  linkText: PropTypes.string,
+  forgotPassword: PropTypes.func,
 };

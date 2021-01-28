@@ -105,7 +105,6 @@ class userController extends baseController {
       const requiredProps = {
         email,
         first_name,
-        last_name,
         farm_id,
         role_id,
       };
@@ -165,7 +164,7 @@ class userController extends baseController {
           user = isUserAlreadyCreated;
         }
         const { user_id } = user;
-        const userFarm = await userFarmModel.query(trx).insert({
+        await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
           status: 'Invited',
@@ -179,6 +178,12 @@ class userController extends baseController {
           step_four: true,
           step_five: true,
         });
+        const userFarm = await userFarmModel.query(trx)
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .join('role', 'userFarm.role_id', '=', 'role.role_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
@@ -277,7 +282,7 @@ class userController extends baseController {
         /* End of input validation */
 
         const user = await baseController.post(userModel, req.body, trx);
-        const userFarm = await userFarmModel.query(trx).insert({
+        await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
           status: 'Active',
@@ -290,8 +295,14 @@ class userController extends baseController {
           step_four: true,
           step_five: true,
         });
+        const userFarm = await userFarmModel.query(trx)
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .join('role', 'userFarm.role_id', '=', 'role.role_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
         await trx.commit();
-        res.status(201).send({ ...user, ...userFarm });
+        res.status(201).send(userFarm);
       } catch (error) {
         // handle more exceptions
         await trx.rollback();
@@ -449,6 +460,7 @@ class userController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
+        delete req.body.status_id;
         const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
         await trx.commit();
         if (!updated.length) {
@@ -538,7 +550,7 @@ class userController extends baseController {
           }).patch({ status: 'Active' });
           const userFarms = await userFarmModel.query(trx).where({ user_id });
           await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
-          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub }).first().returning('*');
+          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub });
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
           await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();

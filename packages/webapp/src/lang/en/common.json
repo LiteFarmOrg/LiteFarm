@@ -5,7 +5,7 @@
   "CONFIRM": "Confirm",
   "CONTINUE": "Continue",
   "DELETE": "Delete",
-  "EDIT": "EDIT",
+  "EDIT": "Edit",
   "EG": "E.g.",
   "FIELD": "Field",
   "FINISH": "Finish",
@@ -15,13 +15,13 @@
   "NEXT": "Next",
   "NOT_FOUND": "Not Found",
   "NOTES": "Notes",
+  "OPTIONAL": "optional",
   "PROCEED": "Proceed",
   "REMOVE": "Remove",
   "SAVE": "Save",
   "SAVE_CHANGES": "Save Changes",
+  "SORRY": "Sorry",
   "SUBMIT": "Submit",
   "TO": "to",
-  "UPDATE": "Update",
-  "SORRY": "Sorry",
-  "OPTIONAL": "optional"
+  "UPDATE": "Update"
 }

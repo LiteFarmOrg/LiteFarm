@@ -4,7 +4,7 @@ import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
 import { rolesSelector } from './slice';
 
-import { deactivateUser, reactivateUser } from './saga';
+import { deactivateUser, reactivateUser, invitePseudoUser } from './saga';
 import { updateUserFarm } from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -121,22 +121,22 @@ class People extends Component {
     }
 
     // ADD EMAIL CHANGE
-    if (
+    const shouldConvertPseudoWorker =
       this.state.willConvertWorker &&
       editedUser.email &&
       editedUser.email.length &&
-      user.role_id === 4
-    ) {
+      user.role_id === 4;
+
+    if (shouldConvertPseudoWorker) {
       finalUser.email = editedUser.email;
-      finalUser.email_needs_update = true;
       if (!finalUser.role_id) {
         finalUser.role_id = 3;
       }
-      finalUser.has_consent = false;
+      finalUser.user_id = user.user_id;
       hasChanged = true;
-    }
-
-    if (hasChanged) {
+      this.props.dispatch(invitePseudoUser(finalUser));
+      return this.closeEditModal();
+    } else if (hasChanged) {
       finalUser.user_id = user.user_id;
       this.props.dispatch(updateUserFarm(finalUser));
       this.closeEditModal();
@@ -144,8 +144,6 @@ class People extends Component {
       toastr.success(this.props.t('message:USER.ERROR.NOTHING_CHANGED'));
       this.closeEditModal();
     }
-    // this.props.dispatch(updateUserSaga(user));
-    // this.closeEditModal();
   }
 
   componentDidMount() {
@@ -398,7 +396,7 @@ class People extends Component {
                 >
                   {this.state.editUser.role_id === 4 && (
                     <div className={styles.labelContainer}>
-                      <label>Convert this worker to a user with account</label>
+                      <label>{this.props.t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}</label>
                       <input
                         style={{ appearance: 'auto' }}
                         type="checkbox"
@@ -493,7 +491,7 @@ class People extends Component {
                     </Button>
                   </div>
                 </Form>
-                {this.state.editUser.status === 'Inactive' ? (
+                {this.state.editUser.status === 'Inactive' && this.state.editUser.role_id !== 4 ? (
                   <div style={{ textAlign: 'center' }}>
                     {!this.state.editUser.is_admin && (
                       <button
@@ -506,7 +504,7 @@ class People extends Component {
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center' }}>
-                    {!this.state.editUser.is_admin && (
+                    {!this.state.editUser.is_admin && this.state.editUser.role_id !== 4 && (
                       <button
                         className={styles.removeButton}
                         onClick={() => this.deactivate(this.state.editUser.user_id)}

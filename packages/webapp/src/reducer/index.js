@@ -27,8 +27,10 @@ import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
 import userFarmReducer from '../containers/userFarmSlice';
 import rolesReducer from '../containers/Profile/People/slice';
 import userLogReducer from '../containers/userLogSlice';
+import weatherReducer from '../containers/WeatherBoard/weatherSlice';
 
 import fieldReducer from '../containers/fieldSlice';
+import shiftStepReducer from '../containers/shiftSlice';
 import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
@@ -108,6 +110,7 @@ const entitiesReducer = combineReducers({
   fieldReducer,
   cropReducer,
   fieldCropReducer,
+  weatherReducer,
 });
 
 const persistedStateReducer = combineReducers({
@@ -116,6 +119,7 @@ const persistedStateReducer = combineReducers({
 
 const tempStateReducer = combineReducers({
   homeReducer,
+  shiftStepReducer,
 });
 
 // combine all reducers here and pass it to application

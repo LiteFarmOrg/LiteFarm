@@ -11,70 +11,70 @@
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
   "CHOOSE_FARM": {
-    "ADD_NEW": "Agrega otra finca",
-    "CHOOSE_TITLE": "Elige otra finca",
-    "INPUT_PLACEHOLDER": "Buscar",
-    "SWITCH_TITLE": "Cambiar a otra finca"
+    "ADD_NEW": "Add new farm",
+    "CHOOSE_TITLE": "Choose your farm",
+    "INPUT_PLACEHOLDER": "Search",
+    "SWITCH_TITLE": "Switch to another farm"
   },
   "CONSENT": {
-    "LABEL": "Estoy de acuerdo"
+    "LABEL": "I Agree"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",
     "BIRTH_YEAR_TOOLTIP": "Age information is collected for research purposes only and will only be shared with  personally identifying information removed",
-    "CREATE_BUTTON": "Crear cuenta",
+    "CREATE_BUTTON": "Create Account",
     "EMAIL": "Email",
     "FULL_NAME": "Full name",
     "GENDER": "Gender",
     "GENDER_TOOLTIP": "Gender information is collected for research purposes only and will only be shared with  personally identifying information removed",
     "PASSWORD": "Password",
-    "TITLE": "Crear nueva cuenta de usuario"
+    "TITLE": "Create new user account"
   },
   "ENTER_PASSWORD": {
-    "FORGOT": "Olvidó contraseña?",
-    "LABEL": "Contraseña"
+    "FORGOT": "Forgot password?",
+    "LABEL": "Password"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "TITLE_1": "Nuevo gasto (1 de 2)",
-      "TITLE_2": "Nuevo gasto (2 de 2)"
+      "TITLE_1": "New Expense (1 of 2)",
+      "TITLE_2": "New Expense (2 of 2)"
     },
-    "ADD_MORE_ITEMS": "Agrega más unidades",
-    "DETAILED_HISTORY": "Historia detallada",
+    "ADD_MORE_ITEMS": "Add more items",
+    "DETAILED_HISTORY": "Detailed History",
     "EDIT_EXPENSE": {
-      "DATE_PLACEHOLDER": "Elige una fecha",
-      "DESELECTING_CATEGORY": "Anular la selección de una categoría eliminará los gastos existentes bajo dicha categoria para este registro de gastos.",
-      "REMOVE_ALL": "Ud. eliminó todos los gastos, haga clic en Guardar y así actualizar el cambio.",
-      "TITLE_1": "Editar gastos (1 de 2)",
-      "TITLE_2": "Editar gastos (2 de 2)"
+      "DATE_PLACEHOLDER": "Choose a Date",
+      "DESELECTING_CATEGORY": "Deselecting a category will remove existing expenses under this category for this expenses log.",
+      "REMOVE_ALL": "You removed all expenses, click Save to submit.",
+      "TITLE_1": "Edit Expense(1 of 2)",
+      "TITLE_2": "Edit Expense (2 of 2)"
     },
-    "ITEM": "Unidad",
-    "NAME": "Nombre",
-    "NO_EXPENSE": "Sin gasto",
-    "NO_EXPENSE_YEAR": "Ud. no tiene gasto registrado para este año",
-    "OTHER_EXPENSES_TITLE": "Otros gastos",
-    "SUMMARY": "Resumen",
-    "VALUE": "Valor"
+    "ITEM": "Item",
+    "NAME": "Name",
+    "NO_EXPENSE": "No expense found",
+    "NO_EXPENSE_YEAR": "You have no expense recorded for this year",
+    "OTHER_EXPENSES_TITLE": "Other Expenses",
+    "SUMMARY": "Summary",
+    "VALUE": "Value"
   },
   "EXPIRED_TOKEN": {
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FIELDS": {
-    "ACTION": "Acción",
-    "ADD_NEW_FIELD": "Agregue nueva área",
+    "ACTION": "Action",
+    "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
       "CROP": {
-        "AREA_USED": "Area usada",
-        "AREA_USED_HECTARE": "Area usada en una hectárea",
-        "AREA_USED_IN": "Area usada en",
-        "BED": "Cama",
-        "BED_LENGTH": "Largo de cama",
-        "BED_WIDTH": "Ancho de cama",
-        "BY_AREA": "Por area",
-        "BY_BEDS": "Por cama",
-        "CHOOSE_END_DATE": "Elija fecha de têrmino",
-        "CHOOSE_START_DATE": "Elija fecha de inicio",
+        "AREA_USED": "Area Used",
+        "AREA_USED_HECTARE": "Area used in hectare",
+        "AREA_USED_IN": "Area Used in",
+        "BED": "bed",
+        "BED_LENGTH": "Bed Length",
+        "BED_WIDTH": "Bed Width",
+        "BY_AREA": "By Area",
+        "BY_BEDS": "By Bed",
+        "CHOOSE_END_DATE": "Choose end date",
+        "CHOOSE_START_DATE": "Choose start date",
         "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
         "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
         "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",

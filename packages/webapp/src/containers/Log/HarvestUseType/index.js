@@ -18,7 +18,7 @@ import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
 import { setSelectedUseTypes, addHarvestUseType } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm';
-import { setAllHarvestUseTypesSelector } from '../selectors';
+import { setAllHarvestUseTypesSelector, selectedUseTypeSelector } from '../selectors';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -69,6 +69,11 @@ class HarvestUseType extends Component {
       disabled: true,
     };
     this.assignImage = this.assignImage.bind(this);
+
+    if (this.props.useType) {
+      this.props.useType.some((item) => this.logClick(item));
+    }
+    console.log(this.props.useType);
   }
 
   assignImage(useTypeName) {
@@ -155,7 +160,9 @@ class HarvestUseType extends Component {
         >
           <Row className="show-grid">
             {this.props.allUseType.map((type) => {
-              const taskName = this.props.t(`harvest_uses:${type.harvest_use_type_translation_key}`);
+              const taskName = this.props.t(
+                `harvest_uses:${type.harvest_use_type_translation_key}`,
+              );
               const buttonImg = this.assignImage(taskName);
               return (
                 <Col
@@ -230,6 +237,7 @@ const mapStateToProps = (state) => {
   return {
     users: userFarmSelector(state),
     allUseType: setAllHarvestUseTypesSelector(state),
+    useType: selectedUseTypeSelector(state),
   };
 };
 

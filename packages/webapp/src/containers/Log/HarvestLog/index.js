@@ -92,7 +92,14 @@ class HarvestLog extends Component {
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.harvestLog)}
         >
-          <LogFormOneCrop model=".harvestLog" fields={fields} crops={crops} notesField={false} />
+          <LogFormOneCrop
+            model=".harvestLog"
+            fields={fields}
+            crops={crops}
+            notesField={false}
+            defaultField={this.props.formData.field}
+            defaultCrop={this.props.formData.crop}
+          />
           <Unit
             model=".harvestLog.quantity_kg"
             title="Quantity"

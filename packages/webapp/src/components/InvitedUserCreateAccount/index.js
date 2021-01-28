@@ -21,7 +21,7 @@ export default function PureInvitedUserCreateAccountPage({
   gender,
   birthYear,
 }) {
-  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onBlur' });
+  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';

@@ -385,11 +385,13 @@ class LogDetail extends Component {
                   <div>{`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}</div>
                   {quantity_unit === 'lb' && (
                     <span>
-                      {convertFromMetric(
-                        selectedLog.harvestLog.quantity_kg,
-                        quantity_unit,
-                        'kg',
-                        false,
+                      {roundToTwoDecimal(
+                        convertFromMetric(
+                          selectedLog.harvestLog.quantity_kg,
+                          quantity_unit,
+                          'kg',
+                          false,
+                        ),
                       )}
                     </span>
                   )}
@@ -412,8 +414,10 @@ class LogDetail extends Component {
                       <div>
                         <Semibold style={{ color: 'var(--teal900)' }}>
                           {quantity_unit === 'lb'
-                            ? convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false)
-                            : use.quantity_kg}
+                            ? roundToTwoDecimal(
+                                convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
+                              )
+                            : roundToTwoDecimal(use.quantity_kg)}
                         </Semibold>
                       </div>
                     </div>

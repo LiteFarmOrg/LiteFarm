@@ -109,7 +109,8 @@
       "REDRAW": "MISSING",
       "SAVE_FIELD": "MISSING",
       "SEARCH_BOX_PLACEHOLDER": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "ZERO_AREA_DETECTED": "MISSING"
     },
     "TABLE": {
       "AREA": "MISSING",

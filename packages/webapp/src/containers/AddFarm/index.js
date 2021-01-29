@@ -29,7 +29,7 @@ const AddFarm = () => {
     setError,
     clearErrors,
     watch,
-  } = useForm();
+  } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const farmName = watch(FARMNAME, undefined);

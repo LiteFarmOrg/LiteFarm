@@ -11,6 +11,7 @@
   "FINISH": "Finish",
   "GOT_IT": "Got it",
   "GREAT": "Great",
+  "LOADING": "Loading...",
   "LOGIN_BUTTON": "Log In or Sign Up",
   "NEXT": "Next",
   "NOT_FOUND": "Not Found",
@@ -23,6 +24,5 @@
   "SORRY": "Sorry",
   "SUBMIT": "Submit",
   "TO": "to",
-  "UPDATE": "Update",
-  "LOADING": "Loading..."
+  "UPDATE": "Update"
 }

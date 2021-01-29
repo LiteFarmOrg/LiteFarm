@@ -12,12 +12,12 @@ import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
 import i18n from '../../lang/i18n';
+import { axios } from '../saga';
 import {
   startInvitationFlow,
   startInvitationFlowWithSpotLight,
 } from '../ChooseFarm/chooseFarmFlowSlice';
 
-const axios = require('axios');
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
 

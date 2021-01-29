@@ -99,7 +99,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
           disabled={!!file}
           value={file ? file.name : ''}
         />
-        <div style={{ flexGrow: 1, marginTop: '16px', marginLeft: '8px', marginRight: '-8px' }}>
+        <div style={{ flexGrow: 1, marginTop: '21px', marginLeft: '8px', marginRight: '-8px' }}>
           <label htmlFor="uploader">
             <AddFile />
           </label>

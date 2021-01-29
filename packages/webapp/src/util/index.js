@@ -53,7 +53,7 @@ export const roundToFourDecimal = (value) => {
 };
 
 export const roundToTwoDecimal = (value) => {
-  return Math.round(value * 100) / 100;
+  return Math.floor(value * 100) / 100;
 };
 
 export function grabCurrencySymbol(currency = getCurrencyFromStore()) {
@@ -91,6 +91,13 @@ export const getFormatedTemperature = (temperature, measurement = getMeasurement
 export const getDistance = (distance, measurement = getMeasurementFromStore()) => {
   return getConvertedString(distance, measurement, 'km', 'mi');
 };
+
+export const getMassUnit = (measurement = getMeasurementFromStore()) => {
+  return measurement === METRIC ? 'kg' : 'lb';
+};
+
+export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
+  measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');
 
 export const getDurationString = (timeInMinutes) => {
   const hours = parseInt(timeInMinutes / 60, 10);

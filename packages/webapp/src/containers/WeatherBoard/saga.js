@@ -23,8 +23,7 @@ import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../lang/i18n';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import utils from './utils';
-
-const axios = require('axios');
+import { axios } from '../saga';
 
 export const getWeather = createAction('getWeatherSaga');
 

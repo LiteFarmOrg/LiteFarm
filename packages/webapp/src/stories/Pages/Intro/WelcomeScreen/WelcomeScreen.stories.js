@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../../config/decorators';
-import WelcomeScreen from '../../../../containers/WelcomeScreen';
+import WelcomeScreen from '../../../../components/WelcomeScreen';
 
 export default {
   title: 'Form/Intro/1-WelcomeScreen',

@@ -6,12 +6,10 @@ import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, axios } from '../../saga';
 import i18n from '../../../lang/i18n';
 import { setAllHarvestUseTypes, getHarvestUseTypes } from '../actions';
 import { selectedUseTypeSelector } from '../selectors';
-
-const axios = require('axios');
 
 export function* addLog(action) {
   const { logURL } = apiConfig;

@@ -16,9 +16,13 @@ import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
-import { setSelectedUseTypes, addHarvestUseType } from '../actions';
+import { setSelectedUseTypes, addHarvestUseType, saveHarvestAllocationWip } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm';
-import { setAllHarvestUseTypesSelector, selectedUseTypeSelector } from '../selectors';
+import {
+  setAllHarvestUseTypesSelector,
+  selectedUseTypeSelector,
+  harvestAllocationSelector,
+} from '../selectors';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -73,7 +77,6 @@ class HarvestUseType extends Component {
     if (this.props.useType) {
       this.props.useType.some((item) => this.logClick(item));
     }
-    console.log(this.props.useType);
   }
 
   assignImage(useTypeName) {
@@ -213,9 +216,15 @@ class HarvestUseType extends Component {
           <button
             className="btn btn-primary-round"
             onClick={() => {
+              const harvestAlloc = this.props.harvestAllocation;
               this.state.selectedUseTypes = this.state.selectedUseTypes.map(function (elem) {
                 let key = Object.assign({}, elem);
-                key.quantity = 0;
+                if (key.harvest_use_type_name in harvestAlloc) {
+                  key.quantity = Number(harvestAlloc[key.harvest_use_type_name]);
+                } else {
+                  key.quantity = 0;
+                }
+
                 return key;
               });
               this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
@@ -244,6 +253,7 @@ const mapStateToProps = (state) => {
     users: userFarmSelector(state),
     allUseType: setAllHarvestUseTypesSelector(state),
     useType: selectedUseTypeSelector(state),
+    harvestAllocation: harvestAllocationSelector(state),
   };
 };
 

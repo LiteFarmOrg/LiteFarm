@@ -21,6 +21,7 @@ import {
   SET_ALL_HARVEST_USE_TYPES,
   SET_FORM_VALUE,
   SET_DEFAULT_DATE,
+  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
 import { combineReducers } from 'redux';
 import { combineForms } from 'react-redux-form';
@@ -60,6 +61,10 @@ function logReducer(state = initialState, action) {
     case SET_DEFAULT_DATE:
       return Object.assign({}, state, {
         defaultDate: action.defaultDate,
+      });
+    case SAVE_HARVEST_ALLOCATION_WIP:
+      return Object.assign({}, state, {
+        harvestAllocation: action.harvestAllocation,
       });
     default:
       return state;

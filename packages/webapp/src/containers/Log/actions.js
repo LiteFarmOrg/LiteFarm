@@ -24,6 +24,7 @@ import {
   ADD_HARVEST_USE_TYPE,
   SET_FORM_VALUE,
   SET_DEFAULT_DATE,
+  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
 
 export const getLogs = () => {
@@ -91,5 +92,12 @@ export const setDefaultDate = (defaultDate) => {
   return {
     type: SET_DEFAULT_DATE,
     defaultDate,
+  };
+};
+
+export const saveHarvestAllocationWip = (harvestAllocation) => {
+  return {
+    type: SAVE_HARVEST_ALLOCATION_WIP,
+    harvestAllocation,
   };
 };

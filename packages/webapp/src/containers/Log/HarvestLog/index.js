@@ -67,7 +67,6 @@ class HarvestLog extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(getHarvestUseTypes());
-    console.log(this.props.formData);
   }
 
   render() {

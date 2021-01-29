@@ -8,10 +8,16 @@ import { getUnit, convertToMetric } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops } from '../../saga';
-import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
+import {
+  formDataSelector,
+  selectedUseTypeSelector,
+  formValueSelector,
+  harvestAllocationSelector,
+} from '../selectors';
 import { toastr } from 'react-redux-toastr';
 import { addLog, editLog } from '../Utility/actions';
 import { userFarmSelector } from '../../userFarmSlice';
+import { saveHarvestAllocationWip, setSelectedUseTypes } from '../actions';
 
 class HarvestAllocation extends Component {
   constructor(props) {
@@ -55,6 +61,10 @@ class HarvestAllocation extends Component {
     }
   }
 
+  handleChange(event) {
+    this.props.dispatch(saveHarvestAllocationWip(event.harvestAllocation));
+  }
+
   render() {
     return (
       <div className="page-container">
@@ -71,7 +81,11 @@ class HarvestAllocation extends Component {
           <p>{this.props.formData.quantity_kg + this.state.quantity_unit}</p>
         </div>
 
-        <Form model="logReducer.forms" onSubmit={(val) => this.handleSubmit(val.harvestAllocation)}>
+        <Form
+          model="logReducer.forms"
+          onSubmit={(val) => this.handleSubmit(val.harvestAllocation)}
+          onChange={this.handleChange.bind(this)}
+        >
           {this.props.useType.map((type, index) => {
             const typeName = type.harvest_use_type_name;
             let model = '.harvestAllocation.' + type.harvest_use_type_name;
@@ -89,6 +103,7 @@ class HarvestAllocation extends Component {
                   type={this.state.quantity_unit}
                   validate
                   isHarvestAllocation={true}
+                  defaultValue={type.quantity !== 0 ? type.quantity : null}
                 />
               </div>
             );
@@ -97,7 +112,9 @@ class HarvestAllocation extends Component {
           <div className={styles.bottomContainer}>
             <div
               className={styles.backButton}
-              onClick={() => this.props.history.push('/harvest_use_type')}
+              onClick={() => {
+                this.props.history.push('/harvest_use_type');
+              }}
             >
               {this.props.t('common:BACK')}
             </div>
@@ -117,6 +134,7 @@ const mapStateToProps = (state) => {
     formData: formDataSelector(state),
     useType: selectedUseTypeSelector(state),
     formValue: formValueSelector(state),
+    harvestAllocation: harvestAllocationSelector(state),
   };
 };
 

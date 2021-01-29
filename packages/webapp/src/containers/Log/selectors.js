@@ -31,6 +31,11 @@ const formValueSelector = createSelector(logPageSelector, (state) => state.formV
 
 const defaultDateSelector = createSelector(logPageSelector, (state) => state.defaultDate);
 
+const harvestAllocationSelector = createSelector(
+  logPageSelector,
+  (state) => state.harvestAllocation,
+);
+
 export {
   logSelector,
   currentLogSelector,
@@ -39,4 +44,5 @@ export {
   setAllHarvestUseTypesSelector,
   formValueSelector,
   defaultDateSelector,
+  harvestAllocationSelector,
 };

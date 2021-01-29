@@ -18,6 +18,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class ShiftStepTwo extends Component {
   constructor(props) {
@@ -854,6 +855,7 @@ function InputDuration({
                     <div className={styles.durationInput}>
                       <input
                         type="number"
+                        onKeyDown={numberOnKeyDown}
                         value={cd.duration}
                         onChange={(event) =>
                           changeDuration(event, task.task_id, true, cd.crop_id, setDuration)
@@ -872,6 +874,7 @@ function InputDuration({
                     id={'total_crop_input-' + task.task_id}
                     value={duration}
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     placeholder={0}
                     onChange={(event) => {
                       onDurationChange(event.target.value, task.task_id);
@@ -942,6 +945,7 @@ function InputDuration({
             <input
               id={'input-field-' + task.task_id}
               type="number"
+              onKeyDown={numberOnKeyDown}
               value={duration}
               onChange={(event) => {
                 setDuration(event.target.value);

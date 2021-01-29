@@ -28,6 +28,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -466,6 +467,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.entry_interval"
                     placeholder="optional"
@@ -476,6 +478,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.harvest_interval"
                     placeholder="optional"
@@ -491,6 +494,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.CONCENTRATION')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.concentration"
                     placeholder="optional"

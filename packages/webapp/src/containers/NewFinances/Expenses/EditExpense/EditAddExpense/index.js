@@ -17,6 +17,7 @@ import footerStyles from '../../../../../components/LogFooter/styles.scss';
 import { addRemoveExpense } from '../../../../Finances/actions';
 import { Alert } from 'react-bootstrap';
 import { userFarmSelector } from '../../../../userFarmSlice';
+import { numberOnKeyDown } from '../../../../../components/Form/Input';
 
 class EditAddExpense extends Component {
   constructor(props) {
@@ -210,6 +211,7 @@ class EditAddExpense extends Component {
                             <label>Value</label>
                             <Control.text
                               type="number"
+                              onKeyDown={numberOnKeyDown}
                               model={`.expenseDetail[${k}][${i}].value`}
                               min="0.01"
                               step="0.01"

@@ -6,8 +6,8 @@ import history from '../../history';
 import { loginSelector, loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../lang/i18n';
+import { axios } from '../saga';
 
-const axios = require('axios');
 const loginUrl = () => `${url}/google`;
 
 export const loginWithGoogle = createAction(`loginWithGoogleSaga`);

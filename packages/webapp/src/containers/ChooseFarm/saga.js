@@ -22,12 +22,10 @@ import {
   acceptInvitationSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { loginSelector, loginSuccess } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { loginSelector } from '../userFarmSlice';
+import { getHeader, axios } from '../saga';
 import history from '../../history';
 import { startInvitationFlowOnChooseFarmScreen } from './chooseFarmFlowSlice';
-
-const axios = require('axios');
 
 const patchUserFarmStatusWithIdTokenUrl = (farm_id) =>
   `${url}/user_farm/accept_invitation/farm/${farm_id}`;

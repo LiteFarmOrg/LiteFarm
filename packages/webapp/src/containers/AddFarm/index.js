@@ -19,7 +19,7 @@ const AddFarm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
-  const mainUserFarmSelector = useSelector(userFarmReducerSelector)
+  const mainUserFarmSelector = useSelector(userFarmReducerSelector);
   const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm();
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';

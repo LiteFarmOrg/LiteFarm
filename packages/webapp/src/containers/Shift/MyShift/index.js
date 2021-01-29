@@ -93,7 +93,7 @@ class MyShift extends Component {
 
     this.setState({
       tasks: newTasks,
-      date: moment(shift.shift_date).format('YYYY-MM-DD'),
+      date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
     });
   }
 

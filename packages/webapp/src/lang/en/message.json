@@ -1,12 +1,12 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "Falla al subir los archivos adjuntos"
+      "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
     }
   },
   "CONTACT": {
     "ERROR": {
-      "SUBMIT_CONTACT_FORM": "Error, Ud. no pudo enviar un formulario de contacto"
+      "SUBMIT_CONTACT_FORM": "Error, Ud. no pudo enviar formulario de contacto"
     },
     "SUCCESS": {
       "SUBMIT_CONTACT_FORM": "Formulario de contacto enviado!"
@@ -14,8 +14,8 @@
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "No pudo borrar campo de cultivo",
-      "EDIT": "No pudo editar campo de cultivo"
+      "DELETE": "No se pudo borrar campo de cultivo",
+      "EDIT": "No se pudo editar campo de cultivo"
     },
     "SUCCESS": {
       "DELETE": "Cultivo borrado exitosamente",
@@ -25,140 +25,140 @@
   "EDIT_FIELD_CROP": {
     "ERROR": {
       "END_DATE_BEFORE": "Fecha de término no puede ser la misma o anterior a la fecha de inicio",
-      "FIELD_AREA": "El area de campo de cultivo no puede ser más grande que el área del campo"
+      "FIELD_AREA": "El área de campo de cultivo no puede ser más grande que el área del campo"
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "No pudo agregar nuevos gastos",
-      "DELETE": "No pudo borrar gastos",
-      "UPDATE": "No pudo actualizar gastos!"
+      "ADD": "No se pudo agregar nuevos gastos",
+      "DELETE": "No se pudo borrar gastos",
+      "UPDATE": "No se pudo actualizar gastos!"
     },
     "SUCCESS": {
-      "ADD": "Successfully added new expenses!",
-      "DELETE": "Successfully deleted expenses!",
-      "UPDATE": "Successfully updated expenses!"
+      "ADD": "Nuevos gastos agregados exitosamente!",
+      "DELETE": "Gastos borrados exitosamente!",
+      "UPDATE": "Gastos actualizados exitosamente!"
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "Failed to add farm, please contact litefarm for assistance",
-      "FETCH": "failed to fetch farm from database",
-      "UPDATE": "Failed to update farm info"
+      "ADD": "No se pudo agregar finca, por favor contacte a Litefarm por asistencia",
+      "FETCH": "No se pudo sacar finca desde base de datos",
+      "UPDATE": "No se pudo actualizar información sobre finca"
     },
     "SUCCESS": {
-      "UPDATE": "Successfully updated farm info!"
+      "UPDATE": "Información sobre finca actualizada exitosamente!"
     }
   },
   "FERTILIZER": {
     "ERROR": {
-      "ADD": "failed to add fertilizer"
+      "ADD": "No se pudo agregar fertilizante"
     }
   },
   "FIELD": {
     "ERROR": {
-      "DELETE": "Failed To Delete Field",
-      "EMPTY_NAME": "Field name cannot be empty",
-      "UPDATE_NAME": "Failed To update Field name"
+      "DELETE": "No se pudo borrar campo",
+      "EMPTY_NAME": "Nombre del campo no puede quedar vacío",
+      "UPDATE_NAME": "No se pudo actualizar nombre del campo"
     },
     "SUCCESS": {
-      "DELETE": "Successfully Deleted Field",
-      "UPDATE_NAME": "Successfully changed field name"
+      "DELETE": "Campo borrado exitosamente",
+      "UPDATE_NAME": "Cambio nombre del campo exitosamente"
     }
   },
   "LOG_HARVEST": {
     "ERROR": {
-      "ADD_USE_TYPE": "Failed to add custom harvest use type",
-      "GET_TYPES": "Failed to fetch harvest use types"
+      "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
+      "GET_TYPES": "No se pudo extraer tipos de usos de la cosecha"
     },
     "SUCCESS": {
-      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+      "ADD_USE_TYPE": "Tipo de uso habitual de la cosecha agregado exitosamente"
     }
   },
   "LOG": {
     "ERROR": {
-      "ADD": "Failed to add Log",
-      "DELETE": "Failed to delete Log",
-      "EDIT": "Failed to edit Log"
+      "ADD": "No se pudo agregar registro",
+      "DELETE": "No se pudo borrar registro",
+      "EDIT": "No se pudo editar registro"
     },
     "SUCCESS": {
-      "ADD": "Successfully added Log!",
-      "DELETE": "Successfully deleted Log!",
-      "EDIT": "Successfully edited Log!"
+      "ADD": "Registro agregado exitosamente!",
+      "DELETE": "Registro borrado exitosamente!",
+      "EDIT": "Registro editado exitosamente!"
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "Failed to login user info"
+      "LOGIN_FAIL": "No se pudo identificar información del usuario"
     }
   },
   "NEW_FIELD_CROP": {
     "ERROR": {
-      "GENERAL": "failed to add fieldCrop to database",
-      "NOT_FILLED": "is not filled out",
-      "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
+      "GENERAL": "No se pudo agregar campo de cultivo a la base de datos",
+      "NOT_FILLED": "No está completo",
+      "VARIETY_EXISTS": "Un cultivo con ese nombre de variedad ya existe. Por favor intente otro."
     },
     "SUCCESS": {
-      "SAVE": "Successfully saved Crop!"
+      "SAVE": "Cultivo guardado exitosamente!"
     }
   },
   "SALE": {
     "ERROR": {
-      "DELETE": "Failed to delete new sale",
-      "UPDATE": "Failed to update sale"
+      "DELETE": "No se pudo guardar nueva venta",
+      "UPDATE": "No se pudo actualizar venta"
     },
     "SUCCESS": {
-      "DELETE": "Successfully deleted sale",
-      "UPDATE": "Successfully updated sale"
+      "DELETE": "Venta borrada exitosamente",
+      "UPDATE": "Venta actualizada exitosamente"
     }
   },
   "SHIFT": {
     "ERROR": {
-      "ADD": "Failed to add new shift",
-      "ASSIGN_ALL_CROPS": "Please assign crops or fields for each task",
-      "ASSIGN_ALL_MINUTES": "Please assign all your available work minutes",
-      "BREAK_>_WORK": "Break duration > work duration 😂",
-      "CROP_FIELDS_EACH": "Please assign crops or fields for each task",
-      "DELETE": "Failed to delete the shift :(",
-      "DURATION_FOR_CROPS": "Please assign a duration for each crop.",
-      "ONE_TASK": "Please select at least one task.",
-      "ONLY_INTEGERS_DURATIONS": "Please assign only numbers to durations",
-      "REQUIRED_TASK": "A task name is required",
-      "SUBMIT_SHIFT": "Submit shift with crops failed. Litefarm's issue.",
-      "UPDATE": "Failed to update shift",
-      "USER_FOR_SHIFT": "Please select a user for this shift",
-      "VALID_START_END": "Please enter a valid start-end duration"
+      "ADD": "No se pudo agregar nuevo turno",
+      "ASSIGN_ALL_CROPS": "Por favor asigne cultivos o campos para cada tarea",
+      "ASSIGN_ALL_MINUTES": "Por favor asigne todos sus minutos de trabajo disponibles",
+      "BREAK_>_WORK": "Duración del descanso > Duración del trabajo",
+      "CROP_FIELDS_EACH": "Por favor asigne cultivos o campos para cada tarea",
+      "DELETE": "No se pudo borrar turno",
+      "DURATION_FOR_CROPS": "Por favor asigne duración a cada cultivo.",
+      "ONE_TASK": "Por favor seleccione al menos una tarea.",
+      "ONLY_INTEGERS_DURATIONS": "Por favor asigne solo números a las duraciones",
+      "REQUIRED_TASK": "Asigne nombre a la tarea",
+      "SUBMIT_SHIFT": "No se pudo enviar turno con cultivos. Este es un problema de Litefarm",
+      "UPDATE": "No se pudo actualizar turno",
+      "USER_FOR_SHIFT": "Por favor seleccione un usuario para esta tarea",
+      "VALID_START_END": "Por favor ingrese una duración válida para comienzo-final"
     },
     "SUCCESS": {
-      "ADD": "Successfully added new shift!",
-      "DELETE": "Deleted shift!",
-      "UPDATE": "Successfully updated shift!"
+      "ADD": "Nueva tarea agregada exitosamente!",
+      "DELETE": "Turno borrado!",
+      "UPDATE": "Turno agregado exitosamente!"
     }
   },
   "TOKEN": {
     "ERROR": {
-      "VERIFICATION": "Token verification failed"
+      "VERIFICATION": "Falló signo de verificación"
     }
   },
   "USER": {
     "ERROR": {
-      "ADD": "Failed to add user",
-      "AGREEMENT": "Failed to update user agreement",
-      "EXISTS": "User already exists in LiteFarm Network",
-      "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
-      "NOTHING_CHANGED": "Nothing's changed",
-      "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
-      "RESTORE": "There was an error restoring access",
-      "REVOKE": "There was an error revoking access",
-      "SIGNUP": "Failed to sign up",
-      "SIGNUP_UNKNOWN": "Unknown issue! Try again later.",
-      "UPDATE": "Failed to update user info"
+      "ADD": "No se pudo agregar usuario",
+      "AGREEMENT": "No se pudo actualizar acuerdo de usuario",
+      "EXISTS": "Usuario ya existe en la Red de Trabajo de LiteFarm",
+      "INVITE": "Error creando cuenta de usuario. Por favor contacte LiteFarm por asistencia.",
+      "NOTHING_CHANGED": "Nada ha cambiado",
+      "RESET_PASSWORD": "Error al enviar correo electrónico para cambio de contraseña. Por favor contacte LiteFarm por asistencia.",
+      "RESTORE": "Hubo un error al restaurar acceso",
+      "REVOKE": "Hubo un error al revocar acceso",
+      "SIGNUP": "No se pudo registrar",
+      "SIGNUP_UNKNOWN": "Problema desconocido! Intente más tarde.",
+      "UPDATE": "No se pudo actualizar información de usuario"
     },
     "SUCCESS": {
-      "ADD": "Successfully added user to farm!",
-      "RESTORE": "User access restored",
-      "REVOKE": "User access revoked!",
-      "UPDATE": "Successfully updated user info!"
+      "ADD": "Usuario para finca agregado exitosamente!",
+      "RESTORE": "Accesso de usuario restaurado",
+      "REVOKE": "Accesso de usuario revocado!",
+      "UPDATE": "Información de usuario actualizado exitosamente!"
     }
   }
 }

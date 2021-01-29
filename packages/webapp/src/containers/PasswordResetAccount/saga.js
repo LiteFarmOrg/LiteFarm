@@ -21,8 +21,8 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
+import { axios } from '../saga';
 
-const axios = require('axios');
 const resetPasswordUrl = () => `${url}/password_reset`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);

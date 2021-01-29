@@ -42,9 +42,7 @@ import {
   CREATE_FREQUENCY_WATER_BALANCE,
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
-
-const axios = require('axios');
+import { getHeader, axios } from '../saga';
 
 export function* getCropsSoldNutrition() {
   const { insightUrl } = apiConfig;
@@ -124,7 +122,9 @@ export function* getPricesData() {
 }
 
 export function* getPricesWithDistanceData(data) {
-  let currentDate = formatDate(new Date());
+  let date = new Date();
+  date = new Date(date.setMonth(date.getMonth() - 6));
+  let currentDate = formatDate(date);
   const { insightUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);

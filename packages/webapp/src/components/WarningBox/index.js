@@ -5,15 +5,11 @@ import { useTranslation } from 'react-i18next';
 import styles from './styles.scss';
 import { ReactComponent as WarningIcon } from '../../assets/images/warning.svg';
 
-export default function PureWarningBox({
-  text,
-  children,
-  ...props
-}) {
+export default function PureWarningBox({ text, children, ...props }) {
   const { t } = useTranslation();
   return (
     <div className={styles.warningBox} {...props}>
-      <WarningIcon className={styles.icon}/>
+      <WarningIcon className={styles.icon} />
       <Label>{text}</Label>
     </div>
   );

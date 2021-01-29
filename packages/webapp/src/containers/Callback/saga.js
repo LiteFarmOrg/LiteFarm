@@ -23,8 +23,9 @@ import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
 import { toastr } from 'react-redux-toastr';
 import { logout } from '../../util/jwt';
+import { axios } from '../saga';
+
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
-const axios = require('axios');
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
 

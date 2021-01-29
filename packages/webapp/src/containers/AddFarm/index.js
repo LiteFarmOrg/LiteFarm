@@ -20,7 +20,9 @@ const AddFarm = () => {
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
-  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm();
+  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm({
+    mode: 'onTouched',
+  });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const [isGettingLocation, setIsGettingLocation] = useState(false);
@@ -234,7 +236,10 @@ const AddFarm = () => {
             inputRef: addressRef,
             id: 'autocomplete',
             name: ADDRESS,
-            clearErrors,
+            reset: () => {
+              setValue(ADDRESS, undefined);
+              clearErrors(ADDRESS);
+            },
             errors: addressErrors,
             onBlur: handleBlur,
           },

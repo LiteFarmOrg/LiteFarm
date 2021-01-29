@@ -21,7 +21,9 @@ export default function PureInvitedUserCreateAccountPage({
   gender,
   birthYear,
 }) {
-  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
+  const { register, handleSubmit, watch, control, errors, setValue, clearErrors } = useForm({
+    mode: 'onTouched',
+  });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
@@ -114,6 +116,10 @@ export default function PureInvitedUserCreateAccountPage({
         }
         defaultValue={birthYear}
         optional
+        reset={() => {
+          setValue(BIRTHYEAR, undefined);
+          clearErrors(BIRTHYEAR);
+        }}
       />
       {isNotSSO && (
         <>

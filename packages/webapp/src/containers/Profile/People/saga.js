@@ -2,7 +2,7 @@ import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import apiConfig, { url, userFarmUrl } from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, axios } from '../../saga';
 import {
   getUserFarmsSuccess,
   putUserSuccess,
@@ -14,8 +14,6 @@ import {
 import { createAction } from '@reduxjs/toolkit';
 import i18n from '../../../lang/i18n';
 import { roleIdRoleNameMapSelector } from './slice';
-
-const axios = require('axios');
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchWageUrl = (farm_id, user_id) => `${userFarmUrl}/wage/farm/${farm_id}/user/${user_id}`;

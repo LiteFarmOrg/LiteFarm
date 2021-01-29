@@ -10,7 +10,7 @@ const style = {
   marginBottom: '28px',
 };
 
-export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, map, loading}) {
+export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, map, loading }) {
   // const { title: titleClass, ...inputClasses } = styles;
   const { t } = useTranslation();
   return (

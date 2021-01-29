@@ -12,6 +12,7 @@ import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
+import { integerOnKeyDown } from '../../Form/Input';
 
 function PureStepTwo({
   onGoBack,
@@ -331,6 +332,13 @@ function InputDuration({
     cropTotalTimeAssign(duration, task_id);
   };
 
+  const onDurationBlur = (duration, task_id) => {
+    const minTime = cropDurations[task_id]?.length;
+    const validatedDuration = duration > minTime ? duration : minTime;
+    setDuration(validatedDuration);
+    cropTotalTimeAssign(validatedDuration, task_id);
+  };
+
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
   }, [defaultCrops]);
@@ -430,6 +438,8 @@ function InputDuration({
                         onChange={(event) =>
                           changeDuration(event, task.task_id, true, cd.crop_id, setDuration)
                         }
+                        step={1}
+                        onKeyDown={integerOnKeyDown}
                       />
                     </div>
                   </div>
@@ -445,8 +455,13 @@ function InputDuration({
                     value={duration}
                     type="number"
                     placeholder={0}
+                    step={1}
+                    onKeyDown={integerOnKeyDown}
                     onChange={(event) => {
                       onDurationChange(event.target.value, task.task_id);
+                    }}
+                    onBlur={(event) => {
+                      onDurationBlur(event.target.value, task.task_id);
                     }}
                   />
                 </div>
@@ -519,6 +534,8 @@ function InputDuration({
                 setDuration(event.target.value);
                 changeDuration(event, task.task_id, false);
               }}
+              step={1}
+              onKeyDown={integerOnKeyDown}
             />
           </div>
         </div>

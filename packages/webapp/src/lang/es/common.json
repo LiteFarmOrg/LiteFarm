@@ -11,17 +11,18 @@
   "FINISH": "Terminar",
   "GOT_IT": "Entendido",
   "GREAT": "Muy bien",
+  "LOADING": "MISSING",
   "LOGIN_BUTTON": "Botón de ingreso",
   "NEXT": "Próximo",
   "NOT_FOUND": "No encontrado",
   "NOTES": "Notas",
+  "OPTIONAL": "Opcional",
   "PROCEED": "Proceder",
   "REMOVE": "Remover",
   "SAVE": "Guardar",
-  "OPTIONAL": "Opcional",
   "SAVE_CHANGES": "Guardar cambios",
+  "SORRY": "Disculpa",
   "SUBMIT": "Enviar",
   "TO": "Para",
-  "UPDATE": "Actualizar",
-  "SORRY": "Disculpa"
+  "UPDATE": "Actualizar"
 }

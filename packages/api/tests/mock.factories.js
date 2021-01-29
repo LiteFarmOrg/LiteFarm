@@ -136,7 +136,7 @@ function fakePriceInsightForTests() {
     distance: faker.random.arrayElement([5, 10, 25, 50]),
     lat: faker.address.latitude(),
     long: faker.address.latitude(),
-    startdate: faker.date.future(),
+    startdate: '2021-10-10',
   };
 }
 

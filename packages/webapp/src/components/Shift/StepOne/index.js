@@ -98,7 +98,7 @@ function PureStepOne({
         placeholder={t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')}
       />
       <div style={{ marginTop: '24px' }} />
-      { Number(farm.role_id) === 3 && (
+      {Number(farm.role_id) === 3 && (
         <Semibold>{`${t('SHIFT.EDIT_SHIFT.WORKER')}: ${workerOptions[0].label}`}</Semibold>
       )}
       {[1, 2, 5].includes(Number(farm.role_id)) && (

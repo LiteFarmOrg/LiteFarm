@@ -18,7 +18,7 @@ import history from '../../history';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   getFieldCropsSuccess,
@@ -30,7 +30,7 @@ import {
 } from '../fieldCropSlice';
 import { deleteFieldSuccess } from '../fieldSlice';
 import i18n from '../../lang/i18n';
-const axios = require('axios');
+
 const DEC = 10;
 
 export const getExpiredFieldCrops = createAction(`getExpiredFieldCropsSaga`);

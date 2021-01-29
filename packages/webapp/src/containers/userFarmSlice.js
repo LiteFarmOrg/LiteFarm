@@ -155,6 +155,12 @@ const userFarmSlice = createSlice({
       removeUserFarm(state, { payload: pseudoUserFarm });
       addUserFarm(state, { payload: newUserFarm });
     },
+    setLoadingStart: (state, {}) => {
+      state.loading = true;
+    },
+    setLoadingEnd: (state, {}) => {
+      state.loading = false;
+    },
   },
 });
 
@@ -178,6 +184,8 @@ export const {
   selectFarmSuccess,
   acceptInvitationSuccess,
   invitePseudoUserSuccess,
+  setLoadingStart,
+  setLoadingEnd,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
@@ -221,6 +229,10 @@ export const userFarmLengthSelector = createSelector(
   ({ farmIdUserIdTuple }) => {
     return farmIdUserIdTuple.length;
   },
+);
+export const userFarmEntitiesSelector = createSelector(
+  userFarmReducerSelector,
+  ({ byFarmIdUserId }) => byFarmIdUserId,
 );
 
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {

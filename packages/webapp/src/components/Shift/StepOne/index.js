@@ -98,15 +98,20 @@ function PureStepOne({
         placeholder={t('SHIFT.EDIT_SHIFT.CHOOSE_DATE')}
       />
       <div style={{ marginTop: '24px' }} />
-      <ReactSelect
-        label={t('SHIFT.EDIT_SHIFT.CHOOSE_WORKERS')}
-        options={workerOptions}
-        onChange={setWorker}
-        value={worker}
-        style={{ marginBottom: '24px' }}
-        defaultValue={defaultWorker}
-      />
-      <Semibold>What tasks did you do today?</Semibold>
+      {Number(farm.role_id) === 3 && (
+        <Semibold>{`${t('SHIFT.EDIT_SHIFT.WORKER')}: ${workerOptions[0].label}`}</Semibold>
+      )}
+      {[1, 2, 5].includes(Number(farm.role_id)) && (
+        <ReactSelect
+          label={t('SHIFT.EDIT_SHIFT.CHOOSE_WORKERS')}
+          options={workerOptions}
+          onChange={setWorker}
+          value={worker}
+          style={{ marginBottom: '24px' }}
+          defaultValue={defaultWorker}
+        />
+      )}
+      <Semibold>{t('SHIFT.EDIT_SHIFT.WHAT_TASKS_YOU_DID')}</Semibold>
       <TaskTypeMatrix
         t={t}
         selected={selectedTasks}

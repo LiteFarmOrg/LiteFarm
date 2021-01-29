@@ -23,7 +23,9 @@ import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
 import { toastr } from 'react-redux-toastr';
 import { logout } from '../../util/jwt';
-const axios = require('axios');
+import { axios } from '../saga';
+
+import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
 
@@ -58,11 +60,12 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
         },
       },
     );
-    const { user, id_token } = result.data;
+    const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
     purgeState();
-    yield put(acceptInvitationSuccess(user));
-    history.push('/consent', { isInvitationFlow: true, showSpotLight: false });
+    yield put(acceptInvitationSuccess(userFarm));
+    yield put(startInvitationFlow(userFarm.farm_id));
+    history.push('/consent');
   } catch (e) {
     if (e?.response?.status === 404) {
       // and message === 'user does not exist

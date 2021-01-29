@@ -4,7 +4,7 @@ import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../userFarmSlice';
+import { userFarmReducerSelector, userFarmSelector } from '../userFarmSlice';
 
 import PureAddFarm from '../../components/AddFarm';
 import { patchFarm, postFarm } from './saga';
@@ -19,7 +19,10 @@ const AddFarm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
-  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm();
+  const mainUserFarmSelector = useSelector(userFarmReducerSelector);
+  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm({
+    mode: 'onTouched',
+  });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
   const [isGettingLocation, setIsGettingLocation] = useState(false);
@@ -214,6 +217,7 @@ const AddFarm = () => {
       <PureAddFarm
         onSubmit={handleSubmit(onSubmit)}
         title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
+        loading={mainUserFarmSelector.loading}
         inputs={[
           {
             label: t('ADD_FARM.FARM_NAME'),
@@ -232,7 +236,10 @@ const AddFarm = () => {
             inputRef: addressRef,
             id: 'autocomplete',
             name: ADDRESS,
-            clearErrors,
+            reset: () => {
+              setValue(ADDRESS, undefined);
+              clearErrors(ADDRESS);
+            },
             errors: addressErrors,
             onBlur: handleBlur,
           },

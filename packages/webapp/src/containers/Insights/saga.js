@@ -42,9 +42,7 @@ import {
   CREATE_FREQUENCY_WATER_BALANCE,
 } from './constants';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
-
-const axios = require('axios');
+import { getHeader, axios } from '../saga';
 
 export function* getCropsSoldNutrition() {
   const { insightUrl } = apiConfig;

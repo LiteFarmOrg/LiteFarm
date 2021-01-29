@@ -10,15 +10,15 @@ const style = {
   marginBottom: '28px',
 };
 
-export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, map }) {
+export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, map, loading }) {
   // const { title: titleClass, ...inputClasses } = styles;
   const { t } = useTranslation();
   return (
     <Form
       onSubmit={onSubmit}
       buttonGroup={
-        <Button type={'submit'} fullLength>
-          {t('common:CONTINUE')}
+        <Button type={'submit'} disabled={loading} fullLength>
+          {loading ? t('common:LOADING') : t('common:CONTINUE')}
         </Button>
       }
     >

@@ -1,6 +1,6 @@
 ##### Version 3.0:
 
-#### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager Version)
+#### Informed Consent Form and Privacy Policy (Farm Worker Version)
 
 Welcome to LiteFarm! We understand that your privacy and the protection of your data are important to you. We created this Informed Consent Form and Privacy Policy to help you understand how and when we collect, use and share your information, and to ensure we have your consent for doing so. Please keep in mind that you will need to consent separately to our collection and use of your data as described in this Informed Consent Form and Privacy Policy **for every farm that you are associated with via your account on the LiteFarm platform**. If you do not agree with our practices as outlined in this Informed Consent Form and Privacy Policy, you will not be able to use the LiteFarm platform.
 
@@ -30,13 +30,9 @@ Depending on which parts of the LiteFarm platform you use, we may collect differ
 
 - Contact information (name, address, phone number, email address)
 
-- Business information (farm name, farm address)
-
 - Photos
 
 - Internet Protocol (IP) address
-
-- Worker information (name, role on farm, email address)
 
 - Geolocation (e.g., GPS coordinates of fields, field boundaries, etc.)
 
@@ -108,7 +104,7 @@ If you withdraw your consent from this Informed Consent Form and Privacy Policy 
 
 **How do we make changes to the Privacy Policy?**
 
-Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website ([www.litefarm.com](http://www.litefarm.com/)) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
+Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website ([www.litefarm.org](http://www.litefarm.org/)) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
 
 **When will we contact you?**
 

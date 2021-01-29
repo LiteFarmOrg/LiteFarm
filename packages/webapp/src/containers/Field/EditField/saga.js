@@ -2,12 +2,11 @@ import { createAction } from '@reduxjs/toolkit';
 import { put, takeLatest, call, select } from 'redux-saga/effects';
 import { fieldURL } from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, axios } from '../../saga';
 import { putFieldSuccess } from '../../fieldSlice';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../../lang/i18n';
 
-const axios = require('axios');
 const putUrl = (field_id) => `${fieldURL}/${field_id}`;
 
 export const putField = createAction(`putFieldSaga`);

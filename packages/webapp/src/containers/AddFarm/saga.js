@@ -22,12 +22,14 @@ import {
   userFarmSelector,
   patchFarmSuccess,
   loginSelector,
-  selectFarmSuccess, onLoadingStart, setLoadingStart, setLoadingEnd,
+  selectFarmSuccess,
+  onLoadingStart,
+  setLoadingStart,
+  setLoadingEnd,
 } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from './../../lang/i18n';
-const axios = require('axios');
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchStepUrl = (farm_id, user_id) =>

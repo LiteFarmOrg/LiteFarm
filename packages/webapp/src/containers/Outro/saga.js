@@ -18,10 +18,8 @@ import apiConfig from '../../apiConfig';
 import { patchStepFiveSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import history from '../../history';
-
-const axios = require('axios');
 
 export const patchOutroStep = createAction('patchOutroStepSaga');
 

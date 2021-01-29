@@ -273,7 +273,7 @@ function PureStepTwo({
         </>
       }
     >
-      {selectedTasks.map((task) => (
+      {selectedTasks?.map((task) => (
         <InputDuration
           key={task.task_id}
           addAll={addAll}
@@ -427,7 +427,7 @@ function InputDuration({
               </button>
             </div>
             <div className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
-              {cropDurations[task.task_id].map((cd) => {
+              {cropDurations[task.task_id]?.map((cd) => {
                 return (
                   <div className={styles.durationContainer} key={cd.crop_id}>
                     <div>{cd.crop_name}</div>

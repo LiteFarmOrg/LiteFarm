@@ -92,6 +92,13 @@ export const getDistance = (distance, measurement = getMeasurementFromStore()) =
   return getConvertedString(distance, measurement, 'km', 'mi');
 };
 
+export const getMassUnit = (measurement = getMeasurementFromStore()) => {
+  return measurement === METRIC ? 'kg' : 'lb';
+};
+
+export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
+  measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');
+
 export const getDurationString = (timeInMinutes) => {
   const hours = parseInt(timeInMinutes / 60, 10);
   const minutes = timeInMinutes - hours * 60;

@@ -1609,12 +1609,21 @@ export default {
   tempStateReducer: {
     homeReducer: {},
     shiftStepReducer: {
-      worker: null,
-      shift_date: '2021-01-29T01:45:58.987Z',
-      selectedTasks: [],
+      worker: {
+        user_id: 'ebdb01b4-5699-11eb-b6ec-244bfe993436',
+      },
+      date: moment(),
+      selectedTasks: [
+        {
+          task_id: 1,
+          task_name: 'Bed Preparation',
+          farm_id: null,
+          task_translation_key: 'BED_PREPARATION',
+        },
+      ],
     },
   },
-  baseReducer: {},
+  baseReducer: { show_spotlight: false },
   logReducer: {
     forms: {
       fertLog: {

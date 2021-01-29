@@ -122,7 +122,9 @@ export function* getPricesData() {
 }
 
 export function* getPricesWithDistanceData(data) {
-  let currentDate = formatDate(new Date());
+  let date = new Date();
+  date = new Date(date.setMonth(date.getMonth() - 6));
+  let currentDate = formatDate(date);
   const { insightUrl } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);

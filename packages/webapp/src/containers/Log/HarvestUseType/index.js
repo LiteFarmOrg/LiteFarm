@@ -201,7 +201,13 @@ class HarvestUseType extends Component {
         )}
 
         <div className={styles.bottomContainer}>
-          <div className={styles.backButton} onClick={() => history.push('/harvest_log')}>
+          <div
+            className={styles.backButton}
+            onClick={() => {
+              this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
+              history.push('/harvest_log');
+            }}
+          >
             {this.props.t('common:BACK')}
           </div>
           <button

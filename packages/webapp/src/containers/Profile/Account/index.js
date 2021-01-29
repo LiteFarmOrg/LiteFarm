@@ -10,7 +10,6 @@ import { withTranslation } from 'react-i18next';
 
 class Account extends Component {
   componentDidMount() {
-    this.currentLanguage = localStorage.getItem('litefarm_lang');
     const { dispatch, users } = this.props;
     if (users) {
       dispatch(actions.change('profileForms.userInfo.first_name', users.first_name));
@@ -56,6 +55,7 @@ class Account extends Component {
 
   render() {
     const { users } = this.props;
+    const currentLanguage = localStorage.getItem('litefarm_lang');
     return (
       <div>
         <h3 className={styles.headerTitle}>
@@ -96,14 +96,13 @@ class Account extends Component {
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.LANGUAGE')}</label>
               <select
-                defaultValue={this.currentLanguage}
                 style={{ marginLeft: '8px' }}
                 onChange={this.changeLanguage}
               >
-                <option value="en">{this.props.t('PROFILE.ACCOUNT.ENGLISH')}</option>
-                <option value="es">{this.props.t('PROFILE.ACCOUNT.SPANISH')}</option>
-                <option value="pt">{this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}</option>
-                <option value="fr">{this.props.t('PROFILE.ACCOUNT.FRENCH')}</option>
+                <option value="en" selected={currentLanguage === "en"}>{this.props.t('PROFILE.ACCOUNT.ENGLISH')}</option>
+                <option value="es" selected={currentLanguage === "es"}>{this.props.t('PROFILE.ACCOUNT.SPANISH')}</option>
+                <option value="pt" selected={currentLanguage === "pt"}>{this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}</option>
+                <option value="fr" selected={currentLanguage === "fr"}>{this.props.t('PROFILE.ACCOUNT.FRENCH')}</option>
               </select>
             </div>
             <div className={defaultStyles.bottomContainer}>

@@ -48,10 +48,7 @@ const Input = ({
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
   const [showError, setShowError] = useState(isPassword);
 
-  const onKeyDown =
-    type === 'number'
-      ? (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
-      : undefined;
+  const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
   return (
     <div
       className={clsx(styles.container)}
@@ -128,3 +125,7 @@ Input.propTypes = {
 };
 
 export default Input;
+
+export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+export const integerOnKeyDown = (e) =>
+  ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();

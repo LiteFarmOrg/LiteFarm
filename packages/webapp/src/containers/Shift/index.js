@@ -68,7 +68,7 @@ class Shift extends Component {
     if (shifts !== null && Object.keys(shifts[0]).length > 0) {
       const { startDate, endDate, nameFilter } = this.state;
       // eslint-disable-next-line
-      return shifts.filter(
+      const filteredShifts = shifts.filter(
         (l) =>
           (this.checkFilter(l, 'user_id', nameFilter) &&
             startDate.isBefore(l.start_time) &&
@@ -76,6 +76,10 @@ class Shift extends Component {
             (endDate.isAfter(l.start_time) || endDate.isSame(l.start_time, 'day'))) ||
           l.test_shift, // only present on test shifts in cypress/fixtures/shifts.json
       );
+      return filteredShifts.map((shift) => ({
+        ...shift,
+        shift_date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
+      }));
     }
   }
 

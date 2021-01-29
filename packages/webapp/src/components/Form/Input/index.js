@@ -23,31 +23,35 @@ const Input = ({
   isSearchBar,
   type = 'text',
   toolTipContent,
-  clearErrors = () => {},
+  reset,
   ...props
 }) => {
   const { t } = useTranslation();
   const input = useRef();
-  const onClear = () => {
-    if (input.current && input.current.value) {
-      input.current.value = '';
-      clearErrors(props.name);
-      setShowError(false);
-    }
-  };
+  const onClear =
+    optional || reset
+      ? () => reset()
+      : () => {
+          if (input.current && input.current?.value) {
+            input.current.value = '';
+            setShowError(false);
+          }
+        };
+  useEffect(() => {
+    setShowError(!!errors);
+  }, [errors]);
+
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
   const [showError, setShowError] = useState(isPassword);
+
   const onKeyDown =
     type === 'number'
       ? (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()
       : undefined;
-  useEffect(() => {
-    errors: setShowError(!!errors);
-  }, [errors]);
   return (
     <div
       className={clsx(styles.container)}
@@ -119,6 +123,8 @@ Input.propTypes = {
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
   toolTipContent: PropTypes.string,
+  // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
+  reset: PropTypes.func,
 };
 
 export default Input;

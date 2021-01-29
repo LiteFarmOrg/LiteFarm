@@ -17,10 +17,8 @@ import { call, select, takeEvery } from 'redux-saga/effects';
 import { SEND_CONTACT_FORM } from './constants';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import i18n from '../../lang/i18n';
-
-const axios = require('axios');
 
 export function* sendContactForm(action) {
   let { farm_id } = yield select(loginSelector);

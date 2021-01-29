@@ -10,7 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 
 export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
-  const { register, handleSubmit, watch, control, errors } = useForm({ mode: 'onTouched' });
+  const { register, handleSubmit, watch, control, errors, setValue, clearErrors } = useForm({
+    mode: 'onTouched',
+  });
   const NAME = 'name';
   const ROLE = 'role';
   const EMAIL = 'email';
@@ -90,6 +92,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         optional={selectedRoleId === 3}
         info={t('INVITE_USER.EMAIL_INFO')}
         style={{ marginBottom: '16px' }}
+        reset={() => {
+          setValue(EMAIL, undefined);
+          clearErrors(EMAIL);
+        }}
       />
       <Controller
         control={control}
@@ -120,6 +126,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
             `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
+        reset={() => {
+          setValue(BIRTHYEAR, undefined);
+          clearErrors(BIRTHYEAR);
+        }}
       />
       <Input
         label={t('INVITE_USER.WAGE')}
@@ -130,6 +140,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
+        reset={() => {
+          setValue(WAGE, undefined);
+          clearErrors(WAGE);
+        }}
       />
       <Input
         style={{ marginBottom: '24px' }}
@@ -139,6 +153,10 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         name={PHONE}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional
+        reset={() => {
+          setValue(PHONE, undefined);
+          clearErrors(PHONE);
+        }}
       />
     </Form>
   );

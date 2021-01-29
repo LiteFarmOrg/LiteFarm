@@ -457,12 +457,6 @@
     "FARM_OWNER": "MISSING",
     "TITLE": "MISSING"
   },
-  "ROLES": {
-    "EXTENSION_OFFICER": "MISSING",
-    "MANAGER": "MISSING",
-    "OWNER": "MISSING",
-    "WORKER": "MISSING"
-  },
   "SALE": {
     "ADD_SALE": {
       "DATE": "MISSING",

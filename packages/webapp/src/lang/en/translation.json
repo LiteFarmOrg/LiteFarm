@@ -457,12 +457,6 @@
     "FARM_OWNER": "Farm Owner",
     "TITLE": "What is your role on the farm?"
   },
-  "ROLES": {
-    "EXTENSION_OFFICER": "Extension Officer",
-    "MANAGER": "Manager",
-    "OWNER": "Owner",
-    "WORKER": "Worker"
-  },
   "SALE": {
     "ADD_SALE": {
       "DATE": "Date",

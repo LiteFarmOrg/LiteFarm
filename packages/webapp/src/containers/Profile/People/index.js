@@ -174,10 +174,10 @@ class People extends Component {
     const { users, t } = this.props;
     const { farm_id, addedUser, roles, ...userGroups } = users;
     const ROLE_TRANSLATIONS = {
-      "Owner": t('ROLES.OWNER'),
-      "Extension Officer": t('ROLES.EXTENSION_OFFICER'),
-      "Manager": t('ROLES.MANAGER'),
-      "Worker": t('ROLES.WORKER')
+      "Owner": t('role:OWNER'),
+      "Extension Officer": t('role:EXTENSION_OFFICER'),
+      "Manager": t('role:MANAGER'),
+      "Worker": t('role:WORKER')
     };
     const STATUS_TRANSLATIONS = {
       "Active": t('STATUS.ACTIVE'),

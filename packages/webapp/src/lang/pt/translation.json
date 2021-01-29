@@ -439,6 +439,12 @@
       "ROLE_CHANGE_ALERT": "MISSING",
       "SEARCH": "MISSING",
       "USERS_FOUND": "MISSING"
+    },
+    "TABLE": {
+      "HEADER_EMAIL": "MISSING",
+      "HEADER_NAME": "MISSING",
+      "HEADER_ROLE": "MISSING",
+      "HEADER_STATUS": "MISSING"
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -451,6 +457,12 @@
     "FARM_MANAGER": "MISSING",
     "FARM_OWNER": "MISSING",
     "TITLE": "MISSING"
+  },
+  "ROLES": {
+    "EXTENSION_OFFICER": "MISSING",
+    "MANAGER": "MISSING",
+    "OWNER": "MISSING",
+    "WORKER": "MISSING"
   },
   "SALE": {
     "ADD_SALE": {
@@ -571,6 +583,7 @@
       "VERY_SAD": "MISSING",
       "WAGE_FOR_SHIFT": "MISSING",
       "WHAT_TASKS_YOU_DID": "MISSING",
+      "WORKER": "MISSING",
       "WORKER_MOOD": "MISSING",
       "YOU_HAVE": "MISSING"
     },
@@ -619,6 +632,11 @@
     "SHIFTS": "MISSING",
     "SUPPORT": "MISSING",
     "USERS": "MISSING"
+  },
+  "STATUS": {
+    "ACTIVE": "MISSING",
+    "INACTIVE": "MISSING",
+    "INVITED": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "MISSING",

@@ -438,6 +438,12 @@
       "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",
       "USERS_FOUND": "Users found"
+    },
+    "TABLE": {
+      "HEADER_EMAIL": "Email",
+      "HEADER_NAME": "Name",
+      "HEADER_ROLE": "Role",
+      "HEADER_STATUS": "Status"
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -450,6 +456,12 @@
     "FARM_MANAGER": "Farm Manager",
     "FARM_OWNER": "Farm Owner",
     "TITLE": "What is your role on the farm?"
+  },
+  "ROLES": {
+    "EXTENSION_OFFICER": "Extension Officer",
+    "MANAGER": "Manager",
+    "OWNER": "Owner",
+    "WORKER": "Worker"
   },
   "SALE": {
     "ADD_SALE": {
@@ -619,6 +631,11 @@
     "SHIFTS": "Shifts",
     "SUPPORT": "Support",
     "USERS": "Users"
+  },
+  "STATUS": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "INVITED": "Invited"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Let's Go!",

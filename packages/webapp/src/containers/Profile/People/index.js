@@ -19,34 +19,6 @@ import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from './saga';
 import { withTranslation } from 'react-i18next';
 import history from '../../../history';
-
-const summaryColumns = [
-  {
-    id: 'name',
-    Header: 'Name',
-    accessor: (e) => e.first_name.concat(' ', e.last_name),
-    minWidth: 70,
-  },
-  {
-    id: 'email',
-    Header: 'Email',
-    accessor: 'email',
-    minWidth: 95,
-    style: { whiteSpace: 'unset' },
-  },
-  {
-    id: 'role',
-    Header: 'Role',
-    accessor: 'role',
-    minWidth: 55,
-  },
-  {
-    id: 'status',
-    Header: 'Status',
-    accessor: 'status',
-    minWidth: 55,
-  },
-];
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
 
@@ -69,6 +41,33 @@ class People extends Component {
       updated_edit: false,
       willConvertWorker: false,
       cleaveEmailState: null,
+      summaryColumns : [
+        {
+          id: 'name',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_NAME`),
+          accessor: (e) => e.first_name.concat(' ', e.last_name),
+          minWidth: 70,
+        },
+        {
+          id: 'email',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_EMAIL`),
+          accessor: 'email',
+          minWidth: 95,
+          style: { whiteSpace: 'unset' },
+        },
+        {
+          id: 'role',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_ROLE`),
+          accessor: 'role',
+          minWidth: 55,
+        },
+        {
+          id: 'status',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_STATUS`),
+          accessor: 'status',
+          minWidth: 55,
+        },
+      ]
     };
   }
 
@@ -147,7 +146,7 @@ class People extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, t } = this.props;
     dispatch(getAllUserFarmsByFarmId());
     dispatch(actions.reset('profileForms.addInfo'));
   }
@@ -172,8 +171,19 @@ class People extends Component {
 
   formatData = () => {
     const { searchValue } = this.state;
-    const { users } = this.props;
+    const { users, t } = this.props;
     const { farm_id, addedUser, roles, ...userGroups } = users;
+    const ROLE_TRANSLATIONS = {
+      "Owner": t('ROLES.OWNER'),
+      "Extension Officer": t('ROLES.EXTENSION_OFFICER'),
+      "Manager": t('ROLES.MANAGER'),
+      "Worker": t('ROLES.WORKER')
+    };
+    const STATUS_TRANSLATIONS = {
+      "Active": t('STATUS.ACTIVE'),
+      "Inactive": t('STATUS.INACTIVE'),
+      "Invited": t('STATUS.INVITED')
+    };
     const combinedUserGroups = Object.keys(userGroups).reduce(
       (prev, curr) => prev.concat(userGroups[curr]),
       [],
@@ -184,7 +194,11 @@ class People extends Component {
       const name = firstName.concat(' ', lastName);
       return name.includes(searchValue.trim().toLowerCase());
     });
-    return filteredUsers;
+    return filteredUsers.map((user) => ({
+      ...user,
+      role: ROLE_TRANSLATIONS[user.role],
+      status: STATUS_TRANSLATIONS[user.status]
+    }))
   };
 
   onRowEdit = (state, rowInfo, column, instance) => {
@@ -346,7 +360,7 @@ class People extends Component {
             filteredData.length
           } ${this.props.t('PROFILE.PEOPLE.USERS_FOUND')}`}</label>
           <Table
-            columns={summaryColumns}
+            columns={this.state.summaryColumns}
             data={filteredData}
             showPagination={true}
             pageSizeOptions={[5, 10, 20, 50]}

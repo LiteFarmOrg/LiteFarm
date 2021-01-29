@@ -20,11 +20,12 @@ export default function PureAddFarm({
 }) {
   // const { title: titleClass, ...inputClasses } = styles;
   const { t } = useTranslation();
+  console.log(disabled);
   return (
     <Form
       onSubmit={onSubmit}
       buttonGroup={
-        <Button type={'submit'} disabled={disabled} fullLength>
+        <Button type={'submit'} disabled={disabled || loading} fullLength>
           {loading ? t('common:LOADING') : t('common:CONTINUE')}
         </Button>
       }

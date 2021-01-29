@@ -53,7 +53,7 @@ export const roundToFourDecimal = (value) => {
 };
 
 export const roundToTwoDecimal = (value) => {
-  return Math.round(value * 100) / 100;
+  return Math.floor(value * 100) / 100;
 };
 
 export function grabCurrencySymbol(currency = getCurrencyFromStore()) {

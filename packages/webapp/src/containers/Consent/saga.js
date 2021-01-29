@@ -22,11 +22,10 @@ import {
   patchStatusConsentSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import history from '../../history';
 import i18n from '../../lang/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
-const axios = require('axios');
 
 export const patchConsent = createAction('patchConsentSaga');
 export function* patchConsentSaga({ payload }) {

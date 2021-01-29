@@ -126,7 +126,7 @@ If you withdraw your consent from this Informed Consent Form and Privacy Policy 
 
 **How do we make changes to the Privacy Policy?**
 
-Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website ([www.litefarm.com](http://www.litefarm.com/)) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
+Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website ([www.litefarm.org](http://www.litefarm.org/)) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
 
 **When will we contact you?**
 

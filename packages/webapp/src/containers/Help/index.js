@@ -6,9 +6,11 @@ import history from '../../history';
 import { userFarmSelector } from '../userFarmSlice';
 export default function HelpRequest() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (file, data) => {
-    dispatch(supportFileUpload({ file, form: data }));
+    setLoading(true);
+    dispatch(supportFileUpload({ file, form: data, setLoading }));
   };
   const handleBack = () => {
     history.push('/');
@@ -20,6 +22,7 @@ export default function HelpRequest() {
       goBack={handleBack}
       email={email}
       phone_number={phone_number}
+      isLoading={loading}
     />
   );
 }

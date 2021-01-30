@@ -195,10 +195,11 @@ class logServices extends baseController {
     } else if (logModel.tableName === 'harvestLog') {
       await super.postRelated(activityLog, logModel, body, transaction);
       const uses = body.selectedUseTypes.map(async (use) => {
+        let quant = !use.quantity ? use.quantity_kg : use.quantity;
         const data = {
           activity_id: activityLog.activity_id,
           harvest_use_type_id: use.harvest_use_type_id,
-          quantity_kg: use.quantity,
+          quantity_kg: quant,
         }
         return super.post(HarvestUseModel, data, transaction)
       });

@@ -12,6 +12,19 @@ class Unit extends React.Component {
     return val === undefined || val >= 0;
   }
 
+  isTwoDecimalPlaces(val) {
+    let decimals;
+    if (val) {
+      const decimalIndex = val.toString().indexOf('.');
+      val = val.toString();
+      console.log(decimalIndex);
+      if (decimalIndex > -1) {
+        decimals = val.split('.')[1].length;
+      }
+    }
+    return !decimals || decimals < 3;
+  }
+
   render() {
     const {
       model,
@@ -104,6 +117,7 @@ class Unit extends React.Component {
                 validators={{
                   required: (val) => val,
                   positive: this.isPositive,
+                  twoDecimalPlaces: this.isTwoDecimalPlaces,
                 }}
                 parser={this.parseNumber}
               />
@@ -125,6 +139,7 @@ class Unit extends React.Component {
               messages={{
                 required: 'Required',
                 positive: `Must be a non negative number`,
+                twoDecimalPlaces: 'Quantity must be up to 2 decimal places',
               }}
             />
           </>

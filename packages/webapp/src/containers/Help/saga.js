@@ -20,7 +20,8 @@ import history from '../../history';
 import { toastr } from 'react-redux-toastr';
 import { postHelpRequestSuccess } from '../Home/homeSlice';
 import i18n from '../../lang/i18n';
-const axios = require('axios');
+import { axios } from '../saga';
+
 const supportUrl = () => `${url}/support_ticket`;
 
 export const supportFileUpload = createAction(`supportFileUploadSaga`);

@@ -25,6 +25,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { postField } from './saga';
 import { withTranslation } from 'react-i18next';
+import PureWarningBox from '../../../components/WarningBox';
+import { Label } from '../../../components/Typography';
 
 const buttonStyles = {
   font: 'Open Sans',
@@ -77,6 +79,7 @@ class NewField extends Component {
       maps: null,
       showHelpBox: true,
       showToolTip: false,
+      showWarning: false,
     };
     this.handleGoogleMapApi = this.handleGoogleMapApi.bind(this);
     this.handleModeChange = this.handleModeChange.bind(this);
@@ -300,6 +303,8 @@ class NewField extends Component {
         .map((vertice) => {
           return { lat: vertice.lat(), lng: vertice.lng() };
         });
+      const area = Math.round(maps.geometry.spherical.computeArea(polygon.getPath()));
+
       const updatePolygon = () => {
         vertices = polygon
           .getPath()
@@ -321,6 +326,10 @@ class NewField extends Component {
       maps.event.addListener(polygon.getPath(), 'dragend', function () {
         updatePolygon();
       });
+
+      if (area === 0) {
+        this.setState({ showWarning: true });
+      }
 
       this.handlePolygonComplete(polygon, maps);
     });
@@ -367,6 +376,7 @@ class NewField extends Component {
           gridPoints: null,
           polygon: null,
           area: null,
+          showWarning: false,
         });
         break;
       case NEXT_BUTTON:
@@ -433,15 +443,23 @@ class NewField extends Component {
         {this.props.t('common:CONFIRM')}
       </Button>
     );
-    const DrawingManager = () =>
-      gridPoints === null ? (
-        <PolygonButton />
-      ) : (
-        <div>
+    const DrawingManager = () => {
+      if (this.state.showWarning) {
+        return <PureWarningBox style={{ padding: '16px 15%', width: '95%', margin: 'auto' }}>
+          {/* <div style={{marginBottom: '10px'}}> */}
+          <Label style={{marginBottom: '12px'}}>{this.props.t('FIELDS.NEW_FIELD.ZERO_AREA_DETECTED')}</Label>
+          {/* </div> */}
+          <ClearButton />
+        </PureWarningBox>
+      } else if (gridPoints === null)  {
+        return <PolygonButton />
+      } else {
+        return <div>
           <ClearButton />
           <NextButton />
         </div>
-      );
+      }
+    }
     return (
       // Important! Always set the container height explicitly
       <div>

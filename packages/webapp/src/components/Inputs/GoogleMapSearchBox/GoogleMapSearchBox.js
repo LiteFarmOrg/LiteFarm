@@ -109,7 +109,7 @@ class SearchBox extends Component {
         placeholder={placeholder}
         type="text"
         style={{
-          width: '85%',
+          width: 'calc( 96% - 80px )',
           height: '42px',
           fontSize: '16px',
           padding: '10px',

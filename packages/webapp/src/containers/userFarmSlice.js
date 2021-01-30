@@ -160,7 +160,7 @@ const userFarmSlice = createSlice({
     },
     setLoadingEnd: (state, {}) => {
       state.loading = false;
-    }
+    },
   },
 });
 

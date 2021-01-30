@@ -7,10 +7,10 @@ import { actions, Control, Form } from 'react-redux-form';
 import { Button } from 'react-bootstrap';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { integerOnKeyDown } from '../../../components/Form/Input';
 
 class Account extends Component {
   componentDidMount() {
-    this.currentLanguage = localStorage.getItem('litefarm_lang');
     const { dispatch, users } = this.props;
     if (users) {
       dispatch(actions.change('profileForms.userInfo.first_name', users.first_name));
@@ -30,7 +30,7 @@ class Account extends Component {
         dispatch(actions.change('profileForms.userInfo.last_name', users.last_name));
         dispatch(actions.change('profileForms.userInfo.email', users.email));
         dispatch(actions.change('profileForms.userInfo.phone_number', users.phone_number));
-        dispatch(actions.change('profileForms.userInfo.address', users.address));
+        dispatch(actions.change('profileForms.userInfo.user_address', users.user_address));
       }
     }
   }
@@ -41,7 +41,6 @@ class Account extends Component {
   };
 
   handleSubmit(updated_user, user) {
-    console.log('submitting');
     const { user_id, farm_id } = user;
     const newUser = {
       ...updated_user,
@@ -49,13 +48,14 @@ class Account extends Component {
       farm_id,
       language_preference: localStorage.getItem('litefarm_lang'),
     };
-    newUser.address = newUser.address ? newUser.address : '';
+    newUser.user_address = newUser.user_address ? newUser.user_address : '';
     delete newUser.profile_picture;
     this.props.dispatch(updateUser(newUser));
   }
 
   render() {
     const { users } = this.props;
+    const currentLanguage = localStorage.getItem('litefarm_lang');
     return (
       <div>
         <h3 className={styles.headerTitle}>
@@ -87,23 +87,31 @@ class Account extends Component {
             </div>
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.PHONE_NUMBER')}</label>
-              <Control.text model=".userInfo.phone_number" />
+              <Control.text
+                type={'number'}
+                onKeyDown={integerOnKeyDown}
+                model=".userInfo.phone_number"
+              />
             </div>
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.USER_ADDRESS')}</label>
-              <Control.text model=".userInfo.address" />
+              <Control.text model=".userInfo.user_address" />
             </div>
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.LANGUAGE')}</label>
-              <select
-                defaultValue={this.currentLanguage}
-                style={{ marginLeft: '8px' }}
-                onChange={this.changeLanguage}
-              >
-                <option value="en">{this.props.t('PROFILE.ACCOUNT.ENGLISH')}</option>
-                <option value="es">{this.props.t('PROFILE.ACCOUNT.SPANISH')}</option>
-                <option value="pt">{this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}</option>
-                <option value="fr">{this.props.t('PROFILE.ACCOUNT.FRENCH')}</option>
+              <select style={{ marginLeft: '8px' }} onChange={this.changeLanguage}>
+                <option value="en" selected={currentLanguage === 'en'}>
+                  {this.props.t('PROFILE.ACCOUNT.ENGLISH')}
+                </option>
+                <option value="es" selected={currentLanguage === 'es'}>
+                  {this.props.t('PROFILE.ACCOUNT.SPANISH')}
+                </option>
+                <option value="pt" selected={currentLanguage === 'pt'}>
+                  {this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}
+                </option>
+                <option value="fr" selected={currentLanguage === 'fr'}>
+                  {this.props.t('PROFILE.ACCOUNT.FRENCH')}
+                </option>
               </select>
             </div>
             <div className={defaultStyles.bottomContainer}>

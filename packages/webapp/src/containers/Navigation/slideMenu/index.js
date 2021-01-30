@@ -50,14 +50,10 @@ function SlideMenu() {
         }
         {manageOpen && (
           <div className={styles['sub-menu']} style={{ display: 'grid' }}>
-            {(Number(farm.role_id) === 1 ||
-              Number(farm.role_id) === 2 ||
-              Number(farm.role_id) === 5) && (
-              <a id="field" className="menu-item" onClick={() => handleClick('/Field')}>
-                <span>{t('SLIDE_MENU.FIELDS')}</span>
-              </a>
-            )}
-            {/* <a id="crops" className="menu-item" ><span>Crops</span></a> */}
+            <a id="field" className="menu-item" onClick={() => handleClick('/Field')}>
+              <span>{t('SLIDE_MENU.FIELDS')}</span>
+            </a>
+
             <a id="log" className="menu-item" onClick={() => handleClick('/Log')}>
               <span>{t('SLIDE_MENU.LOGS')}</span>
             </a>

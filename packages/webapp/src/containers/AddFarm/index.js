@@ -247,7 +247,10 @@ const AddFarm = () => {
             inputRef: addressRef,
             id: 'autocomplete',
             name: ADDRESS,
-            clearErrors,
+            reset: () => {
+              setValue(ADDRESS, undefined);
+              clearErrors(ADDRESS);
+            },
             errors: addressErrors,
             onBlur: handleBlur,
           },

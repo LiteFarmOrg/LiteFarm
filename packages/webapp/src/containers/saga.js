@@ -13,12 +13,6 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  GET_FARM_INFO,
-  // UPDATE_AGREEMENT,
-  UPDATE_FARM,
-} from './constants';
-import { updateConsentOfFarm } from './ChooseFarm/actions.js';
 import { call, put, select, takeLatest, takeLeading, takeEvery, all } from 'redux-saga/effects';
 import apiConfig, { userFarmUrl, url, rolesUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
@@ -52,9 +46,23 @@ import { getLogs } from './Log/actions';
 import { getAllShifts, getShifts } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
 import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
+import { logout } from '../util/jwt';
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
-const axios = require('axios');
+export const axios = require('axios');
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error?.response?.status === 401) {
+      if (localStorage.getItem('id_token')) {
+        logout();
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 export function getHeader(user_id, farm_id) {
   return {

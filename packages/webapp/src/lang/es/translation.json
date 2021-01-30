@@ -109,7 +109,8 @@
       "REDRAW": "Redraw",
       "SAVE_FIELD": "Save Field",
       "SEARCH_BOX_PLACEHOLDER": "Search",
-      "TITLE": "New Field (2 of 2)"
+      "TITLE": "New Field (2 of 2)",
+      "ZERO_AREA_DETECTED": "Field with no area detected. Please draw again."
     },
     "TABLE": {
       "AREA": "Area",
@@ -438,6 +439,12 @@
       "ROLE_CHANGE_ALERT": "Role change will take full effect upon next login. Workers cannot set themselves to Admins.",
       "SEARCH": "Search",
       "USERS_FOUND": "Users found"
+    },
+    "TABLE": {
+      "HEADER_EMAIL": "MISSING",
+      "HEADER_NAME": "MISSING",
+      "HEADER_ROLE": "MISSING",
+      "HEADER_STATUS": "MISSING"
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -570,6 +577,7 @@
       "VERY_SAD": "Very Sad",
       "WAGE_FOR_SHIFT": "Wage for this shift",
       "WHAT_TASKS_YOU_DID": "What tasks did you do today?",
+      "WORKER": "MISSING",
       "WORKER_MOOD": "How did this worker feel during this shift?",
       "YOU_HAVE": "You have"
     },
@@ -618,6 +626,11 @@
     "SHIFTS": "Shifts",
     "SUPPORT": "Support",
     "USERS": "Users"
+  },
+  "STATUS": {
+    "ACTIVE": "MISSING",
+    "INACTIVE": "MISSING",
+    "INVITED": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Let's Go!",

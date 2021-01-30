@@ -14,7 +14,7 @@ The LiteFarm team is a cross-disciplinary group of scientists, researchers, farm
 
 #### Who funds Litefarm?
 
-LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: [https://ubcfarm.ubc.ca/litefarm/](https://ubcfarm.ubc.ca/litefarm/). Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
+LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://ubcfarm.ubc.ca/litefarm/. Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
 
 #### Why are we conducting this project ?
 
@@ -126,7 +126,7 @@ If you withdraw your consent from this Informed Consent Form and Privacy Policy 
 
 **How do we make changes to the Privacy Policy?**
 
-Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website ([www.litefarm.com](http://www.litefarm.com/)) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
+Although most changes are likely to be minor, LiteFarm may occasionally change its Privacy Policy. We will post an updated and revised version of the Privacy Policy on the LiteFarm website (www.litefarm.org) and notify you via the application when we make any changes. You will be required to accept the new consent form to continue using the software. If you do not accept changes, you will be able to download your data but will not be able to enter any new data into the app. After one month, your account and data will be marked as inactive. The revisions are effective immediately upon posting. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.
 
 **When will we contact you?**
 
@@ -134,7 +134,7 @@ If you create a LiteFarm account, we will occasionally send email to announce ne
 
 **Licensing**
 
-The LiteFarm website is free to use. The software itself is licenced under the GNU Public Licence v3, which is a free and open source licence ([https://www.gnu.org/licenses/quick-guide-gplv3.en.html](https://www.gnu.org/licenses/quick-guide-gplv3.en.html))
+The LiteFarm website is free to use. The software itself is licenced under the GNU Public Licence v3, which is a free and open source licence (https://www.gnu.org/licenses/quick-guide-gplv3.en.html)
 
 **For further information**
 

@@ -15,7 +15,9 @@ import { Label } from '../Typography/index';
 export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_number }) {
   const [file, setFile] = useState(null);
   const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  const { register, handleSubmit, watch, control, errors, setValue } = useForm();
+  const { register, handleSubmit, watch, control, errors, setValue, formState } = useForm({
+    mode: 'onTouched',
+  });
   const CONTACT_METHOD = 'contact_method';
   const contactMethodSelection = watch(CONTACT_METHOD, 'email');
   const MESSAGE = 'message';
@@ -47,7 +49,9 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
   const fileChangeHandler = (event) => {
     setFile(event.target.files[0]);
   };
-
+  const supportType = watch(SUPPORT_TYPE);
+  const message = watch(MESSAGE);
+  const disabled = Object.keys(errors).length || !supportType || !message || formState.isSubmitting;
   return (
     <Form
       onSubmit={handleSubmit(submit, onError)}
@@ -56,7 +60,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
           <Button fullLength color={'secondary'} onClick={goBack}>
             {t('common:CANCEL')}
           </Button>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} disabled={disabled} fullLength>
             {t('common:SUBMIT')}
           </Button>
         </>

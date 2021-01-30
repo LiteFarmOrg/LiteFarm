@@ -379,6 +379,9 @@ const Routes = () => {
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
+          <Route path="/field" exact component={Field} />
+          <Route path="/edit_field" exact component={EditField} />
+
           <Route path="/log" exact component={Log} />
           <Route path="/new_log" exact component={NewLog} />
           <Route path="/fertilizing_log" exact component={FertilizingLog} />
@@ -429,6 +432,7 @@ const Routes = () => {
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
           <Route path="/password_reset" component={PasswordResetAccount} />
           <Route path={'/expired'} component={ExpiredTokenScreen} />
+          <Route path="/help" exact component={HelpRequest} />
           <Redirect to={'/'} />
         </Switch>
       );

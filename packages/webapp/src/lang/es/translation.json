@@ -109,7 +109,8 @@
       "REDRAW": "Redraw",
       "SAVE_FIELD": "Save Field",
       "SEARCH_BOX_PLACEHOLDER": "Search",
-      "TITLE": "New Field (2 of 2)"
+      "TITLE": "New Field (2 of 2)",
+      "ZERO_AREA_DETECTED": "Field with no area detected. Please draw again."
     },
     "TABLE": {
       "AREA": "Area",

@@ -46,7 +46,7 @@ class Profile extends Component {
         key: 'farm',
         path: 'farm',
         label: this.props.t('PROFILE.FARM_TAB'),
-        access: ['owner', 'manager', 'extension officer'],
+        access: ['all'],
       },
     ];
     const { farm = { role: '' } } = this.props; // Needed when redux does not contain farm yet

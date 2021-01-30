@@ -44,22 +44,21 @@ class EditFieldCropModal extends React.Component {
     const { estimated_unit, area_unit } = this.state;
 
     dispatch(getCrops());
-    let fieldCrop = JSON.parse(JSON.stringify(this.state.fieldCrop));
-    fieldCrop.estimated_yield = roundToTwoDecimal(
+    const fieldCrop = this.state.fieldCrop;
+    const estimated_yield = roundToTwoDecimal(
       convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg') /
         convertFromMetric(fieldCrop.area_used, area_unit, 'm2'),
     );
-
-    fieldCrop.estimated_price =
+    const estimated_price =
       fieldCrop.estimated_production <= 0
         ? 0
         : roundToTwoDecimal(
             fieldCrop.estimated_revenue /
               convertFromMetric(fieldCrop.estimated_production, estimated_unit, 'kg'),
           );
-
+    const area_used = roundToTwoDecimal(convertFromMetric(fieldCrop.area_used, area_unit, 'm2'));
     this.setState({
-      fieldCrop,
+      fieldCrop: { ...fieldCrop, estimated_price, estimated_yield, area_used },
       crops: this.props.crops,
     });
   }
@@ -91,7 +90,6 @@ class EditFieldCropModal extends React.Component {
     let editedFieldCrop = this.state.fieldCrop;
 
     let { fieldArea } = this.props;
-
     if (this.state.area_unit === 'ft2') {
       fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     }
@@ -101,10 +99,8 @@ class EditFieldCropModal extends React.Component {
       return;
     }
 
-    if (editedFieldCrop.area_used > fieldArea) {
-      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.FIELD_AREA'));
-      return;
-    }
+    editedFieldCrop.area_used =
+      editedFieldCrop.area_used > fieldArea ? fieldArea : editedFieldCrop.area_used;
 
     let estimatedProduction = isByArea
       ? editedFieldCrop.estimated_yield * editedFieldCrop.area_used
@@ -201,12 +197,10 @@ class EditFieldCropModal extends React.Component {
       percentage = Number(((fieldCrop.area_used / this.props.fieldArea) * 100).toFixed(2));
     }
 
-    fieldCrop.area_used = roundToTwoDecimal(
-      convertFromMetric(fieldCrop.area_used, area_unit, 'm2'),
-    );
+    const area_used = roundToTwoDecimal(convertFromMetric(fieldCrop.area_used, area_unit, 'm2'));
 
     this.setState({
-      fieldCrop: fieldCrop,
+      fieldCrop: { ...fieldCrop, area_used },
       isByArea: !fieldCrop.is_by_bed,
       bed_config: fieldCrop.bed_config,
       percentage,
@@ -286,7 +280,6 @@ class EditFieldCropModal extends React.Component {
 
   render() {
     const { isByArea, bed_config } = this.state;
-
     return (
       <div>
         <Button onClick={this.handleShow} style={{ padding: '0 24px' }}>
@@ -429,9 +422,9 @@ class EditFieldCropModal extends React.Component {
                 this.props.handler();
               }}
             >
-              Save
+              {this.props.t('common:SAVE')}
             </Button>
-            <Button onClick={this.handleClose}>Close</Button>
+            <Button onClick={this.handleClose}> {this.props.t('common:CLOSE')}</Button>
           </Modal.Footer>
         </Modal>
       </div>

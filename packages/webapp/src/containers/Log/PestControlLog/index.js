@@ -279,6 +279,7 @@ class PestControlLog extends Component {
         value: d.disease_id,
         label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
+    const isAdmin = this.props.farm.role_id === 1 || this.props.farm.role_id === 2;
     return (
       <div className="page-container" style={{ styles }}>
         <PageTitle backUrl="/new_log" title={this.props.t('LOG_PESTICIDE.TITLE')} />
@@ -375,18 +376,18 @@ class PestControlLog extends Component {
                 type={this.state.quantity_unit}
                 validate
               />
-              <div>
+              {isAdmin && <div>
                 <div className={styles.greenTextButton} onClick={() => this.openDiseaseModal()}>
                   {' '}
                   + {this.props.t('LOG_PESTICIDE.ADD_DISEASE')}
                 </div>
-              </div>
-              <div>
+              </div>}
+              {isAdmin && <div>
                 <div className={styles.greenTextButton} onClick={() => this.openPesticideModal()}>
                   {' '}
                   + {this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}{' '}
                 </div>
-              </div>
+              </div>}
               <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
               <div className={styles.noteContainer}>
                 <Control.textarea model=".pestControlLog.notes" />

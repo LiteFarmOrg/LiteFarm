@@ -2,7 +2,7 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Radio from '../Form/Radio';
 import OverlayTooltip from '../Tooltip';
-import { Title, Underlined, Main } from '../Typography';
+import { Title, Underlined, Main, Label } from '../Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -33,7 +33,9 @@ export default function PureInterestedOrganic({
       }
     >
       <Title>{title}</Title>
-      <PureWarningBox text={t('ORGANIC.WARNING')} style={{ marginBottom: '24px' }} />
+      <PureWarningBox style={{ marginBottom: '24px' }}>
+        <Label>{t('ORGANIC.WARNING')}</Label>
+      </PureWarningBox>
       <Main style={{ marginBottom: '24px' }}>{paragraph}</Main>
       <Radio {...inputs[0]} defaultChecked={true} />
       <Radio style={{ marginBottom: '32px' }} {...inputs[1]} />

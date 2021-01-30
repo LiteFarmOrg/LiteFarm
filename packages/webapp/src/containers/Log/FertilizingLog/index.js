@@ -21,6 +21,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -362,27 +363,52 @@ class FertilizingLog extends Component {
                 </div>
                 <div className={styles.chemContainer}>
                   <label>{this.props.t('LOG_COMMON.NITRATE')}</label>
-                  <Control.input type="number" step="any" model=".fertLog.n_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.n_percentage"
+                  />
                   <span className={styles.unitSpan}>%</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>{this.props.t('LOG_COMMON.AMMONIA')}</label>
-                  <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.nh4_n_ppm"
+                  />
                   <span>ppm</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>{this.props.t('LOG_COMMON.POTASSIUM')}</label>
-                  <Control.input type="number" step="any" model=".fertLog.k_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.k_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>{this.props.t('LOG_COMMON.PHOSPHATE')}</label>
-                  <Control.input type="number" step="any" model=".fertLog.p_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.p_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>{this.props.t('LOG_COMMON.WATER')}</label>
-                  <Control.input type="number" step="any" model=".fertLog.moisture_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.moisture_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.centerButton}>

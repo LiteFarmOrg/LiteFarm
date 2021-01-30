@@ -20,6 +20,7 @@ import InfoBoxComponent from '../../../components/InfoBoxComponent';
 import { roundToTwoDecimal } from '../../../util';
 import { cropsSelector, cropStatusSelector } from '../../../containers/cropSlice';
 import { withTranslation } from 'react-i18next';
+import { numberOnKeyDown } from '../../Form/Input';
 
 class NewCropModal extends React.Component {
   constructor(props, context) {
@@ -453,6 +454,7 @@ class NewCropModal extends React.Component {
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
+                            onKeyDown={numberOnKeyDown}
                             placeholder={NUTRIENT_DICT[nutrient]}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
@@ -478,6 +480,7 @@ class NewCropModal extends React.Component {
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
+                            onKeyDown={numberOnKeyDown}
                             placeholder={NUTRIENT_DICT[nutrient]}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {

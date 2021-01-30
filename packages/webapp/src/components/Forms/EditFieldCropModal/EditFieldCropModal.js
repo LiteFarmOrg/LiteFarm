@@ -11,6 +11,7 @@ import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { createPrice, createYield, putFieldCrop } from '../../../containers/Field/saga';
 import { withTranslation } from 'react-i18next';
+import { numberOnKeyDown } from '../../Form/Input';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -306,6 +307,7 @@ class EditFieldCropModal extends React.Component {
                       type="number"
                       min={0}
                       max={100}
+                      onKeyDown={numberOnKeyDown}
                       placeholder={this.state.percentage}
                       onChange={(e) => this.handlePercentage(e)}
                     />
@@ -316,6 +318,7 @@ class EditFieldCropModal extends React.Component {
                       type="number"
                       placeholder="0"
                       disabled={true}
+                      onKeyDown={numberOnKeyDown}
                       value={(this.state.fieldCrop.area_used / 10000).toFixed(2)}
                     />
                   </FormGroup>
@@ -329,6 +332,7 @@ class EditFieldCropModal extends React.Component {
                       type="number"
                       value={bed_config.bed_length}
                       min={0}
+                      onKeyDown={numberOnKeyDown}
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
@@ -336,6 +340,7 @@ class EditFieldCropModal extends React.Component {
                     <label>Bed Width: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       value={bed_config.bed_width}
                       min={0}
                       onChange={(e) => this.onBedWidthChange(e)}
@@ -345,6 +350,7 @@ class EditFieldCropModal extends React.Component {
                     <label>Number of Beds: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       value={bed_config.bed_num}
                       min={0}
                       onChange={(e) => this.onBedNumChange(e)}
@@ -354,7 +360,12 @@ class EditFieldCropModal extends React.Component {
               )}
               <FormGroup>
                 <label>Area used in {this.state.area_unit_label}&sup2;: </label>
-                <FormControl type="number" disabled={true} value={this.state.fieldCrop.area_used} />
+                <FormControl
+                  type="number"
+                  onKeyDown={numberOnKeyDown}
+                  disabled={true}
+                  value={this.state.fieldCrop.area_used}
+                />
               </FormGroup>
               <h4 style={{ textAlign: 'center' }}>Edit start and finish dates</h4>
               <FormGroup controlId="start_date">
@@ -377,6 +388,7 @@ class EditFieldCropModal extends React.Component {
               <FormGroup controlId="estimated_price">
                 <FormControl
                   type="number"
+                  onKeyDown={numberOnKeyDown}
                   value={this.state.fieldCrop.estimated_price}
                   onChange={(e) => this.handleFieldCropPropertiesChange(e)}
                 />
@@ -396,6 +408,7 @@ class EditFieldCropModal extends React.Component {
               <FormGroup controlId="estimated_yield">
                 <FormControl
                   type="number"
+                  onKeyDown={numberOnKeyDown}
                   value={this.state.fieldCrop.estimated_yield}
                   onChange={(e) => this.handleFieldCropPropertiesChange(e)}
                 />

@@ -94,7 +94,7 @@ export function* editPestControlLog(payload) {
     const result = yield call(axios.put, logURL + `/${pcLog.activity_id}`, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.error(i18n.t('message:LOG.SUCCESS.EDIT'));
+      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');

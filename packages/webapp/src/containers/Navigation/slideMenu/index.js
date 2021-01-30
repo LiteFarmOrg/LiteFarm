@@ -54,7 +54,6 @@ function SlideMenu() {
               <span>{t('SLIDE_MENU.FIELDS')}</span>
             </a>
 
-            {/* <a id="crops" className="menu-item" ><span>Crops</span></a> */}
             <a id="log" className="menu-item" onClick={() => handleClick('/Log')}>
               <span>{t('SLIDE_MENU.LOGS')}</span>
             </a>

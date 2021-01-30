@@ -206,15 +206,26 @@ class EditField extends Component {
     //    gmapContainer.childNodes[0].style.cssText = "width: 100px; height: 100px; margin: 0px; padding: 0px; position: relative;";
     //    console.log(gmapContainer.childNodes[0].style.cssText);
     // }
+    const { role_id } = this.props.farm;
+    const hasPermissionToEdit = [1, 2, 5].includes(role_id);
 
     return (
       <div className={parentStyles.logContainer}>
-        <PageTitle title={this.props.t('FIELDS.EDIT_FIELD.TITLE')} backUrl="/field" />
-        <NewFieldCropModal
-          handler={() => {}}
-          field={this.state.selectedField}
-          fieldArea={this.state.fieldArea}
+        <PageTitle
+          title={
+            hasPermissionToEdit
+              ? this.props.t('FIELDS.EDIT_FIELD.TITLE')
+              : this.props.t('common:FIELD')
+          }
+          backUrl="/field"
         />
+        {hasPermissionToEdit && (
+          <NewFieldCropModal
+            handler={() => {}}
+            field={this.state.selectedField}
+            fieldArea={this.state.fieldArea}
+          />
+        )}
         <div>
           <hr />
         </div>
@@ -245,7 +256,9 @@ class EditField extends Component {
               {this.props.t('FIELDS.EDIT_FIELD.NAME')}:{' '}
               {this.state.selectedField && this.state.selectedField.field_name}
             </h4>
-            <BsPencil style={{ marginLeft: '10px' }} onClick={this.openFieldNameEdit} />
+            {hasPermissionToEdit && (
+              <BsPencil style={{ marginLeft: '10px' }} onClick={this.openFieldNameEdit} />
+            )}
           </div>
           <p>
             {this.props.t('FIELDS.EDIT_FIELD.TOTAL_AREA')}:{' '}
@@ -271,24 +284,26 @@ class EditField extends Component {
                     </Card.Title>
                   </div>
 
-                  <div className={styles.inlineButtonContainer}>
-                    <EditFieldCropModal
-                      cropBeingEdited={crop}
-                      handler={() => {}}
-                      field={this.state.selectedField}
-                      fieldArea={this.state.fieldArea}
-                    />
-                    <div className={styles.deleteButton}>
-                      <Button
-                        onClick={() => {
-                          this.handleDeleteCrop(crop.field_crop_id);
-                        }}
-                        style={{ padding: '0 24px' }}
-                      >
-                        {this.props.t('common:DELETE')}
-                      </Button>
+                  {hasPermissionToEdit && (
+                    <div className={styles.inlineButtonContainer}>
+                      <EditFieldCropModal
+                        cropBeingEdited={crop}
+                        handler={() => {}}
+                        field={this.state.selectedField}
+                        fieldArea={this.state.fieldArea}
+                      />
+                      <div className={styles.deleteButton}>
+                        <Button
+                          onClick={() => {
+                            this.handleDeleteCrop(crop.field_crop_id);
+                          }}
+                          style={{ padding: '0 24px' }}
+                        >
+                          {this.props.t('common:DELETE')}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </Card.Header>
                 <Card.Header className={styles.cardHeaderSuccess} as="h3">
                   <div>
@@ -345,23 +360,25 @@ class EditField extends Component {
                         : ''}
                     </Card.Title>
                   </div>
-                  <div className={styles.inlineButtonContainer}>
-                    <EditFieldCropModal
-                      cropBeingEdited={crop}
-                      handler={() => {}}
-                      field={this.state.selectedField}
-                      fieldArea={this.state.fieldArea}
-                    />
-                    <div className={styles.deleteButton}>
-                      <Button
-                        onClick={() => {
-                          this.handleDeleteCrop(crop.field_crop_id);
-                        }}
-                      >
-                        {this.props.t('common:DELETE')}
-                      </Button>
+                  {hasPermissionToEdit && (
+                    <div className={styles.inlineButtonContainer}>
+                      <EditFieldCropModal
+                        cropBeingEdited={crop}
+                        handler={() => {}}
+                        field={this.state.selectedField}
+                        fieldArea={this.state.fieldArea}
+                      />
+                      <div className={styles.deleteButton}>
+                        <Button
+                          onClick={() => {
+                            this.handleDeleteCrop(crop.field_crop_id);
+                          }}
+                        >
+                          {this.props.t('common:DELETE')}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </Card.Header>
                 <Card.Header className={styles.panelHeading} as="h3">
                   <div>

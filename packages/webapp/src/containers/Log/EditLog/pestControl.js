@@ -145,7 +145,7 @@ class PestControlLog extends Component {
     this.setState({
       original_disease: {
         value: disease[0].disease_id,
-        label: this.props.t(`disease:${disease[0].disease_name_translation_key}`),
+        label: this.props.t(`disease:name.${disease[0].disease_name_translation_key}`),
       },
     });
   }
@@ -330,7 +330,8 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
+        label: d.farm_id ?  d.disease_common_name :
+          this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const selectedFields = selectedLog.field.map((f) => ({
       value: f.field_id,

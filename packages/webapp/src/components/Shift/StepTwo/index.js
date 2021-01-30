@@ -332,13 +332,6 @@ function InputDuration({
     cropTotalTimeAssign(duration, task_id);
   };
 
-  const onDurationBlur = (duration, task_id) => {
-    const minTime = cropDurations[task_id]?.length;
-    const validatedDuration = duration > minTime ? duration : minTime;
-    setDuration(validatedDuration);
-    cropTotalTimeAssign(validatedDuration, task_id);
-  };
-
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
   }, [defaultCrops]);
@@ -459,9 +452,6 @@ function InputDuration({
                     onKeyDown={integerOnKeyDown}
                     onChange={(event) => {
                       onDurationChange(event.target.value, task.task_id);
-                    }}
-                    onBlur={(event) => {
-                      onDurationBlur(event.target.value, task.task_id);
                     }}
                   />
                 </div>

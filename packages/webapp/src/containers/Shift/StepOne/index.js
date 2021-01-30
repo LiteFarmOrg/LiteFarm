@@ -33,6 +33,7 @@ import { grabCurrencySymbol } from '../../../util';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
 import { withTranslation } from 'react-i18next';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class ShiftStepOne extends Component {
   constructor(props) {
@@ -375,6 +376,7 @@ class ShiftStepOne extends Component {
             <div className={styles.timeInput}>
               <input
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 name="break_duration"
                 value={this.state.break_duration}
                 onChange={this.changeDuration}
@@ -404,6 +406,7 @@ class ShiftStepOne extends Component {
                   <div style={{ width: '25%' }}>
                     <input
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       defaultValue={Number(uobj.wage)}
                       onChange={(e) => this.changeWage(e, uobj.value)}
                     />

@@ -10,6 +10,14 @@ const style = {
   marginBottom: '28px',
 };
 
+export default function PureAddFarm({
+  title,
+  inputs = [{}, {}],
+  onSubmit,
+  map,
+  loading,
+  disabled,
+}) {
 export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, map, loading }) {
   // const { title: titleClass, ...inputClasses } = styles;
   const { t } = useTranslation();
@@ -17,7 +25,7 @@ export default function PureAddFarm({ title, inputs = [{}, {}], onSubmit, map, l
     <Form
       onSubmit={onSubmit}
       buttonGroup={
-        <Button type={'submit'} disabled={loading} fullLength>
+        <Button type={'submit'} disabled={disabled || loading} fullLength>
           {loading ? t('common:LOADING') : t('common:CONTINUE')}
         </Button>
       }

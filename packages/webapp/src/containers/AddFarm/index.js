@@ -20,11 +20,21 @@ const AddFarm = () => {
   const dispatch = useDispatch();
   const farm = useSelector(userFarmSelector);
   const mainUserFarmSelector = useSelector(userFarmReducerSelector);
-  const { register, handleSubmit, getValues, setValue, errors, setError, clearErrors } = useForm({
-    mode: 'onTouched',
-  });
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    errors,
+    setError,
+    clearErrors,
+    watch,
+  } = useForm({ mode: 'onTouched' });
   const FARMNAME = 'farmName';
   const ADDRESS = 'address';
+  const farmName = watch(FARMNAME, undefined);
+  const farmAddress = watch(ADDRESS, undefined);
+  const disabled = !farmName || !farmAddress;
   const [isGettingLocation, setIsGettingLocation] = useState(false);
   const [address, setAddress] = useState(farm?.farm_name ? farm.farm_name : '');
   const [gridPoints, setGridPoints] = useState(farm?.grid_points ? farm.grid_points : {});
@@ -217,6 +227,7 @@ const AddFarm = () => {
       <PureAddFarm
         onSubmit={handleSubmit(onSubmit)}
         title={t('ADD_FARM.TELL_US_ABOUT_YOUR_FARM')}
+        disabled={disabled}
         loading={mainUserFarmSelector.loading}
         inputs={[
           {

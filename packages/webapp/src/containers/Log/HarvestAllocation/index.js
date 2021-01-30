@@ -4,7 +4,7 @@ import PageTitle from '../../../components/PageTitle';
 import { actions, Form } from 'react-redux-form';
 import moment from 'moment';
 import styles from '../styles.scss';
-import { getUnit, convertToMetric } from '../../../util';
+import { getUnit, convertToMetric, convertFromMetric } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops } from '../../saga';
@@ -65,6 +65,13 @@ class HarvestAllocation extends Component {
     this.props.dispatch(saveHarvestAllocationWip(event.harvestAllocation));
   }
 
+  setQuantities(quant) {
+    if (quant === 0) return null;
+    if (this.state.quantity_unit === 'lb')
+      return convertFromMetric(quant, this.state.quantity_unit, 'lb');
+    return quant;
+  }
+
   render() {
     return (
       <div className="page-container">
@@ -90,7 +97,7 @@ class HarvestAllocation extends Component {
             const typeName = !type.harvest_use_type_name
               ? type.harvestUseType.harvest_use_type_name
               : type.harvest_use_type_name;
-            let model = '.harvestAllocation.' + type.harvest_use_type_name;
+            let model = '.harvestAllocation.' + typeName;
             return (
               <div
                 style={
@@ -105,7 +112,11 @@ class HarvestAllocation extends Component {
                   type={this.state.quantity_unit}
                   validate
                   isHarvestAllocation={true}
-                  defaultValue={type.quantity !== 0 ? type.quantity : null}
+                  defaultValue={
+                    !type.harvest_use_type_name
+                      ? this.setQuantities(type.quantity_kg)
+                      : this.setQuantities(type.quantity)
+                  }
                 />
               </div>
             );

@@ -266,10 +266,11 @@ class logServices extends baseController {
     if(log[0].activity_kind === 'harvest') {
       await HarvestUseModel.query().where({ activity_id: logId }).delete();
       for(const use of body.selectedUseTypes) {
+        let quant = !use.quantity ? use.quantity_kg : use.quantity;
         const data = {
           activity_id: activityLog.activity_id,
           harvest_use_type_id: use.harvest_use_type_id,
-          quantity_kg: use.quantity,
+          quantity_kg: quant,
         }
         await super.post(HarvestUseModel, data, transaction)
       }

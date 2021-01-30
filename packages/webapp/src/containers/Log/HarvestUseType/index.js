@@ -139,7 +139,6 @@ class HarvestUseType extends Component {
       this.closeAddModal();
     }
   };
-
   render() {
     return (
       <div className={styles.logContainer}>
@@ -219,12 +218,16 @@ class HarvestUseType extends Component {
               const harvestAlloc = this.props.harvestAllocation;
               this.state.selectedUseTypes = this.state.selectedUseTypes.map(function (elem) {
                 let key = Object.assign({}, elem);
-                if (key.harvest_use_type_name in harvestAlloc) {
-                  key.quantity = Number(harvestAlloc[key.harvest_use_type_name]);
+                let name = !key.harvest_use_type_name
+                  ? key.harvestUseType.harvest_use_type_name
+                  : key.harvest_use_type_name;
+                if (name in harvestAlloc) {
+                  !key.harvest_use_type_name
+                    ? (key.quantity_kg = Number(harvestAlloc[name]))
+                    : (key.quantity = Number(harvestAlloc[name]));
                 } else {
-                  key.quantity = 0;
+                  !key.harvest_use_type_name ? (key.quantity_kg = 0) : (key.quantity = 0);
                 }
-
                 return key;
               });
               this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));

@@ -277,7 +277,9 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
+        label: d.farm_id ? 
+          d.disease_common_name :
+          this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const isAdmin = this.props.farm.role_id === 1 || this.props.farm.role_id === 2;
     return (

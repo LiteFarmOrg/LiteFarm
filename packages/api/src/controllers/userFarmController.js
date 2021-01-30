@@ -86,6 +86,8 @@ class userFarmController extends baseController {
             'userFarm.role_id',
             'role.role',
             'userFarm.status',
+            'userFarm.farm_id',
+            'userFarm.user_id',
           ).where('userFarm.farm_id', farm_id)
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');

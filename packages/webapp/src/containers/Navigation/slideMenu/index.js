@@ -84,27 +84,6 @@ function SlideMenu() {
             <span>{t('SLIDE_MENU.INSIGHTS')}</span>
           </a>
         )}
-        {
-          <a id="support" className="menu-item" onClick={() => toggleSupport()}>
-            <span>{t('SLIDE_MENU.SUPPORT')}</span>
-            <img src={supportOpen ? vectorUp : vectorDown} alt={'logo'} />
-          </a>
-        }
-        {supportOpen && (
-          <div className={styles['sub-menu']} style={{ display: 'grid' }}>
-            {(Number(farm.role_id) === 1 ||
-              Number(farm.role_id) === 2 ||
-              Number(farm.role_id) === 3 ||
-              Number(farm.role_id) === 5) && (
-              <a id="demo" className="menu-item" onClick={() => handleClick('/intro')}>
-                <span>{t('SLIDE_MENU.DEMOS')}</span>
-              </a>
-            )}
-            {/*<a id="contact" className="menu-item" onClick={() => handleClick("/contact")}><span>Contact us</span></a>*/}
-            {/*<a id="terms" className="menu-item"*/}
-            {/*   onClick={() => handleClick("/consent")}><span>Privacy Policy</span></a>*/}
-          </div>
-        )}
       </Menu>
     </div>
   );

@@ -41,7 +41,7 @@ class People extends Component {
       updated_edit: false,
       willConvertWorker: false,
       cleaveEmailState: null,
-      summaryColumns : [
+      summaryColumns: [
         {
           id: 'name',
           Header: this.props.t(`PROFILE.TABLE.HEADER_NAME`),
@@ -67,7 +67,7 @@ class People extends Component {
           accessor: 'status',
           minWidth: 55,
         },
-      ]
+      ],
     };
   }
 
@@ -174,15 +174,15 @@ class People extends Component {
     const { users, t } = this.props;
     const { farm_id, addedUser, roles, ...userGroups } = users;
     const ROLE_TRANSLATIONS = {
-      "Owner": t('role:OWNER'),
-      "Extension Officer": t('role:EXTENSION_OFFICER'),
-      "Manager": t('role:MANAGER'),
-      "Worker": t('role:WORKER')
+      Owner: t('role:OWNER'),
+      'Extension Officer': t('role:EXTENSION_OFFICER'),
+      Manager: t('role:MANAGER'),
+      Worker: t('role:WORKER'),
     };
     const STATUS_TRANSLATIONS = {
-      "Active": t('STATUS.ACTIVE'),
-      "Inactive": t('STATUS.INACTIVE'),
-      "Invited": t('STATUS.INVITED')
+      Active: t('STATUS.ACTIVE'),
+      Inactive: t('STATUS.INACTIVE'),
+      Invited: t('STATUS.INVITED'),
     };
     const combinedUserGroups = Object.keys(userGroups).reduce(
       (prev, curr) => prev.concat(userGroups[curr]),
@@ -197,8 +197,8 @@ class People extends Component {
     return filteredUsers.map((user) => ({
       ...user,
       role: ROLE_TRANSLATIONS[user.role],
-      status: STATUS_TRANSLATIONS[user.status]
-    }))
+      status: STATUS_TRANSLATIONS[user.status],
+    }));
   };
 
   onRowEdit = (state, rowInfo, column, instance) => {
@@ -382,15 +382,13 @@ class People extends Component {
             display: 'flex',
             width: '100%',
             minHeight: '100vh',
-            maxHeight: '120vh',
-            padding: '0 5%',
+            padding: '92px 24px 0 24px',
             justifyContent: 'center',
           }}
           overlayStyle={{
-            zIndex: '1060',
             minHeight: '100vh',
-            maxHeight: '120vh',
             top: 'auto',
+            zIndex: 1,
           }}
         >
           <div className={styles.modal}>
@@ -410,9 +408,11 @@ class People extends Component {
                 >
                   {this.state.editUser.role_id === 4 && (
                     <div className={styles.labelContainer}>
-                      <label>{this.props.t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}</label>
+                      <label style={{ width: 'auto' }}>
+                        {this.props.t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}
+                      </label>
                       <input
-                        style={{ appearance: 'auto' }}
+                        style={{ appearance: 'auto', width: '32px', marginLeft: '12px' }}
                         type="checkbox"
                         value={this.state.willConvertWorker}
                         onChange={(e) => this.toggleConvertWorker(e)}
@@ -478,23 +478,25 @@ class People extends Component {
                     <label>
                       {this.props.t('PROFILE.PEOPLE.PAY')} ({currencySymbol})
                     </label>
-                    <Cleave
-                      model=".editInfo.pay.amount"
-                      type="number"
-                      step="0.01"
-                      value={this.state.editedUser.wage.amount}
-                      onChange={this.updateWageAmount}
-                      onBlur={this.validationCheck}
-                    />
-                    <Control.select
-                      model=".editInfo.pay.type"
-                      onChange={this.updateWageType}
-                      defaultValue={this.state.editedUser.wage.type}
-                    >
-                      <option value="hourly">{this.props.t('PROFILE.PEOPLE.HOURLY')}</option>
-                      {/*<option value="daily">daily</option>*/}
-                      {/*<option value="annually">annually</option>*/}
-                    </Control.select>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Cleave
+                        model=".editInfo.pay.amount"
+                        type="number"
+                        step="0.01"
+                        value={this.state.editedUser.wage.amount}
+                        onChange={this.updateWageAmount}
+                        onBlur={this.validationCheck}
+                      />
+                      <Control.select
+                        model=".editInfo.pay.type"
+                        onChange={this.updateWageType}
+                        defaultValue={this.state.editedUser.wage.type}
+                      >
+                        <option value="hourly">{this.props.t('PROFILE.PEOPLE.HOURLY')}</option>
+                        {/*<option value="daily">daily</option>*/}
+                        {/*<option value="annually">annually</option>*/}
+                      </Control.select>
+                    </div>
                   </div>
                   {this.state.edit_wage_error.length > 0 && (
                     <span className={styles.error}>{this.state.edit_wage_error}</span>

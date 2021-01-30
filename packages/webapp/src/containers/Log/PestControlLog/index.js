@@ -28,6 +28,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -276,7 +277,9 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
+        label: d.farm_id ? 
+          d.disease_common_name :
+          this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const isAdmin = this.props.farm.role_id === 1 || this.props.farm.role_id === 2;
     return (
@@ -467,6 +470,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.entry_interval"
                     placeholder="optional"
@@ -477,6 +481,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.harvest_interval"
                     placeholder="optional"
@@ -492,6 +497,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.CONCENTRATION')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.concentration"
                     placeholder="optional"

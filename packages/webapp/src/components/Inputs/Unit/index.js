@@ -1,6 +1,7 @@
 import React from 'react';
 import { Control, Errors } from 'react-redux-form';
 import styles from '../styles.scss';
+import { numberOnKeyDown } from '../../Form/Input';
 
 class Unit extends React.Component {
   parseNumber(val) {
@@ -42,6 +43,7 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{ positive: this.isPositive }}
@@ -73,6 +75,7 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{ positive: this.isPositive }}
@@ -97,6 +100,7 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{

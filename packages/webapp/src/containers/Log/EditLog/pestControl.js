@@ -31,6 +31,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -144,7 +145,7 @@ class PestControlLog extends Component {
     this.setState({
       original_disease: {
         value: disease[0].disease_id,
-        label: this.props.t(`disease:${disease[0].disease_name_translation_key}`),
+        label: this.props.t(`disease:name.${disease[0].disease_name_translation_key}`),
       },
     });
   }
@@ -329,7 +330,8 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: this.props.t(`disease:name.${d.disease_name_translation_key}`),
+        label: d.farm_id ?  d.disease_common_name :
+          this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const selectedFields = selectedLog.field.map((f) => ({
       value: f.field_id,
@@ -505,6 +507,7 @@ class PestControlLog extends Component {
                   <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
                   <Control.input
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     step="any"
                     model=".pestControlLog.entry_interval"
                     placeholder="optional"
@@ -518,6 +521,7 @@ class PestControlLog extends Component {
                     step="any"
                     model=".pestControlLog.harvest_interval"
                     placeholder="optional"
+                    onKeyDown={numberOnKeyDown}
                   />
                   <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                 </div>
@@ -532,6 +536,7 @@ class PestControlLog extends Component {
                     step="any"
                     model=".pestControlLog.concentration"
                     placeholder="optional"
+                    onKeyDown={numberOnKeyDown}
                   />
                   <span>%</span>
                 </div>

@@ -15,6 +15,7 @@ import { Field, actions, Form, Control } from 'react-redux-form';
 import footerStyles from '../../../../../components/LogFooter/styles.scss';
 import { addExpenses } from '../../../../Finances/actions';
 import { userFarmSelector } from '../../../../userFarmSlice';
+import { numberOnKeyDown } from '../../../../../components/Form/Input';
 
 class AddExpense extends Component {
   constructor(props) {
@@ -167,6 +168,7 @@ class AddExpense extends Component {
                             <label>Value</label>
                             <Control.text
                               type="number"
+                              onKeyDown={numberOnKeyDown}
                               model={`.expenseDetail[${k}][${i}].value`}
                               min="0.01"
                               step="0.01"

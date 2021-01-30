@@ -21,6 +21,7 @@ import moment from 'moment';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { createPrice, createYield, postFieldCrop } from '../../../containers/Field/saga';
+import { numberOnKeyDown } from '../../Form/Input';
 
 class NewFieldCropModal extends React.Component {
   // props:
@@ -380,6 +381,7 @@ class NewFieldCropModal extends React.Component {
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.PERCENTAGE')}: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder="0"
                       min={0}
                       max={100}
@@ -390,6 +392,7 @@ class NewFieldCropModal extends React.Component {
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_HECTARE')}: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder="0"
                       disabled={true}
                       value={(this.state.fieldCrop.area_used / 10000).toFixed(2)}
@@ -408,6 +411,7 @@ class NewFieldCropModal extends React.Component {
                     </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder={'0'}
                       min={0}
                       onChange={(e) => this.onBedLenChange(e)}
@@ -422,6 +426,7 @@ class NewFieldCropModal extends React.Component {
                     </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder={'0'}
                       min={0}
                       onChange={(e) => this.onBedWidthChange(e)}
@@ -434,6 +439,7 @@ class NewFieldCropModal extends React.Component {
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_OF_BEDS')}: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       value={this.state.bed_num}
                       min={0}
                       onChange={(e) => this.onBedNumChange(e)}
@@ -446,7 +452,12 @@ class NewFieldCropModal extends React.Component {
                   {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_IN')} {this.state.area_unit_label}
                   &sup2;:{' '}
                 </label>
-                <FormControl type="number" disabled={true} value={this.state.fieldCrop.area_used} />
+                <FormControl
+                  type="number"
+                  onKeyDown={numberOnKeyDown}
+                  disabled={true}
+                  value={this.state.fieldCrop.area_used}
+                />
               </FormGroup>
 
               <h4 style={{ textAlign: 'center' }}>
@@ -485,6 +496,7 @@ class NewFieldCropModal extends React.Component {
                 >
                   <FormControl
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     placeholder={`${this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRICE')} (${
                       this.state.currencySymbol
                     }/${this.state.estimated_unit})`}
@@ -516,6 +528,7 @@ class NewFieldCropModal extends React.Component {
                 >
                   <FormControl
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_YIELD_PLACEHOLDER')}
                     value={this.state.fieldCrop.estimated_yield}
                     onChange={(e) => this.handleFieldCropPropertiesChange(e)}

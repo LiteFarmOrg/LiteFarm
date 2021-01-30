@@ -12,8 +12,8 @@ import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
-import { Label } from "../../Typography";
-import { toastr } from "react-redux-toastr";
+import { Label } from '../../Typography';
+import { toastr } from 'react-redux-toastr';
 import { integerOnKeyDown } from '../../Form/Input';
 
 function PureStepTwo({
@@ -60,21 +60,28 @@ function PureStepTwo({
   }, []);
 
   useEffect(() => {
-    console.log(finalForm);
     const keys = Object.keys(finalForm);
     const cropsHaveValidDurations = keys.reduce((cond, k) => {
-      if(finalForm[k].is_field) {
+      if (finalForm[k].is_field) {
         return cond;
       }
-      return cond && !!cropDurations[k] && cropDurations[k].reduce((innerCond, crop) => innerCond && Number(crop.duration) > 0, true);
+      return (
+        cond &&
+        !!cropDurations[k] &&
+        cropDurations[k].reduce((innerCond, crop) => innerCond && Number(crop.duration) > 0, true)
+      );
     }, true);
 
-    const fieldsAndTasksAreValid = keys.reduce((cond, k) =>
-      cond && finalForm[k].val.length > 0 && ((finalForm[k].is_field && finalForm[k].duration > 0) || !finalForm[k].is_field)
-      , true);
+    const fieldsAndTasksAreValid = keys.reduce(
+      (cond, k) =>
+        cond &&
+        finalForm[k].val.length > 0 &&
+        ((finalForm[k].is_field && finalForm[k].duration > 0) || !finalForm[k].is_field),
+      true,
+    );
 
     setNextEnabled(fieldsAndTasksAreValid && cropsHaveValidDurations);
-  }, [cropDurations, finalForm])
+  }, [cropDurations, finalForm]);
   const changeDuration = (event, task_id, is_crop, crop_id = null, setDuration = () => {}) => {
     let value = event.target.value;
     let duration = 0;
@@ -103,7 +110,6 @@ function PureStepTwo({
       setCropDurations({ ...cropDurations, [task_id]: resetDurations });
     }
     if (finalForm?.hasOwnProperty(task_id)) {
-      console.log('changing ', task_id);
       setFinalForm({ ...finalForm, [task_id]: { ...finalForm[task_id], duration: 0 } });
     }
   };
@@ -249,7 +255,6 @@ function PureStepTwo({
   };
 
   const cropTotalTimeAssign = (duration, task_id) => {
-    console.log(duration);
     if (cropDurations.hasOwnProperty(task_id)) {
       let cropNum = cropDurations[task_id].length;
       let totalTime = duration;
@@ -340,11 +345,13 @@ function InputDuration({
   resetCropDuration,
   defaultCrops,
 }) {
-  const [duration, _setDuration] = useState({hours: 0, minutes: 0});
+  const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
-  const [innerCropDurations, setCropDurations] = useState({[task.task_id]: {hours: '', minutes: ''}});
-  const [fieldDuration, setFieldDuration] = useState({hours: '', minutes: ''});
+  const [innerCropDurations, setCropDurations] = useState({
+    [task.task_id]: { hours: '', minutes: '' },
+  });
+  const [fieldDuration, setFieldDuration] = useState({ hours: '', minutes: '' });
   const { t } = useTranslation();
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
@@ -356,36 +363,36 @@ function InputDuration({
   };
 
   const resetCrops = () => {
-    console.log(defaultCrops);
     setCropDurations({
       [task.task_id]: {
         hours: '',
         minutes: '',
-        ...defaultCrops[task.task_id]?.reduce((obj, opt) => ({[opt.value]: { hours: '', minutes: '' }, ...obj}), {})
-      }
-    })
-  }
-
+        ...defaultCrops[task.task_id]?.reduce(
+          (obj, opt) => ({ [opt.value]: { hours: '', minutes: '' }, ...obj }),
+          {},
+        ),
+      },
+    });
+  };
 
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
     resetCrops();
   }, [defaultCrops]);
 
-
-  const checkAndGetNumber = (val) => !!val ? parseInt(val) : 0;
+  const checkAndGetNumber = (val) => (!!val ? parseInt(val) : 0);
 
   const getHoursAndMinutes = (hourValue, minuteValue) => {
     const hours = checkAndGetNumber(hourValue);
     const minutes = checkAndGetNumber(minuteValue);
-    return {hours, minutes};
-  }
+    return { hours, minutes };
+  };
 
-  const onFieldChangeDuration = ({hours, minutes}) => {
-    const durationInMinutes = minutes + (hours * 60);
-    setFieldDuration({ hours, minutes })
-    changeDuration({ target : { value: durationInMinutes } }, task.task_id, false);
-  }
+  const onFieldChangeDuration = ({ hours, minutes }) => {
+    const durationInMinutes = minutes + hours * 60;
+    setFieldDuration({ hours, minutes });
+    changeDuration({ target: { value: durationInMinutes } }, task.task_id, false);
+  };
 
   return (
     <div key={task.task_id} className={styles.taskBlock}>
@@ -416,9 +423,12 @@ function InputDuration({
           <strong>{t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => {
-                addAll(task.task_id, 'crop', duration)
-              }} sm={true}>
+              <Button
+                onClick={() => {
+                  addAll(task.task_id, 'crop', duration);
+                }}
+                sm={true}
+              >
                 {t('SHIFT.EDIT_SHIFT.ALL')}
               </Button>
             </div>
@@ -452,9 +462,12 @@ function InputDuration({
                 [task.task_id]: {
                   hours: '',
                   minutes: '',
-                  ...selectedOption?.reduce((obj, opt) => ({[opt.value]: { hours: '', minutes: '' }, ...obj}), {})
-                }
-              })
+                  ...selectedOption?.reduce(
+                    (obj, opt) => ({ [opt.value]: { hours: '', minutes: '' }, ...obj }),
+                    {},
+                  ),
+                },
+              });
             }}
           />
         </div>
@@ -484,55 +497,84 @@ function InputDuration({
             </div>
             <div className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
               {cropDurations[task.task_id].map((cd) => {
-                return innerCropDurations[task.task_id][cd.crop_id] && (
-                  <div className={styles.durationContainer} key={cd.crop_id}>
-                    <div>{cd.crop_name}</div>
-                    <div className={styles.durationInput}>
-                      <div style={{flexGrow: 2, order: 1}}>
-                        <input
-                          type="number"
-                          value={innerCropDurations[task.task_id][cd.crop_id].hours}
-                          onKeyDown={integerOnKeyDown}
-                          onChange={(event) =>{
-                            const { hours, minutes } = getHoursAndMinutes(event.target.value, innerCropDurations[task.task_id][cd.crop_id].minutes);
-                            const durationInMinutes = (hours * 60 ) + minutes;
-                            setCropDurations({
-                              [task.task_id] : {
-                                ...innerCropDurations[task.task_id],
-                                [cd.crop_id] : {...innerCropDurations[task.task_id][cd.crop_id], hours }
-                              }
-                            })
-                            changeDuration({ target : { value: durationInMinutes } }, task.task_id, true, cd.crop_id, setDuration)
-                          }}
-                        />
+                return (
+                  innerCropDurations[task.task_id][cd.crop_id] && (
+                    <div className={styles.durationContainer} key={cd.crop_id}>
+                      <div>{cd.crop_name}</div>
+                      <div className={styles.durationInput}>
+                        <div style={{ flexGrow: 2, order: 1 }}>
+                          <input
+                            type="number"
+                            value={innerCropDurations[task.task_id][cd.crop_id].hours}
+                            onKeyDown={integerOnKeyDown}
+                            onChange={(event) => {
+                              const { hours, minutes } = getHoursAndMinutes(
+                                event.target.value,
+                                innerCropDurations[task.task_id][cd.crop_id].minutes,
+                              );
+                              const durationInMinutes = hours * 60 + minutes;
+                              setCropDurations({
+                                [task.task_id]: {
+                                  ...innerCropDurations[task.task_id],
+                                  [cd.crop_id]: {
+                                    ...innerCropDurations[task.task_id][cd.crop_id],
+                                    hours,
+                                  },
+                                },
+                              });
+                              changeDuration(
+                                { target: { value: durationInMinutes } },
+                                task.task_id,
+                                true,
+                                cd.crop_id,
+                                setDuration,
+                              );
+                            }}
+                          />
+                        </div>
+                        <div
+                          style={{ flexGrow: 1, order: 2, marginLeft: '5px', marginRight: '5px' }}
+                        >
+                          <Label style={{ marginTop: '12px' }}>hr</Label>
+                        </div>
+                        <div style={{ flexGrow: 2, order: 3 }}>
+                          <input
+                            type="number"
+                            onKeyDown={integerOnKeyDown}
+                            value={innerCropDurations[task.task_id][cd.crop_id].minutes}
+                            onChange={(event) => {
+                              const { hours, minutes } = getHoursAndMinutes(
+                                innerCropDurations[task.task_id][cd.crop_id].hours,
+                                event.target.value,
+                              );
+                              const durationInMinutes = minutes + hours * 60;
+                              setCropDurations({
+                                [task.task_id]: {
+                                  ...innerCropDurations[task.task_id],
+                                  [cd.crop_id]: {
+                                    ...innerCropDurations[task.task_id][cd.crop_id],
+                                    minutes,
+                                  },
+                                },
+                              });
+                              changeDuration(
+                                { target: { value: durationInMinutes } },
+                                task.task_id,
+                                true,
+                                cd.crop_id,
+                                setDuration,
+                              );
+                            }}
+                          />
+                        </div>
+                        <div
+                          style={{ flexGrow: 1, order: 4, marginLeft: '5px', marginRight: '5px' }}
+                        >
+                          <Label style={{ marginTop: '12px' }}>mins</Label>
+                        </div>
                       </div>
-                      <div style={{flexGrow: 1, order: 2, marginLeft: '5px', marginRight:'5px'}}>
-                        <Label style={{marginTop: '12px'}}>hr</Label>
-                      </div>
-                      <div style={{flexGrow: 2, order: 3}}>
-                        <input
-                          type="number"
-                          onKeyDown={integerOnKeyDown}
-                          value={innerCropDurations[task.task_id][cd.crop_id].minutes}
-                          onChange={(event) =>{
-                            const { hours, minutes } = getHoursAndMinutes(innerCropDurations[task.task_id][cd.crop_id].hours, event.target.value);
-                            const durationInMinutes = minutes + (hours * 60);
-                            setCropDurations({
-                              [task.task_id] : {
-                                ...innerCropDurations[task.task_id],
-                                [cd.crop_id] : {...innerCropDurations[task.task_id][cd.crop_id], minutes }
-                              }
-                            })
-                            changeDuration({ target : { value: durationInMinutes } }, task.task_id, true, cd.crop_id, setDuration)
-                          }}
-                        />
-                      </div>
-                      <div style={{flexGrow: 1, order: 4, marginLeft: '5px', marginRight:'5px'}}>
-                        <Label style={{marginTop: '12px'}}>mins</Label>
-                      </div>
-
                     </div>
-                  </div>
+                  )
                 );
               })}
             </div>
@@ -540,7 +582,7 @@ function InputDuration({
               <div className={styles.durationContainer}>
                 <div>Total</div>
                 <div className={styles.durationInput}>
-                  <div style={{flexGrow: 2, order: 1}}>
+                  <div style={{ flexGrow: 2, order: 1 }}>
                     <input
                       id={'total_crop_input-1' + task.task_id}
                       value={innerCropDurations[task.task_id].hours}
@@ -548,17 +590,22 @@ function InputDuration({
                       placeholder={0}
                       onKeyDown={integerOnKeyDown}
                       onChange={(event) => {
-                        const { hours, minutes } = getHoursAndMinutes(event.target.value, innerCropDurations[task.task_id].minutes);
-                        const durationInMinutes = (hours * 60 ) + minutes;
-                        setCropDurations({[task.task_id] : {...innerCropDurations[task.task_id], hours }})
-                        onDurationChange(durationInMinutes , task.task_id);
+                        const { hours, minutes } = getHoursAndMinutes(
+                          event.target.value,
+                          innerCropDurations[task.task_id].minutes,
+                        );
+                        const durationInMinutes = hours * 60 + minutes;
+                        setCropDurations({
+                          [task.task_id]: { ...innerCropDurations[task.task_id], hours },
+                        });
+                        onDurationChange(durationInMinutes, task.task_id);
                       }}
                     />
                   </div>
-                  <div style={{flexGrow: 1, order: 2, marginLeft: '5px', marginRight:'5px'}}>
-                    <Label style={{marginTop: '12px'}}>hr</Label>
+                  <div style={{ flexGrow: 1, order: 2, marginLeft: '5px', marginRight: '5px' }}>
+                    <Label style={{ marginTop: '12px' }}>hr</Label>
                   </div>
-                  <div style={{flexGrow: 2, order: 3}}>
+                  <div style={{ flexGrow: 2, order: 3 }}>
                     <input
                       id={'total_crop_input-' + task.task_id}
                       value={innerCropDurations[task.task_id].minutes}
@@ -566,15 +613,20 @@ function InputDuration({
                       placeholder={0}
                       onKeyDown={integerOnKeyDown}
                       onChange={(event) => {
-                        const { hours, minutes } = getHoursAndMinutes(innerCropDurations[task.task_id].hours, event.target.value);
-                        const durationInMinutes = (hours * 60) + minutes;
-                        setCropDurations({[task.task_id] : {...innerCropDurations[task.task_id], minutes }})
-                        onDurationChange(durationInMinutes , task.task_id);
+                        const { hours, minutes } = getHoursAndMinutes(
+                          innerCropDurations[task.task_id].hours,
+                          event.target.value,
+                        );
+                        const durationInMinutes = hours * 60 + minutes;
+                        setCropDurations({
+                          [task.task_id]: { ...innerCropDurations[task.task_id], minutes },
+                        });
+                        onDurationChange(durationInMinutes, task.task_id);
                       }}
                     />
                   </div>
-                  <div style={{flexGrow: 1, order: 4, marginLeft: '5px', marginRight:'5px'}}>
-                    <Label style={{marginTop: '12px'}}>mins</Label>
+                  <div style={{ flexGrow: 1, order: 4, marginLeft: '5px', marginRight: '5px' }}>
+                    <Label style={{ marginTop: '12px' }}>mins</Label>
                   </div>
                 </div>
               </div>
@@ -587,7 +639,7 @@ function InputDuration({
           <strong>Fields on this farm</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button  sm onClick={() => addAll(task.task_id, 'field')}>
+              <Button sm onClick={() => addAll(task.task_id, 'field')}>
                 {t('SHIFT.EDIT_SHIFT.ALL')}
               </Button>
             </div>
@@ -638,33 +690,37 @@ function InputDuration({
         <div className={styles.durationContainer}>
           <div>{t('SHIFT.MY_SHIFT.DURATION')}</div>
           <div className={styles.durationInput}>
-            <div style={{flexGrow: 3, order: 1}}>
+            <div style={{ flexGrow: 3, order: 1 }}>
               <input
                 id={'input-field-1' + task.task_id}
                 type="number"
                 onKeyDown={integerOnKeyDown}
                 value={fieldDuration.hours}
                 onChange={(event) => {
-                  onFieldChangeDuration(getHoursAndMinutes(event.target.value, fieldDuration.minutes));
+                  onFieldChangeDuration(
+                    getHoursAndMinutes(event.target.value, fieldDuration.minutes),
+                  );
                 }}
               />
             </div>
-            <div style={{flexGrow: 1, order: 2, marginLeft: '5px', marginRight:'5px'}}>
-              <Label style={{marginTop: '12px'}}>hr</Label>
+            <div style={{ flexGrow: 1, order: 2, marginLeft: '5px', marginRight: '5px' }}>
+              <Label style={{ marginTop: '12px' }}>hr</Label>
             </div>
-            <div style={{flexGrow: 3, order: 3}}>
+            <div style={{ flexGrow: 3, order: 3 }}>
               <input
                 id={'input-field-' + task.task_id}
                 type="number"
                 onKeyDown={integerOnKeyDown}
                 value={fieldDuration.minutes}
                 onChange={(event) => {
-                  onFieldChangeDuration(getHoursAndMinutes(fieldDuration.hours, event.target.value));
+                  onFieldChangeDuration(
+                    getHoursAndMinutes(fieldDuration.hours, event.target.value),
+                  );
                 }}
               />
             </div>
-            <div style={{flexGrow: 1, order: 4, marginLeft: '5px', marginRight: '5px'}}>
-              <Label style={{marginTop: '12px'}}>min</Label>
+            <div style={{ flexGrow: 1, order: 4, marginLeft: '5px', marginRight: '5px' }}>
+              <Label style={{ marginTop: '12px' }}>min</Label>
             </div>
           </div>
         </div>

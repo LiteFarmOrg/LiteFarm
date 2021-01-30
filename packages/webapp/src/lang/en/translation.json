@@ -176,7 +176,7 @@
     "PHONE_ERROR": "Please enter a valid phone number",
     "ROLE": "Role",
     "TITLE": "Invite a user",
-    "WAGE": "Wage",
+    "WAGE": "Hourly Wage",
     "WAGE_ERROR": "Wage must be a valid, non-negative decimal number"
   },
   "JOIN_FARM_SUCCESS": {

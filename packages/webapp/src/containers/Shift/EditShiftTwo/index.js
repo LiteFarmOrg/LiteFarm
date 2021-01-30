@@ -24,6 +24,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class EditShiftTwo extends Component {
   constructor(props) {
@@ -682,6 +683,7 @@ class EditShiftTwo extends Component {
                             <div className={styles.durationInput}>
                               <input
                                 type="number"
+                                onKeyDown={numberOnKeyDown}
                                 placeholder={0}
                                 onChange={(event) =>
                                   this.changeDuration(event, task.task_id, true, cd.crop_id)
@@ -740,6 +742,7 @@ class EditShiftTwo extends Component {
                       <input
                         id={'input-field-' + task.task_id}
                         type="number"
+                        onKeyDown={numberOnKeyDown}
                         onChange={(event) => this.changeDuration(event, task.task_id, false)}
                       />
                     </div>

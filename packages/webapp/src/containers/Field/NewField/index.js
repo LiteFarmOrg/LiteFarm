@@ -304,7 +304,7 @@ class NewField extends Component {
           return { lat: vertice.lat(), lng: vertice.lng() };
         });
       const area = Math.round(maps.geometry.spherical.computeArea(polygon.getPath()));
-      console.log(area);
+
       const updatePolygon = () => {
         vertices = polygon
           .getPath()
@@ -346,7 +346,6 @@ class NewField extends Component {
       .map((vertice) => {
         return { lat: vertice.lat(), lng: vertice.lng() };
       });
-    // console.log(Math.round(maps.geometry.spherical.computeArea(polygon.getPath())));
     this.handleModeChange(POLYGON_COMPLETE);
     this.setState({
       gridPoints: vertices,
@@ -461,14 +460,6 @@ class NewField extends Component {
         </div>
       }
     }
-      // gridPoints === null ? (
-      //   <PolygonButton />
-      // ) : (
-      //   <div>
-      //     <ClearButton />
-      //     <NextButton />
-      //   </div>
-      // );
     return (
       // Important! Always set the container height explicitly
       <div>

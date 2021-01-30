@@ -30,10 +30,7 @@ class fieldController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const result = await fieldController.postWithResponse(req, trx);
-        if (result.field_name.length === 0) {
-          await trx.rollback();
-          return res.sendStatus(403);
-        } else if (Object.keys(result.grid_points).length < 3) {
+        if (result.field_name.length === 0 || Object.keys(result.grid_points).length < 3) {
           await trx.rollback();
           return res.sendStatus(403);
         } else {

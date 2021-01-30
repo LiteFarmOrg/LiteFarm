@@ -103,7 +103,7 @@ class sendEmailTemplate {
 
     if (template_path === emails.HELP_REQUEST_EMAIL) {
       mailOptions.cc = 'support@litefarm.org';
-      if (attachments.length) {
+      if (attachments.length && attachments[0]) {
         mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
       }
     }

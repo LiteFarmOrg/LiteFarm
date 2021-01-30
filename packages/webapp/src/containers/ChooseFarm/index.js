@@ -153,9 +153,9 @@ const getAddress = (farm, newFarm) => {
   if (isCoordinate) {
     return [farm.grid_points.lat.toFixed(5), farm.grid_points.lng.toFixed(5)];
   } else {
-    newFarm.fullAddress = address.replace(/(.*), .*/, '$1');
-    const addressArray = address.split(', ');
-    return addressArray.splice(0, addressArray.length - 1);
+    newFarm.fullAddress = address?.replace(/(.*), .*/, '$1');
+    const addressArray = address?.split(', ');
+    return addressArray?.splice(0, addressArray.length - 1);
   }
 };
 

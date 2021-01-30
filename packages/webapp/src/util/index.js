@@ -104,3 +104,20 @@ export const getDurationString = (timeInMinutes) => {
   const minutes = timeInMinutes - hours * 60;
   return `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
 };
+
+export const isChrome = () => {
+  const isChromium = window.chrome;
+  const winNav = window.navigator;
+  const vendorName = winNav.vendor;
+  const isOpera = typeof window.opr !== 'undefined';
+  const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
+  const isIOSChrome = winNav.userAgent.match('CriOS');
+  const isChrome =
+    (isChromium !== null &&
+      typeof isChromium !== 'undefined' &&
+      vendorName === 'Google Inc.' &&
+      isOpera === false &&
+      isIEedge === false) ||
+    isIOSChrome;
+  return isChrome;
+};

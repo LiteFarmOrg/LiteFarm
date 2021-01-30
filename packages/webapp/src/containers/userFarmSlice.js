@@ -84,7 +84,7 @@ const userFarmSlice = createSlice({
         }
         const prevUserFarms = state.byFarmIdUserId[farm_id] || {};
         state.byFarmIdUserId[farm_id] = prevUserFarms;
-        state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[farm_id] || {};
+        state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[user_id] || {};
         Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
       });
     },
@@ -204,10 +204,7 @@ export const userFarmsByFarmSelector = createSelector(
   [loginSelector, userFarmReducerSelector],
   ({ farm_id, user_id }, { byFarmIdUserId, loading, error, ...rest }) => {
     if (!farm_id) return [];
-    const userRole = byFarmIdUserId[farm_id][user_id]?.role_id;
-    return adminRoles.includes(userRole)
-      ? Object.values(byFarmIdUserId[farm_id])
-      : [byFarmIdUserId[farm_id][user_id]];
+    return Object.values(byFarmIdUserId[farm_id]);
   },
 );
 export const userFarmSelector = createSelector(

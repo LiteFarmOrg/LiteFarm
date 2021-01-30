@@ -61,6 +61,11 @@ const AddFarm = () => {
   useEffect(() => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
+    setGridPoints(farm?.grid_points ? farm.grid_points : {});
+    if(farm.grid_points?.lat) {
+      const setC = farm.address.split(',').pop().trim();
+      setCountry(setC)
+    }
   }, []);
 
   useEffect(() => {

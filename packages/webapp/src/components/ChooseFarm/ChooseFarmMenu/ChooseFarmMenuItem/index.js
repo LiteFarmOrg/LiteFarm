@@ -35,7 +35,7 @@ const ChooseFarmMenuItem = ({
       </div>
       <div className={clsx(styles.rightColumn, styles[color])}>
         <div className={styles.addressContainer}>
-          {address.map((row, index) => (
+          {address?.map((row, index) => (
             <p key={index} className={clsx(styles.address)}>
               {row}
             </p>

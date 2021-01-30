@@ -531,7 +531,7 @@ class userController extends baseController {
             shouldUpdateEmail: true,
           }).findById(user_id).patch({ email: user_id }).returning('*');
           delete user.profile_picture;
-          delete user.address;
+          delete user.user_address;
           user.phone_number = user.phone_number ? user.phone_number : undefined;
           await userModel.query(trx).insert({
             ...user,

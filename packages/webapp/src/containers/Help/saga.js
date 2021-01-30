@@ -18,7 +18,7 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { toastr } from 'react-redux-toastr';
-import { postHelpRequestSuccess } from '../Home/homeSlice';
+import { postHelpRequestSuccess, finishSendHelp } from '../Home/homeSlice';
 import i18n from '../../lang/i18n';
 import { axios } from '../saga';
 
@@ -26,7 +26,7 @@ const supportUrl = () => `${url}/support_ticket`;
 
 export const supportFileUpload = createAction(`supportFileUploadSaga`);
 
-export function* supportFileUploadSaga({ payload: { file, form, setLoading } }) {
+export function* supportFileUploadSaga({ payload: { file, form } }) {
   try {
     const formData = new FormData();
     formData.append('_file_', file);
@@ -43,9 +43,10 @@ export function* supportFileUploadSaga({ payload: { file, form, setLoading } }) 
     } else {
       toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
     }
-    setLoading(false);
+    yield put(finishSendHelp());
   } catch (e) {
     toastr.error(i18n.t('message:ATTACHMENTS.ERROR.FAILED_UPLOAD'));
+    yield put(finishSendHelp());
     console.log(e);
   }
 }

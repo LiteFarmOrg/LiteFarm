@@ -61,7 +61,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} disabled={isLoading || disabled} fullLength>
-            {isLoading ? t('common:LOADING') : t('common:SUBMIT')}
+            {isLoading ? t('common:SUBMITTING') : t('common:SUBMIT')}
           </Button>
         </>
       }

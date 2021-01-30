@@ -14,6 +14,7 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
 import { Label } from "../../Typography";
 import { toastr } from "react-redux-toastr";
+import { integerOnKeyDown } from '../../Form/Input';
 
 function PureStepTwo({
   onGoBack,
@@ -365,6 +366,7 @@ function InputDuration({
     })
   }
 
+
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
     resetCrops();
@@ -490,6 +492,7 @@ function InputDuration({
                         <input
                           type="number"
                           value={innerCropDurations[task.task_id][cd.crop_id].hours}
+                          onKeyDown={integerOnKeyDown}
                           onChange={(event) =>{
                             const { hours, minutes } = getHoursAndMinutes(event.target.value, innerCropDurations[task.task_id][cd.crop_id].minutes);
                             const durationInMinutes = (hours * 60 ) + minutes;
@@ -509,6 +512,7 @@ function InputDuration({
                       <div style={{flexGrow: 2, order: 3}}>
                         <input
                           type="number"
+                          onKeyDown={integerOnKeyDown}
                           value={innerCropDurations[task.task_id][cd.crop_id].minutes}
                           onChange={(event) =>{
                             const { hours, minutes } = getHoursAndMinutes(innerCropDurations[task.task_id][cd.crop_id].hours, event.target.value);
@@ -526,6 +530,7 @@ function InputDuration({
                       <div style={{flexGrow: 1, order: 4, marginLeft: '5px', marginRight:'5px'}}>
                         <Label style={{marginTop: '12px'}}>mins</Label>
                       </div>
+
                     </div>
                   </div>
                 );
@@ -541,6 +546,7 @@ function InputDuration({
                       value={innerCropDurations[task.task_id].hours}
                       type="number"
                       placeholder={0}
+                      onKeyDown={integerOnKeyDown}
                       onChange={(event) => {
                         const { hours, minutes } = getHoursAndMinutes(event.target.value, innerCropDurations[task.task_id].minutes);
                         const durationInMinutes = (hours * 60 ) + minutes;
@@ -558,6 +564,7 @@ function InputDuration({
                       value={innerCropDurations[task.task_id].minutes}
                       type="number"
                       placeholder={0}
+                      onKeyDown={integerOnKeyDown}
                       onChange={(event) => {
                         const { hours, minutes } = getHoursAndMinutes(innerCropDurations[task.task_id].hours, event.target.value);
                         const durationInMinutes = (hours * 60) + minutes;
@@ -635,6 +642,7 @@ function InputDuration({
               <input
                 id={'input-field-1' + task.task_id}
                 type="number"
+                onKeyDown={integerOnKeyDown}
                 value={fieldDuration.hours}
                 onChange={(event) => {
                   onFieldChangeDuration(getHoursAndMinutes(event.target.value, fieldDuration.minutes));
@@ -648,6 +656,7 @@ function InputDuration({
               <input
                 id={'input-field-' + task.task_id}
                 type="number"
+                onKeyDown={integerOnKeyDown}
                 value={fieldDuration.minutes}
                 onChange={(event) => {
                   onFieldChangeDuration(getHoursAndMinutes(fieldDuration.hours, event.target.value));
@@ -657,7 +666,6 @@ function InputDuration({
             <div style={{flexGrow: 1, order: 4, marginLeft: '5px', marginRight: '5px'}}>
               <Label style={{marginTop: '12px'}}>min</Label>
             </div>
-
           </div>
         </div>
       </div>

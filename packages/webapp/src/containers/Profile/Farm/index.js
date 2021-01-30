@@ -11,6 +11,7 @@ import Popup from 'reactjs-popup';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { putFarm } from '../../saga';
+import { integerOnKeyDown } from '../../../components/Form/Input';
 
 class Farm extends Component {
   constructor(props) {
@@ -69,6 +70,11 @@ class Farm extends Component {
   render() {
     const { farm, schedule } = this.props;
     const { request_text, request_pending_text, enableRequest } = this.state;
+    const { role_id } = this.props.farm;
+    const OWNER = 1;
+    const MANAGER = 2;
+    const OFFICER = 5;
+    const disabled = ![OWNER, MANAGER, OFFICER].includes(role_id);
     return (
       <div>
         <div className={styles.formContainer}>
@@ -88,6 +94,7 @@ class Farm extends Component {
                     // length: (val) => val.length > 2,
                   }}
                   defaultValue={farm.farm_name}
+                  disabled={disabled}
                 />
               </div>
 
@@ -95,15 +102,18 @@ class Farm extends Component {
                 <div className={styles.phoneContainer}>
                   <label>{this.props.t('PROFILE.FARM.PHONE_NUMBER')}</label>
                   <Control.text
+                    type={'number'}
+                    onKeyDown={integerOnKeyDown}
                     model=".farmInfo.farm_phone_number"
                     defaultValue={farm.farm_phone_number}
+                    disabled={disabled}
                   />
                 </div>
               )}
               {!farm.farm_phone_number && (
                 <div className={styles.phoneContainer}>
                   <label>{this.props.t('PROFILE.FARM.PHONE_NUMBER')}</label>
-                  <Control.text model=".farmInfo.farm_phone_number" />
+                  <Control.text model=".farmInfo.farm_phone_number" disabled={disabled} />
                 </div>
               )}
               <div className={styles.labelContainer}>
@@ -116,6 +126,7 @@ class Farm extends Component {
                   model=".farmInfo.unit"
                   defaultValue={farm.units.measurement}
                   style={{ marginLeft: '8px' }}
+                  disabled={disabled}
                 >
                   <option value="metric">Metric</option>
                   <option value="imperial">Imperial</option>
@@ -128,13 +139,15 @@ class Farm extends Component {
               {/* <div className={styles.greenTextButton} onClick={() => this.openDataModal()}>
                 {request_text}
               </div> */}
-              <div className={defaultStyles.bottomContainer}>
-                <div className={defaultStyles.buttonContainer}>
-                  <Button type="submit" variant="primary">
-                    {this.props.t('common:SAVE')}
-                  </Button>
+              {!disabled && (
+                <div className={defaultStyles.bottomContainer}>
+                  <div className={defaultStyles.buttonContainer}>
+                    <Button type="submit" variant="primary">
+                      {this.props.t('common:SAVE')}
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )}
             </Form>
           )}
         </div>

@@ -30,19 +30,14 @@ class fieldController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const result = await fieldController.postWithResponse(req, trx);
-        await trx.commit();
-        if (result.field_name.length === 0) {
-          res.sendStatus(403)
-        }
-
-        else if (Object.keys(result.grid_points).length < 3) {
-          res.sendStatus(403);
-        }
-
-        else {
+        if (result.field_name.length === 0 || Object.keys(result.grid_points).length < 3) {
+          await trx.rollback();
+          return res.sendStatus(403);
+        } else {
+          await trx.commit();
           res.status(201).send(result);
           req.field = { fieldId: result.field_id, point: result.grid_points[0] }
-          next()
+          next();
         }
       } catch (error) {
         //handle more exceptions

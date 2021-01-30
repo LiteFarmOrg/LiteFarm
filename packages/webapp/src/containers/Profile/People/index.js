@@ -178,6 +178,7 @@ class People extends Component {
       'Extension Officer': t('role:EXTENSION_OFFICER'),
       Manager: t('role:MANAGER'),
       Worker: t('role:WORKER'),
+      'Worker Without Account': t('role:WORKER_WITHOUT_ACCOUNT'),
     };
     const STATUS_TRANSLATIONS = {
       Active: t('STATUS.ACTIVE'),

@@ -291,7 +291,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         <GoogleMap
           style={{ flexGrow: 1 }}
           defaultCenter={gridPoints}
-          defaultZoom={14}
+          defaultZoom={17}
           yesIWantToUseGoogleMapApiInternals
           options={(maps) => ({
             mapTypeId: maps.MapTypeId.SATELLITE,
@@ -322,7 +322,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
 }
 
 function MapPinWrapper() {
-  return <MapPin />;
+  return <MapPin style={{display: 'absolute', transform: 'translate(-50%, -100%)'}} />;
 }
 
 export default AddFarm;

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import GoogleLogin from 'react-google-login';
 
 import Button from '../../components/Form/Button';
+import { isChrome } from '../../util';
 
 function InviteSignUp({ history }) {
   const invite_token = history.location.state;
@@ -17,8 +18,6 @@ function InviteSignUp({ history }) {
   const [gender, setGender] = useState();
   const [birth_year, setBirthYear] = useState();
   const [showError, setShowError] = useState();
-  const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-
   useEffect(() => {
     if (!invite_token) {
       history.push('/');
@@ -97,7 +96,7 @@ function InviteSignUp({ history }) {
         selectedKey={selectedKey}
         email={email}
         onClick={onClick}
-        isChrome={isChrome}
+        isChrome={isChrome()}
       />
     </>
   );

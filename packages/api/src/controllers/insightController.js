@@ -106,10 +106,10 @@ class insightController extends baseController {
       try {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
-          `SELECT s.shift_id, s.mood, st.task_id, st.duration, t.task_name
-          FROM "shift" s, "shiftTask" st, "taskType" t
-          WHERE s.farm_id = ? and s.mood != 'na' and st.shift_id = s.shift_id and t.task_id = st.task_id
-          ORDER BY s.shift_id`, [farmID]);
+          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood
+          FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
+          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and 
+          st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer'`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);

@@ -11,51 +11,43 @@
     "TELL_US_ABOUT_YOUR_FARM": "MISSING"
   },
   "CHOOSE_FARM": {
-    "ADD_NEW": "MISSING",
-    "CHOOSE_TITLE": "MISSING",
-    "INPUT_PLACEHOLDER": "MISSING",
-    "SWITCH_TITLE": "MISSING"
+    "ADD_NEW": "Adicionar novo sitio/fazenda",
+    "CHOOSE_TITLE": "Escolha sua fazenda",
+    "INPUT_PLACEHOLDER": "Pesquisa",
+    "SWITCH_TITLE": "Mudar para outra fazenda"
   },
   "CONSENT": {
-    "LABEL": "MISSING"
+    "LABEL": "Aceito"
   },
   "CREATE_USER": {
-    "BIRTH_YEAR": "MISSING",
-    "BIRTH_YEAR_ERROR": "MISSING",
-    "BIRTH_YEAR_TOOLTIP": "MISSING",
-    "CREATE_BUTTON": "MISSING",
-    "EMAIL": "MISSING",
-    "FULL_NAME": "MISSING",
-    "GENDER": "MISSING",
-    "GENDER_TOOLTIP": "MISSING",
-    "PASSWORD": "MISSING",
-    "TITLE": "MISSING"
+    "CREATE_BUTTON": "Criar Conta",
+    "TITLE": "Criar uma nova conta de usuário"
   },
   "ENTER_PASSWORD": {
-    "FORGOT": "MISSING",
-    "LABEL": "MISSING"
+    "FORGOT": "Esqueceu sua senha?",
+    "LABEL": "Senha"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "TITLE_1": "MISSING",
-      "TITLE_2": "MISSING"
+      "TITLE_1": "Despesa Nova (1 de 2)",
+      "TITLE_2": "Despesa Nova (2 de 2)"
     },
-    "ADD_MORE_ITEMS": "MISSING",
-    "DETAILED_HISTORY": "MISSING",
+    "ADD_MORE_ITEMS": "Adicionar mais itens",
+    "DETAILED_HISTORY": "História Detalhada",
     "EDIT_EXPENSE": {
-      "DATE_PLACEHOLDER": "MISSING",
-      "DESELECTING_CATEGORY": "MISSING",
-      "REMOVE_ALL": "MISSING",
-      "TITLE_1": "MISSING",
-      "TITLE_2": "MISSING"
+      "DATE_PLACEHOLDER": "Escolha uma data",
+      "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
+      "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
+      "TITLE_1": "Editar Despesa (1 de 2)",
+      "TITLE_2": "Editar Despesa (2 de 2)"
     },
-    "ITEM": "MISSING",
-    "NAME": "MISSING",
-    "NO_EXPENSE": "MISSING",
-    "NO_EXPENSE_YEAR": "MISSING",
-    "OTHER_EXPENSES_TITLE": "MISSING",
-    "SUMMARY": "MISSING",
-    "VALUE": "MISSING"
+    "ITEM": "Item",
+    "NAME": "Nome",
+    "NO_EXPENSE": "Nenhuma despesa encontrada",
+    "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",
+    "OTHER_EXPENSES_TITLE": "Outras despesas",
+    "SUMMARY": "Resumo",
+    "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
     "RESET_PASSWORD_LINK": "MISSING"

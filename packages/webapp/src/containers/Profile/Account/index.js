@@ -42,11 +42,14 @@ class Account extends Component {
 
   handleSubmit(updated_user, user) {
     const { user_id, farm_id } = user;
+    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+
     const newUser = {
       ...updated_user,
       user_id,
       farm_id,
-      language_preference: localStorage.getItem('litefarm_lang'),
+      language_preference
     };
     newUser.user_address = newUser.user_address ? newUser.user_address : '';
     delete newUser.profile_picture;

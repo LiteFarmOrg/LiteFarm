@@ -44,17 +44,20 @@ class DateRangeSelector extends Component {
   };
 
   render() {
+    const { hideTooltip } = this.props;
     const changeDateToParent = this.props.changeDateMethod;
 
     return (
       <div className={styles.rangeContainer}>
-        <InfoBoxComponent
-          customStyle={{ float: 'right' }}
-          title={'Date Range Help'}
-          body={
-            'Select the date range to create a financial report for your farm for a given time window.'
-          }
-        />
+        {!hideTooltip && (
+          <InfoBoxComponent
+            customStyle={{ float: 'right' }}
+            title={'Date Range Help'}
+            body={
+              'Select the date range to create a financial report for your farm for a given time window.'
+            }
+          />
+        )}
         <Main style={{ textAlign: 'center', marginBottom: '20px' }}>Filter Report by Date</Main>
         <div className={styles.toFromContainer}>
           <span className={styles.pullLeft}>

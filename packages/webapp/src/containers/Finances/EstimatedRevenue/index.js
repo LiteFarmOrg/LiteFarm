@@ -121,7 +121,7 @@ class EstimatedRevenue extends Component {
           rightIconTitle={this.props.t('SALE.ESTIMATED_REVENUE.CALCULATION')}
           rightIconBody={this.props.t('SALE.ESTIMATED_REVENUE.CALCULATION_DESCRIPTION')}
         />
-        <DateRangeSelector changeDateMethod={this.changeDate} />
+        <DateRangeSelector changeDateMethod={this.changeDate} hideTooltip />
         <Table
           columns={revenueColumns}
           data={this.formatData(fieldCrops)}

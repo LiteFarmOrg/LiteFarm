@@ -397,7 +397,9 @@ class LogDetail extends Component {
                       )}
                     </span>
                   )}
-                  {quantity_unit === 'kg' && <span>{selectedLog.harvestLog.quantity_kg}</span>}
+                  {quantity_unit === 'kg' && (
+                    <span>{roundToTwoDecimal(selectedLog.harvestLog.quantity_kg)}</span>
+                  )}
                 </div>
               </div>
               <div className={styles.infoBlock}>
@@ -419,7 +421,7 @@ class LogDetail extends Component {
                             ? roundToTwoDecimal(
                                 convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
                               )
-                            : use.quantity_kg}
+                            : roundToTwoDecimal(use.quantity_kg)}
                         </Semibold>
                       </div>
                     </div>

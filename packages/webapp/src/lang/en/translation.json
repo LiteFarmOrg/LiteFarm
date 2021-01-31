@@ -61,7 +61,6 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FIELDS": {
-    "ACTION": "Action",
     "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
       "CROP": {
@@ -313,8 +312,10 @@
   },
   "LOG_SEEDING": {
     "RATE": "Rate",
-    "SEEDING_DEPTH": "Seeding Depth",
     "SEED_SPACING": "Seed Spacing",
+    "SEEDING_DEPTH": "Seeding Depth",
+    "SPACE_DEPTH": "Space depth",
+    "SPACE_LENGTH": "Space length",
     "SPACE_WIDTH": "Space Width",
     "TITLE": "Seeding Log"
   },
@@ -598,7 +599,7 @@
     },
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",
-    "START_TIME": "MISSING",
+    "START_TIME": "Start time",
     "TITLE": "Shifts",
     "TO": "To"
   },
@@ -617,14 +618,12 @@
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
   "SLIDE_MENU": {
-    "DEMOS": "Demos",
     "FIELDS": "Fields",
     "FINANCES": "Finances",
     "INSIGHTS": "Insights",
     "LOGS": "Logs",
     "MANAGE": "Manage",
     "SHIFTS": "Shifts",
-    "SUPPORT": "Support",
     "USERS": "Users"
   },
   "STATUS": {

@@ -25,6 +25,7 @@ import {
   SET_FORM_VALUE,
   SET_START_DATE,
   SET_END_DATE,
+  SET_DEFAULT_DATE_RANGE,
 } from './constants';
 
 export const getLogs = () => {
@@ -99,5 +100,11 @@ export const setEndDate = (endDate) => {
   return {
     type: SET_END_DATE,
     endDate,
+  };
+};
+
+export const setDefaultDateRange = () => {
+  return {
+    type: SET_DEFAULT_DATE_RANGE
   };
 };

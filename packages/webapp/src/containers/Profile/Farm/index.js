@@ -113,7 +113,12 @@ class Farm extends Component {
               {!farm.farm_phone_number && (
                 <div className={styles.phoneContainer}>
                   <label>{this.props.t('PROFILE.FARM.PHONE_NUMBER')}</label>
-                  <Control.text model=".farmInfo.farm_phone_number" disabled={disabled} />
+                  <Control.text
+                    model=".farmInfo.farm_phone_number"
+                    type={'number'}
+                    onKeyDown={integerOnKeyDown}
+                    disabled={disabled}
+                  />
                 </div>
               )}
               <div className={styles.labelContainer}>

@@ -21,7 +21,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
-import { numberOnKeyDown } from '../../../components/Form/Input';
+import Input, { numberOnKeyDown } from '../../../components/Form/Input';
+import TextArea from '../../../components/Form/TextArea';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -278,7 +279,7 @@ class FertilizingLog extends Component {
               />
               <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
               <div className={styles.noteContainer}>
-                <Control.textarea model=".fertLog.notes" />
+                <Control component={TextArea} model=".fertLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem ? 'Hide' : 'Show'}{' '}
@@ -326,10 +327,15 @@ class FertilizingLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                height: '100vh',
-                padding: '0 5%',
+                minHeight: '100vh',
+                padding: '92px 24px 0 24px',
+                justifyContent: 'center',
               }}
-              overlayStyle={{ zIndex: '1060', height: '100vh' }}
+              overlayStyle={{
+                minHeight: '100vh',
+                top: 'auto',
+                zIndex: 1,
+              }}
             >
               <Form
                 className={styles.formContainer}
@@ -356,7 +362,7 @@ class FertilizingLog extends Component {
                 </div>
                 <div className={styles.textContainer}>
                   <label>{this.props.t('LOG_COMMON.PRODUCT_NAME')}</label>
-                  <Control.text model=".fertLog.product" />
+                  <Control component={Input} model=".fertLog.product" />
                 </div>
                 <div className={styles.noteTitle}>
                   {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:

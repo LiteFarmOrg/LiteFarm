@@ -18,6 +18,7 @@ import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import { setFormData, setFormValue, setSelectedUseTypes } from '../actions';
+import TextArea from '../../../components/Form/TextArea';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -141,7 +142,7 @@ class HarvestLog extends Component {
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes" />
+              <Control model=".harvestLog.notes" component={TextArea} />
             </div>
           </div>
           <LogFooter

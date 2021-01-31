@@ -253,8 +253,13 @@ input:disabled {
     flex-grow: 1;
   }
   align-items: center;
-  margin-bottom: 10%;
-  margin-top: 2em;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom: 20px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
 }
 
 .close {

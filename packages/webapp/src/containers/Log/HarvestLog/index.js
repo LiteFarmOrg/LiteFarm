@@ -19,6 +19,7 @@ import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
 import { setFormData, setFormValue } from '../actions';
 import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
+import TextArea from '../../../components/Form/TextArea';
 
 class HarvestLog extends Component {
   constructor(props) {
@@ -64,13 +65,7 @@ class HarvestLog extends Component {
     const { crops, fields } = this.props;
     return (
       <div className="page-container">
-        <div className={styles.textContainer}>
-          <PageTitle
-            backUrl="/new_log"
-            title={this.props.t('LOG_HARVEST.TITLE')}
-            isHarvestLogStep={true}
-          />
-        </div>
+        <PageTitle backUrl="/new_log" title={this.props.t('LOG_HARVEST.TITLE')} />
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
@@ -91,7 +86,7 @@ class HarvestLog extends Component {
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes" />
+              <Control component={TextArea} model=".harvestLog.notes" />
             </div>
           </div>
           <LogFooter isHarvestLog={true} />

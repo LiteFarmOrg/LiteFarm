@@ -17,7 +17,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button } from 'react-bootstrap';
 import history from '../../history';
 import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
@@ -36,6 +35,8 @@ import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
 import { fieldsSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { Main, Title } from '../../components/Typography';
+import Button from '../../components/Form/Button';
 
 class Log extends Component {
   constructor(props) {
@@ -210,13 +211,9 @@ class Log extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <h4>
-          <strong>{this.props.t('LOG_COMMON.FARM_LOG')}</strong>
-        </h4>
+        <Title>{this.props.t('LOG_COMMON.FARM_LOG')}</Title>
         <hr />
-        <h4>
-          <b>{this.props.t('LOG_COMMON.ACTION')}</b>
-        </h4>
+        <Title>{this.props.t('LOG_COMMON.ACTION')}</Title>
         <div className={styles.buttonContainer}>
           <Button
             onClick={() => {
@@ -233,12 +230,12 @@ class Log extends Component {
             title={this.props.t('LOG_COMMON.LOG_HELP')}
             body={this.props.t('LOG_COMMON.LOG_HELP_EXPLANATION')}
           />
-          <h4>
-            <b>{this.props.t('LOG_COMMON.LOG_HISTORY')}</b>
-          </h4>
+          <Title>{this.props.t('LOG_COMMON.LOG_HISTORY')}</Title>
         </div>
         <div>
-          <h5>{this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}</h5>
+          <Main style={{ marginBottom: '16px' }}>
+            {this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}
+          </Main>
           <DropDown
             defaultValue={{
               value: 'all',
@@ -247,8 +244,9 @@ class Log extends Component {
             options={logTypes}
             onChange={(option) => this.setState({ activityFilter: option.value })}
             isSearchable={false}
+            style={{ marginBottom: '24px' }}
           />
-          <div>
+          <div style={{ display: 'flex' }}>
             <DropDown
               className={styles.pullLeft}
               options={cropOptions}
@@ -259,6 +257,7 @@ class Log extends Component {
               placeholder="Select Crop"
               onChange={(option) => this.setState({ cropFilter: option.value })}
               isSearchable={false}
+              style={{ flexBasis: '50%', marginRight: '24px' }}
             />
             <DropDown
               className={styles.pullRight}
@@ -270,6 +269,7 @@ class Log extends Component {
               placeholder="Select Field"
               onChange={(option) => this.setState({ fieldFilter: option.value })}
               isSearchable={false}
+              style={{ flexBasis: '50%' }}
             />
           </div>
           <div>

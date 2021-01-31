@@ -19,6 +19,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import TextArea from '../../../components/Form/TextArea';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -162,7 +163,7 @@ class SeedingLog extends Component {
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes" />
+              <Control component={TextArea} model=".harvestLog.notes" />
             </div>
           </div>
           <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />

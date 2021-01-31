@@ -228,12 +228,14 @@ class LogDetail extends Component {
                   key={dropDown}
                   id={`dropdown-basic-${dropDown}`}
                 >
-                  {/* <Dropdown.Item
-                    eventKey="0"
-                    onClick={() => this.editLog(selectedLog.activity_kind)}
-                  >
-                    {this.props.t('common:EDIT')}
-                  </Dropdown.Item> */}
+                  {selectedLog.activity_kind !== 'harvest' && (
+                    <Dropdown.Item
+                      eventKey="0"
+                      onClick={() => this.editLog(selectedLog.activity_kind)}
+                    >
+                      {this.props.t('common:EDIT')}
+                    </Dropdown.Item>
+                  )}
                   <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>
                     {this.props.t('common:DELETE')}
                   </Dropdown.Item>

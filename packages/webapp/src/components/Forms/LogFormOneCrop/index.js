@@ -160,6 +160,8 @@ class LogFormOneCrop extends React.Component {
       customFieldset,
       isCropNotRequired,
       isCropNotNeeded,
+      defaultField,
+      defaultCrop,
     } = this.props;
     const { displayLiveCropMessage, fieldOptions } = this.state;
     // format options for react-select dropdown components
@@ -182,7 +184,9 @@ class LogFormOneCrop extends React.Component {
             options={fieldOptions || []}
             placeholder="Select Field"
             isSearchable={false}
-            value={this.state.selectedFields}
+            defaultValue={
+              !Object.keys(defaultField).length ? this.state.selectedFields : defaultField
+            }
             validators={{
               required: (val) => {
                 if (val) {
@@ -200,7 +204,7 @@ class LogFormOneCrop extends React.Component {
             }}
           />
         </div>
-        {!isCropNotNeeded && this.state.selectedFields && this.state.selectedFields && (
+        {!isCropNotNeeded && this.state.selectedFields && (
           <div className={styles.defaultFormDropDown}>
             <label>Crop</label>
             <Control

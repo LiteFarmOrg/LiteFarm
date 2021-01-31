@@ -230,12 +230,14 @@ class LogDetail extends Component {
                   key={dropDown}
                   id={`dropdown-basic-${dropDown}`}
                 >
-                  <Dropdown.Item
-                    eventKey="0"
-                    onClick={() => this.editLog(selectedLog.activity_kind)}
-                  >
-                    {this.props.t('common:EDIT')}
-                  </Dropdown.Item>
+                  {selectedLog.activity_kind !== 'harvest' && (
+                    <Dropdown.Item
+                      eventKey="0"
+                      onClick={() => this.editLog(selectedLog.activity_kind)}
+                    >
+                      {this.props.t('common:EDIT')}
+                    </Dropdown.Item>
+                  )}
                   <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>
                     {this.props.t('common:DELETE')}
                   </Dropdown.Item>
@@ -387,15 +389,19 @@ class LogDetail extends Component {
                   <div>{`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}</div>
                   {quantity_unit === 'lb' && (
                     <span>
-                      {convertFromMetric(
-                        selectedLog.harvestLog.quantity_kg,
-                        quantity_unit,
-                        'kg',
-                        false,
+                      {roundToTwoDecimal(
+                        convertFromMetric(
+                          selectedLog.harvestLog.quantity_kg,
+                          quantity_unit,
+                          'kg',
+                          false,
+                        ),
                       )}
                     </span>
                   )}
-                  {quantity_unit === 'kg' && <span>{selectedLog.harvestLog.quantity_kg}</span>}
+                  {quantity_unit === 'kg' && (
+                    <span>{roundToTwoDecimal(selectedLog.harvestLog.quantity_kg)}</span>
+                  )}
                 </div>
               </div>
               <div className={styles.infoBlock}>
@@ -414,8 +420,10 @@ class LogDetail extends Component {
                       <div>
                         <Semibold style={{ color: 'var(--teal900)' }}>
                           {quantity_unit === 'lb'
-                            ? convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false)
-                            : use.quantity_kg}
+                            ? roundToTwoDecimal(
+                                convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
+                              )
+                            : roundToTwoDecimal(use.quantity_kg)}
                         </Semibold>
                       </div>
                     </div>

@@ -17,14 +17,19 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
-import { setFormData, setFormValue } from '../actions';
-import { formDataSelector, selectedUseTypeSelector, formValueSelector } from '../selectors';
+import { setFormData, setFormValue, setDefaultDate } from '../actions';
+import {
+  formDataSelector,
+  selectedUseTypeSelector,
+  formValueSelector,
+  defaultDateSelector,
+} from '../selectors';
 import TextArea from '../../../components/Form/TextArea';
 
 class HarvestLog extends Component {
   constructor(props) {
     super(props);
-    const { farm, dispatch, history } = this.props;
+    const { farm, dispatch } = this.props;
     dispatch(actions.reset('logReducer.forms.harvestLog'));
 
     this.state = {
@@ -36,9 +41,11 @@ class HarvestLog extends Component {
   }
 
   setDate(date) {
+    const { dispatch } = this.props;
     this.setState({
       date: date,
     });
+    dispatch(setDefaultDate(date._i));
   }
 
   handleSubmit(log) {
@@ -53,12 +60,14 @@ class HarvestLog extends Component {
       notes: log.notes,
       quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
     };
-    this.props.dispatch(setFormData(log));
-    this.props.dispatch(setFormValue(formValue));
+    dispatch(setFormData(log));
+    dispatch(setFormValue(formValue));
+    this.props.history.push('/harvest_use_type');
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props;
     dispatch(getHarvestUseTypes());
-    setTimeout(() => {
-      this.props.history.push('/harvest_use_type');
-    }, 200);
   }
 
   render() {
@@ -70,23 +79,37 @@ class HarvestLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          defaultDate={this.props.defaultDate}
         />
         <Form
           model="logReducer.forms"
           className={styles.formContainer}
           onSubmit={(val) => this.handleSubmit(val.harvestLog)}
         >
-          <LogFormOneCrop model=".harvestLog" fields={fields} crops={crops} notesField={false} />
+          <LogFormOneCrop
+            model=".harvestLog"
+            fields={fields}
+            crops={crops}
+            notesField={false}
+            defaultField={this.props.formData.field}
+            defaultCrop={this.props.formData.crop}
+          />
           <Unit
             model=".harvestLog.quantity_kg"
             title="Quantity"
             type={this.state.quantity_unit}
             validate
+            isHarvestLog={true}
+            defaultValue={this.props.formData.quantity_kg}
           />
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control component={TextArea} model=".harvestLog.notes" />
+              <Control
+                component={TextArea}
+                model=".harvestLog.notes"
+                defaultValue={this.props.formData.notes}
+              />
             </div>
           </div>
           <LogFooter isHarvestLog={true} />
@@ -104,6 +127,7 @@ const mapStateToProps = (state) => {
     formData: formDataSelector(state),
     useType: selectedUseTypeSelector(state),
     formValue: formValueSelector(state),
+    defaultDate: defaultDateSelector(state),
   };
 };
 

@@ -16,9 +16,13 @@ import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import history from '../../../history';
 import { withTranslation } from 'react-i18next';
 import { userFarmSelector } from '../../userFarmSlice';
-import { setSelectedUseTypes, addHarvestUseType } from '../actions';
+import { setSelectedUseTypes, addHarvestUseType, saveHarvestAllocationWip } from '../actions';
 import PurePopupMiniForm from '../../../components/PopupMiniForm';
-import { setAllHarvestUseTypesSelector } from '../selectors';
+import {
+  setAllHarvestUseTypesSelector,
+  selectedUseTypeSelector,
+  harvestAllocationSelector,
+} from '../selectors';
 
 class HarvestUseType extends Component {
   constructor(props) {
@@ -69,6 +73,10 @@ class HarvestUseType extends Component {
       disabled: true,
     };
     this.assignImage = this.assignImage.bind(this);
+
+    if (this.props.useType) {
+      this.props.useType.some((item) => this.logClick(item));
+    }
   }
 
   assignImage(useTypeName) {
@@ -131,7 +139,6 @@ class HarvestUseType extends Component {
       this.closeAddModal();
     }
   };
-
   render() {
     return (
       <div className={styles.logContainer}>
@@ -193,15 +200,31 @@ class HarvestUseType extends Component {
         )}
 
         <div className={styles.bottomContainer}>
-          <div className={styles.backButton} onClick={() => history.push('/harvest_log')}>
+          <div
+            className={styles.backButton}
+            onClick={() => {
+              this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
+              history.push('/harvest_log');
+            }}
+          >
             {this.props.t('common:BACK')}
           </div>
           <button
             className="btn btn-primary-round"
             onClick={() => {
+              const harvestAlloc = this.props.harvestAllocation;
               this.state.selectedUseTypes = this.state.selectedUseTypes.map(function (elem) {
                 let key = Object.assign({}, elem);
-                key.quantity = 0;
+                let name = !key.harvest_use_type_name
+                  ? key.harvestUseType.harvest_use_type_name
+                  : key.harvest_use_type_name;
+                if (name in harvestAlloc) {
+                  !key.harvest_use_type_name
+                    ? (key.quantity_kg = Number(harvestAlloc[name]))
+                    : (key.quantity = Number(harvestAlloc[name]));
+                } else {
+                  !key.harvest_use_type_name ? (key.quantity_kg = 0) : (key.quantity = 0);
+                }
                 return key;
               });
               this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
@@ -229,6 +252,8 @@ const mapStateToProps = (state) => {
   return {
     users: userFarmSelector(state),
     allUseType: setAllHarvestUseTypesSelector(state),
+    useType: selectedUseTypeSelector(state),
+    harvestAllocation: harvestAllocationSelector(state),
   };
 };
 

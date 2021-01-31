@@ -61,7 +61,6 @@
     "RESET_PASSWORD_LINK": "MISSING"
   },
   "FIELDS": {
-    "ACTION": "MISSING",
     "ADD_NEW_FIELD": "MISSING",
     "EDIT_FIELD": {
       "CROP": {
@@ -313,8 +312,10 @@
   },
   "LOG_SEEDING": {
     "RATE": "MISSING",
-    "SEEDING_DEPTH": "MISSING",
     "SEED_SPACING": "MISSING",
+    "SEEDING_DEPTH": "MISSING",
+    "SPACE_DEPTH": "MISSING",
+    "SPACE_LENGTH": "MISSING",
     "SPACE_WIDTH": "MISSING",
     "TITLE": "MISSING"
   },
@@ -618,14 +619,12 @@
     "WRONG_BROWSER_BOTTOM": "MISSING"
   },
   "SLIDE_MENU": {
-    "DEMOS": "MISSING",
     "FIELDS": "MISSING",
     "FINANCES": "MISSING",
     "INSIGHTS": "MISSING",
     "LOGS": "MISSING",
     "MANAGE": "MISSING",
     "SHIFTS": "MISSING",
-    "SUPPORT": "MISSING",
     "USERS": "MISSING"
   },
   "STATUS": {

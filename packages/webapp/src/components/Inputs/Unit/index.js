@@ -49,7 +49,6 @@ class Unit extends React.Component {
         style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '18px' }}
         className={styles.textContainer}
       >
-        {/*{showLabel && <label>{title}</label>}*/}
         {dropdown && (
           <>
             <div className={styles.selectContainer}>

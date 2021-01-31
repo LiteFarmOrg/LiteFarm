@@ -100,8 +100,8 @@ export function* customCreateUserSaga({ payload: data }) {
   try {
     const { name, email, password, gender, birth_year } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
-    const language_preference = localStorage.getItem('litefarm_lang');
-
+    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
     let reqBody = {
       email,
       first_name,

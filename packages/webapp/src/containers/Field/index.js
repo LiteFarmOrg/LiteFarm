@@ -28,6 +28,7 @@ import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
 import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { Semibold, Title } from "../../components/Typography";
 
 class Field extends Component {
   static defaultProps = {
@@ -231,15 +232,9 @@ class Field extends Component {
     const hasPermissionToEdit = [1, 2, 5].includes(role_id);
     return (
       <div className={styles.logContainer}>
-        <h3>
-          <strong>{this.props.t('FIELDS.TITLE')}</strong>
-        </h3>
-        <hr />
+        <Title>{this.props.t('FIELDS.TITLE')}</Title>
         {hasPermissionToEdit && (
           <>
-            <h3>
-              <b>{this.props.t('FIELDS.ACTION')}</b>
-            </h3>
             <div className={styles.buttonContainer}>
               <Button
                 variant={'secondary'}
@@ -250,13 +245,12 @@ class Field extends Component {
                 {this.props.t('FIELDS.ADD_NEW_FIELD')}
               </Button>
             </div>
-            <hr />
           </>
         )}
 
-        <h3>
-          <b>{this.props.t('FIELDS.EXPLORE')}</b>
-        </h3>
+        <div style={{paddingTop: '15px', paddingBottom: '15px'}}>
+          <Semibold>{this.props.t('FIELDS.EXPLORE')}</Semibold>
+        </div>
         <div>
           <Tabs
             activeKey={this.state.selectedTab}

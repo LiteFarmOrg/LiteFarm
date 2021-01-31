@@ -101,7 +101,9 @@ class NewFieldCropModal extends React.Component {
     if (this.validateForm()) {
       const { isByArea, bed_num, bed_width, bed_length, area_unit, estimated_unit } = this.state;
       let newFieldCrop = this.state.fieldCrop;
-
+      const { fieldArea } = this.props;
+      newFieldCrop.area_used =
+        newFieldCrop.area_used > fieldArea ? fieldArea : newFieldCrop.area_used;
       let estimatedProduction = isByArea
         ? newFieldCrop.estimated_yield * newFieldCrop.area_used
         : newFieldCrop.estimated_yield * bed_num;
@@ -134,6 +136,7 @@ class NewFieldCropModal extends React.Component {
           bed_num,
         };
       }
+
       this.props.dispatch(
         postFieldCrop({
           crop_id: newFieldCrop.crop_id,
@@ -192,12 +195,6 @@ class NewFieldCropModal extends React.Component {
 
     if (moment(currentFieldCrop.end_date).isSameOrBefore(moment(currentFieldCrop.start_date))) {
       toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
-      isValid = false;
-      return isValid;
-    }
-
-    if (currentFieldCrop.area_used > fieldArea) {
-      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.FIELD_AREA'));
       isValid = false;
       return isValid;
     }

@@ -3,8 +3,8 @@ import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
 
 const getFarmState = (payload) => {
-  const { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm } = payload;
-  return { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm };
+  const { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm, showSwitchFarmModal } = payload;
+  return { farm_id, isInvitationFlow, showSpotLight, skipChooseFarm, showSwitchFarmModal };
 };
 
 const chooseFarmFlowAdapter = createEntityAdapter({
@@ -41,6 +41,12 @@ const chooseFarmFlowSlice = createSlice({
     startInvitationFlowWithSpotLight: (state, { payload: farm_id }) => {
       updateFarmState(state, { farm_id, isInvitationFlow: true, showSpotLight: true });
     },
+    startSwitchFarmModal: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, showSwitchFarmModal: true });
+    },
+    endSwitchFarmModal: (state, { payload: farm_id }) => {
+      updateFarmState(state, { farm_id, showSwitchFarmModal: false });
+    },
   },
 });
 export const {
@@ -50,6 +56,8 @@ export const {
   startSpotLight,
   endSpotLight,
   startInvitationFlowOnChooseFarmScreen,
+  startSwitchFarmModal,
+  endSwitchFarmModal,
 } = chooseFarmFlowSlice.actions;
 export default chooseFarmFlowSlice.reducer;
 
@@ -67,4 +75,8 @@ export const chooseFarmFlowSelector = createSelector(
 export const spotLightSelector = createSelector(
   chooseFarmFlowSelector,
   (farmState) => farmState.showSpotLight,
+);
+export const switchFarmSelector = createSelector(
+  chooseFarmFlowSelector,
+  (farmState) => farmState.showSwitchFarmModal,
 );

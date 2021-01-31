@@ -23,6 +23,9 @@ import {
   SET_SELECTED_USE_TYPES,
   ADD_HARVEST_USE_TYPE,
   SET_FORM_VALUE,
+  SET_START_DATE,
+  SET_END_DATE,
+  SET_DEFAULT_DATE_RANGE,
   SET_DEFAULT_DATE,
   SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
@@ -86,6 +89,26 @@ export const setFormValue = (formValue) => {
     type: SET_FORM_VALUE,
     formValue,
   };
+};
+
+export const setStartDate = (startDate) => {
+  return {
+    type: SET_START_DATE,
+    startDate,
+  };
+};
+
+export const setEndDate = (endDate) => {
+  return {
+    type: SET_END_DATE,
+    endDate,
+  };
+};
+
+export const setDefaultDateRange = () => {
+  return {
+    type: SET_DEFAULT_DATE_RANGE
+  }
 };
 
 export const setDefaultDate = (defaultDate) => {

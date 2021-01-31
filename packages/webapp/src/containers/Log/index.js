@@ -22,9 +22,9 @@ import history from '../../history';
 import { LocalForm } from 'react-redux-form';
 import DateContainer from '../../components/Inputs/DateContainer';
 import moment from 'moment';
-import { getLogs, setSelectedLog } from './actions';
+import { getLogs, setSelectedLog, setStartDate, setEndDate } from './actions';
 import { getFieldCropsByDate } from '../saga';
-import { logSelector } from './selectors';
+import { logSelector, startEndDateSelector } from './selectors';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
 import { getDiseases, getPesticides } from './PestControlLog/actions';
@@ -44,8 +44,6 @@ class Log extends Component {
       activityFilter: 'all',
       cropFilter: 'all',
       fieldFilter: 'all',
-      startDate: moment().startOf('year'),
-      endDate: moment().endOf('year'),
     };
     this.filterLogs = this.filterLogs.bind(this);
     this.getEditURL = this.getEditURL.bind(this);
@@ -62,8 +60,11 @@ class Log extends Component {
   // filter logs in table if an option is chosen from dropdown or date
   filterLogs(logs) {
     const { user } = this.props;
+    const { activityFilter, cropFilter, fieldFilter } = this.state;
+    let { startDate, endDate } = this.props.dates;
+    startDate = moment(startDate);
+    endDate = moment(endDate);
     if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && user.is_admin) {
-      const { activityFilter, cropFilter, fieldFilter, startDate, endDate } = this.state;
       const checkFilter = (l = [], attribute, constraint) =>
         l[attribute] === constraint || constraint === 'all' || !constraint;
       return logs.filter(
@@ -75,7 +76,6 @@ class Log extends Component {
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
       );
     } else if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && !user.is_admin) {
-      const { activityFilter, cropFilter, fieldFilter, startDate, endDate } = this.state;
       const checkFilter = (l = [], attribute, constraint) =>
         l[attribute] === constraint || constraint === 'all' || !constraint;
       return logs.filter(
@@ -208,6 +208,10 @@ class Log extends Component {
       },
     ];
 
+    let { startDate, endDate } = this.props.dates;
+    startDate = moment(startDate);
+    endDate = moment(endDate);
+
     return (
       <div className={styles.logContainer}>
         <h4>
@@ -279,8 +283,8 @@ class Log extends Component {
                 <DateContainer
                   style={styles.date}
                   custom={true}
-                  date={this.state.startDate}
-                  onDateChange={(date) => this.setState({ startDate: date })}
+                  date={startDate}
+                  onDateChange={(date) => this.props.dispatch(setStartDate(date))}
                 />
               </span>
               <span className={styles.pullRight}>
@@ -288,8 +292,8 @@ class Log extends Component {
                 <DateContainer
                   style={styles.date}
                   custom={true}
-                  date={this.state.endDate}
-                  onDateChange={(date) => this.setState({ endDate: date })}
+                  date={endDate}
+                  onDateChange={(date) => this.props.dispatch(setEndDate(date))}
                 />
               </span>
             </LocalForm>
@@ -341,6 +345,7 @@ const mapStateToProps = (state) => {
     fields: fieldsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),
+    dates: startEndDateSelector(state),
   };
 };
 

@@ -29,6 +29,11 @@ const selectedUseTypeSelector = createSelector(logPageSelector, (state) => state
 
 const formValueSelector = createSelector(logPageSelector, (state) => state.formValue);
 
+const startEndDateSelector = createSelector(logPageSelector, (state) => ({
+  startDate: state.startDate,
+  endDate: state.endDate,
+}));
+
 const defaultDateSelector = createSelector(logPageSelector, (state) => state.defaultDate);
 
 const harvestAllocationSelector = createSelector(
@@ -43,6 +48,7 @@ export {
   selectedUseTypeSelector,
   setAllHarvestUseTypesSelector,
   formValueSelector,
+  startEndDateSelector,
   defaultDateSelector,
   harvestAllocationSelector,
 };

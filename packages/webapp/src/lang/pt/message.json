@@ -66,15 +66,15 @@
       "UPDATE_NAME": "Nome de campo alterado com sucesso"
     }
   },
-  "LOG_HARVEST": {
-    "ERROR": {
-      "ADD_USE_TYPE": "MISSING",
-      "GET_TYPES": "MISSING"
-    },
-    "SUCCESS": {
-      "ADD_USE_TYPE": "MISSING"
-    }
-  },
+"LOG_HARVEST": {
+   "ERROR": {
+     "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
+     "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+   },
+   "SUCCESS": {
+     "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
+   }
+ },
   "LOG": {
     "ERROR": {
       "ADD": "Falha na adição do Registro",
@@ -100,11 +100,6 @@
     },
     "SUCCESS": {
       "SAVE": "Cultivo salvo com sucesso!"
-    }
-  },
-  "RESET_PASSWORD": {
-    "ERROR": {
-      "LOGIN_ERROR": "Erro na re-definição de senha, entre em contato com a LiteFarm para obter assistência."
     }
   },
   "SALE": {

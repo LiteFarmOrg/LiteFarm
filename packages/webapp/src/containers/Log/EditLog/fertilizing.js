@@ -301,12 +301,14 @@ class FertilizingLog extends Component {
                   onChange={this.setSelectedFert}
                 />
               </div>
-              <div>
-                <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
-                  {' '}
-                  + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}{' '}
+              { [1,2,5].includes(this.props.farm.role_id) &&
+                <div>
+                  <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
+                    {' '}
+                    + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}{' '}
+                  </div>
                 </div>
-              </div>
+              }
               <Unit
                 model=".fertLog.quantity_kg"
                 title={this.props.t('LOG_COMMON.QUANTITY')}

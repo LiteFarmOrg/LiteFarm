@@ -34,9 +34,11 @@ export function* acceptInvitationWithSSOSaga({
         Authorization: 'Bearer ' + google_id_token,
       },
     };
+    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
     const user = {
       ...userForm,
-      language_preference: localStorage.getItem('litefarm_lang'),
+      language_preference,
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;
@@ -80,9 +82,12 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
         Authorization: 'Bearer ' + invite_token,
       },
     };
+    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+
     const user = {
       ...userForm,
-      language_preference: localStorage.getItem('litefarm_lang'),
+      language_preference,
       ...getFirstNameLastName(userForm.name),
     };
     delete user.name;

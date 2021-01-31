@@ -24,8 +24,7 @@
   },
   "EDIT_FIELD_CROP": {
     "ERROR": {
-      "END_DATE_BEFORE": "MISSING",
-      "FIELD_AREA": "MISSING"
+      "END_DATE_BEFORE": "MISSING"
     }
   },
   "EXPENSE": {

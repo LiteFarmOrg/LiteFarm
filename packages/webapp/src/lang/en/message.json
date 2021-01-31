@@ -24,8 +24,7 @@
   },
   "EDIT_FIELD_CROP": {
     "ERROR": {
-      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date",
-      "FIELD_AREA": "Field crop area cannot be greater than field area"
+      "END_DATE_BEFORE": "End Date cannot be the same or before Start Date"
     }
   },
   "EXPENSE": {

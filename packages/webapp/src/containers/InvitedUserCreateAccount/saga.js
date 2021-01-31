@@ -12,8 +12,12 @@ import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
 import i18n from '../../lang/i18n';
+import { axios } from '../saga';
+import {
+  startInvitationFlow,
+  startInvitationFlowWithSpotLight,
+} from '../ChooseFarm/chooseFarmFlowSlice';
 
-const axios = require('axios');
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
 
@@ -43,16 +47,21 @@ export function* acceptInvitationWithSSOSaga({
       { invite_token, ...user },
       header,
     );
-    const { id_token, user: resUser } = result.data;
+    const { id_token, user: resUserFarm } = result.data;
     localStorage.setItem('id_token', id_token);
     purgeState();
-    yield put(acceptInvitationSuccess(resUser));
-    history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
+    yield put(acceptInvitationSuccess(resUserFarm));
+    yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
+    history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));
@@ -79,17 +88,21 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
     delete user.name;
     !user.birth_year && delete user.birth_year;
     const result = yield call(axios.post, acceptInvitationWithLiteFarmUrl(), user, header);
-    const { id_token, user: resUser } = result.data;
+    const { id_token, user: resUserFarm } = result.data;
     localStorage.setItem('id_token', id_token);
     purgeState();
-    yield put(acceptInvitationSuccess(resUser));
-    history.push('/consent', { isInvitationFlow: true, showSpotLight: true });
+    yield put(acceptInvitationSuccess(resUserFarm));
+    yield put(startInvitationFlowWithSpotLight(resUserFarm.farm_id));
+    history.push('/consent');
   } catch (e) {
     yield put(onLoadingUserFarmsFail(e));
     if (e.response.status === 401) {
-      // TODO: check error message, if token is used, return token used error instead
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(userForm.email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));

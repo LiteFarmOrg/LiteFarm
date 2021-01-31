@@ -16,7 +16,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button } from 'react-bootstrap';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { salesSelector, shiftSelector, expenseSelector, dateRangeSelector } from './selectors';
@@ -32,6 +31,8 @@ import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
 import { getFieldCrops } from '../saga';
+import Button from '../../components/Form/Button';
+import { Title, Main } from '../../components/Typography';
 
 const moment = extendMoment(Moment);
 
@@ -370,15 +371,13 @@ class Finances extends Component {
     const totalExpense = (parseFloat(otherExpense) + parseFloat(labourExpense)).toFixed(2);
     return (
       <div className={styles.financesContainer}>
-        <h4>
-          <strong>{this.props.t('SALE.FINANCES.TITLE')}</strong>
-        </h4>
+        <Title style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.TITLE')}</Title>
         <hr />
-        <h4>
-          <b>{this.props.t('SALE.FINANCES.ACTION')}</b>
-        </h4>
+        <Title style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.ACTION')}</Title>
         <div className={styles.buttonContainer}>
           <Button
+            sm
+            style={{ height: '48px' }}
             onClick={() => {
               history.push('/expense_categories');
             }}
@@ -386,6 +385,8 @@ class Finances extends Component {
             {this.props.t('SALE.FINANCES.ADD_NEW_EXPENSE')}
           </Button>
           <Button
+            sm
+            style={{ height: '48px' }}
             onClick={() => {
               history.push('add_sale');
             }}
@@ -398,9 +399,7 @@ class Finances extends Component {
 
         <hr />
         <div data-test="finance_summary" className={styles.align}>
-          <h5 className={styles.balanceTitle}>
-            <strong>{this.props.t('SALE.FINANCES.EXPENSES')}</strong>
-          </h5>
+          <Main style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.EXPENSES')}</Main>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.LABOUR_LABEL')}
             number={this.state.currencySymbol + labourExpense.toString()}
@@ -413,9 +412,7 @@ class Finances extends Component {
           />
 
           <hr />
-          <h5 className={styles.balanceTitle}>
-            <strong>{this.props.t('SALE.FINANCES.REVENUE')}</strong>
-          </h5>
+          <Main style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.REVENUE')}</Main>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
             number={this.state.currencySymbol + totalRevenue}
@@ -428,9 +425,9 @@ class Finances extends Component {
           />
 
           <hr />
-          <h5 className={styles.balanceTitle}>
-            <strong>{this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}</strong>
-          </h5>
+          <Main style={{ marginBottom: '8px' }}>
+            {this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}
+          </Main>
           <div className={styles.greyBox}>
             <div className={styles.balanceDetail}>
               <p>{this.props.t('SALE.FINANCES.REVENUE')}:</p>{' '}
@@ -449,18 +446,20 @@ class Finances extends Component {
             </div>
           </div>
 
-          <h5 className={styles.balanceTitle}>
-            <InfoBoxComponent
-              customStyle={{
-                float: 'right',
-                fontSize: '80%',
-                marginTop: '0.2em',
-              }}
-              title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
-              body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
-            />
-            <strong>{this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}</strong>
-          </h5>
+          <InfoBoxComponent
+            customStyle={{
+              float: 'right',
+              fontSize: '80%',
+              marginTop: '0.2em',
+              position: 'relative',
+            }}
+            title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
+            body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
+          />
+          <Main style={{ marginBottom: '8px', textAlign: 'left' }}>
+            {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
+          </Main>
+
           <div className={styles.greyBox}>
             {balanceByCrop.map((b) => {
               return (

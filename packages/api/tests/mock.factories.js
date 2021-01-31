@@ -25,7 +25,7 @@ function fakeUser() {
     last_name: faker.name.lastName(),
     email: email.toLowerCase(),
     user_id: faker.random.uuid(),
-    status: 1,
+    status_id: 1,
     phone_number: faker.phone.phoneNumber(),
     gender: faker.random.arrayElement(['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE']),
     birth_year: faker.random.number({min: 1900, max: new Date().getFullYear()})
@@ -78,6 +78,7 @@ function fakeUserFarm() {
     status: 'Active',
     has_consent: true,
     step_one: false,
+    wage: {type: 'hourly', amount: faker.random.number(300)}
   };
 }
 
@@ -135,7 +136,7 @@ function fakePriceInsightForTests() {
     distance: faker.random.arrayElement([5, 10, 25, 50]),
     lat: faker.address.latitude(),
     long: faker.address.latitude(),
-    startdate: faker.date.future(),
+    startdate: '2021-10-10',
   };
 }
 
@@ -385,6 +386,43 @@ async function taskTypeFactory({ promisedFarm = farmFactory() } = {}, taskType =
   return knex('taskType').insert({ farm_id, ...taskType, ...base }).returning('*');
 }
 
+async function harvestUseTypeFactory({promisedFarm = farmFactory()} = {}, harvestUseType = fakeHarvestUseType()) {
+  const [farm] = await Promise.all([promisedFarm, usersFactory()]);
+  let farm_id;
+  if (farm.farm_id) {
+    farm_id = farm.farm_id;
+  } else {
+    farm_id = null;
+  }
+  return knex('harvestUseType').insert({ farm_id, ...harvestUseType }).returning('*');
+}
+
+function fakeHarvestUseType() {
+    return {
+      harvest_use_type_name: faker.lorem.words(),
+    }
+}
+
+function fakeHarvestUse() {
+    return {
+      quantity_kg: faker.random.number(200),
+    }
+}
+
+async function createDefaultState() {
+  const useTypes = [
+    'Sales', 'Self-Consumption', 'Animal Feed', 'Compost', 'Exchange', 'Saved for seed', 'Not Sure', 'Donation', 'Other'
+  ]
+  const uses = await Promise.all(useTypes.map(async (type) => {
+    let data = {
+      harvest_use_type_name: type
+    }
+    const [use] = await knex('harvestUseType').insert( data ).returning('*');
+    return use;
+  }));
+  return uses;
+}
+
 async function diseaseFactory({ promisedFarm = farmFactory() } = {}, disease = fakeDisease()) {
   const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
@@ -529,14 +567,12 @@ async function shiftFactory({ promisedUserFarm = userFarmFactory() } = {}, shift
   const [userFarm] = await Promise.all([promisedUserFarm]);
   const [{ user_id, farm_id }] = userFarm;
   const base = baseProperties(user_id);
-  return knex('shift').insert({ user_id, farm_id, ...shift, ...base }).returning('*');
+  return knex('shift').insert({ user_id, farm_id, ...base, ...shift }).returning('*');
 }
 
 function fakeShift() {
   return {
-    start_time: faker.date.past(),
-    end_time: faker.date.future(),
-    break_duration: faker.random.number(10),
+    shift_date: new Date(),
     mood: faker.random.arrayElement(['happy', 'neutral', 'very happy', 'sad', 'very sad', 'na']),
     wage_at_moment: faker.random.number(20),
   };
@@ -706,6 +742,9 @@ module.exports = {
   fieldCropFactory, fakeFieldCrop,
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
+  harvestUseTypeFactory, fakeHarvestUseType,
+  createDefaultState, 
+  fakeHarvestUse,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

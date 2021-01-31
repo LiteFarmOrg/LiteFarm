@@ -4,7 +4,7 @@ import styles from './styles.scss';
 import defaultStyles from '../styles.scss';
 import { rolesSelector } from './slice';
 
-import { addPseudoWorker, addUser, deactivateUser, getRoles, reactivateUser } from './saga';
+import { deactivateUser, reactivateUser, invitePseudoUser } from './saga';
 import { updateUserFarm } from './saga';
 import Table from '../../../components/Table';
 import DropDown from '../../../components/Inputs/DropDown';
@@ -18,37 +18,7 @@ import { toastr } from 'react-redux-toastr';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from './saga';
 import { withTranslation } from 'react-i18next';
-
-const generator = require('generate-password');
-const { v4: uuidv4 } = require('uuid');
-
-const summaryColumns = [
-  {
-    id: 'name',
-    Header: 'Name',
-    accessor: (e) => e.first_name.concat(' ', e.last_name),
-    minWidth: 70,
-  },
-  {
-    id: 'email',
-    Header: 'Email',
-    accessor: 'email',
-    minWidth: 95,
-    style: { whiteSpace: 'unset' },
-  },
-  {
-    id: 'role',
-    Header: 'Role',
-    accessor: 'role',
-    minWidth: 55,
-  },
-  {
-    id: 'status',
-    Header: 'Status',
-    accessor: 'status',
-    minWidth: 55,
-  },
-];
+import history from '../../../history';
 const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
 const validWageRegex = RegExp(/^$|^[0-9]\d*(?:\.\d{1,2})?$/i);
 
@@ -71,6 +41,33 @@ class People extends Component {
       updated_edit: false,
       willConvertWorker: false,
       cleaveEmailState: null,
+      summaryColumns: [
+        {
+          id: 'name',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_NAME`),
+          accessor: (e) => e.first_name.concat(' ', e.last_name),
+          minWidth: 70,
+        },
+        {
+          id: 'email',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_EMAIL`),
+          accessor: 'email',
+          minWidth: 95,
+          style: { whiteSpace: 'unset' },
+        },
+        {
+          id: 'role',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_ROLE`),
+          accessor: 'role',
+          minWidth: 55,
+        },
+        {
+          id: 'status',
+          Header: this.props.t(`PROFILE.TABLE.HEADER_STATUS`),
+          accessor: 'status',
+          minWidth: 55,
+        },
+      ],
     };
   }
 
@@ -99,20 +96,6 @@ class People extends Component {
     });
   };
 
-  openAddModal = (isAdmin, isPseudo = false) => {
-    this.setState({
-      showAdd: true,
-      isAdmin,
-      isPseudo,
-    });
-  };
-
-  closeAddModal = () => {
-    const { dispatch } = this.props;
-    dispatch(actions.reset('profileForms.addInfo'));
-    this.setState({ showAdd: false });
-  };
-
   handleSubmit(editedUser, user) {
     if (this.state.edit_wage_error || this.state.edit_email_error) {
       return;
@@ -137,22 +120,22 @@ class People extends Component {
     }
 
     // ADD EMAIL CHANGE
-    if (
+    const shouldConvertPseudoWorker =
       this.state.willConvertWorker &&
       editedUser.email &&
       editedUser.email.length &&
-      user.role_id === 4
-    ) {
+      user.role_id === 4;
+
+    if (shouldConvertPseudoWorker) {
       finalUser.email = editedUser.email;
-      finalUser.email_needs_update = true;
       if (!finalUser.role_id) {
         finalUser.role_id = 3;
       }
-      finalUser.has_consent = false;
+      finalUser.user_id = user.user_id;
       hasChanged = true;
-    }
-
-    if (hasChanged) {
+      this.props.dispatch(invitePseudoUser(finalUser));
+      return this.closeEditModal();
+    } else if (hasChanged) {
       finalUser.user_id = user.user_id;
       this.props.dispatch(updateUserFarm(finalUser));
       this.closeEditModal();
@@ -160,60 +143,12 @@ class People extends Component {
       toastr.success(this.props.t('message:USER.ERROR.NOTHING_CHANGED'));
       this.closeEditModal();
     }
-    // this.props.dispatch(updateUserSaga(user));
-    // this.closeEditModal();
-  }
-
-  handleAddPerson(userInfo, farmID) {
-    const { role, email, pay, first_name, last_name } = userInfo;
-    // Pseudo worker is a worker with no email filled out
-    const isPseudo = role === 3 && email.trim().length === 0;
-    const amount = pay.amount && pay.amount.trim().length > 0 ? Number(pay.amount) : 0; // TODO: convert this to null to indicate no wage is entered
-    if (!isPseudo) {
-      const pw = generator.generate({
-        length: 10,
-        numbers: true,
-        symbols: true,
-      });
-      const user = {
-        email,
-        first_name,
-        last_name,
-        farm_id: farmID,
-        role_id: Number(role),
-        wage: {
-          type: pay.type || 'hourly',
-          amount,
-        },
-        password: pw,
-      };
-      this.props.dispatch(addUser(user));
-      // alert('user created with password: ' + pw);
-    } else {
-      const pseudoId = uuidv4();
-      const user = {
-        email: pseudoId + '@pseudo.com',
-        first_name,
-        last_name,
-        farm_id: farmID,
-        wage: {
-          type: pay.type || 'hourly',
-          amount,
-        },
-        profile_picture: 'https://cdn.auth0.com/avatars/na.png',
-        user_id: pseudoId,
-      };
-      this.props.dispatch(addPseudoWorker(user));
-    }
-
-    this.closeAddModal();
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, t } = this.props;
     dispatch(getAllUserFarmsByFarmId());
     dispatch(actions.reset('profileForms.addInfo'));
-    dispatch(getRoles());
   }
 
   deactivate = (user_id) => {
@@ -236,8 +171,20 @@ class People extends Component {
 
   formatData = () => {
     const { searchValue } = this.state;
-    const { users } = this.props;
+    const { users, t } = this.props;
     const { farm_id, addedUser, roles, ...userGroups } = users;
+    const ROLE_TRANSLATIONS = {
+      Owner: t('role:OWNER'),
+      'Extension Officer': t('role:EXTENSION_OFFICER'),
+      Manager: t('role:MANAGER'),
+      Worker: t('role:WORKER'),
+      'Worker Without Account': t('role:WORKER_WITHOUT_ACCOUNT'),
+    };
+    const STATUS_TRANSLATIONS = {
+      Active: t('STATUS.ACTIVE'),
+      Inactive: t('STATUS.INACTIVE'),
+      Invited: t('STATUS.INVITED'),
+    };
     const combinedUserGroups = Object.keys(userGroups).reduce(
       (prev, curr) => prev.concat(userGroups[curr]),
       [],
@@ -248,7 +195,11 @@ class People extends Component {
       const name = firstName.concat(' ', lastName);
       return name.includes(searchValue.trim().toLowerCase());
     });
-    return filteredUsers;
+    return filteredUsers.map((user) => ({
+      ...user,
+      role: ROLE_TRANSLATIONS[user.role],
+      status: STATUS_TRANSLATIONS[user.status],
+    }));
   };
 
   onRowEdit = (state, rowInfo, column, instance) => {
@@ -387,235 +338,11 @@ class People extends Component {
     return styles.inputContainer;
   };
 
-  getDropDownOptions = () => {
-    const { roles } = this.props;
-    return roles.map((option) => {
-      const { role_id, role } = option;
-      return {
-        value: role_id,
-        label: `Farm ${role}`,
-      };
-    });
-  };
-
   render() {
     const { isAdmin, profileForms } = this.props;
     const { editTitle, currencySymbol, searchValue } = this.state;
     const filteredData = this.formatData();
     const { addInfo } = profileForms;
-    const isRoleSelected = addInfo.role !== '0';
-    const dropDownOptions = this.getDropDownOptions();
-    if (this.state.showAdd) {
-      return (
-        <div className={styles.addUserContainer}>
-          <div className={styles.addUserTitleContainer}>
-            <h3 className={styles.userTitle}>{this.props.t('PROFILE.PEOPLE.INVITE_USER')}</h3>
-          </div>
-          <Form
-            className={styles.formContainer}
-            model="profileForms"
-            onSubmit={(val) => this.handleAddPerson(val.addInfo, this.props.users.farm_id)}
-          >
-            <div className={styles.formBodyContainer}>
-              <div className={this.getTextFieldStyle('first_name')}>
-                <label>{this.props.t('PROFILE.ACCOUNT.FIRST_NAME')}</label>
-                <Control.text
-                  model=".addInfo.first_name"
-                  validators={{
-                    required: (val) => val.length,
-                  }}
-                  defaultValue=""
-                />
-              </div>
-              <Errors
-                model="profileForms.addInfo.first_name"
-                messages={{
-                  required: this.props.t('PROFILE.PEOPLE.FIRST_NAME_NOT_EMPTY'),
-                }}
-                show={(field) => field.touched && !field.focus}
-                component={(props) => (
-                  <div className={styles.errorContainer}>
-                    <div className={styles.errorText}>{props.children}</div>
-                  </div>
-                )}
-              />
-              <div className={this.getTextFieldStyle('last_name')}>
-                <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
-                <Control.text
-                  model=".addInfo.last_name"
-                  validators={{
-                    required: (val) => val.length,
-                  }}
-                  defaultValue=""
-                />
-              </div>
-              <Errors
-                model=".addInfo.last_name"
-                messages={{
-                  required: this.props.t('PROFILE.PEOPLE.LAST_NAME_NOT_EMPTY'),
-                }}
-                show={(field) => field.touched && !field.focus}
-                component={(props) => (
-                  <div className={styles.errorContainer}>
-                    <div className={styles.errorText}>{props.children}</div>
-                  </div>
-                )}
-              />
-              <div className={styles.inputContainer}>
-                <label>{this.props.t('PROFILE.PEOPLE.ROLE')}</label>
-                <Control.custom
-                  model=".addInfo.role"
-                  defaultValue="0"
-                  onChange={(option) => {
-                    this.props.dispatch(actions.change('profileForms.addInfo.role', option.value));
-                    this.props.dispatch(
-                      actions.validate('profileForms.addInfo.email', {
-                        required: (val) => (option.value === 3 ? true : val.length),
-                        validEmail: (val) => validEmailRegex.test(val),
-                      }),
-                    );
-                  }}
-                  component={DropDown}
-                  mapProps={{
-                    isSearchable: false,
-                    options: dropDownOptions,
-                    placeholder: this.props.t('PROFILE.PEOPLE.SELECT_ROLE'),
-                    styles: {
-                      container: (provided, state) => ({
-                        ...provided,
-                        margin: '0.25em 0 1em 0',
-                        outline: 'none',
-                      }),
-                      control: (provided, state) => ({
-                        background: '#FFFFFF',
-                        border: '1px solid',
-                        borderColor: state.isFocused ? '#89D1C7' : '#D4DAE3',
-                        boxSizing: 'border-box',
-                        borderRadius: '4px',
-                        padding: '0.75em 0.5em',
-                        height: '48px',
-                        fontSize: '16px',
-                        color: '#282B36',
-                        outline: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                      }),
-                      placeholder: (provided, state) => ({ color: '#9FAABE' }),
-                      indicatorSeparator: (provided, state) => ({
-                        backgroundColor: 'none',
-                      }),
-                      menuList: (provided, state) => ({
-                        ...provided,
-                        padding: 0,
-                        margin: 0,
-                        borderRadius: '4px',
-                        background: '#FFFFFF',
-                        boxShadow: '0px 1px 2px rgba(102, 115, 138, 0.25)',
-                      }),
-                      option: (provided, state) => ({
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '8px 8px 8px',
-                        backgroundColor: 'transparent',
-                        background:
-                          state.isClicked || state.isFocused ? 'rgb(223, 244, 232, 0.5)' : 'none',
-                        color: '#282B36',
-                        height: '40px',
-                      }),
-                      valueContainer: (provided, state) => ({
-                        ...provided,
-                        padding: 0,
-                      }),
-                      singleValue: (provided, state) => ({
-                        ...provided,
-                        padding: 0,
-                        margin: 0,
-                      }),
-                    },
-                  }}
-                />
-              </div>
-              {isRoleSelected && (
-                <div>
-                  <div className={this.getTextFieldStyle('email')}>
-                    <label>{addInfo.role === 3 ? `Email (Optional)` : `Email`}</label>
-                    <Control.text
-                      model=".addInfo.email"
-                      validators={{
-                        required: (val) => (addInfo.role === 3 ? true : val.length),
-                        validEmail: (val) => validEmailRegex.test(val),
-                      }}
-                      defaultValue=""
-                    />
-                    {addInfo.role === 3 && (
-                      <p className={styles.emailInputReminder}>
-                        {this.props.t('PROFILE.PEOPLE.USERS_NO_EMAIL_NO_LOGIN')}
-                      </p>
-                    )}
-                  </div>
-                  <Errors
-                    model=".addInfo.email"
-                    messages={{
-                      required: this.props.t('PROFILE.PEOPLE.EMAIL_CANNOT_BE_EMPTY'),
-                      validEmail: 'Email must be valid',
-                    }}
-                    show={(field) => field.touched && !field.focus}
-                    component={(props) => (
-                      <div className={styles.errorContainer}>
-                        <div className={styles.errorText}>{props.children}</div>
-                      </div>
-                    )}
-                  />
-                  <div className={this.getTextFieldStyle('pay')}>
-                    <label>Wage (Optional)</label>
-                    <div className={styles.wageContainer}>
-                      <Control.text
-                        model=".addInfo.pay.amount"
-                        validators={{
-                          validWage: (val) => validWageRegex.test(val),
-                        }}
-                        defaultValue=""
-                      />
-                      <p className={styles.wageInputUnit}>{`${currencySymbol}/hr`}</p>
-                      {/* <div className={styles.payTypeContainer}>
-                                <div className={styles.radioContainer}>
-                                  <Control.radio model=".addInfo.pay.type" name="payType" id="hourly" value="hourly" />
-                                  <label htmlFor="hour">Hourly</label>
-                                </div>
-                                <div className={styles.radioContainer}>
-                                  <Control.radio model=".addInfo.pay.type" name="payType" id="daily" value="daily" />
-                                  <label htmlFor="daily">Daily</label>
-                                </div>
-                              </div> */}
-                    </div>
-                  </div>
-                  <Errors
-                    model=".addInfo.pay.amount"
-                    messages={{
-                      validWage: this.props.t('PROFILE.PEOPLE.WAGE_MUST_BE_VALID'),
-                    }}
-                    show={(field) => field.touched && !field.focus}
-                    component={(props) => (
-                      <div className={styles.errorContainer}>
-                        <div className={styles.errorText}>{props.children}</div>
-                      </div>
-                    )}
-                  />
-                </div>
-              )}
-            </div>
-            <div className={styles.formActionsContainer}>
-              <button className={styles.cancelButton} onClick={() => this.closeAddModal()}>
-                {this.props.t('common:CANCEL')}
-              </button>
-              <button type="submit" className={styles.inviteButton} disabled={this.isDisabled()}>
-                {this.props.t('PROFILE.PEOPLE.INVITE')}
-              </button>
-            </div>
-          </Form>
-        </div>
-      );
-    }
 
     return (
       <div>
@@ -634,7 +361,7 @@ class People extends Component {
             filteredData.length
           } ${this.props.t('PROFILE.PEOPLE.USERS_FOUND')}`}</label>
           <Table
-            columns={summaryColumns}
+            columns={this.state.summaryColumns}
             data={filteredData}
             showPagination={true}
             pageSizeOptions={[5, 10, 20, 50]}
@@ -643,7 +370,7 @@ class People extends Component {
             getTdProps={this.onRowEdit}
           />
           {isAdmin ? (
-            <button className={styles.addButton} onClick={() => this.openAddModal(true)}>
+            <button className={styles.addButton} onClick={() => history.push('/invite_user')}>
               {this.props.t('PROFILE.PEOPLE.INVITE_USER')}
             </button>
           ) : null}
@@ -656,15 +383,13 @@ class People extends Component {
             display: 'flex',
             width: '100%',
             minHeight: '100vh',
-            maxHeight: '120vh',
-            padding: '0 5%',
+            padding: '92px 24px 0 24px',
             justifyContent: 'center',
           }}
           overlayStyle={{
-            zIndex: '1060',
             minHeight: '100vh',
-            maxHeight: '120vh',
             top: 'auto',
+            zIndex: 1,
           }}
         >
           <div className={styles.modal}>
@@ -684,9 +409,11 @@ class People extends Component {
                 >
                   {this.state.editUser.role_id === 4 && (
                     <div className={styles.labelContainer}>
-                      <label>Convert this worker to a user with account</label>
+                      <label style={{ width: 'auto' }}>
+                        {this.props.t('PROFILE.ACCOUNT.CONVERT_TO_HAVE_ACCOUNT')}
+                      </label>
                       <input
-                        style={{ appearance: 'auto' }}
+                        style={{ appearance: 'auto', width: '32px', marginLeft: '12px' }}
                         type="checkbox"
                         value={this.state.willConvertWorker}
                         onChange={(e) => this.toggleConvertWorker(e)}
@@ -752,23 +479,25 @@ class People extends Component {
                     <label>
                       {this.props.t('PROFILE.PEOPLE.PAY')} ({currencySymbol})
                     </label>
-                    <Cleave
-                      model=".editInfo.pay.amount"
-                      type="number"
-                      step="0.01"
-                      value={this.state.editedUser.wage.amount}
-                      onChange={this.updateWageAmount}
-                      onBlur={this.validationCheck}
-                    />
-                    <Control.select
-                      model=".editInfo.pay.type"
-                      onChange={this.updateWageType}
-                      defaultValue={this.state.editedUser.wage.type}
-                    >
-                      <option value="hourly">{this.props.t('PROFILE.PEOPLE.HOURLY')}</option>
-                      {/*<option value="daily">daily</option>*/}
-                      {/*<option value="annually">annually</option>*/}
-                    </Control.select>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Cleave
+                        model=".editInfo.pay.amount"
+                        type="number"
+                        step="0.01"
+                        value={this.state.editedUser.wage.amount}
+                        onChange={this.updateWageAmount}
+                        onBlur={this.validationCheck}
+                      />
+                      <Control.select
+                        model=".editInfo.pay.type"
+                        onChange={this.updateWageType}
+                        defaultValue={this.state.editedUser.wage.type}
+                      >
+                        <option value="hourly">{this.props.t('PROFILE.PEOPLE.HOURLY')}</option>
+                        {/*<option value="daily">daily</option>*/}
+                        {/*<option value="annually">annually</option>*/}
+                      </Control.select>
+                    </div>
                   </div>
                   {this.state.edit_wage_error.length > 0 && (
                     <span className={styles.error}>{this.state.edit_wage_error}</span>
@@ -779,7 +508,7 @@ class People extends Component {
                     </Button>
                   </div>
                 </Form>
-                {this.state.editUser.status === 'Inactive' ? (
+                {this.state.editUser.status === 'Inactive' && this.state.editUser.role_id !== 4 ? (
                   <div style={{ textAlign: 'center' }}>
                     {!this.state.editUser.is_admin && (
                       <button
@@ -792,7 +521,7 @@ class People extends Component {
                   </div>
                 ) : (
                   <div style={{ textAlign: 'center' }}>
-                    {!this.state.editUser.is_admin && (
+                    {!this.state.editUser.is_admin && this.state.editUser.role_id !== 4 && (
                       <button
                         className={styles.removeButton}
                         onClick={() => this.deactivate(this.state.editUser.user_id)}

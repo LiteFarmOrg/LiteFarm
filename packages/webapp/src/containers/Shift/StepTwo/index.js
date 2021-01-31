@@ -18,6 +18,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { fieldsSelector } from '../../fieldSlice';
 import { useTranslation, withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class ShiftStepTwo extends Component {
   constructor(props) {
@@ -231,7 +232,8 @@ class ShiftStepTwo extends Component {
     this.setState({ cropDurations, availableDuration, finalForm });
   }
 
-  handleCropChange = (selectedOption, duration, task_id) => {
+  handleCropChange = (selectedOptions, duration, task_id) => {
+    let options = selectedOptions || [];
     let { finalForm, cropDurations } = this.state;
     finalForm[task_id].is_field = false;
     finalForm[task_id].val = [];
@@ -243,12 +245,12 @@ class ShiftStepTwo extends Component {
       totalTimeInput.value = 0;
     }
 
-    for (let option of selectedOption) {
+    for (let option of options) {
       finalForm[task_id].val.push({ id: option.value });
       cropDurations[task_id].push({
         crop_id: option.value,
         crop_name: option.label,
-        duration: duration / selectedOption.length,
+        duration: duration / options.length,
       });
     }
 
@@ -258,11 +260,12 @@ class ShiftStepTwo extends Component {
     });
   };
 
-  handleFieldChange = (selectedOption, task_id) => {
+  handleFieldChange = (selectedOptions, task_id) => {
+    const options = selectedOptions || [];
     let finalForm = this.state.finalForm;
     finalForm[task_id].is_field = true;
     finalForm[task_id].val = [];
-    for (let option of selectedOption) {
+    for (let option of options) {
       finalForm[task_id].val.push({ id: option.value });
     }
     this.setState({
@@ -852,6 +855,7 @@ function InputDuration({
                     <div className={styles.durationInput}>
                       <input
                         type="number"
+                        onKeyDown={numberOnKeyDown}
                         value={cd.duration}
                         onChange={(event) =>
                           changeDuration(event, task.task_id, true, cd.crop_id, setDuration)
@@ -870,6 +874,7 @@ function InputDuration({
                     id={'total_crop_input-' + task.task_id}
                     value={duration}
                     type="number"
+                    onKeyDown={numberOnKeyDown}
                     placeholder={0}
                     onChange={(event) => {
                       onDurationChange(event.target.value, task.task_id);
@@ -940,6 +945,7 @@ function InputDuration({
             <input
               id={'input-field-' + task.task_id}
               type="number"
+              onKeyDown={numberOnKeyDown}
               value={duration}
               onChange={(event) => {
                 setDuration(event.target.value);

@@ -6,8 +6,8 @@ import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 
-import { currentLogSelector } from './selectors';
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
+import { currentLogSelector } from './selectors';
 import { convertFromMetric, getUnit, roundToFourDecimal, roundToTwoDecimal } from '../../../util';
 import { getFertilizers } from '../FertilizingLog/actions';
 import { fertSelector } from '../FertilizingLog/selectors';
@@ -17,6 +17,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { Semibold } from '../../../components/Typography';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -89,7 +90,9 @@ class LogDetail extends Component {
 
     for (let d of diseases) {
       if (d.disease_id === d_id) {
-        return this.props.t(`disease:name.${d.disease_name_translation_key}`);
+        return d.farm_id
+          ? this.props.t(`disease:name.${d.disease_name_translation_key}`)
+          : d.disease_common_name;
       }
     }
 
@@ -227,12 +230,14 @@ class LogDetail extends Component {
                   key={dropDown}
                   id={`dropdown-basic-${dropDown}`}
                 >
-                  <Dropdown.Item
-                    eventKey="0"
-                    onClick={() => this.editLog(selectedLog.activity_kind)}
-                  >
-                    {this.props.t('common:EDIT')}
-                  </Dropdown.Item>
+                  {selectedLog.activity_kind !== 'harvest' && (
+                    <Dropdown.Item
+                      eventKey="0"
+                      onClick={() => this.editLog(selectedLog.activity_kind)}
+                    >
+                      {this.props.t('common:EDIT')}
+                    </Dropdown.Item>
+                  )}
                   <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>
                     {this.props.t('common:DELETE')}
                   </Dropdown.Item>
@@ -381,20 +386,48 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
-                  <div>
-                    {this.props.t('LOG_HARVEST.HARVEST_QUANTITY')}({quantity_unit})
-                  </div>
+                  <div>{`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}</div>
                   {quantity_unit === 'lb' && (
                     <span>
-                      {convertFromMetric(
-                        selectedLog.harvestLog.quantity_kg,
-                        quantity_unit,
-                        'kg',
-                        false,
+                      {roundToTwoDecimal(
+                        convertFromMetric(
+                          selectedLog.harvestLog.quantity_kg,
+                          quantity_unit,
+                          'kg',
+                          false,
+                        ),
                       )}
                     </span>
                   )}
-                  {quantity_unit === 'kg' && <span>{selectedLog.harvestLog.quantity_kg}</span>}
+                  {quantity_unit === 'kg' && (
+                    <span>{roundToTwoDecimal(selectedLog.harvestLog.quantity_kg)}</span>
+                  )}
+                </div>
+              </div>
+              <div className={styles.infoBlock}>
+                <div className={styles.harvestUseInfo}>
+                  <div className={styles.harvestUseHeader}>
+                    <div>{this.props.t('LOG_HARVEST.HARVEST_USE')}</div>
+                    <div>{`${this.props.t('LOG_HARVEST.QUANTITY')} (${quantity_unit})`}</div>
+                  </div>
+                  {selectedLog.harvestUse?.map((use) => (
+                    <div className={styles.harvestUseItem}>
+                      <Semibold style={{ color: 'var(--teal900)' }}>
+                        {this.props.t(
+                          `harvest_uses:${use.harvestUseType.harvest_use_type_translation_key}`,
+                        )}
+                      </Semibold>
+                      <div>
+                        <Semibold style={{ color: 'var(--teal900)' }}>
+                          {quantity_unit === 'lb'
+                            ? roundToTwoDecimal(
+                                convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
+                              )
+                            : roundToTwoDecimal(use.quantity_kg)}
+                        </Semibold>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -504,8 +537,7 @@ class LogDetail extends Component {
                 <div className={styles.innerInfo}>
                   <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
                   <span>
-                    {selectedLog.irrigationLog['flow_rate_l/min']}{' '}
-                    {selectedLog.irrigationLog.flow_rate_unit}
+                    {selectedLog.irrigationLog['flow_rate_l/min']}{' l/min'}
                   </span>
                 </div>
               </div>

@@ -12,10 +12,8 @@ import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader } from '../../saga';
+import { getHeader, axios } from '../../saga';
 import i18n from '../../../lang/i18n';
-
-const axios = require('axios');
 
 export function* getPesticideSaga() {
   const { pesticideUrl } = apiConfig;
@@ -96,7 +94,7 @@ export function* editPestControlLog(payload) {
     const result = yield call(axios.put, logURL + `/${pcLog.activity_id}`, pcLog, header);
     if (result) {
       history.push('/log');
-      toastr.error(i18n.t('message:LOG.SUCCESS.EDIT'));
+      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
   } catch (e) {
     console.log('failed to edit log');

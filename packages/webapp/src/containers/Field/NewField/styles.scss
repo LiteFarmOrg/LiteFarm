@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   z-index: 0;
+  position: relative;
 }
 
 .div[title='Stop drawing'] {
@@ -45,10 +46,10 @@
 }
 
 .infoButton {
-  position: fixed;
+  position: absolute;
   right: 0;
   z-index: 10;
-  width: 7%;
+  width: 40px;
   button {
     height: 48px;
     width: 100%;
@@ -61,7 +62,7 @@
 .backButton {
   position: absolute;
   z-index: 10;
-  width: 7%;
+  width: 40px;
   button {
     height: 48px;
     width: 100%;

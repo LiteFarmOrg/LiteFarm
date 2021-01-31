@@ -11,6 +11,8 @@ export function onLoadingFail(state, { payload: error }) {
   state.loaded = true;
 }
 
+const adminRoles = [1, 2, 5];
+
 export const initialState = {
   farmIdUserIdTuple: [
     // {farm_id, user_id}
@@ -43,6 +45,17 @@ const addUserFarm = (state, { payload: userFarm }) => {
   state.byFarmIdUserId[farm_id][user_id] = userFarm;
 };
 
+const removeUserFarm = (state, { payload: userFarm }) => {
+  const { farm_id, user_id } = userFarm;
+  if (state.byFarmIdUserId[farm_id]?.[user_id]) {
+    delete state.byFarmIdUserId[farm_id]?.[user_id];
+    state.farmIdUserIdTuple = state.farmIdUserIdTuple.filter(
+      (farmIdUserIdTuple) =>
+        farmIdUserIdTuple.farm_id !== farm_id && farmIdUserIdTuple.user_id !== user_id,
+    );
+  }
+};
+
 const userFarmSlice = createSlice({
   name: 'userFarmReducer',
   initialState,
@@ -71,7 +84,7 @@ const userFarmSlice = createSlice({
         }
         const prevUserFarms = state.byFarmIdUserId[farm_id] || {};
         state.byFarmIdUserId[farm_id] = prevUserFarms;
-        state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[farm_id] || {};
+        state.byFarmIdUserId[farm_id][user_id] = prevUserFarms[user_id] || {};
         Object.assign(state.byFarmIdUserId[farm_id][user_id], userFarm);
       });
     },
@@ -138,6 +151,16 @@ const userFarmSlice = createSlice({
       state.user_id = userFarm.user_id;
       state.farm_id = userFarm.farm_id;
     },
+    invitePseudoUserSuccess: (state, { payload: { newUserFarm, pseudoUserFarm } }) => {
+      removeUserFarm(state, { payload: pseudoUserFarm });
+      addUserFarm(state, { payload: newUserFarm });
+    },
+    setLoadingStart: (state, {}) => {
+      state.loading = true;
+    },
+    setLoadingEnd: (state, {}) => {
+      state.loading = false;
+    },
   },
 });
 
@@ -160,6 +183,9 @@ export const {
   logoutSuccess,
   selectFarmSuccess,
   acceptInvitationSuccess,
+  invitePseudoUserSuccess,
+  setLoadingStart,
+  setLoadingEnd,
 } = userFarmSlice.actions;
 export default userFarmSlice.reducer;
 
@@ -176,8 +202,9 @@ export const userFarmsByUserSelector = createSelector(
 );
 export const userFarmsByFarmSelector = createSelector(
   [loginSelector, userFarmReducerSelector],
-  ({ farm_id }, { byFarmIdUserId, loading, error, ...rest }) => {
-    return farm_id ? Object.values(byFarmIdUserId[farm_id]) : [];
+  ({ farm_id, user_id }, { byFarmIdUserId, loading, error, ...rest }) => {
+    if (!farm_id) return [];
+    return Object.values(byFarmIdUserId[farm_id]);
   },
 );
 export const userFarmSelector = createSelector(
@@ -199,6 +226,10 @@ export const userFarmLengthSelector = createSelector(
   ({ farmIdUserIdTuple }) => {
     return farmIdUserIdTuple.length;
   },
+);
+export const userFarmEntitiesSelector = createSelector(
+  userFarmReducerSelector,
+  ({ byFarmIdUserId }) => byFarmIdUserId,
 );
 
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {

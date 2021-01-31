@@ -36,19 +36,25 @@
   }
 }
 
-.pullLeft {
-  padding-top: 10px;
-  width: 45%;
-  margin: 0;
-  float: left;
+
+.dateContainer {
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  max-width: 100%;
+}
+@media screen and (min-width: 500px)  {
+  .dateContainer{
+    width: 45%;
+  }
+  .pullRight {
+    float: right;
+  }
+  .pullLeft {
+    float: left;
+  }
 }
 
-.pullRight {
-  padding-top: 10px;
-  width: 45%;
-  float: right;
-  margin: 0;
-}
+
 
 .table {
   padding-top: 20px;
@@ -264,11 +270,17 @@ input:disabled {
 .popupTitle {
   display: flex;
   flex-direction: row;
-  width: 70%;
-  justify-content: space-between;
+  h3{
+    flex-grow: 1;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    margin-bottom: 20px;
+    color: var(--fontColor);
+    font-family: 'Open Sans', 'SansSerif', serif;
+  }
   align-items: center;
-  margin-bottom: 10%;
-  margin-top: 2em;
 }
 
 .close {
@@ -350,14 +362,14 @@ input:disabled {
 }
 
 .cropButton {
-  background: var(--buttonAux);
+  background: var(--teal700);
   width: 50%;
   height: 100%;
   padding: 2%;
 }
 
 .fieldButton {
-  background: var(--typeAction);
+  background: var(--teal900);
   width: 50%;
   height: 100%;
   padding: 2%;
@@ -410,17 +422,23 @@ input:disabled {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 8px;
+  margin-top: 18px;
   align-items: center;
 }
 
 .durationInput {
-  width: 30%;
+  width: 50%;
+  display: flex;
   input {
     width: 100%;
-    border: 2px solid #d6d2d2;
-    border-radius: 10px;
-    height: 30px;
+    border: 1px solid var(--grey400);
+    border-radius: 4px;
+    height: 48px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    line-height: 24px;
+    font-size: 16px;
+    color: var(--fontColor);
+    text-align: center;
     margin: 0 auto;
     padding: 0 5%;
   }
@@ -536,29 +554,7 @@ input:disabled {
   }
 }
 
-.pullLeft {
-  label {
-    line-height: 4.5rem;
-    font-size: 15px;
-    margin-right: 7px;
-  }
-  padding-top: 10px;
-  width: 45%;
-  margin: 0;
-  float: left;
-}
 
-.pullRight {
-  label {
-    line-height: 4.5rem;
-    font-size: 15px;
-    margin-right: 7px;
-  }
-  padding-top: 10px;
-  width: 45%;
-  float: right;
-  margin: 0;
-}
 
 .filterContainer {
   display: flex;

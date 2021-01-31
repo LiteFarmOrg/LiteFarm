@@ -17,6 +17,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import TextArea from '../../../components/Form/TextArea';
 
 class SeedingLog extends Component {
   constructor(props) {
@@ -68,6 +69,7 @@ class SeedingLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          classes={{ container: { marginBottom: '24px' } }}
         />
         <Form
           model="logReducer.forms"
@@ -83,12 +85,12 @@ class SeedingLog extends Component {
           />
           <Unit
             model=".seedLog.space_depth_cm"
-            title={this.props.t('LOG_SEEDING.SPACE_DEPTH')}
+            title={this.props.t('LOG_SEEDING.SEEDING_DEPTH')}
             type={this.state.space_unit}
           />
           <Unit
             model=".seedLog.space_length_cm"
-            title={this.props.t('LOG_SEEDING.SPACE_LENGTH')}
+            title={this.props.t('LOG_SEEDING.SEED_SPACING')}
             type={this.state.space_unit}
           />
           <Unit
@@ -104,7 +106,7 @@ class SeedingLog extends Component {
           <div>
             <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".seedLog.notes" />
+              <Control component={TextArea} model=".seedLog.notes" />
             </div>
           </div>
           <LogFooter />

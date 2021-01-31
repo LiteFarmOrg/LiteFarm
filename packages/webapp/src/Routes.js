@@ -31,6 +31,8 @@ import FertilizingLog from './containers/Log/FertilizingLog';
 import PestControlLog from './containers/Log/PestControlLog';
 import FieldWorkLog from './containers/Log/FieldWorkLog';
 import HarvestLog from './containers/Log/HarvestLog';
+import HarvestUseType from './containers/Log/HarvestUseType';
+import HarvestAllocation from './containers/Log/HarvestAllocation';
 import IrrigationLog from './containers/Log/IrrigationLog';
 import ScoutingLog from './containers/Log/ScoutingLog';
 import SeedingLog from './containers/Log/SeedingLog';
@@ -49,8 +51,8 @@ import Shift from './containers/Shift';
 import Field from './containers/Field';
 import NewField from './containers/Field/NewField';
 import EditField from './containers/Field/EditField';
-import ShiftStepOne from './containers/Shift/StepOne';
-import ShiftStepTwo from './containers/Shift/StepTwo';
+import ShiftStepOne from './containers/Shift/StepOne/StepOne';
+import ShiftStepTwo from './containers/Shift/StepTwo/StepTwo';
 import Finances from './containers/Finances';
 import MyShift from './containers/Shift/MyShift';
 import EditShiftOne from './containers/Shift/EditShiftOne';
@@ -105,14 +107,14 @@ import OnboardingFlow from './routes/Onboarding';
 import { isAuthenticated } from './util/jwt';
 
 // action
-import { loginSuccess } from './containers/userFarmSlice';
 import { userFarmSelector } from './containers/userFarmSlice';
 import PasswordResetAccount from './containers/PasswordResetAccount';
 import InviteSignUp from './containers/InviteSignUp';
 import InvitedUserCreateAccount from './containers/InvitedUserCreateAccount';
 import Callback from './containers/Callback';
 import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
-import history from './history';
+import InviteUser from './containers/InviteUser';
+import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -125,13 +127,17 @@ const Routes = () => {
       pre.farm_id === next.farm_id &&
       pre.step_three === next.step_three,
   );
+  const { isInvitationFlow } = useSelector(
+    chooseFarmFlowSelector,
+    (pre, next) => pre.isInvitationFlow === next.isInvitationFlow,
+  );
   let { step_five, has_consent, role_id, status, step_one, farm_id, step_three } = userFarm;
   const hasSelectedFarm = !!farm_id;
   const hasFinishedOnBoardingFlow = step_five;
   if (isAuthenticated()) {
     role_id = Number(role_id);
     // TODO check every step
-    if (history.location.state?.isInvitationFlow) {
+    if (isInvitationFlow) {
       return (
         <Switch>
           <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -153,15 +159,8 @@ const Routes = () => {
           <Route
             path="/consent"
             exact
-            component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
+            component={() => <ConsentForm goForwardTo={'/'} goBackTo={null} />}
           />
-          {has_consent && (
-            <Route
-              path="/consent"
-              exact
-              component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
-            />
-          )}
           {!has_consent && <Redirect to={'/consent'} />}
         </Switch>
       );
@@ -179,6 +178,8 @@ const Routes = () => {
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/harvest_use_type" exact component={HarvestUseType} />
+          <Route path="/harvest_allocation" exact component={HarvestAllocation} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
           <Route path="/seeding_log" exact component={SeedingLog} />
@@ -260,6 +261,7 @@ const Routes = () => {
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
           <Route path="/password_reset" component={PasswordResetAccount} />
           <Route path={'/expired'} component={ExpiredTokenScreen} />
+          <Route path="/invite_user" exact component={InviteUser} />
           <Redirect
             to={'/'}
             //TODO change to 404
@@ -280,6 +282,8 @@ const Routes = () => {
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/harvest_use_type" exact component={HarvestUseType} />
+          <Route path="/harvest_allocation" exact component={HarvestAllocation} />
           <Route path="/help" exact component={HelpRequest} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
@@ -363,6 +367,7 @@ const Routes = () => {
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
           <Route path="/password_reset" component={PasswordResetAccount} />
           <Route path={'/expired'} component={ExpiredTokenScreen} />
+          <Route path="/invite_user" exact component={InviteUser} />
           <Redirect to={'/'} />
         </Switch>
       );
@@ -374,12 +379,17 @@ const Routes = () => {
           <Route path="/profile" exact component={Profile} />
           <Route path="/intro" exact component={IntroSlide} />
           <Route path="/consent" exact component={ConsentForm} />
+          <Route path="/field" exact component={Field} />
+          <Route path="/edit_field" exact component={EditField} />
+
           <Route path="/log" exact component={Log} />
           <Route path="/new_log" exact component={NewLog} />
           <Route path="/fertilizing_log" exact component={FertilizingLog} />
           <Route path="/pest_control_log" exact component={PestControlLog} />
           <Route path="/field_work_log" exact component={FieldWorkLog} />
           <Route path="/harvest_log" exact component={HarvestLog} />
+          <Route path="/harvest_use_type" exact component={HarvestUseType} />
+          <Route path="/harvest_allocation" exact component={HarvestAllocation} />
           <Route path="/irrigation_log" exact component={IrrigationLog} />
           <Route path="/scouting_log" exact component={ScoutingLog} />
           <Route path="/seeding_log" exact component={SeedingLog} />
@@ -422,6 +432,7 @@ const Routes = () => {
           <Route path="/accept_invitation/create_account" component={InvitedUserCreateAccount} />
           <Route path="/password_reset" component={PasswordResetAccount} />
           <Route path={'/expired'} component={ExpiredTokenScreen} />
+          <Route path="/help" exact component={HelpRequest} />
           <Redirect to={'/'} />
         </Switch>
       );

@@ -32,6 +32,7 @@ import { toastr } from 'react-redux-toastr';
 import { grabCurrencySymbol } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class EditShiftOne extends Component {
   constructor(props) {
@@ -308,6 +309,7 @@ class EditShiftOne extends Component {
             <div className={styles.timeInput}>
               <input
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 name="break_duration"
                 value={this.state.break_duration}
                 onChange={this.changeDuration}
@@ -323,6 +325,7 @@ class EditShiftOne extends Component {
             <div style={{ width: '25%' }}>
               <input
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 defaultValue={Number(selectedShift.wage_at_moment)}
                 onChange={(e) => this.changeWage(e)}
               />

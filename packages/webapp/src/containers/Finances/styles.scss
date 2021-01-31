@@ -49,10 +49,13 @@
 
 .dateContainer {
   label {
-    line-height: 4.5rem;
-    font-size: 1.8rem;
-    width: 75px;
-    font-weight: 300;
+    font-style: normal;
+    font-weight: normal;
+    color: var(--labels);
+    font-size: 14px;
+    line-height: 16px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    margin-bottom: 4px;
   }
   padding-top: 10px;
   width: 100%;

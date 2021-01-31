@@ -8,6 +8,7 @@ import { MdVisibilityOff, MdVisibility } from 'react-icons/all';
 import { BiSearchAlt2 } from 'react-icons/all';
 import { mergeRefs } from '../utils';
 import MoreInfo from '../../Tooltip/MoreInfo';
+import { useTranslation } from 'react-i18next';
 
 const Input = ({
   disabled = false,
@@ -22,26 +23,32 @@ const Input = ({
   isSearchBar,
   type = 'text',
   toolTipContent,
-  clearErrors = () => {},
+  reset,
   ...props
 }) => {
+  const { t } = useTranslation();
   const input = useRef();
-  const onClear = () => {
-    if (input.current && input.current.value) {
-      input.current.value = '';
-      clearErrors(props.name);
-      setShowError(false);
-    }
-  };
+  const onClear =
+    optional || reset
+      ? () => reset()
+      : () => {
+          if (input.current && input.current?.value) {
+            input.current.value = '';
+            setShowError(false);
+          }
+        };
+  useEffect(() => {
+    setShowError(!!errors);
+  }, [errors]);
+
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
   const [showError, setShowError] = useState(isPassword);
-  useEffect(() => {
-    errors: setShowError(!!errors);
-  }, [errors]);
+
+  const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
   return (
     <div
       className={clsx(styles.container)}
@@ -53,7 +60,7 @@ const Input = ({
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>
-                (optional)
+                ({t('common:OPTIONAL')})
               </Label>
             )}
           </Label>
@@ -81,10 +88,11 @@ const Input = ({
         aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(inputRef, input)}
         type={inputType}
+        onKeyDown={onKeyDown}
         {...props}
       />
-      {info && !errors && <Info style={classes.info}>{info}</Info>}
-      {showError && !disabled ? <Error>{errors}</Error> : null}
+      {info && !showError && <Info style={classes.info}>{info}</Info>}
+      {showError && !disabled ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
   );
 };
@@ -101,6 +109,7 @@ Input.propTypes = {
     label: PropTypes.object,
     container: PropTypes.object,
     info: PropTypes.object,
+    errors: PropTypes.object,
   }),
   icon: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   inputRef: PropTypes.oneOfType([
@@ -111,6 +120,12 @@ Input.propTypes = {
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
   toolTipContent: PropTypes.string,
+  // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
+  reset: PropTypes.func,
 };
 
 export default Input;
+
+export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
+export const integerOnKeyDown = (e) =>
+  ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();

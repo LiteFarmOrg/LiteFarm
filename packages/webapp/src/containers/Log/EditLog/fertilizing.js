@@ -25,6 +25,8 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
+import TextArea from '../../../components/Form/TextArea';
 
 class FertilizingLog extends Component {
   constructor(props) {
@@ -300,12 +302,14 @@ class FertilizingLog extends Component {
                   onChange={this.setSelectedFert}
                 />
               </div>
-              <div>
-                <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
-                  {' '}
-                  + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}{' '}
+              { [1,2,5].includes(this.props.farm.role_id) &&
+                <div>
+                  <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
+                    {' '}
+                    + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}{' '}
+                  </div>
                 </div>
-              </div>
+              }
               <Unit
                 model=".fertLog.quantity_kg"
                 title={this.props.t('LOG_COMMON.QUANTITY')}
@@ -314,7 +318,7 @@ class FertilizingLog extends Component {
               />
               <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
               <div className={styles.noteContainer}>
-                <Control.textarea model=".fertLog.notes" />
+                <Control model=".fertLog.notes" component={TextArea} />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem ? 'Hide' : 'Show'}{' '}
@@ -368,10 +372,15 @@ class FertilizingLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                height: '100vh',
-                padding: '0 5%',
+                minHeight: '100vh',
+                padding: '92px 24px 0 24px',
+                justifyContent: 'center',
               }}
-              overlayStyle={{ zIndex: '1060', height: '100vh' }}
+              overlayStyle={{
+                minHeight: '100vh',
+                top: 'auto',
+                zIndex: 1,
+              }}
             >
               <Form
                 className={styles.formContainer}
@@ -405,27 +414,52 @@ class FertilizingLog extends Component {
                 </div>
                 <div className={styles.chemContainer}>
                   <label>NO3({this.props.t('LOG_COMMON.NITRATE')})</label>
-                  <Control.input type="number" step="any" model=".fertLog.n_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.n_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>NH4({this.props.t('LOG_COMMON.AMMONIA')})</label>
-                  <Control.input type="number" step="any" model=".fertLog.nh4_n_ppm" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.nh4_n_ppm"
+                  />
                   <span>ppm</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>K({this.props.t('LOG_COMMON.POTASSIUM')})</label>
-                  <Control.input type="number" step="any" model=".fertLog.k_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.k_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>P({this.props.t('LOG_COMMON.PHOSPHATE')})</label>
-                  <Control.input type="number" step="any" model=".fertLog.p_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.p_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
                   <label>H2O</label>
-                  <Control.input type="number" step="any" model=".fertLog.moisture_percentage" />
+                  <Control.input
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    step="any"
+                    model=".fertLog.moisture_percentage"
+                  />
                   <span>%</span>
                 </div>
                 <div className={styles.centerButton}>

@@ -14,11 +14,15 @@
  */
 
 const baseController = require('../controllers/baseController');
+const userController = require('../controllers/userController');
 const userFarmModel = require('../models/userFarmModel');
 const userModel = require('../models/userModel');
+const userLogModel = require('../models/userLogModel');
 const farmModel = require('../models/farmModel');
 const passwordModel = require('../models/passwordModel');
 const emailTokenModel = require('../models/emailTokenModel');
+const roleModel = require('../models/roleModel');
+const shiftModel = require('../models/shiftModel');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const { transaction, Model } = require('objection');
 const axios = require('axios');
@@ -34,8 +38,8 @@ const { createToken } = require('../util/jwt');
 
 const validStatusChanges = {
   'Active': ['Inactive'],
-  'Inactive': ['Active'],
-  'Invited': ['Inactive', 'Active'],
+  'Inactive': ['Invited'],
+  'Invited': ['Inactive']
 };
 
 class userFarmController extends baseController {
@@ -82,6 +86,8 @@ class userFarmController extends baseController {
             'userFarm.role_id',
             'role.role',
             'userFarm.status',
+            'userFarm.farm_id',
+            'userFarm.user_id',
           ).where('userFarm.farm_id', farm_id)
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id');
@@ -150,34 +156,6 @@ class userFarmController extends baseController {
     };
   }
 
-  static addUserFarm() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      try {
-        const { user_id, farm_id, role } = req.body;
-        let role_id = 0;
-
-        const data = await knex.raw(
-          `SELECT * FROM "role" r WHERE r.role=?`, [role],
-        );
-
-        if (data.rows && data.rows.length > 0) {
-          role_id = data.rows[0].role_id;
-        }
-
-        const reqBody = { user_id, farm_id, role_id };
-        const result = await baseController.postWithResponse(userFarmModel, reqBody, trx);
-        await trx.commit();
-        res.status(201).send(result);
-      } catch (error) {
-        //handle more exceptions
-        await trx.rollback();
-        res.status(400).send(error);
-      }
-    };
-  }
-
-
   static async getAuthExtensionToken() {
     const { token_url, token_headers, token_body } = authExtensionConfig;
     try {
@@ -197,105 +175,83 @@ class userFarmController extends baseController {
     }
   }
 
-  static getAllRolePermissions() {
-    return async (req, res) => {
-      try {
-        const token = await this.getAuthExtensionToken();
-        const { authExtensionUri } = authExtensionConfig;
-        const headers = {
-          'content-type': 'application/json',
-          'Authorization': 'Bearer ' + token,
-        };
-
-        const permissions = {};
-        const permissionsRawData = await axios({
-          url: `${authExtensionUri}/api/permissions`,
-          method: 'get',
-          headers,
-        });
-        permissionsRawData.data.permissions.forEach(permission => {
-          const { _id, name, description } = permission;
-          permissions[_id] = { permission_id: _id, name, description };
-        });
-
-        const rolesRawData = await axios({
-          url: `${authExtensionUri}/api/roles`,
-          method: 'get',
-          headers,
-        });
-        const roles = rolesRawData.data.roles.map(role => {
-          const { _id, name, description, permissions: rolePermissions } = role;
-          const roleData = {
-            role_id: _id,
-            name,
-            description,
-            permissions: [],
-          };
-          rolePermissions.forEach(rolePermissionId => {
-            roleData['permissions'].push(permissions[rolePermissionId]);
-          });
-          return roleData;
-        });
-        res.status(201).send(roles);
-      } catch (error) {
-        res.send(error);
-      }
-    };
-  }
+  // static getAllRolePermissions() {
+  //   return async (req, res) => {
+  //     try {
+  //       const token = await this.getAuthExtensionToken();
+  //       const { authExtensionUri } = authExtensionConfig;
+  //       const headers = {
+  //         'content-type': 'application/json',
+  //         'Authorization': 'Bearer ' + token,
+  //       };
+  //
+  //       const permissions = {};
+  //       const permissionsRawData = await axios({
+  //         url: `${authExtensionUri}/api/permissions`,
+  //         method: 'get',
+  //         headers,
+  //       });
+  //       permissionsRawData.data.permissions.forEach(permission => {
+  //         const { _id, name, description } = permission;
+  //         permissions[_id] = { permission_id: _id, name, description };
+  //       });
+  //
+  //       const rolesRawData = await axios({
+  //         url: `${authExtensionUri}/api/roles`,
+  //         method: 'get',
+  //         headers,
+  //       });
+  //       const roles = rolesRawData.data.roles.map(role => {
+  //         const { _id, name, description, permissions: rolePermissions } = role;
+  //         const roleData = {
+  //           role_id: _id,
+  //           name,
+  //           description,
+  //           permissions: [],
+  //         };
+  //         rolePermissions.forEach(rolePermissionId => {
+  //           roleData['permissions'].push(permissions[rolePermissionId]);
+  //         });
+  //         return roleData;
+  //       });
+  //       res.status(201).send(roles);
+  //     } catch (error) {
+  //       res.send(error);
+  //     }
+  //   };
+  // }
 
   static updateConsent() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      const user_id = req.params.user_id;
-      const farm_id = req.params.farm_id;
-
-      let subject;
-      let template_path;
-      const has_consent = req.body.has_consent;
-      const consent_version = req.body.consent_version;
-      const sender = 'system@litefarm.org';
-
       try {
-
-        const rows = await userFarmModel.query().select('*').where('userFarm.user_id', user_id).andWhere('userFarm.farm_id', farm_id)
-          .leftJoin('role', 'userFarm.role_id', 'role.role_id')
-          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
-          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        const patch = { has_consent, consent_version };
-        if (has_consent) {
-          patch.status = 'Active';
-        }
-        const isPatched = await userFarmModel.query(trx).where('user_id', user_id).andWhere('farm_id', farm_id)
-          .patch(patch);
-
-        const replacements = {
-          first_name: rows[0].first_name,
-          farm: rows[0].farm_name,
-        };
-        if (has_consent === false) {
-          template_path = emails.WITHHELD_CONSENT;
-        } else {
-          template_path = emails.CONFIRMATION;
-          template_path.subjectReplacements = rows[0].farm_name;
-          replacements['role'] = rows[0].role;
-        }
-        if (isPatched) {
-          await trx.commit();
-          res.sendStatus(200);
-          //send out confirmation or withdrew consent email
-          try{
-            await sendEmailTemplate.sendEmail(template_path, replacements, rows[0].email, sender, null, rows[0].language_preference);
-          }catch (e){
-            console.log(e);
+        const { user_id, farm_id } = req.params;
+        const { has_consent, consent_version } = req.body;
+        await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
+        res.sendStatus(200);
+        try {
+          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
+            .leftJoin('role', 'userFarm.role_id', 'role.role_id')
+            .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+            .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
+          let template_path;
+          const sender = 'system@litefarm.org';
+          const replacements = {
+            first_name: userFarm.first_name,
+            farm: userFarm.farm_name,
+          };
+          if (has_consent === false) {
+            template_path = emails.WITHHELD_CONSENT;
+          } else {
+            template_path = emails.CONFIRMATION;
+            template_path.subjectReplacements = userFarm.farm_name;
+            replacements['role'] = userFarm.role;
           }
-        } else {
-          await trx.rollback();
-          res.sendStatus(404);
+          return await sendEmailTemplate.sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
+        } catch (e) {
+          console.log(e);
         }
       } catch (error) {
-        //handle more exceptions
-        await trx.rollback();
-        res.status(400).send(error);
+        return res.status(400).send(error);
       }
     };
   }
@@ -352,50 +308,22 @@ class userFarmController extends baseController {
 
   static updateRole() {
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      const farm_id = req.params.farm_id;
-      const user_id = req.params.user_id;
-      const { role } = req.body;
-      let role_id = 0;
-
-      const data = await knex.raw(
-        `SELECT * FROM "role" r WHERE r.role=?`, [role],
-      );
-
-      if (data.rows && data.rows.length > 0) {
-        role_id = data.rows[0].role_id;
-      }
-
-      if (!role_id) {
-        res.status(400).send('role_id not found');
-        return;
-      }
       try {
-        const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
-          .patch({
-            role_id,
-          });
-        if (isPatched) {
-          const ownersManagersExtensionOfficers = await userFarmModel.query(trx)
-            .where('farm_id', farm_id)
-            .where(builder => builder.where('role_id', 1).orWhere('role_id', 2).orWhere('role_id', 5));
-          if (ownersManagersExtensionOfficers.length == 0) {
-            await trx.rollback();
-            res.sendStatus(400);
-            return;
-          }
-          await trx.commit();
-          res.sendStatus(200);
-          return;
-        } else {
-          await trx.rollback();
-          res.sendStatus(404);
-          return;
+        const farm_id = req.params.farm_id;
+        const user_id = req.params.user_id;
+        const { role_id } = req.body;
+        const role = await roleModel.query().findById(role_id);
+        if (!role) {
+          return res.status(400).send('role_id not found');
+        } else if (role_id === 4) {
+          return res.status(400).send('Can\'t change user\'s role to pseudo user');
         }
+        const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch({ role_id });
+        return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
+
       } catch (error) {
-        // handle more exceptions
-        await trx.rollback();
-        res.status(400).send(error);
+        console.log(error);
+        return res.status(400).send(error);
       }
     };
   }
@@ -403,7 +331,6 @@ class userFarmController extends baseController {
   static updateStatus() {
     //TODO clean up
     return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
       const farm_id = req.params.farm_id;
       const user_id = req.params.user_id;
       const { status } = req.body;
@@ -423,12 +350,11 @@ class userFarmController extends baseController {
           first_name: targetUser.first_name,
           farm: targetUser.farm_name,
         };
-        const sender = 'help@litefarm.org';
+        const sender = 'system@litefarm.org';
 
         // check if status transition is allowed
-        let currentStatus = targetUser.status;
+        const currentStatus = targetUser.status;
         if (!validStatusChanges[currentStatus].includes(status)) {
-          await trx.rollback();
           res.sendStatus(400);
           return;
         }
@@ -441,12 +367,11 @@ class userFarmController extends baseController {
           template_path = emails.ACCESS_RESTORE;
           template_path.subjectReplacements = targetUser.farm_name;
         }
-        const isPatched = await userFarmModel.query(trx).where('farm_id', farm_id).andWhere('user_id', user_id)
+        const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
             status,
           });
         if (isPatched) {
-          await trx.commit();
           res.sendStatus(200);
           try {
             console.log('template_path:', template_path);
@@ -458,14 +383,12 @@ class userFarmController extends baseController {
           }
           return;
         } else {
-          await trx.rollback();
           res.sendStatus(404);
           return;
         }
       } catch (error) {
         // handle more exceptions
-        await trx.rollback();
-        res.status(400).send(error);
+        return res.status(400).send(error);
       }
     };
   }
@@ -473,19 +396,19 @@ class userFarmController extends baseController {
   static acceptInvitation() {
     return async (req, res) => {
       let result;
-      const { user_id, farm_id, invitation_id, email } = req.user;
+      const { user_id, farm_id } = req.user;
       const { language_preference } = req.body;
       if (!/^\d+$/.test(user_id)) {
         const user = await userModel.query().findById(user_id).patch({ language_preference }).returning('*');
         const passwordRow = await passwordModel.query().findById(user_id);
-        if (!passwordRow || user.status === 2) {
+        if (!passwordRow || user.status_id === 2) {
           return res.status(404).send('User does not exist');
         }
       }
-      const userFarm = await userFarmModel.query().where({
+      await userFarmModel.query().where({
         user_id,
         farm_id,
-      }).patch({ status: 'Active' }).returning('*');
+      }).patch({ status: 'Active' });
       result = await userFarmModel.query().withGraphFetched('[role, farm, user]').findById([user_id, farm_id]);
       result = { ...result.user, ...result, ...result.role, ...result.farm };
       delete result.farm;
@@ -493,6 +416,14 @@ class userFarmController extends baseController {
       delete result.role;
       const id_token = await createToken('access', { user_id });
       return res.status(200).send({ id_token, user: result });
+    };
+  }
+
+  static acceptInvitationWithAccessToken() {
+    return async (req, res) => {
+      const { farm_id } = req.params;
+      req.user.farm_id = farm_id;
+      return await userFarmController.acceptInvitation()(req, res);
     };
   }
 
@@ -521,6 +452,86 @@ class userFarmController extends baseController {
         // handle more exceptions
         await trx.rollback();
         res.status(400).send(error);
+      }
+    };
+  }
+
+  static patchPseudoUserEmail() {
+    return async (req, res) => {
+      const { user_id, farm_id } = req.params;
+      const { email } = req.body;
+      const roleIdAndWage = {};
+      roleIdAndWage.role_id = (!req.body.role_id || req.body.role_id === 4) ? 3 : req.body.role_id;
+      if (req.body.wage) {
+        roleIdAndWage.wage = req.body.wage;
+      }
+      let userFarm;
+      try {
+        await userFarmModel.transaction(async trx => {
+          userFarm = await userFarmModel.query(trx).findById([user_id, farm_id]);
+          if (userFarm.role_id !== 4) {
+            // TODO: move validation
+            throw new Error('User already has an account');
+          }
+          const user = await userModel.query(trx).where({ email }).first();
+          const isExistingAccount = !!user;
+          const isUserAMemberOfFarm = isExistingAccount ? !!await userFarmModel.query(trx).findById([user.user_id, farm_id]) : false;
+          if (isUserAMemberOfFarm) {
+            const { user_id: newUserId } = user;
+            await userFarmModel.query(trx).findById([user.user_id, farm_id]).patch({
+              status: 'Invited',
+              step_three: false,
+              has_consent: false,
+              ...roleIdAndWage,
+            });
+            await shiftModel.query(trx).context({ user_id: newUserId }).where({ user_id }).patch({ user_id: newUserId });
+            await userFarmModel.query(trx).where({ user_id }).delete();
+            await userLogModel.query(trx).where({ user_id }).delete();
+            await userModel.query(trx).findById(user_id).delete();
+          } else if (isExistingAccount) {
+            const { user_id: newUserId } = user;
+            await userFarmModel.query(trx).insert({
+              ...userFarm,
+              user_id: newUserId,
+              status: 'Invited',
+              step_three: false,
+              has_consent: false,
+              ...roleIdAndWage,
+            });
+            await shiftModel.query(trx).context({ user_id: newUserId }).where({ user_id }).patch({ user_id: newUserId });
+            await userFarmModel.query(trx).where({ user_id }).delete();
+            await userLogModel.query(trx).where({ user_id }).delete();
+            await userModel.query(trx).findById(user_id).delete();
+            return;
+          } else {
+            await userModel.query(trx).context({ shouldUpdateEmail: true }).findById(user_id).patch({
+              email,
+              status_id: 2,
+            }).returning('*');
+            await userFarmModel.query(trx).findById([user_id, farm_id]).patch({
+              status: 'Invited',
+              step_three: false,
+              has_consent: false,
+              ...roleIdAndWage,
+            });
+            return;
+          }
+        });
+        userFarm = await userFarmModel.query()
+          .join('users', 'userFarm.user_id', '=', 'users.user_id')
+          .join('farm', 'farm.farm_id', '=', 'userFarm.farm_id')
+          .join('role', 'userFarm.role_id', '=', 'role.role_id')
+          .where({ 'users.email': email, 'userFarm.farm_id': farm_id }).first()
+          .select('*');
+        res.status(201).send(userFarm);
+      } catch (e) {
+        res.status(400).send(e);
+      }
+      try {
+        const { farm_name } = userFarm;
+        await userController.createTokenSendEmail(userFarm, userFarm, farm_name);
+      } catch (e) {
+        console.log(e);
       }
     };
   }

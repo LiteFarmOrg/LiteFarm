@@ -5,10 +5,11 @@ import vectorUp from '../../../assets/images/navbar/vector-up.svg';
 import vectorDown from '../../../assets/images/navbar/vector-down.svg';
 import styles from './styles.scss';
 import history from '../../../history';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { userFarmSelector } from '../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
+import { setDefaultDateRange } from '../../Log/actions';
 
 function SlideMenu() {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ function SlideMenu() {
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
   const farm = useSelector(userFarmSelector);
+  const dispatch = useDispatch();
   const toggleSupport = () => {
     setSupportOpen(!supportOpen);
   };
@@ -50,15 +52,14 @@ function SlideMenu() {
         }
         {manageOpen && (
           <div className={styles['sub-menu']} style={{ display: 'grid' }}>
-            {(Number(farm.role_id) === 1 ||
-              Number(farm.role_id) === 2 ||
-              Number(farm.role_id) === 5) && (
-              <a id="field" className="menu-item" onClick={() => handleClick('/Field')}>
-                <span>{t('SLIDE_MENU.FIELDS')}</span>
-              </a>
-            )}
-            {/* <a id="crops" className="menu-item" ><span>Crops</span></a> */}
-            <a id="log" className="menu-item" onClick={() => handleClick('/Log')}>
+            <a id="field" className="menu-item" onClick={() => handleClick('/Field')}>
+              <span>{t('SLIDE_MENU.FIELDS')}</span>
+            </a>
+
+            <a id="log" className="menu-item" onClick={() => {
+              dispatch(setDefaultDateRange());
+              handleClick('/Log')
+            }}>
               <span>{t('SLIDE_MENU.LOGS')}</span>
             </a>
             <a id="shift" className="menu-item" onClick={() => handleClick('/Shift')}>
@@ -87,27 +88,6 @@ function SlideMenu() {
           <a id="insights" className="menu-item" onClick={() => handleClick('/Insights')}>
             <span>{t('SLIDE_MENU.INSIGHTS')}</span>
           </a>
-        )}
-        {
-          <a id="support" className="menu-item" onClick={() => toggleSupport()}>
-            <span>{t('SLIDE_MENU.SUPPORT')}</span>
-            <img src={supportOpen ? vectorUp : vectorDown} alt={'logo'} />
-          </a>
-        }
-        {supportOpen && (
-          <div className={styles['sub-menu']} style={{ display: 'grid' }}>
-            {(Number(farm.role_id) === 1 ||
-              Number(farm.role_id) === 2 ||
-              Number(farm.role_id) === 3 ||
-              Number(farm.role_id) === 5) && (
-              <a id="demo" className="menu-item" onClick={() => handleClick('/intro')}>
-                <span>{t('SLIDE_MENU.DEMOS')}</span>
-              </a>
-            )}
-            {/*<a id="contact" className="menu-item" onClick={() => handleClick("/contact")}><span>Contact us</span></a>*/}
-            {/*<a id="terms" className="menu-item"*/}
-            {/*   onClick={() => handleClick("/consent")}><span>Privacy Policy</span></a>*/}
-          </div>
         )}
       </Menu>
     </div>

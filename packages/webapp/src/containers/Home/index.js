@@ -1,72 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSeason } from './utils/season';
-import { toastr } from 'react-redux-toastr';
 import WeatherBoard from '../../containers/WeatherBoard';
 import PureHome from '../../components/Home';
-import { userFarmSelector } from '../userFarmSlice';
+import { userFarmSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useTranslation } from 'react-i18next';
 import FarmSwitchOutro from '../FarmSwitchOutro';
-import history from '../../history';
-import { spotlightSelector } from '../selector';
-import ResetSuccessModal from '../../components/Modals/ResetPasswordSuccess';
-import RequestConfirmationComponent, {
-  PureRequestConfirmationComponent,
-} from '../../components/Modals/RequestConfirmationModal';
+import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
 import { showHelpRequestModalSelector, dismissHelpRequestModal } from './homeSlice';
+import {
+  chooseFarmFlowSelector,
+  endSwitchFarmModal,
+  switchFarmSelector,
+} from '../ChooseFarm/chooseFarmFlowSlice';
 
 export default function Home() {
   const { t } = useTranslation();
   const userFarm = useSelector(userFarmSelector);
   const imgUrl = getSeason(userFarm?.grid_points?.lat);
-  const showSpotlight = useSelector(spotlightSelector);
+  const { showSpotLight } = useSelector(chooseFarmFlowSelector);
   const dispatch = useDispatch();
-  const detectBrowser = () => {
-    // ripped off stackoverflow: https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome
-    const isChromium = window.chrome;
-    const winNav = window.navigator;
-    const vendorName = winNav.vendor;
-    const isOpera = typeof window.opr !== 'undefined';
-    const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
-    const isIOSChrome = winNav.userAgent.match('CriOS');
-
-    if (isIOSChrome) {
-      // is Google Chrome on IOS
-    } else if (
-      isChromium !== null &&
-      typeof isChromium !== 'undefined' &&
-      vendorName === 'Google Inc.' &&
-      isOpera === false &&
-      isIEedge === false
-    ) {
-      // is Google Chrome
-    } else {
-      toastr.warning(t('HOME.CHROME_WARNING'));
-      // not Google Chrome
-    }
-  };
-  useEffect(() => {
-    detectBrowser();
-  }, []);
-
-  const [switchFarm, setSwitchFarm] = useState(history.location.state);
-  const dismissPopup = () => setSwitchFarm(false);
+  const showSwitchFarmModal = useSelector(switchFarmSelector);
+  const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
 
   const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
   const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
   return (
-    <PureHome title={`${t('HOME.GREETING')} ${userFarm?.first_name}`} imgUrl={imgUrl}>
-      {userFarm ? (
-        <WeatherBoard
-          lon={userFarm.grid_points.lng}
-          lat={userFarm.grid_points.lat}
-          lang={'en'}
-          measurement={userFarm.units.measurement}
-        />
-      ) : null}
-      {switchFarm && !showSpotlight && <FarmSwitchOutro onFinish={dismissPopup} />}
+    <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
+      {userFarm ? <WeatherBoard /> : null}
+      {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
-      {switchFarm && !showSpotlight && (
+      {showSwitchFarmModal && !showSpotLight && (
         <div
           onClick={dismissPopup}
           style={{

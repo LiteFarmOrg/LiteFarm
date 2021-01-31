@@ -11,6 +11,7 @@ import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
+import { getDurationString } from './../../../util/index';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 class MyShift extends Component {
@@ -18,9 +19,6 @@ class MyShift extends Component {
     super(props);
     this.state = {
       tasks: {},
-      startTime: null,
-      endTime: null,
-      breakDuration: 0,
       showModal: false, // for confirming deleting a shift
     };
     this.getFieldName = this.getFieldName.bind(this);
@@ -92,38 +90,10 @@ class MyShift extends Component {
     }
 
     //set times from shift obj
-    let startTime = moment(shift.start_time);
-    let endTime = moment(shift.end_time);
-    let months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-    let date =
-      months[startTime.month()] +
-      ' ' +
-      startTime.date().toString() +
-      ', ' +
-      startTime.year().toString();
-
-    startTime = startTime.format('YYYY-MM-DD h:mm A').split(' ');
-    endTime = endTime.format('YYYY-MM-DD h:mm A').split(' ');
 
     this.setState({
       tasks: newTasks,
-      date: date,
-      start: startTime[1] + ' ' + startTime[2],
-      end: endTime[1] + ' ' + endTime[2],
-      breakDuration: shift.break_duration,
+      date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
     });
   }
 
@@ -176,7 +146,7 @@ class MyShift extends Component {
         <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')} />
         <div className={styles.infoBlock}>
           <div className={styles.innerInfo}>
-            <div>{this.state.date}</div>
+            <div>{`${this.props.selectedShift.first_name} ${this.props.selectedShift.last_name}`}</div>
             {(Number(farm.role_id) === 1 ||
               Number(farm.role_id) === 2 ||
               Number(farm.role_id) === 5) && (
@@ -206,16 +176,8 @@ class MyShift extends Component {
             </div>
           )}
           <div className={styles.innerInfo}>
-            <div>{this.props.t('SHIFT.START_TIME')}</div>
-            <span>{this.state.start}</span>
-          </div>
-          <div className={styles.innerInfo}>
-            <div>{this.props.t('SHIFT.END_TIME')}</div>
-            <span>{this.state.end}</span>
-          </div>
-          <div className={styles.innerInfo}>
-            <div>{this.props.t('SHIFT.EDIT_SHIFT.BREAK_DURATION')}</div>
-            <span>{this.state.breakDuration} min</span>
+            <div>{this.props.t('SHIFT.SHIFT_DATE')}</div>
+            <span>{this.state.date}</span>
           </div>
         </div>
         <div className={styles.infoBlock}>
@@ -252,7 +214,7 @@ class MyShift extends Component {
                   })}
                 </div>
                 <div className={styles.innerTaskTime}>
-                  <span>{(task.duration / 60).toFixed(2)} hr</span>
+                  <span>{getDurationString(task.duration)}</span>
                 </div>
               </div>
             );

@@ -81,7 +81,7 @@ class User extends Model {
         last_name: { type: 'string', maxLength: 255 },
         profile_picture: { type: 'string' },
         phone_number: { type: 'string' },
-        address: { type: 'string' },
+        user_address: { type: 'string' },
         email: { type: 'email' },
         farm_id: { type: ['string', 'null'] },
         notification_setting: {
@@ -96,7 +96,7 @@ class User extends Model {
           },
         },
         language_preference: { type: 'string' },
-        status: { type: 'number' },
+        status_id: { type: 'number' },
         gender: {
           type: 'string',
           enum: ['OTHER', 'PREFER_NOT_TO_SAY', 'MALE', 'FEMALE'],

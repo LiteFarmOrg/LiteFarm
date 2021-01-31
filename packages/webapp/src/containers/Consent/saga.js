@@ -20,13 +20,12 @@ import {
   userFarmSelector,
   patchConsentStepThreeSuccess,
   patchStatusConsentSuccess,
-  deselectFarmSuccess,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import history from '../../history';
 import i18n from '../../lang/i18n';
-const axios = require('axios');
+import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 
 export const patchConsent = createAction('patchConsentSaga');
 export function* patchConsentSaga({ payload }) {
@@ -53,11 +52,10 @@ export function* patchConsentSaga({ payload }) {
       ),
       !step_three && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
-    const { isInvitationFlow, showSpotLight } = history.location.state || {};
+    const { isInvitationFlow } = yield select(chooseFarmFlowSelector);
     if (isInvitationFlow) {
       yield put(patchStatusConsentSuccess({ ...userFarm, ...data, status: 'Active' }));
-      yield put(deselectFarmSuccess());
-      history.push('/outro', { isInvitationFlow, farm_id, farm_name, showSpotLight });
+      history.push('/outro', { farm_id, farm_name });
     } else {
       yield put(patchConsentStepThreeSuccess({ ...userFarm, ...step, ...data }));
       history.push(payload.goForwardTo);

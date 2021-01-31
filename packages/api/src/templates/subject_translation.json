@@ -1,7 +1,7 @@
 {
   "en": {
     "INVITATION": "You’ve been invited to join ?? on LiteFarm!",
-    "CONFIRMATION": "You've successfully joined ?? !",
+    "CONFIRMATION": "You've successfully joined ??!",
     "WITHHELD_CONSENT": "You didnt agree with the LiteFarm privacy policy – here are your options",
     "ACCESS_RESTORE": "Your access to ?? has been restored!",
     "ACCESS_REVOKE": "You've lost access to ?? on LiteFarm!",
@@ -12,7 +12,7 @@
   },
   "es": {
     "INVITATION": "Has sido invitado a unirte a ?? en LiteFarm!",
-    "CONFIRMATION": "Te uniste exitosamente ?? !",
+    "CONFIRMATION": "Te uniste exitosamente ??!",
     "WITHHELD_CONSENT": "No aceptaste la politica de privacidad de Litefarm - estas son tus opciones",
     "ACCESS_RESTORE": "Tu acceso a ?? ha sido restaurado!",
     "ACCESS_REVOKE": "Has perdido acceso a ?? en LiteFarm!",
@@ -23,7 +23,7 @@
   },
   "pt": {
     "INVITATION": "You’ve been invited to join ?? on LiteFarm!",
-    "CONFIRMATION": "You've successfully joined ?? !",
+    "CONFIRMATION": "You've successfully joined ??!",
     "WITHHELD_CONSENT": "You didnt agree with the LiteFarm privacy policy – here are your options",
     "ACCESS_RESTORE": "Your access to ?? has been restored!",
     "ACCESS_REVOKE": "You've lost access to ?? on LiteFarm!",
@@ -34,7 +34,7 @@
   },
   "fr": {
     "INVITATION": "You’ve been invited to join ?? on LiteFarm!",
-    "CONFIRMATION": "You've successfully joined ?? !",
+    "CONFIRMATION": "You've successfully joined ??!",
     "WITHHELD_CONSENT": "You didnt agree with the LiteFarm privacy policy – here are your options",
     "ACCESS_RESTORE": "Your access to ?? has been restored!",
     "ACCESS_REVOKE": "You've lost access to ?? on LiteFarm!",

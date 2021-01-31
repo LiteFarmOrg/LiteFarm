@@ -7,5 +7,19 @@ import expense from './expense.json';
 import fertilizer from './fertilizer.json';
 import message from './message.json';
 import gender from './gender.json';
-const spanish = { translation, crop, common, disease, task, expense, fertilizer, message, gender };
+import role from './role.json';
+import harvest_uses from './harvest_uses.json';
+const spanish = {
+  translation,
+  crop,
+  common,
+  disease,
+  task,
+  expense,
+  fertilizer,
+  message,
+  gender,
+  role,
+  harvest_uses,
+};
 export default spanish;

@@ -21,4 +21,34 @@ const logSelector = createSelector(logPageSelector, (state) => state.logs);
 
 const currentLogSelector = createSelector(logPageSelector, (state) => state.selectedLog);
 
-export { logSelector, currentLogSelector };
+const formDataSelector = createSelector(logPageSelector, (state) => state.formData);
+
+const setAllHarvestUseTypesSelector = createSelector(logPageSelector, (state) => state.allUseType);
+
+const selectedUseTypeSelector = createSelector(logPageSelector, (state) => state.useType);
+
+const formValueSelector = createSelector(logPageSelector, (state) => state.formValue);
+
+const startEndDateSelector = createSelector(logPageSelector, (state) => ({
+  startDate: state.startDate,
+  endDate: state.endDate,
+}));
+
+const defaultDateSelector = createSelector(logPageSelector, (state) => state.defaultDate);
+
+const harvestAllocationSelector = createSelector(
+  logPageSelector,
+  (state) => state.harvestAllocation,
+);
+
+export {
+  logSelector,
+  currentLogSelector,
+  formDataSelector,
+  selectedUseTypeSelector,
+  setAllHarvestUseTypesSelector,
+  formValueSelector,
+  startEndDateSelector,
+  defaultDateSelector,
+  harvestAllocationSelector,
+};

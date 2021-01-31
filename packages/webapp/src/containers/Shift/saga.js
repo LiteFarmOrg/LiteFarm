@@ -28,11 +28,11 @@ import {
 import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
-import { loginSelector } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { loginSelector, userFarmSelector } from '../userFarmSlice';
+import { getHeader, axios } from '../saga';
 import i18n from '../../lang/i18n';
+import { resetStepOne } from '../shiftSlice';
 
-const axios = require('axios');
 
 export function* getTaskTypesSaga() {
   const { taskTypeUrl } = apiConfig;
@@ -78,7 +78,6 @@ export function* addShift(action) {
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
-    shiftObj.tasks.forEach((t) => (t.task_id = Number(t.task_id)));
     const result = yield call(
       axios.post,
       shiftUrl,
@@ -86,6 +85,7 @@ export function* addShift(action) {
       header,
     );
     if (result) {
+      yield put(resetStepOne());
       history.push('/shift');
       toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
     }
@@ -114,13 +114,13 @@ export function* addMultiShiftSaga(action) {
 
 export function* getShiftsSaga() {
   const { shiftUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
+  let { user_id, farm_id, first_name, last_name } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, shiftUrl + '/user/' + user_id, header);
     if (result) {
-      yield put(setShifts(result.data));
+      yield put(setShifts(result.data.map((shift) => ({ ...shift, first_name, last_name }))));
     }
   } catch (e) {
     console.error('failed to fetch shifts from database');

@@ -30,6 +30,8 @@ import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops, getFields } from '../saga';
+import { getDurationString } from '../../util';
+import clsx from 'clsx';
 
 class Shift extends Component {
   constructor(props) {
@@ -47,11 +49,14 @@ class Shift extends Component {
     dispatch(getFieldCrops());
     dispatch(getFields());
     dispatch(getTaskTypes());
-    if (users.role_id === 1 || users.role_id === 2 || users.role_id === 5) {
-      dispatch(getAllShifts());
-    } else {
-      dispatch(getShifts());
-    }
+    dispatch(getAllShifts());
+    //TODO: fix getShiftByUserEndPoint
+
+    // if (users.role_id === 1 || users.role_id === 2 || users.role_id === 5) {
+    //   dispatch(getAllShifts());
+    // } else {
+    //   dispatch(getShifts());
+    // }
   }
 
   checkFilter = (l = [], attribute, constraint) => {
@@ -63,7 +68,7 @@ class Shift extends Component {
     if (shifts !== null && Object.keys(shifts[0]).length > 0) {
       const { startDate, endDate, nameFilter } = this.state;
       // eslint-disable-next-line
-      return shifts.filter(
+      const filteredShifts = shifts.filter(
         (l) =>
           (this.checkFilter(l, 'user_id', nameFilter) &&
             startDate.isBefore(l.start_time) &&
@@ -71,6 +76,10 @@ class Shift extends Component {
             (endDate.isAfter(l.start_time) || endDate.isSame(l.start_time, 'day'))) ||
           l.test_shift, // only present on test shifts in cypress/fixtures/shifts.json
       );
+      return filteredShifts.map((shift) => ({
+        ...shift,
+        shift_date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
+      }));
     }
   }
 
@@ -112,7 +121,7 @@ class Shift extends Component {
         {
           id: 'date',
           Header: 'Date(Y-M-D)',
-          accessor: (d) => moment(d.start_time).format('YYYY-MM-DD'),
+          accessor: (d) => moment(d.shift_date).format('YYYY-MM-DD'),
           minWidth: 60,
         },
         {
@@ -123,7 +132,7 @@ class Shift extends Component {
             for (let task of d.tasks) {
               mins += task.duration;
             }
-            return (mins / 60).toFixed(2);
+            return getDurationString(mins);
           },
           minWidth: 40,
         },
@@ -133,7 +142,7 @@ class Shift extends Component {
           accessor: () => {
             return <BsCaretRight />;
           },
-          minWidth: 25,
+          minWidth: 20,
         },
       ]);
     }
@@ -175,7 +184,7 @@ class Shift extends Component {
                 />
               </div>
               <LocalForm model="logDates">
-                <span className={styles.pullLeft}>
+                <div className={clsx(styles.dateContainer, styles.pullLeft)}>
                   <label>{this.props.t('SHIFT.FROM')}</label>
                   <DateContainer
                     style={styles.date}
@@ -186,8 +195,8 @@ class Shift extends Component {
                       this.filterShifts();
                     }}
                   />
-                </span>
-                <span className={styles.pullRight}>
+                </div>
+                <div className={clsx(styles.dateContainer, styles.pullRight)}>
                   <label>{this.props.t('SHIFT.TO')}</label>
                   <DateContainer
                     style={styles.date}
@@ -198,7 +207,7 @@ class Shift extends Component {
                       this.filterShifts();
                     }}
                   />
-                </span>
+                </div>
               </LocalForm>
             </div>
           </div>

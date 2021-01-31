@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import GoogleLogin from 'react-google-login';
 
 import Button from '../../components/Form/Button';
+import { isChrome } from '../../util';
 
 function InviteSignUp({ history }) {
   const invite_token = history.location.state;
@@ -14,14 +15,17 @@ function InviteSignUp({ history }) {
   const [selectedKey, setSelectedKey] = useState(0);
   const { i18n, t } = useTranslation();
   const [email, setEmail] = useState();
+  const [gender, setGender] = useState();
+  const [birth_year, setBirthYear] = useState();
   const [showError, setShowError] = useState();
-
   useEffect(() => {
     if (!invite_token) {
       history.push('/');
     } else {
-      const { email } = getTokenContent(invite_token);
+      const { email, gender, birth_year } = getTokenContent(invite_token);
       setEmail(email);
+      setGender(gender);
+      setBirthYear(birth_year);
     }
   }, []);
 
@@ -41,6 +45,8 @@ function InviteSignUp({ history }) {
         google_id_token: res.tokenObj.id_token,
         invite_token,
         name: res.profileObj.name,
+        gender,
+        birth_year,
       });
     } else {
       setShowError(true);
@@ -58,6 +64,8 @@ function InviteSignUp({ history }) {
         invite_token,
         email,
         name: `${first_name} ${last_name}`,
+        gender,
+        birth_year,
       });
     }
   };
@@ -88,6 +96,7 @@ function InviteSignUp({ history }) {
         selectedKey={selectedKey}
         email={email}
         onClick={onClick}
+        isChrome={isChrome()}
       />
     </>
   );

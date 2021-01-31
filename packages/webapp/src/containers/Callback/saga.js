@@ -23,7 +23,9 @@ import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
 import { toastr } from 'react-redux-toastr';
 import { logout } from '../../util/jwt';
-const axios = require('axios');
+import { axios } from '../saga';
+
+import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
 
@@ -38,7 +40,8 @@ export function* validateResetTokenSaga({ payload: { reset_token } }) {
     });
     history.push('/password_reset', reset_token);
   } catch (e) {
-    history.push('/expired', 'RESET_PASSWORD');
+    const { email } = jwt.decode(reset_token);
+    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
 
@@ -57,11 +60,12 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
         },
       },
     );
-    const { user, id_token } = result.data;
+    const { user: userFarm, id_token } = result.data;
     localStorage.setItem('id_token', id_token);
     purgeState();
-    yield put(acceptInvitationSuccess(user));
-    history.push('/consent', { isInvitationFlow: true, showSpotLight: false });
+    yield put(acceptInvitationSuccess(userFarm));
+    yield put(startInvitationFlow(userFarm.farm_id));
+    history.push('/consent');
   } catch (e) {
     if (e?.response?.status === 404) {
       // and message === 'user does not exist
@@ -71,8 +75,12 @@ export function* patchUserFarmStatusSaga({ payload: invite_token }) {
       const { email: currentEmail } = yield select(userFarmSelector);
       const { email } = jwt.decode(invite_token);
       currentEmail !== email && logout();
+      const translateKey =
+        e.response.data === 'Invitation link is used'
+          ? 'SIGNUP.USED_INVITATION_LINK_ERROR'
+          : 'SIGNUP.EXPIRED_INVITATION_LINK_ERROR';
       history.push(`/?email=${encodeURIComponent(email)}`, {
-        error: i18n.t('SIGNUP.EXPIRED_INVITATION_LINK_ERROR'),
+        error: i18n.t(translateKey),
       });
     } else {
       toastr.error(i18n.t('message:LOGIN.ERROR.LOGIN_FAIL'));

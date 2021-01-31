@@ -21,13 +21,15 @@ import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import jwt from 'jsonwebtoken';
 import i18n from '../../lang/i18n';
+import { axios } from '../saga';
 
-const axios = require('axios');
 const resetPasswordUrl = () => `${url}/password_reset`;
 
 export const resetPassword = createAction(`resetPasswordSaga`);
 
-export function* resetPasswordSaga({ payload: { reset_token, password, onPasswordResetSuccess } }) {
+export function* resetPasswordSaga({
+  payload: { reset_token, password, onPasswordResetSuccess, email },
+}) {
   try {
     const result = yield call(
       axios.put,
@@ -49,7 +51,7 @@ export function* resetPasswordSaga({ payload: { reset_token, password, onPasswor
     yield put(loginSuccess({ user_id }));
     onPasswordResetSuccess();
   } catch (e) {
-    toastr.error(i18n.t('message:RESET_PASSWORD.ERROR.LOGIN_ERROR'));
+    history.push('/expired', { translation_key: 'RESET_PASSWORD', email });
   }
 }
 

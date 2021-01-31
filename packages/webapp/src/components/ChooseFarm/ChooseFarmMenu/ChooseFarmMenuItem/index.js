@@ -3,17 +3,18 @@ import styles from './chooseFarmMenuItem.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '../../../Card';
+import { ReactComponent as EmailIcon } from '../../../../assets/images/chooseFarm/emailIcon.svg';
 
 const ChooseFarmMenuItem = ({
   color = 'secondary',
   ownerName,
   farmName = 'Farm name',
   address,
-  coordinate,
   style,
   onClick,
   ...props
 }) => {
+  const isInvited = color === 'blue' || color === 'blueActive';
   return (
     <Card
       color={color}
@@ -28,21 +29,31 @@ const ChooseFarmMenuItem = ({
       }}
       {...props}
     >
-      <div className={styles.leftColumn}>
-        <h5 className={clsx(styles.farmName, color === 'active' && styles.active)}>{farmName}</h5>
-        {ownerName && <p className={clsx(styles.address, styles[color])}>{ownerName}</p>}
+      <div className={clsx(styles.leftColumn, styles[color])}>
+        <h5 className={clsx(styles.farmName)}>{farmName}</h5>
+        {ownerName && <p className={clsx(styles.address)}>{ownerName}</p>}
       </div>
-      <div className={styles.rightColumn}>
-        {address.map((row) => (
-          <p className={clsx(styles.address, styles[color])}>{row}</p>
-        ))}
+      <div className={clsx(styles.rightColumn, styles[color])}>
+        <div className={styles.addressContainer}>
+          {address?.map((row, index) => (
+            <p key={index} className={clsx(styles.address)}>
+              {row}
+            </p>
+          ))}
+        </div>
+        {isInvited && (
+          <div>
+            {' '}
+            <EmailIcon className={styles.emailIcon} />
+          </div>
+        )}
       </div>
     </Card>
   );
 };
 
 ChooseFarmMenuItem.propTypes = {
-  color: PropTypes.oneOf(['secondary', 'active', 'disabled']),
+  color: PropTypes.oneOf(['secondary', 'active', 'disabled', 'blue', 'blueActive']),
   onClick: PropTypes.func,
   ownerName: PropTypes.string,
   farmName: PropTypes.string,

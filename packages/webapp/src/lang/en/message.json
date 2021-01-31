@@ -66,6 +66,15 @@
       "UPDATE_NAME": "Successfully changed field name"
     }
   },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "GET_TYPES": "Failed to fetch harvest use types"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
+    }
+  },
   "LOG": {
     "ERROR": {
       "ADD": "Failed to add Log",
@@ -91,11 +100,6 @@
     },
     "SUCCESS": {
       "SAVE": "Successfully saved Crop!"
-    }
-  },
-  "RESET_PASSWORD": {
-    "ERROR": {
-      "LOGIN_ERROR": "Error in reset password page, please contact LiteFarm for assistance."
     }
   },
   "SALE": {

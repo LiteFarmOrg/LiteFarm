@@ -57,7 +57,7 @@ class insightController extends baseController {
           error,
         });
       }
-    }
+    };
   }
 
   // this is for the soil om submodule
@@ -84,6 +84,7 @@ class insightController extends baseController {
           WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
           ) table_2 ON table_2.field_id = f.field_id
           WHERE f.farm_id = ?
+          AND f.deleted = false
           GROUP BY f.field_id
           ORDER BY f.field_name`, [farmID, farmID]);
 
@@ -98,7 +99,7 @@ class insightController extends baseController {
           error,
         });
       }
-    }
+    };
   }
 
   static getLabourHappinessByFarmID() {
@@ -108,8 +109,8 @@ class insightController extends baseController {
         const data = await knex.raw(
           `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood
           FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
-          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and st.shift_id = s.shift_id and s.mood != 'na'
-          ORDER BY s.shift_id`, [farmID]);
+          WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and 
+          st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer' and s.deleted = false`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);
@@ -120,7 +121,7 @@ class insightController extends baseController {
       } catch (error) {
         res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static getBiodiversityByFarmID() {
@@ -133,17 +134,18 @@ class insightController extends baseController {
           LEFT JOIN "fieldCrop" fc
           ON fc.field_id = f.field_id
           WHERE f.farm_id = ?
+          AND f.deleted = false
           GROUP BY f.grid_points`, [farmID]);
         if (dataPoints.rows) {
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);
           res.status(200).send(body);
         } else {
-          res.status(200).send({})
+          res.status(200).send({});
         }
       } catch (error) {
         res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static getPricesNearbyByFarmID() {
@@ -154,35 +156,41 @@ class insightController extends baseController {
         const myLat = req.query.lat;
         const myLong = req.query.long;
         const startDate = req.query.startdate;
-        const dataPoints = await knex.raw(
-          `
+        const dataPoints = await insightController.queryCropSalesNearByStartDateAndFarmId(startDate, farmID);
+
+        if (dataPoints.rows) {
+          const filtered_datapoints = dataPoints.rows.filter((dataPoint) => {
+            const farm_location = dataPoint['grid_points'];
+            const field_distance = insightHelpers.distance(farm_location['lat'], farm_location['lng'], parseFloat(myLat), parseFloat(myLong));
+            return field_distance < distance;
+          });
+          const body = insightHelpers.formatPricesNearbyData(farmID, filtered_datapoints);
+          res.status(200).send(body);
+        } else {
+          res.status(200).send({});
+        }
+
+      } catch (error) {
+        res.status(400).json({ error });
+      }
+    };
+  }
+
+  static async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
+    return await knex.raw(
+      `
           SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
           FROM "sale" s
           JOIN "cropSale" cs on cs.sale_id = s.sale_id
           JOIN "crop" c on c.crop_id = cs.crop_id
           JOIN "farm" fa on fa.farm_id = s.farm_id
-          WHERE s.sale_date >= ? and c.crop_id IN (
+          WHERE to_char(date(s.sale_date), 'YYYY-MM') >= to_char(date(?), 'YYYY-MM') and c.crop_id IN (
           SELECT fc.crop_id
-          FROM "fieldCrop" fc, "field" f
-          WHERE fc.field_id = f.field_id and f.farm_id = ?)
-          GROUP BY year_month, c.crop_common_name, fa.farm_id, fa.grid_points
+          FROM "fieldCrop" fc 
+          join "field" f on fc.field_id = f.field_id 
+          where f.farm_id = ?)
+          GROUP BY year_month, c.crop_common_name, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
-        if (dataPoints.rows) {
-          const filtered_datapoints = dataPoints.rows.filter((dataPoint) => {
-            const farm_location = dataPoint['grid_points'];
-            const field_distance = insightHelpers.distance(farm_location['lat'], farm_location['lng'], parseFloat(myLat), parseFloat(myLong), 'K');
-            return field_distance < distance
-          });
-          const body = insightHelpers.formatPricesNearbyData(farmID, filtered_datapoints);
-          res.status(200).send(body)
-        } else {
-          res.status(200).send({})
-        }
-
-      } catch (error) {
-        res.status(400).json({ error })
-      }
-    }
   }
 
   static getWaterBalance() {
@@ -199,12 +207,12 @@ class insightController extends baseController {
           const body = await insightHelpers.formatWaterBalanceData(dataPoints.rows);
           res.status(200).send(body);
         } else {
-          res.status(200).send({ preview: 0, data: {} })
+          res.status(200).send({ preview: 0, data: {} });
         }
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static addWaterBalanceSchedule() {
@@ -212,11 +220,11 @@ class insightController extends baseController {
       try {
         const body = req.body;
         await waterBalanceScheduler.registerFarmID(body.farm_id);
-        res.status(200).send({ preview: 0, data: 'Registered Farm ID' })
+        res.status(200).send({ preview: 0, data: 'Registered Farm ID' });
       } catch (e) {
-        res.status(400).json({ e })
+        res.status(400).json({ e });
       }
-    }
+    };
   }
 
   static getWaterSchedule() {
@@ -229,14 +237,14 @@ class insightController extends baseController {
           WHERE w.farm_id = ?`, [farmID]);
         if (dataPoints.rows.length > 0) {
           const body = dataPoints.rows[0];
-          res.status(200).send(body)
+          res.status(200).send(body);
         } else {
-          res.status(200).send({})
+          res.status(200).send({});
         }
       } catch (e) {
-        res.status(400).json({ e })
+        res.status(400).json({ e });
       }
-    }
+    };
   }
 
   static getNitrogenBalance() {
@@ -251,14 +259,14 @@ class insightController extends baseController {
       GROUP BY f.field_id`, [farmID, prevDate]);
         if (dataPoints.rows.length > 0) {
           const body = await insightHelpers.formatNitrogenBalanceData(dataPoints.rows);
-          res.status(200).send(body)
+          res.status(200).send(body);
         } else {
-          res.status(200).send({ preview: 0, data: 'No data yet' })
+          res.status(200).send({ preview: 0, data: 'No data yet' });
         }
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static getNitrogenSchedule() {
@@ -269,19 +277,19 @@ class insightController extends baseController {
           `SELECT *
           FROM "nitrogenSchedule" n
           WHERE n.farm_id = ?
-          ORDER BY n.scheduled_at DESC`, [farmID]
+          ORDER BY n.scheduled_at DESC`, [farmID],
         );
         if (dataPoints.rows) {
           const body = dataPoints.rows[0];
           res.status(200).send(body);
         } else {
-          res.status(404).json({ error: 'no data' })
+          res.status(404).json({ error: 'no data' });
         }
 
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static addWaterBalance() {
@@ -292,12 +300,12 @@ class insightController extends baseController {
       try {
         const waterBalanceResult = await baseController.postWithResponse(waterBalanceModel, body, trx);
         await trx.commit();
-        res.status(201).send(waterBalanceResult)
+        res.status(201).send(waterBalanceResult);
       } catch (error) {
         await trx.rollback();
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static addNitrogenSchedule() {
@@ -308,12 +316,12 @@ class insightController extends baseController {
       try {
         const nitrogenScheduleResult = await baseController.postWithResponse(nitrogenScheduleModel, body, trx);
         await trx.commit();
-        res.status(201).send(nitrogenScheduleResult)
+        res.status(201).send(nitrogenScheduleResult);
       } catch (error) {
         await trx.rollback();
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
-    }
+    };
   }
 
   static delNitrogenSchedule() {
@@ -333,7 +341,7 @@ class insightController extends baseController {
           error,
         });
       }
-    }
+    };
   }
 }
 

@@ -15,21 +15,28 @@
 
 import React, { useEffect, useState } from 'react';
 import history from '../../history';
-import { selectFarmSuccess, deselectFarmSuccess, loginSelector } from '../userFarmSlice';
+import {
+  selectFarmSuccess,
+  deselectFarmSuccess,
+  loginSelector,
+  userFarmEntitiesSelector,
+} from '../userFarmSlice';
 import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PureChooseFarmScreen from '../../components/ChooseFarm';
-import { getUserFarms } from './saga';
+import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
+import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 
 function ChooseFarm() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [selectedFarmId, setFarmId] = useState();
-  const { farm_id: currentFarmId } = useSelector(loginSelector);
+  const { farm_id: currentFarmId, user_id } = useSelector(loginSelector);
   const [filter, setFilter] = useState();
+  const userFarmEntities = useSelector(userFarmEntitiesSelector);
 
   useEffect(() => {
     dispatch(getUserFarms());
@@ -37,7 +44,7 @@ function ChooseFarm() {
 
   const farms = useSelector(userFarmsByUserSelector);
   useEffect(() => {
-    if (farms?.length === 1) {
+    if (farms?.length === 1 && ['Invited', 'Active'].includes(farms[0].status)) {
       setFarmId(farms[0].farm_id);
     }
   }, [farms]);
@@ -52,8 +59,16 @@ function ChooseFarm() {
   };
 
   const onProceed = () => {
-    dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-    history.push({ pathname: '/', state: !!currentFarmId });
+    const farm = userFarmEntities[selectedFarmId][user_id];
+    if (farm.status === 'Active') {
+      dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
+      if (currentFarmId) {
+        dispatch(startSwitchFarmModal(currentFarmId));
+      }
+      history.push({ pathname: '/' });
+    } else {
+      dispatch(patchUserFarmStatusWithIDToken(farm));
+    }
   };
 
   const onSelectFarm = (farm_id) => {
@@ -100,6 +115,11 @@ function ChooseFarm() {
 }
 
 const getFormattedFarms = ({ filter, farms, currentFarmId, selectedFarmId }) => {
+  const farmOrderByStatus = {
+    Active: 1,
+    Invited: 2,
+    Inactive: 3,
+  };
   const filteredFarms = filter
     ? farms.filter(
         (farm) =>
@@ -111,7 +131,9 @@ const getFormattedFarms = ({ filter, farms, currentFarmId, selectedFarmId }) => 
     : farms;
 
   const sortedFarm = filteredFarms.sort((farm1, farm2) => {
-    if (farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId) {
+    if (farm1.status !== farm2.status) {
+      return farmOrderByStatus[farm1.status] - farmOrderByStatus[farm2.status];
+    } else if (farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId) {
       return farm1.farm_name.localeCompare(farm2.farm_name);
     } else {
       return farm1.farm_id === currentFarmId ? -1 : 1;
@@ -135,17 +157,19 @@ const getAddress = (farm, newFarm) => {
   if (isCoordinate) {
     return [farm.grid_points.lat.toFixed(5), farm.grid_points.lng.toFixed(5)];
   } else {
-    newFarm.fullAddress = address.replace(/(.*), .*/, '$1');
-    const addressArray = address.split(', ');
-    return addressArray.splice(0, addressArray.length - 1);
+    newFarm.fullAddress = address?.replace(/(.*), .*/, '$1');
+    const addressArray = address?.split(', ');
+    return addressArray?.splice(0, addressArray.length - 1);
   }
 };
 
 const getColor = (farm, selectedFarmId, currentFarmId) => {
-  if (farm.farm_id === currentFarmId) {
+  if (farm.farm_id === currentFarmId || farm.status === 'Inactive') {
     return 'disabled';
   } else if (farm.farm_id === selectedFarmId) {
-    return 'active';
+    return farm.status === 'Invited' ? 'blueActive' : 'active';
+  } else if (farm.status === 'Invited') {
+    return 'blue';
   } else return 'secondary';
 };
 

@@ -1,160 +1,164 @@
 {
   "ATTACHMENTS": {
     "ERROR": {
-      "FAILED_UPLOAD": "MISSING"
+      "FAILED_UPLOAD": "Falla al subir los archivos adjuntos"
     }
   },
   "CONTACT": {
     "ERROR": {
-      "SUBMIT_CONTACT_FORM": "MISSING"
+      "SUBMIT_CONTACT_FORM": "Error, Ud. no pudo enviar un formulario de contacto"
     },
     "SUCCESS": {
-      "SUBMIT_CONTACT_FORM": "MISSING"
+      "SUBMIT_CONTACT_FORM": "Formulario de contacto enviado!"
     }
   },
   "CROP": {
     "ERROR": {
-      "DELETE": "MISSING",
-      "EDIT": "MISSING"
+      "DELETE": "No pudo borrar campo de cultivo",
+      "EDIT": "No pudo editar campo de cultivo"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
-      "EDIT": "MISSING"
+      "DELETE": "Cultivo borrado exitosamente",
+      "EDIT": "Cultivo editado exitosamente"
     }
   },
   "EDIT_FIELD_CROP": {
     "ERROR": {
-      "END_DATE_BEFORE": "MISSING",
-      "FIELD_AREA": "MISSING"
+      "END_DATE_BEFORE": "Fecha de término no puede ser la misma o anterior a la fecha de inicio",
+      "FIELD_AREA": "El area de campo de cultivo no puede ser más grande que el área del campo"
     }
   },
   "EXPENSE": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "No pudo agregar nuevos gastos",
+      "DELETE": "No pudo borrar gastos",
+      "UPDATE": "No pudo actualizar gastos!"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Successfully added new expenses!",
+      "DELETE": "Successfully deleted expenses!",
+      "UPDATE": "Successfully updated expenses!"
     }
   },
   "FARM": {
     "ERROR": {
-      "ADD": "MISSING",
-      "FETCH": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Failed to add farm, please contact litefarm for assistance",
+      "FETCH": "failed to fetch farm from database",
+      "UPDATE": "Failed to update farm info"
     },
     "SUCCESS": {
-      "UPDATE": "MISSING"
+      "UPDATE": "Successfully updated farm info!"
     }
   },
   "FERTILIZER": {
     "ERROR": {
-      "ADD": "MISSING"
+      "ADD": "failed to add fertilizer"
     }
   },
   "FIELD": {
     "ERROR": {
-      "DELETE": "MISSING",
-      "EMPTY_NAME": "MISSING",
-      "UPDATE_NAME": "Fallo el cambio de nombre del campo"
+      "DELETE": "Failed To Delete Field",
+      "EMPTY_NAME": "Field name cannot be empty",
+      "UPDATE_NAME": "Failed To update Field name"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
-      "UPDATE_NAME": "Editaste exitosamente el nombre del campo"
+      "DELETE": "Successfully Deleted Field",
+      "UPDATE_NAME": "Successfully changed field name"
+    }
+  },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Failed to add custom harvest use type",
+      "GET_TYPES": "Failed to fetch harvest use types"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Successfully added custom harvest use type"
     }
   },
   "LOG": {
     "ERROR": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "EDIT": "MISSING"
+      "ADD": "Failed to add Log",
+      "DELETE": "Failed to delete Log",
+      "EDIT": "Failed to edit Log"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "EDIT": "MISSING"
+      "ADD": "Successfully added Log!",
+      "DELETE": "Successfully deleted Log!",
+      "EDIT": "Successfully edited Log!"
     }
   },
   "LOGIN": {
     "ERROR": {
-      "LOGIN_FAIL": "MISSING"
+      "LOGIN_FAIL": "Failed to login user info"
     }
   },
   "NEW_FIELD_CROP": {
     "ERROR": {
-      "GENERAL": "MISSING",
-      "NOT_FILLED": "MISSING",
-      "VARIETY_EXISTS": "MISSING"
+      "GENERAL": "failed to add fieldCrop to database",
+      "NOT_FILLED": "is not filled out",
+      "VARIETY_EXISTS": "A crop with that variety name already exists, please try another."
     },
     "SUCCESS": {
-      "SAVE": "MISSING"
-    }
-  },
-  "RESET_PASSWORD": {
-    "ERROR": {
-      "LOGIN_ERROR": "MISSING"
+      "SAVE": "Successfully saved Crop!"
     }
   },
   "SALE": {
     "ERROR": {
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "DELETE": "Failed to delete new sale",
+      "UPDATE": "Failed to update sale"
     },
     "SUCCESS": {
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "DELETE": "Successfully deleted sale",
+      "UPDATE": "Successfully updated sale"
     }
   },
   "SHIFT": {
     "ERROR": {
-      "ADD": "MISSING",
-      "ASSIGN_ALL_CROPS": "MISSING",
-      "ASSIGN_ALL_MINUTES": "MISSING",
-      "BREAK_>_WORK": "MISSING",
-      "CROP_FIELDS_EACH": "MISSING",
-      "DELETE": "MISSING",
-      "DURATION_FOR_CROPS": "MISSING",
-      "ONE_TASK": "MISSING",
-      "ONLY_INTEGERS_DURATIONS": "MISSING",
-      "REQUIRED_TASK": "MISSING",
-      "SUBMIT_SHIFT": "MISSING",
-      "UPDATE": "MISSING",
-      "USER_FOR_SHIFT": "MISSING",
-      "VALID_START_END": "MISSING"
+      "ADD": "Failed to add new shift",
+      "ASSIGN_ALL_CROPS": "Please assign crops or fields for each task",
+      "ASSIGN_ALL_MINUTES": "Please assign all your available work minutes",
+      "BREAK_>_WORK": "Break duration > work duration 😂",
+      "CROP_FIELDS_EACH": "Please assign crops or fields for each task",
+      "DELETE": "Failed to delete the shift :(",
+      "DURATION_FOR_CROPS": "Please assign a duration for each crop.",
+      "ONE_TASK": "Please select at least one task.",
+      "ONLY_INTEGERS_DURATIONS": "Please assign only numbers to durations",
+      "REQUIRED_TASK": "A task name is required",
+      "SUBMIT_SHIFT": "Submit shift with crops failed. Litefarm's issue.",
+      "UPDATE": "Failed to update shift",
+      "USER_FOR_SHIFT": "Please select a user for this shift",
+      "VALID_START_END": "Please enter a valid start-end duration"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "DELETE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Successfully added new shift!",
+      "DELETE": "Deleted shift!",
+      "UPDATE": "Successfully updated shift!"
     }
   },
   "TOKEN": {
     "ERROR": {
-      "VERIFICATION": "MISSING"
+      "VERIFICATION": "Token verification failed"
     }
   },
   "USER": {
     "ERROR": {
-      "ADD": "MISSING",
-      "AGREEMENT": "MISSING",
-      "EXISTS": "MISSING",
-      "INVITE": "MISSING",
-      "NOTHING_CHANGED": "MISSING",
-      "RESET_PASSWORD": "MISSING",
-      "RESTORE": "MISSING",
-      "REVOKE": "MISSING",
-      "SIGNUP": "MISSING",
-      "SIGNUP_UNKNOWN": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Failed to add user",
+      "AGREEMENT": "Failed to update user agreement",
+      "EXISTS": "User already exists in LiteFarm Network",
+      "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
+      "NOTHING_CHANGED": "Nothing's changed",
+      "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
+      "RESTORE": "There was an error restoring access",
+      "REVOKE": "There was an error revoking access",
+      "SIGNUP": "Failed to sign up",
+      "SIGNUP_UNKNOWN": "Unknown issue! Try again later.",
+      "UPDATE": "Failed to update user info"
     },
     "SUCCESS": {
-      "ADD": "MISSING",
-      "RESTORE": "MISSING",
-      "REVOKE": "MISSING",
-      "UPDATE": "MISSING"
+      "ADD": "Successfully added user to farm!",
+      "RESTORE": "User access restored",
+      "REVOKE": "User access revoked!",
+      "UPDATE": "Successfully updated user info!"
     }
   }
 }

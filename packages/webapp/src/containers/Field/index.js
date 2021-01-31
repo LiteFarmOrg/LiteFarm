@@ -28,6 +28,7 @@ import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
 import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { Semibold, Title } from "../../components/Typography";
 
 class Field extends Component {
   static defaultProps = {
@@ -227,29 +228,29 @@ class Field extends Component {
         {text}
       </div>
     );
+    const { role_id } = this.props.farm;
+    const hasPermissionToEdit = [1, 2, 5].includes(role_id);
     return (
       <div className={styles.logContainer}>
-        <h3>
-          <strong>{this.props.t('FIELDS.TITLE')}</strong>
-        </h3>
-        <hr />
-        <h3>
-          <b>{this.props.t('FIELDS.ACTION')}</b>
-        </h3>
-        <div className={styles.buttonContainer}>
-          <Button
-            variant={'secondary'}
-            onClick={() => {
-              history.push('/new_field');
-            }}
-          >
-            {this.props.t('FIELDS.ADD_NEW_FIELD')}
-          </Button>
+        <Title>{this.props.t('FIELDS.TITLE')}</Title>
+        {hasPermissionToEdit && (
+          <>
+            <div className={styles.buttonContainer}>
+              <Button
+                variant={'secondary'}
+                onClick={() => {
+                  history.push('/new_field');
+                }}
+              >
+                {this.props.t('FIELDS.ADD_NEW_FIELD')}
+              </Button>
+            </div>
+          </>
+        )}
+
+        <div style={{paddingTop: '15px', paddingBottom: '15px'}}>
+          <Semibold>{this.props.t('FIELDS.EXPLORE')}</Semibold>
         </div>
-        <hr />
-        <h3>
-          <b>{this.props.t('FIELDS.EXPLORE')}</b>
-        </h3>
         <div>
           <Tabs
             activeKey={this.state.selectedTab}

@@ -24,3 +24,18 @@
   text-align: center;
   margin-bottom: 8px;
 }
+
+.otherBrowserMessageTop {
+  margin-bottom: 16px;
+  transform: translateY(-8px);
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #000000;
+}
+.otherBrowserMessageBottom {
+  // text-align: left;
+  font-size: 14px;
+  color: #282b36;
+}

@@ -23,11 +23,13 @@ import {
   patchFarmSuccess,
   loginSelector,
   selectFarmSuccess,
+  onLoadingStart,
+  setLoadingStart,
+  setLoadingEnd,
 } from '../userFarmSlice';
-import { getHeader } from '../saga';
+import { getHeader, axios } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import i18n from './../../lang/i18n';
-const axios = require('axios');
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchStepUrl = (farm_id, user_id) =>
@@ -35,7 +37,7 @@ const patchStepUrl = (farm_id, user_id) =>
 export const postFarm = createAction('postFarmSaga');
 export function* postFarmSaga({ payload: farm }) {
   const { user_id } = yield select(loginSelector);
-
+  yield put(setLoadingStart());
   let addFarmData = {
     farm_name: farm.farmName,
     address: farm.address,
@@ -68,6 +70,7 @@ export function* postFarmSaga({ payload: farm }) {
     yield put(selectFarmSuccess({ farm_id }));
     history.push('/role_selection');
   } catch (e) {
+    yield put(setLoadingEnd());
     console.log(e);
     toastr.error(i18n.t('message:FARM.ERROR.ADD'));
   }
@@ -109,7 +112,7 @@ export function* patchRoleSaga({ payload }) {
       step_two_end: step_two_end || new Date(),
     };
     yield all([
-      call(axios.patch, patchRoleUrl(farm_id, user_id), { role }, header),
+      call(axios.patch, patchRoleUrl(farm_id, user_id), { role_id }, header),
       !step_two && call(axios.patch, patchStepUrl(farm_id, user_id), step, header),
     ]);
     yield put(patchRoleStepTwoSuccess({ ...step, user_id, farm_id, role_id }));

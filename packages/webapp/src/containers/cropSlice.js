@@ -129,13 +129,17 @@ const cropAdapter = createEntityAdapter({
   selectId: (crop) => crop.crop_id,
 });
 
-const cropReducer = createSlice({
+const cropSlice = createSlice({
   name: 'cropReducer',
-  initialState: cropAdapter.getInitialState({ loading: false, error: undefined }),
+  initialState: cropAdapter.getInitialState({ loading: false, error: undefined, loaded: false }),
   reducers: {
     onLoadingCropStart: onLoadingStart,
     onLoadingCropFail: onLoadingFail,
     getCropsSuccess: addManyCrop,
+    getAllCropsSuccess: (state, { payload: crops }) => {
+      addManyCrop(state, { payload: crops });
+      state.loaded = true;
+    },
     postCropSuccess: addOneCrop,
     putCropSuccess(state, { payload: { crop, farm_id } }) {
       cropAdapter.updateOne(state, { changes: { crop }, id: farm_id });
@@ -151,12 +155,13 @@ export const {
   putCropSuccess,
   onLoadingCropStart,
   onLoadingCropFail,
-} = cropReducer.actions;
-export default cropReducer.reducer;
+  getAllCropsSuccess,
+} = cropSlice.actions;
+export default cropSlice.reducer;
 
-export const cropReducerSelector = (state) => state.entitiesReducer[cropReducer.name];
+export const cropReducerSelector = (state) => state.entitiesReducer[cropSlice.name];
 
-const cropSelectors = cropAdapter.getSelectors((state) => state.entitiesReducer[cropReducer.name]);
+const cropSelectors = cropAdapter.getSelectors((state) => state.entitiesReducer[cropSlice.name]);
 
 export const cropsSelector = createSelector(
   [cropSelectors.selectAll, loginSelector],

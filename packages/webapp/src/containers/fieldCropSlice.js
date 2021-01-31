@@ -3,6 +3,7 @@ import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { fieldEntitiesSelector, fieldsSelector } from './fieldSlice';
 import { cropEntitiesSelector } from './cropSlice';
+import { lastActiveDatetimeSelector } from './userLogSlice';
 
 const getFieldCrop = (obj) => {
   const {
@@ -59,7 +60,7 @@ const fieldCropAdapter = createEntityAdapter({
   selectId: (fieldCrop) => fieldCrop.field_crop_id,
 });
 
-const fieldCropReducer = createSlice({
+const fieldCropSlice = createSlice({
   name: 'fieldCropReducer',
   initialState: fieldCropAdapter.getInitialState({
     loading: false,
@@ -87,13 +88,13 @@ export const {
   onLoadingFieldCropStart,
   onLoadingFieldCropFail,
   deleteFieldCropSuccess,
-} = fieldCropReducer.actions;
-export default fieldCropReducer.reducer;
+} = fieldCropSlice.actions;
+export default fieldCropSlice.reducer;
 
-export const fieldCropReducerSelector = (state) => state.entitiesReducer[fieldCropReducer.name];
+export const fieldCropReducerSelector = (state) => state.entitiesReducer[fieldCropSlice.name];
 
 const fieldCropSelectors = fieldCropAdapter.getSelectors(
-  (state) => state.entitiesReducer[fieldCropReducer.name],
+  (state) => state.entitiesReducer[fieldCropSlice.name],
 );
 
 export const fieldCropsSelector = createSelector(
@@ -110,19 +111,23 @@ export const fieldCropsSelector = createSelector(
   },
 );
 
-export const expiredFieldCropsSelector = (state) => {
-  const fieldCrops = fieldCropsSelector(state);
-  return fieldCrops.filter(
-    (fieldCrop) => new Date(fieldCrop.end_date).getTime() < new Date().getTime(),
-  );
-};
+export const expiredFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) => new Date(fieldCrop.end_date).getTime() < lastActiveDatetime,
+    );
+  },
+);
 
-export const currentFieldCropsSelector = (state) => {
-  const fieldCrops = fieldCropsSelector(state);
-  return fieldCrops.filter(
-    (fieldCrop) => new Date(fieldCrop.end_date).getTime() >= new Date().getTime(),
-  );
-};
+export const currentFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) => new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime,
+    );
+  },
+);
 
 export const fieldCropSelector = fieldCropSelectors.selectById;
 

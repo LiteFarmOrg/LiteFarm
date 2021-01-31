@@ -29,8 +29,8 @@ const SaleForm = ({
         }}
       />
       <div className={styles.defaultFormDropDown}>
-        <label>Crop</label>
         <Control
+          label={'Crop'}
           component={DropDown}
           options={cropOptions}
           searchable={true}
@@ -56,7 +56,7 @@ const SaleForm = ({
         <p>Total ({currencySymbol})</p>
       </div>
       <hr className={styles.thinHr2} />
-      {chosenOptions.map((c) => {
+      {chosenOptions?.map((c) => {
         return (
           <CropSale
             key={c.label}

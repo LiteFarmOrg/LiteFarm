@@ -53,7 +53,7 @@ export const roundToFourDecimal = (value) => {
 };
 
 export const roundToTwoDecimal = (value) => {
-  return Math.round(value * 100) / 100;
+  return Math.floor(value * 100) / 100;
 };
 
 export function grabCurrencySymbol(currency = getCurrencyFromStore()) {
@@ -81,7 +81,7 @@ const getConvertedString = (
 
 export const getFirstNameLastName = (fullName) => {
   const nameArray = fullName.split(/ (.+)/);
-  return { first_name: nameArray[0], last_name: nameArray[1] };
+  return { first_name: nameArray[0], last_name: nameArray[1] || '' };
 };
 
 export const getFormatedTemperature = (temperature, measurement = getMeasurementFromStore()) => {
@@ -90,4 +90,34 @@ export const getFormatedTemperature = (temperature, measurement = getMeasurement
 
 export const getDistance = (distance, measurement = getMeasurementFromStore()) => {
   return getConvertedString(distance, measurement, 'km', 'mi');
+};
+
+export const getMassUnit = (measurement = getMeasurementFromStore()) => {
+  return measurement === METRIC ? 'kg' : 'lb';
+};
+
+export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
+  measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');
+
+export const getDurationString = (timeInMinutes) => {
+  const hours = parseInt(timeInMinutes / 60, 10);
+  const minutes = timeInMinutes - hours * 60;
+  return `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
+};
+
+export const isChrome = () => {
+  const isChromium = window.chrome;
+  const winNav = window.navigator;
+  const vendorName = winNav.vendor;
+  const isOpera = typeof window.opr !== 'undefined';
+  const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
+  const isIOSChrome = winNav.userAgent.match('CriOS');
+  const isChrome =
+    (isChromium !== null &&
+      typeof isChromium !== 'undefined' &&
+      vendorName === 'Google Inc.' &&
+      isOpera === false &&
+      isIEedge === false) ||
+    isIOSChrome;
+  return isChrome;
 };

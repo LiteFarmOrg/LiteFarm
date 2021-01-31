@@ -23,6 +23,8 @@ import {
   SET_SELECTED_USE_TYPES,
   ADD_HARVEST_USE_TYPE,
   SET_FORM_VALUE,
+  SET_START_DATE,
+  SET_END_DATE,
 } from './constants';
 
 export const getLogs = () => {
@@ -83,5 +85,19 @@ export const setFormValue = (formValue) => {
   return {
     type: SET_FORM_VALUE,
     formValue,
+  };
+};
+
+export const setStartDate = (startDate) => {
+  return {
+    type: SET_START_DATE,
+    startDate,
+  };
+};
+
+export const setEndDate = (endDate) => {
+  return {
+    type: SET_END_DATE,
+    endDate,
   };
 };

@@ -260,7 +260,9 @@ class DefaultLogForm extends React.Component {
               <div key={'crop-' + index} className={styles.defaultFormDropDown}>
                 <label>
                   Crop
-                  <label style={{ fontSize: 12, color: '#028577' }}>{f.label}</label>
+                  <label style={{ fontSize: 12, color: '#028577', marginLeft: '4px' }}>
+                    {f.label}
+                  </label>
                 </label>
                 <Control
                   model={`.crop.${f.value}`}

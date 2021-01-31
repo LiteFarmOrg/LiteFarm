@@ -14,14 +14,13 @@ const resources = {
 };
 
 i18n
-  .use(I18nextBrowserLanguageDetector)
   .use(initReactI18next)
+  .use(I18nextBrowserLanguageDetector)
   .init({
     resources,
     fallbackLng: 'en',
     detection: {
       lookupLocalStorage: 'litefarm_lang',
-      order: ['localStorage'],
     },
     keySeparator: '.',
 

@@ -27,6 +27,7 @@ import PureChooseFarmScreen from '../../components/ChooseFarm';
 import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
 import { useTranslation } from 'react-i18next';
 import Spinner from '../../components/Spinner';
+import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 
 function ChooseFarm() {
   const { t } = useTranslation();
@@ -61,7 +62,10 @@ function ChooseFarm() {
     const farm = userFarmEntities[selectedFarmId][user_id];
     if (farm.status === 'Active') {
       dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
-      history.push({ pathname: '/', state: !!currentFarmId });
+      if (currentFarmId) {
+        dispatch(startSwitchFarmModal(currentFarmId));
+      }
+      history.push({ pathname: '/' });
     } else {
       dispatch(patchUserFarmStatusWithIDToken(farm));
     }

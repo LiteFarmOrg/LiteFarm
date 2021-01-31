@@ -84,6 +84,7 @@ class insightController extends baseController {
           WHERE f.farm_id = ? and f.field_id = af.field_id and al.activity_id = sdl.activity_id and af.activity_id = sdl.activity_id
           ) table_2 ON table_2.field_id = f.field_id
           WHERE f.farm_id = ?
+          AND f.deleted = false
           GROUP BY f.field_id
           ORDER BY f.field_name`, [farmID, farmID]);
 
@@ -109,7 +110,7 @@ class insightController extends baseController {
           `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood
           FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
           WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and 
-          st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer'`, [farmID]);
+          st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer' and s.deleted = false`, [farmID]);
 
         if (data.rows) {
           const body = insightHelpers.getLabourHappiness(data.rows);
@@ -133,6 +134,7 @@ class insightController extends baseController {
           LEFT JOIN "fieldCrop" fc
           ON fc.field_id = f.field_id
           WHERE f.farm_id = ?
+          AND f.deleted = false
           GROUP BY f.grid_points`, [farmID]);
         if (dataPoints.rows) {
           const body = await insightHelpers.getBiodiversityAPI(dataPoints.rows);

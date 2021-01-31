@@ -61,6 +61,11 @@ const AddFarm = () => {
   useEffect(() => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
+    setGridPoints(farm?.grid_points ? farm.grid_points : {});
+    if(farm.grid_points?.lat) {
+      const setC = farm.address.split(',').pop().trim();
+      setCountry(setC)
+    }
   }, []);
 
   useEffect(() => {
@@ -286,7 +291,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
         <GoogleMap
           style={{ flexGrow: 1 }}
           defaultCenter={gridPoints}
-          defaultZoom={14}
+          defaultZoom={17}
           yesIWantToUseGoogleMapApiInternals
           options={(maps) => ({
             mapTypeId: maps.MapTypeId.SATELLITE,
@@ -317,7 +322,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
 }
 
 function MapPinWrapper() {
-  return <MapPin />;
+  return <MapPin style={{display: 'absolute', transform: 'translate(-50%, -100%)'}} />;
 }
 
 export default AddFarm;

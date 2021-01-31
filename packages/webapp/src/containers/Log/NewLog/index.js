@@ -14,8 +14,20 @@ import irrigationImg from '../../../assets/images/log/irrigation.svg';
 import history from '../../../history';
 import scoutImg from '../../../assets/images/log/scout.svg';
 import { withTranslation } from 'react-i18next';
+import {
+  setDefaultDate,
+  setFormData,
+  setSelectedUseTypes,
+  saveHarvestAllocationWip,
+} from '../actions';
 
 class NewLog extends Component {
+  componentDidMount() {
+    this.props.dispatch(setDefaultDate(''));
+    this.props.dispatch(setFormData({ notes: '', field: {}, crop: {}, quantity_kg: null }));
+    this.props.dispatch(setSelectedUseTypes([]));
+    this.props.dispatch(saveHarvestAllocationWip({}));
+  }
   render() {
     return (
       <div className={styles.logContainer}>

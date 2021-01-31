@@ -74,6 +74,7 @@ export default function PureEnterPasswordPage({
         icon={<Underlined onClick={forgotPassword}>{t('ENTER_PASSWORD.FORGOT')}</Underlined>}
         inputRef={inputRegister}
         errors={errors[PASSWORD]?.message}
+        autofocus={true}
       />
       {showErrors && (
         <div>

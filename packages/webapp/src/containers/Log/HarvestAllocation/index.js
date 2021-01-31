@@ -46,11 +46,11 @@ class HarvestAllocation extends Component {
       }
     });
     let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
-    console.log(sum);
+    console.log(Number(this.props.formData.quantity_kg));
 
     if (
-      sum >= Number(this.props.formData.quantity_kg) - 0.1 ||
-      sum < Number(this.props.formData.quantity_kg) + 0.1
+      sum >= Number(this.props.formData.quantity_kg) - 0.01 &&
+      sum < Number(this.props.formData.quantity_kg) + 0.01
     ) {
       if (!!this.props.formValue?.activity_id) {
         this.props.dispatch(editLog(this.props.formValue));

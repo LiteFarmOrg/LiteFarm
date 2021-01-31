@@ -17,7 +17,7 @@ function DateContainer({ date, onDateChange, placeholder, defaultDate }) {
         </>
       )}
       <Input
-        value={!defaultDate ? date.format('YYYY-MM-DD') : defaultDate}
+        value={defaultDate ? defaultDate : date.format('YYYY-MM-DD')}
         type={'date'}
         onChange={onChange}
         style={{ flexGrow: 1 }}

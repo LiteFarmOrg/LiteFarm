@@ -26,6 +26,8 @@ import {
   SET_START_DATE,
   SET_END_DATE,
   SET_DEFAULT_DATE_RANGE,
+  SET_DEFAULT_DATE,
+  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
 
 export const getLogs = () => {
@@ -106,5 +108,19 @@ export const setEndDate = (endDate) => {
 export const setDefaultDateRange = () => {
   return {
     type: SET_DEFAULT_DATE_RANGE
+  }
+};
+
+export const setDefaultDate = (defaultDate) => {
+  return {
+    type: SET_DEFAULT_DATE,
+    defaultDate,
+  };
+};
+
+export const saveHarvestAllocationWip = (harvestAllocation) => {
+  return {
+    type: SAVE_HARVEST_ALLOCATION_WIP,
+    harvestAllocation,
   };
 };

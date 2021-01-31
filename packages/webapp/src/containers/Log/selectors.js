@@ -34,6 +34,13 @@ const startEndDateSelector = createSelector(logPageSelector, (state) => ({
   endDate: state.endDate,
 }));
 
+const defaultDateSelector = createSelector(logPageSelector, (state) => state.defaultDate);
+
+const harvestAllocationSelector = createSelector(
+  logPageSelector,
+  (state) => state.harvestAllocation,
+);
+
 export {
   logSelector,
   currentLogSelector,
@@ -42,4 +49,6 @@ export {
   setAllHarvestUseTypesSelector,
   formValueSelector,
   startEndDateSelector,
+  defaultDateSelector,
+  harvestAllocationSelector,
 };

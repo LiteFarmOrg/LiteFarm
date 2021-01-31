@@ -2,7 +2,7 @@ import React from 'react';
 import Input from '../../Form/Input';
 import moment from 'moment';
 import { Text } from '../../Typography';
-function DateContainer({ date, onDateChange, placeholder, custom }) {
+function DateContainer({ date, onDateChange, placeholder, defaultDate }) {
   const onChange = (e) => {
     onDateChange(moment(e.target.value));
   };
@@ -17,7 +17,7 @@ function DateContainer({ date, onDateChange, placeholder, custom }) {
         </>
       )}
       <Input
-        value={date.format('YYYY-MM-DD')}
+        value={!defaultDate ? date.format('YYYY-MM-DD') : defaultDate}
         type={'date'}
         onChange={onChange}
         style={{ flexGrow: 1 }}

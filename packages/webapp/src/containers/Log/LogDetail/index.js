@@ -90,7 +90,7 @@ class LogDetail extends Component {
 
     for (let d of diseases) {
       if (d.disease_id === d_id) {
-        return d.farm_id ? this.props.t(`disease:name.${d.disease_name_translation_key}`) : d.disease_common_name ;
+        return this.props.t(`disease:name.${d.disease_name_translation_key}`);
       }
     }
 
@@ -228,12 +228,12 @@ class LogDetail extends Component {
                   key={dropDown}
                   id={`dropdown-basic-${dropDown}`}
                 >
-                  <Dropdown.Item
+                  {/* <Dropdown.Item
                     eventKey="0"
                     onClick={() => this.editLog(selectedLog.activity_kind)}
                   >
                     {this.props.t('common:EDIT')}
-                  </Dropdown.Item>
+                  </Dropdown.Item> */}
                   <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>
                     {this.props.t('common:DELETE')}
                   </Dropdown.Item>
@@ -385,11 +385,13 @@ class LogDetail extends Component {
                   <div>{`${this.props.t('LOG_HARVEST.HARVEST_QUANTITY')} (${quantity_unit})`}</div>
                   {quantity_unit === 'lb' && (
                     <span>
-                      {convertFromMetric(
-                        selectedLog.harvestLog.quantity_kg,
-                        quantity_unit,
-                        'kg',
-                        false,
+                      {roundToTwoDecimal(
+                        convertFromMetric(
+                          selectedLog.harvestLog.quantity_kg,
+                          quantity_unit,
+                          'kg',
+                          false,
+                        ),
                       )}
                     </span>
                   )}
@@ -412,7 +414,9 @@ class LogDetail extends Component {
                       <div>
                         <Semibold style={{ color: 'var(--teal900)' }}>
                           {quantity_unit === 'lb'
-                            ? convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false)
+                            ? roundToTwoDecimal(
+                                convertFromMetric(use.quantity_kg, quantity_unit, 'kg', false),
+                              )
                             : use.quantity_kg}
                         </Semibold>
                       </div>

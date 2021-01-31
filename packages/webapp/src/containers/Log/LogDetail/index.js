@@ -451,7 +451,7 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SEEDING_DEPTH')}</div>
+                  <div>{this.props.t('LOG_SEEDING.SPACE_DEPTH')}</div>
                   <span>
                     {roundToFourDecimal(
                       convertFromMetric(
@@ -467,7 +467,7 @@ class LogDetail extends Component {
 
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SEED_SPACING')}</div>
+                  <div>{this.props.t('LOG_SEEDING.SPACE_LENGTH')}</div>
                   <span>
                     {roundToFourDecimal(
                       convertFromMetric(

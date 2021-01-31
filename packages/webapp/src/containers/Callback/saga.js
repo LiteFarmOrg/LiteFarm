@@ -49,7 +49,8 @@ export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 
 export function* patchUserFarmStatusSaga({ payload: invite_token }) {
   try {
-    const language_preference = localStorage.getItem('litefarm_lang');
+    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
     const result = yield call(
       axios.patch,
       patchUserFarmStatusUrl(),

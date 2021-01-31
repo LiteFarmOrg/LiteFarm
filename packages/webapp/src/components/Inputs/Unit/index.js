@@ -1,7 +1,6 @@
 import React from 'react';
 import { Control, Errors } from 'react-redux-form';
 import styles from '../styles.scss';
-import { numberOnKeyDown } from '../../Form/Input';
 
 class Unit extends React.Component {
   parseNumber(val) {
@@ -11,6 +10,18 @@ class Unit extends React.Component {
 
   isPositive(val) {
     return val === undefined || val >= 0;
+  }
+
+  isTwoDecimalPlaces(val) {
+    let decimals;
+    if (val) {
+      const decimalIndex = val.toString().indexOf('.');
+      val = val.toString();
+      if (decimalIndex > -1) {
+        decimals = val.split('.')[1].length;
+      }
+    }
+    return !decimals || decimals < 3;
   }
 
   render() {
@@ -23,6 +34,7 @@ class Unit extends React.Component {
       validate,
       hideLabel,
       isHarvestAllocation,
+      defaultValue,
     } = this.props;
     let showLabel;
     if (!hideLabel) {
@@ -33,7 +45,7 @@ class Unit extends React.Component {
 
     return (
       <div
-        style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '1.8rem' }}
+        style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '18px' }}
         className={styles.textContainer}
       >
         {showLabel && <label>{title}</label>}
@@ -43,7 +55,6 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
-                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{ positive: this.isPositive }}
@@ -75,7 +86,6 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
-                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{ positive: this.isPositive }}
@@ -100,12 +110,13 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
-                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
+                defaultValue={defaultValue}
                 validators={{
                   required: (val) => val,
                   positive: this.isPositive,
+                  twoDecimalPlaces: this.isTwoDecimalPlaces,
                 }}
                 parser={this.parseNumber}
               />
@@ -127,6 +138,7 @@ class Unit extends React.Component {
               messages={{
                 required: 'Required',
                 positive: `Must be a non negative number`,
+                twoDecimalPlaces: 'Quantity must be up to 2 decimal places',
               }}
             />
           </>

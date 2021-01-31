@@ -11,16 +11,19 @@
   "FINISH": "Finalizar",
   "GOT_IT": "Feito!",
   "GREAT": "Ótimo",
+  "LOADING": "MISSING",
   "LOGIN_BUTTON": "Login ou cadastre-se",
   "NEXT": "Próximo",
   "NOT_FOUND": "Não encontrado",
   "NOTES": "Notas",
+  "OPTIONAL": "MISSING",
   "PROCEED": "Proceder",
   "REMOVE": "Remover",
   "SAVE": "Salvar",
   "SAVE_CHANGES": "Salvar mudanças",
+  "SORRY": "Desculpa",
   "SUBMIT": "Submeter",
+  "SUBMITTING": "MISSING",
   "TO": "Para",
-  "UPDATE": "Atualizar",
-  "SORRY": "Desculpa"
+  "UPDATE": "Atualizar"
 }

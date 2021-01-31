@@ -1,4 +1,15 @@
 {
+  "ADD_FARM": {
+    "ADDRESS_IS_REQUIRED": "MISSING",
+    "ENTER_A_VALID_ADDRESS": "MISSING",
+    "FARM_IS_REQUIRED": "MISSING",
+    "FARM_LOCATION": "MISSING",
+    "FARM_LOCATION_INPUT_INFO": "MISSING",
+    "FARM_NAME": "MISSING",
+    "INVALID_FARM_LOCATION": "MISSING",
+    "NO_ADDRESS": "MISSING",
+    "TELL_US_ABOUT_YOUR_FARM": "MISSING"
+  },
   "CHOOSE_FARM": {
     "ADD_NEW": "Adicionar novo sitio/fazenda",
     "CHOOSE_TITLE": "Escolha sua fazenda",
@@ -9,7 +20,15 @@
     "LABEL": "Aceito"
   },
   "CREATE_USER": {
+    "BIRTH_YEAR": "MISSING",
+    "BIRTH_YEAR_ERROR": "MISSING",
+    "BIRTH_YEAR_TOOLTIP": "MISSING",
     "CREATE_BUTTON": "Criar Conta",
+    "EMAIL": "MISSING",
+    "FULL_NAME": "MISSING",
+    "GENDER": "MISSING",
+    "GENDER_TOOLTIP": "MISSING",
+    "PASSWORD": "MISSING",
     "TITLE": "Criar uma nova conta de usuário"
   },
   "ENTER_PASSWORD": {
@@ -38,8 +57,10 @@
     "SUMMARY": "Resumo",
     "VALUE": "Valor"
   },
+  "EXPIRED_TOKEN": {
+    "RESET_PASSWORD_LINK": "MISSING"
+  },
   "FIELDS": {
-    "ACTION": "Açao",
     "ADD_NEW_FIELD": "Agregar Campo Novo",
     "EDIT_FIELD": {
       "CROP": {
@@ -87,7 +108,8 @@
       "REDRAW": "Redesenhar",
       "SAVE_FIELD": "Salvar campo",
       "SEARCH_BOX_PLACEHOLDER": "Pesquisar",
-      "TITLE": "Novo campo (2 de 2)"
+      "TITLE": "Novo campo (2 de 2)",
+      "ZERO_AREA_DETECTED": "MISSING"
     },
     "TABLE": {
       "AREA": "Área",
@@ -115,20 +137,51 @@
     "WHATSAPP_NUMBER_LABEL": "Número do Whatsapp"
   },
   "HOME": {
-    "CHROME_WARNING": "Aviso: o aplicativo está programado para ser melhor visualizado no Chrome, alguns layouts podem ser perdidos.",
     "GREETING": "Good day, "
   },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
+    "BIRTH_YEAR_ERROR": "MISSING",
     "BIRTH_YEAR_TOOLTIP": "As informações de idade são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "CREATE_ACCOUNT": "Crie sua conta",
+    "CREATE_NEW_ACCOUNT": "Criar nova conta",
     "EMAIL": "Email",
     "FULL_NAME": "Nome completo",
     "GENDER": "Gênero",
     "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "PASSWORD": "Senha",
-    "CREATE_ACCOUNT": "Crie sua conta",
-    "CREATE_NEW_ACCOUNT": "Criar nova conta",
     "YOUR_INFORMATION": "Sua informação"
+  },
+  "INVITE_SIGN_UP": {
+    "ERROR0": "Você precisará de um usuário",
+    "ERROR1": "Aceitar este convite de fazenda.",
+    "HOW_TO_CREATE": "Como você deseja criar sua nova conta?",
+    "LITEFARM_ACCOUNT": "Crie uma conta LiteFarm",
+    "SIGN_IN_WITH": "Entrar com",
+    "TITLE": "Crie sua conta"
+  },
+  "INVITE_USER": {
+    "BIRTH_YEAR": "MISSING",
+    "BIRTH_YEAR_ERROR": "MISSING",
+    "BIRTH_YEAR_TOOLTIP": "MISSING",
+    "CHOOSE_ROLE": "MISSING",
+    "EMAIL": "MISSING",
+    "EMAIL_INFO": "MISSING",
+    "FULL_NAME": "MISSING",
+    "GENDER": "MISSING",
+    "GENDER_TOOLTIP": "MISSING",
+    "INVALID_EMAIL_ERROR": "MISSING",
+    "INVITE": "MISSING",
+    "PHONE": "MISSING",
+    "PHONE_ERROR": "MISSING",
+    "ROLE": "MISSING",
+    "TITLE": "MISSING",
+    "WAGE": "MISSING",
+    "WAGE_ERROR": "MISSING"
+  },
+  "JOIN_FARM_SUCCESS": {
+    "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",
+    "SUCCESSFULLY_JOINED": "Você entrou com sucesso"
   },
   "LOG_COMMON": {
     "ACTION": "Açao",
@@ -199,7 +252,19 @@
     "TITLE": "Registro de Trabalho de Campo"
   },
   "LOG_HARVEST": {
+    "ADD_CUSTOM_TYPE": {
+      "INPUT_LABEL": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "ADD_CUSTOM_USE_TYPE": "MISSING",
+    "HARVEST_ALLOCATION_SUBTITLE": "MISSING",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "MISSING",
+    "HARVEST_ALLOCATION_TITLE": "MISSING",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
+    "HARVEST_USE": "MISSING",
+    "HARVEST_USE_TYPE_SUBTITLE": "MISSING",
+    "HARVEST_USE_TYPE_TITLE": "MISSING",
+    "QUANTITY": "MISSING",
     "TITLE": "Registro de Colheita"
   },
   "LOG_IRRIGATION": {
@@ -247,6 +312,8 @@
   },
   "LOG_SEEDING": {
     "RATE": "Taxa",
+    "SEED_SPACING": "MISSING",
+    "SEEDING_DEPTH": "MISSING",
     "SPACE_DEPTH": "Profundidade de Semeadura",
     "SPACE_LENGTH": "Distância de Semeadura (Comprimento)",
     "SPACE_WIDTH": "Distância de Semeadura (Largura)",
@@ -308,7 +375,8 @@
       "SELECT_CERTIFIER": "Selecione o seu certificador",
       "THROUGH_APP": "em todo o aplicativo!",
       "WILL_INDICATE": "Iremos indicar os dados necessários para certificação com"
-    }
+    },
+    "WARNING": "MISSING"
   },
   "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
@@ -334,6 +402,7 @@
   "PROFILE": {
     "ACCOUNT_TAB": "Conta",
     "ACCOUNT": {
+      "CONVERT_TO_HAVE_ACCOUNT": "MISSING",
       "EMAIL": "Email",
       "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",
@@ -358,26 +427,25 @@
     },
     "PEOPLE_TAB": "Pessoas",
     "PEOPLE": {
-      "EMAIL_CANNOT_BE_EMPTY": "O e-mail não pode estar vazio para o papel selecionada",
       "EO": "Agente de Extensão",
       "FARM_MANAGER": "Gerente de Fazenda",
       "FARM_OWNER": "Dono da fazenda",
       "FARM_WORKER": "Trabalhador",
-      "FIRST_NAME_NOT_EMPTY": "O primeiro nome não pode estar vazio",
       "HOURLY": "por hora",
-      "INVITE": "Convidar",
       "INVITE_USER": "Convidar Usuário",
-      "LAST_NAME_NOT_EMPTY": "O sobrenome não pode estar vazio",
       "PAY": "Salário",
       "RESTORE_ACCESS": "Restaurar o acesso do usuário",
       "REVOKE_ACCESS": "Revogar o acesso do usuário",
       "ROLE": "Papel",
       "ROLE_CHANGE_ALERT": "A mudança de papel terá efeito no próximo login. Os trabalhadores não podem se definir como administradores.",
       "SEARCH": "Pesquisar",
-      "SELECT_ROLE": "Selecione o papel",
-      "USERS_FOUND": "Usuários encontrados",
-      "USERS_NO_EMAIL_NO_LOGIN": "Usuários sem e-mail não conseguirão fazer login",
-      "WAGE_MUST_BE_VALID": "O salário deve ser um número válido e não negativo"
+      "USERS_FOUND": "Usuários encontrados"
+    },
+    "TABLE": {
+      "HEADER_EMAIL": "MISSING",
+      "HEADER_NAME": "MISSING",
+      "HEADER_ROLE": "MISSING",
+      "HEADER_STATUS": "MISSING"
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {
@@ -482,8 +550,10 @@
       "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
       "BREAK_DURATION": "Duração do intervalo",
       "CHOOSE_DATE": "Escolha uma data",
+      "CHOOSE_WORKERS": "MISSING",
       "CROPS_ON_THIS_FARM": "Culturas nesta fazenda",
       "CROPS_ON_YOUR_FARM": "Culturas em sua fazenda",
+      "DID_NOT_PROVIDE_ANSWER": "MISSING",
       "DURATION": "Duração",
       "FIELDS_ON_YOUR_FARM": "Campos em sua fazenda",
       "HAPPY": "Feliz",
@@ -508,6 +578,8 @@
       "VERY_SAD": "Muito triste",
       "WAGE_FOR_SHIFT": "Salário por este turno",
       "WHAT_TASKS_YOU_DID": "Que tarefas você fez hoje?",
+      "WORKER": "MISSING",
+      "WORKER_MOOD": "MISSING",
       "YOU_HAVE": "Você tem"
     },
     "END_TIME": "Fim do tempo",
@@ -521,6 +593,11 @@
       "TITLE": "Meu turno"
     },
     "NAME": "Nome",
+    "NEW_SHIFT": {
+      "STEP_ONE": "MISSING",
+      "STEP_TWO": "MISSING"
+    },
+    "SHIFT_DATE": "MISSING",
     "SHIFT_HISTORY": "Histórico de turnos",
     "START_TIME": "Hora de início",
     "TITLE": "Turnos",
@@ -538,20 +615,21 @@
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
     "TITLE": "Inscrever-se",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
-    "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome.",
-    "USED_INVITATION_LINK_ERROR": "Este convite já foi usado, faça o login para acessar esta fazenda",
-    "EXPIRED_INVITATION_LINK_ERROR": "Convite inválido ou expirado"
+    "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },
   "SLIDE_MENU": {
-    "DEMOS": "Tutoriais",
     "FIELDS": "Campos",
     "FINANCES": "Finanças",
     "INSIGHTS": "Relatórios",
     "LOGS": "Registros",
     "MANAGE": "Administrar",
     "SHIFTS": "Turnos",
-    "SUPPORT": "Apoio",
     "USERS": "Usuários"
+  },
+  "STATUS": {
+    "ACTIVE": "MISSING",
+    "INACTIVE": "MISSING",
+    "INVITED": "MISSING"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos Lá!",
@@ -559,26 +637,13 @@
     "DESCRIPTION_TOP": "A porta do celeiro está segura.",
     "TITLE": "Mudar de fazenda"
   },
+  "WEATHER": {
+    "HUMIDITY": "MISSING",
+    "WIND": "MISSING"
+  },
   "WELCOME_SCREEN": {
     "BUTTON": "Vamos começar",
     "SVG_ALT": "Bem-vindo a LiteFarm"
   },
-  "LOGIN_BUTTON": "Login ou Cadastre-se",
-  "INVITE_SIGN_UP": {
-    "TITLE": "Crie sua conta",
-    "HOW_TO_CREATE": "Como você deseja criar sua nova conta?",
-    "ERROR0": "Você precisará de um usuário",
-    "ERROR1": "Aceitar este convite de fazenda.",
-    "SIGN_IN_WITH": "Entrar com",
-    "LITEFARM_ACCOUNT": "Crie uma conta LiteFarm"
-  },
-  "JOIN_FARM_SUCCESS": {
-    "SUCCESSFULLY_JOINED": "Você entrou com sucesso",
-    "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!"
-  },
-  "EXPIRED_TOKEN": {
-    "INVITATION": "Não Existe",
-    "DEFAULT": "Não Existe",
-    "RESET_PASSWORD": "Não Existe"
-  }
+  "LOGIN_BUTTON": "Login ou Cadastre-se"
 }

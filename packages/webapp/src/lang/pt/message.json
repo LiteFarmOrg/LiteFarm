@@ -1,4 +1,4 @@
-
+{
   "ATTACHMENTS": {
     "ERROR": {
       "FAILED_UPLOAD": "Anexos não carregados"
@@ -24,8 +24,7 @@
   },
   "EDIT_FIELD_CROP": {
     "ERROR": {
-      "END_DATE_BEFORE": "A Data de Término não pode ser igual ou anterior à Data de Início",
-      "FIELD_AREA": "A área de cultivo não pode ser maior que a área de campo"
+      "END_DATE_BEFORE": "A Data de Término não pode ser igual ou anterior à Data de Início"
     }
   },
   "EXPENSE": {
@@ -66,15 +65,15 @@
       "UPDATE_NAME": "Nome de campo alterado com sucesso"
     }
   },
-"LOG_HARVEST": {
-   "ERROR": {
-     "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
-     "GET_TYPES": "Falha ao buscar uso/destino de colheita"
-   },
-   "SUCCESS": {
-     "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
-   }
- },
+  "LOG_HARVEST": {
+    "ERROR": {
+      "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
+      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+    },
+    "SUCCESS": {
+      "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
+    }
+  },
   "LOG": {
     "ERROR": {
       "ADD": "Falha na adição do Registro",
@@ -92,7 +91,7 @@
       "LOGIN_FAIL": "Falha no login das informações do usuário"
     }
   },
-"NEW_FIELD_CROP": {
+  "NEW_FIELD_CROP": {
     "ERROR": {
       "GENERAL": "Falha ao adicionar cultivo de campo ao banco de dados",
       "NOT_FILLED": "não está preenchido",

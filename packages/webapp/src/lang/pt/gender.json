@@ -1,6 +1,6 @@
 {
-  "OTHER": "Outro",
-  "MALE": "Masculino",
   "FEMALE": "Feminino",
+  "MALE": "Masculino",
+  "OTHER": "Outro",
   "PREFER_NOT_TO_SAY": "Prefere não identificar"
 }

@@ -5,10 +5,11 @@ import vectorUp from '../../../assets/images/navbar/vector-up.svg';
 import vectorDown from '../../../assets/images/navbar/vector-down.svg';
 import styles from './styles.scss';
 import history from '../../../history';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { userFarmSelector } from '../../userFarmSlice';
 import { useTranslation } from 'react-i18next';
+import { setDefaultDateRange } from '../../Log/actions';
 
 function SlideMenu() {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ function SlideMenu() {
   const [supportOpen, setSupportOpen] = useState(false);
   const [manageOpen, setManageOpen] = useState(false);
   const farm = useSelector(userFarmSelector);
+  const dispatch = useDispatch();
   const toggleSupport = () => {
     setSupportOpen(!supportOpen);
   };
@@ -54,7 +56,10 @@ function SlideMenu() {
               <span>{t('SLIDE_MENU.FIELDS')}</span>
             </a>
 
-            <a id="log" className="menu-item" onClick={() => handleClick('/Log')}>
+            <a id="log" className="menu-item" onClick={() => {
+              dispatch(setDefaultDateRange());
+              handleClick('/Log')
+            }}>
               <span>{t('SLIDE_MENU.LOGS')}</span>
             </a>
             <a id="shift" className="menu-item" onClick={() => handleClick('/Shift')}>

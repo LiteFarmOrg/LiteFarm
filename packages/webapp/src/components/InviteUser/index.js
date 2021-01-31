@@ -33,7 +33,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = Object.keys(errors).length || (selectedRoleId !== 3 ? !email : false);
+  const disabled = Object.keys(errors).length || !role || (selectedRoleId !== 3 ? !email : false);
 
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';

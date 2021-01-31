@@ -20,6 +20,9 @@ import {
   SET_SELECTED_USE_TYPES,
   SET_ALL_HARVEST_USE_TYPES,
   SET_FORM_VALUE,
+  SET_START_DATE,
+  SET_END_DATE,
+  SET_DEFAULT_DATE_RANGE,
   SET_DEFAULT_DATE,
   SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
@@ -27,9 +30,12 @@ import { combineReducers } from 'redux';
 import { combineForms } from 'react-redux-form';
 import fertReducer from './FertilizingLog/reducer';
 import pestControlReducer from './PestControlLog/reducer';
+import moment from 'moment';
 
 const initialState = {
   logs: null,
+  startDate: moment().startOf('year'),
+  endDate: moment().endOf('year'),
 };
 
 function logReducer(state = initialState, action) {
@@ -57,6 +63,19 @@ function logReducer(state = initialState, action) {
     case SET_FORM_VALUE:
       return Object.assign({}, state, {
         formValue: action.formValue,
+      });
+    case SET_START_DATE:
+      return Object.assign({}, state, {
+        startDate: action.startDate,
+      });
+    case SET_END_DATE:
+      return Object.assign({}, state, {
+        endDate: action.endDate,
+      });
+    case SET_DEFAULT_DATE_RANGE:
+      return Object.assign({}, state, {
+        startDate: moment().startOf('year'),
+        endDate: moment().endOf('year'),
       });
     case SET_DEFAULT_DATE:
       return Object.assign({}, state, {

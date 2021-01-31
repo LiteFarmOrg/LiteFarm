@@ -537,8 +537,7 @@ class LogDetail extends Component {
                 <div className={styles.innerInfo}>
                   <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
                   <span>
-                    {selectedLog.irrigationLog['flow_rate_l/min']}{' '}
-                    {selectedLog.irrigationLog.flow_rate_unit}
+                    {selectedLog.irrigationLog['flow_rate_l/min']}{' l/min'}
                   </span>
                 </div>
               </div>

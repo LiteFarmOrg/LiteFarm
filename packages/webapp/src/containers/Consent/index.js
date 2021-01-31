@@ -17,17 +17,17 @@ function ConsentForm({
   const { t } = useTranslation();
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors, watch, setValue} = useForm();
   const [consentVersion] = useState('3.0');
   const [consent, setConsentText] = useState('');
-  const hasConsent = watch('consentCheckbox', false);
+  const checkboxName = 'consentCheckbox';
+  const hasConsent = watch(checkboxName, false);
   const checkBoxRef = register({
     required: {
       value: true,
       message: 'You must accept terms and conditions to use the app',
     },
   });
-  const checkboxName = 'consentCheckbox';
   const goBack = () => {
     history.push(goBackTo);
   };
@@ -37,6 +37,7 @@ function ConsentForm({
   };
 
   useEffect(() => {
+    setValue(checkboxName, role.has_consent ?? false);
     let consentForm = role.role_id === 3 ? workerConsent : ownerConsent;
     fetch(consentForm)
       .then((r) => r.text())

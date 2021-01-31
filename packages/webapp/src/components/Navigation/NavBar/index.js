@@ -151,7 +151,7 @@ export default function PureNavBar({
           <div
             style={{
               position: 'fixed',
-              zIndex: 100,
+              zIndex: 100000,
               left: 0,
               right: 0,
               top: 0,

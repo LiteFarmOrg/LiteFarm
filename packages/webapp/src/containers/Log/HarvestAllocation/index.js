@@ -46,10 +46,12 @@ class HarvestAllocation extends Component {
       }
     });
     let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
+    console.log(sum);
 
-    if (Math.abs(Number(this.props.formData.quantity_kg) - sum) <= 0.01) {
-      toastr.error('Total does not equal the amount to allocate');
-    } else {
+    if (
+      sum >= Number(this.props.formData.quantity_kg) - 0.1 ||
+      sum < Number(this.props.formData.quantity_kg) + 0.1
+    ) {
       if (!!this.props.formValue?.activity_id) {
         this.props.dispatch(editLog(this.props.formValue));
       } else {
@@ -58,6 +60,8 @@ class HarvestAllocation extends Component {
         });
         this.props.dispatch(addLog(this.props.formValue));
       }
+    } else {
+      toastr.error('Total does not equal the amount to allocate');
     }
   }
 

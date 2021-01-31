@@ -30,19 +30,14 @@ class fieldController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const result = await fieldController.postWithResponse(req, trx);
-        await trx.commit();
-        if (result.field_name == 0) {
-          res.sendStatus(403)
-        }
-
-        else if (Object.keys(result.grid_points).length < 3) {
-          res.sendStatus(403);
-        }
-
-        else {
+        if (result.field_name.length === 0 || Object.keys(result.grid_points).length < 3) {
+          await trx.rollback();
+          return res.sendStatus(403);
+        } else {
+          await trx.commit();
           res.status(201).send(result);
           req.field = { fieldId: result.field_id, point: result.grid_points[0] }
-          next()
+          next();
         }
       } catch (error) {
         //handle more exceptions
@@ -78,12 +73,13 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx);
+        const user_id = req.user.user_id
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
         }
-        else if (updated[0].field_name.length == 0) {
+        else if (updated[0].field_name.length === 0) {
           res.sendStatus(403);
         }
 
@@ -129,7 +125,8 @@ class fieldController extends baseController {
   static async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
-    return await super.postWithResponse(fieldModel, req.body, trx);
+    const user_id = req.user.user_id
+    return await super.postWithResponse(fieldModel, req.body, trx, { user_id });
   }
 
   static mapFieldToStation(req, res) {

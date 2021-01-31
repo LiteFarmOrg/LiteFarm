@@ -30,6 +30,8 @@ const SeedLog = require('../models/seedLogModel');
 const fieldCrop = require('../models/fieldCropModel');
 const HarvestLog = require('../models/harvestLogModel');
 const field = require('../models/fieldModel');
+const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
+const HarvestUseModel = require('../models/harvestUseModel');
 
 class logController extends baseController {
   static addLog() {
@@ -37,7 +39,7 @@ class logController extends baseController {
       const trx = await transaction.start(Model.knex());
       try{
         if(!lodash.isEmpty(req.body)){
-          await logServices.insertLog(req.body, trx);
+          await logServices.insertLog(req, trx);
           await trx.commit();
         }
         res.sendStatus(200);
@@ -87,6 +89,56 @@ class logController extends baseController {
     }
   }
 
+  static getHarvestUseTypesByFarmID() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const rows = await HarvestUseTypeModel.query().where('farm_id', null).orWhere({farm_id});
+        if (!rows.length) {
+          res.sendStatus(404);
+        }
+        else {
+          res.status(200).send(rows);
+        }
+      } catch (error) {
+        console.log(error)
+        //handle more exceptions
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
+
+  static addHarvestUseType() {
+    return async (req, res) => {
+      const { farm_id } = req.headers;
+      const { name } = req.body;
+      const trx = await transaction.start(Model.knex());
+      try {
+        const check = await HarvestUseTypeModel.query().where({farm_id, harvest_use_type_name: name}).first();
+        if (check) {
+          await trx.rollback();
+          return res.status(400).send("Cannot make duplicate type for this farm");
+        }
+        const harvest_use_type = {
+          farm_id,
+          harvest_use_type_name: name,
+          harvest_use_type_translation_key: name,
+        }
+        const result = await baseController.post(HarvestUseTypeModel, harvest_use_type, trx);
+        await trx.commit();
+        res.status(201).send(result);
+      } catch (error) {
+        //handle more exceptions
+        await trx.rollback();
+        res.status(400).json({
+          error,
+        });
+      }
+    }
+  }
+
   static deleteLog(){
     return async (req, res) => {
       try{
@@ -109,7 +161,7 @@ class logController extends baseController {
       const trx = await transaction.start(Model.knex());
       try{
         if(req.params.activity_id){
-          await logServices.patchLog(req.params.activity_id, trx, req.body);
+          await logServices.patchLog(req.params.activity_id, trx, req);
           await trx.commit();
           res.sendStatus(200);
         }else{
@@ -130,16 +182,29 @@ class logServices extends baseController {
     super();
   }
 
-  static async insertLog(data, transaction){
-    const logModel = getActivityModelKind(data.activity_kind);
-    const activityLog = await super.post(ActivityLogModel, data, transaction);
+  static async insertLog({ body, user }, transaction){
+    const logModel = getActivityModelKind(body.activity_kind);
+    const user_id = user.user_id;
+    const activityLog = await super.post(ActivityLogModel, body, transaction, { user_id });
 
     //insert crops,fields and beds
-    await super.relateModels(activityLog, fieldCrop, data.crops, transaction);
-    await super.relateModels(activityLog, field, data.fields, transaction);
-    if (!logModel.isOther) {
-      await super.postRelated(activityLog, logModel, data, transaction);
+    await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
+    await super.relateModels(activityLog, field, body.fields, transaction);
+    if (!logModel.isOther && !(logModel.tableName === 'harvestLog')) {
+      await super.postRelated(activityLog, logModel, body, transaction);
+    } else if (logModel.tableName === 'harvestLog') {
+      await super.postRelated(activityLog, logModel, body, transaction);
+      const uses = body.selectedUseTypes.map(async (use) => {
+        const data = {
+          activity_id: activityLog.activity_id,
+          harvest_use_type_id: use.harvest_use_type_id,
+          quantity_kg: use.quantity,
+        }
+        return super.post(HarvestUseModel, data, transaction)
+      });
+      await Promise.all(uses);
     }
+    return activityLog;
   }
 
   static async getLogById(id){
@@ -163,38 +228,56 @@ class logServices extends baseController {
       .join('userFarm', 'userFarm.farm_id', '=', 'field.farm_id')
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
-    for(var log of logs){
+    for(let log of logs){
       // get fields and fieldCrops associated with log
       await log.$fetchGraph('fieldCrop.crop');
       await super.getRelated(log, field);
 
       // get related models for specialized logs
-      var logKind = getActivityModelKind(log.activity_kind);
+      const logKind = getActivityModelKind(log.activity_kind);
       if (!logKind.isOther) {
         await super.getRelated(log, logKind);
+      }
+      if (logKind === HarvestLog) {
+        await super.getRelated(log, HarvestUseModel);
+        for(const use of log.harvestUse) {
+          await super.getRelated(use, HarvestUseTypeModel);
+        }
       }
     }
     return logs;
   }
 
-  static async patchLog(logId, transaction, updatedLog){
-    var log = await super.getIndividual(ActivityLogModel, logId);
-    const activityLog = await super.updateIndividualById(ActivityLogModel, logId, updatedLog, transaction);
+  static async patchLog(logId, transaction, { body, user }){
+    const log = await super.getIndividual(ActivityLogModel, logId);
+    const user_id = user.user_id;
+    const activityLog = await super.updateIndividualById(ActivityLogModel, logId, body, transaction, { user_id });
 
     //insert fieldCrops,fields
     // TODO: change body.crops to body.fieldCrops
-    await super.relateModels(activityLog, fieldCrop, updatedLog.crops, transaction);
+    await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
     // TODO: Deprecate fields field in req.body
-    await super.relateModels(activityLog, field, updatedLog.fields, transaction);
+    await super.relateModels(activityLog, field, body.fields, transaction);
 
-    var logKind = getActivityModelKind(log[0].activity_kind);
+    const logKind = getActivityModelKind(log[0].activity_kind);
     if (!logKind.isOther) {
-      await super.updateIndividualById(logKind, logId, updatedLog, transaction)
+      await super.updateIndividualById(logKind, logId, body, transaction, { user_id })
+    }
+    if(log[0].activity_kind === 'harvest') {
+      await HarvestUseModel.query().where({ activity_id: logId }).delete();
+      for(const use of body.selectedUseTypes) {
+        const data = {
+          activity_id: activityLog.activity_id,
+          harvest_use_type_id: use.harvest_use_type_id,
+          quantity_kg: use.quantity,
+        }
+        await super.post(HarvestUseModel, data, transaction)
+      }
     }
   }
 
-  static async deleteLog(logId, trasnaction){
-    await super.delete(ActivityLogModel, logId, trasnaction);
+  static async deleteLog(logId, transaction){
+    await super.delete(ActivityLogModel, logId, transaction);
   }
 }
 

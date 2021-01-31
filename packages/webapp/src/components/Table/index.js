@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -29,31 +29,33 @@ class Table extends React.Component {
       getTdProps,
       sortByID,
     } = this.props;
-    let {minRows} = this.props;
-    if(!minRows) {
+    let { minRows } = this.props;
+    if (!minRows) {
       minRows = 5;
     }
 
     let defaultSorted = [];
-    if (sortByID){
+    if (sortByID) {
       defaultSorted = [
         {
           id: sortByID,
-          desc: true
-        }
-      ]
+          desc: true,
+        },
+      ];
     }
-    return (<ReactTable
-      className={className}
-      columns={columns}
-      data={data}
-      showPagination={showPagination}
-      pageSizeOptions={pageSizeOptions}
-      defaultPageSize={defaultPageSize}
-      minRows={showPagination ? undefined : minRows} // Messes up pagination
-      getTdProps={getTdProps}
-      defaultSorted={defaultSorted}
-    />)
+    return (
+      <ReactTable
+        className={className}
+        columns={columns}
+        data={data}
+        showPagination={showPagination}
+        pageSizeOptions={pageSizeOptions}
+        defaultPageSize={defaultPageSize}
+        minRows={showPagination ? undefined : minRows} // Messes up pagination
+        getTdProps={getTdProps}
+        defaultSorted={defaultSorted}
+      />
+    );
   }
 }
 

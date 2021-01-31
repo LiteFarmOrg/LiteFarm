@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.textContainer{
+.textContainer {
   display: block;
 
   width: 100%;
@@ -21,21 +21,20 @@
   font-size: 1.8rem;
   position: relative;
   box-sizing: border-box;
-  label{
+  label {
     font-weight: 300;
-    font-size: 1.8rem;
-    width: 75px;
     margin-right: 10px;
   }
 
-  input{
+  input {
     color: var(--typePrimary);
     -webkit-align-items: center;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    background-color: hsl(0,0%,98%);
-    border-color: hsl(0,0%,80%);
+    background: transparent;
+    border: 1px solid #D4DAE3;
+    border-color: hsl(0, 0%, 80%);
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
@@ -57,7 +56,7 @@
     -webkit-transition: all 100ms;
     transition: all 100ms;
     box-sizing: border-box;
-    font-size: 1.8rem;
+    font-size: 18px;
   }
   .textWrapper {
     width: calc(100% - 10px);
@@ -65,19 +64,19 @@
   }
 }
 
-.checkBoxContainer{
+.checkBoxContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
   margin-bottom: 5%;
-  label{
+  label {
     font-weight: 300;
     font-size: 18px;
     line-height: 20px;
     width: 100px;
   }
 
-  input{
+  input {
     color: var(--typePrimary);
     border: 1px solid lightgrey;
     padding: 0.5% 3%;
@@ -86,29 +85,41 @@
     height: 40px;
   }
 }
-
-.inputNunit{
-  display: flex;
-  input{
-    width: 90%;
-    margin-right: 5%;
-  }
+.typeUnit{
+  font-family: 'Open Sans', 'SansSerif', serif;
+  //styleName: H3 - Regular 16;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  transform: translateY(8px);
+  margin-left: 16px;
 }
 
 
-.selectContainer{
+.inputNunit {
+  display: flex;
+  align-items: center;
+}
+
+.selectContainer {
   display: flex;
   input {
     margin-right: 10px;
   }
-  select {
-    background: #EFEFEF;
-    border: none;
-    padding: 2px;
-    border-radius: 5px;
-    height: 30px;
-    width: 80px;
-    font-size: 0.9em;
-  }
+}
+.select{
+  transform: translateY(20px);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  height: 48px;
+  border: none;
+  border-radius: 4px;
+  background-color: white;
 
 }

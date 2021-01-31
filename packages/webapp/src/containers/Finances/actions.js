@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (actions.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -34,142 +34,141 @@ import {
   ADD_REMOVE_EXPENSE,
   SET_DATE_RANGE,
   UPDATE_SALE,
-} from "./constants";
+} from './constants';
 
 export const getSales = () => {
   return {
     type: GET_SALES,
-  }
+  };
 };
 
 export const setSalesInState = (sales) => {
   return {
     type: SET_SALES_IN_STATE,
-    sales
-  }
+    sales,
+  };
 };
 
 export const addOrUpdateSale = (sale) => {
   return {
     type: ADD_OR_UPDATE_SALE,
-    sale
-  }
+    sale,
+  };
 };
-
 
 export const updateSale = (sale) => {
   return {
     type: UPDATE_SALE,
-    sale
-  }
+    sale,
+  };
 };
 
 export const deleteSale = (sale) => {
   return {
     type: DELETE_SALE,
-    sale
-  }
+    sale,
+  };
 };
 
 export const setSelectedSale = (sale) => {
   return {
     type: SET_SELECTED_SALE,
-    sale
-  }
+    sale,
+  };
 };
 
 export const getShifts = () => {
   return {
     type: GET_SHIFT_FINANCE,
-  }
+  };
 };
 
 export const setShifts = (shifts) => {
   return {
     type: SET_SHIFT_FINANCE,
-    shifts
-  }
+    shifts,
+  };
 };
 
 export const getExpense = () => {
   return {
     type: GET_EXPENSE,
-  }
+  };
 };
 
 export const setExpense = (expenses) => {
   return {
     type: SET_EXPENSE,
-    expenses
-  }
+    expenses,
+  };
 };
 
 export const getDefaultExpenseType = () => {
   return {
     type: GET_DEFAULT_EXPENSE_TYPE,
-  }
+  };
 };
 
 export const setDefaultExpenseType = (expense_types) => {
   return {
     type: SET_DEFAULT_EXPENSE_TYPE,
-    expense_types
-  }
+    expense_types,
+  };
 };
 
 export const addExpenses = (expenses) => {
-  return{
+  return {
     type: ADD_EXPENSES,
     expenses,
-  }
+  };
 };
 
 export const setExpenseDetailDate = (expense_detail_date) => {
   return {
     type: SET_EXPENSE_DETAIL_DATE,
     expense_detail_date,
-  }
+  };
 };
 
-export const setSelectedExpense = (expense_types)=>{
+export const setSelectedExpense = (expense_types) => {
   return {
     type: SET_SELECTED_EXPENSE,
     expense_types,
-  }
+  };
 };
 
 export const deleteExpenses = (ids) => {
   return {
     type: DELETE_EXPENSES,
-    ids
-  }
+    ids,
+  };
 };
 
 export const setEditExpenses = (expenses) => {
   return {
     type: SET_EXPENSES_TO_EDIT,
-    expenses
-  }
+    expenses,
+  };
 };
 
-export const setSelectedEditExpense = (expense_types)=>{
+export const setSelectedEditExpense = (expense_types) => {
   return {
     type: SET_SELECTED_EDIT_EXPENSE,
     expense_types,
-  }
+  };
 };
 
-export const addRemoveExpense = (addRemoveObj)=>{
+export const addRemoveExpense = (addRemoveObj) => {
   return {
     type: ADD_REMOVE_EXPENSE,
     addRemoveObj,
-  }
+  };
 };
 
 //range obj = {startDate: ..., endDate...}
-export const setDateRange = (rangeObj)=>{
+export const setDateRange = (rangeObj) => {
   return {
     type: SET_DATE_RANGE,
     rangeObj,
-  }
+  };
 };

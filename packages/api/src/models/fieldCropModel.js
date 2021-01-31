@@ -14,9 +14,8 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
-
-class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
+const baseModel = require('./baseModel')
+class FieldCrop extends baseModel {
   static get tableName() {
     return 'fieldCrop';
   }
@@ -35,7 +34,6 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
         field_crop_id: { type: 'integer' },
         crop_id: { type: 'integer' },
         field_id: { type: 'string' },
-        deleted: { type: 'boolean' },
         variety: { type: 'string' },
         start_date: { type: 'date-time' },
         end_date: { type: 'date-time' },
@@ -44,6 +42,7 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
         estimated_revenue: { type: 'float', minimum: 0 },
         is_by_bed: { type: 'boolean' },
         bed_config: { type: 'object, null' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -88,6 +87,7 @@ class FieldCrop extends softDelete({ columnName: 'deleted' })(Model) {
         },
 
       },
+      ...this.baseRelationMappings('fieldCrop'),
     };
   }
 }

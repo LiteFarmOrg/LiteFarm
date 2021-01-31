@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (diseaseController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -41,7 +41,11 @@ class diseaseController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(diseaseModel, req.body, trx);
+        const user_id = req.user.user_id
+        const data = req.body;
+        data.disease_name_translation_key = data.disease_common_name;
+        data.disease_group_translation_key = data.disease_group;
+        const result = await baseController.postWithResponse(diseaseModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {

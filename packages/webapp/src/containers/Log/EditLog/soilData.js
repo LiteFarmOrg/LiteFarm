@@ -1,51 +1,62 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {logSelector, currentLogSelector} from '../selectors';
-import {fieldSelector, cropSelector, farmSelector} from '../../selector';
+import { currentLogSelector, logSelector } from '../selectors';
+
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Control, Form} from 'react-redux-form';
+import { actions, Control, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import DropDown from '../../../components/Inputs/DropDown';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import parseFields from "../Utility/parseFields";
-import parseCrops from "../Utility/parseCrops";
-import {convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal, roundToFourDecimal} from "../../../util";
-import {deleteLog, editLog} from "../Utility/actions";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import parseFields from '../Utility/parseFields';
+import parseCrops from '../Utility/parseCrops';
+import {
+  convertFromMetric,
+  convertToMetric,
+  getUnit,
+  roundToFourDecimal,
+  roundToTwoDecimal,
+} from '../../../util';
+import { deleteLog, editLog } from '../Utility/actions';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
+import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
 const parsedTextureOptions = [
-  {label: 'Sand', value:'sand'},
-  {label: 'Loamy Sand', value:'loamySand'},
-  {label: 'Sandy Loam', value:'sandyLoam'},
-  {label: 'Loam', value:'loam'},
-  {label: 'Silt Loam', value:'siltLoam'},
-  {label: 'Silt', value:'silt'},
-  {label: 'Sandy Clay Loam', value:'sandyClayLoam'},
-  {label: 'Clay Loam', value:'clayLoam'},
-  {label: 'Silty Clay Loam', value:'siltyClayLoam'},
-  {label: 'Sandy Clay', value:'sandyClay'},
-  {label: 'Silty Clay', value:'siltyClay'},
-  {label: 'Clay', value:'clay'}
+  { label: 'Sand', value: 'sand' },
+  { label: 'Loamy Sand', value: 'loamySand' },
+  { label: 'Sandy Loam', value: 'sandyLoam' },
+  { label: 'Loam', value: 'loam' },
+  { label: 'Silt Loam', value: 'siltLoam' },
+  { label: 'Silt', value: 'silt' },
+  { label: 'Sandy Clay Loam', value: 'sandyClayLoam' },
+  { label: 'Clay Loam', value: 'clayLoam' },
+  { label: 'Silty Clay Loam', value: 'siltyClayLoam' },
+  { label: 'Sandy Clay', value: 'sandyClay' },
+  { label: 'Silty Clay', value: 'siltyClay' },
+  { label: 'Clay', value: 'clay' },
 ];
 
 const parsedDepthOptions = [
-  {label: '0-5cm', value: 5},
-  {label: '0-10cm', value: 10},
-  {label: '0-20cm', value: 20},
-  {label: '21-30cm', value: 30},
-  {label: '30-50cm', value: 50},
-  {label: '51-100cm', value: 100}
+  { label: '0-5cm', value: 5 },
+  { label: '0-10cm', value: 10 },
+  { label: '0-20cm', value: 20 },
+  { label: '21-30cm', value: 30 },
+  { label: '30-50cm', value: 50 },
+  { label: '51-100cm', value: 100 },
 ];
 
 const lookupValueTable = {
-  'texture': {}, 'depth': {}
+  texture: {},
+  depth: {},
 };
 
-class soilDataLog extends Component{
+class soilDataLog extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,44 +77,86 @@ class soilDataLog extends Component{
   componentDidMount() {
     // mapping my lookup table on componentdidmount so it doesnt repeatedly do it if i call it outside
     parsedTextureOptions.forEach((currTexture) => {
-      lookupValueTable['texture'][currTexture.value] = currTexture.label
+      lookupValueTable['texture'][currTexture.value] = currTexture.label;
     });
     parsedDepthOptions.forEach((currDepth) => {
-      lookupValueTable['depth'][currDepth.value] = currDepth.label
+      lookupValueTable['depth'][currDepth.value] = currDepth.label;
     });
     //
     // console.log(lookupValueTable);
     const { selectedLog, dispatch } = this.props;
     this.setState({
-      date: selectedLog && moment.utc(selectedLog.date)
+      date: selectedLog && moment.utc(selectedLog.date),
     });
-    const bulkDensity = roundToFourDecimal(convertFromMetric(convertFromMetric(parseFloat(selectedLog.soilDataLog['bulk_density_kg/m3']), this.state.bulk_density_numerator, 'kg'), this.state.bulk_density_denominator, 'm3', true));
+    const bulkDensity = roundToFourDecimal(
+      convertFromMetric(
+        convertFromMetric(
+          parseFloat(selectedLog.soilDataLog['bulk_density_kg/m3']),
+          this.state.bulk_density_numerator,
+          'kg',
+        ),
+        this.state.bulk_density_denominator,
+        'm3',
+        true,
+      ),
+    );
 
     const depth_cm = selectedLog.soilDataLog.depth_cm;
-    const depthCmObj = {label: grabLabelFromValue(depth_cm, 'depth'), value: depth_cm};
+    const depthCmObj = {
+      label: grabLabelFromValue(depth_cm, 'depth'),
+      value: depth_cm,
+    };
 
     const texture = selectedLog.soilDataLog.texture;
-    const textureObj = {label: grabLabelFromValue(texture, 'texture'), value: texture};
+    const textureObj = {
+      label: grabLabelFromValue(texture, 'texture'),
+      value: texture,
+    };
 
-    const cec = roundToTwoDecimal(convertFromMetric(selectedLog.soilDataLog.cec, this.state.cec_denominator, 'kg', true));
+    const cec = roundToTwoDecimal(
+      convertFromMetric(selectedLog.soilDataLog.cec, this.state.cec_denominator, 'kg', true),
+    );
 
-    let options = ['k', 'p', 'n', 'om', 'ph', 'organic_carbon', 'inorganic_carbon', 'total_carbon', 's', 'c', 'ca',
-    'mg', 'na', 'zn', 'mn', 'fe', 'cu', 'b'];
+    let options = [
+      'k',
+      'p',
+      'n',
+      'om',
+      'ph',
+      'organic_carbon',
+      'inorganic_carbon',
+      'total_carbon',
+      's',
+      'c',
+      'ca',
+      'mg',
+      'na',
+      'zn',
+      'mn',
+      'fe',
+      'cu',
+      'b',
+    ];
     options.forEach((o) => {
-      dispatch(actions.change(`logReducer.forms.soilDataLog.${o}`, selectedLog.soilDataLog[o] && selectedLog.soilDataLog[o].toString()));
+      dispatch(
+        actions.change(
+          `logReducer.forms.soilDataLog.${o}`,
+          selectedLog.soilDataLog[o] && selectedLog.soilDataLog[o].toString(),
+        ),
+      );
     });
     dispatch(actions.change('logReducer.forms.soilDataLog.bulk_density_kg/m3', bulkDensity));
     dispatch(actions.change('logReducer.forms.soilDataLog.texture', textureObj));
     dispatch(actions.change('logReducer.forms.soilDataLog.depth_cm', depthCmObj));
     dispatch(actions.change('logReducer.forms.soilDataLog.notes', selectedLog.notes));
-    dispatch(actions.change('logReducer.forms.soilDataLog.cec', cec))
+    dispatch(actions.change('logReducer.forms.soilDataLog.cec', cec));
   }
 
   toggleMoreInfo() {
-    const {showMoreInfo} = this.state;
-    this.setState({showMoreInfo: !showMoreInfo});
+    const { showMoreInfo } = this.state;
+    this.setState({ showMoreInfo: !showMoreInfo });
   }
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
@@ -117,7 +170,16 @@ class soilDataLog extends Component{
     let selectedFields = parseFields(log, fields);
     let selectedCrops = parseCrops(log, crops);
 
-    const bulkDensity = convertToMetric(convertToMetric(parseFloat(log['bulk_density_kg/m3']), this.state.bulk_density_numerator, 'kg'), this.state.bulk_density_denominator, 'm3', true);
+    const bulkDensity = convertToMetric(
+      convertToMetric(
+        parseFloat(log['bulk_density_kg/m3']),
+        this.state.bulk_density_numerator,
+        'kg',
+      ),
+      this.state.bulk_density_denominator,
+      'm3',
+      true,
+    );
     let formValue = {
       activity_id: selectedLog.activity_id,
       activity_kind: 'soilData',
@@ -152,20 +214,28 @@ class soilDataLog extends Component{
     dispatch(editLog(formValue));
   }
 
-  render(){
+  render() {
     const { crops, fields, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({ value: f.field_id, label: f.field_name }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({ value: fc.field_crop_id, label: fc.crop.crop_common_name, field_id: fc.field_id }));
+    const selectedFields = selectedLog.field.map((f) => ({
+      value: f.field_id,
+      label: f.field_name,
+    }));
+    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
+      value: fc.field_crop_id,
+      label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
+      field_id: fc.field_id,
+    }));
 
     const customFieldset = () => {
       return (
         <div>
           <div className={styles.defaultFormDropDown}>
-            <label>Depth</label>
-            <Control model='.depth_cm'
-                     component={DropDown}
-                     options={parsedDepthOptions || []}
-                     placeholder="select depth"
+            <label>{this.props.t('LOG_SOIL.DEPTH')}</label>
+            <Control
+              model=".depth_cm"
+              component={DropDown}
+              options={parsedDepthOptions || []}
+              placeholder="select depth"
             />
           </div>
           <div className={styles.defaultFormDropDown}>
@@ -177,23 +247,38 @@ class soilDataLog extends Component{
               placeholder="select texture"
             />
           </div>
-          <Unit model='.k' title='K' type='%'/>
-          <Unit model='.p' title='P' type='%'/>
-          <Unit model='.n' title='N' type='%'/>
-          <Unit model='.om' title='OM' type='%'/>
-          <Unit model='.ph' title='ph' type='%'/>
-          <Unit model='.bulk_density_kg/m3' title='Bulk Density' type={`${this.state.bulk_density_numerator}/${this.state.bulk_density_denominator}`}/>
+          <Unit model=".k" title="K" type="%" />
+          <Unit model=".p" title="P" type="%" />
+          <Unit model=".n" title="N" type="%" />
+          <Unit model=".om" title="OM" type="%" />
+          <Unit model=".ph" title="ph" type="%" />
+          <Unit
+            model=".bulk_density_kg/m3"
+            title="Bulk Density"
+            type={`${this.state.bulk_density_numerator}/${this.state.bulk_density_denominator}`}
+          />
         </div>
-      )
+      );
     };
 
-    return(
+    return (
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Soil Data Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val)}>
+        <PageTitle
+          backUrl="/log"
+          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_SOIL.TITLE')}`}
+        />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val)}
+        >
           <DefaultLogForm
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
             model=".soilDataLog"
@@ -203,57 +288,74 @@ class soilDataLog extends Component{
             notesField={true}
             customFieldset={customFieldset}
           />
-          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>{this.state.showMoreInfo ? 'Hide' : 'Show'} More Info</div>
-          {this.state.showMoreInfo &&
-          <div>
-            <Unit model='.soilDataLog.organic_carbon' title='Organic Carbon' type='%'/>
-            <Unit model='.soilDataLog.inorganic_carbon' title='Inorganic Carbon' type='%'/>
-            <Unit model='.soilDataLog.total_carbon' title='Total Carbon' type='%'/>
-            <Unit model='.soilDataLog.s' title='S' type='%'/>
-            <Unit model='.soilDataLog.c' title='C' type='%'/>
-            <Unit model='.soilDataLog.ca' title='Ca' type='%'/>
-            <Unit model='.soilDataLog.mg' title='Mg' type='%'/>
-            <Unit model='.soilDataLog.na' title='Na' type='%'/>
-            <Unit model='.soilDataLog.zn' title='Zn' type='%'/>
-            <Unit model='.soilDataLog.mn' title='Mn' type='%'/>
-            <Unit model='.soilDataLog.fe' title='Fe' type='%'/>
-            <Unit model='.soilDataLog.cu' title='Cu' type='%'/>
-            <Unit model='.soilDataLog.b' title='B' type='%'/>
-            <Unit model='.soilDataLog.cec' title='CEC' type={'cmolc/' + this.state.cec_denominator}/>
+          <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>
+            {this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}
           </div>
-          }
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })}/>
+          {this.state.showMoreInfo && (
+            <div>
+              <Unit
+                model=".soilDataLog.organic_carbon"
+                title={this.props.t('LOG_SOIL.ORGANIC_CARBON')}
+                type="%"
+              />
+              <Unit
+                model=".soilDataLog.inorganic_carbon"
+                title={this.props.t('LOG_SOIL.INORGANIC_CARBON')}
+                type="%"
+              />
+              <Unit
+                model=".soilDataLog.total_carbon"
+                title={this.props.t('LOG_SOIL.TOTAL_CARBON')}
+                type="%"
+              />
+              <Unit model=".soilDataLog.s" title="S" type="%" />
+              <Unit model=".soilDataLog.c" title="C" type="%" />
+              <Unit model=".soilDataLog.ca" title="Ca" type="%" />
+              <Unit model=".soilDataLog.mg" title="Mg" type="%" />
+              <Unit model=".soilDataLog.na" title="Na" type="%" />
+              <Unit model=".soilDataLog.zn" title="Zn" type="%" />
+              <Unit model=".soilDataLog.mn" title="Mn" type="%" />
+              <Unit model=".soilDataLog.fe" title="Fe" type="%" />
+              <Unit model=".soilDataLog.cu" title="Cu" type="%" />
+              <Unit model=".soilDataLog.b" title="B" type="%" />
+              <Unit
+                model=".soilDataLog.cec"
+                title="CEC"
+                type={'cmolc/' + this.state.cec_denominator}
+              />
+            </div>
+          )}
+          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-    farm: farmSelector(state),
-  }
+    farm: userFarmSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 const grabLabelFromValue = (value, type) => {
   return lookupValueTable[type][value];
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(soilDataLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(soilDataLog));

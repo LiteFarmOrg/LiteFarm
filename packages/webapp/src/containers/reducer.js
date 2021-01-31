@@ -13,37 +13,12 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  SET_USER_IN_STATE,
-  SET_FARM_IN_STATE,
-  SET_FIELDS_IN_STATE,
-  SET_FIELD_CROPS_IN_STATE,
-} from './constants';
-
-const initialState = {
-  users: null,
-  farm: null,
-  fields: null,
-  fieldCrops: null,
-  consent_version: null,
-};
+const initialState = {};
 
 function baseReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER_IN_STATE:
-      return Object.assign({}, state, { users: {...state.users, ...action.users} });
-    case SET_FARM_IN_STATE:
-      return Object.assign({}, state, { farm: action.farm });
-    case SET_FIELDS_IN_STATE:
-      return Object.assign({}, state, {
-        fields: action.fields,
-      });
-    case SET_FIELD_CROPS_IN_STATE:
-      return Object.assign({}, state, {
-        fieldCrops: action.fieldCrops,
-      });
     default:
-      return state
+      return state;
   }
 }
 

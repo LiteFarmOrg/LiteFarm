@@ -1,43 +1,36 @@
-import { GET_FERTILIZERS, ADD_FERTILIZER_LOG, ADD_FERTILIZER, EDIT_FERTILIZER_LOG } from "./constants";
-import { setFertilizersInState, getFertilizers } from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  ADD_FERTILIZER,
+  ADD_FERTILIZER_LOG,
+  EDIT_FERTILIZER_LOG,
+  GET_FERTILIZERS,
+} from './constants';
+import { getFertilizers, setFertilizersInState } from './actions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
-import {toastr} from "react-redux-toastr";
-const axios = require('axios');
+import { toastr } from 'react-redux-toastr';
+import { loginSelector } from '../../userFarmSlice';
+import { getHeader, axios } from '../../saga';
+import i18n from '../../../lang/i18n';
 
 export function* getFertilizerSaga() {
-  let farm_id = localStorage.getItem('farm_id');
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
   const { fertUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-  try{
+  try {
     const result = yield call(axios.get, fertUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setFertilizersInState(result.data));
     }
-  }catch (e){
+  } catch (e) {
     console.log('fail to fetch fertilizers');
   }
 }
 
 export function* addFertilizerToDB(payload) {
-  let farm_id = localStorage.getItem('farm_id');
   const { fertUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  const { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let fertConfig = payload.fertConfig;
   let fert = {
@@ -56,23 +49,16 @@ export function* addFertilizerToDB(payload) {
       fertConfig.fertilizer_id = result.data.fertilizer_id;
       yield put(getFertilizers());
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add fert');
-    toastr.error('failed to add fertilizer');
+    toastr.error(i18n.t('message:FERTILIZER.ERROR.ADD'));
   }
 }
 
 export function* addLog(payload) {
-  let user_id = localStorage.getItem('user_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let fertConfig = payload.fertConfig;
   let log = {
@@ -90,25 +76,18 @@ export function* addLog(payload) {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully added Log!');
+      toastr.success(i18n.t('message:LOG.SUCCESS.ADD'));
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add log');
-    toastr.error('Failed to add Log');
+    toastr.error(i18n.t('message:LOG.ERROR.ADD'));
   }
 }
 
 export function* editLog(payload) {
-  let user_id = localStorage.getItem('user_id');
   const { logURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let fertConfig = payload.fertConfig;
   let log = {
@@ -127,14 +106,13 @@ export function* editLog(payload) {
     const result = yield call(axios.put, logURL + `/${fertConfig.activity_id}`, log, header);
     if (result) {
       history.push('/log');
-      toastr.success('Successfully edited Log!');
+      toastr.success(i18n.t('message:LOG.SUCCESS.EDIT'));
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to edit log');
-    toastr.error('Failed to edit Log');
+    toastr.error(i18n.t('message:LOG.ERROR.EDIT'));
   }
 }
-
 
 export default function* fertSaga() {
   yield takeEvery(GET_FERTILIZERS, getFertilizerSaga);

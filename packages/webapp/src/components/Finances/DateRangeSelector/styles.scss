@@ -1,6 +1,5 @@
 .pullLeft {
   label {
-    line-height: 4.5rem;
     font-size: 15px;
     margin-right: 7px;
   }
@@ -12,7 +11,6 @@
 
 .pullRight {
   label {
-    line-height: 4.5rem;
     font-size: 15px;
     margin-right: 7px;
   }
@@ -22,49 +20,63 @@
   margin: 0;
 }
 
-.date{
+.date {
   input {
     font-size: 1.8rem;
-    border: 1px solid #D3D3D3;
+    border: 1px solid #d3d3d3;
     width: 100%;
     border-radius: 5px;
-    background-color: hsl(0,0%,98%);
+    background-color: hsl(0, 0%, 98%);
   }
   display: flex;
   flex-direction: row;
   align-items: center;
-  ::placeholder{
-    color:#00756A;
+  ::placeholder {
+    color: #00756a;
   }
 }
 
-.balanceTitle{
+.balanceTitle {
   display: inline;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   font-size: 18px;
   letter-spacing: 0.131836px;
-  color: #5B6370;
+  color: #5b6370;
 }
 
-.rangeContainer{
-  display:flex;
+.rangeContainer {
+  display: flex;
   flex-direction: column;
   width: 100%;
-  input{
+  input {
     text-align: center;
   }
-  h5{
+  h5 {
     text-align: center;
   }
   margin-bottom: 20px;
 }
 
-.toFromContainer{
-  display:flex;
+.toFromContainer {
+  display: flex;
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+.dateContainer {
+  max-width: 100%;
+}
+@media screen and (min-width: 500px)  {
+  .dateContainer{
+    width: 45%;
+  }
+  .pullRight {
+    float: right;
+  }
+  .pullLeft {
+    float: left;
+  }
 }

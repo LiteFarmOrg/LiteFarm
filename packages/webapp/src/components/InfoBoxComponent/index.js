@@ -1,21 +1,23 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, {Component} from 'react';
-import {Button, Glyphicon, Modal} from 'react-bootstrap';
-import styles from "../PageTitle/styles.scss";
+import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import styles from '../PageTitle/styles.scss';
+import { BsInfoCircleFill } from 'react-icons/bs';
+import { withTranslation } from 'react-i18next';
 
 class InfoBoxComponent extends Component {
   constructor(props) {
@@ -30,21 +32,21 @@ class InfoBoxComponent extends Component {
   }
 
   handleClose() {
-    this.setState({show: false});
+    this.setState({ show: false });
   }
 
   handleShow() {
-    this.setState({show: true});
+    this.setState({ show: true });
   }
 
   handleSave(saveHandler) {
     saveHandler();
-    this.setState({show: false})
+    this.setState({ show: false });
   }
 
   handleDelete(deleteHandler) {
     deleteHandler();
-    this.setState({show: false})
+    this.setState({ show: false });
   }
   render() {
     const title = this.props.title;
@@ -60,30 +62,43 @@ class InfoBoxComponent extends Component {
     return (
       <div>
         <button style={customStyle} className={styles.buttonContainer} onClick={this.handleShow}>
-          <Glyphicon glyph="info-sign"/>
+          <BsInfoCircleFill />
         </button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>
-              {title}
-            </Modal.Title>
+            <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            {body}
-          </Modal.Body>
+          <Modal.Body>{body}</Modal.Body>
           <Modal.Footer>
-            {showDelete &&
-            <Button variant="danger" onClick={() => {this.handleDelete(deleteHandler)}}>Delete</Button>}
-            {showSave &&
-            <Button variant="primary" onClick={() => {this.handleSave(saveHandler)}}>Save Changes</Button>}
-            <Button variant="secondary" onClick={this.handleClose}>Close</Button>
-
+            {showDelete && (
+              <Button
+                variant="danger"
+                onClick={() => {
+                  this.handleDelete(deleteHandler);
+                }}
+              >
+                {this.props.t('common:DELETE')}
+              </Button>
+            )}
+            {showSave && (
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.handleSave(saveHandler);
+                }}
+              >
+                {this.props.t('common:SAVE_CHANGES')}
+              </Button>
+            )}
+            <Button variant="secondary" onClick={this.handleClose}>
+              {this.props.t('common:CLOSE')}
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>
-    )
+    );
   }
 }
 
-export default InfoBoxComponent
+export default withTranslation()(InfoBoxComponent);

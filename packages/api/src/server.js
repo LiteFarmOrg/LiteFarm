@@ -26,12 +26,13 @@ const checkJwt = require('./middleware/acl/checkJwt');
 const cors = require('cors');
 
 // initialize knex
-const knex = require('./util/knex')
+const knex = require('./util/knex');
 
 // bind all models to a knex instance
 Model.knex(knex);
 
 // import routes
+const loginRoutes = require('./routes/loginRoute');
 const cropRoutes = require('./routes/cropRoute');
 const fieldRoutes = require('./routes/fieldRoute');
 // const planRoutes = require('./routes/planRoute');
@@ -48,7 +49,6 @@ const logRoutes = require('./routes/logRoute');
 const shiftRoutes = require('./routes/shiftRoute');
 // const notificationSettingRoutes = require('./routes/notificationSettingRoute');
 const fieldCropRoutes = require('./routes/fieldCropRoute');
-const createUserRoutes = require('./routes/createUserRoute');
 const fertilizerRoutes = require('./routes/fertilizerRoute');
 const diseaseRoutes = require('./routes/diseaseRoute');
 const pesticideRoutes = require('./routes/pesticideRoute');
@@ -60,12 +60,15 @@ const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
 const rolesRoutes = require('./routes/rolesRoute');
-const signUpRoutes = require('./routes/signUpRoute');
+const organicCertifierSurveyRoutes = require('./routes/organicCertifierSurveyRoute');
+const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
+const userLogRoute = require('./routes/userLogRoute');
+const supportTicketRoute = require('./routes/supportTicketRoute');
 
 // register API
 const router = promiseRouter();
@@ -85,7 +88,7 @@ app.use(bodyParser.json())
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
       return res.status(200).json({});
-    }else if((req.method === 'DELETE' || req.method === 'GET') && Object.keys(req.body).length > 0){
+    } else if ((req.method === 'DELETE' || req.method === 'GET') && Object.keys(req.body).length > 0) {
       // TODO: Find new bugs caused by this change
       return res.sendStatus(400);
     }
@@ -94,11 +97,13 @@ app.use(bodyParser.json())
   .use(router)
   .set('json spaces', 2)
   .use('/stats', statsRoutes)
-  .use('/sign_up', signUpRoutes)
+  .use('/login', loginRoutes)
+  .use('/password_reset', passwordResetRoutes)
   // ACL middleware
   .use(checkJwt)
 
   // routes
+  .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
   .use('/field', fieldRoutes)
   // .use('/plan', planRoutes)
@@ -115,7 +120,6 @@ app.use(bodyParser.json())
   .use('/shift', shiftRoutes)
   // .use('/notification_setting', notificationSettingRoutes)
   .use('/field_crop', fieldCropRoutes)
-  .use('/create_user', createUserRoutes)
   .use('/fertilizer', fertilizerRoutes)
   .use('/disease', diseaseRoutes)
   .use('/pesticide', pesticideRoutes)
@@ -126,6 +130,8 @@ app.use(bodyParser.json())
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)
+  .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
+  .use('/support_ticket', supportTicketRoute)
 
   // handle errors
   .use((req, res, next) => {
@@ -140,7 +146,7 @@ app.use(bodyParser.json())
       error: {
         message: error.message,
       },
-    })
+    });
   });
 
 const port = process.env.PORT || 5000;
@@ -161,6 +167,6 @@ if (environment === 'development' || environment === 'production' || environment
 
 app.on('close', () => {
   knex.destroy();
-})
+});
 
 module.exports = app;

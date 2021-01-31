@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (loginButton.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,33 +14,21 @@
  */
 
 import React from 'react';
-import {connect} from 'react-redux';
 import { Button } from 'react-bootstrap';
-import styles from '../Home/styles.scss';
+import styles from './styles.scss';
+import { useTranslation } from 'react-i18next';
 
-class Login extends React.Component {
+function LoginButton({ auth }) {
+  const { t, i18n } = useTranslation();
 
-  login() {
-    this.props.auth.login();
+  function login() {
+    auth.login();
   }
-
-  render() {
-    return (
-        <div className={styles.submit}>
-            <Button
-              onClick={this.login.bind(this)}
-            >
-              Log In or Sign Up
-            </Button>
-        </div>
-    )
-  }
+  return (
+    <div className={styles.submit}>
+      <Button onClick={() => login()}>{t('common:LOGIN_BUTTON')}</Button>
+    </div>
+  );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch
-  }
-};
-
-export default connect(null, mapDispatchToProps)(Login);
+export default LoginButton;

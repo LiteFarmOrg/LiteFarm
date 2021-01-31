@@ -13,56 +13,51 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import {
-  GET_TASK_TYPES, ADD_TASK_TYPE, SUBMIT_SHIFT, GET_SHIFTS, DELETE_SHIFT, UPDATE_SHIFT,
-  GET_ALL_SHIFT, SUBMIT_MULTI_SHIFT,
-} from "./constants";
-import {setTaskTypesInState, getTaskTypes, setShifts} from "./actions";
-import {toastr} from "react-redux-toastr";
+  ADD_TASK_TYPE,
+  DELETE_SHIFT,
+  GET_ALL_SHIFT,
+  GET_SHIFTS,
+  GET_TASK_TYPES,
+  SUBMIT_MULTI_SHIFT,
+  SUBMIT_SHIFT,
+  UPDATE_SHIFT,
+} from './constants';
+import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
+import { toastr } from 'react-redux-toastr';
 import history from '../../history';
-const axios = require('axios');
+import { loginSelector, userFarmSelector } from '../userFarmSlice';
+import { getHeader, axios } from '../saga';
+import i18n from '../../lang/i18n';
+import { resetStepOne } from '../shiftSlice';
 
 
 export function* getTaskTypesSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { taskTypeUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, taskTypeUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setTaskTypesInState(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch task types from database')
+  } catch (e) {
+    console.log('failed to fetch task types from database');
   }
 }
 
 export function* addTaskTypeSaga(payload) {
-  let farm_id = localStorage.getItem('farm_id');
   const { taskTypeUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let taskName = payload.taskName;
   const body = {
     task_name: taskName,
-    farm_id: farm_id
+    farm_id: farm_id,
   };
 
   try {
@@ -70,94 +65,72 @@ export function* addTaskTypeSaga(payload) {
     if (result) {
       yield put(getTaskTypes());
     }
-  } catch(e) {
+  } catch (e) {
     console.error('failed to add task type');
   }
 }
 
 export function* addShift(action) {
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
   let shiftObj = action.shiftObj;
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
-    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
-    const result = yield call(axios.post, shiftUrl, { ...shiftObj, farm_id: header.headers.farm_id }, header);
+    const result = yield call(
+      axios.post,
+      shiftUrl,
+      { ...shiftObj, farm_id: header.headers.farm_id },
+      header,
+    );
     if (result) {
+      yield put(resetStepOne());
       history.push('/shift');
-      toastr.success('Successfully added new shift!');
+      toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
     }
-  } catch(e) {
-    console.log('failed to add shift');
-    toastr.error('Failed to add new shift');
+  } catch (e) {
+    toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
   }
 }
 
 export function* addMultiShiftSaga(action) {
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
   let shiftObj = action.shiftObj;
 
   try {
     const result = yield call(axios.post, shiftUrl + '/multi', shiftObj, header);
     if (result) {
       history.push('/shift');
-      toastr.success('Successfully added new shift!');
+      toastr.success(i18n.t('message:SHIFT.SUCCESS.ADD'));
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add shift');
-    toastr.error('Failed to add new shift');
+    toastr.error(i18n.t('message:SHIFT.ERROR.ADD'));
   }
 }
 
 export function* getShiftsSaga() {
-  const user_id = localStorage.getItem('user_id');
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id, first_name, last_name } = yield select(userFarmSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, shiftUrl + '/user/' + user_id, header);
     if (result) {
-      yield put(setShifts(result.data));
+      yield put(setShifts(result.data.map((shift) => ({ ...shift, first_name, last_name }))));
     }
-  } catch(e) {
-    console.error('failed to fetch shifts from database')
+  } catch (e) {
+    console.error('failed to fetch shifts from database');
   }
 }
 
 export function* getAllShiftSaga() {
-  const farm_id = localStorage.getItem('farm_id');
   const { farmShiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, farmShiftUrl + farm_id, header);
@@ -165,18 +138,22 @@ export function* getAllShiftSaga() {
       let allShifts = result.data;
       let sortedShifts = [];
       let dict = {};
-      for(let shift of allShifts){
-        if(!dict.hasOwnProperty(shift.shift_id)){
+      for (let shift of allShifts) {
+        if (!dict.hasOwnProperty(shift.shift_id)) {
           dict[shift.shift_id] = shift;
-          dict[shift.shift_id] = Object.assign(dict[shift.shift_id], {tasks: [{
-              task_id: shift.task_id,
-              duration: shift.duration,
-              field_crop_id: shift.field_crop_id,
-              field_id: shift.field_id,
-              is_field: shift.is_field,
-              shift_id: shift.shift_id,
-            }]})
-        }else{
+          dict[shift.shift_id] = Object.assign(dict[shift.shift_id], {
+            tasks: [
+              {
+                task_id: shift.task_id,
+                duration: shift.duration,
+                field_crop_id: shift.field_crop_id,
+                field_id: shift.field_id,
+                is_field: shift.is_field,
+                shift_id: shift.shift_id,
+              },
+            ],
+          });
+        } else {
           dict[shift.shift_id].tasks.push({
             task_id: shift.task_id,
             duration: shift.duration,
@@ -184,66 +161,59 @@ export function* getAllShiftSaga() {
             field_id: shift.field_id,
             is_field: shift.is_field,
             shift_id: shift.shift_id,
-          })
+          });
         }
       }
       let keys = Object.keys(dict);
-      for(let k of keys){
+      for (let k of keys) {
         sortedShifts.push(dict[k]);
       }
       yield put(setShifts(sortedShifts));
     }
-  } catch(e) {
-    console.error('failed to fetch shifts from database')
+  } catch (e) {
+    console.error('failed to fetch shifts from database');
   }
 }
 
 export function* deleteShiftSaga(action) {
   const { shiftId } = action;
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.delete, shiftUrl + '/' + shiftId, header);
     if (result) {
-      toastr.success('Deleted shift!');
+      toastr.success(i18n.t('message:SHIFT.SUCCESS.DELETE'));
       history.push('/shift');
     }
-  } catch(e) {
-    toastr.error('Failed to delete the shift :(');
+  } catch (e) {
+    toastr.error(i18n.t('message:SHIFT.ERROR.DELETE'));
   }
 }
 
 export function* updateShiftSaga(action) {
   const { shiftID, shiftObj } = action;
   const { shiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     // TODO: Modify the way tasks are being set their ids. Refactor STEP 2.
-    shiftObj.tasks.forEach((t) => t.task_id = Number(t.task_id) );
-    const result = yield call(axios.put, shiftUrl + '/' + shiftID, { ...shiftObj, farm_id: localStorage.getItem('farm_id') }, header);
+    shiftObj.tasks.forEach((t) => (t.task_id = Number(t.task_id)));
+    const result = yield call(
+      axios.put,
+      shiftUrl + '/' + shiftID,
+      { ...shiftObj, farm_id },
+      header,
+    );
     if (result) {
-      toastr.success('Successfully updated shift!');
+      toastr.success(i18n.t('message:SHIFT.SUCCESS.UPDATE'));
       history.push('/shift');
     }
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add shift');
-    toastr.error('Failed to update shift');
+    toastr.error(i18n.t('message:SHIFT.ERROR.UPDATE'));
   }
 }
 

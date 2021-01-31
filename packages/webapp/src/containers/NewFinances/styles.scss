@@ -1,25 +1,25 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.financesContainer{
+.financesContainer {
   width: 100%;
   max-width: 1024px;
   min-height: 100vh;
   height: auto;
-  padding: 60px 5% 50px 5%;
-  display:flex;
+  padding: 24px 24px 50px 24px;
+  display: flex;
   flex-direction: column;
 }
 
@@ -29,7 +29,7 @@
   line-height: normal;
   font-size: 18px;
   letter-spacing: 0.131836px;
-  color: #5B6370;
+  color: #5b6370;
 }
 
 .topContainer {
@@ -39,6 +39,12 @@
   justify-content: space-between;
 }
 
-.floatLeft { width: 50%; float: left; }
+.floatLeft {
+  width: 50%;
+  float: left;
+}
 
-.floatRight {width: 50%; float: right; }
+.floatRight {
+  width: 50%;
+  float: right;
+}

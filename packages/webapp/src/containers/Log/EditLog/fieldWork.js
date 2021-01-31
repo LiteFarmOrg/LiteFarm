@@ -1,20 +1,23 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
-import {logSelector, currentLogSelector} from '../selectors';
-import {fieldSelector, cropSelector} from '../../selector';
+import { currentLogSelector, logSelector } from '../selectors';
+
 import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form} from 'react-redux-form';
+import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import styles from '../styles.scss';
-import parseFields from "../Utility/parseFields";
-import {deleteLog, editLog} from "../Utility/actions";
-import parseCrops from "../Utility/parseCrops";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import parseFields from '../Utility/parseFields';
+import { deleteLog, editLog } from '../Utility/actions';
+import parseCrops from '../Utility/parseCrops';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { withTranslation } from 'react-i18next';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
-class FieldWorkLog extends Component{
+class FieldWorkLog extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(actions.reset('logReducer.forms.fieldWorkLog'));
@@ -29,7 +32,7 @@ class FieldWorkLog extends Component{
   componentDidMount() {
     const { selectedLog, dispatch } = this.props;
     this.setState({
-      date: selectedLog && moment.utc(selectedLog.date)
+      date: selectedLog && moment.utc(selectedLog.date),
     });
     const tillageTypeLabels = {
       plow: 'Plow',
@@ -39,12 +42,15 @@ class FieldWorkLog extends Component{
       ripping: 'Ripping',
       discing: 'Discing',
     };
-    const selectedType = { value: selectedLog.fieldWorkLog.type, label: tillageTypeLabels[selectedLog.fieldWorkLog.type] };
+    const selectedType = {
+      value: selectedLog.fieldWorkLog.type,
+      label: tillageTypeLabels[selectedLog.fieldWorkLog.type],
+    };
     dispatch(actions.change('logReducer.forms.fieldWorkLog.type', selectedType));
     dispatch(actions.change('logReducer.forms.fieldWorkLog.notes', selectedLog.notes));
   }
 
-  setDate(date){
+  setDate(date) {
     this.setState({
       date: date,
     });
@@ -67,20 +73,38 @@ class FieldWorkLog extends Component{
     dispatch(editLog(formValue));
   }
 
-  render(){
+  render() {
     const { crops, fields, selectedLog } = this.props;
-    const selectedFields = selectedLog.field.map((f) => ({ value: f.field_id, label: f.field_name }));
-    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({ value: fc.field_crop_id, label: fc.crop.crop_common_name, field_id: fc.field_id }));
+    const selectedFields = selectedLog.field.map((f) => ({
+      value: f.field_id,
+      label: f.field_name,
+    }));
+    const selectedCrops = selectedLog.fieldCrop.map((fc) => ({
+      value: fc.field_crop_id,
+      label: this.props.t(`crop:${fc.crop.crop_translation_key}`),
+      field_id: fc.field_id,
+    }));
 
-    return(
+    return (
       <div className="page-container">
-        <PageTitle backUrl="/log" title="Edit Field Work Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.fieldWorkLog)}>
+        <PageTitle
+          backUrl="/log"
+          title={`${this.props.t('common:EDIT')} ${this.props.t('LOG_FIELD_WORK.TITLE')}`}
+        />
+        <DateContainer
+          date={this.state.date}
+          onDateChange={this.setDate}
+          placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+        />
+        <Form
+          model="logReducer.forms"
+          className={styles.formContainer}
+          onSubmit={(val) => this.handleSubmit(val.fieldWorkLog)}
+        >
           <DefaultLogForm
             selectedCrops={selectedCrops}
             selectedFields={selectedFields}
-            parent='logReducer.forms'
+            parent="logReducer.forms"
             model=".fieldWorkLog"
             fields={fields}
             crops={crops}
@@ -89,32 +113,32 @@ class FieldWorkLog extends Component{
             typeOptions={['plow', 'ridgeTill', 'zoneTill', 'mulchTill', 'ripping', 'discing']}
             isCropNotNeeded={true}
           />
-          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })}/>
+          <LogFooter edit={true} onClick={() => this.setState({ showModal: true })} />
         </Form>
         <ConfirmModal
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => this.props.dispatch(deleteLog(selectedLog.activity_id))}
-          message='Are you sure you want to delete this log?'
+          message={this.props.t('LOG_COMMON.DELETE_CONFIRMATION')}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
     logs: logSelector(state),
     selectedLog: currentLogSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FieldWorkLog);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(FieldWorkLog));

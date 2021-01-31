@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (reducer.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -16,14 +16,26 @@
 import {
   SET_LOGS_IN_STATE,
   SET_SELECTED_LOG,
+  SET_FORM_DATA,
+  SET_SELECTED_USE_TYPES,
+  SET_ALL_HARVEST_USE_TYPES,
+  SET_FORM_VALUE,
+  SET_START_DATE,
+  SET_END_DATE,
+  SET_DEFAULT_DATE_RANGE,
+  SET_DEFAULT_DATE,
+  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
-import {combineReducers} from "redux";
-import {combineForms} from "react-redux-form";
-import fertReducer from "./FertilizingLog/reducer";
-import pestControlReducer from "./PestControlLog/reducer";
+import { combineReducers } from 'redux';
+import { combineForms } from 'react-redux-form';
+import fertReducer from './FertilizingLog/reducer';
+import pestControlReducer from './PestControlLog/reducer';
+import moment from 'moment';
 
 const initialState = {
   logs: null,
+  startDate: moment().startOf('year'),
+  endDate: moment().endOf('year'),
 };
 
 function logReducer(state = initialState, action) {
@@ -36,8 +48,45 @@ function logReducer(state = initialState, action) {
       return Object.assign({}, state, {
         selectedLog: action.log,
       });
+    case SET_FORM_DATA:
+      return Object.assign({}, state, {
+        formData: action.formData,
+      });
+    case SET_SELECTED_USE_TYPES:
+      return Object.assign({}, state, {
+        useType: action.useType,
+      });
+    case SET_ALL_HARVEST_USE_TYPES:
+      return Object.assign({}, state, {
+        allUseType: action.allUseType,
+      });
+    case SET_FORM_VALUE:
+      return Object.assign({}, state, {
+        formValue: action.formValue,
+      });
+    case SET_START_DATE:
+      return Object.assign({}, state, {
+        startDate: action.startDate,
+      });
+    case SET_END_DATE:
+      return Object.assign({}, state, {
+        endDate: action.endDate,
+      });
+    case SET_DEFAULT_DATE_RANGE:
+      return Object.assign({}, state, {
+        startDate: moment().startOf('year'),
+        endDate: moment().endOf('year'),
+      });
+    case SET_DEFAULT_DATE:
+      return Object.assign({}, state, {
+        defaultDate: action.defaultDate,
+      });
+    case SAVE_HARVEST_ALLOCATION_WIP:
+      return Object.assign({}, state, {
+        harvestAllocation: action.harvestAllocation,
+      });
     default:
-      return state
+      return state;
   }
 }
 
@@ -96,6 +145,8 @@ const harvestLog = {
   field: null,
 };
 
+const harvestAllocation = {};
+
 const pcLog = {
   quantity: 0,
   notes: '',
@@ -114,17 +165,21 @@ const pcLog = {
 };
 
 export default combineReducers({
-  forms: combineForms({
-    fertLog: fertLog,
-    fieldWorkLog: fieldWorkLog,
-    harvestLog: harvestLog,
-    irrigationLog: irrigationLog,
-    otherLog: otherLog,
-    pestControlLog: pcLog,
-    scoutingLog: scoutingLog,
-    seedLog: seedLog,
-    soilDataLog: {},
-  }, 'logReducer.forms'),
+  forms: combineForms(
+    {
+      fertLog: fertLog,
+      fieldWorkLog: fieldWorkLog,
+      harvestLog: harvestLog,
+      irrigationLog: irrigationLog,
+      otherLog: otherLog,
+      pestControlLog: pcLog,
+      scoutingLog: scoutingLog,
+      seedLog: seedLog,
+      soilDataLog: {},
+      harvestAllocation: harvestAllocation,
+    },
+    'logReducer.forms',
+  ),
   logReducer,
   fertReducer,
   pestControlReducer,

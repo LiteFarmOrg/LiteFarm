@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
-import {soilOMSelector} from "../selectors";
+import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
 
 class SoilOM extends Component {
@@ -14,38 +14,57 @@ class SoilOM extends Component {
   render() {
     return (
       <div className={insightStyles.insightContainer}>
-        <PageTitle title="Soil OM Content" backUrl="/Insights"
-        rightIcon={true} rightIconBody={infoBoxBody} rightIconTitle={"Soil OM"}/>
+        <PageTitle
+          title="Soil OM Content"
+          backUrl="/Insights"
+          rightIcon={true}
+          rightIconBody={infoBoxBody}
+          rightIconTitle={'Soil OM'}
+        />
         <div>
-          <h4><b>Soil Organic Matter</b></h4>
-          < hr className={insightStyles.defaultLine}/>
-
+          <h4>
+            <b>Soil Organic Matter</b>
+          </h4>
+          <hr className={insightStyles.defaultLine} />
         </div>
         <div>
           {this.props.soilOMData.data.map((element, index) => {
-            return (<div key={'item-' + index}><InsightsInfoComponent title={element.field_name} valueLabel={"%"} value={element.soil_om} percent={element.percentage }/><hr /></div>)
+            return (
+              <div key={'item-' + index}>
+                <InsightsInfoComponent
+                  title={element.field_name}
+                  valueLabel={'%'}
+                  value={element.soil_om}
+                  percent={element.percentage}
+                />
+                <hr />
+              </div>
+            );
           })}
         </div>
       </div>
-    )
+    );
   }
 }
 
-const infoBoxBody = <div>
-  Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs.  If you do not have any data we predict the potential soil organic matter for your location globally.
-</div>;
+const infoBoxBody = (
+  <div>
+    Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate
+    these data from your most recent soil analysis logs. If you do not have any data we predict the
+    potential soil organic matter for your location globally.
+  </div>
+);
 
 const mapStateToProps = (state) => {
   return {
-    soilOMData: soilOMSelector(state)
-  }
+    soilOMData: soilOMSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SoilOM)
+export default connect(mapStateToProps, mapDispatchToProps)(SoilOM);

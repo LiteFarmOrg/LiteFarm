@@ -23,7 +23,7 @@ const roleModel = require('../models/roleModel');
 const { transaction, Model } = require('objection');
 const axios = require('axios');
 const url = require('url');
-const emailSender = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const farmModel = require('../models/farmModel');
 const { v4: uuidv4 } = require('uuid');
 const environmentMap = {
@@ -31,6 +31,7 @@ const environmentMap = {
   production: 'https://app.litefarm.org/',
   development: 'http://localhost:3000/',
 }
+const { createToken } = require('../util/jwt');
 const auth0Uri = findAuth0Uri();
 
 class createUserController extends baseController {
@@ -139,7 +140,7 @@ class createUserController extends baseController {
     const environment = process.env.NODE_ENV || 'development';
     return async (req, res) => {
       let user_id;
-      const template_path = '../templates/invitation_to_farm_email.html';
+      const template_path = emails.INVITATION;
       const sender = 'help@litefarm.org';
 
       const { email, password, user_metadata, farm_id, role_id, wage } = req.body;
@@ -214,24 +215,29 @@ class createUserController extends baseController {
       if (isUserAlreadyCreated) {
         try {
           const trx = await transaction.start(Model.knex());
-          await userFarmModel.query(trx).insert({
+          const userFarm = await userFarmModel.query(trx).insert({
             user_id: created_user_id,
             farm_id,
-            status: 'Active',
+            status: 'Invited',
             consent_version: '1.0',
             role_id,
             wage,
+            step_one: true,
+            step_two: true,
+            step_three: true,
+            step_four: true,
+            step_five: true,
           });
           trx.commit();
-          res.sendStatus(201)
+          res.status(201).send({ ...isUserAlreadyCreated, ...userFarm })
         } catch (error) {
           res.status(500).send(error);
         }
         const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
-        const subject = `You’ve been invited to join ${farm_name} on LiteFarm!`;
+        template_path.subjectReplacements = farm_name;
         const basePath = environmentMap[environment];
-        await emailSender.sendEmail(template_path, subject, { farm_name, first_name, link: basePath },
-          email, sender, true, environmentMap[environment]);
+        await sendEmailTemplate.sendEmail(template_path, { farm_name, first_name, link: basePath },
+          email, sender, true, environmentMap[environment], isUserAlreadyCreated.language_preference);
         return;
       }
       await this.postToAuth0(user).then(async (authResponse) => {
@@ -253,32 +259,33 @@ class createUserController extends baseController {
           first_name: lite_farm_user.first_name,
           farm_name: rows[0].farm_name,
         };
-        const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
+        template_path.subjectReplacements = rows[0].farm_name;
         const trx = await transaction.start(Model.knex());
-        baseController.post(userModel, lite_farm_user, trx).then(async () => {
-          await userFarmModel.query(trx).insert({
+        baseController.post(userModel, lite_farm_user, trx).then(async (user) => {
+          const userFarm = await userFarmModel.query(trx).insert({
             user_id: lite_farm_user.user_id,
             farm_id: lite_farm_user.farm_id,
             status: 'Invited',
             consent_version: '1.0',
             role_id: lite_farm_user.role_id,
             wage: lite_farm_user.wage,
+            step_one: true,
+            step_two: true,
+            step_three: true,
+            step_four: true,
+            step_five: true,
           });
 
-          // create invite token
-          let token = uuidv4();
-          // gets rid of the dashes
-          token = token.replace(/[-]/g, "");
           // add a row in emailToken table
-          await emailTokenModel.query(trx).insert({
+          const [emailToken] = await emailTokenModel.query(trx).insert({
             user_id: lite_farm_user.user_id,
             farm_id: lite_farm_user.farm_id,
-            token,
-            is_used: false,
-          });
+          }).returning('*');
+
+          const token = await createToken('invite', { ...user, ...userFarm, invitation_id: emailToken.invitation_id });
 
           await trx.commit();
-          res.sendStatus(201);
+          res.status(201).send({ ...user, ...userFarm });
 
           // the following is to determine the url
           let joinUrl;
@@ -291,7 +298,8 @@ class createUserController extends baseController {
           } else {
             joinUrl = `${basePath}sign_up/${token}/${lite_farm_user.user_id}/${lite_farm_user.farm_id}/${lite_farm_user.email}/${lite_farm_user.first_name}/${lite_farm_user.last_name}`
           }
-          await emailSender.sendEmail(template_path, subject, { link: basePath, ...replacements }, lite_farm_user.email, sender, true, joinUrl);
+          // TODO: IF necessary, add language to this sendEmail
+          await sendEmailTemplate.sendEmail(template_path, { link: basePath, ...replacements }, lite_farm_user.email, sender, true, joinUrl);
         }).catch(async (err) => {
           console.log(err);
           if (await this.deleteAuth0User(user_id)) {
@@ -318,23 +326,28 @@ class createUserController extends baseController {
               // at this point user exists on Auth0 AND in users table, so just
               // add userFarm association to add the user to current farm, status
               // is Active by default because no sign up is required
-              await userFarmModel.query(trx).insert({
+              const userFarm = await userFarmModel.query(trx).insert({
                 user_id,
                 farm_id: req.body.farm_id,
-                status: 'Active',
+                status: 'Invited',
                 consent_version: '1.0',
                 role_id: req.body.role_id,
                 wage: req.body.wage,
+                step_one: true,
+                step_two: true,
+                step_three: true,
+                step_four: true,
+                step_five: true,
               });
               await trx.commit();
-              res.sendStatus(201);
+              res.status(201).send({ ...rows[0], ...userFarm });
               const rows = await farmModel.query().select('*').where('farm.farm_id', req.body.farm_id);
               const replacements = {
                 first_name: authResponse.data[0].user_metadata.first_name,
                 farm_name: rows[0].farm_name,
               };
-              const subject = `You’ve been invited to join ${rows[0].farm_name} on LiteFarm!`;
-              await emailSender.sendEmail(template_path, subject, replacements, authResponse.data[0].email, sender);
+              template_path.subjectReplacements = rows[0].farm_name;
+              await sendEmailTemplate.sendEmail(template_path, replacements, authResponse.data[0].email, sender, null, rows[0].language_preference);
             }
           } catch (addExistingUserError) {
             await trx.rollback();

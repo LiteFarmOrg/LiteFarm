@@ -1,14 +1,15 @@
 import styles from '../../Finances/styles.scss';
-import React, {Component} from "react";
-import {Button} from "react-bootstrap";
-import history from "../../../history";
-import PageTitle from "../../../components/PageTitle";
+import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
+import history from '../../../history';
+import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import { salesSelector } from '../../Finances/selectors';
-import {getSales} from '../../Finances/actions';
-import {connect} from 'react-redux';
-import {setSelectedSale} from "../../Finances/actions";
+import { getSales } from '../../Finances/actions';
+import { connect } from 'react-redux';
+import { setSelectedSale } from '../../Finances/actions';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class SalesSummary extends Component {
     this.state = {
       startDate: moment().startOf('year'),
       endDate: moment().endOf('year'),
-    }
+    };
   }
 
   componentDidMount() {
@@ -34,16 +35,17 @@ class SalesSummary extends Component {
     if (sales.length) {
       sales.map((s) => {
         return s.cropSale.forEach((cs) => {
-          if (cropMap[cs.fieldCrop.crop.crop_common_name]) {
-            cropMap[cs.fieldCrop.crop.crop_common_name] += cs.sale_value;
+          const cropName = this.props.t(`crop:${cs.fieldCrop.crop.crop_translation_key}`);
+          if (cropMap[cropName]) {
+            cropMap[cropName] += cs.sale_value;
           } else {
-            cropMap[cs.fieldCrop.crop.crop_common_name] = cs.sale_value || 0;
+            cropMap[cropName] = cs.sale_value || 0;
           }
-        })
-      })
+        });
+      });
     }
     return Object.keys(cropMap).map((k) => {
-      return { crop: k, value: cropMap[k]}
+      return { crop: k, value: cropMap[k] };
     });
   }
 
@@ -65,20 +67,30 @@ class SalesSummary extends Component {
         crop = 'multiple';
         s.cropSale.forEach((cs) => {
           value += cs.sale_value;
-        })
+        });
       } else {
-        crop = s.cropSale[0].fieldCrop.crop.crop_common_name;
+        crop = this.props.t(`crop:${s.cropSale[0].fieldCrop.crop.crop_translation_key}`);
         value = s.cropSale[0].sale_value;
       }
-      return { date, crop, value, cropSale: s.cropSale, customerName: s.customer_name, id: s.sale_id }
-    })
+      return {
+        date,
+        crop,
+        value,
+        cropSale: s.cropSale,
+        customerName: s.customer_name,
+        id: s.sale_id,
+      };
+    });
   }
 
   filterByDate(sales) {
     return sales.filter((s) => {
       const fullDate = new Date(s.sale_date);
-      return ((this.state.startDate && this.state.startDate._d) <= fullDate && (this.state.endDate && this.state.endDate._d) >= fullDate);
-    })
+      return (
+        (this.state.startDate && this.state.startDate._d) <= fullDate &&
+        (this.state.endDate && this.state.endDate._d) >= fullDate
+      );
+    });
   }
 
   render() {
@@ -87,47 +99,62 @@ class SalesSummary extends Component {
     const detailedHistoryData = this.formatSales(this.filterByDate(sales));
 
     // columns config for Summary Table
-    const summaryColumns = [{
-      id: 'crop',
-      Header: 'Crop',
-      accessor: (e) => e.crop,
-      minWidth: 70,
-      Footer: <div>Total</div>
-    }, {
-      id: 'value',
-      Header: 'Value',
-      accessor: (e) => `$${e.value}`,
-      minWidth: 75,
-      Footer: <div>${this.formatFooter(summaryData)}</div>
-    }];
+    const summaryColumns = [
+      {
+        id: 'crop',
+        Header: 'Crop',
+        accessor: (e) => e.crop,
+        minWidth: 70,
+        Footer: <div>Total</div>,
+      },
+      {
+        id: 'value',
+        Header: 'Value',
+        accessor: (e) => `$${e.value}`,
+        minWidth: 75,
+        Footer: <div>${this.formatFooter(summaryData)}</div>,
+      },
+    ];
 
-    const detailedHistoryColumns = [{
-      id: 'date',
-      Header: 'Date',
-      accessor: (e) => e.date,
-      minWidth: 70
-    }, {
-      id: 'crop',
-      Header: 'Crop',
-      accessor: (e) => e.crop,
-      minWidth: 75,
-      Footer: <div>Total</div>
-    }, {
-      id: 'value',
-      Header: 'Value',
-      accessor: (e) => `$${e.value}`,
-      minWidth: 75,
-      Footer: <div>${this.formatFooter(detailedHistoryData)}</div>
-    }];
+    const detailedHistoryColumns = [
+      {
+        id: 'date',
+        Header: 'Date',
+        accessor: (e) => e.date,
+        minWidth: 70,
+      },
+      {
+        id: 'crop',
+        Header: 'Crop',
+        accessor: (e) => e.crop,
+        minWidth: 75,
+        Footer: <div>Total</div>,
+      },
+      {
+        id: 'value',
+        Header: 'Value',
+        accessor: (e) => `$${e.value}`,
+        minWidth: 75,
+        Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
+      },
+    ];
 
     return (
       <div className={styles.financesContainer}>
-        <PageTitle backUrl='/newfinances' title='Sales'/>
+        <PageTitle backUrl="/newfinances" title="Sales" />
         <div className={styles.buttonContainer}>
-          <Button onClick={()=>{history.push('sales/add_sale')}}>Add New Sale</Button>
+          <Button
+            onClick={() => {
+              history.push('sales/add_sale');
+            }}
+          >
+            {this.props.t('SALE.ADD_SALE.NEW')}
+          </Button>
         </div>
         <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
+          <h4>
+            <strong>{this.props.t('NEW_FINANCES.SALE.SUMMARY')}</strong>
+          </h4>
         </div>
 
         <Table
@@ -139,7 +166,9 @@ class SalesSummary extends Component {
         />
         <hr />
         <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
+          <h4>
+            <strong>{this.props.t('NEW_FINANCES.SALE.DETAILED_HISTORY')}</strong>
+          </h4>
         </div>
         <Table
           columns={detailedHistoryColumns}
@@ -161,25 +190,25 @@ class SalesSummary extends Component {
                 if (handleOriginal) {
                   handleOriginal();
                 }
-              }
+              },
             };
           }}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SalesSummary));

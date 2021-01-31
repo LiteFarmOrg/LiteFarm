@@ -84,7 +84,7 @@ describe('Fertilizer Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next()
     });
   })
@@ -102,7 +102,7 @@ describe('Fertilizer Tests', () => {
     })
 
     test('Should filter out deleted fertilizer', async (done)=>{
-      await fertilizerModel.query().findById(fertilizer.fertilizer_id).delete();
+      await fertilizerModel.query().context({showHidden: true}).findById(fertilizer.fertilizer_id).delete();
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(404);
         done();
@@ -110,7 +110,7 @@ describe('Fertilizer Tests', () => {
     })
 
     test('should get seeded fertilizer', async (done)=>{
-      let [seedFertilizer] = await knex('fertilizer').insert({...mocks.fakeFertilizer(), farm_id: null}).returning('*');
+      let [seedFertilizer] = await mocks.fertilizerFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeFertilizer());
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body[1].fertilizer_id).toBe(seedFertilizer.fertilizer_id);
@@ -174,7 +174,7 @@ describe('Fertilizer Tests', () => {
     describe('Delete fertlizer', function () {
 
       test('should return 403 if user tries to delete a seeded fertilizer', async (done) => {
-        let [seedFertilizer] = await knex('fertilizer').insert({...mocks.fakeFertilizer(), farm_id: null}).returning('*');
+        let [seedFertilizer] = await mocks.fertilizerFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeFertilizer());
         deleteRequest({fertilizer_id: seedFertilizer.fertilizer_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -202,7 +202,7 @@ describe('Fertilizer Tests', () => {
         test('Owner should delete a fertlizer', async (done) => {
           deleteRequest({fertilizer_id: fertilizer.fertilizer_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const fertilizerRes = await fertilizerModel.query().where('fertilizer_id',fertilizer.fertilizer_id);
+            const fertilizerRes = await fertilizerModel.query().context({showHidden: true}).where('fertilizer_id',fertilizer.fertilizer_id);
             expect(fertilizerRes.length).toBe(1);
             expect(fertilizerRes[0].deleted).toBe(true);
             done();
@@ -212,7 +212,7 @@ describe('Fertilizer Tests', () => {
         test('Manager should delete a fertilizer', async (done) => {
           deleteRequest({user_id:manager.user_id, fertilizer_id: fertilizer.fertilizer_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const fertilizerRes = await fertilizerModel.query().where('fertilizer_id',fertilizer.fertilizer_id);
+            const fertilizerRes = await fertilizerModel.query().context({showHidden: true}).where('fertilizer_id',fertilizer.fertilizer_id);
             expect(fertilizerRes.length).toBe(1);
             expect(fertilizerRes[0].deleted).toBe(true);
             done();
@@ -291,7 +291,7 @@ describe('Fertilizer Tests', () => {
       test('Owner should post and get a valid crop', async (done) => {
         postFertilizerRequest(fakeFertilizer, {}, async (err, res) => {
           expect(res.status).toBe(201);
-          const fertilizers = await fertilizerModel.query().where('farm_id',farm.farm_id);
+          const fertilizers = await fertilizerModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(fertilizers.length).toBe(1);
           expect(fertilizers[0].fertilizer_type).toBe(fakeFertilizer.fertilizer_type);
           done();
@@ -301,7 +301,7 @@ describe('Fertilizer Tests', () => {
       test('Manager should post and get a valid crop', async (done) => {
         postFertilizerRequest(fakeFertilizer, {user_id: manager.user_id}, async (err, res) => {
           expect(res.status).toBe(201);
-          const fertilizers = await fertilizerModel.query().where('farm_id',farm.farm_id);
+          const fertilizers = await fertilizerModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(fertilizers.length).toBe(1);
           expect(fertilizers[0].fertilizer_type).toBe(fakeFertilizer.fertilizer_type);
           done();

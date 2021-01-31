@@ -1,11 +1,15 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import moment from 'moment';
 import styles from './styles.scss';
-import { expenseSelector, expenseTypeSelector, dateRangeSelector } from "../../../../Finances/selectors";
+import {
+  expenseSelector,
+  expenseTypeSelector,
+  dateRangeSelector,
+} from '../../../../Finances/selectors';
 import Table from '../../../../../components/Table';
-import {setExpenseDetailDate, getExpense} from "../../../../Finances/actions";
+import { setExpenseDetailDate, getExpense } from '../../../../Finances/actions';
 import history from '../../../../../history';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -25,13 +29,12 @@ class OtherExpense extends Component {
         boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.2)',
         width: '100%',
         marginBottom: '10px',
-      }
+      },
     };
     this.computeTable = this.computeTable.bind(this);
     this.getExpenseType = this.getExpenseType.bind(this);
     this.computeDetailedTable = this.computeDetailedTable.bind(this);
   }
-
 
   componentDidMount() {
     this.props.dispatch(getExpense());
@@ -47,20 +50,22 @@ class OtherExpense extends Component {
     }
   }
 
-  computeTable(){
-    const {expenses, dateRange} = this.props;
+  computeTable() {
+    const { expenses, dateRange } = this.props;
     let dict = {};
 
-    for(let e of expenses){
-      if(moment(e.expense_date).isBetween(moment(dateRange.startDate), moment(dateRange.endDate))){
+    for (let e of expenses) {
+      if (
+        moment(e.expense_date).isBetween(moment(dateRange.startDate), moment(dateRange.endDate))
+      ) {
         let id = e.expense_type_id;
-        if(!dict.hasOwnProperty(id)){
+        if (!dict.hasOwnProperty(id)) {
           let typeName = this.getExpenseType(id);
           dict[id] = {
             type: typeName,
             amount: e.value,
-          }
-        }else{
+          };
+        } else {
           dict[id].amount = dict[id].amount + e.value;
         }
       }
@@ -70,7 +75,7 @@ class OtherExpense extends Component {
     let keys = Object.keys(dict);
     let total = 0;
 
-    for(let k of keys){
+    for (let k of keys) {
       data.push({
         type: dict[k].type,
         amount: '$' + dict[k].amount.toFixed(2).toString(),
@@ -81,11 +86,11 @@ class OtherExpense extends Component {
     this.setState({
       data,
       totalExpense: total.toFixed(2),
-    })
+    });
   }
 
-  computeDetailedTable(){
-    const {expenses, dateRange} = this.props;
+  computeDetailedTable() {
+    const { expenses, dateRange } = this.props;
     let detailedHistory = [];
     this.setState({
       detailedHistory,
@@ -94,19 +99,21 @@ class OtherExpense extends Component {
     let dict = {};
     let subTotal = 0;
 
-    for(let e of expenses) {
-      if (moment(e.expense_date).isBetween(moment(dateRange.startDate), moment(dateRange.endDate))) {
+    for (let e of expenses) {
+      if (
+        moment(e.expense_date).isBetween(moment(dateRange.startDate), moment(dateRange.endDate))
+      ) {
         let date = moment(e.expense_date).format('MMM-DD-YYYY');
         let type = this.getExpenseType(e.expense_type_id);
         let amount = parseFloat(e.value);
         subTotal += amount;
-        if(!dict.hasOwnProperty(date)){
+        if (!dict.hasOwnProperty(date)) {
           dict[date] = {
             type,
             amount,
             expense_date: e.expense_date,
-          }
-        }else{
+          };
+        } else {
           dict[date].amount = dict[date].amount + amount;
           dict[date].type = 'Multiple';
         }
@@ -114,77 +121,84 @@ class OtherExpense extends Component {
     }
 
     let keys = Object.keys(dict);
-    for(let k of keys){
+    for (let k of keys) {
       detailedHistory.push({
         date: k,
         type: dict[k].type,
         amount: '$' + dict[k].amount.toFixed(2).toString(),
         expense_date: dict[k].expense_date,
-      })
+      });
     }
     this.setState({
       detailedHistory,
       subTotal: subTotal.toFixed(2),
-    })
+    });
   }
 
-  getExpenseType(id){
-    const {expenseTypes} = this.props;
-    for(let type of expenseTypes){
-      if(type.expense_type_id === id){
-        return type.expense_name;
+  getExpenseType(id) {
+    const { expenseTypes } = this.props;
+    for (let type of expenseTypes) {
+      if (type.expense_type_id === id) {
+        return this.props.t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';
   }
 
   render() {
-    const columns = [{
-      id: 'type',
-      Header: 'Type',
-      accessor: d => d.type,
-      minWidth: 80,
-      Footer: <div>Total</div>
-    }, {
-      id: 'amount',
-      Header: 'Amount',
-      accessor: d => d.amount,
-      minWidth: 75,
-      Footer: <div>{'$' + this.state.totalExpense}</div>
-    }
+    const columns = [
+      {
+        id: 'type',
+        Header: 'Type',
+        accessor: (d) => d.type,
+        minWidth: 80,
+        Footer: <div>Total</div>,
+      },
+      {
+        id: 'amount',
+        Header: 'Amount',
+        accessor: (d) => d.amount,
+        minWidth: 75,
+        Footer: <div>{'$' + this.state.totalExpense}</div>,
+      },
     ];
 
-    const detailedColumns = [{
-      id: 'date',
-      Header: 'Date',
-      accessor: d => d.date,
-      minWidth: 80,
-      Footer: <div>Subtotal</div>
-    }, {
-      id: 'type',
-      Header: 'Type',
-      accessor: d => d.type,
-      minWidth: 75
-    }, {
-      id: 'amount',
-      Header: 'Amount',
-      accessor: d => d.amount,
-      minWidth: 75,
-      Footer: <div>{'$' + this.state.subTotal}</div>
-    }
+    const detailedColumns = [
+      {
+        id: 'date',
+        Header: 'Date',
+        accessor: (d) => d.date,
+        minWidth: 80,
+        Footer: <div>Subtotal</div>,
+      },
+      {
+        id: 'type',
+        Header: 'Type',
+        accessor: (d) => d.type,
+        minWidth: 75,
+      },
+      {
+        id: 'amount',
+        Header: 'Amount',
+        accessor: (d) => d.amount,
+        minWidth: 75,
+        Footer: <div>{'$' + this.state.subTotal}</div>,
+      },
     ];
 
-
-    const {data, detailedHistory,} = this.state;
+    const { data, detailedHistory } = this.state;
     return (
       <div className={styles.otherExpensesContainer}>
-        <h3><strong>Other Expenses</strong></h3>
+        <h3>
+          <strong>Other Expenses</strong>
+        </h3>
         <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
+          <h4>
+            <strong>Summary</strong>
+          </h4>
         </div>
         <div className={styles.tableContainer}>
-          {
-            data.length > 0 &&
+          {data.length > 0 && (
             <Table
               columns={columns}
               data={data}
@@ -192,55 +206,47 @@ class OtherExpense extends Component {
               minRows={5}
               className="-striped -highlight"
             />
-          }
-          {
-            data.length === 0 &&
-              <h4>
-                You have no expense recorded for this year
-              </h4>
-          }
+          )}
+          {data.length === 0 && <h4>You have no expense recorded for this year</h4>}
         </div>
         <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
+          <h4>
+            <strong>Detailed History</strong>
+          </h4>
         </div>
         <div className={styles.tableContainer}>
-          {
-            detailedHistory.length > 0 &&
-              <div>
-                <Table
-                  columns={detailedColumns}
-                  data={detailedHistory}
-                  showPagination={false}
-                  minRows={5}
-                  className="-striped -highlight"
-                  getTdProps={(state, rowInfo, column, instance) => {
-                    return {
-                      onClick: (e, handleOriginal) => {
-                        if(rowInfo && rowInfo.original){
-                          this.props.dispatch(setExpenseDetailDate(rowInfo.original.expense_date));
-                          history.push('expenses/expense_detail');
-                        }
-                        if (handleOriginal) {
-                          handleOriginal();
-                        }
+          {detailedHistory.length > 0 && (
+            <div>
+              <Table
+                columns={detailedColumns}
+                data={detailedHistory}
+                showPagination={false}
+                minRows={5}
+                className="-striped -highlight"
+                getTdProps={(state, rowInfo, column, instance) => {
+                  return {
+                    onClick: (e, handleOriginal) => {
+                      if (rowInfo && rowInfo.original) {
+                        this.props.dispatch(setExpenseDetailDate(rowInfo.original.expense_date));
+                        history.push('expenses/expense_detail');
                       }
-                    };
-                  }}
-                />
-              </div>
-          }
-          {
-            detailedHistory.length === 0 &&
-              <div>
-                <h5>No expense found</h5>
-              </div>
-          }
-
+                      if (handleOriginal) {
+                        handleOriginal();
+                      }
+                    },
+                  };
+                }}
+              />
+            </div>
+          )}
+          {detailedHistory.length === 0 && (
+            <div>
+              <h5>No expense found</h5>
+            </div>
+          )}
         </div>
-
       </div>
-
-    )
+    );
   }
 }
 
@@ -249,13 +255,13 @@ const mapStateToProps = (state) => {
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
     dateRange: dateRangeSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OtherExpense);

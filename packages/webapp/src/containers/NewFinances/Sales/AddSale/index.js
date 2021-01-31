@@ -1,17 +1,18 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import DateContainer from '../../../../components/Inputs/DateContainer';
 import moment from 'moment';
-import PageTitle from "../../../../components/PageTitle";
-import {connect} from "react-redux";
+import PageTitle from '../../../../components/PageTitle';
+import { connect } from 'react-redux';
 import defaultStyles from '../../../Finances/styles.scss';
-import {actions} from 'react-redux-form';
-import SaleForm from "../../../../components/Forms/Sale";
-import { getFieldCrops } from '../../../actions';
-import { cropSelector as fieldCropSelector, farmSelector } from '../../../selector';
-import {addOrUpdateSale} from "../../../Finances/actions";
-import {convertToMetric, getUnit} from "../../../../util";
-import {fetchFarmInfo} from "../../../actions";
-import history from "../../../../history";
+import { actions } from 'react-redux-form';
+import SaleForm from '../../../../components/Forms/Sale';
+import { addOrUpdateSale } from '../../../Finances/actions';
+import { convertToMetric, getUnit } from '../../../../util';
+import history from '../../../../history';
+import { userFarmSelector } from '../../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../../fieldCropSlice';
+import { getFarmInfo, getFieldCrops } from '../../../saga';
 
 class AddSale extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class AddSale extends Component {
 
   componentDidMount() {
     this.props.dispatch(getFieldCrops());
-    this.props.dispatch(fetchFarmInfo(localStorage.getItem('farm_id')));
+    this.props.dispatch(getFarmInfo());
   }
 
   handleSubmit(sale) {
@@ -36,36 +37,37 @@ class AddSale extends Component {
     const cropSale = this.state.chosenOptions.map((c) => {
       return {
         sale_value: sale[c.label].value && parseInt(sale[c.label].value, 10),
-        quantity_kg: sale[c.label].quantity_kg && convertToMetric(parseInt(sale[c.label].quantity_kg), this.state.quantity_unit, 'kg'),
-        field_crop_id: c.value
-      }
+        quantity_kg:
+          sale[c.label].quantity_kg &&
+          convertToMetric(parseInt(sale[c.label].quantity_kg), this.state.quantity_unit, 'kg'),
+        field_crop_id: c.value,
+      };
     });
     const newSale = {
       customer_name: sale.name,
       sale_date: this.state.date,
-      cropSale
+      cropSale,
     };
     dispatch(addOrUpdateSale(newSale));
     history.push('/newfinances/sales');
-
   }
 
   handleChooseCrop(option) {
     this.setState({
-      chosenOptions: option
-    })
+      chosenOptions: option,
+    });
   }
 
   render() {
     let fieldCrops = this.props.fieldCrops || [];
     const cropOptions = fieldCrops.map((fc) => {
-      return { label: fc.crop_common_name, value: fc.field_crop_id }
+      return { label: this.props.t(`crop:${fc.crop_translation_key}`), value: fc.field_crop_id };
     });
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/newfinances' title='Add New Sale'/>
+        <PageTitle backUrl="/newfinances" title={this.props.t('SALE.ADD_SALE.NEW')} />
         <span className={defaultStyles.dateContainer}>
-          <label>Date</label>
+          <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer
             style={defaultStyles.date}
             custom={true}
@@ -80,25 +82,25 @@ class AddSale extends Component {
           chosenOptions={this.state.chosenOptions}
           handleChooseCrop={this.handleChooseCrop}
           quantityUnit={this.state.quantity_unit}
-          footerText={"Cancel"}
-          footerOnClick={()=>history.push('/finances')}
+          footerText={this.props.t('common:CANCEL')}
+          footerOnClick={() => history.push('/finances')}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
-  }
+    fieldCrops: currentFieldCropsSelector(state),
+    farm: userFarmSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddSale);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(AddSale));

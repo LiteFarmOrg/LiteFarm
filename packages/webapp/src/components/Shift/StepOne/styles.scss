@@ -1,0 +1,117 @@
+.circleButton {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  margin: 0px auto;
+  background: rgb(130, 207, 156);
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
+  img {
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+    padding-top: 24%;
+  }
+}
+
+.circleSelected {
+  background: rgb(0, 117, 106);
+}
+
+.modal {
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.customContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.taskTitle {
+  width: 100%;
+  text-align: left;
+  color: #4d4d4d;
+  font-size: 18px;
+  margin-bottom: 12px;
+  span {
+    color: var(--typeAction);
+  }
+}
+.taskInput {
+  width: 100%;
+  margin-bottom: 20px;
+  input {
+    width: 100%;
+    border: 2px solid #d6d2d2;
+    border-radius: 10px;
+    height: 40px;
+    margin: 0 auto;
+    padding: 0 5%;
+  }
+}
+
+.popupTitle {
+  display: flex;
+  flex-direction: row;
+  h3{
+    flex-grow: 1;
+  }
+  align-items: center;
+  margin-bottom: 10%;
+  margin-top: 2em;
+}
+
+.close {
+  width: 8%;
+  img {
+    width: 100%;
+    max-width: 40px;
+  }
+}
+
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  padding-bottom: 0.3em;
+  button {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+
+.buttonName {
+  width: 100%;
+  text-align: center;
+}
+
+.matrixContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.matrixItem{
+  flex: 0 0 33.3333%;
+  @media only screen and (max-width: 400px) {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  @media only screen and (min-width: 800px) {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  margin-top: 1.1rem;
+  max-width: 33.3%;
+  //min-block-size:100px;
+}

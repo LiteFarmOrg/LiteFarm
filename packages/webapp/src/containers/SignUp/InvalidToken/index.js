@@ -18,38 +18,42 @@ import styles from '../styles.scss';
 import handStandPng from '../../../assets/images/miscs/hand_stand.png';
 import errorPng from '../../../assets/images/miscs/error.svg';
 import errorPngAlt from '../../../assets/images/miscs/error.png';
-import Auth from '../../../Auth/Auth';
+// import Auth from '../../../Auth/Auth';
+import { useTranslation } from 'react-i18next';
 
-const auth = new Auth();
+// const auth = new Auth();
 
-class InvalidToke extends Component {
-  render() {
-    return (
-      <div className={styles.backdrop}>
-        <div className={styles.home}>
-          <div className={styles.messageContainer}>
-              {/*<div style={background}>apsionaiong</div>*/}
-            <img src={handStandPng} alt="" className={styles.handStand} />
-            <div className={styles.redBox}>
-              <div className={styles.redBoxHat}><img src={errorPng} alt={errorPngAlt} className={styles.errorImg} /></div>
-              <div className={styles.errorMsg}>
-
-                <h2>Oops!</h2>
-
-                <h3>That didn't work.</h3>
-
-                <h3>Please, sign up.</h3>
-              </div>
+function InvalidToke() {
+  const { t } = useTranslation();
+  return (
+    <div className={styles.backdrop}>
+      <div className={styles.home}>
+        <div className={styles.messageContainer}>
+          {/*<div style={background}>apsionaiong</div>*/}
+          <img src={handStandPng} alt="" className={styles.handStand} />
+          <div className={styles.redBox}>
+            <div className={styles.redBoxHat}>
+              <img src={errorPng} alt={errorPngAlt} className={styles.errorImg} />
             </div>
+            <div className={styles.errorMsg}>
+              <h2>{t('SIGNUP.OOPS')}</h2>
 
-            <div className={styles.signUpButtonToken} onClick={()=>auth.login()}>Sign Up</div>
+              <h3>{t('SIGNUP.DIDNT_WORK')}</h3>
+
+              <h3>{t('SIGNUP.PLEASE_SIGNUP')}</h3>
+            </div>
           </div>
 
+          <div
+            className={styles.signUpButtonToken}
+            // onClick={()=>auth.login()}
+          >
+            {t('SIGNUP.TITLE')}
+          </div>
         </div>
       </div>
-
-    );
-  }
+    </div>
+  );
 }
 
 export default InvalidToke;

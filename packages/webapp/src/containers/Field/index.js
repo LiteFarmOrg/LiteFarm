@@ -1,29 +1,34 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (index.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button, Tabs, Tab, Table, Glyphicon } from 'react-bootstrap';
-import {fieldSelector, cropSelector as fieldCropSelector, farmSelector} from "../selector";
+import { Button, Tab, Table, Tabs } from 'react-bootstrap';
 import history from '../../history';
 import moment from 'moment';
-import { getFields } from '../actions';
-import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON} from './constants';
-import {convertFromMetric, getUnit, roundToTwoDecimal} from "../../util";
+import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
+import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../util';
+import { BsChevronDown, BsChevronRight } from 'react-icons/all';
+import { userFarmSelector } from '../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { getFields } from '../saga';
+import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
+import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { Semibold, Title } from "../../components/Typography";
 
 class Field extends Component {
   static defaultProps = {
@@ -55,26 +60,31 @@ class Field extends Component {
     this.handleSelectTab = this.handleSelectTab.bind(this);
     this.handleGoogleMapApi = this.handleGoogleMapApi.bind(this);
     this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
-
   }
   componentDidMount() {
-    this.setState({center: this.props.farm.grid_points});
+    this.setState({ center: this.props.farm.grid_points });
     const { dispatch } = this.props;
     dispatch(getFields());
     var visArray = [];
-    if(this.props.fields){
-      for(var i = 0; i < this.props.fields.length; i++){
+    if (this.props.fields) {
+      for (var i = 0; i < this.props.fields.length; i++) {
         visArray.push(true);
       }
-      this.setState({isVisible: visArray});
+      this.setState({ isVisible: visArray });
     }
+    this.setState({
+      fields: this.props.fields,
+      isPropReceived: true,
+    });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.fields !== this.props.fields) {
       this.setState({
-        fields: nextProps.fields,
+        fields: this.props.fields,
         isPropReceived: true,
       });
+    }
   }
 
   handleSelectTab(selectedTab) {
@@ -97,40 +107,35 @@ class Field extends Component {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
         bounds.extend(element);
-      })
+      });
       return bounds;
     };
 
-
     let addListenersOnPolygonAndMarker = function (polygon, fieldObject) {
-        // creates field marker
-        var fieldMarker = new maps.Marker({
-          position: polygon.getPolygonBounds().getCenter(),
-          map: map,
-          icon: fieldIcon,
-          label: { text: fieldObject.field_name, color: 'white'}
-        });
+      // creates field marker
+      var fieldMarker = new maps.Marker({
+        position: polygon.getPolygonBounds().getCenter(),
+        map: map,
+        icon: fieldIcon,
+        label: { text: fieldObject.field_name, color: 'white' },
+      });
 
-        // attach on click listeners
-        //activeInfoWindow = null;
+      // attach on click listeners
+      //activeInfoWindow = null;
 
-        function pushToHist(){
-          history.push("./edit_field?"+fieldObject.field_id);
-        }
+      function pushToHist() {
+        history.push('./edit_field?' + fieldObject.field_id);
+      }
 
+      fieldMarker.setMap(map);
 
-
-        fieldMarker.setMap(map);
-
-        maps.event.addListener(fieldMarker, 'click', function (event) {
-          pushToHist();
-
-        });
-        maps.event.addListener(polygon, 'click', function (event) {
-          pushToHist();
-        });
-
-    }
+      maps.event.addListener(fieldMarker, 'click', function (event) {
+        pushToHist();
+      });
+      maps.event.addListener(polygon, 'click', function (event) {
+        pushToHist();
+      });
+    };
 
     if (this.state.fields && this.state.fields.length >= 1) {
       len = this.state.fields.length;
@@ -138,9 +143,9 @@ class Field extends Component {
 
       for (i = 0; i < len; i++) {
         // ensure that the map shows this field
-        this.state.fields[i].grid_points.forEach((grid_point)=>{
+        this.state.fields[i].grid_points.forEach((grid_point) => {
           farmBounds.extend(grid_point);
-        })
+        });
         // creates the polygon to be displayed on the map
         var polygon = new maps.Polygon({
           paths: this.state.fields[i].grid_points,
@@ -148,7 +153,7 @@ class Field extends Component {
           strokeOpacity: 0.8,
           strokeWeight: 3,
           fillColor: styles.primaryColor,
-          fillOpacity: 0.35
+          fillOpacity: 0.35,
         });
         polygon.setMap(map);
         addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
@@ -165,32 +170,34 @@ class Field extends Component {
   handleSearchTermChange = (e) => {
     const searchTerm = e.target.value;
     var newVisStatus = [];
-    for (var i = 0; i < this.state.fields.length; i++){
+    for (var i = 0; i < this.state.fields.length; i++) {
       var field = this.state.fields[i];
       if (String(field.field_name).toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())) {
         newVisStatus.push(true);
-      }else{
+      } else {
         newVisStatus.push(false);
       }
     }
-    this.setState({isVisible: newVisStatus});
-
-  }
+    this.setState({ isVisible: newVisStatus });
+  };
 
   getMapOptions = (maps) => {
-
     return {
       streetViewControl: false,
       scaleControl: true,
       fullscreenControl: false,
-      styles: [{
-        featureType: "poi.business",
-        elementType: "labels",
-        stylers: [{
-          visibility: "off"
-        }]
-      }],
-      gestureHandling: "greedy",
+      styles: [
+        {
+          featureType: 'poi.business',
+          elementType: 'labels',
+          stylers: [
+            {
+              visibility: 'off',
+            },
+          ],
+        },
+      ],
+      gestureHandling: 'greedy',
       disableDoubleClickZoom: true,
       minZoom: 1,
       maxZoom: 80,
@@ -200,101 +207,142 @@ class Field extends Component {
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
-        mapTypeIds: [
-          maps.MapTypeId.ROADMAP,
-          maps.MapTypeId.SATELLITE,
-          maps.MapTypeId.HYBRID
-        ]
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
       },
       zoomControl: true,
-      clickableIcons: false
+      clickableIcons: false,
     };
-  }
+  };
 
   render() {
     //UBC Farm Title
-    const CenterDiv = ({ text }) => <div style={{ width: '30px', color: 'white', fontWeight: 'bold', fontSize: '16px', }}>{text}</div>;
+    const CenterDiv = ({ text }) => (
+      <div
+        style={{
+          width: '30px',
+          color: 'white',
+          fontWeight: 'bold',
+          fontSize: '16px',
+        }}
+      >
+        {text}
+      </div>
+    );
+    const { role_id } = this.props.farm;
+    const hasPermissionToEdit = [1, 2, 5].includes(role_id);
     return (
       <div className={styles.logContainer}>
-        <h4>
-          <strong>FIELDS</strong>
-        </h4>
-        <hr />
-        <h4><b>Action</b></h4>
-        <div className={styles.buttonContainer}>
-          <Button onClick={() => {history.push('/new_field') }}>Add New Field</Button>
+        <Title>{this.props.t('FIELDS.TITLE')}</Title>
+        {hasPermissionToEdit && (
+          <>
+            <div className={styles.buttonContainer}>
+              <Button
+                variant={'secondary'}
+                onClick={() => {
+                  history.push('/new_field');
+                }}
+              >
+                {this.props.t('FIELDS.ADD_NEW_FIELD')}
+              </Button>
+            </div>
+          </>
+        )}
+
+        <div style={{paddingTop: '15px', paddingBottom: '15px'}}>
+          <Semibold>{this.props.t('FIELDS.EXPLORE')}</Semibold>
         </div>
-        <hr />
-        <h4><b>Explore Your Fields</b></h4>
         <div>
           <Tabs
             activeKey={this.state.selectedTab}
             onSelect={this.handleSelectTab}
             id="controlled-tab-example"
           >
-            <Tab eventKey={1} title="Map">
-              {this.state.isPropReceived && <div style={{ width: "100%", height: "400px" }}>
-                <GoogleMap
-                  bootstrapURLKeys={{
-                    key: GMAPS_API_KEY,
-                    libraries: ['drawing', 'geometry', 'places']}}
-                  defaultCenter={this.state.center}
-                  defaultZoom={this.props.zoom}
-                  yesIWantToUseGoogleMapApiInternals
-                  onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
-                  options={this.getMapOptions}
-                >
-                  <CenterDiv
-                    lat={this.state.center.lat}
-                    lng={this.state.center.lng}
-                    text={"" && this.props.farm.farm_name}
-                  />
-                </GoogleMap>
-              </div>}
+            <Tab eventKey={1} title={this.props.t('FIELDS.MAP')}>
+              {this.state.isPropReceived &&
+                !this.props.fieldStats.loading &&
+                this.props.fieldStats.loaded && (
+                  <div style={{ width: '100%', height: '400px' }}>
+                    <GoogleMap
+                      bootstrapURLKeys={{
+                        key: GMAPS_API_KEY,
+                        libraries: ['drawing', 'geometry', 'places'],
+                      }}
+                      defaultCenter={this.state.center}
+                      defaultZoom={this.props.zoom}
+                      yesIWantToUseGoogleMapApiInternals
+                      onGoogleApiLoaded={({ map, maps }) => this.handleGoogleMapApi(map, maps)}
+                      options={this.getMapOptions}
+                    >
+                      <CenterDiv
+                        lat={this.state.center.lat}
+                        lng={this.state.center.lng}
+                        text={'' && this.props.farm.farm_name}
+                      />
+                    </GoogleMap>
+                  </div>
+                )}
             </Tab>
-            <Tab eventKey={2} title="List">
+            <Tab eventKey={2} title={this.props.t('FIELDS.LIST')}>
               <Table>
                 <thead>
                   <tr>
-                    <th>Field Name <span className="glyphicon glyphicon-chevron-down" /></th>
-                    <th>Area <span className="glyphicon glyphicon-chevron-down" /></th>
-                    <th>Edit</th>
+                    <th>
+                      {this.props.t('FIELDS.TABLE.FIELD_NAME')} <BsChevronDown />
+                    </th>
+                    <th>
+                      {this.props.t('FIELDS.TABLE.AREA')} <BsChevronDown />
+                    </th>
+                    <th>{this.props.t('FIELDS.TABLE.EDIT')}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.fields && (this.state.fields.map((field,index) => {return this.state.isVisible[index] === false ? null : (
-                    <tr key={field.field_id}>
-                      <td>{field.field_name}</td>
-                      <td>{roundToTwoDecimal(convertFromMetric(field.area, this.state.area_unit, 'm2'))} {this.state.area_unit_label}<sup>2</sup></td>
-                      <td>
-                        <a onClick={() => {history.push('./edit_field?' + field.field_id)}}><Glyphicon glyph="chevron-right" style={{color:'#349289'}}/></a>
-                      </td>
-                    </tr>
-                  );}
-
-                  ))}
+                  {this.state.fields &&
+                    this.state.fields.map((field, index) => {
+                      return this.state.isVisible[index] === false ? null : (
+                        <tr key={field.field_id}>
+                          <td>{field.field_name}</td>
+                          <td>
+                            {roundToTwoDecimal(
+                              convertFromMetric(field.area, this.state.area_unit, 'm2'),
+                            )}{' '}
+                            {this.state.area_unit_label}
+                            <sup>2</sup>
+                          </td>
+                          <td>
+                            <a
+                              onClick={() => {
+                                history.push('./edit_field?' + field.field_id);
+                              }}
+                            >
+                              <BsChevronRight style={{ color: '#349289' }} />
+                            </a>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </Table>
             </Tab>
           </Tabs>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    fields: fieldSelector(state),
-    fieldCrops: fieldCropSelector(state),
-    farm: farmSelector(state),
-  }
+    fields: fieldsSelector(state),
+    fieldCrops: currentFieldCropsSelector(state),
+    farm: userFarmSelector(state),
+    fieldStats: fieldStatusSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Field);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Field));

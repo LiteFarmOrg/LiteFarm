@@ -12,32 +12,69 @@ const CROP_GROUPS = [
 ];
 CROP_GROUPS.sort();
 
-
-const CROP_SUBGROUPS = ['Fibre crops', 'Grasses and other fodder crops', 'Nuts',
-  'Temporary spice crops', 'Pome fruits and stone fruits',
-  'High starch Root/tuber crops', 'Leafy or stem vegetables',
+const CROP_SUBGROUPS = [
+  'Fibre crops',
+  'Grasses and other fodder crops',
+  'Nuts',
+  'Temporary spice crops',
+  'Pome fruits and stone fruits',
+  'High starch Root/tuber crops',
+  'Leafy or stem vegetables',
   'Tropical and subtropical fruits',
-  'Cereals', 'Legumes', 'Sugar crops (root)',
-  'Citrus fruits', 'Permanent spice crops',
-  'Berries', 'Fruit-bearing vegetables', 'Other fruits',
-  'Root, bulb, or tuberous vegetables', 'Temporary oilseed crops',
-  'Permanent oilseed crops', 'Medicinal, aromatic, pesticidal, or similar crops',
-  'Grapes', 'Flower crops', 'Mushrooms and truffles', 'Rubber', 'Sugar crops (other)',
-  'Tobacco','Other crops'
+  'Cereals',
+  'Legumes',
+  'Sugar crops (root)',
+  'Citrus fruits',
+  'Permanent spice crops',
+  'Berries',
+  'Fruit-bearing vegetables',
+  'Other fruits',
+  'Root, bulb, or tuberous vegetables',
+  'Temporary oilseed crops',
+  'Permanent oilseed crops',
+  'Medicinal, aromatic, pesticidal, or similar crops',
+  'Grapes',
+  'Flower crops',
+  'Mushrooms and truffles',
+  'Rubber',
+  'Sugar crops (other)',
+  'Tobacco',
+  'Other crops',
 ];
 CROP_SUBGROUPS.sort();
 
-export const CROP_DICT =
-  {
-    'Fruit and nuts': ['Nuts', 'Pome fruits and stone fruits', 'Tropical and subtropical fruits', 'Citrus fruits', 'Berries', 'Grapes','Other fruits', 'Mushrooms and truffles'],
-    'Beverage and spice crops': ['Temporary spice crops', 'Permanent spice crops', ],
-    'Potatoes and yams': [],
-    'Vegetables and melons': ['High starch Root/tuber crops', 'Leafy or stem vegetables', 'Fruit-bearing vegetables', 'Root, bulb, or tuberous vegetables', ],
-    'Cereals': ['Cereals', ],
-    'Leguminous crops': ['Legumes' ],
-    'Sugar crops': ['Sugar crops (root)', 'Sugar crops (other)', ],
-    'Oilseed crops': ['Temporary oilseed crops', 'Permanent oilseed crops', ],
-    'Other crops': ['Other crops', 'Fibre crops', 'Grasses and other fodder crops', 'Medicinal, aromatic, pesticidal, or similar crops', 'Flower crops', 'Rubber', 'Tobacco'],
+export const CROP_DICT = {
+  'Fruit and nuts': [
+    'Nuts',
+    'Pome fruits and stone fruits',
+    'Tropical and subtropical fruits',
+    'Citrus fruits',
+    'Berries',
+    'Grapes',
+    'Other fruits',
+    'Mushrooms and truffles',
+  ],
+  'Beverage and spice crops': ['Temporary spice crops', 'Permanent spice crops'],
+  'Potatoes and yams': [],
+  'Vegetables and melons': [
+    'High starch Root/tuber crops',
+    'Leafy or stem vegetables',
+    'Fruit-bearing vegetables',
+    'Root, bulb, or tuberous vegetables',
+  ],
+  Cereals: ['Cereals'],
+  'Leguminous crops': ['Legumes'],
+  'Sugar crops': ['Sugar crops (root)', 'Sugar crops (other)'],
+  'Oilseed crops': ['Temporary oilseed crops', 'Permanent oilseed crops'],
+  'Other crops': [
+    'Other crops',
+    'Fibre crops',
+    'Grasses and other fodder crops',
+    'Medicinal, aromatic, pesticidal, or similar crops',
+    'Flower crops',
+    'Rubber',
+    'Tobacco',
+  ],
 };
 
 // wow, are you for real?
@@ -70,7 +107,7 @@ var INITIAL_STATE = {
   energy: null,
   ca: null,
   fe: null,
-  mg:null,
+  mg: null,
   ph: null,
   k: null,
   na: null,
@@ -102,7 +139,7 @@ const NUTRIENT_DICT = {
   energy: 'Energy (kcal)',
   ca: 'Calcium (mg)',
   fe: 'Iron (mg)',
-  mg:'Magnesium (mg)',
+  mg: 'Magnesium (mg)',
   ph: 'pH',
   k: 'Potassium (mg)',
   na: 'Sodium (mg)',
@@ -117,23 +154,47 @@ const NUTRIENT_DICT = {
   vitb6: 'Vitamin B6 (mg)',
   folate: 'Folate (Vitamin B9) (mcg)',
   vitb12: 'Vitamin B12 (mcg)',
-  max_rooting_depth: 'Max Rootinng Depth (m)',
+  max_rooting_depth: 'Max Rooting Depth (m)',
   nutrient_credits: 'Nutrient Credits',
 };
 
-const NUTRIENT_ARRAY = ["initial_kc", "mid_kc", "end_kc", "max_height", "max_rooting_depth", "protein", "lipid", "ph",
-  "energy", "ca", "fe", "mg", "k", "na", "zn", "cu", "mn", "vita_rae",
-  "vitc", "thiamin", "riboflavin", "niacin", "vitb6",'folate', 'vitb12', 'nutrient_credits'];
-
+const NUTRIENT_ARRAY = [
+  'initial_kc',
+  'mid_kc',
+  'end_kc',
+  'max_height',
+  'max_rooting_depth',
+  'protein',
+  'lipid',
+  'ph',
+  'energy',
+  'ca',
+  'fe',
+  'mg',
+  'k',
+  'na',
+  'zn',
+  'cu',
+  'mn',
+  'vita_rae',
+  'vitc',
+  'thiamin',
+  'riboflavin',
+  'niacin',
+  'vitb6',
+  'folate',
+  'vitb12',
+  'nutrient_credits',
+];
 
 // dummy new crop object with partially filled fields
 var DUMMY_NEW_CROP = {
-  crop_id: "",
-  crop_common_name: "",
-  crop_genus: "",
-  crop_specie: "",
-  crop_group: "",
-  crop_subgroup: "",
+  crop_id: '',
+  crop_common_name: '',
+  crop_genus: '',
+  crop_specie: '',
+  crop_group: '',
+  crop_subgroup: '',
   max_rooting_depth: 1,
   depletion_fraction: 0.5,
   is_avg_depth: null,
@@ -142,9 +203,9 @@ var DUMMY_NEW_CROP = {
   end_kc: 0.5,
   max_height: 1,
   is_avg_kc: null,
-  nutrient_notes: "",
+  nutrient_notes: '',
   percentrefuse: 50,
-  refuse: "",
+  refuse: '',
   protein: 1,
   lipid: 1,
   energy: 1000,
@@ -177,18 +238,10 @@ var DUMMY_NEW_CROP = {
   nutrient_credits: 0,
 };
 
-// constants for getting and putting crops
-const GET_CROPS = 'GET_CROPS_IN_FIELD';
-const CREATE_CROP = 'CREATE_CROP';
-
-
-
 export {
   CROP_GROUPS,
   CROP_SUBGROUPS,
   DUMMY_NEW_CROP,
-  GET_CROPS,
-  CREATE_CROP,
   INITIAL_STATE,
   NUTRIENT_DICT,
   NUTRIENT_ARRAY,

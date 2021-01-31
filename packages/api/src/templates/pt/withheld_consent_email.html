@@ -1,0 +1,169 @@
+<!--
+  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+  This file (withheld_consent_email.html) is part of LiteFarm.
+
+  LiteFarm is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  LiteFarm is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Retenção de consentimento ao LiteFarm</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+     <style>
+      .background {
+          font-family: "Open Sans", "SansSerif", sans-serif !important;
+          background: #FAFAFD !important;
+          margin: 0 !important;
+          padding-bottom: 34px !important;
+      }
+
+      .header {
+          background: #C7EFD3 !important;
+      }
+
+      img {
+          display: block !important;
+          margin: auto !important;
+          padding: 0px 28px !important;
+          background: white !important;
+      }
+
+      #logo {
+          height: 48px !important;
+      }
+
+      .main-container {
+          background: white !important;
+          margin: auto !important;
+          width: 95% !important;
+          max-width: 568px !important;
+          border-bottom: 4px solid #C7EFD3 !important;
+      }
+
+      .main-content {
+          padding: 2vw 4vw !important;
+      }
+
+      .main-content p {
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          color: #262422 !important;
+      }
+
+      .button-aligner {
+          text-align: center !important;
+      }
+
+      .button {
+          text-decoration: none !important;
+          color: #282B36 !important;
+          background: #FCE38D !important;
+          border-radius: 4px !important;
+          padding: 12px 12px !important;
+          width: 90% !important;
+          max-width: 248px !important;
+          cursor: pointer !important;
+          border: none !important;
+          box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3) !important;
+          font-style: normal !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+      }
+
+      p {
+          font-size: 20px !important;
+      }
+
+      .footer {
+          text-align: center !important;
+          margin-top: 34px !important;
+      }
+
+      .footer p {
+          font-style: normal !important;
+          font-weight: normal !important;
+          font-size: 12px !important;
+          line-height: 24px !important;
+          color: #9FAABE !important;
+      }
+
+      .main-content p a, .footer a {
+          color: #38AA92 !important;
+          text-decoration: none !important;
+      }
+
+      .main-content p a:hover, .footer a:hover {
+          color: #38AA92 !important;
+          text-decoration: underline !important;
+      }
+  </style>
+    <!-- used to check styles applied to all emails -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+  </head>
+  <body>
+    <div class="background">
+      <div class="main-container">
+        <div class="header">
+          <img id="logo" src="{{url}}/logo.png" alt="Logo">
+        </div>
+        <div class="main-content">
+          <p>Prezado <strong>{{first_name}}</strong>,</p>
+          <p>
+            Recentemente, ao iniciar o processo de cadastro junto a(ao) <strong>{{farm}}</strong> no aplicativo LiteFarm, você decidiu não conceder
+            seu consentimento em relação à política de privacidade do LiteFarm. Este é absolutamento seu direito, porém isto significa que você não
+            poderá acessar o aplicativo. Sentimos muito por isso.
+          </p>
+          <p>
+            Nós desativamos sua associação com <strong>{{farm}}</strong>. Entratanto, nós ainda temos as informações
+            básicas que você compartilhou conosco enquanto configurava sua conta de usuário. Se você é associado a outros,
+            sítios, nós também temos qualquer informação que você inseriu enquanto trabalhavo com eles.
+          </p>
+          <p> Você tem os seguintes direitos em relação aos seus dados:</p>
+          <ul>
+            <li>Saber quais dados nós temos sobre você e requisitar uma cópia</li>
+            <li>Atualizar ou corrigir quaisquer dados que temos sobre você</li>
+            <li>Requisitar que paremos de coletar quaisquer dados seus (você acabou de fazê-lo)</li>
+            <li>Requisitar uma transferência dos seus dados</li>
+            <li>Requisitar que deletemos os seus dados</li>
+          </ul>
+          <p>
+            Para requisitar qualquer uma destas ações, envie um email para
+            <a href="mailto:data@litefarm.org">data@litefarm.org</a> com sua solicitação e cuidaremos disto para você.
+          </p>
+          <p>
+            No entanto, se você mudar de ideia, pode fazer login (em qualquer dispositivo) a qualquer momento e aceitar nossa política
+            de privacidade usando o botão abaio:
+          </p>
+          <div class='button-aligner'>
+            <a href='' target='_blank' id='email-button'>
+              <button class='button'>Log in</button>
+            </a>
+          </div>
+          <p>Se você o fizer, mais uma vez será capaz de acessar o sistema do LiteFarm.</p>
+          <p>
+            Atenciosamente,
+            <br>
+            Equipe LiteFarm
+          </p>
+        </div>
+      </div>
+      <div class="footer">
+        <p>Por favor não responda a este email.</p>
+        <p>© {{year}} <a href="https://litefarm.org">LiteFarm.org</a></p>
+        <!--        <p>Para entrar em contato conosco, clique <a href="">Ajuda</a> ou <a href="">contate-nos</a>.</p>-->
+      </div>
+    </div>
+  </body>
+</html>

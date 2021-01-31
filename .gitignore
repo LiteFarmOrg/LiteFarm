@@ -3,8 +3,10 @@ node_modules
 lerna-debug.log
 packages/api/coverage
 packages/api/.env.local
+packages/api/tickets
 packages/api/.env
 packages/webapp/.env
 packages/webapp/cypress/videos
 packages/webapp/cypress/screenshots
 .vscode
+.DS_Store

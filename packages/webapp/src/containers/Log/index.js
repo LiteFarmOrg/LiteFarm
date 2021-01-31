@@ -44,8 +44,6 @@ class Log extends Component {
       activityFilter: 'all',
       cropFilter: 'all',
       fieldFilter: 'all',
-      // startDate: moment().startOf('year'),
-      // endDate: moment().endOf('year'),
     };
     this.filterLogs = this.filterLogs.bind(this);
     this.getEditURL = this.getEditURL.bind(this);
@@ -57,8 +55,6 @@ class Log extends Component {
     dispatch(getPesticides());
     dispatch(getDiseases());
     dispatch(getFertilizers());
-    // dispatch(setStartDate(moment().startOf('year')));
-    // dispatch(setEndDate(moment().endOf('year')));
   }
 
   // filter logs in table if an option is chosen from dropdown or date

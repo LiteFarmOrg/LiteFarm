@@ -55,7 +55,7 @@ export default function PureCustomSignUp({
           </div>
         </div>
       </div>
-      <Footer style={{ position: 'relative', bottom: 0 }}>
+      <Footer style={{ position: 'relative', bottom: 0, marginTop: '12px' }}>
         <div className={styles.bottomButton}>
           <Button
             disabled={disabled}

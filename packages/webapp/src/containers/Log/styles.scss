@@ -195,20 +195,12 @@ input:disabled {
   flex-direction: column;
   width: 100%;
   justify-content: flex-start;
-  margin-bottom: 5%;
+  margin-bottom: 16px;
   label {
     font-weight: 300;
     font-size: 18px;
   }
 
-  input {
-    color: var(--typePrimary);
-    border: 1px solid #858b85;
-    padding: 0.5% 3%;
-    width: 100%;
-    margin-right: 3%;
-    height: 40px;
-  }
 }
 
 .inputNunit {
@@ -260,30 +252,21 @@ input:disabled {
   width: 100%;
   justify-content: space-between;
   margin: 15px 0;
-  label {
-    color: #b1b5be;
-    font-weight: 600;
-    font-size: 18px;
-    width: 40%;
-    line-height: 1.1;
-    margin: 12px 0;
-  }
-
-  input {
-    color: var(--typePrimary);
-    border: 1px solid #979797;
-    border-radius: 6px;
-    padding: 0.5% 3%;
-    width: 50%;
-    margin-right: 3%;
-    margin-left: 3%;
-    height: 40px;
+  div{
+    flex-grow: 1;
   }
   span {
-    width: 10%;
-    font-weight: 600;
-    font-size: 20px;
-    color: #737984;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    //styleName: H3 - Regular 16;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+    transform: translateY(8px);
+    margin-left: 16px;
+    margin-top: 24px;
   }
 }
 
@@ -297,6 +280,7 @@ input:disabled {
   width: 100%;
   justify-content: flex-start;
   align-items: center;
+h3{
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -304,6 +288,9 @@ input:disabled {
   margin-bottom: 20px;
   color: var(--fontColor);
   font-family: 'Open Sans', 'SansSerif', serif;
+  flex-grow: 1;
+  text-align: center;
+}
 
 }
 
@@ -313,7 +300,6 @@ input:disabled {
     width: 100%;
     max-width: 40px;
   }
-  margin-right: 23%;
 }
 
 .modal {

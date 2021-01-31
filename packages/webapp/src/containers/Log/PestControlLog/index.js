@@ -28,7 +28,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
-import { numberOnKeyDown } from '../../../components/Form/Input';
+import Input, { numberOnKeyDown } from '../../../components/Form/Input';
 import TextArea from '../../../components/Form/TextArea';
 import ReactSelect from '../../../components/Form/ReactSelect';
 
@@ -249,7 +249,6 @@ class PestControlLog extends Component {
       actions.change('logReducer.forms.pestControlLog.disease_id', selectedOption.value),
     );
   };
-
   render() {
     let crops = this.props.crops;
     let fields = this.props.fields;
@@ -283,7 +282,10 @@ class PestControlLog extends Component {
           ? d.disease_common_name
           : this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
-    const isAdmin = this.props.farm.role_id === 1 || this.props.farm.role_id === 2;
+    const isAdmin =
+      this.props.farm.role_id === 1 ||
+      this.props.farm.role_id === 2 ||
+      this.props.farm.role_id === 5;
     return (
       <div className="page-container" style={{ styles }}>
         <PageTitle backUrl="/new_log" title={this.props.t('LOG_PESTICIDE.TITLE')} />
@@ -410,23 +412,40 @@ class PestControlLog extends Component {
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
-                    <Control.text model=".pestControlLog.entry_interval" disabled={true} />
+                    \{' '}
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
+                      component={Input}
+                      model=".pestControlLog.entry_interval"
+                      disabled={true}
+                    />
                     <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}</label>
-                    <Control.text model=".pestControlLog.harvest_interval" disabled={true} />
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}
+                      component={Input}
+                      model=".pestControlLog.harvest_interval"
+                      disabled={true}
+                    />
                     <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}</label>
-                    <Control.text model=".pestControlLog.active_ingredients" disabled={true} />
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}
+                      component={Input}
+                      model=".pestControlLog.active_ingredients"
+                      disabled={true}
+                    />
                     <span> </span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.CONCENTRATION')}</label>
-                    <Control.text model=".pestControlLog.concentration" disabled={true} />
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.CONCENTRATION')}
+                      component={Input}
+                      model=".pestControlLog.concentration"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                 </div>
@@ -471,15 +490,19 @@ class PestControlLog extends Component {
                 {/*/>*/}
                 {/*</div>*/}
                 <div className={styles.textContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}</label>
-                  <Control.text model=".pestControlLog.custom_pesticide_name" />
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}
+                    component={Input}
+                    model=".pestControlLog.custom_pesticide_name"
+                  />
                 </div>
                 <div className={styles.noteTitle}>
                   {this.props.t('LOG_PESTICIDE.PESTICIDE_INFO_LABEL')}:
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -489,8 +512,9 @@ class PestControlLog extends Component {
                   <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}</label>
-                  <Control.input
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -500,13 +524,18 @@ class PestControlLog extends Component {
                   <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}</label>
-                  <Control.text model=".pestControlLog.active_ingredients" placeholder="optional" />
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}
+                    component={Input}
+                    model=".pestControlLog.active_ingredients"
+                    placeholder="optional"
+                  />
                   <span></span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.CONCENTRATION')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_PESTICIDE.CONCENTRATION')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -563,13 +592,17 @@ class PestControlLog extends Component {
                   />
                 </div>
                 <div className={styles.textContainerColumn}>
-                  <label>{this.props.t('LOG_PESTICIDE.COMMON_NAME')}:</label>
-                  <Control.text model=".pestControlLog.custom_disease_common_name" />
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.COMMON_NAME')}
+                    component={Input}
+                    model=".pestControlLog.custom_disease_common_name"
+                  />
                 </div>
 
                 <div className={styles.textContainerColumn}>
-                  <label>{this.props.t('LOG_PESTICIDE.SCIENTIFIC_NAME')}:</label>
-                  <Control.text
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_PESTICIDE.SCIENTIFIC_NAME')}
                     model=".pestControlLog.custom_disease_scientific_name"
                     placeholder="optional"
                   />

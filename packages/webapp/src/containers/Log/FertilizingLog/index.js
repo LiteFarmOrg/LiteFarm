@@ -368,8 +368,9 @@ class FertilizingLog extends Component {
                   {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_COMMON.NITRATE')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_COMMON.NITRATE')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -378,8 +379,9 @@ class FertilizingLog extends Component {
                   <span className={styles.unitSpan}>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_COMMON.AMMONIA')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_COMMON.AMMONIA')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -388,8 +390,9 @@ class FertilizingLog extends Component {
                   <span>ppm</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_COMMON.POTASSIUM')}</label>
                   <Control.input
+                    component={Input}
+                    label={this.props.t('LOG_COMMON.POTASSIUM')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -398,8 +401,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_COMMON.PHOSPHATE')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_COMMON.PHOSPHATE')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -408,8 +412,9 @@ class FertilizingLog extends Component {
                   <span>%</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_COMMON.WATER')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_COMMON.WATER')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"

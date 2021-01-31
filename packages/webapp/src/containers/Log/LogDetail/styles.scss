@@ -250,15 +250,15 @@ input:disabled {
   flex-direction: row;
   h3{
     flex-grow: 1;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    margin-bottom: 20px;
+    color: var(--fontColor);
+    font-family: 'Open Sans', 'SansSerif', serif;
   }
   align-items: center;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 32px;
-  margin-bottom: 20px;
-  color: var(--fontColor);
-  font-family: 'Open Sans', 'SansSerif', serif;
 }
 
 .close {

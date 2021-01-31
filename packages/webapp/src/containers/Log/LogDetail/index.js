@@ -90,7 +90,9 @@ class LogDetail extends Component {
 
     for (let d of diseases) {
       if (d.disease_id === d_id) {
-        return d.farm_id ? this.props.t(`disease:name.${d.disease_name_translation_key}`) : d.disease_common_name ;
+        return d.farm_id
+          ? this.props.t(`disease:name.${d.disease_name_translation_key}`)
+          : d.disease_common_name;
       }
     }
 
@@ -449,7 +451,7 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SPACE_DEPTH')}</div>
+                  <div>{this.props.t('LOG_SEEDING.SEEDING_DEPTH')}</div>
                   <span>
                     {roundToFourDecimal(
                       convertFromMetric(
@@ -465,7 +467,7 @@ class LogDetail extends Component {
 
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
-                  <div>{this.props.t('LOG_SEEDING.SPACE_LENGTH')}</div>
+                  <div>{this.props.t('LOG_SEEDING.SEED_SPACING')}</div>
                   <span>
                     {roundToFourDecimal(
                       convertFromMetric(

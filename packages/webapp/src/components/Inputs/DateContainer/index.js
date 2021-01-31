@@ -15,14 +15,14 @@ function DateContainer({ date, onDateChange, placeholder, custom, classes = {} }
           <Text style={{ display: 'flex', alignItems: 'center', flexBasis: '35%', flexShrink: 0 }}>
             {placeholder}
           </Text>
-          <div style={{ flexGrow: 1, flexBasis: '100%' }} />
+          <div style={{ flexGrow: 1 }} />
         </>
       )}
       <Input
         value={date.format('YYYY-MM-DD')}
         type={'date'}
         onChange={onChange}
-        style={{ flexGrow: 1 }}
+        style={{ flexGrow: 1, minWidth: '120px', flexBasis: '40%' }}
       />
     </div>
   );

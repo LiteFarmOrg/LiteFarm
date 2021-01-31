@@ -85,12 +85,12 @@ class SeedingLog extends Component {
           />
           <Unit
             model=".seedLog.space_depth_cm"
-            title={this.props.t('LOG_SEEDING.SPACE_DEPTH')}
+            title={this.props.t('LOG_SEEDING.SEEDING_DEPTH')}
             type={this.state.space_unit}
           />
           <Unit
             model=".seedLog.space_length_cm"
-            title={this.props.t('LOG_SEEDING.SPACE_LENGTH')}
+            title={this.props.t('LOG_SEEDING.SEED_SPACING')}
             type={this.state.space_unit}
           />
           <Unit

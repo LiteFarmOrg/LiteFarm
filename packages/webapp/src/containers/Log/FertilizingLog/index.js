@@ -229,6 +229,7 @@ class FertilizingLog extends Component {
           date={this.state.date}
           onDateChange={this.setDate}
           placeholder={this.props.t('LOG_COMMON.CHOOSE_DATE')}
+          classes={{}}
         />
         {
           <div>
@@ -330,11 +331,13 @@ class FertilizingLog extends Component {
                 minHeight: '100vh',
                 padding: '92px 24px 0 24px',
                 justifyContent: 'center',
+                position: 'absolute',
               }}
               overlayStyle={{
                 minHeight: '100vh',
                 top: 'auto',
                 zIndex: 1,
+                position: 'absolute',
               }}
             >
               <Form

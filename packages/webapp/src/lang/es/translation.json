@@ -313,8 +313,8 @@
   },
   "LOG_SEEDING": {
     "RATE": "Rate",
-    "SPACE_DEPTH": "Space Depth",
-    "SPACE_LENGTH": "Space Length",
+    "SEEDING_DEPTH": "Seeding Depth",
+    "SEED_SPACING": "Seed Spacing",
     "SPACE_WIDTH": "Space Width",
     "TITLE": "Seeding Log"
   },

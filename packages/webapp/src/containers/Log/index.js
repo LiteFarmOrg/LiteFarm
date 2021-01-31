@@ -226,7 +226,7 @@ class Log extends Component {
         <hr />
         <div>
           <InfoBoxComponent
-            customStyle={{ float: 'right' }}
+            customStyle={{ float: 'right', position: 'relative', right: 0 }}
             title={this.props.t('LOG_COMMON.LOG_HELP')}
             body={this.props.t('LOG_COMMON.LOG_HELP_EXPLANATION')}
           />

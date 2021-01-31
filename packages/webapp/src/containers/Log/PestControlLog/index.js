@@ -463,6 +463,7 @@ class PestControlLog extends Component {
                 minHeight: '100vh',
                 padding: '92px 24px 0 24px',
                 justifyContent: 'center',
+                position: 'absolute',
               }}
               overlayStyle={{
                 minHeight: '100vh',
@@ -563,6 +564,7 @@ class PestControlLog extends Component {
                 minHeight: '100vh',
                 padding: '92px 24px 0 24px',
                 justifyContent: 'center',
+                position: 'absolute',
               }}
               overlayStyle={{
                 minHeight: '100vh',

@@ -6,6 +6,7 @@ import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
 import InfoBoxComponent from '../../InfoBoxComponent';
 import { dateRangeSelector } from '../../../containers/Finances/selectors';
+import { Main } from '../../Typography';
 
 class DateRangeSelector extends Component {
   constructor(props) {
@@ -54,9 +55,7 @@ class DateRangeSelector extends Component {
             'Select the date range to create a financial report for your farm for a given time window.'
           }
         />
-        <h5 className={styles.balanceTitle}>
-          <strong>Filter Report by Date</strong>
-        </h5>
+        <Main style={{ textAlign: 'center', marginBottom: '20px' }}>Filter Report by Date</Main>
         <div className={styles.toFromContainer}>
           <span className={styles.pullLeft}>
             <label>From</label>

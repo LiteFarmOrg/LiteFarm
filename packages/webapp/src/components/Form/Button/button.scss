@@ -22,7 +22,7 @@
   font-weight: 600;
   size: 16px;
   line-height: 24px;
-  height: 48px;
+  min-height: 48px;
   padding: 0 16px;
 }
 
@@ -52,6 +52,6 @@
 
 .sm {
   font-size: 14px;
-  height: 32px;
+  min-height: 32px;
   padding: 0 16px;
 }

@@ -14,6 +14,7 @@ import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { Main } from '../../../components/Typography';
 
 class Labour extends Component {
   constructor(props) {
@@ -72,14 +73,13 @@ class Labour extends Component {
         <PageTitle backUrl="/Finances" title={this.props.t('SALE.LABOUR.TITLE')} />
         <DateRangeSelector changeDateMethod={this.changeDate} />
         <div className={styles.topButtonContainer}>
-          <h4>{this.props.t('SALE.LABOUR.BY')}</h4>
+          <Main>{this.props.t('SALE.LABOUR.BY')}</Main>
           <div className={styles.dropDownContainer}>
             <DropdownButton
               variant={'default'}
               title={dropDownTitle}
               key={i}
               id={`dropdown-basic-${i}`}
-              style={dButtonStyle}
             >
               <Dropdown.Item eventKey="1" onClick={() => this.sortBy('Employees')}>
                 {this.props.t('SALE.LABOUR.EMPLOYEES')}

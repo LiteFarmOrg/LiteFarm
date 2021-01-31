@@ -29,8 +29,8 @@ const SaleForm = ({
         }}
       />
       <div className={styles.defaultFormDropDown}>
-        <label>Crop</label>
         <Control
+          label={'Crop'}
           component={DropDown}
           options={cropOptions}
           searchable={true}

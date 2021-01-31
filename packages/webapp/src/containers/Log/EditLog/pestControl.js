@@ -32,6 +32,7 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { numberOnKeyDown } from '../../../components/Form/Input';
+import TextArea from '../../../components/Form/TextArea';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -330,8 +331,9 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: d.farm_id ?  d.disease_common_name :
-          this.props.t(`disease:name.${d.disease_name_translation_key}`),
+        label: d.farm_id
+          ? d.disease_common_name
+          : this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
     const selectedFields = selectedLog.field.map((f) => ({
       value: f.field_id,
@@ -423,7 +425,7 @@ class PestControlLog extends Component {
 
               <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
               <div className={styles.noteContainer}>
-                <Control.textarea model=".pestControlLog.notes" />
+                <Control component={TextArea} model=".pestControlLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem ? 'Hide' : 'Show'}{' '}
@@ -472,10 +474,15 @@ class PestControlLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                height: '100vh',
-                padding: '0 5%',
+                minHeight: '100vh',
+                padding: '92px 24px 0 24px',
+                justifyContent: 'center',
               }}
-              overlayStyle={{ zIndex: '1060', height: '100vh' }}
+              overlayStyle={{
+                minHeight: '100vh',
+                top: 'auto',
+                zIndex: 1,
+              }}
             >
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
@@ -556,10 +563,15 @@ class PestControlLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                height: '100vh',
-                padding: '0 5%',
+                minHeight: '100vh',
+                padding: '92px 24px 0 24px',
+                justifyContent: 'center',
               }}
-              overlayStyle={{ zIndex: '1060', height: '100vh' }}
+              overlayStyle={{
+                minHeight: '100vh',
+                top: 'auto',
+                zIndex: 1,
+              }}
             >
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>

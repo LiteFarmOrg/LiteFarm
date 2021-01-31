@@ -20,16 +20,22 @@
     background-color: black;
     height: 2px;
   }
-  p:first-child,
+  p:first-child{
+    flex-basis: 30%;
+  }
+  p:nth-child(2){
+    flex-basis: 35%;
+  }
   p:last-child {
-    flex: 1;
+    flex-basis: 35%;
   }
   p {
-    font-size: 1.5rem;
-    flex: 2;
-    color: black;
-    margin-right: 10px;
-    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--fontColor);
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Open Sans', 'SansSerif', serif;
   }
 }
 

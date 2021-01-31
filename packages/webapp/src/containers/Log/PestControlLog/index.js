@@ -28,7 +28,9 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
-import { numberOnKeyDown } from '../../../components/Form/Input';
+import Input, { numberOnKeyDown } from '../../../components/Form/Input';
+import TextArea from '../../../components/Form/TextArea';
+import ReactSelect from '../../../components/Form/ReactSelect';
 
 class PestControlLog extends Component {
   constructor(props) {
@@ -247,7 +249,6 @@ class PestControlLog extends Component {
       actions.change('logReducer.forms.pestControlLog.disease_id', selectedOption.value),
     );
   };
-
   render() {
     let crops = this.props.crops;
     let fields = this.props.fields;
@@ -277,11 +278,14 @@ class PestControlLog extends Component {
       diseases &&
       diseases.map((d) => ({
         value: d.disease_id,
-        label: d.farm_id ? 
-          d.disease_common_name :
-          this.props.t(`disease:name.${d.disease_name_translation_key}`),
+        label: d.farm_id
+          ? d.disease_common_name
+          : this.props.t(`disease:name.${d.disease_name_translation_key}`),
       }));
-    const isAdmin = this.props.farm.role_id === 1 || this.props.farm.role_id === 2;
+    const isAdmin =
+      this.props.farm.role_id === 1 ||
+      this.props.farm.role_id === 2 ||
+      this.props.farm.role_id === 5;
     return (
       <div className="page-container" style={{ styles }}>
         <PageTitle backUrl="/new_log" title={this.props.t('LOG_PESTICIDE.TITLE')} />
@@ -305,7 +309,6 @@ class PestControlLog extends Component {
                 crops={crops}
               />
               <div className={styles.targetDropDown}>
-                <label>{this.props.t('LOG_PESTICIDE.TARGET')}</label>
                 {/*<Control*/}
                 {/*model=".pestControlLog.disease_id"*/}
                 {/*component={DropDown}*/}
@@ -313,7 +316,8 @@ class PestControlLog extends Component {
                 {/*placeholder="Choose Target"*/}
                 {/*validators={{required: (val) => val && val.length}}*/}
                 {/*/>*/}
-                <Select
+                <ReactSelect
+                  label={this.props.t('LOG_PESTICIDE.TARGET')}
                   isSearchable={true}
                   options={diseaseOptions}
                   className="basic-single"
@@ -378,21 +382,25 @@ class PestControlLog extends Component {
                 type={this.state.quantity_unit}
                 validate
               />
-              {isAdmin && <div>
-                <div className={styles.greenTextButton} onClick={() => this.openDiseaseModal()}>
-                  {' '}
-                  + {this.props.t('LOG_PESTICIDE.ADD_DISEASE')}
+              {isAdmin && (
+                <div>
+                  <div className={styles.greenTextButton} onClick={() => this.openDiseaseModal()}>
+                    {' '}
+                    + {this.props.t('LOG_PESTICIDE.ADD_DISEASE')}
+                  </div>
                 </div>
-              </div>}
-              {isAdmin && <div>
-                <div className={styles.greenTextButton} onClick={() => this.openPesticideModal()}>
-                  {' '}
-                  + {this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}{' '}
+              )}
+              {isAdmin && (
+                <div>
+                  <div className={styles.greenTextButton} onClick={() => this.openPesticideModal()}>
+                    {' '}
+                    + {this.props.t('LOG_PESTICIDE.ADD_CUSTOM_PESTICIDE')}{' '}
+                  </div>
                 </div>
-              </div>}
+              )}
               <div className={styles.noteTitle}>{this.props.t('common:NOTES')}</div>
               <div className={styles.noteContainer}>
-                <Control.textarea model=".pestControlLog.notes" />
+                <Control component={TextArea} model=".pestControlLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
                 {this.state.showChem ? 'Hide' : 'Show'}{' '}
@@ -404,23 +412,40 @@ class PestControlLog extends Component {
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
-                    <Control.text model=".pestControlLog.entry_interval" disabled={true} />
+                    \{' '}
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
+                      component={Input}
+                      model=".pestControlLog.entry_interval"
+                      disabled={true}
+                    />
                     <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}</label>
-                    <Control.text model=".pestControlLog.harvest_interval" disabled={true} />
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}
+                      component={Input}
+                      model=".pestControlLog.harvest_interval"
+                      disabled={true}
+                    />
                     <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}</label>
-                    <Control.text model=".pestControlLog.active_ingredients" disabled={true} />
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}
+                      component={Input}
+                      model=".pestControlLog.active_ingredients"
+                      disabled={true}
+                    />
                     <span> </span>
                   </div>
                   <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_PESTICIDE.CONCENTRATION')}</label>
-                    <Control.text model=".pestControlLog.concentration" disabled={true} />
+                    <Control
+                      label={this.props.t('LOG_PESTICIDE.CONCENTRATION')}
+                      component={Input}
+                      model=".pestControlLog.concentration"
+                      disabled={true}
+                    />
                     <span>%</span>
                   </div>
                 </div>
@@ -435,10 +460,16 @@ class PestControlLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                height: '100vh',
-                padding: '0 5%',
+                minHeight: '100vh',
+                padding: '92px 24px 0 24px',
+                justifyContent: 'center',
+                position: 'absolute',
               }}
-              overlayStyle={{ zIndex: '1060', height: '100vh' }}
+              overlayStyle={{
+                minHeight: '100vh',
+                top: 'auto',
+                zIndex: 1,
+              }}
             >
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
@@ -460,15 +491,19 @@ class PestControlLog extends Component {
                 {/*/>*/}
                 {/*</div>*/}
                 <div className={styles.textContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}</label>
-                  <Control.text model=".pestControlLog.custom_pesticide_name" />
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.PESTICIDE_NAME_LABEL')}
+                    component={Input}
+                    model=".pestControlLog.custom_pesticide_name"
+                  />
                 </div>
                 <div className={styles.noteTitle}>
                   {this.props.t('LOG_PESTICIDE.PESTICIDE_INFO_LABEL')}:
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -478,8 +513,9 @@ class PestControlLog extends Component {
                   <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}</label>
-                  <Control.input
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.HARVEST_INTERVAL')}
+                    component={Input}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -489,13 +525,18 @@ class PestControlLog extends Component {
                   <span>{this.props.t('LOG_PESTICIDE.DAYS')}</span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}</label>
-                  <Control.text model=".pestControlLog.active_ingredients" placeholder="optional" />
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.ACTIVE_INGREDIENTS')}
+                    component={Input}
+                    model=".pestControlLog.active_ingredients"
+                    placeholder="optional"
+                  />
                   <span></span>
                 </div>
                 <div className={styles.chemContainer}>
-                  <label>{this.props.t('LOG_PESTICIDE.CONCENTRATION')}</label>
-                  <Control.input
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_PESTICIDE.CONCENTRATION')}
                     type="number"
                     onKeyDown={numberOnKeyDown}
                     step="any"
@@ -520,10 +561,16 @@ class PestControlLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                height: '100vh',
-                padding: '0 5%',
+                minHeight: '100vh',
+                padding: '92px 24px 0 24px',
+                justifyContent: 'center',
+                position: 'absolute',
               }}
-              overlayStyle={{ zIndex: '1060', height: '100vh' }}
+              overlayStyle={{
+                minHeight: '100vh',
+                top: 'auto',
+                zIndex: 1,
+              }}
             >
               <Form className={styles.formContainer} model="logReducer.forms">
                 <div className={styles.modal}>
@@ -547,13 +594,17 @@ class PestControlLog extends Component {
                   />
                 </div>
                 <div className={styles.textContainerColumn}>
-                  <label>{this.props.t('LOG_PESTICIDE.COMMON_NAME')}:</label>
-                  <Control.text model=".pestControlLog.custom_disease_common_name" />
+                  <Control
+                    label={this.props.t('LOG_PESTICIDE.COMMON_NAME')}
+                    component={Input}
+                    model=".pestControlLog.custom_disease_common_name"
+                  />
                 </div>
 
                 <div className={styles.textContainerColumn}>
-                  <label>{this.props.t('LOG_PESTICIDE.SCIENTIFIC_NAME')}:</label>
-                  <Control.text
+                  <Control
+                    component={Input}
+                    label={this.props.t('LOG_PESTICIDE.SCIENTIFIC_NAME')}
                     model=".pestControlLog.custom_disease_scientific_name"
                     placeholder="optional"
                   />

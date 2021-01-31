@@ -9,6 +9,7 @@ import { fieldsSelector } from '../../../containers/fieldSlice';
 import { getFieldCrops, getFields } from '../../../containers/saga';
 import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
+import TextArea from '../../Form/TextArea';
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
@@ -312,9 +313,8 @@ class DefaultLogForm extends React.Component {
         {customFieldset && customFieldset()}
         {notesField && (
           <div>
-            <div className={styles.noteTitle}>Notes</div>
             <div className={styles.noteContainer}>
-              <Control.textarea model=".notes" />
+              <Control model=".notes" component={TextArea} label={'Notes'} />
             </div>
           </div>
         )}

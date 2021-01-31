@@ -85,13 +85,23 @@
     height: 40px;
   }
 }
+.typeUnit{
+  font-family: 'Open Sans', 'SansSerif', serif;
+  //styleName: H3 - Regular 16;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  transform: translateY(8px);
+  margin-left: 16px;
+}
+
 
 .inputNunit {
   display: flex;
-  input {
-    width: 90%;
-    margin-right: 5%;
-  }
+  align-items: center;
 }
 
 .selectContainer {
@@ -99,13 +109,17 @@
   input {
     margin-right: 10px;
   }
-  select {
-    background: #efefef;
-    border: none;
-    padding: 2px;
-    border-radius: 5px;
-    height: 30px;
-    width: 80px;
-    font-size: 0.9em;
-  }
+}
+.select{
+  transform: translateY(20px);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  height: 48px;
+  border: none;
+  border-radius: 4px;
+  background-color: white;
+
 }

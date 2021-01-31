@@ -90,7 +90,9 @@ class LogDetail extends Component {
 
     for (let d of diseases) {
       if (d.disease_id === d_id) {
-        return d.farm_id ? d.disease_common_name : this.props.t(`disease:name.${d.disease_name_translation_key}`)  ;
+        return d.farm_id
+          ? this.props.t(`disease:name.${d.disease_name_translation_key}`)
+          : d.disease_common_name;
       }
     }
 

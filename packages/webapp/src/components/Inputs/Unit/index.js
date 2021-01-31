@@ -1,6 +1,7 @@
 import React from 'react';
 import { Control, Errors } from 'react-redux-form';
 import styles from '../styles.scss';
+import Input, { numberOnKeyDown } from '../../Form/Input';
 
 class Unit extends React.Component {
   parseNumber(val) {
@@ -48,19 +49,27 @@ class Unit extends React.Component {
         style={isHarvestAllocation ? { fontSize: '14px' } : { fontSize: '18px' }}
         className={styles.textContainer}
       >
-        {showLabel && <label>{title}</label>}
         {dropdown && (
           <>
             <div className={styles.selectContainer}>
               <Control.input
                 data-test="unit-input"
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{ positive: this.isPositive }}
                 parser={this.parseNumber}
+                component={Input}
+                classes={{ container: { flexGrow: 1 } }}
+                label={title}
               />
-              <Control.select data-test="unit-select" model=".unit">
+              <Control.select
+                data-test="unit-select"
+                model=".unit"
+                className={styles.select}
+                style={{ color: 'var(--fontColor)' }}
+              >
                 {options.map((o, index) => {
                   return (
                     <option key={'option-' + index} value={o}>
@@ -86,13 +95,17 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 validators={{ positive: this.isPositive }}
                 parser={this.parseNumber}
+                component={Input}
+                classes={{ container: { flexGrow: 1 } }}
+                label={title}
               />
+              <div className={styles.typeUnit}>{type}</div>
             </div>
-            <div className={styles.typeUnit}>{type}</div>
 
             <Errors
               className="required"
@@ -110,6 +123,7 @@ class Unit extends React.Component {
               <Control.input
                 data-test="unit-input"
                 type="number"
+                onKeyDown={numberOnKeyDown}
                 step="any"
                 model={model}
                 defaultValue={defaultValue}
@@ -119,6 +133,9 @@ class Unit extends React.Component {
                   twoDecimalPlaces: this.isTwoDecimalPlaces,
                 }}
                 parser={this.parseNumber}
+                component={Input}
+                classes={{ container: { flexGrow: 1 } }}
+                label={title}
               />
               <div
                 style={
@@ -126,6 +143,7 @@ class Unit extends React.Component {
                     ? { marginLeft: '-40px', marginTop: '6px', color: '#9FAABE' }
                     : {}
                 }
+                className={styles.typeUnit}
               >
                 {type}
               </div>

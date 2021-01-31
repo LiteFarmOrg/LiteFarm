@@ -142,13 +142,10 @@ class HarvestUseType extends Component {
   render() {
     return (
       <div className={styles.logContainer}>
-        <div className={styles.textContainer}>
-          <PageTitle
-            title={this.props.t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}
-            backUrl="/harvest_log"
-            isHarvestLogStep={true}
-          />
-        </div>
+        <PageTitle
+          title={this.props.t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}
+          backUrl="/harvest_log"
+        />
         <h4>{this.props.t('LOG_HARVEST.HARVEST_USE_TYPE_SUBTITLE')}</h4>
         <Container
           fluid={true}

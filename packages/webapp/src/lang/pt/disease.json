@@ -1,11 +1,11 @@
 {
   "name": {
-    "BACTERIAL_SOFT_ROT_OF_PEPPER": "Bacterial Soft Rot of Pepper",
-    "BACTERIAL_BLACK_SPOT_OF_MANGO": "Bacterial Black Spot of Mango",
-    "BACTERIAL_BLIGHT_OF_RICE": "Bacterial Blight of Rice",
-    "ANGULAR_LEAF_SPOT_DISEASE": "Angular Leaf Spot Disease",
-    "BACTERIAL_LEAF_STREAK": "Bacterial Leaf Streak",
-    "BACTERIAL_SPOT": "Bacterial Spot",
+    "BACTERIAL_SOFT_ROT_OF_PEPPER": "Pimentão - Podridão-mole do pimentão",
+    "BACTERIAL_BLACK_SPOT_OF_MANGO": "Manga - Mancha angular/mancha bacteriana",
+    "BACTERIAL_BLIGHT_OF_RICE": "Arroz - Crestamento ou murcha bacteriana",
+    "ANGULAR_LEAF_SPOT_DISEASE": "Mancha angular",
+    "BACTERIAL_LEAF_STREAK": "Estria bacteriana",
+    "BACTERIAL_SPOT": "Mancha bacteriana (Pseudomonas syringae pv. tomato)",
     "BACTERIAL_CANKER_OF_MANGO": "Bacterial Canker of Mango",
     "HALO_BLIGHT": "Halo Blight",
     "FIRE_BLIGHT": "Fire Blight",

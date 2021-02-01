@@ -1,34 +1,34 @@
 {
   "ADD_FARM": {
-    "ADDRESS_IS_REQUIRED": "MISSING",
-    "ENTER_A_VALID_ADDRESS": "MISSING",
-    "FARM_IS_REQUIRED": "MISSING",
-    "FARM_LOCATION": "MISSING",
-    "FARM_LOCATION_INPUT_INFO": "MISSING",
-    "FARM_NAME": "MISSING",
-    "INVALID_FARM_LOCATION": "MISSING",
-    "NO_ADDRESS": "MISSING",
-    "TELL_US_ABOUT_YOUR_FARM": "MISSING"
+    "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
+    "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
+    "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
+    "FARM_LOCATION": "Localização do sítio/fazenda",
+    "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
+    "FARM_NAME": "Nome do sítio/fazenda",
+    "INVALID_FARM_LOCATION": "Localização do sítio/fazenda inválida",
+    "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
+    "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
   "CHOOSE_FARM": {
-    "ADD_NEW": "Adicionar novo sitio/fazenda",
-    "CHOOSE_TITLE": "Escolha sua fazenda",
+    "ADD_NEW": "Adicionar novo sítio/fazenda",
+    "CHOOSE_TITLE": "Escolha seu sítio/fazenda",
     "INPUT_PLACEHOLDER": "Pesquisa",
-    "SWITCH_TITLE": "Mudar para outra fazenda"
+    "SWITCH_TITLE": "Mudar para outro sítio/fazenda"
   },
   "CONSENT": {
     "LABEL": "Aceito"
   },
   "CREATE_USER": {
-    "BIRTH_YEAR": "MISSING",
-    "BIRTH_YEAR_ERROR": "MISSING",
-    "BIRTH_YEAR_TOOLTIP": "MISSING",
+    "BIRTH_YEAR": "Ano de nascimento",
+    "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
+    "BIRTH_YEAR_TOOLTIP": "Informação sobre a idade é coletada para propósitos de pesquisa acadêmica e apenas será compartilhada sem outras informações pessoais",
     "CREATE_BUTTON": "Criar Conta",
-    "EMAIL": "MISSING",
-    "FULL_NAME": "MISSING",
-    "GENDER": "MISSING",
-    "GENDER_TOOLTIP": "MISSING",
-    "PASSWORD": "MISSING",
+    "EMAIL": "Email",
+    "FULL_NAME": "Nome completo",
+    "GENDER": "Gênero",
+    "GENDER_TOOLTIP": "Informação sobre gênero é coletada para propósitos de pesquisa acadêmica e apenas será compartilhada sem outras informações pessoais",
+    "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
   "ENTER_PASSWORD": {
@@ -58,7 +58,7 @@
     "VALUE": "Valor"
   },
   "EXPIRED_TOKEN": {
-    "RESET_PASSWORD_LINK": "MISSING"
+    "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -109,7 +109,7 @@
       "SAVE_FIELD": "Salvar campo",
       "SEARCH_BOX_PLACEHOLDER": "Pesquisar",
       "TITLE": "Novo campo (2 de 2)",
-      "ZERO_AREA_DETECTED": "MISSING"
+      "ZERO_AREA_DETECTED": "Parcela/campo sem área detectada. Por favor desenhe novamente"
     },
     "TABLE": {
       "AREA": "Área",
@@ -133,15 +133,15 @@
     "TITLE": "Solicite Ajuda",
     "TYPE_SUPPORT_LABEL": "Tipo de suporte",
     "TYPE_SUPPORT_PLACEHOLDER": "Escolha o tipo de suporte",
-    "WHATSAPP": "Whatsapp",
-    "WHATSAPP_NUMBER_LABEL": "Número do Whatsapp"
+    "WHATSAPP": "WhatsApp",
+    "WHATSAPP_NUMBER_LABEL": "Número do WhatsApp"
   },
   "HOME": {
     "GREETING": "Good day, "
   },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
-    "BIRTH_YEAR_ERROR": "MISSING",
+    "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
     "BIRTH_YEAR_TOOLTIP": "As informações de idade são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
     "CREATE_ACCOUNT": "Crie sua conta",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",
@@ -161,30 +161,30 @@
     "TITLE": "Crie sua conta"
   },
   "INVITE_USER": {
-    "BIRTH_YEAR": "MISSING",
-    "BIRTH_YEAR_ERROR": "MISSING",
-    "BIRTH_YEAR_TOOLTIP": "MISSING",
-    "CHOOSE_ROLE": "MISSING",
-    "EMAIL": "MISSING",
-    "EMAIL_INFO": "MISSING",
-    "FULL_NAME": "MISSING",
-    "GENDER": "MISSING",
-    "GENDER_TOOLTIP": "MISSING",
-    "INVALID_EMAIL_ERROR": "MISSING",
-    "INVITE": "MISSING",
-    "PHONE": "MISSING",
-    "PHONE_ERROR": "MISSING",
-    "ROLE": "MISSING",
-    "TITLE": "MISSING",
-    "WAGE": "MISSING",
-    "WAGE_ERROR": "MISSING"
+    "BIRTH_YEAR": "Ano de nascimento",
+    "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
+    "BIRTH_YEAR_TOOLTIP": "As informações de idade são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "CHOOSE_ROLE": "Escolha sua função",
+    "EMAIL": "Email",
+    "EMAIL_INFO": "Usuário sem um email não conseguirão entrar no aplicativo",
+    "FULL_NAME": "Nome completo",
+    "GENDER": "Gênero",
+    "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
+    "INVITE": "Convidar",
+    "PHONE": "Número de telefone",
+    "PHONE_ERROR": "Por favor entre um número de telefone válido",
+    "ROLE": "Função",
+    "TITLE": "Convide um usuário",
+    "WAGE": "Salário/vencimento por hora trabalhada",
+    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo"
   },
   "JOIN_FARM_SUCCESS": {
     "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",
     "SUCCESSFULLY_JOINED": "Você entrou com sucesso"
   },
   "LOG_COMMON": {
-    "ACTION": "Açao",
+    "ACTION": "Ação",
     "ACTIVITY": "Atividade",
     "ADD_CUSTOM_PRODUCT": "Adicionar um produto personalizado ",
     "ADD_NEW_LOG": "Adicionar Novo registro",
@@ -198,7 +198,7 @@
     "DATE": "Data",
     "DEFAULT_PRODUCT": "Produto Padrão",
     "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
-    "ERROR_MISSING_CROP_FIELDS": "Erro: Culturas ou campos ausentes",
+    "ERROR_
     "ERROR_MISSING_FIELDS": "Erro: falta campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
@@ -228,7 +228,7 @@
     "SELECT_PRODUCT": "selecione o produto",
     "SOIL_DATA": "Dados do Solo",
     "TO": "Para",
-    "WATER": "Agua",
+    "WATER": "Água",
     "WHAT_LOG": "O que você quer registrar?"
   },
   "LOG_DETAIL": {
@@ -244,7 +244,7 @@
     "YES": "Sim"
   },
   "LOG_FERTILIZING": {
-    "ADD_FERTILIZER": "Adicione um Gertilizante/adubo",
+    "ADD_FERTILIZER": "Adicione um Fertilizante/adubo",
     "FERTILIZING_QUANTITY": "Quantidade de Fertilizante/Adubo",
     "TITLE": "Registro de Adubação"
   },
@@ -253,19 +253,19 @@
   },
   "LOG_HARVEST": {
     "ADD_CUSTOM_TYPE": {
-      "INPUT_LABEL": "MISSING",
-      "TITLE": "MISSING"
+      "INPUT_LABEL": "Nome customizado para o uso da colheita",
+      "TITLE": "Adicione um uso para colheita"
     },
-    "ADD_CUSTOM_USE_TYPE": "MISSING",
-    "HARVEST_ALLOCATION_SUBTITLE": "MISSING",
-    "HARVEST_ALLOCATION_SUBTITLE_TWO": "MISSING",
-    "HARVEST_ALLOCATION_TITLE": "MISSING",
+    "ADD_CUSTOM_USE_TYPE": "Adicione um uso",
+    "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar",
+    "HARVEST_ALLOCATION_TITLE": "Registro de colheita (passo 3 de 3)",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
-    "HARVEST_USE": "MISSING",
-    "HARVEST_USE_TYPE_SUBTITLE": "MISSING",
-    "HARVEST_USE_TYPE_TITLE": "MISSING",
-    "QUANTITY": "MISSING",
-    "TITLE": "Registro de Colheita"
+    "HARVEST_USE": "Uso da colheita",
+    "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
+    "HARVEST_USE_TYPE_TITLE": "Registro de colheita (passo 2 de 3)",
+    "QUANTITY": "Quantidade",
+    "TITLE": "Registro de Colheita (passo 1 de 3)"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Taxa de Fluxo",
@@ -312,8 +312,8 @@
   },
   "LOG_SEEDING": {
     "RATE": "Taxa",
-    "SEED_SPACING": "MISSING",
-    "SEEDING_DEPTH": "MISSING",
+    "SEED_SPACING": "Espaçamento entre sementes/mudas",
+    "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
     "SPACE_DEPTH": "Profundidade de Semeadura",
     "SPACE_LENGTH": "Distância de Semeadura (Comprimento)",
     "SPACE_WIDTH": "Distância de Semeadura (Largura)",
@@ -376,7 +376,7 @@
       "THROUGH_APP": "em todo o aplicativo!",
       "WILL_INDICATE": "Iremos indicar os dados necessários para certificação com"
     },
-    "WARNING": "MISSING"
+    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
   "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
@@ -402,7 +402,7 @@
   "PROFILE": {
     "ACCOUNT_TAB": "Conta",
     "ACCOUNT": {
-      "CONVERT_TO_HAVE_ACCOUNT": "MISSING",
+      "CONVERT_TO_HAVE_ACCOUNT": "Converter este trabalhador para usuário com conta",
       "EMAIL": "Email",
       "ENGLISH": "Inglês",
       "FIRST_NAME": "Primeiro nome",
@@ -415,21 +415,21 @@
       "SPANISH": "Espanhol",
       "USER_ADDRESS": "Endereço do usuário"
     },
-    "FARM_TAB": "Fazenda/Sitio",
+    "FARM_TAB": "Sítio/Fazenda",
     "FARM": {
       "ADDRESS": "Endereço",
       "CURRENCY": "Moeda",
-      "FARM_NAME": "Nome da Fazenda",
+      "FARM_NAME": "Nome do sítio/fazenda",
       "MAKE_REQUEST": "Fazer pedido",
       "PHONE_NUMBER": "Número de telefone",
-      "REQUEST_DATA": "Você pode solicitar o download de seus dados e nós enviaremos os dados da sua fazenda para o seu e-mail, na forma de csv.",
+      "REQUEST_DATA": "Você pode solicitar o download de seus dados e nós enviaremos os dados de seu sítio/fazenda para o seu e-mail, na forma de arquivo .csv.",
       "UNITS": "Unidades"
     },
     "PEOPLE_TAB": "Pessoas",
     "PEOPLE": {
       "EO": "Agente de Extensão",
-      "FARM_MANAGER": "Gerente de Fazenda",
-      "FARM_OWNER": "Dono da fazenda",
+      "FARM_MANAGER": "Gerente de sítio/fazenda",
+      "FARM_OWNER": "Dono do sítio/fazenda",
       "FARM_WORKER": "Trabalhador",
       "HOURLY": "por hora",
       "INVITE_USER": "Convidar Usuário",
@@ -442,22 +442,22 @@
       "USERS_FOUND": "Usuários encontrados"
     },
     "TABLE": {
-      "HEADER_EMAIL": "MISSING",
-      "HEADER_NAME": "MISSING",
-      "HEADER_ROLE": "MISSING",
-      "HEADER_STATUS": "MISSING"
+      "HEADER_EMAIL": "Emai",
+      "HEADER_NAME": "Nome",
+      "HEADER_ROLE": "Função no estabelecimento",
+      "HEADER_STATUS": "Status"
     }
   },
   "REQUEST_CONFIRMATION_MODAL": {
-    "BUTTON": "Got it",
+    "BUTTON": "Entendi",
     "DESCRIPTION": "Alguém entrará em contato em 48 horas.",
     "TITLE": "Pedido de ajuda enviado"
   },
   "ROLE_SELECTION": {
     "FARM_EO": "Agente de Extensão/Técnico",
-    "FARM_MANAGER": "Gerente de Fazenda",
-    "FARM_OWNER": "Dono da Fazenda/Sitio",
-    "TITLE": "Qual é o seu cargo na Fazenda/Sitio?"
+    "FARM_MANAGER": "Gerente de sítio/Fazenda",
+    "FARM_OWNER": "Dono(a) da Fazenda/Sítio",
+    "TITLE": "Qual é o seu cargo/função na Fazenda/Sítio?"
   },
   "SALE": {
     "ADD_SALE": {
@@ -490,7 +490,7 @@
       "TOTAL": "Total"
     },
     "FINANCES": {
-      "ACTION": "Açao",
+      "ACTION": "Ação",
       "ACTUAL_REVENUE_ESTIMATED": "Estimada",
       "ACTUAL_REVENUE_LABEL": "Atual",
       "ADD_NEW_EXPENSE": "Adicionar nova despesa",
@@ -516,7 +516,7 @@
       "HAS_UNALLOCATED_LINE6_2": "Turnos do Campo1 + Turnos do Campo2 = -",
       "HAS_UNALLOCATED_LINE7_1": "Mais tarde, milho e alface foram plantados em",
       "HAS_UNALLOCATED_LINE7_2": "e turnos relacionados foram inseridos dentro do intervalo de datas, então o valor Não Alocado seria",
-      "HAS_UNALLOCATED_LINE8": "Turnos do Field2 = -",
+      "HAS_UNALLOCATED_LINE8": "Turnos do Campo2 = -",
       "HAS_UNALLOCATED_LINE9": "Milho e alface serão alocados com um custo extra de",
       "LABOUR_LABEL": "Trabalho",
       "OTHER_EXPENSES_LABEL": "Outras despesas",
@@ -550,10 +550,10 @@
       "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
       "BREAK_DURATION": "Duração do intervalo",
       "CHOOSE_DATE": "Escolha uma data",
-      "CHOOSE_WORKERS": "MISSING",
+      "CHOOSE_WORKERS": "Escolha trabalhador(a)",
       "CROPS_ON_THIS_FARM": "Culturas nesta fazenda",
       "CROPS_ON_YOUR_FARM": "Culturas em sua fazenda",
-      "DID_NOT_PROVIDE_ANSWER": "MISSING",
+      "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
       "DURATION": "Duração",
       "FIELDS_ON_YOUR_FARM": "Campos em sua fazenda",
       "HAPPY": "Feliz",
@@ -578,8 +578,8 @@
       "VERY_SAD": "Muito triste",
       "WAGE_FOR_SHIFT": "Salário por este turno",
       "WHAT_TASKS_YOU_DID": "Que tarefas você fez hoje?",
-      "WORKER": "MISSING",
-      "WORKER_MOOD": "MISSING",
+      "WORKER": "Trabalhador",
+      "WORKER_MOOD": "Como este trabalhador se sentiu durante este turno?",
       "YOU_HAVE": "Você tem"
     },
     "END_TIME": "Fim do tempo",
@@ -594,10 +594,10 @@
     },
     "NAME": "Nome",
     "NEW_SHIFT": {
-      "STEP_ONE": "MISSING",
-      "STEP_TWO": "MISSING"
+      "STEP_ONE": "Novo turno de trabalho (passo 1)",
+      "STEP_TWO": "Novo turno de trabalho (passo 2)"
     },
-    "SHIFT_DATE": "MISSING",
+    "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
     "START_TIME": "Hora de início",
     "TITLE": "Turnos",
@@ -627,19 +627,19 @@
     "USERS": "Usuários"
   },
   "STATUS": {
-    "ACTIVE": "MISSING",
-    "INACTIVE": "MISSING",
-    "INVITED": "MISSING"
+    "ACTIVE": "Ativo",
+    "INACTIVE": "Inativo",
+    "INVITED": "Convidado"
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos Lá!",
     "DESCRIPTION_BOTTOM": "Ir para: ",
     "DESCRIPTION_TOP": "A porta do celeiro está segura.",
-    "TITLE": "Mudar de fazenda"
+    "TITLE": "Mudar de sítio/fazenda"
   },
   "WEATHER": {
-    "HUMIDITY": "MISSING",
-    "WIND": "MISSING"
+    "HUMIDITY": "Umidade",
+    "WIND": "Vento"
   },
   "WELCOME_SCREEN": {
     "BUTTON": "Vamos começar",

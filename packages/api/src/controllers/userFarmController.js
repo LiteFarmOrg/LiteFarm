@@ -311,7 +311,6 @@ class userFarmController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.params.user_id;
-        const calling_user_id = req.headers.user_id;
         const { role_id } = req.body;
         const role = await roleModel.query().findById(role_id);
         if (!role) {
@@ -321,7 +320,7 @@ class userFarmController extends baseController {
         }
 
         // if admin is updating themselves to worker, check if they're the last admin of farm
-        if (user_id === calling_user_id && role_id === 3) {
+        if (role_id === 3) {
           const admins = await userFarmModel.query().where({
             role_id: 1,
             farm_id,

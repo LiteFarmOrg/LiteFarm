@@ -149,7 +149,7 @@ class LogDetail extends Component {
 
   render() {
     let { selectedLog, farm } = this.props;
-    let { quantity_unit, space_unit, rate_unit } = this.state;
+    let { quantity_unit, space_unit, rate_unit, ratePerMin } = this.state;
 
     let months = [
       'January',
@@ -537,7 +537,14 @@ class LogDetail extends Component {
                 <div className={styles.innerInfo}>
                   <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
                   <span>
-                    {selectedLog.irrigationLog['flow_rate_l/min']}{' l/min'}
+                    {roundToFourDecimal(
+                      convertFromMetric(
+                        selectedLog.irrigationLog['flow_rate_l/min'],
+                        ratePerMin,
+                        'l/min',
+                      ),
+                    )}
+                    {` ${ratePerMin}`}
                   </span>
                 </div>
               </div>

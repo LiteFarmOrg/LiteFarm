@@ -338,7 +338,6 @@ class userFarmController extends baseController {
           has_consent: false
         };
         const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch(updateData);
-        // const isPatched = false;
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
 
       } catch (error) {

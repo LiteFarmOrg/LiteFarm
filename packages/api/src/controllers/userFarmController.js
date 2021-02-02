@@ -311,6 +311,7 @@ class userFarmController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const user_id = req.params.user_id;
+        const calling_user_id = req.headers.user_id;
         const { role_id } = req.body;
         const role = await roleModel.query().findById(role_id);
         if (!role) {
@@ -318,7 +319,26 @@ class userFarmController extends baseController {
         } else if (role_id === 4) {
           return res.status(400).send('Can\'t change user\'s role to pseudo user');
         }
-        const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch({ role_id });
+
+        // if admin is updating themselves to worker, check if they're the last admin of farm
+        if (user_id === calling_user_id && role_id === 3) {
+          const admins = await userFarmModel.query().where({
+            role_id: 1,
+            farm_id,
+          }).orWhere({
+            role_id: 2,
+            farm_id,
+          });
+          if (admins.length === 1) 
+            return res.status(404).send('Cannot update last admin of farm to worker');
+        }
+
+        const updateData = {
+          role_id,
+          has_consent: false
+        };
+        const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch(updateData);
+        // const isPatched = false;
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
 
       } catch (error) {

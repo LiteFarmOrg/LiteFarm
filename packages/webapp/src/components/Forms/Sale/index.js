@@ -5,6 +5,7 @@ import DropDown from '../../Inputs/DropDown';
 import CropSale from '../../Inputs/CropSale';
 import React from 'react';
 import footerStyles from '../../../components/LogFooter/styles.scss';
+import { useTranslation } from 'react-i18next';
 
 const SaleForm = ({
   currencySymbol,
@@ -17,25 +18,26 @@ const SaleForm = ({
   footerText,
   footerOnClick,
 }) => {
+  const { t } = useTranslation();
   return (
     <Form model={model} onSubmit={(val) => onSubmit(val)}>
-      <Text title="Customer Name" model=".name" validators={{ required: (val) => val }} />
+      <Text title={t('SALE.ADD_SALE.CUSTOMER_NAME')} model=".name" validators={{ required: (val) => val }} />
       <Errors
         className="required"
         model=".name"
         show={{ touched: true, focus: false }}
         messages={{
-          required: 'Required',
+          required: t('SALE.ADD_SALE.CUSTOMER_NAME_REQUIRED'),
         }}
       />
       <div className={styles.defaultFormDropDown}>
         <Control
-          label={'Crop'}
+          label={t('SALE.ADD_SALE.CROP')}
           component={DropDown}
           options={cropOptions}
           searchable={true}
           isMulti={true}
-          placeholder="select crop"
+          placeholder={t('SALE.ADD_SALE.CROP_PLACEHOLDER')}
           model=".fieldCrop"
           onChange={(option) => handleChooseCrop(option)}
           validators={{ required: (val) => val && val.length }}
@@ -45,15 +47,15 @@ const SaleForm = ({
           model=".fieldCrop"
           show={{ touched: true, focus: false }}
           messages={{
-            required: 'Required',
+            required: t('SALE.ADD_SALE.CROP_REQUIRED'),
           }}
         />
       </div>
       <hr className={styles.thinHr} />
       <div className={styles.banner}>
-        <p>Crops</p>
-        <p>Quantity</p>
-        <p>Total ({currencySymbol})</p>
+        <p>{t('SALE.ADD_SALE.TABLE_HEADERS.CROPS')}</p>
+        <p>{t('SALE.ADD_SALE.TABLE_HEADERS.QUANTITY')}</p>
+        <p>{`${t('SALE.ADD_SALE.TABLE_HEADERS.TOTAL')} (${currencySymbol})`}</p>
       </div>
       <hr className={styles.thinHr2} />
       {chosenOptions?.map((c) => {
@@ -72,7 +74,7 @@ const SaleForm = ({
         <div className={footerStyles.cancelButton} onClick={() => footerOnClick()}>
           {footerText}
         </div>
-        <button className="btn btn-primary">Save</button>
+        <button className="btn btn-primary">{t('common:SAVE')}</button>
       </div>
     </Form>
   );

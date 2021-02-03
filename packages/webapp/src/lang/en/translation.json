@@ -38,7 +38,10 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)"
+      "TITLE_2": "New Expense (2 of 2)",
+      "REQUIRED_ERROR": "Expense is required",
+      "MIN_ERROR": "Please enter a value greater than ",
+      "INVALID_ERROR": "You need at least one valid item value pair."
     },
     "ADD_MORE_ITEMS": "Add more items",
     "DETAILED_HISTORY": "Detailed History",

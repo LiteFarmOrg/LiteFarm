@@ -13,6 +13,9 @@ const inputClasses = {
   container: {
     width: 312,
   },
+  errors: {
+    textAlign: 'left',
+  },
 };
 
 export default function PureCustomSignUp({

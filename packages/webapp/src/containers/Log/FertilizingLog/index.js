@@ -263,7 +263,7 @@ class FertilizingLog extends Component {
                 model={`.fertLog.fert_id`}
                 show={{ touched: true, focus: false }}
                 messages={{
-                  required: 'Required',
+                  required: this.props.t('common:REQUIRED'),
                 }}
               />
               { [1,2,5].includes(this.props.farm.role_id) &&

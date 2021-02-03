@@ -17,8 +17,8 @@
     "SWITCH_TITLE": "Switch to another farm"
   },
   "CONSENT": {
-    "LABEL": "I Agree",
-    "DATA_POLICY": "Our Data Policy"
+    "DATA_POLICY": "Our Data Policy",
+    "LABEL": "I Agree"
   },
   "CREATE_USER": {
     "BIRTH_YEAR": "Birth year",
@@ -204,8 +204,6 @@
     "SUCCESSFULLY_JOINED": "You have successfully joined"
   },
   "LOG_COMMON": {
-    "LOG_ALL_CROPS": "All Crops",
-    "LOG_ALL_FIELDS": "All Fields",
     "ACTION": "Action",
     "ACTIVITY": "Activity",
     "ADD_CUSTOM_PRODUCT": "Add a custom product ",
@@ -224,17 +222,21 @@
     "ERROR_MISSING_FIELDS": "Error missing fields",
     "FARM_LOG": "Farm Log",
     "FERTILIZING": "Fertilizing",
+    "FIELD": "Field",
     "FIELD_CROPS": "Field Crops",
     "FIELD_WORK": "Field Work",
     "FIELDS": "Fields",
     "FROM": "From",
     "HARVEST": "Harvest",
     "IRRIGATION": "Irrigation",
+    "LOG_ALL_CROPS": "All Crops",
+    "LOG_ALL_FIELDS": "All Fields",
     "LOG_HELP": "Log Help",
     "LOG_HELP_EXPLANATION": "Use the filters below to search your log history. Useful for keeping records of inputs and other farm activities for your team and certifiers.",
     "LOG_HISTORY": "Log History",
     "NEW_LOG": "New Log",
     "NITRATE": "Nitrate",
+    "NOTES": "Notes",
     "OTHER": "Other",
     "PEST": "Pest Control",
     "PHOSPHATE": "Phosphate",
@@ -247,7 +249,10 @@
     "SCOUTING": "Scouting",
     "SEARCH_BY_ACTIVITY": "Search Log By Activity",
     "SEEDING": "Seeding",
+    "SELECT_FIELD": "Select Field",
+    "SELECT_FIELD_CROP": "Select Field Crop",
     "SELECT_PRODUCT": "select product",
+    "SELECT_TYPE": "Select Type",
     "SOIL_DATA": "Soil Data",
     "TO": "To",
     "WATER": "Water",

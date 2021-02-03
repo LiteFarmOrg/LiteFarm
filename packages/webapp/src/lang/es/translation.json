@@ -273,6 +273,7 @@
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Agregar fertilizante",
     "FERTILIZING_QUANTITY": "Cantidad de fertilizante",
+    "SELECT_TEMPLATE": "Seleccionar Plantilla",
     "TITLE": "Registro de fertilizante"
   },
   "LOG_FIELD_WORK": {

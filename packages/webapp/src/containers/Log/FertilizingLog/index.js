@@ -361,7 +361,7 @@ class FertilizingLog extends Component {
                     model=".fertLog.fert_id"
                     component={DropDown}
                     options={fertilizerOptions || []}
-                    placeholder="select product template"
+                    placeholder={this.props.t('LOG_FERTILIZING.SELECT_TEMPLATE')}
                     onChange={this.setSelectedFert}
                   />
                 </div>

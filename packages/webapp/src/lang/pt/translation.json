@@ -273,6 +273,7 @@
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Adicione um Fertilizante/adubo",
     "FERTILIZING_QUANTITY": "Quantidade de Fertilizante/Adubo",
+    "SELECT_TEMPLATE": "MISSING",
     "TITLE": "Registro de Adubação"
   },
   "LOG_FIELD_WORK": {

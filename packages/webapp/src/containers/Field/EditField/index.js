@@ -166,12 +166,8 @@ class EditField extends Component {
 
   deleteField = () => {
     const { fieldId } = this.state;
-    if (
-      window.confirm(
-        'WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?',
-      )
-    ) {
-      if (window.confirm('I would like to delete this field.')) {
+    if (window.confirm(this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD_WARNING'))) {
+      if (window.confirm(this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD_CONFIRM'))) {
         this.props.dispatch(deleteField(fieldId));
       }
     }
@@ -202,11 +198,8 @@ class EditField extends Component {
       mapHeight = window.innerWidth * 0.7;
       mapHeight = mapHeight.toString() + 'px';
     }
-    // if(isSafari && gmapContainer){
-    //    gmapContainer.childNodes[0].style.cssText = "width: 100px; height: 100px; margin: 0px; padding: 0px; position: relative;";
-    //    console.log(gmapContainer.childNodes[0].style.cssText);
-    // }
     const { role_id } = this.props.farm;
+    // TODO: move to selector
     const hasPermissionToEdit = [1, 2, 5].includes(role_id);
 
     return (

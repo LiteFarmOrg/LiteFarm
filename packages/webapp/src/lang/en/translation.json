@@ -37,11 +37,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "TITLE_1": "New Expense (1 of 2)",
-      "TITLE_2": "New Expense (2 of 2)",
-      "REQUIRED_ERROR": "Expense is required",
       "MIN_ERROR": "Please enter a value greater than ",
-      "INVALID_ERROR": "You need at least one valid item value pair."
+      "REQUIRED_ERROR": "Expense is required",
+      "TITLE_1": "New Expense (1 of 2)",
+      "TITLE_2": "New Expense (2 of 2)"
     },
     "ADD_MORE_ITEMS": "Add more items",
     "DETAILED_HISTORY": "Detailed History",
@@ -86,7 +85,7 @@
         "ESTIMATED_PRODUCTION": "Estimated Production",
         "ESTIMATED_REVENUE": "Estimated Revenue",
         "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
-        "HOW_MUCH_FIELD": "How much of the field do you wish to use ?",
+        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
         "NEW_FIELD_CROP": "New Field Crop",
         "NUMBER_EXPIRED": "Number of Expired Crops",
         "NUMBER_OF_BEDS": "Number of Beds",
@@ -94,6 +93,8 @@
         "START_DATE": "Start Date"
       },
       "DELETE_FIELD": "Delete Field",
+      "DELETE_FIELD_CONFIRM": "I would like to delete this field.",
+      "DELETE_FIELD_WARNING": "WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?",
       "EDIT_NAME": "Edit Field Name",
       "NAME": "Field Name",
       "NUMBER_CROPS": "Number of Crops",
@@ -464,18 +465,19 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "DATE": "Date",
-      "TITLE": "Add New Sale",
-      "CUSTOMER_NAME": "Customer Name",
-      "CUSTOMER_NAME_REQUIRED": "Required",
       "CROP": "Crop",
       "CROP_PLACEHOLDER": "Select crop",
       "CROP_REQUIRED": "Required",
+      "CUSTOMER_NAME": "Customer Name",
+      "CUSTOMER_NAME_REQUIRED": "Required",
+      "DATE": "Date",
+      "NEW": "MISSING",
       "TABLE_HEADERS": {
         "CROPS": "Crops",
         "QUANTITY": "Quantity",
         "TOTAL": "Total"
-      }
+      },
+      "TITLE": "Add New Sale"
     },
     "DETAIL": {
       "CROP": "Crop",

@@ -13,18 +13,19 @@ class SoilOM extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Soil OM Content"
+          title={t("INSIGHTS.SOIL_OM.ALTERNATE_TITLE")}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconBody={infoBoxBody}
-          rightIconTitle={'Soil OM'}
+          rightIconTitle={t("INSIGHTS.SOIL_OM.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.SOIL_OM.INFO")}</div>)}
         />
         <div>
           <h4>
-            <b>Soil Organic Matter</b>
+            <b>{t("INSIGHTS.SOIL_OM.HEADER")}</b>
           </h4>
           <hr className={insightStyles.defaultLine} />
         </div>
@@ -48,13 +49,13 @@ class SoilOM extends Component {
   }
 }
 
-const infoBoxBody = (
-  <div>
-    Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate
-    these data from your most recent soil analysis logs. If you do not have any data we predict the
-    potential soil organic matter for your location globally.
-  </div>
-);
+// const infoBoxBody = (
+//   <div>
+//     Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate
+//     these data from your most recent soil analysis logs. If you do not have any data we predict the
+//     potential soil organic matter for your location globally.
+//   </div>
+// );
 
 const mapStateToProps = (state) => {
   return {

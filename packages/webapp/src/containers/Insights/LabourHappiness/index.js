@@ -8,19 +8,20 @@ import { withTranslation } from 'react-i18next';
 
 class LabourHappiness extends Component {
   render() {
+    const { t } = this.props;
     const dataSet = this.props.labourHappinessData.data;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Labour Happiness"
+          title={t("INSIGHTS.LABOUR_HAPPINESS.TITLE")}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconBody={infoBoxBody}
-          rightIconTitle={'Labour Happiness'}
+          rightIconTitle={t("INSIGHTS.LABOUR_HAPPINESS.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.LABOUR_HAPPINESS.INFO")}</div>)}
         />
         <div>
           <h4>
-            <b>Tasks</b>
+            <b>{t("INSIGHTS.LABOUR_HAPPINESS.HEADER")}</b>
           </h4>
           <hr className={insightStyles.defaultLine} />
         </div>
@@ -36,12 +37,12 @@ class LabourHappiness extends Component {
   }
 }
 
-const infoBoxBody = (
-  <div>
-    We estimate the impact of different tasks on labour happiness by using the satisfaction scores
-    and labour hours spent on each task from shifts.
-  </div>
-);
+// const infoBoxBody = (
+//   <div>
+//     We estimate the impact of different tasks on labour happiness by using the satisfaction scores
+//     and labour hours spent on each task from shifts.
+//   </div>
+// );
 
 const mapStateToProps = (state) => {
   return {

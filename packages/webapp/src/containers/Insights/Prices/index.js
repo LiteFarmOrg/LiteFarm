@@ -79,14 +79,15 @@ class Prices extends Component {
     const { currencySymbol } = this.state;
     const { pricesData } = this.props;
     const { data: cropsWithPriceInfo } = pricesData;
+    const { t } = this.props;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Prices"
-          backUrl="/Insights/"
+          title={t("INSIGHTS.PRICES.TITLE")}
+          backUrl="/Insights"
           rightIcon={true}
-          rightIconBody={this.infoBoxBody}
-          rightIconTitle={'Prices'}
+          rightIconTitle={t("INSIGHTS.PRICES.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.PRICES.INFO")}</div>)}
         />
         {this.props.pricesDistance && (
           <div style={{ marginBottom: '8px' }}>
@@ -132,8 +133,7 @@ class Prices extends Component {
         )}
         {!this.props.farm.grid_points && (
           <div>
-            You currently do not have an address in LiteFarm. Please update it in your Profile to
-            get nearby prices information!
+            {t("INSIGHTS.PRICES.NO_ADDRESS")}
           </div>
         )}
         {cropsWithPriceInfo.map((cropInfo, index) => {

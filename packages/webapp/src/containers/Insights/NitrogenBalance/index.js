@@ -59,6 +59,7 @@ class NitrogenBalance extends Component {
 
   render() {
     const nitrogenBalanceDataByField = this.props.nitrogenBalanceData['data'];
+    const { t } = this.props;
     let renderedComponent;
 
     if (!this.state.firstRun) {
@@ -78,8 +79,7 @@ class NitrogenBalance extends Component {
       renderedComponent = (
         <div className={styles.newRunContainer}>
           <h4>
-            It looks like it's your first time running this! Please select a frequency to calculate
-            your nitrogen balance.
+            {t("INSIGHTS.NITROGEN_BALANCE.FIRST_TIME")}
           </h4>
           <FrequencySelectorComponent handler={this.handleFormSubmit} />
         </div>
@@ -89,30 +89,33 @@ class NitrogenBalance extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Nitrogen Balance"
-          backUrl="/Insights/"
-          rightIcon={true}
-          rightIconTitle={'Every ' + this.state.frequency + ' months: ' + this.state.refreshDate}
-          rightIconBody={infoBoxBody}
-          rightIconDeleteHandler={this.handleRightIconDelete}
-          showDelete={this.state.rightIconShowDelete}
-        />
+            title={t("INSIGHTS.NITROGEN_BALANCE.TITLE")}
+            backUrl="/Insights"
+            rightIcon={true}
+            rightIconTitle={`Every ${this.state.frequency} months: ${this.state.refreshDate}`}
+            rightIconBody={(<div>
+              <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_1")}</p>
+              <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_2")}</p>
+            </div>)}
+            rightIconDeleteHandler={this.handleRightIconDelete}
+            showDelete={this.state.rightIconShowDelete}
+          />
         <div>{renderedComponent}</div>
       </div>
     );
   }
 }
 
-const infoBoxBody = (
-  <div>
-    <p>
-      The nitrogen balance tells you if you have applied too little or too much fertilizer. It
-      relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can
-      run the balance on your desired time interval.
-    </p>
-    <p>Click the delete button to reset your schedule.</p>
-  </div>
-);
+// const infoBoxBody = (
+//   <div>
+//     <p>
+//       The nitrogen balance tells you if you have applied too little or too much fertilizer. It
+//       relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can
+//       run the balance on your desired time interval.
+//     </p>
+//     <p>Click the delete button to reset your schedule.</p>
+//   </div>
+// );
 
 const mapStateToProps = (state) => {
   return {

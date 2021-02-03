@@ -152,6 +152,7 @@
     },
     "SOIL_OM": {
       "TITLE": "Soil OM",
+      "ALTERNATE_TITLE": "Soil OM Content",
       "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
       "HEADER": "Soil Organic Matter"
     },
@@ -168,7 +169,8 @@
     },
     "PRICES": {
       "TITLE": "Prices",
-      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network."
+      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
+      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!"
     },
     "WATER_BALANCE": {
       "TITLE": "Water Balance",
@@ -180,8 +182,8 @@
     },
     "NITROGEN_BALANCE": {
       "TITLE": "Nitrogen Balance",
-      "INFO": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
-      "INFO_1": "Click the delete button to reset your schedule.",
+      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
+      "INFO_2": "Click the delete button to reset your schedule.",
       "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
       "CHOOSE_FREQUENCY": "Choose Frequency...",
       "CHOOSE_A_FREQUENCY": "Choose a frequency",

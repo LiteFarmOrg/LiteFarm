@@ -30,6 +30,7 @@ class WaterBalance extends Component {
 
   render() {
     const waterBalanceData = this.props.waterBalanceData['data'];
+    const { t } = this.props;
     let renderedComponent;
     if (waterBalanceData.length > 0) {
       renderedComponent = waterBalanceData.map((field, index) => {
@@ -44,9 +45,7 @@ class WaterBalance extends Component {
       renderedComponent = (
         <div>
           <h4>
-            Your scheduled water balance hasn't run yet, please check back in two days and ensure
-            you have at least one soil analysis that records soil texture for a field to see water
-            balance data for crops in that field. If the problem persists please contact LiteFarm.
+            {t("INSIGHTS.WATER_BALANCE.NO_SCHEDULE_RUN")}
           </h4>
         </div>
       );
@@ -54,11 +53,10 @@ class WaterBalance extends Component {
       renderedComponent = (
         <div className={styles.newRunContainer}>
           <h4>
-            Looks like this is your first time running this! For more info on what this does, please
-            click the information button to see.
+            {t("INSIGHTS.WATER_BALANCE.FIRST_TIME")}
           </h4>
           <Button onClick={this.createWaterBalanceSchedule} variant="primary">
-            Register Farm
+            {t("INSIGHTS.WATER_BALANCE.REGISTER_FARM")}
           </Button>
         </div>
       );
@@ -68,11 +66,14 @@ class WaterBalance extends Component {
       <div>
         <div className={insightStyles.insightContainer}>
           <PageTitle
-            title="Water Balance"
+            title={t("INSIGHTS.WATER_BALANCE.TITLE")}
             backUrl="/Insights"
             rightIcon={true}
-            rightIconTitle={'Water Balance'}
-            rightIconBody={infoBoxBody}
+            rightIconTitle={t("INSIGHTS.WATER_BALANCE.TITLE")}
+            rightIconBody={(<div>
+              <p>{t("INSIGHTS.WATER_BALANCE.INFO_1")}</p>
+              <p>{t("INSIGHTS.WATER_BALANCE.INFO_2")}</p>
+            </div>)}
           />
           <div>{renderedComponent}</div>
         </div>
@@ -81,19 +82,19 @@ class WaterBalance extends Component {
   }
 }
 
-const infoBoxBody = (
-  <div>
-    <p>
-      The water balance tells you whether your crops have too little or too much water. It relies on
-      weather data, and it is updated by your irrigation and soil texture data from your soil
-      analysis logs.
-    </p>
-    <p>
-      This feature has not been widely tested across farms with low surrounding weather station
-      density so use with caution. We welcome feedback on how well it performs for your farm.
-    </p>
-  </div>
-);
+// const infoBoxBody = (
+//   <div>
+//     <p>
+//       The water balance tells you whether your crops have too little or too much water. It relies on
+//       weather data, and it is updated by your irrigation and soil texture data from your soil
+//       analysis logs.
+//     </p>
+//     <p>
+//       This feature has not been widely tested across farms with low surrounding weather station
+//       density so use with caution. We welcome feedback on how well it performs for your farm.
+//     </p>
+//   </div>
+// );
 const mapStateToProps = (state) => {
   return {
     waterBalanceData: waterBalanceSelector(state),

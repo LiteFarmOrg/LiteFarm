@@ -141,9 +141,15 @@
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
+      "AMPHIBIANS": "MISSING",
+      "BIRDS": "MISSING",
+      "CROPS": "MISSING",
       "HEADER": "Numero de especies",
       "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en los limites de tus campos. Puedes incrementar la cuenta de biodiversidad en tu granja visitando https://www.inaturalist.org/app.",
-      "SPECIES": "Especies",
+      "INSECTS": "MISSING",
+      "PLANTS": "MISSING",
+      "SPECIES_COUNT": "MISSING",
+      "SPECIES_COUNT_plural": "MISSING",
       "TITLE": "Biodiversidad"
     },
     "CURRENT": "Actual",
@@ -166,6 +172,8 @@
       "FAT": "MISSING",
       "HEADER": "Numero de comidas",
       "INFO": "Estimamos el numero de comidas potenciales provistas por tu granja basandonos en los datos de tus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
+      "MEAL_COUNT": "MISSING",
+      "MEAL_COUNT_plural": "MISSING",
       "MEALS": "Comidas",
       "PROTEIN": "MISSING",
       "TITLE": "Personas alimentadas",
@@ -174,7 +182,8 @@
     },
     "PRICES": {
       "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",
-      "NEARBY_FARMS": "Buscando data de ventas de {{amountOfFarms}} granjas",
+      "NEARBY_FARMS": "Buscando data de ventas de {{count}} granjas",
+      "NEARBY_FARMS_plural": "MISSING",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en tu Perfil para obtener data de ventas cercanas.",
       "PERCENT_OF_MARKET": "{{percentage}}% del mercado",
       "SALES_FROM_DISTANCE_AWAY": "Ventas a {{distance}} {{unit}} de distancia",

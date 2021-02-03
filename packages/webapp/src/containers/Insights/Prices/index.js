@@ -96,7 +96,7 @@ class Prices extends Component {
               <Collapse in={this.state.open}>
                 <div>
                   <div>
-                    {t("INSIGHTS.PRICES.NEARBY_FARMS", { amountOfFarms: this.props.pricesData['amountOfFarms'] })}
+                    {t("INSIGHTS.PRICES.NEARBY_FARMS", { count: this.props.pricesData['amountOfFarms'] })}
                   </div>
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {

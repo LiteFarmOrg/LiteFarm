@@ -156,12 +156,12 @@ class Insights extends Component {
   ) {
     const insightData = {};
     const isImperial = this.props.farm?.units?.measurement === 'imperial';
-    insightData['PeopleFed'] = `${cropNutritionalData.preview} ${this.props.t("INSIGHTS.PEOPLE_FED.MEALS")}`;
+    insightData['PeopleFed'] = this.props.t("INSIGHTS.PEOPLE_FED.MEAL_COUNT", { count: cropNutritionalData.preview });
     insightData['SoilOM'] = (soilOMData.preview || '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
       : this.props.t("INSIGHTS.UNAVAILABLE");
-    insightData['Biodiversity'] = `${biodiversityData.preview} ${this.props.t("INSIGHTS.BIODIVERSITY.SPECIES")}`;
+    insightData['Biodiversity'] = this.props.t("INSIGHTS.BIODIVERSITY.SPECIES_COUNT", { count: biodiversityData.preview });
     insightData['Prices'] = pricesData.preview ? this.props.t("INSIGHTS.PRICES.PERCENT_OF_MARKET", { percentage: pricesData.preview }) : this.props.t("INSIGHTS.UNAVAILABLE");
     insightData['WaterBalance'] = isImperial
       ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'

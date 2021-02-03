@@ -141,9 +141,15 @@
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
+      "AMPHIBIANS": "MISSING",
+      "BIRDS": "MISSING",
+      "CROPS": "MISSING",
       "HEADER": "MISSING",
       "INFO": "MISSING",
-      "SPECIES": "MISSING",
+      "INSECTS": "MISSING",
+      "PLANTS": "MISSING",
+      "SPECIES_COUNT": "MISSING",
+      "SPECIES_COUNT_plural": "MISSING",
       "TITLE": "MISSING"
     },
     "CURRENT": "MISSING",
@@ -166,6 +172,8 @@
       "FAT": "MISSING",
       "HEADER": "MISSING",
       "INFO": "MISSING",
+      "MEAL_COUNT": "MISSING",
+      "MEAL_COUNT_plural": "MISSING",
       "MEALS": "MISSING",
       "PROTEIN": "MISSING",
       "TITLE": "MISSING",
@@ -175,6 +183,7 @@
     "PRICES": {
       "INFO": "MISSING",
       "NEARBY_FARMS": "MISSING",
+      "NEARBY_FARMS_plural": "MISSING",
       "NO_ADDRESS": "MISSING",
       "PERCENT_OF_MARKET": "MISSING",
       "SALES_FROM_DISTANCE_AWAY": "MISSING",

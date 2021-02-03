@@ -139,6 +139,58 @@
   "HOME": {
     "GREETING": "Buen dia,"
   },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "SPECIES": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "CURRENT": "MISSING",
+    "INFO": "MISSING",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "NITROGEN_BALANCE": {
+      "CYCLE_INDICATOR": "MISSING",
+      "FIRST_TIME": "MISSING",
+      "HEADER": "MISSING",
+      "INFO_1": "MISSING",
+      "INFO_2": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "PEOPLE_FED": {
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "MEALS": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "PRICES": {
+      "INFO": "MISSING",
+      "NEARBY_FARMS": "MISSING",
+      "NO_ADDRESS": "MISSING",
+      "SALES_FROM_DISTANCE_AWAY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "TITLE": "MISSING",
+    "UNAVAILABLE": "MISSING",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "MISSING",
+      "INFO_1": "MISSING",
+      "INFO_2": "MISSING",
+      "NO_SCHEDULE_RUN": "MISSING",
+      "REGISTER_FARM": "MISSING",
+      "TITLE": "MISSING"
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Año de nacimiento",
     "BIRTH_YEAR_ERROR": "Año de nacimiento necesitar ser entre 1900 y",
@@ -311,6 +363,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -461,18 +514,19 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "DATE": "Fecha",
-      "TITLE": "Agregue nueva venta",
-      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
-      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "CROP": "Cultivo",
       "CROP_PLACEHOLDER": "Seleccionar cultivo",
       "CROP_REQUIRED": "Cultivo es requerida",
+      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
+      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
+      "DATE": "Fecha",
+      "NEW": "MISSING",
       "TABLE_HEADERS": {
         "CROPS": "Cultivos",
         "QUANTITY": "Cantidad",
         "TOTAL": "Total"
-      }
+      },
+      "TITLE": "Agregue nueva venta"
     },
     "DETAIL": {
       "CROP": "Cultivo",

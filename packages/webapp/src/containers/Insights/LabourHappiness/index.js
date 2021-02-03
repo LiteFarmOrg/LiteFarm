@@ -4,6 +4,7 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { labourHappinessSelector } from '../selectors';
 import LabourHappinessTask from '../../../components/Insights/LabourHappinessTask';
+import { withTranslation } from 'react-i18next';
 
 class LabourHappiness extends Component {
   render() {
@@ -54,4 +55,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LabourHappiness);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(LabourHappiness));

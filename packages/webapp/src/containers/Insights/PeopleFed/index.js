@@ -4,6 +4,8 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { cropsNutritionSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
+import { withTranslation } from 'react-i18next';
+
 class PeopleFed extends Component {
   constructor(props) {
     super(props);
@@ -11,19 +13,20 @@ class PeopleFed extends Component {
   }
 
   render() {
+    const { t } = this.props;
     let dataSet = this.props.cropNutritionData.data;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="People Fed"
+          title={t("INSIGHTS.PEOPLE_FED.TITLE")}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={'People Fed'}
-          rightIconBody={infoBoxBody}
+          rightIconTitle={t("INSIGHTS.PEOPLE_FED.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.PEOPLE_FED.INFO")}</div>)}
         />
         <div>
           <h4>
-            <b>Number of Meals</b>
+            <b>{t("INSIGHTS.PEOPLE_FED.HEADER")}</b>
           </h4>
           <hr className={insightStyles.defaultLine} />
         </div>
@@ -34,7 +37,7 @@ class PeopleFed extends Component {
                 key={'people-fed-item-' + index}
                 title={data.label}
                 value={data.val}
-                valueLabel={'meals'}
+                valueLabel={t("INSIGHTS.PEOPLE_FED.MEALS")}
                 percent={data.percentage}
               />
             );
@@ -57,12 +60,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const infoBoxBody = (
-  <div>
-    We estimate the number of potential meals provided by your farm based on sales data, and crop
-    composition databases. We assume that daily requirements are divided equally across three meals
-    a day.
-  </div>
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleFed);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(PeopleFed));

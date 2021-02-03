@@ -7,6 +7,7 @@ import WaterBalanceInfo from '../../../components/Insights/WaterBalanceInfo';
 import { Button } from 'react-bootstrap';
 import { createWaterBalanceSchedule } from '../actions';
 import styles from './styles.scss';
+import { withTranslation } from 'react-i18next';
 
 class WaterBalance extends Component {
   constructor(props) {
@@ -105,4 +106,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WaterBalance);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(WaterBalance));

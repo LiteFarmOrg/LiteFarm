@@ -7,6 +7,7 @@ import NitrogenBalanceInfo from '../../../components/Insights/NitrogenBalanceInf
 import FrequencySelectorComponent from '../../../components/Insights/FrequencySelectorComponent';
 import { delFrequencyNitrogenBalance } from '../actions';
 import styles from './styles.scss';
+import { withTranslation } from 'react-i18next';
 
 class NitrogenBalance extends Component {
   constructor(props) {
@@ -142,4 +143,4 @@ const formatFirstDate = (date) => {
   return [year, month, day].join('-');
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NitrogenBalance);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NitrogenBalance));

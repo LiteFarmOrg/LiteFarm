@@ -4,6 +4,7 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { biodiversitySelector } from '../selectors';
 import BiodiversitySpecies from '../../../components/Insights/BiodiversitySpecies';
+import { withTranslation } from 'react-i18next';
 
 class Biodiversity extends Component {
   constructor(props) {
@@ -63,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Biodiversity);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Biodiversity));

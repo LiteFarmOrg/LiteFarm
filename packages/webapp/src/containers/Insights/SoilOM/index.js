@@ -4,6 +4,7 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
+import { withTranslation } from 'react-i18next';
 
 class SoilOM extends Component {
   constructor(props) {
@@ -67,4 +68,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SoilOM);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SoilOM));

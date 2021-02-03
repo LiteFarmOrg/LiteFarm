@@ -139,6 +139,55 @@
   "HOME": {
     "GREETING": "Good day, "
   },
+  "INSIGHTS": {
+    "TITLE": "Insights",
+    "CURRENT": "Current",
+    "UNAVAILABLE": "Unavailable",
+    "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
+    "PEOPLE_FED": {
+      "TITLE": "People Fed",
+      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
+      "HEADER": "Number of Meals",
+      "MEALS": "meals"
+    },
+    "SOIL_OM": {
+      "TITLE": "Soil OM",
+      "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
+      "HEADER": "Soil Organic Matter"
+    },
+    "LABOUR_HAPPINESS": {
+      "TITLE": "Labour Happiness",
+      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
+      "HEADER": "Tasks"
+    },
+    "BIODIVERSITY": {
+      "TITLE": "Biodiversity",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
+      "HEADER": "Number of species",
+      "SPECIES": "species"
+    },
+    "PRICES": {
+      "TITLE": "Prices",
+      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network."
+    },
+    "WATER_BALANCE": {
+      "TITLE": "Water Balance",
+      "INFO_1": "The water balance tells you whether your crops have too little or too much water. It relies on weather data, and it is updated by your irrigation and soil texture data from your soil analysis logs.",
+      "INFO_2": "This feature has not been widely tested across farms with low surrounding weather station density so use with caution. We welcome feedback on how well it performs for your farm.",
+      "FIRST_TIME": "Looks like this is your first time running this! For more info on what this does, please click the information button to see.",
+      "REGISTER_FARM": "Register Farm",
+      "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm."
+    },
+    "NITROGEN_BALANCE": {
+      "TITLE": "Nitrogen Balance",
+      "INFO": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
+      "INFO_1": "Click the delete button to reset your schedule.",
+      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
+      "CHOOSE_FREQUENCY": "Choose Frequency...",
+      "CHOOSE_A_FREQUENCY": "Choose a frequency",
+      "SELECT_FREQUENCY": "Select Frequency"
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
     "BIRTH_YEAR_ERROR": "Birth year needs to be between 1900 and",

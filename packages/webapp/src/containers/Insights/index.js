@@ -55,6 +55,8 @@ import {
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { Title } from '../../components/Typography';
 const MILLIMETER_TO_INCH = 0.0393701;
 const KILOGRAM_TO_POUND = 2.20462;
 
@@ -64,43 +66,43 @@ class Insights extends Component {
     this.state = {
       items: [
         {
-          label: 'People Fed',
+          label: props.t("INSIGHTS.PEOPLE_FED.TITLE"),
           image: people_fed,
           route: 'PeopleFed',
           data_point: 'PeopleFed',
         },
         {
-          label: 'Soil OM',
+          label: props.t("INSIGHTS.SOIL_OM.TITLE"),
           image: soil_om,
           route: 'SoilOM',
           data_point: 'SoilOM',
         },
         {
-          label: 'Labour Happiness',
+          label: props.t("INSIGHTS.LABOUR_HAPPINESS.TITLE"),
           image: labour_happiness,
           route: 'LabourHappiness',
           data_point: 'LabourHappiness',
         },
         {
-          label: 'Biodiversity',
+          label: props.t("INSIGHTS.BIODIVERSITY.TITLE"),
           image: biodiversity,
           route: 'Biodiversity',
           data_point: 'Biodiversity',
         },
         {
-          label: 'Prices',
+          label: props.t("INSIGHTS.PRICES.TITLE"),
           image: prices,
           route: 'Prices',
           data_point: 'Prices',
         },
         {
-          label: 'Water Balance',
+          label: props.t("INSIGHTS.WATER_BALANCE.TITLE"),
           image: water_balance,
           route: 'WaterBalance',
           data_point: 'WaterBalance',
         },
         {
-          label: 'Nitrogen Balance',
+          label: props.t("INSIGHTS.NITROGEN_BALANCE.TITLE"),
           image: nitrogen_balance,
           route: 'NitrogenBalance',
           data_point: 'NitrogenBalance',
@@ -129,7 +131,7 @@ class Insights extends Component {
             />
             <div className={'itemText item-' + index + ' ' + styles.itemText}>
               <b>{item.label}</b>
-              <div>Current: {currentData ? currentData : 0}</div>
+              <div>{`${this.props.t("INSIGHTS.CURRENT")}: ${currentData ? currentData : 0}`}</div>
             </div>
           </div>
           <BsChevronRight className={styles.itemArrow} />
@@ -154,13 +156,13 @@ class Insights extends Component {
   ) {
     const insightData = {};
     const isImperial = this.props.farm?.units?.measurement === 'imperial';
-    insightData['PeopleFed'] = cropNutritionalData.preview + ' meals';
+    insightData['PeopleFed'] = `${cropNutritionalData.preview} ${this.props.t("INSIGHTS.PEOPLE_FED.MEALS")}`;
     insightData['SoilOM'] = (soilOMData.preview || '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
-      : 'Unavailable';
-    insightData['Biodiversity'] = biodiversityData.preview + ' species';
-    insightData['Prices'] = pricesData.preview ? pricesData.preview + '% of market' : 'Unavailable';
+      : this.props.t("INSIGHTS.UNAVAILABLE");
+    insightData['Biodiversity'] = `${biodiversityData.preview} ${this.props.t("INSIGHTS.BIODIVERSITY.SPECIES")}`;
+    insightData['Prices'] = pricesData.preview ? pricesData.preview + '% of market' : this.props.t("INSIGHTS.UNAVAILABLE");
     insightData['WaterBalance'] = isImperial
       ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'
       : waterBalanceData.preview + ' mm';
@@ -205,19 +207,18 @@ class Insights extends Component {
       waterBalanceData,
       nitrogenBalanceData,
     );
+    const { t } = this.props;
     return (
       <div className={styles.insightContainer}>
         <div>
           <div className={styles.leftText}>
-            <h4>
-              <strong>INSIGHTS</strong>
-            </h4>
+            <Title>{t('INSIGHTS.TITLE')}</Title>
           </div>
           <div className={styles.rightText}>
             <InfoBoxComponent
               customStyle={{ fontSize: '20px' }}
-              title={'Insights'}
-              body={infoBoxBody}
+              title={t('INSIGHTS.TITLE')}
+              body={(<div>{t('INSIGHTS.INFO')}</div>)}
             />
           </div>
         </div>
@@ -232,16 +233,16 @@ class Insights extends Component {
   }
 }
 
-const infoBoxBody = (
-  <div>
-    <h4>
-      <b>Information</b>
-    </h4>
-    Insights provides added data insights into what is happening on your farm. The more data you
-    provide in the application, the more insights can be generated. See individual insights for
-    further information.
-  </div>
-);
+// const infoBoxBody = (
+//   <div>
+//     {/* <h4>
+//       <b>Information</b>
+//     </h4> */}
+//     Insights provides added data insights into what is happening on your farm. The more data you
+//     provide in the application, the more insights can be generated. See individual insights for
+//     further information.
+//   </div>
+// );
 
 const mapStateToProps = (state) => {
   return {
@@ -265,4 +266,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Insights);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Insights));

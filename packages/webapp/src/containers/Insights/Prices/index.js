@@ -11,6 +11,7 @@ import PriceDistanceComponent from '../../../components/Insights/PriceDistanceCo
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
 
 const MILE_TO_KILOMETER = 1.609;
 
@@ -167,4 +168,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Prices);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Prices));

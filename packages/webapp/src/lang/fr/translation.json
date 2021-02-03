@@ -462,7 +462,17 @@
   "SALE": {
     "ADD_SALE": {
       "DATE": "MISSING",
-      "NEW": "MISSING"
+      "TITLE": "MISSING",
+      "CUSTOMER_NAME": "MISSING",
+      "CUSTOMER_NAME_REQUIRED": "MISSING",
+      "CROP": "MISSING",
+      "CROP_PLACEHOLDER": "MISSING",
+      "CROP_REQUIRED": "MISSING",
+      "TABLE_HEADERS": {
+        "CROPS": "MISSING",
+        "QUANTITY": "MISSING",
+        "TOTAL": "MISSING"
+      }
     },
     "DETAIL": {
       "CROP": "MISSING",

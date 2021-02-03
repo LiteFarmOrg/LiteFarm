@@ -462,7 +462,17 @@
   "SALE": {
     "ADD_SALE": {
       "DATE": "Date",
-      "NEW": "Add New Sale"
+      "TITLE": "Add New Sale",
+      "CUSTOMER_NAME": "Customer Name",
+      "CUSTOMER_NAME_REQUIRED": "Required",
+      "CROP": "Crop",
+      "CROP_PLACEHOLDER": "Select crop",
+      "CROP_REQUIRED": "Required",
+      "TABLE_HEADERS": {
+        "CROPS": "Crops",
+        "QUANTITY": "Quantity",
+        "TOTAL": "Total"
+      }
     },
     "DETAIL": {
       "CROP": "Crop",

@@ -37,11 +37,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "TITLE_1": "Despesa Nova (1 de 2)",
-      "TITLE_2": "Despesa Nova (2 de 2)",
-      "REQUIRED_ERROR": "Expense is required",
       "MIN_ERROR": "Please enter a value greater than ",
-      "INVALID_ERROR": "You need at least one valid item value pair."
+      "REQUIRED_ERROR": "Expense is required",
+      "TITLE_1": "Despesa Nova (1 de 2)",
+      "TITLE_2": "Despesa Nova (2 de 2)"
     },
     "ADD_MORE_ITEMS": "Adicionar mais itens",
     "DETAILED_HISTORY": "História Detalhada",
@@ -94,6 +93,8 @@
         "START_DATE": "Data de início"
       },
       "DELETE_FIELD": "Apagar Campo",
+      "DELETE_FIELD_CONFIRM": "MISSING",
+      "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "Editar Nome do Campo",
       "NAME": "Nome do Campo",
       "NUMBER_CROPS": "Número de Cultivos",
@@ -464,18 +465,19 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "DATE": "Data",
-      "TITLE": "Adicionar nova venda",
-      "CUSTOMER_NAME": "Nome do Cliente",
-      "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "CROP": "Cultivo",
       "CROP_PLACEHOLDER": "Selecione cultivo",
       "CROP_REQUIRED": "Cultivo é necessário",
+      "CUSTOMER_NAME": "Nome do Cliente",
+      "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
+      "DATE": "Data",
+      "NEW": "MISSING",
       "TABLE_HEADERS": {
         "CROPS": "Cultivos",
         "QUANTITY": "Quantidade",
         "TOTAL": "Total"
-      }
+      },
+      "TITLE": "Adicionar nova venda"
     },
     "DETAIL": {
       "CROP": "Cultivo",

@@ -93,7 +93,7 @@ class AddSale extends Component {
     const cropOptions = this.getCropOptions(fieldCrops);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('SALE.ADD_SALE.NEW')} />
+        <PageTitle backUrl="/Finances" title={this.props.t('SALE.ADD_SALE.TITLE')} />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.ADD_SALE.DATE')}</label>
           <DateContainer

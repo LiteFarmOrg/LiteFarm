@@ -38,7 +38,10 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "Nuevo gasto (1 de 2)",
-      "TITLE_2": "Nuevo gasto (2 de 2)"
+      "TITLE_2": "Nuevo gasto (2 de 2)",
+      "REQUIRED_ERROR": "Expense is required",
+      "MIN_ERROR": "Please enter a value greater than ",
+      "INVALID_ERROR": "You need at least one valid item value pair."
     },
     "ADD_MORE_ITEMS": "Agrega más unidades",
     "DETAILED_HISTORY": "Historia detallada",
@@ -462,7 +465,17 @@
   "SALE": {
     "ADD_SALE": {
       "DATE": "Fecha",
-      "NEW": "Agregue nueva venta"
+      "TITLE": "Agregue nueva venta",
+      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
+      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
+      "CROP": "Cultivo",
+      "CROP_PLACEHOLDER": "Seleccionar cultivo",
+      "CROP_REQUIRED": "Cultivo es requerida",
+      "TABLE_HEADERS": {
+        "CROPS": "Cultivos",
+        "QUANTITY": "Cantidad",
+        "TOTAL": "Total"
+      }
     },
     "DETAIL": {
       "CROP": "Cultivo",

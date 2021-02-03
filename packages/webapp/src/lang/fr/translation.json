@@ -38,7 +38,10 @@
   "EXPENSE": {
     "ADD_EXPENSE": {
       "TITLE_1": "MISSING",
-      "TITLE_2": "MISSING"
+      "TITLE_2": "MISSING",
+      "REQUIRED_ERROR": "Expense is required",
+      "MIN_ERROR": "Please enter a value greater than ",
+      "INVALID_ERROR": "You need at least one valid item value pair."
     },
     "ADD_MORE_ITEMS": "MISSING",
     "DETAILED_HISTORY": "MISSING",
@@ -462,7 +465,17 @@
   "SALE": {
     "ADD_SALE": {
       "DATE": "MISSING",
-      "NEW": "MISSING"
+      "TITLE": "MISSING",
+      "CUSTOMER_NAME": "MISSING",
+      "CUSTOMER_NAME_REQUIRED": "MISSING",
+      "CROP": "MISSING",
+      "CROP_PLACEHOLDER": "MISSING",
+      "CROP_REQUIRED": "MISSING",
+      "TABLE_HEADERS": {
+        "CROPS": "MISSING",
+        "QUANTITY": "MISSING",
+        "TOTAL": "MISSING"
+      }
     },
     "DETAIL": {
       "CROP": "MISSING",

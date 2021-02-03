@@ -101,6 +101,13 @@ export default function PureNavBar({
               buttonBack: {
                 display: 'none',
               },
+              tooltip: {
+                padding: '20px',
+              },
+              tooltipContent: {
+                padding: '4px 0 0 0',
+                marginBottom: '20px',
+              },
             }}
           />
         )}

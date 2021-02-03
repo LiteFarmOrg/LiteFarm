@@ -17,11 +17,7 @@ class InsightsInfoComponent extends Component {
             {value} {valueLabel}
           </div>
         </div>
-        <ProgressBar
-          className={sharedStyles.progress}
-          bsPrefix={sharedStyles.bar + ' progress-bar'}
-          now={percent}
-        />
+        <ProgressBar className={sharedStyles.progress} now={percent} />
       </div>
     );
   }

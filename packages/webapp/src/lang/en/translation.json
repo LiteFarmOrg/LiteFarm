@@ -171,6 +171,7 @@
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS": "Pulling from {{amountOfFarms}} farms for sales data",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "PERCENT_OF_MARKET": "{{percentage}}% of market",
       "SALES_FROM_DISTANCE_AWAY": "Sales from {{distance}} {{unit}} away",
       "TITLE": "Prices"
     },

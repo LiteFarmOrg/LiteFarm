@@ -162,7 +162,7 @@ class Insights extends Component {
       ? labourHappinessData.preview + '/5'
       : this.props.t("INSIGHTS.UNAVAILABLE");
     insightData['Biodiversity'] = `${biodiversityData.preview} ${this.props.t("INSIGHTS.BIODIVERSITY.SPECIES")}`;
-    insightData['Prices'] = pricesData.preview ? pricesData.preview + '% of market' : this.props.t("INSIGHTS.UNAVAILABLE");
+    insightData['Prices'] = pricesData.preview ? this.props.t("INSIGHTS.PRICES.PERCENT_OF_MARKET", { percentage: pricesData.preview }) : this.props.t("INSIGHTS.UNAVAILABLE");
     insightData['WaterBalance'] = isImperial
       ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'
       : waterBalanceData.preview + ' mm';

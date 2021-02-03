@@ -68,7 +68,8 @@ class Unit extends React.Component {
                 data-test="unit-select"
                 model=".unit"
                 className={styles.select}
-                style={{ color: 'var(--fontColor)' }}
+                defaultValue={options[0]}
+                style={{ color: 'var(--fontColor)', paddingLeft: '4px' }}
               >
                 {options.map((o, index) => {
                   return (

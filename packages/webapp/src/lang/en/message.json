@@ -145,7 +145,7 @@
       "AGREEMENT": "Failed to update user agreement",
       "EXISTS": "User already exists in LiteFarm Network",
       "INVITE": "Error creating user account, please contact LiteFarm for assistance.",
-      "NOTHING_CHANGED": "Nothing's changed",
+      "NOTHING_CHANGED": "No data has changed",
       "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
       "RESTORE": "There was an error restoring access",
       "REVOKE": "There was an error revoking access",

@@ -170,7 +170,9 @@
     "PRICES": {
       "TITLE": "Prices",
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
-      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!"
+      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "SALES_FROM_DISTANCE_AWAY": "Sales from {{distance}} {{unit}} away",
+      "NEARBY_FARMS": "Pulling from {{amountOfFarms}} farms for sales data"
     },
     "WATER_BALANCE": {
       "TITLE": "Water Balance",
@@ -184,10 +186,12 @@
       "TITLE": "Nitrogen Balance",
       "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
       "INFO_2": "Click the delete button to reset your schedule.",
+      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
       "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
       "CHOOSE_FREQUENCY": "Choose Frequency...",
       "CHOOSE_A_FREQUENCY": "Choose a frequency",
-      "SELECT_FREQUENCY": "Select Frequency"
+      "SELECT_FREQUENCY": "Select Frequency",
+      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}"
     }
   },
   "INVITATION": {

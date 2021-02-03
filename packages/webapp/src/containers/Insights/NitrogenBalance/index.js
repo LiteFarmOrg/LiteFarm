@@ -60,9 +60,10 @@ class NitrogenBalance extends Component {
   render() {
     const nitrogenBalanceDataByField = this.props.nitrogenBalanceData['data'];
     const { t } = this.props;
+    const { firstRun, frequency, refreshDate } = this.state;
     let renderedComponent;
 
-    if (!this.state.firstRun) {
+    if (!firstRun) {
       if (Array.isArray(nitrogenBalanceDataByField) && nitrogenBalanceDataByField.length > 0) {
         renderedComponent = nitrogenBalanceDataByField.map((field, index) => {
           return <NitrogenBalanceInfo key={'item-nitrogen-' + index} field={field} />;
@@ -70,8 +71,7 @@ class NitrogenBalance extends Component {
       } else {
         renderedComponent = (
           <div>
-            Your Nitrogen Balance is on a {this.state.frequency} months cycle and data will show on:{' '}
-            {this.state.refreshDate}
+            {t("INSIGHTS.NITROGEN_BALANCE.CYCLE_INDICATOR", { frequency, refreshDate })}
           </div>
         );
       }
@@ -92,7 +92,7 @@ class NitrogenBalance extends Component {
             title={t("INSIGHTS.NITROGEN_BALANCE.TITLE")}
             backUrl="/Insights"
             rightIcon={true}
-            rightIconTitle={`Every ${this.state.frequency} months: ${this.state.refreshDate}`}
+            rightIconTitle={t("INSIGHTS.NITROGEN_BALANCE.HEADER", { frequency, refreshDate })}
             rightIconBody={(<div>
               <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_1")}</p>
               <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_2")}</p>

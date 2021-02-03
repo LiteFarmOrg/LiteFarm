@@ -24,13 +24,6 @@ class Prices extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleOpenCollapse = this.handleOpenCollapse.bind(this);
-
-    this.infoBoxBody = (
-      <div>
-        We show you the trajectory of your sales prices against the sales prices for the same goods
-        within a given distance of you, collected across the LiteFarm network.
-      </div>
-    );
   }
 
   handleChange(distance) {
@@ -93,7 +86,7 @@ class Prices extends Component {
           <div style={{ marginBottom: '8px' }}>
             <div style={{ float: 'left' }}>
               <b>
-                Sales from {distanceToDisplay} {unit} away
+                {t("INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY", { distance: distanceToDisplay, unit })}
               </b>
             </div>
             <div style={{ float: 'right' }}>
@@ -103,7 +96,7 @@ class Prices extends Component {
               <Collapse in={this.state.open}>
                 <div>
                   <div>
-                    Pulling from {this.props.pricesData['amountOfFarms']} farms for sales data
+                    {t("INSIGHTS.PRICES.NEARBY_FARMS", { amountOfFarms: this.props.pricesData['amountOfFarms'] })}
                   </div>
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {

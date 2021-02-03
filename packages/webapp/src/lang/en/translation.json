@@ -204,6 +204,8 @@
     "SUCCESSFULLY_JOINED": "You have successfully joined"
   },
   "LOG_COMMON": {
+    "LOG_ALL_CROPS": "All Crops",
+    "LOG_ALL_FIELDS": "All Fields",
     "ACTION": "Action",
     "ACTIVITY": "Activity",
     "ADD_CUSTOM_PRODUCT": "Add a custom product ",

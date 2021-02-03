@@ -465,7 +465,17 @@
   "SALE": {
     "ADD_SALE": {
       "DATE": "Data",
-      "NEW": "Adicionar nova venda"
+      "TITLE": "Adicionar nova venda",
+      "CUSTOMER_NAME": "Nome do Cliente",
+      "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
+      "CROP": "Cultivo",
+      "CROP_PLACEHOLDER": "Selecione cultivo",
+      "CROP_REQUIRED": "Cultivo é necessário",
+      "TABLE_HEADERS": {
+        "CROPS": "Cultivos",
+        "QUANTITY": "Quantidade",
+        "TOTAL": "Total"
+      }
     },
     "DETAIL": {
       "CROP": "Cultivo",

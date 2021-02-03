@@ -162,10 +162,15 @@
       "TITLE": "Balance de Nitrogeno"
     },
     "PEOPLE_FED": {
+      "CALORIES": "MISSING",
+      "FAT": "MISSING",
       "HEADER": "Numero de comidas",
       "INFO": "Estimamos el numero de comidas potenciales provistas por tu granja basandonos en los datos de tus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
       "MEALS": "Comidas",
-      "TITLE": "Personas alimentadas"
+      "PROTEIN": "MISSING",
+      "TITLE": "Personas alimentadas",
+      "VITAMIN_A": "MISSING",
+      "VITAMIN_C": "MISSING"
     },
     "PRICES": {
       "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",

@@ -162,10 +162,15 @@
       "TITLE": "MISSING"
     },
     "PEOPLE_FED": {
+      "CALORIES": "MISSING",
+      "FAT": "MISSING",
       "HEADER": "MISSING",
       "INFO": "MISSING",
       "MEALS": "MISSING",
-      "TITLE": "MISSING"
+      "PROTEIN": "MISSING",
+      "TITLE": "MISSING",
+      "VITAMIN_A": "MISSING",
+      "VITAMIN_C": "MISSING"
     },
     "PRICES": {
       "INFO": "MISSING",

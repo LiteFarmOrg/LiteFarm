@@ -53,6 +53,11 @@ const NavBar = (props) => {
       showCloseButton: false,
       disableBeacon: true,
       placement: 'right-start',
+      styles: {
+        options: {
+          width: 240,
+        },
+      },
     },
     {
       target: '#secondStep',
@@ -63,6 +68,11 @@ const NavBar = (props) => {
       },
       showCloseButton: false,
       placement: 'right-start',
+      styles: {
+        options: {
+          width: 260,
+        },
+      },
     },
     {
       target: '#thirdStep',
@@ -73,6 +83,11 @@ const NavBar = (props) => {
       },
       placement: 'right-start',
       showCloseButton: false,
+      styles: {
+        options: {
+          width: 210,
+        },
+      },
       floaterProps: {
         styles: {
           floater: {
@@ -123,11 +138,15 @@ const returnContent = (spotlightType, title) => {
   return spotlightType.split(',').map(function (item, key) {
     return title ? (
       <span key={key} className={styles1.green}>
-        <p align="left">{item}</p>
+        <p align="left" className={styles1.p}>
+          {item}
+        </p>
       </span>
     ) : (
       <span key={key}>
-        <p align="left">{item}</p>
+        <p align="left" className={styles1.p}>
+          {item}
+        </p>
       </span>
     );
   });

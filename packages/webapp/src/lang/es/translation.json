@@ -141,55 +141,55 @@
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
-      "HEADER": "MISSING",
-      "INFO": "MISSING",
-      "SPECIES": "MISSING",
-      "TITLE": "MISSING"
+      "HEADER": "Numero de especies",
+      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en los limites de tus campos. Puedes incrementar la cuenta de biodiversidad en tu granja visitando https://www.inaturalist.org/app.",
+      "SPECIES": "Especies",
+      "TITLE": "Biodiversidad"
     },
-    "CURRENT": "MISSING",
-    "INFO": "MISSING",
+    "CURRENT": "Actual",
+    "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en tu granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
     "LABOUR_HAPPINESS": {
-      "HEADER": "MISSING",
-      "INFO": "MISSING",
-      "TITLE": "MISSING"
+      "HEADER": "Tareas",
+      "INFO": "Estimamos el impacto de las diferentes tareas en la satisfaccion con el trabajo usando los puntajes de satisfaccion y las horas trabajadas en cada turno.",
+      "TITLE": "Satisfaccion del Trabajo"
     },
     "NITROGEN_BALANCE": {
-      "CYCLE_INDICATOR": "MISSING",
-      "FIRST_TIME": "MISSING",
-      "HEADER": "MISSING",
-      "INFO_1": "MISSING",
-      "INFO_2": "MISSING",
-      "TITLE": "MISSING"
+      "CYCLE_INDICATOR": "Tu balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
+      "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular tu balance de nitrogeno",
+      "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
+      "INFO_1": "El balance de nitrogeno te dice si aplicaste mucho o muy poco fertilizante. Depende en tus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en tu intervalo de tiempo deseado.",
+      "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
+      "TITLE": "Balance de Nitrogeno"
     },
     "PEOPLE_FED": {
-      "HEADER": "MISSING",
-      "INFO": "MISSING",
-      "MEALS": "MISSING",
-      "TITLE": "MISSING"
+      "HEADER": "Numero de comidas",
+      "INFO": "Estimamos el numero de comidas potenciales provistas por tu granja basandonos en los datos de tus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
+      "MEALS": "Comidas",
+      "TITLE": "Personas alimentadas"
     },
     "PRICES": {
-      "INFO": "MISSING",
-      "NEARBY_FARMS": "MISSING",
-      "NO_ADDRESS": "MISSING",
-      "PERCENT_OF_MARKET": "MISSING",
-      "SALES_FROM_DISTANCE_AWAY": "MISSING",
-      "TITLE": "MISSING"
+      "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",
+      "NEARBY_FARMS": "Buscando data de ventas de {{amountOfFarms}} granjas",
+      "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en tu Perfil para obtener data de ventas cercanas.",
+      "PERCENT_OF_MARKET": "{{percentage}}% del mercado",
+      "SALES_FROM_DISTANCE_AWAY": "Ventas a {{distance}} {{unit}} de distancia",
+      "TITLE": "Precios"
     },
     "SOIL_OM": {
-      "ALTERNATE_TITLE": "MISSING",
-      "HEADER": "MISSING",
-      "INFO": "MISSING",
-      "TITLE": "MISSING"
+      "ALTERNATE_TITLE": "Contenido de MO del Suelo",
+      "HEADER": "Materia Organica del Suelo",
+      "INFO": "La materia organica en el suelo es necesaria para mantener un ambiente saludable para tu cultivo. Nosotros tomamos esta data desde tus registros de suelo mas recientes. Si no tienes data en tus registros, predecimos la materia organica potencial en tu suelo para tu ubicacion global.",
+      "TITLE": "MO del Suelo"
     },
-    "TITLE": "MISSING",
-    "UNAVAILABLE": "MISSING",
+    "TITLE": "Reflexiones",
+    "UNAVAILABLE": "No Disponible",
     "WATER_BALANCE": {
-      "FIRST_TIME": "MISSING",
-      "INFO_1": "MISSING",
-      "INFO_2": "MISSING",
-      "NO_SCHEDULE_RUN": "MISSING",
-      "REGISTER_FARM": "MISSING",
-      "TITLE": "MISSING"
+      "FIRST_TIME": "Parece que es la primera vez que llegas aca! Para mas informacion en que hace esto, por favor cliquea el boton de informacion.",
+      "INFO_1": "El balance de agua te dice si tus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por tus registros de riego .",
+      "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en tu granja",
+      "NO_SCHEDULE_RUN": "Tu balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
+      "REGISTER_FARM": "Registra tu granja",
+      "TITLE": "Balance de agua"
     }
   },
   "INVITATION": {
@@ -364,7 +364,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
+    "FIELD": "Campo",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -521,7 +521,7 @@
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "DATE": "Fecha",
-      "NEW": "MISSING",
+      "NEW": "Nuevo",
       "TABLE_HEADERS": {
         "CROPS": "Cultivos",
         "QUANTITY": "Cantidad",

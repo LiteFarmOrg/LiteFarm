@@ -37,11 +37,10 @@
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
-      "TITLE_1": "Nuevo gasto (1 de 2)",
-      "TITLE_2": "Nuevo gasto (2 de 2)",
-      "REQUIRED_ERROR": "Expense is required",
       "MIN_ERROR": "Please enter a value greater than ",
-      "INVALID_ERROR": "You need at least one valid item value pair."
+      "REQUIRED_ERROR": "Expense is required",
+      "TITLE_1": "Nuevo gasto (1 de 2)",
+      "TITLE_2": "Nuevo gasto (2 de 2)"
     },
     "ADD_MORE_ITEMS": "Agrega más unidades",
     "DETAILED_HISTORY": "Historia detallada",
@@ -67,6 +66,7 @@
     "ADD_NEW_FIELD": "Agregue nueva área",
     "EDIT_FIELD": {
       "CROP": {
+        "ADD_NEW_CROP_VARIETY": "Agregar nueva variedad",
         "AREA_USED": "Area usada",
         "AREA_USED_HECTARE": "Area usada en una hectárea",
         "AREA_USED_IN": "Area usada en",
@@ -77,21 +77,37 @@
         "BY_BEDS": "Por cama",
         "CHOOSE_END_DATE": "Elija fecha de término",
         "CHOOSE_START_DATE": "Elija fecha de inicio",
+        "CROP_COMMON_NAME": "Nombre de cultivo",
+        "CROP_GROUP_INFO": "Informacion del grupo",
+        "CROP_GROUP_SUBGROUP": "Informacion del subgrupo",
         "DELETE_CONFIRMATION": "Esta seguro que quiere borrar este campo de cultivo?",
+        "EDIT_CROP_DETAIL": "Editar detalles del cultivo",
         "EDIT_ESTIMATED_PRICE": "Editar precio estimado para el cultivo",
         "EDIT_ESTIMATED_YIELD": "Editar rendimiento estimado para el cultivo",
         "END_DATE": "Fecha de término",
+        "ENTER_CROP_DETAILS": "Ingresar detalles del cultivo",
         "ENTER_START_FINISH": "Ingrese fechas de inicio y término",
         "ESTIMATED_PRICE": "Precio estimado",
         "ESTIMATED_PRODUCTION": "Produccion estimada",
         "ESTIMATED_REVENUE": "Ganancia estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimiento estimado",
+        "GENUS": "Genus",
         "HOW_MUCH_FIELD": "Cuánto del campo desea usar?",
+        "NEW_CROP": "Nuevo Cultivo",
+        "NEW_CROP_INFOBOX": "Si tienes informacion de los detalles de tu cultivo o variedad, como su contenido nutricional, rasgos fisiologicos, puedes editarlos aqui.",
+        "NEW_CROP_VARIETY": "Nuevo cultivo o variedad",
         "NEW_FIELD_CROP": "Nuevo campo de cultivo",
+        "NO_DATA": "Sin data",
         "NUMBER_EXPIRED": "Número de cultivos caducados",
         "NUMBER_OF_BEDS": "Número de camas",
+        "NUTRIENT_LABEL": "Nutrientes en porcion comestible (100g)",
         "PERCENTAGE": "Porcentaje",
-        "START_DATE": "Fecha de inicio"
+        "SELECT_CROP_GROUP": "Selecciona grupo de cultivo",
+        "SELECT_CROP_SUBGROUP": "Selecciona subgrupo de cultivo",
+        "SELECT_CROP_TEMPLATE": "Selecciona plantilla de cultivo",
+        "SPECIES": "Especie",
+        "START_DATE": "Fecha de inicio",
+        "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
       "EDIT_NAME": "Editar nombre del campo",
@@ -464,18 +480,19 @@
   },
   "SALE": {
     "ADD_SALE": {
-      "DATE": "Fecha",
-      "TITLE": "Agregue nueva venta",
-      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
-      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "CROP": "Cultivo",
       "CROP_PLACEHOLDER": "Seleccionar cultivo",
       "CROP_REQUIRED": "Cultivo es requerida",
+      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
+      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
+      "DATE": "Fecha",
+      "NEW": "Nueva",
       "TABLE_HEADERS": {
         "CROPS": "Cultivos",
         "QUANTITY": "Cantidad",
         "TOTAL": "Total"
-      }
+      },
+      "TITLE": "Agregue nueva venta"
     },
     "DETAIL": {
       "CROP": "Cultivo",

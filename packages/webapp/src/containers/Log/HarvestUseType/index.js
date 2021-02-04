@@ -162,7 +162,7 @@ class HarvestUseType extends Component {
               const taskName = this.props.t(
                 `harvest_uses:${type.harvest_use_type_translation_key}`,
               );
-              const buttonImg = this.assignImage(taskName);
+              const buttonImg = this.assignImage(type.harvest_use_type_name);
               return (
                 <Col
                   xs={4}

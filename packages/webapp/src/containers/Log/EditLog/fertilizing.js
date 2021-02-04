@@ -238,7 +238,7 @@ class FertilizingLog extends Component {
         } else {
           fertOptions.push({
             value: f.fertilizer_id,
-            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+            label: this.props.t(`fertilizer:${f.fertilizer_translation_key}`),
           });
         }
       }

@@ -1,7 +1,6 @@
 import Layout from '../Layout';
 import Button from '../Form/Button';
-import Svg from '../Svg';
-import signup2 from '../../assets/images/signUp/signUp2.svg';
+import { ReactComponent as Signup2 }  from '../../assets/images/signUp/signUp2.svg';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +17,9 @@ export default function PureWelcomeScreen({ onClick }) {
         </Button>
       }
     >
-      <Svg svg={signup2} alt={t('WELCOME_SCREEN.SVG_ALT')} />
+      <Signup2 id={"tt2"}>
+      </Signup2>
+
     </Layout>
   );
 }

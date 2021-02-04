@@ -332,7 +332,7 @@ class PestControlLog extends Component {
                 model={`.pestControlLog.disease_id`}
                 show={{ touched: true, focus: false }}
                 messages={{
-                  required: 'Required',
+                  required: this.props.t('common:REQUIRED'),
                 }}
               />
               <div className={styles.defaultFormDropDown}>
@@ -352,7 +352,7 @@ class PestControlLog extends Component {
                 model={`.pestControlLog.type`}
                 show={{ touched: true, focus: false }}
                 messages={{
-                  required: 'Required',
+                  required: this.props.t('common:REQUIRED'),
                 }}
               />
               <div className={styles.defaultFormDropDown}>
@@ -373,7 +373,7 @@ class PestControlLog extends Component {
                 model={`.pestControlLog.pesticide_id`}
                 show={{ touched: true, focus: false }}
                 messages={{
-                  required: 'Required',
+                  required: this.props.t('common:REQUIRED'),
                 }}
               />
               <Unit

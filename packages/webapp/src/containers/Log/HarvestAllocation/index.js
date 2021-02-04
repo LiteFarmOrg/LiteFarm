@@ -90,7 +90,7 @@ class HarvestAllocation extends Component {
           onChange={this.handleChange.bind(this)}
         >
           {this.props.useType.map((type, index) => {
-            const typeName = type.harvest_use_type_name;
+            const typeName = this.props.t(`harvest_uses:${type.harvest_use_type_translation_key}`);
             let model = '.harvestAllocation.' + type.harvest_use_type_name;
             return (
               <div

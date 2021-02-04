@@ -344,6 +344,7 @@ class NewFieldCropModal extends React.Component {
                     }
                   }
                   onChange={(selectedOption) => this.handleCropSelect(selectedOption)}
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.SELECT')}
                   required
                 />
               </FormGroup>

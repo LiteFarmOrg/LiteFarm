@@ -16,6 +16,7 @@
 import history from '../../history';
 import React from 'react';
 import styles from './styles.scss';
+import { withTranslation } from 'react-i18next';
 
 class LogFooter extends React.Component {
   render() {
@@ -26,19 +27,21 @@ class LogFooter extends React.Component {
       <div className={styles.bottomContainer}>
         {edit ? (
           <div className={styles.cancelButton} onClick={onClick}>
-            Delete
+            {this.props.t('common:DELETE')}
           </div>
         ) : (
           <div className={styles.cancelButton} onClick={() => history.push(url)}>
-            Cancel
+            {this.props.t('common:CANCEL')}
           </div>
         )}
         <div className={styles.cancelButton}>
-          <button className="btn btn-primary">{isHarvestLog ? 'Next' : 'Save'}</button>
+          <button className="btn btn-primary">
+            {isHarvestLog ? this.props.t('common:NEXT') : this.props.t('common:SAVE')}
+          </button>
         </div>
       </div>
     );
   }
 }
 
-export default LogFooter;
+export default withTranslation()(LogFooter);

@@ -28,7 +28,7 @@ import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
 import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
-import { Semibold, Title } from "../../components/Typography";
+import { Semibold, Title } from '../../components/Typography';
 
 class Field extends Component {
   static defaultProps = {
@@ -248,7 +248,7 @@ class Field extends Component {
           </>
         )}
 
-        <div style={{paddingTop: '15px', paddingBottom: '15px'}}>
+        <div style={{ paddingTop: '15px', paddingBottom: '15px' }}>
           <Semibold>{this.props.t('FIELDS.EXPLORE')}</Semibold>
         </div>
         <div>
@@ -266,6 +266,7 @@ class Field extends Component {
                       bootstrapURLKeys={{
                         key: GMAPS_API_KEY,
                         libraries: ['drawing', 'geometry', 'places'],
+                        language: localStorage.getItem('litefarm_lang'),
                       }}
                       defaultCenter={this.state.center}
                       defaultZoom={this.props.zoom}

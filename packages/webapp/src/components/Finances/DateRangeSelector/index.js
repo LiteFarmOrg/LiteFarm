@@ -7,6 +7,7 @@ import moment from 'moment';
 import InfoBoxComponent from '../../InfoBoxComponent';
 import { dateRangeSelector } from '../../../containers/Finances/selectors';
 import { Main } from '../../Typography';
+import { withTranslation } from "react-i18next";
 
 class DateRangeSelector extends Component {
   constructor(props) {
@@ -58,10 +59,10 @@ class DateRangeSelector extends Component {
             }
           />
         )}
-        <Main style={{ textAlign: 'center', marginBottom: '20px' }}>Filter Report by Date</Main>
+        <Main style={{ textAlign: 'center', marginBottom: '20px' }}>{this.props.t('SALE.FINANCES.FILTER_REPORT')}</Main>
         <div className={styles.toFromContainer}>
           <span className={styles.pullLeft}>
-            <label>From</label>
+            <label>{this.props.t('SALE.FINANCES.FROM')}</label>
             <DateContainer
               style={styles.date}
               custom={true}
@@ -70,7 +71,7 @@ class DateRangeSelector extends Component {
             />
           </span>
           <span className={styles.pullRight}>
-            <label>To</label>
+            <label>{this.props.t('SALE.FINANCES.TO')}</label>
             <DateContainer
               style={styles.date}
               custom={true}
@@ -96,4 +97,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateRangeSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(DateRangeSelector));

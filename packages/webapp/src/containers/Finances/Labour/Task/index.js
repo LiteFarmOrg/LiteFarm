@@ -1,11 +1,12 @@
 import React from 'react';
 import Table from '../../../../components/Table';
 import moment from 'moment';
+import { useTranslation } from "react-i18next";
 
 const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
   let data = [];
   let sortObj = {};
-
+  const { t } = useTranslation();
   for (let s of shifts) {
     if (moment(s.start_time).isBetween(moment(startDate), moment(endDate))) {
       if (sortObj.hasOwnProperty(s.task_id)) {
@@ -35,19 +36,19 @@ const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
   const columns = [
     {
       id: 'task',
-      Header: 'Task',
+      Header: t('SALE.LABOUR.TABLE.TASK'),
       accessor: (d) => d.task,
       minWidth: 80,
     },
     {
       id: 'time',
-      Header: 'Time',
+      Header: t('SALE.LABOUR.TABLE.TIME'),
       accessor: (d) => d.time,
       minWidth: 75,
     },
     {
       id: 'labour_cost',
-      Header: 'Labour Cost',
+      Header: t('SALE.LABOUR.TABLE.LABOUR_COST'),
       accessor: (d) => d.labour_cost,
     },
   ];

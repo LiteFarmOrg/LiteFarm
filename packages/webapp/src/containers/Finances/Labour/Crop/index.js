@@ -2,6 +2,7 @@ import React from 'react';
 import Table from '../../../../components/Table';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { useTranslation } from "react-i18next";
 
 const moment = extendMoment(Moment);
 
@@ -46,7 +47,7 @@ const getCropsByFieldID = (field_id, fieldCrops) => {
 
 const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   let data = [];
-
+  const { t } = useTranslation();
   let final = Object.assign({}, {}); // crop: crop name, profit: number
 
   for (let fc of fieldCrops) {
@@ -174,19 +175,19 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
   const columns = [
     {
       id: 'crop',
-      Header: 'Crop',
+      Header: t('SALE.LABOUR.TABLE.CROP'),
       accessor: (d) => d.crop,
       minWidth: 80,
     },
     {
       id: 'time',
-      Header: 'Time',
+      Header: t('SALE.LABOUR.TABLE.TIME'),
       accessor: (d) => d.time,
       minWidth: 75,
     },
     {
       id: 'labour_cost',
-      Header: 'Labour Cost',
+      Header: t('SALE.LABOUR.TABLE.LABOUR_COST'),
       accessor: (d) => d.labour_cost,
     },
   ];

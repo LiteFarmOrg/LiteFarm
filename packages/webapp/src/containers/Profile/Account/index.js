@@ -10,6 +10,11 @@ import { withTranslation } from 'react-i18next';
 import { integerOnKeyDown } from '../../../components/Form/Input';
 
 class Account extends Component {
+  constructor() {
+    super();
+    this.state = { selectedLanguage: localStorage.getItem('litefarm_lang') }
+  }
+
   componentDidMount() {
     const { dispatch, users } = this.props;
     if (users) {
@@ -36,13 +41,12 @@ class Account extends Component {
   }
 
   changeLanguage = (event) => {
-    this.props.i18n.changeLanguage(event.target.value);
-    localStorage.setItem('litefarm_lang', event.target.value);
+    this.setState({selectedLanguage : event.target.value});
   };
 
   handleSubmit(updated_user, user) {
     const { user_id, farm_id } = user;
-    const selectedLanguage = localStorage.getItem('litefarm_lang');
+    const { selectedLanguage } = this.state;
     const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
 
     const newUser = {
@@ -58,7 +62,7 @@ class Account extends Component {
 
   render() {
     const { users } = this.props;
-    const currentLanguage = localStorage.getItem('litefarm_lang');
+    const { selectedLanguage } = this.state;
     return (
       <div>
         <h3 className={styles.headerTitle}>
@@ -103,16 +107,16 @@ class Account extends Component {
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.LANGUAGE')}</label>
               <select style={{ marginLeft: '8px' }} onChange={this.changeLanguage}>
-                <option value="en" selected={currentLanguage === 'en'}>
+                <option value="en" selected={selectedLanguage === 'en'}>
                   {this.props.t('PROFILE.ACCOUNT.ENGLISH')}
                 </option>
-                <option value="es" selected={currentLanguage === 'es'}>
+                <option value="es" selected={selectedLanguage === 'es'}>
                   {this.props.t('PROFILE.ACCOUNT.SPANISH')}
                 </option>
-                <option value="pt" selected={currentLanguage === 'pt'}>
+                <option value="pt" selected={selectedLanguage === 'pt'}>
                   {this.props.t('PROFILE.ACCOUNT.PORTUGUESE')}
                 </option>
-                <option value="fr" selected={currentLanguage === 'fr'}>
+                <option value="fr" selected={selectedLanguage === 'fr'}>
                   {this.props.t('PROFILE.ACCOUNT.FRENCH')}
                 </option>
               </select>

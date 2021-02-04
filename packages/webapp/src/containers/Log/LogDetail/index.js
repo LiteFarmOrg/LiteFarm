@@ -226,7 +226,7 @@ class LogDetail extends Component {
                     color: '#4D4D4D',
                     border: 'none',
                   }}
-                  title={'Action'}
+                  title={this.props.t('LOG_COMMON.ACTION')}
                   key={dropDown}
                   id={`dropdown-basic-${dropDown}`}
                 >

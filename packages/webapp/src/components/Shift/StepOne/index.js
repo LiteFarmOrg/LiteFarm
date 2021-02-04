@@ -180,7 +180,7 @@ function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
               <img data-test="task_type" src={buttonImg} alt="" />
             </div>
             <div className={styles.buttonName}>
-              <Text>{type.task_name}</Text>
+              <Text>{taskName}</Text>
             </div>
           </div>
         );

@@ -93,11 +93,10 @@
         "ESTIMATED_REVENUE": "Estimated Revenue",
         "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
         "GENUS": "Genus",
-        "HOW_MUCH_FIELD": "How much of the field do you wish to use ?",
+        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
         "NEW_CROP": "New Crop",
         "NEW_CROP_INFOBOX": "If you have information on the details of your crop or variety such as it’s nutrient content, or physiological traits, you can edit them here.",
         "NEW_CROP_VARIETY": "New Crop or Variety",
-        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
         "NEW_FIELD_CROP": "New Field Crop",
         "NO_DATA": "No Data",
         "NUMBER_EXPIRED": "Number of Expired Crops",
@@ -356,6 +355,7 @@
     "DEPTH": "Depth",
     "INORGANIC_CARBON": "Inorganic Carbon",
     "MORE_INFO": "More Info",
+    "OM": "OM",
     "ORGANIC_CARBON": "Organic Carbon",
     "SELECT_DEPTH": "Select Depth",
     "SELECT_TEXTURE": "Select Texture",
@@ -685,8 +685,7 @@
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Let's get started",
-    "SVG_ALT": "Welcome to LiteFarm"
+    "BUTTON": "Let's get started"
   },
   "LOGIN_BUTTON": "Log In or Sign Up"
 }

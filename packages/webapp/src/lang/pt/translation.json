@@ -355,6 +355,7 @@
     "DEPTH": "Profundidade",
     "INORGANIC_CARBON": "Carbono Inorgânico",
     "MORE_INFO": "Mais informações",
+    "OM": "MISSING",
     "ORGANIC_CARBON": "Carbono organico",
     "SELECT_DEPTH": "Selecione Profundidade",
     "SELECT_TEXTURE": "Selecione a textura",
@@ -684,8 +685,7 @@
     "WIND": "Vento"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Vamos começar",
-    "SVG_ALT": "Bem-vindo a LiteFarm"
+    "BUTTON": "Vamos começar"
   },
   "LOGIN_BUTTON": "Login ou Cadastre-se"
 }

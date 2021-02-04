@@ -97,6 +97,7 @@
         "NEW_CROP": "New Crop",
         "NEW_CROP_INFOBOX": "If you have information on the details of your crop or variety such as it’s nutrient content, or physiological traits, you can edit them here.",
         "NEW_CROP_VARIETY": "New Crop or Variety",
+        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
         "NEW_FIELD_CROP": "New Field Crop",
         "NO_DATA": "No Data",
         "NUMBER_EXPIRED": "Number of Expired Crops",
@@ -111,6 +112,8 @@
         "VARIETY_NAME": "Variety Name"
       },
       "DELETE_FIELD": "Delete Field",
+      "DELETE_FIELD_CONFIRM": "I would like to delete this field.",
+      "DELETE_FIELD_WARNING": "WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?",
       "EDIT_NAME": "Edit Field Name",
       "NAME": "Field Name",
       "NUMBER_CROPS": "Number of Crops",

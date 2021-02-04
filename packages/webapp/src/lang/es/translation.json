@@ -111,6 +111,8 @@
         "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
+      "DELETE_FIELD_CONFIRM": "MISSING",
+      "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Núnero de cultivos",

@@ -111,6 +111,8 @@
         "VARIETY_NAME": "MISSING"
       },
       "DELETE_FIELD": "Apagar Campo",
+      "DELETE_FIELD_CONFIRM": "MISSING",
+      "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "Editar Nome do Campo",
       "NAME": "Nome do Campo",
       "NUMBER_CROPS": "Número de Cultivos",

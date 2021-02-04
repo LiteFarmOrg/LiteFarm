@@ -283,25 +283,26 @@ class EditFieldCropModal extends React.Component {
     return (
       <div>
         <Button onClick={this.handleShow} style={{ padding: '0 24px' }}>
-          Edit
+          {this.props.t('common:EDIT')}
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              Edit - {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)},
-              Variety: {this.props.cropBeingEdited.variety}
+              {this.props.t('common:EDIT')} -{' '}
+              {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)},
+              {this.props.t('FIELDS.EDIT_FIELD.VARIETY')}: {this.props.cropBeingEdited.variety}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <FormGroup>
               <h4 style={{ textAlign: 'center' }}>
-                Edit how much of the field you are using ({this.state.area_unit_label}&sup2;)
+                {this.props.t('FIELDS.EDIT_FIELD.CROP.HOW_MUCH_FIELD')}
               </h4>
               {isByArea && (
                 <div>
                   <FormGroup>
-                    <label>Percentage: </label>
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.PERCENTAGE')}: </label>
                     <FormControl
                       data-test="percentage"
                       type="number"
@@ -313,7 +314,7 @@ class EditFieldCropModal extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <label>Area used in hectare: </label>
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_HECTARE')}: </label>
                     <FormControl
                       type="number"
                       placeholder="0"
@@ -327,7 +328,7 @@ class EditFieldCropModal extends React.Component {
               {!isByArea && bed_config && (
                 <div>
                   <FormGroup>
-                    <label>Bed Length: </label>
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.BED_LENGTH')} </label>
                     <FormControl
                       type="number"
                       value={bed_config.bed_length}
@@ -337,7 +338,7 @@ class EditFieldCropModal extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <label>Bed Width: </label>
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.BED_WIDTH')}: </label>
                     <FormControl
                       type="number"
                       onKeyDown={numberOnKeyDown}
@@ -347,7 +348,7 @@ class EditFieldCropModal extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <label>Number of Beds: </label>
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_OF_BEDS')}: </label>
                     <FormControl
                       type="number"
                       onKeyDown={numberOnKeyDown}
@@ -359,7 +360,10 @@ class EditFieldCropModal extends React.Component {
                 </div>
               )}
               <FormGroup>
-                <label>Area used in {this.state.area_unit_label}&sup2;: </label>
+                <label>
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_IN')} {this.state.area_unit_label}
+                  &sup2;:{' '}
+                </label>
                 <FormControl
                   type="number"
                   onKeyDown={numberOnKeyDown}
@@ -367,23 +371,26 @@ class EditFieldCropModal extends React.Component {
                   value={this.state.fieldCrop.area_used}
                 />
               </FormGroup>
-              <h4 style={{ textAlign: 'center' }}>Edit start and finish dates</h4>
+              <h4 style={{ textAlign: 'center' }}>
+                {this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_START_FINISH')}
+              </h4>
               <FormGroup controlId="start_date">
                 <DateContainer
                   date={moment(this.state.fieldCrop.start_date)}
                   onDateChange={this.onStartDateChange}
-                  placeholder="Choose a start date"
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_START_DATE')}
                 />
               </FormGroup>
               <FormGroup controlId="end_date">
                 <DateContainer
                   date={moment(this.state.fieldCrop.end_date)}
                   onDateChange={this.onEndDateChange}
-                  placeholder="Choose a end date"
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_END_DATE')}
                 />
               </FormGroup>
               <h4 style={{ textAlign: 'center' }}>
-                Edit estimated price for the crop ($/{this.state.estimated_unit})
+                {this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_ESTIMATED_PRICE')} ($/
+                {this.state.estimated_unit})
               </h4>
               <FormGroup controlId="estimated_price">
                 <FormControl
@@ -395,14 +402,14 @@ class EditFieldCropModal extends React.Component {
               </FormGroup>
               {isByArea && (
                 <h4 style={{ textAlign: 'center' }}>
-                  Edit estimated yield for the crop ({this.state.estimated_unit}/
-                  {this.state.area_unit_label}&sup2;)
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_ESTIMATED_YIELD')} (
+                  {this.state.estimated_unit}/{this.state.area_unit_label}&sup2;)
                 </h4>
               )}
               {!isByArea && (
                 <h4 style={{ textAlign: 'center' }}>
-                  Edit estimated yield for the crop ({this.state.estimated_unit}
-                  /bed)
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_ESTIMATED_YIELD')} (
+                  {this.state.estimated_unit}/{this.props.t('FIELDS.EDIT_FIELD.CROP.BED')})
                 </h4>
               )}
               <FormGroup controlId="estimated_yield">

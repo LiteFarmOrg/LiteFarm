@@ -5,6 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import { biodiversitySelector } from '../selectors';
 import BiodiversitySpecies from '../../../components/Insights/BiodiversitySpecies';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class Biodiversity extends Component {
   constructor(props) {
@@ -25,9 +26,7 @@ class Biodiversity extends Component {
           rightIconBody={(<div>{t("INSIGHTS.BIODIVERSITY.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>{t("INSIGHTS.BIODIVERSITY.HEADER")}</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.BIODIVERSITY.HEADER")}</Semibold>
         </div>
         <hr className={insightStyles.defaultLine} />
         {biodiversityData.map((curr, index) => {

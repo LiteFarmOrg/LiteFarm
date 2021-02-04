@@ -5,6 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class SoilOM extends Component {
   constructor(props) {
@@ -24,9 +25,7 @@ class SoilOM extends Component {
           rightIconBody={(<div>{t("INSIGHTS.SOIL_OM.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>{t("INSIGHTS.SOIL_OM.HEADER")}</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.SOIL_OM.HEADER")}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>

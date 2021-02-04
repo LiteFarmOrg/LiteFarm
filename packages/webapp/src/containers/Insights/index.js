@@ -56,7 +56,7 @@ import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { Title } from '../../components/Typography';
+import { Title, Semibold, Text } from '../../components/Typography';
 const MILLIMETER_TO_INCH = 0.0393701;
 const KILOGRAM_TO_POUND = 2.20462;
 
@@ -130,8 +130,8 @@ class Insights extends Component {
               alt={item.label}
             />
             <div className={'itemText item-' + index + ' ' + styles.itemText}>
-              <b>{item.label}</b>
-              <div>{`${this.props.t("INSIGHTS.CURRENT")}: ${currentData ? currentData : 0}`}</div>
+              <Semibold>{item.label}</Semibold>
+              <Text>{`${this.props.t("INSIGHTS.CURRENT")}: ${currentData ? currentData : 0}`}</Text>
             </div>
           </div>
           <BsChevronRight className={styles.itemArrow} />

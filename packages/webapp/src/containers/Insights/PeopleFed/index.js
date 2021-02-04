@@ -5,6 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import { cropsNutritionSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class PeopleFed extends Component {
   constructor(props) {
@@ -33,9 +34,7 @@ class PeopleFed extends Component {
           rightIconBody={(<div>{t("INSIGHTS.PEOPLE_FED.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>{t("INSIGHTS.PEOPLE_FED.HEADER")}</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.PEOPLE_FED.HEADER")}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>

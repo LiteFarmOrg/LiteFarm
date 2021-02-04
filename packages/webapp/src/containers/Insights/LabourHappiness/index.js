@@ -5,6 +5,7 @@ import PageTitle from '../../../components/PageTitle';
 import { labourHappinessSelector } from '../selectors';
 import LabourHappinessTask from '../../../components/Insights/LabourHappinessTask';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class LabourHappiness extends Component {
   render() {
@@ -20,9 +21,7 @@ class LabourHappiness extends Component {
           rightIconBody={(<div>{t("INSIGHTS.LABOUR_HAPPINESS.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>{t("INSIGHTS.LABOUR_HAPPINESS.HEADER")}</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.LABOUR_HAPPINESS.HEADER")}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         {dataSet.map((element, index) => {

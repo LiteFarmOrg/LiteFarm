@@ -8,6 +8,7 @@ import FrequencySelectorComponent from '../../../components/Insights/FrequencySe
 import { delFrequencyNitrogenBalance } from '../actions';
 import styles from './styles.scss';
 import { withTranslation } from 'react-i18next';
+import { Semibold, Text } from '../../../components/Typography';
 
 class NitrogenBalance extends Component {
   constructor(props) {
@@ -70,17 +71,13 @@ class NitrogenBalance extends Component {
         });
       } else {
         renderedComponent = (
-          <div>
-            {t("INSIGHTS.NITROGEN_BALANCE.CYCLE_INDICATOR", { frequency, refreshDate })}
-          </div>
+          <Text>{t("INSIGHTS.NITROGEN_BALANCE.CYCLE_INDICATOR", { frequency, refreshDate })}</Text>
         );
       }
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <h4>
-            {t("INSIGHTS.NITROGEN_BALANCE.FIRST_TIME")}
-          </h4>
+          <Semibold>{t("INSIGHTS.NITROGEN_BALANCE.FIRST_TIME")}</Semibold>
           <FrequencySelectorComponent handler={this.handleFormSubmit} />
         </div>
       );

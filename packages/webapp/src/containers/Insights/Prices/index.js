@@ -12,6 +12,7 @@ import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { Text } from '../../../components/Typography';
 
 const MILE_TO_KILOMETER = 1.609;
 
@@ -85,9 +86,7 @@ class Prices extends Component {
         {this.props.pricesDistance && (
           <div style={{ marginBottom: '8px' }}>
             <div style={{ float: 'left' }}>
-              <b>
-                {t("INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY", { distance: distanceToDisplay, unit })}
-              </b>
+              <Text style={{fontWeight: 'bold'}}>{t("INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY", { distance: distanceToDisplay, unit })}</Text>
             </div>
             <div style={{ float: 'right' }}>
               <PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse} />
@@ -95,9 +94,7 @@ class Prices extends Component {
             <div style={{ float: 'left' }}>
               <Collapse in={this.state.open}>
                 <div>
-                  <div>
-                    {t("INSIGHTS.PRICES.NEARBY_FARMS", { count: this.props.pricesData['amountOfFarms'] })}
-                  </div>
+                  <Text>{t("INSIGHTS.PRICES.NEARBY_FARMS", { count: this.props.pricesData['amountOfFarms'] })}</Text>
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {
                       return (

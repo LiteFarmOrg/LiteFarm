@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import sharedStyles from '../shared.scss';
 import { ProgressBar } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
+import { Main } from '../../Typography';
 
 class BiodiversitySpecies extends Component {
   constructor(props) {
@@ -21,8 +22,10 @@ class BiodiversitySpecies extends Component {
     const { species, count, percent, t } = this.props;
     return (
       <div>
-        <div className={sharedStyles.leftText}>{this.i18nSpeciesDict[species]}</div>
-        <div className={sharedStyles.rightText}>{t("INSIGHTS.BIODIVERSITY.SPECIES_COUNT", { count })}</div>
+        <div className={sharedStyles.infoTextLine}>
+          <Main>{this.i18nSpeciesDict[species]}</Main>
+          <Main className={sharedStyles.rightText}>{t("INSIGHTS.BIODIVERSITY.SPECIES_COUNT", { count })}</Main>
+        </div>
         <ProgressBar
           className={sharedStyles.progress}
           bsPrefix={sharedStyles.bar + ' progress-bar'}

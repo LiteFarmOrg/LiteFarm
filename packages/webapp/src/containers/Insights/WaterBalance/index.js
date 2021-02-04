@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 import { createWaterBalanceSchedule } from '../actions';
 import styles from './styles.scss';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class WaterBalance extends Component {
   constructor(props) {
@@ -44,17 +45,13 @@ class WaterBalance extends Component {
     } else if (this.state.waterBalanceSchedule.farm_id) {
       renderedComponent = (
         <div>
-          <h4>
-            {t("INSIGHTS.WATER_BALANCE.NO_SCHEDULE_RUN")}
-          </h4>
+          <Semibold>{t("INSIGHTS.WATER_BALANCE.NO_SCHEDULE_RUN")}</Semibold>
         </div>
       );
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <h4>
-            {t("INSIGHTS.WATER_BALANCE.FIRST_TIME")}
-          </h4>
+          <Semibold>{t("INSIGHTS.WATER_BALANCE.FIRST_TIME")}</Semibold>
           <Button onClick={this.createWaterBalanceSchedule} variant="primary">
             {t("INSIGHTS.WATER_BALANCE.REGISTER_FARM")}
           </Button>

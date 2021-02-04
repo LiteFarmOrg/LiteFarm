@@ -63,7 +63,7 @@ function ChooseFarm() {
     if (farm.status === 'Active') {
       dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
       if (currentFarmId) {
-        dispatch(startSwitchFarmModal(currentFarmId));
+        dispatch(startSwitchFarmModal(selectedFarmId));
       }
       history.push({ pathname: '/' });
     } else {

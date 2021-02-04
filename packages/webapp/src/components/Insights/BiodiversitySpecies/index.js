@@ -26,11 +26,7 @@ class BiodiversitySpecies extends Component {
           <Main>{this.i18nSpeciesDict[species]}</Main>
           <Main className={sharedStyles.rightText}>{t("INSIGHTS.BIODIVERSITY.SPECIES_COUNT", { count })}</Main>
         </div>
-        <ProgressBar
-          className={sharedStyles.progress}
-          bsPrefix={sharedStyles.bar + ' progress-bar'}
-          now={percent}
-        />
+        <ProgressBar className={sharedStyles.progress} now={percent} />
       </div>
     );
   }

@@ -19,7 +19,7 @@ export default function WeatherBoard() {
     measurement,
     city,
   } = useSelector(weatherSelector);
-  const { language_preference } = useSelector(userFarmSelector);
+  const language_preference = localStorage.getItem('litefarm_lang');
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getWeather());

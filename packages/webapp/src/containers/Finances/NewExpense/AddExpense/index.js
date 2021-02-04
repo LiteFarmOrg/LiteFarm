@@ -32,6 +32,8 @@ class AddExpense extends Component {
     this.getTypeName = this.getTypeName.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.removeField = this.removeField.bind(this);
+    this.min = this.min.bind(this);
+    this.required = this.required.bind(this);
   }
 
   componentDidMount() {
@@ -43,11 +45,11 @@ class AddExpense extends Component {
       expenseDetail[s] = [
         {
           note: '',
-          value: 0,
+          value: undefined,
         },
       ];
       expenseNames[s] = this.getTypeName(s);
-      formValue[s] = [{ note: '', value: 0 }];
+      formValue[s] = [{ note: '', value: undefined }];
     }
     this.setState({ expenseNames, expenseDetail });
 
@@ -69,7 +71,7 @@ class AddExpense extends Component {
     this.props.dispatch(
       actions.push(`financeReducer.forms.expenseDetail[${key}]`, {
         note: '',
-        value: 0,
+        value: undefined,
       }),
     );
   }
@@ -105,7 +107,7 @@ class AddExpense extends Component {
     }
 
     if (data.length < 1) {
-      alert('You need at least one valid item value pair.');
+      alert(this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR'));
     } else {
       this.props.dispatch(addExpenses(data));
       history.push('/finances');
@@ -128,6 +130,13 @@ class AddExpense extends Component {
       newObj[key] = newArray;
       this.props.dispatch(actions.change('financeReducer.forms.expenseDetail', newObj));
     }
+  }
+
+  required(value) {
+    return value ? undefined : this.props.t('EXPENSE.ADD_EXPENSE.REQUIRED_ERROR');
+  }
+  min(value) {
+    return value >= 0 ? undefined : this.props.t('EXPENSE.ADD_EXPENSE.MIN_ERROR') + '0';
   }
 
   render() {
@@ -178,6 +187,7 @@ class AddExpense extends Component {
                               type="number"
                               onKeyDown={numberOnKeyDown}
                               model={`.expenseDetail[${k}][${i}].value`}
+                              validators={{ required: this.required, min: this.min }}
                               min="0.01"
                               step="0.01"
                             />

@@ -36,12 +36,7 @@ class SoilOMInfo extends Component {
           <div style={{ float: 'left' }}>0 %</div>
           <div style={{ float: 'right' }}>10 %</div>
           <img style={loadingButtonStyle} src={loadingBar} alt="not found" />
-          <ProgressBar
-            className={styles.progress}
-            bsPrefix={sharedStyles.bar + ' progress-bar'}
-            now={percentage}
-            label={percentage}
-          />
+          <ProgressBar className={styles.progress} now={percentage} label={percentage} />
         </div>
       </div>
     );

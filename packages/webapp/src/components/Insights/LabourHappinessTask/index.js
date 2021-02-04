@@ -16,11 +16,7 @@ class LabourHappinessTask extends Component {
           <Main>{title}</Main>
           <Main className={sharedStyles.rightText}>{`${mood} / 5`}</Main>
         </div>
-        <ProgressBar
-          className={sharedStyles.progress}
-          bsPrefix={styles.bar + ' progress-bar'}
-          now={percent}
-        />
+        <ProgressBar className={sharedStyles.progress} now={percent} />
       </div>
     );
   }

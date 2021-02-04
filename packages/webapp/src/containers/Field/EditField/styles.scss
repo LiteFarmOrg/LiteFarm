@@ -54,6 +54,7 @@
 
 .panelHeading {
   display: flex;
+  flex-direction: column;
 }
 .cardHeaderSuccess {
   color: #3c763d;

@@ -21,7 +21,7 @@ class BalanceBarComponent extends Component {
             </div>
             <BsCaretDownFill style={dotStyle} />
           </div>
-          <ProgressBar className={styles.progress} bsPrefix={sharedStyles.bar + ' progress-bar'} />
+          <ProgressBar className={styles.progress} />
         </div>
         <div>
           <div className={styles.leftText}>Deficit</div>

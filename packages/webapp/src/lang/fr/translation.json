@@ -183,11 +183,16 @@
       "TITLE": "MISSING"
     },
     "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "MISSING",
+      "CHOOSE_FREQUENCY": "MISSING",
+      "COUNT_MONTHS": "MISSING",
+      "COUNT_MONTHS_plural": "MISSING",
       "CYCLE_INDICATOR": "MISSING",
       "FIRST_TIME": "MISSING",
       "HEADER": "MISSING",
       "INFO_1": "MISSING",
       "INFO_2": "MISSING",
+      "SELECT_FREQUENCY": "MISSING",
       "TITLE": "MISSING"
     },
     "PEOPLE_FED": {

@@ -183,11 +183,16 @@
       "TITLE": "Labour Happiness"
     },
     "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "Choose a frequency",
+      "CHOOSE_FREQUENCY": "Choose Frequency...",
+      "COUNT_MONTHS": "{{count}} month",
+      "COUNT_MONTHS_plural": "{{count}} months",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
       "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
       "HEADER": "Every {{frequency}} months: {{refreshDate}}",
       "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
       "INFO_2": "Click the delete button to reset your schedule.",
+      "SELECT_FREQUENCY": "Select Frequency",
       "TITLE": "Nitrogen Balance"
     },
     "PEOPLE_FED": {

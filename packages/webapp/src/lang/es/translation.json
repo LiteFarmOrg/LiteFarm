@@ -68,7 +68,6 @@
     "EDIT_FIELD": {
       "CROP": {
         "ADD_NEW_CROP_OR_VARIETY": "Agregar nuevo cultivo o variedad",
-
         "AREA_USED": "Area usada",
         "AREA_USED_HECTARE": "Area usada en una hectárea",
         "AREA_USED_IN": "Area usada en",
@@ -116,6 +115,7 @@
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Número de cultivos",
+      "SELECT": "MISSING",
       "TITLE": "Editar campo",
       "TOTAL_AREA": "Area total",
       "VARIETY": "Variedad",
@@ -183,11 +183,16 @@
       "TITLE": "Satisfaccion del Trabajo"
     },
     "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "MISSING",
+      "CHOOSE_FREQUENCY": "MISSING",
+      "COUNT_MONTHS": "MISSING",
+      "COUNT_MONTHS_plural": "MISSING",
       "CYCLE_INDICATOR": "Tu balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
       "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular tu balance de nitrogeno",
       "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
       "INFO_1": "El balance de nitrogeno te dice si aplicaste mucho o muy poco fertilizante. Depende en tus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en tu intervalo de tiempo deseado.",
       "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
+      "SELECT_FREQUENCY": "MISSING",
       "TITLE": "Balance de Nitrogeno"
     },
     "PEOPLE_FED": {

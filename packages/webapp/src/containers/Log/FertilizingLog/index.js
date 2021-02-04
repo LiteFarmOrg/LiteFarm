@@ -263,7 +263,7 @@ class FertilizingLog extends Component {
                 model={`.fertLog.fert_id`}
                 show={{ touched: true, focus: false }}
                 messages={{
-                  required: 'Required',
+                  required: this.props.t('common:REQUIRED'),
                 }}
               />
               {[1, 2, 5].includes(this.props.farm.role_id) && (
@@ -363,7 +363,7 @@ class FertilizingLog extends Component {
                     model=".fertLog.fert_id"
                     component={DropDown}
                     options={fertilizerOptions || []}
-                    placeholder="select product template"
+                    placeholder={this.props.t('LOG_FERTILIZING.SELECT_TEMPLATE')}
                     onChange={this.setSelectedFert}
                   />
                 </div>

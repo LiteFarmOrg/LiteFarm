@@ -42,7 +42,8 @@ class EditField extends Component {
       selectedExpiredFieldCrops: [],
       selectedFieldCrop: null,
       fieldArea: 0,
-      showModal: false, // for confirming deleting a crop
+      showDeleteFieldCropModal: false, // for confirming deleting a crop
+      showDeleteFieldModal: false,
       showFieldNameModal: false,
       area_unit: getUnit(this.props.farm, 'm2', 'ft2'),
       area_unit_label: getUnit(this.props.farm, 'm', 'ft'),
@@ -63,7 +64,7 @@ class EditField extends Component {
   }
 
   handleDeleteCrop(id) {
-    this.setState({ showModal: true });
+    this.setState({ showDeleteFieldCropModal: true });
     this.setState({ selectedFieldCrop: id });
   }
 
@@ -166,15 +167,7 @@ class EditField extends Component {
 
   deleteField = () => {
     const { fieldId } = this.state;
-    if (
-      window.confirm(
-        'WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?',
-      )
-    ) {
-      if (window.confirm('I would like to delete this field.')) {
-        this.props.dispatch(deleteField(fieldId));
-      }
-    }
+    this.props.dispatch(deleteField(fieldId));
   };
 
   changeFieldName = () => {
@@ -202,11 +195,8 @@ class EditField extends Component {
       mapHeight = window.innerWidth * 0.7;
       mapHeight = mapHeight.toString() + 'px';
     }
-    // if(isSafari && gmapContainer){
-    //    gmapContainer.childNodes[0].style.cssText = "width: 100px; height: 100px; margin: 0px; padding: 0px; position: relative;";
-    //    console.log(gmapContainer.childNodes[0].style.cssText);
-    // }
     const { role_id } = this.props.farm;
+    // TODO: move to selector
     const hasPermissionToEdit = [1, 2, 5].includes(role_id);
 
     return (
@@ -420,11 +410,11 @@ class EditField extends Component {
             ))}
           </div>
           <ConfirmModal
-            open={this.state.showModal}
-            onClose={() => this.setState({ showModal: false })}
+            open={this.state.showDeleteFieldCropModal}
+            onClose={() => this.setState({ showDeleteFieldCropModal: false })}
             onConfirm={() => {
               this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop));
-              this.setState({ showModal: false });
+              this.setState({ showDeleteFieldCropModal: false });
             }}
             message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
           />
@@ -448,11 +438,19 @@ class EditField extends Component {
         </div>
         {this.state.selectedFieldCrops.length === 0 &&
           this.state.selectedExpiredFieldCrops.length === 0 && (
-            <div className={styles.deleteField}>
-              <button onClick={() => this.deleteField()}>
-                {this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}
-              </button>
-            </div>
+            <>
+              <div className={styles.deleteField}>
+                <button onClick={() => this.setState({ showDeleteFieldModal: true })}>
+                  {this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}
+                </button>
+              </div>
+              <ConfirmModal
+                open={this.state.showDeleteFieldModal}
+                onClose={() => this.setState({ showDeleteFieldModal: false })}
+                onConfirm={this.deleteField}
+                message={this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD_WARNING')}
+              />
+            </>
           )}
       </div>
     );

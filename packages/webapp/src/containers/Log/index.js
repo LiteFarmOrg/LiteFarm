@@ -123,12 +123,12 @@ class Log extends Component {
       crops.map((c) => {
         return { label: this.props.t(`crop:${c.crop_translation_key}`), value: c.crop_id };
       })) || [{ value: '', label: '' }];
-    cropOptions.unshift({ value: 'all', label: 'All Crops' });
+    cropOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_CROPS') });
     let fieldOptions = (fields &&
       fields.map((f) => {
         return { label: f.field_name, value: f.field_id };
       })) || [{ value: '', label: '' }];
-    fieldOptions.unshift({ value: 'all', label: 'All Fields' });
+    fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_FIELDS') });
 
     const logTypes = [
       { value: 'all', label: this.props.t('LOG_COMMON.ALL') },

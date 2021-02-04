@@ -67,7 +67,8 @@
     "ADD_NEW_FIELD": "Agregue nueva área",
     "EDIT_FIELD": {
       "CROP": {
-        "ADD_NEW_CROP_VARIETY": "Agregar nueva variedad",
+        "ADD_NEW_CROP_OR_VARIETY": "Agregar nuevo cultivo o variedad",
+
         "AREA_USED": "Area usada",
         "AREA_USED_HECTARE": "Area usada en una hectárea",
         "AREA_USED_IN": "Area usada en",
@@ -111,14 +112,15 @@
         "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
-      "DELETE_FIELD_CONFIRM": "MISSING",
       "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Núnero de cultivos",
+      "SELECT": "MISSING",
       "TITLE": "Editar campo",
       "TOTAL_AREA": "Area total",
-      "VARIETY": "Variedad"
+      "VARIETY": "Variedad",
+      "DELETE_FIELD_CONFIRM": "MISSING"
     },
     "EXPLORE": "Explore sus campos",
     "LIST": "Lista",

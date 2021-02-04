@@ -17,46 +17,39 @@ import ReactTable from 'react-table';
 import React from 'react';
 
 // refer to Log/index.js for example on how to format columns and data props, or read react-table documentation
-class Table extends React.Component {
-  render() {
-    const {
-      columns,
-      data,
-      showPagination,
-      pageSizeOptions,
-      defaultPageSize,
-      className,
-      getTdProps,
-      sortByID,
-    } = this.props;
-    let { minRows } = this.props;
-    if (!minRows) {
-      minRows = 5;
-    }
-
-    let defaultSorted = [];
-    if (sortByID) {
-      defaultSorted = [
+function Table({
+  columns,
+  data,
+  showPagination,
+  pageSizeOptions,
+  defaultPageSize,
+  className,
+  getTdProps,
+  sortByID,
+  minRows = 5,
+}) {
+  const defaultSorted = sortByID
+    ? [
         {
           id: sortByID,
           desc: true,
         },
-      ];
-    }
-    return (
-      <ReactTable
-        className={className}
-        columns={columns}
-        data={data}
-        showPagination={showPagination}
-        pageSizeOptions={pageSizeOptions}
-        defaultPageSize={defaultPageSize}
-        minRows={showPagination ? undefined : minRows} // Messes up pagination
-        getTdProps={getTdProps}
-        defaultSorted={defaultSorted}
-      />
-    );
-  }
+      ]
+    : [{ id: columns?.[0]?.id, desc: true }];
+  const pageSize = Math.min(Math.max(data?.length || minRows || 5, minRows), defaultPageSize);
+  return (
+    <ReactTable
+      className={className}
+      columns={columns}
+      data={data}
+      showPagination={showPagination && data?.length > defaultPageSize}
+      pageSizeOptions={pageSizeOptions}
+      defaultPageSize={pageSize}
+      minRows={showPagination ? undefined : minRows} // Messes up pagination
+      getTdProps={getTdProps}
+      defaultSorted={defaultSorted}
+    />
+  );
 }
 
 export default Table;

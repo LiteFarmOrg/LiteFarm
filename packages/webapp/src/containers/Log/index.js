@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import styles from './styles.scss';
 import history from '../../history';
 import { LocalForm } from 'react-redux-form';
-import DateContainer from '../../components/Inputs/DateContainer';
+import DateContainer, { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { getLogs, setSelectedLog, setStartDate, setEndDate } from './actions';
 import { getFieldCropsByDate } from '../saga';
@@ -35,7 +35,7 @@ import { withTranslation } from 'react-i18next';
 import { getFields } from '../saga';
 import { fieldsSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
-import { Main, Title } from '../../components/Typography';
+import { Label, Main, Semibold, Title } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 
 class Log extends Component {
@@ -48,6 +48,8 @@ class Log extends Component {
     };
     this.filterLogs = this.filterLogs.bind(this);
     this.getEditURL = this.getEditURL.bind(this);
+    this.onStartDateChange = this.onStartDateChange.bind(this);
+    this.onEndDateChange = this.onEndDateChange.bind(this);
     const { dispatch } = this.props;
     dispatch(getFieldCropsByDate());
     dispatch(getFields());
@@ -89,6 +91,12 @@ class Log extends Component {
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
       );
     }
+  }
+  onStartDateChange(date) {
+    this.props.dispatch(setStartDate(date));
+  }
+  onEndDateChange(date) {
+    this.props.dispatch(setEndDate(date));
   }
 
   getEditURL(activityKind) {
@@ -217,7 +225,7 @@ class Log extends Component {
       <div className={styles.logContainer}>
         <Title>{this.props.t('LOG_COMMON.FARM_LOG')}</Title>
         <hr />
-        <Title>{this.props.t('LOG_COMMON.ACTION')}</Title>
+        <Semibold>{this.props.t('LOG_COMMON.ACTION')}</Semibold>
         <div className={styles.buttonContainer}>
           <Button
             onClick={() => {
@@ -228,18 +236,16 @@ class Log extends Component {
           </Button>
         </div>
         <hr />
-        <div>
+        <div style={{ marginBottom: '8px' }}>
           <InfoBoxComponent
             customStyle={{ float: 'right', position: 'relative', right: 0 }}
             title={this.props.t('LOG_COMMON.LOG_HELP')}
             body={this.props.t('LOG_COMMON.LOG_HELP_EXPLANATION')}
           />
-          <Title>{this.props.t('LOG_COMMON.LOG_HISTORY')}</Title>
+          <Semibold>{this.props.t('LOG_COMMON.LOG_HISTORY')}</Semibold>
         </div>
         <div>
-          <Main style={{ marginBottom: '16px' }}>
-            {this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}
-          </Main>
+          <Label>{this.props.t('LOG_COMMON.SEARCH_BY_ACTIVITY')}</Label>
           <DropDown
             defaultValue={{
               value: 'all',
@@ -250,7 +256,7 @@ class Log extends Component {
             isSearchable={false}
             style={{ marginBottom: '24px' }}
           />
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', marginBottom: '16px' }}>
             <DropDown
               className={styles.pullLeft}
               options={cropOptions}
@@ -276,34 +282,22 @@ class Log extends Component {
               style={{ flexBasis: '50%' }}
             />
           </div>
-          <div>
-            <LocalForm model="logDates">
-              <span className={styles.pullLeft}>
-                <label>{this.props.t('LOG_COMMON.FROM')}</label>
-                <DateContainer
-                  style={styles.date}
-                  custom={true}
-                  date={startDate}
-                  onDateChange={(date) => this.props.dispatch(setStartDate(date))}
-                />
-              </span>
-              <span className={styles.pullRight}>
-                <label>{this.props.t('LOG_COMMON.TO')}</label>
-                <DateContainer
-                  style={styles.date}
-                  custom={true}
-                  date={endDate}
-                  onDateChange={(date) => this.props.dispatch(setEndDate(date))}
-                />
-              </span>
-            </LocalForm>
-          </div>
+          <LocalForm model="logDates">
+            <FromToDateContainer
+              onEndDateChange={this.onEndDateChange}
+              onStartDateChange={this.onStartDateChange}
+              startDate={startDate}
+              endDate={endDate}
+            />
+          </LocalForm>
         </div>
         <div className={styles.table}>
           <Table
             columns={columns}
             data={this.filterLogs(logs)}
-            showPagination={false}
+            showPagination={true}
+            pageSizeOptions={[10, 20, 50]}
+            defaultPageSize={10}
             minRows={5}
             className="-striped -highlight"
             defaultSorted={[

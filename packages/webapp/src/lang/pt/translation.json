@@ -31,6 +31,10 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
     "LABEL": "Senha"
@@ -506,6 +510,7 @@
     },
     "FINANCES": {
       "ACTION": "Ação",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "Estimada",
       "ACTUAL_REVENUE_LABEL": "Atual",
       "ADD_NEW_EXPENSE": "Adicionar nova despesa",
@@ -536,7 +541,9 @@
       "LABOUR_LABEL": "Trabalho",
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
-      "TITLE": "Finanças"
+      "TITLE": "Finanças",
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
@@ -598,7 +605,6 @@
       "YOU_HAVE": "Você tem"
     },
     "END_TIME": "Fim do tempo",
-    "FROM": "De",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
       "DURATION": "Duração",
@@ -615,8 +621,7 @@
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
     "START_TIME": "Hora de início",
-    "TITLE": "Turnos",
-    "TO": "Para"
+    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "DIDNT_WORK": "Não funcionou.",

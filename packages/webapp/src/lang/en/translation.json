@@ -31,6 +31,10 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
+    "HELP_TITLE": "Date Range Help"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
     "LABEL": "Password"
@@ -506,6 +510,7 @@
     },
     "FINANCES": {
       "ACTION": "Action",
+      "ACTUAL": "Actual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimated",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Add New Expense",
@@ -536,7 +541,9 @@
       "LABOUR_LABEL": "Labour",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "REVENUE": "Revenue",
-      "TITLE": "Finances"
+      "TITLE": "Finances",
+      "UNALLOCATED_CROP": "Unallocated",
+      "UNALLOCATED_TIP": "What is unallocated?"
     },
     "LABOUR": {
       "BY": "By",
@@ -598,7 +605,6 @@
       "YOU_HAVE": "You have"
     },
     "END_TIME": "End Time",
-    "FROM": "From",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Are you sure you want to delete this shift?",
       "DURATION": "Duration",
@@ -615,8 +621,7 @@
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",
     "START_TIME": "Start time",
-    "TITLE": "Shifts",
-    "TO": "To"
+    "TITLE": "Shifts"
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",

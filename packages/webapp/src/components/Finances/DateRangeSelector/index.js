@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import DateContainer from '../../../components/Inputs/DateContainer';
+import DateContainer, { FromToDateContainer } from '../../../components/Inputs/DateContainer';
 import { setDateRange } from '../../../containers/Finances/actions';
 import moment from 'moment';
 import InfoBoxComponent from '../../InfoBoxComponent';
 import { dateRangeSelector } from '../../../containers/Finances/selectors';
-import { Main } from '../../Typography';
+import { Main, Semibold } from '../../Typography';
+import { withTranslation } from 'react-i18next';
 
 class DateRangeSelector extends Component {
   constructor(props) {
@@ -29,18 +30,18 @@ class DateRangeSelector extends Component {
     this.changeEndDate.bind(this);
   }
 
-  changeStartDate = (date, parentMethod) => {
+  changeStartDate = (date) => {
     this.setState({ startDate: date });
     const endDate = this.state.endDate;
     this.props.dispatch(setDateRange({ startDate: date, endDate }));
-    parentMethod('start', date);
+    this.props.changeDateMethod('start', date);
   };
 
-  changeEndDate = (date, parentMethod) => {
+  changeEndDate = (date) => {
     this.setState({ endDate: date });
     const startDate = this.state.startDate;
     this.props.dispatch(setDateRange({ startDate, endDate: date }));
-    parentMethod('end', date);
+    this.props.changeDateMethod('end', date);
   };
 
   render() {
@@ -52,33 +53,20 @@ class DateRangeSelector extends Component {
         {!hideTooltip && (
           <InfoBoxComponent
             customStyle={{ float: 'right' }}
-            title={'Date Range Help'}
-            body={
-              'Select the date range to create a financial report for your farm for a given time window.'
-            }
+            title={this.props.t('DATE_RANGE.HELP_TITLE')}
+            body={this.props.t('DATE_RANGE.HELP_BODY')}
           />
         )}
-        <Main style={{ textAlign: 'center', marginBottom: '20px' }}>Filter Report by Date</Main>
-        <div className={styles.toFromContainer}>
-          <span className={styles.pullLeft}>
-            <label>From</label>
-            <DateContainer
-              style={styles.date}
-              custom={true}
-              date={this.state.startDate}
-              onDateChange={(date) => this.changeStartDate(date, changeDateToParent)}
-            />
-          </span>
-          <span className={styles.pullRight}>
-            <label>To</label>
-            <DateContainer
-              style={styles.date}
-              custom={true}
-              date={this.state.endDate}
-              onDateChange={(date) => this.changeEndDate(date, changeDateToParent)}
-            />
-          </span>
-        </div>
+        <Semibold style={{ textAlign: 'center', marginBottom: '20px' }}>
+          Filter Report by Date
+        </Semibold>
+
+        <FromToDateContainer
+          onStartDateChange={this.changeStartDate}
+          onEndDateChange={this.changeEndDate}
+          endDate={this.state.endDate}
+          startDate={this.state.startDate}
+        />
       </div>
     );
   }
@@ -96,4 +84,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateRangeSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(DateRangeSelector));

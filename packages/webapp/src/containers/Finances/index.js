@@ -32,7 +32,7 @@ import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
 import { getFieldCrops } from '../saga';
 import Button from '../../components/Form/Button';
-import { Title, Main } from '../../components/Typography';
+import { Title, Main, Semibold } from '../../components/Typography';
 
 const moment = extendMoment(Moment);
 
@@ -50,11 +50,11 @@ class Finances extends Component {
         boxShadow: '2px 2px 2px 2px rgba(0, 0, 0, 0.2)',
         width: '100%',
       },
-      dropDownTitle: 'Actual',
+      dropDownTitle: this.props.t('SALE.FINANCES.ACTUAL'),
       focusedInput: null,
       hasUnAllocated: false,
       showUnTip: 'none',
-      unTipButton: 'What is unallocated?',
+      unTipButton: this.props.t('SALE.FINANCES.UNALLOCATED_TIP'),
       currencySymbol: grabCurrencySymbol(this.props.farm),
     };
     this.getRevenue = this.getRevenue.bind(this);
@@ -260,7 +260,7 @@ class Finances extends Component {
     if (unAllocated !== 0) {
       final = Object.assign(final, {
         unallocated: {
-          crop: 'Unallocated',
+          crop: this.props.t('SALE.FINANCES.UNALLOCATED_CROP'),
           profit: unAllocated * -1,
         },
       });
@@ -346,10 +346,10 @@ class Finances extends Component {
     let unTipButton;
     if (showUnTip === 'block') {
       showUnTip = 'none';
-      unTipButton = 'What is unallocated?';
+      unTipButton = this.props.t('SALE.FINANCES.UNALLOCATED_TIP');
     } else {
       showUnTip = 'block';
-      unTipButton = 'Hide';
+      unTipButton = this.props.t('common:HIDE');
     }
     this.setState({ showUnTip, unTipButton });
   }
@@ -373,7 +373,7 @@ class Finances extends Component {
       <div className={styles.financesContainer}>
         <Title style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.TITLE')}</Title>
         <hr />
-        <Title style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.ACTION')}</Title>
+        <Semibold style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.ACTION')}</Semibold>
         <div className={styles.buttonContainer}>
           <Button
             sm
@@ -399,7 +399,9 @@ class Finances extends Component {
 
         <hr />
         <div data-test="finance_summary" className={styles.align}>
-          <Main style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.EXPENSES')}</Main>
+          <Semibold style={{ marginBottom: '8px' }}>
+            {this.props.t('SALE.FINANCES.EXPENSES')}
+          </Semibold>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.LABOUR_LABEL')}
             number={this.state.currencySymbol + labourExpense.toString()}
@@ -412,7 +414,9 @@ class Finances extends Component {
           />
 
           <hr />
-          <Main style={{ marginBottom: '8px' }}>{this.props.t('SALE.FINANCES.REVENUE')}</Main>
+          <Semibold style={{ marginBottom: '8px' }}>
+            {this.props.t('SALE.FINANCES.REVENUE')}
+          </Semibold>
           <DescriptiveButton
             label={this.props.t('SALE.FINANCES.ACTUAL_REVENUE_LABEL')}
             number={this.state.currencySymbol + totalRevenue}
@@ -425,9 +429,9 @@ class Finances extends Component {
           />
 
           <hr />
-          <Main style={{ marginBottom: '8px' }}>
+          <Semibold style={{ marginBottom: '8px' }}>
             {this.props.t('SALE.FINANCES.BALANCE_FOR_FARM')}
-          </Main>
+          </Semibold>
           <div className={styles.greyBox}>
             <div className={styles.balanceDetail}>
               <p>{this.props.t('SALE.FINANCES.REVENUE')}:</p>{' '}
@@ -456,9 +460,9 @@ class Finances extends Component {
             title={this.props.t('SALE.FINANCES.FINANCE_HELP')}
             body={this.props.t('SALE.FINANCES.BALANCE_EXPLANATION')}
           />
-          <Main style={{ marginBottom: '8px', textAlign: 'left' }}>
+          <Semibold style={{ marginBottom: '8px', textAlign: 'left' }}>
             {this.props.t('SALE.FINANCES.BALANCE_BY_CROP')}
-          </Main>
+          </Semibold>
 
           <div className={styles.greyBox}>
             {balanceByCrop.map((b) => {

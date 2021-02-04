@@ -31,6 +31,10 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
     "LABEL": "Contraseña"
@@ -506,6 +510,7 @@
     },
     "FINANCES": {
       "ACTION": "Acción",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "Estimado",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Agregar nuevo gasto",
@@ -536,7 +541,9 @@
       "LABOUR_LABEL": "Trabajo",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
-      "TITLE": "Finanzas"
+      "TITLE": "Finanzas",
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
@@ -553,7 +560,7 @@
     }
   },
   "SHIFT": {
-    "ACTION": "Accionn",
+    "ACTION": "Acción",
     "ADD_NEW": "Agregar nuevo turno",
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
@@ -598,7 +605,6 @@
       "YOU_HAVE": "Usted tiene"
     },
     "END_TIME": "Tiempo final",
-    "FROM": "Desde",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
@@ -615,8 +621,7 @@
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
     "START_TIME": "Faltante",
-    "TITLE": "Turnos",
-    "TO": "Para"
+    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "DIDNT_WORK": "Eso no funcionó.",

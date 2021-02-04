@@ -266,6 +266,7 @@ class Field extends Component {
                       bootstrapURLKeys={{
                         key: GMAPS_API_KEY,
                         libraries: ['drawing', 'geometry', 'places'],
+                        language: localStorage.getItem('litefarm_lang'),
                       }}
                       defaultCenter={this.state.center}
                       defaultZoom={this.props.zoom}

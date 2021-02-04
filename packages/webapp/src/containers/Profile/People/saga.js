@@ -41,18 +41,17 @@ export function* deactivateUserSaga({ payload: target_user_id }) {
   const { userFarmUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
-  const body = {
-    status: 'Inactive',
-  };
+  const body = {};
 
   try {
     const result = yield call(
       axios.patch,
-      `${userFarmUrl}/status/farm/${farm_id}/user/${target_user_id}`,
+      `${userFarmUrl}/deactivate/farm/${farm_id}/user/${target_user_id}`,
       body,
       header,
     );
-    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
+
+    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, status: result.data }));
     toastr.success(i18n.t('message:USER.SUCCESS.REVOKE'));
   } catch (e) {
     toastr.error(i18n.t('message:USER.ERROR.REVOKE'));
@@ -66,18 +65,17 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
-  const body = {
-    status: 'Invited',
-  };
+  const body = {};
 
   try {
     const result = yield call(
       axios.patch,
-      `${userFarmUrl}/status/farm/${farm_id}/user/${target_user_id}`,
+      `${userFarmUrl}/reactivate/farm/${farm_id}/user/${target_user_id}`,
       body,
       header,
     );
-    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, ...body }));
+
+    yield put(patchUserStatusSuccess({ farm_id, user_id: target_user_id, status: result.data }));
     toastr.success(i18n.t('message:USER.SUCCESS.RESTORE'));
   } catch (e) {
     toastr.error(i18n.t('message:USER.ERROR.RESTORE'));

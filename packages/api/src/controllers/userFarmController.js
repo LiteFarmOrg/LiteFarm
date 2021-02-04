@@ -38,7 +38,7 @@ const { createToken } = require('../util/jwt');
 
 const validStatusChanges = {
   'Active': ['Inactive'],
-  'Inactive': ['Invited'],
+  'Inactive': ['Invited', 'Active'],
   'Invited': ['Inactive']
 };
 
@@ -346,15 +346,77 @@ class userFarmController extends baseController {
     };
   }
 
-  static updateStatus() {
-    //TODO clean up
+  // static updateStatus() {
+  //   //TODO clean up
+  //   return async (req, res) => {
+  //     const farm_id = req.params.farm_id;
+  //     const user_id = req.params.user_id;
+  //     const { status } = req.body;
+
+  //     let template_path;
+  //     let subject;
+
+  //     try {
+  //       const targetUser = await userFarmModel.query().select('users.first_name', 'users.last_name',
+  //         'farm.farm_name', 'userFarm.status', 'users.email', 'users.language_preference')
+  //         .where({ 'userFarm.user_id': user_id, 'userFarm.farm_id': farm_id })
+  //         .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+  //         .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
+  //         .first();
+  //       // Email information
+  //       const replacements = {
+  //         first_name: targetUser.first_name,
+  //         farm: targetUser.farm_name,
+  //       };
+  //       const sender = 'system@litefarm.org';
+
+  //       // check if status transition is allowed
+  //       const currentStatus = targetUser.status;
+  //       if (!validStatusChanges[currentStatus].includes(status)) {
+  //         res.sendStatus(400);
+  //         return;
+  //       }
+
+  //       // check if access is revoked or restored: update email info based on this
+  //       if (currentStatus === 'Active' || currentStatus === 'Invited') {
+  //         template_path = emails.ACCESS_REVOKE;
+  //         template_path.subjectReplacements = targetUser.farm_name;
+  //       } else if (currentStatus === 'Inactive') {
+  //         template_path = emails.ACCESS_RESTORE;
+  //         template_path.subjectReplacements = targetUser.farm_name;
+  //       }
+  //       const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id)
+  //         .patch({
+  //           status,
+  //         });
+  //       if (isPatched) {
+  //         res.sendStatus(200);
+  //         try {
+  //           console.log('template_path:', template_path);
+  //           if (targetUser.email && template_path) {
+  //             await sendEmailTemplate.sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
+  //           }
+  //         } catch (e) {
+  //           console.log('Failed to send email: ', e);
+  //         }
+  //         return;
+  //       } else {
+  //         res.sendStatus(404);
+  //         return;
+  //       }
+  //     } catch (error) {
+  //       // handle more exceptions
+  //       return res.status(400).send(error);
+  //     }
+  //   };
+  // }
+
+  static deactivateUserFarm() {
     return async (req, res) => {
       const farm_id = req.params.farm_id;
       const user_id = req.params.user_id;
-      const { status } = req.body;
 
       let template_path;
-      let subject;
 
       try {
         const targetUser = await userFarmModel.query().select('users.first_name', 'users.last_name',
@@ -363,34 +425,86 @@ class userFarmController extends baseController {
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
           .first();
+
+        if (targetUser.status === 'Inactive') {
+          // cannot deactivate inactive user
+          res.sendStatus(400);
+          return;
+        }
+
         // Email information
         const replacements = {
           first_name: targetUser.first_name,
           farm: targetUser.farm_name,
         };
         const sender = 'system@litefarm.org';
+        template_path = emails.ACCESS_REVOKE;
+        template_path.subjectReplacements = targetUser.farm_name;
 
-        // check if status transition is allowed
-        const currentStatus = targetUser.status;
-        if (!validStatusChanges[currentStatus].includes(status)) {
+        const status = 'Inactive';
+        const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id).patch({status});
+        if (isPatched) {
+          res.status(200).send(status);
+          try {
+            console.log('template_path:', template_path);
+            if (targetUser.email && template_path) {
+              await sendEmailTemplate.sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
+            }
+          } catch (e) {
+            console.log('Failed to send email: ', e);
+          }
+          return;
+        } else {
+          res.sendStatus(404);
+          return;
+        }
+      } catch (error) {
+        // handle more exceptions
+        return res.status(400).send(error);
+      }
+    };
+  }
+
+  static reactivateUserFarm() {
+    return async (req, res) => {
+      const farm_id = req.params.farm_id;
+      const user_id = req.params.user_id;
+
+      let template_path;
+
+      try {
+        const targetUser = await userFarmModel.query().select('users.first_name', 'users.last_name',
+          'farm.farm_name', 'userFarm.status', 'userFarm.has_consent', 'users.email', 'users.language_preference')
+          .where({ 'userFarm.user_id': user_id, 'userFarm.farm_id': farm_id })
+          .leftJoin('users', 'userFarm.user_id', 'users.user_id')
+          .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id')
+          .first();
+
+        if (targetUser.status !== 'Inactive') {
+          // cannot reactivate non-inactive user
           res.sendStatus(400);
           return;
         }
 
-        // check if access is revoked or restored: update email info based on this
-        if (currentStatus === 'Active' || currentStatus === 'Invited') {
-          template_path = emails.ACCESS_REVOKE;
-          template_path.subjectReplacements = targetUser.farm_name;
-        } else if (currentStatus === 'Inactive') {
-          template_path = emails.ACCESS_RESTORE;
-          template_path.subjectReplacements = targetUser.farm_name;
+        // Email information
+        const replacements = {
+          first_name: targetUser.first_name,
+          farm: targetUser.farm_name,
+        };
+        const sender = 'system@litefarm.org';
+        template_path = emails.ACCESS_RESTORE;
+        template_path.subjectReplacements = targetUser.farm_name;
+
+        let status;
+        console.log(targetUser);
+        if (targetUser.has_consent) {
+          status = 'Active';
+        } else {
+          status = 'Invited';
         }
-        const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id)
-          .patch({
-            status,
-          });
+        const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id).patch({status});
         if (isPatched) {
-          res.sendStatus(200);
+          res.status(200).send(status);
           try {
             console.log('template_path:', template_path);
             if (targetUser.email && template_path) {

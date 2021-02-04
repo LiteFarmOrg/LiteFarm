@@ -45,7 +45,9 @@ router.patch('/consent/farm/:farm_id/user/:user_id', isSelf, hasFarmAccess({ par
 router.patch('/role/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_role']), userFarmController.updateRole());
 
 // Update the status on a userFarm
-router.patch('/status/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.updateStatus());
+router.patch('/deactivate/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.deactivateUserFarm());
+
+router.patch('/reactivate/farm/:farm_id/user/:user_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:user_status']), userFarmController.reactivateUserFarm());
 
 // Accept an invitation and validate invitation token
 router.patch('/accept_invitation', checkInviteJwt, checkInvitationTokenContent, userFarmController.acceptInvitation());

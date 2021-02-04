@@ -1,8 +1,10 @@
 import styles from './styles.scss';
 import Popup from 'reactjs-popup';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ConfirmModal = ({ open, onClose, onConfirm, message, option }) => {
+  const { t } = useTranslation();
   return (
     <Popup
       open={open}
@@ -18,12 +20,12 @@ const ConfirmModal = ({ open, onClose, onConfirm, message, option }) => {
       </div>
       <div className={styles.cancelDelete}>
         <div className="btn btn-primary" onClick={() => onClose()}>
-          Cancel
+          {t('common:CANCEL')}
         </div>
       </div>
       <div className={styles.confirmDelete}>
         <div className="btn btn-primary" id="confirmDelete" onClick={() => onConfirm()}>
-          {option ? option : 'Delete'}
+          {option ? option : t('common:DELETE')}
         </div>
       </div>
     </Popup>

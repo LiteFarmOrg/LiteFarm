@@ -373,6 +373,7 @@ function InputDuration({
 
   useEffect(() => {
     setSelectedCrops(defaultCrops[task.task_id]);
+    resetCrops();
   }, [defaultCrops]);
 
   const checkAndGetNumber = (val) => (!!val ? parseInt(val) : 0);

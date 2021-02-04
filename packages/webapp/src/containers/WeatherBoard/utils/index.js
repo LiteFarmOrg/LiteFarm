@@ -1,4 +1,7 @@
 import moment from 'moment';
+import 'moment/locale/pt';
+import 'moment/locale/es';
+import 'moment/locale/fr';
 import { icons } from './icons';
 
 const index = {
@@ -28,8 +31,7 @@ const index = {
   },
   formatDate(lang, dte) {
     if (dte && moment(dte).isValid()) {
-      moment.locale(lang);
-      return moment.unix(dte).format('ddd D MMMM');
+      return moment.unix(dte).locale(lang).format('ddd D MMMM');
     }
     return '';
   },

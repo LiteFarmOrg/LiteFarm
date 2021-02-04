@@ -288,7 +288,7 @@ class NewCropModal extends React.Component {
 
   render() {
     let { subGroups, expand_nutrient, physiology_properties } = this.state;
-    let { crops } = this.props;
+    let { crops} = this.props;
     let cropOptions = [];
     if (crops && crops.length) {
       for (let c of crops) {
@@ -307,7 +307,7 @@ class NewCropModal extends React.Component {
       <div>
         {!this.props.isLink && (
           <Button style={{ fillColor: '#7CCFA2', width: '100%' }} onClick={this.handleShow}>
-            New Crop
+            { this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP') }
           </Button>
         )}
         {this.props.isLink && (
@@ -321,14 +321,14 @@ class NewCropModal extends React.Component {
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>New Crop or Variety</Modal.Title>
+            <Modal.Title>{ this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_VARIETY') }</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Enter Crop Details</h4>
+            <h4>{ this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_CROP_DETAILS') }</h4>
             <br />
 
             <div className={styles.cropTemplate}>
-              <h4>Select a crop template</h4>
+              <h4>{ this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE') }</h4>
               <Select
                 options={cropOptions}
                 onChange={(selectedOption) => this.handleCropChange(selectedOption)}
@@ -340,7 +340,7 @@ class NewCropModal extends React.Component {
             <FormGroup controlId="crop_common_name">
               <FormControl
                 type="text"
-                placeholder="Common Name"
+                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME') }
                 value={this.state.crop_common_name}
                 onChange={(e) => {
                   this.setState({ crop_common_name: e.target.value });
@@ -354,7 +354,7 @@ class NewCropModal extends React.Component {
             >
               <FormControl
                 type="text"
-                placeholder="Variety Name"
+                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.VARIETY_NAME') }
                 value={this.state.variety}
                 onChange={(e) => {
                   this.setState({ variety: e.target.value });
@@ -365,7 +365,7 @@ class NewCropModal extends React.Component {
             <FormGroup controlId="crop_genus">
               <FormControl
                 type="text"
-                placeholder="Genus"
+                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.GENUS') }
                 value={this.state.crop_genus}
                 onChange={(e) => {
                   this.setState({ crop_genus: e.target.value });
@@ -375,7 +375,7 @@ class NewCropModal extends React.Component {
             <FormGroup controlId="crop_specie">
               <FormControl
                 type="text"
-                placeholder="Species"
+                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.SPECIES') }
                 value={this.state.crop_specie}
                 onChange={(e) => {
                   this.setState({ crop_specie: e.target.value });
@@ -383,16 +383,16 @@ class NewCropModal extends React.Component {
               />
             </FormGroup>
             <span style={{ display: 'none' }}>
-              <FormLabel>Crop Group and Subgroup</FormLabel>
+              <FormLabel>{ this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_SUBGROUP') }</FormLabel>
               <FormGroup controlId="crop_group">
                 <Form.Control
                   as="select"
-                  placeholder="Select crop group"
+                  placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_GROUP') }
                   value={this.state.crop_group}
                   onChange={(e) => this.handleMatchCrop(e.target.value)}
                 >
                   <option key={'select crop group'} value={'select crop group'}>
-                    Select crop group
+                    { this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_GROUP') }
                   </option>
                   {CROP_GROUPS &&
                     CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
@@ -405,7 +405,7 @@ class NewCropModal extends React.Component {
               <FormGroup controlId="crop_subgroup">
                 <Form.Control
                   as="select"
-                  placeholder="Select crop subgroup"
+                  placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_SUBGROUP') }
                   value={this.state.crop_subgroup}
                   onChange={(e) => this.loadDefaultCropData(e)}
                 >
@@ -423,7 +423,7 @@ class NewCropModal extends React.Component {
             </span>
             <div className={styles.cropGroupTitle}>
               <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px' }}>
-                <a>Edit Crop Detail</a>
+                <a>{ this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_CROP_DETAIL') }</a>
               </div>
               <InfoBoxComponent
                 customStyle={{
@@ -431,11 +431,8 @@ class NewCropModal extends React.Component {
                   fontSize: '80%',
                   marginTop: '0.2em',
                 }}
-                title={'Crop Group Info'}
-                body={
-                  'If you have information on the details of your crop or variety such as it’s nutrient content, ' +
-                  'or physiological traits, you can edit them here.'
-                }
+                title={ this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_INFO') }
+                body={ this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_INFOBOX') }
               />
             </div>
             {expand_nutrient && (
@@ -448,14 +445,14 @@ class NewCropModal extends React.Component {
                       return (
                         <div key={nutrient}>
                           <p className={styles.nutrientLabel}>
-                            {NUTRIENT_DICT[nutrient]}{' '}
-                            {this.state[nutrient] === 0 && <p>{' ' + 'No Data'}</p>}
+                            {this.props.t(NUTRIENT_DICT[nutrient])}{' '}
+                            {this.state[nutrient] === 0 && <p>{' ' +  this.props.t('FIELDS.EDIT_FIELD.CROP.NO_DATA') }</p>}
                           </p>
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
                             onKeyDown={numberOnKeyDown}
-                            placeholder={NUTRIENT_DICT[nutrient]}
+                            placeholder={this.props.t(NUTRIENT_DICT[nutrient])}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
                               this.setState({
@@ -469,19 +466,19 @@ class NewCropModal extends React.Component {
                   })}
                 </FormGroup>
 
-                <FormLabel>Nutrients in Edible Portion (per 100g)</FormLabel>
+                <FormLabel>{ this.props.t('FIELDS.EDIT_FIELD.CROP.NUTRIENT_LABEL') }</FormLabel>
                 <br />
                 <FormGroup controlId="crop_nutrient">
                   {NUTRIENT_ARRAY.map((nutrient) => {
                     if (!physiology_properties.includes(nutrient)) {
                       return (
                         <div key={nutrient}>
-                          <p className={styles.nutrientLabel}>{NUTRIENT_DICT[nutrient]}</p>
+                          <p className={styles.nutrientLabel}>{this.props.t(NUTRIENT_DICT[nutrient])}</p>
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
                             onKeyDown={numberOnKeyDown}
-                            placeholder={NUTRIENT_DICT[nutrient]}
+                            placeholder={this.props.t(NUTRIENT_DICT[nutrient])}
                             value={Number(roundToTwoDecimal(this.state[nutrient]))}
                             onChange={(e) => {
                               this.setState({
@@ -504,9 +501,9 @@ class NewCropModal extends React.Component {
                 this.props.handler();
               }}
             >
-              Save
+              { this.props.t('common:SAVE') }
             </Button>
-            <Button onClick={this.handleClose}>Close</Button>
+            <Button onClick={this.handleClose}>{ this.props.t('common:CLOSE') }</Button>
           </Modal.Footer>
         </Modal>
       </div>

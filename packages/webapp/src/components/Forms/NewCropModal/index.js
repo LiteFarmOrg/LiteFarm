@@ -312,9 +312,9 @@ class NewCropModal extends React.Component {
         )}
         {this.props.isLink && (
           <p>
-            or{' '}
+            {this.props.t('common:OR')}{' '}
             <a onClick={this.handleShow} style={{ textDecoration: 'underline' }}>
-              Add New Crop or Variety
+              {this.props.t('FIELDS.EDIT_FIELD.CROP.ADD_NEW_CROP_OR_VARIETY')}
             </a>
           </p>
         )}

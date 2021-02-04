@@ -66,6 +66,7 @@
     "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
       "CROP": {
+        "ADD_NEW_CROP_OR_VARIETY": "Add New Crop or Variety",
         "AREA_USED": "Area Used",
         "AREA_USED_HECTARE": "Area used in hectare",
         "AREA_USED_IN": "Area Used in",
@@ -93,14 +94,15 @@
         "START_DATE": "Start Date"
       },
       "DELETE_FIELD": "Delete Field",
-      "DELETE_FIELD_CONFIRM": "I would like to delete this field.",
       "DELETE_FIELD_WARNING": "WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?",
       "EDIT_NAME": "Edit Field Name",
       "NAME": "Field Name",
       "NUMBER_CROPS": "Number of Crops",
+      "SELECT": "Select...",
       "TITLE": "Edit Field",
       "TOTAL_AREA": "Total Area",
-      "VARIETY": "Variety"
+      "VARIETY": "Variety",
+      "DELETE_FIELD_CONFIRM": "I would like to delete this field."
     },
     "EXPLORE": "Explore Your Fields",
     "LIST": "List",

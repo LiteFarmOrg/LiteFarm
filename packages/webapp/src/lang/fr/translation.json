@@ -66,6 +66,7 @@
     "ADD_NEW_FIELD": "MISSING",
     "EDIT_FIELD": {
       "CROP": {
+        "ADD_NEW_CROP_OR_VARIETY": "MISSING",
         "AREA_USED": "MISSING",
         "AREA_USED_HECTARE": "MISSING",
         "AREA_USED_IN": "MISSING",
@@ -93,14 +94,15 @@
         "START_DATE": "MISSING"
       },
       "DELETE_FIELD": "MISSING",
-      "DELETE_FIELD_CONFIRM": "MISSING",
       "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "MISSING",
       "NAME": "MISSING",
       "NUMBER_CROPS": "MISSING",
+      "SELECT": "MISSING",
       "TITLE": "MISSING",
       "TOTAL_AREA": "MISSING",
-      "VARIETY": "MISSING"
+      "VARIETY": "MISSING",
+      "DELETE_FIELD_CONFIRM": "MISSING"
     },
     "EXPLORE": "MISSING",
     "LIST": "MISSING",

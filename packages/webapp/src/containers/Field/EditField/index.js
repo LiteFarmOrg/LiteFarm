@@ -42,7 +42,8 @@ class EditField extends Component {
       selectedExpiredFieldCrops: [],
       selectedFieldCrop: null,
       fieldArea: 0,
-      showModal: false, // for confirming deleting a crop
+      showDeleteFieldCropModal: false, // for confirming deleting a crop
+      showDeleteFieldModal: false,
       showFieldNameModal: false,
       area_unit: getUnit(this.props.farm, 'm2', 'ft2'),
       area_unit_label: getUnit(this.props.farm, 'm', 'ft'),
@@ -63,7 +64,7 @@ class EditField extends Component {
   }
 
   handleDeleteCrop(id) {
-    this.setState({ showModal: true });
+    this.setState({ showDeleteFieldCropModal: true });
     this.setState({ selectedFieldCrop: id });
   }
 
@@ -166,11 +167,7 @@ class EditField extends Component {
 
   deleteField = () => {
     const { fieldId } = this.state;
-    if (window.confirm(this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD_WARNING'))) {
-      if (window.confirm(this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD_CONFIRM'))) {
-        this.props.dispatch(deleteField(fieldId));
-      }
-    }
+    this.props.dispatch(deleteField(fieldId));
   };
 
   changeFieldName = () => {
@@ -413,11 +410,11 @@ class EditField extends Component {
             ))}
           </div>
           <ConfirmModal
-            open={this.state.showModal}
-            onClose={() => this.setState({ showModal: false })}
+            open={this.state.showDeleteFieldCropModal}
+            onClose={() => this.setState({ showDeleteFieldCropModal: false })}
             onConfirm={() => {
               this.props.dispatch(deleteFieldCrop(this.state.selectedFieldCrop));
-              this.setState({ showModal: false });
+              this.setState({ showDeleteFieldCropModal: false });
             }}
             message={this.props.t('FIELDS.EDIT_FIELD.CROP.DELETE_CONFIRMATION')}
           />
@@ -441,11 +438,19 @@ class EditField extends Component {
         </div>
         {this.state.selectedFieldCrops.length === 0 &&
           this.state.selectedExpiredFieldCrops.length === 0 && (
-            <div className={styles.deleteField}>
-              <button onClick={() => this.deleteField()}>
-                {this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}
-              </button>
-            </div>
+            <>
+              <div className={styles.deleteField}>
+                <button onClick={() => this.setState({ showDeleteFieldModal: true })}>
+                  {this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD')}
+                </button>
+              </div>
+              <ConfirmModal
+                open={this.state.showDeleteFieldModal}
+                onClose={() => this.setState({ showDeleteFieldModal: false })}
+                onConfirm={this.deleteField}
+                message={this.props.t('FIELDS.EDIT_FIELD.DELETE_FIELD_WARNING')}
+              />
+            </>
           )}
       </div>
     );

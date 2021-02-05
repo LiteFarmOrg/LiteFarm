@@ -378,7 +378,7 @@ class PestControlLog extends Component {
               />
               <Unit
                 model=".pestControlLog.quantity_kg"
-                title="Quantity"
+                title={this.props.t('LOG_COMMON.QUANTITY')}
                 type={this.state.quantity_unit}
                 validate
               />

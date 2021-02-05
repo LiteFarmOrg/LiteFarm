@@ -625,6 +625,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil-> Pessoas-> Editar",
       "RATHER_NOT_SAY": "Prefiro não dizer",
       "SAD": "Triste",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
       "TASKS_FOR_SHIFT": "Estas são as tarefas selecionadas para este turno",
       "TASKS_SELECTED": "As tarefas selecionadas para este turno são destacadas abaixo. Desmarcar uma tarefa removerá a tarefa deste turno",
       "TIME_ALLOCATION": "Alocação de tempo",

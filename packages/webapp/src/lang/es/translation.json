@@ -625,6 +625,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil->Personas->Editar",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
+      "SELECT_CROPS": "Seleccionar cultivos",
+      "SELECT_FIELDS": "Seleccionar Campos",
       "TASKS_FOR_SHIFT": "Estas son las tareas seleccionadas para este turno",
       "TASKS_SELECTED": "Las tareas seleccionadas para este turno aparecen destacadas abajo. Si deshace la selección de una tarea removerá la tarea del turno",
       "TIME_ALLOCATION": "Asignación de tiempo",

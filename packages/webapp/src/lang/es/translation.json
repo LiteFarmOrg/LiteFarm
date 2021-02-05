@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Direccion de la calle ó use 'coma' para separar latitud y longitud (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Nombre de finca",
     "INVALID_FARM_LOCATION": "Ubicación de la finca inválida",
+    "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
@@ -33,13 +34,18 @@
     "TITLE": "Crear nueva cuenta de usuario"
   },
   "DATE_RANGE": {
-    "HELP_BODY": "MISSING",
-    "HELP_TITLE": "MISSING",
-    "TITLE": "MISSING"
+    "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
+    "HELP_TITLE": "Ayuda con el rango de fechas",
+    "TITLE": "Filtrar reporte por fecha"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
-    "LABEL": "Contraseña"
+    "HINT": "Pista",
+    "LABEL": "Contraseña",
+    "ONE_NUMBER": "Al menos un numero",
+    "ONE_SPECIAL_CHARACTER": "Al menos un caracter especial",
+    "ONE_UPPER_CASE": "Al menos una letra mayuscula",
+    "TOO_SHORT": "Al menos 8 caracteres"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -97,7 +103,7 @@
         "ESTIMATED_PRODUCTION": "Produccion estimada",
         "ESTIMATED_REVENUE": "Ganancia estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimiento estimado",
-        "FIELD_SIZE": "MISSING",
+        "FIELD_SIZE": "Tamaño del campo",
         "GENUS": "Genus",
         "HOW_MUCH_FIELD": "Cuánto del campo desea usar?",
         "NEW_CROP": "Nuevo Cultivo",
@@ -117,7 +123,7 @@
         "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
-      "DELETE_FIELD_WARNING": "MISSING",
+      "DELETE_FIELD_WARNING": "Estas seguro que deseas borrar este campo?",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Número de cultivos",
@@ -587,7 +593,7 @@
       "TITLE": "Agregue nueva venta"
     },
     "DETAIL": {
-      "ACTION": "MISSING",
+      "ACTION": "Accion",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
@@ -614,7 +620,7 @@
     },
     "FINANCES": {
       "ACTION": "Acción",
-      "ACTUAL": "MISSING",
+      "ACTUAL": "Actual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimado",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Agregar nuevo gasto",
@@ -646,8 +652,8 @@
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
       "TITLE": "Finanzas",
-      "UNALLOCATED_CROP": "MISSING",
-      "UNALLOCATED_TIP": "MISSING"
+      "UNALLOCATED_CROP": "No asignada",
+      "UNALLOCATED_TIP": "Que es no asignada?"
     },
     "LABOUR": {
       "BY": "Por",
@@ -668,16 +674,16 @@
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
-      "AMOUNT": "MISSING",
-      "CROP": "MISSING",
-      "DATE": "MISSING",
+      "AMOUNT": "Monto",
+      "CROP": "Cultivo",
+      "DATE": "Fecha",
       "DETAILED_HISTORY": "Historia detallada",
       "SUBTOTAL": "Subtotal",
       "SUMMARY": "Resumen",
       "TITLE": "Ventas",
       "TOTAL": "Total",
-      "TYPE": "MISSING",
-      "VALUE": "MISSING"
+      "TYPE": "Tipo",
+      "VALUE": "Valor"
     }
   },
   "SHIFT": {
@@ -748,6 +754,8 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "Eso no funcionó.",
+    "EMAIL_INVALID": "Correo invalido",
+    "ENTER_EMAIL": "Ingresar Correo",
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "GOOGLE_BUTTON": "Continúe con Google",
     "INVITED_ERROR": "Faltante",
@@ -757,6 +765,7 @@
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
     "TITLE": "Firmar",
+    "WELCOME_BACK": "Bienvenido",
     "WRONG_BROWSER": "LiteFarm no es optimizada por este navegador.",
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },
@@ -781,13 +790,13 @@
     "TITLE": "Cambiando de finca"
   },
   "TABLE": {
-    "LOADING_TEXT": "MISSING",
-    "NEXT_TEXT": "MISSING",
-    "NO_DATA_TEXT": "MISSING",
-    "OF_TEXT": "MISSING",
-    "PAGE_TEXT": "MISSING",
-    "PREVIOUS_TEXT": "MISSING",
-    "ROWS_TEXT": "MISSING"
+    "LOADING_TEXT": "Loading...",
+    "NEXT_TEXT": "Siguiente",
+    "NO_DATA_TEXT": "No se encontro informacion",
+    "OF_TEXT": "De",
+    "PAGE_TEXT": "Pagina",
+    "PREVIOUS_TEXT": "Previa",
+    "ROWS_TEXT": "filas"
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

@@ -129,7 +129,7 @@ function CustomSignUp() {
         <Hidden isVisible={showPureEnterPasswordPage}>
           <PureEnterPasswordPage
             onLogin={onLogin}
-            title={`Welcome back ${user?.first_name}!`}
+            title={`${t('SIGNUP.WELCOME_BACK')} ${user?.first_name}!`}
             onGoBack={enterPasswordOnGoBack}
             forgotPassword={forgotPassword}
             isChrome={isChrome()}
@@ -155,10 +155,10 @@ function CustomSignUp() {
           errorMessage={errorMessage}
           inputs={[
             {
-              label: 'Enter your email address',
+              label: t('SIGNUP.ENTER_EMAIL'),
               inputRef: refInput,
               name: EMAIL,
-              errors: errors[EMAIL] && (errors[EMAIL].message || 'Email is invalid'),
+              errors: errors[EMAIL] && (errors[EMAIL].message || t('SIGNUP.EMAIL_INVALID')),
             },
           ]}
         />

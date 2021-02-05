@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
     "FARM_NAME": "Nome do sítio/fazenda",
     "INVALID_FARM_LOCATION": "Localização do sítio/fazenda inválida",
+    "LOCATING": "MISSING",
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
@@ -39,7 +40,12 @@
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
-    "LABEL": "Senha"
+    "HINT": "MISSING",
+    "LABEL": "Senha",
+    "ONE_NUMBER": "MISSING",
+    "ONE_SPECIAL_CHARACTER": "MISSING",
+    "ONE_UPPER_CASE": "MISSING",
+    "TOO_SHORT": "MISSING"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -748,6 +754,8 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "Não funcionou.",
+    "EMAIL_INVALID": "MISSING",
+    "ENTER_EMAIL": "MISSING",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
@@ -757,6 +765,7 @@
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
     "TITLE": "Inscrever-se",
+    "WELCOME_BACK": "MISSING",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
   },

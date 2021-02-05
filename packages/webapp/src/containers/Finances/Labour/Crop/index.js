@@ -2,7 +2,7 @@ import React from 'react';
 import Table from '../../../../components/Table';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const moment = extendMoment(Moment);
 
@@ -197,7 +197,9 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
       <Table
         columns={columns}
         data={data}
-        showPagination={false}
+        showPagination={true}
+        pageSizeOptions={[10, 20, 50]}
+        defaultPageSize={10}
         minRows={5}
         className="-striped -highlight"
       />

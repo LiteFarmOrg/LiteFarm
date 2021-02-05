@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from '../../../../components/Table';
 import moment from 'moment';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
   let data = [];
@@ -57,7 +57,9 @@ const Task = ({ currencySymbol, shifts, startDate, endDate }) => {
     <Table
       columns={columns}
       data={data}
-      showPagination={false}
+      showPagination={true}
+      pageSizeOptions={[10, 20, 50]}
+      defaultPageSize={10}
       minRows={5}
       className="-striped -highlight"
     />

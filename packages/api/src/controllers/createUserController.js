@@ -135,7 +135,7 @@ class createUserController extends baseController {
       return false;
     }
   }
-
+  //TODO: remove
   static createAuth0User() {
     const environment = process.env.NODE_ENV || 'development';
     return async (req, res) => {

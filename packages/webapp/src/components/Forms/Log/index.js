@@ -316,7 +316,11 @@ class DefaultLogForm extends React.Component {
         {notesField && (
           <div>
             <div className={styles.noteContainer}>
-              <Control model=".notes" component={TextArea} label={this.props.t('LOG_COMMON.NOTES')} />
+              <Control
+                model=".notes"
+                component={TextArea}
+                label={this.props.t('LOG_COMMON.NOTES')}
+              />
             </div>
           </div>
         )}

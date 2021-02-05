@@ -33,7 +33,7 @@ class Labour extends Component {
     this.state = {
       startDate,
       endDate,
-      dropDownTitle: 'Employees',
+      dropDownTitle: 'EMPLOYEES',
       dButtonStyle: {
         background: '#fff',
         color: '#333',
@@ -77,23 +77,23 @@ class Labour extends Component {
           <div className={styles.dropDownContainer}>
             <DropdownButton
               variant={'default'}
-              title={dropDownTitle}
+              title={this.props.t(`SALE.LABOUR.${dropDownTitle}`)}
               key={i}
               id={`dropdown-basic-${i}`}
             >
-              <Dropdown.Item eventKey="1" onClick={() => this.sortBy('Employees')}>
+              <Dropdown.Item eventKey="1" onClick={() => this.sortBy('EMPLOYEES')}>
                 {this.props.t('SALE.LABOUR.EMPLOYEES')}
               </Dropdown.Item>
-              <Dropdown.Item eventKey="2" onClick={() => this.sortBy('Crops')}>
+              <Dropdown.Item eventKey="2" onClick={() => this.sortBy('CROPS')}>
                 {this.props.t('SALE.LABOUR.CROPS')}
               </Dropdown.Item>
-              <Dropdown.Item eventKey="3" onClick={() => this.sortBy('Tasks')}>
+              <Dropdown.Item eventKey="3" onClick={() => this.sortBy('TASKS')}>
                 {this.props.t('SALE.LABOUR.TASKS')}
               </Dropdown.Item>
             </DropdownButton>
           </div>
         </div>
-        {dropDownTitle === 'Employees' && (
+        {dropDownTitle === 'EMPLOYEES' && (
           <Employee
             currencySymbol={symbol}
             shifts={this.props.shifts}
@@ -101,7 +101,7 @@ class Labour extends Component {
             endDate={this.state.endDate}
           />
         )}
-        {dropDownTitle === 'Crops' && (
+        {dropDownTitle === 'CROPS' && (
           <Crop
             currencySymbol={symbol}
             shifts={this.props.shifts}
@@ -110,7 +110,7 @@ class Labour extends Component {
             fieldCrops={this.props.fieldCrops}
           />
         )}
-        {dropDownTitle === 'Tasks' && (
+        {dropDownTitle === 'TASKS' && (
           <Task
             currencySymbol={symbol}
             shifts={this.props.shifts}

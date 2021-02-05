@@ -32,6 +32,11 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
     "LABEL": "Contraseña"
@@ -92,6 +97,7 @@
         "ESTIMATED_PRODUCTION": "Produccion estimada",
         "ESTIMATED_REVENUE": "Ganancia estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimiento estimado",
+        "FIELD_SIZE": "MISSING",
         "GENUS": "Genus",
         "HOW_MUCH_FIELD": "Cuánto del campo desea usar?",
         "NEW_CROP": "Nuevo Cultivo",
@@ -111,7 +117,7 @@
         "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
-      "DELETE_FIELD_WARNING": "ADVERTENCIA: Esta accion borrara permanentemente este campo si no tiene nada asociado, como un registro o un turno. Seguro que deseas proceder?",
+      "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Número de cultivos",
@@ -508,6 +514,7 @@
       "TITLE": "Agregue nueva venta"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
@@ -534,6 +541,7 @@
     },
     "FINANCES": {
       "ACTION": "Acción",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "Estimado",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Agregar nuevo gasto",
@@ -544,9 +552,7 @@
       "BALANCE_FOR_FARM": "Balance (Finca completa)",
       "ENSURE_ONE_CROP_WARNING": "Asegúrese de que se haya asignado al menos 1 cultivo y una venta o turno asociada para ver esta información.",
       "EXPENSES": "Gastos",
-      "FILTER_REPORT": "Filtrar reporte por fecha",
       "FINANCE_HELP": "Ayuda financiera",
-      "FROM": "Desde",
       "HAS_UNALLOCATED_LINE1": "*Sin asignar significa que se ha trabajado en un campo vacío para el rango de fechas seleccionado.",
       "HAS_UNALLOCATED_LINE10_1": "Si se agrega lechuga al Campo1 pero no se envía ningún turno relacionado con lechuga ó Campo1, ó se envía después del 1 de abril, entonces se asignará maíz con una cantidad total de",
       "HAS_UNALLOCATED_LINE10_2": "De Campo1.",
@@ -567,7 +573,8 @@
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
       "TITLE": "Finanzas",
-      "TO": "Hasta"
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
@@ -588,15 +595,20 @@
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "Historia detallada",
       "SUBTOTAL": "Subtotal",
       "SUMMARY": "Resumen",
       "TITLE": "Ventas",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {
-    "ACTION": "Accionn",
+    "ACTION": "Acción",
     "ADD_NEW": "Agregar nuevo turno",
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
@@ -643,7 +655,6 @@
       "YOU_HAVE": "Usted tiene"
     },
     "END_TIME": "Tiempo final",
-    "FROM": "Desde",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
@@ -660,8 +671,7 @@
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
     "START_TIME": "Faltante",
-    "TITLE": "Turnos",
-    "TO": "Para"
+    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "DIDNT_WORK": "Eso no funcionó.",
@@ -696,6 +706,15 @@
     "DESCRIPTION_BOTTOM": "Yendo a: ",
     "DESCRIPTION_TOP": "La puerta del granero es segura.",
     "TITLE": "Cambiando de finca"
+  },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

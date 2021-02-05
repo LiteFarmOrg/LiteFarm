@@ -32,6 +32,11 @@
     "PASSWORD": "Senha",
     "TITLE": "Criar uma nova conta de usuário"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
     "LABEL": "Senha"
@@ -92,6 +97,7 @@
         "ESTIMATED_PRODUCTION": "Produção Estimada",
         "ESTIMATED_REVENUE": "Receita Estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimento Estimado",
+        "FIELD_SIZE": "MISSING",
         "GENUS": "MISSING",
         "HOW_MUCH_FIELD": "Que fração do campo você deseja usar?",
         "NEW_CROP": "MISSING",
@@ -111,7 +117,7 @@
         "VARIETY_NAME": "MISSING"
       },
       "DELETE_FIELD": "Apagar Campo",
-      "DELETE_FIELD_WARNING": "MISSING",
+      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
       "EDIT_NAME": "Editar Nome do Campo",
       "NAME": "Nome do Campo",
       "NUMBER_CROPS": "Número de Cultivos",
@@ -508,6 +514,7 @@
       "TITLE": "Adicionar nova venda"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta venda?",
@@ -534,6 +541,7 @@
     },
     "FINANCES": {
       "ACTION": "Ação",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "Estimada",
       "ACTUAL_REVENUE_LABEL": "Atual",
       "ADD_NEW_EXPENSE": "Adicionar nova despesa",
@@ -544,9 +552,7 @@
       "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
       "ENSURE_ONE_CROP_WARNING": "Certifique-se de que pelo menos 1 safra e uma venda ou turno associado foram alocados para ver esta informação.",
       "EXPENSES": "Despesas",
-      "FILTER_REPORT": "MISSING",
       "FINANCE_HELP": "Ajuda Financeira",
-      "FROM": "MISSING",
       "HAS_UNALLOCATED_LINE1": "*Não alocado significa que o trabalho foi feito em um campo vazio para o intervalo de datas selecionado.",
       "HAS_UNALLOCATED_LINE10_1": "Se a alface for adicionada ao Campo1, mas nenhum turno relacionado à alface ou ao Campo1 for inserido, ou inserido depois de 1º de abril, o milho será alocado com uma quantidade total de ",
       "HAS_UNALLOCATED_LINE10_2": "Do Campo1.",
@@ -567,7 +573,8 @@
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
       "TITLE": "Finanças",
-      "TO": "MISSING"
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
@@ -588,11 +595,16 @@
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "História Detalhada",
       "SUBTOTAL": "MISSING",
       "SUMMARY": "Resumo",
       "TITLE": "Vendas",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {
@@ -643,7 +655,6 @@
       "YOU_HAVE": "Você tem"
     },
     "END_TIME": "Fim do tempo",
-    "FROM": "De",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
       "DURATION": "Duração",
@@ -660,8 +671,7 @@
     "SHIFT_DATE": "Data do turno de trabalho",
     "SHIFT_HISTORY": "Histórico de turnos",
     "START_TIME": "Hora de início",
-    "TITLE": "Turnos",
-    "TO": "Para"
+    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "DIDNT_WORK": "Não funcionou.",
@@ -696,6 +706,15 @@
     "DESCRIPTION_BOTTOM": "Ir para: ",
     "DESCRIPTION_TOP": "A porta do celeiro está segura.",
     "TITLE": "Mudar de sítio/fazenda"
+  },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

@@ -543,7 +543,9 @@
       "BALANCE_FOR_FARM": "Balance (Finca completa)",
       "ENSURE_ONE_CROP_WARNING": "Asegúrese de que se haya asignado al menos 1 cultivo y una venta o turno asociada para ver esta información.",
       "EXPENSES": "Gastos",
+      "FILTER_REPORT": "Filtrar reporte por fecha",
       "FINANCE_HELP": "Ayuda financiera",
+      "FROM": "Desde",
       "HAS_UNALLOCATED_LINE1": "*Sin asignar significa que se ha trabajado en un campo vacío para el rango de fechas seleccionado.",
       "HAS_UNALLOCATED_LINE10_1": "Si se agrega lechuga al Campo1 pero no se envía ningún turno relacionado con lechuga ó Campo1, ó se envía después del 1 de abril, entonces se asignará maíz con una cantidad total de",
       "HAS_UNALLOCATED_LINE10_2": "De Campo1.",
@@ -563,17 +565,30 @@
       "LABOUR_LABEL": "Trabajo",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
-      "TITLE": "Finanzas"
+      "TITLE": "Finanzas",
+      "TO": "Hasta"
     },
     "LABOUR": {
       "BY": "Por",
       "CROPS": "Cultivos",
       "EMPLOYEES": "Empleados",
+      "TABLE": {
+        "AMOUNT": "Monto",
+        "CROP": "Cultivo",
+        "DATE": "Fecha",
+        "EMPLOYEE": "Empleado",
+        "EST_REVENUE": "Ganancia estimada",
+        "LABOUR_COST": "Costo de trabajo",
+        "TASK": "Tarea",
+        "TIME": "Tiempo",
+        "TYPE": "Tipo"
+      },
       "TASKS": "Tareas",
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
       "DETAILED_HISTORY": "Historia detallada",
+      "SUBTOTAL": "Subtotal",
       "SUMMARY": "Resumen",
       "TITLE": "Ventas",
       "TOTAL": "Total"

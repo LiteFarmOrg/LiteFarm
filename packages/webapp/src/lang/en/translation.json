@@ -543,7 +543,9 @@
       "BALANCE_FOR_FARM": "Balance (Whole Farm)",
       "ENSURE_ONE_CROP_WARNING": "Please ensure that at least 1 crop and an associated sale or shift has been allocated to see this information.",
       "EXPENSES": "Expenses",
+      "FILTER_REPORT": "Filter Report by Date",
       "FINANCE_HELP": "Finance Help",
+      "FROM": "From",
       "HAS_UNALLOCATED_LINE1": "*Unallocated means that work has been done on an empty field for the selected date range.",
       "HAS_UNALLOCATED_LINE10_1": "If lettuce is added to Field1 but no shift related to lettuce or Field1 is submitted, or submitted later than April 1st, then Corn will be allocated with a full amount of ",
       "HAS_UNALLOCATED_LINE10_2": "From Field1.",
@@ -563,17 +565,30 @@
       "LABOUR_LABEL": "Labour",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "REVENUE": "Revenue",
-      "TITLE": "Finances"
+      "TITLE": "Finances",
+      "TO": "To"
     },
     "LABOUR": {
       "BY": "By",
       "CROPS": "Crops",
       "EMPLOYEES": "Employees",
+      "TABLE": {
+        "AMOUNT": "Amount",
+        "CROP": "Crop",
+        "DATE": "Date",
+        "EMPLOYEE": "Employee",
+        "EST_REVENUE": "Estimated Revenue",
+        "LABOUR_COST": "Labour Cost",
+        "TASK": "Task",
+        "TIME": "Time",
+        "TYPE": "Type"
+      },
       "TASKS": "Tasks",
       "TITLE": "Labour"
     },
     "SUMMARY": {
       "DETAILED_HISTORY": "Detailed History",
+      "SUBTOTAL": "Subtotal",
       "SUMMARY": "Summary",
       "TITLE": "Sales",
       "TOTAL": "Total"

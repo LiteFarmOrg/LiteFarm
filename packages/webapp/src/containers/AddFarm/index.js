@@ -242,7 +242,7 @@ const AddFarm = () => {
             label: t('ADD_FARM.FARM_LOCATION'),
             info: t('ADD_FARM.FARM_LOCATION_INPUT_INFO'),
             icon: isGettingLocation ? (
-              <span>Locating...</span>
+              <span>{t('ADD_FARM.LOCATING')}</span>
             ) : (
               <VscLocation size={27} onClick={getGeoLocation} />
             ),

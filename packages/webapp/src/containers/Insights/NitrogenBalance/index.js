@@ -103,17 +103,6 @@ class NitrogenBalance extends Component {
   }
 }
 
-// const infoBoxBody = (
-//   <div>
-//     <p>
-//       The nitrogen balance tells you if you have applied too little or too much fertilizer. It
-//       relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can
-//       run the balance on your desired time interval.
-//     </p>
-//     <p>Click the delete button to reset your schedule.</p>
-//   </div>
-// );
-
 const mapStateToProps = (state) => {
   return {
     nitrogenBalanceData: nitrogenBalanceSelector(state),

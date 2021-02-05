@@ -48,14 +48,6 @@ class SoilOM extends Component {
   }
 }
 
-// const infoBoxBody = (
-//   <div>
-//     Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate
-//     these data from your most recent soil analysis logs. If you do not have any data we predict the
-//     potential soil organic matter for your location globally.
-//   </div>
-// );
-
 const mapStateToProps = (state) => {
   return {
     soilOMData: soilOMSelector(state),

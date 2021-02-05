@@ -44,14 +44,6 @@ class Biodiversity extends Component {
   }
 }
 
-// const infoBoxBody = (
-//   <div>
-//     Biodiversity is great for people and the planet. We count species richness from all known
-//     records of biodiversity on your farm from the boundaries of your fields. You can increase your
-//     biodiversity count on your farm by using the https://www.inaturalist.org/app.
-//   </div>
-// );
-
 const mapStateToProps = (state) => {
   return {
     biodiversityData: biodiversitySelector(state),

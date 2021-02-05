@@ -5,10 +5,6 @@ import { Main } from '../../Typography';
 
 class InsightsInfoComponent extends Component {
   render() {
-    // let title = this.props.title;
-    // let value = this.props.value;
-    // let valueLabel = this.props.valueLabel;
-    // let percent = this.props.percent;
     const { title, value, valueLabel, percent } = this.props;
 
     return (

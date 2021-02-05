@@ -79,19 +79,6 @@ class WaterBalance extends Component {
   }
 }
 
-// const infoBoxBody = (
-//   <div>
-//     <p>
-//       The water balance tells you whether your crops have too little or too much water. It relies on
-//       weather data, and it is updated by your irrigation and soil texture data from your soil
-//       analysis logs.
-//     </p>
-//     <p>
-//       This feature has not been widely tested across farms with low surrounding weather station
-//       density so use with caution. We welcome feedback on how well it performs for your farm.
-//     </p>
-//   </div>
-// );
 const mapStateToProps = (state) => {
   return {
     waterBalanceData: waterBalanceSelector(state),

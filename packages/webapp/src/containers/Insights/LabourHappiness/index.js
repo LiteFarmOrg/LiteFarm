@@ -36,13 +36,6 @@ class LabourHappiness extends Component {
   }
 }
 
-// const infoBoxBody = (
-//   <div>
-//     We estimate the impact of different tasks on labour happiness by using the satisfaction scores
-//     and labour hours spent on each task from shifts.
-//   </div>
-// );
-
 const mapStateToProps = (state) => {
   return {
     labourHappinessData: labourHappinessSelector(state),

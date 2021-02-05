@@ -233,17 +233,6 @@ class Insights extends Component {
   }
 }
 
-// const infoBoxBody = (
-//   <div>
-//     {/* <h4>
-//       <b>Information</b>
-//     </h4> */}
-//     Insights provides added data insights into what is happening on your farm. The more data you
-//     provide in the application, the more insights can be generated. See individual insights for
-//     further information.
-//   </div>
-// );
-
 const mapStateToProps = (state) => {
   return {
     farm: userFarmSelector(state),

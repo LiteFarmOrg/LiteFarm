@@ -7,7 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Farm name",
     "INVALID_FARM_LOCATION": "Invalid farm location",
-    "LOCATING": "Locating...",
+    "LOCATING": "MISSING",
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
@@ -40,12 +40,12 @@
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
-    "HINT": "Hint",
+    "HINT": "MISSING",
     "LABEL": "Password",
-    "ONE_NUMBER": "at least one number",
-    "ONE_SPECIAL_CHARACTER": "at least one special character",
-    "ONE_UPPER_CASE": "at least one upper case character",
-    "TOO_SHORT": "at least 8 characters"
+    "ONE_NUMBER": "MISSING",
+    "ONE_SPECIAL_CHARACTER": "MISSING",
+    "ONE_UPPER_CASE": "MISSING",
+    "TOO_SHORT": "MISSING"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -315,6 +315,7 @@
     "FIELDS": "Fields",
     "FROM": "From",
     "HARVEST": "Harvest",
+    "HIDE": "MISSING",
     "IRRIGATION": "Irrigation",
     "LOG_ALL_CROPS": "All Crops",
     "LOG_ALL_FIELDS": "All Fields",
@@ -340,8 +341,11 @@
     "SELECT_FIELD_CROP": "Select Field Crop",
     "SELECT_PRODUCT": "select product",
     "SELECT_TYPE": "Select Type",
+    "SHOW": "MISSING",
     "SOIL_DATA": "Soil Data",
     "TO": "To",
+    "TYPE": "Type",
+    "WARNING": "To use this type of log please add crops to fields. You can do this by navigating to Fields -> Your field -> New Field Crop",
     "WATER": "Water",
     "WHAT_LOG": "What do you want to log?"
   },
@@ -584,7 +588,7 @@
       "CUSTOMER_NAME": "Customer Name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
-      "NEW": "New",
+      "NEW": "MISSING",
       "TABLE_HEADERS": {
         "CROPS": "Crops",
         "QUANTITY": "Quantity",
@@ -754,8 +758,8 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
-    "EMAIL_INVALID": "Email is invalid",
-    "ENTER_EMAIL": "Enter your email address",
+    "EMAIL_INVALID": "MISSING",
+    "ENTER_EMAIL": "MISSING",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
@@ -765,7 +769,7 @@
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "Sign Up",
-    "WELCOME_BACK": "Welcome back",
+    "WELCOME_BACK": "MISSING",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },

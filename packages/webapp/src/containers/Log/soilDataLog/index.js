@@ -199,7 +199,7 @@ class soilDataLog extends Component {
             isCropNotNeeded={true}
           />
           <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>
-            {this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}
+            {this.state.showMoreInfo ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')} {this.props.t('LOG_SOIL.MORE_INFO')}
           </div>
           {this.state.showMoreInfo && (
             <div>

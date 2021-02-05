@@ -238,11 +238,12 @@
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
     "FIELD": "Campo",
-    "FIELD_CROPS": "Campos de cultivos",
+    "FIELD_CROPS": "Cultivo de campos",
     "FIELD_WORK": "Trabajo de campo",
     "FIELDS": "Campos",
     "FROM": "Desde",
     "HARVEST": "Cosecha",
+    "HIDE": "Ocultar",
     "IRRIGATION": "Irrigación",
     "LOG_ALL_CROPS": "Todos los cultivos",
     "LOG_ALL_FIELDS": "Todos los campos",
@@ -268,8 +269,11 @@
     "SELECT_FIELD_CROP": "Seleccionar cultivo de campo",
     "SELECT_PRODUCT": "Seleccionar producto",
     "SELECT_TYPE": "Seleccionar Tipo",
+    "SHOW": "Mostrar",
     "SOIL_DATA": "Información del suelo (tierra)",
     "TO": "Para",
+    "TYPE": "Tipo",
+    "WARNING": "Para usar este tipo de registro por favor agrega cultivos a tus campos. Puedes hacerlo navegando a Campos -> Tu campo -> Nuevo cultivo",
     "WATER": "Agua",
     "WHAT_LOG": "Qué desea registrar?"
   },
@@ -347,7 +351,7 @@
     "TARGET_DISEASE": "Efecto de la enfermedad",
     "TARGET_GROUP": "Grupo objetivo",
     "TITLE": "Registro del control de la peste",
-    "TYPE": "Type"
+    "TYPE": "Tipo"
   },
   "LOG_SCOUTING": {
     "ACTION_NEEDED": "Acción requerida",

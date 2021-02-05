@@ -96,7 +96,7 @@ class HarvestLog extends Component {
           />
           <Unit
             model=".harvestLog.quantity_kg"
-            title="Quantity"
+            title={this.props.t('LOG_COMMON.QUANTITY')}
             type={this.state.quantity_unit}
             validate
             isHarvestLog={true}

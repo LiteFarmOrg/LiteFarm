@@ -226,10 +226,7 @@ class DefaultLogForm extends React.Component {
     return (
       <Fieldset model={model}>
         {displayLiveCropMessage && (
-          <Alert variant="warning">
-            To use this type of log please add crops to fields. You can do this by navigating to
-            Fields -> Your field -> New Field Crop
-          </Alert>
+          <Alert variant="warning">{this.props.t('LOG_COMMON.WARNING')}</Alert>
         )}
         <div className={styles.defaultFormDropDown}>
           <label>{this.props.t('LOG_COMMON.FIELD')}</label>
@@ -294,7 +291,7 @@ class DefaultLogForm extends React.Component {
           })}
         {typeField && (
           <div className={styles.defaultFormDropDown}>
-            <label>{this.props.t('LOG_COMMON.SELECT_TYPE')}</label>
+            <label>{this.props.t('LOG_COMMON.TYPE')}</label>
             <Control
               model=".type"
               component={DropDown}

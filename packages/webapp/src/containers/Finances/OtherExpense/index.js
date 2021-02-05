@@ -210,9 +210,8 @@ class OtherExpense extends Component {
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.OTHER_EXPENSES_TITLE')} />
         <DateRangeSelector changeDateMethod={this.changeDate} />
-        <div className={styles.topContainer}>
-          <Semibold>{this.props.t('EXPENSE.SUMMARY')}</Semibold>
-        </div>
+
+        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('EXPENSE.SUMMARY')}</Semibold>
         <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
           {data.length > 0 && (
             <Table
@@ -227,9 +226,9 @@ class OtherExpense extends Component {
           )}
           {data.length === 0 && <h4>{this.props.t('EXPENSE.NO_EXPENSE_YEAR')}</h4>}
         </div>
-        <div className={styles.topContainer}>
-          <Semibold>{this.props.t('EXPENSE.DETAILED_HISTORY')}</Semibold>
-        </div>
+        <Semibold style={{ marginBottom: '16px' }}>
+          {this.props.t('EXPENSE.DETAILED_HISTORY')}
+        </Semibold>
         <div className={styles.tableContainer}>
           {detailedHistory.length > 0 && (
             <div>

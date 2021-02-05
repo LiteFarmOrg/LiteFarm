@@ -1,14 +1,14 @@
 {
-  "CLAY": "MISSING",
-  "CLAY_LOAM": "MISSING",
-  "LOAM": "MISSING",
-  "LOAMY_SAND": "MISSING",
-  "SAND": "MISSING",
-  "SANDY_CLAY": "MISSING",
-  "SANDY_CLAYLOAM": "MISSING",
-  "SANDY_LOAM": "MISSING",
-  "SILT": "MISSING",
-  "SILT_LOAM": "MISSING",
-  "SILTY_CLAY": "MISSING",
-  "SILTY_CLAYLOAM": "MISSING"
+  "CLAY": "Clay",
+  "CLAY_LOAM": "Clay Loam",
+  "LOAM": "Loam",
+  "LOAMY_SAND": "Loamy Sand",
+  "SAND": "Sand",
+  "SANDY_CLAY": "Sandy Clay",
+  "SANDY_CLAYLOAM": "Sandy Clayloam",
+  "SANDY_LOAM": "Sandy Loam",
+  "SILT": "Silt",
+  "SILT_LOAM": "Silt Loam",
+  "SILTY_CLAY": "Silty Clay",
+  "SILTY_CLAYLOAM": "Silty Clayloam"
 }

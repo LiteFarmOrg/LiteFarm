@@ -20,12 +20,12 @@
   "NEW": "Nuevo",
   "NAME": "Nombre",
   "NEXT": "Próximo",
-  "NO": "MISSING",
+  "NO": "No",
   "NOT_FOUND": "No encontrado",
   "NOTES": "Notas",
   "OPTIONAL": "Opcional",
   "OR": "o",
-  "OTHER": "MISSING",
+  "OTHER": "Otro",
   "PROCEED": "Proceder",
   "REMOVE": "Remover",
   "REQUIRED": "Requerido",
@@ -36,5 +36,5 @@
   "SUBMITTING": "Submitting...",
   "TO": "Para",
   "UPDATE": "Actualizar",
-  "YES": "MISSING"
+  "YES": "Si"
 }

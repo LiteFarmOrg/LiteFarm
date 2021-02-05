@@ -148,13 +148,13 @@ class SalesSummary extends Component {
         Header: this.props.t('SALE.SUMMARY.DATE'),
         accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
         minWidth: 70,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
       {
         id: 'crop',
         Header: this.props.t('SALE.SUMMARY.CROP'),
         accessor: (e) => e.crop,
         minWidth: 75,
-        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
       {
         id: 'value',
@@ -175,9 +175,7 @@ class SalesSummary extends Component {
         <PageTitle backUrl="/Finances" title={this.props.t('SALE.SUMMARY.TITLE')} />
         <DateRangeSelector changeDateMethod={this.changeDate} />
         <hr />
-        <div className={styles.topContainer}>
-          <Semibold>{this.props.t('SALE.SUMMARY.SUMMARY')}</Semibold>
-        </div>
+        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('SALE.SUMMARY.SUMMARY')}</Semibold>
 
         <Table
           columns={summaryColumns}
@@ -195,9 +193,9 @@ class SalesSummary extends Component {
           ]}
         />
         <hr />
-        <div className={styles.topContainer}>
-          <Semibold>{this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}</Semibold>
-        </div>
+        <Semibold style={{ marginBottom: '16px' }}>
+          {this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}
+        </Semibold>
         <Table
           columns={detailedHistoryColumns}
           data={detailedHistoryData}

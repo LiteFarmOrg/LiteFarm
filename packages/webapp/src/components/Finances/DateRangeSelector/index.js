@@ -50,16 +50,18 @@ class DateRangeSelector extends Component {
 
     return (
       <div className={styles.rangeContainer}>
-        {!hideTooltip && (
-          <InfoBoxComponent
-            customStyle={{ float: 'right' }}
-            title={this.props.t('DATE_RANGE.HELP_TITLE')}
-            body={this.props.t('DATE_RANGE.HELP_BODY')}
-          />
-        )}
-        <Semibold style={{ textAlign: 'center', marginBottom: '20px' }}>
-          {this.props.t('DATE_RANGE.TITLE')}
-        </Semibold>
+        <div className={styles.titleContainer}>
+          <Semibold style={{ textAlign: 'left', marginBottom: '20px' }}>
+            {this.props.t('DATE_RANGE.TITLE')}
+          </Semibold>
+          {!hideTooltip && (
+            <InfoBoxComponent
+              customStyle={{ float: 'right' }}
+              title={this.props.t('DATE_RANGE.HELP_TITLE')}
+              body={this.props.t('DATE_RANGE.HELP_BODY')}
+            />
+          )}
+        </div>
 
         <FromToDateContainer
           onStartDateChange={this.changeStartDate}

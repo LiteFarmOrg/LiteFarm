@@ -80,3 +80,9 @@
     float: left;
   }
 }
+.titleContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-grow: 1;
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
-import { Label } from '../../Typography';
+import { Label, Underlined } from '../../Typography';
 import MoreInfo from '../../Tooltip/MoreInfo';
+import { useTranslation } from 'react-i18next';
 
 export const styles = {
   option: (provided, state) => ({
@@ -25,7 +26,7 @@ export const styles = {
     boxShadow: 'none',
     boxSizing: 'border-box',
     borderRadius: '4px',
-    height: '48px',
+    minHeight: '48px',
     paddingLeft: '0',
     fontSize: '16px',
     lineHeight: '24px',
@@ -61,6 +62,35 @@ export const styles = {
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
   }),
+
+  multiValueLabel: (provided, state) => ({
+    ...provided,
+    fontSize: '12px',
+    lineHeight: '16px',
+  }),
+  multiValue: (provided, state) => ({
+    ...provided,
+    height: '24px',
+    margin: '4px',
+  }),
+  valueContainer: (provided, state) => ({
+    ...provided,
+    padding: '8px',
+    maxHeight: '144px',
+    overflowY: 'scroll',
+    '::-webkit-scrollbar': { display: 'none' },
+    scrollbarWidth: 'none',
+    '-ms-overflow-style': 'none',
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    alignItems: 'flex-start',
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    paddingTop: '14px',
+  }),
+  clearIndicator: () => ({}),
 };
 
 const ReactSelect = ({
@@ -73,6 +103,7 @@ const ReactSelect = ({
   autoOpen,
   ...props
 }) => {
+  const { t } = useTranslation();
   return (
     <>
       {(label || toolTipContent || icon) && (
@@ -93,6 +124,13 @@ const ReactSelect = ({
         styles={{ ...styles, container: (provided, state) => ({ ...provided, ...style }) }}
         placeholder={placeholder}
         options={options}
+        components={{
+          ClearIndicator: ({ innerProps }) => (
+            <Underlined {...innerProps} style={{ position: 'absolute', right: 0, bottom: '-20px' }}>
+              {t('REACT_SELECT.CLEAR_ALL')}
+            </Underlined>
+          ),
+        }}
         {...props}
       />
     </>

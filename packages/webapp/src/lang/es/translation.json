@@ -581,6 +581,9 @@
       "HEADER_STATUS": "Estatus"
     }
   },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "Quitar todo"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",
     "DESCRIPTION": "Alguien lo contactará dentro de 48 horas.",

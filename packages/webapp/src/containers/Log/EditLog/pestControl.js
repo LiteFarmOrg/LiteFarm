@@ -428,7 +428,7 @@ class PestControlLog extends Component {
                 <Control component={TextArea} model=".pestControlLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? 'Hide' : 'Show'}{' '}
+                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_LABEL')}{' '}
                 {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}
               </div>

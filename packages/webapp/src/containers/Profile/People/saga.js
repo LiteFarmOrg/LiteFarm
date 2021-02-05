@@ -66,7 +66,7 @@ export function* reactivateUserSaga({ payload: target_user_id }) {
   const { user_id, farm_id } = yield select(loginSelector);
   const user = yield select(getUserFarmSelector(farm_id, target_user_id))
   const header = getHeader(user_id, farm_id);
-  console.log(user);
+
   const body = {
     status: user.has_consent ? 'Active' :'Invited',
   };

@@ -199,6 +199,7 @@ class People extends Component {
       ...user,
       role: ROLE_TRANSLATIONS[user.role],
       status: STATUS_TRANSLATIONS[user.status],
+      originalStatus: user.status
     }));
   };
 
@@ -508,7 +509,7 @@ class People extends Component {
                     </Button>
                   </div>
                 </Form>
-                {this.state.editUser.status === 'Inactive' && this.state.editUser.role_id !== 4 ? (
+                {this.state.editUser.originalStatus === 'Inactive' && this.state.editUser.role_id !== 4 ? (
                   <div style={{ textAlign: 'center' }}>
                     {!this.state.editUser.is_admin && (
                       <button

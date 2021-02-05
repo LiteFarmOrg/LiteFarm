@@ -242,3 +242,10 @@ const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
     userFarm1.farm_name > userFarm2.farm_name ? 1 : 0,
   );
 };
+
+export const getUserFarmSelector = (farmId, userId) => {
+  return createSelector(
+    userFarmReducerSelector,
+    ({byFarmIdUserId}) => byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {}
+  )
+}

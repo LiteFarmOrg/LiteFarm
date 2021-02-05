@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Pesquisa",
     "SWITCH_TITLE": "Mudar para outro sítio/fazenda"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "MISSING",
+      "REQUIRED": "MISSING",
+      "TWO_DECIMALS": "MISSING"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "MISSING",
     "LABEL": "Aceito"
@@ -433,7 +440,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -496,6 +502,9 @@
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "Certificate name is required",
+      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
+      "CERTIFIER_NAME_LABEL": "Certifier’s name",
       "SELECT_CERTIFIER": "Selecione o seu certificador",
       "THROUGH_APP": "em todo o aplicativo!",
       "WILL_INDICATE": "Iremos indicar os dados necessários para certificação com"

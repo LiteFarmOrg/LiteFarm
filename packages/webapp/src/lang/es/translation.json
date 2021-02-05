@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Buscar",
     "SWITCH_TITLE": "Cambiar a otra finca"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "Debe ser un numero no negativo",
+      "REQUIRED": "Requerido",
+      "TWO_DECIMALS": "La cantidad debe tener hasta 2 decimales"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "Politica de datos",
     "LABEL": "Estoy de acuerdo"
@@ -422,7 +429,7 @@
     "PESTICIDE_NAME_LABEL": "Nombre del pesticida",
     "PESTICIDE_QUANTITY": "Cantidad de pesticida",
     "SCIENTIFIC_NAME": "Nombre científico (si lo conoce)",
-    "TARGET": "Target",
+    "TARGET": "Destinado a",
     "TARGET_DISEASE": "Efecto de la enfermedad",
     "TARGET_GROUP": "Grupo objetivo",
     "TITLE": "Registro del control de la peste",
@@ -433,7 +440,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "Campo",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -496,6 +502,9 @@
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "El nombre del certificador es requerido",
+      "CERTIFIER_NAME_INFO": "Nuestros formularios son aceptados por la mayoria de los certificadores",
+      "CERTIFIER_NAME_LABEL": "Nombre del certificador",
       "SELECT_CERTIFIER": "Por favor seleccione su certificador",
       "THROUGH_APP": "A través de una aplicación!",
       "WILL_INDICATE": "Nosotros indicaremos la información requerida para la certificación orgánica con"

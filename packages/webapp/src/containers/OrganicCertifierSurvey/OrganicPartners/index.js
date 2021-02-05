@@ -5,9 +5,11 @@ import { certifierSurveySelector } from '../slice';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getCertifiers, patchCertifiers } from '../saga';
 import history from '../../../history';
+import { useTranslation } from 'react-i18next';
 
 export default function OrganicPartners() {
   const { register, handleSubmit, errors, watch, setValue } = useForm();
+  const { t } = useTranslation();
   const COABC = 'COABC';
   const OTHER = 'other';
   const OTHERNAME = 'otherName';
@@ -18,7 +20,6 @@ export default function OrganicPartners() {
   const dispatch = useDispatch();
   const survey = useSelector(certifierSurveySelector, shallowEqual);
   useEffect(() => {
-    console.log(survey);
     if (!survey.survey_id) {
       dispatch(getCertifiers());
     }
@@ -62,18 +63,18 @@ export default function OrganicPartners() {
             name: COABC,
           },
           {
-            label: 'Other',
+            label: t('common:OTHER'),
             inputRef: register,
             name: OTHER,
           },
           {
-            label: 'Certifier’s name',
+            label: t('ORGANIC.PARTNERS.CERTIFIER_NAME_LABEL'),
             inputRef: refInput,
             name: OTHERNAME,
-            errors: errors[OTHERNAME] && 'Certificate name is required',
+            errors: errors[OTHERNAME] && t('ORGANIC.PARTNERS.CERTIFIER_NAME_ERROR'),
             disabled: !required,
             autoFocus: required,
-            info: 'Our forms are accepted by most certifiers.',
+            info: t('ORGANIC.PARTNERS.CERTIFIER_NAME_INFO'),
           },
         ]}
       />

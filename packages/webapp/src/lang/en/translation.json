@@ -492,6 +492,9 @@
       "HEADER_STATUS": "Status"
     }
   },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "Clear all"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
     "DESCRIPTION": "Someone will be in touch within 48 hours.",

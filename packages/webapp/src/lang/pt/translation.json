@@ -492,6 +492,9 @@
       "HEADER_STATUS": "Status"
     }
   },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "Clear all"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendi",
     "DESCRIPTION": "Alguém entrará em contato em 48 horas.",

@@ -1,9 +1,9 @@
 {
-  "CLAY": "MISSING",
-  "CLAY_LOAM": "MISSING",
-  "LOAM": "MISSING",
+  "CLAY": "Arcilla",
+  "CLAY_LOAM": "Marga arcillosa",
+  "LOAM": "Marga",
   "LOAMY_SAND": "MISSING",
-  "SAND": "MISSING",
+  "SAND": "Arena",
   "SANDY_CLAY": "MISSING",
   "SANDY_CLAYLOAM": "MISSING",
   "SANDY_LOAM": "MISSING",

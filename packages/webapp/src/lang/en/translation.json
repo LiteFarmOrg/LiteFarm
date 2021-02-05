@@ -97,6 +97,7 @@
         "ESTIMATED_PRODUCTION": "Estimated Production",
         "ESTIMATED_REVENUE": "Estimated Revenue",
         "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
+        "FIELD_SIZE": "Field size",
         "GENUS": "Genus",
         "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
         "NEW_CROP": "New Crop",
@@ -116,7 +117,7 @@
         "VARIETY_NAME": "Variety Name"
       },
       "DELETE_FIELD": "Delete Field",
-      "DELETE_FIELD_WARNING": "WARNING: This action will PERMANENTLY DELETE this field if it has nothing associated with it such as a shift or log. Are you sure to proceed?",
+      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
       "EDIT_NAME": "Edit Field Name",
       "NAME": "Field Name",
       "NUMBER_CROPS": "Number of Crops",

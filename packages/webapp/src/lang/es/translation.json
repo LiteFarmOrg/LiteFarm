@@ -97,6 +97,7 @@
         "ESTIMATED_PRODUCTION": "Produccion estimada",
         "ESTIMATED_REVENUE": "Ganancia estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimiento estimado",
+        "FIELD_SIZE": "MISSING",
         "GENUS": "Genus",
         "HOW_MUCH_FIELD": "Cuánto del campo desea usar?",
         "NEW_CROP": "Nuevo Cultivo",
@@ -116,7 +117,7 @@
         "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
-      "DELETE_FIELD_WARNING": "ADVERTENCIA: Esta accion borrara permanentemente este campo si no tiene nada asociado, como un registro o un turno. Seguro que deseas proceder?",
+      "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Número de cultivos",

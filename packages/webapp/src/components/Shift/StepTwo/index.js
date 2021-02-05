@@ -455,7 +455,7 @@ function InputDuration({
             isMulti
             isSearchable={false}
             name="selectByCrops"
-            placeholder="Select Crops..."
+            placeholder={t('SHIFT.EDIT_SHIFT.SELECT_CROPS')}
             options={state.cropOptions}
             className="basic-multi-select"
             classNamePrefix="select"
@@ -641,7 +641,7 @@ function InputDuration({
       </div>
       <div className={styles.selectContainer} id={'field' + task.task_id}>
         <div>
-          <strong>Fields on this farm</strong>
+          <strong>{t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
               <Button sm onClick={() => addAll(task.task_id, 'field')}>
@@ -668,7 +668,7 @@ function InputDuration({
               isMulti
               isSearchable={false}
               name="selectByFields"
-              placeholder="Select Fields..."
+              placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
               options={state.fieldOptions}
               className="basic-multi-select"
               classNamePrefix="select"
@@ -684,7 +684,7 @@ function InputDuration({
               isMulti
               isSearchable={false}
               name="selectByFields"
-              placeholder="Select Fields..."
+              placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
               options={state.fieldOptions}
               className="basic-multi-select"
               classNamePrefix="select"

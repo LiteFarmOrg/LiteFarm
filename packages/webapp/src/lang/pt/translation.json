@@ -360,6 +360,7 @@
     "DEPTH": "Profundidade",
     "INORGANIC_CARBON": "Carbono Inorgânico",
     "MORE_INFO": "Mais informações",
+    "OM": "MISSING",
     "ORGANIC_CARBON": "Carbono organico",
     "SELECT_DEPTH": "Selecione Profundidade",
     "SELECT_TEXTURE": "Selecione a textura",
@@ -630,6 +631,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil-> Pessoas-> Editar",
       "RATHER_NOT_SAY": "Prefiro não dizer",
       "SAD": "Triste",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
       "TASKS_FOR_SHIFT": "Estas são as tarefas selecionadas para este turno",
       "TASKS_SELECTED": "As tarefas selecionadas para este turno são destacadas abaixo. Desmarcar uma tarefa removerá a tarefa deste turno",
       "TIME_ALLOCATION": "Alocação de tempo",
@@ -651,7 +654,7 @@
       "FIELD_CROPS": "Campos / Culturas",
       "SUBMITTED_FOR": "Insira para",
       "TASK": "Tarefa",
-      "TITLE": "Meu turno"
+      "TITLE": "Shift Detail"
     },
     "NAME": "Nome",
     "NEW_SHIFT": {
@@ -711,8 +714,7 @@
     "WIND": "Vento"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Vamos começar",
-    "SVG_ALT": "Bem-vindo a LiteFarm"
+    "BUTTON": "Vamos começar"
   },
   "LOGIN_BUTTON": "Login ou Cadastre-se"
 }

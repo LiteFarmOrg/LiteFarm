@@ -335,8 +335,6 @@ class NewCropModal extends React.Component {
               />
             </div>
 
-            <FormLabel>Common Name, Species, and Genus</FormLabel>
-
             <FormGroup controlId="crop_common_name">
               <FormControl
                 type="text"
@@ -422,18 +420,20 @@ class NewCropModal extends React.Component {
               </FormGroup>
             </span>
             <div className={styles.cropGroupTitle}>
-              <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px' }}>
+              <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px', order: 0 }}>
                 <a>{this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_CROP_DETAIL')}</a>
               </div>
-              <InfoBoxComponent
-                customStyle={{
-                  float: 'right',
-                  fontSize: '80%',
-                  marginTop: '0.2em',
-                }}
-                title={this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_INFO')}
-                body={this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_INFOBOX')}
-              />
+              <div style={{ order: 1, paddingRight: '40px' }}>
+                <InfoBoxComponent
+                  customStyle={{
+                    float: 'right',
+                    fontSize: '80%',
+                    marginTop: '0.2em',
+                  }}
+                  title={this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_INFO')}
+                  body={this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_INFOBOX')}
+                />
+              </div>
             </div>
             {expand_nutrient && (
               <div>

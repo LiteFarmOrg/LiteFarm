@@ -360,6 +360,7 @@
     "DEPTH": "Depth",
     "INORGANIC_CARBON": "Inorganic Carbon",
     "MORE_INFO": "More Info",
+    "OM": "OM",
     "ORGANIC_CARBON": "Organic Carbon",
     "SELECT_DEPTH": "Select Depth",
     "SELECT_TEXTURE": "Select Texture",
@@ -630,6 +631,8 @@
       "NO_WAGE_SET_LOCATION": "Profile->People->Edit",
       "RATHER_NOT_SAY": "Rather Not Say",
       "SAD": "Sad",
+      "SELECT_CROPS": "Select Crops",
+      "SELECT_FIELDS": "Select Fields",
       "TASKS_FOR_SHIFT": "These are the tasks selected for this shift",
       "TASKS_SELECTED": "The tasks selected for this shift are highlighted below. Deselecting a task will remove the task from this shift",
       "TIME_ALLOCATION": "Time Allocation",
@@ -711,8 +714,7 @@
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Let's get started",
-    "SVG_ALT": "Welcome to LiteFarm"
+    "BUTTON": "Let's get started"
   },
   "LOGIN_BUTTON": "Log In or Sign Up"
 }

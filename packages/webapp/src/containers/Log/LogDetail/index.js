@@ -149,6 +149,7 @@ class LogDetail extends Component {
 
   render() {
     let { selectedLog, farm } = this.props;
+    const language = localStorage.getItem('litefarm_lang');
     let { quantity_unit, space_unit, rate_unit, ratePerMin } = this.state;
 
     let months = [
@@ -167,13 +168,8 @@ class LogDetail extends Component {
     ];
     let date, regularName;
     if (selectedLog) {
-      let logDate = moment(selectedLog.date);
-      date =
-        months[logDate.month()] +
-        ' ' +
-        logDate.date().toString() +
-        ', ' +
-        logDate.year().toString();
+      let logDate = moment(selectedLog.date).locale(language);
+      date = logDate.format('MMMM DD, YYYY');
       let typeName;
       if (selectedLog.activity_kind === 'pestControl') {
         typeName = selectedLog.pestControlLog.type

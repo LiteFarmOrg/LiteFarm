@@ -128,7 +128,7 @@ class soilDataLog extends Component {
       return (
         <div>
           <div className={styles.defaultFormDropDown}>
-            <label>Depth</label>
+            <label>{this.props.t('LOG_SOIL.DEPTH')}</label>
             <Control
               model=".depth_cm"
               component={DropDown}
@@ -141,7 +141,7 @@ class soilDataLog extends Component {
               model={`.depth_cm`}
               show={{ touched: true, focus: false }}
               messages={{
-                required: 'Required',
+                required: this.props.t('common:REQUIRED'),
               }}
             />
           </div>
@@ -159,14 +159,14 @@ class soilDataLog extends Component {
               model={`.texture`}
               show={{ touched: true, focus: false }}
               messages={{
-                required: 'Required',
+                required: this.props.t('common:REQUIRED'),
               }}
             />
           </div>
           <Unit model=".k" title="K" type="%" />
           <Unit model=".p" title="P" type="%" />
           <Unit model=".n" title="N" type="%" />
-          <Unit model=".om" title="OM" type="%" />
+          <Unit model=".om" title={this.props.t('LOG_SOIL.OM')} type="%" />
           <Unit model=".ph" title="ph" type="%" />
           <Unit
             model=".bulk_density_kg/m3"

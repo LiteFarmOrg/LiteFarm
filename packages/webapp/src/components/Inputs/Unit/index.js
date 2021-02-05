@@ -36,6 +36,7 @@ class Unit extends React.Component {
       hideLabel,
       isHarvestAllocation,
       defaultValue,
+      disabled,
     } = this.props;
     let showLabel;
     if (!hideLabel) {
@@ -104,6 +105,7 @@ class Unit extends React.Component {
                 component={Input}
                 classes={{ container: { flexGrow: 1 } }}
                 label={title}
+                disabled={disabled}
               />
               <div className={styles.typeUnit}>{type}</div>
             </div>
@@ -137,6 +139,7 @@ class Unit extends React.Component {
                 component={Input}
                 classes={{ container: { flexGrow: 1 } }}
                 label={title}
+                disabled={disabled}
               />
               <div
                 style={

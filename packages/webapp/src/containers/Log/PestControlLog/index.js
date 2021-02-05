@@ -412,7 +412,7 @@ class PestControlLog extends Component {
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    \{' '}
+                    {' '}
                     <Control
                       label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
                       component={Input}

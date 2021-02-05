@@ -294,31 +294,36 @@ class FertilizingLog extends Component {
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.NITRATE')}</label>
-                    <Control.text model=".fertLog.n_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.AMMONIA')}</label>
-                    <Control.text model=".fertLog.nh4_n_ppm" disabled={true} />
-                    <span>ppm</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.POTASSIUM')}</label>
-                    <Control.text model=".fertLog.k_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.PHOSPHATE')}</label>
-                    <Control.text model=".fertLog.p_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.WATER')}</label>
-                    <Control.text model=".fertLog.moisture_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
+                  <Unit
+                    model=".fertLog.n_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.NITRATE')}
+                    type="%"
+                  />
+                  <Unit
+                    model=".fertLog.nh4_n_ppm"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.AMMONIA')}
+                    type="ppm"
+                  />
+                  <Unit
+                    model=".fertLog.k_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.POTASSIUM')}
+                    type="%"
+                  />
+                  <Unit
+                    model=".fertLog.p_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.PHOSPHATE')}
+                    type="%"
+                  />
+                  <Unit
+                    model=".fertLog.moisture_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.WATER')}
+                    type="%"
+                  />
                 </div>
               )}
               <LogFooter />

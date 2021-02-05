@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Farm name",
     "INVALID_FARM_LOCATION": "Invalid farm location",
+    "LOCATING": "Locating...",
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
@@ -39,7 +40,12 @@
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
-    "LABEL": "Password"
+    "HINT": "Hint",
+    "LABEL": "Password",
+    "ONE_NUMBER": "at least one number",
+    "ONE_SPECIAL_CHARACTER": "at least one special character",
+    "ONE_UPPER_CASE": "at least one upper case character",
+    "TOO_SHORT": "at least 8 characters"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -505,7 +511,7 @@
       "CUSTOMER_NAME": "Customer Name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
-      "NEW": "MISSING",
+      "NEW": "New",
       "TABLE_HEADERS": {
         "CROPS": "Crops",
         "QUANTITY": "Quantity",
@@ -675,6 +681,8 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
+    "EMAIL_INVALID": "Email is invalid",
+    "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
@@ -684,6 +692,7 @@
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "Sign Up",
+    "WELCOME_BACK": "Welcome back",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },

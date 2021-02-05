@@ -39,7 +39,9 @@ function Table({
         },
       ]
     : [{ id: columns?.[0]?.id, desc: true }];
-  const pageSize = Math.min(Math.max(data?.length || minRows || 5, minRows), defaultPageSize);
+  const pageSize = showPagination
+    ? Math.min(Math.max(data?.length || minRows || 5, minRows), defaultPageSize)
+    : undefined;
   return (
     <ReactTable
       className={className}

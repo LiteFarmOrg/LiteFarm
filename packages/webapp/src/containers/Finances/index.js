@@ -134,10 +134,11 @@ class Finances extends Component {
       fieldCrops.forEach((f) => {
         // check if this field crop existed during this year
         const endDate = new Date(f.end_date);
+
         // get all field crops with end dates belonging to the chosen date window
         if (
-          (this.state.startDate && this.state.startDate._d) <= endDate &&
-          (this.state.endDate && this.state.endDate._d) >= endDate
+          moment(this.state.startDate).isSameOrBefore(endDate, 'day') &&
+          moment(this.state.endDate).isSameOrAfter(endDate, 'day')
         ) {
           totalRevenue += f.estimated_revenue;
         }

@@ -513,6 +513,7 @@
       "TITLE": "MISSING"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "MISSING",
       "CUSTOMER_NAME": "MISSING",
       "DELETE_CONFIRMATION": "MISSING",
@@ -593,11 +594,16 @@
       "TITLE": "MISSING"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "MISSING",
       "SUBTOTAL": "MISSING",
       "SUMMARY": "MISSING",
       "TITLE": "MISSING",
-      "TOTAL": "MISSING"
+      "TOTAL": "MISSING",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {

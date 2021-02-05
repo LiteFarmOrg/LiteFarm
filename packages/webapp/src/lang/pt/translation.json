@@ -513,6 +513,7 @@
       "TITLE": "Adicionar nova venda"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nome do Cliente",
       "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta venda?",
@@ -593,11 +594,16 @@
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "História Detalhada",
       "SUBTOTAL": "MISSING",
       "SUMMARY": "Resumo",
       "TITLE": "Vendas",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {

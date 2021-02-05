@@ -513,6 +513,7 @@
       "TITLE": "Add New Sale"
     },
     "DETAIL": {
+      "ACTION": "Action",
       "CROP": "Crop",
       "CUSTOMER_NAME": "Customer Name",
       "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
@@ -593,11 +594,16 @@
       "TITLE": "Labour"
     },
     "SUMMARY": {
+      "AMOUNT": "Amount",
+      "CROP": "Crop",
+      "DATE": "Date",
       "DETAILED_HISTORY": "Detailed History",
       "SUBTOTAL": "Subtotal",
       "SUMMARY": "Summary",
       "TITLE": "Sales",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "Type",
+      "VALUE": "Value"
     }
   },
   "SHIFT": {
@@ -705,7 +711,7 @@
     "NEXT_TEXT": "Next",
     "NO_DATA_TEXT": "No rows found",
     "OF_TEXT": "of",
-    "PAGE_TEXT": "PAGE",
+    "PAGE_TEXT": "Page",
     "PREVIOUS_TEXT": "Previous",
     "ROWS_TEXT": "rows"
   },

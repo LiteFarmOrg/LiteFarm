@@ -197,7 +197,9 @@ const Crop = ({ currencySymbol, shifts, startDate, endDate, fieldCrops }) => {
       <Table
         columns={columns}
         data={data}
-        showPagination={false}
+        showPagination={true}
+        pageSizeOptions={[10, 20, 50]}
+        defaultPageSize={10}
         minRows={5}
         className="-striped -highlight"
       />

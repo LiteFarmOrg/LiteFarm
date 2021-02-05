@@ -13,6 +13,7 @@ import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -127,14 +128,14 @@ class SalesSummary extends Component {
     const summaryColumns = [
       {
         id: 'crop',
-        Header: 'Crop',
+        Header: this.props.t('SALE.SUMMARY.CROP'),
         accessor: (e) => e.crop,
         minWidth: 70,
-        Footer: <div>Total</div>,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
       {
         id: 'value',
-        Header: 'Value',
+        Header: this.props.t('SALE.SUMMARY.VALUE'),
         accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
         minWidth: 75,
         Footer: <div>${this.formatFooter(summaryData)}</div>,
@@ -144,20 +145,20 @@ class SalesSummary extends Component {
     const detailedHistoryColumns = [
       {
         id: 'date',
-        Header: 'Date',
+        Header: this.props.t('SALE.SUMMARY.DATE'),
         accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
         minWidth: 70,
       },
       {
         id: 'crop',
-        Header: 'Crop',
+        Header: this.props.t('SALE.SUMMARY.CROP'),
         accessor: (e) => e.crop,
         minWidth: 75,
         Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
       {
         id: 'value',
-        Header: 'Value',
+        Header: this.props.t('SALE.SUMMARY.VALUE'),
         accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
         minWidth: 40,
         Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
@@ -175,15 +176,15 @@ class SalesSummary extends Component {
         <DateRangeSelector changeDateMethod={this.changeDate} />
         <hr />
         <div className={styles.topContainer}>
-          <h4>
-            <strong>{this.props.t('SALE.SUMMARY.SUMMARY')}</strong>
-          </h4>
+          <Semibold>{this.props.t('SALE.SUMMARY.SUMMARY')}</Semibold>
         </div>
 
         <Table
           columns={summaryColumns}
           data={summaryData}
-          showPagination={false}
+          showPagination={true}
+          pageSizeOptions={[5, 10, 20, 50]}
+          defaultPageSize={5}
           minRows={5}
           className="-striped -highlight"
           defaultSorted={[
@@ -195,14 +196,14 @@ class SalesSummary extends Component {
         />
         <hr />
         <div className={styles.topContainer}>
-          <h4>
-            <strong>{this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}</strong>
-          </h4>
+          <Semibold>{this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}</Semibold>
         </div>
         <Table
           columns={detailedHistoryColumns}
           data={detailedHistoryData}
-          showPagination={false}
+          showPagination={true}
+          pageSizeOptions={[5, 10, 20, 50]}
+          defaultPageSize={5}
           minRows={5}
           className="-striped -highlight"
           getTdProps={(state, rowInfo, column, instance) => {

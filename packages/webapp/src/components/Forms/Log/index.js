@@ -186,7 +186,7 @@ class DefaultLogForm extends React.Component {
     }
 
     let fieldOptionsWithoutAll = JSON.parse(JSON.stringify(filteredFields));
-    filteredFields.unshift({ value: 'all', label: 'All Fields' });
+    filteredFields.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_FIELDS') });
 
     this.setState({
       fieldOptions: filteredFields,

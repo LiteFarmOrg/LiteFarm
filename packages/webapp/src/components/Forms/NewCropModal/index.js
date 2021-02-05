@@ -330,6 +330,7 @@ class NewCropModal extends React.Component {
             <div className={styles.cropTemplate}>
               <h4>{this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}</h4>
               <Select
+                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}
                 options={cropOptions}
                 onChange={(selectedOption) => this.handleCropChange(selectedOption)}
               />

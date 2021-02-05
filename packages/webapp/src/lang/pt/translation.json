@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Pesquisa",
     "SWITCH_TITLE": "Mudar para outro sítio/fazenda"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "MISSING",
+      "REQUIRED": "MISSING",
+      "TWO_DECIMALS": "MISSING"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "MISSING",
     "LABEL": "Aceito"
@@ -430,7 +437,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

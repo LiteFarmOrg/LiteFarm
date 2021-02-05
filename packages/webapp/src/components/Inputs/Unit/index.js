@@ -2,6 +2,7 @@ import React from 'react';
 import { Control, Errors } from 'react-redux-form';
 import styles from '../styles.scss';
 import Input, { numberOnKeyDown } from '../../Form/Input';
+import { withTranslation } from "react-i18next";
 
 class Unit extends React.Component {
   parseNumber(val) {
@@ -38,12 +39,7 @@ class Unit extends React.Component {
       defaultValue,
       disabled,
     } = this.props;
-    let showLabel;
-    if (!hideLabel) {
-      showLabel = true;
-    } else {
-      showLabel = false;
-    }
+    let showLabel = !hideLabel;
 
     return (
       <div
@@ -86,7 +82,7 @@ class Unit extends React.Component {
               model={model}
               show={{ touched: true, focus: false }}
               messages={{
-                positive: `Must be a non negative number`,
+                positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
               }}
             />
           </>
@@ -115,7 +111,7 @@ class Unit extends React.Component {
               model={model}
               show={{ touched: true, focus: false }}
               messages={{
-                positive: `Must be a non negative number`,
+                positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
               }}
             />
           </>
@@ -144,7 +140,7 @@ class Unit extends React.Component {
               <div
                 style={
                   isHarvestAllocation
-                    ? { marginLeft: '-40px', marginTop: '6px', color: '#9FAABE' }
+                    ? { color: '#9FAABE' }
                     : {}
                 }
                 className={styles.typeUnit}
@@ -158,9 +154,9 @@ class Unit extends React.Component {
               model={model}
               show={{ touched: true, focus: false }}
               messages={{
-                required: 'Required',
-                positive: `Must be a non negative number`,
-                twoDecimalPlaces: 'Quantity must be up to 2 decimal places',
+                required: this.props.t('COMMON_ERRORS.UNIT.REQUIRED'),
+                positive: this.props.t('COMMON_ERRORS.UNIT.NON_NEGATIVE'),
+                twoDecimalPlaces: this.props.t('COMMON_ERRORS.UNIT.TWO_DECIMALS'),
               }}
             />
           </>
@@ -170,4 +166,4 @@ class Unit extends React.Component {
   }
 }
 
-export default Unit;
+export default withTranslation()(Unit);

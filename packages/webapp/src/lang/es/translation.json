@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Buscar",
     "SWITCH_TITLE": "Cambiar a otra finca"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "Debe ser un numero no negativo",
+      "REQUIRED": "Requerido",
+      "TWO_DECIMALS": "La cantidad debe tener hasta 2 decimales"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "Politica de datos",
     "LABEL": "Estoy de acuerdo"
@@ -430,7 +437,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "Campo",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

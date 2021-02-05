@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Search",
     "SWITCH_TITLE": "Switch to another farm"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "Must be a non negative number",
+      "REQUIRED": "Required",
+      "TWO_DECIMALS": "Quantity must be up to 2 decimal places"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "Our Data Policy",
     "LABEL": "I Agree"
@@ -430,7 +437,6 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

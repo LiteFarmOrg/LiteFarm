@@ -133,7 +133,7 @@ class Prices extends Component {
             <div key={index + '-' + cropName}>
               <PriceCropContainer
                 currencySymbol={currencySymbol}
-                name={cropName}
+                name={t(`crop:${cropName}`)}
                 pricePoints={pricePoints}
               />
             </div>

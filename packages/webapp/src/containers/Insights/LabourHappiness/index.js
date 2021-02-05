@@ -27,7 +27,7 @@ class LabourHappiness extends Component {
         {dataSet.map((element, index) => {
           return (
             <div key={'item-' + index}>
-              <LabourHappinessTask title={element.task} rating={element.mood} />
+              <LabourHappinessTask title={t(`task:${element.task}`)} rating={element.mood} />
             </div>
           );
         })}

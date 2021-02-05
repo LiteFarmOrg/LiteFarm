@@ -15,6 +15,8 @@
 
 import ReactTable from 'react-table';
 import React from 'react';
+import { Text } from '../Typography';
+import { useTranslation } from 'react-i18next';
 
 // refer to Log/index.js for example on how to format columns and data props, or read react-table documentation
 function Table({
@@ -28,6 +30,7 @@ function Table({
   sortByID,
   minRows = 5,
 }) {
+  const { t } = useTranslation();
   const defaultSorted = sortByID
     ? [
         {
@@ -48,6 +51,13 @@ function Table({
       minRows={showPagination ? undefined : minRows} // Messes up pagination
       getTdProps={getTdProps}
       defaultSorted={defaultSorted}
+      noDataText={t('TABLE.NO_DATA_TEXT')}
+      previousText={t('TABLE.PREVIOUS_TEXT')}
+      nextText={t('TABLE.NEXT_TEXT')}
+      loadingText={t('TABLE.LOADING_TEXT')}
+      pageText={t('TABLE.PAGE_TEXT')}
+      ofText={t('TABLE.OF_TEXT')}
+      rowsText={t('TABLE.ROWS_TEXT')}
     />
   );
 }

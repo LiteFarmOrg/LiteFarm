@@ -187,7 +187,7 @@ class Finances extends Component {
             } else {
               final[field_crop_id] = {
                 profit: Number(s.wage_at_moment) * (Number(s.duration) / 60) * -1,
-                crop: s.crop_common_name,
+                crop_translation_key: s.crop_translation_key,
                 field_id: s.field_id,
                 crop_id: s.crop_id,
                 field_crop_id: s.field_crop_id,
@@ -298,7 +298,7 @@ class Finances extends Component {
         result[value.crop_id].profit += value.profit;
       } else {
         result[value.crop_id] = {
-          crop: value.crop,
+          crop: this.props.t(`crop:${value.crop_translation_key}`),
           field_id: value.field_id,
           crop_id: value.crop_id,
           profit: value.profit,

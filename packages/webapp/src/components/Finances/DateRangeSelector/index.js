@@ -58,7 +58,7 @@ class DateRangeSelector extends Component {
           />
         )}
         <Semibold style={{ textAlign: 'center', marginBottom: '20px' }}>
-          Filter Report by Date
+          {this.props.t('DATE_RANGE.TITLE')}
         </Semibold>
 
         <FromToDateContainer

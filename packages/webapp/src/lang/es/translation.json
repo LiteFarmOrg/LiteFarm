@@ -34,7 +34,8 @@
   },
   "DATE_RANGE": {
     "HELP_BODY": "MISSING",
-    "HELP_TITLE": "MISSING"
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
@@ -548,9 +549,7 @@
       "BALANCE_FOR_FARM": "Balance (Finca completa)",
       "ENSURE_ONE_CROP_WARNING": "Asegúrese de que se haya asignado al menos 1 cultivo y una venta o turno asociada para ver esta información.",
       "EXPENSES": "Gastos",
-      "FILTER_REPORT": "Filtrar reporte por fecha",
       "FINANCE_HELP": "Ayuda financiera",
-      "FROM": "Desde",
       "HAS_UNALLOCATED_LINE1": "*Sin asignar significa que se ha trabajado en un campo vacío para el rango de fechas seleccionado.",
       "HAS_UNALLOCATED_LINE10_1": "Si se agrega lechuga al Campo1 pero no se envía ningún turno relacionado con lechuga ó Campo1, ó se envía después del 1 de abril, entonces se asignará maíz con una cantidad total de",
       "HAS_UNALLOCATED_LINE10_2": "De Campo1.",
@@ -572,8 +571,7 @@
       "REVENUE": "Ganancias",
       "TITLE": "Finanzas",
       "UNALLOCATED_CROP": "MISSING",
-      "UNALLOCATED_TIP": "MISSING",
-      "TO": "Hasta"
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
@@ -698,6 +696,15 @@
     "DESCRIPTION_BOTTOM": "Yendo a: ",
     "DESCRIPTION_TOP": "La puerta del granero es segura.",
     "TITLE": "Cambiando de finca"
+  },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

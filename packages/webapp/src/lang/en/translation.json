@@ -34,7 +34,8 @@
   },
   "DATE_RANGE": {
     "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
-    "HELP_TITLE": "Date Range Help"
+    "HELP_TITLE": "Date Range Help",
+    "TITLE": "Filter Report by Date"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
@@ -548,9 +549,7 @@
       "BALANCE_FOR_FARM": "Balance (Whole Farm)",
       "ENSURE_ONE_CROP_WARNING": "Please ensure that at least 1 crop and an associated sale or shift has been allocated to see this information.",
       "EXPENSES": "Expenses",
-      "FILTER_REPORT": "Filter Report by Date",
       "FINANCE_HELP": "Finance Help",
-      "FROM": "From",
       "HAS_UNALLOCATED_LINE1": "*Unallocated means that work has been done on an empty field for the selected date range.",
       "HAS_UNALLOCATED_LINE10_1": "If lettuce is added to Field1 but no shift related to lettuce or Field1 is submitted, or submitted later than April 1st, then Corn will be allocated with a full amount of ",
       "HAS_UNALLOCATED_LINE10_2": "From Field1.",
@@ -572,8 +571,7 @@
       "REVENUE": "Revenue",
       "TITLE": "Finances",
       "UNALLOCATED_CROP": "Unallocated",
-      "UNALLOCATED_TIP": "What is unallocated?",
-      "TO": "To"
+      "UNALLOCATED_TIP": "What is unallocated?"
     },
     "LABOUR": {
       "BY": "By",
@@ -698,6 +696,15 @@
     "DESCRIPTION_BOTTOM": "Heading to: ",
     "DESCRIPTION_TOP": "The barn door is secure.",
     "TITLE": "Switching Farms"
+  },
+  "TABLE": {
+    "LOADING_TEXT": "Loading...",
+    "NEXT_TEXT": "Next",
+    "NO_DATA_TEXT": "No rows found",
+    "OF_TEXT": "of",
+    "PAGE_TEXT": "PAGE",
+    "PREVIOUS_TEXT": "Previous",
+    "ROWS_TEXT": "rows"
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

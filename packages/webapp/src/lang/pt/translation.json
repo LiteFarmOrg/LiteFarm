@@ -34,7 +34,8 @@
   },
   "DATE_RANGE": {
     "HELP_BODY": "MISSING",
-    "HELP_TITLE": "MISSING"
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
@@ -548,9 +549,7 @@
       "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
       "ENSURE_ONE_CROP_WARNING": "Certifique-se de que pelo menos 1 safra e uma venda ou turno associado foram alocados para ver esta informação.",
       "EXPENSES": "Despesas",
-      "FILTER_REPORT": "MISSING",
       "FINANCE_HELP": "Ajuda Financeira",
-      "FROM": "MISSING",
       "HAS_UNALLOCATED_LINE1": "*Não alocado significa que o trabalho foi feito em um campo vazio para o intervalo de datas selecionado.",
       "HAS_UNALLOCATED_LINE10_1": "Se a alface for adicionada ao Campo1, mas nenhum turno relacionado à alface ou ao Campo1 for inserido, ou inserido depois de 1º de abril, o milho será alocado com uma quantidade total de ",
       "HAS_UNALLOCATED_LINE10_2": "Do Campo1.",
@@ -572,8 +571,7 @@
       "REVENUE": "Receita",
       "TITLE": "Finanças",
       "UNALLOCATED_CROP": "MISSING",
-      "UNALLOCATED_TIP": "MISSING",
-      "TO": "MISSING"
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
@@ -698,6 +696,15 @@
     "DESCRIPTION_BOTTOM": "Ir para: ",
     "DESCRIPTION_TOP": "A porta do celeiro está segura.",
     "TITLE": "Mudar de sítio/fazenda"
+  },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

@@ -218,7 +218,7 @@ exports.getLabourHappiness = (data) => {
   // parse by shift_id first in order to do the algorithm discussed with Zia on the whiteboard
   data.map((element) => {
     const currentValueMood = element['mood'] ? mappingTypes[element['mood']] : 0;
-    const taskObject = { taskName: element['task_name'], duration: element['duration'] };
+    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] };
     if (!(element['shift_id'] in tasks)) {
       tasks[element['shift_id']] = { mood: currentValueMood, tasks: [taskObject] };
     } else {
@@ -418,33 +418,33 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
   const farmIDs = new Set();
   // tally the running total as well as separate the data into different months
   data.map((element) => {
-    if (!(element['crop_common_name'] in organizeByNameThenByDate)) {
-      organizeByNameThenByDate[element['crop_common_name']] = {}
+    if (!(element['crop_translation_key'] in organizeByNameThenByDate)) {
+      organizeByNameThenByDate[element['crop_translation_key']] = {}
     }
-    if (!(element['year_month'] in organizeByNameThenByDate[element['crop_common_name']])) {
-      organizeByNameThenByDate[element['crop_common_name']][element['year_month']] = {
+    if (!(element['year_month'] in organizeByNameThenByDate[element['crop_translation_key']])) {
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']] = {
         'crop_price_total': 0,
         'sale_quant_total': 0,
         'network_price': 0,
       }
     }
     if (element['farm_id'] === myFarmID) {
-      organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['crop_price_total'] += element['sale_value'];
-      organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['sale_quant_total'] +=  element['sale_quant'];
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['crop_price_total'] += element['sale_value'];
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['sale_quant_total'] +=  element['sale_quant'];
 
-      if (Array.isArray(organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'])) {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'].push(element)
+      if (Array.isArray(organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'])) {
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'].push(element)
       } else {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'] = [ element ];
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'] = [ element ];
       }
     }
     else {
       // first total up all network prices in an array and then grab the mean after
       farmIDs.add(element['farm_id']);
-      if (Array.isArray(organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'])) {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'].push(element)
+      if (Array.isArray(organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'])) {
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'].push(element)
       } else {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'] = [ element ]
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'] = [ element ]
       }
     }
   });

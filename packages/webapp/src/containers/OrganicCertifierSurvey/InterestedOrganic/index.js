@@ -38,7 +38,6 @@ export default function InterestedOrganic() {
     }
   };
   const onGoBack = () => {
-    console.log('goback');
     history.push('/consent');
   };
 
@@ -53,13 +52,13 @@ export default function InterestedOrganic() {
         onGoBack={onGoBack}
         inputs={[
           {
-            label: 'Yes',
+            label: t('common:YES'),
             inputRef: ref,
             name: INTERESTED,
             defaultValue: true,
           },
           {
-            label: 'No',
+            label: t('common:NO'),
             inputRef: ref,
             name: INTERESTED,
             defaultValue: false,

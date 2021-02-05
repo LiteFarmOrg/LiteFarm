@@ -7,6 +7,8 @@ import NitrogenBalanceInfo from '../../../components/Insights/NitrogenBalanceInf
 import FrequencySelectorComponent from '../../../components/Insights/FrequencySelectorComponent';
 import { delFrequencyNitrogenBalance } from '../actions';
 import styles from './styles.scss';
+import { withTranslation } from 'react-i18next';
+import { Semibold, Text } from '../../../components/Typography';
 
 class NitrogenBalance extends Component {
   constructor(props) {
@@ -58,28 +60,24 @@ class NitrogenBalance extends Component {
 
   render() {
     const nitrogenBalanceDataByField = this.props.nitrogenBalanceData['data'];
+    const { t } = this.props;
+    const { firstRun, frequency, refreshDate } = this.state;
     let renderedComponent;
 
-    if (!this.state.firstRun) {
+    if (!firstRun) {
       if (Array.isArray(nitrogenBalanceDataByField) && nitrogenBalanceDataByField.length > 0) {
         renderedComponent = nitrogenBalanceDataByField.map((field, index) => {
           return <NitrogenBalanceInfo key={'item-nitrogen-' + index} field={field} />;
         });
       } else {
         renderedComponent = (
-          <div>
-            Your Nitrogen Balance is on a {this.state.frequency} months cycle and data will show on:{' '}
-            {this.state.refreshDate}
-          </div>
+          <Text>{t("INSIGHTS.NITROGEN_BALANCE.CYCLE_INDICATOR", { frequency, refreshDate })}</Text>
         );
       }
     } else {
       renderedComponent = (
         <div className={styles.newRunContainer}>
-          <h4>
-            It looks like it's your first time running this! Please select a frequency to calculate
-            your nitrogen balance.
-          </h4>
+          <Semibold>{t("INSIGHTS.NITROGEN_BALANCE.FIRST_TIME")}</Semibold>
           <FrequencySelectorComponent handler={this.handleFormSubmit} />
         </div>
       );
@@ -88,30 +86,22 @@ class NitrogenBalance extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Nitrogen Balance"
-          backUrl="/Insights/"
-          rightIcon={true}
-          rightIconTitle={'Every ' + this.state.frequency + ' months: ' + this.state.refreshDate}
-          rightIconBody={infoBoxBody}
-          rightIconDeleteHandler={this.handleRightIconDelete}
-          showDelete={this.state.rightIconShowDelete}
-        />
+            title={t("INSIGHTS.NITROGEN_BALANCE.TITLE")}
+            backUrl="/Insights"
+            rightIcon={true}
+            rightIconTitle={t("INSIGHTS.NITROGEN_BALANCE.HEADER", { frequency, refreshDate })}
+            rightIconBody={(<div>
+              <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_1")}</p>
+              <p>{t("INSIGHTS.NITROGEN_BALANCE.INFO_2")}</p>
+            </div>)}
+            rightIconDeleteHandler={this.handleRightIconDelete}
+            showDelete={this.state.rightIconShowDelete}
+          />
         <div>{renderedComponent}</div>
       </div>
     );
   }
 }
-
-const infoBoxBody = (
-  <div>
-    <p>
-      The nitrogen balance tells you if you have applied too little or too much fertilizer. It
-      relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can
-      run the balance on your desired time interval.
-    </p>
-    <p>Click the delete button to reset your schedule.</p>
-  </div>
-);
 
 const mapStateToProps = (state) => {
   return {
@@ -142,4 +132,4 @@ const formatFirstDate = (date) => {
   return [year, month, day].join('-');
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NitrogenBalance);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NitrogenBalance));

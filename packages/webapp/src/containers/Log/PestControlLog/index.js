@@ -378,7 +378,7 @@ class PestControlLog extends Component {
               />
               <Unit
                 model=".pestControlLog.quantity_kg"
-                title="Quantity"
+                title={this.props.t('LOG_COMMON.QUANTITY')}
                 type={this.state.quantity_unit}
                 validate
               />
@@ -403,7 +403,7 @@ class PestControlLog extends Component {
                 <Control component={TextArea} model=".pestControlLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? 'Hide' : 'Show'}{' '}
+                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_DETAILS')}
               </div>
               {this.state.showChem && (
@@ -412,7 +412,7 @@ class PestControlLog extends Component {
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    \{' '}
+                    {' '}
                     <Control
                       label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
                       component={Input}

@@ -170,19 +170,16 @@ class LogFormOneCrop extends React.Component {
     return (
       <Fieldset model={model}>
         {displayLiveCropMessage && (
-          <Alert variant="warning">
-            To use this type of log please add crops to fields. You can do this by navigating to
-            Fields -> Your field -> New Field Crop
-          </Alert>
+          <Alert variant="warning">{this.props.t('LOG_COMMON.WARNING')}</Alert>
         )}
         <div className={styles.defaultFormDropDown}>
-          <label>Field</label>
+          <label>{this.props.t('LOG_COMMON.FIELD')}</label>
           <Control
             model=".field"
             onChange={this.setCropsOnFieldSelect}
             component={DropDown}
             options={fieldOptions || []}
-            placeholder="Select Field"
+            placeholder={this.props.t('LOG_COMMON.SELECT_FIELD')}
             isSearchable={false}
             defaultValue={
               !Object.keys(defaultField).length ? this.state.selectedFields : defaultField
@@ -200,18 +197,18 @@ class LogFormOneCrop extends React.Component {
             model=".field"
             show={{ touched: true, focus: false }}
             messages={{
-              required: 'Required',
+              required: this.props.t('common:REQUIRED'),
             }}
           />
         </div>
         {!isCropNotNeeded && this.state.selectedFields && (
           <div className={styles.defaultFormDropDown}>
-            <label>Crop</label>
+            <label>{this.props.t('LOG_COMMON.CROP')}</label>
             <Control
               model={`.crop.${this.state.selectedFields.value}`}
               component={DropDown}
               options={this.state.cropOptionsMap[this.state.selectedFields.value]}
-              placeholder="Select Field Crop"
+              placeholder={this.props.t('LOG_COMMON.SELECT_FIELD_CROP')}
               isSearchable={false}
               validators={
                 isCropNotRequired
@@ -237,19 +234,19 @@ class LogFormOneCrop extends React.Component {
         )}
         {typeField && (
           <div className={styles.defaultFormDropDown}>
-            <label>Type</label>
+            <label>{this.props.t('LOG_COMMON.TYPE')}</label>
             <Control
               model=".type"
               component={DropDown}
               options={parsedTypeOptions || []}
-              placeholder="select type"
+              placeholder={this.props.t('LOG_COMMON.SELECT_TYPE')}
             />
           </div>
         )}
         {customFieldset && customFieldset()}
         {notesField && (
           <div>
-            <div className={styles.noteTitle}>Notes</div>
+            <div className={styles.noteTitle}>{this.props.t('LOG_COMMON.NOTES')}</div>
             <div className={styles.noteContainer}>
               <Control.textarea model=".notes" />
             </div>

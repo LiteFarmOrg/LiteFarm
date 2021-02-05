@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { createFrequencyNitrogenBalance } from '../../../containers/Insights/actions';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 class FrequencySelectorComponent extends Component {
   constructor(props) {
@@ -20,31 +21,31 @@ class FrequencySelectorComponent extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div>
         <Button variant="primary" onClick={this.handleShow}>
-          Choose Frequency...
+          {t("INSIGHTS.NITROGEN_BALANCE.CHOOSE_FREQUENCY")}
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Choose a frequency</Modal.Title>
+            <Modal.Title>{t("INSIGHTS.NITROGEN_BALANCE.CHOOSE_A_FREQUENCY")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Control
               as="select"
-              placeholder="Select Frequency"
+              placeholder={t("INSIGHTS.NITROGEN_BALANCE.SELECT_FREQUENCY")}
               value={this.state.value}
               onChange={(e) => this.handleChange(e)}
             >
               <option key={'select Frequency'} value={'select Frequency'}>
-                Select Frequency
+                {t("INSIGHTS.NITROGEN_BALANCE.SELECT_FREQUENCY")}
               </option>
               {this.state.durations.map((value, index) => {
                 return (
                   <option key={'freq-' + index} value={value}>
-                    {' '}
-                    {value} months{' '}
+                    {t("INSIGHTS.NITROGEN_BALANCE.COUNT_MONTHS", { count: value })}
                   </option>
                 );
               })}
@@ -52,12 +53,10 @@ class FrequencySelectorComponent extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
-              {' '}
-              Close{' '}
+              {t("common:CLOSE")}
             </Button>
             <Button variant="primary" onClick={this.handleSave}>
-              {' '}
-              Save{' '}
+              {t("common:SAVE")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -102,4 +101,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapDispatchToProps)(FrequencySelectorComponent);
+export default connect(mapDispatchToProps)(withTranslation()(FrequencySelectorComponent));

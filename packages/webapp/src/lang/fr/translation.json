@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "MISSING",
     "SWITCH_TITLE": "MISSING"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "MISSING",
+      "REQUIRED": "MISSING",
+      "TWO_DECIMALS": "MISSING"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "MISSING",
     "LABEL": "MISSING"
@@ -174,6 +181,78 @@
   "HOME": {
     "GREETING": "MISSING"
   },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "MISSING",
+      "BIRDS": "MISSING",
+      "CROPS": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "INSECTS": "MISSING",
+      "PLANTS": "MISSING",
+      "SPECIES_COUNT": "MISSING",
+      "SPECIES_COUNT_plural": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "CURRENT": "MISSING",
+    "INFO": "MISSING",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "MISSING",
+      "CHOOSE_FREQUENCY": "MISSING",
+      "COUNT_MONTHS": "MISSING",
+      "COUNT_MONTHS_plural": "MISSING",
+      "CYCLE_INDICATOR": "MISSING",
+      "FIRST_TIME": "MISSING",
+      "HEADER": "MISSING",
+      "INFO_1": "MISSING",
+      "INFO_2": "MISSING",
+      "SELECT_FREQUENCY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "MISSING",
+      "FAT": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "MEAL_COUNT": "MISSING",
+      "MEAL_COUNT_plural": "MISSING",
+      "MEALS": "MISSING",
+      "PROTEIN": "MISSING",
+      "TITLE": "MISSING",
+      "VITAMIN_A": "MISSING",
+      "VITAMIN_C": "MISSING"
+    },
+    "PRICES": {
+      "INFO": "MISSING",
+      "NEARBY_FARMS": "MISSING",
+      "NEARBY_FARMS_plural": "MISSING",
+      "NO_ADDRESS": "MISSING",
+      "PERCENT_OF_MARKET": "MISSING",
+      "SALES_FROM_DISTANCE_AWAY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "TITLE": "MISSING",
+    "UNAVAILABLE": "MISSING",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "MISSING",
+      "INFO_1": "MISSING",
+      "INFO_2": "MISSING",
+      "NO_SCHEDULE_RUN": "MISSING",
+      "REGISTER_FARM": "MISSING",
+      "TITLE": "MISSING"
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "MISSING",
     "BIRTH_YEAR_ERROR": "MISSING",
@@ -243,6 +322,7 @@
     "FIELDS": "MISSING",
     "FROM": "MISSING",
     "HARVEST": "MISSING",
+    "HIDE": "MISSING",
     "IRRIGATION": "MISSING",
     "LOG_ALL_CROPS": "MISSING",
     "LOG_ALL_FIELDS": "MISSING",
@@ -268,8 +348,11 @@
     "SELECT_FIELD_CROP": "MISSING",
     "SELECT_PRODUCT": "MISSING",
     "SELECT_TYPE": "MISSING",
+    "SHOW": "MISSING",
     "SOIL_DATA": "MISSING",
     "TO": "MISSING",
+    "TYPE": "MISSING",
+    "WARNING": "MISSING",
     "WATER": "MISSING",
     "WHAT_LOG": "MISSING"
   },
@@ -416,6 +499,9 @@
       "WHY_ANSWER": "MISSING"
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "MISSING",
+      "CERTIFIER_NAME_INFO": "MISSING",
+      "CERTIFIER_NAME_LABEL": "MISSING",
       "SELECT_CERTIFIER": "MISSING",
       "THROUGH_APP": "MISSING",
       "WILL_INDICATE": "MISSING"

@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Pesquisa",
     "SWITCH_TITLE": "Mudar para outro sítio/fazenda"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "MISSING",
+      "REQUIRED": "MISSING",
+      "TWO_DECIMALS": "MISSING"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "MISSING",
     "LABEL": "Aceito"
@@ -174,6 +181,78 @@
   "HOME": {
     "GREETING": "Good day, "
   },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "Amphibians",
+      "BIRDS": "Birds",
+      "CROPS": "Crops",
+      "HEADER": "Number of species",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
+      "INSECTS": "Insects",
+      "PLANTS": "Plants",
+      "SPECIES_COUNT": "{{count}} species",
+      "SPECIES_COUNT_plural": "{{count}} species",
+      "TITLE": "Biodiversity"
+    },
+    "CURRENT": "Current",
+    "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "Tasks",
+      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
+      "TITLE": "Labour Happiness"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "Choose a frequency",
+      "CHOOSE_FREQUENCY": "Choose Frequency...",
+      "COUNT_MONTHS": "{{count}} month",
+      "COUNT_MONTHS_plural": "{{count}} months",
+      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
+      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
+      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
+      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
+      "INFO_2": "Click the delete button to reset your schedule.",
+      "SELECT_FREQUENCY": "Select Frequency",
+      "TITLE": "Nitrogen Balance"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "Calories",
+      "FAT": "Fat",
+      "HEADER": "Number of Meals",
+      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
+      "MEAL_COUNT": "{{count}} meal",
+      "MEAL_COUNT_plural": "{{count}} meals",
+      "MEALS": "meals",
+      "PROTEIN": "Protein",
+      "TITLE": "People Fed",
+      "VITAMIN_A": "Vitamin A",
+      "VITAMIN_C": "Vitamin C"
+    },
+    "PRICES": {
+      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
+      "NEARBY_FARMS": "Pulling from {{count}} farm for sales data",
+      "NEARBY_FARMS_plural": "Pulling from {{count}} farms for sales data",
+      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "PERCENT_OF_MARKET": "{{percentage}}% of market",
+      "SALES_FROM_DISTANCE_AWAY": "Sales from {{distance}} {{unit}} away",
+      "TITLE": "Prices"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "Soil OM Content",
+      "HEADER": "Soil Organic Matter",
+      "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
+      "TITLE": "Soil OM"
+    },
+    "TITLE": "Insights",
+    "UNAVAILABLE": "Unavailable",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "Looks like this is your first time running this! For more info on what this does, please click the information button to see.",
+      "INFO_1": "The water balance tells you whether your crops have too little or too much water. It relies on weather data, and it is updated by your irrigation and soil texture data from your soil analysis logs.",
+      "INFO_2": "This feature has not been widely tested across farms with low surrounding weather station density so use with caution. We welcome feedback on how well it performs for your farm.",
+      "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm.",
+      "REGISTER_FARM": "Register Farm",
+      "TITLE": "Water Balance"
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Ano de Nascimento",
     "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
@@ -243,6 +322,7 @@
     "FIELDS": "Campos",
     "FROM": "De",
     "HARVEST": "colheitas",
+    "HIDE": "MISSING",
     "IRRIGATION": "Irrigação",
     "LOG_ALL_CROPS": "MISSING",
     "LOG_ALL_FIELDS": "MISSING",
@@ -268,8 +348,11 @@
     "SELECT_FIELD_CROP": "MISSING",
     "SELECT_PRODUCT": "selecione o produto",
     "SELECT_TYPE": "MISSING",
+    "SHOW": "MISSING",
     "SOIL_DATA": "Dados do Solo",
     "TO": "Para",
+    "TYPE": "MISSING",
+    "WARNING": "MISSING",
     "WATER": "Água",
     "WHAT_LOG": "O que você quer registrar?"
   },
@@ -416,6 +499,9 @@
       "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "Certificate name is required",
+      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
+      "CERTIFIER_NAME_LABEL": "Certifier’s name",
       "SELECT_CERTIFIER": "Selecione o seu certificador",
       "THROUGH_APP": "em todo o aplicativo!",
       "WILL_INDICATE": "Iremos indicar os dados necessários para certificação com"

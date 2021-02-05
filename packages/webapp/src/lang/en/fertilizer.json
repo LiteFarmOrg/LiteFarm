@@ -23,5 +23,6 @@
   "SHEEP": "Sheep",
   "TURKEY_MANURE_AGED_>7_WEEKS_OUT_OF_BARN": "Turkey (manure aged >7 weeks out of barn)",
   "TURKEY_MANURE_FRESH_FROM_BARN_<7_WEEKS": "Turkey (manure fresh from barn <7 weeks)",
-  "BIOSOLIDS-_ANAEROBICALLY_DIGESTED_&_DEWATERED": "Biosolids- anaerobically digested & dewatered"
+  "BIOSOLIDS-_ANAEROBICALLY_DIGESTED_&_DEWATERED": "Biosolids- anaerobically digested & dewatered",
+  "OTHER": "Other"
 }

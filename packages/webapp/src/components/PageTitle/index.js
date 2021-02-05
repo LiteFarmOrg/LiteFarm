@@ -47,7 +47,7 @@ class PageTitle extends Component {
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
           {rightIcon && (
-            <div style={{ position: 'absolute', right: '24px' }}>
+            <div style={{ position: 'absolute', right: '0' }}>
               <InfoBoxComponent
                 title={rightIconTitle}
                 body={rightIconBody}

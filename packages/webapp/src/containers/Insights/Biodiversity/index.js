@@ -4,6 +4,8 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { biodiversitySelector } from '../selectors';
 import BiodiversitySpecies from '../../../components/Insights/BiodiversitySpecies';
+import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class Biodiversity extends Component {
   constructor(props) {
@@ -12,20 +14,19 @@ class Biodiversity extends Component {
   }
 
   render() {
+    const { t } = this.props;
     let biodiversityData = this.props.biodiversityData['data'] || [];
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Biodiversity"
+          title={t("INSIGHTS.BIODIVERSITY.TITLE")}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconBody={infoBoxBody}
-          rightIconTitle={'Biodiversity'}
+          rightIconTitle={t("INSIGHTS.BIODIVERSITY.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.BIODIVERSITY.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>Number of species</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.BIODIVERSITY.HEADER")}</Semibold>
         </div>
         <hr className={insightStyles.defaultLine} />
         {biodiversityData.map((curr, index) => {
@@ -43,14 +44,6 @@ class Biodiversity extends Component {
   }
 }
 
-const infoBoxBody = (
-  <div>
-    Biodiversity is great for people and the planet. We count species richness from all known
-    records of biodiversity on your farm from the boundaries of your fields. You can increase your
-    biodiversity count on your farm by using the https://www.inaturalist.org/app.
-  </div>
-);
-
 const mapStateToProps = (state) => {
   return {
     biodiversityData: biodiversitySelector(state),
@@ -63,4 +56,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Biodiversity);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Biodiversity));

@@ -19,19 +19,19 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 
-const parsedTextureOptions = [
-  { label: 'Sand', value: 'sand' },
-  { label: 'Loamy Sand', value: 'loamySand' },
-  { label: 'Sandy Loam', value: 'sandyLoam' },
-  { label: 'Loam', value: 'loam' },
-  { label: 'Silt Loam', value: 'siltLoam' },
-  { label: 'Silt', value: 'silt' },
-  { label: 'Sandy Clayloam', value: 'sandyClayLoam' },
-  { label: 'Clay Loam', value: 'clayLoam' },
-  { label: 'Silty Clayloam', value: 'siltyClayLoam' },
-  { label: 'Sandy Clay', value: 'sandyClay' },
-  { label: 'Silty Clay', value: 'siltyClay' },
-  { label: 'Clay', value: 'clay' },
+const parsedTextureOptions = (t) => [
+  { label: t('soil:SAND'), value: 'sand' },
+  { label: t('soil:LOAMY_SAND'), value: 'loamySand' },
+  { label: t('soil:SANDY_LOAM'), value: 'sandyLoam' },
+  { label: t('soil:LOAM'), value: 'loam' },
+  { label: t('soil:SILT_LOAM'), value: 'siltLoam' },
+  { label: t('soil:SILT'), value: 'silt' },
+  { label: t('soil:SANDY_CLAYLOAM'), value: 'sandyClayLoam' },
+  { label: t('soil:CLAY_LOAM'), value: 'clayLoam' },
+  { label: t('soil:SILTY_CLAYLOAM'), value: 'siltyClayLoam' },
+  { label: t('soil:SANDY_CLAY'), value: 'sandyClay' },
+  { label: t('soil:SILTY_CLAY'), value: 'siltyClay' },
+  { label: t('soil:CLAY'), value: 'clay' },
 ];
 
 const parsedDepthOptions = [
@@ -150,7 +150,7 @@ class soilDataLog extends Component {
             <Control
               model=".texture"
               component={DropDown}
-              options={parsedTextureOptions || []}
+              options={parsedTextureOptions(this.props.t) || []}
               placeholder={this.props.t('LOG_SOIL.SELECT_TEXTURE')}
               validators={{ required: (val) => val && val.label && val.value }}
             />
@@ -199,7 +199,7 @@ class soilDataLog extends Component {
             isCropNotNeeded={true}
           />
           <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>
-            {this.state.showMoreInfo ? 'Hide' : 'Show'} {this.props.t('LOG_SOIL.MORE_INFO')}
+            {this.state.showMoreInfo ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')} {this.props.t('LOG_SOIL.MORE_INFO')}
           </div>
           {this.state.showMoreInfo && (
             <div>

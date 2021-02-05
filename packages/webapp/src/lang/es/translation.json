@@ -17,6 +17,13 @@
     "INPUT_PLACEHOLDER": "Buscar",
     "SWITCH_TITLE": "Cambiar a otra finca"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "Debe ser un numero no negativo",
+      "REQUIRED": "Requerido",
+      "TWO_DECIMALS": "La cantidad debe tener hasta 2 decimales"
+    }
+  },
   "CONSENT": {
     "DATA_POLICY": "Politica de datos",
     "LABEL": "Estoy de acuerdo"
@@ -174,6 +181,78 @@
   "HOME": {
     "GREETING": "Buen dia,"
   },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "Anfibio",
+      "BIRDS": "Aves",
+      "CROPS": "Cultivos",
+      "HEADER": "Numero de especies",
+      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en los limites de tus campos. Puedes incrementar la cuenta de biodiversidad en tu granja visitando https://www.inaturalist.org/app.",
+      "INSECTS": "Insectos",
+      "PLANTS": "Plantas",
+      "SPECIES_COUNT": "{{count}} Especies",
+      "SPECIES_COUNT_plural": "{{count}} Especies",
+      "TITLE": "Biodiversidad"
+    },
+    "CURRENT": "Actual",
+    "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en tu granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "Tareas",
+      "INFO": "Estimamos el impacto de las diferentes tareas en la satisfaccion con el trabajo usando los puntajes de satisfaccion y las horas trabajadas en cada turno.",
+      "TITLE": "Satisfaccion del Trabajo"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "MISSING",
+      "CHOOSE_FREQUENCY": "MISSING",
+      "COUNT_MONTHS": "MISSING",
+      "COUNT_MONTHS_plural": "MISSING",
+      "CYCLE_INDICATOR": "Tu balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
+      "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular tu balance de nitrogeno",
+      "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
+      "INFO_1": "El balance de nitrogeno te dice si aplicaste mucho o muy poco fertilizante. Depende en tus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en tu intervalo de tiempo deseado.",
+      "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
+      "SELECT_FREQUENCY": "MISSING",
+      "TITLE": "Balance de Nitrogeno"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "Calorias",
+      "FAT": "Grasa",
+      "HEADER": "Numero de comidas",
+      "INFO": "Estimamos el numero de comidas potenciales provistas por tu granja basandonos en los datos de tus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
+      "MEAL_COUNT": "{{count}} comida",
+      "MEAL_COUNT_plural": "{{count}} comidas",
+      "MEALS": "Comidas",
+      "PROTEIN": "Proteina",
+      "TITLE": "Personas alimentadas",
+      "VITAMIN_A": "Vitamina A",
+      "VITAMIN_C": "Vitamina C"
+    },
+    "PRICES": {
+      "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",
+      "NEARBY_FARMS": "Buscando data de ventas de {{count}} granja",
+      "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
+      "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en tu Perfil para obtener data de ventas cercanas.",
+      "PERCENT_OF_MARKET": "{{percentage}}% del mercado",
+      "SALES_FROM_DISTANCE_AWAY": "Ventas a {{distance}} {{unit}} de distancia",
+      "TITLE": "Precios"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "Contenido de MO del Suelo",
+      "HEADER": "Materia Organica del Suelo",
+      "INFO": "La materia organica en el suelo es necesaria para mantener un ambiente saludable para tu cultivo. Nosotros tomamos esta data desde tus registros de suelo mas recientes. Si no tienes data en tus registros, predecimos la materia organica potencial en tu suelo para tu ubicacion global.",
+      "TITLE": "MO del Suelo"
+    },
+    "TITLE": "Reflexiones",
+    "UNAVAILABLE": "No Disponible",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "Parece que es la primera vez que llegas aca! Para mas informacion en que hace esto, por favor cliquea el boton de informacion.",
+      "INFO_1": "El balance de agua te dice si tus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por tus registros de riego .",
+      "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en tu granja",
+      "NO_SCHEDULE_RUN": "Tu balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
+      "REGISTER_FARM": "Registra tu granja",
+      "TITLE": "Balance de agua"
+    }
+  },
   "INVITATION": {
     "BIRTH_YEAR": "Año de nacimiento",
     "BIRTH_YEAR_ERROR": "Año de nacimiento necesitar ser entre 1900 y",
@@ -238,11 +317,12 @@
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
     "FIELD": "Campo",
-    "FIELD_CROPS": "Campos de cultivos",
+    "FIELD_CROPS": "Cultivo de campos",
     "FIELD_WORK": "Trabajo de campo",
     "FIELDS": "Campos",
     "FROM": "Desde",
     "HARVEST": "Cosecha",
+    "HIDE": "Ocultar",
     "IRRIGATION": "Irrigación",
     "LOG_ALL_CROPS": "Todos los cultivos",
     "LOG_ALL_FIELDS": "Todos los campos",
@@ -268,8 +348,11 @@
     "SELECT_FIELD_CROP": "Seleccionar cultivo de campo",
     "SELECT_PRODUCT": "Seleccionar producto",
     "SELECT_TYPE": "Seleccionar Tipo",
+    "SHOW": "Mostrar",
     "SOIL_DATA": "Información del suelo (tierra)",
     "TO": "Para",
+    "TYPE": "Tipo",
+    "WARNING": "Para usar este tipo de registro por favor agrega cultivos a tus campos. Puedes hacerlo navegando a Campos -> Tu campo -> Nuevo cultivo",
     "WATER": "Agua",
     "WHAT_LOG": "Qué desea registrar?"
   },
@@ -343,11 +426,11 @@
     "PESTICIDE_NAME_LABEL": "Nombre del pesticida",
     "PESTICIDE_QUANTITY": "Cantidad de pesticida",
     "SCIENTIFIC_NAME": "Nombre científico (si lo conoce)",
-    "TARGET": "Target",
+    "TARGET": "Destinado a",
     "TARGET_DISEASE": "Efecto de la enfermedad",
     "TARGET_GROUP": "Grupo objetivo",
     "TITLE": "Registro del control de la peste",
-    "TYPE": "Type"
+    "TYPE": "Tipo"
   },
   "LOG_SCOUTING": {
     "ACTION_NEEDED": "Acción requerida",
@@ -416,6 +499,9 @@
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "El nombre del certificador es requerido",
+      "CERTIFIER_NAME_INFO": "Nuestros formularios son aceptados por la mayoria de los certificadores",
+      "CERTIFIER_NAME_LABEL": "Nombre del certificador",
       "SELECT_CERTIFIER": "Por favor seleccione su certificador",
       "THROUGH_APP": "A través de una aplicación!",
       "WILL_INDICATE": "Nosotros indicaremos la información requerida para la certificación orgánica con"

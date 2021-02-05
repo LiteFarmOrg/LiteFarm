@@ -579,7 +579,7 @@
     }
   },
   "REACT_SELECT": {
-    "CLEAR_ALL": "MISSING"
+    "CLEAR_ALL": "Quitar todo"
   },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",

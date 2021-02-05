@@ -309,13 +309,6 @@ class PestControlLog extends Component {
                 crops={crops}
               />
               <div className={styles.targetDropDown}>
-                {/*<Control*/}
-                {/*model=".pestControlLog.disease_id"*/}
-                {/*component={DropDown}*/}
-                {/*options={diseaseOptions || []}*/}
-                {/*placeholder="Choose Target"*/}
-                {/*validators={{required: (val) => val && val.length}}*/}
-                {/*/>*/}
                 <ReactSelect
                   label={this.props.t('LOG_PESTICIDE.TARGET')}
                   isSearchable={true}
@@ -325,16 +318,16 @@ class PestControlLog extends Component {
                   placeholder={this.props.t('LOG_PESTICIDE.CHOOSE_TARGET_PLACEHOLDER')}
                   onChange={(selectedOption) => this.handleTargetSelect(selectedOption)}
                 />
+                <Errors
+                  className="required"
+                  model={`.pestControlLog.disease_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
 
-              <Errors
-                className="required"
-                model={`.pestControlLog.disease_id`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: this.props.t('common:REQUIRED'),
-                }}
-              />
               <div className={styles.defaultFormDropDown}>
                 <label>{this.props.t('LOG_PESTICIDE.TYPE')}</label>
                 <Control
@@ -346,15 +339,15 @@ class PestControlLog extends Component {
                     required: (val) => val && val.label && val.value,
                   }}
                 />
+                <Errors
+                  className="required"
+                  model={`.pestControlLog.type`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
-              <Errors
-                className="required"
-                model={`.pestControlLog.type`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: this.props.t('common:REQUIRED'),
-                }}
-              />
               <div className={styles.defaultFormDropDown}>
                 <label>{this.props.t('LOG_COMMON.PRODUCT')}</label>
                 <Control
@@ -367,15 +360,15 @@ class PestControlLog extends Component {
                     required: (val) => val && val.label && val.value,
                   }}
                 />
+                <Errors
+                  className="required"
+                  model={`.pestControlLog.pesticide_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
-              <Errors
-                className="required"
-                model={`.pestControlLog.pesticide_id`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: this.props.t('common:REQUIRED'),
-                }}
-              />
               <Unit
                 model=".pestControlLog.quantity_kg"
                 title={this.props.t('LOG_COMMON.QUANTITY')}

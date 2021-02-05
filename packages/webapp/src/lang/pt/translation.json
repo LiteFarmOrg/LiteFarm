@@ -544,7 +544,9 @@
       "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
       "ENSURE_ONE_CROP_WARNING": "Certifique-se de que pelo menos 1 safra e uma venda ou turno associado foram alocados para ver esta informação.",
       "EXPENSES": "Despesas",
+      "FILTER_REPORT": "MISSING",
       "FINANCE_HELP": "Ajuda Financeira",
+      "FROM": "MISSING",
       "HAS_UNALLOCATED_LINE1": "*Não alocado significa que o trabalho foi feito em um campo vazio para o intervalo de datas selecionado.",
       "HAS_UNALLOCATED_LINE10_1": "Se a alface for adicionada ao Campo1, mas nenhum turno relacionado à alface ou ao Campo1 for inserido, ou inserido depois de 1º de abril, o milho será alocado com uma quantidade total de ",
       "HAS_UNALLOCATED_LINE10_2": "Do Campo1.",
@@ -564,17 +566,30 @@
       "LABOUR_LABEL": "Trabalho",
       "OTHER_EXPENSES_LABEL": "Outras despesas",
       "REVENUE": "Receita",
-      "TITLE": "Finanças"
+      "TITLE": "Finanças",
+      "TO": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
       "CROPS": "Cultivos",
       "EMPLOYEES": "Funcionários",
+      "TABLE": {
+        "AMOUNT": "MISSING",
+        "CROP": "MISSING",
+        "DATE": "MISSING",
+        "EMPLOYEE": "MISSING",
+        "EST_REVENUE": "MISSING",
+        "LABOUR_COST": "MISSING",
+        "TASK": "MISSING",
+        "TIME": "MISSING",
+        "TYPE": "MISSING"
+      },
       "TASKS": "Tarefas",
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
       "DETAILED_HISTORY": "História Detalhada",
+      "SUBTOTAL": "MISSING",
       "SUMMARY": "Resumo",
       "TITLE": "Vendas",
       "TOTAL": "Total"
@@ -611,6 +626,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil-> Pessoas-> Editar",
       "RATHER_NOT_SAY": "Prefiro não dizer",
       "SAD": "Triste",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
       "TASKS_FOR_SHIFT": "Estas são as tarefas selecionadas para este turno",
       "TASKS_SELECTED": "As tarefas selecionadas para este turno são destacadas abaixo. Desmarcar uma tarefa removerá a tarefa deste turno",
       "TIME_ALLOCATION": "Alocação de tempo",

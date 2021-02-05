@@ -544,7 +544,9 @@
       "BALANCE_FOR_FARM": "MISSING",
       "ENSURE_ONE_CROP_WARNING": "MISSING",
       "EXPENSES": "MISSING",
+      "FILTER_REPORT": "MISSING",
       "FINANCE_HELP": "MISSING",
+      "FROM": "MISSING",
       "HAS_UNALLOCATED_LINE1": "MISSING",
       "HAS_UNALLOCATED_LINE10_1": "MISSING",
       "HAS_UNALLOCATED_LINE10_2": "MISSING",
@@ -564,17 +566,30 @@
       "LABOUR_LABEL": "MISSING",
       "OTHER_EXPENSES_LABEL": "MISSING",
       "REVENUE": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "TO": "MISSING"
     },
     "LABOUR": {
       "BY": "MISSING",
       "CROPS": "MISSING",
       "EMPLOYEES": "MISSING",
+      "TABLE": {
+        "AMOUNT": "MISSING",
+        "CROP": "MISSING",
+        "DATE": "MISSING",
+        "EMPLOYEE": "MISSING",
+        "EST_REVENUE": "MISSING",
+        "LABOUR_COST": "MISSING",
+        "TASK": "MISSING",
+        "TIME": "MISSING",
+        "TYPE": "MISSING"
+      },
       "TASKS": "MISSING",
       "TITLE": "MISSING"
     },
     "SUMMARY": {
       "DETAILED_HISTORY": "MISSING",
+      "SUBTOTAL": "MISSING",
       "SUMMARY": "MISSING",
       "TITLE": "MISSING",
       "TOTAL": "MISSING"
@@ -611,6 +626,8 @@
       "NO_WAGE_SET_LOCATION": "MISSING",
       "RATHER_NOT_SAY": "MISSING",
       "SAD": "MISSING",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
       "TASKS_FOR_SHIFT": "MISSING",
       "TASKS_SELECTED": "MISSING",
       "TIME_ALLOCATION": "MISSING",

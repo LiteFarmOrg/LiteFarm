@@ -180,20 +180,20 @@ class OtherExpense extends Component {
     const detailedColumns = [
       {
         id: 'date',
-        Header: 'Date',
+        Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
         accessor: (d) => d.date,
         minWidth: 80,
-        Footer: <div>Subtotal</div>,
+        Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
       },
       {
         id: 'type',
-        Header: 'Type',
+        Header: this.props.t('SALE.LABOUR.TABLE.TYPE'),
         accessor: (d) => d.type,
         minWidth: 75,
       },
       {
         id: 'amount',
-        Header: 'Amount',
+        Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
         accessor: (d) => d.amount,
         minWidth: 75,
         Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,

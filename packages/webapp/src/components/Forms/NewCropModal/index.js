@@ -300,7 +300,7 @@ class NewCropModal extends React.Component {
 
       cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
 
-      cropOptions.unshift({ value: 'new', label: 'New' });
+      cropOptions.unshift({ value: 'new', label: this.props.t('common:NEW') });
     }
 
     return (

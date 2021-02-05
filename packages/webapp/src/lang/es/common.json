@@ -1,4 +1,5 @@
 {
+  "ALL": "Todo",
   "BACK": "Atrás",
   "CANCEL": "Cancelar",
   "CLOSE": "Cerrar",
@@ -17,11 +18,14 @@
   "LOADING": "Cargando...",
   "LOGIN_BUTTON": "Botón de ingreso",
   "NAME": "MISSING",
+  "NEW": "MISSING",
   "NEXT": "Próximo",
+  "NO": "MISSING",
   "NOT_FOUND": "No encontrado",
   "NOTES": "Notas",
   "OPTIONAL": "Opcional",
   "OR": "o",
+  "OTHER": "MISSING",
   "PROCEED": "Proceder",
   "REMOVE": "Remover",
   "REQUIRED": "Requerido",
@@ -31,5 +35,6 @@
   "SUBMIT": "Enviar",
   "SUBMITTING": "Submitting...",
   "TO": "Para",
-  "UPDATE": "Actualizar"
+  "UPDATE": "Actualizar",
+  "YES": "MISSING"
 }

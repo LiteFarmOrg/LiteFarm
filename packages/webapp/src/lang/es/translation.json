@@ -416,6 +416,9 @@
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "MISSING",
+      "CERTIFIER_NAME_INFO": "MISSING",
+      "CERTIFIER_NAME_LABEL": "MISSING",
       "SELECT_CERTIFIER": "Por favor seleccione su certificador",
       "THROUGH_APP": "A través de una aplicación!",
       "WILL_INDICATE": "Nosotros indicaremos la información requerida para la certificación orgánica con"

@@ -272,6 +272,8 @@
     "SHOW": "MISSING",
     "SOIL_DATA": "Dados do Solo",
     "TO": "Para",
+    "TYPE": "MISSING",
+    "WARNING": "MISSING",
     "WATER": "Água",
     "WHAT_LOG": "O que você quer registrar?"
   },

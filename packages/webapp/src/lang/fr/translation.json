@@ -272,6 +272,8 @@
     "SHOW": "MISSING",
     "SOIL_DATA": "MISSING",
     "TO": "MISSING",
+    "TYPE": "MISSING",
+    "WARNING": "MISSING",
     "WATER": "MISSING",
     "WHAT_LOG": "MISSING"
   },

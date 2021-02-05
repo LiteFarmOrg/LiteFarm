@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { MdDone, MdClose } from 'react-icons/all';
 import { Text } from '../../../Typography';
+import { useTranslation } from "react-i18next";
 
 const PasswordError = ({
   isTooShort = true,
@@ -12,12 +13,20 @@ const PasswordError = ({
   hasNoSymbol = true,
   ...props
 }) => {
+  const { t } = useTranslation();
   const messages = {
-    'at least 8 characters': isTooShort,
-    'at least one upper case character': hasNoUpperCase,
-    'at least one number': hasNoDigit,
-    'at least one special character': hasNoSymbol,
+    TOO_SHORT: isTooShort,
+    ONE_UPPER_CASE: hasNoUpperCase,
+    ONE_NUMBER: hasNoDigit,
+    ONE_SPECIAL_CHARACTER: hasNoSymbol,
   };
+  const messageString = {
+    TOO_SHORT: t('ENTER_PASSWORD.TOO_SHORT'),
+    ONE_UPPER_CASE: t('ENTER_PASSWORD.ONE_UPPER_CASE'),
+    ONE_NUMBER: t('ENTER_PASSWORD.ONE_NUMBER'),
+    ONE_SPECIAL_CHARACTER: t('ENTER_PASSWORD.ONE_SPECIAL_CHARACTER'),
+  }
+  console.log(messageString);
   return (
     <div {...props}>
       {Object.entries(messages).map(([message, hasError]) => (
@@ -31,7 +40,7 @@ const PasswordError = ({
               color: hasError ? 'var(--grey500)' : 'var(--fontColor)',
             }}
           >
-            {message}
+            {messageString[message]}
           </Text>
         </div>
       ))}

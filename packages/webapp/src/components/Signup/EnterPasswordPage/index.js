@@ -78,7 +78,7 @@ export default function PureEnterPasswordPage({
       />
       {showErrors && (
         <div>
-          <Text>Hint</Text>
+          <Text>{t('ENTER_PASSWORD.HINT')}</Text>
           <PasswordError
             hasNoDigit={hasNoDigit}
             hasNoSymbol={hasNoSymbol}

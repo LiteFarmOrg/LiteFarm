@@ -193,6 +193,7 @@ class FertilizingLog extends Component {
     let fertOptions = [];
     let customOptions = [];
     if (fert) {
+      console.log(fert);
       for (let f of fert) {
         if (f.fertilizer_type.startsWith('CUSTOM')) {
           customOptions.push({
@@ -202,7 +203,7 @@ class FertilizingLog extends Component {
         } else {
           fertOptions.push({
             value: f.fertilizer_id,
-            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+            label: this.props.t(`fertilizer:${f.fertilizer_translation_key}`),
           });
         }
       }

@@ -111,15 +111,15 @@
         "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
-      "DELETE_FIELD_WARNING": "MISSING",
+      "DELETE_FIELD_WARNING": "ADVERTENCIA: Esta accion borrara permanentemente este campo si no tiene nada asociado, como un registro o un turno. Seguro que deseas proceder?",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Número de cultivos",
-      "SELECT": "MISSING",
+      "SELECT": "Seleccionar...",
       "TITLE": "Editar campo",
       "TOTAL_AREA": "Area total",
       "VARIETY": "Variedad",
-      "DELETE_FIELD_CONFIRM": "MISSING"
+      "DELETE_FIELD_CONFIRM": "Quiero borrar este campo."
     },
     "EXPLORE": "Explore sus campos",
     "LIST": "Lista",
@@ -355,6 +355,7 @@
     "DEPTH": "Profundidad",
     "INORGANIC_CARBON": "Carbon inorgánico",
     "MORE_INFO": "Más información",
+    "OM": "MO",
     "ORGANIC_CARBON": "Carbón orgánico",
     "SELECT_DEPTH": "Seleccionar profundidad",
     "SELECT_TEXTURE": "Seleccionar textura",
@@ -625,6 +626,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil->Personas->Editar",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
+      "SELECT_CROPS": "Seleccionar cultivos",
+      "SELECT_FIELDS": "Seleccionar Campos",
       "TASKS_FOR_SHIFT": "Estas son las tareas seleccionadas para este turno",
       "TASKS_SELECTED": "Las tareas seleccionadas para este turno aparecen destacadas abajo. Si deshace la selección de una tarea removerá la tarea del turno",
       "TIME_ALLOCATION": "Asignación de tiempo",
@@ -699,8 +702,7 @@
     "WIND": "Viento"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Vamos a comenzar",
-    "SVG_ALT": "Bienvenido(a) a LiteFarm"
+    "BUTTON": "Vamos a comenzar"
   },
   "LOGIN_BUTTON": "Registrarse o Iniciar Sesión"
 }

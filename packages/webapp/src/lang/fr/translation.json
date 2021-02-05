@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "MISSING",
     "FARM_NAME": "MISSING",
     "INVALID_FARM_LOCATION": "MISSING",
+    "LOCATING": "MISSING",
     "NO_ADDRESS": "MISSING",
     "TELL_US_ABOUT_YOUR_FARM": "MISSING"
   },
@@ -39,7 +40,12 @@
   },
   "ENTER_PASSWORD": {
     "FORGOT": "MISSING",
-    "LABEL": "MISSING"
+    "HINT": "MISSING",
+    "LABEL": "MISSING",
+    "ONE_NUMBER": "MISSING",
+    "ONE_SPECIAL_CHARACTER": "MISSING",
+    "ONE_UPPER_CASE": "MISSING",
+    "TOO_SHORT": "MISSING"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -748,6 +754,8 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "MISSING",
+    "EMAIL_INVALID": "MISSING",
+    "ENTER_EMAIL": "MISSING",
     "EXPIRED_ERROR": "MISSING",
     "GOOGLE_BUTTON": "MISSING",
     "INVITED_ERROR": "MISSING",
@@ -757,6 +765,7 @@
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "MISSING",
+    "WELCOME_BACK": "MISSING",
     "WRONG_BROWSER": "MISSING",
     "WRONG_BROWSER_BOTTOM": "MISSING"
   },

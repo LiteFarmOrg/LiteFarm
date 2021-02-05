@@ -258,15 +258,15 @@ class FertilizingLog extends Component {
                     },
                   }}
                 />
+                <Errors
+                  className="required"
+                  model={`.fertLog.fert_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
-              <Errors
-                className="required"
-                model={`.fertLog.fert_id`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: this.props.t('common:REQUIRED'),
-                }}
-              />
               {[1, 2, 5].includes(this.props.farm.role_id) && (
                 <div>
                   <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>

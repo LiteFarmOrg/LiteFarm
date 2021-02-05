@@ -11,6 +11,8 @@ import PriceDistanceComponent from '../../../components/Insights/PriceDistanceCo
 import { Button } from 'react-bootstrap';
 import styles from './styles.scss';
 import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { Text } from '../../../components/Typography';
 
 const MILE_TO_KILOMETER = 1.609;
 
@@ -23,13 +25,6 @@ class Prices extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleOpenCollapse = this.handleOpenCollapse.bind(this);
-
-    this.infoBoxBody = (
-      <div>
-        We show you the trajectory of your sales prices against the sales prices for the same goods
-        within a given distance of you, collected across the LiteFarm network.
-      </div>
-    );
   }
 
   handleChange(distance) {
@@ -78,21 +73,20 @@ class Prices extends Component {
     const { currencySymbol } = this.state;
     const { pricesData } = this.props;
     const { data: cropsWithPriceInfo } = pricesData;
+    const { t } = this.props;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Prices"
-          backUrl="/Insights/"
+          title={t("INSIGHTS.PRICES.TITLE")}
+          backUrl="/Insights"
           rightIcon={true}
-          rightIconBody={this.infoBoxBody}
-          rightIconTitle={'Prices'}
+          rightIconTitle={t("INSIGHTS.PRICES.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.PRICES.INFO")}</div>)}
         />
         {this.props.pricesDistance && (
           <div style={{ marginBottom: '8px' }}>
             <div style={{ float: 'left' }}>
-              <b>
-                Sales from {distanceToDisplay} {unit} away
-              </b>
+              <Text style={{fontWeight: 'bold'}}>{t("INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY", { distance: distanceToDisplay, unit })}</Text>
             </div>
             <div style={{ float: 'right' }}>
               <PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse} />
@@ -100,9 +94,7 @@ class Prices extends Component {
             <div style={{ float: 'left' }}>
               <Collapse in={this.state.open}>
                 <div>
-                  <div>
-                    Pulling from {this.props.pricesData['amountOfFarms']} farms for sales data
-                  </div>
+                  <Text>{t("INSIGHTS.PRICES.NEARBY_FARMS", { count: this.props.pricesData['amountOfFarms'] })}</Text>
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {
                       return (
@@ -131,8 +123,7 @@ class Prices extends Component {
         )}
         {!this.props.farm.grid_points && (
           <div>
-            You currently do not have an address in LiteFarm. Please update it in your Profile to
-            get nearby prices information!
+            {t("INSIGHTS.PRICES.NO_ADDRESS")}
           </div>
         )}
         {cropsWithPriceInfo.map((cropInfo, index) => {
@@ -142,7 +133,7 @@ class Prices extends Component {
             <div key={index + '-' + cropName}>
               <PriceCropContainer
                 currencySymbol={currencySymbol}
-                name={cropName}
+                name={t(`crop:${cropName}`)}
                 pricePoints={pricePoints}
               />
             </div>
@@ -167,4 +158,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Prices);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(Prices));

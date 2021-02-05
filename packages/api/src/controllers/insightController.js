@@ -107,7 +107,7 @@ class insightController extends baseController {
       try {
         const farmID = req.params.farm_id;
         const data = await knex.raw(
-          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood
+          `SELECT DISTINCT t.task_id, s.shift_id, t.task_name, st.duration, s.mood, t.task_translation_key
           FROM "field" f, "shiftTask" st, "taskType" t, "shift" s, "fieldCrop" fc
           WHERE f.farm_id = ? and fc.field_crop_id = st.field_crop_id and fc.field_id = f.field_id and st.task_id = t.task_id and 
           st.shift_id = s.shift_id and s.mood != 'na' and s.mood != 'no answer' and s.deleted = false`, [farmID]);
@@ -179,7 +179,7 @@ class insightController extends baseController {
   static async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
       `
-          SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
+          SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
           FROM "sale" s
           JOIN "cropSale" cs on cs.sale_id = s.sale_id
           JOIN "crop" c on c.crop_id = cs.crop_id
@@ -189,7 +189,7 @@ class insightController extends baseController {
           FROM "fieldCrop" fc 
           join "field" f on fc.field_id = f.field_id 
           where f.farm_id = ?)
-          GROUP BY year_month, c.crop_common_name, fa.farm_id
+          GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
   }
 

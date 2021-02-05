@@ -4,27 +4,37 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { cropsNutritionSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
+import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
+
 class PeopleFed extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.i18nNutritionDict = {
+      "Calories": props.t("INSIGHTS.PEOPLE_FED.CALORIES"),
+      "Protein": props.t("INSIGHTS.PEOPLE_FED.PROTEIN"),
+      "Fat": props.t("INSIGHTS.PEOPLE_FED.FAT"),
+      "Vitamin C": props.t("INSIGHTS.PEOPLE_FED.VITAMIN_C"),
+      "Vitamin A": props.t("INSIGHTS.PEOPLE_FED.VITAMIN_A"),
+    };
   }
 
   render() {
+    const { t } = this.props;
     let dataSet = this.props.cropNutritionData.data;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="People Fed"
+          title={t("INSIGHTS.PEOPLE_FED.TITLE")}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={'People Fed'}
-          rightIconBody={infoBoxBody}
+          rightIconTitle={t("INSIGHTS.PEOPLE_FED.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.PEOPLE_FED.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>Number of Meals</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.PEOPLE_FED.HEADER")}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>
@@ -32,9 +42,9 @@ class PeopleFed extends Component {
             return (
               <InsightsInfoComponent
                 key={'people-fed-item-' + index}
-                title={data.label}
+                title={this.i18nNutritionDict[data.label]}
                 value={data.val}
-                valueLabel={'meals'}
+                valueLabel={t("INSIGHTS.PEOPLE_FED.MEALS")}
                 percent={data.percentage}
               />
             );
@@ -57,12 +67,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const infoBoxBody = (
-  <div>
-    We estimate the number of potential meals provided by your farm based on sales data, and crop
-    composition databases. We assume that daily requirements are divided equally across three meals
-    a day.
-  </div>
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleFed);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(PeopleFed));

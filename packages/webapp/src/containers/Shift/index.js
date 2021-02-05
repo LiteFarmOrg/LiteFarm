@@ -144,7 +144,7 @@ class Shift extends Component {
       for (let k of Object.keys(dict)) {
         nameOptions.push(dict[k]);
       }
-      nameOptions.unshift({ value: 'all', label: this.props.t('SHIFT.EDIT_SHIFT.ALL') });
+      nameOptions.unshift({ value: 'all', label: this.props.t('common:ALL') });
     }
 
     return (
@@ -174,7 +174,7 @@ class Shift extends Component {
               <DropDown
                 label={this.props.t('SHIFT.NAME')}
                 style={{ marginBottom: '16px' }}
-                defaultValue={{ value: 'all', label: this.props.t('SHIFT.EDIT_SHIFT.ALL') }}
+                defaultValue={{ value: 'all', label: this.props.t('common:ALL') }}
                 options={nameOptions}
                 onChange={(option) => this.setState({ nameFilter: option.value })}
                 isSearchable={false}

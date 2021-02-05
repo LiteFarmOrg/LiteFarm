@@ -9,6 +9,7 @@ import message from './message.json';
 import gender from './gender.json';
 import role from './role.json';
 import harvest_uses from './harvest_uses.json';
+import soil from './soil.json';
 const portuguese = {
   translation,
   crop,
@@ -21,5 +22,6 @@ const portuguese = {
   gender,
   role,
   harvest_uses,
+  soil,
 };
 export default portuguese;

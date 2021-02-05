@@ -419,7 +419,7 @@
     "PESTICIDE_NAME_LABEL": "Nombre del pesticida",
     "PESTICIDE_QUANTITY": "Cantidad de pesticida",
     "SCIENTIFIC_NAME": "Nombre científico (si lo conoce)",
-    "TARGET": "Target",
+    "TARGET": "Destinado a",
     "TARGET_DISEASE": "Efecto de la enfermedad",
     "TARGET_GROUP": "Grupo objetivo",
     "TITLE": "Registro del control de la peste",
@@ -493,9 +493,9 @@
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
     "PARTNERS": {
-      "CERTIFIER_NAME_ERROR": "MISSING",
-      "CERTIFIER_NAME_INFO": "MISSING",
-      "CERTIFIER_NAME_LABEL": "MISSING",
+      "CERTIFIER_NAME_ERROR": "El nombre del certificador es requerido",
+      "CERTIFIER_NAME_INFO": "Nuestros formularios son aceptados por la mayoria de los certificadores",
+      "CERTIFIER_NAME_LABEL": "Nombre del certificador",
       "SELECT_CERTIFIER": "Por favor seleccione su certificador",
       "THROUGH_APP": "A través de una aplicación!",
       "WILL_INDICATE": "Nosotros indicaremos la información requerida para la certificación orgánica con"

@@ -165,6 +165,7 @@ describe('insights test', () => {
           {
             'year_month': '2020-12',
             'crop_common_name': 'quaerat rerum fugiat',
+            'crop_translation_key': 'quaerat rerum fugiat',
             'sale_quant': 793,
             'sale_value': 98,
             'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
@@ -176,6 +177,7 @@ describe('insights test', () => {
           {
             'year_month': '2020-12',
             'crop_common_name': 'quaerat rerum fugiat',
+            'crop_translation_key': 'quaerat rerum fugiat',
             'sale_quant': 73,
             'sale_value': 98,
             'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
@@ -187,6 +189,7 @@ describe('insights test', () => {
           {
             'year_month': '2020-12',
             'crop_common_name': 'quaerat rerum fugiat',
+            'crop_translation_key': 'quaerat rerum fugiat',
             'sale_quant': 182,
             'sale_value': 607,
             'farm_id': '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',
@@ -198,6 +201,7 @@ describe('insights test', () => {
           {
             'year_month': '2020-12',
             'crop_common_name': 'ullam molestiae doloribus',
+            'crop_translation_key': 'ullam molestiae doloribus',
             'sale_quant': 618,
             'sale_value': 600,
             'farm_id': '87827ed7-5c36-11eb-b3aa-9f566fe0899e',
@@ -209,6 +213,7 @@ describe('insights test', () => {
           {
             'year_month': '2021-01',
             'crop_common_name': 'quaerat rerum fugiat',
+            'crop_translation_key': 'quaerat rerum fugiat',
             'sale_quant': 1258,
             'sale_value': 770,
             'farm_id': '8788ef8b-5c36-11eb-b3aa-9f566fe0899e',

@@ -4,6 +4,7 @@ import Chart from 'chart.js';
 import { getMassUnit, roundToTwoDecimal } from '../../../util';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { Semibold } from '../../Typography';
 
 ReactChartKick.addAdapter(Chart);
 
@@ -53,9 +54,7 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
 
   return (
     <div style={{ marginBottom: '12px' }}>
-      <h4>
-        <b>{name}</b>
-      </h4>
+      <Semibold>{name}</Semibold>
       <div>
         <AreaChart
           messages={{ empty: 'Not data' }}

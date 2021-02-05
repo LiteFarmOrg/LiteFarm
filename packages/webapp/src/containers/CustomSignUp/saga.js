@@ -101,7 +101,9 @@ export function* customCreateUserSaga({ payload: data }) {
     const { name, email, password, gender, birth_year } = data;
     const { first_name, last_name } = getFirstNameLastName(name);
     const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+    const language_preference = selectedLanguage.includes('-')
+      ? selectedLanguage.split('-')[0]
+      : selectedLanguage;
     let reqBody = {
       email,
       first_name,
@@ -119,10 +121,11 @@ export function* customCreateUserSaga({ payload: data }) {
     if (result) {
       const {
         id_token,
-        user: { user_id },
+        user: { user_id, language_preference },
       } = result.data;
       localStorage.setItem('id_token', id_token);
 
+      localStorage.setItem('litefarm_lang', language_preference);
       yield put(loginSuccess({ user_id }));
       history.push('/farm_selection');
     }

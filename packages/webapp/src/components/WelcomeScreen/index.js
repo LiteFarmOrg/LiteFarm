@@ -24,7 +24,7 @@ export default function PureWelcomeScreen({ onClick }) {
         </Button>
       }
     >
-      {languageToSvg[language]}
+      {languageToSvg[language] ?? <SignupEnglish />}
     </Layout>
   );
 }

@@ -32,6 +32,11 @@
     "PASSWORD": "MISSING",
     "TITLE": "MISSING"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "MISSING",
     "LABEL": "MISSING"
@@ -92,6 +97,7 @@
         "ESTIMATED_PRODUCTION": "MISSING",
         "ESTIMATED_REVENUE": "MISSING",
         "ESTIMATED_YIELD_PLACEHOLDER": "MISSING",
+        "FIELD_SIZE": "MISSING",
         "GENUS": "MISSING",
         "HOW_MUCH_FIELD": "MISSING",
         "NEW_CROP": "MISSING",
@@ -428,6 +434,7 @@
     "DEPTH": "MISSING",
     "INORGANIC_CARBON": "MISSING",
     "MORE_INFO": "MISSING",
+    "OM": "MISSING",
     "ORGANIC_CARBON": "MISSING",
     "SELECT_DEPTH": "MISSING",
     "SELECT_TEXTURE": "MISSING",
@@ -580,6 +587,7 @@
       "TITLE": "MISSING"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "MISSING",
       "CUSTOMER_NAME": "MISSING",
       "DELETE_CONFIRMATION": "MISSING",
@@ -606,6 +614,7 @@
     },
     "FINANCES": {
       "ACTION": "MISSING",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "MISSING",
       "ACTUAL_REVENUE_LABEL": "MISSING",
       "ADD_NEW_EXPENSE": "MISSING",
@@ -636,20 +645,39 @@
       "LABOUR_LABEL": "MISSING",
       "OTHER_EXPENSES_LABEL": "MISSING",
       "REVENUE": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "MISSING",
       "CROPS": "MISSING",
       "EMPLOYEES": "MISSING",
+      "TABLE": {
+        "AMOUNT": "MISSING",
+        "CROP": "MISSING",
+        "DATE": "MISSING",
+        "EMPLOYEE": "MISSING",
+        "EST_REVENUE": "MISSING",
+        "LABOUR_COST": "MISSING",
+        "TASK": "MISSING",
+        "TIME": "MISSING",
+        "TYPE": "MISSING"
+      },
       "TASKS": "MISSING",
       "TITLE": "MISSING"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "MISSING",
+      "SUBTOTAL": "MISSING",
       "SUMMARY": "MISSING",
       "TITLE": "MISSING",
-      "TOTAL": "MISSING"
+      "TOTAL": "MISSING",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {
@@ -683,6 +711,8 @@
       "NO_WAGE_SET_LOCATION": "MISSING",
       "RATHER_NOT_SAY": "MISSING",
       "SAD": "MISSING",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
       "TASKS_FOR_SHIFT": "MISSING",
       "TASKS_SELECTED": "MISSING",
       "TIME_ALLOCATION": "MISSING",
@@ -698,7 +728,6 @@
       "YOU_HAVE": "MISSING"
     },
     "END_TIME": "MISSING",
-    "FROM": "MISSING",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "MISSING",
       "DURATION": "MISSING",
@@ -715,8 +744,7 @@
     "SHIFT_DATE": "MISSING",
     "SHIFT_HISTORY": "MISSING",
     "START_TIME": "MISSING",
-    "TITLE": "MISSING",
-    "TO": "MISSING"
+    "TITLE": "MISSING"
   },
   "SIGNUP": {
     "DIDNT_WORK": "MISSING",
@@ -752,12 +780,20 @@
     "DESCRIPTION_TOP": "MISSING",
     "TITLE": "MISSING"
   },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
+  },
   "WEATHER": {
     "HUMIDITY": "MISSING",
     "WIND": "MISSING"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "MISSING",
-    "SVG_ALT": "MISSING"
+    "BUTTON": "MISSING"
   }
 }

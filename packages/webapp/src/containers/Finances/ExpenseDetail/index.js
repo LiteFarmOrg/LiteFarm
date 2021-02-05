@@ -11,6 +11,7 @@ import { grabCurrencySymbol } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class ExpenseDetail extends Component {
   constructor(props) {
@@ -128,9 +129,7 @@ class ExpenseDetail extends Component {
         </div>
 
         <div className={styles.itemContainer}>
-          <h4>
-            <strong>{this.props.t('SALE.EXPENSE_DETAIL.DESCRIPTION')}</strong>
-          </h4>
+          <Semibold>{this.props.t('SALE.EXPENSE_DETAIL.DESCRIPTION')}</Semibold>
           <div>{this.props.t('SALE.EXPENSE_DETAIL.COST')}</div>
         </div>
         {expenseItems.length > 0 &&
@@ -138,9 +137,7 @@ class ExpenseDetail extends Component {
             return (
               <div key={e.type_name}>
                 <div className={styles.typeNameContainer}>
-                  <h4>
-                    <strong>{e.type_name}</strong>
-                  </h4>
+                  <Semibold>{e.type_name}</Semibold>
                 </div>
                 {e.items.length > 0 &&
                   e.items.map((i) => {
@@ -157,9 +154,7 @@ class ExpenseDetail extends Component {
             );
           })}
         <div className={styles.itemContainer}>
-          <h4>
-            <strong>{this.props.t('SALE.EXPENSE_DETAIL.TOTAL')}</strong>
-          </h4>
+          <Semibold>{this.props.t('SALE.EXPENSE_DETAIL.TOTAL')}</Semibold>
           <div className={styles.greenText} id="total-amount">
             {this.state.currencySymbol + total}
           </div>

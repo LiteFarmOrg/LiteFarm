@@ -32,6 +32,11 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
     "LABEL": "Contraseña"
@@ -92,6 +97,7 @@
         "ESTIMATED_PRODUCTION": "Produccion estimada",
         "ESTIMATED_REVENUE": "Ganancia estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimiento estimado",
+        "FIELD_SIZE": "MISSING",
         "GENUS": "Genus",
         "HOW_MUCH_FIELD": "Cuánto del campo desea usar?",
         "NEW_CROP": "Nuevo Cultivo",
@@ -115,11 +121,11 @@
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
       "NUMBER_CROPS": "Número de cultivos",
-      "SELECT": "MISSING",
+      "SELECT": "Seleccionar...",
       "TITLE": "Editar campo",
       "TOTAL_AREA": "Area total",
       "VARIETY": "Variedad",
-      "DELETE_FIELD_CONFIRM": "MISSING"
+      "DELETE_FIELD_CONFIRM": "Quiero borrar este campo."
     },
     "EXPLORE": "Explore sus campos",
     "LIST": "Lista",
@@ -428,6 +434,7 @@
     "DEPTH": "Profundidad",
     "INORGANIC_CARBON": "Carbon inorgánico",
     "MORE_INFO": "Más información",
+    "OM": "MO",
     "ORGANIC_CARBON": "Carbón orgánico",
     "SELECT_DEPTH": "Seleccionar profundidad",
     "SELECT_TEXTURE": "Seleccionar textura",
@@ -580,6 +587,7 @@
       "TITLE": "Agregue nueva venta"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
@@ -606,6 +614,7 @@
     },
     "FINANCES": {
       "ACTION": "Acción",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "Estimado",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Agregar nuevo gasto",
@@ -636,24 +645,43 @@
       "LABOUR_LABEL": "Trabajo",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
-      "TITLE": "Finanzas"
+      "TITLE": "Finanzas",
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "Por",
       "CROPS": "Cultivos",
       "EMPLOYEES": "Empleados",
+      "TABLE": {
+        "AMOUNT": "Monto",
+        "CROP": "Cultivo",
+        "DATE": "Fecha",
+        "EMPLOYEE": "Empleado",
+        "EST_REVENUE": "Ganancia estimada",
+        "LABOUR_COST": "Costo de trabajo",
+        "TASK": "Tarea",
+        "TIME": "Tiempo",
+        "TYPE": "Tipo"
+      },
       "TASKS": "Tareas",
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "Historia detallada",
+      "SUBTOTAL": "Subtotal",
       "SUMMARY": "Resumen",
       "TITLE": "Ventas",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {
-    "ACTION": "Accionn",
+    "ACTION": "Acción",
     "ADD_NEW": "Agregar nuevo turno",
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
@@ -683,6 +711,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil->Personas->Editar",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
+      "SELECT_CROPS": "Seleccionar cultivos",
+      "SELECT_FIELDS": "Seleccionar Campos",
       "TASKS_FOR_SHIFT": "Estas son las tareas seleccionadas para este turno",
       "TASKS_SELECTED": "Las tareas seleccionadas para este turno aparecen destacadas abajo. Si deshace la selección de una tarea removerá la tarea del turno",
       "TIME_ALLOCATION": "Asignación de tiempo",
@@ -698,14 +728,13 @@
       "YOU_HAVE": "Usted tiene"
     },
     "END_TIME": "Tiempo final",
-    "FROM": "Desde",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
       "FIELD_CROPS": "Campos/Cultivos",
       "SUBMITTED_FOR": "Enviado para",
       "TASK": "Tarea",
-      "TITLE": "Mi turno"
+      "TITLE": "Detalle de turno"
     },
     "NAME": "Nombre",
     "NEW_SHIFT": {
@@ -715,8 +744,7 @@
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
     "START_TIME": "Faltante",
-    "TITLE": "Turnos",
-    "TO": "Para"
+    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "DIDNT_WORK": "Eso no funcionó.",
@@ -752,13 +780,21 @@
     "DESCRIPTION_TOP": "La puerta del granero es segura.",
     "TITLE": "Cambiando de finca"
   },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
+  },
   "WEATHER": {
     "HUMIDITY": "Humedad",
     "WIND": "Viento"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Vamos a comenzar",
-    "SVG_ALT": "Bienvenido(a) a LiteFarm"
+    "BUTTON": "Vamos a comenzar"
   },
   "LOGIN_BUTTON": "Registrarse o Iniciar Sesión"
 }

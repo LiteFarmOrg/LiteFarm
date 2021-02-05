@@ -186,7 +186,7 @@ class DefaultLogForm extends React.Component {
     }
 
     let fieldOptionsWithoutAll = JSON.parse(JSON.stringify(filteredFields));
-    filteredFields.unshift({ value: 'all', label: 'All Fields' });
+    filteredFields.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_FIELDS') });
 
     this.setState({
       fieldOptions: filteredFields,
@@ -316,7 +316,11 @@ class DefaultLogForm extends React.Component {
         {notesField && (
           <div>
             <div className={styles.noteContainer}>
-              <Control model=".notes" component={TextArea} label={this.props.t('LOG_COMMON.NOTES')} />
+              <Control
+                model=".notes"
+                component={TextArea}
+                label={this.props.t('LOG_COMMON.NOTES')}
+              />
             </div>
           </div>
         )}

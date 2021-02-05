@@ -12,7 +12,7 @@ import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Checkbox from '../../Form/Checkbox';
-import { Label } from "../../Typography";
+import { Label } from '../../Typography';
 import { integerOnKeyDown } from '../../Form/Input';
 
 function PureStepTwo({
@@ -64,14 +64,22 @@ function PureStepTwo({
       if (finalForm[k].is_field) {
         return cond;
       }
-      return cond && !!cropDurations[k] && Object.keys(finalForm[k]).length > 0 &&
-        cropDurations[k].reduce((innerCond, crop) => innerCond && Number(crop.duration) > 0, true);
+      return (
+        cond &&
+        !!cropDurations[k] &&
+        Object.keys(finalForm[k]).length > 0 &&
+        cropDurations[k].reduce((innerCond, crop) => innerCond && Number(crop.duration) > 0, true)
+      );
     }, true);
 
-    const fieldsAndTasksAreValid = keys.reduce((cond, k) =>
-      cond && Object.keys(finalForm[k]).length > 0 && finalForm[k].val.length > 0 &&
-      ((finalForm[k].is_field && finalForm[k].duration > 0) || !finalForm[k].is_field)
-      , true);
+    const fieldsAndTasksAreValid = keys.reduce(
+      (cond, k) =>
+        cond &&
+        Object.keys(finalForm[k]).length > 0 &&
+        finalForm[k].val.length > 0 &&
+        ((finalForm[k].is_field && finalForm[k].duration > 0) || !finalForm[k].is_field),
+      true,
+    );
 
     setNextEnabled(fieldsAndTasksAreValid && cropsHaveValidDurations);
   }, [cropDurations, finalForm]);
@@ -361,11 +369,12 @@ function InputDuration({
         hours: '',
         minutes: '',
         ...defaultCrops[task.task_id]?.reduce(
-          (obj, opt) => ({[opt.value]: { hours: '', minutes: '' }, ...obj}),
-        {})
-      }
+          (obj, opt) => ({ [opt.value]: { hours: '', minutes: '' }, ...obj }),
+          {},
+        ),
+      },
     });
-  }
+  };
 
   useEffect(() => {
     resetCrops();
@@ -446,7 +455,7 @@ function InputDuration({
             isMulti
             isSearchable={false}
             name="selectByCrops"
-            placeholder="Select Crops..."
+            placeholder={t('SHIFT.EDIT_SHIFT.SELECT_CROPS')}
             options={state.cropOptions}
             className="basic-multi-select"
             classNamePrefix="select"
@@ -632,7 +641,7 @@ function InputDuration({
       </div>
       <div className={styles.selectContainer} id={'field' + task.task_id}>
         <div>
-          <strong>Fields on this farm</strong>
+          <strong>{t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
               <Button sm onClick={() => addAll(task.task_id, 'field')}>
@@ -659,7 +668,7 @@ function InputDuration({
               isMulti
               isSearchable={false}
               name="selectByFields"
-              placeholder="Select Fields..."
+              placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
               options={state.fieldOptions}
               className="basic-multi-select"
               classNamePrefix="select"
@@ -675,7 +684,7 @@ function InputDuration({
               isMulti
               isSearchable={false}
               name="selectByFields"
-              placeholder="Select Fields..."
+              placeholder={t('SHIFT.EDIT_SHIFT.SELECT_FIELDS')}
               options={state.fieldOptions}
               className="basic-multi-select"
               classNamePrefix="select"

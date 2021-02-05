@@ -288,7 +288,7 @@ class NewCropModal extends React.Component {
 
   render() {
     let { subGroups, expand_nutrient, physiology_properties } = this.state;
-    let { crops} = this.props;
+    let { crops } = this.props;
     let cropOptions = [];
     if (crops && crops.length) {
       for (let c of crops) {
@@ -307,7 +307,7 @@ class NewCropModal extends React.Component {
       <div>
         {!this.props.isLink && (
           <Button style={{ fillColor: '#7CCFA2', width: '100%' }} onClick={this.handleShow}>
-            { this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP') }
+            {this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP')}
           </Button>
         )}
         {this.props.isLink && (
@@ -321,26 +321,24 @@ class NewCropModal extends React.Component {
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{ this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_VARIETY') }</Modal.Title>
+            <Modal.Title>{this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_VARIETY')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>{ this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_CROP_DETAILS') }</h4>
+            <h4>{this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_CROP_DETAILS')}</h4>
             <br />
 
             <div className={styles.cropTemplate}>
-              <h4>{ this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE') }</h4>
+              <h4>{this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}</h4>
               <Select
                 options={cropOptions}
                 onChange={(selectedOption) => this.handleCropChange(selectedOption)}
               />
             </div>
 
-            <FormLabel>Common Name, Species, and Genus</FormLabel>
-
             <FormGroup controlId="crop_common_name">
               <FormControl
                 type="text"
-                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME') }
+                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME')}
                 value={this.state.crop_common_name}
                 onChange={(e) => {
                   this.setState({ crop_common_name: e.target.value });
@@ -354,7 +352,7 @@ class NewCropModal extends React.Component {
             >
               <FormControl
                 type="text"
-                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.VARIETY_NAME') }
+                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.VARIETY_NAME')}
                 value={this.state.variety}
                 onChange={(e) => {
                   this.setState({ variety: e.target.value });
@@ -365,7 +363,7 @@ class NewCropModal extends React.Component {
             <FormGroup controlId="crop_genus">
               <FormControl
                 type="text"
-                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.GENUS') }
+                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.GENUS')}
                 value={this.state.crop_genus}
                 onChange={(e) => {
                   this.setState({ crop_genus: e.target.value });
@@ -375,7 +373,7 @@ class NewCropModal extends React.Component {
             <FormGroup controlId="crop_specie">
               <FormControl
                 type="text"
-                placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.SPECIES') }
+                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SPECIES')}
                 value={this.state.crop_specie}
                 onChange={(e) => {
                   this.setState({ crop_specie: e.target.value });
@@ -383,16 +381,16 @@ class NewCropModal extends React.Component {
               />
             </FormGroup>
             <span style={{ display: 'none' }}>
-              <FormLabel>{ this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_SUBGROUP') }</FormLabel>
+              <FormLabel>{this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_SUBGROUP')}</FormLabel>
               <FormGroup controlId="crop_group">
                 <Form.Control
                   as="select"
-                  placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_GROUP') }
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_GROUP')}
                   value={this.state.crop_group}
                   onChange={(e) => this.handleMatchCrop(e.target.value)}
                 >
                   <option key={'select crop group'} value={'select crop group'}>
-                    { this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_GROUP') }
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_GROUP')}
                   </option>
                   {CROP_GROUPS &&
                     CROP_GROUPS.map((cropGroup, cropGroupIndex) => (
@@ -405,7 +403,7 @@ class NewCropModal extends React.Component {
               <FormGroup controlId="crop_subgroup">
                 <Form.Control
                   as="select"
-                  placeholder={ this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_SUBGROUP') }
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_SUBGROUP')}
                   value={this.state.crop_subgroup}
                   onChange={(e) => this.loadDefaultCropData(e)}
                 >
@@ -422,18 +420,20 @@ class NewCropModal extends React.Component {
               </FormGroup>
             </span>
             <div className={styles.cropGroupTitle}>
-              <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px' }}>
-                <a>{ this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_CROP_DETAIL') }</a>
+              <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px', order: 0 }}>
+                <a>{this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_CROP_DETAIL')}</a>
               </div>
-              <InfoBoxComponent
-                customStyle={{
-                  float: 'right',
-                  fontSize: '80%',
-                  marginTop: '0.2em',
-                }}
-                title={ this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_INFO') }
-                body={ this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_INFOBOX') }
-              />
+              <div style={{ order: 1, paddingRight: '40px' }}>
+                <InfoBoxComponent
+                  customStyle={{
+                    float: 'right',
+                    fontSize: '80%',
+                    marginTop: '0.2em',
+                  }}
+                  title={this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_INFO')}
+                  body={this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_INFOBOX')}
+                />
+              </div>
             </div>
             {expand_nutrient && (
               <div>
@@ -446,7 +446,9 @@ class NewCropModal extends React.Component {
                         <div key={nutrient}>
                           <p className={styles.nutrientLabel}>
                             {this.props.t(NUTRIENT_DICT[nutrient])}{' '}
-                            {this.state[nutrient] === 0 && <p>{' ' +  this.props.t('FIELDS.EDIT_FIELD.CROP.NO_DATA') }</p>}
+                            {this.state[nutrient] === 0 && (
+                              <p>{' ' + this.props.t('FIELDS.EDIT_FIELD.CROP.NO_DATA')}</p>
+                            )}
                           </p>
                           <FormControl
                             className={styles.nutrientInput}
@@ -466,14 +468,16 @@ class NewCropModal extends React.Component {
                   })}
                 </FormGroup>
 
-                <FormLabel>{ this.props.t('FIELDS.EDIT_FIELD.CROP.NUTRIENT_LABEL') }</FormLabel>
+                <FormLabel>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUTRIENT_LABEL')}</FormLabel>
                 <br />
                 <FormGroup controlId="crop_nutrient">
                   {NUTRIENT_ARRAY.map((nutrient) => {
                     if (!physiology_properties.includes(nutrient)) {
                       return (
                         <div key={nutrient}>
-                          <p className={styles.nutrientLabel}>{this.props.t(NUTRIENT_DICT[nutrient])}</p>
+                          <p className={styles.nutrientLabel}>
+                            {this.props.t(NUTRIENT_DICT[nutrient])}
+                          </p>
                           <FormControl
                             className={styles.nutrientInput}
                             type="number"
@@ -501,9 +505,9 @@ class NewCropModal extends React.Component {
                 this.props.handler();
               }}
             >
-              { this.props.t('common:SAVE') }
+              {this.props.t('common:SAVE')}
             </Button>
-            <Button onClick={this.handleClose}>{ this.props.t('common:CLOSE') }</Button>
+            <Button onClick={this.handleClose}>{this.props.t('common:CLOSE')}</Button>
           </Modal.Footer>
         </Modal>
       </div>

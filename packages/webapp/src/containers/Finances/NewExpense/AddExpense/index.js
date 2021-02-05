@@ -151,7 +151,7 @@ class AddExpense extends Component {
         <DateContainer
           date={this.state.date}
           onDateChange={this.setDate}
-          placeholder="Choose a date"
+          placeholder={this.props.t('EXPENSE.EDIT_EXPENSE.DATE_PLACEHOLDER')}
           allowPast={true}
         />
         <div>

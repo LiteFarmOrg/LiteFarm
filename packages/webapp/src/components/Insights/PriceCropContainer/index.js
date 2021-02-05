@@ -5,6 +5,7 @@ import { getMassUnit, roundToTwoDecimal } from '../../../util';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { Semibold } from '../../Typography';
+import { useTranslation } from 'react-i18next';
 
 ReactChartKick.addAdapter(Chart);
 
@@ -18,6 +19,8 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
   const {
     units: { measurement },
   } = useSelector(userFarmSelector);
+
+  const { t } = useTranslation();
 
   const formatState = () => {
     const ownPriceSeries = {};
@@ -50,7 +53,7 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
 
   const { ownPriceSeries, networkPriceSeries, max } = state;
 
-  const yTitle = `Price (${currencySymbol}/${getMassUnit()})`;
+  const yTitle = t("INSIGHTS.PRICES.Y_TITLE", { currency: currencySymbol, mass: getMassUnit() });
 
   return (
     <div style={{ marginBottom: '12px' }}>
@@ -76,14 +79,14 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
           }}
           data={[
             {
-              name: 'Own Price',
+              name: t("INSIGHTS.PRICES.OWN_PRICE"),
               data: ownPriceSeries,
               dataset: {
                 backgroundColor: 'rgba(51, 102, 204, 0.4)',
               },
             },
             {
-              name: 'Network Price',
+              name: t("INSIGHTS.PRICES.NETWORK_PRICE"),
               data: networkPriceSeries,
               dataset: {
                 backgroundColor: 'rgba(220, 57, 18, 0.4)',

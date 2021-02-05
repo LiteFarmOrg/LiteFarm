@@ -224,10 +224,13 @@
       "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",
       "NEARBY_FARMS": "Buscando data de ventas de {{count}} granja",
       "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
+      "NETWORK_PRICE": "MISSING",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en tu Perfil para obtener data de ventas cercanas.",
+      "OWN_PRICE": "MISSING",
       "PERCENT_OF_MARKET": "{{percentage}}% del mercado",
       "SALES_FROM_DISTANCE_AWAY": "Ventas a {{distance}} {{unit}} de distancia",
-      "TITLE": "Precios"
+      "TITLE": "Precios",
+      "Y_TITLE": "MISSING"
     },
     "SOIL_OM": {
       "ALTERNATE_TITLE": "Contenido de MO del Suelo",

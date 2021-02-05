@@ -224,10 +224,13 @@
       "INFO": "MISSING",
       "NEARBY_FARMS": "MISSING",
       "NEARBY_FARMS_plural": "MISSING",
+      "NETWORK_PRICE": "MISSING",
       "NO_ADDRESS": "MISSING",
+      "OWN_PRICE": "MISSING",
       "PERCENT_OF_MARKET": "MISSING",
       "SALES_FROM_DISTANCE_AWAY": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "Y_TITLE": "MISSING"
     },
     "SOIL_OM": {
       "ALTERNATE_TITLE": "MISSING",

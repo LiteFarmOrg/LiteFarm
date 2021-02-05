@@ -224,10 +224,13 @@
       "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
       "NEARBY_FARMS": "Pulling from {{count}} farm for sales data",
       "NEARBY_FARMS_plural": "Pulling from {{count}} farms for sales data",
+      "NETWORK_PRICE": "Network Price",
       "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "OWN_PRICE": "Own Price",
       "PERCENT_OF_MARKET": "{{percentage}}% of market",
       "SALES_FROM_DISTANCE_AWAY": "Sales from {{distance}} {{unit}} away",
-      "TITLE": "Prices"
+      "TITLE": "Prices",
+      "Y_TITLE": "Price ({{currency}}/{{mass}})"
     },
     "SOIL_OM": {
       "ALTERNATE_TITLE": "Soil OM Content",

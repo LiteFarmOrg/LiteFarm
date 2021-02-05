@@ -195,16 +195,16 @@
       "TITLE": "Satisfaccion del Trabajo"
     },
     "NITROGEN_BALANCE": {
-      "CHOOSE_A_FREQUENCY": "MISSING",
-      "CHOOSE_FREQUENCY": "MISSING",
-      "COUNT_MONTHS": "MISSING",
-      "COUNT_MONTHS_plural": "MISSING",
+      "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
+      "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
+      "COUNT_MONTHS": "{{count}} mese",
+      "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Tu balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
       "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular tu balance de nitrogeno",
       "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
       "INFO_1": "El balance de nitrogeno te dice si aplicaste mucho o muy poco fertilizante. Depende en tus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en tu intervalo de tiempo deseado.",
       "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
-      "SELECT_FREQUENCY": "MISSING",
+      "SELECT_FREQUENCY": "Seleccione una frecuencia",
       "TITLE": "Balance de Nitrogeno"
     },
     "PEOPLE_FED": {
@@ -224,13 +224,13 @@
       "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",
       "NEARBY_FARMS": "Buscando data de ventas de {{count}} granja",
       "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
-      "NETWORK_PRICE": "MISSING",
+      "NETWORK_PRICE": "Precio de red",
       "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en tu Perfil para obtener data de ventas cercanas.",
-      "OWN_PRICE": "MISSING",
+      "OWN_PRICE": "Tu precio",
       "PERCENT_OF_MARKET": "{{percentage}}% del mercado",
       "SALES_FROM_DISTANCE_AWAY": "Ventas a {{distance}} {{unit}} de distancia",
       "TITLE": "Precios",
-      "Y_TITLE": "MISSING"
+      "Y_TITLE": "Precio ({{currency}}/{{mass}})"
     },
     "SOIL_OM": {
       "ALTERNATE_TITLE": "Contenido de MO del Suelo",

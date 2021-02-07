@@ -214,7 +214,9 @@ async function sendMissingInvitations(user) {
 
 async function sendPasswordReset(data) {
   const created_at = new Date();
-  const pw = await passwordModel.query()
+  const wasEmailSent = await passwordModel.query()
+    .select('*').where({ user_id: data.user_id }).first();
+  const password = wasEmailSent ? wasEmailSent : await passwordModel.query()
     .insert({
       user_id: data.user_id,
       reset_token_version: 1,
@@ -224,7 +226,7 @@ async function sendPasswordReset(data) {
   const tokenPayload = {
     ...data,
     reset_token_version: 0,
-    created_at: pw.created_at.getTime(),
+    created_at: password.created_at.getTime(),
   };
   const token = await createToken('passwordReset', tokenPayload);
   const template_path = emails.PASSWORD_RESET;

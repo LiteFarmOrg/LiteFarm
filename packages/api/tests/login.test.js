@@ -165,6 +165,21 @@ describe('Sign Up Tests', () => {
       })
     })
 
+    test('should resend a password reset email to user if he was legacy ', async (done) => {
+      const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 3});
+      const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]});
+      getRequest({email: user.email}, (err, res) => {
+        getRequest({email: user.email}, (err2, res2) => {
+          expect(res2.status).toBe(200);
+          expect(res2.body.exists).toBe(false);
+          expect(res2.body.expired).toBe(true);
+          expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(2);
+          done();
+        })
+      })
+    })
+
+
     test('should reject when a pseudo user tries to login', async (done) => {
       const [user] = await mocks.usersFactory({...mocks.fakeUser(), status_id: 1, email: `${faker.random.uuid()}@pseudo.com`});
       const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]});

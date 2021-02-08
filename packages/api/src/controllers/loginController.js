@@ -31,20 +31,23 @@ class loginController extends baseController {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body.user;
       const { screen_width, screen_height } = req.body.screenSize;
+      const ua = parser(req.headers['user-agent']);
+      const languages = req.acceptsLanguages();
+      let userID;
+
+      let ip = req.headers['x-forwarded-for'];
+      if (ip) {
+        const list = ip.split(',');
+        ip = list[list.length - 1];
+      } else {
+        ip = req.connection.remoteAddress;
+      }
+
       try {
         const userData = await userModel.query().select('*').where('email', email).first();
         const pwData = await passwordModel.query().select('*').where('user_id', userData.user_id).first();
         const isMatch = await bcrypt.compare(password, pwData.password_hash);
-        let ip = req.headers['x-forwarded-for'];
-        if (ip) {
-          const list = ip.split(',');
-          ip = list[list.length - 1];
-        } else {
-          ip = req.connection.remoteAddress;
-        }
-        const ua = parser(req.headers['user-agent']);
-        const languages = req.acceptsLanguages();
-        const userID = userData.user_id;
+        userID = userData.user_id;
         if (!isMatch) {
           await userLogModel.query().insert({
             user_id: userID,

@@ -21,7 +21,6 @@ const chai_expect = chai.expect;    // Using Expect style
 const chai_should = chai.should();  // Using Should style
 const server = require('./../src/server');
 const dummySignUp = require('./dummySignUp')
-const authConfig = require('../src/auth0Config')
 const knex = require('../src/util/knex');
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/isSelf')
@@ -50,98 +49,6 @@ xdescribe('These are tests for auth0 signup and user creation', () => {
     middleware.mockImplementation((req, res, next) => {
       return next()
     });
-  })
-
-  test('POST to signup with oauth to get token', (done) => {
-      chai.request(authConfig.token_url).post('/')
-        .set(authConfig.token_headers)
-        .send(authConfig.token_body)
-        .end((err, res) => {
-            chai_expect(res.status).to.equal(200)
-            testSignUpToken = res.body.access_token;
-            done();
-          }
-        )
-    }
-  )
-
-  test('POST blank email/username to signup gives 400', (done) => {
-    chai.request(authConfig.signup_url).post('/')
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .send(dummySignUp.emailBlankUser)
-      .end((err, res) => {
-        chai_expect(res.error).to.be.not.null
-        chai_expect(res.status).to.equal(400)
-        done();
-      })
-  })
-
-  test('POST invalid email to signup gives 400', (done) => {
-    chai.request(authConfig.signup_url).post('/')
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .send(dummySignUp.emailInvalidUser)
-      .end((err, res) => {
-        chai_expect(res.error).to.be.not.null
-        chai_expect(res.status).to.equal(400)
-        done();
-      })
-  })
-
-  test('POST invalid password (no uppercase or lowercase) signup gives 400', (done) => {
-    chai.request(authConfig.signup_url).post('/')
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .send(dummySignUp.passwordInvalidUserNoLowercaseUppercase)
-      .end((err, res) => {
-        chai_expect(res.error).to.be.not.null
-        chai_expect(res.status).to.equal(400)
-        done();
-      })
-  })
-
-  test('POST invalid password (no special characters or numbers) signup gives 400', (done) => {
-    chai.request(authConfig.signup_url).post('/')
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .send(dummySignUp.passwordInvalidUserNoSpecialCharactersOrNumbers)
-      .end((err, res) => {
-        chai_expect(res.error).to.be.not.null
-        chai_expect(res.status).to.equal(400)
-        done();
-      })
-  })
-
-  test('POST valid signup user', (done) => {
-    chai.request(authConfig.signup_url).post('/')
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .send(dummySignUp.validSignupUser)
-      .end((err, res) => {
-        chai_expect(res.body.email).to.equal(dummySignUp.validSignupUser.email)
-        chai_expect(res.body.user_metadata).to.deep.equal(dummySignUp.validSignupUser.user_metadata)
-        chai_expect(res.body._id).be.not.empty
-        chai_expect(res.status).to.equal(200)
-        done();
-      })
-  })
-
-
-  test('GET user by email from oauth', (done) => {
-    let email = dummySignUp.validSignupUser.email.replace('@', '%40')
-    chai.request(authConfig.token_body.audience).get('users-by-email?email=' + email)
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .end((err, res) => {
-        chai_expect(res.body[0]).to.be.not.null
-        //oauth user id needed to delete user from oauth
-        oauth_user_id = res.body[0].user_id
-        //userID used to add to Users db
-        userID = res.body[0].user_id.split('|')[1]
-        chai_expect(res.status).to.equal(200)
-        done();
-      })
   })
 
   test('POST user to DB', (done) => {
@@ -184,29 +91,5 @@ xdescribe('These are tests for auth0 signup and user creation', () => {
         done();
       });
   });
-
-
-  test('DELETE valid signup user from oauth', (done) => {
-    chai.request(authConfig.user_url).delete('/' + oauth_user_id)
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .end((err, res) => {
-        chai_expect(res.status).to.equal(204)
-        done();
-      })
-
-  })
-
-  test('GET user by email from oauth should give [] and 200', (done) => {
-    let email = dummySignUp.validSignupUser.email.replace('@', '%40')
-    chai.request(authConfig.token_body.audience).get('users-by-email?email=' + email)
-      .set('content-type', 'application/json')
-      .set('Authorization', 'Bearer ' + testSignUpToken)
-      .end((err, res) => {
-        chai_expect(res.body).to.deep.equal([])
-        chai_expect(res.status).to.equal(200)
-        done();
-      })
-  })
 
 });

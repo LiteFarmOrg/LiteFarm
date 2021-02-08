@@ -186,7 +186,7 @@ class DefaultLogForm extends React.Component {
     }
 
     let fieldOptionsWithoutAll = JSON.parse(JSON.stringify(filteredFields));
-    filteredFields.unshift({ value: 'all', label: 'All Fields' });
+    filteredFields.unshift({ value: 'all', label: this.props.t('LOG_COMMON.ALL_FIELDS') });
 
     this.setState({
       fieldOptions: filteredFields,
@@ -226,19 +226,16 @@ class DefaultLogForm extends React.Component {
     return (
       <Fieldset model={model}>
         {displayLiveCropMessage && (
-          <Alert variant="warning">
-            To use this type of log please add crops to fields. You can do this by navigating to
-            Fields -> Your field -> New Field Crop
-          </Alert>
+          <Alert variant="warning">{this.props.t('LOG_COMMON.WARNING')}</Alert>
         )}
         <div className={styles.defaultFormDropDown}>
-          <label>Field</label>
+          <label>{this.props.t('LOG_COMMON.FIELD')}</label>
           <Control
             model=".field"
             onChange={this.setCropsOnFieldSelect}
             component={DropDown}
             options={fieldOptions || []}
-            placeholder="Select Field"
+            placeholder={this.props.t('LOG_COMMON.SELECT_FIELD')}
             isMulti
             isSearchable={false}
             value={this.state.selectedFields}
@@ -249,7 +246,7 @@ class DefaultLogForm extends React.Component {
             model=".field"
             show={{ touched: true, focus: false }}
             messages={{
-              required: 'Required',
+              required: this.props.t('common:REQUIRED'),
             }}
           />
         </div>
@@ -259,7 +256,7 @@ class DefaultLogForm extends React.Component {
             return (
               <div key={'crop-' + index} className={styles.defaultFormDropDown}>
                 <label>
-                  Crop
+                  {this.props.t('LOG_COMMON.CROP')}
                   <label style={{ fontSize: 12, color: '#028577', marginLeft: '4px' }}>
                     {f.label}
                   </label>
@@ -268,7 +265,7 @@ class DefaultLogForm extends React.Component {
                   model={`.crop.${f.value}`}
                   component={DropDown}
                   options={this.state.cropOptionsMap[f.value]}
-                  placeholder="Select Field Crop"
+                  placeholder={this.props.t('LOG_COMMON.SELECT_FIELD_CROP')}
                   isMulti
                   isSearchable={false}
                   validators={
@@ -286,7 +283,7 @@ class DefaultLogForm extends React.Component {
                   model={`.crop.${f.value}`}
                   show={{ touched: true, focus: false }}
                   messages={{
-                    required: 'Required',
+                    required: this.props.t('common:REQUIRED'),
                   }}
                 />
               </div>
@@ -294,12 +291,12 @@ class DefaultLogForm extends React.Component {
           })}
         {typeField && (
           <div className={styles.defaultFormDropDown}>
-            <label>Type</label>
+            <label>{this.props.t('LOG_COMMON.TYPE')}</label>
             <Control
               model=".type"
               component={DropDown}
               options={parsedTypeOptions || []}
-              placeholder="Select Type"
+              placeholder={this.props.t('LOG_COMMON.SELECT_TYPE')}
               validators={{ required: (val) => val && val.value }}
             />
             <Errors
@@ -307,7 +304,7 @@ class DefaultLogForm extends React.Component {
               model=".type"
               show={{ touched: true, focus: false }}
               messages={{
-                required: 'Required',
+                required: this.props.t('common:REQUIRED'),
               }}
             />
           </div>
@@ -316,7 +313,11 @@ class DefaultLogForm extends React.Component {
         {notesField && (
           <div>
             <div className={styles.noteContainer}>
-              <Control model=".notes" component={TextArea} label={'Notes'} />
+              <Control
+                model=".notes"
+                component={TextArea}
+                label={this.props.t('LOG_COMMON.NOTES')}
+              />
             </div>
           </div>
         )}

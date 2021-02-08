@@ -22,5 +22,6 @@
   "SHEEP": "Ovelha",
   "TURKEY_MANURE_AGED_>7_WEEKS_OUT_OF_BARN": "Esterco de peru (curtido >7 semanas)",
   "TURKEY_MANURE_FRESH_FROM_BARN_<7_WEEKS": "Esterco de peru (fresco <7 semanas)",
-"BIOSOLIDS-_ANAEROBICALLY_DIGESTED_&_DEWATERED": "Biosólidos- digestão anaeróbica e desidratados"
+  "BIOSOLIDS-_ANAEROBICALLY_DIGESTED_&_DEWATERED": "Biosólidos- digestão anaeróbica e desidratados",
+  "OTHER": "Other"
 }

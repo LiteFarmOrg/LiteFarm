@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "MISSING",
     "FARM_NAME": "MISSING",
     "INVALID_FARM_LOCATION": "MISSING",
+    "LOCATING": "MISSING",
     "NO_ADDRESS": "MISSING",
     "TELL_US_ABOUT_YOUR_FARM": "MISSING"
   },
@@ -16,7 +17,15 @@
     "INPUT_PLACEHOLDER": "MISSING",
     "SWITCH_TITLE": "MISSING"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "MISSING",
+      "REQUIRED": "MISSING",
+      "TWO_DECIMALS": "MISSING"
+    }
+  },
   "CONSENT": {
+    "DATA_POLICY": "MISSING",
     "LABEL": "MISSING"
   },
   "CREATE_USER": {
@@ -31,12 +40,24 @@
     "PASSWORD": "MISSING",
     "TITLE": "MISSING"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "MISSING",
-    "LABEL": "MISSING"
+    "HINT": "MISSING",
+    "LABEL": "MISSING",
+    "ONE_NUMBER": "MISSING",
+    "ONE_SPECIAL_CHARACTER": "MISSING",
+    "ONE_UPPER_CASE": "MISSING",
+    "TOO_SHORT": "MISSING"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "MIN_ERROR": "Please enter a value greater than ",
+      "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "MISSING",
       "TITLE_2": "MISSING"
     },
@@ -64,6 +85,7 @@
     "ADD_NEW_FIELD": "MISSING",
     "EDIT_FIELD": {
       "CROP": {
+        "ADD_NEW_CROP_OR_VARIETY": "MISSING",
         "AREA_USED": "MISSING",
         "AREA_USED_HECTARE": "MISSING",
         "AREA_USED_IN": "MISSING",
@@ -74,29 +96,49 @@
         "BY_BEDS": "MISSING",
         "CHOOSE_END_DATE": "MISSING",
         "CHOOSE_START_DATE": "MISSING",
+        "CROP_COMMON_NAME": "MISSING",
+        "CROP_GROUP_INFO": "MISSING",
+        "CROP_GROUP_SUBGROUP": "MISSING",
         "DELETE_CONFIRMATION": "MISSING",
+        "EDIT_CROP_DETAIL": "MISSING",
         "EDIT_ESTIMATED_PRICE": "MISSING",
         "EDIT_ESTIMATED_YIELD": "MISSING",
         "END_DATE": "MISSING",
+        "ENTER_CROP_DETAILS": "MISSING",
         "ENTER_START_FINISH": "MISSING",
         "ESTIMATED_PRICE": "MISSING",
         "ESTIMATED_PRODUCTION": "MISSING",
         "ESTIMATED_REVENUE": "MISSING",
         "ESTIMATED_YIELD_PLACEHOLDER": "MISSING",
+        "FIELD_SIZE": "MISSING",
+        "GENUS": "MISSING",
         "HOW_MUCH_FIELD": "MISSING",
+        "NEW_CROP": "MISSING",
+        "NEW_CROP_INFOBOX": "MISSING",
+        "NEW_CROP_VARIETY": "MISSING",
         "NEW_FIELD_CROP": "MISSING",
+        "NO_DATA": "MISSING",
         "NUMBER_EXPIRED": "MISSING",
         "NUMBER_OF_BEDS": "MISSING",
+        "NUTRIENT_LABEL": "MISSING",
         "PERCENTAGE": "MISSING",
-        "START_DATE": "MISSING"
+        "SELECT_CROP_GROUP": "MISSING",
+        "SELECT_CROP_SUBGROUP": "MISSING",
+        "SELECT_CROP_TEMPLATE": "MISSING",
+        "SPECIES": "MISSING",
+        "START_DATE": "MISSING",
+        "VARIETY_NAME": "MISSING"
       },
       "DELETE_FIELD": "MISSING",
+      "DELETE_FIELD_WARNING": "MISSING",
       "EDIT_NAME": "MISSING",
       "NAME": "MISSING",
       "NUMBER_CROPS": "MISSING",
+      "SELECT": "MISSING",
       "TITLE": "MISSING",
       "TOTAL_AREA": "MISSING",
-      "VARIETY": "MISSING"
+      "VARIETY": "MISSING",
+      "DELETE_FIELD_CONFIRM": "MISSING"
     },
     "EXPLORE": "MISSING",
     "LIST": "MISSING",
@@ -138,6 +180,81 @@
   },
   "HOME": {
     "GREETING": "MISSING"
+  },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "MISSING",
+      "BIRDS": "MISSING",
+      "CROPS": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "INSECTS": "MISSING",
+      "PLANTS": "MISSING",
+      "SPECIES_COUNT": "MISSING",
+      "SPECIES_COUNT_plural": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "CURRENT": "MISSING",
+    "INFO": "MISSING",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "MISSING",
+      "CHOOSE_FREQUENCY": "MISSING",
+      "COUNT_MONTHS": "MISSING",
+      "COUNT_MONTHS_plural": "MISSING",
+      "CYCLE_INDICATOR": "MISSING",
+      "FIRST_TIME": "MISSING",
+      "HEADER": "MISSING",
+      "INFO_1": "MISSING",
+      "INFO_2": "MISSING",
+      "SELECT_FREQUENCY": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "MISSING",
+      "FAT": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "MEAL_COUNT": "MISSING",
+      "MEAL_COUNT_plural": "MISSING",
+      "MEALS": "MISSING",
+      "PROTEIN": "MISSING",
+      "TITLE": "MISSING",
+      "VITAMIN_A": "MISSING",
+      "VITAMIN_C": "MISSING"
+    },
+    "PRICES": {
+      "INFO": "MISSING",
+      "NEARBY_FARMS": "MISSING",
+      "NEARBY_FARMS_plural": "MISSING",
+      "NETWORK_PRICE": "MISSING",
+      "NO_ADDRESS": "MISSING",
+      "OWN_PRICE": "MISSING",
+      "PERCENT_OF_MARKET": "MISSING",
+      "SALES_FROM_DISTANCE_AWAY": "MISSING",
+      "TITLE": "MISSING",
+      "Y_TITLE": "MISSING"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "MISSING",
+      "HEADER": "MISSING",
+      "INFO": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "TITLE": "MISSING",
+    "UNAVAILABLE": "MISSING",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "MISSING",
+      "INFO_1": "MISSING",
+      "INFO_2": "MISSING",
+      "NO_SCHEDULE_RUN": "MISSING",
+      "REGISTER_FARM": "MISSING",
+      "TITLE": "MISSING"
+    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "MISSING",
@@ -202,17 +319,22 @@
     "ERROR_MISSING_FIELDS": "MISSING",
     "FARM_LOG": "MISSING",
     "FERTILIZING": "MISSING",
+    "FIELD": "MISSING",
     "FIELD_CROPS": "MISSING",
     "FIELD_WORK": "MISSING",
     "FIELDS": "MISSING",
     "FROM": "MISSING",
     "HARVEST": "MISSING",
+    "HIDE": "MISSING",
     "IRRIGATION": "MISSING",
+    "LOG_ALL_CROPS": "MISSING",
+    "LOG_ALL_FIELDS": "MISSING",
     "LOG_HELP": "MISSING",
     "LOG_HELP_EXPLANATION": "MISSING",
     "LOG_HISTORY": "MISSING",
     "NEW_LOG": "MISSING",
     "NITRATE": "MISSING",
+    "NOTES": "MISSING",
     "OTHER": "MISSING",
     "PEST": "MISSING",
     "PHOSPHATE": "MISSING",
@@ -225,9 +347,15 @@
     "SCOUTING": "MISSING",
     "SEARCH_BY_ACTIVITY": "MISSING",
     "SEEDING": "MISSING",
+    "SELECT_FIELD": "MISSING",
+    "SELECT_FIELD_CROP": "MISSING",
     "SELECT_PRODUCT": "MISSING",
+    "SELECT_TYPE": "MISSING",
+    "SHOW": "MISSING",
     "SOIL_DATA": "MISSING",
     "TO": "MISSING",
+    "TYPE": "MISSING",
+    "WARNING": "MISSING",
     "WATER": "MISSING",
     "WHAT_LOG": "MISSING"
   },
@@ -246,6 +374,7 @@
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "MISSING",
     "FERTILIZING_QUANTITY": "MISSING",
+    "SELECT_TEMPLATE": "MISSING",
     "TITLE": "MISSING"
   },
   "LOG_FIELD_WORK": {
@@ -324,6 +453,7 @@
     "DEPTH": "MISSING",
     "INORGANIC_CARBON": "MISSING",
     "MORE_INFO": "MISSING",
+    "OM": "MISSING",
     "ORGANIC_CARBON": "MISSING",
     "SELECT_DEPTH": "MISSING",
     "SELECT_TEXTURE": "MISSING",
@@ -372,6 +502,9 @@
       "WHY_ANSWER": "MISSING"
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "MISSING",
+      "CERTIFIER_NAME_INFO": "MISSING",
+      "CERTIFIER_NAME_LABEL": "MISSING",
       "SELECT_CERTIFIER": "MISSING",
       "THROUGH_APP": "MISSING",
       "WILL_INDICATE": "MISSING"
@@ -448,6 +581,9 @@
       "HEADER_STATUS": "MISSING"
     }
   },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "MISSING"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "MISSING",
     "DESCRIPTION": "MISSING",
@@ -461,10 +597,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "CROP": "MISSING",
+      "CROP_PLACEHOLDER": "MISSING",
+      "CROP_REQUIRED": "MISSING",
+      "CUSTOMER_NAME": "MISSING",
+      "CUSTOMER_NAME_REQUIRED": "MISSING",
       "DATE": "MISSING",
-      "NEW": "MISSING"
+      "NEW": "MISSING",
+      "TABLE_HEADERS": {
+        "CROPS": "MISSING",
+        "QUANTITY": "MISSING",
+        "TOTAL": "MISSING"
+      },
+      "TITLE": "MISSING"
     },
     "DETAIL": {
+      "ACTION": "MISSING",
       "CROP": "MISSING",
       "CUSTOMER_NAME": "MISSING",
       "DELETE_CONFIRMATION": "MISSING",
@@ -491,6 +639,7 @@
     },
     "FINANCES": {
       "ACTION": "MISSING",
+      "ACTUAL": "MISSING",
       "ACTUAL_REVENUE_ESTIMATED": "MISSING",
       "ACTUAL_REVENUE_LABEL": "MISSING",
       "ADD_NEW_EXPENSE": "MISSING",
@@ -521,20 +670,39 @@
       "LABOUR_LABEL": "MISSING",
       "OTHER_EXPENSES_LABEL": "MISSING",
       "REVENUE": "MISSING",
-      "TITLE": "MISSING"
+      "TITLE": "MISSING",
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
     },
     "LABOUR": {
       "BY": "MISSING",
       "CROPS": "MISSING",
       "EMPLOYEES": "MISSING",
+      "TABLE": {
+        "AMOUNT": "MISSING",
+        "CROP": "MISSING",
+        "DATE": "MISSING",
+        "EMPLOYEE": "MISSING",
+        "EST_REVENUE": "MISSING",
+        "LABOUR_COST": "MISSING",
+        "TASK": "MISSING",
+        "TIME": "MISSING",
+        "TYPE": "MISSING"
+      },
       "TASKS": "MISSING",
       "TITLE": "MISSING"
     },
     "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
       "DETAILED_HISTORY": "MISSING",
+      "SUBTOTAL": "MISSING",
       "SUMMARY": "MISSING",
       "TITLE": "MISSING",
-      "TOTAL": "MISSING"
+      "TOTAL": "MISSING",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
     }
   },
   "SHIFT": {
@@ -568,6 +736,8 @@
       "NO_WAGE_SET_LOCATION": "MISSING",
       "RATHER_NOT_SAY": "MISSING",
       "SAD": "MISSING",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
       "TASKS_FOR_SHIFT": "MISSING",
       "TASKS_SELECTED": "MISSING",
       "TIME_ALLOCATION": "MISSING",
@@ -583,7 +753,6 @@
       "YOU_HAVE": "MISSING"
     },
     "END_TIME": "MISSING",
-    "FROM": "MISSING",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "MISSING",
       "DURATION": "MISSING",
@@ -600,11 +769,12 @@
     "SHIFT_DATE": "MISSING",
     "SHIFT_HISTORY": "MISSING",
     "START_TIME": "MISSING",
-    "TITLE": "MISSING",
-    "TO": "MISSING"
+    "TITLE": "MISSING"
   },
   "SIGNUP": {
     "DIDNT_WORK": "MISSING",
+    "EMAIL_INVALID": "MISSING",
+    "ENTER_EMAIL": "MISSING",
     "EXPIRED_ERROR": "MISSING",
     "GOOGLE_BUTTON": "MISSING",
     "INVITED_ERROR": "MISSING",
@@ -614,6 +784,7 @@
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "MISSING",
+    "WELCOME_BACK": "MISSING",
     "WRONG_BROWSER": "MISSING",
     "WRONG_BROWSER_BOTTOM": "MISSING"
   },
@@ -637,12 +808,20 @@
     "DESCRIPTION_TOP": "MISSING",
     "TITLE": "MISSING"
   },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
+  },
   "WEATHER": {
     "HUMIDITY": "MISSING",
     "WIND": "MISSING"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "MISSING",
-    "SVG_ALT": "MISSING"
+    "BUTTON": "MISSING"
   }
 }

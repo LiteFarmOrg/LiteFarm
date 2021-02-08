@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Street address or comma separated latitude and longitude (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Farm name",
     "INVALID_FARM_LOCATION": "Invalid farm location",
+    "LOCATING": "Locating...",
     "NO_ADDRESS": "No location found! Try latitude and longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Tell us about your farm"
   },
@@ -16,7 +17,15 @@
     "INPUT_PLACEHOLDER": "Search",
     "SWITCH_TITLE": "Switch to another farm"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "Must be a non negative number",
+      "REQUIRED": "Required",
+      "TWO_DECIMALS": "Quantity must be up to 2 decimal places"
+    }
+  },
   "CONSENT": {
+    "DATA_POLICY": "Our Data Policy",
     "LABEL": "I Agree"
   },
   "CREATE_USER": {
@@ -31,12 +40,24 @@
     "PASSWORD": "Password",
     "TITLE": "Create new user account"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "Select the date range to create a financial report for your farm for a given time window.",
+    "HELP_TITLE": "Date Range Help",
+    "TITLE": "Filter Report by Date"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Forgot password?",
-    "LABEL": "Password"
+    "HINT": "Hint",
+    "LABEL": "Password",
+    "ONE_NUMBER": "at least one number",
+    "ONE_SPECIAL_CHARACTER": "at least one special character",
+    "ONE_UPPER_CASE": "at least one upper case character",
+    "TOO_SHORT": "at least 8 characters"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "MIN_ERROR": "Please enter a value greater than ",
+      "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "New Expense (1 of 2)",
       "TITLE_2": "New Expense (2 of 2)"
     },
@@ -64,6 +85,7 @@
     "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {
       "CROP": {
+        "ADD_NEW_CROP_OR_VARIETY": "Add New Crop or Variety",
         "AREA_USED": "Area Used",
         "AREA_USED_HECTARE": "Area used in hectare",
         "AREA_USED_IN": "Area Used in",
@@ -74,29 +96,49 @@
         "BY_BEDS": "By Bed",
         "CHOOSE_END_DATE": "Choose end date",
         "CHOOSE_START_DATE": "Choose start date",
+        "CROP_COMMON_NAME": "Common Name",
+        "CROP_GROUP_INFO": "Crop Group Info",
+        "CROP_GROUP_SUBGROUP": "Crop Group and Subgroup",
         "DELETE_CONFIRMATION": "Are you sure you want to delete this field crop?",
+        "EDIT_CROP_DETAIL": "Edit Crop Detail",
         "EDIT_ESTIMATED_PRICE": "Edit estimated price for the crop",
         "EDIT_ESTIMATED_YIELD": "Edit estimated yield for the crop",
         "END_DATE": "End Date",
+        "ENTER_CROP_DETAILS": "Enter Crop Details",
         "ENTER_START_FINISH": "Enter start and finish dates",
         "ESTIMATED_PRICE": "Estimated price",
         "ESTIMATED_PRODUCTION": "Estimated Production",
         "ESTIMATED_REVENUE": "Estimated Revenue",
         "ESTIMATED_YIELD_PLACEHOLDER": "Estimated Yield",
-        "HOW_MUCH_FIELD": "How much of the field do you wish to use ?",
+        "FIELD_SIZE": "Field size",
+        "GENUS": "Genus",
+        "HOW_MUCH_FIELD": "How much of the field do you wish to use?",
+        "NEW_CROP": "New Crop",
+        "NEW_CROP_INFOBOX": "If you have information on the details of your crop or variety such as it’s nutrient content, or physiological traits, you can edit them here.",
+        "NEW_CROP_VARIETY": "New Crop or Variety",
         "NEW_FIELD_CROP": "New Field Crop",
+        "NO_DATA": "No Data",
         "NUMBER_EXPIRED": "Number of Expired Crops",
         "NUMBER_OF_BEDS": "Number of Beds",
+        "NUTRIENT_LABEL": "Nutrients in Edible Portion (per 100g)",
         "PERCENTAGE": "Percentage",
-        "START_DATE": "Start Date"
+        "SELECT_CROP_GROUP": "Select crop group",
+        "SELECT_CROP_SUBGROUP": "Select crop subgroup",
+        "SELECT_CROP_TEMPLATE": "Select a crop template",
+        "SPECIES": "Species",
+        "START_DATE": "Start Date",
+        "VARIETY_NAME": "Variety Name"
       },
       "DELETE_FIELD": "Delete Field",
+      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
       "EDIT_NAME": "Edit Field Name",
       "NAME": "Field Name",
       "NUMBER_CROPS": "Number of Crops",
+      "SELECT": "Select...",
       "TITLE": "Edit Field",
       "TOTAL_AREA": "Total Area",
-      "VARIETY": "Variety"
+      "VARIETY": "Variety",
+      "DELETE_FIELD_CONFIRM": "I would like to delete this field."
     },
     "EXPLORE": "Explore Your Fields",
     "LIST": "List",
@@ -138,6 +180,81 @@
   },
   "HOME": {
     "GREETING": "Good day, "
+  },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "Amphibians",
+      "BIRDS": "Birds",
+      "CROPS": "Crops",
+      "HEADER": "Number of species",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
+      "INSECTS": "Insects",
+      "PLANTS": "Plants",
+      "SPECIES_COUNT": "{{count}} species",
+      "SPECIES_COUNT_plural": "{{count}} species",
+      "TITLE": "Biodiversity"
+    },
+    "CURRENT": "Current",
+    "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "Tasks",
+      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
+      "TITLE": "Labour Happiness"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "Choose a frequency",
+      "CHOOSE_FREQUENCY": "Choose Frequency...",
+      "COUNT_MONTHS": "{{count}} month",
+      "COUNT_MONTHS_plural": "{{count}} months",
+      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
+      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
+      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
+      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
+      "INFO_2": "Click the delete button to reset your schedule.",
+      "SELECT_FREQUENCY": "Select Frequency",
+      "TITLE": "Nitrogen Balance"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "Calories",
+      "FAT": "Fat",
+      "HEADER": "Number of Meals",
+      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
+      "MEAL_COUNT": "{{count}} meal",
+      "MEAL_COUNT_plural": "{{count}} meals",
+      "MEALS": "meals",
+      "PROTEIN": "Protein",
+      "TITLE": "People Fed",
+      "VITAMIN_A": "Vitamin A",
+      "VITAMIN_C": "Vitamin C"
+    },
+    "PRICES": {
+      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
+      "NEARBY_FARMS": "Pulling from {{count}} farm for sales data",
+      "NEARBY_FARMS_plural": "Pulling from {{count}} farms for sales data",
+      "NETWORK_PRICE": "Network Price",
+      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "OWN_PRICE": "Own Price",
+      "PERCENT_OF_MARKET": "{{percentage}}% of market",
+      "SALES_FROM_DISTANCE_AWAY": "Sales from {{distance}} {{unit}} away",
+      "TITLE": "Prices",
+      "Y_TITLE": "Price ({{currency}}/{{mass}})"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "Soil OM Content",
+      "HEADER": "Soil Organic Matter",
+      "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
+      "TITLE": "Soil OM"
+    },
+    "TITLE": "Insights",
+    "UNAVAILABLE": "Unavailable",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "Looks like this is your first time running this! For more info on what this does, please click the information button to see.",
+      "INFO_1": "The water balance tells you whether your crops have too little or too much water. It relies on weather data, and it is updated by your irrigation and soil texture data from your soil analysis logs.",
+      "INFO_2": "This feature has not been widely tested across farms with low surrounding weather station density so use with caution. We welcome feedback on how well it performs for your farm.",
+      "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm.",
+      "REGISTER_FARM": "Register Farm",
+      "TITLE": "Water Balance"
+    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "Birth year",
@@ -202,17 +319,22 @@
     "ERROR_MISSING_FIELDS": "Error missing fields",
     "FARM_LOG": "Farm Log",
     "FERTILIZING": "Fertilizing",
+    "FIELD": "Field",
     "FIELD_CROPS": "Field Crops",
     "FIELD_WORK": "Field Work",
     "FIELDS": "Fields",
     "FROM": "From",
     "HARVEST": "Harvest",
+    "HIDE": "Hide",
     "IRRIGATION": "Irrigation",
+    "LOG_ALL_CROPS": "All Crops",
+    "LOG_ALL_FIELDS": "All Fields",
     "LOG_HELP": "Log Help",
     "LOG_HELP_EXPLANATION": "Use the filters below to search your log history. Useful for keeping records of inputs and other farm activities for your team and certifiers.",
     "LOG_HISTORY": "Log History",
     "NEW_LOG": "New Log",
     "NITRATE": "Nitrate",
+    "NOTES": "Notes",
     "OTHER": "Other",
     "PEST": "Pest Control",
     "PHOSPHATE": "Phosphate",
@@ -225,9 +347,15 @@
     "SCOUTING": "Scouting",
     "SEARCH_BY_ACTIVITY": "Search Log By Activity",
     "SEEDING": "Seeding",
+    "SELECT_FIELD": "Select Field",
+    "SELECT_FIELD_CROP": "Select Field Crop",
     "SELECT_PRODUCT": "select product",
+    "SELECT_TYPE": "Select Type",
+    "SHOW": "Show",
     "SOIL_DATA": "Soil Data",
     "TO": "To",
+    "TYPE": "Type",
+    "WARNING": "To use this type of log please add crops to fields. You can do this by navigating to Fields -> Your field -> New Field Crop",
     "WATER": "Water",
     "WHAT_LOG": "What do you want to log?"
   },
@@ -246,6 +374,7 @@
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Add a Fertilizer",
     "FERTILIZING_QUANTITY": "Fertilizer Quantity",
+    "SELECT_TEMPLATE": "Select product template",
     "TITLE": "Fertilizing Log"
   },
   "LOG_FIELD_WORK": {
@@ -324,6 +453,7 @@
     "DEPTH": "Depth",
     "INORGANIC_CARBON": "Inorganic Carbon",
     "MORE_INFO": "More Info",
+    "OM": "OM",
     "ORGANIC_CARBON": "Organic Carbon",
     "SELECT_DEPTH": "Select Depth",
     "SELECT_TEXTURE": "Select Texture",
@@ -372,6 +502,9 @@
       "WHY_ANSWER": "LiteFarm generates forms required for organic certification. Some information will be mandatory."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "Certificate name is required",
+      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
+      "CERTIFIER_NAME_LABEL": "Certifier’s name",
       "SELECT_CERTIFIER": "Please select your certifier",
       "THROUGH_APP": "throughout the app!",
       "WILL_INDICATE": "We'll indicate data required for organic certification with"
@@ -409,7 +542,7 @@
       "FRENCH": "French",
       "LANGUAGE": "Language",
       "LAST_NAME": "Last Name",
-      "PERSONAL_INFORMATION": "Personal Information",
+      "PERSONAL_INFORMATION": "My Info",
       "PHONE_NUMBER": "Phone Number",
       "PORTUGUESE": "Portuguese",
       "SPANISH": "Spanish",
@@ -448,6 +581,9 @@
       "HEADER_STATUS": "Status"
     }
   },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "Clear all"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Got it",
     "DESCRIPTION": "Someone will be in touch within 48 hours.",
@@ -461,10 +597,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "CROP": "Crop",
+      "CROP_PLACEHOLDER": "Select crop",
+      "CROP_REQUIRED": "Required",
+      "CUSTOMER_NAME": "Customer Name",
+      "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
-      "NEW": "Add New Sale"
+      "NEW": "MISSING",
+      "TABLE_HEADERS": {
+        "CROPS": "Crops",
+        "QUANTITY": "Quantity",
+        "TOTAL": "Total"
+      },
+      "TITLE": "Add New Sale"
     },
     "DETAIL": {
+      "ACTION": "Action",
       "CROP": "Crop",
       "CUSTOMER_NAME": "Customer Name",
       "DELETE_CONFIRMATION": "Are you sure you want to delete this sale?",
@@ -491,6 +639,7 @@
     },
     "FINANCES": {
       "ACTION": "Action",
+      "ACTUAL": "Actual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimated",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Add New Expense",
@@ -521,20 +670,39 @@
       "LABOUR_LABEL": "Labour",
       "OTHER_EXPENSES_LABEL": "Other Expenses",
       "REVENUE": "Revenue",
-      "TITLE": "Finances"
+      "TITLE": "Finances",
+      "UNALLOCATED_CROP": "Unallocated",
+      "UNALLOCATED_TIP": "What is unallocated?"
     },
     "LABOUR": {
       "BY": "By",
       "CROPS": "Crops",
       "EMPLOYEES": "Employees",
+      "TABLE": {
+        "AMOUNT": "Amount",
+        "CROP": "Crop",
+        "DATE": "Date",
+        "EMPLOYEE": "Employee",
+        "EST_REVENUE": "Estimated Revenue",
+        "LABOUR_COST": "Labour Cost",
+        "TASK": "Task",
+        "TIME": "Time",
+        "TYPE": "Type"
+      },
       "TASKS": "Tasks",
       "TITLE": "Labour"
     },
     "SUMMARY": {
+      "AMOUNT": "Amount",
+      "CROP": "Crop",
+      "DATE": "Date",
       "DETAILED_HISTORY": "Detailed History",
+      "SUBTOTAL": "Subtotal",
       "SUMMARY": "Summary",
       "TITLE": "Sales",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "Type",
+      "VALUE": "Value"
     }
   },
   "SHIFT": {
@@ -568,6 +736,8 @@
       "NO_WAGE_SET_LOCATION": "Profile->People->Edit",
       "RATHER_NOT_SAY": "Rather Not Say",
       "SAD": "Sad",
+      "SELECT_CROPS": "Select Crops",
+      "SELECT_FIELDS": "Select Fields",
       "TASKS_FOR_SHIFT": "These are the tasks selected for this shift",
       "TASKS_SELECTED": "The tasks selected for this shift are highlighted below. Deselecting a task will remove the task from this shift",
       "TIME_ALLOCATION": "Time Allocation",
@@ -583,14 +753,13 @@
       "YOU_HAVE": "You have"
     },
     "END_TIME": "End Time",
-    "FROM": "From",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Are you sure you want to delete this shift?",
       "DURATION": "Duration",
       "FIELD_CROPS": "Fields/Crops",
       "SUBMITTED_FOR": "Submitted For",
       "TASK": "Task",
-      "TITLE": "My Shift"
+      "TITLE": "Shift Detail"
     },
     "NAME": "Name",
     "NEW_SHIFT": {
@@ -600,11 +769,12 @@
     "SHIFT_DATE": "Date",
     "SHIFT_HISTORY": "Shift History",
     "START_TIME": "Start time",
-    "TITLE": "Shifts",
-    "TO": "To"
+    "TITLE": "Shifts"
   },
   "SIGNUP": {
     "DIDNT_WORK": "That didn't work.",
+    "EMAIL_INVALID": "Email is invalid",
+    "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
@@ -614,6 +784,7 @@
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
     "TITLE": "Sign Up",
+    "WELCOME_BACK": "Welcome back",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
   },
@@ -637,13 +808,21 @@
     "DESCRIPTION_TOP": "The barn door is secure.",
     "TITLE": "Switching Farms"
   },
+  "TABLE": {
+    "LOADING_TEXT": "Loading...",
+    "NEXT_TEXT": "Next",
+    "NO_DATA_TEXT": "No rows found",
+    "OF_TEXT": "of",
+    "PAGE_TEXT": "Page",
+    "PREVIOUS_TEXT": "Previous",
+    "ROWS_TEXT": "rows"
+  },
   "WEATHER": {
     "HUMIDITY": "Humidity",
     "WIND": "Wind"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Let's get started",
-    "SVG_ALT": "Welcome to LiteFarm"
+    "BUTTON": "Let's get started"
   },
   "LOGIN_BUTTON": "Log In or Sign Up"
 }

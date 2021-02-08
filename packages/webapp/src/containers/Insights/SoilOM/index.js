@@ -4,6 +4,8 @@ import insightStyles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
+import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class SoilOM extends Component {
   constructor(props) {
@@ -12,19 +14,18 @@ class SoilOM extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title="Soil OM Content"
+          title={t("INSIGHTS.SOIL_OM.ALTERNATE_TITLE")}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconBody={infoBoxBody}
-          rightIconTitle={'Soil OM'}
+          rightIconTitle={t("INSIGHTS.SOIL_OM.TITLE")}
+          rightIconBody={(<div>{t("INSIGHTS.SOIL_OM.INFO")}</div>)}
         />
         <div>
-          <h4>
-            <b>Soil Organic Matter</b>
-          </h4>
+          <Semibold>{t("INSIGHTS.SOIL_OM.HEADER")}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>
@@ -47,14 +48,6 @@ class SoilOM extends Component {
   }
 }
 
-const infoBoxBody = (
-  <div>
-    Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate
-    these data from your most recent soil analysis logs. If you do not have any data we predict the
-    potential soil organic matter for your location globally.
-  </div>
-);
-
 const mapStateToProps = (state) => {
   return {
     soilOMData: soilOMSelector(state),
@@ -67,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SoilOM);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SoilOM));

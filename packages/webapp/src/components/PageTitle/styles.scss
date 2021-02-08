@@ -17,7 +17,7 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   font-size: 20px;
   font-weight: 800;
@@ -25,7 +25,8 @@
   margin-top: 5px;
   padding-top: 8px;
   float: left;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
+  position: relative;
 
   button {
     padding: 0;
@@ -67,11 +68,10 @@
   background: none;
   border: 0;
   color: var(--buttonPrimary);
-  position: absolute;
 }
 
 .titleTextContainer {
-  margin: 0 auto 16px auto;
+  margin-left: 8px;
   font-family: 'Open Sans', 'SansSerif', serif;
   font-size: 20px;
   font-style: normal;
@@ -79,5 +79,4 @@
   line-height: 32px;
 
   text-align: left;
-
 }

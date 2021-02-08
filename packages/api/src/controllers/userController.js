@@ -245,7 +245,6 @@ class userController extends baseController {
           user_id,
           farm_id,
           first_name,
-          last_name,
           email,
         };
 

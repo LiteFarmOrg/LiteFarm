@@ -16,7 +16,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.scss';
-import { Button } from 'react-bootstrap';
+import Button from '../../components/Form/Button';
 import history from '../../history';
 import moment from 'moment';
 import { taskTypeSelector } from './StepOne/selectors';
@@ -25,13 +25,16 @@ import { getAllShifts, getShifts, getTaskTypes, setSelectedShift } from './actio
 import ReactTable from 'react-table';
 import DropDown from '../../components/Inputs/DropDown';
 import { LocalForm } from 'react-redux-form';
-import DateContainer from '../../components/Inputs/DateContainer';
+import DateContainer, { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { getFieldCrops, getFields } from '../saga';
 import { getDurationString } from '../../util';
 import clsx from 'clsx';
+import Table from '../../components/Table';
+import { Semibold, Title } from '../../components/Typography';
+import { setEndDate, setStartDate } from '../Log/actions';
 
 class Shift extends Component {
   constructor(props) {
@@ -42,6 +45,8 @@ class Shift extends Component {
       nameFilter: 'all',
     };
     this.filterShifts = this.filterShifts.bind(this);
+    this.onStartDateChange = this.onStartDateChange.bind(this);
+    this.onEndDateChange = this.onEndDateChange.bind(this);
   }
 
   componentDidMount() {
@@ -64,38 +69,63 @@ class Shift extends Component {
   };
 
   filterShifts() {
-    let shifts = this.props.shifts || [];
-    if (shifts !== null && Object.keys(shifts[0]).length > 0) {
-      const { startDate, endDate, nameFilter } = this.state;
-      // eslint-disable-next-line
-      const filteredShifts = shifts.filter(
-        (l) =>
-          (this.checkFilter(l, 'user_id', nameFilter) &&
-            startDate.isBefore(l.start_time) &&
-            // eslint-disable-next-line
-            (endDate.isAfter(l.start_time) || endDate.isSame(l.start_time, 'day'))) ||
-          l.test_shift, // only present on test shifts in cypress/fixtures/shifts.json
-      );
-      return filteredShifts.map((shift) => ({
+    const shifts = this.props.shifts || [];
+    const { startDate, endDate, nameFilter } = this.state;
+    return shifts
+      ?.filter(
+        (shift) =>
+          startDate.isSameOrBefore(shift.shift_date, 'day') &&
+          endDate.isSameOrAfter(shift.shift_date, 'day') &&
+          this.checkFilter(shift, 'user_id', nameFilter),
+      )
+      .map((shift) => ({
         ...shift,
         shift_date: moment(shift.shift_date).utc().format('YYYY-MM-DD'),
       }));
-    }
+  }
+  onStartDateChange(date) {
+    this.setState({ startDate: date });
+  }
+  onEndDateChange(date) {
+    this.setState({ endDate: date });
   }
 
   render() {
     let shifts = this.props.shifts || [];
     const { users } = this.props;
-    let columns = [];
-    let nameOptions = [];
-    if (
-      shifts &&
-      shifts.length > 0 &&
-      (users.role_id === 1 || users.role_id === 2 || users.role_id === 5)
-    ) {
-      columns.push({
+    const columns = [
+      {
+        id: 'date',
+        Header: this.props.t('common:DATE'),
+        accessor: (d) => moment(d.shift_date).format('YYYY-MM-DD'),
+        minWidth: 60,
+      },
+      {
+        id: 'hour_worked',
+        Header: this.props.t('common:HOURS'),
+        accessor: (d) => {
+          let mins = 0;
+          for (let task of d.tasks) {
+            mins += task.duration;
+          }
+          return getDurationString(mins);
+        },
+        minWidth: 40,
+      },
+      {
+        id: 'arrow-icon',
+        Header: '',
+        accessor: () => {
+          return <BsCaretRight />;
+        },
+        minWidth: 20,
+      },
+    ];
+    const nameOptions = [];
+    if (users.role_id === 1 || users.role_id === 2 || users.role_id === 5) {
+      columns.splice(1, 0, {
         id: 'name',
-        Header: 'Name',
+        Header: this.props.t('common:NAME'),
         accessor: (d) => {
           return d.first_name + ' ' + d.last_name;
         },
@@ -114,48 +144,17 @@ class Shift extends Component {
       for (let k of Object.keys(dict)) {
         nameOptions.push(dict[k]);
       }
-      nameOptions.unshift({ value: 'all', label: 'All' });
-    }
-    if (shifts && shifts.length > 0) {
-      columns = columns.concat([
-        {
-          id: 'date',
-          Header: 'Date(Y-M-D)',
-          accessor: (d) => moment(d.shift_date).format('YYYY-MM-DD'),
-          minWidth: 60,
-        },
-        {
-          id: 'hour_worked',
-          Header: 'Hours',
-          accessor: (d) => {
-            let mins = 0;
-            for (let task of d.tasks) {
-              mins += task.duration;
-            }
-            return getDurationString(mins);
-          },
-          minWidth: 40,
-        },
-        {
-          id: 'arrow-icon',
-          Header: '',
-          accessor: () => {
-            return <BsCaretRight />;
-          },
-          minWidth: 20,
-        },
-      ]);
+      nameOptions.unshift({ value: 'all', label: this.props.t('common:ALL') });
     }
 
     return (
       <div className={styles.logContainer}>
-        <h4>
-          <strong>{this.props.t('SHIFT.TITLE')}</strong>
-        </h4>
+        <Title>{this.props.t('SHIFT.TITLE')}</Title>
+
         <hr />
-        <h4>
-          <b>{this.props.t('SHIFT.ACTION')}</b>
-        </h4>
+
+        <Semibold>{this.props.t('SHIFT.ACTION')}</Semibold>
+
         <div className={styles.buttonContainer}>
           <Button
             onClick={() => {
@@ -166,83 +165,63 @@ class Shift extends Component {
           </Button>
         </div>
         <hr />
-        <div>
-          <h4>
-            <b>{this.props.t('SHIFT.SHIFT_HISTORY')}</b>
-          </h4>
-        </div>
+
+        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('SHIFT.SHIFT_HISTORY')}</Semibold>
+
         {(users.role_id === 1 || users.role_id === 2 || users.role_id === 5) && (
           <div>
             <div className={styles.filterContainer}>
-              <div className={styles.nameFilter}>
-                <label>{this.props.t('SHIFT.NAME')}</label>
-                <DropDown
-                  defaultValue={{ value: 'all', label: 'All' }}
-                  options={nameOptions}
-                  onChange={(option) => this.setState({ nameFilter: option.value })}
-                  isSearchable={false}
-                />
-              </div>
+              <DropDown
+                label={this.props.t('SHIFT.NAME')}
+                style={{ marginBottom: '16px' }}
+                defaultValue={{ value: 'all', label: this.props.t('common:ALL') }}
+                options={nameOptions}
+                onChange={(option) => this.setState({ nameFilter: option.value })}
+                isSearchable={false}
+              />
+
               <LocalForm model="logDates">
-                <div className={clsx(styles.dateContainer, styles.pullLeft)}>
-                  <label>{this.props.t('SHIFT.FROM')}</label>
-                  <DateContainer
-                    style={styles.date}
-                    custom={true}
-                    date={this.state.startDate}
-                    onDateChange={(date) => {
-                      this.setState({ startDate: date });
-                      this.filterShifts();
-                    }}
-                  />
-                </div>
-                <div className={clsx(styles.dateContainer, styles.pullRight)}>
-                  <label>{this.props.t('SHIFT.TO')}</label>
-                  <DateContainer
-                    style={styles.date}
-                    custom={true}
-                    date={this.state.endDate}
-                    onDateChange={(date) => {
-                      this.setState({ endDate: date });
-                      this.filterShifts();
-                    }}
-                  />
-                </div>
+                {' '}
+                <FromToDateContainer
+                  onEndDateChange={this.onEndDateChange}
+                  onStartDateChange={this.onStartDateChange}
+                  startDate={this.state.startDate}
+                  endDate={this.state.endDate}
+                />
               </LocalForm>
             </div>
           </div>
         )}
 
         <div className={styles.table}>
-          {shifts && shifts.length > 0 && (
-            <ReactTable
-              sortByID="date"
-              columns={columns}
-              data={this.filterShifts()}
-              showPagination={false}
-              minRows={5}
-              className="-striped -highlight"
-              defaultSorted={[
-                {
-                  id: 'date',
-                  desc: true,
+          <Table
+            columns={columns}
+            data={this.filterShifts()}
+            showPagination={true}
+            pageSizeOptions={[10, 20, 50]}
+            defaultPageSize={10}
+            minRows={5}
+            className="-striped -highlight"
+            defaultSorted={[
+              {
+                id: 'date',
+                desc: true,
+              },
+            ]}
+            getTdProps={(state, rowInfo, column, instance) => {
+              return {
+                onClick: (e, handleOriginal) => {
+                  if (rowInfo && rowInfo.original) {
+                    this.props.dispatch(setSelectedShift(rowInfo.original));
+                    history.push('/my_shift');
+                  }
+                  if (handleOriginal) {
+                    handleOriginal();
+                  }
                 },
-              ]}
-              getTdProps={(state, rowInfo, column, instance) => {
-                return {
-                  onClick: (e, handleOriginal) => {
-                    if (rowInfo && rowInfo.original) {
-                      this.props.dispatch(setSelectedShift(rowInfo.original));
-                      history.push('/my_shift');
-                    }
-                    if (handleOriginal) {
-                      handleOriginal();
-                    }
-                  },
-                };
-              }}
-            />
-          )}
+              };
+            }}
+          />
         </div>
       </div>
     );

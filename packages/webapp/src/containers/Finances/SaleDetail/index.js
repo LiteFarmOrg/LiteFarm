@@ -33,31 +33,10 @@ class SaleDetail extends Component {
 
   render() {
     let { sale } = this.props;
-
-    let months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
     let date;
 
     if (sale) {
-      let logDate = moment(sale.date);
-      date =
-        months[logDate.month()] +
-        ' ' +
-        logDate.date().toString() +
-        ', ' +
-        logDate.year().toString();
+      date = moment(sale.date).locale(localStorage.getItem('litefarm_lang')).format('MMM-DD-YYYY');
     }
 
     let dropDown = 0;
@@ -77,7 +56,7 @@ class SaleDetail extends Component {
                   color: '#4D4D4D',
                   border: 'none',
                 }}
-                title={'Action'}
+                title={this.props.t('SALE.DETAIL.ACTION')}
                 key={dropDown}
                 id={`dropdown-basic-${dropDown}`}
               >

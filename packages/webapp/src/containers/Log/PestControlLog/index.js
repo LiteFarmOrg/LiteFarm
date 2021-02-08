@@ -309,13 +309,6 @@ class PestControlLog extends Component {
                 crops={crops}
               />
               <div className={styles.targetDropDown}>
-                {/*<Control*/}
-                {/*model=".pestControlLog.disease_id"*/}
-                {/*component={DropDown}*/}
-                {/*options={diseaseOptions || []}*/}
-                {/*placeholder="Choose Target"*/}
-                {/*validators={{required: (val) => val && val.length}}*/}
-                {/*/>*/}
                 <ReactSelect
                   label={this.props.t('LOG_PESTICIDE.TARGET')}
                   isSearchable={true}
@@ -325,16 +318,16 @@ class PestControlLog extends Component {
                   placeholder={this.props.t('LOG_PESTICIDE.CHOOSE_TARGET_PLACEHOLDER')}
                   onChange={(selectedOption) => this.handleTargetSelect(selectedOption)}
                 />
+                <Errors
+                  className="required"
+                  model={`.pestControlLog.disease_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
 
-              <Errors
-                className="required"
-                model={`.pestControlLog.disease_id`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: 'Required',
-                }}
-              />
               <div className={styles.defaultFormDropDown}>
                 <label>{this.props.t('LOG_PESTICIDE.TYPE')}</label>
                 <Control
@@ -346,15 +339,15 @@ class PestControlLog extends Component {
                     required: (val) => val && val.label && val.value,
                   }}
                 />
+                <Errors
+                  className="required"
+                  model={`.pestControlLog.type`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
-              <Errors
-                className="required"
-                model={`.pestControlLog.type`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: 'Required',
-                }}
-              />
               <div className={styles.defaultFormDropDown}>
                 <label>{this.props.t('LOG_COMMON.PRODUCT')}</label>
                 <Control
@@ -367,18 +360,18 @@ class PestControlLog extends Component {
                     required: (val) => val && val.label && val.value,
                   }}
                 />
+                <Errors
+                  className="required"
+                  model={`.pestControlLog.pesticide_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
-              <Errors
-                className="required"
-                model={`.pestControlLog.pesticide_id`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: 'Required',
-                }}
-              />
               <Unit
                 model=".pestControlLog.quantity_kg"
-                title="Quantity"
+                title={this.props.t('LOG_COMMON.QUANTITY')}
                 type={this.state.quantity_unit}
                 validate
               />
@@ -403,7 +396,7 @@ class PestControlLog extends Component {
                 <Control component={TextArea} model=".pestControlLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? 'Hide' : 'Show'}{' '}
+                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_PESTICIDE.PESTICIDE_DETAILS')}
               </div>
               {this.state.showChem && (
@@ -412,7 +405,7 @@ class PestControlLog extends Component {
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
                   <div className={styles.chemContainer}>
-                    \{' '}
+                    {' '}
                     <Control
                       label={this.props.t('LOG_PESTICIDE.ENTRY_INTERVAL')}
                       component={Input}

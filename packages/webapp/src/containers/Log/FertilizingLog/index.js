@@ -193,6 +193,7 @@ class FertilizingLog extends Component {
     let fertOptions = [];
     let customOptions = [];
     if (fert) {
+      console.log(fert);
       for (let f of fert) {
         if (f.fertilizer_type.startsWith('CUSTOM')) {
           customOptions.push({
@@ -202,7 +203,7 @@ class FertilizingLog extends Component {
         } else {
           fertOptions.push({
             value: f.fertilizer_id,
-            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+            label: this.props.t(`fertilizer:${f.fertilizer_translation_key}`),
           });
         }
       }
@@ -257,23 +258,23 @@ class FertilizingLog extends Component {
                     },
                   }}
                 />
+                <Errors
+                  className="required"
+                  model={`.fertLog.fert_id`}
+                  show={{ touched: true, focus: false }}
+                  messages={{
+                    required: this.props.t('common:REQUIRED'),
+                  }}
+                />
               </div>
-              <Errors
-                className="required"
-                model={`.fertLog.fert_id`}
-                show={{ touched: true, focus: false }}
-                messages={{
-                  required: 'Required',
-                }}
-              />
-              { [1,2,5].includes(this.props.farm.role_id) &&
-              <div>
+              {[1, 2, 5].includes(this.props.farm.role_id) && (
+                <div>
                   <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
                     {' '}
                     + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}
                   </div>
                 </div>
-              }
+              )}
               <Unit
                 model=".fertLog.quantity_kg"
                 title={this.props.t('LOG_COMMON.QUANTITY')}
@@ -285,7 +286,7 @@ class FertilizingLog extends Component {
                 <Control component={TextArea} model=".fertLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? 'Hide' : 'Show'}{' '}
+                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </div>
               {this.state.showChem && (
@@ -293,31 +294,36 @@ class FertilizingLog extends Component {
                   <div className={styles.noteTitle}>
                     {this.props.t('LOG_COMMON.CHEMICAL_COMPOSITION')}:
                   </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.NITRATE')}</label>
-                    <Control.text model=".fertLog.n_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.AMMONIA')}</label>
-                    <Control.text model=".fertLog.nh4_n_ppm" disabled={true} />
-                    <span>ppm</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.POTASSIUM')}</label>
-                    <Control.text model=".fertLog.k_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.PHOSPHATE')}</label>
-                    <Control.text model=".fertLog.p_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
-                  <div className={styles.chemContainer}>
-                    <label>{this.props.t('LOG_COMMON.WATER')}</label>
-                    <Control.text model=".fertLog.moisture_percentage" disabled={true} />
-                    <span>%</span>
-                  </div>
+                  <Unit
+                    model=".fertLog.n_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.NITRATE')}
+                    type="%"
+                  />
+                  <Unit
+                    model=".fertLog.nh4_n_ppm"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.AMMONIA')}
+                    type="ppm"
+                  />
+                  <Unit
+                    model=".fertLog.k_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.POTASSIUM')}
+                    type="%"
+                  />
+                  <Unit
+                    model=".fertLog.p_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.PHOSPHATE')}
+                    type="%"
+                  />
+                  <Unit
+                    model=".fertLog.moisture_percentage"
+                    disabled={true}
+                    title={this.props.t('LOG_COMMON.WATER')}
+                    type="%"
+                  />
                 </div>
               )}
               <LogFooter />
@@ -330,13 +336,14 @@ class FertilizingLog extends Component {
               contentStyle={{
                 display: 'flex',
                 width: '100%',
-                minHeight: '100vh',
+                minHeight: '826px',
+                height: '100%',
                 padding: '92px 24px 0 24px',
                 justifyContent: 'center',
                 position: 'absolute',
               }}
               overlayStyle={{
-                minHeight: '100vh',
+                minHeight: '100%',
                 top: 'auto',
                 zIndex: 1,
                 position: 'absolute',
@@ -346,6 +353,7 @@ class FertilizingLog extends Component {
                 className={styles.formContainer}
                 model="logReducer.forms"
                 onSubmit={(val) => this.handleSubmit(val.fertLog)}
+                style={{ maxWidth: '1024px' }}
               >
                 <div className={styles.modal}>
                   <div className={styles.popupTitle}>
@@ -361,7 +369,7 @@ class FertilizingLog extends Component {
                     model=".fertLog.fert_id"
                     component={DropDown}
                     options={fertilizerOptions || []}
-                    placeholder="select product template"
+                    placeholder={this.props.t('LOG_FERTILIZING.SELECT_TEMPLATE')}
                     onChange={this.setSelectedFert}
                   />
                 </div>

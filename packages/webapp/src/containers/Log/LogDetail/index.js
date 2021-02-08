@@ -149,7 +149,8 @@ class LogDetail extends Component {
 
   render() {
     let { selectedLog, farm } = this.props;
-    let { quantity_unit, space_unit, rate_unit } = this.state;
+    const language = localStorage.getItem('litefarm_lang');
+    let { quantity_unit, space_unit, rate_unit, ratePerMin } = this.state;
 
     let months = [
       'January',
@@ -167,13 +168,8 @@ class LogDetail extends Component {
     ];
     let date, regularName;
     if (selectedLog) {
-      let logDate = moment(selectedLog.date);
-      date =
-        months[logDate.month()] +
-        ' ' +
-        logDate.date().toString() +
-        ', ' +
-        logDate.year().toString();
+      let logDate = moment(selectedLog.date).locale(language);
+      date = logDate.format('MMMM DD, YYYY');
       let typeName;
       if (selectedLog.activity_kind === 'pestControl') {
         typeName = selectedLog.pestControlLog.type
@@ -226,7 +222,7 @@ class LogDetail extends Component {
                     color: '#4D4D4D',
                     border: 'none',
                   }}
-                  title={'Action'}
+                  title={this.props.t('LOG_COMMON.ACTION')}
                   key={dropDown}
                   id={`dropdown-basic-${dropDown}`}
                 >
@@ -537,7 +533,14 @@ class LogDetail extends Component {
                 <div className={styles.innerInfo}>
                   <div>{this.props.t('LOG_DETAIL.FLOW_RATE')}</div>
                   <span>
-                    {selectedLog.irrigationLog['flow_rate_l/min']}{' l/min'}
+                    {roundToFourDecimal(
+                      convertFromMetric(
+                        selectedLog.irrigationLog['flow_rate_l/min'],
+                        ratePerMin,
+                        'l/min',
+                      ),
+                    )}
+                    {` ${ratePerMin}`}
                   </span>
                 </div>
               </div>

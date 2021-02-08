@@ -7,6 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Direccion de la calle ó use 'coma' para separar latitud y longitud (e.g. 49.250945, -123.238492)",
     "FARM_NAME": "Nombre de finca",
     "INVALID_FARM_LOCATION": "Ubicación de la finca inválida",
+    "LOCATING": "Localizando...",
     "NO_ADDRESS": "Ubicación no encontrada! Trate latitud y longitud",
     "TELL_US_ABOUT_YOUR_FARM": "Cuéntenos sobre su finca"
   },
@@ -16,7 +17,15 @@
     "INPUT_PLACEHOLDER": "Buscar",
     "SWITCH_TITLE": "Cambiar a otra finca"
   },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "Debe ser un numero no negativo",
+      "REQUIRED": "Requerido",
+      "TWO_DECIMALS": "La cantidad debe tener hasta 2 decimales"
+    }
+  },
   "CONSENT": {
+    "DATA_POLICY": "Politica de datos",
     "LABEL": "Estoy de acuerdo"
   },
   "CREATE_USER": {
@@ -31,12 +40,24 @@
     "PASSWORD": "Contraseña",
     "TITLE": "Crear nueva cuenta de usuario"
   },
+  "DATE_RANGE": {
+    "HELP_BODY": "Selecciona el rango de fechas para crear un reporte financiero para tu granja en ese rango.",
+    "HELP_TITLE": "Ayuda con el rango de fechas",
+    "TITLE": "Filtrar reporte por fecha"
+  },
   "ENTER_PASSWORD": {
     "FORGOT": "Olvidó contraseña?",
-    "LABEL": "Contraseña"
+    "HINT": "Pista",
+    "LABEL": "Contraseña",
+    "ONE_NUMBER": "Al menos un numero",
+    "ONE_SPECIAL_CHARACTER": "Al menos un caracter especial",
+    "ONE_UPPER_CASE": "Al menos una letra mayuscula",
+    "TOO_SHORT": "Al menos 8 caracteres"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
+      "MIN_ERROR": "Please enter a value greater than ",
+      "REQUIRED_ERROR": "Expense is required",
       "TITLE_1": "Nuevo gasto (1 de 2)",
       "TITLE_2": "Nuevo gasto (2 de 2)"
     },
@@ -64,6 +85,7 @@
     "ADD_NEW_FIELD": "Agregue nueva área",
     "EDIT_FIELD": {
       "CROP": {
+        "ADD_NEW_CROP_OR_VARIETY": "Agregar nuevo cultivo o variedad",
         "AREA_USED": "Area usada",
         "AREA_USED_HECTARE": "Area usada en una hectárea",
         "AREA_USED_IN": "Area usada en",
@@ -74,29 +96,49 @@
         "BY_BEDS": "Por cama",
         "CHOOSE_END_DATE": "Elija fecha de término",
         "CHOOSE_START_DATE": "Elija fecha de inicio",
+        "CROP_COMMON_NAME": "Nombre de cultivo",
+        "CROP_GROUP_INFO": "Informacion del grupo",
+        "CROP_GROUP_SUBGROUP": "Informacion del subgrupo",
         "DELETE_CONFIRMATION": "Esta seguro que quiere borrar este campo de cultivo?",
+        "EDIT_CROP_DETAIL": "Editar detalles del cultivo",
         "EDIT_ESTIMATED_PRICE": "Editar precio estimado para el cultivo",
         "EDIT_ESTIMATED_YIELD": "Editar rendimiento estimado para el cultivo",
         "END_DATE": "Fecha de término",
+        "ENTER_CROP_DETAILS": "Ingresar detalles del cultivo",
         "ENTER_START_FINISH": "Ingrese fechas de inicio y término",
         "ESTIMATED_PRICE": "Precio estimado",
         "ESTIMATED_PRODUCTION": "Produccion estimada",
         "ESTIMATED_REVENUE": "Ganancia estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimiento estimado",
+        "FIELD_SIZE": "Tamaño del campo",
+        "GENUS": "Genus",
         "HOW_MUCH_FIELD": "Cuánto del campo desea usar?",
-        "NEW_FIELD_CROP": "Nuevo campo de cultivo",
+        "NEW_CROP": "Nuevo Cultivo",
+        "NEW_CROP_INFOBOX": "Si tienes informacion de los detalles de tu cultivo o variedad, como su contenido nutricional, rasgos fisiologicos, puedes editarlos aqui.",
+        "NEW_CROP_VARIETY": "Nuevo cultivo o variedad",
+        "NEW_FIELD_CROP": "Nuevo cultivo",
+        "NO_DATA": "Sin data",
         "NUMBER_EXPIRED": "Número de cultivos caducados",
         "NUMBER_OF_BEDS": "Número de camas",
+        "NUTRIENT_LABEL": "Nutrientes en porcion comestible (100g)",
         "PERCENTAGE": "Porcentaje",
-        "START_DATE": "Fecha de inicio"
+        "SELECT_CROP_GROUP": "Selecciona grupo de cultivo",
+        "SELECT_CROP_SUBGROUP": "Selecciona subgrupo de cultivo",
+        "SELECT_CROP_TEMPLATE": "Selecciona plantilla de cultivo",
+        "SPECIES": "Especie",
+        "START_DATE": "Fecha de inicio",
+        "VARIETY_NAME": "Nombre de variedad"
       },
       "DELETE_FIELD": "Campo borrado",
+      "DELETE_FIELD_WARNING": "Estas seguro que deseas borrar este campo?",
       "EDIT_NAME": "Editar nombre del campo",
       "NAME": "Nombre del campo",
-      "NUMBER_CROPS": "Núnero de cultivos",
+      "NUMBER_CROPS": "Número de cultivos",
+      "SELECT": "Seleccionar...",
       "TITLE": "Editar campo",
       "TOTAL_AREA": "Area total",
-      "VARIETY": "Variedad"
+      "VARIETY": "Variedad",
+      "DELETE_FIELD_CONFIRM": "Quiero borrar este campo."
     },
     "EXPLORE": "Explore sus campos",
     "LIST": "Lista",
@@ -116,7 +158,7 @@
       "EDIT": "Edita",
       "FIELD_NAME": "Nombre del campo"
     },
-    "TITLE": "FIELDS"
+    "TITLE": "Campos"
   },
   "HELP": {
     "ATTACHMENT_LABEL": "Cargue imagen de pantalla o archivo",
@@ -138,6 +180,81 @@
   },
   "HOME": {
     "GREETING": "Buen dia,"
+  },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "Anfibio",
+      "BIRDS": "Aves",
+      "CROPS": "Cultivos",
+      "HEADER": "Numero de especies",
+      "INFO": "La biodiversidad es excelente para las personas y el planeta. Contamos la riqueza de especies de todos los registros conocidos de biodiversidad en los limites de tus campos. Puedes incrementar la cuenta de biodiversidad en tu granja visitando https://www.inaturalist.org/app.",
+      "INSECTS": "Insectos",
+      "PLANTS": "Plantas",
+      "SPECIES_COUNT": "{{count}} Especies",
+      "SPECIES_COUNT_plural": "{{count}} Especies",
+      "TITLE": "Biodiversidad"
+    },
+    "CURRENT": "Actual",
+    "INFO": "Las reflexiones son caracteristicas de datos de que esta pasando en tu granja. Mientras mas data proveas en la aplicacion mas reflexiones pueden ser generadas. Mira las reflexiones individuales para mas informacion.",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "Tareas",
+      "INFO": "Estimamos el impacto de las diferentes tareas en la satisfaccion con el trabajo usando los puntajes de satisfaccion y las horas trabajadas en cada turno.",
+      "TITLE": "Satisfaccion del Trabajo"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "Escoja una frecuencia",
+      "CHOOSE_FREQUENCY": "Escoja Frecuencia...",
+      "COUNT_MONTHS": "{{count}} mese",
+      "COUNT_MONTHS_plural": "{{count}} meses",
+      "CYCLE_INDICATOR": "Tu balance de nitrogeno esta en {{frequency}} meses por ciclo y la data se vera en: {{refreshDate}}",
+      "FIRST_TIME": "Parece que es la primera vez que corres esto! Por favor, selecciona una frecuencia para calcular tu balance de nitrogeno",
+      "HEADER": "Cada {{frequency}} meses: {{refreshDate}}",
+      "INFO_1": "El balance de nitrogeno te dice si aplicaste mucho o muy poco fertilizante. Depende en tus registros de cosecha, creditos de nitrogeno de legumbres, y registro de fertilizacion. Puedes correr el balance en tu intervalo de tiempo deseado.",
+      "INFO_2": "Cliquea el boton de borrar para resetear la frecuencia de calculo.",
+      "SELECT_FREQUENCY": "Seleccione una frecuencia",
+      "TITLE": "Balance de Nitrogeno"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "Calorias",
+      "FAT": "Grasa",
+      "HEADER": "Numero de comidas",
+      "INFO": "Estimamos el numero de comidas potenciales provistas por tu granja basandonos en los datos de tus ventas y la base de datos de la composicion de cultivos. Asumimos que los requerimientos diarios se dividen en partes iguales en 3 comidas al dia.",
+      "MEAL_COUNT": "{{count}} comida",
+      "MEAL_COUNT_plural": "{{count}} comidas",
+      "MEALS": "Comidas",
+      "PROTEIN": "Proteina",
+      "TITLE": "Personas alimentadas",
+      "VITAMIN_A": "Vitamina A",
+      "VITAMIN_C": "Vitamina C"
+    },
+    "PRICES": {
+      "INFO": "Te mostramos la trayectoria de tus precios de venta contra el precio de venta de los mismos bienes en una distancia dada de tu granja, recolectadas a traves de la red de Litefarm.",
+      "NEARBY_FARMS": "Buscando data de ventas de {{count}} granja",
+      "NEARBY_FARMS_plural": "Buscando data de ventas de {{count}} granjas",
+      "NETWORK_PRICE": "Precio de red",
+      "NO_ADDRESS": "Actualmente no tienes una direccion en Litefarm. Por favor actualizala en tu Perfil para obtener data de ventas cercanas.",
+      "OWN_PRICE": "Tu precio",
+      "PERCENT_OF_MARKET": "{{percentage}}% del mercado",
+      "SALES_FROM_DISTANCE_AWAY": "Ventas a {{distance}} {{unit}} de distancia",
+      "TITLE": "Precios",
+      "Y_TITLE": "Precio ({{currency}}/{{mass}})"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "Contenido de MO del Suelo",
+      "HEADER": "Materia Organica del Suelo",
+      "INFO": "La materia organica en el suelo es necesaria para mantener un ambiente saludable para tu cultivo. Nosotros tomamos esta data desde tus registros de suelo mas recientes. Si no tienes data en tus registros, predecimos la materia organica potencial en tu suelo para tu ubicacion global.",
+      "TITLE": "MO del Suelo"
+    },
+    "TITLE": "Reflexiones",
+    "UNAVAILABLE": "No Disponible",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "Parece que es la primera vez que llegas aca! Para mas informacion en que hace esto, por favor cliquea el boton de informacion.",
+      "INFO_1": "El balance de agua te dice si tus cultivos tienen deficiencia de agua o exceso. Depende de los datos meterologicos, y es actualizado por tus registros de riego .",
+      "INFO_2": "Esta funcionalidad no ha sido probada ampliamente en las granjas con una baja densidad de estaciones metereologicas  alrededor de ellas asi que uselo con precaucion. Por favor, cuentanos como funciona en tu granja",
+      "NO_SCHEDULE_RUN": "Tu balance de agua agendado aun no ha corrido, por favor, chequea en 2 dias y asegurate que tienes al menos un registro de textura de suelo para un campo para ver datos de balance de agua para cultivos en ese campo . Si el problema persiste, contacta a Litefarm.",
+      "REGISTER_FARM": "Registra tu granja",
+      "TITLE": "Balance de agua"
+    }
   },
   "INVITATION": {
     "BIRTH_YEAR": "Año de nacimiento",
@@ -202,17 +319,22 @@
     "ERROR_MISSING_FIELDS": "Error campos perdidos",
     "FARM_LOG": "Registro de finca",
     "FERTILIZING": "Fertilización",
-    "FIELD_CROPS": "Campos de cultivos",
+    "FIELD": "Campo",
+    "FIELD_CROPS": "Cultivo de campos",
     "FIELD_WORK": "Trabajo de campo",
     "FIELDS": "Campos",
     "FROM": "Desde",
     "HARVEST": "Cosecha",
+    "HIDE": "Ocultar",
     "IRRIGATION": "Irrigación",
+    "LOG_ALL_CROPS": "Todos los cultivos",
+    "LOG_ALL_FIELDS": "Todos los campos",
     "LOG_HELP": "Ayuda de registro",
     "LOG_HELP_EXPLANATION": "Use los filtros para revisar su historia de acceso. Util para mantener registro de sus ingresos y otras actividades de la finca para su equipo de trabajo y certificadores.",
     "LOG_HISTORY": "Historia de acceso",
     "NEW_LOG": "Nuevo registro",
     "NITRATE": "Nitrata",
+    "NOTES": "Notas",
     "OTHER": "Otro",
     "PEST": "Control de pestes",
     "PHOSPHATE": "Fosfato",
@@ -225,9 +347,15 @@
     "SCOUTING": "Exploracion",
     "SEARCH_BY_ACTIVITY": "Búsqueda de registro por actividad",
     "SEEDING": "Siembra",
+    "SELECT_FIELD": "Seleccionar Campo",
+    "SELECT_FIELD_CROP": "Seleccionar cultivo de campo",
     "SELECT_PRODUCT": "Seleccionar producto",
+    "SELECT_TYPE": "Seleccionar Tipo",
+    "SHOW": "Mostrar",
     "SOIL_DATA": "Información del suelo (tierra)",
     "TO": "Para",
+    "TYPE": "Tipo",
+    "WARNING": "Para usar este tipo de registro por favor agrega cultivos a tus campos. Puedes hacerlo navegando a Campos -> Tu campo -> Nuevo cultivo",
     "WATER": "Agua",
     "WHAT_LOG": "Qué desea registrar?"
   },
@@ -246,6 +374,7 @@
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Agregar fertilizante",
     "FERTILIZING_QUANTITY": "Cantidad de fertilizante",
+    "SELECT_TEMPLATE": "Seleccionar Plantilla",
     "TITLE": "Registro de fertilizante"
   },
   "LOG_FIELD_WORK": {
@@ -300,11 +429,11 @@
     "PESTICIDE_NAME_LABEL": "Nombre del pesticida",
     "PESTICIDE_QUANTITY": "Cantidad de pesticida",
     "SCIENTIFIC_NAME": "Nombre científico (si lo conoce)",
-    "TARGET": "Target",
+    "TARGET": "Destinado a",
     "TARGET_DISEASE": "Efecto de la enfermedad",
     "TARGET_GROUP": "Grupo objetivo",
     "TITLE": "Registro del control de la peste",
-    "TYPE": "Type"
+    "TYPE": "Tipo"
   },
   "LOG_SCOUTING": {
     "ACTION_NEEDED": "Acción requerida",
@@ -324,6 +453,7 @@
     "DEPTH": "Profundidad",
     "INORGANIC_CARBON": "Carbon inorgánico",
     "MORE_INFO": "Más información",
+    "OM": "MO",
     "ORGANIC_CARBON": "Carbón orgánico",
     "SELECT_DEPTH": "Seleccionar profundidad",
     "SELECT_TEXTURE": "Seleccionar textura",
@@ -372,6 +502,9 @@
       "WHY_ANSWER": "LiteFarm genera formularios requiridos para certificación orgánica. Parte de la información será obligatoria."
     },
     "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "El nombre del certificador es requerido",
+      "CERTIFIER_NAME_INFO": "Nuestros formularios son aceptados por la mayoria de los certificadores",
+      "CERTIFIER_NAME_LABEL": "Nombre del certificador",
       "SELECT_CERTIFIER": "Por favor seleccione su certificador",
       "THROUGH_APP": "A través de una aplicación!",
       "WILL_INDICATE": "Nosotros indicaremos la información requerida para la certificación orgánica con"
@@ -409,7 +542,7 @@
       "FRENCH": "Francés",
       "LANGUAGE": "Lenguaje",
       "LAST_NAME": "Apellido",
-      "PERSONAL_INFORMATION": "Información personal",
+      "PERSONAL_INFORMATION": "Mi informacion",
       "PHONE_NUMBER": "Número de teléfono",
       "PORTUGUESE": "Portugués",
       "SPANISH": "Español",
@@ -448,6 +581,9 @@
       "HEADER_STATUS": "Estatus"
     }
   },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "Quitar todo"
+  },
   "REQUEST_CONFIRMATION_MODAL": {
     "BUTTON": "Entendido",
     "DESCRIPTION": "Alguien lo contactará dentro de 48 horas.",
@@ -461,10 +597,22 @@
   },
   "SALE": {
     "ADD_SALE": {
+      "CROP": "Cultivo",
+      "CROP_PLACEHOLDER": "Seleccionar cultivo",
+      "CROP_REQUIRED": "Cultivo es requerida",
+      "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
+      "CUSTOMER_NAME_REQUIRED": "Nombre del(a) clientele(a) es requerida",
       "DATE": "Fecha",
-      "NEW": "Agregue nueva venta"
+      "NEW": "Nueva",
+      "TABLE_HEADERS": {
+        "CROPS": "Cultivos",
+        "QUANTITY": "Cantidad",
+        "TOTAL": "Total"
+      },
+      "TITLE": "Agregue nueva venta"
     },
     "DETAIL": {
+      "ACTION": "Accion",
       "CROP": "Cultivo",
       "CUSTOMER_NAME": "Nombre del(a) cliente(a)",
       "DELETE_CONFIRMATION": "Está seguro que quiere borrar esta venta?",
@@ -491,6 +639,7 @@
     },
     "FINANCES": {
       "ACTION": "Acción",
+      "ACTUAL": "Actual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimado",
       "ACTUAL_REVENUE_LABEL": "Actual",
       "ADD_NEW_EXPENSE": "Agregar nuevo gasto",
@@ -521,24 +670,43 @@
       "LABOUR_LABEL": "Trabajo",
       "OTHER_EXPENSES_LABEL": "Otros gastos",
       "REVENUE": "Ganancias",
-      "TITLE": "Finanzas"
+      "TITLE": "Finanzas",
+      "UNALLOCATED_CROP": "No asignada",
+      "UNALLOCATED_TIP": "Que es no asignada?"
     },
     "LABOUR": {
       "BY": "Por",
       "CROPS": "Cultivos",
       "EMPLOYEES": "Empleados",
+      "TABLE": {
+        "AMOUNT": "Monto",
+        "CROP": "Cultivo",
+        "DATE": "Fecha",
+        "EMPLOYEE": "Empleado",
+        "EST_REVENUE": "Ganancia estimada",
+        "LABOUR_COST": "Costo de trabajo",
+        "TASK": "Tarea",
+        "TIME": "Tiempo",
+        "TYPE": "Tipo"
+      },
       "TASKS": "Tareas",
       "TITLE": "Trabajo"
     },
     "SUMMARY": {
+      "AMOUNT": "Monto",
+      "CROP": "Cultivo",
+      "DATE": "Fecha",
       "DETAILED_HISTORY": "Historia detallada",
+      "SUBTOTAL": "Subtotal",
       "SUMMARY": "Resumen",
       "TITLE": "Ventas",
-      "TOTAL": "Total"
+      "TOTAL": "Total",
+      "TYPE": "Tipo",
+      "VALUE": "Valor"
     }
   },
   "SHIFT": {
-    "ACTION": "Accionn",
+    "ACTION": "Acción",
     "ADD_NEW": "Agregar nuevo turno",
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
@@ -568,6 +736,8 @@
       "NO_WAGE_SET_LOCATION": "Perfil->Personas->Editar",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
+      "SELECT_CROPS": "Seleccionar cultivos",
+      "SELECT_FIELDS": "Seleccionar Campos",
       "TASKS_FOR_SHIFT": "Estas son las tareas seleccionadas para este turno",
       "TASKS_SELECTED": "Las tareas seleccionadas para este turno aparecen destacadas abajo. Si deshace la selección de una tarea removerá la tarea del turno",
       "TIME_ALLOCATION": "Asignación de tiempo",
@@ -583,14 +753,13 @@
       "YOU_HAVE": "Usted tiene"
     },
     "END_TIME": "Tiempo final",
-    "FROM": "Desde",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
       "FIELD_CROPS": "Campos/Cultivos",
       "SUBMITTED_FOR": "Enviado para",
       "TASK": "Tarea",
-      "TITLE": "Mi turno"
+      "TITLE": "Detalle de turno"
     },
     "NAME": "Nombre",
     "NEW_SHIFT": {
@@ -600,11 +769,12 @@
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
     "START_TIME": "Faltante",
-    "TITLE": "Turnos",
-    "TO": "Para"
+    "TITLE": "Turnos"
   },
   "SIGNUP": {
     "DIDNT_WORK": "Eso no funcionó.",
+    "EMAIL_INVALID": "Correo invalido",
+    "ENTER_EMAIL": "Ingresar Correo",
     "EXPIRED_ERROR": "Hemos actualizado nuestra infraestructura y deberá restablecer su contraseña. Revise su bandeja de entrada para continuar.",
     "GOOGLE_BUTTON": "Continúe con Google",
     "INVITED_ERROR": "Faltante",
@@ -614,6 +784,7 @@
     "SIGN_IN": "Registrarse",
     "SSO_ERROR": "Por favor inicie sesión haciendo clic el boton Google de arriba",
     "TITLE": "Firmar",
+    "WELCOME_BACK": "Bienvenido",
     "WRONG_BROWSER": "LiteFarm no es optimizada por este navegador.",
     "WRONG_BROWSER_BOTTOM": "Por favor inicie sesión usando Chrome."
   },
@@ -637,13 +808,21 @@
     "DESCRIPTION_TOP": "La puerta del granero es segura.",
     "TITLE": "Cambiando de finca"
   },
+  "TABLE": {
+    "LOADING_TEXT": "Loading...",
+    "NEXT_TEXT": "Siguiente",
+    "NO_DATA_TEXT": "No se encontro informacion",
+    "OF_TEXT": "De",
+    "PAGE_TEXT": "Pagina",
+    "PREVIOUS_TEXT": "Previa",
+    "ROWS_TEXT": "filas"
+  },
   "WEATHER": {
     "HUMIDITY": "Humedad",
     "WIND": "Viento"
   },
   "WELCOME_SCREEN": {
-    "BUTTON": "Vamos a comenzar",
-    "SVG_ALT": "Bienvenido(a) a LiteFarm"
+    "BUTTON": "Vamos a comenzar"
   },
   "LOGIN_BUTTON": "Registrarse o Iniciar Sesión"
 }

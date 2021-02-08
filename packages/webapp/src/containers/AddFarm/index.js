@@ -62,10 +62,7 @@ const AddFarm = () => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
     setGridPoints(farm?.grid_points ? farm.grid_points : {});
-    if(farm.grid_points?.lat) {
-      const setC = farm.address.split(',').pop().trim();
-      setCountry(setC)
-    }
+    setCountry( farm?.country ? farm.country : '');
   }, []);
 
   useEffect(() => {
@@ -106,7 +103,7 @@ const AddFarm = () => {
     autocomplete.addListener('place_changed', handlePlaceChanged);
   };
 
-  const setCountryFromLatLng = (latlng, callback) => {
+  const setCountryFromLatLng = (latlng, callback = () => {}) => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: latlng }, (results, status) => {
       if (status === 'OK') {
@@ -245,7 +242,7 @@ const AddFarm = () => {
             label: t('ADD_FARM.FARM_LOCATION'),
             info: t('ADD_FARM.FARM_LOCATION_INPUT_INFO'),
             icon: isGettingLocation ? (
-              <span>Locating...</span>
+              <span>{t('ADD_FARM.LOCATING')}</span>
             ) : (
               <VscLocation size={27} onClick={getGeoLocation} />
             ),

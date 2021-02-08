@@ -94,14 +94,14 @@ class EstimatedRevenue extends Component {
     const revenueColumns = [
       {
         id: 'crop',
-        Header: 'Crop',
+        Header: this.props.t('SALE.LABOUR.TABLE.CROP'),
         accessor: (d) => d.crop,
         minWidth: 70,
-        Footer: <div>Total</div>,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
       {
         id: 'estimatedRevenue',
-        Header: 'Estimated Revenue',
+        Header: this.props.t('SALE.LABOUR.TABLE.EST_REVENUE'),
         accessor: (d) => `${this.state.currencySymbol}${d.estimated_revenue}` || 'none',
         minWidth: 75,
         Footer: (
@@ -126,6 +126,9 @@ class EstimatedRevenue extends Component {
           columns={revenueColumns}
           data={this.formatData(fieldCrops)}
           showPagination={false}
+          showPagination={true}
+          pageSizeOptions={[10, 20, 50]}
+          defaultPageSize={10}
           minRows={5}
           className="-striped -highlight"
         />

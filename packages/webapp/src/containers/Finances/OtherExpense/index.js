@@ -13,6 +13,7 @@ import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -163,14 +164,14 @@ class OtherExpense extends Component {
     const columns = [
       {
         id: 'type',
-        Header: 'Type',
+        Header: this.props.t('SALE.SUMMARY.TYPE'),
         accessor: (d) => d.type,
         minWidth: 80,
-        Footer: <div>Total</div>,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
       },
       {
         id: 'amount',
-        Header: 'Amount',
+        Header: this.props.t('SALE.SUMMARY.AMOUNT'),
         accessor: (d) => d.amount,
         minWidth: 75,
         Footer: <div>{this.state.currencySymbol + totalData}</div>,
@@ -180,20 +181,20 @@ class OtherExpense extends Component {
     const detailedColumns = [
       {
         id: 'date',
-        Header: 'Date',
+        Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
         accessor: (d) => d.date,
         minWidth: 80,
-        Footer: <div>Subtotal</div>,
+        Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
       },
       {
         id: 'type',
-        Header: 'Type',
+        Header: this.props.t('SALE.LABOUR.TABLE.TYPE'),
         accessor: (d) => d.type,
         minWidth: 75,
       },
       {
         id: 'amount',
-        Header: 'Amount',
+        Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
         accessor: (d) => d.amount,
         minWidth: 75,
         Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
@@ -209,41 +210,34 @@ class OtherExpense extends Component {
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.OTHER_EXPENSES_TITLE')} />
         <DateRangeSelector changeDateMethod={this.changeDate} />
-        <div className={styles.topContainer}>
-          <h4>
-            <strong>{this.props.t('EXPENSE.SUMMARY')}</strong>
-          </h4>
-        </div>
-        <div className={styles.tableContainer}>
+
+        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('EXPENSE.SUMMARY')}</Semibold>
+        <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
           {data.length > 0 && (
             <Table
               columns={columns}
               data={data}
-              showPagination={false}
+              showPagination={true}
+              pageSizeOptions={[5, 10, 20, 50]}
+              defaultPageSize={5}
               minRows={5}
               className="-striped -highlight"
-              defaultSorted={[
-                {
-                  id: 'date',
-                  desc: true,
-                },
-              ]}
             />
           )}
           {data.length === 0 && <h4>{this.props.t('EXPENSE.NO_EXPENSE_YEAR')}</h4>}
         </div>
-        <div className={styles.topContainer}>
-          <h4>
-            <strong>{this.props.t('EXPENSE.DETAILED_HISTORY')}</strong>
-          </h4>
-        </div>
+        <Semibold style={{ marginBottom: '16px' }}>
+          {this.props.t('EXPENSE.DETAILED_HISTORY')}
+        </Semibold>
         <div className={styles.tableContainer}>
           {detailedHistory.length > 0 && (
             <div>
               <Table
                 columns={detailedColumns}
                 data={detailedHistory}
-                showPagination={false}
+                showPagination={true}
+                pageSizeOptions={[5, 10, 20, 50]}
+                defaultPageSize={5}
                 minRows={5}
                 className="-striped -highlight"
                 getTdProps={(state, rowInfo, column, instance) => {

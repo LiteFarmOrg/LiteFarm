@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from './styles.scss';
 import sharedStyles from '../shared.scss';
 import { ProgressBar } from 'react-bootstrap';
+import { Main } from '../../Typography';
 
 class LabourHappinessTask extends Component {
   render() {
@@ -11,15 +12,11 @@ class LabourHappinessTask extends Component {
 
     return (
       <div>
-        <div>
-          <div className={sharedStyles.leftText}>{title}</div>
-          <div className={sharedStyles.rightText}>{mood} / 5</div>
+        <div className={sharedStyles.infoTextLine}>
+          <Main>{title}</Main>
+          <Main className={sharedStyles.rightText}>{`${mood} / 5`}</Main>
         </div>
-        <ProgressBar
-          className={sharedStyles.progress}
-          bsPrefix={styles.bar + ' progress-bar'}
-          now={percent}
-        />
+        <ProgressBar className={sharedStyles.progress} now={percent} />
       </div>
     );
   }

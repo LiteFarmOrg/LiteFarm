@@ -238,7 +238,7 @@ class FertilizingLog extends Component {
         } else {
           fertOptions.push({
             value: f.fertilizer_id,
-            label: this.props.t(`fertilizer:${f.fertilizer_type}`),
+            label: this.props.t(`fertilizer:${f.fertilizer_translation_key}`),
           });
         }
       }
@@ -302,14 +302,14 @@ class FertilizingLog extends Component {
                   onChange={this.setSelectedFert}
                 />
               </div>
-              { [1,2,5].includes(this.props.farm.role_id) &&
+              {[1, 2, 5].includes(this.props.farm.role_id) && (
                 <div>
                   <div className={styles.greenTextButton} onClick={() => this.openEditModal()}>
                     {' '}
                     + {this.props.t('LOG_COMMON.ADD_CUSTOM_PRODUCT')}{' '}
                   </div>
                 </div>
-              }
+              )}
               <Unit
                 model=".fertLog.quantity_kg"
                 title={this.props.t('LOG_COMMON.QUANTITY')}
@@ -321,7 +321,7 @@ class FertilizingLog extends Component {
                 <Control model=".fertLog.notes" component={TextArea} />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? 'Hide' : 'Show'}{' '}
+                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </div>
               {this.state.showChem && (

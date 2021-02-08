@@ -344,6 +344,7 @@ class NewFieldCropModal extends React.Component {
                     }
                   }
                   onChange={(selectedOption) => this.handleCropSelect(selectedOption)}
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.SELECT')}
                   required
                 />
               </FormGroup>
@@ -369,7 +370,8 @@ class NewFieldCropModal extends React.Component {
               </div>
               <div>
                 <h5 style={{ textAlign: 'right' }}>
-                  Field Size: {fieldArea} {this.state.area_unit_label}&sup2;
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.FIELD_SIZE')}: {fieldArea}{' '}
+                  {this.state.area_unit_label}&sup2;
                 </h5>
               </div>
               {isByArea && (

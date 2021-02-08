@@ -1,7 +1,7 @@
 import { call, put, takeLatest, select, all } from 'redux-saga/effects';
 import apiConfig, { url, userFarmUrl } from '../../../apiConfig';
 import { toastr } from 'react-redux-toastr';
-import { loginSelector } from '../../userFarmSlice';
+import { getUserFarmSelector, loginSelector, userFarmsByUserSelector } from '../../userFarmSlice';
 import { getHeader, axios } from '../../saga';
 import {
   getUserFarmsSuccess,
@@ -64,10 +64,11 @@ export const reactivateUser = createAction('reactivateUserSaga');
 export function* reactivateUserSaga({ payload: target_user_id }) {
   const { userFarmUrl } = apiConfig;
   const { user_id, farm_id } = yield select(loginSelector);
+  const user = yield select(getUserFarmSelector(farm_id, target_user_id))
   const header = getHeader(user_id, farm_id);
 
   const body = {
-    status: 'Invited',
+    status: user.has_consent ? 'Active' :'Invited',
   };
 
   try {

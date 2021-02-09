@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import {
   expenseSelector,
   expenseTypeSelector,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import defaultStyles from '../../Finances/styles.scss';
+import defaultStyles from '../../Finances/styles.module.scss';
 import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import {

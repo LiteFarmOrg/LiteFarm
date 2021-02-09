@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import DrawingToolTipBox from '../../../components/Field/DrawingToolTipBox';
-import styles from './styles.scss';
-import parentStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import parentStyles from '../styles.module.scss';
 import {
   CENTER,
   CLEAR_BUTTON,
@@ -445,21 +445,27 @@ class NewField extends Component {
     );
     const DrawingManager = () => {
       if (this.state.showWarning) {
-        return <PureWarningBox style={{ padding: '16px 15%', width: '95%', margin: 'auto' }}>
-          {/* <div style={{marginBottom: '10px'}}> */}
-          <Label style={{marginBottom: '12px'}}>{this.props.t('FIELDS.NEW_FIELD.ZERO_AREA_DETECTED')}</Label>
-          {/* </div> */}
-          <ClearButton />
-        </PureWarningBox>
-      } else if (gridPoints === null)  {
-        return <PolygonButton />
+        return (
+          <PureWarningBox style={{ padding: '16px 15%', width: '95%', margin: 'auto' }}>
+            {/* <div style={{marginBottom: '10px'}}> */}
+            <Label style={{ marginBottom: '12px' }}>
+              {this.props.t('FIELDS.NEW_FIELD.ZERO_AREA_DETECTED')}
+            </Label>
+            {/* </div> */}
+            <ClearButton />
+          </PureWarningBox>
+        );
+      } else if (gridPoints === null) {
+        return <PolygonButton />;
       } else {
-        return <div>
-          <ClearButton />
-          <NextButton />
-        </div>
+        return (
+          <div>
+            <ClearButton />
+            <NextButton />
+          </div>
+        );
       }
-    }
+    };
     return (
       // Important! Always set the container height explicitly
       <div>

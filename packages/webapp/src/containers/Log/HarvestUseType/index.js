@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { Col, Container, Row, Button } from 'react-bootstrap';
 import SalesImg from '../../../assets/images/harvestUseType/Sales.svg';

@@ -3,7 +3,7 @@ import DateContainer from '../../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import PageTitle from '../../../../components/PageTitle';
 import { connect } from 'react-redux';
-import defaultStyles from '../../../Finances/styles.scss';
+import defaultStyles from '../../../Finances/styles.module.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../../components/Forms/Sale';
 import { addOrUpdateSale } from '../../../Finances/actions';

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import defaultStyles from '../../styles.scss';
+import defaultStyles from '../../styles.module.scss';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Employee from './Employee';
 import Crop from './Crop';
 import Task from './Task';

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './assets/styles.scss';
+import styles from './assets/styles.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import TodayForecast from './TodayForecast';

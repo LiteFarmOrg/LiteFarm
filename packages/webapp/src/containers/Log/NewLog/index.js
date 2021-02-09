@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { Col, Container, Row } from 'react-bootstrap';
 import fertImg from '../../../assets/images/log/fertilizing.png';

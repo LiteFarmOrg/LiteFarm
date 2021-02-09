@@ -16,7 +16,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import history from '../../history';
 import { LocalForm } from 'react-redux-form';
 import DateContainer, { FromToDateContainer } from '../../components/Inputs/DateContainer';

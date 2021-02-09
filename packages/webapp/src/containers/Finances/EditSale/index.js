@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../styles.scss';
+import defaultStyles from '../styles.module.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../components/Forms/Sale';
 import { selectedSaleSelector } from '../selectors';

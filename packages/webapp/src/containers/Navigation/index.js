@@ -20,7 +20,7 @@ import SlideMenu from './slideMenu';
 import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-import styles1 from './styles1.scss';
+import styles1 from './styles1.module.scss';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import PureNavBar from '../../components/Navigation/NavBar';
 import { useTranslation } from 'react-i18next';

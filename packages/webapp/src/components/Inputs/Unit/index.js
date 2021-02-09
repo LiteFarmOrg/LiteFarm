@@ -1,8 +1,8 @@
 import React from 'react';
 import { Control, Errors } from 'react-redux-form';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import Input, { numberOnKeyDown } from '../../Form/Input';
-import { withTranslation } from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
 class Unit extends React.Component {
   parseNumber(val) {
@@ -138,11 +138,7 @@ class Unit extends React.Component {
                 disabled={disabled}
               />
               <div
-                style={
-                  isHarvestAllocation
-                    ? { color: '#9FAABE' }
-                    : {}
-                }
+                style={isHarvestAllocation ? { color: '#9FAABE' } : {}}
                 className={styles.typeUnit}
               >
                 {type}

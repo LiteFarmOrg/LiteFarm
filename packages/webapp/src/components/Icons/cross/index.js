@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './cross.scss';
+import styles from './cross.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Control, Errors, Form } from 'react-redux-form';
 import axios from 'axios';
 import { toastr } from 'react-redux-toastr';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import apiConfig from '../../apiConfig';
 // import Auth from '../../Auth/Auth';
 import PureCallback from '../../components/Callback';

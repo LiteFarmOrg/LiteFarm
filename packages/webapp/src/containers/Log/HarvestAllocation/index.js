@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import { actions, Form } from 'react-redux-form';
 import moment from 'moment';
-import styles from '../HarvestUseType/styles.scss';
-import mainStyles from '../styles.scss'
+import styles from '../HarvestUseType/styles.module.scss';
+import mainStyles from '../styles.module.scss';
 import { getUnit, convertToMetric } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { withTranslation } from 'react-i18next';
@@ -72,10 +72,10 @@ class HarvestAllocation extends Component {
   render() {
     return (
       <div className="page-container">
-          <PageTitle
-            backUrl="/harvest_use_type"
-            title={this.props.t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
-          />
+        <PageTitle
+          backUrl="/harvest_use_type"
+          title={this.props.t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
+        />
         <h4>{this.props.t('LOG_HARVEST.HARVEST_ALLOCATION_SUBTITLE')}</h4>
         <p>{this.props.t('LOG_HARVEST.HARVEST_ALLOCATION_SUBTITLE_TWO')}</p>
         <div style={{ color: '#085D50', fontWeight: 'bold' }}>

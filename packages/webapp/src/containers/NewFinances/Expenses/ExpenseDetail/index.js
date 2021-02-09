@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../../components/PageTitle';
 import { connect } from 'react-redux';
-import defaultStyles from '../../../Finances/styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../../../Finances/styles.module.scss';
+import styles from './styles.module.scss';
 import {
   expenseDetailDateSelector,
   expenseSelector,

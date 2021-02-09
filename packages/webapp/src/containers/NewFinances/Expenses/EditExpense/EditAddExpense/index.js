@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../../../components/PageTitle';
 import { connect } from 'react-redux';
-import defaultStyles from '../../../../Finances/styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../../../../Finances/styles.module.scss';
+import styles from './styles.module.scss';
 import {
   expenseTypeSelector,
   selectedEditExpenseSelector,
@@ -13,7 +13,7 @@ import {
 import history from '../../../../../history';
 import DateContainer from '../../../../../components/Inputs/DateContainer';
 import { Field, actions, Form, Control } from 'react-redux-form';
-import footerStyles from '../../../../../components/LogFooter/styles.scss';
+import footerStyles from '../../../../../components/LogFooter/styles.module.scss';
 import { addRemoveExpense } from '../../../../Finances/actions';
 import { Alert } from 'react-bootstrap';
 import { userFarmSelector } from '../../../../userFarmSlice';

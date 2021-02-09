@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import defaultStyles from '../../Finances/styles.scss';
+import defaultStyles from '../../Finances/styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Table from '../../../components/Table';
 import { calcBalanceByCrop } from '../../Finances/util';
 import { expenseSelector, salesSelector, shiftSelector } from '../../Finances/selectors';

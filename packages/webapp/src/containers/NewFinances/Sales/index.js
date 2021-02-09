@@ -1,4 +1,4 @@
-import styles from '../../Finances/styles.scss';
+import styles from '../../Finances/styles.module.scss';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import history from '../../../history';

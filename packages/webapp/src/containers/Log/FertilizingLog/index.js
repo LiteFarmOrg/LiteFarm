@@ -193,7 +193,6 @@ class FertilizingLog extends Component {
     let fertOptions = [];
     let customOptions = [];
     if (fert) {
-      console.log(fert);
       for (let f of fert) {
         if (f.fertilizer_type.startsWith('CUSTOM')) {
           customOptions.push({

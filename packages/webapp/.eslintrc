@@ -21,11 +21,11 @@
         "react"
     ],
     "rules": {
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         "eqeqeq": "error",
         "jsx-a11y/accessible-emoji": "off",
         "radix": "off",
-        "react/prop-types": "warn"
+        "react/prop-types": "off"
     },
     "globals": {
         "cy": true,

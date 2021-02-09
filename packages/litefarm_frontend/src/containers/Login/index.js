@@ -21,7 +21,7 @@ import picThree from '../../assets/images/introSliders/2.png';
 import picFour from '../../assets/images/introSliders/5.png';
 import picFive from '../../assets/images/introSliders/6.png';
 import LoginButton from './loginButton';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import Carousel from 'nuka-carousel';
 

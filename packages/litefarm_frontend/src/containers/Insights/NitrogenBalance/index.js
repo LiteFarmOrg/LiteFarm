@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { connect } from 'react-redux';
 import { nitrogenBalanceSelector, nitrogenFrequencySelector } from '../selectors';
 import NitrogenBalanceInfo from '../../../components/Insights/NitrogenBalanceInfo';
 import FrequencySelectorComponent from '../../../components/Insights/FrequencySelectorComponent';
 import { delFrequencyNitrogenBalance } from '../actions';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { withTranslation } from 'react-i18next';
 import { Semibold, Text } from '../../../components/Typography';
 

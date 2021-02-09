@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import insightStyles from '../../../containers/Insights/styles.scss';
+import insightStyles from '../../../containers/Insights/styles.module.scss';
 import BarBalanceComponent from '../BalanceBarComponent';
 
 class NitrogenBalanceInfo extends Component {

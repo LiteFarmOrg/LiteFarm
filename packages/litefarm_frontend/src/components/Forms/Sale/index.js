@@ -1,10 +1,10 @@
 import Text from '../../Inputs/Text';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { Control, Errors, Form } from 'react-redux-form';
 import DropDown from '../../Inputs/DropDown';
 import CropSale from '../../Inputs/CropSale';
 import React from 'react';
-import footerStyles from '../../../components/LogFooter/styles.scss';
+import footerStyles from '../../LogFooter/styles.module.scss';
 import { useTranslation } from 'react-i18next';
 
 const SaleForm = ({

@@ -5,7 +5,7 @@ import DateContainer from '../../../components/Inputs/DateContainer';
 import { actions, Control, Form } from 'react-redux-form';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import { getHarvestUseTypes } from '../actions';
 import { convertToMetric, getUnit } from '../../../util';
 import parseCrops from '../Utility/parseCrops';

@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Form from '../Form';
 import Button from '../Form/Button';
 import signup7 from '../../assets/images/signUp/signup7.svg';

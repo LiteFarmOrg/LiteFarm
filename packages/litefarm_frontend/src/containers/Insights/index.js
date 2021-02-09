@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import history from '../../history';
 // images
 import people_fed from '../../assets/images/insights/people_fed.svg';

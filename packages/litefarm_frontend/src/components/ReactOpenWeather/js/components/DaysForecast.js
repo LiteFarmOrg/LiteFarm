@@ -9,6 +9,7 @@ const propTypes = {
   unit: PropTypes.string.isRequired,
   daysData: PropTypes.array.isRequired,
 };
+// TODO remove
 
 const DaysForecast = (props) => {
   const { forecast, unit, daysData } = props;

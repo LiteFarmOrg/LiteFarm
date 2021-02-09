@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import DrawingToolTipBox from '../../../components/Field/DrawingToolTipBox';
-import styles from './styles.scss';
-import parentStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import parentStyles from '../styles.module.scss';
 import {
   CENTER,
   CLEAR_BUTTON,

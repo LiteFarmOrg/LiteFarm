@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import logo from '../../../assets/images/navbar/nav-logo.svg';
 import vectorUp from '../../../assets/images/navbar/vector-up.svg';
 import vectorDown from '../../../assets/images/navbar/vector-down.svg';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import history from '../../../history';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';

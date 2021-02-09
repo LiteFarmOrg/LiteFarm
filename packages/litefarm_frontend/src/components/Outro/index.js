@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import OutroImg from '../../assets/images/outro/outro.svg';
 import Footer from '../Footer';
 import Button from '../Form/Button';

@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import ConfirmModal from '../Modals/Confirm';
 
 class ConsentFooter extends React.Component {

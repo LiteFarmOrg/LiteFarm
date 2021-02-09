@@ -1,6 +1,6 @@
 import React from 'react';
 import { Control, Errors } from 'react-redux-form';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import Input, { numberOnKeyDown } from '../../Form/Input';
 import { withTranslation } from "react-i18next";
 

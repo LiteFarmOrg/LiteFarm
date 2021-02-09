@@ -14,7 +14,7 @@
  */
 
 import React, { Component } from 'react';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import handStandPng from '../../../assets/images/miscs/hand_stand.png';
 import errorPng from '../../../assets/images/miscs/error.svg';
 import errorPngAlt from '../../../assets/images/miscs/error.png';

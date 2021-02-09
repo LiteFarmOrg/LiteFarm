@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { postCrop } from './saga';
 import { getCrops } from '../../../containers/saga';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Select from 'react-select';
 import { crop_nutrient_data } from '../../../assets/data/crop_nutrient';
 import { crop_physiology_data } from '../../../assets/data/crop_physiology';

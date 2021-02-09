@@ -40,24 +40,27 @@
 
   background: #ffffff;
   border: 1px solid #cef1d8;
+  border-right: none;
   box-sizing: border-box;
   border-radius: 4px;
 }
 
 .tabLink {
   width: 100%;
-  outline: 0;
+  outline: none;
+  border: none;
   border-right: 1px solid #cef1d8;
   cursor: pointer;
   padding: 10px 0;
-
+  background: transparent;
   text-align: center;
   color: #282b36;
 }
-
-.tabLink:last-child {
-  border-right: 0;
+.tabLink:focus{
+  outline: none;
 }
+
+
 
 .selectedTabLink {
   background: #cef1d8;

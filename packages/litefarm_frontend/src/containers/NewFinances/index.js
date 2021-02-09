@@ -14,8 +14,8 @@
  */
 
 import React, { Component } from 'react';
-import styles from '../Finances/styles.scss';
-import newStyles from './styles.scss';
+import styles from '../Finances/styles.module.scss';
+import newStyles from './styles.module.scss';
 import { connect } from 'react-redux';
 import Table from '../../components/Table';
 import history from '../../history';

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PageTitle from '../../../components/PageTitle';
 import { actions, Form } from 'react-redux-form';
 import moment from 'moment';
-import styles from '../HarvestUseType/styles.scss';
-import mainStyles from '../styles.scss'
+import styles from '../HarvestUseType/styles.module.scss';
+import mainStyles from '../styles.module.scss'
 import { getUnit, convertToMetric } from '../../../util';
 import Unit from '../../../components/Inputs/Unit';
 import { withTranslation } from 'react-i18next';

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { connect } from 'react-redux';
 import { waterBalanceScheduleSelector, waterBalanceSelector } from '../selectors';
 import WaterBalanceInfo from '../../../components/Insights/WaterBalanceInfo';
 import { Button } from 'react-bootstrap';
 import { createWaterBalanceSchedule } from '../actions';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 

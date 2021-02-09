@@ -2,7 +2,7 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { loginWithGoogle } from './saga';
-import styles from './googleLoginButton.scss';
+import styles from './googleLoginButton.module.scss';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 

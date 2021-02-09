@@ -1,0 +1,30 @@
+.home .lander {
+  text-align: center;
+  color: var(--primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  padding-top: 10px;
+  color: #282b36;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.home .lander h1 {
+  font-weight: 600;
+  //mix-blend-mode: difference;
+}
+
+.home {
+  padding: 20vh 0 0 0;
+  flex: 1;
+}
+
+.greetContainer {
+  margin: auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}

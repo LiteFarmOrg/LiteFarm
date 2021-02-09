@@ -1,0 +1,98 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (styles.scss) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.slideContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1024px;
+  color: var(--typePrimary);
+  height: 100vh;
+  align-items: center;
+  text-align: center;
+
+  img {
+    width: 70%;
+    max-width: 350px;
+    margin-top: 5vw;
+  }
+  h3 {
+    margin-top: 5%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    img {
+      width: 70%;
+      max-width: 350px;
+      margin-top: 75px;
+    }
+  }
+}
+
+.description {
+  padding: 0 10%;
+  margin-top: 15px;
+  font-size: 20px;
+  text-align: left;
+}
+
+.descriptionGreen {
+  padding: 0 10%;
+  margin-top: 10px;
+  font-size: 20px;
+  color: var(--buttonPrimary);
+}
+
+@media only screen and (max-width: 600px) {
+  .description {
+    padding: 0 10%;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .descriptionGreen {
+    padding: 0 10%;
+    font-size: 20px;
+    color: var(--buttonPrimary);
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .slideContainer {
+    .description {
+      margin-top: 0;
+      font-size: 15px;
+    }
+
+    .descriptionGreen {
+      font-size: 15px;
+      margin-top: 0;
+    }
+
+    h3 {
+      margin-top: 10px;
+    }
+  }
+}
+
+.nextSlide {
+  margin-top: 20px;
+  font-size: 1.5em;
+  color: var(--buttonPrimary);
+}
+
+.finishSlide {
+  margin-top: 20px;
+}

@@ -1,0 +1,211 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (timezone.css) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.timezone_picker_modal_container {
+  user-select: none;
+  cursor: default;
+  position: absolute;
+  z-index: 3;
+  background-color: #fff;
+  border-radius: 2px;
+  top: 0;
+  width: 100%;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.timezone_picker_modal_container-enter {
+  right: -100%;
+  opacity: 0.5;
+}
+
+.timezone_picker_modal_container-enter.timezone_picker_modal_container-enter-active {
+  right: 0;
+  opacity: 1;
+  transition: right 100ms ease-out, opacity 100ms ease-out;
+  -ms-transition: right 100ms ease-out, opacity 100ms ease-out;
+  -moz-transition: right 100ms ease-out, opacity 100ms ease-out;
+  -o-transition: right 100ms ease-out, opacity 100ms ease-out;
+  -webkit-transition: right 100ms ease-out, opacity 100ms ease-out;
+}
+
+.timezone_picker_modal_container-exit {
+  right: 0;
+  opacity: 1;
+}
+
+.timezone_picker_modal_container-exit.timezone_picker_modal_container-exit-active {
+  right: -100%;
+  opacity: 0.5;
+  transition: right 100ms ease-in, opacity 100ms ease-in;
+  -ms-transition: right 100ms ease-in, opacity 100ms ease-in;
+  -moz-transition: right 100ms ease-in, opacity 100ms ease-in;
+  -o-transition: right 100ms ease-in, opacity 100ms ease-in;
+  -webkit-transition: right 100ms ease-in, opacity 100ms ease-in;
+}
+
+.timezone_picker_modal_header {
+  font-size: 1em;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.timezone_picker_header_title {
+  flex: 1;
+  text-align: left;
+}
+
+.timezone_picker_modal_header span.icon {
+  height: 25px;
+  width: 50px;
+}
+
+.timezone_picker_modal_header svg {
+  width: 25px;
+  height: 25px;
+  fill: #fff;
+  cursor: pointer;
+}
+
+.timezone_picker_container {
+  min-width: 260px;
+  min-height: 300px;
+  display: flex;
+  margin: 0 20px 20px;
+  position: relative;
+}
+
+.timezone_picker_search {
+  padding: 0 10px;
+  position: relative;
+  width: 100%;
+}
+
+.timezone_picker_search input {
+  box-sizing: border-box;
+  margin-bottom: 1%;
+  padding: 10px 10px;
+  width: 100%;
+  height: 100%;
+
+  font-size: 0.9rem;
+  line-height: 2;
+  border: none;
+  border-bottom: 1px solid #adb5bd;
+  outline: none;
+  border-radius: 2px;
+  transition: border .2s;
+}
+
+.timezone_picker_search input::-webkit-input-placeholder,
+.timezone_picker_search input::-moz-input-placeholder,
+.timezone_picker_search input:-ms-input-placeholder,
+.timezone_picker_search input:-moz-input-placeholder {
+  color: #c6cace;
+}
+
+.timezone_picker_search .bootstrap-typeahead-input-main {
+  color: #757575;
+}
+
+.timezone_picker_search input:focus {
+  color: #4b4b4b;
+  border-bottom: 1px solid #3498db;
+}
+
+/**
+* The react-bootstrap-typeahead library sort of assumes bootstrap is already in use for styling
+* so it refers to some bootstrap classes.  We don't need to use bootstrap just for a few classes so
+* the relevant styles have been copied here
+*/
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
+
+.open > .dropdown-menu {
+  display: block;
+}
+.open > a {
+  outline: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.dropdown-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #337ab7;
+  outline: 0;
+}
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  color: #777;
+}
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}

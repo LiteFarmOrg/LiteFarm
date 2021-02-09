@@ -1,0 +1,41 @@
+.labourContainer {
+}
+
+.otherExpensesContainer {
+}
+
+.table {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  :global(.ReactTable) {
+    :global(.rt-td) {
+      white-space: pre-wrap;
+      background-color: white;
+      border: none;
+    }
+    :global(.rt-thead) {
+      background-color: #cbcdd5;
+    }
+    :global(.rt-th) {
+      border: none;
+    }
+  }
+}
+
+.topButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+.dropDownContainer {
+  margin-left: 10px;
+  width: 45%;
+}
+
+.tableContainer {
+  width: 100%;
+  padding: 0 2.5%;
+}

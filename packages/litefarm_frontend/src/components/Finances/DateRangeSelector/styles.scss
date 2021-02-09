@@ -1,0 +1,88 @@
+.pullLeft {
+  label {
+    font-size: 15px;
+    margin-right: 7px;
+  }
+  padding-top: 10px;
+  width: 45%;
+  margin: 0;
+  float: left;
+}
+
+.pullRight {
+  label {
+    font-size: 15px;
+    margin-right: 7px;
+  }
+  padding-top: 10px;
+  width: 45%;
+  float: right;
+  margin: 0;
+}
+
+.date {
+  input {
+    font-size: 1.8rem;
+    border: 1px solid #d3d3d3;
+    width: 100%;
+    border-radius: 5px;
+    background-color: hsl(0, 0%, 98%);
+  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ::placeholder {
+    color: #00756a;
+  }
+}
+
+.balanceTitle {
+  display: inline;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  font-size: 18px;
+  letter-spacing: 0.131836px;
+  color: #5b6370;
+}
+
+.rangeContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  input {
+    text-align: center;
+  }
+  h5 {
+    text-align: center;
+  }
+  margin-bottom: 20px;
+}
+
+.toFromContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.dateContainer {
+  max-width: 100%;
+}
+@media screen and (min-width: 500px)  {
+  .dateContainer{
+    width: 45%;
+  }
+  .pullRight {
+    float: right;
+  }
+  .pullLeft {
+    float: left;
+  }
+}
+.titleContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-grow: 1;
+}

@@ -1,0 +1,88 @@
+.fieldContainer {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0;
+  height: 100vh;
+  padding: 50px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.div[title='Stop drawing'] {
+  color: red;
+}
+// .gmnoprint[title='Add a marker']
+// .gmnoprint[title='Draw a shape']
+
+.drawingToolBar {
+  position: fixed;
+  top: 175px;
+  align-self: center;
+  z-index: 10;
+}
+
+.centeredForm {
+  align-self: center;
+  width: 90%;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2%;
+  button {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.inlineButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2%;
+  margin-left: auto;
+
+  button {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.panelHeading {
+  display: flex;
+  flex-direction: column;
+}
+.cardHeaderSuccess {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  display: flex;
+}
+@media (max-width: 576px) {
+  .cardHeaderSuccess {
+    flex-direction: column;
+  }
+}
+
+.deleteButton {
+  margin-left: 0.5em;
+}
+
+.editFieldName {
+  display: flex;
+  flex-direction: row;
+}
+
+.deleteField {
+  bottom: 10px;
+  padding-bottom: 30px;
+}
+
+.mapContainer {
+  min-height: 300px;
+  width: 100%;
+}

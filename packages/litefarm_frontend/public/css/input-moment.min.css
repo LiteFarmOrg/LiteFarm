@@ -1,0 +1,303 @@
+/* 
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+ *  This file (input-moment.min.css) is part of LiteFarm.
+ *  
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+.im-input-moment {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    user-select: none
+}
+
+.im-input-moment .options {
+    width: 100%;
+    height: 40px;
+    display: inline-block
+}
+
+.im-input-moment .options button {
+    float: left;
+    width: 50%;
+    color: #349289;
+    background: 0 0;
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #349289
+}
+
+.im-input-moment .options button:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0
+}
+
+.im-input-moment .options button:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0
+}
+
+.im-input-moment .options button.is-active {
+    color: #fff;
+    background-color: #349289
+}
+
+.im-input-moment .tab-component {
+    display: none;
+    height: calc(100% - 40px)
+}
+
+.im-input-moment .tab-component.is-active {
+    display: block
+}
+
+.im-big-input-moment {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dfe0e4;
+    user-select: none
+}
+
+.im-big-input-moment .date-wrapper {
+    width: 100%;
+    height: 70%
+}
+
+.im-big-input-moment .time-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30%
+}
+
+.im-date-picker {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box
+}
+
+.im-date-picker .toolbar {
+    height: 40px;
+    line-height: 30px;
+    color: #349289;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none
+}
+
+.im-date-picker .toolbar .current-date {
+    display: inline-block;
+    width: 68%;
+    min-width: 200px;
+    cursor: pointer;
+    font-size: 26px;
+    line-height: 40px;
+    vertical-align: middle;
+    text-decoration: underline
+}
+
+.im-date-picker .toolbar .next-nav, .im-date-picker .toolbar .prev-nav {
+    display: inline-block;
+    width: 8%;
+    cursor: pointer;
+    font-size: 40px;
+    vertical-align: middle
+}
+
+.im-date-picker .next-month, .im-date-picker .next-year, .im-date-picker .prev-month, .im-date-picker .prev-year {
+    color: rgba(50, 50, 50, .2)
+}
+
+.im-date-picker table {
+    width: 100%;
+    height: calc(100% - 40px);
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed
+}
+
+.im-date-picker td {
+    text-align: center;
+    cursor: pointer;
+    color: #dfe0e4;
+    border: 1px solid #dfe0e4;
+    font-size: 20px
+}
+
+.im-date-picker td.current {
+    background-color: #349289;
+    color: #fff;
+    font-weight: 700
+}
+
+.im-date-picker thead td {
+    color: #349289;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px
+}
+
+.im-date-picker tbody td {
+    color: #666
+}
+
+.im-time-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    padding: 10px 10px 20px 10px;
+    border: 1px solid #dfe0e4;
+    box-sizing: border-box
+}
+
+.im-time-picker .time-picker-wrapper {
+    width: 100%
+}
+
+.im-time-picker .time-picker-wrapper .showtime {
+    text-align: center
+}
+
+.im-time-picker .time-picker-wrapper .separator {
+    display: inline-block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #349289;
+    width: 32px;
+    height: 65px;
+    line-height: 65px;
+    text-align: center
+}
+
+.im-time-picker .time-picker-wrapper .time-text {
+    position: relative;
+    left: -10px;
+    font-size: 20px;
+    color: #349289;
+    margin-top: 20px;
+    margin-bottom: 10px
+}
+
+.im-time-picker .time-picker-wrapper .sliders {
+    padding: 0 10px
+}
+
+.im-time-picker .time-picker-wrapper .time {
+    width: 65px;
+    height: 65px;
+    display: inline-block;
+    font-size: 38px;
+    line-height: 65px;
+    background-color: #349289;
+    border-radius: 3px;
+    text-align: center
+}
+
+.im-time-slider {
+    width: 100%;
+    color: #fff;
+    padding: 10px 10px 20px 10px;
+    box-sizing: border-box
+}
+
+.im-time-slider .showtime {
+    text-align: center
+}
+
+.im-time-slider .separator {
+    display: inline-block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #349289;
+    width: 32px;
+    height: 65px;
+    line-height: 65px;
+    text-align: center
+}
+
+.im-time-slider .time-text {
+    position: relative;
+    left: -10px;
+    font-size: 20px;
+    color: #349289
+}
+
+.im-time-slider .sliders {
+    padding: 0 10px
+}
+
+.im-time-slider .time {
+    width: 65px;
+    height: 65px;
+    display: inline-block;
+    font-size: 38px;
+    line-height: 65px;
+    background-color: #349289;
+    border-radius: 3px;
+    text-align: center
+}
+
+.im-slider {
+    position: relative;
+    display: inline-block;
+    background-color: #dfe0e4;
+    border-radius: 3px;
+    height: 4px;
+    width: 100%;
+    cursor: pointer
+}
+
+.im-slider .value {
+    position: absolute;
+    background-color: #349289;
+    border-radius: 3px;
+    top: 0;
+    height: 100%
+}
+
+.im-slider .handle {
+    position: absolute;
+    width: 4px;
+    height: 4px
+}
+
+.im-slider .handle:after {
+    position: relative;
+    display: block;
+    content: '';
+    top: -10px;
+    left: -12px;
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border: 3px solid #349289;
+    border-radius: 50%;
+    cursor: pointer
+}
+
+.im-btn {
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    line-height: 1
+}
+
+.im-btn:before {
+    margin-right: 6px
+}

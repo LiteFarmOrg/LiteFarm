@@ -1,0 +1,18 @@
+@import '../../assets/mixin';
+.container {
+  width: 100%;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  flex: 1;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 28px;
+  transform: translateY(40px);
+  color: #ffffff;
+  min-width: 161px;
+  width: 80%;
+  margin: auto;
+}

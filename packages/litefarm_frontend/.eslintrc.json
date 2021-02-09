@@ -1,0 +1,33 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "prettier",
+        "prettier/react"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "no-unused-vars": "warn",
+        "eqeqeq": "error",
+        "jsx-a11y/accessible-emoji": "off",
+        "radix": "off",
+        "react/prop-types": "warn"
+    },
+    "globals": {
+        "cy": true,
+        "Cypress": true
+    }
+}

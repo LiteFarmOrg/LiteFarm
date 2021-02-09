@@ -1,14 +1,15 @@
 {
     "env": {
-        "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true
     },
     "extends": [
-        "react-app",
+
 //        "eslint:recommended",
 //        "plugin:react/recommended",
-        "prettier"
-//        "prettier/react"
+//        "prettier/react",
+        "prettier",
+        "react-app"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -21,11 +22,13 @@
         "react"
     ],
     "rules": {
-        "no-unused-vars": "off",
+        "no-unused-vars": "warn",
         "eqeqeq": "error",
         "jsx-a11y/accessible-emoji": "off",
         "radix": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "import/no-anonymous-default-export": "off",
+        "no-extra-bind": "off"
     },
     "globals": {
         "cy": true,

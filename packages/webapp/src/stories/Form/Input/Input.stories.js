@@ -21,6 +21,13 @@ Number.args = {
   type: 'number',
 };
 
+export const WithUnit = Template.bind({});
+WithUnit.args = {
+  label: 'number',
+  type: 'number',
+  unit: 'unit',
+};
+
 export const WithTooltip = Template.bind({});
 WithTooltip.args = {
   label: 'With Tooltip',

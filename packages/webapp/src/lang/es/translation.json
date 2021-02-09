@@ -393,6 +393,10 @@
     "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
     "HARVEST_USE_TYPE_TITLE": "Registro de cosecha (step 2)",
+    "FIELD": "MISSING",
+    "CROP": "MISSING",
+    "FIELD_PLACEHOLDER": "MISSING",
+    "CROP_PLACEHOLDER": "MISSING",
     "QUANTITY": "Cantidad",
     "TITLE": "Registro de cosecha (paso 1)"
   },

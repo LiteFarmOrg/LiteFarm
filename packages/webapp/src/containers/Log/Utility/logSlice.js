@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
 
 export const initialState = {
-  defaultDate: null,
+  defaultDate: moment(),
   date: moment(),
 };
 
@@ -12,9 +12,6 @@ const logSliceReducer = createSlice({
   reducers: {
     setDefaultDate: (state, { payload: defaultDate }) => {
       state.defaultDate = defaultDate;
-      state.date = defaultDate;
-      console.log('inside slice');
-      console.log(state.defaultDate);
     },
   },
 });

@@ -104,6 +104,8 @@ const ReactSelect = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  console.log('react select');
+  console.log(options);
   return (
     <>
       {(label || toolTipContent || icon) && (

@@ -22,7 +22,7 @@
         "react"
     ],
     "rules": {
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         "eqeqeq": "error",
         "jsx-a11y/accessible-emoji": "off",
         "radix": "off",

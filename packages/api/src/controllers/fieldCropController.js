@@ -41,7 +41,7 @@ class FieldCropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, trx);
+        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id,{ user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

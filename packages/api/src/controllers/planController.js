@@ -62,7 +62,7 @@ class PlanController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(planModel, req.params.id, trx);
+        const isDeleted = await baseController.delete(planModel, req.params.id,{ user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

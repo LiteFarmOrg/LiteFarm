@@ -1730,7 +1730,7 @@ describe('Log Tests', () => {
           getRequest({ user_id: owner.user_id }, (err, res) => {
             expect(res.status).toBe(200);
             expect(res.body.length).toBe(2);
-            expect(res.body[0].notes).toBe(activityLog.notes);
+            expect(res.body.map(activityLog => activityLog.activity_id)).toEqual([activityLog.activity_id, activityLog1.activity_id]);
             expect(res.body[0].fieldCrop[0].field_crop_id).toBe(fieldCrop.field_crop_id);
             expect(res.body[0].field[0].field_id).toBe(field.field_id);
             done();

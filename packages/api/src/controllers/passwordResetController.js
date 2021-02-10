@@ -54,7 +54,7 @@ class passwordResetController extends baseController {
           created_at: created_at.toISOString(),
         };
 
-        await passwordModel.query().findById(userData.user_id).update(updateData);
+        await passwordModel.query().findById(userData.user_id).patch(updateData);
 
         const tokenPayload = {
           ...userData,
@@ -99,7 +99,7 @@ class passwordResetController extends baseController {
           reset_token_version: 0,
           created_at: new Date().toISOString(),
         };
-        await passwordModel.query().findById(user_id).update(pwData);
+        await passwordModel.query().findById(user_id).patch(pwData);
 
         const id_token = await createToken('access', { user_id });
 

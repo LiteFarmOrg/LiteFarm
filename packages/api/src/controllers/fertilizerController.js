@@ -22,7 +22,7 @@ class fertilizerController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
+        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -68,7 +68,7 @@ class fertilizerController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, trx);
+        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, { user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

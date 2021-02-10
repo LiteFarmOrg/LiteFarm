@@ -33,10 +33,6 @@ describe('Fertilizer Tests', () => {
   let owner;
   let farm;
 
-  beforeAll(() => {
-    token = global.token;
-  });
-
   afterAll((done) => {
     server.close(() => {
       done();

@@ -24,6 +24,17 @@ class BaseModel extends softDelete({ columnName: 'deleted' })(Model) {
     delete this.created_at;
   }
 
+  async $beforeDelete(context) {
+    await super.$beforeDelete(context);
+    const user_id = context.user_id;
+    if (user_id) {
+      this.updated_by_user_id = user_id;
+    }
+    this.updated_at = new Date().toISOString();
+    delete this.created_by_user_id;
+    delete this.created_at;
+  }
+
   static get hidden () {
     return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at', 'deleted' ]
   }

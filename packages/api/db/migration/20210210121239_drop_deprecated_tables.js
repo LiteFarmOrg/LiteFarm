@@ -1,7 +1,9 @@
 exports.up = function(knex) {
-  return Promise.all([knex.schema.dropTable('todo'),
+  return Promise.all([
+    knex.schema.dropTable('userTodo'),
+    knex.schema.dropTable('todo'),
     knex.schema.dropTable('plan'),
-    knex.schema.dropTable('userToDo'),
+
     knex.schema.dropTable('cropCommonName'),
     knex.schema.dropTable('notification'),
   ]);

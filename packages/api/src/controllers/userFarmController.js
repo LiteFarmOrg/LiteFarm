@@ -25,12 +25,6 @@ const roleModel = require('../models/roleModel');
 const shiftModel = require('../models/shiftModel');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const { transaction, Model } = require('objection');
-const axios = require('axios');
-const authExtensionConfig = require('../authExtensionConfig');
-const knex = Model.knex();
-const lodash = require('lodash');
-const url = require('url');
-const generator = require('generate-password');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
 const { createToken } = require('../util/jwt');
@@ -156,71 +150,6 @@ class userFarmController extends baseController {
     };
   }
 
-  static async getAuthExtensionToken() {
-    const { token_url, token_headers, token_body } = authExtensionConfig;
-    try {
-      const res = await axios({
-        url: token_url,
-        method: 'post',
-        headers: token_headers,
-        data: token_body,
-      });
-      if (res.status === 200) {
-        if (res.data && res.data.access_token) {
-          return res.data.access_token;
-        }
-      }
-    } catch (err) {
-      throw 'err: failed to get auth extension token';
-    }
-  }
-
-  // static getAllRolePermissions() {
-  //   return async (req, res) => {
-  //     try {
-  //       const token = await this.getAuthExtensionToken();
-  //       const { authExtensionUri } = authExtensionConfig;
-  //       const headers = {
-  //         'content-type': 'application/json',
-  //         'Authorization': 'Bearer ' + token,
-  //       };
-  //
-  //       const permissions = {};
-  //       const permissionsRawData = await axios({
-  //         url: `${authExtensionUri}/api/permissions`,
-  //         method: 'get',
-  //         headers,
-  //       });
-  //       permissionsRawData.data.permissions.forEach(permission => {
-  //         const { _id, name, description } = permission;
-  //         permissions[_id] = { permission_id: _id, name, description };
-  //       });
-  //
-  //       const rolesRawData = await axios({
-  //         url: `${authExtensionUri}/api/roles`,
-  //         method: 'get',
-  //         headers,
-  //       });
-  //       const roles = rolesRawData.data.roles.map(role => {
-  //         const { _id, name, description, permissions: rolePermissions } = role;
-  //         const roleData = {
-  //           role_id: _id,
-  //           name,
-  //           description,
-  //           permissions: [],
-  //         };
-  //         rolePermissions.forEach(rolePermissionId => {
-  //           roleData['permissions'].push(permissions[rolePermissionId]);
-  //         });
-  //         return roleData;
-  //       });
-  //       res.status(201).send(roles);
-  //     } catch (error) {
-  //       res.send(error);
-  //     }
-  //   };
-  // }
-
   static updateConsent() {
     return async (req, res) => {
       try {
@@ -328,7 +257,7 @@ class userFarmController extends baseController {
             role_id: 2,
             farm_id,
           });
-          if (admins.length === 1) 
+          if (admins.length === 1)
             return res.status(404).send('Cannot update last admin of farm to worker');
         }
 

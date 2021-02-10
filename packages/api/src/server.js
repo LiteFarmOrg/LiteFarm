@@ -55,7 +55,6 @@ const pesticideRoutes = require('./routes/pesticideRoute');
 const yieldRoutes = require('./routes/yieldRoute');
 const priceRoutes = require('./routes/priceRoute');
 const insightRoutes = require('./routes/insightRoute');
-const contactRoutes = require('./routes/contactRoute');
 const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
@@ -66,7 +65,6 @@ const passwordResetRoutes = require('./routes/passwordResetRoute.js');
 const waterBalanceScheduler = require('./jobs/waterBalance/waterBalance');
 const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance');
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
-const farmExpenseTypeController = require('./controllers/farmExpenseTypeController');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
 
@@ -126,7 +124,6 @@ app.use(bodyParser.json())
   .use('/yield', yieldRoutes)
   .use('/price', priceRoutes)
   .use('/insight', insightRoutes)
-  .use('/contact', contactRoutes)
   .use('/farmdata', userFarmDataRoute)
   .use('/user_farm', userFarmRoute)
   .use('/roles', rolesRoutes)

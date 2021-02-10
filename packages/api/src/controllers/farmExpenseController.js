@@ -70,6 +70,12 @@ class farmExpenseController extends baseController {
     return expenses;
   }
 
+  static updateFarmExpense() {
+    return async (req, res) => {
+      res.status(400).send("not implemented");
+    }
+  }
+
   static  delFarmExpense(){
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());

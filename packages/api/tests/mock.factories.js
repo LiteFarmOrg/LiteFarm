@@ -170,8 +170,8 @@ async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, exp
   return knex('farmExpenseType').insert({ farm_id, ...expense_type, ...base }).returning('*');
 }
 
-async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory() } = {}, expense = fakeExpense()) {
-  const [expense_type, user] = await Promise.all([promisedExpenseType, usersFactory()]);
+async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory(), promisedUserFarm = userFarmFactory() } = {}, expense = fakeExpense()) {
+  const [expense_type, user] = await Promise.all([promisedExpenseType, promisedUserFarm]);
   const [{ expense_type_id }] = expense_type;
   const [{ user_id }] = user;
   const [{ farm_id }] = expense_type;

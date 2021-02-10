@@ -96,9 +96,11 @@ describe('Expense Tests', () => {
     return {expense_type};
   }
 
-  async function returnExpense(mainFarm) {
-    const [expense_type] = await mocks.farmExpenseTypeFactory({promisedFarm: [mainFarm]});
-    const [expense] = await mocks.farmExpenseFactory({promisedExpenseType: [expense_type]});
+  async function returnExpense(user, mainFarm) {
+    const {farm_id} = mainFarm
+    const {user_id} = user
+    const [expense_type] = await mocks.farmExpenseTypeFactory({promisedFarm: [{farm_id}]});
+    const [expense] = await mocks.farmExpenseFactory({promisedExpenseType: [expense_type], promisedUserFarm: [{user_id, farm_id}]});
     return {expense};
   }
 
@@ -204,7 +206,7 @@ describe('Expense Tests', () => {
 
     test('Owner should get expense by farm id', async (done) => {
       const {mainFarm, user} = await returnUserFarms(1);
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
 
       getRequest({user_id: user.user_id, farm_id: mainFarm.farm_id}, (err, res) => {
         expect(res.status).toBe(200);
@@ -214,7 +216,7 @@ describe('Expense Tests', () => {
     });
     test('Manager should get expense by farm id', async (done) => {
       const {mainFarm, user} = await returnUserFarms(2);
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
 
       getRequest({user_id: user.user_id, farm_id: mainFarm.farm_id}, (err, res) => {
         expect(res.status).toBe(200);
@@ -224,7 +226,7 @@ describe('Expense Tests', () => {
     });
     test('ManWorkerager should get expense by farm id', async (done) => {
       const {mainFarm, user} = await returnUserFarms(3);
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
 
       getRequest({user_id: user.user_id, farm_id: mainFarm.farm_id}, (err, res) => {
         expect(res.status).toBe(200);
@@ -250,7 +252,7 @@ describe('Expense Tests', () => {
 
     test('Owner should delete their expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(1);
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
@@ -261,7 +263,7 @@ describe('Expense Tests', () => {
     });
     test('Manager should delete their expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(2);
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(200);
@@ -270,9 +272,19 @@ describe('Expense Tests', () => {
         done();
       });
     });
-    test('Worker should delete get 403 if they try to delete their expense', async (done) => {
+    test('Worker should delete their own expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(3);
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
+
+      deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("User does not have the following permission(s): delete:expenses");
+        done();
+      });
+    });
+    test('Worker should delete get 403 if they try to delete another user\'s expense', async (done) => {
+      const {mainFarm, user} = await returnUserFarms(3);
+      const {expense} = await returnExpense(user, mainFarm);
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(403);
@@ -283,7 +295,7 @@ describe('Expense Tests', () => {
     test('Unauthorized user should delete get 403 if they try to delete their expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
-      const {expense} = await returnExpense(mainFarm);
+      const {expense} = await returnExpense(user, mainFarm);
 
       deleteRequest(expense, {user_id: unAuthorizedUser.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(403);

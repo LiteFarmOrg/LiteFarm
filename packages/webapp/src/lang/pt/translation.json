@@ -398,7 +398,8 @@
     "FIELD_PLACEHOLDER": "Select a field",
     "CROP_PLACEHOLDER": "Select a crop",
     "QUANTITY": "Quantidade",
-    "TITLE": "Registro de Colheita (passo 1 de 3)"
+    "TITLE": "Registro de Colheita (passo 1 de 3)",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Taxa de Fluxo",

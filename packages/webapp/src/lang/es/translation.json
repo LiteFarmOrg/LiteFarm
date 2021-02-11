@@ -398,7 +398,8 @@
     "FIELD_PLACEHOLDER": "MISSING",
     "CROP_PLACEHOLDER": "MISSING",
     "QUANTITY": "Cantidad",
-    "TITLE": "Registro de cosecha (paso 1)"
+    "TITLE": "Registro de cosecha (paso 1)",
+    "QUANTITY_ERROR": "MISSING"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Tasa de flujo",

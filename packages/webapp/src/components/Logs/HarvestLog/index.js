@@ -18,6 +18,7 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
   let [field, setField] = useState(null);
   let [crop, setCrop] = useState(null);
   let [quantity, setQuantity] = useState(0);
+  let [validQuantity, setValidQuantity] = useState(false);
 
   useEffect(() => {
     setDate(moment(defaultData.defaultDate));
@@ -49,7 +50,20 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
   const refInputQuantity = register({ required: required });
   const refInputNotes = register({ required: optional });
 
+  const isTwoDecimalPlaces = (val) => {
+    let decimals;
+    if (val) {
+      const decimalIndex = val.toString().indexOf('.');
+      val = val.toString();
+      if (decimalIndex > -1) {
+        decimals = val.split('.')[1].length;
+      }
+    }
+    return !decimals || decimals < 3;
+  };
+
   const onSubmit = (data) => {
+    !isTwoDecimalPlaces(data.quantity) ? setValidQuantity(true) : setValidQuantity(false);
     onNext({
       defaultDate: date,
       defaultField: field,
@@ -112,19 +126,22 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
             <Input
               label={t('LOG_COMMON.QUANTITY')}
               style={{ marginBottom: '24px' }}
-              type="number"
+              type="decimal"
               unit={unit}
               name={QUANTITY}
               onChange={setQuantity}
               inputRef={refInputQuantity}
               defaultValue={defaultData.defaultQuantity}
             />
-            {errors[QUANTITY] ? (
+            {errors[QUANTITY] && (
               <Error style={{ marginTop: '-20px', marginBottom: '30px' }}>
                 {t('common:REQUIRED')}
               </Error>
-            ) : (
-              ''
+            )}
+            {validQuantity && (
+              <Error style={{ marginTop: '-20px', marginBottom: '30px' }}>
+                {t('LOG_HARVEST.QUANTITY_ERROR')}
+              </Error>
             )}
             <div className={styles.noteContainer}>
               <TextArea

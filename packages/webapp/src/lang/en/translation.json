@@ -398,7 +398,8 @@
     "FIELD_PLACEHOLDER": "Select a field",
     "CROP_PLACEHOLDER": "Select a crop",
     "QUANTITY": "Quantity",
-    "TITLE": "Harvest Log (step 1)"
+    "TITLE": "Harvest Log (step 1)",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",

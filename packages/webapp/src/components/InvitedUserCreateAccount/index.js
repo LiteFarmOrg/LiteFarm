@@ -1,9 +1,9 @@
 import Form from '../Form';
 import Button from '../Form/Button';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../Form/ReactSelect';
 import Input from '../Form/Input';
@@ -21,7 +21,15 @@ export default function PureInvitedUserCreateAccountPage({
   gender,
   birthYear,
 }) {
-  const { register, handleSubmit, watch, control, errors, setValue, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    errors,
+    setValue,
+    formState: { isDirty, isValid },
+  } = useForm({
     mode: 'onTouched',
   });
   const NAME = 'name';
@@ -43,18 +51,18 @@ export default function PureInvitedUserCreateAccountPage({
   };
   const password = watch(PASSWORD);
   const {
-    isValid,
+    isValid: isPasswordValid,
     hasNoSymbol,
     hasNoDigit,
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register({ validate: () => isValid });
+  const inputRegister = register();
   const onHandleSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || gender || 'PREFER_NOT_TO_SAY';
     onSubmit(data);
   };
-  const disabled = Object.keys(errors).length;
+  const disabled = !isValid || (isNotSSO && !isPasswordValid);
   return (
     <Form
       onSubmit={handleSubmit(onHandleSubmit, onError)}
@@ -116,10 +124,7 @@ export default function PureInvitedUserCreateAccountPage({
         }
         defaultValue={birthYear}
         optional
-        reset={() => {
-          setValue(BIRTHYEAR, undefined);
-          clearErrors(BIRTHYEAR);
-        }}
+        hookFormSetValue={setValue}
       />
       {isNotSSO && (
         <>

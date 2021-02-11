@@ -124,12 +124,13 @@ describe('Expense Tests', () => {
     });
   });
 
-  afterEach(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
+  // afterEach(async (done) => {
+  //   await tableCleanup(knex);
+  //   done();
+  // });
 
   afterAll(async (done) => {
+    await tableCleanup(knex);
     await knex.destroy();
     done();
   });
@@ -291,7 +292,7 @@ describe('Expense Tests', () => {
         done();
       });
     });
-    test('Worker should delete get 403 if they try to delete another user\'s expense', async (done) => {
+    test('Worker should get 403 if they try to delete another user\'s expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(3);
       const [otherUser] = await mocks.usersFactory();
       const [otherUserFarm] = await mocks.userFarmFactory({
@@ -306,7 +307,7 @@ describe('Expense Tests', () => {
         done();
       });
     });
-    test('Unauthorized user should delete get 403 if they try to delete their expense', async (done) => {
+    test('Unauthorized user should get 403 if they try to delete their expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(1);
       const [unAuthorizedUser] = await mocks.usersFactory();
       const {expense} = await returnExpense(user, mainFarm);
@@ -399,6 +400,62 @@ describe('Expense Tests', () => {
         const [updatedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
         expect(updatedField.value).toBe(patchData.value);
         expect(updatedField.note).toBe(patchData.note);
+        done();
+      });
+    });
+
+    test('Worker should patch their own expense', async (done) => {
+      const {mainFarm, user: worker} = await returnUserFarms(3);
+      const {expense} = await returnExpense(worker, mainFarm);
+  
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+  
+      patchRequest(patchData, expense.farm_expense_id, {user_id: worker.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const [updatedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        expect(updatedField.value).toBe(patchData.value);
+        expect(updatedField.note).toBe(patchData.note);
+        done();
+      });
+    });
+  
+    test('Worker should get 403 if they try to patch another user\'s expense', async (done) => {
+      const {mainFarm, user: worker} = await returnUserFarms(3);
+      const [otherUser] = await mocks.usersFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [otherUser],
+        promisedFarm: [mainFarm],
+      }, fakeUserFarm(3));
+      const {expense} = await returnExpense(otherUser, mainFarm);
+  
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+  
+      patchRequest(patchData, expense.farm_expense_id, {user_id: worker.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("user not authorized to access record they did not create");
+        done();
+      });
+    });
+
+    test('Unauthorized user should get 403 if they try to patch expense', async (done) => {
+      const {mainFarm, user: owner} = await returnUserFarms(1);
+      const [unauthorizedUser] = await mocks.usersFactory();
+      const {expense} = await returnExpense(owner, mainFarm);
+
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+
+      patchRequest(patchData, expense.farm_expense_id, {user_id: unauthorizedUser.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        expect(res.error.text).toBe("User does not have the following permission(s): delete:expenses");
         done();
       });
     });

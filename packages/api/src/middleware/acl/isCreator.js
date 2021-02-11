@@ -19,6 +19,10 @@ function isEntityCreatedBy({created_by_user_id}, user_id) {
   return created_by_user_id === user_id;
 }
 
+function notAuthorizedResponse(res) {
+  res.status(403).send('user not authorized to access record they did not create');
+}
+
 async function fromExpense(expenseId) {
   return await knex('farmExpense').where({ farm_expense_id: expenseId }).first();
 }

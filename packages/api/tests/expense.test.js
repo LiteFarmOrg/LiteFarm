@@ -277,18 +277,24 @@ describe('Expense Tests', () => {
       const {expense} = await returnExpense(user, mainFarm);
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
-        expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): delete:expenses");
+        expect(res.status).toBe(200);
+        const [deletedField] = await farmExpenseModel.query().context({showHidden: true}).where('farm_expense_id', expense.farm_expense_id);
+        expect(deletedField.deleted).toBe(true);
         done();
       });
     });
     test('Worker should delete get 403 if they try to delete another user\'s expense', async (done) => {
       const {mainFarm, user} = await returnUserFarms(3);
-      const {expense} = await returnExpense(user, mainFarm);
+      const [otherUser] = await mocks.usersFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [otherUser],
+        promisedFarm: [mainFarm],
+      }, fakeUserFarm(1));
+      const {expense} = await returnExpense(otherUser, mainFarm);
 
       deleteRequest(expense, {user_id: user.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
         expect(res.status).toBe(403);
-        expect(res.error.text).toBe("User does not have the following permission(s): delete:expenses");
+        expect(res.error.text).toBe("user not authorized to access record they did not create");
         done();
       });
     });

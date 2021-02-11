@@ -27,9 +27,12 @@ router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['
 router.post('/farm/:farm_id', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:expenses']), farmExpenseController.addFarmExpense());
 
 router.patch('/:farm_expense_id',
-  hasFarmAccess({ params: 'farm_expense_id' }),
-  isOwnerOrAssignee({ params: 'farm_expense_id' }),
   checkScope(['delete:expenses']),
+  (req, res, next) => conditionallyApplyMiddleware(
+    req.role === 3,
+    isCreator({ params: 'farm_expense_id' }),
+    hasFarmAccess({ params: 'farm_expense_id' })
+  )(req, res, next),
   farmExpenseController.updateFarmExpense());
 
 router.delete('/:farm_expense_id',

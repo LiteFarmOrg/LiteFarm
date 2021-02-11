@@ -72,8 +72,13 @@ describe('Expense Tests', () => {
     chai.request(server).delete(`/expense/${farm_expense_id}`).set('user_id', user_id).set('farm_id', farm_id).end(callback);
   }
 
-  function patchRequest(data, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
-
+  function patchRequest(data, farm_expense_id, {user_id = newOwner.user_id, farm_id = farm.farm_id}, callback) {
+    chai.request(server)
+      .patch(`/expense/${farm_expense_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
   }
 
   async function returnUserFarms(role) {
@@ -315,5 +320,88 @@ describe('Expense Tests', () => {
 
   });
 
+  describe('Patch expense tests', () => {
+    test('Owner should patch their expense', async (done) => {
+      const {mainFarm, user: owner} = await returnUserFarms(1);
+      const {expense} = await returnExpense(owner, mainFarm);
+
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+
+      patchRequest(patchData, expense.farm_expense_id, {user_id: owner.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const [updatedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        expect(updatedField.value).toBe(patchData.value);
+        expect(updatedField.note).toBe(patchData.note);
+        done();
+      });
+    });
+
+    test('Owner should patch another user\'s expense', async (done) => {
+      const {mainFarm, user: owner} = await returnUserFarms(1);
+      const [otherUser] = await mocks.usersFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [otherUser],
+        promisedFarm: [mainFarm],
+      }, fakeUserFarm(2));
+      const {expense} = await returnExpense(otherUser, mainFarm);
+
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+
+      patchRequest(patchData, expense.farm_expense_id, {user_id: owner.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const [updatedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        expect(updatedField.value).toBe(patchData.value);
+        expect(updatedField.note).toBe(patchData.note);
+        done();
+      });
+    });
+
+    test('Manager should patch their expense', async (done) => {
+      const {mainFarm, user: manager} = await returnUserFarms(2);
+      const {expense} = await returnExpense(manager, mainFarm);
+
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+
+      patchRequest(patchData, expense.farm_expense_id, {user_id: manager.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const [updatedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        expect(updatedField.value).toBe(patchData.value);
+        expect(updatedField.note).toBe(patchData.note);
+        done();
+      });
+    });
+
+    test('Manager should patch another user\'s expense', async (done) => {
+      const {mainFarm, user: manager} = await returnUserFarms(2);
+      const [otherUser] = await mocks.usersFactory();
+      const [otherUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [otherUser],
+        promisedFarm: [mainFarm],
+      }, fakeUserFarm(2));
+      const {expense} = await returnExpense(otherUser, mainFarm);
+
+      const patchData = {
+        value: expense.value + 5,
+        note: 'patched in note',
+      }
+
+      patchRequest(patchData, expense.farm_expense_id, {user_id: manager.user_id, farm_id: mainFarm.farm_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const [updatedField] = await farmExpenseModel.query().where('farm_expense_id', expense.farm_expense_id);
+        expect(updatedField.value).toBe(patchData.value);
+        expect(updatedField.note).toBe(patchData.note);
+        done();
+      });
+    });
+  });
 
 });

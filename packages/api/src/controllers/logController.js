@@ -142,7 +142,7 @@ class logController extends baseController {
     return async (req, res) => {
       try {
         if (req.params.activity_id) {
-          await logServices.deleteLog(req.params.activity_id);
+          await super.delete(ActivityLogModel, req.params.activity_id, req.user);
           res.sendStatus(200);
         } else {
           throw { code: 400, message: 'No log id defined' };
@@ -273,10 +273,6 @@ class logServices extends baseController {
         await super.post(HarvestUseModel, data, transaction);
       }
     }
-  }
-
-  static async deleteLog(logId, transaction) {
-    await super.delete(ActivityLogModel, logId, transaction);
   }
 }
 

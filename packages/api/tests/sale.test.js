@@ -34,8 +34,6 @@ describe('Sale Tests', () => {
   let farm;
   let ownerFarm;
   let crop;
-  let field;
-  let fieldCrop;
 
   beforeAll(() => {
     token = global.token;
@@ -84,7 +82,6 @@ describe('Sale Tests', () => {
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
     let [weatherStation] = await mocks.weather_stationFactory();
     [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-    [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -105,10 +102,9 @@ describe('Sale Tests', () => {
     let crop1;
     beforeEach(async () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
-      [cropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop], promisedSale: [sale] });
+      let [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
       [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
-      [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field] });
-      [cropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop1], promisedSale: [sale] });
+      [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop1], promisedSale: [sale] });
     })
 
     test('Should filter out deleted sale', async (done) => {
@@ -252,7 +248,7 @@ describe('Sale Tests', () => {
 
         test('Worker should delete their own sale', async (done) => {
           let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
-          let [workersCropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop], promisedSale: [sale] });
+          let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
           deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
             const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', workersSale.sale_id);
@@ -303,18 +299,16 @@ describe('Sale Tests', () => {
   describe('Post sale', () => {
     let sampleReqBody;
     let crop2;
-    let fieldCrop2;
     let someoneElsecrop;
     beforeEach(async () => {
       [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
-      [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field] });
       [someoneElsecrop] = await mocks.cropFactory();
       sampleReqBody = {
         ...mocks.fakeSale(),
         'farm_id': farm.farm_id,
-        'cropSale': [{ ...mocks.fakeCropSale(), 'crop_id': fieldCrop.crop_id }, {
+        'cropSale': [{ ...mocks.fakeCropSale(), 'crop_id': crop.crop_id }, {
           ...mocks.fakeCropSale(),
-          'crop_id': fieldCrop2.crop_id,
+          'crop_id': crop2.crop_id,
         }],
       }
     })

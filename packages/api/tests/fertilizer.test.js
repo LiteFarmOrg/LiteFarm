@@ -98,8 +98,11 @@ describe('Fertilizer Tests', () => {
     })
 
     test('Should filter out deleted fertilizer', async (done)=>{
-      await fertilizerModel.query().context({showHidden: true}).findById(fertilizer.fertilizer_id).delete();
-      getRequest({user_id: owner.user_id},(err,res)=>{
+      await fertilizerModel.query().context({
+        showHidden: true,
+        user_id: owner.user_id,
+      }).findById(fertilizer.fertilizer_id).delete();
+      getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(404);
         done();
       });

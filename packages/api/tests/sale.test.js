@@ -111,7 +111,7 @@ describe('Sale Tests', () => {
     })
 
     test('Should filter out deleted sale', async (done) => {
-      await saleModel.query().findById(sale.sale_id).delete();
+      await saleModel.query().context(owner).findById(sale.sale_id).delete();
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);

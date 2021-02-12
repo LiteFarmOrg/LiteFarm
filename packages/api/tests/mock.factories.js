@@ -598,12 +598,12 @@ function fakeShiftTask() {
   };
 }
 
-async function saleFactory({ promisedFarm = farmFactory() } = {}, sale = fakeSale()) {
-  const [farm] = await Promise.all([promisedFarm]);
-  const [{ farm_id }] = farm;
-  return knex('sale').insert({ farm_id, ...sale }).returning('*');
+async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ user_id, farm_id }] = userFarm;
+  const base = baseProperties(user_id);
+  return knex('sale').insert({ farm_id, ...sale, ...base }).returning('*');
 }
-
 
 function fakeSale() {
   return {

@@ -32,6 +32,7 @@ describe('Sale Tests', () => {
   let middleware;
   let owner;
   let farm;
+  let ownerFarm;
   let crop;
   let field;
   let fieldCrop;
@@ -76,7 +77,7 @@ describe('Sale Tests', () => {
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory({
+    [ownerFarm] = await mocks.userFarmFactory({
       promisedUser: [owner],
       promisedFarm: [farm],
     }, fakeUserFarm(1));
@@ -103,7 +104,7 @@ describe('Sale Tests', () => {
     let sale;
     let crop1;
     beforeEach(async () => {
-      [sale] = await mocks.saleFactory({ promisedFarm: [farm] });
+      [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
       [cropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop], promisedSale: [sale] });
       [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
       [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field] });
@@ -202,18 +203,20 @@ describe('Sale Tests', () => {
 
       describe('Delete sale authorization tests', () => {
         let newWorker;
+        let workerFarm;
         let manager;
+        let managerFarm
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
         beforeEach(async () => {
           [newWorker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
+          [workerFarm] = await mocks.userFarmFactory({
             promisedUser: [newWorker],
             promisedFarm: [farm],
           }, fakeUserFarm(3));
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
+          [managerFarm] = await mocks.userFarmFactory({
             promisedUser: [manager],
             promisedFarm: [farm],
           }, fakeUserFarm(2));
@@ -230,7 +233,7 @@ describe('Sale Tests', () => {
         test('Owner should delete a sale', async (done) => {
           deleteRequest({ sale_id: sale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().where('sale_id', sale.sale_id);
+            const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', sale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
             done();
@@ -240,7 +243,19 @@ describe('Sale Tests', () => {
         test('Manager should delete a sale', async (done) => {
           deleteRequest({ user_id: manager.user_id, sale_id: sale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().where('sale_id', sale.sale_id);
+            const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', sale.sale_id);
+            expect(saleRes.length).toBe(1);
+            expect(saleRes[0].deleted).toBe(true);
+            done();
+          })
+        });
+
+        test('Worker should delete their own sale', async (done) => {
+          let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+          let [workersCropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop], promisedSale: [sale] });
+          deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
+            expect(res.status).toBe(200);
+            const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', workersSale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
             done();

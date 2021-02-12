@@ -43,39 +43,69 @@ class SaleController extends baseController {
 
   static patchSales() {
     return async (req, res) => {
+      const { sale_id } = req.params;
+      const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
+      let saleData = {};
+      let cropSaleData = {};
+
+      if (customer_name) saleData.customer_name = customer_name;
+      if (sale_date) saleData.sale_date = sale_date;
+
+      if (quantity_kg) cropSaleData.quantity_kg = quantity_kg;
+      if (sale_value) cropSaleData.sale_value = sale_value;
+
       const trx = await transaction.start(Model.knex());
       try {
-        const sale_id = req.body.sale_id;
-        const result = await saleModel.query(trx).where('sale_id', sale_id)
-          .patch(req.body).returning('*');
+        const saleResult = await saleModel.query(trx).where('sale_id', sale_id).patch(saleData).returning('*');
+        const cropSaleResult = await cropSaleModel.query(trx).where('sale_id', sale_id).patch(cropSaleData).returning('*');
+        // TODO: check if there exists a cropSae with the given sale_id
 
-        if(result){
-          const cropSale = req.body.cropSale;
-          const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).delete();
-
-          if(isExistingDeleted){
-            for(const cs of cropSale){
-              await cropSaleModel.query(trx).insert(cs);
-            }
-          }else{
-            res.status(400).send({ 'error': 'Failed to patch sales, failed to delete existing sales' })
-          }
-
-        }else{
-          res.status(400).send({ 'error': 'Failed to patch sales' })
+        if (saleResult && cropSaleResult) {
+          await trx.commit();
+          return res.sendStatus(200);
+        } else {
+          await trx.rollback();
+          return res.status(400).send("failed to patch data");
         }
-
-        await trx.commit();
-        res.sendStatus(204);
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
         res.status(400).json({
           error,
         });
-        // eslint-disable-next-line no-console
-        console.log(error);
       }
+      // try {
+      //   // const sale_id = req.body.sale_id;
+      //   const result = await saleModel.query(trx).where('sale_id', sale_id)
+      //     .patch(req.body).returning('*');
+
+      //   if(result){
+      //     const cropSale = req.body.cropSale;
+      //     const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).delete();
+
+      //     if(isExistingDeleted){
+      //       for(const cs of cropSale){
+      //         await cropSaleModel.query(trx).insert(cs);
+      //       }
+      //     }else{
+      //       res.status(400).send({ 'error': 'Failed to patch sales, failed to delete existing sales' })
+      //     }
+
+      //   }else{
+      //     res.status(400).send({ 'error': 'Failed to patch sales' })
+      //   }
+
+      //   await trx.commit();
+      //   res.sendStatus(204);
+      // } catch (error) {
+      //   //handle more exceptions
+      //   await trx.rollback();
+      //   res.status(400).json({
+      //     error,
+      //   });
+      //   // eslint-disable-next-line no-console
+      //   console.log(error);
+      // }
     };
   }
 

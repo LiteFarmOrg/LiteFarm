@@ -33,6 +33,13 @@ router.delete('/:sale_id',
     hasFarmAccess({ params: 'sale_id' })
   )(req, res, next),
   SaleController.delSale());
-// router.patch('/', checkScope(['edit:sales']), SaleController.patchSales());
+router.patch('/:sale_id',
+  checkScope(['edit:sales']),
+  (req, res, next) => conditionallyApplyMiddleware(
+    req.role === 3,
+    isCreator({ params: 'sale_id' }),
+    hasFarmAccess({ params: 'sale_id' })
+  )(req, res, next),
+  SaleController.patchSales());
 
 module.exports = router;

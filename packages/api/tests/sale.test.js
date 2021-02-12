@@ -68,6 +68,14 @@ describe('Sale Tests', () => {
       .end(callback)
   }
 
+  function patchRequest(data, sale_id, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
+    chai.request(server).patch(`/sale/${sale_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback)
+  }
+
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
@@ -80,8 +88,6 @@ describe('Sale Tests', () => {
       promisedFarm: [farm],
     }, fakeUserFarm(1));
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
-    let [weatherStation] = await mocks.weather_stationFactory();
-    [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -248,7 +254,7 @@ describe('Sale Tests', () => {
 
         test('Worker should delete their own sale', async (done) => {
           let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
-          let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+          let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
           deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
             const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', workersSale.sale_id);
@@ -453,5 +459,133 @@ describe('Sale Tests', () => {
     })
 
 
+  });
+
+  describe('Patch sale authorization tests', () => {
+    let worker;
+    let workerFarm;
+    let manager;
+    let managerFarm;
+    let unauthorizedUser;
+    let otherFarm;
+    let unauthorizedUserFarm;
+
+    let sale;
+    let cropSale;
+
+    beforeEach(async () => {
+      [worker] = await mocks.usersFactory();
+      [workerFarm] = await mocks.userFarmFactory({
+        promisedUser: [worker],
+        promisedFarm: [farm],
+      }, fakeUserFarm(3));
+      [manager] = await mocks.usersFactory();
+      [managerFarm] = await mocks.userFarmFactory({
+        promisedUser: [manager],
+        promisedFarm: [farm],
+      }, fakeUserFarm(2));
+
+
+      [unauthorizedUser] = await mocks.usersFactory();
+      [otherFarm] = await mocks.farmFactory();
+      [unauthorizedUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [unauthorizedUser],
+        promisedFarm: [otherFarm],
+      }, fakeUserFarm(1));
+
+      [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
+      [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+    });
+    
+    test('Owner should patch a sale', async (done) => {
+      const patchData = {
+        quantity_kg: 200,
+        sale_value: 400,
+        customer_name: "patched customer name",
+        // sale_date: Date.now().toString(),
+      };
+
+      patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+        const cropSaleRes = await cropSaleModel.query().where('sale_id', sale.sale_id).first();
+        expect(saleRes.customer_name).toBe(patchData.customer_name);
+        // expect(saleRes.sale_date).toBe(patchData.sale_date);
+        expect(cropSaleRes.quantity_kg).toBe(cropSaleRes.quantity_kg);
+        expect(cropSaleRes.sale_value).toBe(cropSaleRes.sale_value);
+        done();
+      })
+    });
+
+    test('Manager should patch a sale', async (done) => {
+      const patchData = {
+        quantity_kg: 200,
+        sale_value: 400,
+        customer_name: "patched customer name",
+        // sale_date: Date.now().toString(),
+      };
+
+      patchRequest(patchData, sale.sale_id, {user_id: manager.user_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+        const cropSaleRes = await cropSaleModel.query().where('sale_id', sale.sale_id).first();
+        expect(saleRes.customer_name).toBe(patchData.customer_name);
+        // expect(saleRes.sale_date).toBe(patchData.sale_date);
+        expect(cropSaleRes.quantity_kg).toBe(cropSaleRes.quantity_kg);
+        expect(cropSaleRes.sale_value).toBe(cropSaleRes.sale_value);
+        done();
+      })
+    });
+
+    test('Worker should patch a sale that they created', async (done) => {
+      let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+      let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
+
+      const patchData = {
+        quantity_kg: 200,
+        sale_value: 400,
+        customer_name: "patched customer name",
+        // sale_date: Date.now().toString(),
+      };
+
+      patchRequest(patchData, workersSale.sale_id, {user_id: worker.user_id}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const saleRes = await saleModel.query().where('sale_id', workersSale.sale_id).first();
+        const cropSaleRes = await cropSaleModel.query().where('sale_id', workersSale.sale_id).first();
+        expect(saleRes.customer_name).toBe(patchData.customer_name);
+        // expect(saleRes.sale_date).toBe(patchData.sale_date);
+        expect(cropSaleRes.quantity_kg).toBe(cropSaleRes.quantity_kg);
+        expect(cropSaleRes.sale_value).toBe(cropSaleRes.sale_value);
+        done();
+      })
+    });
+
+    test('Should return 403 if worker tries to patch another member\'s sale', async (done) => {
+      const patchData = {
+        quantity_kg: 200,
+        sale_value: 400,
+        customer_name: "patched customer name",
+        // sale_date: Date.now().toString(),
+      };
+
+      patchRequest(patchData, sale.sale_id, {user_id: worker.user_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      })
+    });
+
+    test('Should return 403 if unauthorized user tries to patch sale', async (done) => {
+      const patchData = {
+        quantity_kg: 200,
+        sale_value: 400,
+        customer_name: "patched customer name",
+        // sale_date: Date.now().toString(),
+      };
+
+      patchRequest(patchData, sale.sale_id, {user_id: unauthorizedUser.user_id}, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      })
+    });
   });
 });

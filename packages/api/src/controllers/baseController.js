@@ -126,8 +126,8 @@ class baseController {
 
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
-  static async upsertGraph(model, data, transaction) {
-    return await model.query(transaction).upsertGraph(data, { insertMissing: true });
+  static async upsertGraph(model, data, transaction, context = {}) {
+    return await model.query(transaction).context(context).upsertGraph(data, { insertMissing: true });
   }
 
   // fetch an object and all of its related objects

@@ -18,7 +18,6 @@ const router = express.Router();
 const farmExpenseController = require('../controllers/farmExpenseController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const { isOwnerOrAssignee } = require('../middleware/acl/isOwnerOrAssigne');
 const conditionallyApplyMiddleware = require('../middleware/acl/conditionally.apply');
 const isCreator = require('../middleware/acl/isCreator');
 

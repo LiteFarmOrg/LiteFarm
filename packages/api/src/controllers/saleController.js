@@ -14,7 +14,7 @@
  */
 
 const baseController = require('../controllers/baseController');
-const sale = require('../models/saleModel');
+const saleModel = require('../models/saleModel');
 const cropSaleModel = require('../models/cropSaleModel');
 const { transaction, Model } = require('objection');
 
@@ -23,9 +23,10 @@ class SaleController extends baseController {
   static addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const { user_id } = req.user
       try {
         // post to sale and crop sale table
-        const result = await baseController.upsertGraph(sale, req.body, trx);
+        const result = await baseController.upsertGraph(saleModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -45,7 +46,7 @@ class SaleController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const sale_id = req.body.sale_id;
-        const result = await sale.query(trx).where('sale_id', sale_id)
+        const result = await saleModel.query(trx).where('sale_id', sale_id)
           .patch(req.body).returning('*');
 
         if(result){
@@ -117,7 +118,7 @@ class SaleController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sale, req.params.sale_id, trx);
+        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -136,7 +137,7 @@ class SaleController extends baseController {
   }
 
   static async getSalesOfFarm(farm_id) {
-    return await sale
+    return await saleModel
       .query().whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')

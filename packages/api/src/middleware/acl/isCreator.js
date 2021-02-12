@@ -2,6 +2,7 @@ const { Model } = require('objection');
 const knex = Model.knex();
 const entitiesGetters = {
   farm_expense_id: fromExpense,
+  sale_id: fromSale,
 //   user_id: (user_id) => ({ user_id }),
 }
 
@@ -25,6 +26,10 @@ function notAuthorizedResponse(res) {
 
 async function fromExpense(expenseId) {
   return await knex('farmExpense').where({ farm_expense_id: expenseId }).first();
+}
+
+async function fromSale(saleId) {
+  return await knex('sale').where({ sale_id: saleId }).first();
 }
 
 module.exports = isCreator;

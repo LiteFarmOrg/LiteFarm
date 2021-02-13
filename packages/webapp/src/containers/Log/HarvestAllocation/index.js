@@ -36,7 +36,10 @@ function HarvestAllocation() {
     tempProps.crops = [{ field_crop_id: formData.crops.value }];
     tempProps.fields = [{ field_id: formData.fields.value }];
     tempProps.notes = defaultData.defaultNotes;
-    tempProps.quantity_kg = defaultData.defaultQuantity;
+    tempProps.quantity_kg =
+      unit === 'lb'
+        ? convertToMetric(defaultData.defaultQuantity, unit, 'kg')
+        : defaultData.defaultQuantity;
 
     const useTypes = data.selectedUseTypes;
     defaultData.selectedUseTypes = useTypes;

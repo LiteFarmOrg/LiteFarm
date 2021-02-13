@@ -10,7 +10,7 @@ import Form from '../../Form';
 import styles from './styles.scss';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, defaultData }) {
   const { t } = useTranslation();
@@ -18,13 +18,14 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
   let [field, setField] = useState(null);
   let [crop, setCrop] = useState(null);
   let [quantity, setQuantity] = useState(0);
-  let [validQuantity, setValidQuantity] = useState(false);
+  let [validQuantity, setValidQuantity] = useState(null);
 
   useEffect(() => {
     setDate(moment(defaultData.defaultDate));
     setField(defaultData.defaultField ? defaultData.defaultField : null);
     setCrop(defaultData.defaultCrop ? defaultData.defaultCrop : null);
     setQuantity(defaultData.defaultQuantity ? defaultData.defaultQuantity : null);
+    setValidQuantity(isTwoDecimalPlaces(defaultData.defaultQuantity) ? true : false);
   }, []);
 
   let fieldOptions = fields.map(({ field_name, field_id }) => ({
@@ -37,7 +38,7 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
     value: crop_id,
   }));
 
-  const { register, handleSubmit, watch, control, errors, setValue, clearErrors } = useForm({
+  const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',
   });
 
@@ -59,18 +60,27 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
         decimals = val.split('.')[1].length;
       }
     }
+
     return !decimals || decimals < 3;
   };
 
   const onSubmit = (data) => {
-    !isTwoDecimalPlaces(data.quantity) ? setValidQuantity(true) : setValidQuantity(false);
-    onNext({
-      defaultDate: date,
-      defaultField: field,
-      defaultCrop: crop,
-      defaultQuantity: data.quantity,
-      defaultNotes: data.notes,
-    });
+    !isTwoDecimalPlaces(data.quantity) ? setValidQuantity(false) : setValidQuantity(true);
+    if (validQuantity) {
+      let selectedCrop = {
+        label: crop.label,
+        value: crops[0].field_crop_id,
+      };
+      onNext({
+        defaultDate: date,
+        defaultField: field,
+        defaultCrop: selectedCrop,
+        defaultQuantity: data.quantity,
+        defaultNotes: data.notes,
+        selectedUseTypes: [],
+        // validQuantity: false,
+      });
+    }
   };
 
   const onError = (data) => {};
@@ -138,10 +148,12 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
                 {t('common:REQUIRED')}
               </Error>
             )}
-            {validQuantity && (
+            {!validQuantity ? (
               <Error style={{ marginTop: '-20px', marginBottom: '30px' }}>
                 {t('LOG_HARVEST.QUANTITY_ERROR')}
               </Error>
+            ) : (
+              ''
             )}
             <div className={styles.noteContainer}>
               <TextArea

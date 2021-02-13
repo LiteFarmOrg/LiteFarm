@@ -3,11 +3,18 @@ import moment from 'moment';
 
 export const initialState = {
   defaultDate: moment(),
+  date: moment(),
   defaultField: null,
   defaultCrop: null,
   defaultQuantity: null,
   defaultNotes: null,
   activity_kind: null,
+  validQuantity: null,
+  selectedUseTypes: [],
+  crops: null,
+  fields: null,
+  notes: null,
+  quantity_kg: null,
 };
 
 const logSliceReducer = createSlice({
@@ -20,6 +27,8 @@ const logSliceReducer = createSlice({
       state.defaultCrop = harvestLog.defaultCrop;
       state.defaultQuantity = harvestLog.defaultQuantity;
       state.defaultNotes = harvestLog.defaultNotes;
+      state.validQuantity = harvestLog.validQuantity;
+      state.selectedUseTypes = harvestLog.selectedUseTypes;
     },
     resetHarvestLog: (state) => initialState,
     harvestFormData: (state, { payload: formData }) => {
@@ -41,5 +50,14 @@ export const harvestLogDataSelector = (state) => ({
   defaultCrop: state?.tempStateReducer[logSliceReducer.name].defaultCrop,
   defaultQuantity: state?.tempStateReducer[logSliceReducer.name].defaultQuantity,
   defaultNotes: state?.tempStateReducer[logSliceReducer.name].defaultNotes,
+  validQuantity: state?.tempStateReducer[logSliceReducer.name].validQuantity,
+  selectedUseTypes: state?.tempStateReducer[logSliceReducer.name].selectedUseTypes,
+});
+export const harvestFormDataSelector = (state) => ({
+  activity_kind: state?.tempStateReducer[logSliceReducer.name].activity_kind,
+  date: state?.tempStateReducer[logSliceReducer.name].date,
+  crops: state?.tempStateReducer[logSliceReducer.name].crops,
+  fields: state?.tempStateReducer[logSliceReducer.name].fields,
+  quantity_kg: state?.tempStateReducer[logSliceReducer.name].quantity_kg,
 });
 export const logReducerSelector = (state) => state?.tempStateReducer[logSliceReducer.name];

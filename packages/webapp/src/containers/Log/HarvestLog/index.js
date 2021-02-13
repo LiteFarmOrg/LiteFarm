@@ -12,12 +12,19 @@ import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
+import { getHarvestUseTypes } from '../actions';
+import { getFieldCrops } from '../../saga';
 
 function HarvestLog() {
   const farm = useSelector(userFarmSelector);
   let [unit, setUnit] = useState(getUnit(farm, 'kg', 'lb'));
   const dispatch = useDispatch();
   const defaultData = useSelector(harvestLogDataSelector);
+
+  useEffect(() => {
+    dispatch(getFieldCrops());
+    dispatch(getHarvestUseTypes);
+  }, []);
 
   const onBack = () => {
     dispatch(resetHarvestLog());
@@ -28,14 +35,17 @@ function HarvestLog() {
     dispatch(harvestLogData(data));
     let formValue = {
       activity_kind: 'harvest',
-      date: data.DefaultDate,
+      date: data.defaultDate,
       crops: data.defaultCrop,
-      fields: data.defualtField,
+      fields: data.defaultField,
       notes: data.defaultNotes,
       quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
     };
     dispatch(harvestFormData(formValue));
-    history.push('/harvest_use_type');
+
+    setTimeout(() => {
+      history.push('/harvest_use_type');
+    }, 200);
   };
 
   const fields = useSelector(fieldsSelector);

@@ -186,7 +186,6 @@ class logServices extends baseController {
     const logModel = getActivityModelKind(body.activity_kind);
     const user_id = user.user_id;
     const activityLog = await super.post(ActivityLogModel, body, transaction, { user_id });
-
     //insert crops,fields and beds
     await super.relateModels(activityLog, fieldCrop, body.crops, transaction);
     await super.relateModels(activityLog, field, body.fields, transaction);
@@ -198,7 +197,7 @@ class logServices extends baseController {
         const data = {
           activity_id: activityLog.activity_id,
           harvest_use_type_id: use.harvest_use_type_id,
-          quantity_kg: use.quantity,
+          quantity_kg: use.quantity_kg,
         }
         return super.post(HarvestUseModel, data, transaction)
       });

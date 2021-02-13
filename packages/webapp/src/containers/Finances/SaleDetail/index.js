@@ -51,7 +51,8 @@ class SaleDetail extends Component {
               </div>
               {(Number(farm.role_id) === 1 ||
                 Number(farm.role_id) === 2 ||
-                Number(farm.role_id) === 5) && (
+                Number(farm.role_id) === 5 ||
+                farm.user_id === sale.created_by_user_id) && (
                 <DropdownButton
                   data-test="edit-or-delete-sale"
                   style={{

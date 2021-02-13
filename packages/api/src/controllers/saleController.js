@@ -79,38 +79,6 @@ class SaleController extends baseController {
           error,
         });
       }
-      // try {
-      //   // const sale_id = req.body.sale_id;
-      //   const result = await saleModel.query(trx).where('sale_id', sale_id)
-      //     .patch(req.body).returning('*');
-
-      //   if(result){
-      //     const cropSale = req.body.cropSale;
-      //     const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).delete();
-
-      //     if(isExistingDeleted){
-      //       for(const cs of cropSale){
-      //         await cropSaleModel.query(trx).insert(cs);
-      //       }
-      //     }else{
-      //       res.status(400).send({ 'error': 'Failed to patch sales, failed to delete existing sales' })
-      //     }
-
-      //   }else{
-      //     res.status(400).send({ 'error': 'Failed to patch sales' })
-      //   }
-
-      //   await trx.commit();
-      //   res.sendStatus(204);
-      // } catch (error) {
-      //   //handle more exceptions
-      //   await trx.rollback();
-      //   res.status(400).json({
-      //     error,
-      //   });
-      //   // eslint-disable-next-line no-console
-      //   console.log(error);
-      // }
     };
   }
 
@@ -173,8 +141,8 @@ class SaleController extends baseController {
 
   static async getSalesOfFarm(farm_id) {
     return await saleModel
-      .query().whereNotDeleted()
-      .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date')
+      .query().context({showHidden: true}).whereNotDeleted()
+      .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')

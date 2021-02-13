@@ -32,6 +32,9 @@ function HarvestLog() {
   };
 
   const onNext = (data) => {
+    if (defaultData.selectedUseTypes.length != 0) {
+      data.selectedUseTypes = defaultData.selectedUseTypes;
+    }
     dispatch(harvestLogData(data));
     let formValue = {
       activity_kind: 'harvest',

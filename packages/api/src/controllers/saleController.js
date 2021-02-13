@@ -46,31 +46,36 @@ class SaleController extends baseController {
       const { sale_id } = req.params;
       const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
       let saleData = {};
-      let cropSaleData = {};
 
       if (customer_name) saleData.customer_name = customer_name;
       if (sale_date) saleData.sale_date = sale_date;
 
-      if (quantity_kg) cropSaleData.quantity_kg = quantity_kg;
-      if (sale_value) cropSaleData.sale_value = sale_value;
-
       const trx = await transaction.start(Model.knex());
       try {
         const saleResult = await saleModel.query(trx).where('sale_id', sale_id).patch(saleData).returning('*');
-        const cropSaleResult = await cropSaleModel.query(trx).where('sale_id', sale_id).patch(cropSaleData).returning('*');
-        // TODO: check if there exists a cropSae with the given sale_id
-
-        if (saleResult && cropSaleResult) {
-          await trx.commit();
-          return res.sendStatus(200);
-        } else {
+        if (!saleResult) {
           await trx.rollback();
           return res.status(400).send("failed to patch data");
         }
+
+        const deletedExistingCropSale = await cropSaleModel.query(trx).where('sale_id', sale_id).delete();
+        if (!deletedExistingCropSale) {
+          await trx.rollback();
+          return res.status(400).send("failed to delete existing crop sales");
+        }
+
+        const { cropSale } = req.body;
+        for (const cs of cropSale) {
+          cs.sale_id = parseInt(sale_id);
+          await cropSaleModel.query(trx).insert(cs);
+        }
+
+        await trx.commit();
+        return res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }

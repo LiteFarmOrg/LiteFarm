@@ -26,7 +26,6 @@ function HarvestUseType() {
   const onNext = (data) => {
     defaultData.selectedUseTypes = data.selectedUseTypes;
     dispatch(harvestLogData(defaultData));
-
     history.push('/harvest_allocation');
   };
 

@@ -72,11 +72,15 @@ export function* addSale(action) {
 
 export function* updateSaleSaga(action) {
   const { salesURL } = apiConfig;
+  let { sale } = action;
+  let { sale_id } = sale;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
 
+  delete sale.sale_id;
+
   try {
-    const result = yield call(axios.patch, salesURL, action.sale, header);
+    const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     if (result) {
       toastr.success(i18n.t('message:SALE.SUCCESS.UPDATE'));
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);

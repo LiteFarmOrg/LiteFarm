@@ -16,7 +16,6 @@ function HarvestAllocation() {
   const farm = useSelector(userFarmSelector);
   let [unit, setUnit] = useState(getUnit(farm, 'kg', 'lb'));
   const defaultData = useSelector(harvestLogDataSelector);
-  const [finalForm, setFinalForm] = useState({});
   const formData = useSelector(harvestFormDataSelector);
 
   useEffect(() => {}, []);
@@ -51,8 +50,6 @@ function HarvestAllocation() {
         onNext={onNext}
         defaultData={defaultData}
         unit={unit}
-        finalForm={finalForm}
-        setFinalForm={setFinalForm}
       />
     </>
   );

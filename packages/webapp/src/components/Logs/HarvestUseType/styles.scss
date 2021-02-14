@@ -13,6 +13,15 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
+ .logContainer {
+  width: 100%;
+  max-width: 1024px;
+  height: 100vh;
+  padding: 24px 24px 150px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
  .matrixContainer {
   display: flex;
   flex-direction: row;
@@ -73,14 +82,6 @@
   }
 }
 
-.logContainer {
-  width: 100%;
-  max-width: 1024px;
-  min-height: 100vh;
-  height: auto;
-  padding: 24px 24px 0 24px;
-  display: flex;
-  flex-direction: column;
-}
+
   
   

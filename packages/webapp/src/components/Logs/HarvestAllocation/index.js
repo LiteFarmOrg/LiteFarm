@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
-import styles from './styles.scss';
 import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
@@ -12,27 +11,26 @@ import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function PureHarvestAllocation({
-  onGoBack,
-  onNext,
-  defaultData,
-  unit,
-  finalForm,
-  setFinalForm,
-}) {
+export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, unit }) {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onTouched',
   });
   const tempProps = JSON.parse(JSON.stringify(defaultData));
   const dispatch = useDispatch();
+  const [nextEnabled, setNextEnabled] = useState(false);
 
   useEffect(() => {
-    let mutateFinalForm = {};
-    for (let useType of defaultData.selectedUseTypes) {
-      mutateFinalForm[useType.harvest_use_type_name] = 0;
-    }
-    setFinalForm(mutateFinalForm);
+    const allFieldsFilledOut = () => {
+      defaultData.selectedUseTypes.map((item) => {
+        if (item.quantity_kg === '') {
+          console.log('should return false');
+          return false;
+        }
+      });
+      return true;
+    };
+    setNextEnabled(allFieldsFilledOut);
   }, []);
 
   const onSubmit = (val) => {
@@ -79,13 +77,13 @@ export default function PureHarvestAllocation({
           <Button onClick={onBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} fullLength disabled={!nextEnabled}>
             {t('common:NEXT')}
           </Button>
         </>
       }
     >
-      <div classname={styles.logContainer}>
+      <div>
         <div style={{ marginLeft: '-20px', minWidth: '370px' }}>
           <TitleLayout
             onGoBack={onGoBack}

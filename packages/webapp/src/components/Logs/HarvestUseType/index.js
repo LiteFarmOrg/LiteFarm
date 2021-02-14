@@ -53,7 +53,7 @@ export default function PureHarvestUseType({
 
   return (
     <div classname={styles.logContainer}>
-      <div style={{ marginLeft: '-20px', minWidth: '370px' }}>
+      <div style={{ marginLeft: '3px', minWidth: '370px', marginTop: '21px' }}>
         <TitleLayout
           onGoBack={onBack}
           title={t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}

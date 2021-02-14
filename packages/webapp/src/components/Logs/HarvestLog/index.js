@@ -11,6 +11,8 @@ import styles from './styles.scss';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
+import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
+import { useDispatch } from 'react-redux';
 
 export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, defaultData }) {
   const { t } = useTranslation();
@@ -18,14 +20,13 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
   let [field, setField] = useState(null);
   let [crop, setCrop] = useState(null);
   let [quantity, setQuantity] = useState(0);
-  let [validQuantity, setValidQuantity] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDate(moment(defaultData.defaultDate));
     setField(defaultData.defaultField ? defaultData.defaultField : null);
     setCrop(defaultData.defaultCrop ? defaultData.defaultCrop : null);
     setQuantity(defaultData.defaultQuantity ? defaultData.defaultQuantity : null);
-    setValidQuantity(isTwoDecimalPlaces(defaultData.defaultQuantity) ? true : false);
   }, []);
 
   let fieldOptions = fields.map(({ field_name, field_id }) => ({
@@ -65,8 +66,14 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
   };
 
   const onSubmit = (data) => {
-    !isTwoDecimalPlaces(data.quantity) ? setValidQuantity(false) : setValidQuantity(true);
-    if (validQuantity) {
+    if (isTwoDecimalPlaces(data.quantity)) {
+      defaultData.validQuantity = true;
+      dispatch(harvestLogData(defaultData));
+    } else {
+      defaultData.validQuantity = false;
+      dispatch(harvestLogData(defaultData));
+    }
+    if (defaultData.validQuantity) {
       let selectedCrop = {
         label: crop.label,
         value: crops[0].field_crop_id,
@@ -78,7 +85,7 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
         defaultQuantity: data.quantity,
         defaultNotes: data.notes,
         selectedUseTypes: [],
-        // validQuantity: false,
+        validQuantity: true,
       });
     }
   };
@@ -148,7 +155,7 @@ export default function PureHarvestLog({ onGoBack, onNext, fields, crops, unit, 
                 {t('common:REQUIRED')}
               </Error>
             )}
-            {!validQuantity ? (
+            {!defaultData.validQuantity ? (
               <Error style={{ marginTop: '-20px', marginBottom: '30px' }}>
                 {t('LOG_HARVEST.QUANTITY_ERROR')}
               </Error>

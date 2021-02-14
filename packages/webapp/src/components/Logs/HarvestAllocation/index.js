@@ -24,7 +24,6 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
     const allFieldsFilledOut = () => {
       defaultData.selectedUseTypes.map((item) => {
         if (item.quantity_kg === '') {
-          console.log('should return false');
           return false;
         }
       });
@@ -34,7 +33,8 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
   }, []);
 
   const onSubmit = (val) => {
-    const tempProps = JSON.parse(JSON.stringify(defaultData));
+    let tempProps = JSON.parse(JSON.stringify(defaultData));
+
     let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
 
     if (
@@ -53,7 +53,6 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
       toastr.error('Total does not equal the amount to allocate');
     }
   };
-
   const handleChange = (typeName, quant) => {
     tempProps.selectedUseTypes.map((item) => {
       if (typeName === item.harvest_use_type_name) {

@@ -15,6 +15,7 @@ export const initialState = {
   fields: null,
   notes: null,
   quantity_kg: null,
+  validQuantity: false,
 };
 
 const logSliceReducer = createSlice({
@@ -29,6 +30,7 @@ const logSliceReducer = createSlice({
       state.defaultNotes = harvestLog.defaultNotes;
       state.validQuantity = harvestLog.validQuantity;
       state.selectedUseTypes = harvestLog.selectedUseTypes;
+      state.validQuantity = harvestLog.validQuantity;
     },
     resetHarvestLog: (state) => initialState,
     harvestFormData: (state, { payload: formData }) => {
@@ -52,6 +54,7 @@ export const harvestLogDataSelector = (state) => ({
   defaultNotes: state?.tempStateReducer[logSliceReducer.name].defaultNotes,
   validQuantity: state?.tempStateReducer[logSliceReducer.name].validQuantity,
   selectedUseTypes: state?.tempStateReducer[logSliceReducer.name].selectedUseTypes,
+  validQuantity: state?.tempStateReducer[logSliceReducer.name].validQuantity,
 });
 export const harvestFormDataSelector = (state) => ({
   activity_kind: state?.tempStateReducer[logSliceReducer.name].activity_kind,

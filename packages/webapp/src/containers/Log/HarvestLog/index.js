@@ -32,7 +32,7 @@ function HarvestLog() {
   };
 
   const onNext = (data) => {
-    if (defaultData.selectedUseTypes.length != 0) {
+    if (defaultData.selectedUseTypes) {
       data.selectedUseTypes = defaultData.selectedUseTypes;
     }
     dispatch(harvestLogData(data));

@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
 import { convertToMetric, getUnit } from '../../../util';
 import { toastr } from 'react-redux-toastr';
+import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function PureHarvestAllocation({
   onGoBack,
@@ -22,6 +24,8 @@ export default function PureHarvestAllocation({
   const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',
   });
+  const tempProps = JSON.parse(JSON.stringify(defaultData));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let mutateFinalForm = {};
@@ -33,11 +37,6 @@ export default function PureHarvestAllocation({
 
   const onSubmit = (val) => {
     const tempProps = JSON.parse(JSON.stringify(defaultData));
-    tempProps.selectedUseTypes.map((obj) => {
-      if (obj.harvest_use_type_name in val) {
-        obj.quantity_kg = val[obj.harvest_use_type_name];
-      }
-    });
     let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
 
     if (
@@ -57,14 +56,27 @@ export default function PureHarvestAllocation({
     }
   };
 
+  const handleChange = (typeName, quant) => {
+    tempProps.selectedUseTypes.map((item) => {
+      if (typeName === item.harvest_use_type_name) {
+        item.quantity_kg = quant;
+      }
+    });
+    dispatch(harvestLogData(tempProps));
+  };
+
   const onError = () => {};
+
+  const onBack = () => {
+    onGoBack(tempProps);
+  };
 
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
+          <Button onClick={onBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
           <Button type={'submit'} fullLength>
@@ -87,6 +99,7 @@ export default function PureHarvestAllocation({
             </div>
             {defaultData.selectedUseTypes.map((type, index) => {
               const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
+              const quant = type.quantity_kg ? type.quantity_kg : null;
               return (
                 <div
                   style={
@@ -101,9 +114,9 @@ export default function PureHarvestAllocation({
                     type="decimal"
                     unit={unit}
                     name={typeName}
-                    onChange={setFinalForm}
+                    onChange={(e) => handleChange(typeName, e.target.value)}
                     inputRef={register()}
-                    //   defaultValue={defaultData.defaultQuantity}
+                    defaultValue={quant}
                   />
                 </div>
               );

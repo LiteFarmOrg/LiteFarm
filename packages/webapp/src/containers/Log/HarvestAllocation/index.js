@@ -7,11 +7,7 @@ import {
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { userFarmSelector } from '../../userFarmSlice';
-import { addHarvestUseType } from '../actions';
-import { setAllHarvestUseTypesSelector } from '../selectors';
 import { convertToMetric, getUnit } from '../../../util';
 import { addLog, editLog } from '../Utility/actions';
 

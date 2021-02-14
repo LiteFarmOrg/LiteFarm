@@ -38,7 +38,7 @@ export default function PureHarvestUseType({
   }, []);
 
   const onGoNext = () => {
-    const extendedSelectedUseTypes = useTypes.filter(({ harvest_use_type_id }) =>
+    let extendedSelectedUseTypes = useTypes.filter(({ harvest_use_type_id }) =>
       selectedUseTypes.includes(harvest_use_type_id),
     );
     onNext({ selectedUseTypes: extendedSelectedUseTypes });
@@ -55,13 +55,12 @@ export default function PureHarvestUseType({
     <div classname={styles.logContainer}>
       <div style={{ marginLeft: '-20px', minWidth: '370px' }}>
         <TitleLayout
-          onGoBack={onGoBack}
+          onGoBack={onBack}
           title={t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}
-          onGoBack={onGoBack}
           style={{ flexGrow: 9, order: 2 }}
           buttonGroup={
             <>
-              <Button onClick={onGoBack} color={'secondary'} fullLength onClick={onBack}>
+              <Button color={'secondary'} fullLength onClick={onBack}>
                 {t('common:BACK')}
               </Button>
               <Button

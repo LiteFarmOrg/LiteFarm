@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './password.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { MdDone, MdClose } from 'react-icons/all';
+import { MdClose, MdDone } from 'react-icons/all';
 import { Text } from '../../../Typography';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const PasswordError = ({
   isTooShort = true,
@@ -25,8 +25,7 @@ const PasswordError = ({
     ONE_UPPER_CASE: t('ENTER_PASSWORD.ONE_UPPER_CASE'),
     ONE_NUMBER: t('ENTER_PASSWORD.ONE_NUMBER'),
     ONE_SPECIAL_CHARACTER: t('ENTER_PASSWORD.ONE_SPECIAL_CHARACTER'),
-  }
-  console.log(messageString);
+  };
   return (
     <div {...props}>
       {Object.entries(messages).map(([message, hasError]) => (

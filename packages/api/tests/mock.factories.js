@@ -475,6 +475,17 @@ function fakeHarvestLog() {
   };
 }
 
+async function harvestUseFactory({ promisedHarvestLog = harvestLogFactory(),
+                                   promisedHarvestUseType= harvestUseTypeFactory(),
+                                   promisedFieldCrop = fieldCropFactory()} = {},
+                                 harvestUse = fakeHarvestUse()) {
+  const [harvestLog, harvestUseType, fieldCrop] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedFieldCrop]);
+  const [{ harvest_use_type_id }] = harvestUseType;
+  const [{ activity_id }] = harvestLog;
+  const [{ field_crop_id }] = fieldCrop;
+  await knex('activityCrops').insert({ activity_id, field_crop_id });
+  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse}).returning('*');
+}
 
 async function seedLogFactory({ promisedActivity = activityLogFactory() } = {}, seedLog = fakeSeedLog()) {
   const [activity] = await Promise.all([promisedActivity]);
@@ -747,7 +758,7 @@ module.exports = {
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
   createDefaultState,
-  fakeHarvestUse,
+  harvestUseFactory, fakeHarvestUse,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

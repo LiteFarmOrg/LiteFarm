@@ -101,8 +101,11 @@ describe('Pesticide Tests', () => {
     })
 
     test('Should filter out deleted pesticides', async (done)=>{
-      await pesiticideModel.query().context({showHidden: true}).findById(pesticide.pesticide_id).delete();
-      getRequest({user_id: owner.user_id},(err,res)=>{
+      await pesiticideModel.query().context({
+        showHidden: true,
+        user_id: owner.user_id,
+      }).findById(pesticide.pesticide_id).delete();
+      getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
         done();

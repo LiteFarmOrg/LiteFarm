@@ -338,7 +338,7 @@ class insightController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, trx);
+        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id,{ user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

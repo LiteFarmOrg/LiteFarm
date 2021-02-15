@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactChartKick, { AreaChart } from 'react-chartkick';
 import Chart from 'chart.js';
 import { getMassUnit, roundToTwoDecimal } from '../../../util';
@@ -49,12 +49,11 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
     });
   };
 
-  useState(() => formatState(), []);
+  useEffect(() => formatState(), [pricePoints]);
 
   const { ownPriceSeries, networkPriceSeries, max } = state;
 
-  const yTitle = t("INSIGHTS.PRICES.Y_TITLE", { currency: currencySymbol, mass: getMassUnit() });
-
+  const yTitle = t('INSIGHTS.PRICES.Y_TITLE', { currency: currencySymbol, mass: getMassUnit() });
   return (
     <div style={{ marginBottom: '12px' }}>
       <Semibold>{name}</Semibold>
@@ -79,14 +78,14 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
           }}
           data={[
             {
-              name: t("INSIGHTS.PRICES.OWN_PRICE"),
+              name: t('INSIGHTS.PRICES.OWN_PRICE'),
               data: ownPriceSeries,
               dataset: {
                 backgroundColor: 'rgba(51, 102, 204, 0.4)',
               },
             },
             {
-              name: t("INSIGHTS.PRICES.NETWORK_PRICE"),
+              name: t('INSIGHTS.PRICES.NETWORK_PRICE'),
               data: networkPriceSeries,
               dataset: {
                 backgroundColor: 'rgba(220, 57, 18, 0.4)',

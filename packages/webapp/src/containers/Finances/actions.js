@@ -26,7 +26,8 @@ import {
   SET_DEFAULT_EXPENSE_TYPE,
   GET_DEFAULT_EXPENSE_TYPE,
   SET_EXPENSE_DETAIL_DATE,
-  SET_SELECTED_EXPENSE,
+  SET_EXPENSE_DETAIL_ITEM,
+  SET_SELECTED_EXPENSE_TYPE,
   ADD_EXPENSES,
   DELETE_EXPENSES,
   SET_EXPENSES_TO_EDIT,
@@ -130,9 +131,16 @@ export const setExpenseDetailDate = (expense_detail_date) => {
   };
 };
 
-export const setSelectedExpense = (expense_types) => {
+export const setExpenseDetailItem = (expense) => {
   return {
-    type: SET_SELECTED_EXPENSE,
+    type: SET_EXPENSE_DETAIL_ITEM,
+    expense,
+  };
+};
+
+export const setSelectedExpenseTypes = (expense_types) => {
+  return {
+    type: SET_SELECTED_EXPENSE_TYPE,
     expense_types,
   };
 };

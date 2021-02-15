@@ -41,7 +41,7 @@ exports.getNutritionalData = (cropNutritionData) => {
     'Vitamin C': { label: 'Vitamin C', val: 0, percentage: 0 },
     'Vitamin A': { label: 'Vitamin A', val: 0, percentage: 0 },
   };
-  const expectedIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 750, 'Vitamin C': 90, 'Vitamin A': 900 };
+  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 750, 'Vitamin C': 90, 'Vitamin A': 900 };
 
   cropNutritionData.map((item) => {
     const percentRefuse = item.percentrefuse || 0;
@@ -56,7 +56,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now normalize the data values
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data[key]['val'] = Math.round(data[key]['val'] / (expectedIntake[key] / MEALS_PER_DAY))
+      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY))
     }
   }
 

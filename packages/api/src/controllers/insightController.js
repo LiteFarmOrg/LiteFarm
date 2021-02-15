@@ -29,13 +29,23 @@ class insightController extends baseController {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
-        const data = await knex.raw(
-          `SELECT DISTINCT cs.sale_id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
-          FROM "cropSale" cs, "sale" s, "crop" c
-          WHERE cs.sale_id = s.sale_id AND s.farm_id = ? AND cs.crop_id = c.crop_id`, [farmID]);
-
-        if (data.rows) {
-          const people_fed_data = insightHelpers.getNutritionalData(data.rows);
+        const saleData = await knex.raw(
+          `SELECT DISTINCT cs.sale_id as id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
+              FROM "cropSale" cs JOIN "sale" s ON cs.sale_id = s.sale_id
+              JOIN "crop" c ON cs.crop_id = c.crop_id
+              WHERE s.farm_id = ?`, [farmID]);
+        const harvestData = await knex.raw(
+          `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
+                FROM "harvestUse" hu 
+                JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
+                JOIN "fieldCrop" fc ON fc.field_crop_id = ac.field_crop_id
+                JOIN "field" f ON fc.field_id = f.field_id
+                JOIN "crop" c ON fc.crop_id = c.crop_id
+                WHERE f.farm_id = ?
+                AND hu.harvest_use_type_id IN (2,5,6)`, [farmID]);
+        const data = saleData.rows.concat(harvestData.rows);
+        if (data) {
+          const people_fed_data = insightHelpers.getNutritionalData(data);
           const meals = insightHelpers.averagePeopleFedMeals(people_fed_data);
           const body = {
             preview: meals,

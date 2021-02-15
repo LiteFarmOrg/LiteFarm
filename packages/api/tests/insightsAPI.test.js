@@ -56,7 +56,7 @@ describe('insights test', () => {
   describe('People Fed', () => {
 
     async function generateSaleData(crop, quantity, user){
-      const [{ user_id, farm_id }] = user ?? await createUserFarm(1);
+      const [{ user_id, farm_id }] = user ? user :  await createUserFarm(1);
       const [{ field_id, created_by_user_id }] = await mocks.fieldFactory({promisedFarm: [ { farm_id }]});
       const [{ crop_id }] = await mocks.cropFactory({promisedFarm: [{farm_id}]}, crop);
       const [{ field_crop_id }] = await mocks.fieldCropFactory({promisedField: [{ field_id, created_by_user_id }], promisedCrop: [{ crop_id }]});

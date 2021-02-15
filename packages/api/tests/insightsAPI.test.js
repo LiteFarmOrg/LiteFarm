@@ -35,7 +35,9 @@ describe('insights test', () => {
   beforeAll(() => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
-      next();
+      req.user = {};
+      req.user.user_id = req.get('user_id');
+      next()
     });
   });
 

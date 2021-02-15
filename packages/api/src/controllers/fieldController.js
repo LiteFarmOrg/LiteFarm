@@ -53,7 +53,7 @@ class fieldController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, trx);
+        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, { user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

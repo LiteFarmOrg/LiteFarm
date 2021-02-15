@@ -52,14 +52,10 @@ export default function PureHarvestAllocation({
       sum >= Number(tempProps.defaultQuantity) - 0.1 &&
       sum < Number(tempProps.defaultQuantity) + 0.1
     ) {
-      // if (!!this.props.formValue?.activity_id) {
-      //   this.props.dispatch(editLog(this.props.formValue));
-      // } else {
       tempProps.selectedUseTypes.forEach((element) => {
         element.quantity_kg = convertToMetric(element.quantity_kg, unit, 'kg');
       });
       onNext(tempProps);
-      // }
     } else {
       toastr.error('Total does not equal the amount to allocate');
     }

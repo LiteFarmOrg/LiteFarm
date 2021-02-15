@@ -31,6 +31,7 @@ export default function PureHarvestLog({
   let [crop, setCrop] = useState(null);
   let [cropID, setCropID] = useState(0);
   let [quantity, setQuantity] = useState(0);
+  let [filteredCropOptions, setFilteredCropOptions] = useState([]);
 
   useEffect(() => {
     setDate(setDefaultDate());
@@ -44,9 +45,10 @@ export default function PureHarvestLog({
     value: field_id,
   }));
 
-  let cropOptions = crops.map(({ crop_common_name, crop_id }) => ({
+  let cropOptions = crops.map(({ crop_common_name, crop_id, field_name }) => ({
     label: crop_common_name,
     value: crop_id,
+    field_name: field_name,
   }));
 
   const { register, handleSubmit, watch, errors } = useForm({
@@ -149,6 +151,14 @@ export default function PureHarvestLog({
 
   const onError = (data) => {};
 
+  const handleChange = (field) => {
+    setField(field);
+    let data = cropOptions.filter((e) => {
+      return e.field_name === field.label;
+    });
+    setFilteredCropOptions(data);
+  };
+
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -181,7 +191,7 @@ export default function PureHarvestLog({
               label={t('LOG_HARVEST.FIELD')}
               placeholder={t('LOG_HARVEST.FIELD_PLACEHOLDER')}
               options={fieldOptions}
-              onChange={setField}
+              onChange={(e) => handleChange(e)}
               value={field}
               style={{ marginBottom: '24px' }}
               defaultValue={defaultData.defaultField}
@@ -190,7 +200,10 @@ export default function PureHarvestLog({
               <ReactSelect
                 label={t('LOG_HARVEST.CROP')}
                 placeholder={t('LOG_HARVEST.CROP_PLACEHOLDER')}
-                options={cropOptions}
+                options={filteredCropOptions}
+                // options={cropOptions.filter((el) => {
+                //   return
+                // })}
                 onChange={setCrop}
                 value={crop}
                 style={{ marginBottom: '24px' }}

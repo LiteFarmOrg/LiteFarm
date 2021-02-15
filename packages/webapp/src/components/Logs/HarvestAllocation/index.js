@@ -6,18 +6,24 @@ import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
-import { convertToMetric, getUnit } from '../../../util';
+import { convertToMetric, roundToTwoDecimal, convertFromMetric } from '../../../util';
 import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
-import { useDispatch, useSelector } from 'react-redux';
 
-export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, unit }) {
+export default function PureHarvestAllocation({
+  onGoBack,
+  onNext,
+  defaultData,
+  unit,
+  isEdit,
+  selectedLog,
+  dispatch,
+}) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onTouched',
   });
   const tempProps = JSON.parse(JSON.stringify(defaultData));
-  const dispatch = useDispatch();
   const [nextEnabled, setNextEnabled] = useState(false);
 
   useEffect(() => {
@@ -34,12 +40,17 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
 
   const onSubmit = (val) => {
     let tempProps = JSON.parse(JSON.stringify(defaultData));
+    tempProps.selectedUseTypes.map((obj) => {
+      if (obj.harvest_use_type_name in val) {
+        obj.quantity_kg = val[obj.harvest_use_type_name];
+      }
+    });
 
     let sum = Object.keys(val).reduce((sum, key) => sum + Number(val[key]), 0);
 
     if (
-      sum >= Number(tempProps.defaultQuantity) - 0.01 &&
-      sum < Number(tempProps.defaultQuantity) + 0.01
+      sum >= Number(tempProps.defaultQuantity) - 0.1 &&
+      sum < Number(tempProps.defaultQuantity) + 0.1
     ) {
       // if (!!this.props.formValue?.activity_id) {
       //   this.props.dispatch(editLog(this.props.formValue));
@@ -65,7 +76,43 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
   const onError = () => {};
 
   const onBack = () => {
+    if (isEdit.isEditStepThree) {
+      tempProps.selectedUseTypes.map((item, idx) => {
+        if (
+          idx < selectedLog.harvestUse.length &&
+          item.harvest_use_type_name ===
+            selectedLog.harvestUse[idx].harvestUseType.harvest_use_type_name
+        ) {
+          item.quantity_kg = item.quantity_kg
+            ? item.quantity_kg
+            : selectedLog.harvestUse[idx].quantity_kg;
+        }
+      });
+    }
+    dispatch(harvestLogData(tempProps));
     onGoBack(tempProps);
+  };
+
+  const setDefaultQuantity = (typeName) => {
+    let quant = '';
+    if (isEdit.isEditStepThree) {
+      selectedLog.harvestUse.map((item) => {
+        if (item.harvestUseType.harvest_use_type_name === typeName) {
+          quant = item.quantity_kg;
+        }
+      });
+      if (unit === 'lb') {
+        return roundToTwoDecimal(convertFromMetric(quant, unit, 'kg')).toString();
+      }
+      return roundToTwoDecimal(quant).toString();
+    } else {
+      defaultData.selectedUseTypes.map((item) => {
+        if (item.harvest_use_type_name === typeName) {
+          quant = item.quantity_kg ? item.quantity_kg : null;
+        }
+      });
+      return quant;
+    }
   };
 
   return (
@@ -85,9 +132,8 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
       <div>
         <div style={{ marginLeft: '-20px', minWidth: '370px' }}>
           <TitleLayout
-            onGoBack={onGoBack}
+            onGoBack={onBack}
             title={t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
-            onGoBack={onGoBack}
             style={{ flexGrow: 9, order: 2 }}
           >
             <Semibold>{t('LOG_HARVEST.HARVEST_ALLOCATION_SUBTITLE')}</Semibold>
@@ -96,7 +142,7 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
             </div>
             {defaultData.selectedUseTypes.map((type, index) => {
               const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-              const quant = type.quantity_kg ? type.quantity_kg : null;
+              const quant = setDefaultQuantity(typeName);
               return (
                 <div
                   style={

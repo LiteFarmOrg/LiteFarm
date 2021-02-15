@@ -1,19 +1,25 @@
 import React, { useEffect } from 'react';
 import PureHarvestUseType from '../../../components/Logs/HarvestUseType';
-import { harvestLogDataSelector, harvestLogData } from '../Utility/logSlice';
+import {
+  harvestLogDataSelector,
+  harvestLogData,
+  canEditStepTwo,
+  canEditStepTwoSelector,
+} from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
-import { fieldsSelector } from '../../fieldSlice';
-import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { userFarmSelector } from '../../userFarmSlice';
 import { addHarvestUseType } from '../actions';
 import { setAllHarvestUseTypesSelector } from '../selectors';
+import { currentLogSelector } from '../selectors';
 
 function HarvestUseType() {
   const dispatch = useDispatch();
   const allUseType = useSelector(setAllHarvestUseTypesSelector);
   const defaultData = useSelector(harvestLogDataSelector);
   const farm = useSelector(userFarmSelector);
+  const isEditStepTwo = useSelector(canEditStepTwoSelector);
+  const selectedLog = useSelector(currentLogSelector);
 
   useEffect(() => {}, []);
 
@@ -30,6 +36,7 @@ function HarvestUseType() {
       });
     }
     defaultData.selectedUseTypes = tempProps.selectedUseTypes;
+    dispatch(canEditStepTwo(false));
     dispatch(harvestLogData(defaultData));
     history.push('/harvest_log');
   };
@@ -49,14 +56,12 @@ function HarvestUseType() {
 
     defaultData.selectedUseTypes = tempProps.selectedUseTypes;
     dispatch(harvestLogData(defaultData));
+    dispatch(canEditStepTwo(false));
     history.push('/harvest_allocation');
   };
 
   const dispatchAddUseType = (useTypeName) => dispatch(addHarvestUseType(useTypeName));
   const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.REQUIRED_TASK'));
-
-  const fields = useSelector(fieldsSelector);
-  const crops = useSelector(currentFieldCropsSelector);
 
   return (
     <>
@@ -68,6 +73,8 @@ function HarvestUseType() {
         farm={farm}
         addUseType={dispatchAddUseType}
         showUseTypeRequiredError={showUseTypeRequiredError}
+        isEdit={isEditStepTwo}
+        selectedLog={selectedLog}
       />
     </>
   );

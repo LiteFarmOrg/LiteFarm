@@ -9,13 +9,18 @@ export const initialState = {
   defaultQuantity: null,
   defaultNotes: null,
   activity_kind: null,
+  activity_id: null,
   validQuantity: null,
   selectedUseTypes: [],
   crops: null,
   fields: null,
   notes: null,
   quantity_kg: null,
-  validQuantity: false,
+  validQuantity: true,
+  isEditStepOne: false,
+  isEditStepTwo: false,
+  isEditStepThree: false,
+  isEdit: false,
 };
 
 const logSliceReducer = createSlice({
@@ -34,6 +39,7 @@ const logSliceReducer = createSlice({
     },
     resetHarvestLog: (state) => initialState,
     harvestFormData: (state, { payload: formData }) => {
+      state.activity_id = formData.activity_id;
       state.activity_kind = formData.activity_kind;
       state.date = formData.date;
       state.crops = formData.crops;
@@ -41,10 +47,30 @@ const logSliceReducer = createSlice({
       state.notes = formData.notes;
       state.quantity_kg = formData.quantity_kg;
     },
+    canEditStepOne: (state, { payload: isEditStepOne }) => {
+      state.isEditStepOne = isEditStepOne;
+    },
+    canEditStepTwo: (state, { payload: isEditStepTwo }) => {
+      state.isEditStepTwo = isEditStepTwo;
+    },
+    canEditStepThree: (state, { payload: isEditStepThree }) => {
+      state.isEditStepThree = isEditStepThree;
+    },
+    canEdit: (state, { payload: isEdit }) => {
+      state.isEdit = isEdit;
+    },
   },
 });
 
-export const { harvestLogData, resetHarvestLog, harvestFormData } = logSliceReducer.actions;
+export const {
+  harvestLogData,
+  resetHarvestLog,
+  harvestFormData,
+  canEditStepOne,
+  canEditStepTwo,
+  canEditStepThree,
+  canEdit,
+} = logSliceReducer.actions;
 export default logSliceReducer.reducer;
 export const harvestLogDataSelector = (state) => ({
   defaultDate: state?.tempStateReducer[logSliceReducer.name].defaultDate,
@@ -57,10 +83,23 @@ export const harvestLogDataSelector = (state) => ({
   validQuantity: state?.tempStateReducer[logSliceReducer.name].validQuantity,
 });
 export const harvestFormDataSelector = (state) => ({
+  activity_id: state?.tempStateReducer[logSliceReducer.name].activity_id,
   activity_kind: state?.tempStateReducer[logSliceReducer.name].activity_kind,
   date: state?.tempStateReducer[logSliceReducer.name].date,
   crops: state?.tempStateReducer[logSliceReducer.name].crops,
   fields: state?.tempStateReducer[logSliceReducer.name].fields,
   quantity_kg: state?.tempStateReducer[logSliceReducer.name].quantity_kg,
+});
+export const canEditStepOneSelector = (state) => ({
+  isEditStepOne: state?.tempStateReducer[logSliceReducer.name].isEditStepOne,
+});
+export const canEditStepTwoSelector = (state) => ({
+  isEditStepTwo: state?.tempStateReducer[logSliceReducer.name].isEditStepTwo,
+});
+export const canEditStepThreeSelector = (state) => ({
+  isEditStepThree: state?.tempStateReducer[logSliceReducer.name].isEditStepThree,
+});
+export const canEditSelector = (state) => ({
+  isEdit: state?.tempStateReducer[logSliceReducer.name].isEdit,
 });
 export const logReducerSelector = (state) => state?.tempStateReducer[logSliceReducer.name];

@@ -4,12 +4,16 @@ import {
   harvestLogDataSelector,
   harvestFormDataSelector,
   harvestLogData,
+  canEditStepThree,
+  canEditStepThreeSelector,
+  canEditSelector,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { addLog, editLog } from '../Utility/actions';
+import { currentLogSelector } from '../selectors';
 
 function HarvestAllocation() {
   const dispatch = useDispatch();
@@ -17,10 +21,14 @@ function HarvestAllocation() {
   let [unit, setUnit] = useState(getUnit(farm, 'kg', 'lb'));
   const defaultData = useSelector(harvestLogDataSelector);
   const formData = useSelector(harvestFormDataSelector);
+  const isEditStepThree = useSelector(canEditStepThreeSelector);
+  const selectedLog = useSelector(currentLogSelector);
+  const isEdit = useSelector(canEditSelector);
 
   useEffect(() => {}, []);
 
   const onBack = (data) => {
+    dispatch(canEditStepThree(false));
     history.push('/harvest_use_type');
   };
 
@@ -39,8 +47,15 @@ function HarvestAllocation() {
     const useTypes = data.selectedUseTypes;
     defaultData.selectedUseTypes = useTypes;
     dispatch(harvestLogData(defaultData));
-
-    dispatch(addLog(tempProps));
+    if (isEdit.isEdit) {
+      tempProps.activity_id = selectedLog.activity_id;
+      setTimeout(() => {
+        dispatch(editLog(tempProps));
+      }, 300);
+      dispatch(canEditStepThree(false));
+    } else {
+      dispatch(addLog(tempProps));
+    }
   };
 
   return (
@@ -50,6 +65,9 @@ function HarvestAllocation() {
         onNext={onNext}
         defaultData={defaultData}
         unit={unit}
+        isEdit={isEditStepThree}
+        selectedLog={selectedLog}
+        dispatch={dispatch}
       />
     </>
   );

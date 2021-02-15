@@ -76,8 +76,9 @@ export function* addCustomHarvestUseTypeSaga(action) {
 export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
+  const defaultData = yield select(harvestLogDataSelector);
   const header = getHeader(user_id, farm_id);
-  const selectedUseTypes = yield select(selectedUseTypeSelector);
+  const selectedUseTypes = defaultData.selectedUseTypes;
   const log = { ...action.formValue, user_id, farm_id, selectedUseTypes };
 
   try {

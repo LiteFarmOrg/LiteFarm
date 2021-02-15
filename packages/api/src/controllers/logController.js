@@ -268,7 +268,7 @@ class logServices extends baseController {
         const data = {
           activity_id: activityLog.activity_id,
           harvest_use_type_id: use.harvest_use_type_id,
-          quantity_kg: use.quantity,
+          quantity_kg: use.quantity_kg,
         }
         await super.post(HarvestUseModel, data, transaction)
       }

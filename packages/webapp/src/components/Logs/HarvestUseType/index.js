@@ -25,15 +25,17 @@ export default function PureHarvestUseType({
   farm,
   addUseType,
   showUseTypeRequiredError,
+  isEdit,
+  selectedLog,
 }) {
   const { t } = useTranslation();
   const [selectedUseTypes, setSelectedUseTypes] = useState([]);
   const [showAddModal, switchShowModal] = useState(false);
 
   useEffect(() => {
-    const shrinkSelectedUseTypes = defaultData.selectedUseTypes.map(
-      ({ harvest_use_type_id }) => harvest_use_type_id,
-    );
+    const shrinkSelectedUseTypes = !isEdit.isEditStepTwo
+      ? defaultData.selectedUseTypes.map(({ harvest_use_type_id }) => harvest_use_type_id)
+      : selectedLog.harvestUse.map(({ harvest_use_type_id }) => harvest_use_type_id);
     setSelectedUseTypes(shrinkSelectedUseTypes);
   }, []);
 
@@ -53,7 +55,7 @@ export default function PureHarvestUseType({
 
   return (
     <div classname={styles.logContainer}>
-      <div style={{ marginLeft: '3px', minWidth: '370px', marginTop: '21px' }}>
+      <div style={{ marginLeft: '4px', minWidth: '370px', marginTop: '24px' }}>
         <TitleLayout
           onGoBack={onBack}
           title={t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}

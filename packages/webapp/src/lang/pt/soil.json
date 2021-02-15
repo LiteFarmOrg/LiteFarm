@@ -1,14 +1,14 @@
 {
-  "CLAY": "Clay",
-  "CLAY_LOAM": "Clay Loam",
-  "LOAM": "Loam",
-  "LOAMY_SAND": "Loamy Sand",
-  "SAND": "Sand",
-  "SANDY_CLAY": "Sandy Clay",
-  "SANDY_CLAYLOAM": "Sandy Clayloam",
-  "SANDY_LOAM": "Sandy Loam",
-  "SILT": "Silt",
-  "SILT_LOAM": "Silt Loam",
-  "SILTY_CLAY": "Silty Clay",
-  "SILTY_CLAYLOAM": "Silty Clayloam"
+ "CLAY": "Argila",
+ "CLAY_LOAM": "Franco Argiloso",
+ "LOAM": "Franco",
+ "LOAMY_SAND": "Areia Franca",
+ "SAND": "Areia",
+ "SANDY_CLAY": "Argila Arenosa",
+ "SANDY_CLAYLOAM": "Franco Argilo Arenoso",
+ "SANDY_LOAM": "Franco Arenoso",
+ "SILT": "Silte",
+ "SILT_LOAM": "Franco Siltoso",
+ "SILTY_CLAY": "Argila Siltosa",
+ "SILTY_CLAYLOAM": "Franco Argilo Siltoso"
 }

@@ -4,35 +4,40 @@ import Input from '../Form/Input';
 import React from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { validatePasswordWithErrors } from '../Signup/utils';
 import { PasswordError } from '../Form/Errors';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 
 export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
-  const { register, handleSubmit, watch, control, errors, setValue, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    errors,
+    setValue,
+    formState: { isDirty, isValid },
+  } = useForm({
     mode: 'onTouched',
   });
   const NAME = 'name';
   const GENDER = 'gender';
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
-  const name = watch(NAME, undefined);
   const password = watch(PASSWORD, undefined);
-  const required = watch(NAME, false);
-  const birth_year = watch(BIRTHYEAR, undefined);
   const { t } = useTranslation();
   const title = t('CREATE_USER.TITLE');
   const {
-    isValid,
+    isValid: isPasswordValid,
     hasNoSymbol,
     hasNoDigit,
     hasNoUpperCase,
     isTooShort,
   } = validatePasswordWithErrors(password);
-  const inputRegister = register({ validate: () => isValid });
-  const refInput = register({ required: required });
+  const inputRegister = register();
+  const refInput = register({ required: true });
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },
@@ -40,13 +45,11 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = !name || !isValid || Object.keys(errors).length;
+  const disabled = !isDirty || !isValid || !isPasswordValid;
 
   const onSubmit = (data) => {
-    if (isValid) {
-      data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
-      onSignUp({ ...data, email });
-    }
+    data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
+    onSignUp({ ...data, email });
   };
   const onError = (data) => {};
 
@@ -106,10 +109,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
             `${t('CREATE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
-        reset={() => {
-          setValue(BIRTHYEAR, undefined);
-          clearErrors(BIRTHYEAR);
-        }}
+        hookFormSetValue={setValue}
       />
       <Input
         style={{ marginBottom: '28px' }}

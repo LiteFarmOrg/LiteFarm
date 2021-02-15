@@ -40,11 +40,11 @@ describe('JWT Tests', () => {
   let newUser;
   let accessToken;
 
-  async function deleteFarmRequest(data, user, callback) {
-    const token = await getAuthorizationHeader(data);
+  async function deleteFarmRequest(data, user_id, callback) {
+    const token = await getAuthorizationHeader(user_id);
     chai.request(server).delete(`/farm/${data.farm_id}`)
       .set('farm_id', data.farm_id)
-      .set('user_id', user)
+      .set('user_id', user_id)
       .set('Authorization', token)
       .end(callback);
   }

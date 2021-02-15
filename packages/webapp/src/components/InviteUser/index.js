@@ -1,16 +1,25 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import Input from '../Form/Input';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import ReactSelect from '../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
 import { getFirstNameLastName } from '../../util';
 
 export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] }) {
-  const { register, handleSubmit, watch, control, errors, setValue, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    errors,
+    setValue,
+    trigger,
+    formState: { isValid, isDirty },
+  } = useForm({
     mode: 'onTouched',
   });
   const NAME = 'name';
@@ -24,6 +33,9 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   const email = watch(EMAIL, undefined);
   const role = watch(ROLE, undefined);
   const selectedRoleId = role?.value;
+  useEffect(() => {
+    trigger(EMAIL);
+  }, [selectedRoleId]);
   const { t } = useTranslation();
   const title = t('INVITE_USER.TITLE');
   const genderOptions = [
@@ -33,8 +45,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
     { value: 'PREFER_NOT_TO_SAY', label: t('gender:PREFER_NOT_TO_SAY') },
   ];
 
-  const disabled = Object.keys(errors).length || !role || (selectedRoleId !== 3 ? !email : false);
-
+  const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[GENDER] = data?.[GENDER]?.value || 'PREFER_NOT_TO_SAY';
     data[ROLE] = data?.[ROLE]?.value;
@@ -69,16 +80,11 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
       <Controller
         control={control}
         name={ROLE}
-        render={({ onChange, onBlur, value }) => (
-          <ReactSelect
-            label={t('INVITE_USER.ROLE')}
-            options={roleOptions}
-            onChange={onChange}
-            value={value}
-            style={{ marginBottom: '24px' }}
-            placeholder={t('INVITE_USER.CHOOSE_ROLE')}
-          />
-        )}
+        label={t('INVITE_USER.ROLE')}
+        options={roleOptions}
+        style={{ marginBottom: '24px' }}
+        placeholder={t('INVITE_USER.CHOOSE_ROLE')}
+        as={ReactSelect}
         rules={{ required: true }}
       />
       <Input
@@ -88,29 +94,21 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
           required: selectedRoleId !== 3,
           pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
         })}
-        errors={errors[EMAIL] && t('INVITE_USER.INVALID_EMAIL_ERROR')}
+        errors={errors[EMAIL]?.type === 'pattern' && t('INVITE_USER.INVALID_EMAIL_ERROR')}
         optional={selectedRoleId === 3}
         info={t('INVITE_USER.EMAIL_INFO')}
         style={{ marginBottom: '16px' }}
-        reset={() => {
-          setValue(EMAIL, undefined);
-          clearErrors(EMAIL);
-        }}
+        hookFormSetValue={setValue}
       />
       <Controller
         control={control}
         name={GENDER}
-        render={({ onChange, onBlur, value }) => (
-          <ReactSelect
-            label={t('INVITE_USER.GENDER')}
-            options={genderOptions}
-            onChange={onChange}
-            value={value}
-            toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
-            style={{ marginBottom: '24px' }}
-            defaultValue={genderOptions[3]}
-          />
-        )}
+        label={t('INVITE_USER.GENDER')}
+        options={genderOptions}
+        toolTipContent={t('INVITE_USER.GENDER_TOOLTIP')}
+        style={{ marginBottom: '24px' }}
+        defaultValue={genderOptions[3]}
+        as={<ReactSelect />}
       />
       <Input
         label={t('INVITE_USER.BIRTH_YEAR')}
@@ -126,10 +124,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
             `${t('INVITE_USER.BIRTH_YEAR_ERROR')} ${new Date().getFullYear()}`)
         }
         optional
-        reset={() => {
-          setValue(BIRTHYEAR, undefined);
-          clearErrors(BIRTHYEAR);
-        }}
+        hookFormSetValue={setValue}
       />
       <Input
         label={t('INVITE_USER.WAGE')}
@@ -140,10 +135,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         style={{ marginBottom: '24px' }}
         errors={errors[WAGE] && (errors[WAGE].message || t('INVITE_USER.WAGE_ERROR'))}
         optional
-        reset={() => {
-          setValue(WAGE, undefined);
-          clearErrors(WAGE);
-        }}
+        hookFormSetValue={setValue}
       />
       <Input
         style={{ marginBottom: '24px' }}
@@ -153,10 +145,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
         name={PHONE}
         errors={errors[PHONE] && (errors[PHONE].message || t('INVITE_USER.PHONE_ERROR'))}
         optional
-        reset={() => {
-          setValue(PHONE, undefined);
-          clearErrors(PHONE);
-        }}
+        hookFormSetValue={setValue}
       />
     </Form>
   );

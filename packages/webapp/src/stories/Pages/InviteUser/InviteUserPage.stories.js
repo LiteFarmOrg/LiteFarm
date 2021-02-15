@@ -18,6 +18,7 @@ Primary.args = {
     { value: 3, label: 'Farm Worker' },
     { value: 5, label: 'Extension Officer' },
   ],
+  onInvite: (data) => console.log(data),
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

@@ -25,7 +25,7 @@ class SaleController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         // post to sale and crop sale table
-        const result = await baseController.upsertGraph(sale, req.body, trx);
+        const result = await baseController.upsertGraph(sale, req.body, { user_id: req.user.user_id }, trx);
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -45,23 +45,23 @@ class SaleController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const sale_id = req.body.sale_id;
-        const result = await sale.query(trx).where('sale_id', sale_id)
+        const result = await sale.query(trx).context({ user_id: req.user.user_id }).where('sale_id', sale_id)
           .patch(req.body).returning('*');
 
-        if(result){
+        if (result) {
           const cropSale = req.body.cropSale;
-          const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).delete();
+          const isExistingDeleted = await cropSaleModel.query(trx).context({ user_id: req.user.user_id }).where('sale_id', req.body.sale_id).delete();
 
-          if(isExistingDeleted){
-            for(const cs of cropSale){
-              await cropSaleModel.query(trx).insert(cs);
+          if (isExistingDeleted) {
+            for (const cs of cropSale) {
+              await cropSaleModel.query(trx).context({ user_id: req.user.user_id }).insert(cs);
             }
-          }else{
-            res.status(400).send({ 'error': 'Failed to patch sales, failed to delete existing sales' })
+          } else {
+            res.status(400).send({ 'error': 'Failed to patch sales, failed to delete existing sales' });
           }
 
-        }else{
-          res.status(400).send({ 'error': 'Failed to patch sales' })
+        } else {
+          res.status(400).send({ 'error': 'Failed to patch sales' });
         }
 
         await trx.commit();
@@ -89,8 +89,7 @@ class SaleController extends baseController {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD
           // eslint-disable-next-line no-console
           res.status(200).send([]);
-        }
-        else {
+        } else {
           for (const sale of sales) {
             // load related prices and yields of this sale
             await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
@@ -101,8 +100,7 @@ class SaleController extends baseController {
           }
           res.status(200).send(sales);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
@@ -110,29 +108,27 @@ class SaleController extends baseController {
         // eslint-disable-next-line no-console
         console.log(error);
       }
-    }
+    };
   }
 
   static delSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sale, req.params.sale_id, trx);
+        const isDeleted = await baseController.delete(sale, req.params.sale_id, { user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static async getSalesOfFarm(farm_id) {
@@ -143,7 +139,7 @@ class SaleController extends baseController {
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')
       //.join('field', 'field.field_id', '=', 'fieldCrop.field_id')
-      .where('sale.farm_id', farm_id)
+      .where('sale.farm_id', farm_id);
   }
 }
 

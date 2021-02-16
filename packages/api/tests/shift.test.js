@@ -37,6 +37,14 @@ describe('Shift tests', () => {
       .end(callback);
   }
 
+  function getShiftsAtUserFarm({ user_id, farm_id, token_user_id }, callback) {
+    chai.request(server)
+      .get(`/shift/farm/${farm_id}/user/${user_id}`)
+      .set('user_id', token_user_id || user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
   function getMyShifts({ user_id, farm_id }, callback) {
     chai.request(server)
       .get(`/shift/user/${user_id}`)
@@ -111,7 +119,7 @@ describe('Shift tests', () => {
     await appendUserFarmAShiftTask({user_id: anotherUserFarm.user_id, farm_id})
     await appendUserFarmAShiftTask({ user_id, farm_id: differentFarmForTheSameUser.farm_id })
     await appendUserFarmAShiftTask({user_id: completelyUnrelatedFarm.user_id, farm_id: completelyUnrelatedFarm.farm_id});
-    return {user_id, farm_id}
+    return { user_id, farm_id, another_user_id: anotherUserFarm.user_id };
   }
 
   async function createShiftData(userFarm, notOwnedFarm) {
@@ -152,20 +160,76 @@ describe('Shift tests', () => {
     })
 
     test('should get only my shift as worker at my farm', async (done) => {
-      const {user_id, farm_id} = await setupAtMyFarm(3);
+      const { user_id, farm_id } = await setupAtMyFarm(3);
       getShiftsAtFarm({ user_id, farm_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(1);
-        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true)
+        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
         done();
-      })
-    })
+      });
+    });
   })
+
+  describe('GET farm/farm:id/user/user:id at my farm', () => {
+
+    test('should get shifts at my farm for owner', async (done) => {
+      const { user_id, farm_id } = await setupAtMyFarm(1);
+      getShiftsAtUserFarm({ user_id, farm_id }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
+        expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
+        done();
+      });
+    });
+
+    test('should get shifts at my farm for manager', async (done) => {
+      const { user_id, farm_id } = await setupAtMyFarm(2);
+      getShiftsAtUserFarm({ user_id, farm_id }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
+        expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
+        done();
+      });
+    });
+
+    test('should get only my shift as worker at my farm', async (done) => {
+      const { user_id, farm_id } = await setupAtMyFarm(3);
+      getShiftsAtUserFarm({ user_id, farm_id }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
+        expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
+        done();
+      });
+    });
+
+    test('should get shifts of another user at my farm for owner', async (done) => {
+      const { user_id, farm_id, another_user_id } = await setupAtMyFarm(1);
+      getShiftsAtUserFarm({ user_id: another_user_id, farm_id, token_user_id: user_id }, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
+        expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
+        done();
+      });
+    });
+
+    test('should NOT get shifts of another user at my farm for worker', async (done) => {
+      const { user_id, farm_id, another_user_id } = await setupAtMyFarm(3);
+      getShiftsAtUserFarm({ user_id: another_user_id, farm_id, token_user_id: user_id }, (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+
+  });
 
   describe('GET /user/:user_id ', () => {
     test('should get only my shifts as an owner (on 2 farms)', async (done) => {
-      const {user_id, farm_id} = await setupAtMyFarm(1);
-      getMyShifts({user_id, farm_id}, (err,res) => {
+      const { user_id, farm_id } = await setupAtMyFarm(1);
+      getMyShifts({ user_id, farm_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(2);
         expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
@@ -507,7 +571,7 @@ describe('Shift tests', () => {
     });
 
     test('should delete a shift I own at my farm. As manager', async (done) => {
-      let [userFarm] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 1});
+      let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
       let shiftData = await createShiftData(userFarm);
       deleteShift(userFarm, shiftData.shift_id, (err,res) => {
         expect(res.status).toBe(200);
@@ -516,22 +580,38 @@ describe('Shift tests', () => {
     });
 
     test('should delete a shift I dont own at my farm. As manager', async (done) => {
-      let [userFarm] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 1});
-      let [anotherUserInMyFarm] = await mocks.userFarmFactory({promisedFarm: [userFarm]}, {status: 'Active', role_id: 3});
+      let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 2 });
+      let [anotherUserInMyFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
+        status: 'Active',
+        role_id: 3,
+      });
       let shiftData = await createShiftData(userFarm, anotherUserInMyFarm);
-      deleteShift(userFarm, shiftData.shift_id, (err,res) => {
+      deleteShift(userFarm, shiftData.shift_id, (err, res) => {
         expect(res.status).toBe(200);
         done();
-      })
+      });
     });
 
-    test('should NOT delete a shift I own at my farm. As worker', async (done) => {
-      let [userFarm] = await mocks.userFarmFactory({}, {status: 'Active', role_id: 3});
+    test('should delete a shift I own at my farm. As worker', async (done) => {
+      let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
       let shiftData = await createShiftData(userFarm);
-      deleteShift(userFarm, shiftData.shift_id, (err,res) => {
+      deleteShift(userFarm, shiftData.shift_id, (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      });
+    });
+
+    test('should NOT delete a shift I dont own at my farm. As worker', async (done) => {
+      let [userFarm] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 3 });
+      let [anotherUserInMyFarm] = await mocks.userFarmFactory({ promisedFarm: [userFarm] }, {
+        status: 'Active',
+        role_id: 3,
+      });
+      let shiftData = await createShiftData(userFarm, anotherUserInMyFarm);
+      deleteShift(userFarm, shiftData.shift_id, (err, res) => {
         expect(res.status).toBe(403);
         done();
-      })
+      });
     });
   });
 

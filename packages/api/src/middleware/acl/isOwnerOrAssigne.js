@@ -4,7 +4,7 @@ const entitiesGetters = {
   activity_id: fromActivity,
   shift_id: fromShift,
   user_id: (user_id) => ({ user_id }),
-}
+};
 
 const isOwnerOrAssignee = ({ params = null, body = null }) => async (req, res, next) => {
   const key = params ? params : body;
@@ -14,7 +14,7 @@ const isOwnerOrAssignee = ({ params = null, body = null }) => async (req, res, n
 
   const userIdObjectFromEntity = await entitiesGetters[key](value);
   return sameUser(userIdObjectFromEntity, { user_id, farm_id }) ? next() : notAuthorizedResponse(res);
-}
+};
 
 function sameUser(object, { user_id, farm_id }) {
   return object.farm_id ? object.farm_id === farm_id && object.user_id === user_id : object.user_id === user_id;
@@ -35,25 +35,54 @@ function notAuthorizedResponse(res) {
 
 async function isShiftOwnerOrIsAdmin(req, res, next) {
   const { user_id, farm_id } = req.headers;
-  const AdminRoles = [ 1, 2, 5 ];
+  const AdminRoles = [1, 2, 5];
   const { role_id } = await knex('userFarm').where({ user_id, farm_id }).first();
-  const isUser =sameUser({ user_id, farm_id }, { user_id: req.body.user_id, farm_id: req.body.farm_id });
-  if(isUser) {
+  const isUser = sameUser({ user_id, farm_id }, { user_id: req.body.user_id, farm_id: req.body.farm_id });
+  if (isUser) {
     next();
     return;
   }
   if (AdminRoles.includes(role_id)) {
-    if (req.body.mood !== 'na' && [ 1, 2 ].includes(role_id)) {
-      res.status(403).send('Owners or managers are not allowed to set mood')
+    if (req.body.mood !== 'na' && [1, 2].includes(role_id)) {
+      res.status(403).send('Owners or managers are not allowed to set mood');
       return;
     }
     next();
     return;
   }
-  return res.status(403).send('Worker is not allowed to add shifts to another user')
+  return res.status(403).send('Worker is not allowed to add shifts to another user');
+}
+
+async function isSelfOrAdmin(req, res, next) {
+  const { user_id, farm_id } = req.params;
+  const AdminRoles = [1, 2, 5];
+  req.header.user_id = req.user.user_id;
+  req.header.farm_id = farm_id;
+  if (user_id === req.user.user_id) {
+    return next();
+  } else {
+
+    const userFarm = await knex('userFarm').where({ user_id: req.user.user_id, farm_id }).first();
+    return AdminRoles.includes(userFarm?.role_id) ? next() : res.status(403).send('Worker is not allowed to get shifts of another user');
+  }
+}
+
+async function isShiftOwnerOrAdmin(req, res, next) {
+  const { shift_id } = req.params;
+  const AdminRoles = [1, 2, 5];
+  const shift = await knex('shift').where({ shift_id }).first();
+  const userFarm = await knex('userFarm').where({ user_id: req.user.user_id, farm_id: shift?.farm_id }).first();
+
+  if (shift?.user_id === req.user.user_id || AdminRoles.includes(userFarm?.role_id)) {
+    return next();
+  } else {
+    return res.status(403).send('Worker is not allowed to get shifts of another user');
+  }
 }
 
 module.exports = {
   isOwnerOrAssignee,
-  isShiftOwnerOrIsAdmin
-}
+  isShiftOwnerOrIsAdmin,
+  isSelfOrAdmin,
+  isShiftOwnerOrAdmin,
+};

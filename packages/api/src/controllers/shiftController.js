@@ -1,4 +1,3 @@
-/* eslint-disable */
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (shiftController.js) is part of LiteFarm.
@@ -31,8 +30,8 @@ class shiftController extends baseController {
           return;
         }
         const tasks = body.tasks;
-        const user_id = req.user.user_id
-        let shift_result = await baseController.postWithResponse(shiftModel, body, trx, { user_id });
+        const user_id = req.user.user_id;
+        const shift_result = await baseController.postWithResponse(shiftModel, body, trx, { user_id });
         const shift_id = shift_result.shift_id;
         shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
         await trx.commit();
@@ -164,9 +163,7 @@ class shiftController extends baseController {
       try {
         const user_id = req.params.user_id;
         const shiftIDs = await shiftModel.query().where('user_id', user_id).select('shift_id');
-        //eslint-disable-next-line
-        let shifts = [];
-        //eslint-disable-next-line
+        const shifts = [];
         for (let idObj of shiftIDs) {
           const shift_id = idObj.shift_id;
           const shiftRow = await baseController.getIndividual(shiftModel, shift_id);
@@ -237,8 +234,52 @@ class shiftController extends baseController {
         } else {
           res.status(200).send([]);
         }
+      } catch (error) {
+        //handle more exceptions
+        console.log(error);
+        res.status(400).json({
+          error,
+        });
       }
-      catch (error) {
+    }
+  }
+
+  static getShiftByUserFarm() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const { user_id } = req.headers;
+        const role = req.role;
+        const data = await knex.select([
+          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
+          'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
+          'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
+          'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
+          'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
+        ]).from('shiftTask', 'taskType')
+          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
+          .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
+          .leftJoin('field', 'fieldCrop.field_id', 'field.field_id')
+          .leftJoin('crop', 'fieldCrop.crop_id', 'crop.crop_id')
+          .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
+          .join('userFarm', function() {
+            this
+              .on('shift.farm_id', 'userFarm.farm_id')
+              .on('shift.user_id', 'userFarm.user_id');
+          })
+          .join('users', 'userFarm.user_id', 'users.user_id')
+          .where(function() {
+            this.where('shift.farm_id', farm_id)
+              .andWhere('shift.user_id', user_id)
+              .andWhere('shift.deleted', false)
+              .andWhere('shiftTask.deleted', false);
+          });
+        if (data) {
+          res.status(200).send(data);
+        } else {
+          res.status(200).send([]);
+        }
+      } catch (error) {
         //handle more exceptions
         console.log(error);
         res.status(400).json({

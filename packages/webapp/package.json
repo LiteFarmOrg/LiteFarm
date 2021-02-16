@@ -9,7 +9,6 @@
     "@babel/core": "7.9.0",
     "@hookform/resolvers": "^1.0.0",
     "@reduxjs/toolkit": "^1.4.0",
-    "auth0-js": "^9.13.2",
     "autoprefixer": "7.1.6",
     "axios": "^0.21.1",
     "babel-eslint": "10.1.0",
@@ -125,8 +124,7 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "2.2.0",
     "whatwg-fetch": "2.0.3",
-    "workbox-webpack-plugin": "4.3.1",
-    "yup": "^0.29.3"
+    "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

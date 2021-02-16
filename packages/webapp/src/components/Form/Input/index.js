@@ -22,31 +22,36 @@ const Input = ({
   isSearchBar,
   type = 'text',
   toolTipContent,
-  reset,
   unit,
+  name,
+  hookFormSetValue,
   ...props
 }) => {
+  warnings(hookFormSetValue, optional);
   const { t } = useTranslation();
   const input = useRef();
   const onClear =
-    optional || reset
-      ? () => reset()
+    optional || hookFormSetValue
+      ? () => {
+          hookFormSetValue(name, undefined, { shouldValidate: true });
+          setShowError(false);
+        }
       : () => {
           if (input.current && input.current?.value) {
             input.current.value = '';
             setShowError(false);
           }
         };
-  useEffect(() => {
-    setShowError(!!errors);
-  }, [errors]);
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
-  const [showError, setShowError] = useState(isPassword);
+  const [showError, setShowError] = useState();
+  useEffect(() => {
+    setShowError(!!errors && !disabled);
+  }, [errors]);
 
   const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
   return (
@@ -90,10 +95,11 @@ const Input = ({
         ref={mergeRefs(inputRef, input)}
         type={inputType}
         onKeyDown={onKeyDown}
+        name={name}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
-      {showError && !disabled ? <Error style={classes.errors}>{errors}</Error> : null}
+      {showError ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
   );
 };
@@ -124,6 +130,8 @@ Input.propTypes = {
   unit: PropTypes.string,
   // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
   reset: PropTypes.func,
+  hookFormSetValue: PropTypes.func,
+  name: PropTypes.string,
 };
 
 export default Input;
@@ -131,3 +139,7 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+const warnings = (hookFormSetValue, optional) =>
+  !hookFormSetValue &&
+  optional &&
+  console.error('hookFormSetValue prop is required when input field is optional');

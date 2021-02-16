@@ -15,17 +15,12 @@
 
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-// import Callback from './components/Callback';
 import Home from './containers/Home';
-import PureEnterPasswordPage from './components/Signup/EnterPasswordPage';
 import HelpRequest from './containers/Help';
 import Profile from './containers/Profile';
 import IntroSlide from './containers/IntroSlide';
 import ConsentForm from './containers/Consent';
 import Log from './containers/Log';
-// import Login from './containers/Login';
-import SignUp from './containers/SignUp';
-import PureCreateUserAccount from './components/CreateUserAccount';
 import NewLog from './containers/Log/NewLog';
 import FertilizingLog from './containers/Log/FertilizingLog';
 import PestControlLog from './containers/Log/PestControlLog';
@@ -82,20 +77,6 @@ import AddExpense from './containers/Finances/NewExpense/AddExpense';
 import EditAddExpense from './containers/Finances/EditExpense/EditAddExpense';
 import EditExpenseCategories from './containers/Finances/EditExpense/EditExpenseCategories';
 import TempEditExpense from './containers/Finances/EditExpense/TempEditExpense';
-
-import NewFinances from './containers/NewFinances';
-import Expenses from './containers/NewFinances/Expenses';
-import NewExpenseCategories from './containers/NewFinances/Expenses/NewExpense/ExpenseCategories';
-import NewExpenseAddExpense from './containers/NewFinances/Expenses/NewExpense/AddExpense';
-import NewExpenseDetail from './containers/NewFinances/Expenses/ExpenseDetail';
-import NewExpenseEditExpense from './containers/NewFinances/Expenses/EditExpense/EditAddExpense';
-import NewExpenseEditCategories from './containers/NewFinances/Expenses/EditExpense/EditExpenseCategories';
-
-import NewSaleEditSale from './containers/NewFinances/Sales/EditSale';
-import NewSaleAddSale from './containers/NewFinances/Sales/AddSale';
-
-import Sales from './containers/NewFinances/Sales';
-import Balances from './containers/NewFinances/Balances';
 
 import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
@@ -214,30 +195,7 @@ const Routes = () => {
           <Route path="/insights/waterbalance" exact component={WaterBalance} />
           <Route path="/insights/erosion" exact component={Erosion} />
           <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
-          <Route path="/newfinances" exact component={NewFinances} />
-          <Route path="/newfinances/expenses" exact component={Expenses} />
           <Route path="/help" exact component={HelpRequest} />
-          <Route
-            path="/newfinances/expenses/expense_categories"
-            exact
-            component={NewExpenseCategories}
-          />
-          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense} />
-          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail} />
-          <Route
-            path="/newfinances/expenses/edit_add_expense"
-            exact
-            component={NewExpenseEditExpense}
-          />
-          <Route
-            path="/newfinances/expenses/edit_expense_categories"
-            exact
-            component={NewExpenseEditCategories}
-          />
-          <Route path="/newfinances/sales" exact component={Sales} />
-          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale} />
-          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale} />
-          <Route path="/newfinances/balances" exact component={Balances} />
           <Route path="/sales_summary" exact component={SalesSummary} />
           <Route path="/add_sale" exact component={AddSale} />
           <Route path="/edit_sale" exact component={EditSale} />
@@ -314,29 +272,6 @@ const Routes = () => {
           <Route path="/field" exact component={Field} />
           <Route path="/new_field" exact component={NewField} />
           <Route path="/finances" exact component={Finances} />
-          <Route path="/newfinances" exact component={NewFinances} />
-          <Route path="/newfinances/expenses" exact component={Expenses} />
-          <Route
-            path="/newfinances/expenses/expense_categories"
-            exact
-            component={NewExpenseCategories}
-          />
-          <Route path="/newfinances/expenses/add_expense" exact component={NewExpenseAddExpense} />
-          <Route path="/newfinances/expenses/expense_detail" exact component={NewExpenseDetail} />
-          <Route
-            path="/newfinances/expenses/edit_add_expense"
-            exact
-            component={NewExpenseEditExpense}
-          />
-          <Route
-            path="/newfinances/expenses/edit_expense_categories"
-            exact
-            component={NewExpenseEditCategories}
-          />
-          <Route path="/newfinances/sales" exact component={Sales} />
-          <Route path="/newfinances/sales/edit_sale" exact component={NewSaleEditSale} />
-          <Route path="/newfinances/sales/add_sale" exact component={NewSaleAddSale} />
-          <Route path="/newfinances/balances" exact component={Balances} />
           <Route path="/sales_summary" exact component={SalesSummary} />
           <Route path="/add_sale" exact component={AddSale} />
           <Route path="/edit_sale" exact component={EditSale} />

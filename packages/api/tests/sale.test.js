@@ -114,7 +114,7 @@ describe('Sale Tests', () => {
     })
 
     test('Should filter out deleted sale', async (done) => {
-      await saleModel.query().findById(sale.sale_id).delete();
+      await saleModel.query().context(owner).findById(sale.sale_id).delete();
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
@@ -238,6 +238,8 @@ describe('Sale Tests', () => {
             const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', sale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
+            // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
+            // expect(saleRes.length).toBe(0);
             done();
           })
         });
@@ -260,6 +262,8 @@ describe('Sale Tests', () => {
             const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', workersSale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
+            // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
+            // expect(saleRes.length).toBe(0);
             done();
           })
         });

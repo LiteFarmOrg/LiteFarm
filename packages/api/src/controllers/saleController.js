@@ -93,8 +93,7 @@ class SaleController extends baseController {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD
           // eslint-disable-next-line no-console
           res.status(200).send([]);
-        }
-        else {
+        } else {
           for (const sale of sales) {
             // load related prices and yields of this sale
             await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
@@ -105,8 +104,7 @@ class SaleController extends baseController {
           }
           res.status(200).send(sales);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
@@ -114,29 +112,28 @@ class SaleController extends baseController {
         // eslint-disable-next-line no-console
         console.log(error);
       }
-    }
+    };
   }
 
   static delSale() {
     return async (req, res) => {
+      const { user_id } =  req.user;
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx);
+        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx, { user_id });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static async getSalesOfFarm(farm_id) {
@@ -147,7 +144,7 @@ class SaleController extends baseController {
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')
       //.join('field', 'field.field_id', '=', 'fieldCrop.field_id')
-      .where('sale.farm_id', farm_id)
+      .where('sale.farm_id', farm_id);
   }
 }
 

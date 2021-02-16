@@ -21,9 +21,7 @@ function HarvestUseType() {
   const isEditStepTwo = useSelector(canEditStepTwoSelector);
   const selectedLog = useSelector(currentLogSelector);
 
-  useEffect(() => {
-    console.log(allUseType);
-  }, []);
+  useEffect(() => {}, []);
 
   const onBack = (data) => {
     const tempProps = JSON.parse(JSON.stringify(data));
@@ -47,7 +45,7 @@ function HarvestUseType() {
     const tempProps = JSON.parse(JSON.stringify(data));
     if (defaultData.selectedUseTypes.length > 0) {
       if (defaultData.selectedUseTypes.length > 0) {
-        tempProps.selectedUseTypes.map((item, idx) => {
+        tempProps.selectedUseTypes.map((item) => {
           defaultData.selectedUseTypes.map((item1) => {
             if (item.harvest_use_type_name === item1.harvest_use_type_name) {
               item.quantity_kg = item1.quantity_kg;

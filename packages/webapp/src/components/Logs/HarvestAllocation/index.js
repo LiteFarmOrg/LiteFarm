@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
-import { convertToMetric, roundToTwoDecimal, convertFromMetric } from '../../../util';
+import { convertToMetric } from '../../../util';
 import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 
@@ -18,8 +18,6 @@ export default function PureHarvestAllocation({
   isEdit,
   selectedLog,
   dispatch,
-  canConvertQuantity,
-  convertQuantity,
 }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors, formState } = useForm({
@@ -27,19 +25,8 @@ export default function PureHarvestAllocation({
   });
   let inputs = defaultData.selectedUseTypes.map(() => register({ required: true }));
   const tempProps = JSON.parse(JSON.stringify(defaultData));
-  const [nextEnabled, setNextEnabled] = useState(false);
 
-  useEffect(() => {
-    const allFieldsFilledOut = () => {
-      defaultData.selectedUseTypes.map((item) => {
-        if (item.quantity_kg === '') {
-          return false;
-        }
-      });
-      return true;
-    };
-    setNextEnabled(allFieldsFilledOut);
-  }, []);
+  useEffect(() => {}, []);
 
   const onSubmit = (val) => {
     let tempProps = JSON.parse(JSON.stringify(defaultData));
@@ -64,7 +51,6 @@ export default function PureHarvestAllocation({
     }
   };
   const handleChange = (typeName, quant) => {
-    dispatch(canConvertQuantity(false));
     tempProps.selectedUseTypes.map((item) => {
       if (typeName === item.harvest_use_type_name) {
         item.quantity_kg = quant;
@@ -87,34 +73,6 @@ export default function PureHarvestAllocation({
     }
     dispatch(harvestLogData(tempProps));
     onGoBack(tempProps);
-  };
-
-  const setDefaultQuantity = (typeName) => {
-    let quant = '';
-    if (isEdit.isEditStepThree) {
-      selectedLog.harvestUse.map((item) => {
-        if (item.harvestUseType.harvest_use_type_name === typeName) {
-          if (unit === 'lb') {
-            quant = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg')).toString();
-          } else {
-            quant = roundToTwoDecimal(item.quantity_kg).toString();
-          }
-        }
-      });
-      return quant;
-    } else {
-      defaultData.selectedUseTypes.map((item) => {
-        if (item.harvest_use_type_name === typeName) {
-          if (!item.quantity_kg) return null;
-          if (unit === 'lb' && convertQuantity.convertQuantity) {
-            quant = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg')).toString();
-          } else {
-            quant = roundToTwoDecimal(item.quantity_kg);
-          }
-        }
-      });
-      return quant;
-    }
   };
 
   return (
@@ -144,7 +102,7 @@ export default function PureHarvestAllocation({
             </div>
             {defaultData.selectedUseTypes.map((type, index) => {
               const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-              let quant = setDefaultQuantity(typeName);
+              let quant = type.quantity_kg;
               return (
                 <div
                   style={

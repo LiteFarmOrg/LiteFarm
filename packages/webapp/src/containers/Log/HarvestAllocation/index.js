@@ -7,16 +7,13 @@ import {
   canEditStepThree,
   canEditStepThreeSelector,
   canEditSelector,
-  canConvertQuantitySelector,
-  canConvertQuantity,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
-import { convertToMetric, getUnit } from '../../../util';
+import { convertToMetric, roundToTwoDecimal, convertFromMetric, getUnit } from '../../../util';
 import { addLog, editLog } from '../Utility/actions';
 import { currentLogSelector } from '../selectors';
-import { setSelectedLog } from '../actions';
 
 function HarvestAllocation() {
   const dispatch = useDispatch();
@@ -27,13 +24,31 @@ function HarvestAllocation() {
   const isEditStepThree = useSelector(canEditStepThreeSelector);
   const selectedLog = useSelector(currentLogSelector);
   const isEdit = useSelector(canEditSelector);
-  const convertQuantity = useSelector(canConvertQuantitySelector);
 
   useEffect(() => {
+    const tempProps = JSON.parse(JSON.stringify(defaultData));
     if (isEditStepThree.isEditStepThree && unit === 'lb') {
-      dispatch(canConvertQuantity(true));
+      selectedLog.harvestUse.map((item) => {
+        tempProps.selectedUseTypes.map((item1) => {
+          if (item.harvestUseType.harvest_use_type_name === item1.harvest_use_type_name) {
+            item1.quantity_kg = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg'));
+          }
+        });
+      });
+      dispatch(harvestLogData(tempProps));
+    } else if (isEditStepThree.isEditStepThree && unit !== 'lb') {
+      selectedLog.harvestUse.map((item) => {
+        tempProps.selectedUseTypes.map((item1) => {
+          if (item.harvestUseType.harvest_use_type_name === item1.harvest_use_type_name) {
+            item1.quantity_kg = roundToTwoDecimal(item.quantity_kg);
+          }
+        });
+      });
+      dispatch(harvestLogData(tempProps));
     }
   }, []);
+
+  useEffect(() => {});
 
   const onBack = (data) => {
     dispatch(canEditStepThree(false));
@@ -75,10 +90,7 @@ function HarvestAllocation() {
         unit={unit}
         isEdit={isEditStepThree}
         selectedLog={selectedLog}
-        setSelectedLog={setSelectedLog}
         dispatch={dispatch}
-        canConvertQuantity={canConvertQuantity}
-        convertQuantity={convertQuantity}
       />
     </>
   );

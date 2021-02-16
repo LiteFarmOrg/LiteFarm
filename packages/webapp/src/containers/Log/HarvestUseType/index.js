@@ -21,7 +21,9 @@ function HarvestUseType() {
   const isEditStepTwo = useSelector(canEditStepTwoSelector);
   const selectedLog = useSelector(currentLogSelector);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(allUseType);
+  }, []);
 
   const onBack = (data) => {
     const tempProps = JSON.parse(JSON.stringify(data));

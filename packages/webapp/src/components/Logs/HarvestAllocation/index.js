@@ -40,7 +40,10 @@ export default function PureHarvestAllocation({
     setNextEnabled(allFieldsFilledOut);
   }, []);
 
+  useEffect(() => console.log(formState), [formState]);
+
   const onSubmit = (val) => {
+    console.log(val);
     let tempProps = JSON.parse(JSON.stringify(defaultData));
     tempProps.selectedUseTypes.map((obj) => {
       if (obj.harvest_use_type_name in val) {
@@ -124,7 +127,7 @@ export default function PureHarvestAllocation({
           <Button onClick={onBack} color={'secondary'} fullLength>
             {t('common:BACK')}
           </Button>
-          <Button type={'submit'} fullLength disabled={!nextEnabled}>
+          <Button type={'submit'} fullLength disabled={!formState.isValid}>
             {t('common:NEXT')}
           </Button>
         </>

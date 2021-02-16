@@ -24,6 +24,8 @@ const Input = ({
   toolTipContent,
   reset,
   unit,
+  name,
+  hookFormSetValue,
   ...props
 }) => {
   warnings(hookFormSetValue, optional);

@@ -30,7 +30,7 @@ function HarvestLog() {
 
   useEffect(() => {
     dispatch(getFieldCrops());
-    dispatch(getHarvestUseTypes);
+    dispatch(getHarvestUseTypes());
   }, []);
 
   const onBack = () => {
@@ -39,11 +39,12 @@ function HarvestLog() {
   };
 
   const onNext = (data) => {
+    console.log(isEditStepOne);
     if (defaultData.selectedUseTypes) {
       data.selectedUseTypes = defaultData.selectedUseTypes;
     }
     dispatch(harvestLogData(data));
-    let formValue = !isEditStepOne
+    let formValue = !isEditStepOne.isEditStepOne
       ? {
           activity_kind: 'harvest',
           date: data.defaultDate,
@@ -63,10 +64,7 @@ function HarvestLog() {
         };
     dispatch(harvestFormData(formValue));
     dispatch(canEditStepOne(false));
-
-    setTimeout(() => {
-      history.push('/harvest_use_type');
-    }, 200);
+    history.push('/harvest_use_type');
   };
 
   return (

@@ -54,7 +54,7 @@ export default function PureHarvestLog({
     field_name: field_name,
   }));
 
-  const { register, handleSubmit, watch, errors, setValue } = useForm({
+  const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',
   });
 
@@ -177,11 +177,6 @@ export default function PureHarvestLog({
     setSelectedCrop(data);
   };
 
-  const handleChange = (val) => {
-    setQuantity(val);
-    setValue(QUANTITY, quantityValue);
-  };
-
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
@@ -236,10 +231,9 @@ export default function PureHarvestLog({
               type="decimal"
               unit={unit}
               name={QUANTITY}
-              onChange={(e) => handleCropChange(e)}
+              onChange={setQuantity}
               inputRef={register({
                 required: true,
-                pattern: isTwoDecimalPlaces,
               })}
               defaultValue={setDefaultQuantity()}
             />
@@ -248,7 +242,7 @@ export default function PureHarvestLog({
                 {t('common:REQUIRED')}
               </Error>
             )}
-            {errors[QUANTITY]?.type === 'pattern' ? (
+            {!defaultData.validQuantity ? (
               <Error style={{ marginTop: '-20px', marginBottom: '30px' }}>
                 {t('LOG_HARVEST.QUANTITY_ERROR')}
               </Error>

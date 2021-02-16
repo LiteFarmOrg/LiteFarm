@@ -73,7 +73,7 @@ async function isShiftOwnerOrAdmin(req, res, next) {
   const shift = await knex('shift').where({ shift_id }).first();
   const userFarm = await knex('userFarm').where({ user_id: req.user.user_id, farm_id: shift?.farm_id }).first();
 
-  if (shift?.user_id === req.user.user_id || AdminRoles.includes(userFarm?.role_id)) {
+  if (shift?.created_by_user_id === req.user.user_id || AdminRoles.includes(userFarm?.role_id)) {
     return next();
   } else {
     return res.status(403).send('Worker is not allowed to get shifts of another user');

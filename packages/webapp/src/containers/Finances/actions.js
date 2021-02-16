@@ -37,6 +37,7 @@ import {
   UPDATE_SALE,
   TEMP_SET_EXPENSE_TO_EDIT,
   TEMP_EDIT_EXPENSE,
+  TEMP_DELETE_EXPENSE,
 } from './constants';
 
 export const getSales = () => {
@@ -151,6 +152,13 @@ export const deleteExpenses = (ids) => {
   return {
     type: DELETE_EXPENSES,
     ids,
+  };
+};
+
+export const tempDeleteExpense = (expense_id) => {
+  return {
+    type: TEMP_DELETE_EXPENSE,
+    expense_id,
   };
 };
 

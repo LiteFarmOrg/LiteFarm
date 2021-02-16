@@ -440,6 +440,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -631,11 +632,11 @@
       "TITLE": "Ganancia Estimada"
     },
     "EXPENSE_DETAIL": {
+      "ACTION": "Acción",
       "COST": "Costo",
-      "DELETE_CONFIRMATION": "Está seguro de que desea eliminar todos los gastos de esta página? Nota: Para eliminar un gasto específico vaya a Editar.",
       "DESCRIPTION": "Descripción del gasto",
-      "TITLE": "Detalles del gasto",
-      "TOTAL": "Total"
+      "TEMP_DELETE_CONFIRMATION": "Está seguro de que desea eliminar todos los gastos de esta página?",
+      "TITLE": "Detalles del gasto"
     },
     "FINANCES": {
       "ACTION": "Acción",

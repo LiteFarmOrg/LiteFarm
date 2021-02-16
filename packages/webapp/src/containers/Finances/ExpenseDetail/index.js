@@ -5,7 +5,7 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
 import { expenseDetailDateSelector, expenseSelector, expenseToDetailSelector, expenseTypeSelector } from '../selectors';
-import { deleteExpenses, setEditExpenses, tempSetEditExpense } from '../actions';
+import { deleteExpenses, setEditExpenses, tempSetEditExpense, tempDeleteExpense } from '../actions';
 import history from '../../../history';
 import { grabCurrencySymbol } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -89,22 +89,29 @@ class ExpenseDetail extends Component {
     return 'TYPE_NOT_FOUND';
   }
 
-  handledeleteExpenses = () => {
+  handleDeleteExpenses = () => {
     this.setState({ showModal: true });
   };
 
-  deleteExpenses = () => {
-    // eslint-disable-next-line
-    let farmIDs = [];
-    const { filteredExpenses } = this.state;
-    for (let f of filteredExpenses) {
-      farmIDs.push(f.farm_expense_id);
-    }
-    if (farmIDs.length > 0) {
-      this.props.dispatch(deleteExpenses(farmIDs));
-      history.push('/other_expense');
-    }
-  };
+  // TODO: replace when expense items are split by expense
+  deleteExpense = () => {
+    const { expense } = this.props;
+    this.props.dispatch(tempDeleteExpense(expense.expense_item_id));
+    history.push('/other_expense');
+  }
+  // deleteExpenses = () => {
+  //   // eslint-disable-next-line
+  //   let farmIDs = [];
+  //   const { filteredExpenses } = this.state;
+  //   for (let f of filteredExpenses) {
+  //     farmIDs.push(f.farm_expense_id);
+  //   }
+  //   if (farmIDs.length > 0) {
+  //     this.props.dispatch(deleteExpenses(farmIDs));
+  //     history.push('/other_expense');
+  //   }
+  // };
+
   //TODO remove edit expense related functions
   editExpense() {
   // editExpenses() {
@@ -136,7 +143,7 @@ class ExpenseDetail extends Component {
           >
             {/* <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()}>{this.props.t('common:EDIT')}</Dropdown.Item> */}
             <Dropdown.Item eventKey="0" onClick={()=>this.editExpense()}>{this.props.t('common:EDIT')}</Dropdown.Item>
-            <Dropdown.Item eventKey="1" onClick={()=>this.handledeleteExpenses()}>{this.props.t('common:DELETE')}</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={()=>this.handleDeleteExpenses()}>{this.props.t('common:DELETE')}</Dropdown.Item>
           </DropdownButton>
         </div>
 
@@ -186,10 +193,10 @@ class ExpenseDetail extends Component {
           open={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
           onConfirm={() => {
-            this.deleteExpenses();
+            this.deleteExpense();
             this.setState({ showModal: false });
           }}
-          message={this.props.t('SALE.EXPENSE_DETAIL.DELETE_CONFIRMATION')}
+          message={this.props.t('SALE.EXPENSE_DETAIL.TEMP_DELETE_CONFIRMATION')}
         />
       </div>
     );

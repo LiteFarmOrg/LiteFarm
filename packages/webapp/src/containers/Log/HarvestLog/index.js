@@ -39,7 +39,6 @@ function HarvestLog() {
   };
 
   const onNext = (data) => {
-    console.log(isEditStepOne);
     if (defaultData.selectedUseTypes) {
       data.selectedUseTypes = defaultData.selectedUseTypes;
     }

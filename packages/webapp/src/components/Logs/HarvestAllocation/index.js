@@ -23,9 +23,9 @@ export default function PureHarvestAllocation({
 }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors, formState } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
-  let inputs = defaultData.selectedUseTypes.map(() => register({required: true}));
+  let inputs = defaultData.selectedUseTypes.map(() => register({ required: true }));
   const tempProps = JSON.parse(JSON.stringify(defaultData));
   const [nextEnabled, setNextEnabled] = useState(false);
 
@@ -41,10 +41,7 @@ export default function PureHarvestAllocation({
     setNextEnabled(allFieldsFilledOut);
   }, []);
 
-  useEffect(() => console.log(formState), [formState]);
-
   const onSubmit = (val) => {
-    console.log(val);
     let tempProps = JSON.parse(JSON.stringify(defaultData));
     tempProps.selectedUseTypes.map((obj) => {
       if (obj.harvest_use_type_name in val) {

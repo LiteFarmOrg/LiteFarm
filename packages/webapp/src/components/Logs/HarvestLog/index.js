@@ -33,7 +33,6 @@ export default function PureHarvestLog({
   let [quantity, setQuantity] = useState(0);
   let [filteredCropOptions, setFilteredCropOptions] = useState([]);
   let [selectedCrop, setSelectedCrop] = useState({});
-  let quantityValue = '';
 
   useEffect(() => {
     setDate(setDefaultDate());
@@ -108,11 +107,8 @@ export default function PureHarvestLog({
   const quant = watch(QUANTITY);
   const NOTES = 'notes';
   const notes = watch(NOTES, undefined);
-  const required = watch(QUANTITY, false);
   const optional = watch(NOTES, false) || watch(NOTES, true);
-  const refInputQuantity = register({ required: required });
   const refInputNotes = register({ required: optional });
-  const QUANTITY_VALID = 'quantityValid';
 
   const isTwoDecimalPlaces = (val) => {
     let decimals;

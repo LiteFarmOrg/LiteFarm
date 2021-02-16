@@ -33,7 +33,6 @@ export function* addLog(action) {
 }
 
 export function* getHarvestUseTypesSaga() {
-  console.log('getHarvestUseTypesSaga');
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);

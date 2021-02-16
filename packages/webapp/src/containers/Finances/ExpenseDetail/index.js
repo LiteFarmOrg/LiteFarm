@@ -5,7 +5,7 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
 import { expenseDetailDateSelector, expenseSelector, expenseToDetailSelector, expenseTypeSelector } from '../selectors';
-import { deleteExpenses, setEditExpenses } from '../actions';
+import { deleteExpenses, setEditExpenses, tempSetEditExpense } from '../actions';
 import history from '../../../history';
 import { grabCurrencySymbol } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -27,7 +27,8 @@ class ExpenseDetail extends Component {
     };
     this.getExpensesByDate = this.getExpensesByDate.bind(this);
     this.getExpenseType = this.getExpenseType.bind(this);
-    this.editExpenses = this.editExpenses.bind(this);
+    // this.editExpenses = this.editExpenses.bind(this);
+    this.editExpense = this.editExpense.bind(this);
   }
 
   componentDidMount() {
@@ -105,10 +106,17 @@ class ExpenseDetail extends Component {
     }
   };
   //TODO remove edit expense related functions
-  editExpenses() {
-    const { filteredExpenses } = this.state;
-    this.props.dispatch(setEditExpenses(filteredExpenses));
-    history.push('/edit_expense_categories');
+  editExpense() {
+  // editExpenses() {
+    // TODO: use the commented out code for when expense items are split by expense
+    // const { filteredExpenses } = this.state;
+    // this.props.dispatch(setEditExpenses(filteredExpenses));
+    // history.push('/edit_expense_categories');
+
+    // temporary implementation to edit expense items separately
+    const { expense } = this.props;
+    this.props.dispatch(tempSetEditExpense(expense));
+    history.push('/edit_expense');
   }
 
   render() {
@@ -126,7 +134,8 @@ class ExpenseDetail extends Component {
             key={dropDown}
             id={`dropdown-basic-${dropDown}`}
           >
-            <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()}>{this.props.t('common:EDIT')}</Dropdown.Item>
+            {/* <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()}>{this.props.t('common:EDIT')}</Dropdown.Item> */}
+            <Dropdown.Item eventKey="0" onClick={()=>this.editExpense()}>{this.props.t('common:EDIT')}</Dropdown.Item>
             <Dropdown.Item eventKey="1" onClick={()=>this.handledeleteExpenses()}>{this.props.t('common:DELETE')}</Dropdown.Item>
           </DropdownButton>
         </div>

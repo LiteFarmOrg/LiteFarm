@@ -125,6 +125,7 @@ class OtherExpense extends Component {
           expense_date: e.expense_date,
           note: e.note,
           expense_item_id: e.farm_expense_id,
+          value: amount,
         });
       }
     }

@@ -35,6 +35,7 @@ import {
   ADD_REMOVE_EXPENSE,
   SET_DATE_RANGE,
   UPDATE_SALE,
+  TEMP_SET_EXPENSE_TO_EDIT,
 } from './constants';
 
 export const getSales = () => {
@@ -158,6 +159,13 @@ export const setEditExpenses = (expenses) => {
     expenses,
   };
 };
+
+export const tempSetEditExpense = (expense) => {
+  return {
+    type: TEMP_SET_EXPENSE_TO_EDIT,
+    expense,
+  }
+}
 
 export const setSelectedEditExpense = (expense_types) => {
   return {

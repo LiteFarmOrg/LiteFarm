@@ -74,12 +74,11 @@ class farmExpenseController extends baseController {
     return async (req, res) => {
       const data = req.body;
       const { farm_expense_id } = req.params;
-      console.log(data);
-      console.log(farm_expense_id);
+      const { user_id } = req.user;
 
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await farmExpenseModel.query(trx).where('farm_expense_id', farm_expense_id).patch(data).returning('*');
+        const result = await farmExpenseModel.query(trx).context({ user_id }).where('farm_expense_id', farm_expense_id).patch(data).returning('*');
         if (!result) {
           await trx.rollback();
           return res.status(400).send("failed to patch data");
@@ -101,7 +100,7 @@ class farmExpenseController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, { user_id: req.user.user_id }, trx);
+        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx, { user_id: req.user.user_id });
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);

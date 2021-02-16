@@ -69,7 +69,7 @@
     "ERROR": {
       "ADD_USE_TYPE": "No se pudo agregar tipo de uso habitual de la cosecha",
       "GET_TYPES": "No se pudo extraer tipos de uso de la cosecha",
-      "REQUIRED_TASK": "MISSING"
+      "REQUIRED_TASK": "Es necesario un nombre para este nuevo uso de cosecha"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Tipos de usos habituales de la cosecha agregados exitosamente"

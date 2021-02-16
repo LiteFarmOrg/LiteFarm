@@ -84,8 +84,8 @@ class shiftController extends baseController {
       const trx = await transaction.start(Model.knex());
       try {
         const sID = (req.params.shift_id).toString();
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).where('shift_id', sID).delete();
-        const isShiftDeleted = await baseController.delete(shiftModel, sID, trx);
+        const isShiftTaskDeleted = await shiftTaskModel.query(trx).context({ user_id: req.user.user_id }).where('shift_id', sID).delete();
+        const isShiftDeleted = await baseController.delete(shiftModel, sID,{ user_id: req.user.user_id }, trx);
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
           res.sendStatus(200);
@@ -139,7 +139,7 @@ class shiftController extends baseController {
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
         }
-        const isShiftTaskDeleted = await shiftTaskModel.query(trx).delete().where('shift_id', req.params.shift_id);
+        const isShiftTaskDeleted = await shiftTaskModel.query(trx).context({ user_id: req.user.user_id }).delete().where('shift_id', req.params.shift_id);
         if (!isShiftTaskDeleted) {
           await trx.rollback();
           res.status(404).send('can not find shift tasks');

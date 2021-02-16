@@ -35,7 +35,7 @@ export default function PureCustomSignUp({
           {(!isChrome || !!errorMessage) && (
             <div className={styles.otherBrowserMessageTop}>
               {!!errorMessage ? (
-                <Error>{errorMessage}</Error>
+                <Error style={{ maxWidth: '300px' }}>{errorMessage}</Error>
               ) : (
                 <>
                   {wrongBrowserTop}

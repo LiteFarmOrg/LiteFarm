@@ -72,7 +72,28 @@ class farmExpenseController extends baseController {
 
   static updateFarmExpense() {
     return async (req, res) => {
-      res.status(400).send("not implemented");
+      const data = req.body;
+      const { farm_expense_id } = req.params;
+      console.log(data);
+      console.log(farm_expense_id);
+
+      const trx = await transaction.start(Model.knex());
+      try {
+        const result = await farmExpenseModel.query(trx).where('farm_expense_id', farm_expense_id).patch(data).returning('*');
+        if (!result) {
+          await trx.rollback();
+          return res.status(400).send("failed to patch data");
+        }
+
+        await trx.commit();
+        return res.status(200).send(result);
+      } catch (error) {
+        console.log(error);
+        await trx.rollback();
+        return res.status(400).json({
+          error,
+        });
+      }
     }
   }
 

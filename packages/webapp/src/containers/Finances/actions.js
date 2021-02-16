@@ -36,6 +36,7 @@ import {
   SET_DATE_RANGE,
   UPDATE_SALE,
   TEMP_SET_EXPENSE_TO_EDIT,
+  TEMP_EDIT_EXPENSE,
 } from './constants';
 
 export const getSales = () => {
@@ -164,6 +165,14 @@ export const tempSetEditExpense = (expense) => {
   return {
     type: TEMP_SET_EXPENSE_TO_EDIT,
     expense,
+  }
+}
+
+export const tempEditExpense = (expense_id, data) => {
+  return {
+    type: TEMP_EDIT_EXPENSE,
+    expense_id,
+    data,
   }
 }
 

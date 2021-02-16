@@ -24,6 +24,7 @@ import {
   GET_SALES,
   GET_SHIFT_FINANCE,
   UPDATE_SALE,
+  TEMP_EDIT_EXPENSE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
@@ -214,10 +215,30 @@ export function* addRemoveExpenseSaga(action) {
       result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
       if (result) {
         toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
-        const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
+        result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
         if (result) {
           yield put(setExpense(result.data));
         }
+      }
+    }
+  } catch (e) {
+    toastr.error(i18n.t('message:EXPENSE.ERROR.UPDATE'));
+  }
+}
+
+export function* tempEditExpenseSaga(action) {
+  const { expenseUrl } = apiConfig;
+  const { expense_id, data } = action;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    let result = yield call(axios.patch, `${expenseUrl}/${expense_id}`, data, header);
+    console.log(result);
+    if (result) {
+      toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
+      result = yield call(axios.get, `${expenseUrl}/farm/${farm_id}`, header);
+      if (result) {
+        yield put(setExpense(result.data));
       }
     }
   } catch (e) {
@@ -236,4 +257,5 @@ export default function* financeSaga() {
   yield takeEvery(DELETE_EXPENSES, deleteExpensesSaga);
   yield takeEvery(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeEvery(UPDATE_SALE, updateSaleSaga);
+  yield takeEvery(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
 }

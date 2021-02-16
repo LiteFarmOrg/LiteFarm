@@ -7,6 +7,8 @@ import {
   canEditStepThree,
   canEditStepThreeSelector,
   canEditSelector,
+  canConvertQuantitySelector,
+  canConvertQuantity,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
@@ -14,6 +16,7 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { convertToMetric, getUnit } from '../../../util';
 import { addLog, editLog } from '../Utility/actions';
 import { currentLogSelector } from '../selectors';
+import { setSelectedLog } from '../actions';
 
 function HarvestAllocation() {
   const dispatch = useDispatch();
@@ -24,8 +27,13 @@ function HarvestAllocation() {
   const isEditStepThree = useSelector(canEditStepThreeSelector);
   const selectedLog = useSelector(currentLogSelector);
   const isEdit = useSelector(canEditSelector);
+  const convertQuantity = useSelector(canConvertQuantitySelector);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (isEditStepThree.isEditStepThree && unit === 'lb') {
+      dispatch(canConvertQuantity(true));
+    }
+  }, []);
 
   const onBack = (data) => {
     dispatch(canEditStepThree(false));
@@ -67,7 +75,10 @@ function HarvestAllocation() {
         unit={unit}
         isEdit={isEditStepThree}
         selectedLog={selectedLog}
+        setSelectedLog={setSelectedLog}
         dispatch={dispatch}
+        canConvertQuantity={canConvertQuantity}
+        convertQuantity={convertQuantity}
       />
     </>
   );

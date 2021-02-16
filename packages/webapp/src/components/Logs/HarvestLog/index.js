@@ -32,12 +32,15 @@ export default function PureHarvestLog({
   let [cropID, setCropID] = useState(0);
   let [quantity, setQuantity] = useState(0);
   let [filteredCropOptions, setFilteredCropOptions] = useState([]);
+  let [selectedCrop, setSelectedCrop] = useState({});
+  let quantityValue = '';
 
   useEffect(() => {
     setDate(setDefaultDate());
     setField(setDefaultField());
     setCrop(setDefaultCrop());
     setQuantity(setDefaultQuantity());
+    setSelectedCrop(selectedCropValue);
   }, []);
 
   let fieldOptions = fields.map(({ field_name, field_id }) => ({
@@ -51,7 +54,7 @@ export default function PureHarvestLog({
     field_name: field_name,
   }));
 
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, watch, errors, setValue } = useForm({
     mode: 'onTouched',
   });
 
@@ -67,6 +70,16 @@ export default function PureHarvestLog({
       return { label: selectedLog.field[0].field_name, value: selectedLog.field[0].field_id };
     }
     return defaultData.defaultField ? defaultData.defaultField : null;
+  };
+
+  const selectedCropValue = () => {
+    if (isEdit.isEditStepOne) {
+      return {
+        label: selectedLog.fieldCrop[0].crop.crop_common_name,
+        value: selectedLog.fieldCrop[0].field_crop_id,
+      };
+    }
+    return defaultData.defaultCrop ? defaultData.defaultCrop : null;
   };
 
   const setDefaultCrop = () => {
@@ -92,7 +105,7 @@ export default function PureHarvestLog({
   };
 
   const QUANTITY = 'quantity';
-  const quant = watch(QUANTITY, undefined);
+  const quant = watch(QUANTITY);
   const NOTES = 'notes';
   const notes = watch(NOTES, undefined);
   const required = watch(QUANTITY, false);
@@ -123,10 +136,6 @@ export default function PureHarvestLog({
       dispatch(harvestLogData(defaultData));
     }
     if (defaultData.validQuantity) {
-      let selectedCrop = {
-        label: crop.label,
-        value: setCropValue(),
-      };
       onNext({
         defaultDate: date,
         defaultField: field,
@@ -139,7 +148,7 @@ export default function PureHarvestLog({
     }
   };
 
-  const setCropValue = () => {
+  const setCropValue = (crop) => {
     let value = 0;
     crops.map((item) => {
       if (item.crop_id === crop.value) {
@@ -151,12 +160,26 @@ export default function PureHarvestLog({
 
   const onError = (data) => {};
 
-  const handleChange = (field) => {
+  const handleFieldChange = (field) => {
     setField(field);
     let data = cropOptions.filter((e) => {
       return e.field_name === field.label;
     });
     setFilteredCropOptions(data);
+  };
+
+  const handleCropChange = (crop) => {
+    setCrop(crop);
+    let data = {
+      label: crop.label,
+      value: setCropValue(crop),
+    };
+    setSelectedCrop(data);
+  };
+
+  const handleChange = (val) => {
+    setQuantity(val);
+    setValue(QUANTITY, quantityValue);
   };
 
   return (
@@ -191,7 +214,7 @@ export default function PureHarvestLog({
               label={t('LOG_HARVEST.FIELD')}
               placeholder={t('LOG_HARVEST.FIELD_PLACEHOLDER')}
               options={fieldOptions}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleFieldChange(e)}
               value={field}
               style={{ marginBottom: '24px' }}
               defaultValue={defaultData.defaultField}
@@ -201,10 +224,7 @@ export default function PureHarvestLog({
                 label={t('LOG_HARVEST.CROP')}
                 placeholder={t('LOG_HARVEST.CROP_PLACEHOLDER')}
                 options={filteredCropOptions}
-                // options={cropOptions.filter((el) => {
-                //   return
-                // })}
-                onChange={setCrop}
+                onChange={(e) => handleCropChange(e)}
                 value={crop}
                 style={{ marginBottom: '24px' }}
                 defaultValue={defaultData.defaultCrop}
@@ -216,8 +236,7 @@ export default function PureHarvestLog({
               type="decimal"
               unit={unit}
               name={QUANTITY}
-              onChange={setQuantity}
-              // inputRef={refInputQuantity}
+              onChange={(e) => handleCropChange(e)}
               inputRef={register({
                 required: true,
                 pattern: isTwoDecimalPlaces,
@@ -229,7 +248,7 @@ export default function PureHarvestLog({
                 {t('common:REQUIRED')}
               </Error>
             )}
-            {!defaultData.validQuantity ? (
+            {errors[QUANTITY]?.type === 'pattern' ? (
               <Error style={{ marginTop: '-20px', marginBottom: '30px' }}>
                 {t('LOG_HARVEST.QUANTITY_ERROR')}
               </Error>

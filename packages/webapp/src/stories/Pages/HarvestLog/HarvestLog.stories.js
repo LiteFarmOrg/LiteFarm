@@ -1,15 +1,13 @@
 import React from 'react';
-import decorators from '../config/decorators';
+import { decorators } from '../config/decorators';
 import PureHarvestLog from '../../../components/Logs/HarvestLog';
 
 export default {
-  title: 'Form/HarvestLog/Main',
+  title: 'Form/HarvestLog',
   decorators: decorators,
   component: PureHarvestLog,
 };
 
 const Template = (args) => <PureHarvestLog {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
-Primary.parameters = {};
+export const HelpMain = Template.bind({});

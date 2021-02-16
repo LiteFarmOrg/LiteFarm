@@ -44,14 +44,15 @@ function HarvestUseType() {
   const onNext = (data) => {
     const tempProps = JSON.parse(JSON.stringify(data));
     if (defaultData.selectedUseTypes.length > 0) {
-      tempProps.selectedUseTypes.map((item, idx) => {
-        if (
-          idx < defaultData.selectedUseTypes.length &&
-          item.harvest_use_type_name === defaultData.selectedUseTypes[idx].harvest_use_type_name
-        ) {
-          item.quantity_kg = defaultData.selectedUseTypes[idx].quantity_kg;
-        }
-      });
+      if (defaultData.selectedUseTypes.length > 0) {
+        tempProps.selectedUseTypes.map((item, idx) => {
+          defaultData.selectedUseTypes.map((item1) => {
+            if (item.harvest_use_type_name === item1.harvest_use_type_name) {
+              item.quantity_kg = item1.quantity_kg;
+            }
+          });
+        });
+      }
     }
 
     defaultData.selectedUseTypes = tempProps.selectedUseTypes;

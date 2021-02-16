@@ -18,6 +18,8 @@ export default function PureHarvestAllocation({
   isEdit,
   selectedLog,
   dispatch,
+  canConvertQuantity,
+  convertQuantity,
 }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors, formState } = useForm({
@@ -61,6 +63,7 @@ export default function PureHarvestAllocation({
     }
   };
   const handleChange = (typeName, quant) => {
+    dispatch(canConvertQuantity(false));
     tempProps.selectedUseTypes.map((item) => {
       if (typeName === item.harvest_use_type_name) {
         item.quantity_kg = quant;
@@ -74,15 +77,11 @@ export default function PureHarvestAllocation({
   const onBack = () => {
     if (isEdit.isEditStepThree) {
       tempProps.selectedUseTypes.map((item, idx) => {
-        if (
-          idx < selectedLog.harvestUse.length &&
-          item.harvest_use_type_name ===
-            selectedLog.harvestUse[idx].harvestUseType.harvest_use_type_name
-        ) {
-          item.quantity_kg = item.quantity_kg
-            ? item.quantity_kg
-            : selectedLog.harvestUse[idx].quantity_kg;
-        }
+        selectedLog.harvestUse.map((item1) => {
+          if (item.harvest_use_type_name === item1.harvestUseType.harvest_use_type_name) {
+            item.quantity_kg = item.quantity_kg ? item.quantity_kg : item1.quantity_kg;
+          }
+        });
       });
     }
     dispatch(harvestLogData(tempProps));
@@ -94,17 +93,23 @@ export default function PureHarvestAllocation({
     if (isEdit.isEditStepThree) {
       selectedLog.harvestUse.map((item) => {
         if (item.harvestUseType.harvest_use_type_name === typeName) {
-          quant = item.quantity_kg;
+          if (unit === 'lb') {
+            quant = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg')).toString();
+          } else {
+            quant = roundToTwoDecimal(item.quantity_kg).toString();
+          }
         }
       });
-      if (unit === 'lb') {
-        return roundToTwoDecimal(convertFromMetric(quant, unit, 'kg')).toString();
-      }
-      return roundToTwoDecimal(quant).toString();
+      return quant;
     } else {
       defaultData.selectedUseTypes.map((item) => {
         if (item.harvest_use_type_name === typeName) {
-          quant = item.quantity_kg ? item.quantity_kg : null;
+          if (!item.quantity_kg) return null;
+          if (unit === 'lb' && convertQuantity.convertQuantity) {
+            quant = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg')).toString();
+          } else {
+            quant = roundToTwoDecimal(item.quantity_kg);
+          }
         }
       });
       return quant;
@@ -138,7 +143,7 @@ export default function PureHarvestAllocation({
             </div>
             {defaultData.selectedUseTypes.map((type, index) => {
               const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-              const quant = setDefaultQuantity(typeName);
+              let quant = setDefaultQuantity(typeName);
               return (
                 <div
                   style={

@@ -21,6 +21,7 @@ export const initialState = {
   isEditStepTwo: false,
   isEditStepThree: false,
   isEdit: false,
+  convertQuantity: false,
 };
 
 const logSliceReducer = createSlice({
@@ -59,6 +60,9 @@ const logSliceReducer = createSlice({
     canEdit: (state, { payload: isEdit }) => {
       state.isEdit = isEdit;
     },
+    canConvertQuantity: (state, { payload: convertQuantity }) => {
+      state.convertQuantity = convertQuantity;
+    },
   },
 });
 
@@ -70,6 +74,7 @@ export const {
   canEditStepTwo,
   canEditStepThree,
   canEdit,
+  canConvertQuantity,
 } = logSliceReducer.actions;
 export default logSliceReducer.reducer;
 export const harvestLogDataSelector = (state) => ({
@@ -101,5 +106,8 @@ export const canEditStepThreeSelector = (state) => ({
 });
 export const canEditSelector = (state) => ({
   isEdit: state?.tempStateReducer[logSliceReducer.name].isEdit,
+});
+export const canConvertQuantitySelector = (state) => ({
+  convertQuantity: state?.tempStateReducer[logSliceReducer.name].convertQuantity,
 });
 export const logReducerSelector = (state) => state?.tempStateReducer[logSliceReducer.name];

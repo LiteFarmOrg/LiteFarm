@@ -12,9 +12,12 @@ import { userFarmSelector } from '../../userFarmSlice';
 import { addHarvestUseType } from '../actions';
 import { setAllHarvestUseTypesSelector } from '../selectors';
 import { currentLogSelector } from '../selectors';
+import { toastr } from 'react-redux-toastr';
+import { useTranslation } from "react-i18next";
 
 function HarvestUseType() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const allUseType = useSelector(setAllHarvestUseTypesSelector);
   const defaultData = useSelector(harvestLogDataSelector);
   const farm = useSelector(userFarmSelector);

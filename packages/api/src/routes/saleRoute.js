@@ -18,11 +18,28 @@ const express = require('express');
 const router = express.Router();
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
-const validateSale = require('../middleware/validation/sale')
+const validateSale = require('../middleware/validation/sale');
+const conditionallyApplyMiddleware = require('../middleware/acl/conditionally.apply');
+const isCreator = require('../middleware/acl/isCreator');
+
 //TODO fix URL
 router.post('/', validateSale, hasFarmAccess({ body: 'farm_id' }), checkScope(['add:sales']), SaleController.addOrUpdateSale());
 router.get('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:sales']), SaleController.getSaleByFarmId());
-router.delete('/:sale_id', hasFarmAccess({ params: 'sale_id' }), checkScope(['delete:sales']), SaleController.delSale());
-// router.patch('/', checkScope(['edit:sales']), SaleController.patchSales());
+router.delete('/:sale_id',
+  checkScope(['delete:sales']),
+  (req, res, next) => conditionallyApplyMiddleware(
+    req.role === 3,
+    isCreator({ params: 'sale_id' }),
+    hasFarmAccess({ params: 'sale_id' })
+  )(req, res, next),
+  SaleController.delSale());
+router.patch('/:sale_id',
+  checkScope(['edit:sales']),
+  (req, res, next) => conditionallyApplyMiddleware(
+    req.role === 3,
+    isCreator({ params: 'sale_id' }),
+    hasFarmAccess({ params: 'sale_id' })
+  )(req, res, next),
+  SaleController.patchSales());
 
 module.exports = router;

@@ -32,6 +32,7 @@ import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice'
 
 import fieldReducer from '../containers/fieldSlice';
 import shiftStepReducer from '../containers/shiftSlice';
+import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
@@ -122,6 +123,7 @@ const persistedStateReducer = combineReducers({
 const tempStateReducer = combineReducers({
   homeReducer,
   shiftStepReducer,
+  logSliceReducer,
 });
 
 // combine all reducers here and pass it to application

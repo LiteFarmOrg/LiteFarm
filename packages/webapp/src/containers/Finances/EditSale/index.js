@@ -135,7 +135,7 @@ class EditSale extends Component {
     const cropOptions = this.getCropOptions(fieldCrops);
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/sales_summary" title={this.props.t('SALE.EDIT_SALE.TITLE')} />
+        <PageTitle backUrl="/sale_detail" title={this.props.t('SALE.EDIT_SALE.TITLE')} />
         <span className={defaultStyles.dateContainer}>
           <label>{this.props.t('SALE.EDIT_SALE.DATE')}</label>
           <DateContainer

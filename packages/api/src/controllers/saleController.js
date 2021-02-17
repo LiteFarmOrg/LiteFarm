@@ -52,7 +52,7 @@ class SaleController extends baseController {
 
       const trx = await transaction.start(Model.knex());
       try {
-        const saleResult = await saleModel.query(trx).where('sale_id', sale_id).patch(saleData).returning('*');
+        const saleResult = await saleModel.query(trx).context(req.user).where('sale_id', sale_id).patch(saleData).returning('*');
         if (!saleResult) {
           await trx.rollback();
           return res.status(400).send("failed to patch data");
@@ -67,7 +67,7 @@ class SaleController extends baseController {
         const { cropSale } = req.body;
         for (const cs of cropSale) {
           cs.sale_id = parseInt(sale_id);
-          await cropSaleModel.query(trx).insert(cs);
+          await cropSaleModel.query(trx).context(req.user).insert(cs);
         }
 
         await trx.commit();

@@ -36,6 +36,7 @@ const initialState = {
   logs: null,
   startDate: moment().startOf('year'),
   endDate: moment().endOf('year'),
+  allUseType: [],
 };
 
 function logReducer(state = initialState, action) {

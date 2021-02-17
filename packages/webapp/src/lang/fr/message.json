@@ -68,7 +68,8 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "MISSING",
-      "GET_TYPES": "MISSING"
+      "GET_TYPES": "MISSING",
+      "REQUIRED_TASK": "MISSING"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "MISSING"

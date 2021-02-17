@@ -2722,7 +2722,7 @@ describe('Log Tests', () => {
         [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field1] });
         [fakeHarvestUseType] = await mocks.harvestUseTypeFactory({ promisedFarm: [farm] });
         fakeHarvestUse = mocks.fakeHarvestUse();
-        fakeHarvestUseType.quantity = fakeHarvestUse.quantity_kg;
+        fakeHarvestUseType.quantity_kg = fakeHarvestUse.quantity_kg;
 
         sampleRequestBody = {
           activity_kind: fakeActivityLog.activity_kind,
@@ -2761,7 +2761,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
           expect(harvestLog.length).toBe(1);
-          expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
+          expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
           done();
         })
       });
@@ -2805,7 +2805,7 @@ describe('Log Tests', () => {
             user_id: owner.user_id,
           }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
           expect(harvestLog.length).toBe(1);
-          expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
+          expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
           done();
         })
       });
@@ -2859,7 +2859,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
             expect(harvestLog.length).toBe(1);
-            expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
+            expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
             done();
           })
         });
@@ -2885,7 +2885,7 @@ describe('Log Tests', () => {
               user_id: owner.user_id,
             }).where('harvest_use_type_id', fakeHarvestUseType.harvest_use_type_id);
             expect(harvestLog.length).toBe(1);
-            expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity);
+            expect(harvestUse[0].quantity_kg).toBe(fakeHarvestUseType.quantity_kg);
             done();
           })
         });

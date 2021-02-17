@@ -310,7 +310,7 @@
     "ALL_FIELDS": "All Fields",
     "AMMONIA": "Ammonia",
     "CHEMICAL_COMPOSITION": "Chemical Composition",
-    "CHOOSE_DATE": "Choose a date",
+    "CHOOSE_DATE": "Choose a Date",
     "CROP": "Crop",
     "DATE": "Date",
     "DEFAULT_PRODUCT": "Default Product",
@@ -393,8 +393,13 @@
     "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
     "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
+    "FIELD": "Choose a field",
+    "CROP": "Choose a crop",
+    "FIELD_PLACEHOLDER": "Select a field",
+    "CROP_PLACEHOLDER": "Select a crop",
     "QUANTITY": "Quantity",
-    "TITLE": "Harvest Log (step 1)"
+    "TITLE": "Harvest Log (step 1)",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",

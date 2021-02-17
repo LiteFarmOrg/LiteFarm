@@ -1,0 +1,88 @@
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (styles.scss) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
+
+ .logContainer {
+  width: 100%;
+  max-width: 1024px;
+  height: 100vh;
+  padding: 24px 24px 150px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+ .matrixContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.matrixItem{
+  flex: 0 0 33.3333%;
+  @media only screen and (max-width: 400px) {
+    flex: 0 0 50%;
+    max-width: 33.33%;
+  }
+  @media only screen and (min-width: 800px) {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  margin-top: 1.1rem;
+  max-width: 33.3%;
+  //min-block-size:100px;
+}
+
+.circleButton {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  background: rgb(130, 207, 156);
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
+  img {
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.circleSelected {
+  background: rgb(0, 117, 106);
+}
+
+.buttonName {
+  width: 100%;
+  text-align: center;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 0.3em;
+  button {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+
+  
+  

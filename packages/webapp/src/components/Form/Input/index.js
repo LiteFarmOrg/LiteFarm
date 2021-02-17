@@ -22,6 +22,7 @@ const Input = ({
   isSearchBar,
   type = 'text',
   toolTipContent,
+  reset,
   unit,
   name,
   hookFormSetValue,

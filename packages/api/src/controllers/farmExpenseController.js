@@ -17,15 +17,15 @@ const baseController = require('../controllers/baseController');
 const farmExpenseModel = require('../models/farmExpenseModel');
 const { transaction, Model } = require('objection');
 
-class farmExpenseController extends baseController {
+class farmExpenseController {
 
   static addFarmExpense() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         const expenses = req.body;
-        if(!Array.isArray(expenses)){
-          res.status(400).send('needs to be an array of expense items')
+        if (!Array.isArray(expenses)) {
+          res.status(400).send('needs to be an array of expense items');
         }
         const resultArray = [];
         const user_id = req.user.user_id

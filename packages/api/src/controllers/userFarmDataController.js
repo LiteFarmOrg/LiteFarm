@@ -18,7 +18,7 @@ const farmDataScheduleModel = require('../models/farmDataScheduleModel');
 
 /* eslint-disable no-console */
 
-class userFarmDataController extends baseController {
+class userFarmDataController {
   static registerFarm() {
     return async (req, res) => {
       try {
@@ -26,8 +26,8 @@ class userFarmDataController extends baseController {
         const user_id = req.body.user_id;
         const data = { farm_id, user_id };
         await farmDataScheduleModel.transaction(async trx => {
-          await super.post(farmDataScheduleModel, data, trx);
-        })
+          await baseController.post(farmDataScheduleModel, data, trx);
+        });
         res.sendStatus(200);
       } catch (error) {
         //handle more exceptions

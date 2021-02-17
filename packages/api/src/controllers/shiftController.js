@@ -19,7 +19,7 @@ const shiftModel = require('../models/shiftModel');
 const shiftTaskModel = require('../models/shiftTaskModel');
 const knex = Model.knex();
 
-class shiftController extends baseController {
+class shiftController {
   static addShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

@@ -17,16 +17,18 @@ const baseController = require('../controllers/baseController');
 const fertilizerModel = require('../models/fertilizerModel');
 const { transaction, Model } = require('objection');
 
-class fertilizerController extends baseController {
+class fertilizerController {
   static getFertilizers() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
+        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({
+          farm_id,
+          deleted: false,
+        });
         if (!rows.length) {
-          res.sendStatus(404)
-        }
-        else {
+          res.sendStatus(404);
+        } else {
           res.status(200).send(rows);
         }
       }

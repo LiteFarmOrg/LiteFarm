@@ -36,10 +36,7 @@ const validStatusChanges = {
   'Invited': ['Inactive']
 };
 
-class userFarmController extends baseController {
-  constructor() {
-    super();
-  }
+class userFarmController {
 
   static getUserFarmByUserID() {
     return async (req, res) => {

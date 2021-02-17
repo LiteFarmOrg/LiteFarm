@@ -18,11 +18,7 @@ const yieldModel = require('../models/yieldModel');
 const { transaction, Model } = require('objection');
 
 
-class YieldController extends baseController {
-
-  constructor() {
-    super();
-  }
+class YieldController {
 
   static addYield() {
     return async (req, res) => {

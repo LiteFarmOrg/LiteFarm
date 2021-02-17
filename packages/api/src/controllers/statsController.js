@@ -33,7 +33,7 @@ const farmModel = require('../models/farmModel');
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 
-class statsController extends baseController {
+class statsController {
 
   static getFarmStats() {
 

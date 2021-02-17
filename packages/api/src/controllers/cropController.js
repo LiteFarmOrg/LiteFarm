@@ -17,10 +17,7 @@ const baseController = require('../controllers/baseController');
 const cropModel = require('../models/cropModel');
 const { transaction, Model, UniqueViolationError } = require('objection');
 
-class cropController extends baseController {
-  constructor() {
-    super();
-  }
+class cropController {
 
   static addCropWithFarmID() {
     return async (req, res) => {
@@ -29,7 +26,7 @@ class cropController extends baseController {
         const data = req.body;
         data.user_added = true;
         data.crop_translation_key = data.crop_common_name;
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(cropModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);

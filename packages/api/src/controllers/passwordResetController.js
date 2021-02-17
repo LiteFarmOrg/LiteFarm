@@ -21,7 +21,7 @@ const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 
 
-class passwordResetController extends baseController {
+class passwordResetController {
   static sendResetEmail() {
     return async (req, res) => {
       const { email } = req.body;

@@ -18,12 +18,12 @@ const saleModel = require('../models/saleModel');
 const cropSaleModel = require('../models/cropSaleModel');
 const { transaction, Model } = require('objection');
 
-class SaleController extends baseController {
+class SaleController {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!
   static addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { user_id } = req.user
+      const { user_id } = req.user;
       try {
         // post to sale and crop sale table
         const result = await baseController.upsertGraph(saleModel, req.body, trx, { user_id });

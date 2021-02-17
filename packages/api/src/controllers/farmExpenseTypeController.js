@@ -17,13 +17,13 @@ const baseController = require('../controllers/baseController');
 const expenseTypeModel = require('../models/expenseTypeModel');
 const { transaction, Model } = require('objection');
 
-class farmExpenseTypeController extends baseController {
+class farmExpenseTypeController {
 
   static addFarmExpenseType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const data = req.body;
         data.expense_translation_key = data.expense_name;
         const result = await baseController.postWithResponse(expenseTypeModel, data, trx, { user_id });

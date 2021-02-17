@@ -16,7 +16,7 @@
 const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
 
-class organicCertifierSurveyController extends baseController {
+class organicCertifierSurveyController {
   static getCertifiersByFarmId() {
     return async (req, res) => {
       try {
@@ -25,7 +25,7 @@ class organicCertifierSurveyController extends baseController {
           .first().select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested',
             'organicCertifierSurvey.survey_id', 'organicCertifierSurvey.farm_id');
         if (!result) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(result);
         }

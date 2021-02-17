@@ -22,7 +22,7 @@ const knex = Model.knex();
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 
-class insightController extends baseController {
+class insightController {
 
   // this is for the People Fed module
   static getPeopleFedData() {

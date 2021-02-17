@@ -25,7 +25,7 @@ const userLogModel = require('../models/userLogModel');
 
 const { createToken } = require('../util/jwt');
 
-class loginController extends baseController {
+class loginController {
   static authenticateUser() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this

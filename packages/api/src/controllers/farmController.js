@@ -20,7 +20,7 @@ const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
 const knex = Model.knex();
 
-class farmController extends baseController {
+class farmController {
   static addFarm() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());

@@ -20,10 +20,7 @@ const { mapFieldsToStationId } = require('../jobs/station_sync/mapping')
 const { v4 : uuidv4 } = require('uuid');
 
 
-class fieldController extends baseController {
-  constructor() {
-    super();
-  }
+class fieldController {
 
   static addField() {
     return async (req, res, next) => {
@@ -126,7 +123,7 @@ class fieldController extends baseController {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
     const user_id = req.user.user_id
-    return await super.postWithResponse(fieldModel, req.body, trx, { user_id });
+    return await baseController.postWithResponse(fieldModel, req.body, trx, { user_id });
   }
 
   static mapFieldToStation(req, res) {

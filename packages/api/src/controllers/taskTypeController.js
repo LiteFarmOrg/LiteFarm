@@ -18,12 +18,12 @@ const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
 
 
-class taskTypeController extends baseController {
+class taskTypeController {
   static addType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const data = req.body;
         data.task_translation_key = data.task_name;
         const result = await baseController.postWithResponse(TaskTypeModel, data, trx, { user_id });

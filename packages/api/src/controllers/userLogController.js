@@ -17,7 +17,7 @@ const baseController = require('../controllers/baseController');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
 
-class userLogController extends baseController {
+class userLogController {
 
   static addUserLog() {
     return async (req, res) => {

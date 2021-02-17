@@ -26,7 +26,7 @@ const { createToken } = require('../util/jwt');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
 
-class userController extends baseController {
+class userController {
   static addUser() {
     return async (req, res) => {
       const { email, first_name, last_name, password, gender, birth_year, language_preference } = req.body;
@@ -547,7 +547,7 @@ class userController extends baseController {
 
   static async updateSetting(req, trx) {
     const notificationSettingModel = require('../models/notificationSettingModel');
-    return await super.put(notificationSettingModel, req, trx);
+    return await baseController.put(notificationSettingModel, req, trx);
   }
 }
 

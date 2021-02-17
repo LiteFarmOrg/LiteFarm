@@ -18,12 +18,12 @@ const fieldCropModel = require('../models/fieldCropModel');
 const { transaction, Model } = require('objection');
 const knex = Model.knex();
 
-class FieldCropController extends baseController {
+class FieldCropController {
   static addFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(fieldCropModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);

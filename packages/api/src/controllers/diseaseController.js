@@ -17,10 +17,7 @@ const baseController = require('../controllers/baseController');
 const diseaseModel = require('../models/diseaseModel');
 const { transaction, Model } = require('objection');
 
-class diseaseController extends baseController {
-  constructor() {
-    super();
-  }
+class diseaseController {
 
   static getDisease() {
     return async (req, res) => {
@@ -28,8 +25,7 @@ class diseaseController extends baseController {
         const farm_id = req.params.farm_id;
         const rows = await diseaseController.get(farm_id);
         res.status(200).send(rows);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
@@ -80,7 +76,7 @@ class diseaseController extends baseController {
   }
 
   static async get(farm_id){
-    //return await super.get(FertilizerModel);
+    //return await baseController.get(FertilizerModel);
     return await diseaseModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
   }
 }

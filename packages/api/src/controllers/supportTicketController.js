@@ -18,7 +18,7 @@ const supportTicketModel = require('../models/supportTicketModel');
 const userModel = require('../models/userModel');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
-class supportTicketController extends baseController {
+class supportTicketController {
   // Disabled
   static getSupportTicketsByFarmId() {
     return async (req, res) => {

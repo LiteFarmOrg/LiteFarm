@@ -42,6 +42,8 @@ export default function PureHarvestLog({
     setSelectedCrop(selectedCropValue);
   }, []);
 
+  useEffect(() => {}, []);
+
   let fieldOptions = fields.map(({ field_name, field_id }) => ({
     label: field_name,
     value: field_id,
@@ -140,6 +142,7 @@ export default function PureHarvestLog({
         defaultNotes: data.notes,
         selectedUseTypes: [],
         validQuantity: true,
+        resetCrop: false,
       });
     }
   };
@@ -157,6 +160,8 @@ export default function PureHarvestLog({
   const onError = (data) => {};
 
   const handleFieldChange = (field) => {
+    defaultData.resetCrop = true;
+    dispatch(harvestLogData(defaultData));
     setField(field);
     let data = cropOptions.filter((e) => {
       return e.field_name === field.label;
@@ -165,6 +170,8 @@ export default function PureHarvestLog({
   };
 
   const handleCropChange = (crop) => {
+    defaultData.resetCrop = false;
+    dispatch(harvestLogData(defaultData));
     setCrop(crop);
     let data = {
       label: crop.label,
@@ -216,7 +223,7 @@ export default function PureHarvestLog({
                 placeholder={t('LOG_HARVEST.CROP_PLACEHOLDER')}
                 options={filteredCropOptions}
                 onChange={(e) => handleCropChange(e)}
-                value={crop}
+                value={defaultData.resetCrop ? null : crop}
                 style={{ marginBottom: '24px' }}
                 defaultValue={defaultData.defaultCrop}
               />

@@ -14,15 +14,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return Promise.all([
-    knex.schema.alterTable('userLog', (table) => {
-      table.string('ip').notNullable().alter();
-      table.string('browser').notNullable().alter();
-      table.string('browser_version').notNullable().alter();
-      table.string('os').notNullable().alter();
-      table.string('os_version').notNullable().alter();
-      table.integer('screen_width').notNullable().alter();
-      table.integer('screen_height').notNullable().alter();
-    }),
-  ])
+  return Promise.all([]);
 };

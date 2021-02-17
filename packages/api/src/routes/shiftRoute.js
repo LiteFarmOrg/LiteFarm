@@ -18,7 +18,12 @@ const express = require('express');
 const router = express.Router();
 // const checkOwnership = require('../middleware/acl/checkOwnership');
 const checkScope = require('../middleware/acl/checkScope');
-const { isShiftOwnerOrIsAdmin, isOwnerOrAssignee } = require('../middleware/acl/isOwnerOrAssigne');
+const {
+  isShiftOwnerOrIsAdmin,
+  isOwnerOrAssignee,
+  isSelfOrAdmin,
+  isShiftOwnerOrAdmin,
+} = require('../middleware/acl/isOwnerOrAssigne');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
 router.post('/',
@@ -28,8 +33,7 @@ router.post('/',
   ShiftController.addShift());
 
 router.delete('/:shift_id',
-  hasFarmAccess({ params: 'shift_id' }),
-  checkScope(['delete:shifts']),
+  isShiftOwnerOrAdmin,
   ShiftController.delShift());
 router.get('/:shift_id',
   isOwnerOrAssignee({ params: 'shift_id' }),
@@ -53,6 +57,13 @@ router.get('/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:shifts']),
   ShiftController.getShiftByFarmID());
+
+
+router.get('/farm/:farm_id/user/:user_id',
+  hasFarmAccess({ params: 'farm_id' }),
+  isSelfOrAdmin,
+  checkScope(['get:shifts']),
+  ShiftController.getShiftByUserFarm());
 
 
 module.exports = router;

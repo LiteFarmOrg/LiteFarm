@@ -86,7 +86,7 @@ class shiftController extends baseController {
       try {
         const sID = (req.params.shift_id).toString();
         const isShiftTaskDeleted = await shiftTaskModel.query(trx).context({ user_id: req.user.user_id }).where('shift_id', sID).delete();
-        const isShiftDeleted = await baseController.delete(shiftModel, sID,{ user_id: req.user.user_id }, trx);
+        const isShiftDeleted = await baseController.delete(shiftModel, sID, trx, { user_id: req.user.user_id });
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
           res.sendStatus(200);

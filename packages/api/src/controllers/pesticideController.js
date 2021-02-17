@@ -55,7 +55,7 @@ class pesticideController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(pesticideModel, req.params.pesticide_id, req.user, trx);
+        const isDeleted = await baseController.delete(pesticideModel, req.params.pesticide_id, trx, req.user);
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

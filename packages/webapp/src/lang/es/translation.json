@@ -393,8 +393,13 @@
     "HARVEST_USE": "Uso de la cosecha",
     "HARVEST_USE_TYPE_SUBTITLE": "Cómo será usada la cosecha?",
     "HARVEST_USE_TYPE_TITLE": "Registro de cosecha (step 2)",
+    "FIELD": "Selecciona un campo",
+    "CROP": "Selecciona un cultivo",
+    "FIELD_PLACEHOLDER": "Selecciona campo",
+    "CROP_PLACEHOLDER": "Selecciona cultivo",
     "QUANTITY": "Cantidad",
-    "TITLE": "Registro de cosecha (paso 1)"
+    "TITLE": "Registro de cosecha (paso 1)",
+    "QUANTITY_ERROR": "La cantidad no debe de tener mas de 2 decimales"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Tasa de flujo",
@@ -440,6 +445,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -631,11 +637,11 @@
       "TITLE": "Ganancia Estimada"
     },
     "EXPENSE_DETAIL": {
+      "ACTION": "Acción",
       "COST": "Costo",
-      "DELETE_CONFIRMATION": "Está seguro de que desea eliminar todos los gastos de esta página? Nota: Para eliminar un gasto específico vaya a Editar.",
       "DESCRIPTION": "Descripción del gasto",
-      "TITLE": "Detalles del gasto",
-      "TOTAL": "Total"
+      "TEMP_DELETE_CONFIRMATION": "Está seguro de que desea eliminar todos los gastos de esta página?",
+      "TITLE": "Detalles del gasto"
     },
     "FINANCES": {
       "ACTION": "Acción",

@@ -32,13 +32,17 @@ const expenseDetailDateSelector = createSelector(
   (state) => state.expense_detail_date,
 );
 
-const selectedExpenseSelector = createSelector(financeSelector, (state) => state.selected_expense);
+const selectedExpenseSelector = createSelector(financeSelector, (state) => state.selected_expense_types);
+
+const expenseToDetailSelector = createSelector(financeSelector, (state) => state.expense_to_detail);
 
 const financeFormSelector = (state) => state.financeReducer.forms || {};
 
 const expenseDetailSelector = createSelector(financeFormSelector, (state) => state.expenseDetail);
 
 const expensesToEditSelector = createSelector(financeSelector, (state) => state.expenses_to_edit);
+
+const tempExpenseToEditSelector = createSelector(financeSelector, (state) => state.expense_to_edit);
 
 const selectedEditExpenseSelector = createSelector(
   financeSelector,
@@ -59,4 +63,6 @@ export {
   expensesToEditSelector,
   selectedEditExpenseSelector,
   dateRangeSelector,
+  expenseToDetailSelector,
+  tempExpenseToEditSelector,
 };

@@ -1,266 +1,84 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styles from './styles.scss';
-import PageTitle from '../../../components/PageTitle';
-import { Col, Container, Row, Button } from 'react-bootstrap';
-import SalesImg from '../../../assets/images/harvestUseType/Sales.svg';
-import SelfConsumptionImg from '../../../assets/images/harvestUseType/SelfConsumption.svg';
-import AnimalFeedImg from '../../../assets/images/harvestUseType/AnimalFeed.svg';
-import CompostImg from '../../../assets/images/harvestUseType/Compost.svg';
-import GiftImg from '../../../assets/images/harvestUseType/Gift.svg';
-import ExchangeImg from '../../../assets/images/harvestUseType/Exchange.svg';
-import SavedForSeedImg from '../../../assets/images/harvestUseType/SavedForSeed.svg';
-import NotSureImg from '../../../assets/images/harvestUseType/NotSure.svg';
-import OtherImg from '../../../assets/images/harvestUseType/Other.svg';
-import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
-import history from '../../../history';
-import { withTranslation } from 'react-i18next';
-import { userFarmSelector } from '../../userFarmSlice';
-import { setSelectedUseTypes, addHarvestUseType, saveHarvestAllocationWip } from '../actions';
-import PurePopupMiniForm from '../../../components/PopupMiniForm';
+import React, { useEffect } from 'react';
+import PureHarvestUseType from '../../../components/Logs/HarvestUseType';
 import {
-  setAllHarvestUseTypesSelector,
-  selectedUseTypeSelector,
-  harvestAllocationSelector,
-} from '../selectors';
+  harvestLogDataSelector,
+  harvestLogData,
+  canEditStepTwo,
+  canEditStepTwoSelector,
+} from '../Utility/logSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import history from '../../../history';
+import { userFarmSelector } from '../../userFarmSlice';
+import { addHarvestUseType } from '../actions';
+import { setAllHarvestUseTypesSelector } from '../selectors';
+import { currentLogSelector } from '../selectors';
 
-class HarvestUseType extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      defaultUseTypeNames: [
-        'Sales',
-        'Self-Consumption',
-        'Animal Feed',
-        'Compost',
-        'Gift',
-        'Exchange',
-        'Saved for seed',
-        'Not Sure',
-        'Donation',
-        'Other',
-      ],
-      imgDict: {
-        Sales: SalesImg,
-        'Self-Consumption': SelfConsumptionImg,
-        'Animal Feed': AnimalFeedImg,
-        Compost: CompostImg,
-        Gift: GiftImg,
-        Exchange: ExchangeImg,
-        'Saved for seed': SavedForSeedImg,
-        'Not Sure': NotSureImg,
-        Donation: DonationImg,
-        Other: OtherImg,
-      },
-      useTypeSelected: {
-        width: '80px',
-        height: '80px',
-        background: '#00756A',
-        borderRadius: '50px',
-        margin: '0 auto',
-      },
-      useTypeUnSelected: {
-        width: '80px',
-        height: '80px',
-        background: '#7BCFA2',
-        borderRadius: '50px',
-        margin: '0 auto',
-      },
-      selectedUseTypes: [],
-      useTypeClicked: false,
-      currId: 0,
-      showAdd: false,
-      disabled: true,
-    };
-    this.assignImage = this.assignImage.bind(this);
+function HarvestUseType() {
+  const dispatch = useDispatch();
+  const allUseType = useSelector(setAllHarvestUseTypesSelector);
+  const defaultData = useSelector(harvestLogDataSelector);
+  const farm = useSelector(userFarmSelector);
+  const isEditStepTwo = useSelector(canEditStepTwoSelector);
+  const selectedLog = useSelector(currentLogSelector);
 
-    if (this.props.useType) {
-      this.props.useType.some((item) => this.logClick(item));
-    }
-  }
+  useEffect(() => {}, []);
 
-  assignImage(useTypeName) {
-    if (this.state.defaultUseTypeNames.includes(useTypeName)) {
-      return this.state.imgDict[useTypeName];
-    } else return OtherImg;
-  }
-
-  logClick(type) {
-    this.setState({
-      useTypeClicked: !this.state.useTypeClicked,
-      currId: type.harvest_use_type_id,
-    });
-
-    if (
-      !this.state.selectedUseTypes.some(
-        (item) => item.harvest_use_type_id === type.harvest_use_type_id,
-      )
-    ) {
-      let selectedUses = this.state.selectedUseTypes;
-      selectedUses.push(type);
-      this.setState({
-        selectedUses: selectedUses,
+  const onBack = (data) => {
+    const tempProps = JSON.parse(JSON.stringify(data));
+    if (defaultData.selectedUseTypes.length > 0) {
+      tempProps.selectedUseTypes.map((item, idx) => {
+        if (
+          idx < defaultData.selectedUseTypes.length &&
+          item.harvest_use_type_name === defaultData.selectedUseTypes[idx].harvest_use_type_name
+        ) {
+          item.quantity_kg = defaultData.selectedUseTypes[idx].quantity_kg;
+        }
       });
-    } else {
-      if (
-        this.state.selectedUseTypes.some(
-          (item) => item.harvest_use_type_id === type.harvest_use_type_id,
-        )
-      ) {
-        let index = this.state.selectedUseTypes
-          .map(function (x) {
-            return x.harvest_use_type_id;
-          })
-          .indexOf(type.harvest_use_type_id);
-        let selectedUses = this.state.selectedUseTypes;
-        selectedUses.splice(index, 1);
-        this.setState({
-          selectedUses: selectedUses,
+    }
+    defaultData.selectedUseTypes = tempProps.selectedUseTypes;
+    dispatch(canEditStepTwo(false));
+    dispatch(harvestLogData(defaultData));
+    history.push('/harvest_log');
+  };
+
+  const onNext = (data) => {
+    const tempProps = JSON.parse(JSON.stringify(data));
+    if (defaultData.selectedUseTypes.length > 0) {
+      if (defaultData.selectedUseTypes.length > 0) {
+        tempProps.selectedUseTypes.map((item) => {
+          defaultData.selectedUseTypes.map((item1) => {
+            if (item.harvest_use_type_name === item1.harvest_use_type_name) {
+              item.quantity_kg = item1.quantity_kg;
+            }
+          });
         });
       }
     }
 
-    this.state.selectedUseTypes.length >= 1
-      ? (this.state.disabled = false)
-      : (this.state.disabled = true);
-  }
-
-  openAddModal = () => {
-    this.setState({ showAdd: true });
+    defaultData.selectedUseTypes = tempProps.selectedUseTypes;
+    dispatch(harvestLogData(defaultData));
+    dispatch(canEditStepTwo(false));
+    history.push('/harvest_allocation');
   };
 
-  closeAddModal = () => {
-    this.setState({ showAdd: false });
-  };
+  const dispatchAddUseType = (useTypeName) => dispatch(addHarvestUseType(useTypeName));
+  const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.REQUIRED_TASK'));
 
-  addCustomType = (typeName) => {
-    if (typeName !== '') {
-      this.props.dispatch(addHarvestUseType(typeName));
-      this.closeAddModal();
-    }
-  };
-  render() {
-    return (
-      <div className={styles.logContainer}>
-        <PageTitle
-          title={this.props.t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}
-          backUrl="/harvest_log"
-        />
-        <h4>{this.props.t('LOG_HARVEST.HARVEST_USE_TYPE_SUBTITLE')}</h4>
-        <Container
-          fluid={true}
-          style={{
-            marginLeft: 0,
-            marginRight: 0,
-            padding: '0 3%',
-            marginTop: '5%',
-            width: '100%',
-          }}
-        >
-          <Row className="show-grid">
-            {this.props.allUseType.map((type) => {
-              const taskName = this.props.t(
-                `harvest_uses:${type.harvest_use_type_translation_key}`,
-              );
-              const buttonImg = this.assignImage(type.harvest_use_type_name);
-              return (
-                <Col
-                  xs={4}
-                  md={4}
-                  className={styles.imgCol}
-                  onClick={() => {
-                    this.logClick(type);
-                  }}
-                >
-                  <div
-                    style={
-                      this.state.selectedUseTypes.some(
-                        (item) => item.harvest_use_type_id === type.harvest_use_type_id,
-                      )
-                        ? this.state.useTypeSelected
-                        : this.state.useTypeUnSelected
-                    }
-                    className={styles.circleButton}
-                  >
-                    <img src={buttonImg} alt="" />
-                  </div>
-                  <div className={styles.buttonName}>{taskName}</div>
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
-
-        {this.props.users.role_id !== 3 && (
-          <div className={styles.buttonContainer}>
-            <Button onClick={this.openAddModal} style={{ marginBottom: '100px' }}>
-              {this.props.t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}
-            </Button>
-          </div>
-        )}
-
-        <div className={styles.bottomContainer}>
-          <div
-            className={styles.backButton}
-            onClick={() => {
-              this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
-              history.push('/harvest_log');
-            }}
-          >
-            {this.props.t('common:BACK')}
-          </div>
-          <button
-            className="btn btn-primary-round"
-            onClick={() => {
-              const harvestAlloc = this.props.harvestAllocation;
-              this.state.selectedUseTypes = this.state.selectedUseTypes.map(function (elem) {
-                let key = Object.assign({}, elem);
-                let name = !key.harvest_use_type_name
-                  ? key.harvestUseType.harvest_use_type_name
-                  : key.harvest_use_type_name;
-                if (name in harvestAlloc) {
-                  !key.harvest_use_type_name
-                    ? (key.quantity_kg = Number(harvestAlloc[name]))
-                    : (key.quantity = Number(harvestAlloc[name]));
-                } else {
-                  !key.harvest_use_type_name ? (key.quantity_kg = 0) : (key.quantity = 0);
-                }
-                return key;
-              });
-              this.props.dispatch(setSelectedUseTypes(this.state.selectedUseTypes));
-              history.push('/harvest_allocation');
-            }}
-            disabled={this.state.disabled}
-          >
-            {this.props.t('common:NEXT')}
-          </button>
-        </div>
-
-        <PurePopupMiniForm
-          title={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.TITLE')}
-          inputInfo={this.props.t('LOG_HARVEST.ADD_CUSTOM_TYPE.INPUT_LABEL')}
-          onClose={this.closeAddModal}
-          onFormSubmit={this.addCustomType}
-          isOpen={this.state.showAdd}
-        />
-      </div>
-    );
-  }
+  return (
+    <>
+      <PureHarvestUseType
+        onGoBack={onBack}
+        onNext={onNext}
+        useTypes={allUseType}
+        defaultData={defaultData}
+        farm={farm}
+        addUseType={dispatchAddUseType}
+        showUseTypeRequiredError={showUseTypeRequiredError}
+        isEdit={isEditStepTwo}
+        selectedLog={selectedLog}
+      />
+    </>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    users: userFarmSelector(state),
-    allUseType: setAllHarvestUseTypesSelector(state),
-    useType: selectedUseTypeSelector(state),
-    harvestAllocation: harvestAllocationSelector(state),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HarvestUseType));
+export default HarvestUseType;

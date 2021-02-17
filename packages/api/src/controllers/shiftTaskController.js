@@ -39,7 +39,7 @@ class shiftTaskController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(shiftTaskModel, req, { user_id: req.user.user_id }, trx);
+        const isDeleted = await baseController.delete(shiftTaskModel, req, trx, { user_id: req.user.user_id });
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);

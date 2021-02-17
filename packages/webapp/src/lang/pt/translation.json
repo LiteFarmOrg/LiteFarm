@@ -393,8 +393,13 @@
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
     "HARVEST_USE_TYPE_TITLE": "Registro de colheita (passo 2 de 3)",
+    "FIELD": "Choose a field",
+    "CROP": "Choose a crop",
+    "FIELD_PLACEHOLDER": "Select a field",
+    "CROP_PLACEHOLDER": "Select a crop",
     "QUANTITY": "Quantidade",
-    "TITLE": "Registro de Colheita (passo 1 de 3)"
+    "TITLE": "Registro de Colheita (passo 1 de 3)",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Taxa de Fluxo",
@@ -440,6 +445,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -631,11 +637,11 @@
       "TITLE": "Receita Estimada"
     },
     "EXPENSE_DETAIL": {
+      "ACTION": "Ação",
       "COST": "Custo",
-      "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir todas as despesas desta página? Nota: Para excluir uma despesa específica, vá para Editar.",
       "DESCRIPTION": "Descrição de Despesa",
-      "TITLE": "Detalhe de despesas",
-      "TOTAL": "Total"
+      "TEMP_DELETE_CONFIRMATION": "Tem certeza de que deseja excluir todas as despesas desta página?",
+      "TITLE": "Detalhe de despesas"
     },
     "FINANCES": {
       "ACTION": "Ação",

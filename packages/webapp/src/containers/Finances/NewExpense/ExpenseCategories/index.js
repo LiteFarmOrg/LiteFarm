@@ -13,7 +13,7 @@ import MachineImg from '../../../../assets/images/log/machinery.svg';
 import SeedImg from '../../../../assets/images/log/seeding.svg';
 import OtherImg from '../../../../assets/images/log/other.svg';
 import LandImg from '../../../../assets/images/log/land.svg';
-import { setSelectedExpense } from '../../actions';
+import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 
@@ -45,7 +45,7 @@ class ExpenseCategories extends Component {
   }
 
   nextPage() {
-    this.props.dispatch(setSelectedExpense(this.state.selectedTypes));
+    this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
     history.push('/add_expense');
   }
 

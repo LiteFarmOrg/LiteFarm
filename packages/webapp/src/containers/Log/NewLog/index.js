@@ -20,6 +20,7 @@ import {
   setSelectedUseTypes,
   saveHarvestAllocationWip,
 } from '../actions';
+import { resetHarvestLog, canEdit } from '../Utility/logSlice';
 
 class NewLog extends Component {
   componentDidMount() {
@@ -27,6 +28,8 @@ class NewLog extends Component {
     this.props.dispatch(setFormData({ notes: '', field: {}, crop: {}, quantity_kg: null }));
     this.props.dispatch(setSelectedUseTypes([]));
     this.props.dispatch(saveHarvestAllocationWip({}));
+    this.props.dispatch(resetHarvestLog());
+    this.props.dispatch(canEdit(false));
   }
   render() {
     return (

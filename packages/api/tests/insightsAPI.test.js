@@ -62,8 +62,8 @@ describe('insights test', () => {
       const [{ field_id, created_by_user_id }] = await mocks.fieldFactory({promisedFarm: [ { farm_id }]});
       const [{ crop_id }] = await mocks.cropFactory({promisedFarm: [{farm_id}]}, crop);
       const [{ field_crop_id }] = await mocks.fieldCropFactory({promisedField: [{ field_id, created_by_user_id }], promisedCrop: [{ crop_id }]});
-      const [{ sale_id }] = await mocks.saleFactory({promisedFarm: [{ farm_id }]});
-      const [{ crop_sale_id }] = await mocks.cropSaleFactory({ promisedFieldCrop: [{ field_crop_id, crop_id }], promisedSale: [{ sale_id }]},
+      const [{ sale_id }] = await mocks.saleFactory({promisedUserFarm: [{ user_id, farm_id }]});
+      const [{ crop_sale_id }] = await mocks.cropSaleFactory({ promisedCrop: [{ crop_id }], promisedSale: [{ sale_id }]},
         { quantity_kg: quantity, sale_value: 3});
       return { user_id, farm_id, field_crop_id };
     }

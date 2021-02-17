@@ -499,9 +499,30 @@ describe('Log Tests', () => {
             });
           });
 
-          test('should return 403 if a worker tries to delete a activityLog', async (done) => {
+          test('should return 403 if a worker tries to delete an activityLog not owned by him', async (done) => {
             deleteRequest({ user_id: newWorker.user_id, activity_id: activityLog.activity_id }, async (err, res) => {
               expect(res.status).toBe(403);
+              done();
+            });
+          });
+
+          test('Worker should delete activity owned by him', async (done) => {
+            const [workerActivity] = await mocks.activityLogFactory({ promisedUser: [newWorker] }, {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fertilizing',
+            });
+            await mocks.activityFieldsFactory({
+              promisedField: [field],
+              promisedActivityLog: [workerActivity]
+            })
+            deleteRequest({ user_id: newWorker.user_id, activity_id: workerActivity.activity_id }, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLogRes = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: newWorker.user_id,
+              }).where('activity_id', workerActivity.activity_id);
+              expect(activityLogRes.length).toBe(1);
+              expect(activityLogRes[0].deleted).toBe(true);
               done();
             });
           });

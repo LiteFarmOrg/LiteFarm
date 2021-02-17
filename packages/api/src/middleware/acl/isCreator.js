@@ -3,6 +3,7 @@ const knex = Model.knex();
 const entitiesGetters = {
   farm_expense_id: fromExpense,
   sale_id: fromSale,
+  activity_id: fromActivity,
 //   user_id: (user_id) => ({ user_id }),
 }
 
@@ -16,7 +17,7 @@ const isCreator = ({ params = null, body = null }) => async (req, res, next) => 
   isEntityCreatedBy(entity, user_id) ? next() : notAuthorizedResponse(res)
 }
 
-function isEntityCreatedBy({created_by_user_id}, user_id) {
+function isEntityCreatedBy({ created_by_user_id }, user_id) {
   return created_by_user_id === user_id;
 }
 
@@ -30,6 +31,10 @@ async function fromExpense(expenseId) {
 
 async function fromSale(saleId) {
   return await knex('sale').where({ sale_id: saleId }).first();
+}
+
+async function fromActivity(activityId) {
+  return await knex('activityLog').where({ activity_id: activityId }).first();
 }
 
 module.exports = isCreator;

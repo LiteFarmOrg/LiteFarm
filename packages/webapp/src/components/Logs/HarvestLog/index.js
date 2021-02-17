@@ -218,7 +218,7 @@ export default function PureHarvestLog({
             placeholder={t('LOG_HARVEST.CROP_PLACEHOLDER')}
             options={filteredCropOptions}
             onChange={(e) => handleCropChange(e)}
-            value={crop}
+            value={defaultData.resetCrop ? null : crop}
             style={{ marginBottom: '24px' }}
             defaultValue={defaultData.defaultCrop}
           />

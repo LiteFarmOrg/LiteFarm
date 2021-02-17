@@ -142,12 +142,6 @@ class logController extends baseController {
     return async (req, res) => {
       try {
         if (req.params.activity_id) {
-          const [activity] = await baseController.getIndividual(ActivityLogModel, req.params.activity_id)
-          if(activity.activity_kind === 'harvest') {
-            const uses = await baseController.getByFieldId(HarvestUseModel, 'activity_id', req.params.activity_id);
-            const deletedUses = uses.map(({ harvest_use_id }) => baseController.delete(HarvestUseModel, harvest_use_id));
-            await Promise.all(deletedUses);
-          }
           await super.delete(ActivityLogModel, req.params.activity_id, null, req.user);
           res.sendStatus(200);
         } else {

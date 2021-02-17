@@ -83,9 +83,9 @@ class baseController {
       .where(table_id, id).update(resource).returning('*');
   }
 
-  static async delete(model, id, transaction=null, context = {}) {
+  static async delete(model, id, context, transaction = null) {
     const table_id = model.idColumn;
-    return await model.query(transaction).context(context).where(table_id, id).delete()
+    return await model.query(transaction).context(context).where(table_id, id).delete();
   }
 
   static async getIndividual(model, id) {
@@ -126,7 +126,7 @@ class baseController {
 
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
-  static async upsertGraph(model, data, transaction, context = {}) {
+  static async upsertGraph(model, data, context, transaction) {
     return await model.query(transaction).context(context).upsertGraph(data, { insertMissing: true });
   }
 

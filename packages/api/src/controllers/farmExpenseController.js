@@ -100,7 +100,7 @@ class farmExpenseController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, { user_id: req.user.user_id }, trx);
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);

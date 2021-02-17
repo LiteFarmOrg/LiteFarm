@@ -25,8 +25,8 @@ const userLogModel = require('../models/userLogModel');
 
 const { createToken } = require('../util/jwt');
 
-class loginController {
-  static authenticateUser() {
+const loginController = {
+  authenticateUser() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body.user;
@@ -95,7 +95,7 @@ class loginController {
     };
   }
 
-  static loginWithGoogle() {
+  loginWithGoogle() {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
@@ -128,7 +128,7 @@ class loginController {
     };
   }
 
-  static getUserNameByUserEmail() {
+  getUserNameByUserEmail() {
     return async (req, res) => {
       const { email } = req.params;
       try {

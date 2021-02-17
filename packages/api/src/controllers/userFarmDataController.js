@@ -18,8 +18,8 @@ const farmDataScheduleModel = require('../models/farmDataScheduleModel');
 
 /* eslint-disable no-console */
 
-class userFarmDataController {
-  static registerFarm() {
+const userFarmDataController = {
+  registerFarm() {
     return async (req, res) => {
       try {
         const farm_id = req.body.farm_id;
@@ -36,13 +36,13 @@ class userFarmDataController {
     }
   }
 
-  static getSchedule() {
+  getSchedule() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const data = await farmDataScheduleModel.query().where({ farm_id, is_processed: false }).returning('*');
         if (!data.length) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(data);
         }

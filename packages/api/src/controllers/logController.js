@@ -33,8 +33,8 @@ const field = require('../models/fieldModel');
 const HarvestUseTypeModel = require('../models/harvestUseTypeModel');
 const HarvestUseModel = require('../models/harvestUseModel');
 
-class logController {
-  static addLog() {
+const logController = {
+  addLog() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -51,7 +51,7 @@ class logController {
     };
   }
 
-  static getLogByActivityId() {
+  getLogByActivityId() {
     return async (req, res) => {
       try {
         if (req.params.activity_id) {
@@ -68,7 +68,7 @@ class logController {
     };
   }
 
-  static getLogByFarmId() {
+  getLogByFarmId() {
     return async (req, res) => {
       try {
         if (req.params.farm_id) {
@@ -89,7 +89,7 @@ class logController {
     };
   }
 
-  static getHarvestUseTypesByFarmID() {
+  getHarvestUseTypesByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -109,7 +109,7 @@ class logController {
     };
   }
 
-  static addHarvestUseType() {
+  addHarvestUseType() {
     return async (req, res) => {
       const { farm_id } = req.headers;
       const { name } = req.body;
@@ -138,7 +138,7 @@ class logController {
     };
   }
 
-  static deleteLog() {
+  deleteLog() {
     return async (req, res) => {
       try {
         if (req.params.activity_id) {
@@ -155,7 +155,7 @@ class logController {
     };
   }
 
-  static putLog() {
+  putLog() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -176,9 +176,9 @@ class logController {
   }
 }
 
-class logServices {
+const logServices = {
 
-  static async insertLog({ body, user }, transaction) {
+  async insertLog({ body, user }, transaction) {
     const logModel = getActivityModelKind(body.activity_kind);
     const user_id = user.user_id;
     const activityLog = await baseController.post(ActivityLogModel, body, transaction, { user_id });
@@ -202,7 +202,7 @@ class logServices {
     return activityLog;
   }
 
-  static async getLogById(id) {
+  async getLogById(id) {
     const log = await baseController.getIndividual(ActivityLogModel, id);
     if (!(log && log[0])) {
       throw new Error('Log not found');
@@ -214,7 +214,7 @@ class logServices {
     return log[0];
   }
 
-  static async getLogByFarm(farm_id) {
+  async getLogByFarm(farm_id) {
     var logs = await ActivityLogModel.query().whereNotDeleted()
       .distinct('users.first_name', 'users.last_name', 'activityLog.activity_id', 'activityLog.activity_kind',
         'activityLog.date', 'activityLog.user_id', 'activityLog.notes', 'activityLog.action_needed', 'activityLog.photo')
@@ -243,7 +243,7 @@ class logServices {
     return logs;
   }
 
-  static async patchLog(logId, transaction, { body, user }) {
+  async patchLog(logId, transaction, { body, user }) {
     const log = await baseController.getIndividual(ActivityLogModel, logId);
     const user_id = user.user_id;
     const activityLog = await baseController.updateIndividualById(ActivityLogModel, logId, body, transaction, { user_id });

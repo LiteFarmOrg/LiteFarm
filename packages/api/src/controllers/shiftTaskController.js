@@ -17,8 +17,8 @@ const baseController = require('../controllers/baseController');
 const shiftTaskModel = require('../models/shiftTaskModel');
 const { transaction, Model } = require('objection');
 
-class shiftTaskController {
-  static addShiftTask() {
+const shiftTaskController = {
+  addShiftTask() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -35,16 +35,15 @@ class shiftTaskController {
     };
   }
 
-  static delShiftTask(){
-    return async(req, res) => {
+  delShiftTask() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const isDeleted = await baseController.delete(shiftTaskModel, req, trx, { user_id: req.user.user_id });
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
-        }
-        else{
+        } else {
           res.sendStatus(404);
         }
       }

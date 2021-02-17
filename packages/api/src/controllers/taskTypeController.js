@@ -18,8 +18,8 @@ const TaskTypeModel = require('../models/taskTypeModel');
 const { transaction, Model } = require('objection');
 
 
-class taskTypeController {
-  static addType() {
+const taskTypeController = {
+  addType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -39,16 +39,18 @@ class taskTypeController {
     };
   }
 
-  static getAllTypes() {
+  getAllTypes() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({farm_id, deleted: false});
+        const rows = await TaskTypeModel.query().whereNotDeleted().where('farm_id', null).orWhere({
+          farm_id,
+          deleted: false,
+        });
         if (!rows.length) {
-          res.sendStatus(404)
-        }
-        else {
-          res.status(200).send(rows)
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(rows);
         }
       }
       catch (error) {
@@ -60,16 +62,15 @@ class taskTypeController {
     }
   }
 
-  static getTypeByID() {
+  getTypeByID() {
     return async (req, res) => {
       try {
         const id = req.params.task_type_id;
         const row = await baseController.getIndividual(TaskTypeModel, id);
         if (!row.length) {
-          res.sendStatus(404)
-        }
-        else {
-          res.status(200).send(row)
+          res.sendStatus(404);
+        } else {
+          res.status(200).send(row);
         }
       }
       catch (error) {
@@ -81,16 +82,15 @@ class taskTypeController {
     }
   }
 
-  static delType(){
-    return async(req, res) => {
+  delType() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, trx, { user_id: req.user.user_id });
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
-        }
-        else{
+        } else {
           res.sendStatus(404);
         }
       }

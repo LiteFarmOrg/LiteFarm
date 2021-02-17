@@ -17,9 +17,9 @@ const baseController = require('../controllers/baseController');
 const expenseTypeModel = require('../models/expenseTypeModel');
 const { transaction, Model } = require('objection');
 
-class farmExpenseTypeController {
+const farmExpenseTypeController = {
 
-  static addFarmExpenseType() {
+  addFarmExpenseType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -39,7 +39,7 @@ class farmExpenseTypeController {
     };
   }
 
-  static getFarmExpenseType() {
+  getFarmExpenseType() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -53,7 +53,7 @@ class farmExpenseTypeController {
     };
   }
 
-  static getDefaultTypes() {
+  getDefaultTypes() {
     return async (req, res) => {
       try {
         const result = await expenseTypeModel.query().where('farm_id', null).whereNotDeleted();
@@ -66,7 +66,7 @@ class farmExpenseTypeController {
     };
   }
 
-  static delFarmExpenseType() {
+  delFarmExpenseType() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       if (req.headers.farm_id == null) {

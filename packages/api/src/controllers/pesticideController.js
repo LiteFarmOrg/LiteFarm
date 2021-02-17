@@ -17,8 +17,8 @@ const baseController = require('../controllers/baseController');
 const pesticideModel = require('../models/pesiticideModel');
 const { transaction, Model } = require('objection');
 
-class pesticideController {
-  static getPesticide() {
+const pesticideController = {
+  getPesticide() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -35,11 +35,11 @@ class pesticideController {
       }
     }
   }
-  static addPesticide(){
+  addPesticide() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(pesticideModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
@@ -53,7 +53,7 @@ class pesticideController {
     };
   }
 
-  static delPesticide() {
+  delPesticide() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {

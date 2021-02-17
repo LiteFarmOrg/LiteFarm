@@ -18,9 +18,9 @@ const supportTicketModel = require('../models/supportTicketModel');
 const userModel = require('../models/userModel');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
 
-class supportTicketController {
+const supportTicketController = {
   // Disabled
-  static getSupportTicketsByFarmId() {
+  getSupportTicketsByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -39,7 +39,7 @@ class supportTicketController {
     };
   }
 
-  static addSupportTicket() {
+  addSupportTicket() {
     return async (req, res) => {
       try {
         const data = JSON.parse(req.body.data);
@@ -68,7 +68,7 @@ class supportTicketController {
   }
 
   // Disabled
-  static patchStatus() {
+  patchStatus() {
     return async (req, res) => {
       const support_ticket_id = req.params.support_ticket_id;
       try {

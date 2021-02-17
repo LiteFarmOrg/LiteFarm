@@ -18,8 +18,8 @@ const priceModel = require('../models/priceModel');
 const { transaction, Model } = require('objection');
 
 
-class PriceController {
-  static addPrice() {
+const PriceController = {
+  addPrice() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -36,16 +36,15 @@ class PriceController {
     };
   }
 
-  static delPrice(){
-    return async(req, res) => {
+  delPrice() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const isDeleted = await baseController.delete(priceModel, req.params.price_id, trx);
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
-        }
-        else{
+        } else {
           res.sendStatus(404);
         }
       }
@@ -58,16 +57,15 @@ class PriceController {
     }
   }
 
-  static updatePrice(){
-    return async(req, res) => {
+  updatePrice() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const updated = await baseController.put(priceModel, req.params.id, req.body, trx);
         await trx.commit();
-        if(!updated.length){
+        if (!updated.length) {
           res.sendStatus(404);
-        }
-        else{
+        } else {
           res.status(200).send(updated);
         }
 
@@ -81,15 +79,14 @@ class PriceController {
     }
   }
 
-  static getPriceByFarmId() {
+  getPriceByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const rows = await PriceController.getByForeignKey(farm_id);
         if (!rows.length) {
-          res.sendStatus(404)
-        }
-        else {
+          res.sendStatus(404);
+        } else {
           res.status(200).send(rows);
         }
       }
@@ -102,11 +99,11 @@ class PriceController {
     }
   }
 
-  static async getByForeignKey(farm_id) {
+  async getByForeignKey(farm_id) {
     const prices = await priceModel.query().select('*').from('price').where('price.farm_id', farm_id).whereNotDeleted();
 
     return prices;
-  }
+  },
 
 }
 

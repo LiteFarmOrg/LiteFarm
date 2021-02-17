@@ -21,8 +21,8 @@ const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 
 
-class passwordResetController {
-  static sendResetEmail() {
+const passwordResetController = {
+  sendResetEmail() {
     return async (req, res) => {
       const { email } = req.body;
 
@@ -80,13 +80,13 @@ class passwordResetController {
     };
   }
 
-  static validateToken() {
+  validateToken() {
     return async (req, res) => {
       return res.status(200).json({ isValid: true });
     };
   }
 
-  static resetPassword() {
+  resetPassword() {
     return async (req, res) => {
       const { password } = req.body;
       const { user_id, email, first_name, language_preference } = req.user;

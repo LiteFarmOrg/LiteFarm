@@ -20,8 +20,8 @@ const userFarmModel = require('../models/userFarmModel');
 const { transaction, Model } = require('objection');
 const knex = Model.knex();
 
-class farmController {
-  static addFarm() {
+const farmController = {
+  addFarm() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -60,12 +60,12 @@ class farmController {
     };
   }
 
-  static getAllFarms() {
+  getAllFarms() {
     return async (req, res) => {
       try {
         const rows = await baseController.get(farmModel);
         if (!rows.length) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(rows);
         }
@@ -78,14 +78,14 @@ class farmController {
     }
   }
 
-  static getFarmByID() {
+  getFarmByID() {
     return async (req, res) => {
       try {
 
         const id = req.params.farm_id;
         const row = await baseController.getIndividual(farmModel, id);
         if (!row.length) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(row);
         }
@@ -98,7 +98,7 @@ class farmController {
     }
   }
 
-  static deleteFarm() {
+  deleteFarm() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -118,17 +118,17 @@ class farmController {
     }
   }
 
-  static updateFarm(mainPatch = false) {
+  updateFarm(mainPatch = false) {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
         if ((!!req.body.address || !!req.body.grid_points) && !mainPatch) {
-          throw new Error('Not allowed to modify address or gridPoints')
-        } else if(req.body.country) {
+          throw new Error('Not allowed to modify address or gridPoints');
+        } else if (req.body.country) {
           req.body.units = await this.getCountry(req.body.country);
           delete req.body.country;
         }
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx, { user_id });
 
         await trx.commit();
@@ -147,7 +147,7 @@ class farmController {
     }
   }
 
-  static async getUser(req, trx) {
+  async getUser(req, trx) {
     // check if a user is making this call
     if (req.user) {
 
@@ -157,7 +157,7 @@ class farmController {
     }
   }
 
-  static async insertUserFarm(user, farm_id, trx) {
+  async insertUserFarm(user, farm_id, trx) {
     return userFarmModel.query(trx).insert({
       user_id: user.user_id,
       farm_id,
@@ -166,10 +166,10 @@ class farmController {
     }).returning('*');
   }
 
-  static async getCountry(country) {
+  async getCountry(country) {
     const { iso, unit } = await knex('currency_table').select('*').where('country_name', country).first();
-    return { currency: iso, measurement: unit.toLowerCase() }
-  }
+    return { currency: iso, measurement: unit.toLowerCase() };
+  },
 }
 
 module.exports = farmController;

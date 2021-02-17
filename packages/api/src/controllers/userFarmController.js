@@ -36,9 +36,9 @@ const validStatusChanges = {
   'Invited': ['Inactive']
 };
 
-class userFarmController {
+const userFarmController = {
 
-  static getUserFarmByUserID() {
+  getUserFarmByUserID() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
@@ -60,7 +60,7 @@ class userFarmController {
     };
   }
 
-  static getUserFarmsByFarmID() {
+  getUserFarmsByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -96,7 +96,7 @@ class userFarmController {
     };
   }
 
-  static getActiveUserFarmsByFarmID() {
+  getActiveUserFarmsByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -130,7 +130,7 @@ class userFarmController {
     };
   }
 
-  static getFarmInfo() {
+  getFarmInfo() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
@@ -147,7 +147,7 @@ class userFarmController {
     };
   }
 
-  static updateConsent() {
+  updateConsent() {
     return async (req, res) => {
       try {
         const { user_id, farm_id } = req.params;
@@ -155,7 +155,10 @@ class userFarmController {
         await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
         res.sendStatus(200);
         try {
-          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
+          const userFarm = await userFarmModel.query().select('*').where({
+            'userFarm.user_id': user_id,
+            'userFarm.farm_id': farm_id,
+          })
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
@@ -182,7 +185,7 @@ class userFarmController {
     };
   }
 
-  static updateOnboardingFlags() {
+  updateOnboardingFlags() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.user_id;
@@ -232,7 +235,7 @@ class userFarmController {
     };
   }
 
-  static updateRole() {
+  updateRole() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -272,7 +275,7 @@ class userFarmController {
     };
   }
 
-  static updateStatus() {
+  updateStatus() {
     //TODO clean up
     return async (req, res) => {
       const farm_id = req.params.farm_id;
@@ -337,7 +340,7 @@ class userFarmController {
     };
   }
 
-  static acceptInvitation() {
+  acceptInvitation() {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
@@ -363,7 +366,7 @@ class userFarmController {
     };
   }
 
-  static acceptInvitationWithAccessToken() {
+  acceptInvitationWithAccessToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
       req.user.farm_id = farm_id;
@@ -371,7 +374,7 @@ class userFarmController {
     };
   }
 
-  static updateWage() {
+  updateWage() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const farm_id = req.params.farm_id;
@@ -400,7 +403,7 @@ class userFarmController {
     };
   }
 
-  static patchPseudoUserEmail() {
+  patchPseudoUserEmail() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
       const { email } = req.body;

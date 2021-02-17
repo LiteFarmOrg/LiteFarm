@@ -17,9 +17,9 @@ const baseController = require('../controllers/baseController');
 const cropModel = require('../models/cropModel');
 const { transaction, Model, UniqueViolationError } = require('objection');
 
-class cropController {
+const cropController = {
 
-  static addCropWithFarmID() {
+  addCropWithFarmID() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -53,52 +53,48 @@ class cropController {
 
       }
     };
-  }
+  },
 
-  static getAllCrop() {
+  getAllCrop() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const rows = await cropController.get(farm_id);
         if (!rows.length) {
           res.status(200).send(rows);
-        }
-        else {
+        } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static getIndividualCrop() {
+  getIndividualCrop() {
     return async (req, res) => {
       try {
         const id = req.params.crop_id;
         const row = await baseController.getIndividual(cropModel, id);
         if (!row.length) {
-          res.sendStatus(404)
-        }
-        else {
+          res.sendStatus(404);
+        } else {
           res.status(200).send(row);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   // should only delete user added crop
-  static delCrop() {
+  delCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -106,57 +102,53 @@ class cropController {
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static updateCrop() {
+  updateCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
         const updated = await baseController.put(cropModel, req.params.crop_id, data, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else {
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static async get(farm_id){
+  async get(farm_id) {
     //TODO fix user added flag
     return await cropModel.query().whereNotDeleted().where('user_added', false).orWhere({ farm_id, deleted: false });
-  }
+  },
 
-  static async del(req, trx){
+  async del(req, trx) {
     const id = req.params.crop_id;
     const table_id = cropModel.idColumn;
-    return await cropModel.query(trx).context({ user_id: req.user.user_id }).where(table_id, id).andWhere('user_added', true).delete()
-  }
-}
+    return await cropModel.query(trx).context({ user_id: req.user.user_id }).where(table_id, id).andWhere('user_added', true).delete();
+  },
+};
 
 module.exports = cropController;

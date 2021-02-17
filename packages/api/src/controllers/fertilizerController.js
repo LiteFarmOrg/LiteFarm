@@ -17,8 +17,8 @@ const baseController = require('../controllers/baseController');
 const fertilizerModel = require('../models/fertilizerModel');
 const { transaction, Model } = require('objection');
 
-class fertilizerController {
-  static getFertilizers() {
+const fertilizerController = {
+  getFertilizers() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -40,7 +40,7 @@ class fertilizerController {
       }
     }
   }
-  static addFertilizer(){
+  addFertilizer() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -49,7 +49,7 @@ class fertilizerController {
         const data = req.body;
         data.fertilizer_translation_key = data.fertilizer_type;
         // another check for farm_id after ACL
-        if(farm_id !== body_farm_id){
+        if (farm_id !== body_farm_id) {
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
         const user_id = req.user.user_id
@@ -66,7 +66,7 @@ class fertilizerController {
     };
   }
 
-  static delFertilizer() {
+  delFertilizer() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {

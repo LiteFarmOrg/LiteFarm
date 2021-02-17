@@ -17,9 +17,9 @@ const baseController = require('../controllers/baseController');
 const diseaseModel = require('../models/diseaseModel');
 const { transaction, Model } = require('objection');
 
-class diseaseController {
+const diseaseController = {
 
-  static getDisease() {
+  getDisease() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -31,13 +31,13 @@ class diseaseController {
           error,
         });
       }
-    }
-  }
-  static addDisease() {
+    };
+  },
+  addDisease() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const data = req.body;
         data.disease_name_translation_key = data.disease_common_name;
         data.disease_group_translation_key = data.disease_group;
@@ -52,9 +52,9 @@ class diseaseController {
         });
       }
     };
-  }
+  },
 
-  static delDisease() {
+  delDisease() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -72,13 +72,13 @@ class diseaseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static async get(farm_id){
+  async get(farm_id) {
     //return await baseController.get(FertilizerModel);
     return await diseaseModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
-  }
-}
+  },
+};
 
 module.exports = diseaseController;

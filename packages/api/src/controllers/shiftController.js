@@ -19,8 +19,8 @@ const shiftModel = require('../models/shiftModel');
 const shiftTaskModel = require('../models/shiftTaskModel');
 const knex = Model.knex();
 
-class shiftController {
-  static addShift() {
+const shiftController = {
+  addShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -46,7 +46,7 @@ class shiftController {
     };
   }
 
-  static addMultiShift() {
+  addMultiShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -79,7 +79,7 @@ class shiftController {
     };
   }
 
-  static delShift() {
+  delShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -102,7 +102,7 @@ class shiftController {
     }
   }
 
-  static getShiftByID() {
+  getShiftByID() {
     return async (req, res) => {
       try {
         const id = req.params.shift_id;
@@ -126,15 +126,15 @@ class shiftController {
     }
   }
 
-  static updateShift() {
+  updateShift() {
     return async (req, res) => {
       //eslint-disable-next-line
       let trx = await transaction.start(Model.knex());
       try {
         if (!req.body.tasks) {
-          res.status(400).send('missing tasks')
+          res.status(400).send('missing tasks');
         }
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, trx, { user_id });
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
@@ -158,7 +158,7 @@ class shiftController {
     }
   }
 
-  static getShiftByUserID() {
+  getShiftByUserID() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
@@ -196,17 +196,17 @@ class shiftController {
             WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id AND u.farm_id = '${farm_id}'
             AND t.field_crop_id = f.field_crop_id AND f.crop_id = c.crop_id AND t.task_id = tp.task_id`*/
 
-  static getShiftByFarmID() {
+  getShiftByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const { user_id }  = req.headers;
+        const { user_id } = req.headers;
         const role = req.role;
         const data = await knex.select([
-            'taskType.task_name','taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
-            'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
-            'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
-            'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
+          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
+          'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
+          'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
+          'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
             'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration'
           ]).from('shiftTask', 'taskType')
           .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
@@ -244,7 +244,7 @@ class shiftController {
     }
   }
 
-  static getShiftByUserFarm() {
+  getShiftByUserFarm() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -289,7 +289,7 @@ class shiftController {
     }
   }
 
-  static async insertTasks(tasks, trx, shift_id) {
+  async insertTasks(tasks, trx, shift_id) {
     //eslint-disable-next-line
     let result = [];
     try {

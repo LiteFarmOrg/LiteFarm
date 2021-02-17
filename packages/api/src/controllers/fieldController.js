@@ -20,9 +20,9 @@ const { mapFieldsToStationId } = require('../jobs/station_sync/mapping')
 const { v4 : uuidv4 } = require('uuid');
 
 
-class fieldController {
+const fieldController = {
 
-  static addField() {
+  addField() {
     return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -46,7 +46,7 @@ class fieldController {
     };
   }
 
-  static delField() {
+  delField() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -66,17 +66,16 @@ class fieldController {
     }
   }
 
-  static updateField() {
+  updateField() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
-        }
-        else if (updated[0].field_name.length === 0) {
+        } else if (updated[0].field_name.length === 0) {
           res.sendStatus(403);
         }
 
@@ -93,7 +92,7 @@ class fieldController {
     }
   }
 
-  static getFieldByFarmID() {
+  getFieldByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -112,23 +111,23 @@ class fieldController {
     }
   }
 
-  static async getByForeignKey(farm_id) {
+  async getByForeignKey(farm_id) {
 
     const fields = await fieldModel.query().whereNotDeleted().select('*').from('field').where('field.farm_id', farm_id);
 
     return fields;
   }
 
-  static async postWithResponse(req, trx) {
+  async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
-    const user_id = req.user.user_id
+    const user_id = req.user.user_id;
     return await baseController.postWithResponse(fieldModel, req.body, trx, { user_id });
   }
 
-  static mapFieldToStation(req, res) {
+  mapFieldToStation(req, res) {
     mapFieldsToStationId([req.field]);
-  }
+  },
 }
 
 module.exports = fieldController;

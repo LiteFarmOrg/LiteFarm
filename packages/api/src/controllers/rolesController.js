@@ -2,8 +2,8 @@ const baseController = require('../controllers/baseController');
 const roleModel = require('../models/roleModel')
 
 
-class rolesController {
-  static getRoles() {
+const rolesController = {
+  getRoles() {
     return async (req, res) => {
       try {
         const data = await roleModel.query().whereNot('role_id', 4);

@@ -17,9 +17,9 @@ const baseController = require('../controllers/baseController');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
 
-class userLogController {
+const userLogController = {
 
-  static addUserLog() {
+  addUserLog() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { user_id } = req.user;

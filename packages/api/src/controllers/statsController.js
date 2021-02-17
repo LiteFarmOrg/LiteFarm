@@ -33,9 +33,9 @@ const farmModel = require('../models/farmModel');
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 
-class statsController {
+const statsController = {
 
-  static getFarmStats() {
+  getFarmStats() {
 
     return async (req, res) => {
       const template = {

@@ -18,8 +18,8 @@ const fieldCropModel = require('../models/fieldCropModel');
 const { transaction, Model } = require('objection');
 const knex = Model.knex();
 
-class FieldCropController {
-  static addFieldCrop() {
+const FieldCropController = {
+  addFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -37,7 +37,7 @@ class FieldCropController {
     };
   }
 
-  static delFieldCrop() {
+  delFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -57,11 +57,11 @@ class FieldCropController {
     }
   }
 
-  static updateFieldCrop() {
+  updateFieldCrop() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
@@ -79,7 +79,7 @@ class FieldCropController {
     }
   }
 
-  static getFieldCropByID() {
+  getFieldCropByID() {
     return async (req, res) => {
       try {
         const field_crop_id = req.params.field_crop_id;
@@ -98,7 +98,7 @@ class FieldCropController {
     }
   }
 
-  static getFieldCropByFarmID() {
+  getFieldCropByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -117,12 +117,12 @@ class FieldCropController {
     }
   }
 
-  static async getByForeignKey(farm_id) {
+  async getByForeignKey(farm_id) {
 
-    const fieldCrops = await fieldCropModel.query().whereNotDeleted().select('*').from('fieldCrop').join('field', function () {
+    const fieldCrops = await fieldCropModel.query().whereNotDeleted().select('*').from('fieldCrop').join('field', function() {
       this.on('fieldCrop.field_id', '=', 'field.field_id');
     }).where('field.farm_id', farm_id)
-      .join('crop', function () {
+      .join('crop', function() {
         this.on('fieldCrop.crop_id', '=', 'crop.crop_id');
       });
 
@@ -138,7 +138,7 @@ class FieldCropController {
     return fieldCrops;
   }
 
-  static getFieldCropsByDate() {
+  getFieldCropsByDate() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -161,7 +161,7 @@ class FieldCropController {
     };
   }
 
-  static getExpiredFieldCrops() {
+  getExpiredFieldCrops() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;

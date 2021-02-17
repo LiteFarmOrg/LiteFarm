@@ -39,6 +39,7 @@ export default function PureHarvestLog({
     setCrop(setDefaultCrop());
     setQuantity(setDefaultQuantity());
     setSelectedCrop(selectedCropValue);
+    setFilteredCropOptions(setDefaultCropOptions);
   }, []);
 
   let fieldOptions = fields.map(({ field_name, field_id }) => ({
@@ -88,6 +89,16 @@ export default function PureHarvestLog({
       };
     }
     return defaultData.defaultCrop ? defaultData.defaultCrop : null;
+  };
+
+  const setDefaultCropOptions = () => {
+    if (isEdit.isEditStepOne) {
+      let data = cropOptions.filter((e) => {
+        return e.field_name === selectedLog.field[0].field_name;
+      });
+      setFilteredCropOptions(data);
+    }
+    return defaultData.filteredCropOptions ? defaultData.filteredCropOptions : null;
   };
 
   const setDefaultQuantity = () => {
@@ -140,6 +151,7 @@ export default function PureHarvestLog({
         selectedUseTypes: [],
         validQuantity: true,
         resetCrop: false,
+        filteredCropOptions: filteredCropOptions,
       });
     }
   };
@@ -158,12 +170,13 @@ export default function PureHarvestLog({
 
   const handleFieldChange = (field) => {
     defaultData.resetCrop = true;
-    dispatch(harvestLogData(defaultData));
     setField(field);
     let data = cropOptions.filter((e) => {
       return e.field_name === field.label;
     });
     setFilteredCropOptions(data);
+    defaultData.filteredCropOptions = data;
+    dispatch(harvestLogData(defaultData));
   };
 
   const handleCropChange = (crop) => {
@@ -180,7 +193,16 @@ export default function PureHarvestLog({
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      style={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}
+      buttonGroup={
+        <>
+          <Button onClick={onGoBack} color={'secondary'} fullLength>
+            {t('common:CANCEL')}
+          </Button>
+          <Button type={'submit'} disabled={!field || !crop || !quant} fullLength>
+            {t('common:NEXT')}
+          </Button>
+        </>
+      }
     >
       <TitleLayout
         onGoBack={onGoBack}

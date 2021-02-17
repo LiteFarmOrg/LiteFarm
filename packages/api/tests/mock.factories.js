@@ -170,8 +170,8 @@ async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, exp
   return knex('farmExpenseType').insert({ farm_id, ...expense_type, ...base }).returning('*');
 }
 
-async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory() } = {}, expense = fakeExpense()) {
-  const [expense_type, user] = await Promise.all([promisedExpenseType, usersFactory()]);
+async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory(), promisedUserFarm = userFarmFactory() } = {}, expense = fakeExpense()) {
+  const [expense_type, user] = await Promise.all([promisedExpenseType, promisedUserFarm]);
   const [{ expense_type_id }] = expense_type;
   const [{ user_id }] = user;
   const [{ farm_id }] = expense_type;
@@ -611,13 +611,12 @@ function fakeShiftTask() {
   };
 }
 
-async function saleFactory({ promisedFarm = farmFactory(), promisedUser=usersFactory() } = {}, sale = fakeSale()) {
-  const [farm, user] = await Promise.all([promisedFarm, promisedUser]);
-  const [{ farm_id }] = farm;
-  const [{ user_id }] = user;
-  return knex('sale').insert({ farm_id, ...sale, ...baseProperties(user_id) }).returning('*');
+async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ user_id, farm_id }] = userFarm;
+  const base = baseProperties(user_id);
+  return knex('sale').insert({ farm_id, ...sale, ...base }).returning('*');
 }
-
 
 function fakeSale() {
   return {
@@ -668,13 +667,13 @@ function fakeCropSale() {
 }
 
 async function cropSaleFactory({
-  promisedFieldCrop = fieldCropFactory(),
+  promisedCrop = cropFactory(),
   promisedSale = saleFactory(),
 } = {}, cropSale = fakeCropSale()) {
-  const [fieldCrop, sale] = await Promise.all([promisedFieldCrop, promisedSale]);
-  const [{ crop_id, field_crop_id }] = fieldCrop;
+  const [crop, sale] = await Promise.all([promisedCrop, promisedSale]);
+  const [{ crop_id }] = crop;
   const [{ sale_id }] = sale;
-  return knex('cropSale').insert({ crop_id, field_crop_id, sale_id, ...cropSale }).returning('*');
+  return knex('cropSale').insert({ crop_id, sale_id, ...cropSale }).returning('*');
 }
 
 function fakeSupportTicket(farm_id) {

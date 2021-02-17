@@ -142,7 +142,7 @@ class logController extends baseController {
     return async (req, res) => {
       try {
         if (req.params.activity_id) {
-          await super.delete(ActivityLogModel, req.params.activity_id, req.user);
+          await super.delete(ActivityLogModel, req.params.activity_id, null, req.user);
           res.sendStatus(200);
         } else {
           throw { code: 400, message: 'No log id defined' };

@@ -445,6 +445,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -636,11 +637,11 @@
       "TITLE": "Receita Estimada"
     },
     "EXPENSE_DETAIL": {
+      "ACTION": "Ação",
       "COST": "Custo",
-      "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir todas as despesas desta página? Nota: Para excluir uma despesa específica, vá para Editar.",
       "DESCRIPTION": "Descrição de Despesa",
-      "TITLE": "Detalhe de despesas",
-      "TOTAL": "Total"
+      "TEMP_DELETE_CONFIRMATION": "Tem certeza de que deseja excluir todas as despesas desta página?",
+      "TITLE": "Detalhe de despesas"
     },
     "FINANCES": {
       "ACTION": "Ação",

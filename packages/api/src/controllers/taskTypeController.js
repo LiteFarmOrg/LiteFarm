@@ -85,7 +85,7 @@ class taskTypeController extends baseController {
     return async(req, res) => {
       const trx = await transaction.start(Model.knex());
       try{
-        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id,{ user_id: req.user.user_id }, trx);
+        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, trx, { user_id: req.user.user_id });
         await trx.commit();
         if(isDeleted){
           res.sendStatus(200);

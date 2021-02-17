@@ -445,6 +445,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",
@@ -636,11 +637,11 @@
       "TITLE": "Estimated Revenue"
     },
     "EXPENSE_DETAIL": {
+      "ACTION": "Action",
       "COST": "Cost",
-      "DELETE_CONFIRMATION": "Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.",
       "DESCRIPTION": "Expense Description",
-      "TITLE": "Expense Detail",
-      "TOTAL": "Total"
+      "TEMP_DELETE_CONFIRMATION": "Are you sure you want to delete this expenses?",
+      "TITLE": "Expense Detail"
     },
     "FINANCES": {
       "ACTION": "Action",

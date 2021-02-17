@@ -76,6 +76,7 @@ import ExpenseCategories from './containers/Finances/NewExpense/ExpenseCategorie
 import AddExpense from './containers/Finances/NewExpense/AddExpense';
 import EditAddExpense from './containers/Finances/EditExpense/EditAddExpense';
 import EditExpenseCategories from './containers/Finances/EditExpense/EditExpenseCategories';
+import TempEditExpense from './containers/Finances/EditExpense/TempEditExpense';
 
 import LogDetail from './containers/Log/LogDetail';
 import SaleDetail from './containers/Finances/SaleDetail';
@@ -127,7 +128,7 @@ const Routes = () => {
             exact
             component={() => <ConsentForm goForwardTo={'/outro'} goBackTo={null} />}
           />
-          <Route path="/outro" exact component={JoinFarmSuccessScreen} />}
+          <Route path="/outro" exact component={JoinFarmSuccessScreen} />
           {!has_consent && <Redirect to={'/consent'} />}
         </Switch>
       );
@@ -204,8 +205,13 @@ const Routes = () => {
           <Route path="/expense_detail" exact component={ExpenseDetail} />
           <Route path="/expense_categories" exact component={ExpenseCategories} />
           <Route path="/add_expense" exact component={AddExpense} />
-          <Route path="/edit_expense_categories" exact component={EditExpenseCategories} />
-          <Route path="/edit_add_expense" exact component={EditAddExpense} />
+
+          {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
+          {/* and remove edit_expense  */}
+          {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
+          {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
+          <Route path="/edit_expense" exact component={TempEditExpense} />
+
           {/*<Route path="/contact" exact component={ContactForm}/>*/}
           <Route path="/sale_detail" exact component={SaleDetail} />
           <Route path="/farm_selection" exact component={ChooseFarm} />
@@ -275,8 +281,13 @@ const Routes = () => {
           <Route path="/expense_detail" exact component={ExpenseDetail} />
           <Route path="/expense_categories" exact component={ExpenseCategories} />
           <Route path="/add_expense" exact component={AddExpense} />
-          <Route path="/edit_expense_categories" exact component={EditExpenseCategories} />
-          <Route path="/edit_add_expense" exact component={EditAddExpense} />
+          
+          {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
+          {/* and remove edit_expense  */}
+          {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}
+          {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
+          <Route path="/edit_expense" exact component={TempEditExpense} />
+
           <Route path="/contact" exact component={ContactForm} />
           <Route path="/sale_detail" exact component={SaleDetail} />
           <Route path="/farm_selection" exact component={ChooseFarm} />

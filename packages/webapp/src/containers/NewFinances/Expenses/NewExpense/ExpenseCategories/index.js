@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import PageTitle from '../../../../components/PageTitle';
-import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.scss';
+import PageTitle from '../../../../../components/PageTitle';
+import { connect } from 'react-redux';
+import defaultStyles from '../../../../Finances/styles.scss';
 import styles from './styles.scss';
-import { expenseTypeSelector } from '../../selectors';
+import { expenseTypeSelector } from '../../../../Finances/selectors';
 import { Container, Row, Col } from 'react-bootstrap';
-import EquipImg from '../../../../assets/images/log/equipment.svg';
-import FertImg from '../../../../assets/images/log/fertilizing.svg';
-import PestImg from '../../../../assets/images/log/bug.svg';
-import FueldImg from '../../../../assets/images/log/fuel.svg';
-import MachineImg from '../../../../assets/images/log/machinery.svg';
-import SeedImg from '../../../../assets/images/log/seeding.svg';
-import OtherImg from '../../../../assets/images/log/other.svg';
-import LandImg from '../../../../assets/images/log/land.svg';
-import { setSelectedExpenseTypes } from '../../actions';
-import history from '../../../../history';
+import EquipImg from '../../../../../assets/images/log/equipment.svg';
+import FertImg from '../../../../../assets/images/log/fertilizing.svg';
+import PestImg from '../../../../../assets/images/log/bug.svg';
+import FueldImg from '../../../../../assets/images/log/fuel.svg';
+import MachineImg from '../../../../../assets/images/log/machinery.svg';
+import SeedImg from '../../../../../assets/images/log/seeding.svg';
+import OtherImg from '../../../../../assets/images/log/other.svg';
+import LandImg from '../../../../../assets/images/log/land.svg';
+import { setSelectedExpenseTypes } from '../../../../Finances/actions';
+import history from '../../../../../history';
 import { withTranslation } from 'react-i18next';
 
 class ExpenseCategories extends Component {
@@ -46,7 +46,7 @@ class ExpenseCategories extends Component {
 
   nextPage() {
     this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
-    history.push('/add_expense');
+    history.push('add_expense');
   }
 
   addRemoveType(id) {
@@ -67,7 +67,7 @@ class ExpenseCategories extends Component {
     const { selectedStyle, unSelectedStyle, selectedTypes } = this.state;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.ADD_EXPENSE.TITLE_1')} />
+        <PageTitle backUrl="/newfinances/expenses" title="New Expense (1 of 2)" />
         <Container
           fluid={true}
           style={{
@@ -93,28 +93,28 @@ class ExpenseCategories extends Component {
                         onClick={() => this.addRemoveType(type.expense_type_id)}
                       >
                         {type.expense_name === 'Equipment' && (
-                          <img src={EquipImg} alt="" className={styles.circleImg} id="t-1" />
+                          <img src={EquipImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Fertilizer' && (
-                          <img src={FertImg} alt="" className={styles.circleImg} id="t-2" />
+                          <img src={FertImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Machinery' && (
-                          <img src={MachineImg} alt="" className={styles.circleImg} id="t-3" />
+                          <img src={MachineImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Pesticide' && (
-                          <img src={PestImg} alt="" className={styles.circleImg} id="t-4" />
+                          <img src={PestImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Fuel' && (
-                          <img src={FueldImg} alt="" className={styles.circleImg} id="t-5" />
+                          <img src={FueldImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Land' && (
-                          <img src={LandImg} alt="" className={styles.circleImg} id="t-6" />
+                          <img src={LandImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Seeds' && (
-                          <img src={SeedImg} alt="" className={styles.circleImg} id="t-7" />
+                          <img src={SeedImg} alt="" className={styles.circleImg} />
                         )}
                         {type.expense_name === 'Other' && (
-                          <img src={OtherImg} alt="" className={styles.circleImg} id="t-8" />
+                          <img src={OtherImg} alt="" className={styles.circleImg} />
                         )}
                       </div>
                       <div className={styles.typeName}>
@@ -128,7 +128,7 @@ class ExpenseCategories extends Component {
         </Container>
         <div className={styles.bottomContainer}>
           <button className="btn btn-primary" onClick={() => this.nextPage()}>
-            {this.props.t('common:NEXT')}
+            Next
           </button>
         </div>
       </div>

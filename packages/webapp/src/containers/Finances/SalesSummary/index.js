@@ -104,6 +104,7 @@ class SalesSummary extends Component {
         value,
         cropSale: s.cropSale,
         customerName: s.customer_name,
+        created_by_user_id: s.created_by_user_id,
         id: s.sale_id,
       };
     });

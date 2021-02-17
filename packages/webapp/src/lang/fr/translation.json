@@ -445,6 +445,7 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",
@@ -636,11 +637,11 @@
       "TITLE": "MISSING"
     },
     "EXPENSE_DETAIL": {
+      "ACTION": "MISSING",
       "COST": "MISSING",
-      "DELETE_CONFIRMATION": "MISSING",
       "DESCRIPTION": "MISSING",
-      "TITLE": "MISSING",
-      "TOTAL": "MISSING"
+      "TEMP_DELETE_CONFIRMATION": "MISSING",
+      "TITLE": "MISSING"
     },
     "FINANCES": {
       "ACTION": "MISSING",

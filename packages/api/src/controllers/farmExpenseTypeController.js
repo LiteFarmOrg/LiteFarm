@@ -73,7 +73,7 @@ class farmExpenseTypeController extends baseController {
         res.sendStatus(403);
       }
       try {
-        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, { user_id: req.user.user_id }, trx);
+        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, trx, { user_id: req.user.user_id });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

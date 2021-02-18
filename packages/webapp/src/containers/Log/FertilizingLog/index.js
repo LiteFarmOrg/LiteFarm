@@ -193,7 +193,6 @@ class FertilizingLog extends Component {
     let fertOptions = [];
     let customOptions = [];
     if (fert) {
-      console.log(fert);
       for (let f of fert) {
         if (f.fertilizer_type.startsWith('CUSTOM')) {
           customOptions.push({
@@ -286,7 +285,9 @@ class FertilizingLog extends Component {
                 <Control component={TextArea} model=".fertLog.notes" />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
+                {this.state.showChem
+                  ? this.props.t('LOG_COMMON.HIDE')
+                  : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </div>
               {this.state.showChem && (

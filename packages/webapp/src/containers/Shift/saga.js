@@ -29,10 +29,9 @@ import { getTaskTypes, setShifts, setTaskTypesInState } from './actions';
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import i18n from '../../lang/i18n';
 import { resetStepOne } from '../shiftSlice';
-
 
 export function* getTaskTypesSaga() {
   const { taskTypeUrl } = apiConfig;
@@ -128,12 +127,14 @@ export function* getShiftsSaga() {
 }
 
 export function* getAllShiftSaga() {
-  const { farmShiftUrl } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
+  const { farmShiftUrl, shiftUrl } = apiConfig;
+  let { user_id, farm_id, role_id } = yield select(userFarmSelector);
   const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.get, farmShiftUrl + farm_id, header);
+    const result = [1, 2, 5].includes(role_id)
+      ? yield call(axios.get, farmShiftUrl + farm_id, header)
+      : yield call(axios.get, `${shiftUrl}/userFarm/${farm_id}`, header);
     if (result) {
       let allShifts = result.data;
       let sortedShifts = [];

@@ -3,7 +3,7 @@ import moment from 'moment';
 import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import {
   expenseDetailSelector,
   expenseTypeSelector,

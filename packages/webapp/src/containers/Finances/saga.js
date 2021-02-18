@@ -253,7 +253,6 @@ export function* tempEditExpenseSaga(action) {
   const header = getHeader(user_id, farm_id);
   try {
     let result = yield call(axios.patch, `${expenseUrl}/${expense_id}`, data, header);
-    console.log(result);
     if (result) {
       toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
       result = yield call(axios.get, `${expenseUrl}/farm/${farm_id}`, header);

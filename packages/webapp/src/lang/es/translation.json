@@ -445,7 +445,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
+    "FIELD": "Campo",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

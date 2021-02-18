@@ -97,9 +97,6 @@ export default function PureHarvestUseType({
 
 function UseTypeMatrix({ selected, useTypes, setUseTypes }) {
   const { t } = useTranslation();
-  useTypes = useTypes.filter(function (item) {
-    return item.harvest_use_type_name !== 'Donation';
-  });
   const imgDict = {
     Sales: SalesImg,
     'Self-Consumption': SelfConsumptionImg,
@@ -109,7 +106,6 @@ function UseTypeMatrix({ selected, useTypes, setUseTypes }) {
     Exchange: ExchangeImg,
     'Saved for seed': SavedForSeedImg,
     'Not Sure': NotSureImg,
-    // Donation: DonationImg,
     Other: OtherImg,
   };
 
@@ -123,7 +119,7 @@ function UseTypeMatrix({ selected, useTypes, setUseTypes }) {
   return (
     <div className={styles.matrixContainer}>
       {useTypes.map((type, i) => {
-        const useTypeName = t(`task:${type.harvest_use_type_name}`);
+        const useTypeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
         const buttonImg = imgDict[type.harvest_use_type_name]
           ? imgDict[type.harvest_use_type_name]
           : OtherImg;

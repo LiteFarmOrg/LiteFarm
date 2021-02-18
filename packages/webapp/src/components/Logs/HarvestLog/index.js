@@ -47,8 +47,8 @@ export default function PureHarvestLog({
     value: field_id,
   }));
 
-  let cropOptions = crops.map(({ crop_common_name, crop_id, field_name }) => ({
-    label: crop_common_name,
+  let cropOptions = crops.map(({ crop_translation_key, crop_id, field_name }) => ({
+    label: t(`crop:${crop_translation_key}`),
     value: crop_id,
     field_name: field_name,
   }));

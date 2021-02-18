@@ -193,16 +193,7 @@ export default function PureHarvestLog({
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      buttonGroup={
-        <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
-            {t('common:CANCEL')}
-          </Button>
-          <Button type={'submit'} disabled={!field || !crop || !quant} fullLength>
-            {t('common:NEXT')}
-          </Button>
-        </>
-      }
+      style={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}
     >
       <TitleLayout
         onGoBack={onGoBack}
@@ -211,7 +202,7 @@ export default function PureHarvestLog({
         buttonGroup={
           <>
             <Button onClick={onGoBack} color={'secondary'} fullLength>
-              {t('common:BACK')}
+              {t('common:CANCEL')}
             </Button>
             <Button type={'submit'} disabled={!field || !crop || !quant} fullLength>
               {t('common:NEXT')}

@@ -1,27 +1,36 @@
-import styles from "./styles.scss";
-import OutroImg from "../../stories/assets/outro/outro.svg";
-import Footer from "../Footer";
-import Button from "../Form/Button";
-import React from "react";
+import styles from './styles.scss';
+import OutroImg from '../../assets/images/outro/outro.svg';
+import Footer from '../Footer';
+import Button from '../Form/Button';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-export default function PureOutroSplash({redirectFinish}) {
+import { Title } from '../Typography';
+
+export default function PureOutroSplash({ onContinue, onGoBack }) {
+  const { t } = useTranslation();
+
   return (
-    <div className={styles.home}>
-      <div className={styles.lander}>
-        <div className={styles.greetContainer}>
-          <img src={OutroImg}/>
-          <div className={styles.description}>
-            <h3>{`And finally, let us show you a couple of important things!`}</h3>
+    <>
+      <div className={styles.home}>
+        <div className={styles.lander}>
+          <div className={styles.greetContainer}>
+            <img src={OutroImg} />
+            <div className={styles.description}>
+              <Title>{t('OUTRO')}</Title>
+            </div>
           </div>
         </div>
-        <Footer
-          children={<><Button fullLength color="secondary" children='Go back'/>
-
-            <Button fullLength children='Finish' onClick={redirectFinish}/>
-          </>}
-        >
-        </Footer>
       </div>
-    </div>
-  )
+      <Footer style={{ position: 'sticky', bottom: '0' }}>
+        <Button fullLength color="secondary" onClick={onGoBack}>
+          {t('common:BACK')}
+        </Button>
+
+        <Button fullLength onClick={onContinue}>
+          {t('common:FINISH')}
+        </Button>
+      </Footer>
+    </>
+  );
 }

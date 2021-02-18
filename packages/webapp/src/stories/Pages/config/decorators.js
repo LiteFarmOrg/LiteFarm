@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import history from '../../../history';
 import { action } from '@storybook/addon-actions';
 import state from './state';
-import NavBar from "../../../containers/Navigation";
+import NavBar from '../../../containers/Navigation';
 
 const store = {
   getState: () => {
@@ -15,28 +15,68 @@ const store = {
 };
 
 const auth = (isAuthenticated = false) => ({
-  logout: () => {
-  }, isAuthenticated: () => isAuthenticated,
+  logout: () => {},
+  isAuthenticated: () => isAuthenticated,
 });
 
-
-
-export default [story =>
+export default [
+  (story) => (
     <Provider store={store}>
       <Router history={history}>
-        <div style={{width:'100%', maxWidth: '1024px'}}>
-          <NavBar history={history} auth={auth()}/>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <NavBar history={history} auth={auth()} />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
             {story()}
+          </div>
         </div>
       </Router>
-    </Provider>];
+    </Provider>
+  ),
+];
 
-export const authenticatedDecorators = [story =>
-  <Provider store={store}>
-    <Router history={history}>
-      <div style={{width:'100%', maxWidth: '1024px'}}>
-        <NavBar history={history} auth={auth(true)}/>
-        {story()}
-      </div>
-    </Router>
-  </Provider>];
+export const authenticatedDecorators = [
+  (story) => (
+    <Provider store={store}>
+      <Router history={history}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <NavBar history={history} auth={auth(true)} />
+          <div
+            className="app"
+            style={{
+              width: '100%',
+              maxWidth: '1024px',
+              flex: '1',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {story()}
+          </div>
+        </div>
+      </Router>
+    </Provider>
+  ),
+];

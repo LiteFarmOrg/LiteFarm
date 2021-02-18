@@ -1,8 +1,8 @@
 import moment from 'moment';
-import autumn from '../../../stories/assets/home/home bg-2-min.png'
-import winter from '../../../stories/assets/home/home bg-5-min.png'
-import spring from '../../../stories/assets/home/home bg-7-min.png'
-import summer from '../../../stories/assets/home/home bg-8 2-min.png'
+import autumn from '../../../assets/images/home/home bg-2-min.png';
+import winter from '../../../assets/images/home/home bg-5-min.png';
+import spring from '../../../assets/images/home/home bg-7-min.png';
+import summer from '../../../assets/images/home/home bg-8 2-min.png';
 
 export const getSeason = (lat) => {
   const isNorth = lat > 0;
@@ -12,13 +12,13 @@ export const getSeason = (lat) => {
   const springStartDate = moment(`${year}-3-1`);
   const summerStartDate = moment(`${year}-6-1`);
   const winterStartDate = moment(`${year}-12-1`);
-  if(now.isBefore(springStartDate)){
-    return isNorth? winter: summer;
-  }else if(now.isBefore(summerStartDate)){
-    return isNorth? spring: autumn;
-  }else if(now.isBefore(autumnStartDate)){
-    return isNorth? summer: winter;
-  }else if(now.isBefore(winterStartDate)){
-    return isNorth? autumn: spring;
-  }else return isNorth? winter: summer;
-}
+  if (now.isBefore(springStartDate)) {
+    return isNorth ? winter : summer;
+  } else if (now.isBefore(summerStartDate)) {
+    return isNorth ? spring : autumn;
+  } else if (now.isBefore(autumnStartDate)) {
+    return isNorth ? summer : winter;
+  } else if (now.isBefore(winterStartDate)) {
+    return isNorth ? autumn : spring;
+  } else return isNorth ? winter : summer;
+};

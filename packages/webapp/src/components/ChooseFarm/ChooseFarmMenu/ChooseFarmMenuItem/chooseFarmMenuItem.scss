@@ -1,0 +1,93 @@
+@import '../../../../assets/mixin';
+.leftColumn {
+  margin-left: 18px;
+  margin-bottom: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rightColumn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 42.3%;
+}
+.farmName {
+  color: var(--fontColor);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  @include fontFamily();
+  margin: 0;
+}
+.ownerName {
+  @include fontFamily();
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0;
+}
+.address {
+  @include fontFamily();
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+}
+.secondary {
+  h5{
+    color: var(--fontColor);
+  }
+  p{
+    color: var(--grey600);
+  }
+}
+.active {
+  h5{
+    color: var(--teal700);
+  }
+  p{
+    color: var(--teal700);
+  }
+}
+.disabled {
+  h5{
+    color: var(--fontColor);
+  }
+  p{
+    color: var(--grey600);
+  }
+}
+.blue{
+  h5{
+    color: var(--blue700);
+  }
+  p{
+    color: var(--blue700);
+  }
+}
+.blueActive{
+  h5{
+    color: var(--blue700);
+  }
+  p{
+    color: var(--blue700);
+  }
+}
+.emailIcon{
+  transform: translate(1px, -1px);
+  display: flex;
+}
+.addressContainer{
+  display: flex;
+  flex-direction: column;
+  margin: 8px 8px 8px 0;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+
+

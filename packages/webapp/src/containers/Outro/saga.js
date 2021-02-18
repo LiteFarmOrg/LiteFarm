@@ -13,45 +13,40 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import {
- FINISH_ONBOARDING
-} from "./constants";
-import {finishOnboarding} from './actions';
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-const axios = require('axios');
+import { patchStepFiveSuccess } from '../userFarmSlice';
+import { createAction } from '@reduxjs/toolkit';
+import { loginSelector } from '../userFarmSlice';
+import { getHeader, axios } from '../saga';
+import history from '../../history';
 
-export function* patchOutroStep() {
-    console.log("patchOutroStep")
-  let user_id = localStorage.getItem('user_id');
-  let farm_id = localStorage.getItem('farm_id');
+export const patchOutroStep = createAction('patchOutroStepSaga');
+
+export function* patchOutroStepSaga() {
   const { userFarmUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   let data = {
-    step_four: true,
-    step_four_end: new Date(),
+    step_five: true,
+    step_five_end: new Date(),
   };
 
   try {
-    const result = yield call(axios.patch, userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id, data, header);
-    if (result) {
-      yield put(finishOnboarding(result.data));
-    }
+    yield call(
+      axios.patch,
+      userFarmUrl + '/onboarding/farm/' + farm_id + '/user/' + user_id,
+      data,
+      header,
+    );
+    yield put(patchStepFiveSuccess({ ...data, farm_id, user_id }));
+    history.push('/');
   } catch (e) {
     console.error('failed to update table');
   }
 }
 
-
-
 export default function* outroSaga() {
-  yield takeEvery(FINISH_ONBOARDING, patchOutroStep);
+  yield takeLatest(patchOutroStep.type, patchOutroStepSaga);
 }

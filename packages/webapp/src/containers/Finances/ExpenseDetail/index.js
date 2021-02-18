@@ -1,15 +1,23 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import moment from 'moment';
-import PageTitle from "../../../components/PageTitle";
-import connect from "react-redux/es/connect/connect";
+import PageTitle from '../../../components/PageTitle';
+import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
-import {expenseDetailDateSelector, expenseSelector, expenseTypeSelector} from "../selectors";
-import {deleteExpenses, setEditExpenses} from '../actions'
+import {
+  expenseDetailDateSelector,
+  expenseSelector,
+  expenseToDetailSelector,
+  expenseTypeSelector,
+} from '../selectors';
+import { deleteExpenses, setEditExpenses, tempSetEditExpense, tempDeleteExpense } from '../actions';
 import history from '../../../history';
-import {farmSelector} from "../../selector";
-import {grabCurrencySymbol} from "../../../util";
-import ConfirmModal from "../../../components/Modals/Confirm";
+import { grabCurrencySymbol } from '../../../util';
+import ConfirmModal from '../../../components/Modals/Confirm';
+import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 class ExpenseDetail extends Component {
   constructor(props) {
@@ -24,21 +32,22 @@ class ExpenseDetail extends Component {
     };
     this.getExpensesByDate = this.getExpensesByDate.bind(this);
     this.getExpenseType = this.getExpenseType.bind(this);
-    this.editExpenses = this.editExpenses.bind(this);
+    // this.editExpenses = this.editExpenses.bind(this);
+    this.editExpense = this.editExpense.bind(this);
   }
 
   componentDidMount() {
-    const {expense_detail_date, farm} = this.props;
+    const { expense_detail_date, farm } = this.props;
     this.setState({ currencySymbol: grabCurrencySymbol(farm) });
     let date = moment(expense_detail_date).format('MMM DD, YYYY');
     this.setState({
-      date
+      date,
     });
     this.getExpensesByDate();
   }
 
   getExpensesByDate() {
-    const {expense_detail_date, expenses} = this.props;
+    const { expense_detail_date, expenses } = this.props;
     let targetDate = moment(expense_detail_date).format('YYYY-MM-DD');
     let dict = {};
     let total = 0;
@@ -56,14 +65,14 @@ class ExpenseDetail extends Component {
               {
                 note: e.note,
                 value: e.value,
-              }
-            ]
-          }
+              },
+            ],
+          };
         } else {
           dict[id].items.push({
             note: e.note,
             value: e.value,
-          })
+          });
         }
       }
     }
@@ -76,98 +85,128 @@ class ExpenseDetail extends Component {
   }
 
   getExpenseType(id) {
-    const {expenseTypes} = this.props;
+    const { expenseTypes } = this.props;
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return type.expense_name;
+        return this.props.t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';
   }
 
-  handledeleteExpenses = () => {
-    this.setState({showModal: true});
-  }
+  handleDeleteExpenses = () => {
+    this.setState({ showModal: true });
+  };
 
-  deleteExpenses = () => {
-    // eslint-disable-next-line
-    let farmIDs = [];
-    const {filteredExpenses} = this.state;
-    for (let f of filteredExpenses) {
-      farmIDs.push(f.farm_expense_id);
-    }
-    if(farmIDs.length > 0){
-      this.props.dispatch(deleteExpenses(farmIDs));
-      history.push('/other_expense');
-    }
-  }
+  // TODO: replace when expense items are split by expense
+  deleteExpense = () => {
+    const { expense } = this.props;
+    this.props.dispatch(tempDeleteExpense(expense.expense_item_id));
+    history.push('/other_expense');
+  };
+  // deleteExpenses = () => {
+  //   // eslint-disable-next-line
+  //   let farmIDs = [];
+  //   const { filteredExpenses } = this.state;
+  //   for (let f of filteredExpenses) {
+  //     farmIDs.push(f.farm_expense_id);
+  //   }
+  //   if (farmIDs.length > 0) {
+  //     this.props.dispatch(deleteExpenses(farmIDs));
+  //     history.push('/other_expense');
+  //   }
+  // };
+
   //TODO remove edit expense related functions
-  editExpenses(){
-    const {filteredExpenses} = this.state;
-    this.props.dispatch(setEditExpenses(filteredExpenses));
-    history.push('/edit_expense_categories');
+  editExpense() {
+    // editExpenses() {
+    // TODO: use the commented out code for when expense items are split by expense
+    // const { filteredExpenses } = this.state;
+    // this.props.dispatch(setEditExpenses(filteredExpenses));
+    // history.push('/edit_expense_categories');
+
+    // temporary implementation to edit expense items separately
+    const { expense } = this.props;
+    this.props.dispatch(tempSetEditExpense(expense));
+    history.push('/edit_expense');
   }
 
   render() {
-    const {date, expenseItems, total} = this.state;
+    const { date, expenseItems, total } = this.state;
+    const { expense } = this.props;
+    const dropDown = 0;
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/other_expense' title='Expense Detail'/>
+        <PageTitle backUrl="/other_expense" title={this.props.t('SALE.EXPENSE_DETAIL.TITLE')} />
         <div className={styles.innerInfo}>
           <h4>{date}</h4>
-          {/*<DropdownButton*/}
-          {/*  style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}*/}
-          {/*  title={'Edit'}*/}
-          {/*  key={dropDown}*/}
-          {/*  id={`dropdown-basic-${dropDown}`}*/}
-          {/*>*/}
-          {/*  <MenuItem eventKey="0" onClick={()=>this.editExpenses()} >Edit</MenuItem>*/}
-          {/* <MenuItem eventKey="1" onClick={() => {this.handledeleteExpenses()}}>Delete</MenuItem> */}
-          {/*</DropdownButton>*/}
+          <DropdownButton
+            style={{ background: '#EFEFEF', color: '#4D4D4D', border: 'none' }}
+            title={this.props.t('SALE.EXPENSE_DETAIL.ACTION')}
+            key={dropDown}
+            id={`dropdown-basic-${dropDown}`}
+          >
+            {/* <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()}>{this.props.t('common:EDIT')}</Dropdown.Item> */}
+            <Dropdown.Item eventKey="0" onClick={() => this.editExpense()}>
+              {this.props.t('common:EDIT')}
+            </Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={() => this.handleDeleteExpenses()}>
+              {this.props.t('common:DELETE')}
+            </Dropdown.Item>
+          </DropdownButton>
         </div>
 
         <div className={styles.itemContainer}>
-          <h4><strong>Expense Description</strong></h4>
-          <div>Cost</div>
+          <Semibold>{this.props.t('SALE.EXPENSE_DETAIL.DESCRIPTION')}</Semibold>
+          <div>{this.props.t('SALE.EXPENSE_DETAIL.COST')}</div>
         </div>
-        {
-          expenseItems.length > 0 &&
+        {/* {expenseItems.length > 0 &&
           expenseItems.map((e) => {
-            return <div key={e.type_name}>
-              <div className={styles.typeNameContainer}>
-                <h4><strong>{e.type_name}</strong></h4>
+            return (
+              <div key={e.type_name}>
+                <div className={styles.typeNameContainer}>
+                  <Semibold>{e.type_name}</Semibold>
+                </div>
+                {e.items.length > 0 &&
+                  e.items.map((i) => {
+                    return (
+                      <div key={i.note + i.value.toString()} className={styles.itemContainer}>
+                        <div>{'- ' + i.note}</div>
+                        <div className={styles.greenText}>
+                          {this.state.currencySymbol + i.value.toFixed(2).toString()}
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
-              {
-                e.items.length > 0 &&
-                e.items.map((i) => {
-                  return <div key={i.note + i.value.toString()} className={styles.itemContainer}>
-                    <div>
-                      {'- ' + i.note}
-                    </div>
-                    <div className={styles.greenText}>
-                      {this.state.currencySymbol + i.value.toFixed(2).toString()}
-                    </div>
-                  </div>
-                })
-              }
-            </div>
-          })
-        }
-        <div className={styles.itemContainer}>
-          <h4><strong>Total</strong></h4>
-          <div className={styles.greenText} id="total-amount">{this.state.currencySymbol + total}</div>
+            );
+          })} */}
+        <div key={expense.type}>
+          <div className={styles.typeNameContainer}>
+            <Semibold>{expense.type}</Semibold>
+          </div>
+          <div key={expense.note + expense.amount.toString()} className={styles.itemContainer}>
+            <div>{'- ' + expense.note}</div>
+            <div className={styles.greenText}>{expense.amount}</div>
+          </div>
         </div>
+        {/* <div className={styles.itemContainer}>
+          <Semibold>{this.props.t('SALE.EXPENSE_DETAIL.TOTAL')}</Semibold>
+          <div className={styles.greenText} id="total-amount">
+            {this.state.currencySymbol + total}
+          </div>
+        </div> */}
         <ConfirmModal
           open={this.state.showModal}
-          onClose={() => this.setState({showModal: false})}
+          onClose={() => this.setState({ showModal: false })}
           onConfirm={() => {
-            this.deleteExpenses();
-            this.setState({showModal: false});
+            this.deleteExpense();
+            this.setState({ showModal: false });
           }}
-          message='Are you sure you want to delete all the expenses on this page? Note: To delete a specific expense go to Edit.'
+          message={this.props.t('SALE.EXPENSE_DETAIL.TEMP_DELETE_CONFIRMATION')}
         />
       </div>
-    )
+    );
   }
 }
 
@@ -176,14 +215,15 @@ const mapStateToProps = (state) => {
     expense_detail_date: expenseDetailDateSelector(state),
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
-    farm: farmSelector(state),
-  }
+    farm: userFarmSelector(state),
+    expense: expenseToDetailSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExpenseDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ExpenseDetail));

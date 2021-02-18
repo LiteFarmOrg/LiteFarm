@@ -18,17 +18,24 @@ import baseReducer from '../containers/reducer';
 import { combineForms } from 'react-redux-form';
 import { PURGE } from 'redux-persist';
 import { reducer as toastrReducer } from 'react-redux-toastr';
-import notificationReducer from '../containers/Profile/Notification/reducer';
-import peopleReducer from '../containers/Profile/People/reducer'
 import logReducer from '../containers/Log/reducer';
 import shiftReducer from '../containers/Shift/reducer';
-import fieldReducer from '../containers/Field/reducer';
 import insightReducer from '../containers/Insights/reducer';
 import financeReducer from '../containers/Finances/reducer';
 import farmReducer from '../containers/Profile/Farm/reducer';
-import userFarmReducer from '../containers/ChooseFarm/reducer';
+import certifierSurveyReducer from '../containers/OrganicCertifierSurvey/slice';
+import userFarmReducer from '../containers/userFarmSlice';
+import rolesReducer from '../containers/Profile/People/slice';
+import userLogReducer from '../containers/userLogSlice';
+import weatherReducer from '../containers/WeatherBoard/weatherSlice';
+import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 
-
+import fieldReducer from '../containers/fieldSlice';
+import shiftStepReducer from '../containers/shiftSlice';
+import logSliceReducer from '../containers/Log/Utility/logSlice';
+import cropReducer from '../containers/cropSlice';
+import fieldCropReducer from '../containers/fieldCropSlice';
+import homeReducer from '../containers/Home/homeSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -45,7 +52,7 @@ const initialNotification = {
   alert_weather: true,
   alert_worker_finish: true,
   alert_before_planned_date: true,
-  alert_action_after_scouting: true
+  alert_action_after_scouting: true,
 };
 
 const initialUserInfo = {
@@ -87,7 +94,7 @@ const addUserInfo = {
   pay: {
     type: '',
     amount: null,
-  }
+  },
 };
 
 const signUpUserInfo = {
@@ -97,28 +104,52 @@ const signUpUserInfo = {
   password: '',
 };
 
+const entitiesReducer = combineReducers({
+  userFarmReducer,
+  // userReducer,
+  certifierSurveyReducer,
+  rolesReducer,
+  fieldReducer,
+  cropReducer,
+  fieldCropReducer,
+  weatherReducer,
+});
+
+const persistedStateReducer = combineReducers({
+  userLogReducer,
+  chooseFarmFlowReducer,
+});
+
+const tempStateReducer = combineReducers({
+  homeReducer,
+  shiftStepReducer,
+  logSliceReducer,
+});
+
 // combine all reducers here and pass it to application
 const appReducer = combineReducers({
   toastr: toastrReducer,
-  profileForms: combineForms({
-    addInfo: addUserInfo,
-    farm: initialFarmState,
-    notification: initialNotification,
-    userInfo: initialUserInfo,
-    farmInfo: initialFarmInfo,
-    editInfo: editUserInfo,
-    signUpInfo: signUpUserInfo,
-  }, 'profileForms'),
+  profileForms: combineForms(
+    {
+      addInfo: addUserInfo,
+      farm: initialFarmState,
+      notification: initialNotification,
+      userInfo: initialUserInfo,
+      farmInfo: initialFarmInfo,
+      editInfo: editUserInfo,
+      signUpInfo: signUpUserInfo,
+    },
+    'profileForms',
+  ),
+  entitiesReducer,
+  persistedStateReducer,
+  tempStateReducer,
   baseReducer,
   logReducer,
-  notificationReducer,
-  peopleReducer,
   shiftReducer,
-  fieldReducer,
   insightReducer,
   financeReducer,
   farmReducer,
-  userFarmReducer,
 });
 
 const rootReducer = (state, action) => {

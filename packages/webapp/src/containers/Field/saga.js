@@ -15,276 +15,122 @@
 
 import { toastr } from 'react-redux-toastr';
 import history from '../../history';
-import moment from 'moment';
-
-import {
-  GET_CROPS,
-  CREATE_FIELD,
-  CREATE_FIELD_CROP, DELETE_FIELD_CROP,
-  GET_YIELD, CREATE_YIELD, CREATE_PRICE, GET_PRICE, EDIT_FIELD_CROP,
-  UPDATE_FIELD,
-  DELETE_FIELD, GET_EXPIRED_CROPS,
-} from "./constants";
-import {setFieldCropsInState} from '../actions';
-import {
-  setCropsInState,
-  setYieldInState,
-  setPriceInState,
-  setExpiredCropsInState,
-} from "./actions";
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
-const axios = require('axios');
+import { loginSelector } from '../userFarmSlice';
+import { getHeader, axios } from '../saga';
+import { createAction } from '@reduxjs/toolkit';
+import {
+  getFieldCropsSuccess,
+  onLoadingFieldCropStart,
+  onLoadingFieldCropFail,
+  postFieldCropSuccess,
+  putFieldCropSuccess,
+  deleteFieldCropSuccess,
+} from '../fieldCropSlice';
+import { deleteFieldSuccess } from '../fieldSlice';
+import i18n from '../../lang/i18n';
+
 const DEC = 10;
 
-export function* getCropsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
-  const { cropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+export const getExpiredFieldCrops = createAction(`getExpiredFieldCropsSaga`);
 
-  try {
-    const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setCropsInState(result.data));
-    }
-  } catch (e) {
-    console.error('failed to fetch all crops from database');
-  }
-}
-
-export function* getExpiredCropsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
+export function* getExpiredFieldCropsSaga() {
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
+    yield put(onLoadingFieldCropStart());
     const result = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
-    if (result) {
-      yield put(setExpiredCropsInState(result.data));
-    }
-  } catch(e) {
-    console.error('failed to fetch expired crops from database')
+    yield put(getFieldCropsSuccess(result.data));
+  } catch (e) {
+    yield put(onLoadingFieldCropFail());
+    console.error('failed to fetch expired crops from database');
   }
 }
 
-export function* getYieldSaga() {
-  let farm_id = localStorage.getItem('farm_id');
-  const { yieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+export const postField = createAction(`postFieldSaga`);
 
-  try {
-    const result = yield call(axios.get, yieldURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setYieldInState(result.data));
-    }
-  } catch(e) {
-    console.log('failed to fetch yield from db');
-  }
-}
-
-export function* getPriceSaga() {
-  let farm_id = localStorage.getItem('farm_id');
-  const { priceURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  try {
-    const result = yield call(axios.get, priceURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setPriceInState(result.data));
-    }
-  } catch(e) {
-    console.log('failed to fetch prices from db');
-  }
-}
-
-export function* createField(action) {
-  let farm_id = localStorage.getItem('farm_id');
+export function* postFieldSaga(action) {
   const { fieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   const fieldData = {
     farm_id: farm_id,
     field_name: action.fieldName,
     grid_points: action.gridPoints,
-    area: action.area
+    area: action.area,
   };
   try {
-    const result = yield call(axios.post, fieldURL, fieldData, header);
+    yield call(axios.post, fieldURL, fieldData, header);
     history.push('/field');
-    return result;
-  } catch(e) {
+  } catch (e) {
     console.log('failed to add field to database');
   }
 }
+export const postFieldCrop = createAction(`postFieldCropSaga`);
 
-export function* createFieldCropSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
-  let currentDate = formatDate(new Date());
+export function* postFieldCropSaga({ payload: fieldCrop }) {
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  const data = {
-    crop_id: action.cropId,
-    field_id: action.fieldId,
-    start_date: action.startDate,
-    end_date: action.endDate,
-    area_used: action.areaUsed,
-    estimated_production: action.estimatedProduction,
-    variety: action.variety,
-    estimated_revenue: action.estimatedRevenue,
-    is_by_bed: action.is_by_bed,
-    bed_config: action.bed_config,
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
   try {
-    const result = yield call(axios.post, fieldCropURL, data, header);
-    if (result) {
-      const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
-      if (result) {
-        yield put(setFieldCropsInState(result.data));
-      }
-      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
-      if (expiredResult) {
-        yield put(setExpiredCropsInState(expiredResult.data));
-      }
-    }
-  } catch(e) {
+    const result = yield call(axios.post, fieldCropURL, fieldCrop, header);
+    yield put(postFieldCropSuccess(result.data));
+  } catch (e) {
     console.log('failed to add fieldCrop to database');
   }
 }
 
-export function* editFieldCropSaga(action){
-  let farm_id = localStorage.getItem('farm_id');
-  const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+export const putFieldCrop = createAction(`putFieldCropSaga`);
 
-  const data = {
-    field_crop_id: action.fieldCropId,
-    crop_id: action.cropId,
-    field_id: action.fieldId,
-    start_date: action.startDate,
-    end_date: action.endDate,
-    area_used: action.areaUsed,
-    estimated_production: action.estimatedProduction,
-    variety: action.variety,
-    estimated_revenue: action.estimatedRevenue,
-    is_by_bed: action.is_by_bed,
-    bed_config: action.bed_config,
-  };
+export function* putFieldCropSaga({ payload: fieldCrop }) {
+  const { fieldCropURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
   try {
-    const result = yield call(axios.put, fieldCropURL + `/${action.fieldCropId}`, data, header);
-    if(result){
-      let currentDate = moment().format('YYYY-MM-DD');
-      const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
-      if (result) {
-        yield put(setFieldCropsInState(result.data));
-        toastr.success("Successfully Edited Crop");
-      }
-      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
-      if (expiredResult) {
-        yield put(setExpiredCropsInState(expiredResult.data));
-      }
-    }
-  } catch(e) {
+    const result = yield call(
+      axios.put,
+      fieldCropURL + `/${fieldCrop.field_crop_id}`,
+      fieldCrop,
+      header,
+    );
+    yield put(putFieldCropSuccess(fieldCrop));
+    toastr.success(i18n.t('message:CROP.SUCCESS.EDIT'));
+  } catch (e) {
     console.log('Failed to add fieldCrop to database');
-    toastr.error("Failed To Edit Field Crop");
+    toastr.error(i18n.t('message:CROP.ERROR.EDIT'));
   }
 }
 
-export function* deleteFieldCropSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
+export const deleteFieldCrop = createAction(`deleteFieldCropSaga`);
+
+export function* deleteFieldCropSaga({ payload: field_crop_id }) {
   const currentDate = formatDate(new Date());
   const { fieldCropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, fieldCropURL + `/${action.fieldCropId}`, header);
-    if (result) {
-      const result = yield call(axios.get, fieldCropURL + '/farm/date/' + farm_id + '/' + currentDate, header);
-      if (result) {
-        yield put(setFieldCropsInState(result.data));
-      }
-      const expiredResult = yield call(axios.get, fieldCropURL + '/expired/farm/' + farm_id, header);
-      if (expiredResult) {
-        yield put(setExpiredCropsInState(expiredResult.data));
-      }
-      toastr.success("Successfully Deleted Crop");
-    }
+    const result = yield call(axios.delete, fieldCropURL + `/${field_crop_id}`, header);
+    yield put(deleteFieldCropSuccess(field_crop_id));
+    toastr.success(i18n.t('message:CROP.SUCCESS.DELETE'));
   } catch (e) {
-    console.log("Failed To Delete Field Crop Error: ", e);
-    toastr.error("Failed To Delete Field Crop");
+    console.log('Failed To Delete Field Crop Error: ', e);
+    toastr.error(i18n.t('message:CROP.ERROR.DELETE'));
   }
-
 }
 
-export function* createYieldSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
-  const { yieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+export const createYield = createAction(`createYieldSaga`);
 
-  const yieldData = action.yieldData;
+export function* createYieldSaga({ payload: yieldData }) {
+  const { yieldURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
   const data = {
     crop_id: parseInt(yieldData.crop_id, DEC),
     'quantity_kg/m2': parseInt(yieldData['quantity_kg/m2'], DEC),
@@ -294,30 +140,18 @@ export function* createYieldSaga(action) {
 
   try {
     const result = yield call(axios.post, yieldURL, data, header);
-    if (result) {
-      const result = yield call(axios.get, yieldURL + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setYieldInState(result.data));
-      }
-    }
   } catch (e) {
-    console.log("Error: Could Not Emit Create Yield Action");
+    console.log('Error: Could Not Emit Create Yield Action');
   }
 }
 
-export function* createPriceSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
-  const { priceURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+export const createPrice = createAction(`createPriceSaga`);
 
-  const price = action.priceData;
+export function* createPriceSaga({ payload: price }) {
+  const { priceURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
   const data = {
     crop_id: parseInt(price.crop_id, DEC),
     'value_$/kg': parseInt(price.value, DEC),
@@ -326,66 +160,31 @@ export function* createPriceSaga(action) {
   };
   try {
     const result = yield call(axios.post, priceURL, data, header);
-    if (result) {
-      const result = yield call(axios.get, priceURL + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setPriceInState(result.data));
-      }
-    }
   } catch (e) {
-    console.log("Error: Could not Emit Create Price Action")
+    console.log('Error: Could not Emit Create Price Action');
   }
 }
+export const deleteField = createAction(`deleteFieldSaga`);
 
-export function* updateFieldCropSaga(action) {
+export function* deleteFieldSaga({ payload: field_id }) {
   const { fieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.put, fieldURL + `/${action.field.field_id}`, action.field, header);
-    if (result) {
-      toastr.success("Successfully changed field name");
-
-    }
+    const result = yield call(axios.delete, fieldURL + `/${field_id}`, header);
+    history.push('/field');
+    yield put(deleteFieldSuccess(field_id));
+    toastr.success(i18n.t('message:FIELD.SUCCESS.DELETE'));
   } catch (e) {
-    toastr.error("Failed To update Field name", e);
-  }
-}
-
-export function* deleteFieldSaga(action) {
-  const { fieldURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  try {
-    const result = yield call(axios.delete, fieldURL + `/${action.fieldId}`, header);
-    if (result) {
-      toastr.success("Successfully Deleted Field");
-      history.push('/field')
-    }
-  } catch (e) {
-    console.log("Failed To Delete Field: ", e);
-    toastr.error("Failed To Delete Field");
+    console.log('Failed To Delete Field: ', e);
+    toastr.error(i18n.t('message:FIELD.ERROR.DELETE'));
   }
 }
 
 const formatDate = (currDate) => {
   const d = currDate;
-  let
-    year = d.getFullYear(),
+  let year = d.getFullYear(),
     month = '' + (d.getMonth() + 1),
     day = '' + d.getDate();
 
@@ -396,16 +195,11 @@ const formatDate = (currDate) => {
 };
 
 export default function* fieldSaga() {
-  yield takeEvery(CREATE_FIELD, createField);
-  yield takeEvery(CREATE_FIELD_CROP, createFieldCropSaga);
-  yield takeEvery(GET_CROPS, getCropsSaga);
-  yield takeEvery(GET_EXPIRED_CROPS, getExpiredCropsSaga);
-  yield takeEvery(DELETE_FIELD_CROP, deleteFieldCropSaga);
-  yield takeEvery(GET_YIELD, getYieldSaga);
-  yield takeEvery(CREATE_YIELD, createYieldSaga);
-  yield takeEvery(GET_PRICE, getPriceSaga);
-  yield takeEvery(CREATE_PRICE, createPriceSaga);
-  yield takeEvery(EDIT_FIELD_CROP, editFieldCropSaga);
-  yield takeEvery(UPDATE_FIELD, updateFieldCropSaga);
-  yield takeEvery(DELETE_FIELD, deleteFieldSaga);
+  yield takeEvery(postFieldCrop.type, postFieldCropSaga);
+  yield takeEvery(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
+  yield takeEvery(deleteFieldCrop.type, deleteFieldCropSaga);
+  yield takeEvery(createYield.type, createYieldSaga);
+  yield takeEvery(createPrice.type, createPriceSaga);
+  yield takeEvery(putFieldCrop.type, putFieldCropSaga);
+  yield takeEvery(deleteField.type, deleteFieldSaga);
 }

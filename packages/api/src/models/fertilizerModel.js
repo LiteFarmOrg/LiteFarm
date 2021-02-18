@@ -1,22 +1,21 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fertilizerModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const baseModel = require('./baseModel');
 
-class Fertilizer extends softDelete({ columnName: 'deleted' })(Model) {
+class Fertilizer extends baseModel {
   static get tableName() {
     return 'fertilizer';
   }
@@ -33,13 +32,13 @@ class Fertilizer extends softDelete({ columnName: 'deleted' })(Model) {
       required: ['fertilizer_type', 'farm_id'],
       properties: {
         fertilizer_id: { type: 'string' },
-        deleted: { type: 'boolean' },
         fertilizer_type: { type: 'string' },
         moisture_percentage: { type: 'number' },
         n_percentage: { type: 'number' },
         nh4_n_ppm: { type: 'number' },
         p_percentage: { type: 'number' },
         k_percentage: { type: 'number' },
+        fertilizer_translation_key: { type: 'string' },
         farm_id: {
           anyOf: [
             {
@@ -50,6 +49,7 @@ class Fertilizer extends softDelete({ columnName: 'deleted' })(Model) {
             },
           ],
         },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };

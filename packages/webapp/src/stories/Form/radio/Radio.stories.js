@@ -4,18 +4,18 @@ import Radio from '../../../components/Form/Radio';
 export default {
   title: 'Components/Radio',
   component: Radio,
-  decorators: [story => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
 };
 
 const Template = (args) => <Radio {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  label: "checkbox"
+  label: 'checkbox',
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
-  label: "disabled",
+  label: 'disabled',
   disabled: true,
 };

@@ -8,9 +8,9 @@ class Checkbox extends React.Component {
     return (
       <div className={stylesheet || styles.checkBoxContainer}>
         <label>{title}</label>
-        <Control.checkbox model={model}/>
+        <Control.checkbox model={model} />
       </div>
-    )
+    );
   }
 }
 

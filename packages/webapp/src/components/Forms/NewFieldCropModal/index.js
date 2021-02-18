@@ -1,25 +1,27 @@
 import React from 'react';
 import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { cropSelector } from '../NewCropModal/selectors';
-import { getCrops } from '../NewCropModal/actions';
-import {
-  FIELD_CROPS_INIT, DEC_RADIX,
-} from '../../../containers/Field/constants';
-import {
-  createFieldCropAction,
-  createPriceAction,
-  createYieldAction,
-} from '../../../containers/Field/NewField/actions';
+import { cropsSelector } from '../../../containers/cropSlice';
+import { getCrops } from '../../../containers/saga';
+import { FIELD_CROPS_INIT, DEC_RADIX } from '../../../containers/Field/constants';
 import NewCropModal from '../NewCropModal';
 import styles from '../../../containers/Field/styles.scss';
 import newFieldStyles from './styles.scss';
-import { convertFromMetric, convertToMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
-import { farmSelector } from '../../../containers/selector';
+import {
+  convertFromMetric,
+  convertToMetric,
+  getUnit,
+  grabCurrencySymbol,
+  roundToTwoDecimal,
+} from '../../../util';
 import Select from 'react-select';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
+import { userFarmSelector } from '../../../containers/userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { createPrice, createYield, postFieldCrop } from '../../../containers/Field/saga';
+import { numberOnKeyDown } from '../../Form/Input';
 
 class NewFieldCropModal extends React.Component {
   // props:
@@ -76,7 +78,7 @@ class NewFieldCropModal extends React.Component {
     const { crops } = this.props;
     if (crops && prevProps.crops && crops.length > prevProps.crops.length) {
       const newCrop = crops[crops.length - 1];
-      this.setState(preState => ({
+      this.setState((preState) => ({
         fieldCrop: { ...preState.fieldCrop, crop_id: newCrop.crop_id },
         crop_option: newCrop,
       }));
@@ -99,9 +101,15 @@ class NewFieldCropModal extends React.Component {
     if (this.validateForm()) {
       const { isByArea, bed_num, bed_width, bed_length, area_unit, estimated_unit } = this.state;
       let newFieldCrop = this.state.fieldCrop;
-
-      let estimatedProduction = isByArea ? newFieldCrop.estimated_yield * newFieldCrop.area_used : newFieldCrop.estimated_yield * bed_num;
-      let estimatedRevenue = isByArea ? estimatedProduction * newFieldCrop.estimated_price : bed_num * newFieldCrop.estimated_price * newFieldCrop.estimated_yield;
+      const { fieldArea } = this.props;
+      newFieldCrop.area_used =
+        newFieldCrop.area_used > fieldArea ? fieldArea : newFieldCrop.area_used;
+      let estimatedProduction = isByArea
+        ? newFieldCrop.estimated_yield * newFieldCrop.area_used
+        : newFieldCrop.estimated_yield * bed_num;
+      let estimatedRevenue = isByArea
+        ? estimatedProduction * newFieldCrop.estimated_price
+        : bed_num * newFieldCrop.estimated_price * newFieldCrop.estimated_yield;
 
       estimatedProduction = convertToMetric(estimatedProduction, estimated_unit, 'kg');
 
@@ -117,8 +125,8 @@ class NewFieldCropModal extends React.Component {
         date: newFieldCrop.end_date,
       };
 
-      this.props.dispatch(createYieldAction(yieldData));
-      this.props.dispatch(createPriceAction(priceData));
+      this.props.dispatch(createYield(yieldData));
+      this.props.dispatch(createPrice(priceData));
 
       let bed_config = null;
       if (!isByArea) {
@@ -126,25 +134,26 @@ class NewFieldCropModal extends React.Component {
           bed_length,
           bed_width,
           bed_num,
-        }
+        };
       }
+
       this.props.dispatch(
-        createFieldCropAction(
-          parseInt(newFieldCrop.crop_id, DEC_RADIX),
-          this.props.field.field_id,
-          newFieldCrop.start_date,
-          newFieldCrop.end_date,
-          convertToMetric(newFieldCrop.area_used, area_unit, 'm2'),
-          estimatedProduction,
-          estimatedRevenue,
-          !isByArea,
-          bed_config,
-        ));
+        postFieldCrop({
+          crop_id: newFieldCrop.crop_id,
+          field_id: this.props.field.field_id,
+          start_date: newFieldCrop.start_date,
+          end_date: newFieldCrop.end_date,
+          area_used: convertToMetric(newFieldCrop.area_used, area_unit, 'm2'),
+          estimated_production: estimatedProduction,
+          estimated_revenue: estimatedRevenue,
+          is_by_bed: !isByArea,
+          bed_config: bed_config,
+        }),
+      );
       this.setState({ show: false });
-      this.setState({ fieldCrop: FIELD_CROPS_INIT })
+      this.setState({ fieldCrop: FIELD_CROPS_INIT });
     }
   };
-
 
   handleFieldCropPropertiesChange(event) {
     let fieldCrop = this.state.fieldCrop;
@@ -159,8 +168,8 @@ class NewFieldCropModal extends React.Component {
 
   validateNotEmptyLength(state) {
     if (state.length > 0) return 'success';
-    return 'error'
-  };
+    return 'error';
+  }
 
   validateWarningEmptyLength(state) {
     if (state.length > 0) return 'success';
@@ -169,7 +178,7 @@ class NewFieldCropModal extends React.Component {
 
   validateHasDate(date) {
     if (date) return 'success';
-    else return 'error'
+    else return 'error';
   }
 
   validateForm() {
@@ -185,13 +194,7 @@ class NewFieldCropModal extends React.Component {
     let errors = '';
 
     if (moment(currentFieldCrop.end_date).isSameOrBefore(moment(currentFieldCrop.start_date))) {
-      toastr.error('End Date cannot be the same or before Start Date');
-      isValid = false;
-      return isValid;
-    }
-
-    if (currentFieldCrop.area_used > fieldArea) {
-      toastr.error('Field crop area cannot be greater than field area');
+      toastr.error(this.props.t('message:EDIT_FIELD_CROP.ERROR.END_DATE_BEFORE'));
       isValid = false;
       return isValid;
     }
@@ -199,19 +202,18 @@ class NewFieldCropModal extends React.Component {
     for (const key in currentFieldCrop) {
       if (currentFieldCrop[key] === '') {
         isValid = false;
-        errors += key + ', '
+        errors += key + ', ';
       }
     }
 
     if (!isValid) {
-      toastr.error(errors + ' is not filled');
+      toastr.error(errors + this.props.t('message:NEW_FIELD_CROP.ERROR.NOT_FILLED'));
     } else {
-      toastr.success('Successfully Saved New Crop');
+      toastr.success(this.props.t('message:NEW_FIELD_CROP.SUCCESS.SAVE'));
     }
 
-    return isValid
+    return isValid;
   }
-
 
   handlePercentage = (e) => {
     let { fieldCrop } = this.state;
@@ -241,13 +243,13 @@ class NewFieldCropModal extends React.Component {
   onStartDateChange = (date) => {
     const currentCrop = this.state.fieldCrop;
     currentCrop.start_date = date;
-    this.setState({ fieldCrop: currentCrop })
+    this.setState({ fieldCrop: currentCrop });
   };
 
   onEndDateChange = (date) => {
     const currentCrop = this.state.fieldCrop;
     currentCrop.end_date = date;
-    this.setState({ fieldCrop: currentCrop })
+    this.setState({ fieldCrop: currentCrop });
   };
 
   onBedLenChange = (e) => {
@@ -302,85 +304,116 @@ class NewFieldCropModal extends React.Component {
       for (let c of crops) {
         cropOptions.push({
           value: c,
-          label: c.crop_common_name,
-        })
+          label: this.props.t(`crop:${c.crop_translation_key}`),
+        });
       }
-      cropOptions.sort((a, b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0));
+      cropOptions.sort((a, b) => (a.label > b.label ? 1 : b.label > a.label ? -1 : 0));
     }
     return cropOptions;
-  }
+  };
 
   render() {
     let { fieldArea } = this.props;
     let { isByArea, clicked, un_clicked, area_unit_label } = this.state;
-
 
     fieldArea = roundToTwoDecimal(convertFromMetric(fieldArea, this.state.area_unit, 'm2'));
     return (
       <div>
         <div className={styles.buttonContainer}>
           <Button onClick={this.handleShow}>
-            New Field Crop
+            {this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_FIELD_CROP')}
           </Button>
         </div>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>New Field Crop</Modal.Title>
+            <Modal.Title>{this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_FIELD_CROP')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <FormGroup>
               <FormGroup
                 validationState={this.validateNotEmptyLength(this.state.fieldCrop.crop_id)}
-                controlId="crop_id">
-                <Select options={this.getCropOptions()}
-                        value={{ value: this.state.crop_option, label: this.state.crop_option.crop_common_name }}
-                        onChange={(selectedOption) => this.handleCropSelect(selectedOption)} required/>
+                controlId="crop_id"
+              >
+                <Select
+                  options={this.getCropOptions()}
+                  value={
+                    this.state.crop_option.crop_id && {
+                      value: this.state.crop_option,
+                      label: this.props.t(`crop:${this.state.crop_option.crop_translation_key}`),
+                    }
+                  }
+                  onChange={(selectedOption) => this.handleCropSelect(selectedOption)}
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.SELECT')}
+                  required
+                />
               </FormGroup>
 
-              <NewCropModal handler={this.handleSaveCustomCrop} isLink={true}/>
+              <NewCropModal handler={this.handleSaveCustomCrop} isLink={true} />
 
-              <h4 style={{ textAlign: 'center' }}>How much of the field do you wish to use?</h4>
+              <h4 style={{ textAlign: 'center' }}>
+                {this.props.t('FIELDS.EDIT_FIELD.CROP.HOW_MUCH_FIELD')}
+              </h4>
               <div className={styles.areaBtnContainer}>
-                <button style={isByArea ? clicked : un_clicked} onClick={() => this.toggleAreaBed(true)}>By Area
+                <button
+                  style={isByArea ? clicked : un_clicked}
+                  onClick={() => this.toggleAreaBed(true)}
+                >
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.BY_AREA')}
                 </button>
-                <button style={isByArea ? un_clicked : clicked} onClick={() => this.toggleAreaBed(false)}>By Beds
+                <button
+                  style={isByArea ? un_clicked : clicked}
+                  onClick={() => this.toggleAreaBed(false)}
+                >
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.BY_BEDS')}
                 </button>
               </div>
-              <div><h5 style={{ textAlign: 'right' }}>Field Size: {fieldArea} {this.state.area_unit_label}&sup2;</h5>
+              <div>
+                <h5 style={{ textAlign: 'right' }}>
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.FIELD_SIZE')}: {fieldArea}{' '}
+                  {this.state.area_unit_label}&sup2;
+                </h5>
               </div>
-              {
-                isByArea && <div>
+              {isByArea && (
+                <div>
                   <FormGroup
                     validationState={this.validateNotEmptyLength(this.state.fieldCrop.area_used)}
-                    className={newFieldStyles.areaContainer}>
-                    <label>Percentage: </label>
+                    className={newFieldStyles.areaContainer}
+                  >
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.PERCENTAGE')}: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder="0"
                       min={0}
                       max={100}
-                      onChange={(e) => this.handlePercentage(e)}/>
+                      onChange={(e) => this.handlePercentage(e)}
+                    />
                   </FormGroup>
                   <FormGroup className={newFieldStyles.areaContainer}>
-                    <label>Area used in hectare: </label>
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_HECTARE')}: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder="0"
                       disabled={true}
                       value={(this.state.fieldCrop.area_used / 10000).toFixed(2)}
                     />
                   </FormGroup>
                 </div>
-              }
-              {
-                !isByArea && <div>
+              )}
+              {!isByArea && (
+                <div>
                   <FormGroup
                     validationState={this.validateNotEmptyLength(this.state.bed_length)}
-                    className={newFieldStyles.areaContainer}>
-                    <label>Bed Length: ({area_unit_label})</label>
+                    className={newFieldStyles.areaContainer}
+                  >
+                    <label>
+                      {this.props.t('FIELDS.EDIT_FIELD.CROP.BED_LENGTH')}: ({area_unit_label})
+                    </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder={'0'}
                       min={0}
                       onChange={(e) => this.onBedLenChange(e)}
@@ -388,10 +421,14 @@ class NewFieldCropModal extends React.Component {
                   </FormGroup>
                   <FormGroup
                     validationState={this.validateNotEmptyLength(this.state.bed_width)}
-                    className={newFieldStyles.areaContainer}>
-                    <label>Bed Width: ({area_unit_label})</label>
+                    className={newFieldStyles.areaContainer}
+                  >
+                    <label>
+                      {this.props.t('FIELDS.EDIT_FIELD.CROP.BED_WIDTH')}: ({area_unit_label})
+                    </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       placeholder={'0'}
                       min={0}
                       onChange={(e) => this.onBedWidthChange(e)}
@@ -399,85 +436,119 @@ class NewFieldCropModal extends React.Component {
                   </FormGroup>
                   <FormGroup
                     validationState={this.validateNotEmptyLength(this.state.bed_num)}
-                    className={newFieldStyles.areaContainer}>
-                    <label>Number of Beds: </label>
+                    className={newFieldStyles.areaContainer}
+                  >
+                    <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_OF_BEDS')}: </label>
                     <FormControl
                       type="number"
+                      onKeyDown={numberOnKeyDown}
                       value={this.state.bed_num}
                       min={0}
                       onChange={(e) => this.onBedNumChange(e)}
                     />
                   </FormGroup>
                 </div>
-              }
+              )}
               <FormGroup className={newFieldStyles.areaContainer}>
-                <label>Area used in {this.state.area_unit_label}&sup2;: </label>
+                <label>
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_IN')} {this.state.area_unit_label}
+                  &sup2;:{' '}
+                </label>
                 <FormControl
                   type="number"
+                  onKeyDown={numberOnKeyDown}
                   disabled={true}
                   value={this.state.fieldCrop.area_used}
                 />
               </FormGroup>
 
-              <h4 style={{ textAlign: 'center' }}>Enter start and finish dates</h4>
-              <FormGroup controlId="start_date"
-                         validationState={this.validateHasDate(this.state.fieldCrop.start_date)}
+              <h4 style={{ textAlign: 'center' }}>
+                {this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_START_FINISH')}
+              </h4>
+              <FormGroup
+                controlId="start_date"
+                validationState={this.validateHasDate(this.state.fieldCrop.start_date)}
               >
-                <DateContainer date={this.state.fieldCrop.start_date} onDateChange={this.onStartDateChange}
-                               placeholder="Choose a start date"/>
-
+                <DateContainer
+                  date={this.state.fieldCrop.start_date}
+                  onDateChange={this.onStartDateChange}
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_START_DATE')}
+                />
               </FormGroup>
-              <FormGroup controlId="end_date"
-                         validationState={this.validateHasDate(this.state.fieldCrop.end_date)}>
-                <DateContainer date={this.state.fieldCrop.end_date} onDateChange={this.onEndDateChange}
-                               placeholder="Choose a end date"/>
-
+              <FormGroup
+                controlId="end_date"
+                validationState={this.validateHasDate(this.state.fieldCrop.end_date)}
+              >
+                <DateContainer
+                  date={this.state.fieldCrop.end_date}
+                  onDateChange={this.onEndDateChange}
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CHOOSE_END_DATE')}
+                />
               </FormGroup>
               <div>
-                <h4 style={{ textAlign: 'center' }}>Edit estimated price for the crop
-                  ({this.state.currencySymbol}/{this.state.estimated_unit})</h4>
+                <h4 style={{ textAlign: 'center' }}>
+                  {this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_ESTIMATED_PRICE')}(
+                  {this.state.currencySymbol}/{this.state.estimated_unit})
+                </h4>
                 <FormGroup
-                  validationState={this.validateNotEmptyLength(this.state.fieldCrop.estimated_price)}
-                  controlId="estimated_price">
+                  validationState={this.validateNotEmptyLength(
+                    this.state.fieldCrop.estimated_price,
+                  )}
+                  controlId="estimated_price"
+                >
                   <FormControl
                     type="number"
-                    placeholder={`Estimated Price (${this.state.currencySymbol}/${this.state.estimated_unit})`}
+                    onKeyDown={numberOnKeyDown}
+                    placeholder={`${this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_PRICE')} (${
+                      this.state.currencySymbol
+                    }/${this.state.estimated_unit})`}
                     value={this.state.fieldCrop.estimated_price}
-                    onChange={(e) => this.handleFieldCropPropertiesChange(e)}/>
+                    onChange={(e) => this.handleFieldCropPropertiesChange(e)}
+                  />
                 </FormGroup>
               </div>
               <div>
-                {
-                  isByArea && <h4 style={{ textAlign: 'center' }}>Edit estimated yield for the crop
-                    ({this.state.estimated_unit}/{this.state.area_unit_label}&sup2;)</h4>
-                }
-                {
-                  !isByArea && <h4 style={{ textAlign: 'center' }}>Edit estimated yield for the crop
-                    ({this.state.estimated_unit}/bed)</h4>
-                }
+                {isByArea && (
+                  <h4 style={{ textAlign: 'center' }}>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_ESTIMATED_YIELD')}(
+                    {this.state.estimated_unit}/{this.state.area_unit_label}
+                    &sup2;)
+                  </h4>
+                )}
+                {!isByArea && (
+                  <h4 style={{ textAlign: 'center' }}>
+                    {this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_ESTIMATED_YIELD')}(
+                    {this.state.estimated_unit}/{this.props.t('FIELDS.EDIT_FIELD.CROP.BED')})
+                  </h4>
+                )}
 
-                <FormGroup controlId="estimated_yield"
-                           validationState={this.validateNotEmptyLength(this.state.fieldCrop.estimated_yield)}>
+                <FormGroup
+                  controlId="estimated_yield"
+                  validationState={this.validateNotEmptyLength(
+                    this.state.fieldCrop.estimated_yield,
+                  )}
+                >
                   <FormControl
                     type="number"
-                    placeholder={`Estimated Yield`}
+                    onKeyDown={numberOnKeyDown}
+                    placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.ESTIMATED_YIELD_PLACEHOLDER')}
                     value={this.state.fieldCrop.estimated_yield}
                     onChange={(e) => this.handleFieldCropPropertiesChange(e)}
                   />
                 </FormGroup>
               </div>
-
             </FormGroup>
-
-
           </Modal.Body>
           <Modal.Footer>
             <Button
               onClick={() => {
                 this.handleSaveNewCrop();
-                this.props.handler()
-              }}>Save</Button>
-            <Button onClick={this.handleClose}>Close</Button>
+                this.props.handler();
+              }}
+            >
+              {this.props.t('common:SAVE')}
+            </Button>
+            <Button onClick={this.handleClose}>{this.props.t('common:CLOSE')}</Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -487,16 +558,15 @@ class NewFieldCropModal extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: cropSelector(state),
-    farm: farmSelector(state),
-  }
+    crops: cropsSelector(state),
+    farm: userFarmSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     dispatch,
-  }
+  };
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(NewFieldCropModal);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(NewFieldCropModal));

@@ -16,6 +16,7 @@
 const express = require('express');
 const router = express.Router();
 const farmController = require('../controllers/farmController');
+const organicCertifierSurveyController = require('../controllers/organicCertifierSurveyController');
 const authFarmId = require('../middleware/acl/authFarmId');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const checkScope = require('../middleware/acl/checkScope');
@@ -24,9 +25,13 @@ router.get('/:farm_id', authFarmId, farmController.getFarmByID());
 
 router.post('/', farmController.addFarm());
 
+router.patch('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.updateFarm(true))
+
+/*To change farm name or units*/
 router.put('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['edit:farms']), farmController.updateFarm());
 
 router.delete('/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['delete:farms']), farmController.deleteFarm());
 
+router.get('/:farm_id/organic_certifier_survey', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:organic_certifier_survey']), organicCertifierSurveyController.getCertifiersByFarmId());
 
 module.exports = router;

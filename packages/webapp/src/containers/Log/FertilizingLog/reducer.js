@@ -1,9 +1,7 @@
-import {
-  SET_FERTILIZERS
-} from './constants';
+import { SET_FERTILIZERS } from './constants';
 
 const initialState = {
-  fertilizers: null
+  fertilizers: null,
 };
 
 function fertReducer(state = initialState, action) {
@@ -13,7 +11,7 @@ function fertReducer(state = initialState, action) {
         fertilizers: action.fertilizers,
       });
     default:
-      return state
+      return state;
   }
 }
 

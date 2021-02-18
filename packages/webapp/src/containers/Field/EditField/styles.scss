@@ -9,8 +9,8 @@
   z-index: 0;
 }
 
-.div[title="Stop drawing"] {
-  color: red
+.div[title='Stop drawing'] {
+  color: red;
 }
 // .gmnoprint[title='Add a marker']
 // .gmnoprint[title='Draw a shape']
@@ -39,7 +39,7 @@
   }
 }
 
-.inlineButtonContainer{
+.inlineButtonContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,23 +54,35 @@
 
 .panelHeading {
   display: flex;
+  flex-direction: column;
+}
+.cardHeaderSuccess {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  display: flex;
+}
+@media (max-width: 576px) {
+  .cardHeaderSuccess {
+    flex-direction: column;
+  }
 }
 
 .deleteButton {
   margin-left: 0.5em;
 }
 
-.editFieldName{
+.editFieldName {
   display: flex;
   flex-direction: row;
 }
 
-.deleteField{
+.deleteField {
   bottom: 10px;
   padding-bottom: 30px;
 }
 
-.mapContainer{
+.mapContainer {
   min-height: 300px;
   width: 100%;
 }

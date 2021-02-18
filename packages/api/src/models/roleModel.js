@@ -17,6 +17,23 @@ const Model = require('objection').Model;
 const softDelete = require('objection-soft-delete');
 
 class Role extends softDelete({ columnName: 'deleted' })(Model) {
+  static get hidden() {
+    return ['deleted'];
+  }
+
+  async $afterFind(queryContext) {
+    await super.$afterFind(queryContext);
+    const { hidden } = this.constructor;
+    if (hidden.length > 0) {
+      const { showHidden } = queryContext;
+      if (!showHidden) {
+        for (const property of hidden) {
+          delete this[property];
+        }
+      }
+    }
+  }
+
   static get tableName() {
     return 'role';
   }

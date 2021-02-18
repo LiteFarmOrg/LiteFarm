@@ -1,5 +1,5 @@
-import React from "react";
-import { BsChevronRight } from 'react-icons/bs'
+import React from 'react';
+import { BsChevronRight } from 'react-icons/bs';
 import styles from './styles.scss';
 
 const DescriptiveButton = ({ label, number, onClick }) => {
@@ -8,10 +8,10 @@ const DescriptiveButton = ({ label, number, onClick }) => {
       <div className={styles.button} onClick={onClick}>
         <p>{label}</p>
         <p>{number}</p>
-        <BsChevronRight/>
+        <BsChevronRight />
       </div>
     </div>
-  )
+  );
 };
 
 export default DescriptiveButton;

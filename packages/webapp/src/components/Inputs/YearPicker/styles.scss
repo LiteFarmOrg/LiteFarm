@@ -1,4 +1,4 @@
-.buttonContainer{
+.buttonContainer {
   width: 45%;
   margin-bottom: 25px;
   float: right;
@@ -15,12 +15,13 @@
     border-color: white !important;
     background-color: white;
     box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
-    p:first-child, p:last-child {
-      flex:1;
+    p:first-child,
+    p:last-child {
+      flex: 1;
     }
     p {
-      text-align:center;
-      flex:3;
+      text-align: center;
+      flex: 3;
       color: black;
       margin: 0;
     }

@@ -1,27 +1,29 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 import moment from 'moment';
-import PageTitle from "../../../components/PageTitle";
-import connect from "react-redux/es/connect/connect";
+import PageTitle from '../../../components/PageTitle';
+import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
-import {expenseSelector, expenseTypeSelector, dateRangeSelector} from "../selectors";
+import { expenseSelector, expenseTypeSelector, dateRangeSelector } from '../selectors';
 import Table from '../../../components/Table';
-import {setExpenseDetailDate, getExpense} from "../actions";
+import { setExpenseDetailDate, getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
-import {farmSelector} from "../../selector";
-import {grabCurrencySymbol} from "../../../util";
-import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
-import { BsCaretRight } from "react-icons/bs";
+import { grabCurrencySymbol } from '../../../util';
+import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import { BsCaretRight } from 'react-icons/bs';
+import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class OtherExpense extends Component {
   constructor(props) {
     super(props);
     let startDate, endDate;
-    const {dateRange} = this.props;
-    if(dateRange && dateRange.startDate && dateRange.endDate){
+    const { dateRange } = this.props;
+    if (dateRange && dateRange.startDate && dateRange.endDate) {
       startDate = moment(dateRange.startDate);
       endDate = moment(dateRange.endDate);
-    }else{
+    } else {
       startDate = moment().startOf('year');
       endDate = moment().endOf('year');
     }
@@ -49,7 +51,6 @@ class OtherExpense extends Component {
     this.changeDate = this.changeDate.bind(this);
   }
 
-
   componentDidMount() {
     this.props.dispatch(getExpense());
   }
@@ -64,17 +65,17 @@ class OtherExpense extends Component {
 
   changeDate(type, date) {
     if (type === 'start') {
-      this.setState({startDate: date})
+      this.setState({ startDate: date });
     } else if (type === 'end') {
-      this.setState({endDate: date})
+      this.setState({ endDate: date });
     } else {
-      console.log("Error, type not specified")
+      console.log('Error, type not specified');
     }
   }
 
   computeTable() {
-    const {expenses} = this.props;
-    const {startDate, endDate} = this.state;
+    const { expenses } = this.props;
+    const { startDate, endDate } = this.state;
     let dict = {};
 
     for (let e of expenses) {
@@ -85,7 +86,7 @@ class OtherExpense extends Component {
           dict[id] = {
             type: typeName,
             amount: e.value,
-          }
+          };
         } else {
           dict[id].amount = dict[id].amount + e.value;
         }
@@ -103,54 +104,81 @@ class OtherExpense extends Component {
       });
       total += dict[k].amount;
     }
-    return [data, total.toFixed(2)]
+    return [data, total.toFixed(2)];
   }
 
   computeDetailedTable() {
-    const {expenses} = this.props;
-    const {startDate, endDate} = this.state;
+    const { expenses } = this.props;
+    const { startDate, endDate } = this.state;
     let detailedHistory = [];
 
-    let dict = {};
     let subTotal = 0;
 
     for (let e of expenses) {
       if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
-        let date = moment(e.expense_date).format('MMM-DD-YYYY');
-        let type = this.getExpenseType(e.expense_type_id);
         let amount = parseFloat(e.value);
         subTotal += amount;
-        if (!dict.hasOwnProperty(date)) {
-          dict[date] = {
-            type,
-            amount,
-            expense_date: e.expense_date,
-          }
-        } else {
-          dict[date].amount = dict[date].amount + amount;
-          dict[date].type = 'Multiple';
-        }
+        detailedHistory.push({
+          date: moment(e.expense_date).format('MMM-DD-YYYY'),
+          type: this.getExpenseType(e.expense_type_id),
+          amount: this.state.currencySymbol + amount.toFixed(2).toString(),
+          expense_date: e.expense_date,
+          note: e.note,
+          expense_item_id: e.farm_expense_id,
+          value: amount,
+        });
       }
     }
 
-    let keys = Object.keys(dict);
-    for (let k of keys) {
-      detailedHistory.push({
-        date: k,
-        type: dict[k].type,
-        amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
-        expense_date: dict[k].expense_date,
-      })
-    }
+    // const { expenses } = this.props;
+    // const { startDate, endDate } = this.state;
+    // let detailedHistory = [];
 
-    return [detailedHistory, subTotal.toFixed(2)]
+    // let dict = {};
+    // let subTotal = 0;
+
+    // console.log(expenses);
+
+    // for (let e of expenses) {
+    //   if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
+    //     let date = moment(e.expense_date).format('MMM-DD-YYYY');
+    //     let type = this.getExpenseType(e.expense_type_id);
+    //     let amount = parseFloat(e.value);
+    //     subTotal += amount;
+    //     if (!dict.hasOwnProperty(date)) {
+    //       dict[date] = {
+    //         type,
+    //         amount,
+    //         expense_date: e.expense_date,
+    //       };
+    //     } else {
+    //       dict[date].amount = dict[date].amount + amount;
+    //       dict[date].type = 'Multiple';
+    //     }
+    //   }
+    // }
+
+    // let keys = Object.keys(dict);
+    // for (let k of keys) {
+    //   detailedHistory.push({
+    //     date: k,
+    //     type: dict[k].type,
+    //     amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
+    //     expense_date: dict[k].expense_date,
+    //   });
+    // }
+
+    // console.log(detailedHistory);
+    // console.log(subTotal.toFixed(2));
+
+    return [detailedHistory, subTotal.toFixed(2)];
   }
 
   getExpenseType(id) {
-    const {expenseTypes} = this.props;
+    const { expenseTypes } = this.props;
     for (let type of expenseTypes) {
       if (type.expense_type_id === id) {
-        return type.expense_name;
+        return this.props.t(`expense:${type.expense_translation_key}`);
       }
     }
     return 'TYPE_NOT_FOUND';
@@ -160,117 +188,110 @@ class OtherExpense extends Component {
     const [data, totalData] = this.computeTable();
     const [detailedHistory, totalDetailed] = this.computeDetailedTable();
 
-    const columns = [{
-      id: 'type',
-      Header: 'Type',
-      accessor: d => d.type,
-      minWidth: 80,
-      Footer: <div>Total</div>
-    }, {
-      id: 'amount',
-      Header: 'Amount',
-      accessor: d => d.amount,
-      minWidth: 75,
-      Footer: <div>{this.state.currencySymbol + totalData}</div>
-    },
+    const columns = [
+      {
+        id: 'type',
+        Header: this.props.t('SALE.SUMMARY.TYPE'),
+        accessor: (d) => d.type,
+        minWidth: 80,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
+      },
+      {
+        id: 'amount',
+        Header: this.props.t('SALE.SUMMARY.AMOUNT'),
+        accessor: (d) => d.amount,
+        minWidth: 75,
+        Footer: <div>{this.state.currencySymbol + totalData}</div>,
+      },
     ];
 
-    const detailedColumns = [{
-      id: 'date',
-      Header: 'Date',
-      accessor: d => d.date,
-      minWidth: 80,
-      Footer: <div>Subtotal</div>
-    }, {
-      id: 'type',
-      Header: 'Type',
-      accessor: d => d.type,
-      minWidth: 75
-    }, {
-      id: 'amount',
-      Header: 'Amount',
-      accessor: d => d.amount,
-      minWidth: 75,
-      Footer: <div>{this.state.currencySymbol + totalDetailed}</div>
-    }, {
-      id: 'chevron',
-      maxWidth: 25,
-      accessor: () => <BsCaretRight />
-    }
+    const detailedColumns = [
+      {
+        id: 'date',
+        Header: this.props.t('SALE.LABOUR.TABLE.DATE'),
+        accessor: (d) => d.date,
+        minWidth: 80,
+        Footer: <div>{this.props.t('SALE.SUMMARY.SUBTOTAL')}</div>,
+      },
+      {
+        id: 'type',
+        Header: this.props.t('SALE.LABOUR.TABLE.TYPE'),
+        accessor: (d) => d.type,
+        minWidth: 75,
+      },
+      {
+        id: 'amount',
+        Header: this.props.t('SALE.LABOUR.TABLE.AMOUNT'),
+        accessor: (d) => d.amount,
+        minWidth: 75,
+        Footer: <div>{this.state.currencySymbol + totalDetailed}</div>,
+      },
+      {
+        id: 'chevron',
+        maxWidth: 25,
+        accessor: () => <BsCaretRight />,
+      },
     ];
 
     return (
       <div className={defaultStyles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Other Expenses'/>
-        <DateRangeSelector changeDateMethod={this.changeDate}/>
-        <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
-        </div>
-        <div className={styles.tableContainer}>
-          {
-            data.length > 0 &&
+        <PageTitle backUrl="/Finances" title={this.props.t('EXPENSE.OTHER_EXPENSES_TITLE')} />
+        <DateRangeSelector changeDateMethod={this.changeDate} />
+
+        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('EXPENSE.SUMMARY')}</Semibold>
+        <div className={styles.tableContainer} style={{ marginBottom: '16px' }}>
+          {data.length > 0 && (
             <Table
               columns={columns}
               data={data}
-              showPagination={false}
+              showPagination={true}
+              pageSizeOptions={[5, 10, 20, 50]}
+              defaultPageSize={5}
               minRows={5}
               className="-striped -highlight"
-              defaultSorted={[
-                {
-                  id: "date",
-                  desc: true
-                }
-              ]}
             />
-          }
-          {
-            data.length === 0 &&
-            <h4>
-              You have no expense recorded for this year
-            </h4>
-          }
+          )}
+          {data.length === 0 && <h4>{this.props.t('EXPENSE.NO_EXPENSE_YEAR')}</h4>}
         </div>
-        <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
-        </div>
+        <Semibold style={{ marginBottom: '16px' }}>
+          {this.props.t('EXPENSE.DETAILED_HISTORY')}
+        </Semibold>
         <div className={styles.tableContainer}>
-          {
-            detailedHistory.length > 0 &&
+          {detailedHistory.length > 0 && (
             <div>
               <Table
                 columns={detailedColumns}
                 data={detailedHistory}
-                showPagination={false}
+                showPagination={true}
+                pageSizeOptions={[5, 10, 20, 50]}
+                defaultPageSize={5}
                 minRows={5}
                 className="-striped -highlight"
                 getTdProps={(state, rowInfo, column, instance) => {
                   return {
                     onClick: (e, handleOriginal) => {
+                      console.log(rowInfo);
                       if (rowInfo && rowInfo.original) {
-                        this.props.dispatch(setExpenseDetailDate(rowInfo.original.expense_date));
+                        this.props.dispatch(setExpenseDetailItem(rowInfo.original));
                         history.push('/expense_detail');
                       }
                       if (handleOriginal) {
                         handleOriginal();
                       }
-                    }
+                    },
                   };
                 }}
               />
             </div>
-          }
-          {
-            detailedHistory.length === 0 &&
+          )}
+          {detailedHistory.length === 0 && (
             <div>
-              <h5>No expense found</h5>
+              <h5>{this.props.t('EXPENSE.NO_EXPENSE')}</h5>
             </div>
-          }
-
+          )}
         </div>
-
       </div>
-
-    )
+    );
   }
 }
 
@@ -279,14 +300,14 @@ const mapStateToProps = (state) => {
     expenses: expenseSelector(state),
     expenseTypes: expenseTypeSelector(state),
     dateRange: dateRangeSelector(state),
-    farm: farmSelector(state),
-  }
+    farm: userFarmSelector(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OtherExpense);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(OtherExpense));

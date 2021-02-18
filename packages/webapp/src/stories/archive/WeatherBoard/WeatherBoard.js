@@ -7,9 +7,8 @@ import WeatherIcon from './WeatherIcon';
 import DaysForecast from './DaysForecast';
 import utils from '../../../components/ReactOpenWeather/js/utils';
 
-
 /**
- * Primary UI component for user interaction
+ * TooShort UI component for user interaction
  */
 export const WeatherBoard = ({
   unit = 'metric',
@@ -21,25 +20,20 @@ export const WeatherBoard = ({
 }) => {
   const today = days[0];
   const todayIcon = utils.getIcon(today.icon);
-  return <div className={styles.box} {...props}>
-    <div className={ clsx(styles.main, styles[`type-${forecast}`])}>
-      <div className={styles.boxLeft}>
-        <h2>{location}</h2>
-        <TodayForecast todayData={today} unit={unit} lang={lang}/>
+  return (
+    <div className={styles.box} {...props}>
+      <div className={clsx(styles.main, styles[`type-${forecast}`])}>
+        <div className={styles.boxLeft}>
+          <h2>{location}</h2>
+          <TodayForecast todayData={today} unit={unit} lang={lang} />
+        </div>
+        <div className={styles.boxRight}>
+          <WeatherIcon name={todayIcon} />
+        </div>
       </div>
-      <div className={styles.boxRight}>
-        <WeatherIcon name={todayIcon}/>
-      </div>
+      <DaysForecast unit={unit} forecast={forecast} daysData={days} lang={lang} />
     </div>
-    <DaysForecast
-      unit={unit}
-      forecast={forecast}
-      daysData={days}
-      lang={lang}
-    />
-  </div>
-
-
+  );
 };
 
 WeatherBoard.propTypes = {
@@ -48,4 +42,4 @@ WeatherBoard.propTypes = {
   lang: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   days: PropTypes.array.isRequired,
-}
+};

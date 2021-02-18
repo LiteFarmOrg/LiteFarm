@@ -1,17 +1,19 @@
 import styles from '../styles.scss';
-import React, {Component} from "react";
-import history from "../../../history";
-import PageTitle from "../../../components/PageTitle";
+import React, { Component } from 'react';
+import history from '../../../history';
+import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
-import {dateRangeSelector, salesSelector} from '../selectors';
-import {getSales} from '../actions';
-import {connect} from 'react-redux';
-import {setSelectedSale} from "../actions";
+import { dateRangeSelector, salesSelector } from '../selectors';
+import { getSales } from '../actions';
+import { connect } from 'react-redux';
+import { setSelectedSale } from '../actions';
 import moment from 'moment';
-import {farmSelector} from "../../selector";
-import {grabCurrencySymbol} from "../../../util";
-import DateRangeSelector from "../../../components/Finances/DateRangeSelector";
-import { BsCaretRight } from "react-icons/all";
+import { grabCurrencySymbol } from '../../../util';
+import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
+import { BsCaretRight } from 'react-icons/all';
+import { userFarmSelector } from '../../userFarmSlice';
+import { withTranslation } from 'react-i18next';
+import { Semibold } from '../../../components/Typography';
 
 class SalesSummary extends Component {
   constructor(props) {
@@ -22,11 +24,11 @@ class SalesSummary extends Component {
     this.filterByDate = this.filterByDate.bind(this);
     this.changeDate = this.changeDate.bind(this);
     let startDate, endDate;
-    const {dateRange} = this.props;
-    if(dateRange && dateRange.startDate && dateRange.endDate){
+    const { dateRange } = this.props;
+    if (dateRange && dateRange.startDate && dateRange.endDate) {
       startDate = moment(dateRange.startDate);
       endDate = moment(dateRange.endDate);
-    }else{
+    } else {
       startDate = moment().startOf('year');
       endDate = moment().endOf('year');
     }
@@ -35,7 +37,7 @@ class SalesSummary extends Component {
       startDate,
       endDate,
       currencySymbol: grabCurrencySymbol(this.props.farm),
-    }
+    };
   }
 
   componentDidMount() {
@@ -45,11 +47,11 @@ class SalesSummary extends Component {
 
   changeDate(type, date) {
     if (type === 'start') {
-      this.setState({startDate: date})
+      this.setState({ startDate: date });
     } else if (type === 'end') {
-      this.setState({endDate: date})
+      this.setState({ endDate: date });
     } else {
-      console.log("Error, type not specified")
+      console.log('Error, type not specified');
     }
   }
 
@@ -59,16 +61,17 @@ class SalesSummary extends Component {
     if (sales.length) {
       sales.map((s) => {
         return s.cropSale.forEach((cs) => {
-          if (cropMap[cs.crop.crop_common_name]) {
-            cropMap[cs.crop.crop_common_name] += cs.sale_value;
+          const key = this.props.t(`crop:${cs.crop.crop_translation_key}`);
+          if (cropMap[key]) {
+            cropMap[key] += cs.sale_value;
           } else {
-            cropMap[cs.crop.crop_common_name] = cs.sale_value || 0;
+            cropMap[key] = cs.sale_value || 0;
           }
-        })
-      })
+        });
+      });
     }
     return Object.keys(cropMap).map((k) => {
-      return {crop: k, value: cropMap[k]}
+      return { crop: k, value: cropMap[k] };
     });
   }
 
@@ -90,20 +93,31 @@ class SalesSummary extends Component {
         crop = 'multiple';
         s.cropSale.forEach((cs) => {
           value += cs.sale_value;
-        })
+        });
       } else {
-        crop = s.cropSale[0].crop.crop_common_name;
+        crop = this.props.t(`crop:${s.cropSale[0].crop.crop_translation_key}`);
         value = s.cropSale[0].sale_value;
       }
-      return {date, crop, value, cropSale: s.cropSale, customerName: s.customer_name, id: s.sale_id}
-    })
+      return {
+        date,
+        crop,
+        value,
+        cropSale: s.cropSale,
+        customerName: s.customer_name,
+        created_by_user_id: s.created_by_user_id,
+        id: s.sale_id,
+      };
+    });
   }
 
   filterByDate(sales) {
     return sales.filter((s) => {
       const fullDate = new Date(s.sale_date);
-      return ((this.state.startDate && this.state.startDate._d) <= fullDate && (this.state.endDate && this.state.endDate._d) >= fullDate);
-    })
+      return (
+        (this.state.startDate && this.state.startDate._d) <= fullDate &&
+        (this.state.endDate && this.state.endDate._d) >= fullDate
+      );
+    });
   }
 
   render() {
@@ -112,74 +126,83 @@ class SalesSummary extends Component {
     const detailedHistoryData = this.formatSales(this.filterByDate(sales));
 
     // columns config for Summary Table
-    const summaryColumns = [{
-      id: 'crop',
-      Header: 'Crop',
-      accessor: (e) => e.crop,
-      minWidth: 70,
-      Footer: <div>Total</div>
-    }, {
-      id: 'value',
-      Header: 'Value',
-      accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
-      minWidth: 75,
-      Footer: <div>${this.formatFooter(summaryData)}</div>
-    }];
+    const summaryColumns = [
+      {
+        id: 'crop',
+        Header: this.props.t('SALE.SUMMARY.CROP'),
+        accessor: (e) => e.crop,
+        minWidth: 70,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
+      },
+      {
+        id: 'value',
+        Header: this.props.t('SALE.SUMMARY.VALUE'),
+        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        minWidth: 75,
+        Footer: <div>${this.formatFooter(summaryData)}</div>,
+      },
+    ];
 
-    const detailedHistoryColumns = [{
-      id: 'date',
-      Header: 'Date',
-      accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
-      minWidth: 70
-    }, {
-      id: 'crop',
-      Header: 'Crop',
-      accessor: (e) => e.crop,
-      minWidth: 75,
-      Footer: <div>Total</div>
-    }, {
-      id: 'value',
-      Header: 'Value',
-      accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
-      minWidth: 40,
-      Footer: <div>${this.formatFooter(detailedHistoryData)}</div>
-    }, {
-      id: 'chevron',
-      maxWidth: 25,
-      accessor: () => <BsCaretRight />
-    }
+    const detailedHistoryColumns = [
+      {
+        id: 'date',
+        Header: this.props.t('SALE.SUMMARY.DATE'),
+        accessor: (e) => moment(e.date).format('YYYY-MM-DD'),
+        minWidth: 70,
+        Footer: <div>{this.props.t('SALE.SUMMARY.TOTAL')}</div>,
+      },
+      {
+        id: 'crop',
+        Header: this.props.t('SALE.SUMMARY.CROP'),
+        accessor: (e) => e.crop,
+        minWidth: 75,
+      },
+      {
+        id: 'value',
+        Header: this.props.t('SALE.SUMMARY.VALUE'),
+        accessor: (e) => `${this.state.currencySymbol}${e.value.toFixed(2)}`,
+        minWidth: 40,
+        Footer: <div>${this.formatFooter(detailedHistoryData)}</div>,
+      },
+      {
+        id: 'chevron',
+        maxWidth: 25,
+        accessor: () => <BsCaretRight />,
+      },
     ];
 
     return (
       <div className={styles.financesContainer}>
-        <PageTitle backUrl='/Finances' title='Sales'/>
-        <DateRangeSelector changeDateMethod={this.changeDate}/>
-        <hr/>
-        <div className={styles.topContainer}>
-          <h4><strong>Summary</strong></h4>
-        </div>
+        <PageTitle backUrl="/Finances" title={this.props.t('SALE.SUMMARY.TITLE')} />
+        <DateRangeSelector changeDateMethod={this.changeDate} />
+        <hr />
+        <Semibold style={{ marginBottom: '16px' }}>{this.props.t('SALE.SUMMARY.SUMMARY')}</Semibold>
 
         <Table
           columns={summaryColumns}
           data={summaryData}
-          showPagination={false}
+          showPagination={true}
+          pageSizeOptions={[5, 10, 20, 50]}
+          defaultPageSize={5}
           minRows={5}
           className="-striped -highlight"
           defaultSorted={[
             {
-              id: "date",
-              desc: true
-            }
+              id: 'date',
+              desc: true,
+            },
           ]}
         />
-        <hr/>
-        <div className={styles.topContainer}>
-          <h4><strong>Detailed History</strong></h4>
-        </div>
+        <hr />
+        <Semibold style={{ marginBottom: '16px' }}>
+          {this.props.t('SALE.SUMMARY.DETAILED_HISTORY')}
+        </Semibold>
         <Table
           columns={detailedHistoryColumns}
           data={detailedHistoryData}
-          showPagination={false}
+          showPagination={true}
+          pageSizeOptions={[5, 10, 20, 50]}
+          defaultPageSize={5}
           minRows={5}
           className="-striped -highlight"
           getTdProps={(state, rowInfo, column, instance) => {
@@ -196,27 +219,27 @@ class SalesSummary extends Component {
                 if (handleOriginal) {
                   handleOriginal();
                 }
-              }
+              },
             };
           }}
         />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     sales: salesSelector(state),
-    farm: farmSelector(state),
+    farm: userFarmSelector(state),
     dateRange: dateRangeSelector(state),
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
-  }
+    dispatch,
+  };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(SalesSummary));

@@ -1,0 +1,14 @@
+{
+  "BED_PREPARATION": "Preparação de canteiro",
+  "DELIVERY": "Entrega",
+  "SALES": "Vendas",
+  "SOCIAL_EVENT": "Evento social",
+  "SEEDING": "Semeadura",
+  "FERTILIZING": "Fertilização",
+  "SCOUTING": "Prospecção",
+  "HARVESTING": "Colheita",
+  "WEEDING": "Capina",
+  "WASH_AND_PACK": "Lavar e empacotar",
+  "PEST_CONTROL": "Controle de pragas",
+  "OTHER": "Outro"
+}

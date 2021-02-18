@@ -1,0 +1,14 @@
+{
+  "CLAY": "Argila",
+  "CLAY_LOAM": "Franco Argiloso",
+  "LOAM": "Franco",
+  "LOAMY_SAND": "Areia Franca",
+  "SAND": "Areia",
+  "SANDY_CLAY": "Argila Arenosa",
+  "SANDY_CLAYLOAM": "Franco Argilo Arenoso",
+  "SANDY_LOAM": "Franco Arenoso",
+  "SILT": "Silte",
+  "SILT_LOAM": "Franco Siltoso",
+  "SILTY_CLAY": "Argila Siltosa",
+  "SILTY_CLAYLOAM": "Franco Argilo Siltoso"
+}

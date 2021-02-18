@@ -15,15 +15,15 @@
 
 import moment from 'moment';
 
-export function calcTotalLabour(shifts, startDate, endDate){
+export function calcTotalLabour(shifts, startDate, endDate) {
   let total = 0;
-  if(Array.isArray(shifts)){
-    for (let s of shifts){
-      if(moment(s.start_time).isBetween(startDate, endDate, null, '[]')){
-        if(s.wage.type === 'hourly'){
+  if (Array.isArray(shifts)) {
+    for (let s of shifts) {
+      if (moment(s.start_time).isBetween(startDate, endDate, null, '[]')) {
+        if (s.wage.type === 'hourly') {
           let rate = parseFloat(s.wage_at_moment).toFixed(2);
           let hoursWorked = Number((s.duration / 60).toFixed(2));
-          total += (rate * hoursWorked);
+          total += rate * hoursWorked;
         }
       }
     }
@@ -32,7 +32,7 @@ export function calcTotalLabour(shifts, startDate, endDate){
 }
 
 export const sortByDate = (data) => {
-  return data.sort(function(a,b){
+  return data.sort(function (a, b) {
     // Turn your strings into dates, and then subtract them
     // to get a value that is either negative, positive, or zero.
     return new Date(b.date) - new Date(a.date);
@@ -44,14 +44,14 @@ export const filterSalesByCurrentYear = (sales) => {
     const saleYear = new Date(s.sale_date).getFullYear();
     const currentYear = new Date().getFullYear();
     return currentYear === saleYear;
-  })
+  });
 };
 
-export function calcOtherExpense(expenses, startDate, endDate){
+export function calcOtherExpense(expenses, startDate, endDate) {
   let total = 0;
-  if(Array.isArray(expenses)){
-    for(let e of expenses){
-      if(moment(e.expense_date).isBetween(startDate, endDate, null, '[]')){
+  if (Array.isArray(expenses)) {
+    for (let e of expenses) {
+      if (moment(e.expense_date).isBetween(startDate, endDate, null, '[]')) {
         total += parseFloat(e.value);
       }
     }
@@ -63,11 +63,11 @@ export function calcOtherExpense(expenses, startDate, endDate){
 export function calcSales(sales, startDate, endDate) {
   let total = 0;
 
-  if(Array.isArray(sales)) {
+  if (Array.isArray(sales)) {
     for (let s of sales) {
-      if(moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
+      if (moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
         for (let c of s.cropSale) {
-          total += parseFloat(c.sale_value)
+          total += parseFloat(c.sale_value);
         }
       }
     }
@@ -79,28 +79,26 @@ export function calcSales(sales, startDate, endDate) {
 export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
   let sortObj = {};
   let unAllocated = {};
-  if(shifts && shifts.length){
-    for(let s of shifts){
+  if (shifts && shifts.length) {
+    for (let s of shifts) {
       let cid = s.crop_id;
-      if(cid){
-        if(moment(s.start_time).isBetween(startDate, endDate, null, '[]')){
-          if(sortObj.hasOwnProperty(cid)){
-            sortObj[cid].cost += (parseFloat(s.wage_at_moment) * (s.duration / 60));
-          }
-          else{
+      if (cid) {
+        if (moment(s.start_time).isBetween(startDate, endDate, null, '[]')) {
+          if (sortObj.hasOwnProperty(cid)) {
+            sortObj[cid].cost += parseFloat(s.wage_at_moment) * (s.duration / 60);
+          } else {
             sortObj[cid] = {
-              cost: (parseFloat(s.wage_at_moment) * (s.duration / 60)),
+              cost: parseFloat(s.wage_at_moment) * (s.duration / 60),
               crop: s.crop_common_name,
               revenue: 0,
-            }
+            };
           }
         }
-      }
-      else{
-        if(s.field_id && s.is_field){
-          if(unAllocated.hasOwnProperty(s.field_id)){
+      } else {
+        if (s.field_id && s.is_field) {
+          if (unAllocated.hasOwnProperty(s.field_id)) {
             unAllocated[s.field_id] += Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
-          }else{
+          } else {
             unAllocated[s.field_id] = Number(parseFloat(s.wage_at_moment) * (s.duration / 60));
           }
         }
@@ -110,20 +108,20 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
 
   let fieldKeys = Object.keys(unAllocated);
 
-  for(let fk of fieldKeys){
+  for (let fk of fieldKeys) {
     let shiftCropOnField = getShiftCropOnField(fk, shifts);
     let isAllocated = false;
-    if(shiftCropOnField.length){
+    if (shiftCropOnField.length) {
       let avgCost = unAllocated[fk] / shiftCropOnField.length;
-      for(let c of shiftCropOnField){
-        if(sortObj.hasOwnProperty(c)){
+      for (let c of shiftCropOnField) {
+        if (sortObj.hasOwnProperty(c)) {
           isAllocated = true;
           sortObj[c].cost += avgCost;
         }
       }
     }
-    if(isAllocated){
-      delete(unAllocated[fk]);
+    if (isAllocated) {
+      delete unAllocated[fk];
     }
   }
 
@@ -145,28 +143,29 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
   }
   */
 
-
   let keys = Object.keys(sortObj);
   let numOfCrops = keys.length;
-  let expensePerCrop = Number((parseFloat(calcOtherExpense(expenses, startDate, endDate)) / numOfCrops).toFixed(2));
+  let expensePerCrop = Number(
+    (parseFloat(calcOtherExpense(expenses, startDate, endDate)) / numOfCrops).toFixed(2),
+  );
 
-  for(let k of keys){
+  for (let k of keys) {
     sortObj[k].cost += Number(parseFloat(expensePerCrop).toFixed(2));
   }
 
-  if(sales && sales.length){
-    for(let s of sales){
-      if(moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
+  if (sales && sales.length) {
+    for (let s of sales) {
+      if (moment(s.sale_date).isBetween(startDate, endDate, null, '[]')) {
         for (let cropSale of s.cropSale) {
           let cid = cropSale.fieldCrop.crop_id;
           if (sortObj.hasOwnProperty(cid)) {
             sortObj[cid].revenue += Number(parseFloat(cropSale.sale_value).toFixed(2));
-          }else{
+          } else {
             sortObj[cid] = {
               cost: 0,
               crop: cropSale.fieldCrop.crop.crop_common_name,
               revenue: Number(parseFloat(cropSale.sale_value).toFixed(2)),
-            }
+            };
           }
         }
       }
@@ -175,21 +174,21 @@ export function calcBalanceByCrop(shifts, sales, expenses, startDate, endDate) {
 
   let final = [];
   keys = Object.keys(sortObj);
-  for(let k of keys) {
+  for (let k of keys) {
     final.push({
       crop: sortObj[k].crop,
       profit: Number((parseFloat(sortObj[k].revenue) - parseFloat(sortObj[k].cost)).toFixed(2)),
-    })
+    });
   }
 
-  return final
+  return final;
 }
 
 export function getShiftCropOnField(fieldID, shifts) {
   let crops = [];
 
-  for(let s of shifts){
-    if(s.field_id === fieldID && s.crop_id){
+  for (let s of shifts) {
+    if (s.field_id === fieldID && s.crop_id) {
       crops.push(s.crop_id);
     }
   }

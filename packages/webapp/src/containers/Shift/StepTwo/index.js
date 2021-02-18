@@ -3,21 +3,24 @@ import { connect } from 'react-redux';
 import styles from '../styles.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
-import { fieldSelector, cropSelector, userInfoSelector } from '../../selector';
+
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
-import closeButton from '../../../assets/images/grey_close_button.png'
+import closeButton from '../../../assets/images/grey_close_button.png';
 import Select from 'react-select';
 import Popup from 'reactjs-popup';
-import {Container, Row, Col, Button} from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { submitShift, submitMultiShift } from '../actions';
-import { farmSelector } from '../../selector';
-import { BsReplyFill } from "react-icons/bs";
+import { submitMultiShift, submitShift } from '../actions';
+import { BsReplyFill } from 'react-icons/bs';
+import { userFarmSelector } from '../../userFarmSlice';
+import { fieldsSelector } from '../../fieldSlice';
+import { useTranslation, withTranslation } from 'react-i18next';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { numberOnKeyDown } from '../../../components/Form/Input';
 
 class ShiftStepTwo extends Component {
-
   constructor(props) {
     super(props);
     const isRatingEnabled = this.isCurrentUserInShift();
@@ -69,16 +72,23 @@ class ShiftStepTwo extends Component {
     let crops = this.props.crops || [];
     let fields = this.props.fields;
     let selectedTasks = this.props.selectedTasks;
-    let cropOptions = [], fieldOptions = [], addedCropID = [];
-    let availableDuration = Number(parseInt(parseFloat(this.props.availableDuration).toFixed(2), 10));
+    let cropOptions = [],
+      fieldOptions = [],
+      addedCropID = [];
+    let availableDuration = Number(
+      parseInt(parseFloat(this.props.availableDuration).toFixed(2), 10),
+    );
     for (let crop of crops) {
       if (!addedCropID.includes(crop.crop_id)) {
-        cropOptions.push({ label: crop.crop_common_name, value: crop.crop_id });
+        cropOptions.push({
+          label: this.props.t(`crop:${crop.crop_translation_key}`),
+          value: crop.crop_id,
+        });
         addedCropID.push(crop.crop_id);
       }
     }
     for (let field of fields) {
-      fieldOptions.push({ label: field.field_name, value: field.field_id })
+      fieldOptions.push({ label: field.field_name, value: field.field_id });
     }
     let finalForm = {};
     for (let task of selectedTasks) {
@@ -86,7 +96,7 @@ class ShiftStepTwo extends Component {
         is_field: false,
         val: [],
         duration: 0,
-      }
+      };
     }
     this.setState({
       cropOptions,
@@ -106,14 +116,14 @@ class ShiftStepTwo extends Component {
     // Multi users case
     let isCurrentUserInMultiShift = false;
     if (isMulti && Array.isArray(shiftUserId)) {
-      const shiftUserIds = shiftUserId.map(id => id.value);
+      const shiftUserIds = shiftUserId.map((id) => id.value);
       if (shiftUserIds.includes(users.user_id)) {
         isCurrentUserInMultiShift = true;
       }
     }
 
     return isCurrentUserInSingleShift || isCurrentUserInMultiShift;
-  }
+  };
 
   closeEditModal = () => {
     this.setState({ showEdit: false });
@@ -126,7 +136,7 @@ class ShiftStepTwo extends Component {
   selectMood = (mood) => {
     this.setState({
       mood,
-    })
+    });
   };
 
   addAll(task_id, type, duration = 0) {
@@ -134,11 +144,18 @@ class ShiftStepTwo extends Component {
     if (type === 'crop') {
       let defaultCrops = this.state.defaultCrops;
       defaultCrops[task_id] = [];
-      let cropOptions = [], addedCropID = [];
+      let cropOptions = [],
+        addedCropID = [];
       for (let c of crops) {
         if (!addedCropID.includes(c.crop_id)) {
-          defaultCrops[task_id].push({ 'value': c.crop_id, 'label': c.crop_common_name });
-          cropOptions.push({ value: c.crop_id, label: c.crop_common_name });
+          defaultCrops[task_id].push({
+            value: c.crop_id,
+            label: this.props.t(`crop:${c.crop_translation_key}`),
+          });
+          cropOptions.push({
+            value: c.crop_id,
+            label: this.props.t(`crop:${c.crop_translation_key}`),
+          });
           addedCropID.push(c.crop_id);
         }
       }
@@ -150,7 +167,7 @@ class ShiftStepTwo extends Component {
       let defaultFields = this.state.defaultFields;
       defaultFields[task_id] = [];
       for (let f of fields) {
-        defaultFields[task_id].push({ 'value': f.field_id, 'label': f.field_name });
+        defaultFields[task_id].push({ value: f.field_id, label: f.field_name });
         this.handleFieldChange([{ value: f.field_id }], task_id);
       }
       this.setState({
@@ -180,14 +197,14 @@ class ShiftStepTwo extends Component {
   resetCropDuration = (task_id) => {
     let { cropDurations, finalForm } = this.state;
     let resetDurations = [];
-    if(cropDurations?.hasOwnProperty(task_id)){
+    if (cropDurations?.hasOwnProperty(task_id)) {
       for (let cdObj of cropDurations[task_id]) {
         cdObj.duration = '';
         resetDurations.push(cdObj);
       }
       cropDurations[task_id] = resetDurations;
     }
-    if(finalForm?.hasOwnProperty(task_id)){
+    if (finalForm?.hasOwnProperty(task_id)) {
       finalForm[task_id].duration = 0;
     }
     let availableDuration = this.getRemainingDuration();
@@ -205,17 +222,18 @@ class ShiftStepTwo extends Component {
       fieldDiv.style.display = 'none';
     }
     let { cropDurations, finalForm } = this.state;
-    if(finalForm && finalForm[task_id]){
-      finalForm[task_id]={};
+    if (finalForm && finalForm[task_id]) {
+      finalForm[task_id] = {};
     }
-    if(cropDurations && cropDurations[task_id]){
-      cropDurations[task_id]=[];
+    if (cropDurations && cropDurations[task_id]) {
+      cropDurations[task_id] = [];
     }
     let availableDuration = this.getRemainingDuration();
     this.setState({ cropDurations, availableDuration, finalForm });
   }
 
-  handleCropChange = (selectedOption, duration, task_id) => {
+  handleCropChange = (selectedOptions, duration, task_id) => {
+    let options = selectedOptions || [];
     let { finalForm, cropDurations } = this.state;
     finalForm[task_id].is_field = false;
     finalForm[task_id].val = [];
@@ -227,13 +245,13 @@ class ShiftStepTwo extends Component {
       totalTimeInput.value = 0;
     }
 
-    for (let option of selectedOption) {
+    for (let option of options) {
       finalForm[task_id].val.push({ id: option.value });
       cropDurations[task_id].push({
         crop_id: option.value,
         crop_name: option.label,
-        duration: duration / selectedOption.length,
-      })
+        duration: duration / options.length,
+      });
     }
 
     this.setState({
@@ -242,17 +260,17 @@ class ShiftStepTwo extends Component {
     });
   };
 
-  handleFieldChange = (selectedOption, task_id) => {
+  handleFieldChange = (selectedOptions, task_id) => {
+    const options = selectedOptions || [];
     let finalForm = this.state.finalForm;
     finalForm[task_id].is_field = true;
     finalForm[task_id].val = [];
-    for (let option of selectedOption) {
+    for (let option of options) {
       finalForm[task_id].val.push({ id: option.value });
     }
     this.setState({
       finalForm,
     });
-
   };
 
   changeTotalIndyBtnColor = (task_id, is_total) => {
@@ -266,13 +284,11 @@ class ShiftStepTwo extends Component {
       indy_id_btn.className = 'duration-btn-selected';
       all_id_btn.className = 'duration-btn-unselected';
     }
-
   };
 
   toggleCropTimeMethod = (task_id, is_total, total = 0) => {
     let cropTotalTimeDiv = document.getElementById('allduration-' + task_id);
     let cropIndyTimeDiv = document.getElementById('singleduration-' + task_id);
-
 
     if (!is_total) {
       cropTotalTimeDiv.style.display = 'flex';
@@ -294,7 +310,7 @@ class ShiftStepTwo extends Component {
       let i = 0;
       for (let cdObj of cropDurations[task_id]) {
         if (i === cropNum - 1) {
-          if (indyTime * cropNum !== (Number(totalTime))) {
+          if (indyTime * cropNum !== Number(totalTime)) {
             indyTime = Number(totalTime) - indyTime * (cropNum - 1);
           }
         }
@@ -304,9 +320,7 @@ class ShiftStepTwo extends Component {
     }
   };
 
-
-  changeDuration(event, task_id, is_crop, crop_id = null, setDuration = () => {
-  }) {
+  changeDuration(event, task_id, is_crop, crop_id = null, setDuration = () => {}) {
     let value = event.target.value;
     let { availableDuration, cropDurations, finalForm } = this.state;
     let duration = 0;
@@ -321,7 +335,6 @@ class ShiftStepTwo extends Component {
       this.setState({
         cropDurations,
       });
-
     } else {
       finalForm[task_id].duration = value;
       this.setState({
@@ -342,7 +355,7 @@ class ShiftStepTwo extends Component {
         background: availableDuration === 0 ? '#DFF0D8' : '#FCF8E3',
         zIndex: 2,
       },
-    })
+    });
   }
 
   getRemainingDuration() {
@@ -365,18 +378,21 @@ class ShiftStepTwo extends Component {
 
   submitShift() {
     if (this.state.availableDuration !== 0) {
-      toastr.error('Please assign all your available work minutes');
+      toastr.error(this.props.t('message:SHIFT.ERROR.ASSIGN_ALL_MINUTES'));
       return;
     }
     let finalForm = this.state.finalForm;
     let usersObj = this.state.usersObj;
     let form;
-    let b_duration = usersObj.break === null || usersObj.break === '' || usersObj.break === undefined ? 0 : usersObj.break;
+    let b_duration =
+      usersObj.break === null || usersObj.break === '' || usersObj.break === undefined
+        ? 0
+        : usersObj.break;
     if (usersObj.isMulti) {
       const { mood } = this.state;
       const { users } = this.props;
       const { shiftUserId, start, end } = usersObj;
-      const shift_users = shiftUserId.map(shiftUser => {
+      const shift_users = shiftUserId.map((shiftUser) => {
         if (shiftUser.value === users.user_id) {
           // update the current user's mood only
           // (other shift users' mood should remain 'na')
@@ -410,14 +426,14 @@ class ShiftStepTwo extends Component {
       let is_field = finalForm[key].is_field;
       let val_num = vals.length;
       if (val_num === 0) {
-        toastr.error('Please assign crops or fields for each task');
+        toastr.error(this.props.t('message:SHIFT.ERROR.CROP_FIELDS_EACH'));
         return;
       }
       let valIterator = 0;
       for (let val of vals) {
         if (is_field) {
           if (!Number.isInteger(Number(finalForm[key].duration))) {
-            toastr.error('Please assign only integers to durations');
+            toastr.error(this.props.t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
             return;
           }
 
@@ -434,7 +450,7 @@ class ShiftStepTwo extends Component {
           for (let crop of crops) {
             if (crop.field_id === val.id) {
               crop_num++;
-              crops_on_field.push(crop)
+              crops_on_field.push(crop);
             }
           }
 
@@ -444,7 +460,7 @@ class ShiftStepTwo extends Component {
               duration: Number(parseFloat(duration).toFixed(3)),
               is_field: true,
               field_id: val.id,
-            })
+            });
           } else {
             duration = Number(parseFloat(duration).toFixed(3));
             let sub_duration = Number(duration / crop_num);
@@ -452,7 +468,7 @@ class ShiftStepTwo extends Component {
             for (let crop of crops_on_field) {
               if (i === crop_num - 1) {
                 if (sub_duration * crop_num !== duration) {
-                  sub_duration = duration - (sub_duration * (crop_num - 1));
+                  sub_duration = duration - sub_duration * (crop_num - 1);
                 }
               }
               form.tasks.push({
@@ -473,11 +489,11 @@ class ShiftStepTwo extends Component {
           if (cropDurations.hasOwnProperty(key)) {
             for (let cdObj of cropDurations[key]) {
               if (Number(cdObj.duration) === 0) {
-                toastr.error('Please assign a duration for each crop.');
+                toastr.error(this.props.t('message:SHIFT.ERROR.DURATION_FOR_CROPS'));
                 return;
               }
               if (!Number.isInteger(Number(cdObj.duration))) {
-                toastr.error('Please assign only integers to durations');
+                toastr.error(this.props.t('message:SHIFT.ERROR.ONLY_INTEGERS_DURATIONS'));
                 return;
               }
               if (cdObj.crop_id === val.id) {
@@ -485,7 +501,7 @@ class ShiftStepTwo extends Component {
               }
             }
           } else {
-            toastr.error('Sumbit shift with crops failed. Litefarm\'s issue.');
+            toastr.error(this.props.t('message:SHIFT.ERROR.SUBMIT_SHIFT'));
             return;
           }
 
@@ -505,7 +521,7 @@ class ShiftStepTwo extends Component {
               is_field: false,
               field_crop_id: a_crop.field_crop_id,
               field_id: a_crop.field_id,
-            })
+            });
           }
         }
         valIterator++;
@@ -516,8 +532,7 @@ class ShiftStepTwo extends Component {
     } else {
       this.props.dispatch(submitShift(form));
     }
-  };
-
+  }
 
   render() {
     const { selectedTasks } = this.props;
@@ -526,172 +541,259 @@ class ShiftStepTwo extends Component {
 
     return (
       <div className={styles.logContainer}>
-        <PageTitle backUrl="/shift_step_one" title="New Shift (Step 2)" rightIcon={true}
-                   rightIconTitle="Time Allocation"
-                   rightIconBody="If you need to allocate labour for an activity to your whole farm, you can allocate it to all of your fields, and we will do the rest."/>
+        <PageTitle
+          backUrl="/shift_step_one"
+          title={this.props.t('SHIFT.EDIT_SHIFT.NEW_SHIFT_TITLE_2')}
+          rightIcon={true}
+          rightIconTitle={this.props.t('SHIFT.EDIT_SHIFT.TIME_ALLOCATION')}
+          rightIconBody={this.props.t('SHIFT.EDIT_SHIFT.ALLOCATE_ACTIVITY')}
+        />
         <div className={styles.taskTitle} style={{ paddingBottom: '1.2em' }}>
           <div style={this.state.minBoxStyle}>
-            <strong> You have <span>{this.state.availableDuration} minutes</span> to assign</strong>
+            <strong>
+              {' '}
+              {this.props.t('SHIFT.EDIT_SHIFT.YOU_HAVE')}
+              <span>
+                {this.state.availableDuration} {this.props.t('SHIFT.EDIT_SHIFT.MINUTES')}
+              </span>{' '}
+              {this.props.t('SHIFT.EDIT_SHIFT.TO_ASSIGN')}
+            </strong>
           </div>
         </div>
         <div>
-          {selectedTasks.map((task) =>
-            <InputDuration key={task.task_id} addAll={this.addAll} changeDuration={this.changeDuration}
-                           cropDurations={cropDurations}
-                           handleCropChange={this.handleCropChange} handleFieldChange={this.handleFieldChange}
-                           state={this.state} isRatingEnabled={isRatingEnabled} openEditModal={this.openEditModal}
-                           toggleCropOrField={this.toggleCropOrField} task={task} toggleBack={this.toggleBack}
-                           toggleCropTimeMethod={this.toggleCropTimeMethod}
-                           cropTotalTimeAssign={this.cropTotalTimeAssign}
-                           resetCropDuration={this.resetCropDuration}
-            />,
-          )}
-
+          {selectedTasks.map((task) => (
+            <InputDuration
+              key={task.task_id}
+              addAll={this.addAll}
+              changeDuration={this.changeDuration}
+              cropDurations={cropDurations}
+              handleCropChange={this.handleCropChange}
+              handleFieldChange={this.handleFieldChange}
+              state={this.state}
+              isRatingEnabled={isRatingEnabled}
+              openEditModal={this.openEditModal}
+              toggleCropOrField={this.toggleCropOrField}
+              task={task}
+              toggleBack={this.toggleBack}
+              toggleCropTimeMethod={this.toggleCropTimeMethod}
+              cropTotalTimeAssign={this.cropTotalTimeAssign}
+              resetCropDuration={this.resetCropDuration}
+            />
+          ))}
         </div>
         <Popup
           // pop up for mood
           open={this.state.showEdit}
           closeOnDocumentClick
           onClose={this.closeEditModal}
-          contentStyle={{ display: 'flex', width: '100%', height: '100vh', padding: '0 5%' }}
+          contentStyle={{
+            display: 'flex',
+            width: '100%',
+            height: '100vh',
+            padding: '0 5%',
+          }}
           overlayStyle={{ zIndex: '1060', height: '100vh' }}
         >
           <div className={styles.modal}>
             <div className={styles.popupTitle}>
               <a className={styles.close} onClick={this.closeEditModal}>
-                <img src={closeButton} alt=""/>
+                <img src={closeButton} alt="" />
               </a>
             </div>
-            <h3>How did this shift make you feel?</h3>
+            <h3>{this.props.t('SHIFT.EDIT_SHIFT.MOOD')}</h3>
 
-            <Container fluid={true}
-                  style={{marginLeft: 0, marginRight: 0, padding: '0 3%', marginTop: '5%', width: '100%'}}>
+            <Container
+              fluid={true}
+              style={{
+                marginLeft: 0,
+                marginRight: 0,
+                padding: '0 3%',
+                marginTop: '5%',
+                width: '100%',
+              }}
+            >
               <Row className="show-grid">
                 <Col xs={4} md={4}>
                   <div className={styles.moodContainer} onClick={() => this.selectMood('happy')}>
-                    <div style={this.state.mood === 'happy' ? this.state.moodSelected : this.state.moodUnSelected}>
+                    <div
+                      style={
+                        this.state.mood === 'happy'
+                          ? this.state.moodSelected
+                          : this.state.moodUnSelected
+                      }
+                    >
                       {/*<img src={happyImg} alt=""/>*/}
                       <h2>😃</h2>
                     </div>
-                    <p>Happy</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.HAPPY')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
-                  <div className={styles.moodContainer} onClick={() => this.selectMood('very happy')}>
+                  <div
+                    className={styles.moodContainer}
+                    onClick={() => this.selectMood('very happy')}
+                  >
                     <div
-                      style={this.state.mood === 'very happy' ? this.state.moodSelected : this.state.moodUnSelected}>
+                      style={
+                        this.state.mood === 'very happy'
+                          ? this.state.moodSelected
+                          : this.state.moodUnSelected
+                      }
+                    >
                       {/*<img src={vHappyImg} alt=""/>*/}
                       <h2>😆</h2>
                     </div>
-                    <p>Very Happy</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.VERY_HAPPY')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
                   <div className={styles.moodContainer} onClick={() => this.selectMood('neutral')}>
-                    <div style={this.state.mood === 'neutral' ? this.state.moodSelected : this.state.moodUnSelected}>
+                    <div
+                      style={
+                        this.state.mood === 'neutral'
+                          ? this.state.moodSelected
+                          : this.state.moodUnSelected
+                      }
+                    >
                       {/*<img src={neutralImg} alt=""/>*/}
                       <h2>😕</h2>
                     </div>
-                    <p>Neutral</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.NEUTRAL')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
                   <div className={styles.moodContainer} onClick={() => this.selectMood('sad')}>
-                    <div style={this.state.mood === 'sad' ? this.state.moodSelected : this.state.moodUnSelected}>
+                    <div
+                      style={
+                        this.state.mood === 'sad'
+                          ? this.state.moodSelected
+                          : this.state.moodUnSelected
+                      }
+                    >
                       {/*<img src={sadImg} alt=""/>*/}
                       <h2>😢</h2>
                     </div>
-                    <p>Sad</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.SAD')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
                   <div className={styles.moodContainer} onClick={() => this.selectMood('very sad')}>
-                    <div style={this.state.mood === 'very sad' ? this.state.moodSelected : this.state.moodUnSelected}>
+                    <div
+                      style={
+                        this.state.mood === 'very sad'
+                          ? this.state.moodSelected
+                          : this.state.moodUnSelected
+                      }
+                    >
                       {/*<img src={depressionImg} alt=""/>*/}
                       <h2>😭</h2>
                     </div>
-                    <p>Very Sad</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.VERY_SAD')}</p>
                   </div>
                 </Col>
                 <Col xs={4} md={4}>
                   <div className={styles.moodContainer} onClick={() => this.selectMood('na')}>
-                    <div style={this.state.mood === 'na' ? this.state.moodSelected : this.state.moodUnSelected}>
+                    <div
+                      style={
+                        this.state.mood === 'na'
+                          ? this.state.moodSelected
+                          : this.state.moodUnSelected
+                      }
+                    >
                       {/*<img src={depressionImg} alt=""/>*/}
                       <h2>🤭</h2>
                     </div>
-                    <p>Rather Not Say</p>
+                    <p>{this.props.t('SHIFT.EDIT_SHIFT.RATHER_NOT_SAY')}</p>
                   </div>
                 </Col>
               </Row>
             </Container>
             <div className={styles.buttonContainer}>
-              <Button onClick={() => this.submitShift()}>Finish</Button>
+              <Button onClick={() => this.submitShift()}>{this.props.t('common:FINISH')}</Button>
             </div>
           </div>
         </Popup>
       </div>
-    )
+    );
   }
 }
 
 // TODO rewrite the component
-function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField, addAll, toggleBack, handleCropChange, toggleCropTimeMethod, changeDuration, handleFieldChange, openEditModal, state, cropTotalTimeAssign, resetCropDuration }) {
+function InputDuration({
+  task,
+  cropDurations,
+  isRatingEnabled,
+  toggleCropOrField,
+  addAll,
+  toggleBack,
+  handleCropChange,
+  toggleCropTimeMethod,
+  changeDuration,
+  handleFieldChange,
+  openEditModal,
+  state,
+  cropTotalTimeAssign,
+  resetCropDuration,
+}) {
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
+  const { t } = useTranslation();
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
-  }
+  };
   const onDurationChange = (duration, task_id) => {
     setDuration(duration);
     cropTotalTimeAssign(duration, task_id);
-  }
+  };
   return (
     <div key={task.task_id} className={styles.taskBlock}>
       <div className={styles.taskTitle}>
-        <strong>{task.task_name}</strong>
-        <div>
-          Assign time to task by
-        </div>
+        <strong>{t(`task:${task.task_translation_key}`)}</strong>
+        <div>{t('SHIFT.EDIT_SHIFT.ASSIGN_TIME_TO_TASK')}</div>
       </div>
       <div id={task.task_id} style={{ display: 'block' }}>
-        <div className={styles.cropFieldContainer}
-             onClick={() => toggleCropOrField(task.task_id, 'crop')}>
+        <div
+          className={styles.cropFieldContainer}
+          onClick={() => toggleCropOrField(task.task_id, 'crop')}
+        >
           <div className={styles.cropButton}>
-            <img src={cropImg} alt=""/>
-            <div className={styles.whiteText}>
-              Crops on your farm
-            </div>
+            <img src={cropImg} alt="" />
+            <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.CROPS_ON_YOUR_FARM')}</div>
           </div>
-          <div className={styles.fieldButton} onClick={() => toggleCropOrField(task.task_id, 'field')}>
-            <img src={fieldImg} alt=""/>
-            <div className={styles.whiteText}>
-              Fields on your farm
-            </div>
+          <div
+            className={styles.fieldButton}
+            onClick={() => toggleCropOrField(task.task_id, 'field')}
+          >
+            <img src={fieldImg} alt="" />
+            <div className={styles.whiteText}>{t('SHIFT.EDIT_SHIFT.FIELDS_ON_YOUR_FARM')}</div>
           </div>
         </div>
       </div>
       <div className={styles.selectContainer} id={'crop' + task.task_id}>
         <div>
-          <strong>Crops on this farm</strong>
+          <strong>{t('SHIFT.EDIT_SHIFT.CROPS_ON_THIS_FARM')}</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>All</Button>
+              <Button onClick={() => addAll(task.task_id, 'crop', duration)}>
+                {t('SHIFT.EDIT_SHIFT.ALL')}
+              </Button>
             </div>
-            <div className={styles.backContainer} onClick={() => {
-              setDuration(0);
-              setSelectedCrops(null);
-              toggleBack(task.task_id, 'crop')
-            }}>
-              <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-              Back
+            <div
+              className={styles.backContainer}
+              onClick={() => {
+                setDuration(0);
+                setSelectedCrops(null);
+                toggleBack(task.task_id, 'crop');
+              }}
+            >
+              <BsReplyFill style={{ transform: 'scaleX(-1)' }} />
+              {t('common:BACK')}
             </div>
           </div>
-
         </div>
         <div className={styles.selectInner}>
-          {
-            state.defaultCrops[task.task_id] &&
+          {state.defaultCrops[task.task_id] && (
             <Select
               defaultValue={state.defaultCrops[task.task_id]}
               isMulti
@@ -702,11 +804,13 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               className="basic-multi-select"
               classNamePrefix="select"
               value={selectedCrops}
-              onChange={(selectedOption) => {setSelectedCrops(selectedOption);handleCropChange(selectedOption, duration, task.task_id)}}
+              onChange={(selectedOption) => {
+                setSelectedCrops(selectedOption);
+                handleCropChange(selectedOption, duration, task.task_id);
+              }}
             />
-          }
-          {
-            !state.defaultCrops[task.task_id] &&
+          )}
+          {!state.defaultCrops[task.task_id] && (
             <Select
               isMulti
               isSearchable={false}
@@ -715,72 +819,97 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               options={state.cropOptions}
               className="basic-multi-select"
               classNamePrefix="select"
-              onChange={(selectedOption) => handleCropChange(selectedOption, duration, task.task_id)}
+              onChange={(selectedOption) =>
+                handleCropChange(selectedOption, duration, task.task_id)
+              }
             />
-          }
-
+          )}
         </div>
-        {
-          cropDurations && cropDurations[task.task_id] &&
+        {cropDurations && cropDurations[task.task_id] && (
           <div>
             <div className={styles.cropDurationType}>
-              <button className="duration-btn-selected" onClick={() => toggleCropTimeMethod(task.task_id, true)}
-                      id={'all-crop-' + task.task_id}>All Crops
+              <button
+                className="duration-btn-selected"
+                onClick={() => toggleCropTimeMethod(task.task_id, true)}
+                id={'all-crop-' + task.task_id}
+              >
+                {t('SHIFT.EDIT_SHIFT.ALL_CROPS')}
               </button>
-              <button className="duration-btn-unselected" onClick={() => {
-                setDuration(0);
-                resetCropDuration(task.task_id);
-                toggleCropTimeMethod(task.task_id, false)
-              }} id={'indy-crop-' + task.task_id}>Individual Crop
+              <button
+                className="duration-btn-unselected"
+                onClick={() => {
+                  setDuration(0);
+                  resetCropDuration(task.task_id);
+                  toggleCropTimeMethod(task.task_id, false);
+                }}
+                id={'indy-crop-' + task.task_id}
+              >
+                {t('SHIFT.EDIT_SHIFT.INDIVIDUAL_CROPS')}
               </button>
             </div>
             <div className={styles.cropDurationContainer} id={'allduration-' + task.task_id}>
               {cropDurations[task.task_id].map((cd) => {
-                return <div className={styles.durationContainer} key={cd.crop_id}>
-                  <div>{cd.crop_name}</div>
-                  <div className={styles.durationInput}>
-                    <input type="number" value={cd.duration}
-                           onChange={(event) => changeDuration(event, task.task_id, true, cd.crop_id, setDuration)}/>
+                return (
+                  <div className={styles.durationContainer} key={cd.crop_id}>
+                    <div>{cd.crop_name}</div>
+                    <div className={styles.durationInput}>
+                      <input
+                        type="number"
+                        onKeyDown={numberOnKeyDown}
+                        value={cd.duration}
+                        onChange={(event) =>
+                          changeDuration(event, task.task_id, true, cd.crop_id, setDuration)
+                        }
+                      />
+                    </div>
                   </div>
-                </div>
+                );
               })}
             </div>
             <div id={'singleduration-' + task.task_id}>
               <div className={styles.durationContainer}>
                 <div>Total</div>
                 <div className={styles.durationInput}>
-                  <input id={'total_crop_input-' + task.task_id} value={duration} type="number" placeholder={0}
-                         onChange={(event) => {
-                           onDurationChange(event.target.value, task.task_id)
-                         }}/>
+                  <input
+                    id={'total_crop_input-' + task.task_id}
+                    value={duration}
+                    type="number"
+                    onKeyDown={numberOnKeyDown}
+                    placeholder={0}
+                    onChange={(event) => {
+                      onDurationChange(event.target.value, task.task_id);
+                    }}
+                  />
                 </div>
               </div>
             </div>
           </div>
-        }
-
-
+        )}
       </div>
       <div className={styles.selectContainer} id={'field' + task.task_id}>
         <div>
           <strong>Fields on this farm</strong>
           <div className={styles.funcButtons}>
             <div className={styles.allButton}>
-              <Button onClick={() => addAll(task.task_id, 'field')}>All</Button>
+              <Button onClick={() => addAll(task.task_id, 'field')}>
+                {t('SHIFT.EDIT_SHIFT.ALL')}
+              </Button>
             </div>
-            <div className={styles.backContainer} onClick={() => {
-              setDuration(0);
-              setSelectedFields(null);
-              toggleBack(task.task_id, 'field')
-            }}>
-              <BsReplyFill style={{transform: 'scaleX(-1)'}} />
-              Back
+            <div
+              className={styles.backContainer}
+              onClick={() => {
+                setDuration(0);
+                setSelectedFields(null);
+                toggleBack(task.task_id, 'field');
+              }}
+            >
+              <BsReplyFill style={{ transform: 'scaleX(-1)' }} />
+              {t('common:BACK')}
             </div>
           </div>
         </div>
         <div className={styles.selectInner}>
-          {
-            state.defaultFields[task.task_id] &&
+          {state.defaultFields[task.task_id] && (
             <Select
               defaultValue={state.defaultFields[task.task_id]}
               isMulti
@@ -791,11 +920,13 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               className="basic-multi-select"
               classNamePrefix="select"
               value={selectedFields}
-              onChange={(selectedOption) => {setSelectedFields(selectedOption);handleFieldChange(selectedOption, task.task_id)}}
+              onChange={(selectedOption) => {
+                setSelectedFields(selectedOption);
+                handleFieldChange(selectedOption, task.task_id);
+              }}
             />
-          }
-          {
-            !state.defaultFields[task.task_id] &&
+          )}
+          {!state.defaultFields[task.task_id] && (
             <Select
               isMulti
               isSearchable={false}
@@ -806,64 +937,58 @@ function InputDuration({ task, cropDurations, isRatingEnabled, toggleCropOrField
               classNamePrefix="select"
               onChange={(selectedOption) => handleFieldChange(selectedOption, task.task_id)}
             />
-          }
+          )}
         </div>
         <div className={styles.durationContainer}>
-          <div>Duration</div>
-          <div className={styles.durationInput}><input id={'input-field-' + task.task_id} type="number" value={duration}
-                                                       onChange={(event) => {
-                                                         setDuration(event.target.value);
-                                                         changeDuration(event, task.task_id, false)
-                                                       }}/>
+          <div>{t('SHIFT.MY_SHIFT.DURATION')}</div>
+          <div className={styles.durationInput}>
+            <input
+              id={'input-field-' + task.task_id}
+              type="number"
+              onKeyDown={numberOnKeyDown}
+              value={duration}
+              onChange={(event) => {
+                setDuration(event.target.value);
+                changeDuration(event, task.task_id, false);
+              }}
+            />
           </div>
         </div>
       </div>
       <div className={styles.bottomContainer}>
         <div className={styles.cancelButton} onClick={() => history.push('/shift')}>
-          Cancel
+          {t('common:CANCEL')}
         </div>
-        {
-          isRatingEnabled
-            ? (
-              <button
-                className='btn btn-primary'
-                onClick={() => openEditModal()}
-              >
-                Next
-              </button>
-            )
-            : (
-              <button
-                className='btn btn-primary'
-                onClick={() => submitShift()}
-              >
-                Finish
-              </button>
-            )
-        }
+        {isRatingEnabled ? (
+          <button className="btn btn-primary" onClick={() => openEditModal()}>
+            {t('common:NEXT')}
+          </button>
+        ) : (
+          <button className="btn btn-primary" onClick={() => submitShift()}>
+            {t('common:FINISH')}
+          </button>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-const
-  mapStateToProps = (state) => {
-    return {
-      availableDuration: durationSelector(state),
-      selectedTasks: selectedTasksSelector(state),
-      crops: cropSelector(state),
-      fields: fieldSelector(state),
-      startEnd: startEndSelector(state),
-      farm: farmSelector(state),
-      users: userInfoSelector(state),
-    }
+const mapStateToProps = (state) => {
+  return {
+    availableDuration: durationSelector(state),
+    selectedTasks: selectedTasksSelector(state),
+    crops: currentFieldCropsSelector(state),
+    fields: fieldsSelector(state),
+    startEnd: startEndSelector(state),
+    farm: userFarmSelector(state),
+    users: userFarmSelector(state),
   };
+};
 
-const
-  mapDispatchToProps = (dispatch) => {
-    return {
-      dispatch,
-    }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
   };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShiftStepTwo);
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(ShiftStepTwo));

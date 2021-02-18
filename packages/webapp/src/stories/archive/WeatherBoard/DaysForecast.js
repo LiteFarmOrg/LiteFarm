@@ -7,7 +7,7 @@ import styles from './assets/styles.scss';
 const propTypes = {
   forecast: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
-  daysData: PropTypes.array.isRequired
+  daysData: PropTypes.array.isRequired,
 };
 
 const DaysForecast = (props) => {
@@ -16,22 +16,22 @@ const DaysForecast = (props) => {
     const units = utils.getUnits(unit);
     return (
       <div className={styles.boxDays}>
-        {
-          daysData.map((day, i) => {
-            if (i > 0) {
-              const iconCls = utils.getIcon(day.icon);
-              return (
-                <div key={`day-${i}`} className={styles.day}>
-                  <div className={styles.date}>{day.date}</div>
-                  <WeatherIcon name={iconCls} />
-                  <div className={styles.desc}>{day.description}</div>
-                  <div className={styles.range}>{day.temperature.max} / {day.temperature.min} {units.temp}</div>
+        {daysData.map((day, i) => {
+          if (i > 0) {
+            const iconCls = utils.getIcon(day.icon);
+            return (
+              <div key={`day-${i}`} className={styles.day}>
+                <div className={styles.date}>{day.date}</div>
+                <WeatherIcon name={iconCls} />
+                <div className={styles.desc}>{day.description}</div>
+                <div className={styles.range}>
+                  {day.temperature.max} / {day.temperature.min} {units.temp}
                 </div>
-              );
-            }
-            return '';
-          })
-        }
+              </div>
+            );
+          }
+          return '';
+        })}
       </div>
     );
   }

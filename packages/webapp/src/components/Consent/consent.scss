@@ -1,26 +1,11 @@
-.consentText {
-  font-family: "Open Sans"," SansSerif", serif;
-  font-weight: 400;
-  line-height: 24px;
-  font-size: 14px;
-}
-
-.consentHeader {
-  font-family: "Open Sans", "SansSerif", serif;
-  font-size: 20px;
-  line-height: 32px;
-  margin-bottom: 16px;
-}
-
-
 .floatLabelRight {
   float: right;
 }
 
-
-:global .paraText {
-   height: calc(100vh - 270px);
+.consentText {
+  font-family: 'Open Sans', ' SansSerif', serif;
 }
 
-
-
+:global .paraText {
+  height: calc(100vh - 270px);
+}

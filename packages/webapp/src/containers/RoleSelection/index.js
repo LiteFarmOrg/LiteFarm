@@ -1,50 +1,52 @@
-import { useForm } from "react-hook-form";
-import { farmSelector } from "../selector";
-import { connect } from "react-redux";
-import React from "react";
-import PureRoleSelection from "../../components/RoleSelection";
+import { useForm } from 'react-hook-form';
+import React from 'react';
+import PureRoleSelection from '../../components/RoleSelection';
+import { useDispatch } from 'react-redux';
+import { patchRole } from '../AddFarm/saga';
+import history from '../../history';
+import { roleToId } from './roleMap';
+import { useTranslation } from 'react-i18next';
 
-function RoleSelection({dispatch, farm}) {
+function RoleSelection() {
+  const { t } = useTranslation();
   const { register, handleSubmit } = useForm();
-  const patchRole = (role) => {
-    console.log(role);
-  }
+  const ROLE = 'role';
+  const dispatch = useDispatch();
+  const onSubmit = ({ role }) => {
+    const callback = () => history.push('/consent');
+    dispatch(patchRole({ role, role_id: roleToId[role], callback }));
+  };
+  const onGoBack = () => {
+    history.push('/add_farm');
+  };
   return (
-    <PureRoleSelection onSubmit={handleSubmit(patchRole)}
-                       inputs={[{
-                         label: 'Farm owner',
-                         value: 'Owner',
-                         inputRef: register({required: true}),
-                         name: '_role',
-                         checked: true
-                       },{
-                         label: 'Farm manager',
-                         value: 'Manager',
-                         inputRef: register({required: true}),
-                         name: '_role'
-                       },{
-                         label: 'Extension officer',
-                         value: 'Extension Officer',
-                         inputRef: register({required: true}),
-                         name: '_role'
-                       }
-                       ]} title={'What is your role on the farm?'}>
-
-    </PureRoleSelection>
-  )
+    <PureRoleSelection
+      onSubmit={handleSubmit(onSubmit)}
+      onGoBack={onGoBack}
+      inputs={[
+        {
+          label: t('ROLE_SELECTION.FARM_OWNER'),
+          value: 'Owner',
+          inputRef: register({ required: true }),
+          name: ROLE,
+          defaultChecked: true,
+        },
+        {
+          label: t('ROLE_SELECTION.FARM_MANAGER'),
+          value: 'Manager',
+          inputRef: register({ required: true }),
+          name: ROLE,
+        },
+        {
+          label: t('ROLE_SELECTION.FARM_EO'),
+          value: 'Extension Officer',
+          inputRef: register({ required: true }),
+          name: ROLE,
+        },
+      ]}
+      title={t('ROLE_SELECTION.TITLE')}
+    ></PureRoleSelection>
+  );
 }
 
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
-  }
-};
-
-const mapStateToProps = (state) => {
-  return {
-    farm: farmSelector(state),
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoleSelection);
+export default RoleSelection;

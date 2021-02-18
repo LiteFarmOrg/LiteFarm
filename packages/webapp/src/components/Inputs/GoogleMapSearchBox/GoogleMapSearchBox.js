@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class SearchBox extends Component {
@@ -30,7 +30,7 @@ class SearchBox extends Component {
     // this.searchBox.addListener('places_changed', this.onPlacesChanged);
 
     // break
-    const {map} = this.props;
+    const { map } = this.props;
     const maps = this.props.mapsapi;
     var input = document.getElementById('pac-input');
     this.searchBox = new maps.places.SearchBox(input);
@@ -63,7 +63,7 @@ class SearchBox extends Component {
       var bounds = new maps.LatLngBounds();
       places.forEach(function (place) {
         if (!place.geometry) {
-          console.log("Returned place contains no geometry");
+          console.log('Returned place contains no geometry');
           return;
         }
         var icon = {
@@ -71,16 +71,18 @@ class SearchBox extends Component {
           size: new maps.Size(71, 71),
           origin: new maps.Point(0, 0),
           anchor: new maps.Point(17, 34),
-          scaledSize: new maps.Size(25, 25)
+          scaledSize: new maps.Size(25, 25),
         };
 
         // Create a marker for each place.
-        markers.push(new maps.Marker({
-          map: map,
-          icon: icon,
-          title: place.name,
-          position: place.geometry.location
-        }));
+        markers.push(
+          new maps.Marker({
+            map: map,
+            icon: icon,
+            title: place.name,
+            position: place.geometry.location,
+          }),
+        );
 
         if (place.geometry.viewport) {
           // Only geocodes have viewport.
@@ -99,24 +101,22 @@ class SearchBox extends Component {
   }
 
   render() {
-    const {placeholder} = this.props;
+    const { placeholder } = this.props;
 
     return (
-
-        <input
-          id="pac-input"
-          placeholder={placeholder}
-          type="text"
-          style={{
-            width: '85%',
-            height: '42px',
-            fontSize: '16px',
-            padding: '10px',
-            margin: '6px auto 0 auto',
-            borderRadius: '8px',
-          }}
-        />
-
+      <input
+        id="pac-input"
+        placeholder={placeholder}
+        type="text"
+        style={{
+          width: 'calc( 96% - 80px )',
+          height: '42px',
+          fontSize: '16px',
+          padding: '10px',
+          margin: '6px auto 0 auto',
+          borderRadius: '8px',
+        }}
+      />
     );
   }
 }

@@ -17,6 +17,31 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
     - [documentation(in progress)](https://docs.google.com/document/d/19eDlagqurB7gf8iLdATjCi7scxs9gUG5bs9YZtMu_0k/edit?usp=sharing)
 
 # Quick Start
+
+ ## Using docker-compose
+ 1. Install [docker](https://docs.docker.com/desktop/) and [docker-compose](https://docs.docker.com/compose/install/)
+ 2. Setup the `Litefarm/packages/api/.env` file to include the following configs
+    ```
+     DEV_DATABASE=pg-litefarm
+     DEV_DATABASE_USER=postgres
+     DEV_DATABASE_HOST=db
+     DEV_DATABASE_PASSWORD=postgres
+     TEST_DATABASE=pg-litefarm
+     TEST_DATABASE_USER=postgres
+     TEST_DATABASE_HOST=test-db
+     TEST_DATABASE_PASSWORD=postgres
+    ```
+    * this is dev or testing data, it can be changed from `LiteFarm/docker-compose.yml`
+ 3. In the terminal, place the current directory into the root folder `LiteFarm/`
+ 4. Execute `docker-compose -f docker-compose.dev.yml up`
+   - This will take some time the first time, on the next attempt it should load way faster.
+   - It will setup the local development env by running migrations
+   - This will also start the backend, frontend and storybook containers.
+ 5. After this you should be able to go to the app running on `localhost:3000`
+ 6. Storybook is also available on `localhost:6006` 
+ 
+## Manual installation
+
 ### Setup Environment:
   1. SSH
       - [Setup your SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
@@ -47,18 +72,13 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
         - `ALTER ROLE postgres CREATEDB;`
         - `ALTER ROLE postgres WITH SUPERUSER;`
         - `ALTER ROLE postgres WITH LOGIN;`
-        - `\q`
-    2. Using Docker
-      - install docker from [Install Docker Engine page](https://docs.docker.com/engine/install/)
-      - run postgres image
-        - `docker run --rm --name pg-litefarm -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres`      
-  3. create a database called mock_farm
+        - `\q`      
+  2. create a database called mock_farm
       - `psql postgres -U postgres`
       - `CREATE DATABASE mock_farm;`
-  4. install knex globally `npm install -g knex`
-  5. `cd packages/api` and `npm install knex@0.14.6`,
-  6. Once complete, run `knex migrate:latest` to start the db migration (if you run into issues here, you can try dropping and recreating the database)
-  6. Optionally, you can run `knex seed:run` to seed database with default data
+  3. go to your terminal and go to the api directory doing `cd packages/api`
+  4. once there, run `npm run migrate:dev:db` to start the db migration (if you run into issues here, you can try dropping and recreating the database) 
+  5. Optionally, you can run `npm run migrate:dev:seed` to seed database with default data
 
   ### Setting up env vars in webapp and api:
   custom environment variables are used in the application. Env vars containing sensitive information
@@ -73,8 +93,7 @@ LiteFarm is comprised of two applications which both reside in this monorepo.
      - REACT_APP_WEATHER_API_KEY
         - this env var can be obtained from [open weather API](https://openweathermap.org/api). The API is used
         to load current weather information in the application home page after logging in.
-
-### Start the application:
+  ### Start the application:
   1. cd LiteFarm
   2. `lerna bootstrap` to install dependencies
   3. in separate terminals:

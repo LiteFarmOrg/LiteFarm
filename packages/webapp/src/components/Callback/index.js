@@ -17,14 +17,14 @@ import React, { Component } from 'react';
 import Loader from '../../assets/images/miscs/loader.svg';
 import styles from './styles.scss';
 
-class Callback extends Component {
+class PureCallback extends Component {
   render() {
     return (
       <div>
-        <img className={styles.loading} src={Loader} alt="loading"/>
+        <img className={styles.loading} src={Loader} alt="loading" />
       </div>
     );
   }
 }
 
-export default Callback;
+export default PureCallback;

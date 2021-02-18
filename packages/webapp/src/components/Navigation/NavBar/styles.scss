@@ -12,57 +12,48 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
-@import "../../../stories/assets/mixin";
-
-.button {
-    margin: 7px;
-    float:right;
-}
+@import '../../../assets/mixin';
 
 .navBar {
   top: 0;
   @include gradient();
-  width: 100%;
-  max-width: 1024px;
+  width: 100vw;
+  max-width: 100%;
   min-height: 72px;
-  position: fixed;
+  position: sticky;
+  z-index: 2;
   & .itemContainer {
     position: absolute;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    // & .title {
-    //   color: var(--primary);
-    //   float: none;
-    //   margin: auto;
-    //   display: block;
-    // }
   }
-}
-
-.thin {
-  font-weight: 100;
-  letter-spacing: 3px;
-}
-
-.thick {
-  font-weight: 700;
-  letter-spacing: 3px;
 }
 
 .profilePic {
   border-radius: 16px;
   top: 10px;
   right: 10px;
-  float:right;
+  float: right;
   margin-right: 24px;
 }
 
 .actionItemContainer {
-  float:right;
-  margin-top: 24px;
-  margin-right: 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+}
+
+:global button[data-action='primary'] {
+  width: 82px;
+  box-shadow: 0px 2px 8px 0px #66738a;
+}
+
+:global button[data-action='primary']:focus {
+  outline: none;
 }
 
 .actionItem {
@@ -70,15 +61,28 @@
   height: 25px;
   margin-right: 16px;
   border: none;
-  padding: 0;
+  padding-right: 0;
 }
 
-.navBarContainer{
+.profilePicture {
+  width: 28px;
+  height: 28px;
+  margin-right: 16px;
+  padding-right: 0;
+  border-radius: 50%;
+  border: 1px solid var(--teal700);
+  transform: translateY(2px);
+}
+.inFloater {
+  transform: translateY(4px);
+}
+
+.navBarContainer {
   display: grid;
   grid-template-columns: 20% 60% 20%;
   flex-direction: row;
   justify-content: space-between;
-  width:100%;
+  width: 100%;
   align-items: center;
   margin: 0 auto;
   text-align: -webkit-right;
@@ -89,14 +93,9 @@
     min-height: 54px;
   }
 
-  .actionItemContainer {
-    margin-top: 16px;
-    margin-right: 0;
-  }
-
   .actionItem {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
   }
   .navBar {
     & .itemContainer {
@@ -105,15 +104,5 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
     }
-  }
-}
-
-@media (min-width: 768px) {
-  :global(.navbar-header) {
-    float: none !important;
-  }
-  :global(.navbar .container .navbar-brand) {
-    margin-left: auto !important;
-    width: 100%;
   }
 }

@@ -82,7 +82,7 @@ describe('taskType Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next()
     });
   })
@@ -100,23 +100,29 @@ describe('taskType Tests', () => {
     })
 
     test('Get by farm_id should filter out deleted task types', async (done)=>{
-      await taskTypeModel.query().findById(taskType.task_id).delete();
-      getRequest({user_id: owner.user_id},(err,res)=>{
+      await taskTypeModel.query().context({
+        showHidden: true,
+        user_id: owner.user_id,
+      }).findById(taskType.task_id).delete();
+      getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(404);
         done();
       });
     })
 
     test('Get by task_id should filter out deleted task types', async (done)=>{
-      await taskTypeModel.query().findById(taskType.task_id).delete();
-      getRequest({user_id: owner.user_id, url:`/task_type/${taskType.task_id}`},(err,res)=>{
+      await taskTypeModel.query().context({
+        showHidden: true,
+        user_id: owner.user_id,
+      }).findById(taskType.task_id).delete();
+      getRequest({ user_id: owner.user_id, url: `/task_type/${taskType.task_id}` }, (err, res) => {
         expect(res.status).toBe(404);
         done();
       });
     })
 
     test('Workers should get seeded taskType', async (done)=>{
-      let [seedtaskType] = await knex('taskType').insert({...mocks.fakeTaskType(), farm_id: null}).returning('*');
+      let [seedtaskType] = await mocks.taskTypeFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeTaskType());
       getRequest({user_id: owner.user_id},(err,res)=>{
         expect(res.status).toBe(200);
         expect(res.body[1].taskType_id).toBe(seedtaskType.taskType_id);
@@ -231,7 +237,7 @@ describe('taskType Tests', () => {
     describe('Delete task type', function () {
 
       test('should return 403 if user tries to delete a seeded taskType', async (done) => {
-        let [seedTaskType] = await knex('taskType').insert({...mocks.fakeTaskType(), farm_id: null}).returning('*');
+        let [seedTaskType] = await mocks.taskTypeFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeTaskType());
         deleteRequest({task_id: seedTaskType.task_id}, async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -259,7 +265,7 @@ describe('taskType Tests', () => {
         test('Owner should delete a task type', async (done) => {
           deleteRequest({task_id: taskType.task_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const taskTypeRes = await taskTypeModel.query().where('task_id',taskType.task_id);
+            const taskTypeRes = await taskTypeModel.query().context({showHidden: true}).where('task_id',taskType.task_id);
             expect(taskTypeRes.length).toBe(1);
             expect(taskTypeRes[0].deleted).toBe(true);
             done();
@@ -269,7 +275,7 @@ describe('taskType Tests', () => {
         test('Manager should delete a taskType', async (done) => {
           deleteRequest({user_id:manager.user_id, task_id: taskType.task_id}, async (err, res) => {
             expect(res.status).toBe(200);
-            const taskTypeRes = await taskTypeModel.query().where('task_id',taskType.task_id);
+            const taskTypeRes = await taskTypeModel.query().context({showHidden: true}).where('task_id',taskType.task_id);
             expect(taskTypeRes.length).toBe(1);
             expect(taskTypeRes[0].deleted).toBe(true);
             done();
@@ -348,7 +354,7 @@ describe('taskType Tests', () => {
       test('Owner should post and get a valid taskType', async (done) => {
         postRequest(fakeTaskType, {}, async (err, res) => {
           expect(res.status).toBe(201);
-          const taskTypes = await taskTypeModel.query().where('farm_id',farm.farm_id);
+          const taskTypes = await taskTypeModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(taskTypes.length).toBe(1);
           expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
           done();
@@ -358,7 +364,7 @@ describe('taskType Tests', () => {
       test('Manager should post and get a valid taskType', async (done) => {
         postRequest(fakeTaskType, {user_id: manager.user_id}, async (err, res) => {
           expect(res.status).toBe(201);
-          const taskTypes = await taskTypeModel.query().where('farm_id',farm.farm_id);
+          const taskTypes = await taskTypeModel.query().context({showHidden: true}).where('farm_id',farm.farm_id);
           expect(taskTypes.length).toBe(1);
           expect(taskTypes[0].task_name).toBe(fakeTaskType.task_name);
           done();

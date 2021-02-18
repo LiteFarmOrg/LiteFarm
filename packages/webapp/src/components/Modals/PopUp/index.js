@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class PopUp extends Component {
   constructor(props) {
@@ -6,9 +6,8 @@ class PopUp extends Component {
 
     this.state = {
       show: false,
-    }
-
-  };
+    };
+  }
 
   handleClose() {
     this.setState({ show: false });
@@ -19,11 +18,8 @@ class PopUp extends Component {
   }
 
   render() {
-    return (
-      <div>
-      </div>
-    )
+    return <div></div>;
   }
 }
 
-export default PopUp
+export default PopUp;

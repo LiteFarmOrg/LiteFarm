@@ -1,8 +1,8 @@
-@import "../../../stories/assets/mixin";
+@import '../../../assets/mixin';
 
 .container {
   top: 0;
-  transform: translateY(calc(39.68vh - 56px));
+  transform: translateY(calc(39.68vh - 110px));
   margin: 0 8.89% 0 8.89%;
   padding: 4.44% 9.44%;
   width: 84%;
@@ -11,10 +11,10 @@
   grid-template-rows: 24fr 24fr 80fr 24fr;
   gap: 0px 0px;
   grid-template-areas:
-    "city city city city city city"
-    "date date date date date date"
-    "temperature temperature temperature temperature . icon"
-    "wind wind wind humidity humidity humidity";
+    'city city city city city city'
+    'date date date date date date'
+    'temperature temperature temperature temperature . icon'
+    'wind wind wind humidity humidity humidity';
   background-color: var(--overlay);
   font-size: 3.88vw;
   line-height: 6.66vw;
@@ -58,7 +58,7 @@
 
 @media only screen and (min-width: 960px) {
   .container {
-    transform: translateY(calc((100vh - 399px) * 0.65 - 56px));
+    transform: translateY(calc((100vh - 399px) * 0.65 - 110px));
     margin: 0 auto 0 auto;
     padding: 42.609px 90.516px;
     width: 806px;
@@ -69,7 +69,6 @@
   .city {
     font-size: 47.25px;
   }
-
 
   .temperature {
     font-size: 136.5px;

@@ -1,16 +1,20 @@
 import React from 'react';
 import styles from '../styles.scss';
-import {Control} from 'react-redux-form';
+import { Control } from 'react-redux-form';
+import Input from '../../Form/Input';
 
 class Text extends React.Component {
   render() {
     const { model, title, validators } = this.props;
     return (
-      <div className={styles.textContainer}>
-        <label>{title}</label>
-        <div className={styles.textWrapper}><Control.text model={model} validators={validators} /></div>
-      </div>
-    )
+      <Control
+        style={{ marginBottom: '16px' }}
+        label={title}
+        component={Input}
+        model={model}
+        validators={validators}
+      />
+    );
   }
 }
 

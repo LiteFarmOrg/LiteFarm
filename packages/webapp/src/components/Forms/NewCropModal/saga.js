@@ -1,116 +1,81 @@
-import {
-  GET_CROPS,
-  CREATE_CROP,
-} from "./constants";
-
-import {
-  setCropsInState,
-} from "./actions";
-import { put, takeEvery, call } from 'redux-saga/effects';
+import { put, takeEvery, call, select } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
-
+import { loginSelector } from '../../../containers/userFarmSlice';
+import { toastr } from 'react-redux-toastr';
+import { getHeader } from '../../../containers/saga';
+import { createAction } from '@reduxjs/toolkit';
+import { postCropSuccess } from '../../../containers/cropSlice';
+import i18n from '../../../lang/i18n';
 const axios = require('axios');
+export const postCrop = createAction(`postCropSaga`);
 
-//FIXME: this is repeated code from Field/saga
-export function* getCropsSaga() {
-  const farm_id = localStorage.getItem('farm_id');
+export function* postCropSaga({ payload: crop }) {
   const { cropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
-
-  try {
-    const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-    if (result) {
-      yield put(setCropsInState(result.data));
-    }
-  } catch(e) {
-    console.log('failed to fetch all crops from database');
-  }
-}
-
-export function* createCropSaga(action) {
-  const farm_id = localStorage.getItem('farm_id');
-  const { cropURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   const data = {
-    crop_id: action.cropId,
-    crop_common_name: action.crop_common_name,
-    crop_genus: action.crop_genus,
-    crop_specie: action.crop_specie,
-    crop_group: action.crop_group,
-    crop_subgroup: action.crop_subgroup,
-    max_rooting_depth: action.max_rooting_depth,
-    depletion_fraction: action.depletion_fraction,
-    is_avg_depth: action.is_avg_depth,
-    initial_kc: action.initial_kc,
-    mid_kc: action.mid_kc,
-    end_kc: action.end_kc,
-    max_height: action.max_height,
-    is_avg_kc: action.is_avg_kc,
-    nutrient_notes: action.nutrient_notes,
-    percentrefuse: action.percentrefuse,
-    refuse: action.refuse,
-    protein: action.protein,
-    lipid: action.lipid,
-    energy: action.energy,
-    ca: action.ca,
-    fe: action.fe,
-    mg: action.mg,
-    ph: action.ph,
-    k: action.k,
-    na: action.na,
-    zn: action.zn,
-    cu: action.cu,
-    fl: action.fl,
-    mn: action.mn,
-    se: action.se,
-    vita_rae: action.vita_rae,
-    vite: action.vite,
-    vitc: action.vitc,
-    thiamin: action.thiamin,
-    riboflavin: action.riboflavin,
-    niacin: action.niacin,
-    pantothenic: action.pantothenic,
-    vitb6: action.vitb6,
-    folate: action.folate,
-    vitb12: action.vitb12,
-    vitk: action.vitk,
-    is_avg_nutrient: action.is_avg_nutrient,
+    crop_common_name: crop.crop_common_name,
+    crop_genus: crop.crop_genus,
+    crop_specie: crop.crop_specie,
+    crop_group: crop.crop_group,
+    crop_subgroup: crop.crop_subgroup,
+    max_rooting_depth: crop.max_rooting_depth,
+    depletion_fraction: crop.depletion_fraction,
+    is_avg_depth: crop.is_avg_depth,
+    initial_kc: crop.initial_kc,
+    mid_kc: crop.mid_kc,
+    end_kc: crop.end_kc,
+    max_height: crop.max_height,
+    is_avg_kc: crop.is_avg_kc,
+    nutrient_notes: crop.nutrient_notes,
+    nutrient_credits: crop.nutrient_credits,
+    percentrefuse: crop.percentrefuse,
+    refuse: crop.refuse,
+    protein: crop.protein,
+    lipid: crop.lipid,
+    energy: crop.energy,
+    ca: crop.ca,
+    fe: crop.fe,
+    mg: crop.mg,
+    ph: crop.ph,
+    k: crop.k,
+    na: crop.na,
+    zn: crop.zn,
+    cu: crop.cu,
+    fl: crop.fl,
+    mn: crop.mn,
+    se: crop.se,
+    vita_rae: crop.vita_rae,
+    vite: crop.vite,
+    vitc: crop.vitc,
+    thiamin: crop.thiamin,
+    riboflavin: crop.riboflavin,
+    niacin: crop.niacin,
+    pantothenic: crop.pantothenic,
+    vitb6: crop.vitb6,
+    folate: crop.folate,
+    vitb12: crop.vitb12,
+    vitk: crop.vitk,
+    is_avg_nutrient: crop.is_avg_nutrient,
     farm_id: farm_id,
-    user_added: action.user_added,
-    deleted: action.deleted,
-    nutrient_credits: action.nutrient_credits,
+    user_added: crop.user_added,
   };
   try {
     const result = yield call(axios.post, cropURL + '/', data, header);
-    if (result) {
-      const result = yield call(axios.get, cropURL + '/farm/' + farm_id, header);
-      if (result) {
-        yield put(setCropsInState(result.data));
-      } else {
-        console.log('failed to fetch all crops from database');
-      }
+    yield put(postCropSuccess(result.data));
+    toastr.success(i18n.t('message:NEW_FIELD_CROP.SUCCESS.SAVE'));
+  } catch (e) {
+    if (e.response.data.violationError) {
+      toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.VARIETY_EXISTS'));
+      console.log('failed to add fieldCrop to database');
+    } else {
+      console.log('failed to add fieldCrop to database');
+      toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.GENERAL'));
     }
-  } catch(e) {
-    console.log('failed to add fieldCrop to database');
   }
 }
 
 export default function* cropSaga() {
-  yield takeEvery(GET_CROPS, getCropsSaga);
-  yield takeEvery(CREATE_CROP, createCropSaga);
+  yield takeEvery(postCrop.type, postCropSaga);
 }

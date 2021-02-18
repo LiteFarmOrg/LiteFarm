@@ -13,27 +13,35 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import history from "../../history";
+import history from '../../history';
 import React from 'react';
 import styles from './styles.scss';
+import { withTranslation } from 'react-i18next';
 
 class LogFooter extends React.Component {
   render() {
-    const { onClick, edit } = this.props;
+    const { onClick, edit, isHarvestLog } = this.props;
+    let url = isHarvestLog ? '/harvest_use_types' : '/new_log';
+
     return (
       <div className={styles.bottomContainer}>
-      {edit ?
-        <div className={styles.cancelButton} onClick={onClick}>
-          Delete
-        </div> :
-        <div className={styles.cancelButton} onClick={()=>history.push('/new_log')}>
-          Cancel
-        </div>}
+        {edit ? (
+          <div className={styles.cancelButton} onClick={onClick}>
+            {this.props.t('common:DELETE')}
+          </div>
+        ) : (
+          <div className={styles.cancelButton} onClick={() => history.push(url)}>
+            {this.props.t('common:CANCEL')}
+          </div>
+        )}
         <div className={styles.cancelButton}>
-      <button className='btn btn-primary'>Save</button>
+          <button className="btn btn-primary">
+            {isHarvestLog ? this.props.t('common:NEXT') : this.props.t('common:SAVE')}
+          </button>
+        </div>
       </div>
-    </div>)
+    );
   }
 }
 
- export default LogFooter;
+export default withTranslation()(LogFooter);

@@ -1,24 +1,24 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (finances.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-describe('finances', function() {
+describe('finances', function () {
   beforeEach(() => {
     // set up stub requests
     cy.server();
-    cy.route("/user/**", 'fx:user');
-    cy.route("/farm/**", 'fx:farm');
+    cy.route('/user/**', 'fx:user');
+    cy.route('/farm/**', 'fx:farm');
     cy.route('**/field_crop/farm/**', 'fx:fieldCropByFarm');
     cy.route('**/field/**', 'fx:fields');
     cy.route('**/shift/**', 'fx:shifts');
@@ -76,21 +76,32 @@ describe('finances', function() {
 
   // TODO: add tests for expenses
 
-  it('Add new expense', ()=>{
+  it('Add new expense', () => {
     cy.contains('Add New Expense').should('be.visible').click();
     cy.get('[id="t-3"]').should('be.visible').click();
     cy.contains('Next').should('be.visible').click();
-    cy.get('[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][0].note"]').type('P0 tires');
-    cy.get('[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][0].value"]').type('128');
+    cy.get(
+      '[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][0].note"]',
+    ).type('P0 tires');
+    cy.get(
+      '[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][0].value"]',
+    ).type('128');
     cy.contains('Add more items').should('be.visible').click();
-    cy.get('[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][1].note"]').type('Renault Engine');
-    cy.get('[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][1].value"]').type('256');
+    cy.get(
+      '[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][1].note"]',
+    ).type('Renault Engine');
+    cy.get(
+      '[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][1].value"]',
+    ).type('256');
     cy.contains('Add more items').should('be.visible').click();
-    cy.get('[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][2].note"]').type('Russian lug nuts');
-    cy.get('[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][2].value"]').type('8');
+    cy.get(
+      '[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][2].note"]',
+    ).type('Russian lug nuts');
+    cy.get(
+      '[name="financeReducer.forms.expenseDetail[33a2418c-b8bd-11e9-b0ec-f40f2420dc43][2].value"]',
+    ).type('8');
     cy.contains('Save').should('be.visible').click();
     cy.contains('Successfully added new expenses!').should('be.visible');
     cy.get('.close-toastr').click();
   });
-
 });

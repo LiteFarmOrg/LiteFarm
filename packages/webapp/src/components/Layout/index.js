@@ -4,20 +4,19 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Footer from '../Footer';
 
-const Layout = ({
-  classes = { container: '', footer: '' },
-  children,
-  buttonGroup,
-  isSVG,
-  history,
-  auth
-}) => {
+const Layout = ({ classes = {}, children, buttonGroup, hasWhiteBackground, isSVG }) => {
   return (
     <>
-      <div className={clsx(styles.container, isSVG && styles.svgContainer, classes.container)}>
+      <div
+        className={clsx(styles.container, isSVG && styles.svgContainer)}
+        style={classes.container}
+      >
         {children}
       </div>
-      <Footer classes={{footer: classes.footer}}>
+      <Footer
+        style={{ bottom: 0, position: 'sticky', ...classes.footer }}
+        hasWhiteBackground={hasWhiteBackground}
+      >
         {buttonGroup}
       </Footer>
     </>
@@ -25,13 +24,14 @@ const Layout = ({
 };
 
 Layout.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   buttonGroup: PropTypes.node,
-  classes: PropTypes.exact({ container: PropTypes.string, footer: PropTypes.string }),
+  classes: PropTypes.exact({
+    container: PropTypes.object,
+    footer: PropTypes.object,
+  }),
   isSVG: PropTypes.bool,
-}
+  hasWhiteBackground: PropTypes.bool,
+};
 
 export default Layout;

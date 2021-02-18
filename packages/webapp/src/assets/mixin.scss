@@ -1,0 +1,29 @@
+@mixin gradient() {
+  background: linear-gradient(
+    96.68deg,
+    #78c99e -4.29%,
+    #c7efd3 24.32%,
+    #e3f8ec 35.52%,
+    #e3f8ec 64.28%,
+    #c7efd3 80.81%,
+    #78c99e 125.09%
+  );
+}
+@mixin fontFamily() {
+  font-family: 'Open Sans', ' SansSerif', serif;
+}
+@mixin bigShadow() {
+  box-shadow: 0px 4px 12px rgba(102, 115, 138, 0.4);
+}
+@mixin bigShadow2() {
+  box-shadow: 2px 6px 12px rgba(102, 115, 138, 0.2);
+}
+@mixin midShadow() {
+  box-shadow: 0px 2px 8px rgba(102, 115, 138, 0.3);
+}
+@mixin smallShadow() {
+  box-shadow: 0px 1px 2px rgba(102, 115, 138, 0.25);
+}
+@mixin smallShadow2() {
+  box-shadow: 0px 2px 4px rgba(102, 115, 138, 0.3);
+}

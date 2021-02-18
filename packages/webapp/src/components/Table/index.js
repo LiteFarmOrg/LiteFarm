@@ -15,46 +15,53 @@
 
 import ReactTable from 'react-table';
 import React from 'react';
+import { Text } from '../Typography';
+import { useTranslation } from 'react-i18next';
 
 // refer to Log/index.js for example on how to format columns and data props, or read react-table documentation
-class Table extends React.Component {
-  render() {
-    const {
-      columns,
-      data,
-      showPagination,
-      pageSizeOptions,
-      defaultPageSize,
-      className,
-      getTdProps,
-      sortByID,
-    } = this.props;
-    let {minRows} = this.props;
-    if(!minRows) {
-      minRows = 5;
-    }
-
-    let defaultSorted = [];
-    if (sortByID){
-      defaultSorted = [
+function Table({
+  columns,
+  data,
+  showPagination,
+  pageSizeOptions,
+  defaultPageSize,
+  className,
+  getTdProps,
+  sortByID,
+  minRows = 5,
+}) {
+  const { t } = useTranslation();
+  const defaultSorted = sortByID
+    ? [
         {
           id: sortByID,
-          desc: true
-        }
+          desc: true,
+        },
       ]
-    }
-    return (<ReactTable
+    : [{ id: columns?.[0]?.id, desc: true }];
+  const pageSize = showPagination
+    ? Math.min(Math.max(data?.length || minRows || 5, minRows), defaultPageSize)
+    : undefined;
+  return (
+    <ReactTable
       className={className}
       columns={columns}
       data={data}
-      showPagination={showPagination}
+      showPagination={showPagination && data?.length > defaultPageSize}
       pageSizeOptions={pageSizeOptions}
-      defaultPageSize={defaultPageSize}
+      defaultPageSize={pageSize}
       minRows={showPagination ? undefined : minRows} // Messes up pagination
       getTdProps={getTdProps}
       defaultSorted={defaultSorted}
-    />)
-  }
+      noDataText={t('TABLE.NO_DATA_TEXT')}
+      previousText={t('TABLE.PREVIOUS_TEXT')}
+      nextText={t('TABLE.NEXT_TEXT')}
+      loadingText={t('TABLE.LOADING_TEXT')}
+      pageText={t('TABLE.PAGE_TEXT')}
+      ofText={t('TABLE.OF_TEXT')}
+      rowsText={t('TABLE.ROWS_TEXT')}
+    />
+  );
 }
 
 export default Table;

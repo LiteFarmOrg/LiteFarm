@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (userFarmModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -24,6 +24,32 @@ class userFarm extends Model {
     return  ['user_id', 'farm_id'];
   }
 
+  static get hidden() {
+    return ['created_at', 'created_by_user_id', 'updated_by_user_id', 'updated_at', 'deleted' ]
+  }
+
+  static get hiddenFromOtherUsers() {
+    return ['gender', 'birth_year', 'notification_setting'];
+  }
+
+  async $afterFind(queryContext) {
+    await super.$afterFind(queryContext);
+    const { hidden, hiddenFromOtherUsers } = this.constructor;
+    if (hidden.length > 0) {
+      const { showHidden, user_id } = queryContext;
+      if (!showHidden) {
+        let fieldsToBeHidden = [];
+        if (this.user_id === user_id) {
+          fieldsToBeHidden = hidden;
+        }else{
+          fieldsToBeHidden = [...hidden, ...hiddenFromOtherUsers]
+        }
+        for (const property of fieldsToBeHidden) {
+          delete this[property];
+        }
+      }
+    }
+  }
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.

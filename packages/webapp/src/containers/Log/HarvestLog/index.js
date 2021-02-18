@@ -1,101 +1,87 @@
-import React, {Component} from "react";
-import {connect} from 'react-redux';
-import PageTitle from '../../../components/PageTitle';
-import {cropSelector, fieldSelector, farmSelector} from '../../selector';
-import {getFieldCrops} from '../../../containers/actions';
-import DateContainer from '../../../components/Inputs/DateContainer';
-import {actions, Form, Control} from 'react-redux-form';
-import LogFooter from '../../../components/LogFooter';
-import moment from 'moment';
-import styles from '../styles.scss';
-import {addLog} from "../Utility/actions";
-import {convertToMetric, getUnit} from "../../../util";
-import parseCrops from "../Utility/parseCrops";
-import parseFields from "../Utility/parseFields";
-import LogFormOneCrop from "../../../components/Forms/LogFormOneCrop";
-import Unit from '../../../components/Inputs/Unit';
+import React, { useState, useEffect } from 'react';
+import PureHarvestLog from '../../../components/Logs/HarvestLog';
+import {
+  harvestLogDataSelector,
+  resetHarvestLog,
+  harvestLogData,
+  harvestFormData,
+  canEditStepOneSelector,
+  canEditStepOne,
+} from '../Utility/logSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import history from '../../../history';
+import { fieldsSelector } from '../../fieldSlice';
+import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import { userFarmSelector } from '../../userFarmSlice';
+import { convertToMetric, getUnit } from '../../../util';
+import { getHarvestUseTypes } from '../actions';
+import { getFieldCrops } from '../../saga';
+import { currentLogSelector } from '../selectors';
 
-class HarvestLog extends Component {
-  constructor(props) {
-    super(props);
-    const {farm, dispatch} = this.props;
+function HarvestLog() {
+  const farm = useSelector(userFarmSelector);
+  let [unit, setUnit] = useState(getUnit(farm, 'kg', 'lb'));
+  const dispatch = useDispatch();
+  const defaultData = useSelector(harvestLogDataSelector);
+  const isEditStepOne = useSelector(canEditStepOneSelector);
+  const selectedLog = useSelector(currentLogSelector);
+  const fields = useSelector(fieldsSelector);
+  const crops = useSelector(currentFieldCropsSelector);
+  let [resetCrop, setResetCrop] = useState(false);
 
-    this.props.dispatch(actions.reset('logReducer.forms.harvestLog'));
-
-    this.state = {
-      date: moment(),
-      quantity_unit: getUnit(farm, 'kg', 'lb'),
-    };
-    this.setDate = this.setDate.bind(this);
+  useEffect(() => {
     dispatch(getFieldCrops());
-  }
+    dispatch(getHarvestUseTypes());
+  }, []);
 
-  setDate(date) {
-    this.setState({
-      date: date,
-    });
-  }
+  const onBack = () => {
+    dispatch(resetHarvestLog());
+    history.push('/log');
+  };
 
-  handleSubmit(log) {
-    const {dispatch, fields} = this.props;
-    const selectedCrops = parseCrops(log);
-    const selectedFields = parseFields(log, fields);
+  const onNext = (data) => {
+    if (defaultData.selectedUseTypes) {
+      data.selectedUseTypes = defaultData.selectedUseTypes;
+    }
+    dispatch(harvestLogData(data));
+    let formValue = !isEditStepOne.isEditStepOne
+      ? {
+          activity_kind: 'harvest',
+          date: data.defaultDate,
+          crops: data.defaultCrop,
+          fields: data.defaultField,
+          notes: data.defaultNotes,
+          quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
+        }
+      : {
+          activity_id: selectedLog.activity_id,
+          activity_kind: 'harvest',
+          date: data.defaultDate,
+          crops: data.defaultCrop,
+          fields: data.defaultField,
+          notes: data.defaultNotes,
+          quantity_kg: convertToMetric(data.defaultQuantity, unit, 'kg'),
+        };
+    dispatch(harvestFormData(formValue));
+    dispatch(canEditStepOne(false));
+    history.push('/harvest_use_type');
+  };
 
-    //let selectedFields = parseFields(log, fields);
-    //let selectedCrops = parseCrops(log);
-    let formValue = {
-      activity_kind: 'harvest',
-      date: this.state.date,
-      crops: selectedCrops,
-      fields: selectedFields,
-      notes: log.notes,
-      user_id: localStorage.getItem('user_id'),
-      quantity_kg: convertToMetric(log.quantity_kg, this.state.quantity_unit, 'kg'),
-    };
-    dispatch(addLog(formValue));
-  }
-
-  render() {
-    const {crops, fields} = this.props;
-    return (
-      <div className="page-container">
-        <PageTitle backUrl="/new_log" title="Harvest Log"/>
-        <DateContainer date={this.state.date} onDateChange={this.setDate} placeholder="Choose a date"/>
-        <Form model="logReducer.forms" className={styles.formContainer} onSubmit={(val) => this.handleSubmit(val.harvestLog)}>
-          <LogFormOneCrop
-            model=".harvestLog"
-            fields={fields}
-            crops={crops}
-            notesField={false}
-          />
-          <Unit model='.harvestLog.quantity_kg' title='Quantity' type={this.state.quantity_unit} validate/>
-          <div>
-            <div className={styles.noteTitle}>
-              Notes
-            </div>
-            <div className={styles.noteContainer}>
-              <Control.textarea model=".harvestLog.notes"/>
-            </div>
-          </div>
-          <LogFooter/>
-        </Form>
-      </div>
-    )
-  }
+  return (
+    <>
+      <PureHarvestLog
+        onGoBack={onBack}
+        onNext={onNext}
+        fields={fields}
+        crops={crops}
+        unit={unit}
+        defaultData={defaultData}
+        isEdit={isEditStepOne}
+        selectedLog={selectedLog}
+        dispatch={dispatch}
+      />
+    </>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    crops: cropSelector(state),
-    fields: fieldSelector(state),
-    farm: farmSelector(state),
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(HarvestLog);
+export default HarvestLog;

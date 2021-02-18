@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -18,9 +18,13 @@
   max-width: 1024px;
   min-height: 100vh;
   height: auto;
-  padding: 60px 5% 0 5%;
+  padding: 24px 24px 0 24px;
   display: flex;
   flex-direction: column;
+}
+
+.insightHeader {
+  justify-content: space-between;
 }
 
 .insightItem {
@@ -28,7 +32,14 @@
 }
 
 .titleTextContainer {
-  margin: 0 auto;
+  margin: 0 auto 16px auto;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+
+  text-align: left;
 }
 
 .itemButton {
@@ -76,13 +87,13 @@
 
 .leftText {
   display: inline;
-  float:left;
+  float: left;
 }
 
 .rightText {
   display: inline;
   float: right;
-  margin-top: 0.8em;
+  margin-right: 1em;
 }
 
 .titleContainer {
@@ -97,9 +108,12 @@
   margin-top: 5px;
   padding-top: 8px;
   float: left;
-  margin-bottom: 8px; }
+  margin-bottom: 8px;
+}
 .titleContainer button {
-  padding: 0; }
+  padding: 0;
+}
 .titleContainer button {
   position: relative;
-  left: 0; }
+  left: 0;
+}

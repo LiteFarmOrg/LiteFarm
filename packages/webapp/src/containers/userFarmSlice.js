@@ -210,7 +210,20 @@ export const userFarmsByFarmSelector = createSelector(
 export const userFarmSelector = createSelector(
   [loginSelector, userFarmReducerSelector],
   ({ farm_id, user_id }, { byFarmIdUserId, loading, error }) => {
-    return farm_id && user_id ? byFarmIdUserId[farm_id][user_id] : {};
+    return farm_id && user_id
+      ? {
+          is_admin: adminRoles.includes(byFarmIdUserId[farm_id][user_id].role_id),
+          ...byFarmIdUserId[farm_id][user_id],
+        }
+      : {};
+  },
+);
+export const isAdminSelector = createSelector(
+  [loginSelector, userFarmReducerSelector],
+  ({ farm_id, user_id }, { byFarmIdUserId, loading, error }) => {
+    return farm_id && user_id
+      ? adminRoles.includes(byFarmIdUserId[farm_id][user_id].role_id)
+      : false;
   },
 );
 export const userFarmStatusSelector = createSelector(
@@ -244,8 +257,7 @@ const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
 };
 
 export const getUserFarmSelector = (farmId, userId) => {
-  return createSelector(
-    userFarmReducerSelector,
-    ({byFarmIdUserId}) => byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {}
-  )
-}
+  return createSelector(userFarmReducerSelector, ({ byFarmIdUserId }) =>
+    byFarmIdUserId[farmId] && byFarmIdUserId[farmId][userId] ? byFarmIdUserId[farmId][userId] : {},
+  );
+};

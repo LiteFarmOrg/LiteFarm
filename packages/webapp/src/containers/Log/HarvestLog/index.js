@@ -36,7 +36,7 @@ function HarvestLog() {
 
   const onBack = () => {
     dispatch(resetHarvestLog());
-    history.push('/new_log');
+    history.push('/log');
   };
 
   const onNext = (data) => {

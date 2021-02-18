@@ -23,16 +23,16 @@ import {
   GET_EXPENSE,
   GET_SALES,
   GET_SHIFT_FINANCE,
-  UPDATE_SALE,
-  TEMP_EDIT_EXPENSE,
   TEMP_DELETE_EXPENSE,
+  TEMP_EDIT_EXPENSE,
+  UPDATE_SALE,
 } from './constants';
 import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import i18n from '../../lang/i18n';
 
 export function* getSales() {
@@ -253,7 +253,6 @@ export function* tempEditExpenseSaga(action) {
   const header = getHeader(user_id, farm_id);
   try {
     let result = yield call(axios.patch, `${expenseUrl}/${expense_id}`, data, header);
-    console.log(result);
     if (result) {
       toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
       result = yield call(axios.get, `${expenseUrl}/farm/${farm_id}`, header);

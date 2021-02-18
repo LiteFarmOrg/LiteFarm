@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.scss';
+import defaultStyles from '../../styles.module.scss';
 import styles from './styles.scss';
 import {
   expenseDetailSelector,
@@ -13,7 +13,7 @@ import {
 import history from '../../../../history';
 import DateContainer from '../../../../components/Inputs/DateContainer';
 import { actions, Control, Field, Form } from 'react-redux-form';
-import footerStyles from '../../../../components/LogFooter/styles.scss';
+import footerStyles from '../../../../components/LogFooter/styles.module.scss';
 import { tempEditExpense } from '../../actions';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';

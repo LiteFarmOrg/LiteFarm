@@ -53,20 +53,16 @@ async function isShiftOwnerOrIsAdmin(req, res, next) {
   return res.status(403).send('Worker is not allowed to add shifts to another user');
 }
 
-async function isSelfOrAdmin(req, res, next) {
-  const { user_id, farm_id } = req.params;
+//TODO remove after we figure out a better way for authorization
+async function isAdmin(req, res, next) {
+  const { farm_id } = req.params;
   const AdminRoles = [1, 2, 5];
-  req.header.user_id = req.user.user_id;
   req.header.farm_id = farm_id;
-  if (user_id === req.user.user_id) {
-    return next();
-  } else {
-    return AdminRoles.includes(req.role) ? next() : res.status(403).send('Worker is not allowed to get shifts of another user');
-  }
+  return AdminRoles.includes(req.role) ? next() : res.status(403).send('Worker is not allowed to get shifts of another user');
 }
 
 module.exports = {
   isOwnerOrAssignee,
   isShiftOwnerOrIsAdmin,
-  isSelfOrAdmin,
+  isAdmin,
 };

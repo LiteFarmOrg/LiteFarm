@@ -271,7 +271,6 @@ class OtherExpense extends Component {
                 getTdProps={(state, rowInfo, column, instance) => {
                   return {
                     onClick: (e, handleOriginal) => {
-                      console.log(rowInfo);
                       if (rowInfo && rowInfo.original) {
                         this.props.dispatch(setExpenseDetailItem(rowInfo.original));
                         history.push('/expense_detail');

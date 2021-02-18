@@ -35,7 +35,7 @@ describe('Shift tests', () => {
 
   function getShiftsAtUserFarm({ user_id, farm_id, token_user_id }, callback) {
     chai.request(server)
-      .get(`/shift/farm/${farm_id}/user/${user_id}`)
+      .get(`/shift/userFarm/${farm_id}`)
       .set('user_id', token_user_id || user_id)
       .set('farm_id', farm_id)
       .end(callback);
@@ -158,18 +158,16 @@ describe('Shift tests', () => {
       });
     });
 
-    test('should get only my shift as worker at my farm', async (done) => {
+    test('should NOT get s by farm as worker', async (done) => {
       const { user_id, farm_id } = await setupAtMyFarm(3);
       getShiftsAtFarm({ user_id, farm_id }, (err, res) => {
-        expect(res.status).toBe(200);
-        expect(res.body.length).toBe(1);
-        expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
+        expect(res.status).toBe(403);
         done();
       });
     });
   });
 
-  describe('GET farm/farm:id/user/user:id at my farm', () => {
+  describe('GET userFarm/farm:id', () => {
 
     test('should get shifts at my farm for owner', async (done) => {
       const { user_id, farm_id } = await setupAtMyFarm(1);
@@ -211,14 +209,6 @@ describe('Shift tests', () => {
         expect(res.body.length).toBe(1);
         expect(res.body.every((shift) => shift.farm_id === farm_id)).toBe(true);
         expect(res.body.every((shift) => shift.user_id === user_id)).toBe(true);
-        done();
-      });
-    });
-
-    test('should NOT get shifts of another user at my farm for worker', async (done) => {
-      const { user_id, farm_id, another_user_id } = await setupAtMyFarm(3);
-      getShiftsAtUserFarm({ user_id: another_user_id, farm_id, token_user_id: user_id }, (err, res) => {
-        expect(res.status).toBe(403);
         done();
       });
     });

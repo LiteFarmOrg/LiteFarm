@@ -23,7 +23,7 @@ const conditionallyApplyMiddleware = require('../middleware/acl/conditionally.ap
 const {
   isShiftOwnerOrIsAdmin,
   isOwnerOrAssignee,
-  isSelfOrAdmin,
+  isAdmin,
 } = require('../middleware/acl/isOwnerOrAssigne');
 const isCreator = require('../middleware/acl/isCreator');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
@@ -63,13 +63,13 @@ router.get('/user/:user_id',
 router.get('/farm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
   checkScope(['get:shifts']),
+  isAdmin,
   ShiftController.getShiftByFarmID());
 
 
-router.get('/farm/:farm_id/user/:user_id',
-  checkScope(['get:shifts']),
+router.get('/userFarm/:farm_id',
   hasFarmAccess({ params: 'farm_id' }),
-  isSelfOrAdmin,
+  checkScope(['get:shifts']),
   ShiftController.getShiftByUserFarm());
 
 

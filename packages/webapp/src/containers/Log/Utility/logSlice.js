@@ -22,6 +22,8 @@ export const initialState = {
   isEditStepThree: false,
   isEdit: false,
   convertQuantity: false,
+  resetCrop: false,
+  filteredCropOptions: [],
 };
 
 const logSliceReducer = createSlice({
@@ -37,6 +39,8 @@ const logSliceReducer = createSlice({
       state.validQuantity = harvestLog.validQuantity;
       state.selectedUseTypes = harvestLog.selectedUseTypes;
       state.validQuantity = harvestLog.validQuantity;
+      state.resetCrop = harvestLog.resetCrop;
+      state.filteredCropOptions = harvestLog.filteredCropOptions;
     },
     resetHarvestLog: (state) => initialState,
     harvestFormData: (state, { payload: formData }) => {
@@ -85,7 +89,8 @@ export const harvestLogDataSelector = (state) => ({
   defaultNotes: state?.tempStateReducer[logSliceReducer.name].defaultNotes,
   validQuantity: state?.tempStateReducer[logSliceReducer.name].validQuantity,
   selectedUseTypes: state?.tempStateReducer[logSliceReducer.name].selectedUseTypes,
-  validQuantity: state?.tempStateReducer[logSliceReducer.name].validQuantity,
+  resetCrop: state?.tempStateReducer[logSliceReducer.name].resetCrop,
+  filteredCropOptions: state?.tempStateReducer[logSliceReducer.name].filteredCropOptions,
 });
 export const harvestFormDataSelector = (state) => ({
   activity_id: state?.tempStateReducer[logSliceReducer.name].activity_id,

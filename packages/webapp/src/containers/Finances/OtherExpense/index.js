@@ -4,9 +4,9 @@ import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
-import { expenseSelector, expenseTypeSelector, dateRangeSelector } from '../selectors';
+import { dateRangeSelector, expenseSelector, expenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
-import { setExpenseDetailDate, getExpense, setExpenseDetailItem } from '../actions';
+import { getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
@@ -113,13 +113,14 @@ class OtherExpense extends Component {
     let detailedHistory = [];
 
     let subTotal = 0;
+    const language = localStorage.getItem('litefarm_lang');
 
     for (let e of expenses) {
       if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
         let amount = parseFloat(e.value);
         subTotal += amount;
         detailedHistory.push({
-          date: moment(e.expense_date).format('MMM-DD-YYYY'),
+          date: moment(e.expense_date).locale(language).format('MMM-DD-YYYY'),
           type: this.getExpenseType(e.expense_type_id),
           amount: this.state.currencySymbol + amount.toFixed(2).toString(),
           expense_date: e.expense_date,
@@ -270,7 +271,6 @@ class OtherExpense extends Component {
                 getTdProps={(state, rowInfo, column, instance) => {
                   return {
                     onClick: (e, handleOriginal) => {
-                      console.log(rowInfo);
                       if (rowInfo && rowInfo.original) {
                         this.props.dispatch(setExpenseDetailItem(rowInfo.original));
                         history.push('/expense_detail');

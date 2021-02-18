@@ -57,12 +57,12 @@ class shiftController extends baseController {
         }
         const tasks = body.tasks;
         const shiftUsers = body.shift_users;
-        for(let sUser of shiftUsers){ // eslint-disable-line
+        for (let sUser of shiftUsers) { // eslint-disable-line
           const temp = body;
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
-          const user_id = req.user.user_id
+          const user_id = req.user.user_id;
           const shift_result = await baseController.postWithResponse(shiftModel, temp, trx, { user_id });
           const shift_id = shift_result.shift_id;
           shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
@@ -89,17 +89,15 @@ class shiftController extends baseController {
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           await trx.rollback();
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
-    }
+    };
   }
 
   static getShiftByID() {
@@ -116,14 +114,13 @@ class shiftController extends baseController {
         }
         shiftRow[0].tasks = taskRow;
         res.status(200).send(shiftRow);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static updateShift() {
@@ -132,9 +129,9 @@ class shiftController extends baseController {
       let trx = await transaction.start(Model.knex());
       try {
         if (!req.body.tasks) {
-          res.status(400).send('missing tasks')
+          res.status(400).send('missing tasks');
         }
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, trx, { user_id });
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
@@ -148,14 +145,13 @@ class shiftController extends baseController {
         updatedShift[0].tasks = tasks_added;
         await trx.commit();
         res.status(200).send(updatedShift);
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static getShiftByUserID() {
@@ -180,14 +176,13 @@ class shiftController extends baseController {
           shifts.push(shiftRow[0]);
         }
         res.status(200).send(shifts);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   // old query for get shift by farm id
@@ -200,56 +195,6 @@ class shiftController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const { user_id }  = req.headers;
-        const role = req.role;
-        const data = await knex.select([
-            'taskType.task_name','taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
-            'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
-            'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
-            'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
-            'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration'
-          ]).from('shiftTask', 'taskType')
-          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
-          .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
-          .leftJoin('field', 'fieldCrop.field_id', 'field.field_id')
-          .leftJoin('crop', 'fieldCrop.crop_id','crop.crop_id')
-          .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
-          .join('userFarm',function(){
-            this
-              .on('shift.farm_id', 'userFarm.farm_id')
-              .on('shift.user_id', 'userFarm.user_id')
-          })
-          .join('users', 'userFarm.user_id', 'users.user_id')
-          .where(function() {
-            role === 3 ? this.where('shift.farm_id', farm_id)
-                .andWhere('shift.user_id', user_id)
-                .andWhere('shift.deleted', false)
-                .andWhere('shiftTask.deleted', false) :
-              this.where('shift.farm_id', farm_id)
-                .andWhere('shift.deleted', false)
-                .andWhere('shiftTask.deleted', false);
-          });
-        if (data) {
-          res.status(200).send(data);
-        } else {
-          res.status(200).send([]);
-        }
-      } catch (error) {
-        //handle more exceptions
-        console.log(error);
-        res.status(400).json({
-          error,
-        });
-      }
-    }
-  }
-
-  static getShiftByUserFarm() {
-    return async (req, res) => {
-      try {
-        const farm_id = req.params.farm_id;
-        const { user_id } = req.headers;
-        const role = req.role;
         const data = await knex.select([
           'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
           'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
@@ -268,12 +213,9 @@ class shiftController extends baseController {
               .on('shift.user_id', 'userFarm.user_id');
           })
           .join('users', 'userFarm.user_id', 'users.user_id')
-          .where(function() {
-            this.where('shift.farm_id', farm_id)
-              .andWhere('shift.user_id', user_id)
-              .andWhere('shift.deleted', false)
-              .andWhere('shiftTask.deleted', false);
-          });
+          .where('shift.farm_id', farm_id)
+          .andWhere('shift.deleted', false)
+          .andWhere('shiftTask.deleted', false);
         if (data) {
           res.status(200).send(data);
         } else {
@@ -286,7 +228,49 @@ class shiftController extends baseController {
           error,
         });
       }
-    }
+    };
+  }
+
+  static getShiftByUserFarm() {
+    return async (req, res) => {
+      try {
+        const farm_id = req.params.farm_id;
+        const { user_id } = req.headers;
+        const data = await knex.select([
+          'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
+          'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
+          'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
+          'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
+          'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
+        ]).from('shiftTask', 'taskType')
+          .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
+          .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
+          .leftJoin('field', 'fieldCrop.field_id', 'field.field_id')
+          .leftJoin('crop', 'fieldCrop.crop_id', 'crop.crop_id')
+          .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
+          .join('userFarm', function() {
+            this
+              .on('shift.farm_id', 'userFarm.farm_id')
+              .on('shift.user_id', 'userFarm.user_id');
+          })
+          .join('users', 'userFarm.user_id', 'users.user_id')
+          .where('shift.farm_id', farm_id)
+          .andWhere('shift.user_id', user_id)
+          .andWhere('shift.deleted', false)
+          .andWhere('shiftTask.deleted', false);
+        if (data) {
+          res.status(200).send(data);
+        } else {
+          res.status(200).send([]);
+        }
+      } catch (error) {
+        //handle more exceptions
+        console.log(error);
+        res.status(400).json({
+          error,
+        });
+      }
+    };
   }
 
   static async insertTasks(tasks, trx, shift_id) {
@@ -304,8 +288,7 @@ class shiftController extends baseController {
         result.push(inserted);
       }
       return result;
-    }
-    catch (error) {
+    } catch (error) {
       return error;
     }
 

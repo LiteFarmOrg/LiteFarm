@@ -58,7 +58,7 @@ const farmController = {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
   getAllFarms() {
     return async (req, res) => {
@@ -75,8 +75,8 @@ const farmController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   getFarmByID() {
     return async (req, res) => {
@@ -95,8 +95,8 @@ const farmController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   deleteFarm() {
     return async (req, res) => {
@@ -115,8 +115,8 @@ const farmController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   updateFarm(mainPatch = false) {
     return async (req, res) => {
@@ -145,7 +145,7 @@ const farmController = {
         });
       }
     }
-  }
+  },
 
   async getUser(req, trx) {
     // check if a user is making this call
@@ -155,7 +155,7 @@ const farmController = {
 
       return await userModel.query(trx).where(userModel.idColumn, uid).returning('*');
     }
-  }
+  },
 
   async insertUserFarm(user, farm_id, trx) {
     return userFarmModel.query(trx).insert({
@@ -164,7 +164,7 @@ const farmController = {
       role_id: 1,
       status: 'Active',
     }).returning('*');
-  }
+  },
 
   async getCountry(country) {
     const { iso, unit } = await knex('currency_table').select('*').where('country_name', country).first();

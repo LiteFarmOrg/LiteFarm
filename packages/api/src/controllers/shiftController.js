@@ -44,7 +44,7 @@ const shiftController = {
         });
       }
     };
-  }
+  },
 
   addMultiShift() {
     return async (req, res) => {
@@ -77,7 +77,7 @@ const shiftController = {
         });
       }
     };
-  }
+  },
 
   delShift() {
     return async (req, res) => {
@@ -89,18 +89,16 @@ const shiftController = {
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           await trx.rollback();
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).send(error);
       }
     }
-  }
+  },
 
   getShiftByID() {
     return async (req, res) => {
@@ -116,15 +114,14 @@ const shiftController = {
         }
         shiftRow[0].tasks = taskRow;
         res.status(200).send(shiftRow);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   updateShift() {
     return async (req, res) => {
@@ -148,15 +145,14 @@ const shiftController = {
         updatedShift[0].tasks = tasks_added;
         await trx.commit();
         res.status(200).send(updatedShift);
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   getShiftByUserID() {
     return async (req, res) => {
@@ -164,7 +160,7 @@ const shiftController = {
         const user_id = req.params.user_id;
         const shiftIDs = await shiftModel.query().where('user_id', user_id).select('shift_id');
         const shifts = [];
-        for (let idObj of shiftIDs) {
+        for (const idObj of shiftIDs) {
           const shift_id = idObj.shift_id;
           const shiftRow = await baseController.getIndividual(shiftModel, shift_id);
           if (!shiftRow.length) {
@@ -180,15 +176,14 @@ const shiftController = {
           shifts.push(shiftRow[0]);
         }
         res.status(200).send(shifts);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   // old query for get shift by farm id
   /*  `SELECT *
@@ -207,17 +202,17 @@ const shiftController = {
           'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',
           'crop.crop_common_name', 'fieldCrop.variety', 'fieldCrop.area_used', 'fieldCrop.estimated_production', 'shift.shift_date',
           'fieldCrop.estimated_revenue', 'fieldCrop.start_date', 'fieldCrop.end_date', 'shift.wage_at_moment', 'shift.mood',
-            'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration'
-          ]).from('shiftTask', 'taskType')
+          'userFarm.user_id', 'userFarm.farm_id', 'userFarm.wage', 'users.first_name', 'users.last_name', 'shiftTask.duration',
+        ]).from('shiftTask', 'taskType')
           .leftJoin('taskType', 'taskType.task_id', 'shiftTask.task_id')
           .leftJoin('fieldCrop', 'fieldCrop.field_crop_id', 'shiftTask.field_crop_id')
           .leftJoin('field', 'fieldCrop.field_id', 'field.field_id')
-          .leftJoin('crop', 'fieldCrop.crop_id','crop.crop_id')
+          .leftJoin('crop', 'fieldCrop.crop_id', 'crop.crop_id')
           .join('shift', 'shiftTask.shift_id', 'shift.shift_id')
-          .join('userFarm',function(){
+          .join('userFarm', function() {
             this
               .on('shift.farm_id', 'userFarm.farm_id')
-              .on('shift.user_id', 'userFarm.user_id')
+              .on('shift.user_id', 'userFarm.user_id');
           })
           .join('users', 'userFarm.user_id', 'users.user_id')
           .where(function() {
@@ -242,7 +237,7 @@ const shiftController = {
         });
       }
     }
-  }
+  },
 
   getShiftByUserFarm() {
     return async (req, res) => {
@@ -287,7 +282,7 @@ const shiftController = {
         });
       }
     }
-  }
+  },
 
   async insertTasks(tasks, trx, shift_id) {
     //eslint-disable-next-line
@@ -304,12 +299,11 @@ const shiftController = {
         result.push(inserted);
       }
       return result;
-    }
-    catch (error) {
+    } catch (error) {
       return error;
     }
 
-  }
+  },
 }
 
 module.exports = shiftController;

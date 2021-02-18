@@ -33,7 +33,7 @@ const shiftTaskController = {
         });
       }
     };
-  }
+  },
 
   delShiftTask() {
     return async (req, res) => {
@@ -46,15 +46,14 @@ const shiftTaskController = {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
 }
 

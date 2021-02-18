@@ -19,9 +19,9 @@ function genKeyPair() {
     },
   });
   console.log('publicKey');
-  console.log(`"${keyPair.publicKey.replace(/\n/g,'\\n')}"`);
+  console.log(`"${keyPair.publicKey.replace(/\n/g, '\\n')}"`);
   console.log('privateKey');
-  console.log(`"${keyPair.privateKey.replace(/\n/g,'\\n')}"`);
+  console.log(`"${keyPair.privateKey.replace(/\n/g, '\\n')}"`);
 }
 
 // Generate the keypair

@@ -29,19 +29,19 @@ const farmExpenseController = {
         }
         const resultArray = [];
         const user_id = req.user.user_id;
-        for (let e of expenses) {
+        for (const e of expenses) {
           const result = await baseController.post(farmExpenseModel, e, trx, { user_id });
-          resultArray.push(result)
+          resultArray.push(result);
         }
         await trx.commit();
         res.sendStatus(201);
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
-        res.status(400).send(error)
+        res.status(400).send(error);
       }
     };
-  }
+  },
 
   getAllFarmExpense() {
     return async (req, res) => {
@@ -53,21 +53,20 @@ const farmExpenseController = {
           res.sendStatus(404);
         } else {
           res.status(200).send(rows);
-      }
-    }
-      catch (error) {
+        }
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   async getByForeignKey(farm_id) {
     const expenses = await farmExpenseModel.query().select('*').from('farmExpense').where('farmExpense.farm_id', farm_id).whereNotDeleted();
     return expenses;
-  }
+  },
 
   updateFarmExpense() {
     return async (req, res) => {
@@ -80,7 +79,7 @@ const farmExpenseController = {
         const result = await farmExpenseModel.query(trx).context({ user_id }).where('farm_expense_id', farm_expense_id).patch(data).returning('*');
         if (!result) {
           await trx.rollback();
-          return res.status(400).send("failed to patch data");
+          return res.status(400).send('failed to patch data');
         }
 
         await trx.commit();
@@ -93,7 +92,7 @@ const farmExpenseController = {
         });
       }
     }
-  }
+  },
 
   delFarmExpense() {
     return async (req, res) => {
@@ -106,15 +105,14 @@ const farmExpenseController = {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 }
 
 module.exports = farmExpenseController;

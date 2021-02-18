@@ -59,7 +59,7 @@ const userLogController = {
         });
       }
     };
-  }
+  },
 
 }
 

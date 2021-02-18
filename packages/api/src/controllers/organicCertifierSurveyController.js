@@ -37,7 +37,7 @@ const organicCertifierSurveyController = {
         });
       }
     }
-  }
+  },
 
   addOrganicCertifierSurvey() {
     return async (req, res) => {
@@ -51,7 +51,7 @@ const organicCertifierSurveyController = {
         });
       }
     };
-  }
+  },
 
   patchCertifiers() {
     return async (req, res) => {
@@ -67,7 +67,7 @@ const organicCertifierSurveyController = {
         });
       }
     };
-  }
+  },
 
   patchInterested() {
     return async (req, res) => {
@@ -83,7 +83,7 @@ const organicCertifierSurveyController = {
         });
       }
     };
-  }
+  },
 
   delOrganicCertifierSurvey() {
     return async (req, res) => {
@@ -99,7 +99,7 @@ const organicCertifierSurveyController = {
         });
       }
     };
-  }
+  },
 
 
 }

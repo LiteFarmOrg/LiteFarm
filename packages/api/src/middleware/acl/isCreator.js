@@ -16,7 +16,7 @@ const isCreator = ({ params = null, body = null }) => async (req, res, next) => 
   isEntityCreatedBy(entity, user_id) ? next() : notAuthorizedResponse(res)
 }
 
-function isEntityCreatedBy({created_by_user_id}, user_id) {
+function isEntityCreatedBy({ created_by_user_id }, user_id) {
   return created_by_user_id === user_id;
 }
 

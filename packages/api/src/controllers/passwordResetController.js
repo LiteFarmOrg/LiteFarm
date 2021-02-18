@@ -78,13 +78,13 @@ const passwordResetController = {
         return res.status(400).json(error);
       }
     };
-  }
+  },
 
   validateToken() {
     return async (req, res) => {
       return res.status(200).json({ isValid: true });
     };
-  }
+  },
 
   resetPassword() {
     return async (req, res) => {
@@ -118,7 +118,7 @@ const passwordResetController = {
         });
       }
     };
-  }
+  },
 }
 
 module.exports = passwordResetController;

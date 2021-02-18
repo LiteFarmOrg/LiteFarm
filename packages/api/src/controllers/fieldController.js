@@ -44,7 +44,7 @@ const fieldController = {
         });
       }
     };
-  }
+  },
 
   delField() {
     return async (req, res) => {
@@ -63,8 +63,8 @@ const fieldController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   updateField() {
     return async (req, res) => {
@@ -90,7 +90,7 @@ const fieldController = {
         });
       }
     }
-  }
+  },
 
   getFieldByFarmID() {
     return async (req, res) => {
@@ -108,22 +108,22 @@ const fieldController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   async getByForeignKey(farm_id) {
 
     const fields = await fieldModel.query().whereNotDeleted().select('*').from('field').where('field.farm_id', farm_id);
 
     return fields;
-  }
+  },
 
   async postWithResponse(req, trx) {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
     const user_id = req.user.user_id;
     return await baseController.postWithResponse(fieldModel, req.body, trx, { user_id });
-  }
+  },
 
   mapFieldToStation(req, res) {
     mapFieldsToStationId([req.field]);

@@ -35,7 +35,7 @@ const FieldCropController = {
         });
       }
     };
-  }
+  },
 
   delFieldCrop() {
     return async (req, res) => {
@@ -54,8 +54,8 @@ const FieldCropController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   updateFieldCrop() {
     return async (req, res) => {
@@ -77,7 +77,7 @@ const FieldCropController = {
         });
       }
     }
-  }
+  },
 
   getFieldCropByID() {
     return async (req, res) => {
@@ -95,8 +95,8 @@ const FieldCropController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   getFieldCropByFarmID() {
     return async (req, res) => {
@@ -114,8 +114,8 @@ const FieldCropController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   async getByForeignKey(farm_id) {
 
@@ -132,11 +132,11 @@ const FieldCropController = {
         getFarm: (builder) => {
           builder.where('farm_id', farm_id);
         },
-      })
+      });
     }
 
     return fieldCrops;
-  }
+  },
 
   getFieldCropsByDate() {
     return async (req, res) => {
@@ -156,10 +156,10 @@ const FieldCropController = {
           res.status(200).send([]);
         }
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
     };
-  }
+  },
 
   getExpiredFieldCrops() {
     return async (req, res) => {
@@ -178,10 +178,10 @@ const FieldCropController = {
           res.status(200).send([]);
         }
       } catch (error) {
-        res.status(400).json({ error })
+        res.status(400).json({ error });
       }
     }
-  }
+  },
 }
 
 const formatDate = (currDate) => {

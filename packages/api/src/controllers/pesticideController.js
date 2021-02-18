@@ -34,7 +34,7 @@ const pesticideController = {
         });
       }
     }
-  }
+  },
   addPesticide() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -51,7 +51,7 @@ const pesticideController = {
         });
       }
     };
-  }
+  },
 
   delPesticide() {
     return async (req, res) => {
@@ -70,8 +70,8 @@ const pesticideController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 }
 
 module.exports = pesticideController;

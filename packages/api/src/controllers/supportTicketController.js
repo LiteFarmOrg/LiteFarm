@@ -37,7 +37,7 @@ const supportTicketController = {
         });
       }
     };
-  }
+  },
 
   addSupportTicket() {
     return async (req, res) => {
@@ -65,7 +65,7 @@ const supportTicketController = {
         });
       }
     };
-  }
+  },
 
   // Disabled
   patchStatus() {
@@ -82,7 +82,7 @@ const supportTicketController = {
         });
       }
     };
-  }
+  },
 }
 
 const capitalize = string => {

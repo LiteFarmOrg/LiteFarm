@@ -68,7 +68,7 @@ const insightController = {
         });
       }
     };
-  }
+  },
 
   // this is for the soil om submodule
   getSoilDataByFarmID() {
@@ -110,7 +110,7 @@ const insightController = {
         });
       }
     };
-  }
+  },
 
   getLabourHappinessByFarmID() {
     return async (req, res) => {
@@ -132,7 +132,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   getBiodiversityByFarmID() {
     return async (req, res) => {
@@ -156,7 +156,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   getPricesNearbyByFarmID() {
     return async (req, res) => {
@@ -184,7 +184,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
@@ -201,7 +201,7 @@ const insightController = {
           where f.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
-  }
+  },
 
   getWaterBalance() {
     return async (req, res) => {
@@ -223,7 +223,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   addWaterBalanceSchedule() {
     return async (req, res) => {
@@ -235,7 +235,7 @@ const insightController = {
         res.status(400).json({ e });
       }
     };
-  }
+  },
 
   getWaterSchedule() {
     return async (req, res) => {
@@ -255,7 +255,7 @@ const insightController = {
         res.status(400).json({ e });
       }
     };
-  }
+  },
 
   getNitrogenBalance() {
     return async (req, res) => {
@@ -277,7 +277,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   getNitrogenSchedule() {
     return async (req, res) => {
@@ -300,7 +300,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   addWaterBalance() {
     let trx;
@@ -316,7 +316,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   addNitrogenSchedule() {
     let trx;
@@ -332,7 +332,7 @@ const insightController = {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
   delNitrogenSchedule() {
     return async (req, res) => {
@@ -352,7 +352,7 @@ const insightController = {
         });
       }
     };
-  }
+  },
 }
 
 

@@ -91,7 +91,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   addInvitedUser() {
     return async (req, res) => {
@@ -203,7 +203,7 @@ const userController = {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
   async createTokenSendEmail(user, userFarm, farm_name) {
     let token;
@@ -229,7 +229,7 @@ const userController = {
       }
       await this.sendTokenEmail(farm_name, user, token);
     }
-  }
+  },
 
   async sendTokenEmail(farm, user, token) {
     const sender = 'system@litefarm.org';
@@ -237,7 +237,7 @@ const userController = {
     template_path.subjectReplacements = farm;
     await sendEmailTemplate.sendEmail(template_path, { first_name: user.first_name, farm },
       user.email, sender, `/callback/?invite_token=${token}`);
-  }
+  },
 
   addPseudoUser() {
     // Add pseudo user endpoint
@@ -317,7 +317,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   getUserByID() {
     return async (req, res) => {
@@ -338,9 +338,7 @@ const userController = {
         res.status(400).send(error);
       }
     };
-  }
-
-
+  },
 
 
   deactivateUser() {
@@ -393,7 +391,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   updateConsent() {
     return async (req, res) => {
@@ -414,7 +412,7 @@ const userController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   updateUser() {
     return async (req, res) => {
@@ -435,7 +433,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   acceptInvitationAndPostPassword() {
     return async (req, res) => {
@@ -477,7 +475,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   acceptInvitationWithGoogleAccount() {
     return async (req, res) => {
@@ -510,7 +508,7 @@ const userController = {
           }).patch({ status: 'Active' });
           const userFarms = await userFarmModel.query(trx).where({ user_id });
           await userFarmModel.query(trx).insert(userFarms.map(userFarm => ({ ...userFarm, user_id: sub })));
-          await shiftModel.query(trx).context({user_id: sub}).where({ user_id }).patch({ user_id: sub });
+          await shiftModel.query(trx).context({ user_id: sub }).where({ user_id }).patch({ user_id: sub });
           await emailTokenModel.query(trx).where({ user_id }).patch({ user_id: sub });
           await userFarmModel.query(trx).where({ user_id }).delete();
           await userModel.query(trx).findById(user_id).delete();
@@ -533,7 +531,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   updateNotificationSetting() {
     return async (req, res) => {
@@ -553,7 +551,7 @@ const userController = {
         });
       }
     };
-  }
+  },
 
   async updateSetting(req, trx) {
     const notificationSettingModel = require('../models/notificationSettingModel');

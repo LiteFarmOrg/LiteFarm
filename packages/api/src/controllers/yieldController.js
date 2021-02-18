@@ -35,7 +35,7 @@ const YieldController = {
         });
       }
     };
-  }
+  },
 
   delYield() {
     return async (req, res) => {
@@ -48,15 +48,14 @@ const YieldController = {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   updateYield() {
     return async (req, res) => {
@@ -70,15 +69,14 @@ const YieldController = {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   getYieldByFarmId() {
     return async (req, res) => {
@@ -90,8 +88,7 @@ const YieldController = {
         } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
         //handle more exceptions
         res.status(400).json({
@@ -99,7 +96,7 @@ const YieldController = {
         });
       }
     }
-  }
+  },
 
   async getByForeignKey(farm_id) {
     const yields = await yieldModel.query().select('*').from('yield').where('yield.farm_id', farm_id).whereNotDeleted();

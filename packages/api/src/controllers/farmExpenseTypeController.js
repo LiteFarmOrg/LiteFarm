@@ -37,7 +37,7 @@ const farmExpenseTypeController = {
         });
       }
     };
-  }
+  },
 
   getFarmExpenseType() {
     return async (req, res) => {
@@ -51,7 +51,7 @@ const farmExpenseTypeController = {
         });
       }
     };
-  }
+  },
 
   getDefaultTypes() {
     return async (req, res) => {
@@ -64,7 +64,7 @@ const farmExpenseTypeController = {
         });
       }
     };
-  }
+  },
 
   delFarmExpenseType() {
     return async (req, res) => {
@@ -87,7 +87,7 @@ const farmExpenseTypeController = {
         });
       }
     }
-  }
+  },
 
 
 }

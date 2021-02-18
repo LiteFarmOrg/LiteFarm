@@ -34,7 +34,7 @@ const PriceController = {
         });
       }
     };
-  }
+  },
 
   delPrice() {
     return async (req, res) => {
@@ -47,15 +47,14 @@ const PriceController = {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   updatePrice() {
     return async (req, res) => {
@@ -69,15 +68,14 @@ const PriceController = {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   getPriceByFarmId() {
     return async (req, res) => {
@@ -89,15 +87,14 @@ const PriceController = {
         } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   async getByForeignKey(farm_id) {
     const prices = await priceModel.query().select('*').from('price').where('price.farm_id', farm_id).whereNotDeleted();

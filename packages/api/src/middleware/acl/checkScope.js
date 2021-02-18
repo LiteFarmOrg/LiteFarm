@@ -25,7 +25,7 @@ const getScopes = async (user_id, farm_id) => {
       and uf.user_id = ?
       and uf.role_id = rp.role_id
       and rp.permission_id = p.permission_id
-      and uf.status = 'Active'`, [farm_id, user_id]
+      and uf.status = 'Active'`, [farm_id, user_id],
   );
 
   return dataPoints.rows;

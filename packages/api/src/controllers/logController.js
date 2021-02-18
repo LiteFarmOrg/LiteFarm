@@ -49,7 +49,7 @@ const logController = {
         res.status(error.status).json({ error: error.message });
       }
     };
-  }
+  },
 
   getLogByActivityId() {
     return async (req, res) => {
@@ -66,7 +66,7 @@ const logController = {
         res.status(error.status).json({ error: error.message });
       }
     };
-  }
+  },
 
   getLogByFarmId() {
     return async (req, res) => {
@@ -87,7 +87,7 @@ const logController = {
         res.status(error.status).json({ error: error.message });
       }
     };
-  }
+  },
 
   getHarvestUseTypesByFarmID() {
     return async (req, res) => {
@@ -107,7 +107,7 @@ const logController = {
         });
       }
     };
-  }
+  },
 
   addHarvestUseType() {
     return async (req, res) => {
@@ -136,7 +136,7 @@ const logController = {
         });
       }
     };
-  }
+  },
 
   deleteLog() {
     return async (req, res) => {
@@ -153,7 +153,7 @@ const logController = {
         res.status(error.status).json({ error: error.message });
       }
     };
-  }
+  },
 
   putLog() {
     return async (req, res) => {
@@ -173,7 +173,7 @@ const logController = {
         res.status(error.status).json({ error: error.message });
       }
     };
-  }
+  },
 }
 
 const logServices = {
@@ -200,7 +200,7 @@ const logServices = {
       await Promise.all(uses);
     }
     return activityLog;
-  }
+  },
 
   async getLogById(id) {
     const log = await baseController.getIndividual(ActivityLogModel, id);
@@ -212,7 +212,7 @@ const logServices = {
       await baseController.getRelated(log[0], logKind);
     }
     return log[0];
-  }
+  },
 
   async getLogByFarm(farm_id) {
     var logs = await ActivityLogModel.query().whereNotDeleted()
@@ -223,7 +223,7 @@ const logServices = {
       .join('userFarm', 'userFarm.farm_id', '=', 'field.farm_id')
       .join('users', 'users.user_id', '=', 'activityLog.user_id')
       .where('userFarm.farm_id', farm_id);
-    for (let log of logs) {
+    for (const log of logs) {
       // get fields and fieldCrops associated with log
       await log.$fetchGraph('fieldCrop.crop');
       await baseController.getRelated(log, field);
@@ -241,7 +241,7 @@ const logServices = {
       }
     }
     return logs;
-  }
+  },
 
   async patchLog(logId, transaction, { body, user }) {
     const log = await baseController.getIndividual(ActivityLogModel, logId);
@@ -265,11 +265,11 @@ const logServices = {
           activity_id: activityLog.activity_id,
           harvest_use_type_id: use.harvest_use_type_id,
           quantity_kg: use.quantity_kg,
-        }
+        };
         await baseController.post(HarvestUseModel, data, transaction);
       }
     }
-  }
+  },
 }
 
 function getActivityModelKind(activity_kind) {

@@ -34,7 +34,7 @@ const userFarmDataController = {
         res.status(400).send(error);
       }
     }
-  }
+  },
 
   getSchedule() {
     return async (req, res) => {
@@ -52,8 +52,8 @@ const userFarmDataController = {
         console.log(error);
         res.status(400).send(error);
       }
-    }
-  }
+    };
+  },
 }
 
 module.exports = userFarmDataController;

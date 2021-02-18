@@ -39,13 +39,13 @@ const SaleController = {
         console.log(error);
       }
     };
-  }
+  },
 
   patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
       const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
-      let saleData = {};
+      const saleData = {};
 
       if (customer_name) saleData.customer_name = customer_name;
       if (sale_date) saleData.sale_date = sale_date;
@@ -55,13 +55,13 @@ const SaleController = {
         const saleResult = await saleModel.query(trx).context(req.user).where('sale_id', sale_id).patch(saleData).returning('*');
         if (!saleResult) {
           await trx.rollback();
-          return res.status(400).send("failed to patch data");
+          return res.status(400).send('failed to patch data');
         }
 
         const deletedExistingCropSale = await cropSaleModel.query(trx).where('sale_id', sale_id).delete();
         if (!deletedExistingCropSale) {
           await trx.rollback();
-          return res.status(400).send("failed to delete existing crop sales");
+          return res.status(400).send('failed to delete existing crop sales');
         }
 
         const { cropSale } = req.body;
@@ -80,7 +80,7 @@ const SaleController = {
         });
       }
     };
-  }
+  },
 
   // get sales and related crop sales
   getSaleByFarmId() {
@@ -113,7 +113,7 @@ const SaleController = {
         console.log(error);
       }
     };
-  }
+  },
 
   delSale() {
     return async (req, res) => {
@@ -134,7 +134,7 @@ const SaleController = {
         });
       }
     };
-  }
+  },
 
   async getSalesOfFarm(farm_id) {
     return await saleModel

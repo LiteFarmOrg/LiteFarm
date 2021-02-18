@@ -33,7 +33,7 @@ const { createToken } = require('../util/jwt');
 const validStatusChanges = {
   'Active': ['Inactive'],
   'Inactive': ['Invited', 'Active'],
-  'Invited': ['Inactive']
+  'Invited': ['Inactive'],
 };
 
 const userFarmController = {
@@ -58,7 +58,7 @@ const userFarmController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   getUserFarmsByFarmID() {
     return async (req, res) => {
@@ -94,7 +94,7 @@ const userFarmController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   getActiveUserFarmsByFarmID() {
     return async (req, res) => {
@@ -128,7 +128,7 @@ const userFarmController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   getFarmInfo() {
     return async (req, res) => {
@@ -145,7 +145,7 @@ const userFarmController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   updateConsent() {
     return async (req, res) => {
@@ -183,7 +183,7 @@ const userFarmController = {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
   updateOnboardingFlags() {
     return async (req, res) => {
@@ -233,7 +233,7 @@ const userFarmController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   updateRole() {
     return async (req, res) => {
@@ -263,7 +263,7 @@ const userFarmController = {
 
         const updateData = {
           role_id,
-          has_consent: false
+          has_consent: false,
         };
         const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch(updateData);
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
@@ -273,7 +273,7 @@ const userFarmController = {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
   updateStatus() {
     //TODO clean up
@@ -338,7 +338,7 @@ const userFarmController = {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
   acceptInvitation() {
     return async (req, res) => {
@@ -364,7 +364,7 @@ const userFarmController = {
       const id_token = await createToken('access', { user_id });
       return res.status(200).send({ id_token, user: result });
     };
-  }
+  },
 
   acceptInvitationWithAccessToken() {
     return async (req, res) => {
@@ -372,7 +372,7 @@ const userFarmController = {
       req.user.farm_id = farm_id;
       return await userFarmController.acceptInvitation()(req, res);
     };
-  }
+  },
 
   updateWage() {
     return async (req, res) => {
@@ -401,7 +401,7 @@ const userFarmController = {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
   patchPseudoUserEmail() {
     return async (req, res) => {
@@ -481,7 +481,7 @@ const userFarmController = {
         console.log(e);
       }
     };
-  }
+  },
 }
 
 module.exports = userFarmController;

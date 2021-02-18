@@ -37,7 +37,7 @@ const taskTypeController = {
         });
       }
     };
-  }
+  },
 
   getAllTypes() {
     return async (req, res) => {
@@ -52,15 +52,14 @@ const taskTypeController = {
         } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
   getTypeByID() {
     return async (req, res) => {
@@ -72,15 +71,14 @@ const taskTypeController = {
         } else {
           res.status(200).send(row);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
+    };
+  },
 
   delType() {
     return async (req, res) => {
@@ -93,15 +91,14 @@ const taskTypeController = {
         } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 }
 
 module.exports = taskTypeController;

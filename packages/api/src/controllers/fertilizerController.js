@@ -31,15 +31,14 @@ const fertilizerController = {
         } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
   addFertilizer() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
@@ -64,7 +63,7 @@ const fertilizerController = {
         });
       }
     };
-  }
+  },
 
   delFertilizer() {
     return async (req, res) => {
@@ -83,8 +82,8 @@ const fertilizerController = {
           error,
         });
       }
-    }
-  }
+    };
+  },
 }
 
 module.exports = fertilizerController;

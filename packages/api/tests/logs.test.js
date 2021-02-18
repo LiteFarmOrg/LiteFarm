@@ -499,9 +499,30 @@ describe('Log Tests', () => {
             });
           });
 
-          test('should return 403 if a worker tries to delete a activityLog', async (done) => {
+          test('should return 403 if a worker tries to delete an activityLog not owned by him', async (done) => {
             deleteRequest({ user_id: newWorker.user_id, activity_id: activityLog.activity_id }, async (err, res) => {
               expect(res.status).toBe(403);
+              done();
+            });
+          });
+
+          test('Worker should delete activity owned by him', async (done) => {
+            const [workerActivity] = await mocks.activityLogFactory({ promisedUser: [newWorker] }, {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fertilizing',
+            });
+            await mocks.activityFieldsFactory({
+              promisedField: [field],
+              promisedActivityLog: [workerActivity]
+            })
+            deleteRequest({ user_id: newWorker.user_id, activity_id: workerActivity.activity_id }, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLogRes = await activityLogModel.query().context({
+                showHidden: true,
+                user_id: newWorker.user_id,
+              }).where('activity_id', workerActivity.activity_id);
+              expect(activityLogRes.length).toBe(1);
+              expect(activityLogRes[0].deleted).toBe(true);
               done();
             });
           });
@@ -658,7 +679,36 @@ describe('Log Tests', () => {
             });
           });
 
-          test('Should return 403 if a worker tries to edit a fertilizerLog', async (done) => {
+          test('Worker should edit a fertilizerLog owned by the worker', async (done) => {
+            const [workerActivity] = await mocks.activityLogFactory({ promisedUser: [worker] }, {
+              ...mocks.fakeActivityLog(),
+              activity_kind: 'fertilizing',
+            });
+            await mocks.activityFieldsFactory({
+              promisedField: [field],
+              promisedActivityLog: [workerActivity],
+            });
+            sampleRequestBody.activity_id = workerActivity.activity_id;
+            sampleRequestBody.user_id = worker.user_id;
+            putRequest(sampleRequestBody, {
+              user_id: worker.user_id,
+              activity_id: workerActivity.activity_id,
+            }, async (err, res) => {
+              expect(res.status).toBe(200);
+              const activityLog = await activityLogModel.query().context({
+                showHidden: true,
+              }).where('user_id', worker.user_id);
+              expect(activityLog.length).toBe(1);
+              expect(activityLog[0].notes).toBe(fakeActivityLog.notes);
+              const fertilizerLog = await fertilizerLogModel.query().context({
+                showHidden: true,
+                user_id: owner.user_id,
+              }).where('activity_id', activityLog[0].activity_id);
+              done();
+            });
+          });
+
+          test('Should return 403 if a worker tries to edit a fertilizerLog not owned by the worker', async (done) => {
             sampleRequestBody.user_id = worker.user_id;
             putRequest(sampleRequestBody, { user_id: worker.user_id }, async (err, res) => {
               expect(res.status).toBe(403);

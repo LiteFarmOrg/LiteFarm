@@ -3,6 +3,8 @@ const knex = Model.knex();
 const entitiesGetters = {
   farm_expense_id: fromExpense,
   sale_id: fromSale,
+  activity_id: fromActivity,
+  shift_id: fromShift,
 //   user_id: (user_id) => ({ user_id }),
 }
 
@@ -30,6 +32,14 @@ async function fromExpense(expenseId) {
 
 async function fromSale(saleId) {
   return await knex('sale').where({ sale_id: saleId }).first();
+}
+
+async function fromActivity(activityId) {
+  return await knex('activityLog').where({ activity_id: activityId }).first();
+}
+
+async function fromShift(shift_id) {
+  return await knex('shift').where({ shift_id }).first();
 }
 
 module.exports = isCreator;

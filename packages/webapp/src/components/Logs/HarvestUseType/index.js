@@ -13,7 +13,6 @@ import ExchangeImg from '../../../assets/images/harvestUseType/Exchange.svg';
 import SavedForSeedImg from '../../../assets/images/harvestUseType/SavedForSeed.svg';
 import NotSureImg from '../../../assets/images/harvestUseType/NotSure.svg';
 import OtherImg from '../../../assets/images/harvestUseType/Other.svg';
-import DonationImg from '../../../assets/images/harvestUseType/Donation.svg';
 import clsx from 'clsx';
 import AddTaskModal from '../../../components/Shift/AddTaskModal';
 
@@ -54,52 +53,45 @@ export default function PureHarvestUseType({
   };
 
   return (
-    <div style={{ marginLeft: '4px', minWidth: '370px', marginTop: '24px' }}>
-      <TitleLayout
-        onGoBack={onBack}
-        title={t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}
-        style={{ flexGrow: 9, order: 2 }}
-        buttonGroup={
-          <>
-            <Button color={'secondary'} fullLength onClick={onBack}>
-              {t('common:BACK')}
-            </Button>
-            <Button
-              type={'submit'}
-              fullLength
-              onClick={onGoNext}
-              disabled={!selectedUseTypes.length}
-            >
-              {t('common:NEXT')}
-            </Button>
-          </>
-        }
-      >
-        <Semibold>{t('LOG_HARVEST.HARVEST_USE_TYPE_SUBTITLE')}</Semibold>
-        <UseTypeMatrix
-          t={t}
-          selected={selectedUseTypes}
-          setUseTypes={setSelectedUseTypes}
-          useTypes={useTypes}
-        />
-        {[1, 2, 5].includes(Number(farm.role_id)) && (
-          <div className={styles.buttonContainer}>
-            <Button
-              style={{ backgroundColor: 'var(--teal700)', color: 'white' }}
-              onClick={() => switchShowModal(true)}
-            >
-              {t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}
-            </Button>
-          </div>
-        )}
-        <AddTaskModal
-          showModal={showAddModal}
-          switchShowModal={switchShowModal}
-          addTaskType={addUseType}
-          showTaskRequiredError={showUseTypeRequiredError}
-        />
-      </TitleLayout>
-    </div>
+    <TitleLayout
+      onGoBack={onBack}
+      title={t('LOG_HARVEST.HARVEST_USE_TYPE_TITLE')}
+      style={{ flexGrow: 9, order: 2 }}
+      buttonGroup={
+        <>
+          <Button color={'secondary'} fullLength onClick={onBack}>
+            {t('common:BACK')}
+          </Button>
+          <Button type={'submit'} fullLength onClick={onGoNext} disabled={!selectedUseTypes.length}>
+            {t('common:NEXT')}
+          </Button>
+        </>
+      }
+    >
+      <Semibold>{t('LOG_HARVEST.HARVEST_USE_TYPE_SUBTITLE')}</Semibold>
+      <UseTypeMatrix
+        t={t}
+        selected={selectedUseTypes}
+        setUseTypes={setSelectedUseTypes}
+        useTypes={useTypes}
+      />
+      {[1, 2, 5].includes(Number(farm.role_id)) && (
+        <div className={styles.buttonContainer}>
+          <Button
+            style={{ backgroundColor: 'var(--teal700)', color: 'white' }}
+            onClick={() => switchShowModal(true)}
+          >
+            {t('LOG_HARVEST.ADD_CUSTOM_USE_TYPE')}
+          </Button>
+        </div>
+      )}
+      <AddTaskModal
+        showModal={showAddModal}
+        switchShowModal={switchShowModal}
+        addTaskType={addUseType}
+        showTaskRequiredError={showUseTypeRequiredError}
+      />
+    </TitleLayout>
   );
 }
 

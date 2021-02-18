@@ -33,15 +33,16 @@ const insightController = {
           `SELECT DISTINCT cs.sale_id as id, cs.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
               FROM "cropSale" cs JOIN "sale" s ON cs.sale_id = s.sale_id
               JOIN "crop" c ON cs.crop_id = c.crop_id
-              WHERE s.farm_id = ?`, [farmID]);
+              WHERE s.farm_id = ? AND s.deleted = FALSE`, [farmID]);
         const harvestData = await knex.raw(
           `SELECT DISTINCT hu.harvest_use_id as id, hu.quantity_kg, c.percentrefuse, c.crop_common_name, c.energy, c.protein, c.lipid, c.vitc, c.vita_rae
                 FROM "harvestUse" hu 
+                JOIN "activityLog" al ON hu.activity_id = al.activity_id
                 JOIN "activityCrops" ac ON hu.activity_id = ac.activity_id 
                 JOIN "fieldCrop" fc ON fc.field_crop_id = ac.field_crop_id
                 JOIN "field" f ON fc.field_id = f.field_id
                 JOIN "crop" c ON fc.crop_id = c.crop_id
-                WHERE f.farm_id = ?
+                WHERE f.farm_id = ? AND al.deleted = FALSE
                 AND hu.harvest_use_type_id IN (2,5,6)`, [farmID]);
         const data = saleData.rows.concat(harvestData.rows);
         if (data) {
@@ -63,6 +64,7 @@ const insightController = {
           });
         }
       } catch (error) {
+        console.log(error);
         res.status(400).json({
           error,
         });

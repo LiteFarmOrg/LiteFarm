@@ -3,7 +3,6 @@ import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
 import { useTranslation } from 'react-i18next';
-import Form from '../../Form';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
 import { convertToMetric } from '../../../util';
@@ -76,57 +75,54 @@ export default function PureHarvestAllocation({
   };
 
   return (
-    <Form
+    <form
       onSubmit={handleSubmit(onSubmit, onError)}
-      buttonGroup={
-        <>
-          <Button onClick={onBack} color={'secondary'} fullLength>
-            {t('common:BACK')}
-          </Button>
-          <Button type={'submit'} fullLength disabled={!formState.isValid}>
-            {t('common:NEXT')}
-          </Button>
-        </>
-      }
+      style={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}
     >
-      <div>
-        <div style={{ marginLeft: '-20px', minWidth: '370px' }}>
-          <TitleLayout
-            onGoBack={onBack}
-            title={t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
-            style={{ flexGrow: 9, order: 2 }}
-          >
-            <Semibold>{t('LOG_HARVEST.HARVEST_ALLOCATION_SUBTITLE')}</Semibold>
-            <div style={{ color: '#085D50', fontWeight: 'bold' }}>
-              <p>{defaultData.defaultQuantity + unit}</p>
-            </div>
-            {defaultData.selectedUseTypes.map((type, index) => {
-              const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
-              let quant = type.quantity_kg;
-              return (
-                <div
-                  style={
-                    index === defaultData.selectedUseTypes.length - 1
-                      ? { marginBottom: '100px', paddingTop: '20px' }
-                      : { paddingTop: '20px' }
-                  }
-                >
-                  <Input
-                    label={typeName}
-                    style={{ marginBottom: '24px' }}
-                    type="decimal"
-                    unit={unit}
-                    name={typeName}
-                    onChange={(e) => handleChange(typeName, e.target.value)}
-                    inputRef={inputs[index]}
-                    defaultValue={quant}
-                  />
-                </div>
-              );
-            })}
-          </TitleLayout>
+      <TitleLayout
+        onGoBack={onBack}
+        title={t('LOG_HARVEST.HARVEST_ALLOCATION_TITLE')}
+        style={{ flexGrow: 9, order: 2 }}
+        buttonGroup={
+          <>
+            <Button onClick={onBack} color={'secondary'} fullLength>
+              {t('common:BACK')}
+            </Button>
+            <Button type={'submit'} fullLength disabled={!formState.isValid}>
+              {t('common:NEXT')}
+            </Button>
+          </>
+        }
+      >
+        <Semibold>{t('LOG_HARVEST.HARVEST_ALLOCATION_SUBTITLE')}</Semibold>
+        <div style={{ color: '#085D50', fontWeight: 'bold' }}>
+          <p>{defaultData.defaultQuantity + unit}</p>
         </div>
-      </div>
-    </Form>
+        {defaultData.selectedUseTypes.map((type, index) => {
+          const typeName = t(`harvest_uses:${type.harvest_use_type_translation_key}`);
+          let quant = type.quantity_kg;
+          return (
+            <div
+              style={
+                index === defaultData.selectedUseTypes.length - 1
+                  ? { marginBottom: '100px', paddingTop: '20px' }
+                  : { paddingTop: '20px' }
+              }
+            >
+              <Input
+                label={typeName}
+                style={{ marginBottom: '24px' }}
+                type="decimal"
+                unit={unit}
+                name={typeName}
+                onChange={(e) => handleChange(typeName, e.target.value)}
+                inputRef={inputs[index]}
+                defaultValue={quant}
+              />
+            </div>
+          );
+        })}
+      </TitleLayout>
+    </form>
   );
 }

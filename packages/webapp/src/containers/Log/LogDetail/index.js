@@ -224,7 +224,8 @@ class LogDetail extends Component {
               </div>
               {(Number(farm.role_id) === 1 ||
                 Number(farm.role_id) === 2 ||
-                Number(farm.role_id) === 5) && (
+                Number(farm.role_id) === 5 ||
+                Number(farm.role_id) === 3) && (
                 <DropdownButton
                   style={{
                     background: '#EFEFEF',

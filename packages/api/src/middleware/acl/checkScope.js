@@ -42,22 +42,23 @@ const checkScope = (expectedScopes) => {
   }
 
   return async (req, res, next) => {
-    if (expectedScopes.length === 0){
+    if (expectedScopes.length === 0) {
       return next();
     }
     //TODO user_id should comes from token. const user_id = req.user.user_id
     const { headers } = req;
-    const { user_id, farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
+    const { user_id } = req.user;
+    const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
 
     if (!user_id) return res.status(400).send('Missing user_id in headers');
     if (!farm_id) return res.status(400).send('Missing farm_id in headers');
 
     const scopes = await getScopes(user_id, farm_id);
 
-    const allowed = expectedScopes.some(function(expectedScope){
+    const allowed = expectedScopes.some(function(expectedScope) {
       return scopes.find(permission => permission.name === expectedScope);
     });
-    if(scopes.length) {
+    if (scopes.length) {
       req.role = scopes[0].role_id
     }
     return allowed ?

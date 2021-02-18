@@ -4,9 +4,9 @@ import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
 import styles from './styles.module.scss';
-import { expenseSelector, expenseTypeSelector, dateRangeSelector } from '../selectors';
+import { dateRangeSelector, expenseSelector, expenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
-import { setExpenseDetailDate, getExpense } from '../actions';
+import { getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
@@ -112,37 +112,64 @@ class OtherExpense extends Component {
     const { startDate, endDate } = this.state;
     let detailedHistory = [];
 
-    let dict = {};
     let subTotal = 0;
 
     for (let e of expenses) {
       if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
-        let date = moment(e.expense_date).format('MMM-DD-YYYY');
-        let type = this.getExpenseType(e.expense_type_id);
         let amount = parseFloat(e.value);
         subTotal += amount;
-        if (!dict.hasOwnProperty(date)) {
-          dict[date] = {
-            type,
-            amount,
-            expense_date: e.expense_date,
-          };
-        } else {
-          dict[date].amount = dict[date].amount + amount;
-          dict[date].type = 'Multiple';
-        }
+        detailedHistory.push({
+          date: moment(e.expense_date).format('MMM-DD-YYYY'),
+          type: this.getExpenseType(e.expense_type_id),
+          amount: this.state.currencySymbol + amount.toFixed(2).toString(),
+          expense_date: e.expense_date,
+          note: e.note,
+          expense_item_id: e.farm_expense_id,
+          value: amount,
+        });
       }
     }
 
-    let keys = Object.keys(dict);
-    for (let k of keys) {
-      detailedHistory.push({
-        date: k,
-        type: dict[k].type,
-        amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
-        expense_date: dict[k].expense_date,
-      });
-    }
+    // const { expenses } = this.props;
+    // const { startDate, endDate } = this.state;
+    // let detailedHistory = [];
+
+    // let dict = {};
+    // let subTotal = 0;
+
+    // console.log(expenses);
+
+    // for (let e of expenses) {
+    //   if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
+    //     let date = moment(e.expense_date).format('MMM-DD-YYYY');
+    //     let type = this.getExpenseType(e.expense_type_id);
+    //     let amount = parseFloat(e.value);
+    //     subTotal += amount;
+    //     if (!dict.hasOwnProperty(date)) {
+    //       dict[date] = {
+    //         type,
+    //         amount,
+    //         expense_date: e.expense_date,
+    //       };
+    //     } else {
+    //       dict[date].amount = dict[date].amount + amount;
+    //       dict[date].type = 'Multiple';
+    //     }
+    //   }
+    // }
+
+    // let keys = Object.keys(dict);
+    // for (let k of keys) {
+    //   detailedHistory.push({
+    //     date: k,
+    //     type: dict[k].type,
+    //     amount: this.state.currencySymbol + dict[k].amount.toFixed(2).toString(),
+    //     expense_date: dict[k].expense_date,
+    //   });
+    // }
+
+    // console.log(detailedHistory);
+    // console.log(subTotal.toFixed(2));
 
     return [detailedHistory, subTotal.toFixed(2)];
   }
@@ -243,8 +270,9 @@ class OtherExpense extends Component {
                 getTdProps={(state, rowInfo, column, instance) => {
                   return {
                     onClick: (e, handleOriginal) => {
+                      console.log(rowInfo);
                       if (rowInfo && rowInfo.original) {
-                        this.props.dispatch(setExpenseDetailDate(rowInfo.original.expense_date));
+                        this.props.dispatch(setExpenseDetailItem(rowInfo.original));
                         history.push('/expense_detail');
                       }
                       if (handleOriginal) {

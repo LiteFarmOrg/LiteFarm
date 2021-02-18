@@ -4,7 +4,7 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
 import { expenseTypeSelector } from '../../selectors';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import EquipImg from '../../../../assets/images/log/equipment.svg';
 import FertImg from '../../../../assets/images/log/fertilizing.svg';
 import PestImg from '../../../../assets/images/log/bug.svg';
@@ -13,7 +13,7 @@ import MachineImg from '../../../../assets/images/log/machinery.svg';
 import SeedImg from '../../../../assets/images/log/seeding.svg';
 import OtherImg from '../../../../assets/images/log/other.svg';
 import LandImg from '../../../../assets/images/log/land.svg';
-import { setSelectedExpense } from '../../actions';
+import { setSelectedExpenseTypes } from '../../actions';
 import history from '../../../../history';
 import { withTranslation } from 'react-i18next';
 
@@ -45,7 +45,7 @@ class ExpenseCategories extends Component {
   }
 
   nextPage() {
-    this.props.dispatch(setSelectedExpense(this.state.selectedTypes));
+    this.props.dispatch(setSelectedExpenseTypes(this.state.selectedTypes));
     history.push('/add_expense');
   }
 

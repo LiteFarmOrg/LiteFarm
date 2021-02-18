@@ -68,7 +68,8 @@
   "LOG_HARVEST": {
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
-      "GET_TYPES": "Falha ao buscar uso/destino de colheita"
+      "GET_TYPES": "Falha ao buscar uso/destino de colheita",
+      "REQUIRED_TASK": "A harvest use type name is required"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"

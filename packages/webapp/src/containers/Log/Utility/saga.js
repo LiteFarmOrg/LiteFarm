@@ -1,26 +1,24 @@
 // saga
 import { ADD_LOG, DELETE_LOG, EDIT_LOG } from './constants';
-import { GET_HARVEST_USE_TYPES, ADD_HARVEST_USE_TYPE } from '../constants';
-import { call, select, takeEvery, put } from 'redux-saga/effects';
+import { ADD_HARVEST_USE_TYPE, GET_HARVEST_USE_TYPES } from '../constants';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
+import { axios, getHeader } from '../../saga';
 import i18n from '../../../lang/i18n';
-import { setAllHarvestUseTypes, getHarvestUseTypes } from '../actions';
-import { selectedUseTypeSelector } from '../selectors';
+import { getHarvestUseTypes, setAllHarvestUseTypes } from '../actions';
+import { harvestLogDataSelector } from '../Utility/logSlice';
 
 export function* addLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
+  const defaultData = yield select(harvestLogDataSelector);
   const header = getHeader(user_id, farm_id);
-  const selectedUseTypes = yield select(selectedUseTypeSelector);
+  const selectedUseTypes = defaultData.selectedUseTypes;
+
   const log = { ...action.formValue, user_id, farm_id, selectedUseTypes };
-  const data = {
-    log: log,
-    selectedUseTypes: selectedUseTypes,
-  };
   try {
     const result = yield call(axios.post, logURL, log, header);
     if (result) {
@@ -51,6 +49,7 @@ export function* getHarvestUseTypesSaga() {
 }
 
 export function* addCustomHarvestUseTypeSaga(action) {
+  console.log('addCustomHarvestUseTypeSaga');
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
@@ -78,8 +77,9 @@ export function* addCustomHarvestUseTypeSaga(action) {
 export function* editLog(action) {
   const { logURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
+  const defaultData = yield select(harvestLogDataSelector);
   const header = getHeader(user_id, farm_id);
-  const selectedUseTypes = yield select(selectedUseTypeSelector);
+  const selectedUseTypes = defaultData.selectedUseTypes;
   const log = { ...action.formValue, user_id, farm_id, selectedUseTypes };
 
   try {

@@ -145,8 +145,10 @@ function PureStepTwo({
     let mutatingFinalForm = { ...finalForm };
     mutatingFinalForm[task_id].is_field = true;
     mutatingFinalForm[task_id].val = [];
-    for (let option of selectedOption) {
-      mutatingFinalForm[task_id].val.push({ id: option.value });
+    if (selectedOption) {
+      for (let option of selectedOption) {
+        mutatingFinalForm[task_id].val.push({ id: option.value });
+      }
     }
     setFinalForm(mutatingFinalForm);
   };
@@ -174,12 +176,15 @@ function PureStepTwo({
       setDefaultCrops(mutatingDefaultCrops);
     } else {
       let mutatingDefaultFields = defaultFields;
-      mutatingDefaultFields[task_id] = [];
-      for (let f of fields) {
-        mutatingDefaultFields[task_id].push({ value: f.field_id, label: f.field_name });
-        handleFieldChange([{ value: f.field_id }], task_id);
-      }
-      setDefaultFields(mutatingDefaultFields);
+      mutatingDefaultFields[task_id] = fields.map(({ field_id, field_name }) => ({
+        value: field_id,
+        label: field_name,
+      }));
+      handleFieldChange(
+        mutatingDefaultFields[task_id].map(({ value }) => ({ value })),
+        task_id,
+      );
+      setDefaultFields({ ...mutatingDefaultFields });
     }
   };
 
@@ -310,8 +315,9 @@ function PureStepTwo({
           handleFieldChange={handleFieldChange}
           toggleCropOrField={toggleCropOrField}
           task={task}
-          state={{ defaultFields, cropOptions, fieldOptions }}
+          state={{ cropOptions, fieldOptions }}
           defaultCrops={defaultCrops}
+          defaultFields={defaultFields}
           toggleBack={toggleBack}
           toggleCropTimeMethod={toggleCropTimeMethod}
           cropTotalTimeAssign={cropTotalTimeAssign}
@@ -345,6 +351,7 @@ function InputDuration({
   cropTotalTimeAssign,
   resetCropDuration,
   defaultCrops,
+  defaultFields,
 }) {
   const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
   const [selectedCrops, setSelectedCrops] = useState();
@@ -384,6 +391,10 @@ function InputDuration({
     setSelectedCrops(defaultCrops[task.task_id]);
     resetCrops();
   }, [defaultCrops]);
+
+  useEffect(() => {
+    setSelectedFields(defaultFields[task.task_id]);
+  }, [defaultFields]);
 
   const checkAndGetNumber = (val) => (!!val ? parseInt(val) : 0);
 
@@ -662,9 +673,9 @@ function InputDuration({
           </div>
         </div>
         <div className={styles.selectInner}>
-          {state.defaultFields[task.task_id] && (
+          {defaultFields[task.task_id] && (
             <Select
-              defaultValue={state.defaultFields[task.task_id]}
+              defaultValue={defaultFields[task.task_id]}
               isMulti
               isSearchable={false}
               name="selectByFields"
@@ -679,7 +690,7 @@ function InputDuration({
               }}
             />
           )}
-          {!state.defaultFields[task.task_id] && (
+          {!defaultFields[task.task_id] && (
             <Select
               isMulti
               isSearchable={false}

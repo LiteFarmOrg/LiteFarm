@@ -32,9 +32,8 @@ describe('Sale Tests', () => {
   let middleware;
   let owner;
   let farm;
+  let ownerFarm;
   let crop;
-  let field;
-  let fieldCrop;
 
   beforeAll(() => {
     token = global.token;
@@ -66,7 +65,15 @@ describe('Sale Tests', () => {
     chai.request(server).delete(`/sale/${sale_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .end(callback)
+      .end(callback);
+  }
+
+  function patchRequest(data, sale_id, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
+    chai.request(server).patch(`/sale/${sale_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback);
   }
 
   function fakeUserFarm(role = 1) {
@@ -76,14 +83,11 @@ describe('Sale Tests', () => {
   beforeEach(async () => {
     [owner] = await mocks.usersFactory();
     [farm] = await mocks.farmFactory();
-    const [ownerFarm] = await mocks.userFarmFactory({
+    [ownerFarm] = await mocks.userFarmFactory({
       promisedUser: [owner],
       promisedFarm: [farm],
     }, fakeUserFarm(1));
     [crop] = await mocks.cropFactory({ promisedFarm: [farm] });
-    let [weatherStation] = await mocks.weather_stationFactory();
-    [field] = await mocks.fieldFactory({ promisedFarm: [farm], promisedStation: [weatherStation] });
-    [fieldCrop] = await mocks.fieldCropFactory({ promisedCrop: [crop], promisedField: [field] });
 
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
@@ -103,15 +107,14 @@ describe('Sale Tests', () => {
     let sale;
     let crop1;
     beforeEach(async () => {
-      [sale] = await mocks.saleFactory({ promisedFarm: [farm] });
-      [cropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop], promisedSale: [sale] });
+      [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
+      let [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
       [crop1] = await mocks.cropFactory({ promisedFarm: [farm] });
-      [fieldCrop1] = await mocks.fieldCropFactory({ promisedCrop: [crop1], promisedField: [field] });
-      [cropSale] = await mocks.cropSaleFactory({ promisedFieldCrop: [fieldCrop1], promisedSale: [sale] });
+      [cropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop1], promisedSale: [sale] });
     })
 
     test('Should filter out deleted sale', async (done) => {
-      await saleModel.query().findById(sale.sale_id).delete();
+      await saleModel.query().context(owner).findById(sale.sale_id).delete();
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
@@ -202,18 +205,20 @@ describe('Sale Tests', () => {
 
       describe('Delete sale authorization tests', () => {
         let newWorker;
+        let workerFarm;
         let manager;
+        let managerFarm;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
         beforeEach(async () => {
           [newWorker] = await mocks.usersFactory();
-          const [workerFarm] = await mocks.userFarmFactory({
+          [workerFarm] = await mocks.userFarmFactory({
             promisedUser: [newWorker],
             promisedFarm: [farm],
           }, fakeUserFarm(3));
           [manager] = await mocks.usersFactory();
-          const [managerFarm] = await mocks.userFarmFactory({
+          [managerFarm] = await mocks.userFarmFactory({
             promisedUser: [manager],
             promisedFarm: [farm],
           }, fakeUserFarm(2));
@@ -230,9 +235,11 @@ describe('Sale Tests', () => {
         test('Owner should delete a sale', async (done) => {
           deleteRequest({ sale_id: sale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().where('sale_id', sale.sale_id);
+            const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', sale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
+            // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
+            // expect(saleRes.length).toBe(0);
             done();
           })
         });
@@ -240,11 +247,25 @@ describe('Sale Tests', () => {
         test('Manager should delete a sale', async (done) => {
           deleteRequest({ user_id: manager.user_id, sale_id: sale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().where('sale_id', sale.sale_id);
+            const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', sale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
             done();
-          })
+          });
+        });
+
+        test('Worker should delete their own sale', async (done) => {
+          let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+          let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
+          deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
+            expect(res.status).toBe(200);
+            const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', workersSale.sale_id);
+            expect(saleRes.length).toBe(1);
+            expect(saleRes[0].deleted).toBe(true);
+            // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
+            // expect(saleRes.length).toBe(0);
+            done();
+          });
         });
 
         test('should return 403 if an unauthorized user tries to delete a sale', async (done) => {
@@ -254,7 +275,7 @@ describe('Sale Tests', () => {
           }, async (err, res) => {
             expect(res.status).toBe(403);
             done();
-          })
+          });
         });
 
         test('should return 403 if a worker tries to delete a sale', async (done) => {
@@ -288,18 +309,16 @@ describe('Sale Tests', () => {
   describe('Post sale', () => {
     let sampleReqBody;
     let crop2;
-    let fieldCrop2;
     let someoneElsecrop;
     beforeEach(async () => {
       [crop2] = await mocks.cropFactory({ promisedFarm: [farm] });
-      [fieldCrop2] = await mocks.fieldCropFactory({ promisedCrop: [crop2], promisedField: [field] });
       [someoneElsecrop] = await mocks.cropFactory();
       sampleReqBody = {
         ...mocks.fakeSale(),
         'farm_id': farm.farm_id,
-        'cropSale': [{ ...mocks.fakeCropSale(), 'crop_id': fieldCrop.crop_id }, {
+        'cropSale': [{ ...mocks.fakeCropSale(), 'crop_id': crop.crop_id }, {
           ...mocks.fakeCropSale(),
-          'crop_id': fieldCrop2.crop_id,
+          'crop_id': crop2.crop_id,
         }],
       }
     })
@@ -437,12 +456,228 @@ describe('Sale Tests', () => {
           farm_id: farmunAuthorizedUser.farm_id,
         }, async (err, res) => {
           expect(res.status).toBe(403);
-          done()
+          done();
         })
       });
 
     })
 
 
+  });
+
+  describe('Patch sale authorization tests', () => {
+    let worker;
+    let workerFarm;
+    let manager;
+    let managerFarm;
+    let unauthorizedUser;
+    let otherFarm;
+    let unauthorizedUserFarm;
+
+    let sale;
+    let cropSale1;
+    let cropSale2;
+    let newCrop;
+
+    beforeEach(async () => {
+      [worker] = await mocks.usersFactory();
+      [workerFarm] = await mocks.userFarmFactory({
+        promisedUser: [worker],
+        promisedFarm: [farm],
+      }, fakeUserFarm(3));
+      [manager] = await mocks.usersFactory();
+      [managerFarm] = await mocks.userFarmFactory({
+        promisedUser: [manager],
+        promisedFarm: [farm],
+      }, fakeUserFarm(2));
+
+
+      [unauthorizedUser] = await mocks.usersFactory();
+      [otherFarm] = await mocks.farmFactory();
+      [unauthorizedUserFarm] = await mocks.userFarmFactory({
+        promisedUser: [unauthorizedUser],
+        promisedFarm: [otherFarm],
+      }, fakeUserFarm(1));
+
+      [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
+      [cropSale1] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+      [cropSale2] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
+      [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner] });
+    });
+
+    test('Owner should patch a sale', async (done) => {
+      const patchData = {
+        customer_name: 'patched customer name',
+        // sale_date: Date.now().toString(),
+        cropSale: [
+          {
+            crop_id: cropSale1.crop_id,
+            quantity_kg: cropSale1.quantity_kg + 5,
+            sale_value: cropSale1.sale_value + 5,
+          },
+          {
+            crop_id: cropSale2.crop_id,
+            quantity_kg: cropSale2.quantity_kg + 5,
+            sale_value: cropSale2.sale_value + 5,
+          },
+          {
+            crop_id: newCrop.crop_id,
+            quantity_kg: 777,
+            sale_value: 7777,
+          },
+        ],
+      };
+
+      patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
+        expect(res.status).toBe(200);
+        const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+        expect(saleRes.customer_name).toBe(patchData.customer_name);
+
+        const cropSaleRes = await cropSaleModel.query().where('sale_id', sale.sale_id);
+        expect(cropSaleRes.length).toBe(patchData.cropSale.length);
+        for (i = 0; i < cropSaleRes.length; i++) {
+          expect(cropSaleRes[i].quantity_kg).toBe(patchData.cropSale[i].quantity_kg);
+          expect(cropSaleRes[i].sale_value).toBe(patchData.cropSale[i].sale_value);
+        }
+        done();
+      });
+    });
+
+    test('Manager should patch a sale', async (done) => {
+      const patchData = {
+        customer_name: 'patched customer name',
+        // sale_date: Date.now().toString(),
+        cropSale: [
+          {
+            crop_id: cropSale1.crop_id,
+            quantity_kg: cropSale1.quantity_kg + 5,
+            sale_value: cropSale1.sale_value + 5,
+          },
+          {
+            crop_id: cropSale2.crop_id,
+            quantity_kg: cropSale2.quantity_kg + 5,
+            sale_value: cropSale2.sale_value + 5,
+          },
+          {
+            crop_id: newCrop.crop_id,
+            quantity_kg: 777,
+            sale_value: 7777,
+          },
+        ],
+      };
+
+      patchRequest(patchData, sale.sale_id, { user_id: manager.user_id }, async (err, res) => {
+        expect(res.status).toBe(200);
+        const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
+        expect(saleRes.customer_name).toBe(patchData.customer_name);
+
+        const cropSaleRes = await cropSaleModel.query().where('sale_id', sale.sale_id);
+        expect(cropSaleRes.length).toBe(patchData.cropSale.length);
+        for (i = 0; i < cropSaleRes.length; i++) {
+          expect(cropSaleRes[i].quantity_kg).toBe(patchData.cropSale[i].quantity_kg);
+          expect(cropSaleRes[i].sale_value).toBe(patchData.cropSale[i].sale_value);
+        }
+        done();
+      });
+    });
+
+    test('Worker should patch a sale that they created', async (done) => {
+      let [workersSale] = await mocks.saleFactory({ promisedUserFarm: [workerFarm] });
+      let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
+
+      const patchData = {
+        customer_name: 'patched customer name',
+        // sale_date: Date.now().toString(),
+        cropSale: [
+          {
+            crop_id: cropSale1.crop_id,
+            quantity_kg: cropSale1.quantity_kg + 5,
+            sale_value: cropSale1.sale_value + 5,
+          },
+          {
+            crop_id: cropSale2.crop_id,
+            quantity_kg: cropSale2.quantity_kg + 5,
+            sale_value: cropSale2.sale_value + 5,
+          },
+          {
+            crop_id: newCrop.crop_id,
+            quantity_kg: 777,
+            sale_value: 7777,
+          },
+        ],
+      };
+
+      patchRequest(patchData, workersSale.sale_id, { user_id: worker.user_id }, async (err, res) => {
+        expect(res.status).toBe(200);
+        const saleRes = await saleModel.query().where('sale_id', workersSale.sale_id).first();
+        expect(saleRes.customer_name).toBe(patchData.customer_name);
+
+        const cropSaleRes = await cropSaleModel.query().where('sale_id', workersSale.sale_id);
+        expect(cropSaleRes.length).toBe(patchData.cropSale.length);
+        for (i = 0; i < cropSaleRes.length; i++) {
+          expect(cropSaleRes[i].quantity_kg).toBe(patchData.cropSale[i].quantity_kg);
+          expect(cropSaleRes[i].sale_value).toBe(patchData.cropSale[i].sale_value);
+        }
+        done();
+      });
+    });
+
+    test('Should return 403 if worker tries to patch another member\'s sale', async (done) => {
+      const patchData = {
+        customer_name: 'patched customer name',
+        // sale_date: Date.now().toString(),
+        cropSale: [
+          {
+            crop_id: cropSale1.crop_id,
+            quantity_kg: cropSale1.quantity_kg + 5,
+            sale_value: cropSale1.sale_value + 5,
+          },
+          {
+            crop_id: cropSale2.crop_id,
+            quantity_kg: cropSale2.quantity_kg + 5,
+            sale_value: cropSale2.sale_value + 5,
+          },
+          {
+            crop_id: newCrop.crop_id,
+            quantity_kg: 777,
+            sale_value: 7777,
+          },
+        ],
+      };
+
+      patchRequest(patchData, sale.sale_id, { user_id: worker.user_id }, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
+
+    test('Should return 403 if unauthorized user tries to patch sale', async (done) => {
+      const patchData = {
+        customer_name: 'patched customer name',
+        // sale_date: Date.now().toString(),
+        cropSale: [
+          {
+            crop_id: cropSale1.crop_id,
+            quantity_kg: cropSale1.quantity_kg + 5,
+            sale_value: cropSale1.sale_value + 5,
+          },
+          {
+            crop_id: cropSale2.crop_id,
+            quantity_kg: cropSale2.quantity_kg + 5,
+            sale_value: cropSale2.sale_value + 5,
+          },
+          {
+            crop_id: newCrop.crop_id,
+            quantity_kg: 777,
+            sale_value: 7777,
+          },
+        ],
+      };
+
+      patchRequest(patchData, sale.sale_id, { user_id: unauthorizedUser.user_id }, async (err, res) => {
+        expect(res.status).toBe(403);
+        done();
+      });
+    });
   });
 });

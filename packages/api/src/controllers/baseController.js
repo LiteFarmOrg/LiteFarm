@@ -35,16 +35,16 @@ class baseController {
       .insert(removeAdditionalProperties(model, data)).returning('*');
   }
 
-  static async postRelated(model, subModel, data, transaction){
-    if(!Array.isArray(data)){ //if data is not an array
+  static async postRelated(model, subModel, data, context, transaction) {
+    if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
 
-    if(!lodash.isEmpty(data)){
+    if (!lodash.isEmpty(data)) {
       return await model
-        .$relatedQuery(subModel.tableName, transaction)
+        .$relatedQuery(subModel.tableName, transaction).context(context)
         .insert(data);
-    }else{
+    } else {
       return;
     }
   }
@@ -83,9 +83,9 @@ class baseController {
       .where(table_id, id).update(resource).returning('*');
   }
 
-  static async delete(model, id, transaction=null) {
+  static async delete(model, id, transaction = null, context = {}) {
     const table_id = model.idColumn;
-    return await model.query(transaction).where(table_id, id).delete()
+    return await model.query(transaction).context(context).where(table_id, id).delete();
   }
 
   static async getIndividual(model, id) {
@@ -120,14 +120,15 @@ class baseController {
     }
 
   }
-  static async getRelated(model, subModel){
-    return await model.$fetchGraph(subModel.tableName)
+
+  static async getRelated(model, subModel) {
+    return await model.$fetchGraph(subModel.tableName);
   }
 
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
-  static async upsertGraph(model, data, transaction) {
-    return await model.query(transaction).upsertGraph(data, { insertMissing: true });
+  static async upsertGraph(model, data, transaction, context = {}) {
+    return await model.query(transaction).context(context).upsertGraph(data, { insertMissing: true });
   }
 
   // fetch an object and all of its related objects

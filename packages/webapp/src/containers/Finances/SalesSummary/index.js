@@ -4,9 +4,8 @@ import history from '../../../history';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import { dateRangeSelector, salesSelector } from '../selectors';
-import { getSales } from '../actions';
+import { getSales, setSelectedSale } from '../actions';
 import { connect } from 'react-redux';
-import { setSelectedSale } from '../actions';
 import moment from 'moment';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
@@ -104,6 +103,7 @@ class SalesSummary extends Component {
         value,
         cropSale: s.cropSale,
         customerName: s.customer_name,
+        created_by_user_id: s.created_by_user_id,
         id: s.sale_id,
       };
     });

@@ -78,8 +78,20 @@
   color: var(--iconDefault);
   cursor: pointer;
 }
-.labelContainer{
+.labelContainer {
   display: flex;
   justify-content: space-between;
   height: 20px;
+}
+
+.unit {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--labels);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  position: absolute;
+  right: 0;
+  transform: translate(-8px, 33px);
 }

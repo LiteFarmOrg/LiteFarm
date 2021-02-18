@@ -21,9 +21,6 @@ const emailTokenModel = require('../models/emailTokenModel');
 const shiftModel = require('../models/shiftModel');
 const farmModel = require('../models/farmModel');
 const { transaction, Model } = require('objection');
-const auth0Config = require('../auth0Config');
-const url = require('url');
-const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
@@ -333,59 +330,11 @@ class userController extends baseController {
     };
   }
 
-  static async getAuth0Token() {
-    try {
-      const res = await axios({
-        url: auth0Config.token_url,
-        method: 'post',
-        headers: auth0Config.token_headers,
-        data: auth0Config.token_body,
-      });
-      if (res.status === 200) {
-        if (res.data && res.data.access_token) {
-          return res.data.access_token;
-        }
-      }
-    } catch (err) {
-      throw 'failed to get auth0 token';
-    }
-  }
-
-  static async deleteAuth0User(user_id) {
-    try {
-      const token = await this.getAuth0Token();
-      const headers = {
-        'content-type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      };
-      // eslint-disable-next-line
-      let result = await axios({
-        url: auth0Config.user_url + '/auth0|' + user_id,
-        method: 'delete',
-        headers,
-      });
-      return result.status === 204;
-    } catch (err) {
-      // eslint-disable-next-line
-      console.log(err);
-      return false;
-    }
-  }
 
   static deactivateUser() {
     return async (req, res) => {
       const user_id = req.params.id;
-      // const user = await baseController.getIndividual(userModel, user_id);
       const template_path = emails.ACCESS_REVOKE;
-      // if(user && user[0] && !user[0].is_pseudo){
-      //   const isAuth0Deleted = await this.deleteAuth0User(user_id);
-      //   if(!isAuth0Deleted){
-      //     res.status(400).json({
-      //       error: 'Cannot delete auth0 user',
-      //     });
-      //     return;
-      //   }
-      // }
       const trx = await transaction.start(Model.knex());
       try {
         const rows = await userFarmModel

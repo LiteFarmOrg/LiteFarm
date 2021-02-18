@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 
 import { deleteSale } from '../actions';
@@ -32,7 +32,7 @@ class SaleDetail extends Component {
   };
 
   render() {
-    let { sale } = this.props;
+    let { sale, farm } = this.props;
     let date;
 
     if (sale) {
@@ -49,26 +49,37 @@ class SaleDetail extends Component {
               <div>
                 <strong> {date}</strong>
               </div>
-              <DropdownButton
-                data-test="edit-or-delete-sale"
-                style={{
-                  background: '#EFEFEF',
-                  color: '#4D4D4D',
-                  border: 'none',
-                }}
-                title={this.props.t('SALE.DETAIL.ACTION')}
-                key={dropDown}
-                id={`dropdown-basic-${dropDown}`}
-              >
-                {/*<Dropdown.Item data-test='edit-sale' eventKey="0" onClick={() => history.push('/edit_sale')}>Edit</Dropdown.Item>*/}
-                <Dropdown.Item
-                  data-test="delete-sale"
-                  eventKey="1"
-                  onClick={() => this.confirmDelete()}
+              {(Number(farm.role_id) === 1 ||
+                Number(farm.role_id) === 2 ||
+                Number(farm.role_id) === 5 ||
+                farm.user_id === sale.created_by_user_id) && (
+                <DropdownButton
+                  data-test="edit-or-delete-sale"
+                  style={{
+                    background: '#EFEFEF',
+                    color: '#4D4D4D',
+                    border: 'none',
+                  }}
+                  title={this.props.t('SALE.DETAIL.ACTION')}
+                  key={dropDown}
+                  id={`dropdown-basic-${dropDown}`}
                 >
-                  {this.props.t('common:DELETE')}
-                </Dropdown.Item>
-              </DropdownButton>
+                  <Dropdown.Item
+                    data-test="edit-sale"
+                    eventKey="0"
+                    onClick={() => history.push('/edit_sale')}
+                  >
+                    {this.props.t('common:EDIT')}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    data-test="delete-sale"
+                    eventKey="1"
+                    onClick={() => this.confirmDelete()}
+                  >
+                    {this.props.t('common:DELETE')}
+                  </Dropdown.Item>
+                </DropdownButton>
+              )}
             </div>
           </div>
 

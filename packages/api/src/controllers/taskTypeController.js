@@ -26,7 +26,7 @@ const taskTypeController = {
         const user_id = req.user.user_id;
         const data = req.body;
         data.task_translation_key = data.task_name;
-        const result = await baseController.postWithResponse(TaskTypeModel, data, trx, { user_id });
+        const result = await baseController.postWithResponse(TaskTypeModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -84,7 +84,7 @@ const taskTypeController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(TaskTypeModel, req.params.task_type_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

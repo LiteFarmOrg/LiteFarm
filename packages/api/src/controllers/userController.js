@@ -51,13 +51,13 @@ const userController = {
         const password_hash = await bcrypt.hash(password, salt);
 
         // persist user data
-        const userResult = await baseController.post(userModel, userData, trx);
+        const userResult = await baseController.post(userModel, userData, req, { trx });
 
         const pwData = {
           user_id: userResult.user_id,
           password_hash,
         };
-        const pwResult = await baseController.post(passwordModel, pwData, trx);
+        const pwResult = await baseController.post(passwordModel, pwData, req, { trx });
         await trx.commit();
 
         // generate token, set to last a week
@@ -166,7 +166,7 @@ const userController = {
             gender,
             birth_year,
             phone_number,
-          }, trx);
+          }, req, { trx });
         } else {
           user = isUserAlreadyCreated;
         }
@@ -287,7 +287,7 @@ const userController = {
         }
         /* End of input validation */
 
-        const user = await baseController.post(userModel, req.body, trx);
+        const user = await baseController.post(userModel, req.body, req, { trx });
         await userFarmModel.query(trx).insert({
           user_id,
           farm_id,
@@ -419,7 +419,7 @@ const userController = {
       const trx = await transaction.start(Model.knex());
       try {
         delete req.body.status_id;
-        const updated = await baseController.put(userModel, req.params.user_id, req.body, trx);
+        const updated = await baseController.put(userModel, req.params.user_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -531,31 +531,6 @@ const userController = {
         });
       }
     };
-  },
-
-  updateNotificationSetting() {
-    return async (req, res) => {
-      const trx = await transaction.start(Model.knex());
-      try {
-        const updated = await userController.updateSetting(req, trx);
-        await trx.commit();
-        if (!updated.length) {
-          res.sendStatus(404);
-        } else {
-          res.status(200).send(updated);
-        }
-      } catch (error) {
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
-      }
-    };
-  },
-
-  async updateSetting(req, trx) {
-    const notificationSettingModel = require('../models/notificationSettingModel');
-    return await baseController.put(notificationSettingModel, req, trx);
   },
 }
 

@@ -23,8 +23,7 @@ const FieldCropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(fieldCropModel, req.body, trx, { user_id });
+        const result = await baseController.postWithResponse(fieldCropModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -41,7 +40,7 @@ const FieldCropController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(fieldCropModel, req.params.field_crop_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -62,7 +61,7 @@ const FieldCropController = {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id;
-        const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, trx, { user_id });
+        const updated = await baseController.put(fieldCropModel, req.params.field_crop_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -76,7 +75,7 @@ const FieldCropController = {
           error,
         });
       }
-    }
+    };
   },
 
   getFieldCropByID() {
@@ -180,9 +179,9 @@ const FieldCropController = {
       } catch (error) {
         res.status(400).json({ error });
       }
-    }
+    };
   },
-}
+};
 
 const formatDate = (currDate) => {
   const d = currDate;

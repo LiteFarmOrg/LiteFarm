@@ -4,8 +4,13 @@ import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.scss';
 import styles from './styles.scss';
-import { expenseDetailDateSelector, expenseSelector, expenseToDetailSelector, expenseTypeSelector } from '../selectors';
-import { deleteExpenses, setEditExpenses, tempSetEditExpense, tempDeleteExpense } from '../actions';
+import {
+  expenseDetailDateSelector,
+  expenseSelector,
+  expenseToDetailSelector,
+  expenseTypeSelector,
+} from '../selectors';
+import { tempDeleteExpense, tempSetEditExpense } from '../actions';
 import history from '../../../history';
 import { grabCurrencySymbol } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -34,7 +39,8 @@ class ExpenseDetail extends Component {
   componentDidMount() {
     const { expense_detail_date, farm } = this.props;
     this.setState({ currencySymbol: grabCurrencySymbol(farm) });
-    let date = moment(expense_detail_date).format('MMM DD, YYYY');
+    const language = localStorage.getItem('litefarm_lang');
+    const date = moment(expense_detail_date).locale(language).format('MMM DD, YYYY');
     this.setState({
       date,
     });
@@ -98,7 +104,7 @@ class ExpenseDetail extends Component {
     const { expense } = this.props;
     this.props.dispatch(tempDeleteExpense(expense.expense_item_id));
     history.push('/other_expense');
-  }
+  };
   // deleteExpenses = () => {
   //   // eslint-disable-next-line
   //   let farmIDs = [];
@@ -114,7 +120,7 @@ class ExpenseDetail extends Component {
 
   //TODO remove edit expense related functions
   editExpense() {
-  // editExpenses() {
+    // editExpenses() {
     // TODO: use the commented out code for when expense items are split by expense
     // const { filteredExpenses } = this.state;
     // this.props.dispatch(setEditExpenses(filteredExpenses));
@@ -136,14 +142,18 @@ class ExpenseDetail extends Component {
         <div className={styles.innerInfo}>
           <h4>{date}</h4>
           <DropdownButton
-            style={{background: '#EFEFEF', color: '#4D4D4D', border: 'none'}}
+            style={{ background: '#EFEFEF', color: '#4D4D4D', border: 'none' }}
             title={this.props.t('SALE.EXPENSE_DETAIL.ACTION')}
             key={dropDown}
             id={`dropdown-basic-${dropDown}`}
           >
             {/* <Dropdown.Item eventKey="0" onClick={()=>this.editExpenses()}>{this.props.t('common:EDIT')}</Dropdown.Item> */}
-            <Dropdown.Item eventKey="0" onClick={()=>this.editExpense()}>{this.props.t('common:EDIT')}</Dropdown.Item>
-            <Dropdown.Item eventKey="1" onClick={()=>this.handleDeleteExpenses()}>{this.props.t('common:DELETE')}</Dropdown.Item>
+            <Dropdown.Item eventKey="0" onClick={() => this.editExpense()}>
+              {this.props.t('common:EDIT')}
+            </Dropdown.Item>
+            <Dropdown.Item eventKey="1" onClick={() => this.handleDeleteExpenses()}>
+              {this.props.t('common:DELETE')}
+            </Dropdown.Item>
           </DropdownButton>
         </div>
 
@@ -178,9 +188,7 @@ class ExpenseDetail extends Component {
           </div>
           <div key={expense.note + expense.amount.toString()} className={styles.itemContainer}>
             <div>{'- ' + expense.note}</div>
-            <div className={styles.greenText}>
-              {expense.amount}
-            </div>
+            <div className={styles.greenText}>{expense.amount}</div>
           </div>
         </div>
         {/* <div className={styles.itemContainer}>

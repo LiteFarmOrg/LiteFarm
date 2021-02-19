@@ -7,12 +7,12 @@ import { dateRangeSelector, salesSelector } from '../selectors';
 import { getSales, setSelectedSale } from '../actions';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class SalesSummary extends Component {
   constructor(props) {

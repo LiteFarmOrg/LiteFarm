@@ -18,12 +18,12 @@ import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
-import { salesSelector, shiftSelector, expenseSelector, dateRangeSelector } from './selectors';
-import { getExpense, getSales, getShifts, getDefaultExpenseType, setDateRange } from './actions';
-import { calcTotalLabour, calcOtherExpense, filterSalesByCurrentYear } from './util';
+import { dateRangeSelector, expenseSelector, salesSelector, shiftSelector } from './selectors';
+import { getDefaultExpenseType, getExpense, getSales, getShifts, setDateRange } from './actions';
+import { calcOtherExpense, calcTotalLabour, filterSalesByCurrentYear } from './util';
 import Moment from 'moment';
 import { Alert } from 'react-bootstrap';
-import { roundToTwoDecimal, grabCurrencySymbol } from '../../util';
+import { roundToTwoDecimal } from '../../util';
 import DateRangeSelector from '../../components/Finances/DateRangeSelector';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { extendMoment } from 'moment-range';
@@ -32,7 +32,8 @@ import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
 import { getFieldCrops } from '../saga';
 import Button from '../../components/Form/Button';
-import { Title, Main, Semibold } from '../../components/Typography';
+import { Semibold, Title } from '../../components/Typography';
+import grabCurrencySymbol from '../../util/grabCurrencySymbol';
 
 const moment = extendMoment(Moment);
 

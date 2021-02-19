@@ -29,10 +29,10 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import Popup from 'reactjs-popup';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { grabCurrencySymbol } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../components/Form/Input';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class EditShiftOne extends Component {
   constructor(props) {

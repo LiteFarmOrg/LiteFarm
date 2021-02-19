@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';

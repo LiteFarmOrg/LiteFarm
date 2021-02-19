@@ -23,7 +23,7 @@ class SaleController extends baseController {
   static addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      const { user_id } = req.user
+      const { user_id } = req.user;
       try {
         // post to sale and crop sale table
         const result = await baseController.upsertGraph(saleModel, req.body, trx, { user_id });
@@ -55,13 +55,13 @@ class SaleController extends baseController {
         const saleResult = await saleModel.query(trx).context(req.user).where('sale_id', sale_id).patch(saleData).returning('*');
         if (!saleResult) {
           await trx.rollback();
-          return res.status(400).send("failed to patch data");
+          return res.status(400).send('failed to patch data');
         }
 
         const deletedExistingCropSale = await cropSaleModel.query(trx).where('sale_id', sale_id).delete();
         if (!deletedExistingCropSale) {
           await trx.rollback();
-          return res.status(400).send("failed to delete existing crop sales");
+          return res.status(400).send('failed to delete existing crop sales');
         }
 
         const { cropSale } = req.body;
@@ -117,7 +117,7 @@ class SaleController extends baseController {
 
   static delSale() {
     return async (req, res) => {
-      const { user_id } =  req.user;
+      const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
       try {
         const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx, { user_id });
@@ -138,7 +138,7 @@ class SaleController extends baseController {
 
   static async getSalesOfFarm(farm_id) {
     return await saleModel
-      .query().context({showHidden: true}).whereNotDeleted()
+      .query().context({ showHidden: true }).whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')

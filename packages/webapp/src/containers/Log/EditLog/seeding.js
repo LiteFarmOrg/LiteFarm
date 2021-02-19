@@ -9,7 +9,7 @@ import DefaultLogForm from '../../../components/Forms/Log';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import parseFields from '../Utility/parseFields';
 import { deleteLog, editLog } from '../Utility/actions';
 import parseCrops from '../Utility/parseCrops';

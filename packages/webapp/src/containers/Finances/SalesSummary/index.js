@@ -1,12 +1,11 @@
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import React, { Component } from 'react';
 import history from '../../../history';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import { dateRangeSelector, salesSelector } from '../selectors';
-import { getSales } from '../actions';
+import { getSales, setSelectedSale } from '../actions';
 import { connect } from 'react-redux';
-import { setSelectedSale } from '../actions';
 import moment from 'moment';
 import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';

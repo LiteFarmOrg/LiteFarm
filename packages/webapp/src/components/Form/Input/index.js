@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './input.scss';
+import styles from './input.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Info, Label } from '../../Typography';
@@ -74,7 +74,17 @@ const Input = ({
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
-      {showError && !unit && <Cross onClick={onClear} className={styles.cross} />}
+      {showError && !unit && (
+        <Cross
+          onClick={onClear}
+          style={{
+            position: 'absolute',
+            right: 0,
+            transform: 'translate(-17px, 13px)',
+            cursor: 'pointer',
+          }}
+        />
+      )}
       {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
       {isPassword &&
         !showError &&

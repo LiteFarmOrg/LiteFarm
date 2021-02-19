@@ -22,7 +22,10 @@ class fertilizerController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
+        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({
+          farm_id,
+          deleted: false,
+        });
         if (!rows.length) {
           res.sendStatus(404)
         }

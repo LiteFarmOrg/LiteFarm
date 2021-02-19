@@ -5,7 +5,7 @@ import { Text } from '../../Typography';
 import { setEndDate, setStartDate } from '../../../containers/Log/actions';
 import { LocalForm } from 'react-redux-form';
 import { useTranslation } from 'react-i18next';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 function DateContainer({
   date,
   onDateChange,

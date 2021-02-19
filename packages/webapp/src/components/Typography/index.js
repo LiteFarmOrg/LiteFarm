@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './typography.scss';
+import styles from './typography.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 

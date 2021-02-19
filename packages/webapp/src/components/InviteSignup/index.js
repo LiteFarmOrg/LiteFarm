@@ -5,7 +5,7 @@ import { Text, Title, Error, Main, Semibold } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Card from '../Card';
 import { ReactComponent as GoogleLogo } from '../../assets/images/inviteSignUp/google-logo.svg';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 const cardStyle = {
   minHeight: '64px',

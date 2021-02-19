@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import DescriptiveButton from '../../components/Inputs/DescriptiveButton';
 import history from '../../history';
 import { salesSelector, shiftSelector, expenseSelector, dateRangeSelector } from './selectors';

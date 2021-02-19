@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import styles from './textarea.scss';
+import styles from './textarea.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Label } from '../../Typography';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import sharedStyles from '../shared.scss';
-import styles from './styles.scss';
+import sharedStyles from '../shared.module.scss';
+import styles from './styles.module.scss';
 import { ProgressBar } from 'react-bootstrap';
 import loadingBar from '../../../assets/images/insights/loading_dot.svg';
 

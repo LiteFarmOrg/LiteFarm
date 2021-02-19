@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import React from 'react';
 import ReactJoyride, { STATUS } from 'react-joyride';
 import PureProfileFloater from '../../ProfileFloater';

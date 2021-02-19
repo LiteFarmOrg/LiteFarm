@@ -1,0 +1,25 @@
+{
+  "EXPENSE": {
+    "ADD_EXPENSE": {
+      "INVALID_ERROR": "You need at least one valid item value pair."
+    }
+  },
+  "SHIFT": {
+    "FROM": "From",
+    "TO": "To"
+  },
+  "SALE": {
+    "FINANCES": {
+      "FILTER_REPORT": "Filter Report by Date",
+      "FROM": "From",
+      "TO": "To"
+    }
+  },
+  "TABLE": {
+    "SUBTOTAL": "Subtotal",
+    "TOTAL": "Total"
+  },
+  "common": {
+    "TOTAL": "MISSING"
+  }
+}

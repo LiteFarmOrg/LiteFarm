@@ -8,30 +8,13 @@ i18n
   .use(initReactI18next)
   .use(I18nextBrowserLanguageDetector)
   .init({
-    ns: [
-      'translation',
-      'crop',
-      'common',
-      'disease',
-      'task',
-      'expense',
-      'fertilizer',
-      'message',
-      'gender',
-      'role',
-      'harvest_uses',
-      'soil',
-    ],
     defaultNS: 'translation',
     fallbackLng: 'en',
+    debug: process.env.NODE_ENV !== 'production',
     detection: {
       lookupLocalStorage: 'litefarm_lang',
     },
-    keySeparator: '.',
 
-    interpolation: {
-      escapeValue: false,
-    },
     react: {
       useSuspense: true,
     },

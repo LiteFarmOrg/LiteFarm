@@ -13,12 +13,11 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component, Suspense } from 'react';
+import React, { Component } from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
-import './lang/i18n';
-import NoFarmNavBar from './components/Navigation/NoFarmNavBar';
+import './locales/i18n';
 
 class App extends Component {
   render() {
@@ -32,9 +31,7 @@ class App extends Component {
             minHeight: '100vh',
           }}
         >
-          <Suspense fallback={<NoFarmNavBar />}>
-            <NavBar history={history} />
-          </Suspense>
+          <NavBar history={history} />
           <div
             className="app"
             style={{

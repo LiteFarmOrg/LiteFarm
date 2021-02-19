@@ -9,7 +9,7 @@ import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, disabled }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}

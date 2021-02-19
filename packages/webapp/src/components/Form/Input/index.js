@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './input.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Error, Label, Info } from '../../Typography';
+import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
-import { MdVisibilityOff, MdVisibility } from 'react-icons/all';
-import { BiSearchAlt2 } from 'react-icons/all';
+import { BiSearchAlt2, MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { mergeRefs } from '../utils';
 import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
@@ -24,29 +23,36 @@ const Input = ({
   type = 'text',
   toolTipContent,
   reset,
+  unit,
+  name,
+  hookFormSetValue,
   ...props
 }) => {
+  warnings(hookFormSetValue, optional);
   const { t } = useTranslation();
   const input = useRef();
   const onClear =
-    optional || reset
-      ? () => reset()
+    optional || hookFormSetValue
+      ? () => {
+          hookFormSetValue(name, undefined, { shouldValidate: true });
+          setShowError(false);
+        }
       : () => {
           if (input.current && input.current?.value) {
             input.current.value = '';
             setShowError(false);
           }
         };
-  useEffect(() => {
-    setShowError(!!errors);
-  }, [errors]);
 
   const [inputType, setType] = useState(type);
   const isPassword = type === 'password';
   const showPassword = inputType === 'text';
   const setVisibility = () =>
     setType((prevState) => (prevState === 'password' ? 'text' : 'password'));
-  const [showError, setShowError] = useState(isPassword);
+  const [showError, setShowError] = useState();
+  useEffect(() => {
+    setShowError(!!errors && !disabled);
+  }, [errors]);
 
   const onKeyDown = type === 'number' ? numberOnKeyDown : undefined;
   return (
@@ -68,7 +74,7 @@ const Input = ({
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
-      {showError && <Cross onClick={onClear} className={styles.cross} />}
+      {showError && !unit && <Cross onClick={onClear} className={styles.cross} />}
       {isSearchBar && <BiSearchAlt2 className={styles.searchIcon} />}
       {isPassword &&
         !showError &&
@@ -77,6 +83,7 @@ const Input = ({
         ) : (
           <MdVisibilityOff className={styles.visibilityIcon} onClick={setVisibility} />
         ))}
+      {unit && <div className={styles.unit}>{unit}</div>}
       <input
         disabled={disabled}
         className={clsx(
@@ -84,15 +91,16 @@ const Input = ({
           showError && styles.inputError,
           isSearchBar && styles.searchBar,
         )}
-        style={classes.input}
+        style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
         aria-invalid={showError ? 'true' : 'false'}
         ref={mergeRefs(inputRef, input)}
         type={inputType}
         onKeyDown={onKeyDown}
+        name={name}
         {...props}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
-      {showError && !disabled ? <Error style={classes.errors}>{errors}</Error> : null}
+      {showError ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
   );
 };
@@ -120,8 +128,11 @@ Input.propTypes = {
   isSearchBar: PropTypes.bool,
   type: PropTypes.string,
   toolTipContent: PropTypes.string,
+  unit: PropTypes.string,
   // reset is required when optional is true. When optional is true and reset is undefined, the component will crash on reset
   reset: PropTypes.func,
+  hookFormSetValue: PropTypes.func,
+  name: PropTypes.string,
 };
 
 export default Input;
@@ -129,3 +140,7 @@ export default Input;
 export const numberOnKeyDown = (e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault();
 export const integerOnKeyDown = (e) =>
   ['e', 'E', '+', '-', '.'].includes(e.key) && e.preventDefault();
+const warnings = (hookFormSetValue, optional) =>
+  !hookFormSetValue &&
+  optional &&
+  console.error('hookFormSetValue prop is required when input field is optional');

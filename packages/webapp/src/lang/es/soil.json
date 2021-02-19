@@ -1,14 +1,14 @@
 {
   "CLAY": "Arcilla",
-  "CLAY_LOAM": "Marga arcillosa",
-  "LOAM": "Marga",
-  "LOAMY_SAND": "MISSING",
-  "SAND": "Arena",
-  "SANDY_CLAY": "MISSING",
-  "SANDY_CLAYLOAM": "MISSING",
-  "SANDY_LOAM": "MISSING",
-  "SILT": "MISSING",
-  "SILT_LOAM": "MISSING",
-  "SILTY_CLAY": "MISSING",
-  "SILTY_CLAYLOAM": "MISSING"
+  "CLAY_LOAM": "Franco Arcillosa",
+  "LOAM": "Franca",
+  "LOAMY_SAND": "Arenosa Franca",
+  "SAND": "Arenosa",
+  "SANDY_CLAY": "Arcillo Arenosa",
+  "SANDY_CLAYLOAM": "Franco Arcillo Arenosa",
+  "SANDY_LOAM": "Franco Arenosa",
+  "SILT": "Limosa",
+  "SILT_LOAM": "Franco Limosa",
+  "SILTY_CLAY": "Arcillo Limosa",
+  "SILTY_CLAYLOAM": "Franco Arcillo Limosa"
 }

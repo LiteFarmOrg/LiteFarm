@@ -14,7 +14,7 @@
  */
 
 const baseController = require('../controllers/baseController');
-const sale = require('../models/saleModel');
+const saleModel = require('../models/saleModel');
 const cropSaleModel = require('../models/cropSaleModel');
 const { transaction, Model } = require('objection');
 
@@ -23,9 +23,10 @@ class SaleController extends baseController {
   static addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
+      const { user_id } = req.user
       try {
         // post to sale and crop sale table
-        const result = await baseController.upsertGraph(sale, req.body, trx);
+        const result = await baseController.upsertGraph(saleModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -42,38 +43,41 @@ class SaleController extends baseController {
 
   static patchSales() {
     return async (req, res) => {
+      const { sale_id } = req.params;
+      const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
+      let saleData = {};
+
+      if (customer_name) saleData.customer_name = customer_name;
+      if (sale_date) saleData.sale_date = sale_date;
+
       const trx = await transaction.start(Model.knex());
       try {
-        const sale_id = req.body.sale_id;
-        const result = await sale.query(trx).where('sale_id', sale_id)
-          .patch(req.body).returning('*');
+        const saleResult = await saleModel.query(trx).context(req.user).where('sale_id', sale_id).patch(saleData).returning('*');
+        if (!saleResult) {
+          await trx.rollback();
+          return res.status(400).send("failed to patch data");
+        }
 
-        if(result){
-          const cropSale = req.body.cropSale;
-          const isExistingDeleted = await cropSaleModel.query(trx).where('sale_id', req.body.sale_id).delete();
+        const deletedExistingCropSale = await cropSaleModel.query(trx).where('sale_id', sale_id).delete();
+        if (!deletedExistingCropSale) {
+          await trx.rollback();
+          return res.status(400).send("failed to delete existing crop sales");
+        }
 
-          if(isExistingDeleted){
-            for(const cs of cropSale){
-              await cropSaleModel.query(trx).insert(cs);
-            }
-          }else{
-            res.status(400).send({ 'error': 'Failed to patch sales, failed to delete existing sales' })
-          }
-
-        }else{
-          res.status(400).send({ 'error': 'Failed to patch sales' })
+        const { cropSale } = req.body;
+        for (const cs of cropSale) {
+          cs.sale_id = parseInt(sale_id);
+          await cropSaleModel.query(trx).context(req.user).insert(cs);
         }
 
         await trx.commit();
-        res.sendStatus(204);
+        return res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
         await trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
-        // eslint-disable-next-line no-console
-        console.log(error);
       }
     };
   }
@@ -89,8 +93,7 @@ class SaleController extends baseController {
           // Craig: I think this should return 200 otherwise we get an error in Finances front end, i changed it xD
           // eslint-disable-next-line no-console
           res.status(200).send([]);
-        }
-        else {
+        } else {
           for (const sale of sales) {
             // load related prices and yields of this sale
             await sale.$loadRelated('cropSale.crop.[price(getFarm), yield(getFarm)]', {
@@ -101,8 +104,7 @@ class SaleController extends baseController {
           }
           res.status(200).send(sales);
         }
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
@@ -110,40 +112,39 @@ class SaleController extends baseController {
         // eslint-disable-next-line no-console
         console.log(error);
       }
-    }
+    };
   }
 
   static delSale() {
     return async (req, res) => {
+      const { user_id } =  req.user;
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(sale, req.params.sale_id, trx);
+        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx, { user_id });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
-        }
-        else {
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
-    }
+    };
   }
 
   static async getSalesOfFarm(farm_id) {
-    return await sale
-      .query().whereNotDeleted()
-      .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date')
+    return await saleModel
+      .query().context({showHidden: true}).whereNotDeleted()
+      .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
       .join('cropSale', 'cropSale.sale_id', '=', 'sale.sale_id')
       //.join('fieldCrop', 'fieldCrop.field_crop_id', '=', 'cropSale.field_crop_id')
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')
       //.join('field', 'field.field_id', '=', 'fieldCrop.field_id')
-      .where('sale.farm_id', farm_id)
+      .where('sale.farm_id', farm_id);
   }
 }
 

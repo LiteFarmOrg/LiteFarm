@@ -81,10 +81,7 @@ class Account extends Component {
             </div>
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.LAST_NAME')}</label>
-              <Control.text
-                model=".userInfo.last_name"
-                validators={{ required: (val) => val && val.length }}
-              />
+              <Control.text model=".userInfo.last_name" />
             </div>
             <div className={styles.labelContainer}>
               <label>{this.props.t('PROFILE.ACCOUNT.EMAIL')}</label>

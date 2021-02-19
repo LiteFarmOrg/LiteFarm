@@ -170,8 +170,8 @@ async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, exp
   return knex('farmExpenseType').insert({ farm_id, ...expense_type, ...base }).returning('*');
 }
 
-async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory() } = {}, expense = fakeExpense()) {
-  const [expense_type, user] = await Promise.all([promisedExpenseType, usersFactory()]);
+async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory(), promisedUserFarm = userFarmFactory() } = {}, expense = fakeExpense()) {
+  const [expense_type, user] = await Promise.all([promisedExpenseType, promisedUserFarm]);
   const [{ expense_type_id }] = expense_type;
   const [{ user_id }] = user;
   const [{ farm_id }] = expense_type;
@@ -475,6 +475,17 @@ function fakeHarvestLog() {
   };
 }
 
+async function harvestUseFactory({ promisedHarvestLog = harvestLogFactory(),
+                                   promisedHarvestUseType= harvestUseTypeFactory(),
+                                   promisedFieldCrop = fieldCropFactory()} = {},
+                                 harvestUse = fakeHarvestUse()) {
+  const [harvestLog, harvestUseType, fieldCrop] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedFieldCrop]);
+  const [{ harvest_use_type_id }] = harvestUseType;
+  const [{ activity_id }] = harvestLog;
+  const [{ field_crop_id }] = fieldCrop;
+  await knex('activityCrops').insert({ activity_id, field_crop_id });
+  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse}).returning('*');
+}
 
 async function seedLogFactory({ promisedActivity = activityLogFactory() } = {}, seedLog = fakeSeedLog()) {
   const [activity] = await Promise.all([promisedActivity]);
@@ -582,13 +593,15 @@ async function shiftTaskFactory({
   promisedShift = shiftFactory(),
   promisedFieldCrop = fieldCropFactory(), promisedField = fieldFactory(),
   promisedTaskType = taskTypeFactory(),
+  promisedUser = usersFactory()
 } = {}, shiftTask = fakeShiftTask()) {
-  const [shift, fieldCrop, field, task] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType]);
+  const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
   const [{ field_crop_id }] = fieldCrop;
   const [{ field_id }] = field;
   const [{ task_id }] = task;
-  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, task_id, ...shiftTask }).returning('*');
+  const [{ user_id }] = user;
+  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, task_id, ...shiftTask, ...baseProperties(user_id) }).returning('*');
 }
 
 function fakeShiftTask() {
@@ -598,12 +611,12 @@ function fakeShiftTask() {
   };
 }
 
-async function saleFactory({ promisedFarm = farmFactory() } = {}, sale = fakeSale()) {
-  const [farm] = await Promise.all([promisedFarm]);
-  const [{ farm_id }] = farm;
-  return knex('sale').insert({ farm_id, ...sale }).returning('*');
+async function saleFactory({ promisedUserFarm = userFarmFactory() } = {}, sale = fakeSale()) {
+  const [userFarm] = await Promise.all([promisedUserFarm]);
+  const [{ user_id, farm_id }] = userFarm;
+  const base = baseProperties(user_id);
+  return knex('sale').insert({ farm_id, ...sale, ...base }).returning('*');
 }
-
 
 function fakeSale() {
   return {
@@ -654,13 +667,13 @@ function fakeCropSale() {
 }
 
 async function cropSaleFactory({
-  promisedFieldCrop = fieldCropFactory(),
+  promisedCrop = cropFactory(),
   promisedSale = saleFactory(),
 } = {}, cropSale = fakeCropSale()) {
-  const [fieldCrop, sale] = await Promise.all([promisedFieldCrop, promisedSale]);
-  const [{ crop_id, field_crop_id }] = fieldCrop;
+  const [crop, sale] = await Promise.all([promisedCrop, promisedSale]);
+  const [{ crop_id }] = crop;
   const [{ sale_id }] = sale;
-  return knex('cropSale').insert({ crop_id, field_crop_id, sale_id, ...cropSale }).returning('*');
+  return knex('cropSale').insert({ crop_id, sale_id, ...cropSale }).returning('*');
 }
 
 function fakeSupportTicket(farm_id) {
@@ -743,8 +756,8 @@ module.exports = {
   fertilizerFactory, fakeFertilizer,
   activityLogFactory, fakeActivityLog,
   harvestUseTypeFactory, fakeHarvestUseType,
-  createDefaultState, 
-  fakeHarvestUse,
+  createDefaultState,
+  harvestUseFactory, fakeHarvestUse,
   fertilizerLogFactory, fakeFertilizerLog,
   pesticideFactory, fakePesticide,
   diseaseFactory, fakeDisease,

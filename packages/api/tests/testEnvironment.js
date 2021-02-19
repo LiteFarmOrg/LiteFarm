@@ -54,12 +54,8 @@ async function tableCleanup(knex) {
     DELETE FROM "fertilizerLog";
     DELETE FROM "seedLog";
     DELETE FROM "soilDataLog";
-    DELETE FROM "userTodo";
-    DELETE FROM "todo";
     DELETE FROM "activityLog";
-    DELETE FROM "notification";
     DELETE FROM "yield";
-    DELETE FROM "cropCommonName";
     DELETE FROM "cropDisease";
     DELETE FROM "price";
     DELETE FROM "cropSale";
@@ -80,7 +76,6 @@ async function tableCleanup(knex) {
     DELETE FROM "farmDataSchedule";
     DELETE FROM "userFarm";
     DELETE FROM "waterBalanceSchedule";
-    DELETE FROM "plan";
     DELETE FROM "nitrogenSchedule";
     DELETE FROM "farm";
     DELETE FROM "users";

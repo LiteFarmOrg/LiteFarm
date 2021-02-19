@@ -21,10 +21,12 @@ import {
   SET_EXPENSE,
   SET_DEFAULT_EXPENSE_TYPE,
   SET_EXPENSE_DETAIL_DATE,
-  SET_SELECTED_EXPENSE,
+  SET_SELECTED_EXPENSE_TYPE,
+  SET_EXPENSE_DETAIL_ITEM,
   SET_EXPENSES_TO_EDIT,
   SET_SELECTED_EDIT_EXPENSE,
   SET_DATE_RANGE,
+  TEMP_SET_EXPENSE_TO_EDIT,
 } from './constants';
 
 import { combineForms } from 'react-redux-form';
@@ -66,13 +68,21 @@ function financeReducer(state = initialState, action) {
       return Object.assign({}, state, {
         expense_detail_date: action.expense_detail_date,
       });
-    case SET_SELECTED_EXPENSE:
+    case SET_EXPENSE_DETAIL_ITEM:
       return Object.assign({}, state, {
-        selected_expense: action.expense_types,
+        expense_to_detail: action.expense,
+      });
+    case SET_SELECTED_EXPENSE_TYPE:
+      return Object.assign({}, state, {
+        selected_expense_types: action.expense_types,
       });
     case SET_EXPENSES_TO_EDIT:
       return Object.assign({}, state, {
         expenses_to_edit: action.expenses,
+      });
+    case TEMP_SET_EXPENSE_TO_EDIT:
+      return Object.assign({}, state, {
+        expense_to_edit: action.expense,
       });
     case SET_SELECTED_EDIT_EXPENSE:
       return Object.assign({}, state, {

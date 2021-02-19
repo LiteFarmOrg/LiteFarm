@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold, Text } from '../../Typography';
 import Button from '../../Form/Button';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import SalesImg from '../../../assets/images/harvestUseType/Sales.svg';
 import SelfConsumptionImg from '../../../assets/images/harvestUseType/SelfConsumption.svg';

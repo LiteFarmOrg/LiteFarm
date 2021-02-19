@@ -331,8 +331,6 @@ class userController extends baseController {
   }
 
 
-
-
   static deactivateUser() {
     return async (req, res) => {
       const user_id = req.params.id;

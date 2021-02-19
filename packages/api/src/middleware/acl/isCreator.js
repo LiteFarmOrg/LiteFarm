@@ -6,7 +6,7 @@ const entitiesGetters = {
   activity_id: fromActivity,
   shift_id: fromShift,
 //   user_id: (user_id) => ({ user_id }),
-}
+};
 
 const isCreator = ({ params = null, body = null }) => async (req, res, next) => {
   const key = params ? params : body;
@@ -15,8 +15,8 @@ const isCreator = ({ params = null, body = null }) => async (req, res, next) => 
   const { user_id } = headers;
 
   const entity = await entitiesGetters[key](value);
-  isEntityCreatedBy(entity, user_id) ? next() : notAuthorizedResponse(res)
-}
+  isEntityCreatedBy(entity, user_id) ? next() : notAuthorizedResponse(res);
+};
 
 function isEntityCreatedBy({ created_by_user_id }, user_id) {
   return created_by_user_id === user_id;

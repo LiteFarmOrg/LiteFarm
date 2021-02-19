@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { ReactComponent as OutroImg } from '../../assets/images/farm-switch-outro/outro.svg';
 import Button from '../Form/Button';
 import React from 'react';

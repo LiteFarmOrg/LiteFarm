@@ -10,7 +10,7 @@ import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import { deleteLog, editLog } from '../Utility/actions';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { convertFromMetric, convertToMetric, getUnit, roundToFourDecimal } from '../../../util';

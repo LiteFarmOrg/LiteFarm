@@ -110,7 +110,7 @@ describe('taskType Tests', () => {
       });
     })
 
-    test('Get by task_id should filter out deleted task types', async (done)=>{
+    test('Get by task_id should filter out deleted task types', async (done)=> {
       await taskTypeModel.query().context({
         showHidden: true,
         user_id: owner.user_id,

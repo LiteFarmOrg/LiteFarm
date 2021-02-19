@@ -6,7 +6,7 @@ import { Error } from '../../Typography';
 import TextArea from '../../../components/Form/TextArea';
 import moment from 'moment';
 import Button from '../../Form/Button';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';

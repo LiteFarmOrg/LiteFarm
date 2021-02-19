@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { ReactComponent as Logo } from '../../assets/images/signUp/logo.svg';
 import { ReactComponent as LineBreak } from '../../assets/images/signUp/lineBreak.svg';
 import Button from '../Form/Button';

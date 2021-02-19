@@ -81,7 +81,7 @@ class farmExpenseController extends baseController {
         const result = await farmExpenseModel.query(trx).context({ user_id }).where('farm_expense_id', farm_expense_id).patch(data).returning('*');
         if (!result) {
           await trx.rollback();
-          return res.status(400).send("failed to patch data");
+          return res.status(400).send('failed to patch data');
         }
 
         await trx.commit();
@@ -93,16 +93,16 @@ class farmExpenseController extends baseController {
           error,
         });
       }
-    }
+    };
   }
 
-  static  delFarmExpense(){
-    return async(req, res) => {
+  static delFarmExpense() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx, { user_id: req.user.user_id });
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
         }
         else{

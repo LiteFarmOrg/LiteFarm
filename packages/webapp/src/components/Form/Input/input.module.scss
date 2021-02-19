@@ -61,12 +61,6 @@
 .sm {
   margin-left: 8px;
 }
-.cross {
-  position: absolute;
-  right: 0;
-  transform: translate(-17px, 13px);
-  cursor: pointer;
-}
 .searchIcon {
   color: var(--iconDefault);
   position: absolute;
@@ -84,12 +78,13 @@
   color: var(--iconDefault);
   cursor: pointer;
 }
-.labelContainer{
+.labelContainer {
   display: flex;
   justify-content: space-between;
   height: 20px;
 }
-.unit{
+
+.unit {
   font-size: 16px;
   line-height: 20px;
   color: var(--labels);

@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Popup from 'reactjs-popup';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

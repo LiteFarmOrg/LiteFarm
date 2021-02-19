@@ -1,4 +1,4 @@
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import React, { Component } from 'react';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';

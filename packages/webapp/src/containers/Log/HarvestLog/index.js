@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PureHarvestLog from '../../../components/Logs/HarvestLog';
 import {
+  canEditStepOne,
+  canEditStepOneSelector,
+  harvestFormData,
+  harvestLogData,
   harvestLogDataSelector,
   resetHarvestLog,
-  harvestLogData,
-  harvestFormData,
-  canEditStepOneSelector,
-  canEditStepOne,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';

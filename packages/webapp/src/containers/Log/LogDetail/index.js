@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
@@ -18,7 +18,7 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { Semibold } from '../../../components/Typography';
-import { canEditStepOne, canEditStepTwo, canEditStepThree, canEdit } from '../Utility/logSlice';
+import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
 
 class LogDetail extends Component {
   constructor(props) {

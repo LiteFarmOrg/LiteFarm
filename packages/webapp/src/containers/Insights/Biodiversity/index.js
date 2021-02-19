@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { biodiversitySelector } from '../selectors';
 import BiodiversitySpecies from '../../../components/Insights/BiodiversitySpecies';
@@ -19,14 +19,14 @@ class Biodiversity extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title={t("INSIGHTS.BIODIVERSITY.TITLE")}
+          title={t('INSIGHTS.BIODIVERSITY.TITLE')}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={t("INSIGHTS.BIODIVERSITY.TITLE")}
-          rightIconBody={(<div>{t("INSIGHTS.BIODIVERSITY.INFO")}</div>)}
+          rightIconTitle={t('INSIGHTS.BIODIVERSITY.TITLE')}
+          rightIconBody={<div>{t('INSIGHTS.BIODIVERSITY.INFO')}</div>}
         />
         <div>
-          <Semibold>{t("INSIGHTS.BIODIVERSITY.HEADER")}</Semibold>
+          <Semibold>{t('INSIGHTS.BIODIVERSITY.HEADER')}</Semibold>
         </div>
         <hr className={insightStyles.defaultLine} />
         {biodiversityData.map((curr, index) => {

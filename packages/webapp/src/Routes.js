@@ -74,8 +74,6 @@ import OtherExpense from './containers/Finances/OtherExpense';
 import ExpenseDetail from './containers/Finances/ExpenseDetail';
 import ExpenseCategories from './containers/Finances/NewExpense/ExpenseCategories';
 import AddExpense from './containers/Finances/NewExpense/AddExpense';
-import EditAddExpense from './containers/Finances/EditExpense/EditAddExpense';
-import EditExpenseCategories from './containers/Finances/EditExpense/EditExpenseCategories';
 import TempEditExpense from './containers/Finances/EditExpense/TempEditExpense';
 
 import LogDetail from './containers/Log/LogDetail';
@@ -281,7 +279,7 @@ const Routes = () => {
           <Route path="/expense_detail" exact component={ExpenseDetail} />
           <Route path="/expense_categories" exact component={ExpenseCategories} />
           <Route path="/add_expense" exact component={AddExpense} />
-          
+
           {/* TODO: use edit_expense_categories and edit_add_expense when restructuring edit expense */}
           {/* and remove edit_expense  */}
           {/* <Route path="/edit_expense_categories" exact component={EditExpenseCategories} /> */}

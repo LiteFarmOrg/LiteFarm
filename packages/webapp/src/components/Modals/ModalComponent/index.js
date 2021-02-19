@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import React from 'react';
 import { Title } from '../../Typography';

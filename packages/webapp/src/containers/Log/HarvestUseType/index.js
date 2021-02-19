@@ -64,7 +64,7 @@ function HarvestUseType() {
   };
 
   const dispatchAddUseType = (useTypeName) => dispatch(addHarvestUseType(useTypeName));
-  const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.REQUIRED_TASK'));
+  const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.ERROR.REQUIRED_TASK'));
 
   return (
     <>

@@ -28,144 +28,77 @@ import { userFarmSelector } from './containers/userFarmSlice';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
 
 //dynamic imports
-
 const Home = React.lazy(() => import('./containers/Home'));
-
 const HelpRequest = React.lazy(() => import('./containers/Help'));
-
 const Profile = React.lazy(() => import('./containers/Profile'));
-
 const IntroSlide = React.lazy(() => import('./containers/IntroSlide'));
-
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
-
 const Log = React.lazy(() => import('./containers/Log'));
-
 const NewLog = React.lazy(() => import('./containers/Log/NewLog'));
-
 const FertilizingLog = React.lazy(() => import('./containers/Log/FertilizingLog'));
-
 const PestControlLog = React.lazy(() => import('./containers/Log/PestControlLog'));
-
 const FieldWorkLog = React.lazy(() => import('./containers/Log/FieldWorkLog'));
-
 const HarvestLog = React.lazy(() => import('./containers/Log/HarvestLog'));
-
 const HarvestUseType = React.lazy(() => import('./containers/Log/HarvestUseType'));
-
 const HarvestAllocation = React.lazy(() => import('./containers/Log/HarvestAllocation'));
-
 const IrrigationLog = React.lazy(() => import('./containers/Log/IrrigationLog'));
-
 const ScoutingLog = React.lazy(() => import('./containers/Log/ScoutingLog'));
-
 const SeedingLog = React.lazy(() => import('./containers/Log/SeedingLog'));
-
 const soilDataLog = React.lazy(() => import('./containers/Log/soilDataLog'));
-
 const OtherLog = React.lazy(() => import('./containers/Log/OtherLog'));
-
 const EditFertilizingLog = React.lazy(() => import('./containers/Log/EditLog/fertilizing'));
-
 const EditPestControlLog = React.lazy(() => import('./containers/Log/EditLog/pestControl'));
-
 const EditFieldWorkLog = React.lazy(() => import('./containers/Log/EditLog/fieldWork'));
-
 const EditHarvestLog = React.lazy(() => import('./containers/Log/EditLog/harvest'));
-
 const EditIrrigationLog = React.lazy(() => import('./containers/Log/EditLog/irrigation'));
-
 const EditScoutingLog = React.lazy(() => import('./containers/Log/EditLog/scouting'));
-
 const EditSeedingLog = React.lazy(() => import('./containers/Log/EditLog/seeding'));
-
 const EditSoilDataLog = React.lazy(() => import('./containers/Log/EditLog/soilData'));
-
 const EditOtherLog = React.lazy(() => import('./containers/Log/EditLog/other'));
-
 const Shift = React.lazy(() => import('./containers/Shift'));
-
 const Field = React.lazy(() => import('./containers/Field'));
-
 const NewField = React.lazy(() => import('./containers/Field/NewField'));
-
 const EditField = React.lazy(() => import('./containers/Field/EditField'));
-
 const ShiftStepOne = React.lazy(() => import('./containers/Shift/StepOne/StepOne'));
-
 const ShiftStepTwo = React.lazy(() => import('./containers/Shift/StepTwo/StepTwo'));
-
 const Finances = React.lazy(() => import('./containers/Finances'));
-
 const MyShift = React.lazy(() => import('./containers/Shift/MyShift'));
-
 const EditShiftOne = React.lazy(() => import('./containers/Shift/EditShiftOne'));
-
 const EditShiftTwo = React.lazy(() => import('./containers/Shift/EditShiftTwo'));
-
 const ChooseFarm = React.lazy(() => import('./containers/ChooseFarm'));
-
 const PasswordResetAccount = React.lazy(() => import('./containers/PasswordResetAccount'));
-
 const InviteSignUp = React.lazy(() => import('./containers/InviteSignUp'));
-
 const InvitedUserCreateAccount = React.lazy(() => import('./containers/InvitedUserCreateAccount'));
-
 const Callback = React.lazy(() => import('./containers/Callback'));
-
 const JoinFarmSuccessScreen = React.lazy(() => import('./containers/JoinFarmSuccessScreen'));
-
 const InviteUser = React.lazy(() => import('./containers/InviteUser'));
-
 // Insights imports
 const Insights = React.lazy(() => import('./containers/Insights'));
-
 const PeopleFed = React.lazy(() => import('./containers/Insights/PeopleFed'));
-
 const SoilOM = React.lazy(() => import('./containers/Insights/SoilOM'));
-
 const LabourHappiness = React.lazy(() => import('./containers/Insights/LabourHappiness'));
-
 const Biodiversity = React.lazy(() => import('./containers/Insights/Biodiversity'));
-
 const Prices = React.lazy(() => import('./containers/Insights/Prices'));
-
 const WaterBalance = React.lazy(() => import('./containers/Insights/WaterBalance'));
-
 const Erosion = React.lazy(() => import('./containers/Insights/Erosion'));
-
 const NitrogenBalance = React.lazy(() => import('./containers/Insights/NitrogenBalance'));
-
 const ContactForm = React.lazy(() => import('./containers/Contact'));
-
 const SalesSummary = React.lazy(() => import('./containers/Finances/SalesSummary'));
-
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
-
 const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
-
 const EstimatedRevenue = React.lazy(() => import('./containers/Finances/EstimatedRevenue'));
-
 const Labour = React.lazy(() => import('./containers/Finances/Labour'));
-
 const OtherExpense = React.lazy(() => import('./containers/Finances/OtherExpense'));
-
 const ExpenseDetail = React.lazy(() => import('./containers/Finances/ExpenseDetail'));
-
 const ExpenseCategories = React.lazy(() =>
   import('./containers/Finances/NewExpense/ExpenseCategories'),
 );
-
 const AddExpense = React.lazy(() => import('./containers/Finances/NewExpense/AddExpense'));
-
 const TempEditExpense = React.lazy(() =>
   import('./containers/Finances/EditExpense/TempEditExpense'),
 );
-
 const LogDetail = React.lazy(() => import('./containers/Log/LogDetail'));
-
 const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
-
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 
 const Routes = () => {

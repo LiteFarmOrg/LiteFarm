@@ -22,21 +22,14 @@ import { userFarmLengthSelector } from '../containers/userFarmSlice';
 import Spinner from '../components/Spinner';
 
 const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
-
 const Outro = React.lazy(() => import('../containers/Outro'));
-
 const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
-
 const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
-
 const AddFarm = React.lazy(() => import('../containers/AddFarm'));
-
 const ConsentForm = React.lazy(() => import('../containers/Consent'));
-
 const InterestedOrganic = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/InterestedOrganic'),
 );
-
 const OrganicPartners = React.lazy(() =>
   import('../containers/OrganicCertifierSurvey/OrganicPartners'),
 );

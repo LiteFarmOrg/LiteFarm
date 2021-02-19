@@ -44,7 +44,7 @@ function DateContainer({
         style={{ flexGrow: 1 }}
         classes={{
           container: { flexGrow: 1, minWidth: '150px' },
-          input: { minWidth: '150px', width: '100%' },
+          input: { minWidth: '150px', width: '100%', backgroundColor: 'transparent' },
         }}
       />
     </div>

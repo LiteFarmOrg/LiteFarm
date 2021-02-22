@@ -37,7 +37,7 @@ export default function PureInvitedUserCreateAccountPage({
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
   const EMAIL = 'email';
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'gender']);
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },
     { value: 'FEMALE', label: t('gender:FEMALE') },

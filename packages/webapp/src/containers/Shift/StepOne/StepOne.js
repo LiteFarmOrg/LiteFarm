@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
 
 function StepOne() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const dispatch = useDispatch();
   const users = useSelector(userFarmsByFarmSelector);
   const loggedUser = useSelector(userFarmSelector);

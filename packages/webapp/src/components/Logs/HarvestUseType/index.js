@@ -27,7 +27,7 @@ export default function PureHarvestUseType({
   isEdit,
   selectedLog,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const [selectedUseTypes, setSelectedUseTypes] = useState([]);
   const [showAddModal, switchShowModal] = useState(false);
 
@@ -96,7 +96,7 @@ export default function PureHarvestUseType({
 }
 
 function UseTypeMatrix({ selected, useTypes, setUseTypes }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const imgDict = {
     Sales: SalesImg,
     'Self-Consumption': SelfConsumptionImg,

@@ -2,13 +2,13 @@ import { useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
 import PureInterestedOrganic from '../../../components/InterestedOrganic';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { postCertifiers, getCertifiers, patchInterested } from '../saga';
+import { getCertifiers, patchInterested, postCertifiers } from '../saga';
 import history from '../../../history';
 import { certifierSurveySelector } from '../slice';
 import { useTranslation } from 'react-i18next';
 
 export default function InterestedOrganic() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const { register, handleSubmit, setValue } = useForm();
   const INTERESTED = 'interested';
   const title = t('ORGANIC.INTERESTED_IN_ORGANIC.TITLE');

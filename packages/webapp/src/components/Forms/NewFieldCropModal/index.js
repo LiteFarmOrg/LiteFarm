@@ -1,19 +1,13 @@
 import React from 'react';
-import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
+import { Button, FormControl, FormGroup, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { cropsSelector } from '../../../containers/cropSlice';
 import { getCrops } from '../../../containers/saga';
-import { FIELD_CROPS_INIT, DEC_RADIX } from '../../../containers/Field/constants';
+import { FIELD_CROPS_INIT } from '../../../containers/Field/constants';
 import NewCropModal from '../NewCropModal';
 import styles from '../../../containers/Field/styles.module.scss';
 import newFieldStyles from './styles.module.scss';
-import {
-  convertFromMetric,
-  convertToMetric,
-  getUnit,
-  grabCurrencySymbol,
-  roundToTwoDecimal,
-} from '../../../util';
+import { convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import Select from 'react-select';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
@@ -22,6 +16,7 @@ import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { createPrice, createYield, postFieldCrop } from '../../../containers/Field/saga';
 import { numberOnKeyDown } from '../../Form/Input';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class NewFieldCropModal extends React.Component {
   // props:

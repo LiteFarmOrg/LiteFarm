@@ -1,12 +1,12 @@
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import apiConfig from '../../apiConfig';
 import { loginSelector, postUserSuccess } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getHeader, axios } from '../saga';
-import i18n from '../../lang/i18n';
+import { axios, getHeader } from '../saga';
+import i18n from '../../locales/i18n';
 
-import { onLoadingRolesStart, onLoadingRolesFail, getRolesSuccess } from '../Profile/People/slice';
+import { getRolesSuccess, onLoadingRolesFail, onLoadingRolesStart } from '../Profile/People/slice';
 
 export const inviteUserToFarm = createAction('inviteUserToFarmSaga');
 

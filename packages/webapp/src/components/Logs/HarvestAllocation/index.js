@@ -9,15 +9,7 @@ import { convertToMetric } from '../../../util';
 import { toastr } from 'react-redux-toastr';
 import { harvestLogData } from '../../../containers/Log/Utility/logSlice';
 
-export default function PureHarvestAllocation({
-  onGoBack,
-  onNext,
-  defaultData,
-  unit,
-  isEdit,
-  selectedLog,
-  dispatch,
-}) {
+export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, unit, dispatch }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
@@ -61,15 +53,6 @@ export default function PureHarvestAllocation({
   const onError = () => {};
 
   const onBack = () => {
-    if (isEdit.isEditStepThree) {
-      tempProps.selectedUseTypes.map((item, idx) => {
-        selectedLog.harvestUse.map((item1) => {
-          if (item.harvest_use_type_name === item1.harvestUseType.harvest_use_type_name) {
-            item.quantity_kg = item.quantity_kg ? item.quantity_kg : item1.quantity_kg;
-          }
-        });
-      });
-    }
     dispatch(harvestLogData(tempProps));
     onGoBack(tempProps);
   };

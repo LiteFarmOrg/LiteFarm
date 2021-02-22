@@ -27,12 +27,13 @@ function HarvestLog() {
   const selectedLog = useSelector(currentLogSelector);
   const fields = useSelector(fieldsSelector);
   const crops = useSelector(currentFieldCropsSelector);
-  let [resetCrop, setResetCrop] = useState(false);
 
   useEffect(() => {
     dispatch(getFieldCrops());
     dispatch(getHarvestUseTypes());
   }, []);
+
+  useEffect(() => {}, []);
 
   const onBack = () => {
     dispatch(resetHarvestLog());

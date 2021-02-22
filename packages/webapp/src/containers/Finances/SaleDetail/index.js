@@ -9,11 +9,12 @@ import history from '../../../history';
 import { deleteSale } from '../actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { selectedSaleSelector } from '../selectors';
-import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
+import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class SaleDetail extends Component {
   constructor(props) {

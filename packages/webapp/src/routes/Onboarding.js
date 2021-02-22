@@ -13,19 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import RoleSelection from '../containers/RoleSelection';
-import Outro from '../containers/Outro';
-import ChooseFarm from '../containers/ChooseFarm';
-import WelcomeScreen from '../containers/WelcomeScreen';
-import AddFarm from '../containers/AddFarm';
-import ConsentForm from '../containers/Consent';
-import InterestedOrganic from '../containers/OrganicCertifierSurvey/InterestedOrganic';
-import OrganicPartners from '../containers/OrganicCertifierSurvey/OrganicPartners';
+
 import { shallowEqual, useSelector } from 'react-redux';
 import { certifierSurveySelector } from '../containers/OrganicCertifierSurvey/slice';
 import { userFarmLengthSelector } from '../containers/userFarmSlice';
+import Spinner from '../components/Spinner';
+
+const RoleSelection = React.lazy(() => import('../containers/RoleSelection'));
+const Outro = React.lazy(() => import('../containers/Outro'));
+const ChooseFarm = React.lazy(() => import('../containers/ChooseFarm'));
+const WelcomeScreen = React.lazy(() => import('../containers/WelcomeScreen'));
+const AddFarm = React.lazy(() => import('../containers/AddFarm'));
+const ConsentForm = React.lazy(() => import('../containers/Consent'));
+const InterestedOrganic = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/InterestedOrganic'),
+);
+const OrganicPartners = React.lazy(() =>
+  import('../containers/OrganicCertifierSurvey/OrganicPartners'),
+);
 
 function OnboardingFlow({
   step_one,
@@ -39,39 +46,41 @@ function OnboardingFlow({
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
-    <Switch>
-      <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
-      <Route path="/welcome" exact component={WelcomeScreen} />
-      <Route path="/add_farm" exact component={AddFarm} />
-      {step_one && <Route path="/role_selection" exact component={RoleSelection} />}
-      {step_two && !step_five && <Route path="/consent" exact component={ConsentForm} />}
-      {step_five && !has_consent && (
-        <Route
-          path="/consent"
-          exact
-          component={() => <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />}
-        />
-      )}
-      {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic} />}
-      {interested && <Route path="/organic_partners" exact component={OrganicPartners} />}
-      {step_four && <Route path="/outro" exact component={Outro} />}
-      <Route>
-        <>
-          {step_four && !has_consent && <Redirect to={'/consent'} />}
-          {(!farm_id || !step_one) && hasUserFarms && <Redirect to={'/farm_selection'} />}
-          {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
-          {step_one && !step_two && <Redirect to={'/role_selection'} />}
-          {step_two && !step_three && <Redirect to={'/consent'} />}
-          {step_three && !step_four && !interested && <Redirect to={'/interested_in_organic'} />}
-          {step_three && (!step_four || !certifiers?.length) && interested && (
-            <Redirect to={'/organic_partners'} />
-          )}
-          {step_four && !step_five && !(interested && !certifiers?.length) && (
-            <Redirect to={'/outro'} />
-          )}
-        </>
-      </Route>
-    </Switch>
+    <Suspense fallback={Spinner}>
+      <Switch>
+        <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
+        <Route path="/welcome" exact component={WelcomeScreen} />
+        <Route path="/add_farm" exact component={AddFarm} />
+        {step_one && <Route path="/role_selection" exact component={RoleSelection} />}
+        {step_two && !step_five && <Route path="/consent" exact component={ConsentForm} />}
+        {step_five && !has_consent && (
+          <Route
+            path="/consent"
+            exact
+            component={() => <ConsentForm goBackTo={'/farm_selection'} goForwardTo={'/'} />}
+          />
+        )}
+        {step_three && <Route path="/interested_in_organic" exact component={InterestedOrganic} />}
+        {interested && <Route path="/organic_partners" exact component={OrganicPartners} />}
+        {step_four && <Route path="/outro" exact component={Outro} />}
+        <Route>
+          <>
+            {step_four && !has_consent && <Redirect to={'/consent'} />}
+            {(!farm_id || !step_one) && hasUserFarms && <Redirect to={'/farm_selection'} />}
+            {(!farm_id || !step_one) && !hasUserFarms && <Redirect to={'/welcome'} />}
+            {step_one && !step_two && <Redirect to={'/role_selection'} />}
+            {step_two && !step_three && <Redirect to={'/consent'} />}
+            {step_three && !step_four && !interested && <Redirect to={'/interested_in_organic'} />}
+            {step_three && (!step_four || !certifiers?.length) && interested && (
+              <Redirect to={'/organic_partners'} />
+            )}
+            {step_four && !step_five && !(interested && !certifiers?.length) && (
+              <Redirect to={'/outro'} />
+            )}
+          </>
+        </Route>
+      </Switch>
+    </Suspense>
   );
 }
 

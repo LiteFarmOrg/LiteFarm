@@ -13,7 +13,7 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
- .logContainer {
+.logContainer {
   width: 100%;
   max-width: 1024px;
   height: 100vh;
@@ -22,14 +22,14 @@
   flex-direction: column;
 }
 
- .matrixContainer {
+.matrixContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
-.matrixItem{
+.matrixItem {
   flex: 0 0 33.3333%;
   @media only screen and (max-width: 400px) {
     flex: 0 0 50%;
@@ -54,6 +54,7 @@
   margin: 0 auto;
   background: rgb(130, 207, 156);
   box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
+
   img {
     width: 60%;
     display: block;
@@ -77,6 +78,7 @@
   align-items: center;
   margin-bottom: 8px;
   padding-bottom: 0.3em;
+
   button {
     width: 90%;
     margin: 0 auto;
@@ -84,5 +86,4 @@
 }
 
 
-  
-  
+

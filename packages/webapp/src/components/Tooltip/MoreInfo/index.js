@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import OverlayTooltip from '../index';
 import { BsQuestionCircle } from 'react-icons/bs';
-import styles from './moreInfo.scss';
+import styles from './moreInfo.module.scss';
 
 const MoreInfo = ({ content = 'LiteFarm', className, autoOpen, ...props }) => {
   return (

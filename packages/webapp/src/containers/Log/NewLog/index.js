@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { Col, Container, Row } from 'react-bootstrap';
 import fertImg from '../../../assets/images/log/fertilizing.png';
@@ -15,12 +15,12 @@ import history from '../../../history';
 import scoutImg from '../../../assets/images/log/scout.svg';
 import { withTranslation } from 'react-i18next';
 import {
+  saveHarvestAllocationWip,
   setDefaultDate,
   setFormData,
   setSelectedUseTypes,
-  saveHarvestAllocationWip,
 } from '../actions';
-import { resetHarvestLog, canEdit } from '../Utility/logSlice';
+import { canEdit, resetHarvestLog } from '../Utility/logSlice';
 
 class NewLog extends Component {
   componentDidMount() {

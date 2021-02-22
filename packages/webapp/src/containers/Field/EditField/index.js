@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
-import parentStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import parentStyles from '../styles.module.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';

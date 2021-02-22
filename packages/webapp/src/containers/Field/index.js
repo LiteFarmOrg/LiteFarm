@@ -16,7 +16,7 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { Button, Tab, Table, Tabs } from 'react-bootstrap';
 import history from '../../history';
 import moment from 'moment';

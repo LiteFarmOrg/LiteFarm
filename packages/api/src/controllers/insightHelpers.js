@@ -56,7 +56,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now normalize the data values
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY))
+      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY));
     }
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
-import defaultStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import defaultStyles from '../styles.module.scss';
 import { rolesSelector } from './slice';
 
 import { deactivateUser, reactivateUser, invitePseudoUser } from './saga';
@@ -199,7 +199,7 @@ class People extends Component {
       ...user,
       role: ROLE_TRANSLATIONS[user.role],
       status: STATUS_TRANSLATIONS[user.status],
-      originalStatus: user.status
+      originalStatus: user.status,
     }));
   };
 
@@ -509,7 +509,8 @@ class People extends Component {
                     </Button>
                   </div>
                 </Form>
-                {this.state.editUser.originalStatus === 'Inactive' && this.state.editUser.role_id !== 4 ? (
+                {this.state.editUser.originalStatus === 'Inactive' &&
+                this.state.editUser.role_id !== 4 ? (
                   <div style={{ textAlign: 'center' }}>
                     {!this.state.editUser.is_admin && (
                       <button

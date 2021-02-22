@@ -55,7 +55,7 @@ const checkScope = (expectedScopes) => {
       return scopes.find(permission => permission.name === expectedScope);
     });
     if (scopes.length) {
-      req.role = scopes[0].role_id
+      req.role = scopes[0].role_id;
     }
     return allowed ?
       next() :

@@ -6,8 +6,8 @@ import Select from 'react-select';
 import { BsReplyFill } from 'react-icons/bs';
 import Button from '../../Form/Button';
 import TitleLayout from '../../Layout/TitleLayout';
-import styles from '../../../containers/Shift/styles.scss';
-import styles2 from './styles.scss';
+import styles from '../../../containers/Shift/styles.module.scss';
+import styles2 from './styles.module.scss';
 import cropImg from '../../../assets/images/log/crop_white.svg';
 import fieldImg from '../../../assets/images/log/field_white.svg';
 import closeButton from '../../../assets/images/grey_close_button.png';
@@ -145,7 +145,7 @@ function PureStepTwo({
     let mutatingFinalForm = { ...finalForm };
     mutatingFinalForm[task_id].is_field = true;
     mutatingFinalForm[task_id].val = [];
-    if(selectedOption){
+    if (selectedOption) {
       for (let option of selectedOption) {
         mutatingFinalForm[task_id].val.push({ id: option.value });
       }
@@ -176,8 +176,14 @@ function PureStepTwo({
       setDefaultCrops(mutatingDefaultCrops);
     } else {
       let mutatingDefaultFields = defaultFields;
-      mutatingDefaultFields[task_id] = fields.map(({field_id, field_name}) => ({value: field_id, label: field_name}));
-      handleFieldChange(mutatingDefaultFields[task_id].map(({value}) => ({value})), task_id);
+      mutatingDefaultFields[task_id] = fields.map(({ field_id, field_name }) => ({
+        value: field_id,
+        label: field_name,
+      }));
+      handleFieldChange(
+        mutatingDefaultFields[task_id].map(({ value }) => ({ value })),
+        task_id,
+      );
       setDefaultFields({ ...mutatingDefaultFields });
     }
   };
@@ -309,7 +315,7 @@ function PureStepTwo({
           handleFieldChange={handleFieldChange}
           toggleCropOrField={toggleCropOrField}
           task={task}
-          state={{cropOptions, fieldOptions }}
+          state={{ cropOptions, fieldOptions }}
           defaultCrops={defaultCrops}
           defaultFields={defaultFields}
           toggleBack={toggleBack}
@@ -345,7 +351,7 @@ function InputDuration({
   cropTotalTimeAssign,
   resetCropDuration,
   defaultCrops,
-  defaultFields
+  defaultFields,
 }) {
   const [duration, _setDuration] = useState({ hours: 0, minutes: 0 });
   const [selectedCrops, setSelectedCrops] = useState();
@@ -388,7 +394,7 @@ function InputDuration({
 
   useEffect(() => {
     setSelectedFields(defaultFields[task.task_id]);
-  }, [defaultFields])
+  }, [defaultFields]);
 
   const checkAndGetNumber = (val) => (!!val ? parseInt(val) : 0);
 

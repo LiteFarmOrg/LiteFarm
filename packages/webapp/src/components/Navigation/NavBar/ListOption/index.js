@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './listOption.scss';
+import styles from './listOption.module.scss';
 export default function ListOption({
   iconText,
   clickFn,

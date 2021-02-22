@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import PureHarvestAllocation from '../../../components/Logs/HarvestAllocation';
 import {
-  harvestLogDataSelector,
-  harvestFormDataSelector,
-  harvestLogData,
+  canEditSelector,
   canEditStepThree,
   canEditStepThreeSelector,
-  canEditSelector,
+  harvestFormDataSelector,
+  harvestLogData,
+  harvestLogDataSelector,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
-import { convertToMetric, roundToTwoDecimal, convertFromMetric, getUnit } from '../../../util';
+import { convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { addLog, editLog } from '../Utility/actions';
 import { currentLogSelector } from '../selectors';
 

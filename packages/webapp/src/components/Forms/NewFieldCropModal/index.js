@@ -5,8 +5,8 @@ import { cropsSelector } from '../../../containers/cropSlice';
 import { getCrops } from '../../../containers/saga';
 import { FIELD_CROPS_INIT, DEC_RADIX } from '../../../containers/Field/constants';
 import NewCropModal from '../NewCropModal';
-import styles from '../../../containers/Field/styles.scss';
-import newFieldStyles from './styles.scss';
+import styles from '../../../containers/Field/styles.module.scss';
+import newFieldStyles from './styles.module.scss';
 import {
   convertFromMetric,
   convertToMetric,

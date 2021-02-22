@@ -95,6 +95,7 @@ import Callback from './containers/Callback';
 import JoinFarmSuccessScreen from './containers/JoinFarmSuccessScreen';
 import InviteUser from './containers/InviteUser';
 import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSlice';
+import Map from './containers/Map';
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -182,6 +183,7 @@ const Routes = () => {
           <Route path="/edit_shift_two" exact component={EditShiftTwo} />
           <Route path="/field" exact component={Field} />
           <Route path="/new_field" exact component={NewField} />
+          <Route path="/map" exact component={Map} />
           <Route path="/finances" exact component={Finances} />
           <Route path="/edit_field" exact component={EditField} />
           <Route path="/insights" exact component={Insights} />

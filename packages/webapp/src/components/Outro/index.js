@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Title } from '../Typography';
 
 export default function PureOutroSplash({ onContinue, onGoBack }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <>

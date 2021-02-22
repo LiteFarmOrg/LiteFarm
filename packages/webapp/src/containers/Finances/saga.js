@@ -33,7 +33,7 @@ import apiConfig from './../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 
 export function* getSales() {
   const { salesURL } = apiConfig;

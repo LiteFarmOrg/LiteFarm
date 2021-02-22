@@ -7,7 +7,7 @@ import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { loginSelector } from '../../userFarmSlice';
 import { axios, getHeader } from '../../saga';
-import i18n from '../../../lang/i18n';
+import i18n from '../../../locales/i18n';
 import { getHarvestUseTypes, setAllHarvestUseTypes } from '../actions';
 import { harvestLogDataSelector } from '../Utility/logSlice';
 

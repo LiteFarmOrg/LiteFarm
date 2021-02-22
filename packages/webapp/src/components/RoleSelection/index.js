@@ -13,7 +13,7 @@ export default function PureRoleSelection({
   redirectConsent,
   onGoBack,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}

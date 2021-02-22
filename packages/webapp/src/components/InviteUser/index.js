@@ -36,7 +36,7 @@ export default function PureInviteUser({ onInvite, onGoBack, roleOptions = [] })
   useEffect(() => {
     trigger(EMAIL);
   }, [selectedRoleId]);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('INVITE_USER.TITLE');
   const genderOptions = [
     { value: 'MALE', label: t('gender:MALE') },

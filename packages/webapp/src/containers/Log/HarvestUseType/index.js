@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 
 function HarvestUseType() {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const allUseType = useSelector(setAllHarvestUseTypesSelector);
   const defaultData = useSelector(harvestLogDataSelector);
   const farm = useSelector(userFarmSelector);

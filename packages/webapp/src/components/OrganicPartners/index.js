@@ -11,7 +11,7 @@ import { Label, Text } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 export function PureOrganicPartners({ inputs = [{}, {}], onSubmit, onGoBack, disabled }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <Form

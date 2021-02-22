@@ -26,40 +26,57 @@ function HarvestUseType() {
   useEffect(() => {}, []);
 
   const onBack = (data) => {
+    dispatch(canEditStepTwo(false));
     const tempProps = JSON.parse(JSON.stringify(data));
+
     if (defaultData.selectedUseTypes.length > 0) {
-      tempProps.selectedUseTypes.map((item, idx) => {
-        if (
-          idx < defaultData.selectedUseTypes.length &&
-          item.harvest_use_type_name === defaultData.selectedUseTypes[idx].harvest_use_type_name
-        ) {
-          item.quantity_kg = defaultData.selectedUseTypes[idx].quantity_kg;
-        }
+      tempProps.selectedUseTypes.map((item) => {
+        defaultData.selectedUseTypes.map((item1) => {
+          let name = isEditStepTwo.isEditStepTwo
+            ? item1.harvestUseType.harvest_use_type_name
+            : item1.harvest_use_type_name;
+          if (item.harvest_use_type_name === name) {
+            item.quantity_kg = item1.quantity_kg;
+          }
+        });
       });
     }
     defaultData.selectedUseTypes = tempProps.selectedUseTypes;
-    dispatch(canEditStepTwo(false));
     dispatch(harvestLogData(defaultData));
     history.push('/harvest_log');
   };
 
   const onNext = (data) => {
-    const tempProps = JSON.parse(JSON.stringify(data));
-    if (defaultData.selectedUseTypes.length > 0) {
+    if (isEditStepTwo.isEditStepTwo) {
+      data.selectedUseTypes.map((item) => {
+        defaultData.selectedUseTypes.map((item1) => {
+          if (item.harvest_use_type_name === item1.harvestUseType.harvest_use_type_name) {
+            item.quantity_kg = item1.quantity_kg;
+          }
+        });
+      });
+      defaultData.selectedUseTypes = data.selectedUseTypes;
+      dispatch(canEditStepTwo(false));
+      dispatch(harvestLogData(defaultData));
+    } else {
+      const tempProps = JSON.parse(JSON.stringify(data));
       if (defaultData.selectedUseTypes.length > 0) {
         tempProps.selectedUseTypes.map((item) => {
           defaultData.selectedUseTypes.map((item1) => {
-            if (item.harvest_use_type_name === item1.harvest_use_type_name) {
+            let name = item1.harvest_use_type_name
+              ? item1.harvest_use_type_name
+              : item1.harvestUseType.harvest_use_type_name;
+            if (item.harvest_use_type_name === name) {
               item.quantity_kg = item1.quantity_kg;
             }
           });
         });
       }
+      defaultData.selectedUseTypes = tempProps.selectedUseTypes;
+
+      dispatch(harvestLogData(defaultData));
     }
 
-    defaultData.selectedUseTypes = tempProps.selectedUseTypes;
-    dispatch(harvestLogData(defaultData));
-    dispatch(canEditStepTwo(false));
     history.push('/harvest_allocation');
   };
 

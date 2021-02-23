@@ -1,9 +1,11 @@
 import React from 'react';
 import TextArea from '../../../components/Form/TextArea';
+import { componentDecorators } from '../../Pages/config/decorators';
+
 export default {
   title: 'Components/Input/TextArea',
   component: TextArea,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <TextArea {...args} />;

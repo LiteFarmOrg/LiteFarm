@@ -1,19 +1,20 @@
 import React from 'react';
 import {
-  Underlined,
-  Info,
   Error,
+  Info,
   Label,
   Main,
   Semibold,
   Text,
   Title,
+  Underlined,
 } from '../../components/Typography';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Typography',
   component: Underlined,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => (

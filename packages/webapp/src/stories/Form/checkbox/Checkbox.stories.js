@@ -1,10 +1,11 @@
 import React from 'react';
 import Checkbox from '../../../components/Form/Checkbox';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/Checkbox',
   component: Checkbox,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Checkbox {...args} />;

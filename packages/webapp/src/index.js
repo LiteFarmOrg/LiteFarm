@@ -55,7 +55,6 @@ import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
-import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from 'react-bootstrap';
 import theme from './assets/theme';
 
@@ -137,9 +136,8 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Router history={history}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <Router history={history}>
             <ReduxToastr
               timeOut={4000}
               newestOnTop={false}
@@ -151,8 +149,8 @@ const render = () => {
               closeOnToastrClick
             />
             <App />
-          </ThemeProvider>
-        </Router>
+          </Router>
+        </ThemeProvider>
       </PersistGate>
     </Provider>,
     document.getElementById('root'),

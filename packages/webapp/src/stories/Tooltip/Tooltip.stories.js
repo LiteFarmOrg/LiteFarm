@@ -1,10 +1,12 @@
 import React from 'react';
 import { Text, Underlined } from '../../components/Typography';
 import OverlayTooltip, { TooltipComponent } from '../../components/Tooltip';
+import { componentDecorators } from '../Pages/config/decorators';
+
 export default {
   title: 'Components/OverlayTooltip',
   component: OverlayTooltip,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <OverlayTooltip {...args} />;

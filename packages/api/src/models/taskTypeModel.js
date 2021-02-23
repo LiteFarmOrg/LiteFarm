@@ -35,7 +35,7 @@ class TaskName extends baseModel {
         task_id: { type: 'integer' },
         task_name: { type: 'string', minLength: 1, maxLength: 25 },
         farm_id: { type: 'string' },
-        task_translation_key: {type: 'string'},
+        task_translation_key: { type: 'string' },
         ...this.baseProperties,
       },
       additionalProperties: false,

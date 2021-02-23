@@ -15,27 +15,27 @@
 
 const lodash = require('lodash');
 
-class baseController {
-  static async get(model) {
-    if(model.isSoftDelete){
+const baseController = {
+  async get(model) {
+    if (model.isSoftDelete) {
       return await model.query().whereNotDeleted().skipUndefined();
     }
-    return await model.query().skipUndefined()
-  }
+    return await model.query().skipUndefined();
+  },
 
-  static async post(model, data, transaction, context = {}) {
+  async post(model, data, transaction, context = {}) {
     data = removeAdditionalProperties(model, data);
     return await model.query(transaction).context(context).insert(data);
-  }
+  },
 
   // send back the resource that was just created
-  static async postWithResponse(model, data, transaction, context = {}) {
+  async postWithResponse(model, data, transaction, context = {}) {
     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
     return model.query(transaction).context(context)
       .insert(removeAdditionalProperties(model, data)).returning('*');
-  }
+  },
 
-  static async postRelated(model, subModel, data, context, transaction) {
+  async postRelated(model, subModel, data, context, transaction) {
     if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
@@ -47,17 +47,17 @@ class baseController {
     } else {
       return;
     }
-  }
+  },
 
   // creates a relation between two tables in the database. If there is a many to many relation,
   // the join table is updated with a new tuple
-  static async relateModels(model, subModel, data, transaction){
-    if(!Array.isArray(data)){ //if data is not an array
+  async relateModels(model, subModel, data, transaction) {
+    if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
     const ids = [];
     data.map((d) => Object.keys(d).map((k) => ids.push(d[k])));
-    if(!lodash.isEmpty(data)){
+    if (!lodash.isEmpty(data)) {
       // unrelate first so that any objects not in array are deleted
       await model.$relatedQuery(subModel.tableName, transaction).unrelate();
       for (const id of ids) {
@@ -66,13 +66,13 @@ class baseController {
           .$relatedQuery(subModel.tableName, transaction)
           .relate(id);
       }
-      return
-    }else{
-      return
+      return;
+    } else {
+      return;
     }
-  }
+  },
 
-  static async put(model, id, data, transaction=null, context = {}) {
+  async put(model, id, data, transaction = null, context = {}) {
     // sometime id can be read as a string instead
     // obtain attributes from model
     const resource = removeAdditionalProperties(model, data);
@@ -81,66 +81,67 @@ class baseController {
     // check if path id matches id provided from body
     return await model.query(transaction).context(context)
       .where(table_id, id).update(resource).returning('*');
-  }
+  },
 
-  static async delete(model, id, transaction = null, context = {}) {
+  async delete(model, id, transaction = null, context = {}) {
     const table_id = model.idColumn;
     return await model.query(transaction).context(context).where(table_id, id).delete();
-  }
+  },
 
-  static async getIndividual(model, id) {
+  async getIndividual(model, id) {
     const table_id = model.idColumn;
-    if(model.isSoftDelete){
+    if (model.isSoftDelete) {
       return await model.query().whereNotDeleted().where(table_id, id);
     }
-    return await model.query().where(table_id, id)
-  }
+    return await model.query().where(table_id, id);
+  },
 
-  static async getByFieldId(model, field, fieldId){
-    if(model.isSoftDelete){
+  async getByFieldId(model, field, fieldId) {
+    if (model.isSoftDelete) {
       return await model.query().whereNotDeleted().where(field, fieldId);
     }
     const data = await model.query().where(field, fieldId);
     return data;
-  }
-  static async getByForeignKey(model, field, fieldId){
-    if(model.isSoftDelete){
-      const data =await model.query().whereNotDeleted().where(field, fieldId);
+  },
+
+  async getByForeignKey(model, field, fieldId) {
+    if (model.isSoftDelete) {
+      const data = await model.query().whereNotDeleted().where(field, fieldId);
       return data;
     }
     const data = await model.query().where(field, fieldId);
     return data;
-  }
+  },
 
-  static async updateIndividualById(model, id, updatedLog, transaction=null, context = {}){
+  async updateIndividualById(model, id, updatedLog, transaction = null, context = {}) {
     updatedLog = removeAdditionalProperties(model, updatedLog);
-    if(!lodash.isEmpty(updatedLog)){
+    if (!lodash.isEmpty(updatedLog)) {
       return await model.query(transaction).context(context)
         .patchAndFetchById(id, updatedLog);
     }
 
-  }
+  },
 
-  static async getRelated(model, subModel) {
+  async getRelated(model, subModel) {
     return await model.$fetchGraph(subModel.tableName);
-  }
+  },
 
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
-  static async upsertGraph(model, data, transaction, context = {}) {
+  async upsertGraph(model, data, transaction, context = {}) {
     return await model.query(transaction).context(context).upsertGraph(data, { insertMissing: true });
-  }
+  },
 
   // fetch an object and all of its related objects
   // see http://vincit.github.io/objection.js/#eager-loading
-  static async eager(model, subModel, transaction) {
+  async eager(model, subModel, transaction) {
     return await model.query(transaction).eager(subModel);
-  }
-}
+  },
+};
 
 function removeAdditionalProperties(model, data) {
-  if(Array.isArray(data)){
-    const arrayWithoutAdditionalProperties = data.map((obj)=>{
+  if (Array.isArray(data)) {
+    const arrayWithoutAdditionalProperties = data.map((obj) => {
       return lodash.pick(obj, Object.keys(model.jsonSchema.properties));
     });
     return arrayWithoutAdditionalProperties;

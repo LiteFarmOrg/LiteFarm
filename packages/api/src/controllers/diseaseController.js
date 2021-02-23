@@ -17,31 +17,27 @@ const baseController = require('../controllers/baseController');
 const diseaseModel = require('../models/diseaseModel');
 const { transaction, Model } = require('objection');
 
-class diseaseController extends baseController {
-  constructor() {
-    super();
-  }
+const diseaseController = {
 
-  static getDisease() {
+  getDisease() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const rows = await diseaseController.get(farm_id);
         res.status(200).send(rows);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
-    }
-  }
-  static addDisease() {
+    };
+  },
+  addDisease() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const data = req.body;
         data.disease_name_translation_key = data.disease_common_name;
         data.disease_group_translation_key = data.disease_group;
@@ -56,9 +52,9 @@ class diseaseController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delDisease() {
+  delDisease() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -76,13 +72,13 @@ class diseaseController extends baseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 
-  static async get(farm_id){
-    //return await super.get(FertilizerModel);
+  async get(farm_id) {
+    //return await baseController.get(FertilizerModel);
     return await diseaseModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
-  }
-}
+  },
+};
 
 module.exports = diseaseController;

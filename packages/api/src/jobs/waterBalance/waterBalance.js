@@ -184,37 +184,37 @@ const compareWeatherData = (existingWeatherData, newWeatherData) => {
 
   for (const key in existingWeatherData) {
     switch (key) {
-      case 'min_degrees':
-        returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
-        break;
-      case 'max_degrees':
-        returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
-        break;
-      case 'precipitation':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-        break;
-      case 'min_humidity':
-        returningWeatherData[key] = Math.min(
-          existingWeatherData[key],
-          newWeatherData['min_humidity'],
-        );
-        break;
-      case 'max_humidity':
-        returningWeatherData[key] = Math.max(
-          existingWeatherData[key],
-          newWeatherData['max_humidity'],
-        );
-        break;
-      case 'wind_speed':
-        returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
-        break;
-      case 'field_id':
-        returningWeatherData[key] = existingWeatherData[key];
-        break;
-      case 'data_points':
-        returningWeatherData[key] = existingWeatherData[key] + 1;
-        break;
-      default:
+    case 'min_degrees':
+      returningWeatherData[key] = Math.min(existingWeatherData[key], newWeatherData[key]);
+      break;
+    case 'max_degrees':
+      returningWeatherData[key] = Math.max(existingWeatherData[key], newWeatherData[key]);
+      break;
+    case 'precipitation':
+      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+      break;
+    case 'min_humidity':
+      returningWeatherData[key] = Math.min(
+        existingWeatherData[key],
+        newWeatherData['min_humidity'],
+      );
+      break;
+    case 'max_humidity':
+      returningWeatherData[key] = Math.max(
+        existingWeatherData[key],
+        newWeatherData['max_humidity'],
+      );
+      break;
+    case 'wind_speed':
+      returningWeatherData[key] = existingWeatherData[key] + newWeatherData[key];
+      break;
+    case 'field_id':
+      returningWeatherData[key] = existingWeatherData[key];
+      break;
+    case 'data_points':
+      returningWeatherData[key] = existingWeatherData[key] + 1;
+      break;
+    default:
       // should be no default case
     }
   }

@@ -33,8 +33,6 @@ function HarvestLog() {
     dispatch(getHarvestUseTypes());
   }, []);
 
-  useEffect(() => {}, []);
-
   const onBack = () => {
     dispatch(resetHarvestLog());
     history.push('/log');

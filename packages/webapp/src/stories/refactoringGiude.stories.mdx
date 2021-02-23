@@ -1,0 +1,41 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import LinkTo from '@storybook/addon-links/react';
+import HarvestLogPure1 from './refactoring-imgs/harvest-log-pure1.png';
+import HarvestLogPure2 from './refactoring-imgs/harvest-log-pure2.png';
+import HarvestLogSmart1 from './refactoring-imgs/harvest-log-smart1.png';
+import HarvestLogSmart2 from './refactoring-imgs/harvest-log-smart2.png';
+
+<Meta title="Docs/refactoringGuide" />
+
+# Code Guide
+
+### Here is a guide for refactoring legacy code or adding new components to the codebase.
+
+
+**Pure Components vs Smart Components** 
+
+Pure components live in the `components` folder and contain only the code that renders the view of the component. Smart components live in the `containers` folder and contain the smart logic - button click, animation, retrieving data from the redux store or backend, etc - for the component. Here is an example from `HarvestLog`.
+
+In `src/containers/Log/HarvestLog`, the container contains the logic for what happens when the user clicks the back or next button, including dispatching actions to the redux store and saving data.
+
+<img src={HarvestLogPure1}/>
+
+The container also renders the `PureHarvestLog` component (note that naming of pure components are preceded by "Pure"), and passes relevant props to handle the next and back button logic, as well as other data.
+
+<img src={HarvestLogPure2}/>
+
+In `src/components/Logs/HarvestLog`, the component contains very simple logic, such as validating that an input field contains a number up to 2 decimal places, and the logic for when a user clicks the next button, with a call to `onNext` (which is a prop passed by the container).
+
+<img src={HarvestLogSmart1}/>
+
+The component also contains the styles - in this case, the styles for the form - as well as the imports for other components (eg - `TitleLayout`).
+
+<img src={HarvestLogSmart2}/>
+
+**Redux Slices** 
+
+We use `redux slice` to create the initial state of the redux store for that component, as well as its corresponding actions, reducers, and selectors. Check out `containers/Log/Utility/logSlice` for an example.
+
+**Storybook**
+
+Every new view that is created should have a corresponding story in `Storybook`. To do that, create a new folder and corresponding file that endas in ".stories.js" in the `stories` folder, and import the pure component in that file.

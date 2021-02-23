@@ -81,6 +81,9 @@
   "EXPIRED_TOKEN": {
     "RESET_PASSWORD_LINK": "MISSING"
   },
+  "FARM_MAP": {
+    "TITLE": "MISSING"
+  },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",
     "EDIT_FIELD": {

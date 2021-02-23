@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  // background: lime;
+  height: 48px;
+  // box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  // margin-top: 5px;
+  // background: yellow;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 24px;
+}
+
+.headerText {
+  font-family: Open Sans;
+  color: var(--grey900);
+  font-style: normal;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.farmName {
+  font-weight: 600;
+}
+
+.farmMap {
+  font-weight: 400;
+}

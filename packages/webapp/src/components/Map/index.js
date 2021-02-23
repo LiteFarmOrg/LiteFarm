@@ -10,9 +10,10 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
+import PureMapHeader from './Header';
 import PureMapFooter from './Footer';
 
-export default function PureMap({ onClick, text, linkText, forgotPassword, isAdmin }) {
+export default function PureMap({ onClick, text, linkText, forgotPassword, isAdmin, farmName }) {
   const { t } = useTranslation();
   const [center, setCenter] = useState(DEFAULT_CENTER);
   const { grid_points } = useSelector(userFarmSelector);
@@ -133,7 +134,10 @@ export default function PureMap({ onClick, text, linkText, forgotPassword, isAdm
 
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.mapHeader}>{"hello"}</div>
+      <PureMapHeader
+        className={styles.mapHeader}
+        farmName={farmName}
+      />
       <div className={styles.mapContainer}>
         <div className={styles.workaround}>
         <GoogleMap
@@ -171,4 +175,5 @@ PureMap.prototype = {
   linkText: PropTypes.string,
   forgotPassword: PropTypes.func,
   isAdmin: PropTypes.bool,
+  farmName: PropTypes.string,
 };

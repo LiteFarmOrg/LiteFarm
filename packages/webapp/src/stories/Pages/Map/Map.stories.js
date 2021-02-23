@@ -12,6 +12,7 @@ const Template = (args) => <PureMap {...args} />;
 
 export const AdminMap = Template.bind({});
 AdminMap.args = {
+  farmName: "Happy Valley",
   isAdmin: true,
 };
 AdminMap.parameters = {
@@ -20,6 +21,7 @@ AdminMap.parameters = {
 
 export const WorkerMap = Template.bind({});
 WorkerMap.args = {
+  farmName: "Happy Valley",
   isAdmin: false,
 };
 WorkerMap.parameters = {

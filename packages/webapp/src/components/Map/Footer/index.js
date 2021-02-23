@@ -23,5 +23,6 @@ export default function PureMapFooter({
 }
 
 PureMapFooter.prototype = {
+  className: PropTypes.string,
   style: PropTypes.object,
 };

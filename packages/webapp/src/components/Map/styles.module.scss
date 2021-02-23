@@ -13,13 +13,12 @@
   order: 1;
   // flex-grow: 1;
   // flex-shrink: 2;
-  background: yellow;
 }
 
 .mapContainer {
   // flex: 1;
   position: relative;
-  background: orange;
+  // background: orange;
   // height: 80%;
   min-height: 300px;
   // max-height: 600px;
@@ -46,8 +45,3 @@
   // flex-shrink: 2;
   // background: lime;
 }
-
-// .footerButton {
-//   flex-grow: 1;
-//   text-align: center;
-// }

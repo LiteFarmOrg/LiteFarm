@@ -8,12 +8,12 @@ import { dateRangeSelector, expenseSelector, expenseTypeSelector } from '../sele
 import Table from '../../../components/Table';
 import { getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class OtherExpense extends Component {
   constructor(props) {

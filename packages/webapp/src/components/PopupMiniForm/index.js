@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export default function PurePopupMiniForm({ title, inputInfo, onClose, onFormSubmit, isOpen }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   const onSubmit = (data) => {
     onFormSubmit(data.name);

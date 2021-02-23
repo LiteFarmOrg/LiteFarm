@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -18,6 +19,7 @@
     "history": "^4.10.1",
     "i18next": "^19.8.7",
     "i18next-browser-languagedetector": "^6.0.1",
+    "i18next-xhr-backend": "^3.2.2",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
@@ -148,10 +150,13 @@
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-react": "^7.22.0",
+    "i18next-parser": "^3.6.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "lint-staged": "^10.5.4"
   },
-  "resolutions": {}
+  "resolutions": {
+    "immer": "^8.0.1"
+  }
 }

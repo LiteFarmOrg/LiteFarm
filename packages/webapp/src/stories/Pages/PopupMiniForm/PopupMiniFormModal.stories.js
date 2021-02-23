@@ -1,9 +1,10 @@
 import React from 'react';
 import PurePopupMiniForm from '../../../components/PopupMiniForm';
+import { componentDecoratorsWithoutPadding } from '../config/decorators';
 
 export default {
   title: 'Form/PopupMiniForm',
-  decorators: [(story) => <div>{story()}</div>],
+  decorators: componentDecoratorsWithoutPadding,
   component: PurePopupMiniForm,
 };
 

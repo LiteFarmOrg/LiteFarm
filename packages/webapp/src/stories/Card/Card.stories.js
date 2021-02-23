@@ -1,10 +1,11 @@
 import React from 'react';
 import Card from '../../components/Card';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Card',
   component: Card,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Card {...args} />;

@@ -1,31 +1,19 @@
-import Layout from '../Layout';
-import Button from '../Form/Button';
-import { ReactComponent } from '../../assets/images/expiredToken/expiredToken.svg';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
-import { Semibold, Underlined } from '../Typography';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
-import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
+import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import PureMapHeader from './Header';
 import PureMapFooter from './Footer';
 
-export default function PureMap({ onClick, text, linkText, forgotPassword, isAdmin, farmName }) {
+export default function PureMap({
+  isAdmin,
+  farmName,
+  handleGoogleMapApi,
+  center,
+}) {
   const { t } = useTranslation();
-  const [center, setCenter] = useState(DEFAULT_CENTER);
-  const { grid_points } = useSelector(userFarmSelector);
-
-  useEffect(() => {
-    setCenter(grid_points);
-  }, []);
-
-  const handleGoogleMapApi = (map, maps) => {
-    console.log(map);
-    console.log(maps);
-  }
 
   const getMapOptions = (maps) => {
     return {
@@ -93,10 +81,8 @@ export default function PureMap({ onClick, text, linkText, forgotPassword, isAdm
 }
 
 PureMap.prototype = {
-  onClick: PropTypes.func,
-  text: PropTypes.string,
-  linkText: PropTypes.string,
-  forgotPassword: PropTypes.func,
   isAdmin: PropTypes.bool,
   farmName: PropTypes.string,
+  handleGoogleMapApi: PropTypes.func,
+  center: PropTypes.object,
 };

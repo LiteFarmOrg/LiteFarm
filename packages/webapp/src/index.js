@@ -57,7 +57,6 @@ import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
 import { ThemeProvider } from 'react-bootstrap';
 import theme from './assets/theme';
-import { CssBaseline } from '@material-ui/core';
 
 // config for redux-persist
 const persistConfig = {
@@ -138,7 +137,7 @@ const render = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
+          {/*<CssBaseline/>*/}
           <Router history={history}>
             <>
               <ReduxToastr

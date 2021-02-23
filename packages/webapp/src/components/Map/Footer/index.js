@@ -15,9 +15,9 @@ export default function PureMapFooter({
       className={[styles.container, className].join(' ')}
       style={style}
     >
-      {isAdmin && <div className={styles.button}><AddLogo /></div>}
-      <div className={styles.button}><FilterLogo /></div>
-      <div className={styles.button}><ExportLogo /></div>
+      {isAdmin && <button className={styles.button}><AddLogo /></button>}
+      <button className={styles.button}><FilterLogo /></button>
+      <button className={styles.button}><ExportLogo /></button>
     </div>
   );
 }

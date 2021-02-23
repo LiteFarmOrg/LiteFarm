@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PureHarvestAllocation from '../../../components/Logs/HarvestAllocation';
 import {
   canEditSelector,
@@ -24,31 +24,6 @@ function HarvestAllocation() {
   const isEditStepThree = useSelector(canEditStepThreeSelector);
   const selectedLog = useSelector(currentLogSelector);
   const isEdit = useSelector(canEditSelector);
-
-  useEffect(() => {
-    const tempProps = JSON.parse(JSON.stringify(defaultData));
-    if (isEditStepThree.isEditStepThree && unit === 'lb') {
-      selectedLog.harvestUse.map((item) => {
-        tempProps.selectedUseTypes.map((item1) => {
-          if (item.harvestUseType.harvest_use_type_name === item1.harvest_use_type_name) {
-            item1.quantity_kg = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg'));
-          }
-        });
-      });
-      dispatch(harvestLogData(tempProps));
-    } else if (isEditStepThree.isEditStepThree && unit !== 'lb') {
-      selectedLog.harvestUse.map((item) => {
-        tempProps.selectedUseTypes.map((item1) => {
-          if (item.harvestUseType.harvest_use_type_name === item1.harvest_use_type_name) {
-            item1.quantity_kg = roundToTwoDecimal(item.quantity_kg);
-          }
-        });
-      });
-      dispatch(harvestLogData(tempProps));
-    }
-  }, []);
-
-  useEffect(() => {});
 
   const onBack = (data) => {
     dispatch(canEditStepThree(false));

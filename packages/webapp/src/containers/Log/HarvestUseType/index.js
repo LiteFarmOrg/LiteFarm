@@ -26,22 +26,27 @@ function HarvestUseType() {
   const onBack = (data) => {
     dispatch(canEditStepTwo(false));
     const tempProps = JSON.parse(JSON.stringify(data));
-
+    let newData;
     if (defaultData.selectedUseTypes.length > 0) {
       const defaultQuantities = defaultData.selectedUseTypes.reduce((obj, item) => {
         let name = isEditStepTwo.isEditStepTwo
           ? item.harvestUseType.harvest_use_type_name
           : item.harvest_use_type_name;
         return { ...obj, [name]: item.quantity_kg };
-      });
-      tempProps.selectedUseTypes.map((item) => ({
+      }, {});
+      newData = tempProps.selectedUseTypes.map((item) => ({
         ...item,
         quantity_kg: defaultQuantities[item.harvest_use_type_name]
           ? defaultQuantities[item.harvest_use_type_name]
           : item.quantity_kg,
       }));
     }
-    dispatch(harvestLogData({ ...defaultData, selectedUseTypes: tempProps.selectedUseTypes }));
+    dispatch(
+      harvestLogData({
+        ...defaultData,
+        selectedUseTypes: !newData ? tempProps.selectedUseTypes : newData,
+      }),
+    );
     history.push('/harvest_log');
   };
 
@@ -51,7 +56,7 @@ function HarvestUseType() {
       const defaultQuantities = defaultData.selectedUseTypes.reduce((obj, item) => {
         let name = item.harvestUseType.harvest_use_type_name;
         return { ...obj, [name]: item.quantity_kg };
-      });
+      }, {});
       const newData = data.selectedUseTypes.map((item) => ({
         ...item,
         quantity_kg: defaultQuantities[item.harvest_use_type_name]
@@ -62,14 +67,13 @@ function HarvestUseType() {
       dispatch(harvestLogData({ ...defaultData, selectedUseTypes: newData }));
     } else {
       const tempProps = JSON.parse(JSON.stringify(data));
-      console.log(defaultData.selectedUseTypes);
       if (defaultData.selectedUseTypes.length > 0) {
         const defaultQuantities = defaultData.selectedUseTypes.reduce((obj, item) => {
           let name = item.harvest_use_type_name
             ? item.harvest_use_type_name
             : item.harvestUseType.harvest_use_type_name;
           return { ...obj, [name]: item.quantity_kg };
-        });
+        }, {});
         newData = tempProps.selectedUseTypes.map((item) => ({
           ...item,
           quantity_kg: defaultQuantities[item.harvest_use_type_name]

@@ -13,40 +13,41 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { call, put, select, takeLatest, takeLeading, takeEvery, all } from 'redux-saga/effects';
-import apiConfig, { userFarmUrl, url, rolesUrl } from '../apiConfig';
+import { all, call, put, select, takeLatest, takeLeading } from 'redux-saga/effects';
+import apiConfig, { rolesUrl, url, userFarmUrl } from '../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import history from '../history';
 import {
   getUserFarmsSuccess,
   loginSelector,
-  loginSuccess,
-  userFarmsByFarmSelector,
+  patchFarmSuccess,
+  putUserSuccess,
   selectFarmSuccess,
-  acceptInvitationSuccess,
+  userFarmsByFarmSelector,
+  userFarmSelector,
 } from './userFarmSlice';
-import { userFarmSelector, putUserSuccess, patchFarmSuccess } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { userLogReducerSelector, logUserInfoSuccess } from './userLogSlice';
-import { getFieldsSuccess, onLoadingFieldStart, onLoadingFieldFail } from './fieldSlice';
+import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
+import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
 import {
+  cropStatusSelector,
+  getAllCropsSuccess,
   getCropsSuccess,
   onLoadingCropFail,
   onLoadingCropStart,
-  getAllCropsSuccess,
-  cropStatusSelector,
 } from './cropSlice';
 import {
   getFieldCropsSuccess,
   onLoadingFieldCropFail,
   onLoadingFieldCropStart,
 } from './fieldCropSlice';
-import i18n from '../lang/i18n';
+import i18n from '../locales/i18n';
 import { getLogs } from './Log/actions';
-import { getAllShifts, getShifts } from './Shift/actions';
+import { getAllShifts } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
 import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
 import { logout } from '../util/jwt';
+
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
 export const axios = require('axios');

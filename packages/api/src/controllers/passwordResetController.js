@@ -21,8 +21,8 @@ const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 
 
-class passwordResetController extends baseController {
-  static sendResetEmail() {
+const passwordResetController = {
+  sendResetEmail() {
     return async (req, res) => {
       const { email } = req.body;
 
@@ -78,15 +78,15 @@ class passwordResetController extends baseController {
         return res.status(400).json(error);
       }
     };
-  }
+  },
 
-  static validateToken() {
+  validateToken() {
     return async (req, res) => {
       return res.status(200).json({ isValid: true });
     };
-  }
+  },
 
-  static resetPassword() {
+  resetPassword() {
     return async (req, res) => {
       const { password } = req.body;
       const { user_id, email, first_name, language_preference } = req.user;
@@ -118,7 +118,7 @@ class passwordResetController extends baseController {
         });
       }
     };
-  }
+  },
 }
 
 module.exports = passwordResetController;

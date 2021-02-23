@@ -18,7 +18,7 @@ export default function PureHarvestAllocation({
   selectedLog,
   dispatch,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const { register, handleSubmit, watch, errors, formState } = useForm({
     mode: 'onChange',
   });

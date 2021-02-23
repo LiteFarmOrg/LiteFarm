@@ -18,18 +18,18 @@ import history from '../../history';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../apiConfig';
 import { loginSelector } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
+  deleteFieldCropSuccess,
   getFieldCropsSuccess,
-  onLoadingFieldCropStart,
   onLoadingFieldCropFail,
+  onLoadingFieldCropStart,
   postFieldCropSuccess,
   putFieldCropSuccess,
-  deleteFieldCropSuccess,
 } from '../fieldCropSlice';
 import { deleteFieldSuccess } from '../fieldSlice';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 
 const DEC = 10;
 

@@ -24,7 +24,7 @@ export default function PureHarvestLog({
   selectedLog,
   dispatch,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common']);
   let [date, setDate] = useState(moment());
   let [field, setField] = useState(null);
   let [crop, setCrop] = useState(null);

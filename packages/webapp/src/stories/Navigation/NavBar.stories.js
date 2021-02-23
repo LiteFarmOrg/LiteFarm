@@ -5,6 +5,7 @@ import { Router } from 'react-router-dom';
 import history from './../../history';
 import NavBar from '../../components/Navigation/NavBar';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
+import { useI18next } from '../Pages/config/decorators';
 
 const store = {
   getState: () => {
@@ -38,10 +39,12 @@ export default {
   component: NavBar,
 };
 
-const Template = (args) => <NavBar {...args} />;
-
 export const SignupNavbar = (() => <NoFarmNavBar />).bind({});
 
+const Template = (args) => {
+  const ready = useI18next();
+  return ready ? <NavBar {...args} /> : 'loading';
+};
 export const HomeNavbar = Template.bind({});
 
 HomeNavbar.args = {

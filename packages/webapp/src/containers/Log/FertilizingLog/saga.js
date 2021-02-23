@@ -10,8 +10,8 @@ import apiConfig from '../../../apiConfig';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
 import { loginSelector } from '../../userFarmSlice';
-import { getHeader, axios } from '../../saga';
-import i18n from '../../../lang/i18n';
+import { axios, getHeader } from '../../saga';
+import i18n from '../../../locales/i18n';
 
 export function* getFertilizerSaga() {
   const { user_id, farm_id } = yield select(loginSelector);

@@ -1,10 +1,11 @@
 import React from 'react';
 import Button from '../../components/Form/Button';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Button',
   component: Button,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Button {...args} />;

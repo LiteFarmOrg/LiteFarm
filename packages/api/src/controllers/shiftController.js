@@ -19,8 +19,8 @@ const shiftModel = require('../models/shiftModel');
 const shiftTaskModel = require('../models/shiftTaskModel');
 const knex = Model.knex();
 
-class shiftController extends baseController {
-  static addShift() {
+const shiftController = {
+  addShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -44,9 +44,9 @@ class shiftController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static addMultiShift() {
+  addMultiShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -57,12 +57,12 @@ class shiftController extends baseController {
         }
         const tasks = body.tasks;
         const shiftUsers = body.shift_users;
-        for (let sUser of shiftUsers) { // eslint-disable-line
+        for(let sUser of shiftUsers){ // eslint-disable-line
           const temp = body;
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
-          const user_id = req.user.user_id;
+          const user_id = req.user.user_id
           const shift_result = await baseController.postWithResponse(shiftModel, temp, trx, { user_id });
           const shift_id = shift_result.shift_id;
           shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
@@ -77,9 +77,9 @@ class shiftController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delShift() {
+  delShift() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -97,10 +97,10 @@ class shiftController extends baseController {
         await trx.rollback();
         res.status(400).send(error);
       }
-    };
-  }
+    }
+  },
 
-  static getShiftByID() {
+  getShiftByID() {
     return async (req, res) => {
       try {
         const id = req.params.shift_id;
@@ -120,10 +120,10 @@ class shiftController extends baseController {
           error,
         });
       }
-    };
-  }
+    }
+  },
 
-  static updateShift() {
+  updateShift() {
     return async (req, res) => {
       //eslint-disable-next-line
       let trx = await transaction.start(Model.knex());
@@ -151,16 +151,16 @@ class shiftController extends baseController {
           error,
         });
       }
-    };
-  }
+    }
+  },
 
-  static getShiftByUserID() {
+  getShiftByUserID() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
         const shiftIDs = await shiftModel.query().where('user_id', user_id).select('shift_id');
         const shifts = [];
-        for (let idObj of shiftIDs) {
+        for (const idObj of shiftIDs) {
           const shift_id = idObj.shift_id;
           const shiftRow = await baseController.getIndividual(shiftModel, shift_id);
           if (!shiftRow.length) {
@@ -182,8 +182,8 @@ class shiftController extends baseController {
           error,
         });
       }
-    };
-  }
+    }
+  },
 
   // old query for get shift by farm id
   /*  `SELECT *
@@ -191,7 +191,7 @@ class shiftController extends baseController {
             WHERE s.shift_id = t.shift_id AND s.user_id = u.user_id AND u.farm_id = '${farm_id}'
             AND t.field_crop_id = f.field_crop_id AND f.crop_id = c.crop_id AND t.task_id = tp.task_id`*/
 
-  static getShiftByFarmID() {
+  getShiftByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -228,10 +228,10 @@ class shiftController extends baseController {
           error,
         });
       }
-    };
-  }
+    }
+  },
 
-  static getShiftByUserFarm() {
+  getShiftByUserFarm() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -270,10 +270,10 @@ class shiftController extends baseController {
           error,
         });
       }
-    };
-  }
+    }
+  },
 
-  static async insertTasks(tasks, trx, shift_id) {
+  async insertTasks(tasks, trx, shift_id) {
     //eslint-disable-next-line
     let result = [];
     try {
@@ -292,7 +292,7 @@ class shiftController extends baseController {
       return error;
     }
 
-  }
+  },
 }
 
 module.exports = shiftController;

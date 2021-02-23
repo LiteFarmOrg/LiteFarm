@@ -5,19 +5,19 @@ import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../../styles.module.scss';
 import styles from './styles.module.scss';
 import {
+  expenseDetailSelector,
   expenseTypeSelector,
   selectedExpenseSelector,
-  expenseDetailSelector,
 } from '../../selectors';
 import history from '../../../../history';
 import DateContainer from '../../../../components/Inputs/DateContainer';
-import { Field, actions, Form, Control } from 'react-redux-form';
+import { actions, Control, Field, Form } from 'react-redux-form';
 import footerStyles from '../../../../components/LogFooter/styles.module.scss';
 import { addExpenses } from '../../actions';
-import { grabCurrencySymbol } from '../../../../util';
 import { userFarmSelector } from '../../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../../components/Form/Input';
+import grabCurrencySymbol from '../../../../util/grabCurrencySymbol';
 
 class AddExpense extends Component {
   constructor(props) {

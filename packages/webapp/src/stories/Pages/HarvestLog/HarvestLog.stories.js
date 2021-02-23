@@ -1,5 +1,5 @@
 import React from 'react';
-import { decorators } from '../config/decorators';
+import decorators from '../config/decorators';
 import PureHarvestLog from '../../../components/Logs/HarvestLog';
 
 export default {

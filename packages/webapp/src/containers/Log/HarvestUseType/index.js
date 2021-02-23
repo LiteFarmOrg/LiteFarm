@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PureHarvestUseType from '../../../components/Logs/HarvestUseType';
 import {
   canEditStepTwo,
@@ -22,8 +22,6 @@ function HarvestUseType() {
   const farm = useSelector(userFarmSelector);
   const isEditStepTwo = useSelector(canEditStepTwoSelector);
   const selectedLog = useSelector(currentLogSelector);
-
-  useEffect(() => {}, []);
 
   const onBack = (data) => {
     dispatch(canEditStepTwo(false));

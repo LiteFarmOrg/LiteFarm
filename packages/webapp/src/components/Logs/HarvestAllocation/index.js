@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold } from '../../Typography';
 import Button from '../../Form/Button';
@@ -16,8 +16,6 @@ export default function PureHarvestAllocation({ onGoBack, onNext, defaultData, u
   });
   let inputs = defaultData.selectedUseTypes.map(() => register({ required: true }));
   const tempProps = JSON.parse(JSON.stringify(defaultData));
-
-  useEffect(() => {}, []);
 
   const onSubmit = (val) => {
     let tempProps = JSON.parse(JSON.stringify(defaultData));

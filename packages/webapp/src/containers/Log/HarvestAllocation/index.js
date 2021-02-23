@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PureHarvestAllocation from '../../../components/Logs/HarvestAllocation';
 import {
   canEditSelector,
@@ -24,10 +24,6 @@ function HarvestAllocation() {
   const isEditStepThree = useSelector(canEditStepThreeSelector);
   const selectedLog = useSelector(currentLogSelector);
   const isEdit = useSelector(canEditSelector);
-
-  useEffect(() => {}, []);
-
-  useEffect(() => {});
 
   const onBack = (data) => {
     dispatch(canEditStepThree(false));

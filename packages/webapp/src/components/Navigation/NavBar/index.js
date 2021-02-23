@@ -1,6 +1,8 @@
 import styles from './styles.module.scss';
 import React from 'react';
 import ReactJoyride, { STATUS } from 'react-joyride';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../../ProfileFloater';
 import MyFarmIcon from '../../../assets/images/my-farm.svg';
 import NotifIcon from '../../../assets/images/notif.svg';
@@ -11,9 +13,10 @@ import PureNotificationFloater from '../../NotificationFloater';
 import clsx from 'clsx';
 import { logout } from '../../../util/jwt';
 import { useTranslation } from 'react-i18next';
+import SmallerLogo from '../../../assets/images/smaller_logo.svg';
+import SmallLogo from '../../../assets/images/small_logo.svg';
 
 export default function PureNavBar({
-  logo,
   children,
   showSpotLight,
   resetSpotlight,
@@ -241,7 +244,7 @@ export default function PureNavBar({
           />
         )}
       </div>
-      <div className={styles.itemContainer}>{logo}</div>
+      <Logo history={history} />
       {children}
     </nav>
   );
@@ -267,4 +270,12 @@ const returnContent = (spotlightType, title) => {
 
 const returnNextButton = (str) => {
   return <span className={styles.black}>{str}</span>;
+};
+
+const Logo = ({ history }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  return (
+    <img src={matches ? SmallLogo : SmallerLogo} alt="Logo" onClick={() => history.push('/')} />
+  );
 };

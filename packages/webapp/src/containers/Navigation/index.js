@@ -16,7 +16,6 @@
 import React, { Suspense, useState } from 'react';
 import { connect } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
-import SlideMenu from './slideMenu';
 import SmallerLogo from '../../assets/images/smaller_logo.svg';
 import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
@@ -61,7 +60,7 @@ const NavBar = (props) => {
         tooltipInteraction={tooltipInteraction}
         history={history}
       >
-        <SlideMenu right />
+        {/*<SlideMenu right />*/}
       </PureNavBar>
     </Suspense>
   ) : (

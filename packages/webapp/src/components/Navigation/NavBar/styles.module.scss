@@ -22,13 +22,8 @@
   min-height: 72px;
   position: sticky;
   z-index: 2;
-  & .itemContainer {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+  display: flex;
+  justify-content: center;
 }
 
 .profilePic {
@@ -88,22 +83,15 @@
   text-align: -webkit-right;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 960px) {
   .navBar {
     min-height: 54px;
+    justify-content: flex-start;
   }
 
   .actionItem {
     width: 24px;
     height: 24px;
-  }
-  .navBar {
-    & .itemContainer {
-      position: absolute;
-      left: 68px;
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
   }
 }
 

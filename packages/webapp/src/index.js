@@ -17,7 +17,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import history from './history';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import ReduxToastr from 'react-redux-toastr';
 import createSagaMiddleware from 'redux-saga';
 import homeSaga from './containers/saga';
@@ -44,7 +44,7 @@ import consentSaga from './containers/Consent/saga';
 import callbackSaga from './containers/Callback/saga';
 import inviteUserSaga from './containers/InviteUser/saga';
 import { Provider } from 'react-redux';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
@@ -55,6 +55,8 @@ import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
+import { ThemeProvider } from 'react-bootstrap';
+import theme from './assets/theme';
 
 // config for redux-persist
 const persistConfig = {
@@ -134,21 +136,24 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Router history={history}>
-          <div>
-            <ReduxToastr
-              timeOut={4000}
-              newestOnTop={false}
-              preventDuplicates
-              position="top-left"
-              transitionIn="fadeIn"
-              transitionOut="fadeOut"
-              progressBar
-              closeOnToastrClick
-            />
-            <App />
-          </div>
-        </Router>
+        <ThemeProvider theme={theme}>
+          {/*<CssBaseline/>*/}
+          <Router history={history}>
+            <>
+              <ReduxToastr
+                timeOut={4000}
+                newestOnTop={false}
+                preventDuplicates
+                position="top-left"
+                transitionIn="fadeIn"
+                transitionOut="fadeOut"
+                progressBar
+                closeOnToastrClick
+              />
+              <App />
+            </>
+          </Router>
+        </ThemeProvider>
       </PersistGate>
     </Provider>,
     document.getElementById('root'),

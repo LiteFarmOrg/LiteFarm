@@ -1,9 +1,10 @@
 import React from 'react';
 import RequestConfirmationModal from '../../components/Modals/RequestConfirmationModal';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Modals/RequestConfirmationModal',
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
   component: RequestConfirmationModal,
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './button.scss';
+import styles from './button.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 

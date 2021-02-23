@@ -1,23 +1,22 @@
 import React, { useEffect } from 'react';
 import PureHarvestUseType from '../../../components/Logs/HarvestUseType';
 import {
-  harvestLogDataSelector,
-  harvestLogData,
   canEditStepTwo,
   canEditStepTwoSelector,
+  harvestLogData,
+  harvestLogDataSelector,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { addHarvestUseType } from '../actions';
-import { setAllHarvestUseTypesSelector } from '../selectors';
-import { currentLogSelector } from '../selectors';
+import { currentLogSelector, setAllHarvestUseTypesSelector } from '../selectors';
 import { toastr } from 'react-redux-toastr';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 function HarvestUseType() {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const allUseType = useSelector(setAllHarvestUseTypesSelector);
   const defaultData = useSelector(harvestLogDataSelector);
   const farm = useSelector(userFarmSelector);
@@ -65,7 +64,7 @@ function HarvestUseType() {
   };
 
   const dispatchAddUseType = (useTypeName) => dispatch(addHarvestUseType(useTypeName));
-  const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.REQUIRED_TASK'));
+  const showUseTypeRequiredError = () => toastr.error(t('message:LOG_HARVEST.ERROR.REQUIRED_TASK'));
 
   return (
     <>

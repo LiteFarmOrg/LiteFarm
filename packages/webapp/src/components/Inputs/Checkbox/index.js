@@ -1,6 +1,6 @@
 import React from 'react';
 import { Control } from 'react-redux-form';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 
 class Checkbox extends React.Component {
   render() {

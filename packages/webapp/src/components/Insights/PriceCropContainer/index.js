@@ -70,7 +70,9 @@ function PriceCropContainer({ currencySymbol, name, pricePoints }) {
                 {
                   type: 'time',
                   time: {
-                    unit: 'month',
+                    displayFormats: {
+                      month: 'YYYY-MM',
+                    },
                   },
                 },
               ],

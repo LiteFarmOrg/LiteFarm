@@ -17,14 +17,14 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
-  userFarmSelector,
   patchConsentStepThreeSuccess,
   patchStatusConsentSuccess,
+  userFarmSelector,
 } from '../userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import history from '../../history';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 
 export const patchConsent = createAction('patchConsentSaga');

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../saga';
-import styles from './styles.scss';
-import defaultStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import defaultStyles from '../styles.module.scss';
 import { actions, Control, Form } from 'react-redux-form';
 import { Button } from 'react-bootstrap';
 import { userFarmSelector } from '../../userFarmSlice';

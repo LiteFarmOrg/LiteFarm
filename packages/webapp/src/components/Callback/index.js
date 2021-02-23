@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import Loader from '../../assets/images/miscs/loader.svg';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 class PureCallback extends Component {
   render() {

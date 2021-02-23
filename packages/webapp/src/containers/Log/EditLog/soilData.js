@@ -10,7 +10,7 @@ import DropDown from '../../../components/Inputs/DropDown';
 import Unit from '../../../components/Inputs/Unit';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import parseFields from '../Utility/parseFields';
 import parseCrops from '../Utility/parseCrops';
 import {
@@ -289,7 +289,10 @@ class soilDataLog extends Component {
             customFieldset={customFieldset}
           />
           <div onClick={this.toggleMoreInfo} className={styles.greenTextButton}>
-            {this.state.showMoreInfo ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')} {this.props.t('LOG_SOIL.MORE_INFO')}
+            {this.state.showMoreInfo
+              ? this.props.t('LOG_COMMON.HIDE')
+              : this.props.t('LOG_COMMON.SHOW')}{' '}
+            {this.props.t('LOG_SOIL.MORE_INFO')}
           </div>
           {this.state.showMoreInfo && (
             <div>

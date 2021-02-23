@@ -1,0 +1,46 @@
+import WithCurrency from './assets/mainBundleCurrency.png';
+import WithoutCurrency from './assets/mainBundleWithoutCurrency.png';
+
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/codeSplitting" />
+
+### Code splitting
+
+#### Util functions
+
+Code splitting is not set up to work with named export
+
+```js
+//Named export:
+export function functionName(){};
+export const constName = () => {};
+//Default export:
+export default function functionName(){};
+```
+
+Until we implement code splitting on named export, all large components/ util functions should be in separate files.
+
+For example, util/grabCurrency should be exported in util/index.js ideally. If any components that are not imported using React.lazy, use a named export in util/index, grabCurrencySymbol will be imported along with containers/AddFarm/currency/commonCurrency.json table even if the components are not using grabCurrencySymbol function.
+And commonCurrency will be included in the main.bundle
+
+Main bundle when grabCurrencySymbol is exported in util/index
+
+<img src={WithCurrency} />
+
+Main bundle when grabCurrencySymbol is exported in util/grabCurrencySymbol
+
+<img src={WithoutCurrency} />
+
+
+#### Route based code splitting
+
+https://reactjs.org/docs/code-splitting.html
+
+example: Routes.js
+
+#### Lazy load component when component is not visible after first paint:
+
+example: customSignUp
+
+

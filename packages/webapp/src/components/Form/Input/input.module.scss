@@ -1,0 +1,97 @@
+@import '../../../assets/colors';
+.input {
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 48px;
+  padding-left: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--fontColor);
+  // set lastpass fill password icon
+  background-position: calc(100% - 36px) calc(50%) !important;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input ::placeholder {
+  color: var(--grey500);
+}
+
+.input:disabled {
+  background-color: var(--inputDisabled);
+  color: var(--grey600);
+  border-color: var(--inputDefault);
+}
+
+.fullLength {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  position: relative;
+}
+
+.inputError {
+  border-color: var(--error);
+}
+
+.input:focus:enabled {
+  outline: none;
+  border-color: var(--inputActive);
+}
+
+.icon {
+  position: absolute;
+  right: 0;
+  top: -8px;
+  color: var(--iconDefault);
+}
+.icon > * {
+  cursor: pointer;
+}
+.sm {
+  margin-left: 8px;
+}
+.searchIcon {
+  color: var(--iconDefault);
+  position: absolute;
+  font-size: 20px;
+  transform: translate(11px, 15px);
+}
+.searchBar {
+  padding-left: 40px;
+}
+.visibilityIcon {
+  position: absolute;
+  right: 0;
+  transform: translate(-8px, 32px);
+  font-size: 22px;
+  color: var(--iconDefault);
+  cursor: pointer;
+}
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+}
+
+.unit {
+  font-size: 16px;
+  line-height: 20px;
+  color: var(--labels);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  position: absolute;
+  right: 0;
+  transform: translate(-8px, 33px);
+}

@@ -16,13 +16,13 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import history from '../../history';
 import { LocalForm } from 'react-redux-form';
-import DateContainer, { FromToDateContainer } from '../../components/Inputs/DateContainer';
+import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import moment from 'moment';
-import { getLogs, setSelectedLog, setStartDate, setEndDate } from './actions';
-import { getFieldCropsByDate } from '../saga';
+import { getLogs, setEndDate, setSelectedLog, setStartDate } from './actions';
+import { getFieldCropsByDate, getFields } from '../saga';
 import { logSelector, startEndDateSelector } from './selectors';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
@@ -30,12 +30,11 @@ import { getDiseases, getPesticides } from './PestControlLog/actions';
 import { getFertilizers } from './FertilizingLog/actions';
 import InfoBoxComponent from '../../components/InfoBoxComponent';
 import { BsCaretRight } from 'react-icons/all';
-import { userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { getFields } from '../saga';
 import { fieldsSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
-import { Label, Main, Semibold, Title } from '../../components/Typography';
+import { Label, Semibold, Title } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 
 class Log extends Component {
@@ -67,7 +66,7 @@ class Log extends Component {
     let { startDate, endDate } = this.props.dates;
     startDate = moment(startDate);
     endDate = moment(endDate);
-    if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && user.is_admin) {
+    if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && this.props.isAdmin) {
       const checkFilter = (l = [], attribute, constraint) =>
         l[attribute] === constraint || constraint === 'all' || !constraint;
       return logs.filter(
@@ -78,7 +77,13 @@ class Log extends Component {
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
       );
-    } else if (logs && logs.length && Object.keys(logs[0]).length > 0 && user && !user.is_admin) {
+    } else if (
+      logs &&
+      logs.length &&
+      Object.keys(logs[0]).length > 0 &&
+      user &&
+      !this.props.isAdmin
+    ) {
       const checkFilter = (l = [], attribute, constraint) =>
         l[attribute] === constraint || constraint === 'all' || !constraint;
       return logs.filter(
@@ -340,6 +345,7 @@ const mapStateToProps = (state) => {
     logs: logSelector(state),
     user: userFarmSelector(state),
     dates: startEndDateSelector(state),
+    isAdmin: isAdminSelector(state),
   };
 };
 

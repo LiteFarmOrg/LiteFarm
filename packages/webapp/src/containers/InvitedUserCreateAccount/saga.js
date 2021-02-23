@@ -1,22 +1,18 @@
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import {
-  onLoadingUserFarmsStart,
-  onLoadingUserFarmsFail,
   acceptInvitationSuccess,
+  onLoadingUserFarmsFail,
+  onLoadingUserFarmsStart,
 } from '../userFarmSlice';
 import history from '../../history';
-import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
 import { getFirstNameLastName } from '../../util';
 import { purgeState } from '../../index';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { axios } from '../saga';
-import {
-  startInvitationFlow,
-  startInvitationFlowWithSpotLight,
-} from '../ChooseFarm/chooseFarmFlowSlice';
+import { startInvitationFlowWithSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 
 const acceptInvitationWithSSOUrl = () => `${url}/user/accept_invitation`;
 const acceptInvitationWithLiteFarmUrl = () => `${url}/user/accept_invitation`;
@@ -35,7 +31,9 @@ export function* acceptInvitationWithSSOSaga({
       },
     };
     const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+    const language_preference = selectedLanguage.includes('-')
+      ? selectedLanguage.split('-')[0]
+      : selectedLanguage;
     const user = {
       ...userForm,
       language_preference,
@@ -83,7 +81,9 @@ export function* acceptInvitationWithLiteFarmSaga({ payload: { invite_token, use
       },
     };
     const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+    const language_preference = selectedLanguage.includes('-')
+      ? selectedLanguage.split('-')[0]
+      : selectedLanguage;
 
     const user = {
       ...userForm,

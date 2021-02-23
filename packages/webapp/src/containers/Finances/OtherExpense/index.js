@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../styles.module.scss';
+import styles from './styles.module.scss';
 import { dateRangeSelector, expenseSelector, expenseTypeSelector } from '../selectors';
 import Table from '../../../components/Table';
 import { getExpense, setExpenseDetailItem } from '../actions';
 import history from '../../../history';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class OtherExpense extends Component {
   constructor(props) {
@@ -113,13 +113,14 @@ class OtherExpense extends Component {
     let detailedHistory = [];
 
     let subTotal = 0;
+    const language = localStorage.getItem('litefarm_lang');
 
     for (let e of expenses) {
       if (moment(e.expense_date).isBetween(moment(startDate), moment(endDate))) {
         let amount = parseFloat(e.value);
         subTotal += amount;
         detailedHistory.push({
-          date: moment(e.expense_date).format('MMM-DD-YYYY'),
+          date: moment(e.expense_date).locale(language).format('MMM-DD-YYYY'),
           type: this.getExpenseType(e.expense_type_id),
           amount: this.state.currencySymbol + amount.toFixed(2).toString(),
           expense_date: e.expense_date,

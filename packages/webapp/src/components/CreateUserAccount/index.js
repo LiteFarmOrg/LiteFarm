@@ -27,7 +27,7 @@ export default function PureCreateUserAccount({ onSignUp, email, onGoBack }) {
   const BIRTHYEAR = 'birth_year';
   const PASSWORD = 'password';
   const password = watch(PASSWORD, undefined);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'gender']);
   const title = t('CREATE_USER.TITLE');
   const {
     isValid: isPasswordValid,

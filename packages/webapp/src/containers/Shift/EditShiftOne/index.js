@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
@@ -29,10 +29,10 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import Popup from 'reactjs-popup';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { grabCurrencySymbol } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../components/Form/Input';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class EditShiftOne extends Component {
   constructor(props) {

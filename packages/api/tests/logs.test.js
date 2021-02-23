@@ -513,8 +513,8 @@ describe('Log Tests', () => {
             });
             await mocks.activityFieldsFactory({
               promisedField: [field],
-              promisedActivityLog: [workerActivity]
-            })
+              promisedActivityLog: [workerActivity],
+            });
             deleteRequest({ user_id: newWorker.user_id, activity_id: workerActivity.activity_id }, async (err, res) => {
               expect(res.status).toBe(200);
               const activityLogRes = await activityLogModel.query().context({

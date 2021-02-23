@@ -2,7 +2,7 @@ import Form from '../Form';
 import Button from '../Form/Button';
 import Radio from '../Form/Radio';
 import OverlayTooltip from '../Tooltip';
-import { Title, Underlined, Main, Label } from '../Typography';
+import { Label, Main, Title, Underlined } from '../Typography';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ export default function PureInterestedOrganic({
   underlined,
   content,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}

@@ -170,7 +170,10 @@ async function farmExpenseTypeFactory({ promisedFarm = farmFactory() } = {}, exp
   return knex('farmExpenseType').insert({ farm_id, ...expense_type, ...base }).returning('*');
 }
 
-async function farmExpenseFactory({ promisedExpenseType = farmExpenseTypeFactory(), promisedUserFarm = userFarmFactory() } = {}, expense = fakeExpense()) {
+async function farmExpenseFactory({
+  promisedExpenseType = farmExpenseTypeFactory(),
+  promisedUserFarm = userFarmFactory(),
+} = {}, expense = fakeExpense()) {
   const [expense_type, user] = await Promise.all([promisedExpenseType, promisedUserFarm]);
   const [{ expense_type_id }] = expense_type;
   const [{ user_id }] = user;
@@ -475,16 +478,18 @@ function fakeHarvestLog() {
   };
 }
 
-async function harvestUseFactory({ promisedHarvestLog = harvestLogFactory(),
-                                   promisedHarvestUseType= harvestUseTypeFactory(),
-                                   promisedFieldCrop = fieldCropFactory()} = {},
-                                 harvestUse = fakeHarvestUse()) {
+async function harvestUseFactory({
+    promisedHarvestLog = harvestLogFactory(),
+    promisedHarvestUseType = harvestUseTypeFactory(),
+    promisedFieldCrop = fieldCropFactory(),
+  } = {},
+  harvestUse = fakeHarvestUse()) {
   const [harvestLog, harvestUseType, fieldCrop] = await Promise.all([promisedHarvestLog, promisedHarvestUseType, promisedFieldCrop]);
   const [{ harvest_use_type_id }] = harvestUseType;
   const [{ activity_id }] = harvestLog;
   const [{ field_crop_id }] = fieldCrop;
   await knex('activityCrops').insert({ activity_id, field_crop_id });
-  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse}).returning('*');
+  return knex('harvestUse').insert({ activity_id, harvest_use_type_id, ...harvestUse }).returning('*');
 }
 
 async function seedLogFactory({ promisedActivity = activityLogFactory() } = {}, seedLog = fakeSeedLog()) {
@@ -593,7 +598,7 @@ async function shiftTaskFactory({
   promisedShift = shiftFactory(),
   promisedFieldCrop = fieldCropFactory(), promisedField = fieldFactory(),
   promisedTaskType = taskTypeFactory(),
-  promisedUser = usersFactory()
+  promisedUser = usersFactory(),
 } = {}, shiftTask = fakeShiftTask()) {
   const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
@@ -601,7 +606,12 @@ async function shiftTaskFactory({
   const [{ field_id }] = field;
   const [{ task_id }] = task;
   const [{ user_id }] = user;
-  return knex('shiftTask').insert({ shift_id, field_id, field_crop_id, task_id, ...shiftTask, ...baseProperties(user_id) }).returning('*');
+  return knex('shiftTask').insert({
+    shift_id,
+    field_id,
+    field_crop_id,
+    task_id, ...shiftTask, ...baseProperties(user_id),
+  }).returning('*');
 }
 
 function fakeShiftTask() {

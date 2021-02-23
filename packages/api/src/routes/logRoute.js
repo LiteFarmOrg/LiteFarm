@@ -26,7 +26,7 @@ router.post('/', hasFarmAccess({ body: 'fields' }), checkScope(['add:logs']), lo
 router.get('/:activity_id', hasFarmAccess({ mixed: 'activity_id' }), checkScope(['get:logs']), logController.logController.getLogByActivityId());
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:logs']), logController.logController.getLogByFarmId());
 router.get('/harvest_use_types/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:logs']), logController.logController.getHarvestUseTypesByFarmID());
-router.post('/harvest_use_types/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['add:harvest_use']), logController.logController.addHarvestUseType())
+router.post('/harvest_use_types/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['add:harvest_use']), logController.logController.addHarvestUseType());
 
 router.put('/:activity_id', checkScope(['edit:logs']),
   (req, res, next) => conditionallyApplyMiddleware(

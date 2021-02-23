@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../styles.scss';
+import defaultStyles from '../styles.module.scss';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Employee from './Employee';
 import Crop from './Crop';
 import Task from './Task';
 import { dateRangeSelector, shiftSelector } from '../selectors';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { Main } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class Labour extends Component {
   constructor(props) {

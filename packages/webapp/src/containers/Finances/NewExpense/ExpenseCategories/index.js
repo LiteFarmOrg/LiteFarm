@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PageTitle from '../../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../../styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../../styles.module.scss';
+import styles from './styles.module.scss';
 import { expenseTypeSelector } from '../../selectors';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import EquipImg from '../../../../assets/images/log/equipment.svg';
 import FertImg from '../../../../assets/images/log/fertilizing.svg';
 import PestImg from '../../../../assets/images/log/bug.svg';

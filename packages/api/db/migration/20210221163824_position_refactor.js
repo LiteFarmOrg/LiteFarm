@@ -36,9 +36,12 @@ exports.up = async function (knex) {
   await knex.raw('DROP MATERIALIZED VIEW update_field_crop_view');
   const fields = await knex('field');
   await Promise.all(fields.map((field) => knex('location').insert({ location_id: field.field_id, farm_id: field.farm_id })));
-  await Promise.all(fields.map((field) => {
-    knex('area').insert({ location_id: field.field_id, area_name: field.field_name, total_area: field.area, grid_points: field.grid_points })
-  }));
+  await Promise.all(fields.map((field) => knex('area').insert({
+    location_id: field.field_id,
+    area_name: field.field_name,
+    total_area: field.area,
+    grid_points: field.grid_points })
+  ));
   await knex.schema.alterTable('fieldCrop', (t) => {
     t.dropForeign('field_id');
     t.foreign('field_id').references('location_id').inTable('location');
@@ -59,8 +62,10 @@ exports.up = async function (knex) {
     t.dropColumn('area');
     t.foreign('field_id').references('location_id').inTable('area');
   });
-
-
+  await knex.schema.alterTable('users', (t) => {
+    t.dropForeign('farm_id');
+    t.dropColumn('farm_id');
+  })
 };
 
 exports.down = function (knex) {

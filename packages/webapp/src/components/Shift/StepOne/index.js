@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import TitleLayout from '../../Layout/TitleLayout';
 import DateContainer from '../../Inputs/DateContainer';
 import ReactSelect from '../../Form/ReactSelect';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import BedImg from '../../../assets/images/log/bed.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
 import FertImg from '../../../assets/images/log/fertilizing.svg';
@@ -34,7 +34,7 @@ function PureStepOne({
   addTaskType,
   showTaskRequiredError,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'task']);
   let workerOptions = workers.map(({ first_name, last_name, user_id }) => ({
     label: `${first_name} ${last_name}`,
     value: user_id,
@@ -139,7 +139,7 @@ function PureStepOne({
 }
 
 function TaskTypeMatrix({ selected, taskTypes, setTasks }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'task']);
   const imgDict = {
     'Bed Preparation': BedImg,
     Delivery: DeliveryImg,

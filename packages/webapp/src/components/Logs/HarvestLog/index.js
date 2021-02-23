@@ -6,7 +6,7 @@ import { Error } from '../../Typography';
 import TextArea from '../../../components/Form/TextArea';
 import moment from 'moment';
 import Button from '../../Form/Button';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Input from '../../Form/Input';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
@@ -24,7 +24,7 @@ export default function PureHarvestLog({
   selectedLog,
   dispatch,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common']);
   let [date, setDate] = useState(moment());
   let [field, setField] = useState(null);
   let [crop, setCrop] = useState(null);
@@ -47,8 +47,8 @@ export default function PureHarvestLog({
     value: field_id,
   }));
 
-  let cropOptions = crops.map(({ crop_common_name, crop_id, field_name }) => ({
-    label: crop_common_name,
+  let cropOptions = crops.map(({ crop_translation_key, crop_id, field_name }) => ({
+    label: t(`crop:${crop_translation_key}`),
     value: crop_id,
     field_name: field_name,
   }));

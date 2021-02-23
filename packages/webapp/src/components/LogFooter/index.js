@@ -15,7 +15,7 @@
 
 import history from '../../history';
 import React from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { withTranslation } from 'react-i18next';
 
 class LogFooter extends React.Component {

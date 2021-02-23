@@ -15,7 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const fieldCropModel = require('../models/fieldCropModel');
-const { transaction, Model } = require('objection');
+const { transaction, Model, raw } = require('objection');
 const knex = Model.knex();
 
 const FieldCropController = {
@@ -142,15 +142,15 @@ const FieldCropController = {
       try {
         const farmID = req.params.farm_id;
         const date = req.params.date;
-        const dataPoints = await knex.raw(
-          `SELECT *
-          FROM "field" f, "fieldCrop" fc, "crop" c
-          WHERE f.farm_id = ? and f.field_id = fc.field_id and c.crop_id = fc.crop_id and to_char(date(fc.end_date), 'YYYY-MM-DD') >= '${date}'
-          and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`, [farmID]);
+        const dataPoints = await fieldCropModel.query().whereNotDeleted()
+          .join('field', 'field.field_id', 'fieldCrop.field_id')
+          .join('farm', 'farm.farm_id', 'field.farm_id')
+          .where('farm.farm_id', farmID)
+          .where('fieldCrop.end_date', '>=', date);
 
-        if (dataPoints.rows) {
-          const body = dataPoints.rows;
-          res.status(200).send(body);
+
+        if (dataPoints) {
+          res.status(200).send(dataPoints);
         } else {
           res.status(200).send([]);
         }
@@ -164,36 +164,22 @@ const FieldCropController = {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
-        const date = formatDate(new Date());
-        const dataPoints = await knex.raw(
-          `SELECT *
-          FROM "field" f, "fieldCrop" fc, "crop" c
-          WHERE f.farm_id = ? and f.field_id = fc.field_id and c.crop_id = fc.crop_id and fc.end_date < now()
-           and f.deleted = FALSE and fc.deleted = FALSE and c.deleted = FALSE`, [farmID]);
-        if (dataPoints.rows) {
-          const body = dataPoints.rows;
-          res.status(200).send(body);
+        const dataPoints = await fieldCropModel.query().whereNotDeleted()
+          .join('field', 'field.field_id', 'fieldCrop.field_id')
+          .join('farm', 'farm.farm_id', 'field.farm_id')
+          .where('farm.farm_id', farmID)
+          .where(raw('"fieldCrop".end_date < now()'));
+
+        if (dataPoints) {
+          res.status(200).send(dataPoints);
         } else {
           res.status(200).send([]);
         }
       } catch (error) {
         res.status(400).json({ error });
       }
-    };
+    }
   },
-};
-
-const formatDate = (currDate) => {
-  const d = currDate;
-  const year = d.getFullYear();
-  let
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-};
+}
 
 module.exports = FieldCropController;

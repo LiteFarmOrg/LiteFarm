@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { durationSelector, selectedTasksSelector, startEndSelector } from './selectors';
 
@@ -738,7 +738,7 @@ function InputDuration({
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task', 'message']);
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   };

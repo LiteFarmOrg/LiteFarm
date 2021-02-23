@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../styles.scss';
+import defaultStyles from '../styles.module.scss';
 import { actions } from 'react-redux-form';
 import SaleForm from '../../../components/Forms/Sale';
 import { selectedSaleSelector } from '../selectors';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { deleteSale, updateSale } from '../actions';
-import {
-  convertFromMetric,
-  convertToMetric,
-  getUnit,
-  grabCurrencySymbol,
-  roundToTwoDecimal,
-} from '../../../util';
+import { convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class EditSale extends Component {
   constructor(props) {

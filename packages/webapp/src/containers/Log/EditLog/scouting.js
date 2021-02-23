@@ -8,7 +8,7 @@ import { actions, Form } from 'react-redux-form';
 import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import Checkbox from '../../../components/Inputs/Checkbox';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';

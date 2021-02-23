@@ -1,7 +1,7 @@
 import Form from '../Form';
 import Button from '../Form/Button';
 import clsx from 'clsx';
-import styles from './consent.scss';
+import styles from './consent.module.scss';
 import ReactMarkdown from 'react-markdown';
 import Checkbox from '../Form/Checkbox';
 import React from 'react';
@@ -9,7 +9,7 @@ import { Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, disabled }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   return (
     <Form
       onSubmit={onSubmit}

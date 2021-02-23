@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import OutroImg from '../../assets/images/outro/outro.svg';
 import Footer from '../Footer';
 import Button from '../Form/Button';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Title } from '../Typography';
 
 export default function PureOutroSplash({ onContinue, onGoBack }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <>

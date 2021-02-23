@@ -8,7 +8,7 @@ import DefaultLogForm from '../../../components/Forms/Log';
 import LogFooter from '../../../components/LogFooter';
 import moment from 'moment';
 import Checkbox from '../../../components/Inputs/Checkbox';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import parseCrops from '../Utility/parseCrops';
 import parseFields from '../Utility/parseFields';
 import { addLog } from '../Utility/actions';

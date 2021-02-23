@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 
 import { deleteSale } from '../actions';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { selectedSaleSelector } from '../selectors';
-import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
+import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class SaleDetail extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class SaleDetail extends Component {
                   id={`dropdown-basic-${dropDown}`}
                 >
                   <Dropdown.Item
-                    data-test='edit-sale'
+                    data-test="edit-sale"
                     eventKey="0"
                     onClick={() => history.push('/edit_sale')}
                   >

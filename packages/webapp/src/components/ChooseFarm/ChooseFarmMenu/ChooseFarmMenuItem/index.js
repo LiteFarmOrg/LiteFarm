@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './chooseFarmMenuItem.scss';
+import styles from './chooseFarmMenuItem.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Card from '../../../Card';

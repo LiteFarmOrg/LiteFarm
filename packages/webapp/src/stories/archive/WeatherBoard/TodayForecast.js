@@ -1,7 +1,7 @@
 import React from 'react';
 import utils from './utils';
 import PropTypes from 'prop-types';
-import styles from './assets/styles.scss';
+import styles from './assets/styles.module.scss';
 import clsx from 'clsx';
 
 const propTypes = {

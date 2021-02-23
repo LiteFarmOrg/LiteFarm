@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { Title } from '../Typography';
 import PropTypes from 'prop-types';
 import Input from '../Form/Input';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export default function PurePopupMiniForm({ title, inputInfo, onClose, onFormSubmit, isOpen }) {
   const { register, handleSubmit, watch, control, errors } = useForm();
   const NAME = 'name';
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   const onSubmit = (data) => {
     onFormSubmit(data.name);

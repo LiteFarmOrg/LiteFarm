@@ -14,7 +14,7 @@
  */
 
 import React, { Component } from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import history from '../../history';
 import InfoBoxComponent from '../InfoBoxComponent';
 import { BsChevronLeft } from 'react-icons/bs';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Fieldset, Control, actions, Errors } from 'react-redux-form';
 import DropDown from '../../Inputs/DropDown';
-import styles from '../../../containers/Log/styles.scss';
+import styles from '../../../containers/Log/styles.module.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Alert } from 'react-bootstrap';

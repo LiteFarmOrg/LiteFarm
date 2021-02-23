@@ -10,6 +10,7 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY, TREE_ICON } from './constants';
 import { useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
+import PureMapFooter from './Footer';
 
 export default function PureMap({ onClick, text, linkText, forgotPassword, isAdmin }) {
   const { t } = useTranslation();
@@ -156,11 +157,10 @@ export default function PureMap({ onClick, text, linkText, forgotPassword, isAdm
         </GoogleMap>
         </div>
       </div>
-      <div className={styles.mapFooter}>
-        {isAdmin && <div className={styles.footerButton}>{1}</div>}
-        <div className={styles.footerButton}>{2}</div>
-        <div className={styles.footerButton}>{3}</div>
-      </div>
+      <PureMapFooter
+        className={styles.mapFooter}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 }

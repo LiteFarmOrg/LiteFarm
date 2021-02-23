@@ -9,8 +9,18 @@ export default {
 
 const Template = (args) => <PureMapFooter {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
-Primary.parameters = {
+export const Admin = Template.bind({});
+Admin.args = {
+  isAdmin: true,
+};
+Admin.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};
+
+export const Worker = Template.bind({});
+Worker.args = {
+  isAdmin: false,
+};
+Worker.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

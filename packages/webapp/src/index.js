@@ -137,18 +137,21 @@ const render = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider theme={theme}>
+          {/*<CssBaseline/>*/}
           <Router history={history}>
-            <ReduxToastr
-              timeOut={4000}
-              newestOnTop={false}
-              preventDuplicates
-              position="top-left"
-              transitionIn="fadeIn"
-              transitionOut="fadeOut"
-              progressBar
-              closeOnToastrClick
-            />
-            <App />
+            <>
+              <ReduxToastr
+                timeOut={4000}
+                newestOnTop={false}
+                preventDuplicates
+                position="top-left"
+                transitionIn="fadeIn"
+                transitionOut="fadeOut"
+                progressBar
+                closeOnToastrClick
+              />
+              <App />
+            </>
           </Router>
         </ThemeProvider>
       </PersistGate>

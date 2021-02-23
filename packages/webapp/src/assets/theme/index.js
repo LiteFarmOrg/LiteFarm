@@ -74,6 +74,15 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: '"Open Sans"," SansSerif", serif',
   },
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        body: {
+          backgroundColor: '#fff',
+        },
+      },
+    },
+  },
 });
 
 export default theme;

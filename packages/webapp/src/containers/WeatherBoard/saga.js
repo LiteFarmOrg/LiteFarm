@@ -14,14 +14,13 @@
  */
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import {
+  getWeatherSuccess,
   onLoadingWeatherFail,
   onLoadingWeatherStart,
-  getWeatherSuccess,
   weatherSelector,
 } from './weatherSlice';
 import { createAction } from '@reduxjs/toolkit';
-import i18n from '../../lang/i18n';
-import { loginSelector, userFarmSelector } from '../userFarmSlice';
+import { userFarmSelector } from '../userFarmSlice';
 import utils from './utils';
 import { axios } from '../saga';
 

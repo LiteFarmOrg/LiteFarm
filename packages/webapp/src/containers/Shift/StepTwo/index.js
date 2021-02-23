@@ -738,7 +738,7 @@ function InputDuration({
   const [duration, _setDuration] = useState('');
   const [selectedCrops, setSelectedCrops] = useState();
   const [selectedFields, setSelectedFields] = useState();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task', 'message']);
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   };

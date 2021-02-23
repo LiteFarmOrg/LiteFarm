@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function PureAddTaskModal({ showModal, switchShowModal, addTaskType, showTaskRequiredError }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const [taskName, setTaskName] = useState('');
 
   const addCustomTask = () => {

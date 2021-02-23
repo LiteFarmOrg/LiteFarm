@@ -29,7 +29,7 @@ const Input = ({
   ...props
 }) => {
   warnings(hookFormSetValue, optional);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
   const onClear =
     optional || hookFormSetValue

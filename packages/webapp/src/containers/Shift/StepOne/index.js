@@ -6,13 +6,7 @@ import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
 import BedImg from '../../../assets/images/log/bed.svg';
 import { taskTypeSelector } from './selectors';
-import {
-  addTaskType,
-  getTaskTypes,
-  setSelectedTasks,
-  setShiftDuration,
-  setStartEndInState,
-} from '../actions';
+import { addTaskType, setSelectedTasks, setShiftDuration, setStartEndInState } from '../actions';
 import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import OtherImg from '../../../assets/images/log/other.svg';
 import DeliveryImg from '../../../assets/images/log/delivery.svg';
@@ -29,11 +23,11 @@ import closeButton from '../../../assets/images/grey_close_button.png';
 import Popup from 'reactjs-popup';
 import history from '../../../history';
 import { toastr } from 'react-redux-toastr';
-import { grabCurrencySymbol } from '../../../util';
 import { userFarmsByFarmSelector, userFarmSelector } from '../../userFarmSlice';
 import { getAllUserFarmsByFarmId } from '../../Profile/People/saga';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../../components/Form/Input';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class ShiftStepOne extends Component {
   constructor(props) {

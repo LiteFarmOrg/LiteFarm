@@ -1,11 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { loginUrl as url } from '../../apiConfig';
-import { onLoadingUserFarmsStart, onLoadingUserFarmsFail } from '../userFarmSlice';
+import { loginSuccess, onLoadingUserFarmsFail, onLoadingUserFarmsStart } from '../userFarmSlice';
 import history from '../../history';
-import { loginSelector, loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { axios } from '../saga';
 
 const loginUrl = () => `${url}/google`;

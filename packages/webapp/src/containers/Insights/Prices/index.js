@@ -4,15 +4,14 @@ import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { pricesDistanceSelector, pricesSelector } from '../selectors';
 import PriceCropContainer from '../../../components/Insights/PriceCropContainer';
-import { grabCurrencySymbol } from '../../../util';
-import { Collapse } from 'react-bootstrap';
-import { setPricesDistance, getPricesWithDistanceData } from '../actions';
+import { Button, Collapse } from 'react-bootstrap';
+import { getPricesWithDistanceData, setPricesDistance } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
-import { Button } from 'react-bootstrap';
 import styles from './styles.module.scss';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Text } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 const MILE_TO_KILOMETER = 1.609;
 

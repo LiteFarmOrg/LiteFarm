@@ -6,25 +6,20 @@ import parentStyles from '../styles.module.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
-import { deleteField } from '../saga';
-import { getExpiredFieldCrops, deleteFieldCrop } from '../saga';
-import { getFieldCropsByDate } from '../../saga';
+import { deleteField, deleteFieldCrop, getExpiredFieldCrops } from '../saga';
+import { getFieldCropsByDate, getFields } from '../../saga';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { toastr } from 'react-redux-toastr';
 import EditFieldCropModal from '../../../components/Forms/EditFieldCropModal/EditFieldCropModal';
-import { convertFromMetric, getUnit, grabCurrencySymbol, roundToTwoDecimal } from '../../../util';
+import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import { BsPencil } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
-import { getFields } from '../../saga';
 import { fieldsSelector } from '../../fieldSlice';
 import { putField } from './saga';
-import {
-  currentFieldCropsSelector,
-  expiredFieldCropsSelector,
-  fieldCropsSelector,
-} from '../../fieldCropSlice';
+import { currentFieldCropsSelector, expiredFieldCropsSelector } from '../../fieldCropSlice';
 import { withTranslation } from 'react-i18next';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class EditField extends Component {
   static defaultProps = {

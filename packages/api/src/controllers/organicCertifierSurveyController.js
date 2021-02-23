@@ -16,8 +16,8 @@
 const baseController = require('../controllers/baseController');
 const organicCertifierSurveyModel = require('../models/organicCertifierSurveyModel');
 
-class organicCertifierSurveyController extends baseController {
-  static getCertifiersByFarmId() {
+const organicCertifierSurveyController = {
+  getCertifiersByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -25,7 +25,7 @@ class organicCertifierSurveyController extends baseController {
           .first().select('organicCertifierSurvey.certifiers', 'organicCertifierSurvey.interested',
             'organicCertifierSurvey.survey_id', 'organicCertifierSurvey.farm_id');
         if (!result) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(result);
         }
@@ -37,12 +37,12 @@ class organicCertifierSurveyController extends baseController {
         });
       }
     }
-  }
+  },
 
-  static addOrganicCertifierSurvey() {
+  addOrganicCertifierSurvey() {
     return async (req, res) => {
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const result = await organicCertifierSurveyModel.query().context({ user_id }).insert(req.body).returning('*');
         res.status(201).send(result);
       } catch (error) {
@@ -51,13 +51,13 @@ class organicCertifierSurveyController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static patchCertifiers() {
+  patchCertifiers() {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const certifiers = req.body.certifiers || [];
         const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ certifiers });
         res.sendStatus(200);
@@ -67,13 +67,13 @@ class organicCertifierSurveyController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static patchInterested() {
+  patchInterested() {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const interested = req.body.interested;
         const result = await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).patch({ interested });
         res.sendStatus(200);
@@ -83,13 +83,13 @@ class organicCertifierSurveyController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delOrganicCertifierSurvey() {
+  delOrganicCertifierSurvey() {
     return async (req, res) => {
       const survey_id = req.params.survey_id;
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         await organicCertifierSurveyModel.query().context({ user_id }).findById(survey_id).delete();
         res.sendStatus(200);
       } catch (error) {
@@ -99,7 +99,7 @@ class organicCertifierSurveyController extends baseController {
         });
       }
     };
-  }
+  },
 
 
 }

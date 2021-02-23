@@ -30,7 +30,7 @@ function PureStepTwo({
   selectedTasks,
   isEO,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task']);
   let [cropOptions, setCropOptions] = useState([]);
   let [fieldOptions, setFieldOptions] = useState([]);
   const [defaultCrops, setDefaultCrops] = useState({});
@@ -360,7 +360,7 @@ function InputDuration({
     [task.task_id]: { hours: '', minutes: '' },
   });
   const [fieldDuration, setFieldDuration] = useState({ hours: '', minutes: '' });
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task']);
   const setDuration = (value) => {
     _setDuration(value > 0 ? value : '');
   };
@@ -754,7 +754,7 @@ function MoodPopup({
   isCurrentShiftUser,
   isEO,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'crop', 'common', 'task']);
   const setNotProvided = (event) => {
     setMood(event.currentTarget.checked ? 'no answer' : null);
   };

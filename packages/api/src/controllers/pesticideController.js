@@ -17,27 +17,29 @@ const baseController = require('../controllers/baseController');
 const pesticideModel = require('../models/pesiticideModel');
 const { transaction, Model } = require('objection');
 
-class pesticideController extends baseController {
-  static getPesticide() {
+const pesticideController = {
+  getPesticide() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await pesticideModel.query().whereNotDeleted().where('farm_id', null).orWhere({farm_id, deleted: false});
+        const rows = await pesticideModel.query().whereNotDeleted().where('farm_id', null).orWhere({
+          farm_id,
+          deleted: false,
+        });
         res.status(200).send(rows);
-      }
-      catch (error) {
+      } catch (error) {
         //handle more exceptions
         res.status(400).json({
           error,
         });
       }
     }
-  }
-  static addPesticide(){
+  },
+  addPesticide() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const user_id = req.user.user_id
+        const user_id = req.user.user_id;
         const result = await baseController.postWithResponse(pesticideModel, req.body, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
@@ -49,9 +51,9 @@ class pesticideController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delPesticide() {
+  delPesticide() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -68,8 +70,8 @@ class pesticideController extends baseController {
           error,
         });
       }
-    }
-  }
+    };
+  },
 }
 
 module.exports = pesticideController;

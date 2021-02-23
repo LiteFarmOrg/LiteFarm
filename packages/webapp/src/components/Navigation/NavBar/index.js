@@ -10,11 +10,12 @@ import PureMyFarmFloater from '../../MyFarmFloater';
 import PureNotificationFloater from '../../NotificationFloater';
 import clsx from 'clsx';
 import { logout } from '../../../util/jwt';
+import { useTranslation } from 'react-i18next';
 
 export default function PureNavBar({
   logo,
   children,
-  steps,
+  showSpotLight,
   resetSpotlight,
   changeInteraction,
   isOneTooltipOpen,
@@ -70,11 +71,82 @@ export default function PureNavBar({
   const notificationTeaserClick = () => {
     changeInteraction('notification');
   };
-
+  const { t } = useTranslation([
+    'translation',
+    'crop',
+    'common',
+    'disease',
+    'task',
+    'expense',
+    'fertilizer',
+    'message',
+    'gender',
+    'role',
+    'harvest_uses',
+    'soil',
+  ]);
+  const farmSpotlight = t('NAVIGATION.SPOTLIGHT.FARM');
+  const notificationsSpotlight = t('NAVIGATION.SPOTLIGHT.NOTIFICATION');
+  const myProfileSpotlight = t('NAVIGATION.SPOTLIGHT.PROFILE');
+  const steps = [
+    {
+      target: '#firstStep',
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.FARM_TITLE'), true),
+      content: returnContent(farmSpotlight, false),
+      locale: {
+        next: returnNextButton(t('common:NEXT')),
+      },
+      showCloseButton: false,
+      disableBeacon: true,
+      placement: 'right-start',
+      styles: {
+        options: {
+          width: 240,
+        },
+      },
+    },
+    {
+      target: '#secondStep',
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'), true),
+      content: returnContent(notificationsSpotlight, false),
+      locale: {
+        next: returnNextButton(t('common:NEXT')),
+      },
+      showCloseButton: false,
+      placement: 'right-start',
+      styles: {
+        options: {
+          width: 260,
+        },
+      },
+    },
+    {
+      target: '#thirdStep',
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'), true),
+      content: returnContent(myProfileSpotlight, false),
+      locale: {
+        last: returnNextButton(t('common:GOT_IT')),
+      },
+      placement: 'right-start',
+      showCloseButton: false,
+      styles: {
+        options: {
+          width: 210,
+        },
+      },
+      floaterProps: {
+        styles: {
+          floater: {
+            marginRight: '12px',
+          },
+        },
+      },
+    },
+  ];
   return (
     <nav className={styles.navBar}>
       <div className={styles.actionItemContainer}>
-        {steps && (
+        {showSpotLight && (
           <ReactJoyride
             steps={steps}
             continuous
@@ -174,3 +246,25 @@ export default function PureNavBar({
     </nav>
   );
 }
+
+const returnContent = (spotlightType, title) => {
+  return spotlightType.split(',').map(function (item, key) {
+    return title ? (
+      <span key={key} className={styles.green}>
+        <p align="left" className={styles.p}>
+          {item}
+        </p>
+      </span>
+    ) : (
+      <span key={key}>
+        <p align="left" className={styles.p}>
+          {item}
+        </p>
+      </span>
+    );
+  });
+};
+
+const returnNextButton = (str) => {
+  return <span className={styles.black}>{str}</span>;
+};

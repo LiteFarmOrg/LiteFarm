@@ -16,3 +16,8 @@
   align-items: center;
   background-color: white;
 }
+
+.button:hover {
+  border-top: 8px solid var(--teal700);
+  padding-bottom: 7px;
+}

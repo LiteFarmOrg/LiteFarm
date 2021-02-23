@@ -8,6 +8,7 @@ import NavBar from '../../../containers/Navigation';
 import { ThemeProvider } from 'react-bootstrap';
 import theme from '../../../assets/theme';
 import { useTranslation } from 'react-i18next';
+import { CssBaseline } from '@material-ui/core';
 
 const store = {
   getState: () => {
@@ -48,6 +49,7 @@ export default [
     return ready ? (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <Router history={history}>
             <div
               style={{
@@ -85,30 +87,33 @@ export const authenticatedDecorators = [
     const ready = useI18next();
     return ready ? (
       <Provider store={store}>
-        <Router history={history}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              minHeight: '100vh',
-            }}
-          >
-            <NavBar history={history} auth={auth(true)} />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router history={history}>
             <div
-              className="app"
               style={{
-                width: '100%',
-                maxWidth: '1024px',
-                flex: '1',
                 display: 'flex',
                 flexDirection: 'column',
+                alignItems: 'center',
+                minHeight: '100vh',
               }}
             >
-              {story()}
+              <NavBar history={history} auth={auth(true)} />
+              <div
+                className="app"
+                style={{
+                  width: '100%',
+                  maxWidth: '1024px',
+                  flex: '1',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                {story()}
+              </div>
             </div>
-          </div>
-        </Router>
+          </Router>
+        </ThemeProvider>
       </Provider>
     ) : (
       <div>loading</div>
@@ -121,6 +126,12 @@ export const componentDecorators = [
     const ready = useI18next();
     return ready ? <div style={{ padding: '3rem' }}>{story()}</div> : <div>loading</div>;
   },
+  (story) => (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {story()}
+    </ThemeProvider>
+  ),
 ];
 
 export const componentDecoratorsGreyBackground = [
@@ -132,6 +143,12 @@ export const componentDecoratorsGreyBackground = [
       <div>loading</div>
     );
   },
+  (story) => (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {story()}
+    </ThemeProvider>
+  ),
 ];
 
 export const componentDecoratorsWithoutPadding = [
@@ -139,4 +156,10 @@ export const componentDecoratorsWithoutPadding = [
     const ready = useI18next();
     return ready ? story() : <div>loading</div>;
   },
+  (story) => (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {story()}
+    </ThemeProvider>
+  ),
 ];

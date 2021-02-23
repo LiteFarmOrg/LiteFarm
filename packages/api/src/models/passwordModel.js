@@ -35,8 +35,8 @@ class Password extends Model {
         user_id: { type: 'string' },
         password_hash: { type: 'string' },
         reset_token_version: { type: 'integer' },
-        created_at: { type : 'date-time' },
-      }
+        created_at: { type: 'date-time' },
+      },
     };
   }
   static get relationMappings() {
@@ -45,11 +45,11 @@ class Password extends Model {
       user: {
         modelClass: require('./userModel'),
         relation: Model.HasOneRelation,
-        join:{
+        join: {
           from: 'password.user_id',
           to: 'users.user_id',
         },
-      }
+      },
     };
   }
 

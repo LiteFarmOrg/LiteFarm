@@ -18,31 +18,31 @@ const farmDataScheduleModel = require('../models/farmDataScheduleModel');
 
 /* eslint-disable no-console */
 
-class userFarmDataController extends baseController {
-  static registerFarm() {
+const userFarmDataController = {
+  registerFarm() {
     return async (req, res) => {
       try {
         const farm_id = req.body.farm_id;
         const user_id = req.body.user_id;
         const data = { farm_id, user_id };
         await farmDataScheduleModel.transaction(async trx => {
-          await super.post(farmDataScheduleModel, data, trx);
-        })
+          await baseController.post(farmDataScheduleModel, data, trx);
+        });
         res.sendStatus(200);
       } catch (error) {
         //handle more exceptions
         res.status(400).send(error);
       }
     }
-  }
+  },
 
-  static getSchedule() {
+  getSchedule() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const data = await farmDataScheduleModel.query().where({ farm_id, is_processed: false }).returning('*');
         if (!data.length) {
-          res.sendStatus(404)
+          res.sendStatus(404);
         } else {
           res.status(200).send(data);
         }
@@ -52,8 +52,8 @@ class userFarmDataController extends baseController {
         console.log(error);
         res.status(400).send(error);
       }
-    }
-  }
+    };
+  },
 }
 
 module.exports = userFarmDataController;

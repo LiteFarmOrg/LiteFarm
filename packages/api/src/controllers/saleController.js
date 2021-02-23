@@ -18,9 +18,9 @@ const saleModel = require('../models/saleModel');
 const cropSaleModel = require('../models/cropSaleModel');
 const { transaction, Model } = require('objection');
 
-class SaleController extends baseController {
+const SaleController = {
   // this messed the update up as field Crop id is the same and it will change for all sales with the same field crop id!
-  static addOrUpdateSale() {
+  addOrUpdateSale() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const { user_id } = req.user;
@@ -39,13 +39,13 @@ class SaleController extends baseController {
         console.log(error);
       }
     };
-  }
+  },
 
-  static patchSales() {
+  patchSales() {
     return async (req, res) => {
       const { sale_id } = req.params;
       const { customer_name, sale_date, quantity_kg, sale_value } = req.body;
-      let saleData = {};
+      const saleData = {};
 
       if (customer_name) saleData.customer_name = customer_name;
       if (sale_date) saleData.sale_date = sale_date;
@@ -80,10 +80,10 @@ class SaleController extends baseController {
         });
       }
     };
-  }
+  },
 
   // get sales and related crop sales
-  static getSaleByFarmId() {
+  getSaleByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -113,9 +113,9 @@ class SaleController extends baseController {
         console.log(error);
       }
     };
-  }
+  },
 
-  static delSale() {
+  delSale() {
     return async (req, res) => {
       const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
@@ -134,9 +134,9 @@ class SaleController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static async getSalesOfFarm(farm_id) {
+  async getSalesOfFarm(farm_id) {
     return await saleModel
       .query().context({ showHidden: true }).whereNotDeleted()
       .distinct('sale.sale_id', 'sale.customer_name', 'sale.sale_date', 'sale.created_by_user_id')
@@ -145,7 +145,7 @@ class SaleController extends baseController {
       .join('crop', 'crop.crop_id', '=', 'cropSale.crop_id')
       //.join('field', 'field.field_id', '=', 'fieldCrop.field_id')
       .where('sale.farm_id', farm_id);
-  }
+  },
 }
 
 module.exports = SaleController;

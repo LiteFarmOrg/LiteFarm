@@ -25,78 +25,6 @@ export default function PureMap({ onClick, text, linkText, forgotPassword, isAdm
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
-    // let farmBounds = new maps.LatLngBounds();
-    // let len = 0;
-    // let fieldIcon = {
-    //   path: TREE_ICON,
-    //   fillColor: styles.primaryColor,
-    //   fillOpacity: 0,
-    //   strokeWeight: 0,
-    //   scale: 0.5,
-    // };
-
-    // maps.Polygon.prototype.getPolygonBounds = function () {
-    //   var bounds = new maps.LatLngBounds();
-    //   this.getPath().forEach(function (element, index) {
-    //     bounds.extend(element);
-    //   });
-    //   return bounds;
-    // };
-
-    // let addListenersOnPolygonAndMarker = function (polygon, fieldObject) {
-    //   // creates field marker
-    //   var fieldMarker = new maps.Marker({
-    //     position: polygon.getPolygonBounds().getCenter(),
-    //     map: map,
-    //     icon: fieldIcon,
-    //     label: { text: fieldObject.field_name, color: 'white' },
-    //   });
-
-    //   // attach on click listeners
-    //   //activeInfoWindow = null;
-
-    //   function pushToHist() {
-    //     history.push('./edit_field?' + fieldObject.field_id);
-    //   }
-
-    //   fieldMarker.setMap(map);
-
-    //   maps.event.addListener(fieldMarker, 'click', function (event) {
-    //     pushToHist();
-    //   });
-    //   maps.event.addListener(polygon, 'click', function (event) {
-    //     pushToHist();
-    //   });
-    // };
-
-    // if (this.state.fields && this.state.fields.length >= 1) {
-    //   len = this.state.fields.length;
-    //   let i;
-
-    //   for (i = 0; i < len; i++) {
-    //     // ensure that the map shows this field
-    //     this.state.fields[i].grid_points.forEach((grid_point) => {
-    //       farmBounds.extend(grid_point);
-    //     });
-    //     // creates the polygon to be displayed on the map
-    //     var polygon = new maps.Polygon({
-    //       paths: this.state.fields[i].grid_points,
-    //       strokeColor: styles.primaryColor,
-    //       strokeOpacity: 0.8,
-    //       strokeWeight: 3,
-    //       fillColor: styles.primaryColor,
-    //       fillOpacity: 0.35,
-    //     });
-    //     polygon.setMap(map);
-    //     addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
-    //   }
-    //   map.fitBounds(farmBounds);
-    // }
-    // this.setState({
-    //   map,
-    //   maps,
-    //   isMapLoaded: true,
-    // });
   }
 
   const getMapOptions = (maps) => {
@@ -153,11 +81,6 @@ export default function PureMap({ onClick, text, linkText, forgotPassword, isAdm
           onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
           options={getMapOptions}
         >
-          {/* <CenterDiv
-            lat={this.state.center.lat}
-            lng={this.state.center.lng}
-            text={'' && this.props.farm.farm_name}
-          /> */}
         </GoogleMap>
         </div>
       </div>

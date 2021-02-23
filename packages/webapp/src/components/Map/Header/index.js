@@ -23,8 +23,6 @@ export default function PureMapHeader({
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
       <input
-        // data-testid="thirdStep"
-        // id="thirdStep"
         type="image"
         src={VideoLogo}
         className={styles.button}

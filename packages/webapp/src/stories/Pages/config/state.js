@@ -1597,8 +1597,34 @@ export default {
       error: null,
     },
     fieldReducer: {
-      ids: [],
-      entities: {},
+      ids: ['5b75ab0e-c5d5-49cd-8b07-ce736d698569'],
+      entities: {
+        '5b75ab0e-c5d5-49cd-8b07-ce736d698569': {
+          field_name: 'farm',
+          grid_points: [
+            {
+              lat: 49.26861272123652,
+              lng: -123.17771023809816,
+            },
+            {
+              lat: 49.264076051516874,
+              lng: -123.17788189947511,
+            },
+            {
+              lat: 49.26402004064205,
+              lng: -123.17307538092042,
+            },
+            {
+              lat: 49.26838869795474,
+              lng: -123.17367619573976,
+            },
+          ],
+          field_id: '5b75ab0e-c5d5-49cd-8b07-ce736d698569',
+          farm_id: '22672200-5f8a-11eb-89a9-31fa75807a90',
+          area: 158913,
+          station_id: null,
+        },
+      },
       loading: false,
       error: null,
       loaded: true,
@@ -1774,7 +1800,7 @@ export default {
         167,
       ],
       entities: {
-        1: {
+        '1': {
           crop_id: 1,
           crop_common_name: 'Tea',
           crop_genus: 'Camellia',
@@ -1823,7 +1849,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'TEA',
         },
-        2: {
+        '2': {
           crop_id: 2,
           crop_common_name: 'Coffee',
           crop_genus: 'Coffea',
@@ -1872,7 +1898,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'COFFEE',
         },
-        3: {
+        '3': {
           crop_id: 3,
           crop_common_name: 'Hops',
           crop_genus: 'Humulus',
@@ -1921,7 +1947,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'HOPS',
         },
-        4: {
+        '4': {
           crop_id: 4,
           crop_common_name: 'Mint (all varieties)',
           crop_genus: 'Mentha',
@@ -1970,7 +1996,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MINT_ALL_VARIETIES',
         },
-        5: {
+        '5': {
           crop_id: 5,
           crop_common_name: 'Cocoa (cacao)',
           crop_genus: 'Theobroma',
@@ -2019,7 +2045,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'COCOA_CACAO',
         },
-        6: {
+        '6': {
           crop_id: 6,
           crop_common_name: 'Oats',
           crop_genus: 'Ave',
@@ -2068,7 +2094,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'OATS',
         },
-        7: {
+        '7': {
           crop_id: 7,
           crop_common_name: 'Millet (Japanese)',
           crop_genus: 'Echinochloa',
@@ -2117,7 +2143,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MILLET_JAPANESE',
         },
-        8: {
+        '8': {
           crop_id: 8,
           crop_common_name: 'Millet (finger)',
           crop_genus: 'Eleusine',
@@ -2166,7 +2192,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MILLET_FINGER',
         },
-        9: {
+        '9': {
           crop_id: 9,
           crop_common_name: 'Barley',
           crop_genus: 'Hordeum',
@@ -2215,7 +2241,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BARLEY',
         },
-        10: {
+        '10': {
           crop_id: 10,
           crop_common_name: 'Rice (African)',
           crop_genus: 'Oryza',
@@ -2264,7 +2290,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RICE_AFRICAN',
         },
-        11: {
+        '11': {
           crop_id: 11,
           crop_common_name: 'Rice',
           crop_genus: 'Oryza',
@@ -2313,7 +2339,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RICE',
         },
-        12: {
+        '12': {
           crop_id: 12,
           crop_common_name: 'Millet (proso)',
           crop_genus: 'Panicum',
@@ -2362,7 +2388,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MILLET_PROSO',
         },
-        13: {
+        '13': {
           crop_id: 13,
           crop_common_name: 'Millet (bajra, pearl)',
           crop_genus: 'Pennisetum',
@@ -2411,7 +2437,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MILLET_BAJRA_PEARL',
         },
-        14: {
+        '14': {
           crop_id: 14,
           crop_common_name: 'Rye',
           crop_genus: 'Secale',
@@ -2460,7 +2486,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RYE',
         },
-        15: {
+        '15': {
           crop_id: 15,
           crop_common_name: 'Millet (foxtail)',
           crop_genus: 'Setaria',
@@ -2509,7 +2535,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MILLET_FOXTAIL',
         },
-        16: {
+        '16': {
           crop_id: 16,
           crop_common_name: 'Broom millet',
           crop_genus: 'Sorghum',
@@ -2558,7 +2584,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BROOM_MILLET',
         },
-        17: {
+        '17': {
           crop_id: 17,
           crop_common_name: 'Broom sorghum',
           crop_genus: 'Sorghum',
@@ -2607,7 +2633,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BROOM_SORGHUM',
         },
-        18: {
+        '18': {
           crop_id: 18,
           crop_common_name: 'Millet (broom)',
           crop_genus: 'Sorghum',
@@ -2656,7 +2682,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MILLET_BROOM',
         },
-        19: {
+        '19': {
           crop_id: 19,
           crop_common_name: 'Sorghum',
           crop_genus: 'Sorghum',
@@ -2705,7 +2731,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SORGHUM',
         },
-        20: {
+        '20': {
           crop_id: 20,
           crop_common_name: 'Wheat',
           crop_genus: 'Triticum',
@@ -2754,7 +2780,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'WHEAT',
         },
-        21: {
+        '21': {
           crop_id: 21,
           crop_common_name: 'Pineapple',
           crop_genus: 'Ananas',
@@ -2803,7 +2829,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PINEAPPLE',
         },
-        22: {
+        '22': {
           crop_id: 22,
           crop_common_name: 'Grapefruit',
           crop_genus: 'Citrus',
@@ -2852,7 +2878,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GRAPEFRUIT',
         },
-        23: {
+        '23': {
           crop_id: 23,
           crop_common_name: 'Strawberry',
           crop_genus: 'Fragaria',
@@ -2901,7 +2927,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'STRAWBERRY',
         },
-        24: {
+        '24': {
           crop_id: 24,
           crop_common_name: 'Walnut',
           crop_genus: 'Juglans',
@@ -2950,7 +2976,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'WALNUT',
         },
-        25: {
+        '25': {
           crop_id: 25,
           crop_common_name: 'Apple',
           crop_genus: 'Malus',
@@ -2999,7 +3025,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'APPLE',
         },
-        26: {
+        '26': {
           crop_id: 26,
           crop_common_name: 'Banana',
           crop_genus: 'Musa',
@@ -3048,7 +3074,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BANANA',
         },
-        27: {
+        '27': {
           crop_id: 27,
           crop_common_name: 'Plantain',
           crop_genus: 'Musa',
@@ -3097,7 +3123,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PLANTAIN',
         },
-        28: {
+        '28': {
           crop_id: 28,
           crop_common_name: 'Avocado',
           crop_genus: 'Persea',
@@ -3146,7 +3172,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'AVOCADO',
         },
-        29: {
+        '29': {
           crop_id: 29,
           crop_common_name: 'Dates',
           crop_genus: 'Phoenix',
@@ -3195,7 +3221,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'DATES',
         },
-        30: {
+        '30': {
           crop_id: 30,
           crop_common_name: 'Pistachio nut',
           crop_genus: 'Pistacia',
@@ -3244,7 +3270,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PISTACHIO_NUT',
         },
-        31: {
+        '31': {
           crop_id: 31,
           crop_common_name: 'Apricot',
           crop_genus: 'Prunus',
@@ -3293,7 +3319,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'APRICOT',
         },
-        32: {
+        '32': {
           crop_id: 32,
           crop_common_name: 'Almond',
           crop_genus: 'Prunus',
@@ -3342,7 +3368,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ALMOND',
         },
-        33: {
+        '33': {
           crop_id: 33,
           crop_common_name: 'Peach',
           crop_genus: 'Prunus',
@@ -3391,7 +3417,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PEACH',
         },
-        34: {
+        '34': {
           crop_id: 34,
           crop_common_name: 'Pear',
           crop_genus: 'Pyrus',
@@ -3440,7 +3466,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PEAR',
         },
-        35: {
+        '35': {
           crop_id: 35,
           crop_common_name: 'Grapes ',
           crop_genus: 'Vitis',
@@ -3489,7 +3515,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GRAPES_',
         },
-        36: {
+        '36': {
           crop_id: 36,
           crop_common_name: 'Chickpea (gram pea)',
           crop_genus: 'Cicer',
@@ -3538,7 +3564,7 @@ export default {
           nutrient_credits: 50,
           crop_translation_key: 'CHICKPEA_GRAM_PEA',
         },
-        37: {
+        '37': {
           crop_id: 37,
           crop_common_name: 'Lentil',
           crop_genus: 'Lens',
@@ -3587,7 +3613,7 @@ export default {
           nutrient_credits: 40,
           crop_translation_key: 'LENTIL',
         },
-        38: {
+        '38': {
           crop_id: 38,
           crop_common_name: 'Groundnut (peanut)',
           crop_genus: 'Arachis',
@@ -3636,7 +3662,7 @@ export default {
           nutrient_credits: 80,
           crop_translation_key: 'GROUNDNUT_PEANUT',
         },
-        39: {
+        '39': {
           crop_id: 39,
           crop_common_name: 'Safflower',
           crop_genus: 'Carthamus',
@@ -3685,7 +3711,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SAFFLOWER',
         },
-        40: {
+        '40': {
           crop_id: 40,
           crop_common_name: 'Soybean',
           crop_genus: 'Glycine',
@@ -3734,7 +3760,7 @@ export default {
           nutrient_credits: 80,
           crop_translation_key: 'SOYBEAN',
         },
-        41: {
+        '41': {
           crop_id: 41,
           crop_common_name: 'Sunflower',
           crop_genus: 'Helianthus',
@@ -3783,7 +3809,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SUNFLOWER',
         },
-        42: {
+        '42': {
           crop_id: 42,
           crop_common_name: 'Olive',
           crop_genus: 'Olea',
@@ -3832,7 +3858,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'OLIVE',
         },
-        43: {
+        '43': {
           crop_id: 43,
           crop_common_name: 'Sesame',
           crop_genus: 'Sesamum',
@@ -3881,7 +3907,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SESAME',
         },
-        44: {
+        '44': {
           crop_id: 44,
           crop_common_name: 'Sisal',
           crop_genus: 'Agave',
@@ -3930,7 +3956,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SISAL',
         },
-        45: {
+        '45': {
           crop_id: 45,
           crop_common_name: 'Cotton (all varieties)',
           crop_genus: 'Gossypium',
@@ -3979,7 +4005,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'COTTON_ALL_VARIETIES',
         },
-        46: {
+        '46': {
           crop_id: 46,
           crop_common_name: 'Rubber',
           crop_genus: 'Hevea',
@@ -4028,7 +4054,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RUBBER',
         },
-        47: {
+        '47': {
           crop_id: 47,
           crop_common_name: 'Flax ',
           crop_genus: 'Linum',
@@ -4077,7 +4103,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'FLAX_',
         },
-        48: {
+        '48': {
           crop_id: 48,
           crop_common_name: 'Sweet potato',
           crop_genus: 'Ipomoea',
@@ -4126,7 +4152,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SWEET_POTATO',
         },
-        49: {
+        '49': {
           crop_id: 49,
           crop_common_name: 'Cassava (manioc)',
           crop_genus: 'Manihot',
@@ -4175,7 +4201,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CASSAVA_MANIOC',
         },
-        50: {
+        '50': {
           crop_id: 50,
           crop_common_name: 'Potato',
           crop_genus: 'Solamum',
@@ -4224,7 +4250,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'POTATO',
         },
-        51: {
+        '51': {
           crop_id: 51,
           crop_common_name: 'Sugarcane',
           crop_genus: 'Saccharum',
@@ -4273,7 +4299,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SUGARCANE',
         },
-        52: {
+        '52': {
           crop_id: 52,
           crop_common_name: 'Onion',
           crop_genus: 'Allium',
@@ -4322,7 +4348,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ONION',
         },
-        53: {
+        '53': {
           crop_id: 53,
           crop_common_name: 'Garlic',
           crop_genus: 'Allium',
@@ -4371,7 +4397,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GARLIC',
         },
-        54: {
+        '54': {
           crop_id: 54,
           crop_common_name: 'Celery',
           crop_genus: 'Apium',
@@ -4420,7 +4446,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CELERY',
         },
-        55: {
+        '55': {
           crop_id: 55,
           crop_common_name: 'Celeriac',
           crop_genus: 'Apium',
@@ -4469,7 +4495,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CELERIAC',
         },
-        56: {
+        '56': {
           crop_id: 56,
           crop_common_name: 'Asparagus',
           crop_genus: 'Asparagus',
@@ -4518,7 +4544,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ASPARAGUS',
         },
-        57: {
+        '57': {
           crop_id: 57,
           crop_common_name: 'Cabbage, Chinese',
           crop_genus: 'Brassica',
@@ -4567,7 +4593,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CABBAGE_CHINESE',
         },
-        58: {
+        '58': {
           crop_id: 58,
           crop_common_name: 'Broccoli',
           crop_genus: 'Brassica',
@@ -4616,7 +4642,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BROCCOLI',
         },
-        59: {
+        '59': {
           crop_id: 59,
           crop_common_name: 'Cauliflower',
           crop_genus: 'Brassica',
@@ -4665,7 +4691,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CAULIFLOWER',
         },
-        60: {
+        '60': {
           crop_id: 60,
           crop_common_name: 'Cabbage',
           crop_genus: 'Brassica',
@@ -4714,7 +4740,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CABBAGE',
         },
-        61: {
+        '61': {
           crop_id: 61,
           crop_common_name: 'Brussels sprouts',
           crop_genus: 'Brassica',
@@ -4763,7 +4789,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BRUSSELS_SPROUTS',
         },
-        62: {
+        '62': {
           crop_id: 62,
           crop_common_name: 'Watermelon',
           crop_genus: 'Citrullus',
@@ -4812,7 +4838,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'WATERMELON',
         },
-        63: {
+        '63': {
           crop_id: 63,
           crop_common_name: 'Cantaloupe',
           crop_genus: 'Cucumis',
@@ -4861,7 +4887,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CANTALOUPE',
         },
-        64: {
+        '64': {
           crop_id: 64,
           crop_common_name: 'Cucumber',
           crop_genus: 'Cucumis',
@@ -4910,7 +4936,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CUCUMBER',
         },
-        65: {
+        '65': {
           crop_id: 65,
           crop_common_name: 'Squash',
           crop_genus: 'Cucurbita',
@@ -4959,7 +4985,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SQUASH',
         },
-        66: {
+        '66': {
           crop_id: 66,
           crop_common_name: 'Artichoke',
           crop_genus: 'Cynara',
@@ -5008,7 +5034,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ARTICHOKE',
         },
-        67: {
+        '67': {
           crop_id: 67,
           crop_common_name: 'Carrot',
           crop_genus: 'Daucus',
@@ -5057,7 +5083,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CARROT',
         },
-        68: {
+        '68': {
           crop_id: 68,
           crop_common_name: 'Jerusalem artichoke',
           crop_genus: 'Helianthus',
@@ -5106,7 +5132,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'JERUSALEM_ARTICHOKE',
         },
-        69: {
+        '69': {
           crop_id: 69,
           crop_common_name: 'Lettuce',
           crop_genus: 'Lactuca',
@@ -5155,7 +5181,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'LETTUCE',
         },
-        70: {
+        '70': {
           crop_id: 70,
           crop_common_name: 'Tomato',
           crop_genus: 'Lycopersicon',
@@ -5204,7 +5230,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'TOMATO',
         },
-        71: {
+        '71': {
           crop_id: 71,
           crop_common_name: 'Parsnip',
           crop_genus: 'Pastinaca',
@@ -5253,7 +5279,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PARSNIP',
         },
-        72: {
+        '72': {
           crop_id: 72,
           crop_common_name: 'Radish',
           crop_genus: 'Raphanus',
@@ -5302,7 +5328,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RADISH',
         },
-        73: {
+        '73': {
           crop_id: 73,
           crop_common_name: 'Spinach',
           crop_genus: 'Spinacia',
@@ -5351,7 +5377,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SPINACH',
         },
-        74: {
+        '74': {
           crop_id: 74,
           crop_common_name: 'Chili (all varieties)',
           crop_genus: 'Capsicum',
@@ -5400,7 +5426,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CHILI_ALL_VARIETIES',
         },
-        75: {
+        '75': {
           crop_id: 75,
           crop_common_name: 'Caraway seeds',
           crop_genus: 'Carum',
@@ -5449,7 +5475,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CARAWAY_SEEDS',
         },
-        76: {
+        '76': {
           crop_id: 76,
           crop_common_name: 'Cinnamon',
           crop_genus: 'Cinnamomum',
@@ -5498,7 +5524,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CINNAMON',
         },
-        77: {
+        '77': {
           crop_id: 77,
           crop_common_name: 'Cardamom',
           crop_genus: 'Elettaria',
@@ -5547,7 +5573,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CARDAMOM',
         },
-        78: {
+        '78': {
           crop_id: 78,
           crop_common_name: 'Drumstick tree',
           crop_genus: 'Moringa',
@@ -5596,7 +5622,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'DRUMSTICK_TREE',
         },
-        79: {
+        '79': {
           crop_id: 79,
           crop_common_name: 'Mace',
           crop_genus: 'Myristica',
@@ -5645,7 +5671,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MACE',
         },
-        80: {
+        '80': {
           crop_id: 80,
           crop_common_name: 'Nutmeg',
           crop_genus: 'Myristica',
@@ -5694,7 +5720,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'NUTMEG',
         },
-        81: {
+        '81': {
           crop_id: 81,
           crop_common_name: 'Anise seeds',
           crop_genus: 'Pimpinella',
@@ -5743,7 +5769,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ANISE_SEEDS',
         },
-        82: {
+        '82': {
           crop_id: 82,
           crop_common_name: 'Black pepper',
           crop_genus: 'Piper',
@@ -5792,7 +5818,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BLACK_PEPPER',
         },
-        83: {
+        '83': {
           crop_id: 83,
           crop_common_name: 'Vanilla',
           crop_genus: 'Vanilla',
@@ -5841,7 +5867,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'VANILLA',
         },
-        84: {
+        '84': {
           crop_id: 84,
           crop_common_name: 'Ginger',
           crop_genus: 'Zingiber',
@@ -5890,7 +5916,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GINGER',
         },
-        85: {
+        '85': {
           crop_id: 85,
           crop_common_name: 'Quinoa',
           crop_genus: 'Chenopodium',
@@ -5939,7 +5965,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'QUINOA',
         },
-        86: {
+        '86': {
           crop_id: 86,
           crop_common_name: 'Tef',
           crop_genus: 'Eragrostis',
@@ -5988,7 +6014,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'TEF',
         },
-        87: {
+        '87': {
           crop_id: 87,
           crop_common_name: 'Buckwheat',
           crop_genus: 'Fagopyrum',
@@ -6037,7 +6063,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BUCKWHEAT',
         },
-        88: {
+        '88': {
           crop_id: 88,
           crop_common_name: 'Durum wheat',
           crop_genus: 'Triticum',
@@ -6086,7 +6112,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'DURUM_WHEAT',
         },
-        89: {
+        '89': {
           crop_id: 89,
           crop_common_name: 'Maize (grain)',
           crop_genus: 'Zea',
@@ -6135,7 +6161,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MAIZE_GRAIN',
         },
-        90: {
+        '90': {
           crop_id: 90,
           crop_common_name: 'Maize (sweet corn)',
           crop_genus: 'Zea',
@@ -6184,7 +6210,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MAIZE_SWEET_CORN',
         },
-        91: {
+        '91': {
           crop_id: 91,
           crop_common_name: 'Sapodilla',
           crop_genus: 'Achras',
@@ -6233,7 +6259,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'SAPODILLA',
         },
-        92: {
+        '92': {
           crop_id: 92,
           crop_common_name: 'Cashew nuts',
           crop_genus: 'Anacardium',
@@ -6282,7 +6308,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CASHEW_NUTS',
         },
-        93: {
+        '93': {
           crop_id: 93,
           crop_common_name: 'Custard apple',
           crop_genus: 'Anno',
@@ -6331,7 +6357,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CUSTARD_APPLE',
         },
-        94: {
+        '94': {
           crop_id: 94,
           crop_common_name: 'Breadfruit',
           crop_genus: 'Artocarpus',
@@ -6380,7 +6406,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BREADFRUIT',
         },
-        95: {
+        '95': {
           crop_id: 95,
           crop_common_name: 'Brazil nut',
           crop_genus: 'Bertholletia',
@@ -6429,7 +6455,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BRAZIL_NUT',
         },
-        96: {
+        '96': {
           crop_id: 96,
           crop_common_name: 'Papaya (pawpaw)',
           crop_genus: 'Carica',
@@ -6478,7 +6504,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PAPAYA_PAWPAW',
         },
-        97: {
+        '97': {
           crop_id: 97,
           crop_common_name: 'Pecan nut',
           crop_genus: 'Carya',
@@ -6527,7 +6553,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PECAN_NUT',
         },
-        98: {
+        '98': {
           crop_id: 98,
           crop_common_name: 'Chestnut',
           crop_genus: 'Castanea',
@@ -6576,7 +6602,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CHESTNUT',
         },
-        99: {
+        '99': {
           crop_id: 99,
           crop_common_name: 'Orange (bitter)',
           crop_genus: 'Citrus',
@@ -6625,7 +6651,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ORANGE_BITTER',
         },
-        100: {
+        '100': {
           crop_id: 100,
           crop_common_name: 'Pomelo',
           crop_genus: 'Citrus',
@@ -6674,7 +6700,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'POMELO',
         },
-        101: {
+        '101': {
           crop_id: 101,
           crop_common_name: 'Lemon',
           crop_genus: 'Citrus',
@@ -6723,7 +6749,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'LEMON',
         },
-        102: {
+        '102': {
           crop_id: 102,
           crop_common_name: 'Clementine',
           crop_genus: 'Citrus',
@@ -6772,7 +6798,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CLEMENTINE',
         },
-        103: {
+        '103': {
           crop_id: 103,
           crop_common_name: 'Orange',
           crop_genus: 'Citrus',
@@ -6821,7 +6847,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ORANGE',
         },
-        104: {
+        '104': {
           crop_id: 104,
           crop_common_name: 'Lime',
           crop_genus: 'Citrus',
@@ -6870,7 +6896,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'LIME',
         },
-        105: {
+        '105': {
           crop_id: 105,
           crop_common_name: 'Hazelnut (filbert)',
           crop_genus: 'Corylus',
@@ -6919,7 +6945,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'HAZELNUT_FILBERT',
         },
-        106: {
+        '106': {
           crop_id: 106,
           crop_common_name: 'Quince',
           crop_genus: 'Cydonia',
@@ -6968,7 +6994,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'QUINCE',
         },
-        107: {
+        '107': {
           crop_id: 107,
           crop_common_name: 'Persimmon (kaki)',
           crop_genus: 'Diospyros',
@@ -7017,7 +7043,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PERSIMMON_KAKI',
         },
-        108: {
+        '108': {
           crop_id: 108,
           crop_common_name: 'Persimmon',
           crop_genus: 'Diospyros',
@@ -7066,7 +7092,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PERSIMMON',
         },
-        109: {
+        '109': {
           crop_id: 109,
           crop_common_name: 'Fig',
           crop_genus: 'Ficus',
@@ -7115,7 +7141,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'FIG',
         },
-        110: {
+        '110': {
           crop_id: 110,
           crop_common_name: 'Litchi',
           crop_genus: 'Litchi',
@@ -7164,7 +7190,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'LITCHI',
         },
-        111: {
+        '111': {
           crop_id: 111,
           crop_common_name: 'Macadamia nut',
           crop_genus: 'Macadamia',
@@ -7213,7 +7239,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MACADAMIA_NUT',
         },
-        112: {
+        '112': {
           crop_id: 112,
           crop_common_name: 'Mango',
           crop_genus: 'Mangifera',
@@ -7262,7 +7288,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MANGO',
         },
-        113: {
+        '113': {
           crop_id: 113,
           crop_common_name: 'Mulberry (all varieties)',
           crop_genus: 'Morus',
@@ -7311,7 +7337,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MULBERRY_ALL_VARIETIES',
         },
-        114: {
+        '114': {
           crop_id: 114,
           crop_common_name: 'Plum',
           crop_genus: 'Prunus',
@@ -7360,7 +7386,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PLUM',
         },
-        115: {
+        '115': {
           crop_id: 115,
           crop_common_name: 'Nectarine',
           crop_genus: 'Prunus',
@@ -7409,7 +7435,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'NECTARINE',
         },
-        116: {
+        '116': {
           crop_id: 116,
           crop_common_name: 'Cherry (all varieties)',
           crop_genus: 'Prunus',
@@ -7458,7 +7484,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CHERRY_ALL_VARIETIES',
         },
-        117: {
+        '117': {
           crop_id: 117,
           crop_common_name: 'Guava',
           crop_genus: 'Psidium',
@@ -7507,7 +7533,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GUAVA',
         },
-        118: {
+        '118': {
           crop_id: 118,
           crop_common_name: 'Pomegranate',
           crop_genus: 'Punica',
@@ -7556,7 +7582,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'POMEGRANATE',
         },
-        119: {
+        '119': {
           crop_id: 119,
           crop_common_name: 'Currants (all varieties)',
           crop_genus: 'Ribes',
@@ -7605,7 +7631,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CURRANTS_ALL_VARIETIES',
         },
-        120: {
+        '120': {
           crop_id: 120,
           crop_common_name: 'Gooseberry (all varieties)',
           crop_genus: 'Ribes',
@@ -7654,7 +7680,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GOOSEBERRY_ALL_VARIETIES',
         },
-        121: {
+        '121': {
           crop_id: 121,
           crop_common_name: 'Blackberries ',
           crop_genus: 'Rubus',
@@ -7703,7 +7729,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BLACKBERRIES_',
         },
-        122: {
+        '122': {
           crop_id: 122,
           crop_common_name: 'Raspberry (all varieties)',
           crop_genus: 'Rubus',
@@ -7752,7 +7778,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RASPBERRY_ALL_VARIETIES',
         },
-        123: {
+        '123': {
           crop_id: 123,
           crop_common_name: 'Blueberry',
           crop_genus: 'Vaccinium',
@@ -7801,7 +7827,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BLUEBERRY',
         },
-        124: {
+        '124': {
           crop_id: 124,
           crop_common_name: 'Cranberry',
           crop_genus: 'Vaccinium',
@@ -7850,7 +7876,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CRANBERRY',
         },
-        125: {
+        '125': {
           crop_id: 125,
           crop_common_name: 'Pigeon pea',
           crop_genus: 'Cajanus',
@@ -7899,7 +7925,7 @@ export default {
           nutrient_credits: 60,
           crop_translation_key: 'PIGEON_PEA',
         },
-        126: {
+        '126': {
           crop_id: 126,
           crop_common_name: 'Pea',
           crop_genus: 'Pisum',
@@ -7948,7 +7974,7 @@ export default {
           nutrient_credits: 60,
           crop_translation_key: 'PEA',
         },
-        127: {
+        '127': {
           crop_id: 127,
           crop_common_name: 'Fenugreek',
           crop_genus: 'Trigonella',
@@ -7997,7 +8023,7 @@ export default {
           nutrient_credits: 40,
           crop_translation_key: 'FENUGREEK',
         },
-        128: {
+        '128': {
           crop_id: 128,
           crop_common_name: 'Broad bean',
           crop_genus: 'Vicia',
@@ -8046,7 +8072,7 @@ export default {
           nutrient_credits: 100,
           crop_translation_key: 'BROAD_BEAN',
         },
-        129: {
+        '129': {
           crop_id: 129,
           crop_common_name: 'Beans',
           crop_genus: 'Vig',
@@ -8095,7 +8121,7 @@ export default {
           nutrient_credits: 40,
           crop_translation_key: 'BEANS',
         },
-        130: {
+        '130': {
           crop_id: 130,
           crop_common_name: 'Cowpea',
           crop_genus: 'Vig',
@@ -8144,7 +8170,7 @@ export default {
           nutrient_credits: 60,
           crop_translation_key: 'COWPEA',
         },
-        131: {
+        '131': {
           crop_id: 131,
           crop_common_name: 'Rapeseed (colza)',
           crop_genus: 'Brassica',
@@ -8193,7 +8219,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RAPESEED_COLZA',
         },
-        132: {
+        '132': {
           crop_id: 132,
           crop_common_name: 'Mustard',
           crop_genus: 'Brassica',
@@ -8242,7 +8268,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MUSTARD',
         },
-        133: {
+        '133': {
           crop_id: 133,
           crop_common_name: 'Coconut',
           crop_genus: 'Cocos',
@@ -8291,7 +8317,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'COCONUT',
         },
-        134: {
+        '134': {
           crop_id: 134,
           crop_common_name: 'Oil palm',
           crop_genus: 'Elaeis',
@@ -8340,7 +8366,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'OIL_PALM',
         },
-        135: {
+        '135': {
           crop_id: 135,
           crop_common_name: 'Palm oil',
           crop_genus: 'Elaeis',
@@ -8389,7 +8415,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PALM_OIL',
         },
-        136: {
+        '136': {
           crop_id: 136,
           crop_common_name: 'Poppy seed',
           crop_genus: 'Papaver',
@@ -8438,7 +8464,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'POPPY_SEED',
         },
-        137: {
+        '137': {
           crop_id: 137,
           crop_common_name: 'Mustard',
           crop_genus: 'Sinapis',
@@ -8487,7 +8513,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MUSTARD',
         },
-        138: {
+        '138': {
           crop_id: 138,
           crop_common_name: 'Hemp ',
           crop_genus: 'Cannabis',
@@ -8536,7 +8562,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'HEMP_',
         },
-        139: {
+        '139': {
           crop_id: 139,
           crop_common_name: 'Jute',
           crop_genus: 'Corchorus',
@@ -8585,7 +8611,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'JUTE',
         },
-        140: {
+        '140': {
           crop_id: 140,
           crop_common_name: 'Lemon grass',
           crop_genus: 'Cymbopogon',
@@ -8634,7 +8660,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'LEMON_GRASS',
         },
-        141: {
+        '141': {
           crop_id: 141,
           crop_common_name: 'Ryegrass ',
           crop_genus: 'Lolium',
@@ -8683,7 +8709,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RYEGRASS_',
         },
-        142: {
+        '142': {
           crop_id: 142,
           crop_common_name: 'Alfalfa for fodder',
           crop_genus: 'Medicago',
@@ -8732,7 +8758,7 @@ export default {
           nutrient_credits: 200,
           crop_translation_key: 'ALFALFA_FOR_FODDER',
         },
-        143: {
+        '143': {
           crop_id: 143,
           crop_common_name: 'Tobacco',
           crop_genus: 'Nicotia',
@@ -8781,7 +8807,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'TOBACCO',
         },
-        144: {
+        '144': {
           crop_id: 144,
           crop_common_name: 'Clover',
           crop_genus: 'Trifolium',
@@ -8830,7 +8856,7 @@ export default {
           nutrient_credits: 150,
           crop_translation_key: 'CLOVER',
         },
-        145: {
+        '145': {
           crop_id: 145,
           crop_common_name: 'Taro',
           crop_genus: 'Colocasia',
@@ -8879,7 +8905,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'TARO',
         },
-        146: {
+        '146': {
           crop_id: 146,
           crop_common_name: 'Yam',
           crop_genus: 'Dioscorea',
@@ -8928,7 +8954,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'YAM',
         },
-        147: {
+        '147': {
           crop_id: 147,
           crop_common_name: 'Arrowroot',
           crop_genus: 'Maranta',
@@ -8977,7 +9003,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ARROWROOT',
         },
-        148: {
+        '148': {
           crop_id: 148,
           crop_common_name: 'Beet',
           crop_genus: 'Beta',
@@ -9026,7 +9052,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'BEET',
         },
-        149: {
+        '149': {
           crop_id: 149,
           crop_common_name: 'Okra',
           crop_genus: 'Abelmoschus',
@@ -9075,7 +9101,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'OKRA',
         },
-        150: {
+        '150': {
           crop_id: 150,
           crop_common_name: 'Mushrooms',
           crop_genus: 'Agaricus',
@@ -9124,7 +9150,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MUSHROOMS',
         },
-        151: {
+        '151': {
           crop_id: 151,
           crop_common_name: 'Leek',
           crop_genus: 'Allium',
@@ -9173,7 +9199,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'LEEK',
         },
-        152: {
+        '152': {
           crop_id: 152,
           crop_common_name: 'Rutabaga (swede)',
           crop_genus: 'Brassica',
@@ -9222,7 +9248,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RUTABAGA_SWEDE',
         },
-        153: {
+        '153': {
           crop_id: 153,
           crop_common_name: 'Kale',
           crop_genus: 'Brassica',
@@ -9271,7 +9297,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'KALE',
         },
-        154: {
+        '154': {
           crop_id: 154,
           crop_common_name: 'Kohlrabi',
           crop_genus: 'Brassica',
@@ -9320,7 +9346,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'KOHLRABI',
         },
-        155: {
+        '155': {
           crop_id: 155,
           crop_common_name: 'Turnip',
           crop_genus: 'Brassica',
@@ -9369,7 +9395,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'TURNIP',
         },
-        156: {
+        '156': {
           crop_id: 156,
           crop_common_name: 'Endive',
           crop_genus: 'Cichorium',
@@ -9418,7 +9444,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'ENDIVE',
         },
-        157: {
+        '157': {
           crop_id: 157,
           crop_common_name: 'Chicory',
           crop_genus: 'Cichorium',
@@ -9467,7 +9493,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CHICORY',
         },
-        158: {
+        '158': {
           crop_id: 158,
           crop_common_name: 'Melon ',
           crop_genus: 'Cucumis',
@@ -9516,7 +9542,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'MELON_',
         },
-        159: {
+        '159': {
           crop_id: 159,
           crop_common_name: 'Gourd (American)',
           crop_genus: 'Cucurbita',
@@ -9565,7 +9591,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GOURD_AMERICAN',
         },
-        160: {
+        '160': {
           crop_id: 160,
           crop_common_name: 'Pumpkin',
           crop_genus: 'Cucurbita',
@@ -9614,7 +9640,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'PUMPKIN',
         },
-        161: {
+        '161': {
           crop_id: 161,
           crop_common_name: 'Cardoon',
           crop_genus: 'Cynara',
@@ -9663,7 +9689,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CARDOON',
         },
-        162: {
+        '162': {
           crop_id: 162,
           crop_common_name: 'Fennel',
           crop_genus: 'Foeniculum',
@@ -9712,7 +9738,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'FENNEL',
         },
-        163: {
+        '163': {
           crop_id: 163,
           crop_common_name: 'Gourd (African)',
           crop_genus: 'Lagenaria',
@@ -9761,7 +9787,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'GOURD_AFRICAN',
         },
-        164: {
+        '164': {
           crop_id: 164,
           crop_common_name: 'Cress',
           crop_genus: 'Lepidium',
@@ -9810,7 +9836,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'CRESS',
         },
-        165: {
+        '165': {
           crop_id: 165,
           crop_common_name: 'Rhubarb',
           crop_genus: 'Rheum',
@@ -9859,7 +9885,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'RHUBARB',
         },
-        166: {
+        '166': {
           crop_id: 166,
           crop_common_name: 'Eggplant',
           crop_genus: 'Solanum',
@@ -9908,7 +9934,7 @@ export default {
           nutrient_credits: null,
           crop_translation_key: 'EGGPLANT',
         },
-        167: {
+        '167': {
           crop_id: 167,
           crop_common_name: 'Salsify',
           crop_genus: 'Tragopogon',
@@ -9970,33 +9996,19 @@ export default {
       loaded: true,
     },
     weatherReducer: {
-      ids: ['cebbe678-5f88-11eb-89a9-31fa75807a90', '22672200-5f8a-11eb-89a9-31fa75807a90'],
+      ids: ['22672200-5f8a-11eb-89a9-31fa75807a90'],
       entities: {
-        'cebbe678-5f88-11eb-89a9-31fa75807a90': {
-          farm_id: 'cebbe678-5f88-11eb-89a9-31fa75807a90',
-          loading: false,
-          city: 'Hollyburn',
-          date: 1613085692,
-          humidity: '40%',
-          iconName: 'wi-cloudy',
-          temperature: '0',
-          wind: '3.09',
-          measurement: 'metric',
-          lastActiveDatetime: 1613085692930,
-          error: null,
-          loaded: true,
-        },
         '22672200-5f8a-11eb-89a9-31fa75807a90': {
           farm_id: '22672200-5f8a-11eb-89a9-31fa75807a90',
           loading: false,
           city: 'Vancouver',
-          date: 1613085659,
-          humidity: '47%',
+          date: 1614203357,
+          humidity: '70%',
           iconName: 'wi-cloudy',
-          temperature: '0',
-          wind: '0.51',
+          temperature: '6',
+          wind: '2.06',
           measurement: 'metric',
-          lastActiveDatetime: 1613085821352,
+          lastActiveDatetime: 1614203394564,
           error: null,
           loaded: true,
         },
@@ -10005,17 +10017,12 @@ export default {
   },
   persistedStateReducer: {
     userLogReducer: {
-      lastActiveDatetime: 1613085821053,
+      lastActiveDatetime: 1614203394319,
       farm_id: '22672200-5f8a-11eb-89a9-31fa75807a90',
     },
     chooseFarmFlowReducer: {
-      ids: ['22672200-5f8a-11eb-89a9-31fa75807a90'],
-      entities: {
-        '22672200-5f8a-11eb-89a9-31fa75807a90': {
-          farm_id: '22672200-5f8a-11eb-89a9-31fa75807a90',
-          showSwitchFarmModal: false,
-        },
-      },
+      ids: [],
+      entities: {},
     },
   },
   tempStateReducer: {
@@ -10024,8 +10031,31 @@ export default {
     },
     shiftStepReducer: {
       worker: null,
-      shift_date: '2021-02-11T23:20:58.807Z',
+      shift_date: '2021-02-24T21:49:16.465Z',
       selectedTasks: [],
+    },
+    logSliceReducer: {
+      defaultDate: '2021-02-24T21:49:16.463Z',
+      date: '2021-02-24T21:49:16.464Z',
+      defaultField: null,
+      defaultCrop: null,
+      defaultQuantity: null,
+      defaultNotes: null,
+      activity_kind: null,
+      activity_id: null,
+      validQuantity: true,
+      selectedUseTypes: [],
+      crops: null,
+      fields: null,
+      notes: null,
+      quantity_kg: null,
+      isEditStepOne: false,
+      isEditStepTwo: false,
+      isEditStepThree: false,
+      isEdit: false,
+      convertQuantity: false,
+      resetCrop: false,
+      filteredCropOptions: [],
     },
   },
   baseReducer: {},
@@ -11432,6 +11462,7 @@ export default {
       logs: [],
       startDate: '2021-01-01T08:00:00.000Z',
       endDate: '2022-01-01T07:59:59.999Z',
+      allUseType: [],
     },
     fertReducer: {
       fertilizers: null,

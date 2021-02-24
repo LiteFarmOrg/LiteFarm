@@ -261,7 +261,7 @@ class Field extends Component {
               {this.state.isPropReceived &&
                 !this.props.fieldStats.loading &&
                 this.props.fieldStats.loaded && (
-                  <div style={{ width: '100%', height: '400px' }}>
+                  <div id={'export'} style={{ width: '100%', height: '400px' }}>
                     <GoogleMap
                       bootstrapURLKeys={{
                         key: GMAPS_API_KEY,

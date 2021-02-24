@@ -28,7 +28,6 @@ export default function PureHarvestLog({
   let [date, setDate] = useState(moment());
   let [field, setField] = useState(null);
   let [crop, setCrop] = useState(null);
-  let [cropID, setCropID] = useState(0);
   let [quantity, setQuantity] = useState(0);
   let [filteredCropOptions, setFilteredCropOptions] = useState([]);
   let [selectedCrop, setSelectedCrop] = useState({});
@@ -142,13 +141,34 @@ export default function PureHarvestLog({
       dispatch(harvestLogData(defaultData));
     }
     if (defaultData.validQuantity) {
+      if (isEdit.isEditStepOne) {
+        let tempProps = selectedLog.harvestUse;
+        if (unit === 'lb') {
+          tempProps.map((item) => {
+            item.quantity_kg = roundToTwoDecimal(convertFromMetric(item.quantity_kg, unit, 'kg'));
+          });
+        } else if (unit === 'kg') {
+          tempProps.map((item) => {
+            item.quantity_kg = roundToTwoDecimal(item.quantity_kg);
+          });
+        }
+        defaultData.selectedUseTypes = tempProps;
+      } else {
+        let tempProps = JSON.parse(JSON.stringify(defaultData.selectedUseTypes));
+        tempProps.map((item) => {
+          if (item.quantity_kg) {
+            item.quantity_kg = roundToTwoDecimal(item.quantity_kg);
+          }
+        });
+        defaultData.selectedUseTypes = tempProps;
+      }
       onNext({
         defaultDate: date,
         defaultField: field,
         defaultCrop: selectedCrop,
         defaultQuantity: data.quantity,
         defaultNotes: data.notes,
-        selectedUseTypes: [],
+        selectedUseTypes: defaultData.selectedUseTypes ? defaultData.selectedUseTypes : [],
         validQuantity: true,
         resetCrop: false,
         filteredCropOptions: filteredCropOptions,

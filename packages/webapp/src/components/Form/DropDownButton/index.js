@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   svg: {
     fontSize: '20px',
   },
+  popper: {
+    zIndex: 1600,
+  },
 }));
 
 export default function DropdownButton({ options, children, defaultOpen }) {
@@ -51,6 +54,7 @@ export default function DropdownButton({ options, children, defaultOpen }) {
         anchorEl={anchorRef.current}
         role={undefined}
         disablePortal
+        className={classes.popper}
       >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>

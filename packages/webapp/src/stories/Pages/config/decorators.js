@@ -5,10 +5,9 @@ import history from '../../../history';
 import { action } from '@storybook/addon-actions';
 import state from './state';
 import NavBar from '../../../containers/Navigation';
-import { ThemeProvider } from 'react-bootstrap';
 import theme from '../../../assets/theme';
 import { useTranslation } from 'react-i18next';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 const store = {
   getState: () => {

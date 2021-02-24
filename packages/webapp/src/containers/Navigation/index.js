@@ -13,67 +13,37 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
-import { useMediaQuery } from 'react-responsive';
-import SmallerLogo from '../../assets/images/smaller_logo.svg';
-import SmallLogo from '../../assets/images/small_logo.svg';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
 
 import { chooseFarmFlowSelector, endSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 import PureNavBar from '../../components/Navigation/NavBar';
-import { userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
+import { isAdminSelector, userFarmLengthSelector, userFarmSelector } from '../userFarmSlice';
 import { isAuthenticated } from '../../util/jwt';
+import { setDefaultDateRange } from '../Log/actions';
 
 const NavBar = (props) => {
-  const { history, farm, farmState, dispatch, numberOfUserFarm } = props;
+  const { history, farm, farmState, dispatch, numberOfUserFarm, isAdmin } = props;
   const { showSpotLight, isInvitationFlow } = farmState;
   const isFarmSelected =
     isAuthenticated() && farm && farm.has_consent && farm?.step_five === true && !isInvitationFlow;
   const resetSpotlight = () => {
     dispatch(endSpotLight(farm.farm_id));
   };
-
-  const initialState = { profile: false, myFarm: false, notification: false };
-  const [tooltipInteraction, setTooltipInteraction] = useState(initialState);
-  const [isOneTooltipOpen, setOneTooltipOpen] = useState(false);
-  const changeInteraction = (tooltipName, onOverlay = false) => {
-    const newInteraction = onOverlay
-      ? initialState
-      : {
-          ...initialState,
-          [tooltipName]: !tooltipInteraction[tooltipName],
-        };
-    setTooltipInteraction(newInteraction);
-    setOneTooltipOpen(Object.keys(newInteraction).some((k) => newInteraction[k]));
-  };
-
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
       <PureNavBar
-        logo={<Logo history={history} />}
         showSpotLight={showSpotLight}
         resetSpotlight={resetSpotlight}
-        isOneTooltipOpen={isOneTooltipOpen}
-        changeInteraction={changeInteraction}
         showSwitchFarm={numberOfUserFarm > 1}
-        tooltipInteraction={tooltipInteraction}
         history={history}
-      >
-        {/*<SlideMenu right />*/}
-      </PureNavBar>
+        setDefaultDateRange={() => dispatch(setDefaultDateRange())}
+        showFinances={isAdmin}
+      />
     </Suspense>
   ) : (
     <NoFarmNavBar history={history} />
-  );
-};
-
-const Logo = ({ history }) => {
-  const isSmallScreen = useMediaQuery({ query: '(max-width: 800px)' });
-  return isSmallScreen ? (
-    <img src={SmallerLogo} alt="Logo" onClick={() => history.push('/')} />
-  ) : (
-    <img src={SmallLogo} alt="Logo" onClick={() => history.push('/')} />
   );
 };
 
@@ -82,6 +52,7 @@ const mapStateToProps = (state) => {
     farm: userFarmSelector(state),
     farmState: chooseFarmFlowSelector(state),
     numberOfUserFarm: userFarmLengthSelector(state),
+    isAdmin: isAdminSelector(state),
   };
 };
 

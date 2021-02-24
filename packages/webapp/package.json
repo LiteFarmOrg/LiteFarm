@@ -67,7 +67,6 @@
     "i18n": "npx i18next 'src/**/*.js'",
     "chromatic": "npx chromatic --project-token gb9nrdyzl8b",
     "format": "npx prettier --write ./src",
-    "preinstall": "npx npm-force-resolutions",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "precommit": "lint-staged"

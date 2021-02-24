@@ -1,296 +1,295 @@
-/*!**/
-/* *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>*/
-/* *  This file (global.css) is part of LiteFarm.*/
-/* **/
-/* *  LiteFarm is free software: you can redistribute it and/or modify*/
-/* *  it under the terms of the GNU General Public License as published by*/
-/* *  the Free Software Foundation, either version 3 of the License, or*/
-/* *  (at your option) any later version.*/
-/* **/
-/* *  LiteFarm is distributed in the hope that it will be useful,*/
-/* *  but WITHOUT ANY WARRANTY; without even the implied warranty of*/
-/* *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the*/
-/* *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.*/
-/* *!*/
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ *  This file (global.css) is part of LiteFarm.
+ *
+ *  LiteFarm is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  LiteFarm is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
+ */
 
-/*:root {*/
-/*    --primary: #FFFFFF;*/
-/*    --aux: #E6E6E6;*/
-/*    --typePrimary: #4D4D4D;*/
-/*    --buttonAux: #028577;*/
-/*    --buttonPrimary: #028577;*/
-/*    --typeAction: #006157;*/
-/*    --addition: #FFB800;*/
+:root {
+    --primary: #FFFFFF;
+    --aux: #E6E6E6;
+    --typePrimary: #4D4D4D;
+    --buttonAux: #028577;
+    --buttonPrimary: #028577;
+    --typeAction: #006157;
+    --addition: #FFB800;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/*button{*/
+/*    -webkit-appearance: none;*/
 /*}*/
 
-/*body{*/
-/*    overflow-x: hidden;*/
+@font-face {
+    font-family: 'Avenir';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Avenir'),
+    url('./fonts/Avenir-Medium.woff') format('woff'), /* Modern Browsers */ url('./fonts/Avenir-Medium.ttf') format('ttf') /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'Avenir-Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Avenir-Light'),
+    url('./fonts/Avenir-light.woff') format('woff'), /* Modern Browsers */ url('./fonts/Avenir-light.otf') format('opentype') /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'Avenir-Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Avenir-Bold'),
+    url('./fonts/Avenir-Heavy.ttf') format('ttf') /* Modern Browsers */
+}
+
+@font-face {
+    font-family: 'Avenir-Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Avenir-Book'),
+    url('./fonts/Avenir-Book.otf') format('opentype') /* Modern Browsers */
+}
+
+@font-face {
+    font-family: 'Avenir-Roman';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Avenir-Roman'),
+    url('./fonts/Avenir-Book.otf') format('opentype') /* Modern Browsers */
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*body {*/
+/*    font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
 /*}*/
 
-/*!*button{*!*/
-/*!*    -webkit-appearance: none;*!*/
-/*!*}*!*/
-
-/*@font-face {*/
-/*    font-family: 'Avenir';*/
-/*    font-style: normal;*/
-/*    font-weight: normal;*/
-/*    src: local('Avenir'),*/
-/*    url('./fonts/Avenir-Medium.woff') format('woff'), !* Modern Browsers *!*/
-/*    url('./fonts/Avenir-Medium.ttf') format('ttf') !* Safari, Android, iOS *!*/
+/*body, html {*/
+/*    height: 100%;*/
 /*}*/
 
-/*@font-face {*/
-/*    font-family: 'Avenir-Light';*/
-/*    font-style: normal;*/
-/*    font-weight: normal;*/
-/*    src: local('Avenir-Light'),*/
-/*    url('./fonts/Avenir-light.woff') format('woff'), !* Modern Browsers *!*/
-/*    url('./fonts/Avenir-light.otf') format('opentype') !* Safari, Android, iOS *!*/
+
+.btn {
+    background: var(--buttonPrimary);
+    border-color: var(--buttonPrimary);
+    font-family: inherit;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    height: 36px;
+    padding: 0 24px;
+}
+
+.btn:hover, .btn:focus, .btn:active, .btn:active:hover {
+    background: #286090;
+    color: var(--primary);
+}
+
+.btn-primary {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    color: var(--primary);
+    background: var(--buttonAux);
+    padding: 5px 40px;
+    text-decoration: none;
+}
+
+.btn-primary-round {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 15px;
+    color: var(--primary);
+    background: var(--buttonAux);
+    padding: 5px 40px;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.btn-green-oval-solid:hover {
+    text-decoration: none;
+}
+
+.btn-teal-oval-solid {
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    color: var(--primary);
+    background: var(--typeAction);
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn-teal-oval-solid:hover {
+    text-decoration: none;
+}
+
+.btn-grey-oval-solid {
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    color: var(--typeAction);
+    background: var(--aux);
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
+.btn-grey-oval-solid:hover {
+    text-decoration: none;
+}
+
+.btn-save-oval-solid {
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    color: var(--primary);
+    background: var(--buttonAux);
+    padding: 10px 15% 10px 15%;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-save-oval-solid:hover {
+    text-decoration: none;
+}
+
+hr {
+    background: #f7f7f7;
+    height: 8px;
+    border: none;
+    margin: 2% -5% 2% -5%;
+}
+
+.page-container {
+    width: 65%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 0 24px;
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 24px;
+    height: 20px;
+    left: 24px;
+    top: 24px;
+}
+
+@media (max-width: 800px) {
+    .bm-burger-button {
+        left: 24px;
+        top: 16px;
+    }
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: #028577;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+    height: 0px;
+    width: 0px;
+    top: 0px;
+}
+
+/* General sidebar styles */
+.bm-menu {
+    background: white;
+    font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+    color: #b8b7ad;
+    padding-top: 16px;
+}
+
+/* Individual item */
+.bm-item {
+    display: inline-block;
+}
+
+.bm-item-list a {
+    padding: 0.9em;
+    box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.bm-item-list a span {
+    margin-left: 10px;
+    font-size: 1.0em;
+    color: #9ca4ab;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/*.navbar {*/
+/*    max-width: 100vw;*/
+/*    z-index: 999;*/
 /*}*/
 
-/*@font-face {*/
-/*    font-family: 'Avenir-Bold';*/
-/*    font-style: normal;*/
-/*    font-weight: normal;*/
-/*    src: local('Avenir-Bold'),*/
-/*    url('./fonts/Avenir-Heavy.ttf') format('ttf') !* Modern Browsers *!*/
-/*}*/
+@media only screen and (max-width: 800px) {
+    .page-container {
+        width: 100vw;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+}
 
-/*@font-face {*/
-/*    font-family: 'Avenir-Book';*/
-/*    font-style: normal;*/
-/*    font-weight: normal;*/
-/*    src: local('Avenir-Book'),*/
-/*    url('./fonts/Avenir-Book.otf') format('opentype') !* Modern Browsers *!*/
-/*}*/
+.required {
+    color: orangered;
+    font-size: 14px;
+    margin: 3px;
+}
 
-/*@font-face {*/
-/*    font-family: 'Avenir-Roman';*/
-/*    font-style: normal;*/
-/*    font-weight: normal;*/
-/*    src: local('Avenir-Roman'),*/
-/*    url('./fonts/Avenir-Book.otf') format('opentype') !* Modern Browsers *!*/
-/*}*/
+.duration-btn-selected {
+    width: 40%;
+    border: none;
+    border-radius: 5px;
+    background: var(--typeAction);
+}
 
-/** {*/
-/*    -webkit-font-smoothing: antialiased;*/
-/*    -moz-osx-font-smoothing: grayscale;*/
-/*}*/
+.duration-btn-unselected {
+    width: 40%;
+    border: none;
+    border-radius: 5px;
+    background: #009485;
+}
 
-/*!*body {*!*/
-/*!*    font-family: 'Avenir', Helvetica, Arial, sans-serif;*!*/
-/*!*}*!*/
+.card {
+    margin-bottom: 20px;
+}
 
-/*!*body, html {*!*/
-/*!*    height: 100%;*!*/
-/*!*}*!*/
-
-
-/*.btn {*/
-/*    background: var(--buttonPrimary);*/
-/*    border-color: var(--buttonPrimary);*/
-/*    font-family: inherit;*/
-/*    color: var(--primary);*/
-/*    font-weight: 600;*/
-/*    font-size: 14px;*/
-/*    line-height: 24px;*/
-/*    height: 36px;*/
-/*    padding: 0 24px;*/
-/*}*/
-
-/*.btn:hover, .btn:focus, .btn:active, .btn:active:hover {*/
-/*    background: #286090;*/
-/*    color: var(--primary);*/
-/*}*/
-
-/*.btn-primary {*/
-/*    -webkit-border-radius: 4px;*/
-/*    -moz-border-radius: 4px;*/
-/*    border-radius: 4px;*/
-/*    color: var(--primary);*/
-/*    background: var(--buttonAux);*/
-/*    padding: 5px 40px;*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.btn-primary-round {*/
-/*    -webkit-border-radius: 4px;*/
-/*    -moz-border-radius: 4px;*/
-/*    border-radius: 15px;*/
-/*    color: var(--primary);*/
-/*    background: var(--buttonAux);*/
-/*    padding: 5px 40px;*/
-/*    text-decoration: none;*/
-/*    font-size: 20px;*/
-/*}*/
-
-/*.btn-green-oval-solid:hover {*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.btn-teal-oval-solid {*/
-/*    -webkit-border-radius: 28px;*/
-/*    -moz-border-radius: 28px;*/
-/*    border-radius: 28px;*/
-/*    color: var(--primary);*/
-/*    background: var(--typeAction);*/
-/*    padding: 10px 20px 10px 20px;*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.btn-teal-oval-solid:hover {*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.btn-grey-oval-solid {*/
-/*    -webkit-border-radius: 28px;*/
-/*    -moz-border-radius: 28px;*/
-/*    border-radius: 28px;*/
-/*    color: var(--typeAction);*/
-/*    background: var(--aux);*/
-/*    padding: 10px 20px 10px 20px;*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.btn-grey-oval-solid:hover {*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.btn-save-oval-solid{*/
-/*    -webkit-border-radius: 28px;*/
-/*    -moz-border-radius: 28px;*/
-/*    border-radius: 28px;*/
-/*    color: var(--primary);*/
-/*    background: var(--buttonAux);*/
-/*    padding: 10px 15% 10px 15%;*/
-/*    text-decoration: none;*/
-/*    border: none;*/
-/*}*/
-
-/*.btn-save-oval-solid:hover {*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*hr{*/
-/*    background: #f7f7f7;*/
-/*    height: 8px;*/
-/*    border: none;*/
-/*    margin: 2% -5% 2% -5%;*/
-/*}*/
-
-/*.page-container{*/
-/*    width: 65%;*/
-/*    margin: 0 auto;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    padding: 24px 24px 0 24px;*/
-/*}*/
-
-/*!* Position and sizing of burger button *!*/
-/*.bm-burger-button {*/
-/*    position: fixed;*/
-/*    width: 24px;*/
-/*    height: 20px;*/
-/*    left: 24px;*/
-/*    top: 24px;*/
-/*}*/
-
-/*@media (max-width: 800px) {*/
-/*    .bm-burger-button {*/
-/*        left: 24px;*/
-/*        top: 16px;*/
-/*    }*/
-/*}*/
-
-/*!* Color/shape of burger icon bars *!*/
-/*.bm-burger-bars {*/
-/*    background: #028577;*/
-/*}*/
-
-/*!* Position and sizing of clickable cross button *!*/
-/*.bm-cross-button {*/
-/*    height: 0px;*/
-/*    width: 0px;*/
-/*    top:0px;*/
-/*}*/
-
-/*!* General sidebar styles *!*/
-/*.bm-menu {*/
-/*    background: white;*/
-/*    font-size: 1.15em;*/
-/*}*/
-
-/*!* Morph shape necessary with bubble or elastic *!*/
-/*.bm-morph-shape {*/
-/*    fill: #373a47;*/
-/*}*/
-
-/*!* Wrapper for item list *!*/
-/*.bm-item-list {*/
-/*    color: #b8b7ad;*/
-/*    padding-top: 16px;*/
-/*}*/
-
-/*!* Individual item *!*/
-/*.bm-item {*/
-/*    display: inline-block;*/
-/*}*/
-
-/*.bm-item-list a {*/
-/*    padding: 0.9em;*/
-/*    box-shadow: inset 0 -1px rgba(0, 0, 0, 0.2);*/
-/*    text-decoration: none;*/
-/*}*/
-
-/*.bm-item-list a span {*/
-/*    margin-left: 10px;*/
-/*    font-size: 1.0em;*/
-/*    color: #9ca4ab;*/
-/*}*/
-
-/*!* Styling of overlay *!*/
-/*.bm-overlay {*/
-/*    background: rgba(0, 0, 0, 0.3);*/
-/*}*/
-
-/*!*.navbar {*!*/
-/*!*    max-width: 100vw;*!*/
-/*!*    z-index: 999;*!*/
-/*!*}*!*/
-
-/*@media only screen and (max-width: 800px) {*/
-/*    .page-container{*/
-/*        width: 100vw;*/
-/*        margin: 0 auto;*/
-/*        display: flex;*/
-/*        flex-direction: column;*/
-/*    }*/
-/*}*/
-
-/*.required {*/
-/*    color:orangered;*/
-/*    font-size: 14px;*/
-/*    margin: 3px;*/
-/*}*/
-
-/*.duration-btn-selected{*/
-/*    width: 40%;*/
-/*    border:none;*/
-/*    border-radius: 5px;*/
-/*    background: var(--typeAction);*/
-/*}*/
-
-/*.duration-btn-unselected{*/
-/*    width: 40%;*/
-/*    border:none;*/
-/*    border-radius: 5px;*/
-/*    background: #009485;*/
-/*}*/
-
-/*.card{*/
-/*    margin-bottom: 20px;*/
-/*}*/
-/*h4, h5, .h4{*/
-/*    font-size: 1.2rem;*/
-/*}*/
+h4, h5, .h4 {
+    font-size: 1.2rem;
+}

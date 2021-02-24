@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactJoyride, { STATUS } from 'react-joyride';
+import Joyride, { STATUS } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
@@ -31,7 +31,7 @@ export default function PureMapFooter({
       },
       showCloseButton: false,
       disableBeacon: true,
-      placement: 'right-start',
+      placement: 'top-start',
       styles: {
         options: {
           width: 240,
@@ -46,7 +46,7 @@ export default function PureMapFooter({
         next: NextButtonContent(t('common:NEXT')),
       },
       showCloseButton: false,
-      placement: 'right-start',
+      placement: 'top-start',
       styles: {
         options: {
           width: 260,
@@ -60,7 +60,7 @@ export default function PureMapFooter({
       locale: {
         last: NextButtonContent(t('common:GOT_IT')),
       },
-      placement: 'right-start',
+      placement: 'top-start',
       showCloseButton: false,
       styles: {
         options: {
@@ -80,7 +80,7 @@ export default function PureMapFooter({
   return (
     <>
       {/* {showSpotLight && ( */}
-        <ReactJoyride
+        <Joyride
           steps={steps}
           continuous
           callback={resetSpotlightStatus}
@@ -112,6 +112,9 @@ export default function PureMapFooter({
             tooltipContent: {
               padding: '4px 0 0 0',
               marginBottom: '20px',
+            },
+            spotlight:{
+              borderRadius: 0,
             },
           }}
         />
@@ -151,7 +154,7 @@ const BodyContent = (text) => {
       <ul style={{paddingInlineStart: "20px"}}>
         {text.split(',').map(function (item, key) {
           return (
-            <li className={styles.spotlightText}>
+            <li key={key} className={styles.spotlightText}>
               {item}
             </li>
           );

@@ -17,7 +17,7 @@ const DEFAULT_CENTER = {
 
 export const AdminMap = Template.bind({});
 AdminMap.args = {
-  farmName: "Happy Valley",
+  farmName: 'Happy Valley',
   isAdmin: true,
   center: DEFAULT_CENTER,
 };
@@ -27,7 +27,7 @@ AdminMap.parameters = {
 
 export const WorkerMap = Template.bind({});
 WorkerMap.args = {
-  farmName: "Happy Valley",
+  farmName: 'Happy Valley',
   isAdmin: false,
   center: DEFAULT_CENTER,
 };

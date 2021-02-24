@@ -72,6 +72,9 @@ export default function PureProfileFloater({
       }
       placement={'bottom-end'}
       open={openProfile}
+      styles={{
+        floater: { zIndex: 1500 },
+      }}
     >
       {children}
     </Floater>

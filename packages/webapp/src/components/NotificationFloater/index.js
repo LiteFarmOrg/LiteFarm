@@ -37,6 +37,9 @@ export default function PureNotificationFloater({
       component={<PureNotificationFloaterComponent notificationTeaser={notificationTeaserClick} />}
       placement={'bottom-end'}
       open={openProfile}
+      styles={{
+        floater: { zIndex: 1500 },
+      }}
     >
       {children}
     </Floater>

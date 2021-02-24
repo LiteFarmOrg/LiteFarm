@@ -5,10 +5,9 @@ import history from '../../../history';
 import { action } from '@storybook/addon-actions';
 import state from './state';
 import NavBar from '../../../containers/Navigation';
-import { ThemeProvider } from 'react-bootstrap';
 import theme from '../../../assets/theme';
 import { useTranslation } from 'react-i18next';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 
 const store = {
   getState: () => {
@@ -121,17 +120,37 @@ export const authenticatedDecorators = [
   },
 ];
 
+export const decoratorsWithStore = [
+  (story) => {
+    const ready = useI18next();
+    return ready ? (
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <>
+            <CssBaseline />
+            <Router history={history}>{story()}</Router>
+          </>
+        </ThemeProvider>
+      </Provider>
+    ) : (
+      <div>loading</div>
+    );
+  },
+];
+
+export const themeWrapper = (story) => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    {story()}
+  </ThemeProvider>
+);
+
 export const componentDecorators = [
   (story) => {
     const ready = useI18next();
     return ready ? <div style={{ padding: '3rem' }}>{story()}</div> : <div>loading</div>;
   },
-  (story) => (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {story()}
-    </ThemeProvider>
-  ),
+  themeWrapper,
 ];
 
 export const componentDecoratorsGreyBackground = [
@@ -143,12 +162,7 @@ export const componentDecoratorsGreyBackground = [
       <div>loading</div>
     );
   },
-  (story) => (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {story()}
-    </ThemeProvider>
-  ),
+  themeWrapper,
 ];
 
 export const componentDecoratorsWithoutPadding = [
@@ -156,10 +170,5 @@ export const componentDecoratorsWithoutPadding = [
     const ready = useI18next();
     return ready ? story() : <div>loading</div>;
   },
-  (story) => (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {story()}
-    </ThemeProvider>
-  ),
+  themeWrapper,
 ];

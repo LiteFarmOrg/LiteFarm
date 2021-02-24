@@ -13,7 +13,7 @@ export default function Map() {
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
-  }
+  };
 
   return (
     <PureMap
@@ -22,5 +22,5 @@ export default function Map() {
       isAdmin={is_admin}
       center={grid_points}
     />
-  )
+  );
 }

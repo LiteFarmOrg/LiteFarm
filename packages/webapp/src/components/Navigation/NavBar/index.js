@@ -138,7 +138,7 @@ export default function PureNavBar({
     closeFloater();
   };
   const farmMapClick = () => {
-    history.push('/Field');
+    history.push('/map');
     closeFloater();
   };
   const peopleClick = () => {

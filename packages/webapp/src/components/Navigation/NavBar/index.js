@@ -38,7 +38,7 @@ export default function PureNavBar({
     changeInteraction('myFarm');
   };
   const farmMapClick = () => {
-    history.push('/Field');
+    history.push('/map');
     changeInteraction('myFarm');
   };
   const peopleClick = () => {

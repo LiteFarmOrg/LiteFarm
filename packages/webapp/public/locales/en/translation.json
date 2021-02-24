@@ -81,6 +81,9 @@
   "EXPIRED_TOKEN": {
     "RESET_PASSWORD_LINK": "Send new password link."
   },
+  "FARM_MAP": {
+    "TITLE": "Farm map"
+  },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",
     "EDIT_FIELD": {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -23,20 +23,23 @@ import Creek from '../../assets/images/farmMapFilter/Creek.svg';
 import Fence from '../../assets/images/farmMapFilter/Fence.svg';
 import Gate from '../../assets/images/farmMapFilter/Gate.svg';
 import WaterValve from '../../assets/images/farmMapFilter/WaterValve.svg';
+import Rectangle from '../../assets/images/farmMapFilter/Rectangle.svg';
+import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import styles from './styles.scss';
 
-const useStyles = makeStyles({
-  list: {
-    width: 250,
-    height: window.innerHeight / 2,
-  },
-  fullList: {
-    width: 'auto',
-  },
-});
-
 export default function SwipeableTemporaryDrawer() {
+  let [height, setHeight] = useState(0);
+  const useStyles = makeStyles({
+    list: {
+      width: 250,
+      // height: height,
+    },
+    fullList: {
+      width: 'auto',
+    },
+  });
+
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -44,6 +47,17 @@ export default function SwipeableTemporaryDrawer() {
     bottom: false,
     right: false,
   });
+
+  const parentRef = useRef(null);
+
+  useEffect(() => {
+    if (parentRef.current) {
+      let parentHeight = parentRef.current.offsetHeight;
+      setHeight(parentHeight);
+
+      console.log(parentHeight);
+    }
+  }, []);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -121,9 +135,9 @@ export default function SwipeableTemporaryDrawer() {
           </div>
         </div>
         <List>
-          {['Map background'].map((text, index) => (
+          {['Map background'].map((text) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index === 0 && <img src={MapBackground} />} </ListItemIcon>
+              <ListItemIcon>{<img src={MapBackground} />} </ListItemIcon>
               <ListItemText primary={text} />
               <MdVisibility className={styles.visibilityIcon} />
             </ListItem>
@@ -137,12 +151,17 @@ export default function SwipeableTemporaryDrawer() {
               paddingTop: '10px',
             }}
           >
-            <p>Areas</p>
+            <p>
+              Areas <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+            </p>
           </div>
           {areaImgDict.map((item) => (
             <ListItem button key={item.name}>
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
-              <ListItemText primary={item.name} />
+              <ListItemText primary={item.name}>
+                {' '}
+                <img src={Leaf} />{' '}
+              </ListItemText>
               <MdVisibility className={styles.visibilityIcon} />
             </ListItem>
           ))}
@@ -155,7 +174,9 @@ export default function SwipeableTemporaryDrawer() {
               paddingTop: '10px',
             }}
           >
-            <p>Lines</p>
+            <p>
+              Lines <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+            </p>
           </div>
           {lineImgDict.map((item) => (
             <ListItem button key={item.name}>
@@ -173,7 +194,9 @@ export default function SwipeableTemporaryDrawer() {
               paddingTop: '10px',
             }}
           >
-            <p>Points</p>
+            <p>
+              Points <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+            </p>
           </div>
           {pointImgDict.map((item) => (
             <ListItem button key={item.name}>
@@ -190,7 +213,7 @@ export default function SwipeableTemporaryDrawer() {
   );
 
   return (
-    <div>
+    <div ref={parentRef}>
       {['left', 'right', 'top', 'bottom'].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>

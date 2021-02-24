@@ -25,8 +25,10 @@ import Gate from '../../assets/images/farmMapFilter/Gate.svg';
 import WaterValve from '../../assets/images/farmMapFilter/WaterValve.svg';
 import Rectangle from '../../assets/images/farmMapFilter/Rectangle.svg';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
+import Line from '../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import styles from './styles.scss';
+import { Box } from '@material-ui/core';
 
 export default function SwipeableTemporaryDrawer() {
   let [height, setHeight] = useState(0);
@@ -69,8 +71,8 @@ export default function SwipeableTemporaryDrawer() {
 
   const areaImgDict = [
     { name: 'Barn', img: Barn },
-    { name: 'CeremonialArea', img: CeremonialArea },
-    { name: 'FarmSiteBoundary', img: FarmSiteBoundary },
+    { name: 'Ceremonial Area', img: CeremonialArea },
+    { name: 'Farm Site Boundary', img: FarmSiteBoundary },
     { name: 'Field', img: Field },
     { name: 'Greenhouse', img: Greenhouse },
     { name: 'Groundwater', img: Groundwater },
@@ -78,14 +80,14 @@ export default function SwipeableTemporaryDrawer() {
   ];
 
   const lineImgDict = [
-    { name: 'BufferZone', img: BufferZone },
+    { name: 'Buffer Zone', img: BufferZone },
     { name: 'Creek', img: Creek },
     { name: 'Fence', img: Fence },
   ];
 
   const pointImgDict = [
     { name: 'Gate', img: Gate },
-    { name: 'WaterValve', img: WaterValve },
+    { name: 'Water Valve', img: WaterValve },
   ];
 
   const list = (anchor) => (
@@ -119,8 +121,11 @@ export default function SwipeableTemporaryDrawer() {
                 fontSize: '14px',
               }}
             >
-              <p>Show all</p>
+              <p>
+                Show all <img style={{ paddingLeft: '10px' }} src={Line} />{' '}
+              </p>
             </div>
+
             <div
               style={{
                 textDecoration: 'underline',
@@ -139,7 +144,7 @@ export default function SwipeableTemporaryDrawer() {
             <ListItem button key={text}>
               <ListItemIcon>{<img src={MapBackground} />} </ListItemIcon>
               <ListItemText primary={text} />
-              <MdVisibility className={styles.visibilityIcon} />
+              <MdVisibility size={24} color={'#66738A'} className={styles.visibilityIcon} />
             </ListItem>
           ))}
           <div
@@ -158,11 +163,17 @@ export default function SwipeableTemporaryDrawer() {
           {areaImgDict.map((item) => (
             <ListItem button key={item.name}>
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
-              <ListItemText primary={item.name}>
-                {' '}
-                <img src={Leaf} />{' '}
-              </ListItemText>
-              <MdVisibility className={styles.visibilityIcon} />
+              <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
+              {item.name === 'Farm Site Boundary' ? (
+                <ListItemText
+                  secondaryTypographyProps={{ align: 'left' }}
+                  secondary={<img src={Leaf} />}
+                />
+              ) : (
+                <ListItemText />
+              )}
+
+              <MdVisibility size={24} color={'#66738A'} className={styles.visibilityIcon} />
             </ListItem>
           ))}
           <div
@@ -182,7 +193,7 @@ export default function SwipeableTemporaryDrawer() {
             <ListItem button key={item.name}>
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
               <ListItemText primary={item.name} />
-              <MdVisibility className={styles.visibilityIcon} />
+              <MdVisibility size={24} color={'#66738A'} className={styles.visibilityIcon} />
             </ListItem>
           ))}
           <div
@@ -202,7 +213,7 @@ export default function SwipeableTemporaryDrawer() {
             <ListItem button key={item.name}>
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
               <ListItemText primary={item.name} />
-              <MdVisibility className={styles.visibilityIcon} />
+              <MdVisibility size={24} color={'#66738A'} className={styles.visibilityIcon} />
             </ListItem>
           ))}
         </List>

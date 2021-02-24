@@ -24,10 +24,10 @@ export default function PureMapFooter({
   const steps = [
     {
       target: '#mapFirstStep',
-      title: returnTitleContent(t('FARM_MAP.SPOTLIGHT.ADD_TITLE')),
+      title: TitleContent(t('FARM_MAP.SPOTLIGHT.ADD_TITLE')),
       content: BodyContent(t('FARM_MAP.SPOTLIGHT.ADD')),
       locale: {
-        next: returnNextButton(t('common:NEXT')),
+        next: NextButtonContent(t('common:NEXT')),
       },
       showCloseButton: false,
       disableBeacon: true,
@@ -40,10 +40,10 @@ export default function PureMapFooter({
     },
     {
       target: '#mapSecondStep',
-      title: returnTitleContent(t('FARM_MAP.SPOTLIGHT.FILTER_TITLE')),
+      title: TitleContent(t('FARM_MAP.SPOTLIGHT.FILTER_TITLE')),
       content: BodyContent(t('FARM_MAP.SPOTLIGHT.FILTER')),
       locale: {
-        next: returnNextButton(t('common:NEXT')),
+        next: NextButtonContent(t('common:NEXT')),
       },
       showCloseButton: false,
       placement: 'right-start',
@@ -55,10 +55,10 @@ export default function PureMapFooter({
     },
     {
       target: '#mapThirdStep',
-      title: returnTitleContent(t('FARM_MAP.SPOTLIGHT.EXPORT_TITLE')),
+      title: TitleContent(t('FARM_MAP.SPOTLIGHT.EXPORT_TITLE')),
       content: BodyContent(t('FARM_MAP.SPOTLIGHT.EXPORT')),
       locale: {
-        last: returnNextButton(t('common:GOT_IT')),
+        last: NextButtonContent(t('common:GOT_IT')),
       },
       placement: 'right-start',
       showCloseButton: false,
@@ -133,7 +133,7 @@ PureMapFooter.prototype = {
   style: PropTypes.object,
 };
 
-const returnTitleContent = (text) => {
+const TitleContent = (text) => {
   return (
     <span className={styles.spotlightTitle}>
       <p align='left' className={styles.spotlightText}>
@@ -161,6 +161,6 @@ const BodyContent = (text) => {
   )
 };
 
-const returnNextButton = (text) => {
+const NextButtonContent = (text) => {
   return <span className={styles.spotlightButton}>{text}</span>;
 };

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '../Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
@@ -7,9 +7,18 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { MdArrowDropDown } from 'react-icons/all';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default function DropdownButton({ options }) {
-  const [isOpen, setOpen] = useState(false);
+const useStyles = makeStyles((theme) => ({
+  svg: {
+    fontSize: '20px',
+    transform: 'translateX(4px)',
+  },
+}));
+
+export default function DropdownButton({ options, children, defaultOpen }) {
+  const classes = useStyles();
+  const [isOpen, setOpen] = useState(defaultOpen);
   const anchorRef = useRef(null);
 
   const handleMenuItemClick = (option) => {
@@ -30,23 +39,22 @@ export default function DropdownButton({ options }) {
 
   return (
     <>
-      <Button
-        color="primary"
-        size="small"
-        aria-controls={isOpen ? 'split-button-menu' : undefined}
-        aria-expanded={isOpen ? 'true' : undefined}
-        aria-label="select action"
-        aria-haspopup="menu"
-        onClick={handleToggle}
-      >
-        <MdArrowDropDown />
+      <Button sm onClick={handleToggle} inputRef={anchorRef}>
+        {children}
+        <MdArrowDropDown className={classes.svg} />
       </Button>
-      <Popper open={isOpen} anchorEl={anchorRef.current} role={undefined} disablePortal>
+      <Popper
+        placement={'bottom-end'}
+        open={isOpen}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        disablePortal
+      >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList>
               {options.map((option, index) => (
-                <MenuItem key={option} onClick={(event) => handleMenuItemClick(option)}>
+                <MenuItem key={index} onClick={(event) => handleMenuItemClick(option)}>
                   {option.text}
                 </MenuItem>
               ))}
@@ -65,4 +73,6 @@ DropdownButton.propTypes = {
       onClick: PropTypes.func,
     }),
   ),
+  children: PropTypes.string,
+  defaultOpen: PropTypes.bool,
 };

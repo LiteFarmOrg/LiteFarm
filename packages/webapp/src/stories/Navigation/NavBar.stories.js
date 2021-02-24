@@ -5,7 +5,7 @@ import { Router } from 'react-router-dom';
 import history from './../../history';
 import NavBar from '../../components/Navigation/NavBar';
 import NoFarmNavBar from '../../components/Navigation/NoFarmNavBar';
-import { useI18next } from '../Pages/config/decorators';
+import { themeWrapper, useI18next } from '../Pages/config/decorators';
 
 const store = {
   getState: () => {
@@ -30,29 +30,43 @@ const store = {
 export default {
   title: 'Components/Navbar',
   decorators: [
-    (story) => (
-      <Provider store={store}>
-        <Router history={history}>{story()}</Router>
-      </Provider>
-    ),
+    (story) => {
+      const ready = useI18next();
+      return ready ? (
+        <Provider store={store}>
+          <Router history={history}>{story()}</Router>
+        </Provider>
+      ) : (
+        'loading'
+      );
+    },
+    themeWrapper,
   ],
   component: NavBar,
 };
 
 export const SignupNavbar = (() => <NoFarmNavBar />).bind({});
 
-const Template = (args) => {
-  const ready = useI18next();
-  return ready ? <NavBar {...args} /> : 'loading';
-};
+const Template = (args) => <NavBar {...args} />;
+
 export const HomeNavbar = Template.bind({});
 
 HomeNavbar.args = {
   tooltipInteraction: { profile: false },
-  auth: { logout: () => {}, isAuthenticated: () => true },
+  auth: {
+    logout: () => {},
+    isAuthenticated: () => true,
+  },
   history: {
     push: () => {},
     location: { pathname: '/home' },
     replace: () => {},
   },
+};
+
+export const HomeNavbarWithSpotlight = Template.bind({});
+
+HomeNavbarWithSpotlight.args = {
+  showSpotLight: true,
+  resetSpotlight: () => {},
 };

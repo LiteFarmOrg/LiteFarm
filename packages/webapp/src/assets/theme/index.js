@@ -91,6 +91,11 @@ const theme = createMuiTheme({
         body: {
           backgroundColor: '#fff',
         },
+        '*': {
+          boxSizing: 'border-box',
+          margin: 0,
+          padding: 0,
+        },
       },
     },
   },

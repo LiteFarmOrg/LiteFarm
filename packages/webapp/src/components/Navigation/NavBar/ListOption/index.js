@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './listOption.module.scss';
+
 export default function ListOption({
   iconText,
   clickFn,
@@ -16,10 +17,19 @@ export default function ListOption({
       marginBottom: '0px',
       cursor: 'pointer',
       display: 'flex',
+      alignItems: 'center',
     },
     customParagraphStyle,
   );
-  const iconStyle = Object.assign({ width: '44px', textAlign: 'center' }, customIconStyle);
+  const iconStyle = Object.assign(
+    {
+      width: '44px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    customIconStyle,
+  );
   return (
     <span className={styles.listOption} onClick={clickFn}>
       <div style={paragraphStyle}>

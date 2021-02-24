@@ -5,6 +5,7 @@ import { ReactComponent as VectorDown } from '../../../../assets/images/navbar/v
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -113,3 +114,12 @@ function SlideMenu({
 }
 
 export default SlideMenu;
+
+SlideMenu.prototype = {
+  history: PropTypes.object,
+  manageOpen: PropTypes.bool,
+  closeDrawer: PropTypes.func,
+  toggleManage: PropTypes.func,
+  setDefaultDateRange: PropTypes.func,
+  showFinances: PropTypes.bool,
+};

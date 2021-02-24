@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Text } from '../Typography';
 import Floater from 'react-floater';
+import { ClickAwayListener } from '@material-ui/core';
 
 const OverlayTooltip = ({
   children = 'LiteFarm',
@@ -13,15 +14,18 @@ const OverlayTooltip = ({
   autoOpen,
   ...props
 }) => {
+  const [isOpen, setOpen] = useState();
   return (
     <>
       <Floater
         placement={placement}
         component={
-          <TooltipComponent style={style}>
-            {' '}
-            <Text>{content}</Text>
-          </TooltipComponent>
+          <ClickAwayListener onClickAway={() => setOpen(false)}>
+            <TooltipComponent style={style}>
+              {' '}
+              <Text>{content}</Text>
+            </TooltipComponent>
+          </ClickAwayListener>
         }
         styles={{
           floater: { filter: 'none' },
@@ -31,6 +35,7 @@ const OverlayTooltip = ({
         offset={offset}
         eventDelay={eventDelay}
         autoOpen={autoOpen}
+        open={isOpen}
         {...props}
       >
         {children}

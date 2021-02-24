@@ -90,6 +90,7 @@ const theme = createMuiTheme({
       '@global': {
         body: {
           backgroundColor: '#fff',
+          overflowX: 'hidden',
         },
         '*': {
           boxSizing: 'border-box',

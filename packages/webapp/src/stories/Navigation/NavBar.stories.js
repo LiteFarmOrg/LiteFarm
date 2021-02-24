@@ -70,3 +70,9 @@ HomeNavbarWithSpotlight.args = {
   showSpotLight: true,
   resetSpotlight: () => {},
 };
+
+export const HomeNavbarWithProfileFloater = Template.bind({});
+HomeNavbarWithProfileFloater.args = {
+  resetSpotlight: () => {},
+  defaultOpenFloater: 'profile',
+};

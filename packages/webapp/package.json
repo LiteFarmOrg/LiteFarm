@@ -69,7 +69,8 @@
     "format": "npx prettier --write ./src",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "install": "npx -p npm@6 npm install"
   },
   "lint-staged": {
     "*.{js}": [

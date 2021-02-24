@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   icons: {
     display: 'flex',
     position: 'absolute',
-    right: '24px',
+    right: '8px',
   },
   appBar: {
     background:
@@ -89,6 +89,7 @@ export default function PureNavBar({
   history,
   setDefaultDateRange,
   showFinances,
+  defaultOpenFloater,
 }) {
   const classes = useStyles();
   const { t } = useTranslation([
@@ -115,7 +116,7 @@ export default function PureNavBar({
   };
 
   //Floater
-  const [openFloater, setOpenFloater] = useState();
+  const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
   const [FARM, NOTIFICATION, PROFILE] = ['farm', 'notification', 'profile'];
   const isFarmFloaterOpen = openFloater === FARM;
   const isNotificationFloaterOpen = openFloater === NOTIFICATION;
@@ -225,6 +226,9 @@ export default function PureNavBar({
       styles: {
         options: {
           width: 210,
+        },
+        tooltip: {
+          transform: 'translateX(-12px)',
         },
       },
       floaterProps: {
@@ -405,4 +409,5 @@ PureNavBar.propTypes = {
   history: PropTypes.object,
   setDefaultDateRange: PropTypes.func,
   showFinances: PropTypes.bool,
+  defaultOpenFloater: PropTypes.oneOf(['farm', 'notification', 'profile']),
 };

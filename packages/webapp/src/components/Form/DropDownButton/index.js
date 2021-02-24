@@ -12,7 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   svg: {
     fontSize: '20px',
-    transform: 'translateX(4px)',
   },
 }));
 
@@ -41,7 +40,10 @@ export default function DropdownButton({ options, children, defaultOpen }) {
     <>
       <Button sm onClick={handleToggle} inputRef={anchorRef}>
         {children}
-        <MdArrowDropDown className={classes.svg} />
+        <MdArrowDropDown
+          className={classes.svg}
+          style={{ transform: `translateX(4px) scaleY(${isOpen ? -1 : 1})` }}
+        />
       </Button>
       <Popper
         placement={'bottom-end'}

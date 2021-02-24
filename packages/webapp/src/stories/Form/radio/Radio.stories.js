@@ -1,10 +1,11 @@
 import React from 'react';
 import Radio from '../../../components/Form/Radio';
+import { componentDecorators } from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/Radio',
   component: Radio,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <Radio {...args} />;

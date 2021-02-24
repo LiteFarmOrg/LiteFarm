@@ -1,21 +1,50 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import LinkTo from '@storybook/addon-links/react';
 
 <Meta title="Docs/bugs" />
 
 # Known bugs
-
-### Storybook would crash with error TypeError: Cannot read property 'displayName' of undefined if react icon is used
-
-[Related github issue](https://github.com/storybookjs/storybook/issues/11821)
-
-Affected Story:
-
-- [addFarm screen](http://localhost:6006/?path=/story/form-intro-2-addfarm--primary)
-
 
 ### Not be able to log in through google while in incognito mode
 
 [Related github issue](https://github.com/anthonyjgrove/react-google-login/issues/378)
 
 [Google api does not support incognito mode](https://github.com/anthonyjgrove/react-google-login/issues/378#issuecomment-723535656)
+
+### Storybook does not support lazy loading
+
+[Related github issue](https://github.com/storybookjs/storybook/issues/6885)
+
+###### Examples:
+
+[Lazy loaded button](http://localhost:6006/?path=/story/bugs-suspensetypeerror--lazy-loaded-button)
+
+[Consent form that uses lazy load on translations](http://localhost:6006/?path=/story/bugs-suspensetypeerror--i-18-lazyload)
+
+##### Walk around:
+
+- In decorator, manually load all translation files,
+- set useSuspense to false,
+- use flag ready to set fallback
+
+```js
+// Decorator
+export default [
+  (story) => {
+    const { t, ready } = useTranslation([
+      'translation',
+      'crop',
+      'common',
+      'disease',
+      'task',
+      'expense',
+      'fertilizer',
+      'message',
+      'gender',
+      'role',
+      'harvest_uses',
+      'soil',
+    ], { useSuspense: false });
+    return ready? (story()): <div>loading</div>;
+  },
+];
+```

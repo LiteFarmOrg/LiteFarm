@@ -126,31 +126,30 @@ export default function SwipeableTemporaryDrawer() {
         </div>
         <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
           <Semibold>Filter your map</Semibold>
-          <div style={{ margin: 'auto' }}>
-            <div
-              style={{
-                textDecoration: 'underline',
-                float: 'left',
-                color: '#AA5F04',
-                fontSize: '14px',
-              }}
-            >
-              <p>
-                Show all <img style={{ paddingLeft: '10px' }} src={Line} />{' '}
-              </p>
-            </div>
+          <div
+            onClick={() => console.log('hello world')}
+            style={{
+              textDecoration: 'underline',
+              float: 'left',
+              color: '#AA5F04',
+              fontSize: '14px',
+            }}
+          >
+            <p>
+              Show all <img style={{ paddingLeft: '10px' }} src={Line} />{' '}
+            </p>
+          </div>
 
-            <div
-              style={{
-                textDecoration: 'underline',
-                float: 'left',
-                paddingLeft: '10px',
-                color: '#AA5F04',
-                fontSize: '14px',
-              }}
-            >
-              <p>Hide all</p>
-            </div>
+          <div
+            style={{
+              textDecoration: 'underline',
+              float: 'left',
+              paddingLeft: '10px',
+              color: '#AA5F04',
+              fontSize: '14px',
+            }}
+          >
+            <p>Hide all</p>
           </div>
         </div>
 

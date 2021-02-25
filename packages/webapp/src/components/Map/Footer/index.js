@@ -12,14 +12,14 @@ export default function PureMapFooter({
   style,
   isAdmin,
   showSpotlight,
+  resetSpotlight,
 }) {
   const { t } = useTranslation();
 
   const resetSpotlightStatus = (data) => {
     const { action, status } = data;
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
-      // resetSpotlight();
-      console.log("reset spotlight");
+      resetSpotlight();
     }
   };
   const steps = [
@@ -143,6 +143,7 @@ PureMapFooter.prototype = {
   style: PropTypes.object,
   isAdmin: PropTypes.bool,
   showSpotlight: PropTypes.bool,
+  resetSpotlight: PropTypes.func,
 };
 
 const TitleContent = (text) => {

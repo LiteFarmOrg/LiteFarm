@@ -5,12 +5,19 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
+import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 
 export default function Map() {
-  const { farm_name, grid_points, is_admin } = useSelector(userFarmSelector);
+  const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
+  const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    // setCenter(grid_points);
+  }, []);
 
   const getMapOptions = (maps) => {
     return {
@@ -45,13 +52,13 @@ export default function Map() {
     };
   };
 
-  useEffect(() => {
-    // setCenter(grid_points);
-  }, []);
-
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
+  }
+
+  const resetSpotlight = () => {
+    dispatch(endMapSpotlight(farm_id));
   }
 
   return (
@@ -81,7 +88,8 @@ export default function Map() {
       <PureMapFooter
         className={styles.mapFooter}
         isAdmin={is_admin}
-        showSpotlight={true}
+        showSpotlight={showMapSpotlight}
+        resetSpotlight={resetSpotlight}
       />
     </div>
   )

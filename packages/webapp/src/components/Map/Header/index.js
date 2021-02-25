@@ -35,5 +35,6 @@ export default function PureMapHeader({
 PureMapHeader.prototype = {
   className: PropTypes.string,
   style: PropTypes.object,
+  farmName: PropTypes.string,
   showVideo: PropTypes.func,
 };

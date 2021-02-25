@@ -15,11 +15,19 @@
   justify-content: center;
   align-items: center;
   background-color: white;
+
+  .svg {
+    fill: var(--grey600);
+  }
 }
 
 .button:hover {
   border-top: 8px solid var(--teal700);
   padding-bottom: 7px;
+
+  .svg {
+    fill: var(--teal700);
+  }
 }
 
 .spotlightTitle {

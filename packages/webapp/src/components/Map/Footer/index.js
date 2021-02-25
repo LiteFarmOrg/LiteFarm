@@ -123,9 +123,15 @@ export default function PureMapFooter({
         className={[styles.container, className].join(' ')}
         style={style}
       >
-        {isAdmin && <button className={styles.button} id="mapFirstStep"><AddLogo /></button>}
-        <button className={styles.button} id="mapSecondStep"><FilterLogo /></button>
-        <button className={styles.button} id="mapThirdStep"><ExportLogo /></button>
+        {isAdmin && <button className={styles.button} id="mapFirstStep">
+          <AddLogo className={styles.svg} />
+        </button>}
+        <button className={styles.button} id="mapSecondStep">
+          <FilterLogo className={styles.svg} />
+          </button>
+        <button className={styles.button} id="mapThirdStep">
+          <ExportLogo className={styles.svg} />
+          </button>
       </div>
     </>
   );

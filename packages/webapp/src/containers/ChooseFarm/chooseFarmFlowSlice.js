@@ -2,17 +2,12 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
 
-const getFarmState = (payload) => {
-  const { farm_id, isInvitationFlow, showSpotLight, showMapSpotlight, skipChooseFarm, showSwitchFarmModal } = payload;
-  return { farm_id, isInvitationFlow, showSpotLight, showMapSpotlight, skipChooseFarm, showSwitchFarmModal };
-};
-
 const chooseFarmFlowAdapter = createEntityAdapter({
   selectId: (farmState) => farmState.farm_id,
 });
 
 const updateFarmState = (state, payload) => {
-  chooseFarmFlowAdapter.upsertOne(state, getFarmState(payload));
+  chooseFarmFlowAdapter.upsertOne(state, payload);
 };
 
 const chooseFarmFlowSlice = createSlice({

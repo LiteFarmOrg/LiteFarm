@@ -1,37 +1,25 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { fieldEntitiesSelector, fieldsSelector } from './fieldSlice';
+import { fieldEntitiesSelector } from './fieldSlice';
 import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
+import { pick } from '../util';
 
 const getFieldCrop = (obj) => {
-  const {
-    field_crop_id,
-    crop_id,
-    field_id,
-    start_date,
-    end_date,
-    area_used,
-    estimated_production,
-    variety,
-    estimated_revenue,
-    is_by_bed,
-    bed_config,
-  } = obj;
-  return {
-    field_crop_id,
-    crop_id,
-    field_id,
-    start_date,
-    end_date,
-    area_used,
-    estimated_production,
-    variety,
-    estimated_revenue,
-    is_by_bed,
-    bed_config,
-  };
+  return pick(obj, [
+    'field_crop_id',
+    'crop_id',
+    'field_id',
+    'start_date',
+    'end_date',
+    'area_used',
+    'estimated_production',
+    'variety',
+    'estimated_revenue',
+    'is_by_bed',
+    'bed_config',
+  ]);
 };
 
 const addOneFieldCrop = (state, { payload }) => {

@@ -11,6 +11,7 @@ export default function PureMapFooter({
   className,
   style,
   isAdmin,
+  showSpotlight,
 }) {
   const { t } = useTranslation();
 
@@ -79,7 +80,7 @@ export default function PureMapFooter({
 
   return (
     <>
-      {/* {showSpotLight && ( */}
+      {showSpotlight && (
         <Joyride
           steps={steps}
           continuous
@@ -118,7 +119,7 @@ export default function PureMapFooter({
             },
           }}
         />
-      {/* )} */}
+      )}
       <div
         className={[styles.container, className].join(' ')}
         style={style}
@@ -140,6 +141,8 @@ export default function PureMapFooter({
 PureMapFooter.prototype = {
   className: PropTypes.string,
   style: PropTypes.object,
+  isAdmin: PropTypes.bool,
+  showSpotlight: PropTypes.bool,
 };
 
 const TitleContent = (text) => {

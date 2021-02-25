@@ -81,6 +81,7 @@ export default function Map() {
       <PureMapFooter
         className={styles.mapFooter}
         isAdmin={is_admin}
+        showSpotlight={true}
       />
     </div>
   )

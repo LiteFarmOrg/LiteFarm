@@ -30,7 +30,7 @@ import { toastr } from 'react-redux-toastr';
 import history from '../../history';
 import { loginSelector, userFarmSelector } from '../userFarmSlice';
 import { axios, getHeader } from '../saga';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { resetStepOne } from '../shiftSlice';
 
 export function* getTaskTypesSaga() {

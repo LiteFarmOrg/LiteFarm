@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import styles from './styles.scss';
-import sharedStyles from '../shared.scss';
+import styles from './styles.module.scss';
+import sharedStyles from '../shared.module.scss';
 import { ProgressBar } from 'react-bootstrap';
 import { Main } from '../../Typography';
 

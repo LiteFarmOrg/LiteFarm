@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { pricesDistanceSelector } from '../../../containers/Insights/selectors';
-import styles from '../../PageTitle/styles.scss';
+import styles from '../../PageTitle/styles.module.scss';
 import { BsGearFill } from 'react-icons/bs';
 
 class PriceDistanceComponent extends Component {

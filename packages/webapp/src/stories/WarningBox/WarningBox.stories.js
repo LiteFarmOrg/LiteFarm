@@ -1,10 +1,11 @@
 import React from 'react';
 import PureWarningBox from '../../components/WarningBox';
+import { componentDecorators } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/WarningBox',
   component: PureWarningBox,
-  decorators: [(story) => <div style={{ padding: '3rem' }}>{story()}</div>],
+  decorators: componentDecorators,
 };
 
 const Template = (args) => <PureWarningBox {...args} />;

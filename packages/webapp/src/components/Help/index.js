@@ -4,7 +4,7 @@ import { ReactComponent as AddFile } from './../../assets/images/help/AddFile.sv
 import React, { useEffect, useState } from 'react';
 import { Error, Title } from '../Typography';
 import PropTypes from 'prop-types';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ReactSelect from '../Form/ReactSelect';
 import TextArea from '../Form/TextArea';
@@ -23,7 +23,7 @@ export default function PureHelpRequestPage({ onSubmit, goBack, email, phone_num
   const MESSAGE = 'message';
   const SUPPORT_TYPE = 'support_type';
   const CONTACT_INFO = 'contactInfo';
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const supportTypeOptions = [
     { value: 'Request information', label: t('HELP.OPTIONS.REQUEST_INFO') },
     { value: 'Report a bug', label: t('HELP.OPTIONS.REPORT_BUG') },

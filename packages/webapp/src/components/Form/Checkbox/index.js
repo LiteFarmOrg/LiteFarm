@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './checkbox.scss';
+import styles from './checkbox.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Error, Main } from '../../Typography';

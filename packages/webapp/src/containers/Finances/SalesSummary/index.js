@@ -1,19 +1,18 @@
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import React, { Component } from 'react';
 import history from '../../../history';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import { dateRangeSelector, salesSelector } from '../selectors';
-import { getSales } from '../actions';
+import { getSales, setSelectedSale } from '../actions';
 import { connect } from 'react-redux';
-import { setSelectedSale } from '../actions';
 import moment from 'moment';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { BsCaretRight } from 'react-icons/all';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class SalesSummary extends Component {
   constructor(props) {

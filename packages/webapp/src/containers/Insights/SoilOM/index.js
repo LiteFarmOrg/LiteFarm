@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { soilOMSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
@@ -18,14 +18,14 @@ class SoilOM extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title={t("INSIGHTS.SOIL_OM.ALTERNATE_TITLE")}
+          title={t('INSIGHTS.SOIL_OM.ALTERNATE_TITLE')}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={t("INSIGHTS.SOIL_OM.TITLE")}
-          rightIconBody={(<div>{t("INSIGHTS.SOIL_OM.INFO")}</div>)}
+          rightIconTitle={t('INSIGHTS.SOIL_OM.TITLE')}
+          rightIconBody={<div>{t('INSIGHTS.SOIL_OM.INFO')}</div>}
         />
         <div>
-          <Semibold>{t("INSIGHTS.SOIL_OM.HEADER")}</Semibold>
+          <Semibold>{t('INSIGHTS.SOIL_OM.HEADER')}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>

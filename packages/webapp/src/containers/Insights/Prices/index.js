@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { pricesDistanceSelector, pricesSelector } from '../selectors';
 import PriceCropContainer from '../../../components/Insights/PriceCropContainer';
-import { grabCurrencySymbol } from '../../../util';
-import { Collapse } from 'react-bootstrap';
-import { setPricesDistance, getPricesWithDistanceData } from '../actions';
+import { Button, Collapse } from 'react-bootstrap';
+import { getPricesWithDistanceData, setPricesDistance } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
-import { Button } from 'react-bootstrap';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Text } from '../../../components/Typography';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 const MILE_TO_KILOMETER = 1.609;
 
@@ -77,16 +76,21 @@ class Prices extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title={t("INSIGHTS.PRICES.TITLE")}
+          title={t('INSIGHTS.PRICES.TITLE')}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={t("INSIGHTS.PRICES.TITLE")}
-          rightIconBody={(<div>{t("INSIGHTS.PRICES.INFO")}</div>)}
+          rightIconTitle={t('INSIGHTS.PRICES.TITLE')}
+          rightIconBody={<div>{t('INSIGHTS.PRICES.INFO')}</div>}
         />
         {this.props.pricesDistance && (
           <div style={{ marginBottom: '8px' }}>
             <div style={{ float: 'left' }}>
-              <Text style={{fontWeight: 'bold'}}>{t("INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY", { distance: distanceToDisplay, unit })}</Text>
+              <Text style={{ fontWeight: 'bold' }}>
+                {t('INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY', {
+                  distance: distanceToDisplay,
+                  unit,
+                })}
+              </Text>
             </div>
             <div style={{ float: 'right' }}>
               <PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse} />
@@ -94,7 +98,11 @@ class Prices extends Component {
             <div style={{ float: 'left' }}>
               <Collapse in={this.state.open}>
                 <div>
-                  <Text>{t("INSIGHTS.PRICES.NEARBY_FARMS", { count: this.props.pricesData['amountOfFarms'] })}</Text>
+                  <Text>
+                    {t('INSIGHTS.PRICES.NEARBY_FARMS', {
+                      count: this.props.pricesData['amountOfFarms'],
+                    })}
+                  </Text>
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {
                       return (
@@ -121,11 +129,7 @@ class Prices extends Component {
             </div>
           </div>
         )}
-        {!this.props.farm.grid_points && (
-          <div>
-            {t("INSIGHTS.PRICES.NO_ADDRESS")}
-          </div>
-        )}
+        {!this.props.farm.grid_points && <div>{t('INSIGHTS.PRICES.NO_ADDRESS')}</div>}
         {cropsWithPriceInfo.map((cropInfo, index) => {
           const cropName = Object.keys(cropInfo)[0];
           const pricePoints = cropInfo[cropName]; // each month is a price point

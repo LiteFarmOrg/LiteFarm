@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 
 import { fertSelector, fertTypeSelector } from '../FertilizingLog/selectors';
@@ -321,7 +321,9 @@ class FertilizingLog extends Component {
                 <Control model=".fertLog.notes" component={TextArea} />
               </div>
               <div className={styles.greenTextButton} onClick={() => this.toggleChemInfo()}>
-                {this.state.showChem ? this.props.t('LOG_COMMON.HIDE') : this.props.t('LOG_COMMON.SHOW')}{' '}
+                {this.state.showChem
+                  ? this.props.t('LOG_COMMON.HIDE')
+                  : this.props.t('LOG_COMMON.SHOW')}{' '}
                 {this.props.t('LOG_COMMON.PRODUCT_CHEMICAL_COMPOSITION')}
               </div>
               {this.state.showChem && (

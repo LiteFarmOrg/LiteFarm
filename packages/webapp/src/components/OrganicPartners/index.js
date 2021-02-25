@@ -1,4 +1,4 @@
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Form from '../Form';
 import Button from '../Form/Button';
 import signup7 from '../../assets/images/signUp/signup7.svg';
@@ -11,7 +11,7 @@ import { Label, Text } from '../Typography';
 import { useTranslation } from 'react-i18next';
 
 export function PureOrganicPartners({ inputs = [{}, {}], onSubmit, onGoBack, disabled }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
 
   return (
     <Form

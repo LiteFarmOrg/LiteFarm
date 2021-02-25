@@ -18,13 +18,9 @@ const yieldModel = require('../models/yieldModel');
 const { transaction, Model } = require('objection');
 
 
-class YieldController extends baseController {
+const YieldController = {
 
-  constructor() {
-    super();
-  }
-
-  static addYield() {
+  addYield() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
@@ -39,66 +35,60 @@ class YieldController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static delYield(){
-    return async(req, res) => {
+  delYield() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const isDeleted = await baseController.delete(yieldModel, req.params.yield_id, trx);
         await trx.commit();
-        if(isDeleted){
+        if (isDeleted) {
           res.sendStatus(200);
-        }
-        else{
+        } else {
           res.sendStatus(404);
         }
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
-  static updateYield(){
-    return async(req, res) => {
+  updateYield() {
+    return async (req, res) => {
       const trx = await transaction.start(Model.knex());
-      try{
+      try {
         const updated = await baseController.put(yieldModel, req.params.id, req.body, trx);
         await trx.commit();
-        if(!updated.length){
+        if (!updated.length) {
           res.sendStatus(404);
-        }
-        else{
+        } else {
           res.status(200).send(updated);
         }
 
-      }
-      catch (error) {
+      } catch (error) {
         await trx.rollback();
         res.status(400).json({
           error,
         });
       }
     }
-  }
+  },
 
-  static getYieldByFarmId() {
+  getYieldByFarmId() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
         const rows = await YieldController.getByForeignKey(farm_id);
         if (!rows.length) {
-          res.sendStatus(404)
-        }
-        else {
+          res.sendStatus(404);
+        } else {
           res.status(200).send(rows);
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
         //handle more exceptions
         res.status(400).json({
@@ -106,13 +96,13 @@ class YieldController extends baseController {
         });
       }
     }
-  }
+  },
 
-  static async getByForeignKey(farm_id) {
+  async getByForeignKey(farm_id) {
     const yields = await yieldModel.query().select('*').from('yield').where('yield.farm_id', farm_id).whereNotDeleted();
 
     return yields;
-  }
+  },
 }
 
 module.exports = YieldController;

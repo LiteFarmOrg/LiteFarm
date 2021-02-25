@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function OrganicPartners() {
   const { register, handleSubmit, errors, watch, setValue } = useForm();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const COABC = 'COABC';
   const OTHER = 'other';
   const OTHERNAME = 'otherName';

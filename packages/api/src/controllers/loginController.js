@@ -25,8 +25,8 @@ const userLogModel = require('../models/userLogModel');
 
 const { createToken } = require('../util/jwt');
 
-class loginController extends baseController {
-  static authenticateUser() {
+const loginController = {
+  authenticateUser() {
     return async (req, res) => {
       // uses email to identify which user is attempting to log in, can also use user_id for this
       const { email, password } = req.body.user;
@@ -93,9 +93,9 @@ class loginController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static loginWithGoogle() {
+  loginWithGoogle() {
     return async (req, res) => {
       try {
         const { sub: user_id, email, given_name: first_name, family_name: last_name } = req.user;
@@ -117,7 +117,7 @@ class loginController extends baseController {
           user: {
             user_id: isPasswordNeeded ? passwordUser.user_id : user_id,
             email,
-            first_name: isPasswordNeeded ? passwordUser.first_name: first_name,
+            first_name: isPasswordNeeded ? passwordUser.first_name : first_name,
           },
         });
       } catch (err) {
@@ -126,9 +126,9 @@ class loginController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static getUserNameByUserEmail() {
+  getUserNameByUserEmail() {
     return async (req, res) => {
       const { email } = req.params;
       try {
@@ -200,7 +200,7 @@ class loginController extends baseController {
         });
       }
     };
-  }
+  },
 }
 
 async function sendMissingInvitations(user) {

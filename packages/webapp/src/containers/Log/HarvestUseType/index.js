@@ -1,66 +1,94 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PureHarvestUseType from '../../../components/Logs/HarvestUseType';
 import {
-  harvestLogDataSelector,
-  harvestLogData,
   canEditStepTwo,
   canEditStepTwoSelector,
+  harvestLogData,
+  harvestLogDataSelector,
 } from '../Utility/logSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../../history';
 import { userFarmSelector } from '../../userFarmSlice';
 import { addHarvestUseType } from '../actions';
-import { setAllHarvestUseTypesSelector } from '../selectors';
-import { currentLogSelector } from '../selectors';
+import { currentLogSelector, setAllHarvestUseTypesSelector } from '../selectors';
 import { toastr } from 'react-redux-toastr';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 function HarvestUseType() {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const allUseType = useSelector(setAllHarvestUseTypesSelector);
   const defaultData = useSelector(harvestLogDataSelector);
   const farm = useSelector(userFarmSelector);
   const isEditStepTwo = useSelector(canEditStepTwoSelector);
   const selectedLog = useSelector(currentLogSelector);
 
-  useEffect(() => {}, []);
-
   const onBack = (data) => {
-    const tempProps = JSON.parse(JSON.stringify(data));
-    if (defaultData.selectedUseTypes.length > 0) {
-      tempProps.selectedUseTypes.map((item, idx) => {
-        if (
-          idx < defaultData.selectedUseTypes.length &&
-          item.harvest_use_type_name === defaultData.selectedUseTypes[idx].harvest_use_type_name
-        ) {
-          item.quantity_kg = defaultData.selectedUseTypes[idx].quantity_kg;
-        }
-      });
-    }
-    defaultData.selectedUseTypes = tempProps.selectedUseTypes;
     dispatch(canEditStepTwo(false));
-    dispatch(harvestLogData(defaultData));
+    const tempProps = JSON.parse(JSON.stringify(data));
+    let newData;
+    if (defaultData.selectedUseTypes.length > 0) {
+      const defaultQuantities = defaultData.selectedUseTypes.reduce((obj, item) => {
+        let name = isEditStepTwo.isEditStepTwo
+          ? item.harvestUseType.harvest_use_type_name
+          : item.harvest_use_type_name;
+        return { ...obj, [name]: item.quantity_kg };
+      }, {});
+      newData = tempProps.selectedUseTypes.map((item) => ({
+        ...item,
+        quantity_kg: defaultQuantities[item.harvest_use_type_name]
+          ? defaultQuantities[item.harvest_use_type_name]
+          : item.quantity_kg,
+      }));
+    }
+    dispatch(
+      harvestLogData({
+        ...defaultData,
+        selectedUseTypes: !newData ? tempProps.selectedUseTypes : newData,
+      }),
+    );
     history.push('/harvest_log');
   };
 
   const onNext = (data) => {
-    const tempProps = JSON.parse(JSON.stringify(data));
-    if (defaultData.selectedUseTypes.length > 0) {
+    let newData;
+    if (isEditStepTwo.isEditStepTwo) {
+      const defaultQuantities = defaultData.selectedUseTypes.reduce((obj, item) => {
+        let name = item.harvestUseType.harvest_use_type_name;
+        return { ...obj, [name]: item.quantity_kg };
+      }, {});
+      const newData = data.selectedUseTypes.map((item) => ({
+        ...item,
+        quantity_kg: defaultQuantities[item.harvest_use_type_name]
+          ? defaultQuantities[item.harvest_use_type_name]
+          : item.quantity_kg,
+      }));
+      dispatch(canEditStepTwo(false));
+      dispatch(harvestLogData({ ...defaultData, selectedUseTypes: newData }));
+    } else {
+      const tempProps = JSON.parse(JSON.stringify(data));
       if (defaultData.selectedUseTypes.length > 0) {
-        tempProps.selectedUseTypes.map((item) => {
-          defaultData.selectedUseTypes.map((item1) => {
-            if (item.harvest_use_type_name === item1.harvest_use_type_name) {
-              item.quantity_kg = item1.quantity_kg;
-            }
-          });
-        });
+        const defaultQuantities = defaultData.selectedUseTypes.reduce((obj, item) => {
+          let name = item.harvest_use_type_name
+            ? item.harvest_use_type_name
+            : item.harvestUseType.harvest_use_type_name;
+          return { ...obj, [name]: item.quantity_kg };
+        }, {});
+        newData = tempProps.selectedUseTypes.map((item) => ({
+          ...item,
+          quantity_kg: defaultQuantities[item.harvest_use_type_name]
+            ? defaultQuantities[item.harvest_use_type_name]
+            : item.quantity_kg,
+        }));
       }
+      dispatch(
+        harvestLogData({
+          ...defaultData,
+          selectedUseTypes: !newData ? tempProps.selectedUseTypes : newData,
+        }),
+      );
     }
 
-    defaultData.selectedUseTypes = tempProps.selectedUseTypes;
-    dispatch(harvestLogData(defaultData));
-    dispatch(canEditStepTwo(false));
     history.push('/harvest_allocation');
   };
 

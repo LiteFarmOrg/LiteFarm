@@ -14,18 +14,19 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
 import { acceptInvitationSuccess, userFarmSelector } from '../userFarmSlice';
 import { purgeState } from '../../index';
 import jwt from 'jsonwebtoken';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { toastr } from 'react-redux-toastr';
 import { logout } from '../../util/jwt';
 import { axios } from '../saga';
 
 import { startInvitationFlow } from '../ChooseFarm/chooseFarmFlowSlice';
+
 const validateResetTokenUrl = () => `${url}/password_reset/validate`;
 const patchUserFarmStatusUrl = () => `${url}/user_farm/accept_invitation`;
 
@@ -50,7 +51,9 @@ export const patchUserFarmStatus = createAction('patchUserFarmStatusSaga');
 export function* patchUserFarmStatusSaga({ payload: invite_token }) {
   try {
     const selectedLanguage = localStorage.getItem('litefarm_lang');
-    const language_preference = selectedLanguage.includes('-') ? selectedLanguage.split('-')[0] : selectedLanguage;
+    const language_preference = selectedLanguage.includes('-')
+      ? selectedLanguage.split('-')[0]
+      : selectedLanguage;
     const result = yield call(
       axios.patch,
       patchUserFarmStatusUrl(),

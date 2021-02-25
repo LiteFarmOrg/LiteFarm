@@ -1,15 +1,15 @@
-import styles from '../styles.scss';
+import styles from '../styles.module.scss';
 import React, { Component } from 'react';
 import PageTitle from '../../../components/PageTitle';
 import Table from '../../../components/Table';
 import connect from 'react-redux/es/connect/connect';
 import moment from 'moment';
-import { grabCurrencySymbol } from '../../../util';
 import DateRangeSelector from '../../../components/Finances/DateRangeSelector';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { getFieldCrops } from '../../saga';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class EstimatedRevenue extends Component {
   constructor(props) {

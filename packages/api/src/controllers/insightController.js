@@ -22,10 +22,10 @@ const knex = Model.knex();
 const insightHelpers = require('../controllers/insightHelpers');
 const waterBalanceScheduler = require('../jobs/waterBalance/waterBalance');
 
-class insightController extends baseController {
+const insightController = {
 
   // this is for the People Fed module
-  static getPeopleFedData() {
+  getPeopleFedData() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -70,10 +70,10 @@ class insightController extends baseController {
         });
       }
     };
-  }
+  },
 
   // this is for the soil om submodule
-  static getSoilDataByFarmID() {
+  getSoilDataByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -112,9 +112,9 @@ class insightController extends baseController {
         });
       }
     };
-  }
+  },
 
-  static getLabourHappinessByFarmID() {
+  getLabourHappinessByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -134,9 +134,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getBiodiversityByFarmID() {
+  getBiodiversityByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -158,9 +158,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getPricesNearbyByFarmID() {
+  getPricesNearbyByFarmID() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -186,9 +186,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
+  async queryCropSalesNearByStartDateAndFarmId(startDate, farmID) {
     return await knex.raw(
       `
           SELECT to_char(date(s.sale_date), 'YYYY-MM') as year_month, c.crop_common_name, c.crop_translation_key, SUM(cs.quantity_kg) as sale_quant, SUM(cs.sale_value) as sale_value, fa.farm_id, fa.grid_points
@@ -203,9 +203,9 @@ class insightController extends baseController {
           where f.farm_id = ?)
           GROUP BY year_month, c.crop_common_name, c.crop_translation_key, fa.farm_id
           ORDER BY year_month, c.crop_common_name`, [startDate, farmID]);
-  }
+  },
 
-  static getWaterBalance() {
+  getWaterBalance() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -225,9 +225,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static addWaterBalanceSchedule() {
+  addWaterBalanceSchedule() {
     return async (req, res) => {
       try {
         const body = req.body;
@@ -237,9 +237,9 @@ class insightController extends baseController {
         res.status(400).json({ e });
       }
     };
-  }
+  },
 
-  static getWaterSchedule() {
+  getWaterSchedule() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -257,9 +257,9 @@ class insightController extends baseController {
         res.status(400).json({ e });
       }
     };
-  }
+  },
 
-  static getNitrogenBalance() {
+  getNitrogenBalance() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -279,9 +279,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static getNitrogenSchedule() {
+  getNitrogenSchedule() {
     return async (req, res) => {
       try {
         const farmID = req.params.farm_id;
@@ -302,9 +302,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static addWaterBalance() {
+  addWaterBalance() {
     let trx;
     return async (req, res) => {
       const body = req.body;
@@ -318,9 +318,9 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static addNitrogenSchedule() {
+  addNitrogenSchedule() {
     let trx;
     return async (req, res) => {
       const body = req.body;
@@ -334,13 +334,13 @@ class insightController extends baseController {
         res.status(400).json({ error });
       }
     };
-  }
+  },
 
-  static delNitrogenSchedule() {
+  delNitrogenSchedule() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, trx,{ user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, trx, { user_id: req.user.user_id });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -354,7 +354,7 @@ class insightController extends baseController {
         });
       }
     };
-  }
+  },
 }
 
 

@@ -1,11 +1,11 @@
 import Layout from '../Layout';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Title, Error, Main, Semibold } from '../Typography';
+import { Error, Main, Semibold, Title } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import Card from '../Card';
 import { ReactComponent as GoogleLogo } from '../../assets/images/inviteSignUp/google-logo.svg';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 const cardStyle = {
   minHeight: '64px',
@@ -48,7 +48,7 @@ export default function PureInviteSignup({
         onClick={() => onClick(1)}
         color={selectedKey === 1 ? 'active' : 'secondary'}
       >
-        <Semibold style={{ margin: 0 }}>
+        <Semibold style={{ margin: 0, display: 'flex', alignItems: 'center' }}>
           {t(`INVITE_SIGN_UP.SIGN_IN_WITH`)}{' '}
           <GoogleLogo style={{ marginLeft: '8px', transform: 'translateY(2px)' }} />
         </Semibold>

@@ -1,12 +1,12 @@
 import Popup from 'reactjs-popup';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import closeButton from '../../../assets/images/grey_close_button.png';
 import Button from '../../Form/Button';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function PureAddTaskModal({ showModal, switchShowModal, addTaskType, showTaskRequiredError }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const [taskName, setTaskName] = useState('');
 
   const addCustomTask = () => {

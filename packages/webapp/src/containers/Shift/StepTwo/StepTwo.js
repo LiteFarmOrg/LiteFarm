@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 
 function StepTwo() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'message']);
   const EXTENSION_OFFICER_ROLE = 5;
   const [currentShiftUSer, allowMoodChange] = useState(false);
   const [finalForm, setFinalForm] = useState({});

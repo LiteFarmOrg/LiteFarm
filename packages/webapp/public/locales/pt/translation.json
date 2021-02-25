@@ -1,0 +1,837 @@
+{
+  "ADD_FARM": {
+    "ADDRESS_IS_REQUIRED": "É necessário informar um endereço",
+    "ENTER_A_VALID_ADDRESS": "Por favor insira um endereço ou coordenada válidos",
+    "FARM_IS_REQUIRED": "Nome do sítio/fazendo é necessário",
+    "FARM_LOCATION": "Localização do sítio/fazenda",
+    "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
+    "FARM_NAME": "Nome do sítio/fazenda",
+    "INVALID_FARM_LOCATION": "Localização do sítio/fazenda inválida",
+    "LOCATING": "MISSING",
+    "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
+    "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
+  },
+  "CHOOSE_FARM": {
+    "ADD_NEW": "Adicionar novo sítio/fazenda",
+    "CHOOSE_TITLE": "Escolha seu sítio/fazenda",
+    "INPUT_PLACEHOLDER": "Pesquisa",
+    "SWITCH_TITLE": "Mudar para outro sítio/fazenda"
+  },
+  "COMMON_ERRORS": {
+    "UNIT": {
+      "NON_NEGATIVE": "MISSING",
+      "REQUIRED": "MISSING",
+      "TWO_DECIMALS": "MISSING"
+    }
+  },
+  "CONSENT": {
+    "DATA_POLICY": "MISSING",
+    "LABEL": "Aceito"
+  },
+  "CREATE_USER": {
+    "BIRTH_YEAR": "Ano de nascimento",
+    "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
+    "BIRTH_YEAR_TOOLTIP": "Informação sobre a idade é coletada para propósitos de pesquisa acadêmica e apenas será compartilhada sem outras informações pessoais",
+    "CREATE_BUTTON": "Criar Conta",
+    "EMAIL": "Email",
+    "FULL_NAME": "Nome completo",
+    "GENDER": "Gênero",
+    "GENDER_TOOLTIP": "Informação sobre gênero é coletada para propósitos de pesquisa acadêmica e apenas será compartilhada sem outras informações pessoais",
+    "PASSWORD": "Senha",
+    "TITLE": "Criar uma nova conta de usuário"
+  },
+  "DATE_RANGE": {
+    "HELP_BODY": "MISSING",
+    "HELP_TITLE": "MISSING",
+    "TITLE": "MISSING"
+  },
+  "ENTER_PASSWORD": {
+    "FORGOT": "Esqueceu sua senha?",
+    "HINT": "MISSING",
+    "LABEL": "Senha",
+    "ONE_NUMBER": "MISSING",
+    "ONE_SPECIAL_CHARACTER": "MISSING",
+    "ONE_UPPER_CASE": "MISSING",
+    "TOO_SHORT": "MISSING"
+  },
+  "EXPENSE": {
+    "ADD_EXPENSE": {
+      "MIN_ERROR": "Please enter a value greater than ",
+      "REQUIRED_ERROR": "Expense is required",
+      "TITLE_1": "Despesa Nova (1 de 2)",
+      "TITLE_2": "Despesa Nova (2 de 2)"
+    },
+    "ADD_MORE_ITEMS": "Adicionar mais itens",
+    "DETAILED_HISTORY": "História Detalhada",
+    "EDIT_EXPENSE": {
+      "DATE_PLACEHOLDER": "Escolha uma data",
+      "DESELECTING_CATEGORY": "Desmarcar uma categoria removerá as despesas existentes nesta categoria deste registro de despesas.",
+      "REMOVE_ALL": "Você removeu todas as despesas, clique em Salvar para enviar.",
+      "TITLE_1": "Editar Despesa (1 de 2)",
+      "TITLE_2": "Editar Despesa (2 de 2)"
+    },
+    "ITEM": "Item",
+    "NAME": "Nome",
+    "NO_EXPENSE": "Nenhuma despesa encontrada",
+    "NO_EXPENSE_YEAR": "Você não tem despesas registradas para este ano",
+    "OTHER_EXPENSES_TITLE": "Outras despesas",
+    "SUMMARY": "Resumo",
+    "VALUE": "Valor"
+  },
+  "EXPIRED_TOKEN": {
+    "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
+  },
+  "FARM_MAP": {
+    "TITLE": "MISSING"
+  },
+  "FIELDS": {
+    "ADD_NEW_FIELD": "Agregar Campo Novo",
+    "EDIT_FIELD": {
+      "CROP": {
+        "ADD_NEW_CROP_OR_VARIETY": "MISSING",
+        "AREA_USED": "Área Utilizada",
+        "AREA_USED_HECTARE": "Área usada em hectareas",
+        "AREA_USED_IN": "Área usada em",
+        "BED": "Cama",
+        "BED_LENGTH": "Comprimento da canteiro",
+        "BED_WIDTH": "Largura da canteiro",
+        "BY_AREA": "Por área",
+        "BY_BEDS": "Por canteiro",
+        "CHOOSE_END_DATE": "Escolha a data de término",
+        "CHOOSE_START_DATE": "Escolha a data de início",
+        "CROP_COMMON_NAME": "MISSING",
+        "CROP_GROUP_INFO": "MISSING",
+        "CROP_GROUP_SUBGROUP": "MISSING",
+        "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta cultura?",
+        "EDIT_CROP_DETAIL": "MISSING",
+        "EDIT_ESTIMATED_PRICE": "Editar preço estimado para a safra",
+        "EDIT_ESTIMATED_YIELD": "Editar rendimento estimado para a cultura",
+        "END_DATE": "Data de término",
+        "ENTER_CROP_DETAILS": "MISSING",
+        "ENTER_START_FINISH": "Insira as datas de início e término",
+        "ESTIMATED_PRICE": "Preço estimado",
+        "ESTIMATED_PRODUCTION": "Produção Estimada",
+        "ESTIMATED_REVENUE": "Receita Estimada",
+        "ESTIMATED_YIELD_PLACEHOLDER": "Rendimento Estimado",
+        "FIELD_SIZE": "MISSING",
+        "GENUS": "MISSING",
+        "HOW_MUCH_FIELD": "Que fração do campo você deseja usar?",
+        "NEW_CROP": "MISSING",
+        "NEW_CROP_INFOBOX": "MISSING",
+        "NEW_CROP_VARIETY": "MISSING",
+        "NEW_FIELD_CROP": "Novo cultivo de campo",
+        "NO_DATA": "MISSING",
+        "NUMBER_EXPIRED": "Número de colheitas expiradas",
+        "NUMBER_OF_BEDS": "Número de canteiros",
+        "NUTRIENT_LABEL": "MISSING",
+        "PERCENTAGE": "Percentagem",
+        "SELECT_CROP_GROUP": "MISSING",
+        "SELECT_CROP_SUBGROUP": "MISSING",
+        "SELECT_CROP_TEMPLATE": "MISSING",
+        "SPECIES": "MISSING",
+        "START_DATE": "Data de início",
+        "VARIETY_NAME": "MISSING"
+      },
+      "DELETE_FIELD": "Apagar Campo",
+      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
+      "EDIT_NAME": "Editar Nome do Campo",
+      "NAME": "Nome do Campo",
+      "NUMBER_CROPS": "Número de Cultivos",
+      "SELECT": "MISSING",
+      "TITLE": "Editar Campo",
+      "TOTAL_AREA": "Área total",
+      "VARIETY": "Variedade",
+      "DELETE_FIELD_CONFIRM": "MISSING"
+    },
+    "EXPLORE": "Verifique seus campos",
+    "LIST": "Lista",
+    "MAP": "Mapa",
+    "NEW_FIELD": {
+      "DRAW": "Desenhar",
+      "FIELD_NAME": "Nome do campos",
+      "FIELD_NAME_PLACEHOLDER": "Insira o nome do campo",
+      "REDRAW": "Redesenhar",
+      "SAVE_FIELD": "Salvar campo",
+      "SEARCH_BOX_PLACEHOLDER": "Pesquisar",
+      "TITLE": "Novo campo (2 de 2)",
+      "ZERO_AREA_DETECTED": "Parcela/campo sem área detectada. Por favor desenhe novamente"
+    },
+    "TABLE": {
+      "AREA": "Área",
+      "EDIT": "Editar",
+      "FIELD_NAME": "Nome do Campo"
+    },
+    "TITLE": "CAMPOS"
+  },
+  "HELP": {
+    "ATTACHMENT_LABEL": "Carregar captura de tela ou arquivo",
+    "EMAIL": "Email",
+    "MESSAGE_LABEL": "Mensagem",
+    "OPTIONS": {
+      "OTHER": "Outro",
+      "REPORT_BUG": "Reportar um erro",
+      "REQUEST_FEATURE": "Solicite um novo recurso de funcionalidade",
+      "REQUEST_INFO": "Pedir informação"
+    },
+    "PREFERRED_CONTACT": "Método de contato preferido",
+    "REQUIRED_LABEL": "Campo Obrigatório",
+    "TITLE": "Solicite Ajuda",
+    "TYPE_SUPPORT_LABEL": "Tipo de suporte",
+    "TYPE_SUPPORT_PLACEHOLDER": "Escolha o tipo de suporte",
+    "WHATSAPP": "WhatsApp",
+    "WHATSAPP_NUMBER_LABEL": "Número do WhatsApp"
+  },
+  "HOME": {
+    "GREETING": "Good day, "
+  },
+  "INSIGHTS": {
+    "BIODIVERSITY": {
+      "AMPHIBIANS": "Amphibians",
+      "BIRDS": "Birds",
+      "CROPS": "Crops",
+      "HEADER": "Number of species",
+      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
+      "INSECTS": "Insects",
+      "PLANTS": "Plants",
+      "SPECIES_COUNT": "{{count}} species",
+      "SPECIES_COUNT_plural": "{{count}} species",
+      "TITLE": "Biodiversity"
+    },
+    "CURRENT": "Current",
+    "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
+    "LABOUR_HAPPINESS": {
+      "HEADER": "Tasks",
+      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
+      "TITLE": "Labour Happiness"
+    },
+    "NITROGEN_BALANCE": {
+      "CHOOSE_A_FREQUENCY": "Choose a frequency",
+      "CHOOSE_FREQUENCY": "Choose Frequency...",
+      "COUNT_MONTHS": "{{count}} month",
+      "COUNT_MONTHS_plural": "{{count}} months",
+      "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
+      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
+      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
+      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
+      "INFO_2": "Click the delete button to reset your schedule.",
+      "SELECT_FREQUENCY": "Select Frequency",
+      "TITLE": "Nitrogen Balance"
+    },
+    "PEOPLE_FED": {
+      "CALORIES": "Calories",
+      "FAT": "Fat",
+      "HEADER": "Number of Meals",
+      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
+      "MEAL_COUNT": "{{count}} meal",
+      "MEAL_COUNT_plural": "{{count}} meals",
+      "MEALS": "meals",
+      "PROTEIN": "Protein",
+      "TITLE": "People Fed",
+      "VITAMIN_A": "Vitamin A",
+      "VITAMIN_C": "Vitamin C"
+    },
+    "PRICES": {
+      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
+      "NEARBY_FARMS": "Pulling from {{count}} farm for sales data",
+      "NEARBY_FARMS_plural": "Pulling from {{count}} farms for sales data",
+      "NETWORK_PRICE": "Network Price",
+      "NO_ADDRESS": "You currently do not have an address in LiteFarm. Please update it in your Profile to get nearby prices information!",
+      "OWN_PRICE": "Own Price",
+      "PERCENT_OF_MARKET": "{{percentage}}% of market",
+      "SALES_FROM_DISTANCE_AWAY": "Sales from {{distance}} {{unit}} away",
+      "TITLE": "Prices",
+      "Y_TITLE": "Price ({{currency}}/{{mass}})"
+    },
+    "SOIL_OM": {
+      "ALTERNATE_TITLE": "Soil OM Content",
+      "HEADER": "Soil Organic Matter",
+      "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
+      "TITLE": "Soil OM"
+    },
+    "TITLE": "Insights",
+    "UNAVAILABLE": "Unavailable",
+    "WATER_BALANCE": {
+      "FIRST_TIME": "Looks like this is your first time running this! For more info on what this does, please click the information button to see.",
+      "INFO_1": "The water balance tells you whether your crops have too little or too much water. It relies on weather data, and it is updated by your irrigation and soil texture data from your soil analysis logs.",
+      "INFO_2": "This feature has not been widely tested across farms with low surrounding weather station density so use with caution. We welcome feedback on how well it performs for your farm.",
+      "NO_SCHEDULE_RUN": "Your scheduled water balance hasn't run yet, please check back in two days and ensure you have at least one soil analysis that records soil texture for a field to see water balance data for crops in that field. If the problem persists please contact LiteFarm.",
+      "REGISTER_FARM": "Register Farm",
+      "TITLE": "Water Balance"
+    }
+  },
+  "INVITATION": {
+    "BIRTH_YEAR": "Ano de Nascimento",
+    "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
+    "BIRTH_YEAR_TOOLTIP": "As informações de idade são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "CREATE_ACCOUNT": "Crie sua conta",
+    "CREATE_NEW_ACCOUNT": "Criar nova conta",
+    "EMAIL": "Email",
+    "FULL_NAME": "Nome completo",
+    "GENDER": "Gênero",
+    "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "PASSWORD": "Senha",
+    "YOUR_INFORMATION": "Sua informação"
+  },
+  "INVITE_SIGN_UP": {
+    "ERROR0": "Você precisará de um usuário",
+    "ERROR1": "Aceitar este convite de fazenda.",
+    "HOW_TO_CREATE": "Como você deseja criar sua nova conta?",
+    "LITEFARM_ACCOUNT": "Crie uma conta LiteFarm",
+    "SIGN_IN_WITH": "Entrar com",
+    "TITLE": "Crie sua conta"
+  },
+  "INVITE_USER": {
+    "BIRTH_YEAR": "Ano de nascimento",
+    "BIRTH_YEAR_ERROR": "Ano de nascimento precisa ser entre 1900 e",
+    "BIRTH_YEAR_TOOLTIP": "As informações de idade são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "CHOOSE_ROLE": "Escolha sua função",
+    "EMAIL": "Email",
+    "EMAIL_INFO": "Usuário sem um email não conseguirão entrar no aplicativo",
+    "FULL_NAME": "Nome completo",
+    "GENDER": "Gênero",
+    "GENDER_TOOLTIP": "As informações de gênero são coletadas apenas para fins de pesquisa e só serão utilizadas com as informações de identificação pessoal removidas",
+    "INVALID_EMAIL_ERROR": "Por favor insira um email válido",
+    "INVITE": "Convidar",
+    "PHONE": "Número de telefone",
+    "PHONE_ERROR": "Por favor entre um número de telefone válido",
+    "ROLE": "Função",
+    "TITLE": "Convide um usuário",
+    "WAGE": "Salário/vencimento por hora trabalhada",
+    "WAGE_ERROR": "Salário/vencimento precisa ser um número decimal válido não-negativo"
+  },
+  "JOIN_FARM_SUCCESS": {
+    "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",
+    "SUCCESSFULLY_JOINED": "Você entrou com sucesso"
+  },
+  "LOG_COMMON": {
+    "ACTION": "Ação",
+    "ACTIVITY": "Atividade",
+    "ADD_CUSTOM_PRODUCT": "Adicionar um produto personalizado ",
+    "ADD_NEW_LOG": "Adicionar Novo registro",
+    "ALL": "Todos",
+    "ALL_CROPS": "Todas as culturas",
+    "ALL_FIELDS": "Todos os campos",
+    "AMMONIA": "Amônia",
+    "CHEMICAL_COMPOSITION": "Composição Química",
+    "CHOOSE_DATE": "Escolha uma data",
+    "CROP": "Cultivos",
+    "DATE": "Data",
+    "DEFAULT_PRODUCT": "Produto Padrão",
+    "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este registro?",
+    "ERROR_MISSING_CROP_FIELDS": "Erro: falta cultivos ou campos",
+    "ERROR_MISSING_FIELDS": "Erro: falta campos",
+    "FARM_LOG": "Registro",
+    "FERTILIZING": "Adubaçao",
+    "FIELD": "MISSING",
+    "FIELD_CROPS": "Cultivos de Campo",
+    "FIELD_WORK": "Trabalho de Campo",
+    "FIELDS": "Campos",
+    "FROM": "De",
+    "HARVEST": "colheitas",
+    "HIDE": "MISSING",
+    "IRRIGATION": "Irrigação",
+    "LOG_ALL_CROPS": "MISSING",
+    "LOG_ALL_FIELDS": "MISSING",
+    "LOG_HELP": "Ajuda com o registro",
+    "LOG_HELP_EXPLANATION": "Use os filtros abaixo para pesquisar seu histórico de registro. Útil para manter registros de insumos e outras atividades agrícolas para sua equipe e certificadores.",
+    "LOG_HISTORY": "Histórico de registro",
+    "NEW_LOG": "Registro Novo",
+    "NITRATE": "Nitrato",
+    "NOTES": "MISSING",
+    "OTHER": "Outro",
+    "PEST": "Controle de pragas",
+    "PHOSPHATE": "Fosfato",
+    "POTASSIUM": "Potássio",
+    "PRODUCT": "Produto",
+    "PRODUCT_CHEMICAL_COMPOSITION": "Composição Química do Produto",
+    "PRODUCT_NAME": "Nome do Produto",
+    "PRODUCT_TEMPLATE_PLACEHOLDER": "selecione o modelo do produto",
+    "QUANTITY": "Quantidade",
+    "SCOUTING": "Observação de pragas e doenças",
+    "SEARCH_BY_ACTIVITY": "Pesquisar registro por atividade",
+    "SEEDING": "Semeadura",
+    "SELECT_FIELD": "MISSING",
+    "SELECT_FIELD_CROP": "MISSING",
+    "SELECT_PRODUCT": "selecione o produto",
+    "SELECT_TYPE": "MISSING",
+    "SHOW": "MISSING",
+    "SOIL_DATA": "Dados do Solo",
+    "TO": "Para",
+    "TYPE": "MISSING",
+    "WARNING": "MISSING",
+    "WATER": "Água",
+    "WHAT_LOG": "O que você quer registrar?"
+  },
+  "LOG_DETAIL": {
+    "ACTION_NEEDED": "Ação necessária",
+    "ACTIVITY_KIND": "Tipo de atividade",
+    "FLOW_RATE": "Taxa de fluxo",
+    "HOURS": "Horas",
+    "NO": "Não",
+    "NOTE": "Nota",
+    "SUBMITTED_FOR": "Enviado para",
+    "TITLE": "Detalhe do Log",
+    "TYPE": "Tipo",
+    "YES": "Sim"
+  },
+  "LOG_FERTILIZING": {
+    "ADD_FERTILIZER": "Adicione um Fertilizante/adubo",
+    "FERTILIZING_QUANTITY": "Quantidade de Fertilizante/Adubo",
+    "SELECT_TEMPLATE": "MISSING",
+    "TITLE": "Registro de Adubação"
+  },
+  "LOG_FIELD_WORK": {
+    "TITLE": "Registro de Trabalho de Campo"
+  },
+  "LOG_HARVEST": {
+    "ADD_CUSTOM_TYPE": {
+      "INPUT_LABEL": "Nome customizado para o uso da colheita",
+      "TITLE": "Adicione um uso para colheita"
+    },
+    "ADD_CUSTOM_USE_TYPE": "Adicione um uso",
+    "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar",
+    "HARVEST_ALLOCATION_TITLE": "Registro de colheita (passo 3 de 3)",
+    "HARVEST_QUANTITY": "Quantidade de Colheita",
+    "HARVEST_USE": "Uso da colheita",
+    "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
+    "HARVEST_USE_TYPE_TITLE": "Registro de colheita (passo 2 de 3)",
+    "FIELD": "Choose a field",
+    "CROP": "Choose a crop",
+    "FIELD_PLACEHOLDER": "Select a field",
+    "CROP_PLACEHOLDER": "Select a crop",
+    "QUANTITY": "Quantidade",
+    "TITLE": "Registro de Colheita (passo 1 de 3)",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
+  },
+  "LOG_IRRIGATION": {
+    "FLOW_RATE": "Taxa de Fluxo",
+    "TITLE": "Registro de irrigação",
+    "TOTAL_TIME": "Tempo Total"
+  },
+  "LOG_OTHER": {
+    "TITLE": "Outro Registro"
+  },
+  "LOG_PESTICIDE": {
+    "ACTIVE_INGREDIENTS": "Ingredientes ativos",
+    "ADD_CUSTOM_DISEASE": "Adicionar uma doença personalizada",
+    "ADD_CUSTOM_PESTICIDE": "Adicione um pesticida personalizado",
+    "ADD_DISEASE": "Adicionar uma Doença",
+    "ADD_PESTICIDE": "Adicione um Pesticida",
+    "ADD_TARGET": "Adicionar um Alvo",
+    "CHOOSE_GROUP_PLACEHOLDER": "Escolha o Grupo",
+    "CHOOSE_TARGET_PLACEHOLDER": "Escolha um Alvo",
+    "CHOOSE_TYPE_PLACEHOLDER": "Escolha um Tipo",
+    "COMMON_NAME": "Nome Comum",
+    "CONCENTRATION": "Concentração",
+    "DAYS": "Dias",
+    "DISEASE_GROUP": "Grupo de Doenças",
+    "DISEASE_TARGET": "Alvo de doença",
+    "ENTRY_INTERVAL": "Intervalo de entrada",
+    "HARVEST_INTERVAL": "Intervalo de colheita",
+    "MISSING_DATA": "Erro: Dados ausentes",
+    "PESTICIDE_CONTROL_TYPE": "Tipo de Controle de Pesticidas",
+    "PESTICIDE_DETAILS": "Detalhes da pesticida",
+    "PESTICIDE_INFO_LABEL": "Etiqueta de informação da pesticida",
+    "PESTICIDE_LABEL": "Pesticida",
+    "PESTICIDE_NAME_LABEL": "Nome do Pesticida",
+    "PESTICIDE_QUANTITY": "Quantidade de Pesticida",
+    "SCIENTIFIC_NAME": "Nome científico (se conhecido)",
+    "TARGET": "Alvo",
+    "TARGET_DISEASE": "Doença Alvejada",
+    "TARGET_GROUP": "Grupo alvo",
+    "TITLE": "Registro de controle de pragas",
+    "TYPE": "Tipo"
+  },
+  "LOG_SCOUTING": {
+    "ACTION_NEEDED": "Ação necessária",
+    "TITLE": "Registro de Observação de Pragas e Doenças"
+  },
+  "LOG_SEEDING": {
+    "FIELD": "MISSING",
+    "RATE": "Taxa",
+    "SEED_SPACING": "Espaçamento entre sementes/mudas",
+    "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
+    "SPACE_DEPTH": "Profundidade de Semeadura",
+    "SPACE_LENGTH": "Distância de Semeadura (Comprimento)",
+    "SPACE_WIDTH": "Distância de Semeadura (Largura)",
+    "TITLE": "Registro de Semeadura"
+  },
+  "LOG_SOIL": {
+    "BULK_DENSITY": "Densidade aparente",
+    "DEPTH": "Profundidade",
+    "INORGANIC_CARBON": "Carbono Inorgânico",
+    "MORE_INFO": "Mais informações",
+    "OM": "MISSING",
+    "ORGANIC_CARBON": "Carbono organico",
+    "SELECT_DEPTH": "Selecione Profundidade",
+    "SELECT_TEXTURE": "Selecione a textura",
+    "SOIL_TEXTURE": "Textura do solo",
+    "TEXTURE": "Textura",
+    "TITLE": "Registro de dados do solo",
+    "TOTAL_CARBON": "Carbono Total"
+  },
+  "LOGIN": {
+    "TITLE": "Tudo que você precisa para administrar sua fazenda, no seu bolso."
+  },
+  "MY_FARM": {
+    "FARM_INFO": "Informação da fazenda",
+    "FARM_MAP": "Mapa de fazenda/sitio",
+    "PEOPLE": "Pessoas"
+  },
+  "NAVIGATION": {
+    "SPOTLIGHT": {
+      "FARM": "Aqui você pode :, • Editar as configurações da sua fazenda, • Mapear sua fazenda, • Orientar seus funcionários",
+      "FARM_TITLE": "O perfil de fazenda",
+      "NOTIFICATION": "Aqui você pode: • Administrar suas tarefas, • Ver atualizações importantes, • Coordenar as atividades da fazenda",
+      "NOTIFICATION_TITLE": "Central de Notificações",
+      "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
+      "PROFILE_TITLE": "Seu Perfil"
+    }
+  },
+  "NEW_FINANCES": {
+    "BALANCE": "Saldo",
+    "EXPENSES": "Despesas",
+    "SALE": {
+      "DETAILED_HISTORY": "História Detalhada",
+      "SUMMARY": "Resumo"
+    },
+    "SALES": "Sales",
+    "SUMMARY_REPORT": "Relatório resumido para",
+    "TITLE": "Finanças"
+  },
+  "NOTIFICATION": {
+    "NOTIFICATION_TEASER": "Em breve!"
+  },
+  "ORGANIC": {
+    "INTERESTED_IN_ORGANIC": {
+      "PARAGRAPH": "Você planeja buscar ou renovar a certificação orgânica e/o agroecolôgica nesta temporada?",
+      "TITLE": "Interessado em orgânicos ou agroecologia?",
+      "WHY": "Porque estamos perguntando isto?",
+      "WHY_ANSWER": "LiteFarm gera formulários necessários para certificação orgânica e/o agroecológica. Algumas informações serão obrigatórias."
+    },
+    "PARTNERS": {
+      "CERTIFIER_NAME_ERROR": "Certificate name is required",
+      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
+      "CERTIFIER_NAME_LABEL": "Certifier’s name",
+      "SELECT_CERTIFIER": "Selecione o seu certificador",
+      "THROUGH_APP": "em todo o aplicativo!",
+      "WILL_INDICATE": "Iremos indicar os dados necessários para certificação com"
+    },
+    "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
+  },
+  "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
+  "PASSWORD_RESET_SUCCESS_MODAL": {
+    "BUTTON": "Ótimo!",
+    "DESCRIPTION": "Sua senha foi atualizada. Redirecionando você para suas fazendas em 10 segundos ...",
+    "TITLE": "Sucesso!"
+  },
+  "PASSWORD_RESET": {
+    "BUTTON": "Reenviar link",
+    "BUTTON_SENDING": "Enviando...",
+    "DESCRIPTION_BOTTOM": "or favor verifique seu email.",
+    "DESCRIPTION_TOP": "Um link foi enviado.",
+    "NEW_ACCOUNT_BUTTON": "Atualizar",
+    "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
+    "TITLE": "Link enviado"
+  },
+  "PROFILE_FLOATER": {
+    "HELP": "Ajuda",
+    "INFO": "Minha informação",
+    "LOG_OUT": "Sair",
+    "SWITCH": "Mudar de fazenda"
+  },
+  "PROFILE": {
+    "ACCOUNT_TAB": "Conta",
+    "ACCOUNT": {
+      "CONVERT_TO_HAVE_ACCOUNT": "Converter este trabalhador para usuário com conta",
+      "EMAIL": "Email",
+      "ENGLISH": "Inglês",
+      "FIRST_NAME": "Primeiro nome",
+      "FRENCH": "Francês",
+      "LANGUAGE": "Idioma",
+      "LAST_NAME": "Sobrenome",
+      "PERSONAL_INFORMATION": "Informações pessoais",
+      "PHONE_NUMBER": "Número de telefone",
+      "PORTUGUESE": "Português",
+      "SPANISH": "Espanhol",
+      "USER_ADDRESS": "Endereço do usuário"
+    },
+    "FARM_TAB": "Sítio/Fazenda",
+    "FARM": {
+      "ADDRESS": "Endereço",
+      "CURRENCY": "Moeda",
+      "FARM_NAME": "Nome do sítio/fazenda",
+      "MAKE_REQUEST": "Fazer pedido",
+      "PHONE_NUMBER": "Número de telefone",
+      "REQUEST_DATA": "Você pode solicitar o download de seus dados e nós enviaremos os dados de seu sítio/fazenda para o seu e-mail, na forma de arquivo .csv.",
+      "UNITS": "Unidades"
+    },
+    "PEOPLE_TAB": "Pessoas",
+    "PEOPLE": {
+      "EO": "Agente de Extensão",
+      "FARM_MANAGER": "Gerente de sítio/fazenda",
+      "FARM_OWNER": "Dono do sítio/fazenda",
+      "FARM_WORKER": "Trabalhador",
+      "HOURLY": "por hora",
+      "INVITE_USER": "Convidar Usuário",
+      "PAY": "Salário",
+      "RESTORE_ACCESS": "Restaurar o acesso do usuário",
+      "REVOKE_ACCESS": "Revogar o acesso do usuário",
+      "ROLE": "Papel",
+      "ROLE_CHANGE_ALERT": "A mudança de papel terá efeito no próximo login. Os trabalhadores não podem se definir como administradores.",
+      "SEARCH": "Pesquisar",
+      "USERS_FOUND": "Usuários encontrados"
+    },
+    "TABLE": {
+      "HEADER_EMAIL": "Emai",
+      "HEADER_NAME": "Nome",
+      "HEADER_ROLE": "Função no estabelecimento",
+      "HEADER_STATUS": "Status"
+    }
+  },
+  "REACT_SELECT": {
+    "CLEAR_ALL": "Clear all"
+  },
+  "REQUEST_CONFIRMATION_MODAL": {
+    "BUTTON": "Entendi",
+    "DESCRIPTION": "Alguém entrará em contato em 48 horas.",
+    "TITLE": "Pedido de ajuda enviado"
+  },
+  "ROLE_SELECTION": {
+    "FARM_EO": "Agente de Extensão/Técnico",
+    "FARM_MANAGER": "Gerente de sítio/Fazenda",
+    "FARM_OWNER": "Dono(a) da Fazenda/Sítio",
+    "TITLE": "Qual é o seu cargo/função na Fazenda/Sítio?"
+  },
+  "SALE": {
+    "ADD_SALE": {
+      "CROP": "Cultivo",
+      "CROP_PLACEHOLDER": "Selecione cultivo",
+      "CROP_REQUIRED": "Cultivo é necessário",
+      "CUSTOMER_NAME": "Nome do Cliente",
+      "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
+      "DATE": "Data",
+      "NEW": "MISSING",
+      "TABLE_HEADERS": {
+        "CROPS": "Cultivos",
+        "QUANTITY": "Quantidade",
+        "TOTAL": "Total"
+      },
+      "TITLE": "Adicionar nova venda"
+    },
+    "DETAIL": {
+      "ACTION": "MISSING",
+      "CROP": "Cultivo",
+      "CUSTOMER_NAME": "Nome do Cliente",
+      "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta venda?",
+      "QUANTITY": "Quantidade",
+      "TITLE": "Detalhe de venda",
+      "VALUE": "Valor"
+    },
+    "EDIT_SALE": {
+      "DATE": "Data",
+      "DELETE_CONFIRMATION": "Tem certeza que deseja excluir esta venda?",
+      "TITLE": "Editar Venda"
+    },
+    "ESTIMATED_REVENUE": {
+      "CALCULATION": "Cálculo",
+      "CALCULATION_DESCRIPTION": "Calculamos a receita estimada usando a data de término das safras estimadas no módulo de campos. Para incluir uma colheita em seu cálculo de receita estimada, certifique-se de capturar a data final do cultivo dentro da data final de seu relatório financeiro.",
+      "TITLE": "Receita Estimada"
+    },
+    "EXPENSE_DETAIL": {
+      "ACTION": "Ação",
+      "COST": "Custo",
+      "DESCRIPTION": "Descrição de Despesa",
+      "TEMP_DELETE_CONFIRMATION": "Tem certeza de que deseja excluir todas as despesas desta página?",
+      "TITLE": "Detalhe de despesas"
+    },
+    "FINANCES": {
+      "ACTION": "Ação",
+      "ACTUAL": "MISSING",
+      "ACTUAL_REVENUE_ESTIMATED": "Estimada",
+      "ACTUAL_REVENUE_LABEL": "Atual",
+      "ADD_NEW_EXPENSE": "Adicionar nova despesa",
+      "ADD_NEW_SALE": "Adicionar nova venda",
+      "BALANCE": "Saldo",
+      "BALANCE_BY_CROP": "Saldo (Por Cultivo)",
+      "BALANCE_EXPLANATION": "We compute a real-time balance (‘cost of production’) for each crop on your farm. This is a simple equation of expenses minus revenue.  Expenses for each crop are calculated from two parts, one part is the labour expenses from hours logged for farm activities, the other part is from the other expenses logged for the whole farm. Where expenses are logged for the whole farm we equally divide them amongst the crops on the farm. Unallocated means that a shift(s) has been submitted for a field when there is not a crop yet on that field. This shift(s) will be assigned to crops as they are added to that field within the financial reporting time window.",
+      "BALANCE_FOR_FARM": "Saldo (Fazenda Inteira)",
+      "ENSURE_ONE_CROP_WARNING": "Certifique-se de que pelo menos 1 safra e uma venda ou turno associado foram alocados para ver esta informação.",
+      "EXPENSES": "Despesas",
+      "FINANCE_HELP": "Ajuda Financeira",
+      "HAS_UNALLOCATED_LINE1": "*Não alocado significa que o trabalho foi feito em um campo vazio para o intervalo de datas selecionado.",
+      "HAS_UNALLOCATED_LINE10_1": "Se a alface for adicionada ao Campo1, mas nenhum turno relacionado à alface ou ao Campo1 for inserido, ou inserido depois de 1º de abril, o milho será alocado com uma quantidade total de ",
+      "HAS_UNALLOCATED_LINE10_2": "Do Campo1.",
+      "HAS_UNALLOCATED_LINE2": "Se uma ou mais safras forem adicionadas a um campo vazio posteriormente e houver um turno relacionada às safras, o trabalho realizado nesse campo vazio será distribuído uniformemente para cada safra.",
+      "HAS_UNALLOCATED_LINE3_1": "Para intervalo de datas",
+      "HAS_UNALLOCATED_LINE3_2": "1 de janeiro",
+      "HAS_UNALLOCATED_LINE3_3": "1 de abril",
+      "HAS_UNALLOCATED_LINE4": "E dois campos vazios",
+      "HAS_UNALLOCATED_LINE5_1": "Suponha que os turnos tenham sido enviados para ambos os campos (custo =",
+      "HAS_UNALLOCATED_LINE5_2": "0 para cada campo)",
+      "HAS_UNALLOCATED_LINE6_1": "então o valor não alocado seria",
+      "HAS_UNALLOCATED_LINE6_2": "Turnos do Campo1 + Turnos do Campo2 = -",
+      "HAS_UNALLOCATED_LINE7_1": "Mais tarde, milho e alface foram plantados em",
+      "HAS_UNALLOCATED_LINE7_2": "e turnos relacionados foram inseridos dentro do intervalo de datas, então o valor Não Alocado seria",
+      "HAS_UNALLOCATED_LINE8": "Turnos do Campo2 = -",
+      "HAS_UNALLOCATED_LINE9": "Milho e alface serão alocados com um custo extra de",
+      "LABOUR_LABEL": "Trabalho",
+      "OTHER_EXPENSES_LABEL": "Outras despesas",
+      "REVENUE": "Receita",
+      "TITLE": "Finanças",
+      "UNALLOCATED_CROP": "MISSING",
+      "UNALLOCATED_TIP": "MISSING"
+    },
+    "LABOUR": {
+      "BY": "Por",
+      "CROPS": "Cultivos",
+      "EMPLOYEES": "Funcionários",
+      "TABLE": {
+        "AMOUNT": "MISSING",
+        "CROP": "MISSING",
+        "DATE": "MISSING",
+        "EMPLOYEE": "MISSING",
+        "EST_REVENUE": "MISSING",
+        "LABOUR_COST": "MISSING",
+        "TASK": "MISSING",
+        "TIME": "MISSING",
+        "TYPE": "MISSING"
+      },
+      "TASKS": "Tarefas",
+      "TITLE": "Trabalho"
+    },
+    "SUMMARY": {
+      "AMOUNT": "MISSING",
+      "CROP": "MISSING",
+      "DATE": "MISSING",
+      "DETAILED_HISTORY": "História Detalhada",
+      "SUBTOTAL": "MISSING",
+      "SUMMARY": "Resumo",
+      "TITLE": "Vendas",
+      "TOTAL": "Total",
+      "TYPE": "MISSING",
+      "VALUE": "MISSING"
+    }
+  },
+  "SHIFT": {
+    "ACTION": "Açao",
+    "ADD_NEW": "Adicionar Novo Turno",
+    "EDIT_SHIFT": {
+      "ADD_CUSTOM_TASK": "Adicionar Tarefa Personalizada",
+      "ADD_TASK": "Adicionar uma Tarefa",
+      "ADJUST_HOURLY_WAGE": "Ajustar o salário por hora",
+      "ALL": "Tudo",
+      "ALL_CROPS": "Todas os Cultivos",
+      "ALLOCATE_ACTIVITY": "Se você precisar alocar mão de obra para uma atividade em toda a sua fazenda, você pode alocá-la para todos os seus campos, e nós faremos o resto dos cálculos.",
+      "ASSIGN_TIME_TO_TASK": "Atribuir tempo para a tarefa por",
+      "BREAK_DURATION": "Duração do intervalo",
+      "CHOOSE_DATE": "Escolha uma data",
+      "CHOOSE_WORKERS": "Escolha trabalhador(a)",
+      "CROPS_ON_THIS_FARM": "Culturas nesta fazenda",
+      "CROPS_ON_YOUR_FARM": "Culturas em sua fazenda",
+      "DID_NOT_PROVIDE_ANSWER": "Não forneceu resposta",
+      "DURATION": "Duração",
+      "FIELDS_ON_YOUR_FARM": "Campos em sua fazenda",
+      "HAPPY": "Feliz",
+      "INDIVIDUAL_CROPS": "Culturas Individuais",
+      "MINUTES": "Minutos",
+      "MOOD": "Como você se sentiu durante este turno?",
+      "NAME_TASK": "Nome da tarefa personalizada",
+      "NEUTRAL": "Neutral",
+      "NEW_SHIFT_TITLE_1": "Novo turno (Etapa 1)",
+      "NEW_SHIFT_TITLE_2": "Novo turno (Etapa 1)",
+      "NO_WAGE_SET": "Você não tem um salário definido, seu custo de trabalho para este turno é predefinido como 0, você pode alterá-lo en ",
+      "NO_WAGE_SET_LOCATION": "Perfil-> Pessoas-> Editar",
+      "RATHER_NOT_SAY": "Prefiro não dizer",
+      "SAD": "Triste",
+      "SELECT_CROPS": "MISSING",
+      "SELECT_FIELDS": "MISSING",
+      "TASKS_FOR_SHIFT": "Estas são as tarefas selecionadas para este turno",
+      "TASKS_SELECTED": "As tarefas selecionadas para este turno são destacadas abaixo. Desmarcar uma tarefa removerá a tarefa deste turno",
+      "TIME_ALLOCATION": "Alocação de tempo",
+      "TITLE_1": "Editar turno (Etapa 1)",
+      "TITLE_2": "Editar turno (Etapa 2)",
+      "TO_ASSIGN": "Atribuir",
+      "VERY_HAPPY": "Muito feliz",
+      "VERY_SAD": "Muito triste",
+      "WAGE_FOR_SHIFT": "Salário por este turno",
+      "WHAT_TASKS_YOU_DID": "Que tarefas você fez hoje?",
+      "WORKER": "Trabalhador",
+      "WORKER_MOOD": "Como este trabalhador se sentiu durante este turno?",
+      "YOU_HAVE": "Você tem"
+    },
+    "END_TIME": "Fim do tempo",
+    "MY_SHIFT": {
+      "DELETE_CONFIRMATION": "Tem certeza que deseja deletar este turno?",
+      "DURATION": "Duração",
+      "FIELD_CROPS": "Campos / Culturas",
+      "SUBMITTED_FOR": "Insira para",
+      "TASK": "Tarefa",
+      "TITLE": "Shift Detail"
+    },
+    "NAME": "Nome",
+    "NEW_SHIFT": {
+      "STEP_ONE": "Novo turno de trabalho (passo 1)",
+      "STEP_TWO": "Novo turno de trabalho (passo 2)"
+    },
+    "SHIFT_DATE": "Data do turno de trabalho",
+    "SHIFT_HISTORY": "Histórico de turnos",
+    "START_TIME": "Hora de início",
+    "TITLE": "Turnos"
+  },
+  "SIGNUP": {
+    "DIDNT_WORK": "Não funcionou.",
+    "EMAIL_INVALID": "MISSING",
+    "ENTER_EMAIL": "MISSING",
+    "EXPIRED_ERROR": "NÃO EXISTE",
+    "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
+    "INVITED_ERROR": "NÃO EXISTE",
+    "OOPS": "Opa!",
+    "PASSWORD_ERROR": "Senha incorreta",
+    "PLEASE_SIGNUP": "Por favor inscreva-se.",
+    "SIGN_IN": "Conecte-se",
+    "SSO_ERROR": "Faça login clicando no botão do Google acima",
+    "TITLE": "Inscrever-se",
+    "WELCOME_BACK": "MISSING",
+    "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
+    "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
+  },
+  "SLIDE_MENU": {
+    "FIELDS": "Campos",
+    "FINANCES": "Finanças",
+    "INSIGHTS": "Relatórios",
+    "LOGS": "Registros",
+    "MANAGE": "Administrar",
+    "SHIFTS": "Turnos",
+    "USERS": "Usuários"
+  },
+  "STATUS": {
+    "ACTIVE": "Ativo",
+    "INACTIVE": "Inativo",
+    "INVITED": "Convidado"
+  },
+  "SWITCH_OUTRO": {
+    "BUTTON": "Vamos Lá!",
+    "DESCRIPTION_BOTTOM": "Ir para: ",
+    "DESCRIPTION_TOP": "A porta do celeiro está segura.",
+    "TITLE": "Mudar de sítio/fazenda"
+  },
+  "TABLE": {
+    "LOADING_TEXT": "MISSING",
+    "NEXT_TEXT": "MISSING",
+    "NO_DATA_TEXT": "MISSING",
+    "OF_TEXT": "MISSING",
+    "PAGE_TEXT": "MISSING",
+    "PREVIOUS_TEXT": "MISSING",
+    "ROWS_TEXT": "MISSING"
+  },
+  "WEATHER": {
+    "HUMIDITY": "Umidade",
+    "WIND": "Vento"
+  },
+  "WELCOME_SCREEN": {
+    "BUTTON": "Vamos começar"
+  },
+  "LOGIN_BUTTON": "Login ou Cadastre-se"
+}

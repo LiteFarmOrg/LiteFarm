@@ -14,7 +14,7 @@
  */
 
 import React, { Component } from 'react';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 import { sendContactForm } from './actions';
 import { connect } from 'react-redux';

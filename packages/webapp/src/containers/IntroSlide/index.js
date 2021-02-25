@@ -33,7 +33,7 @@ import planCrops from '../../assets/videos/PlanCrops.mp4';
 import log from '../../assets/videos/Log.mp4';
 import field from '../../assets/videos/Field.mp4';
 //
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { Button } from 'react-bootstrap';
 import history from '../../history';
 import ReactPlayer from 'react-player';

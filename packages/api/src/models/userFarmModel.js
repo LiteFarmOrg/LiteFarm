@@ -65,7 +65,7 @@ class userFarm extends Model {
         has_consent: { type: ['boolean', 'null'] },
         status: {
           type: 'enum',
-          enum: ['Active', 'Inactive', 'Invited',],
+          enum: ['Active', 'Inactive', 'Invited'],
         },
         created_at: { type: 'string' },
         consent_version: { type: 'string' },

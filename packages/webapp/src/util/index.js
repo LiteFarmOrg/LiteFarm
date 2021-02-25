@@ -14,8 +14,7 @@
  */
 
 import convert from 'convert-units';
-import commonCurrency from '../containers/AddFarm/currency/commonCurrency.json';
-import { getMeasurementFromStore, getCurrencyFromStore } from './getFromReduxStore';
+import { getMeasurementFromStore } from './getFromReduxStore';
 
 const METRIC = 'metric';
 // const IMPERIAL = 'IMPERIAL';
@@ -55,14 +54,6 @@ export const roundToFourDecimal = (value) => {
 export const roundToTwoDecimal = (value) => {
   return Math.floor(value * 100) / 100;
 };
-
-export function grabCurrencySymbol(currency = getCurrencyFromStore()) {
-  if (currency && currency in commonCurrency) {
-    return commonCurrency[currency]['symbol_native'];
-  } else {
-    return '$';
-  }
-}
 
 const getConvertedString = (
   value,

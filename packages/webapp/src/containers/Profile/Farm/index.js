@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
-import defaultStyles from '../styles.scss';
+import styles from './styles.module.scss';
+import defaultStyles from '../styles.module.scss';
 import { actions, Control, Form } from 'react-redux-form';
 import { Alert, Button } from 'react-bootstrap';
 import { getFarmSchedule, sendFarmDataRequst } from './actions';

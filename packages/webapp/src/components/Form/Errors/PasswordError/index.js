@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './password.scss';
+import styles from './password.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { MdClose, MdDone } from 'react-icons/all';

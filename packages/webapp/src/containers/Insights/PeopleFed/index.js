@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import insightStyles from '../styles.scss';
+import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { cropsNutritionSelector } from '../selectors';
 import InsightsInfoComponent from '../../../components/Insights/InsightsInfoComponent';
@@ -13,11 +13,11 @@ class PeopleFed extends Component {
     this.state = {};
 
     this.i18nNutritionDict = {
-      "Calories": props.t("INSIGHTS.PEOPLE_FED.CALORIES"),
-      "Protein": props.t("INSIGHTS.PEOPLE_FED.PROTEIN"),
-      "Fat": props.t("INSIGHTS.PEOPLE_FED.FAT"),
-      "Vitamin C": props.t("INSIGHTS.PEOPLE_FED.VITAMIN_C"),
-      "Vitamin A": props.t("INSIGHTS.PEOPLE_FED.VITAMIN_A"),
+      Calories: props.t('INSIGHTS.PEOPLE_FED.CALORIES'),
+      Protein: props.t('INSIGHTS.PEOPLE_FED.PROTEIN'),
+      Fat: props.t('INSIGHTS.PEOPLE_FED.FAT'),
+      'Vitamin C': props.t('INSIGHTS.PEOPLE_FED.VITAMIN_C'),
+      'Vitamin A': props.t('INSIGHTS.PEOPLE_FED.VITAMIN_A'),
     };
   }
 
@@ -27,14 +27,14 @@ class PeopleFed extends Component {
     return (
       <div className={insightStyles.insightContainer}>
         <PageTitle
-          title={t("INSIGHTS.PEOPLE_FED.TITLE")}
+          title={t('INSIGHTS.PEOPLE_FED.TITLE')}
           backUrl="/Insights"
           rightIcon={true}
-          rightIconTitle={t("INSIGHTS.PEOPLE_FED.TITLE")}
-          rightIconBody={(<div>{t("INSIGHTS.PEOPLE_FED.INFO")}</div>)}
+          rightIconTitle={t('INSIGHTS.PEOPLE_FED.TITLE')}
+          rightIconBody={<div>{t('INSIGHTS.PEOPLE_FED.INFO')}</div>}
         />
         <div>
-          <Semibold>{t("INSIGHTS.PEOPLE_FED.HEADER")}</Semibold>
+          <Semibold>{t('INSIGHTS.PEOPLE_FED.HEADER')}</Semibold>
           <hr className={insightStyles.defaultLine} />
         </div>
         <div>
@@ -44,7 +44,7 @@ class PeopleFed extends Component {
                 key={'people-fed-item-' + index}
                 title={this.i18nNutritionDict[data.label]}
                 value={data.val}
-                valueLabel={t("INSIGHTS.PEOPLE_FED.MEALS")}
+                valueLabel={t('INSIGHTS.PEOPLE_FED.MEALS')}
                 percent={data.percentage}
               />
             );

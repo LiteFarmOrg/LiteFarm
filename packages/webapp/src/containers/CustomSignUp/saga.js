@@ -14,13 +14,13 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import history from '../../history';
-import { ENTER_PASSWORD_PAGE, CREATE_USER_ACCOUNT, inlineErrors } from './constants';
+import { CREATE_USER_ACCOUNT, ENTER_PASSWORD_PAGE, inlineErrors } from './constants';
 import { loginSuccess } from '../userFarmSlice';
 import { toastr } from 'react-redux-toastr';
-import i18n from '../../lang/i18n';
+import i18n from '../../locales/i18n';
 import { getFirstNameLastName } from '../../util';
 import { axios } from '../saga';
 

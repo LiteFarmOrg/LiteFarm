@@ -13,23 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 import history from '../../history';
-import { call, put, select, takeLatest, all } from 'redux-saga/effects';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import apiConfig, { farmUrl, userFarmUrl } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import {
-  postFarmSuccess,
-  patchRoleStepTwoSuccess,
-  userFarmSelector,
-  patchFarmSuccess,
   loginSelector,
+  patchFarmSuccess,
+  patchRoleStepTwoSuccess,
+  postFarmSuccess,
   selectFarmSuccess,
-  onLoadingStart,
-  setLoadingStart,
   setLoadingEnd,
+  setLoadingStart,
+  userFarmSelector,
 } from '../userFarmSlice';
-import { getHeader, axios } from '../saga';
+import { axios, getHeader } from '../saga';
 import { createAction } from '@reduxjs/toolkit';
-import i18n from './../../lang/i18n';
+import i18n from '../../locales/i18n';
 
 const patchRoleUrl = (farm_id, user_id) => `${userFarmUrl}/role/farm/${farm_id}/user/${user_id}`;
 const patchStepUrl = (farm_id, user_id) =>

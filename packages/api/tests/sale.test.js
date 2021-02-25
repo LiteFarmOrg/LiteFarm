@@ -65,7 +65,7 @@ describe('Sale Tests', () => {
     chai.request(server).delete(`/sale/${sale_id}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
-      .end(callback)
+      .end(callback);
   }
 
   function patchRequest(data, sale_id, { user_id = owner.user_id, farm_id = farm.farm_id }, callback) {
@@ -73,7 +73,7 @@ describe('Sale Tests', () => {
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .send(data)
-      .end(callback)
+      .end(callback);
   }
 
   function fakeUserFarm(role = 1) {
@@ -207,7 +207,7 @@ describe('Sale Tests', () => {
         let newWorker;
         let workerFarm;
         let manager;
-        let managerFarm
+        let managerFarm;
         let unAuthorizedUser;
         let farmunAuthorizedUser;
 
@@ -235,7 +235,7 @@ describe('Sale Tests', () => {
         test('Owner should delete a sale', async (done) => {
           deleteRequest({ sale_id: sale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', sale.sale_id);
+            const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', sale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
             // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
@@ -247,11 +247,11 @@ describe('Sale Tests', () => {
         test('Manager should delete a sale', async (done) => {
           deleteRequest({ user_id: manager.user_id, sale_id: sale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', sale.sale_id);
+            const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', sale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
             done();
-          })
+          });
         });
 
         test('Worker should delete their own sale', async (done) => {
@@ -259,13 +259,13 @@ describe('Sale Tests', () => {
           let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
           deleteRequest({ user_id: newWorker.user_id, sale_id: workersSale.sale_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const saleRes = await saleModel.query().context({showHidden: true}).where('sale_id', workersSale.sale_id);
+            const saleRes = await saleModel.query().context({ showHidden: true }).where('sale_id', workersSale.sale_id);
             expect(saleRes.length).toBe(1);
             expect(saleRes[0].deleted).toBe(true);
             // const saleRes = await saleModel.query().whereNotDeleted().where('sale_id', sale.sale_id);
             // expect(saleRes.length).toBe(0);
             done();
-          })
+          });
         });
 
         test('should return 403 if an unauthorized user tries to delete a sale', async (done) => {
@@ -275,7 +275,7 @@ describe('Sale Tests', () => {
           }, async (err, res) => {
             expect(res.status).toBe(403);
             done();
-          })
+          });
         });
 
         test('should return 403 if a worker tries to delete a sale', async (done) => {
@@ -456,7 +456,7 @@ describe('Sale Tests', () => {
           farm_id: farmunAuthorizedUser.farm_id,
         }, async (err, res) => {
           expect(res.status).toBe(403);
-          done()
+          done();
         })
       });
 
@@ -502,12 +502,12 @@ describe('Sale Tests', () => {
       [sale] = await mocks.saleFactory({ promisedUserFarm: [ownerFarm] });
       [cropSale1] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
       [cropSale2] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [sale] });
-      [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner]});
+      [newCrop] = await mocks.cropFactory({ promisedFarm: [farm], createdUser: [owner] });
     });
-    
+
     test('Owner should patch a sale', async (done) => {
       const patchData = {
-        customer_name: "patched customer name",
+        customer_name: 'patched customer name',
         // sale_date: Date.now().toString(),
         cropSale: [
           {
@@ -524,8 +524,8 @@ describe('Sale Tests', () => {
             crop_id: newCrop.crop_id,
             quantity_kg: 777,
             sale_value: 7777,
-          }
-        ]
+          },
+        ],
       };
 
       patchRequest(patchData, sale.sale_id, {}, async (err, res) => {
@@ -545,7 +545,7 @@ describe('Sale Tests', () => {
 
     test('Manager should patch a sale', async (done) => {
       const patchData = {
-        customer_name: "patched customer name",
+        customer_name: 'patched customer name',
         // sale_date: Date.now().toString(),
         cropSale: [
           {
@@ -562,11 +562,11 @@ describe('Sale Tests', () => {
             crop_id: newCrop.crop_id,
             quantity_kg: 777,
             sale_value: 7777,
-          }
-        ]
+          },
+        ],
       };
 
-      patchRequest(patchData, sale.sale_id, {user_id: manager.user_id}, async (err, res) => {
+      patchRequest(patchData, sale.sale_id, { user_id: manager.user_id }, async (err, res) => {
         expect(res.status).toBe(200);
         const saleRes = await saleModel.query().where('sale_id', sale.sale_id).first();
         expect(saleRes.customer_name).toBe(patchData.customer_name);
@@ -586,7 +586,7 @@ describe('Sale Tests', () => {
       let [workersCropSale] = await mocks.cropSaleFactory({ promisedCrop: [crop], promisedSale: [workersSale] });
 
       const patchData = {
-        customer_name: "patched customer name",
+        customer_name: 'patched customer name',
         // sale_date: Date.now().toString(),
         cropSale: [
           {
@@ -603,11 +603,11 @@ describe('Sale Tests', () => {
             crop_id: newCrop.crop_id,
             quantity_kg: 777,
             sale_value: 7777,
-          }
-        ]
+          },
+        ],
       };
 
-      patchRequest(patchData, workersSale.sale_id, {user_id: worker.user_id}, async (err, res) => {
+      patchRequest(patchData, workersSale.sale_id, { user_id: worker.user_id }, async (err, res) => {
         expect(res.status).toBe(200);
         const saleRes = await saleModel.query().where('sale_id', workersSale.sale_id).first();
         expect(saleRes.customer_name).toBe(patchData.customer_name);
@@ -624,7 +624,7 @@ describe('Sale Tests', () => {
 
     test('Should return 403 if worker tries to patch another member\'s sale', async (done) => {
       const patchData = {
-        customer_name: "patched customer name",
+        customer_name: 'patched customer name',
         // sale_date: Date.now().toString(),
         cropSale: [
           {
@@ -641,19 +641,19 @@ describe('Sale Tests', () => {
             crop_id: newCrop.crop_id,
             quantity_kg: 777,
             sale_value: 7777,
-          }
-        ]
+          },
+        ],
       };
 
-      patchRequest(patchData, sale.sale_id, {user_id: worker.user_id}, async (err, res) => {
+      patchRequest(patchData, sale.sale_id, { user_id: worker.user_id }, async (err, res) => {
         expect(res.status).toBe(403);
         done();
-      })
+      });
     });
 
     test('Should return 403 if unauthorized user tries to patch sale', async (done) => {
       const patchData = {
-        customer_name: "patched customer name",
+        customer_name: 'patched customer name',
         // sale_date: Date.now().toString(),
         cropSale: [
           {
@@ -670,14 +670,14 @@ describe('Sale Tests', () => {
             crop_id: newCrop.crop_id,
             quantity_kg: 777,
             sale_value: 7777,
-          }
-        ]
+          },
+        ],
       };
 
-      patchRequest(patchData, sale.sale_id, {user_id: unauthorizedUser.user_id}, async (err, res) => {
+      patchRequest(patchData, sale.sale_id, { user_id: unauthorizedUser.user_id }, async (err, res) => {
         expect(res.status).toBe(403);
         done();
-      })
+      });
     });
   });
 });

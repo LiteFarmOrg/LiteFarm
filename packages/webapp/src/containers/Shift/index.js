@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Button from '../../components/Form/Button';
 import history from '../../history';
 import moment from 'moment';

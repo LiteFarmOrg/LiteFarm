@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TitleLayout from '../../Layout/TitleLayout';
 import { Semibold, Text } from '../../Typography';
 import Button from '../../Form/Button';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import SalesImg from '../../../assets/images/harvestUseType/Sales.svg';
 import SelfConsumptionImg from '../../../assets/images/harvestUseType/SelfConsumption.svg';
@@ -27,7 +27,7 @@ export default function PureHarvestUseType({
   isEdit,
   selectedLog,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const [selectedUseTypes, setSelectedUseTypes] = useState([]);
   const [showAddModal, switchShowModal] = useState(false);
 
@@ -96,7 +96,7 @@ export default function PureHarvestUseType({
 }
 
 function UseTypeMatrix({ selected, useTypes, setUseTypes }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common', 'harvest_uses']);
   const imgDict = {
     Sales: SalesImg,
     'Self-Consumption': SelfConsumptionImg,

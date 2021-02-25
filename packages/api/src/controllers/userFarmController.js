@@ -33,15 +33,12 @@ const { createToken } = require('../util/jwt');
 const validStatusChanges = {
   'Active': ['Inactive'],
   'Inactive': ['Invited', 'Active'],
-  'Invited': ['Inactive']
+  'Invited': ['Inactive'],
 };
 
-class userFarmController extends baseController {
-  constructor() {
-    super();
-  }
+const userFarmController = {
 
-  static getUserFarmByUserID() {
+  getUserFarmByUserID() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
@@ -61,9 +58,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static getUserFarmsByFarmID() {
+  getUserFarmsByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -97,9 +94,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static getActiveUserFarmsByFarmID() {
+  getActiveUserFarmsByFarmID() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -131,9 +128,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static getFarmInfo() {
+  getFarmInfo() {
     return async (req, res) => {
       try {
         const user_id = req.params.user_id;
@@ -148,9 +145,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateConsent() {
+  updateConsent() {
     return async (req, res) => {
       try {
         const { user_id, farm_id } = req.params;
@@ -158,7 +155,10 @@ class userFarmController extends baseController {
         await userFarmModel.query().where({ user_id, farm_id }).patch({ has_consent, consent_version });
         res.sendStatus(200);
         try {
-          const userFarm = await userFarmModel.query().select('*').where({ 'userFarm.user_id':user_id, 'userFarm.farm_id':farm_id })
+          const userFarm = await userFarmModel.query().select('*').where({
+            'userFarm.user_id': user_id,
+            'userFarm.farm_id': farm_id,
+          })
             .leftJoin('role', 'userFarm.role_id', 'role.role_id')
             .leftJoin('users', 'userFarm.user_id', 'users.user_id')
             .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id').first();
@@ -183,9 +183,9 @@ class userFarmController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateOnboardingFlags() {
+  updateOnboardingFlags() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const user_id = req.params.user_id;
@@ -233,9 +233,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateRole() {
+  updateRole() {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
@@ -263,7 +263,7 @@ class userFarmController extends baseController {
 
         const updateData = {
           role_id,
-          has_consent: false
+          has_consent: false,
         };
         const isPatched = await userFarmModel.query().where({ farm_id, user_id }).patch(updateData);
         return isPatched ? res.sendStatus(200) : res.status(404).send('User not found');
@@ -273,9 +273,9 @@ class userFarmController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static updateStatus() {
+  updateStatus() {
     //TODO clean up
     return async (req, res) => {
       const farm_id = req.params.farm_id;
@@ -338,9 +338,9 @@ class userFarmController extends baseController {
         return res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static acceptInvitation() {
+  acceptInvitation() {
     return async (req, res) => {
       let result;
       const { user_id, farm_id } = req.user;
@@ -364,17 +364,17 @@ class userFarmController extends baseController {
       const id_token = await createToken('access', { user_id });
       return res.status(200).send({ id_token, user: result });
     };
-  }
+  },
 
-  static acceptInvitationWithAccessToken() {
+  acceptInvitationWithAccessToken() {
     return async (req, res) => {
       const { farm_id } = req.params;
       req.user.farm_id = farm_id;
       return await userFarmController.acceptInvitation()(req, res);
     };
-  }
+  },
 
-  static updateWage() {
+  updateWage() {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       const farm_id = req.params.farm_id;
@@ -401,9 +401,9 @@ class userFarmController extends baseController {
         res.status(400).send(error);
       }
     };
-  }
+  },
 
-  static patchPseudoUserEmail() {
+  patchPseudoUserEmail() {
     return async (req, res) => {
       const { user_id, farm_id } = req.params;
       const { email } = req.body;
@@ -481,7 +481,7 @@ class userFarmController extends baseController {
         console.log(e);
       }
     };
-  }
+  },
 }
 
 module.exports = userFarmController;

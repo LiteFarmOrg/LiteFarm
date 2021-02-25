@@ -1,5 +1,5 @@
 import Form from '../../Form';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import React, { useState } from 'react';
@@ -29,7 +29,7 @@ export default function PureEnterPasswordPage({
   } = validatePasswordWithErrors(password);
   const inputRegister = register({ required: true });
   const [showErrors, setShowErrors] = useState(false);
-  const { t } = useTranslation();
+  const { t } = useTranslation(['translation', 'common']);
   const showPasswordIncorrectError = () => {
     setError(PASSWORD, {
       type: 'manual',

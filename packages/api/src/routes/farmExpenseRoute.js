@@ -30,7 +30,7 @@ router.patch('/:farm_expense_id',
   (req, res, next) => conditionallyApplyMiddleware(
     req.role === 3,
     isCreator({ params: 'farm_expense_id' }),
-    hasFarmAccess({ params: 'farm_expense_id' })
+    hasFarmAccess({ params: 'farm_expense_id' }),
   )(req, res, next),
   farmExpenseController.updateFarmExpense());
 
@@ -39,7 +39,7 @@ router.delete('/:farm_expense_id',
   (req, res, next) => conditionallyApplyMiddleware(
     req.role === 3,
     isCreator({ params: 'farm_expense_id' }),
-    hasFarmAccess({ params: 'farm_expense_id' })
+    hasFarmAccess({ params: 'farm_expense_id' }),
   )(req, res, next),
   farmExpenseController.delFarmExpense());
 

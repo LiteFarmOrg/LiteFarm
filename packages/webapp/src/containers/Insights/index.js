@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import history from '../../history';
 // images
 import people_fed from '../../assets/images/insights/people_fed.svg';
@@ -66,43 +66,43 @@ class Insights extends Component {
     this.state = {
       items: [
         {
-          label: props.t("INSIGHTS.PEOPLE_FED.TITLE"),
+          label: props.t('INSIGHTS.PEOPLE_FED.TITLE'),
           image: people_fed,
           route: 'PeopleFed',
           data_point: 'PeopleFed',
         },
         {
-          label: props.t("INSIGHTS.SOIL_OM.TITLE"),
+          label: props.t('INSIGHTS.SOIL_OM.TITLE'),
           image: soil_om,
           route: 'SoilOM',
           data_point: 'SoilOM',
         },
         {
-          label: props.t("INSIGHTS.LABOUR_HAPPINESS.TITLE"),
+          label: props.t('INSIGHTS.LABOUR_HAPPINESS.TITLE'),
           image: labour_happiness,
           route: 'LabourHappiness',
           data_point: 'LabourHappiness',
         },
         {
-          label: props.t("INSIGHTS.BIODIVERSITY.TITLE"),
+          label: props.t('INSIGHTS.BIODIVERSITY.TITLE'),
           image: biodiversity,
           route: 'Biodiversity',
           data_point: 'Biodiversity',
         },
         {
-          label: props.t("INSIGHTS.PRICES.TITLE"),
+          label: props.t('INSIGHTS.PRICES.TITLE'),
           image: prices,
           route: 'Prices',
           data_point: 'Prices',
         },
         {
-          label: props.t("INSIGHTS.WATER_BALANCE.TITLE"),
+          label: props.t('INSIGHTS.WATER_BALANCE.TITLE'),
           image: water_balance,
           route: 'WaterBalance',
           data_point: 'WaterBalance',
         },
         {
-          label: props.t("INSIGHTS.NITROGEN_BALANCE.TITLE"),
+          label: props.t('INSIGHTS.NITROGEN_BALANCE.TITLE'),
           image: nitrogen_balance,
           route: 'NitrogenBalance',
           data_point: 'NitrogenBalance',
@@ -131,7 +131,7 @@ class Insights extends Component {
             />
             <div className={'itemText item-' + index + ' ' + styles.itemText}>
               <Semibold>{item.label}</Semibold>
-              <Text>{`${this.props.t("INSIGHTS.CURRENT")}: ${currentData ? currentData : 0}`}</Text>
+              <Text>{`${this.props.t('INSIGHTS.CURRENT')}: ${currentData ? currentData : 0}`}</Text>
             </div>
           </div>
           <BsChevronRight className={styles.itemArrow} />
@@ -156,13 +156,19 @@ class Insights extends Component {
   ) {
     const insightData = {};
     const isImperial = this.props.farm?.units?.measurement === 'imperial';
-    insightData['PeopleFed'] = this.props.t("INSIGHTS.PEOPLE_FED.MEAL_COUNT", { count: cropNutritionalData.preview });
+    insightData['PeopleFed'] = this.props.t('INSIGHTS.PEOPLE_FED.MEAL_COUNT', {
+      count: cropNutritionalData.preview,
+    });
     insightData['SoilOM'] = (soilOMData.preview || '0') + '%';
     insightData['LabourHappiness'] = labourHappinessData.preview
       ? labourHappinessData.preview + '/5'
-      : this.props.t("INSIGHTS.UNAVAILABLE");
-    insightData['Biodiversity'] = this.props.t("INSIGHTS.BIODIVERSITY.SPECIES_COUNT", { count: biodiversityData.preview });
-    insightData['Prices'] = pricesData.preview ? this.props.t("INSIGHTS.PRICES.PERCENT_OF_MARKET", { percentage: pricesData.preview }) : this.props.t("INSIGHTS.UNAVAILABLE");
+      : this.props.t('INSIGHTS.UNAVAILABLE');
+    insightData['Biodiversity'] = this.props.t('INSIGHTS.BIODIVERSITY.SPECIES_COUNT', {
+      count: biodiversityData.preview,
+    });
+    insightData['Prices'] = pricesData.preview
+      ? this.props.t('INSIGHTS.PRICES.PERCENT_OF_MARKET', { percentage: pricesData.preview })
+      : this.props.t('INSIGHTS.UNAVAILABLE');
     insightData['WaterBalance'] = isImperial
       ? Number(waterBalanceData.preview) * MILLIMETER_TO_INCH + ' in'
       : waterBalanceData.preview + ' mm';
@@ -218,7 +224,7 @@ class Insights extends Component {
             <InfoBoxComponent
               customStyle={{ fontSize: '20px' }}
               title={t('INSIGHTS.TITLE')}
-              body={(<div>{t('INSIGHTS.INFO')}</div>)}
+              body={<div>{t('INSIGHTS.INFO')}</div>}
             />
           </div>
         </div>

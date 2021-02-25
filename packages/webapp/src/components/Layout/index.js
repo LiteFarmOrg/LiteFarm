@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './layout.scss';
+import styles from './layout.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Footer from '../Footer';

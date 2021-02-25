@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './radio.scss';
+import styles from './radio.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Main } from '../../Typography';

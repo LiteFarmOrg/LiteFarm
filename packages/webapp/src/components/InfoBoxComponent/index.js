@@ -15,7 +15,7 @@
 
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import styles from '../PageTitle/styles.scss';
+import styles from '../PageTitle/styles.module.scss';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { withTranslation } from 'react-i18next';
 

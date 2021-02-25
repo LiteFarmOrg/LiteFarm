@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
-import defaultStyles from '../styles.scss';
-import styles from './styles.scss';
+import defaultStyles from '../styles.module.scss';
+import styles from './styles.module.scss';
 import {
   expenseDetailDateSelector,
   expenseSelector,
@@ -12,12 +12,12 @@ import {
 } from '../selectors';
 import { tempDeleteExpense, tempSetEditExpense } from '../actions';
 import history from '../../../history';
-import { grabCurrencySymbol } from '../../../util';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { userFarmSelector } from '../../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { Semibold } from '../../../components/Typography';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
+import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
 
 class ExpenseDetail extends Component {
   constructor(props) {

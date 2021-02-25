@@ -83,11 +83,11 @@
   },
   "FARM_MAP": {
     "SPOTLIGHT": {
-      "ADD": "Add locations to your map, hello",
+      "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",
-      "EXPORT": "Download or share your map, greetings",
+      "EXPORT": "Download or share your map",
       "EXPORT_TITLE": "Export your map",
-      "FILTER": "Change what locations you see on your map, salutations",
+      "FILTER": "Change what locations you see on your map",
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },

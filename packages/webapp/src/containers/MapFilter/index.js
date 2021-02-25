@@ -130,196 +130,200 @@ export default function SwipeableTemporaryDrawer() {
             onClick={() => console.log('hello world')}
             style={{
               textDecoration: 'underline',
-              float: 'left',
               color: '#AA5F04',
               fontSize: '14px',
+              display: 'flex',
+              flexDirection: 'row',
             }}
           >
             <p>
               Show all <img style={{ paddingLeft: '10px' }} src={Line} />{' '}
             </p>
+            <p>Hide all</p>
           </div>
 
-          <div
+          {/* <div
             style={{
               textDecoration: 'underline',
-              float: 'left',
+              display: 'flex',
+              flexDirection: 'row',
               paddingLeft: '10px',
               color: '#AA5F04',
               fontSize: '14px',
             }}
           >
             <p>Hide all</p>
-          </div>
+          </div> */}
         </div>
+        <div>
+          <List>
+            {['Map background'].map((text) => (
+              <ListItem
+                style={
+                  selected.includes(text)
+                    ? { backgroundColor: '#F3F6FB' }
+                    : { backgroundColor: 'white' }
+                }
+                button
+                key={text}
+              >
+                <ListItemIcon>{<img src={MapBackground} />} </ListItemIcon>
 
-        <List>
-          {['Map background'].map((text) => (
-            <ListItem
-              style={
-                selected.includes(text)
-                  ? { backgroundColor: '#F3F6FB' }
-                  : { backgroundColor: 'white' }
-              }
-              button
-              key={text}
+                <ListItemText primary={text} />
+                {!selected.includes(text) ? (
+                  <MdVisibility
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(text)}
+                  />
+                ) : (
+                  <MdVisibilityOff
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(text)}
+                  />
+                )}
+              </ListItem>
+            ))}
+            <div
+              style={{
+                marginLeft: '6.67%',
+                color: '#66738A',
+                fontSize: '14px',
+                fontWeight: '600',
+                paddingTop: '10px',
+              }}
             >
-              <ListItemIcon>{<img src={MapBackground} />} </ListItemIcon>
+              <p>
+                Areas <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+              </p>
+            </div>
+            {areaImgDict.map((item) => (
+              <ListItem
+                style={
+                  selected.includes(item.name)
+                    ? { backgroundColor: '#F3F6FB' }
+                    : { backgroundColor: 'white' }
+                }
+                button
+                key={item.name}
+              >
+                <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
+                <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
+                {item.name === 'Farm Site Boundary' ? (
+                  <ListItemText
+                    secondaryTypographyProps={{ align: 'left' }}
+                    secondary={<img src={Leaf} />}
+                  />
+                ) : (
+                  <ListItemText />
+                )}
 
-              <ListItemText primary={text} />
-              {!selected.includes(text) ? (
-                <MdVisibility
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(text)}
-                />
-              ) : (
-                <MdVisibilityOff
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(text)}
-                />
-              )}
-            </ListItem>
-          ))}
-          <div
-            style={{
-              marginLeft: '6.67%',
-              color: '#66738A',
-              fontSize: '14px',
-              fontWeight: '600',
-              paddingTop: '10px',
-            }}
-          >
-            <p>
-              Areas <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
-            </p>
-          </div>
-          {areaImgDict.map((item) => (
-            <ListItem
-              style={
-                selected.includes(item.name)
-                  ? { backgroundColor: '#F3F6FB' }
-                  : { backgroundColor: 'white' }
-              }
-              button
-              key={item.name}
+                {!selected.includes(item.name) ? (
+                  <MdVisibility
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(item.name)}
+                  />
+                ) : (
+                  <MdVisibilityOff
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(item.name)}
+                  />
+                )}
+              </ListItem>
+            ))}
+            <div
+              style={{
+                marginLeft: '6.67%',
+                color: '#66738A',
+                fontSize: '14px',
+                fontWeight: '600',
+                paddingTop: '10px',
+              }}
             >
-              <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
-              <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
-              {item.name === 'Farm Site Boundary' ? (
-                <ListItemText
-                  secondaryTypographyProps={{ align: 'left' }}
-                  secondary={<img src={Leaf} />}
-                />
-              ) : (
-                <ListItemText />
-              )}
-
-              {!selected.includes(item.name) ? (
-                <MdVisibility
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(item.name)}
-                />
-              ) : (
-                <MdVisibilityOff
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(item.name)}
-                />
-              )}
-            </ListItem>
-          ))}
-          <div
-            style={{
-              marginLeft: '6.67%',
-              color: '#66738A',
-              fontSize: '14px',
-              fontWeight: '600',
-              paddingTop: '10px',
-            }}
-          >
-            <p>
-              Lines <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
-            </p>
-          </div>
-          {lineImgDict.map((item) => (
-            <ListItem
-              style={
-                selected.includes(item.name)
-                  ? { backgroundColor: '#F3F6FB' }
-                  : { backgroundColor: 'white' }
-              }
-              button
-              key={item.name}
+              <p>
+                Lines <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+              </p>
+            </div>
+            {lineImgDict.map((item) => (
+              <ListItem
+                style={
+                  selected.includes(item.name)
+                    ? { backgroundColor: '#F3F6FB' }
+                    : { backgroundColor: 'white' }
+                }
+                button
+                key={item.name}
+              >
+                <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
+                <ListItemText primary={item.name} />
+                {!selected.includes(item.name) ? (
+                  <MdVisibility
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(item.name)}
+                  />
+                ) : (
+                  <MdVisibilityOff
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(item.name)}
+                  />
+                )}
+              </ListItem>
+            ))}
+            <div
+              style={{
+                marginLeft: '6.67%',
+                color: '#66738A',
+                fontSize: '14px',
+                fontWeight: '600',
+                paddingTop: '10px',
+              }}
             >
-              <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
-              <ListItemText primary={item.name} />
-              {!selected.includes(item.name) ? (
-                <MdVisibility
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(item.name)}
-                />
-              ) : (
-                <MdVisibilityOff
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(item.name)}
-                />
-              )}
-            </ListItem>
-          ))}
-          <div
-            style={{
-              marginLeft: '6.67%',
-              color: '#66738A',
-              fontSize: '14px',
-              fontWeight: '600',
-              paddingTop: '10px',
-            }}
-          >
-            <p>
-              Points <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
-            </p>
-          </div>
-          {pointImgDict.map((item) => (
-            <ListItem
-              style={
-                selected.includes(item.name)
-                  ? { backgroundColor: '#F3F6FB' }
-                  : { backgroundColor: 'white' }
-              }
-              button
-              key={item.name}
-            >
-              <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
-              <ListItemText primary={item.name} />
-              {!selected.includes(item.name) ? (
-                <MdVisibility
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(item.name)}
-                />
-              ) : (
-                <MdVisibilityOff
-                  size={24}
-                  color={'#66738A'}
-                  className={styles.visibilityIcon}
-                  onClick={() => selectOrDeselect(item.name)}
-                />
-              )}
-            </ListItem>
-          ))}
-        </List>
+              <p>
+                Points <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+              </p>
+            </div>
+            {pointImgDict.map((item) => (
+              <ListItem
+                style={
+                  selected.includes(item.name)
+                    ? { backgroundColor: '#F3F6FB' }
+                    : { backgroundColor: 'white' }
+                }
+                button
+                key={item.name}
+              >
+                <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
+                <ListItemText primary={item.name} />
+                {!selected.includes(item.name) ? (
+                  <MdVisibility
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(item.name)}
+                  />
+                ) : (
+                  <MdVisibilityOff
+                    size={24}
+                    color={'#66738A'}
+                    className={styles.visibilityIcon}
+                    onClick={() => selectOrDeselect(item.name)}
+                  />
+                )}
+              </ListItem>
+            ))}
+          </List>
+        </div>
       </div>
       <Divider />
     </div>

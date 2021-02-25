@@ -1,10 +1,19 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
+import { pick } from '../../util';
 
 const getWeather = (payload) => {
-  const { city, date, farm_id, humidity, iconName, temperature, wind, measurement } = payload;
-  return { city, date, farm_id, humidity, iconName, temperature, wind, measurement };
+  return pick(payload, [
+    'city',
+    'date',
+    'farm_id',
+    'humidity',
+    'iconName',
+    'temperature',
+    'wind',
+    'measurement',
+  ]);
 };
 
 const weatherAdapter = createEntityAdapter({

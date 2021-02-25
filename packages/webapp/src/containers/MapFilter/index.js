@@ -156,7 +156,15 @@ export default function SwipeableTemporaryDrawer() {
 
         <List>
           {['Map background'].map((text) => (
-            <ListItem button key={text}>
+            <ListItem
+              style={
+                selected.includes(text)
+                  ? { backgroundColor: '#F3F6FB' }
+                  : { backgroundColor: 'white' }
+              }
+              button
+              key={text}
+            >
               <ListItemIcon>{<img src={MapBackground} />} </ListItemIcon>
 
               <ListItemText primary={text} />
@@ -191,7 +199,15 @@ export default function SwipeableTemporaryDrawer() {
             </p>
           </div>
           {areaImgDict.map((item) => (
-            <ListItem button key={item.name}>
+            <ListItem
+              style={
+                selected.includes(item.name)
+                  ? { backgroundColor: '#F3F6FB' }
+                  : { backgroundColor: 'white' }
+              }
+              button
+              key={item.name}
+            >
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
               <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
               {item.name === 'Farm Site Boundary' ? (
@@ -234,7 +250,15 @@ export default function SwipeableTemporaryDrawer() {
             </p>
           </div>
           {lineImgDict.map((item) => (
-            <ListItem button key={item.name}>
+            <ListItem
+              style={
+                selected.includes(item.name)
+                  ? { backgroundColor: '#F3F6FB' }
+                  : { backgroundColor: 'white' }
+              }
+              button
+              key={item.name}
+            >
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
               <ListItemText primary={item.name} />
               {!selected.includes(item.name) ? (
@@ -268,7 +292,15 @@ export default function SwipeableTemporaryDrawer() {
             </p>
           </div>
           {pointImgDict.map((item) => (
-            <ListItem button key={item.name}>
+            <ListItem
+              style={
+                selected.includes(item.name)
+                  ? { backgroundColor: '#F3F6FB' }
+                  : { backgroundColor: 'white' }
+              }
+              button
+              key={item.name}
+            >
               <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
               <ListItemText primary={item.name} />
               {!selected.includes(item.name) ? (

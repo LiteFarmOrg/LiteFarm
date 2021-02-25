@@ -131,7 +131,7 @@ export default function PureMapFooter({
           </button>
         <button className={styles.button} id="mapThirdStep">
           <ExportLogo className={styles.svg} />
-          </button>
+        </button>
       </div>
     </>
   );

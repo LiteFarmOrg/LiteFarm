@@ -21,7 +21,7 @@ exports.up = async function (knex) {
       t.uuid('figure_id')
         .primary().references('figure_id')
         .inTable('figure');
-      t.decimal('total_area').notNullable();
+      t.decimal('total_area', 24, 2).notNullable();
       t.jsonb('grid_points').notNullable();
       t.decimal('perimeter').nullable();
     }),
@@ -29,8 +29,8 @@ exports.up = async function (knex) {
       t.uuid('figure_id')
         .primary().references('figure_id')
         .inTable('figure');
-      t.decimal('length').notNullable();
-      t.decimal('width').nullable();
+      t.decimal('length', 24, 2).notNullable();
+      t.decimal('width', 24, 2).nullable();
       t.jsonb('line_points').notNullable();
     }),
     knex.schema.createTable('point', (t) => {
@@ -85,7 +85,7 @@ exports.up = async function (knex) {
         .inTable('location').onDelete('CASCADE');
       t.boolean('used_for_irrigation');
       t.boolean('includes_riparian_buffer');
-      t.decimal('buffer_width');
+      t.decimal('buffer_width', 24, 2);
     }),
     knex.schema.createTable('buffer_zone', (t) => {
       t.uuid('location_id')
@@ -175,7 +175,7 @@ exports.down = async function (knex) {
     t.dropColumn('organic_status');
     t.dropColumn('transition_date');
     t.dropForeign('field_id');
-    t.decimal('area');
+    t.integer('area');
     t.boolean('deleted').defaultTo(false);
   })
   await Promise.all(areaLocations.rows.map(({ deleted, farm_id, location_id, grid_points, total_area,

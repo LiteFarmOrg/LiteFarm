@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Joyride, { STATUS } from 'react-joyride';
+import Joyride, { STATUS, ACTIONS, LIFECYCLE } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
 import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.svg';
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 export default function PureMapFooter({
   className,
@@ -15,11 +16,15 @@ export default function PureMapFooter({
   resetSpotlight,
 }) {
   const { t } = useTranslation();
+  const [stepSpotlighted, setStepSpotlighted] = useState(null)
 
   const resetSpotlightStatus = (data) => {
-    const { action, status } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
+    const { action, status, lifecycle } = data;
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === ACTIONS.CLOSE) {
+      setStepSpotlighted(null);
       resetSpotlight();
+    } else if ([ACTIONS.UPDATE].includes(action) && lifecycle === LIFECYCLE.TOOLTIP) {
+      setStepSpotlighted(data.index);
     }
   };
   const steps = [
@@ -78,6 +83,7 @@ export default function PureMapFooter({
     },
   ];
 
+  const { container, button, svg, spotlighted } = styles;
   return (
     <>
       {showSpotlight && (
@@ -121,17 +127,17 @@ export default function PureMapFooter({
         />
       )}
       <div
-        className={[styles.container, className].join(' ')}
+        className={clsx(container, className)}
         style={style}
       >
-        {isAdmin && <button className={styles.button} id="mapFirstStep">
-          <AddLogo className={styles.svg} />
+        {isAdmin && <button  className={clsx(button, stepSpotlighted === 0 && spotlighted)} id="mapFirstStep">
+          <AddLogo className={svg} />
         </button>}
-        <button className={styles.button} id="mapSecondStep">
-          <FilterLogo className={styles.svg} />
+        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
+          <FilterLogo className={svg} />
           </button>
-        <button className={styles.button} id="mapThirdStep">
-          <ExportLogo className={styles.svg} />
+        <button className={clsx(button, stepSpotlighted === 2 && spotlighted)} id="mapThirdStep">
+          <ExportLogo className={svg} />
         </button>
       </div>
     </>

@@ -21,7 +21,7 @@
   }
 }
 
-.button:hover {
+.button:hover, .spotlighted {
   border-top: 8px solid var(--teal700);
   padding-bottom: 8px;
 

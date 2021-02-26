@@ -12,6 +12,7 @@ const Template = (args) => <PureMapFooter {...args} />;
 export const Admin = Template.bind({});
 Admin.args = {
   isAdmin: true,
+  showSpotlight: false,
 };
 Admin.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
@@ -20,6 +21,7 @@ Admin.parameters = {
 export const Worker = Template.bind({});
 Worker.args = {
   isAdmin: false,
+  showSpotlight: false,
 };
 Worker.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

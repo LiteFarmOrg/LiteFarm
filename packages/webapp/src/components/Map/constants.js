@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 export const DEFAULT_CENTER = {

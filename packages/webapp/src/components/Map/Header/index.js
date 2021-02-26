@@ -19,7 +19,7 @@ export default function PureMapHeader({
     >
       <div className={styles.headerText}>
         <span className={styles.farmName}>{farmName}</span>
-        {" | "}
+        {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
       <input

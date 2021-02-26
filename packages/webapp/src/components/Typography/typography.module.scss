@@ -3,10 +3,10 @@
   line-height: 16px;
   text-decoration-line: underline;
   color: var(--iconActive);
-  margin-bottom: 0;
   cursor: pointer;
   display: inline-block;
   font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
 }
 
 .title {
@@ -17,6 +17,7 @@
   margin-bottom: 20px;
   color: var(--fontColor);
   font-family: 'Open Sans', 'SansSerif', serif;
+  margin-top: 0;
 }
 
 .semibold {
@@ -26,6 +27,7 @@
   line-height: 24px;
   color: var(--fontColor);
   font-family: 'Open Sans', 'SansSerif', serif;
+  margin-top: 0;
 }
 
 .label {
@@ -36,6 +38,7 @@
   line-height: 16px;
   font-family: 'Open Sans', 'SansSerif', serif;
   margin-bottom: 4px;
+  margin-top: 0;
 }
 
 .smLabel {
@@ -71,23 +74,23 @@
 }
 
 .main {
-  margin-bottom: 0;
   font-size: 16px;
   line-height: 24px;
   color: var(--fontColor);
   font-style: normal;
   font-weight: normal;
   font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
 }
 
 .text {
-  margin-bottom: 0;
   font-size: 14px;
   line-height: 24px;
   color: var(--fontColor);
   font-style: normal;
   font-weight: normal;
   font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
 }
 //Used to style react router Link component
 .link {
@@ -96,4 +99,5 @@
   text-decoration-line: underline;
   color: var(--iconActive);
   font-family: 'Open Sans', 'SansSerif', serif;
+  margin-top: 0;
 }

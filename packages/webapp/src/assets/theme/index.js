@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from '@material-ui/core';
 
 export const colors = {
   teal900: '#085d50',
@@ -36,7 +36,6 @@ export const colors = {
 
 const theme = createMuiTheme({
   palette: {
-    type: 'main',
     primary: {
       contrastText: colors.grey900,
       main: colors.yellow300,
@@ -70,15 +69,33 @@ const theme = createMuiTheme({
       disabled: colors.grey600,
       hint: colors.grey600,
     },
+    action: {
+      hover: colors.green100,
+      hoverOpacity: 0.5,
+      active: colors.green100,
+      selected: colors.green100,
+      focus: colors.green100,
+    },
   },
   typography: {
     fontFamily: '"Open Sans"," SansSerif", serif',
+  },
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
   },
   overrides: {
     MuiCssBaseline: {
       '@global': {
         body: {
           backgroundColor: '#fff',
+          overflowX: 'hidden',
+        },
+        '*': {
+          boxSizing: 'border-box',
+          margin: 0,
+          padding: 0,
         },
       },
     },

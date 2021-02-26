@@ -10,7 +10,6 @@ export const initialState = {
   defaultNotes: null,
   activity_kind: null,
   activity_id: null,
-  validQuantity: null,
   selectedUseTypes: [],
   crops: null,
   fields: null,

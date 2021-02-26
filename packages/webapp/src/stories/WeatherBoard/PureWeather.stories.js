@@ -1,9 +1,11 @@
 import React from 'react';
 import PureWeatherBoard from '../../components/WeatherBoard';
+import { componentDecoratorsWithoutPadding } from '../Pages/config/decorators';
 
 export default {
   title: 'Components/WeatherBoard/PureWeatherBoard',
   component: PureWeatherBoard,
+  decorators: componentDecoratorsWithoutPadding,
 };
 
 const Template = (args) => <PureWeatherBoard {...args} />;

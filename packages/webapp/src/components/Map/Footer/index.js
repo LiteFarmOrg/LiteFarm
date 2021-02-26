@@ -127,12 +127,12 @@ export default function PureMapFooter({
         className={clsx(container, className)}
         style={style}
       >
-        {isAdmin && <button  className={clsx(button, stepSpotlighted === 0 && spotlighted)} id="mapFirstStep">
+        {isAdmin && <button className={clsx(button, stepSpotlighted === 0 && spotlighted)} id="mapFirstStep">
           <AddLogo className={svg} />
         </button>}
         <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
           <FilterLogo className={svg} />
-          </button>
+        </button>
         <button className={clsx(button, stepSpotlighted === 2 && spotlighted)} id="mapThirdStep">
           <ExportLogo className={svg} />
         </button>

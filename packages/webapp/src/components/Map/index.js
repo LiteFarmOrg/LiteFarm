@@ -50,32 +50,25 @@ export default function PureMap({
 
   return (
     <div className={styles.pageWrapper}>
-      <PureMapHeader
-        className={styles.mapHeader}
-        farmName={farmName}
-      />
+      <PureMapHeader className={styles.mapHeader} farmName={farmName} />
       <div className={styles.mapContainer}>
         <div className={styles.workaround}>
-        <GoogleMap
-          style={{ flexGrow: 1 }}
-          bootstrapURLKeys={{
-            key: GMAPS_API_KEY,
-            libraries: ['drawing', 'geometry', 'places'],
-            language: localStorage.getItem('litefarm_lang'),
-          }}
-          defaultCenter={center}
-          defaultZoom={DEFAULT_ZOOM}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-          options={getMapOptions}
-        >
-        </GoogleMap>
+          <GoogleMap
+            style={{ flexGrow: 1 }}
+            bootstrapURLKeys={{
+              key: GMAPS_API_KEY,
+              libraries: ['drawing', 'geometry', 'places'],
+              language: localStorage.getItem('litefarm_lang'),
+            }}
+            defaultCenter={center}
+            defaultZoom={DEFAULT_ZOOM}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+            options={getMapOptions}
+          ></GoogleMap>
         </div>
       </div>
-      <PureMapFooter
-        className={styles.mapFooter}
-        isAdmin={isAdmin}
-      />
+      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} />
     </div>
   );
 }

@@ -56,7 +56,14 @@ export default function PureMyFarmFloater({
     />
   );
   return (
-    <Floater component={Wrapper} placement={'bottom-end'} open={openProfile}>
+    <Floater
+      component={Wrapper}
+      placement={'bottom-end'}
+      open={openProfile}
+      styles={{
+        floater: { zIndex: 1500 },
+      }}
+    >
       {children}
     </Floater>
   );

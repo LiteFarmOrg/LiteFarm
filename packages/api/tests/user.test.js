@@ -348,7 +348,7 @@ describe('User Tests', () => {
         })
       });
 
-      test('Owner should post a pseudo user', async (done) => {
+      xtest('Owner should post a pseudo user', async (done) => {
         postPseudoUserRequest(sampleData, {}, async (err, res) => {
           const resUser = await userModel.query().where({email: sampleData.email}).first();
           const resUserFarm = await userFarmModel.query().where({user_id: resUser.user_id, farm_id: farm.farm_id}).first();
@@ -357,7 +357,7 @@ describe('User Tests', () => {
         })
       });
 
-      test('Manager should post a pseudo user', async (done) => {
+      xtest('Manager should post a pseudo user', async (done) => {
         postPseudoUserRequest(sampleData, {user_id: manager.user_id}, async (err, res) => {
           const resUser = await userModel.query().where({email: sampleData.email}).first();
           const resUserFarm = await userFarmModel.query().where({user_id: resUser.user_id, farm_id: farm.farm_id}).first();

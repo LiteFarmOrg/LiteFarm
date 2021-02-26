@@ -25,7 +25,7 @@ const { tableCleanup } = require('./testEnvironment');
 const cropModel = require('../src/models/cropModel');
 const pesiticideModel = require('../src/models/pesiticideModel');
 
-describe('Authorization Tests', () => {
+xdescribe('Authorization Tests', () => {
   let middleware;
   let newOwner;
   let farm;

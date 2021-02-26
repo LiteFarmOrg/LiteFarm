@@ -16,7 +16,7 @@ module.exports = {
     "comma-spacing": ["error", { "before": false, "after": true }],
     "indent": ["error", 2, { "MemberExpression": 1 }],
     "max-len": ["error", {
-      "code": 100
+      "code": 120
     }],
     "no-multiple-empty-lines": ["error"],
     "no-new-symbol": "error",

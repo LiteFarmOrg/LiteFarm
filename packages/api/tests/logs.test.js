@@ -43,7 +43,7 @@ const diseaseModel = require('../src/models/diseaseModel');
 const harvestUseModel = require('../src/models/harvestUseModel');
 
 
-describe('Log Tests', () => {
+xdescribe('Log Tests', () => {
   let middleware;
   let owner;
   let farm;

@@ -13,7 +13,8 @@ exports.up = async function (knex) {
   await Promise.all([
     knex.schema.createTable('figure', (t) => {
       t.uuid('figure_id').primary().defaultTo(knex.raw('uuid_generate_v1()'));
-      t.enu('type', ['area', 'line', 'point']);
+      t.enu('type', ['gate', 'water_valve', 'field', 'buffer_zone', 'creek', 'fence', 'ceremonial_area',
+        'residence', 'ground_water', 'natural_area', 'greenhouse', 'barn']);
       t.uuid('location_id').references('location_id').inTable('location');
     }),
     knex.schema.createTable('area', (t) => {
@@ -116,7 +117,7 @@ exports.up = async function (knex) {
   })));
   const figures = await Promise.all(fields.map((field) => knex('figure').insert({
     location_id: field.field_id,
-    type: 'area',
+    type: 'field',
   }).returning('*')));
   await Promise.all(figures.map((figure, i) => {
     const [{ figure_id }] = figure;

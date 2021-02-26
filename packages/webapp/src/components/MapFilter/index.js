@@ -164,7 +164,7 @@ export default function MapFilter() {
                 </ListItemIcon>
 
                 <ListItemText primary={text} />
-                <div style={{ paddingRight: '12px' }}>
+                <div style={{ marginRight: '40px' }}>
                   {visibility || selected.includes(text) ? (
                     <MdVisibilityOff
                       size={24}
@@ -183,7 +183,7 @@ export default function MapFilter() {
             ))}
             <div
               style={{
-                marginLeft: '6.67%',
+                marginLeft: '24px',
                 color: '#66738A',
                 fontSize: '14px',
                 fontWeight: '600',
@@ -191,7 +191,7 @@ export default function MapFilter() {
               }}
             >
               <p>
-                Areas <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+                Areas <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
               </p>
             </div>
             {areaImgDict.map((item) => (
@@ -216,7 +216,7 @@ export default function MapFilter() {
                 ) : (
                   <ListItemText />
                 )}
-                <div style={{ paddingRight: '12px' }}>
+                <div style={{ marginRight: '40px' }}>
                   {visibility || selected.includes(item.name) ? (
                     <MdVisibilityOff
                       size={24}
@@ -235,7 +235,7 @@ export default function MapFilter() {
             ))}
             <div
               style={{
-                marginLeft: '6.67%',
+                marginLeft: '24px',
                 color: '#66738A',
                 fontSize: '14px',
                 fontWeight: '600',
@@ -243,7 +243,7 @@ export default function MapFilter() {
               }}
             >
               <p>
-                Lines <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+                Lines <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
               </p>
             </div>
             {lineImgDict.map((item) => (
@@ -260,7 +260,7 @@ export default function MapFilter() {
                   {<img src={item.img} style={{ paddingLeft: '20px' }} />}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
-                <div style={{ paddingRight: '12px' }}>
+                <div style={{ marginRight: '40px' }}>
                   {visibility || selected.includes(item.name) ? (
                     <MdVisibilityOff
                       size={24}
@@ -279,7 +279,7 @@ export default function MapFilter() {
             ))}
             <div
               style={{
-                marginLeft: '6.67%',
+                marginLeft: '24px',
                 color: '#66738A',
                 fontSize: '14px',
                 fontWeight: '600',
@@ -287,7 +287,7 @@ export default function MapFilter() {
               }}
             >
               <p>
-                Points <img src={Rectangle} style={{ paddingLeft: '6px' }} />{' '}
+                Points <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
               </p>
             </div>
             {pointImgDict.map((item) => (
@@ -304,7 +304,7 @@ export default function MapFilter() {
                   {<img src={item.img} style={{ paddingLeft: '20px' }} />}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
-                <div style={{ paddingRight: '12px' }}>
+                <div style={{ marginRight: '40px' }}>
                   {visibility || selected.includes(item.name) ? (
                     <MdVisibilityOff
                       size={24}

@@ -10,7 +10,13 @@ import MapFilter from '../MapFilter';
 
 export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
   const { t } = useTranslation();
-  let [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
 
   const onFilter = () => {
     setShowFilter(true);

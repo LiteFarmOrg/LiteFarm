@@ -120,9 +120,6 @@ export default function PureMapFooter({
               padding: '4px 0 0 0',
               marginBottom: '20px',
             },
-            spotlight:{
-              borderRadius: 0,
-            },
           }}
         />
       )}

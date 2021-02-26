@@ -6,9 +6,15 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import PureMapHeader from './Header';
 import PureMapFooter from './Footer';
+import MapFilter from '../MapFilter';
 
 export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
   const { t } = useTranslation();
+  let [showFilter, setShowFilter] = useState(false);
+
+  const onFilter = () => {
+    setShowFilter(true);
+  };
 
   const getMapOptions = (maps) => {
     return {
@@ -63,7 +69,8 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
           ></GoogleMap>
         </div>
       </div>
-      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} />
+      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} setShowFilter={onFilter} />
+      {showFilter && <MapFilter />}
     </div>
   );
 }

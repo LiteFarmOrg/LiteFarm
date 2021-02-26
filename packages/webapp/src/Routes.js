@@ -35,7 +35,7 @@ const IntroSlide = React.lazy(() => import('./containers/IntroSlide'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
 const Log = React.lazy(() => import('./containers/Log'));
 const NewLog = React.lazy(() => import('./containers/Log/NewLog'));
-const MapFilter = React.lazy(() => import('./containers/MapFilter'));
+const MapFilter = React.lazy(() => import('./components/MapFilter'));
 const FertilizingLog = React.lazy(() => import('./containers/Log/FertilizingLog'));
 const PestControlLog = React.lazy(() => import('./containers/Log/PestControlLog'));
 const FieldWorkLog = React.lazy(() => import('./containers/Log/FieldWorkLog'));

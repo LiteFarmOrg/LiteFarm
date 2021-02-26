@@ -27,10 +27,9 @@ import Rectangle from '../../assets/images/farmMapFilter/Rectangle.svg';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import Line from '../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
-import styles from './styles.scss';
 import { Box } from '@material-ui/core';
 
-export default function SwipeableTemporaryDrawer() {
+export default function MapFilter() {
   let [height, setHeight] = useState(0);
   let [visibility, setVisibility] = useState(false);
   const [selected, setSelected] = useState([]);
@@ -38,7 +37,7 @@ export default function SwipeableTemporaryDrawer() {
   const useStyles = makeStyles({
     list: {
       width: 250,
-      height: '30%',
+      height: '90%',
     },
     fullList: {
       width: 'auto',
@@ -58,15 +57,11 @@ export default function SwipeableTemporaryDrawer() {
   useEffect(() => {
     if (parentRef.current) {
       let parentHeight = parentRef.current.offsetHeight;
-      setHeight(parentHeight);
+      setHeight(window.innerHeight / 2);
     }
   }, []);
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    // if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-    //   return;
-    // }
-
+  const toggleDrawer = (anchor, open) => () => {
     setState({ ...state, [anchor]: open });
   };
 
@@ -77,7 +72,7 @@ export default function SwipeableTemporaryDrawer() {
     { name: 'Field', img: Field },
     { name: 'Greenhouse', img: Greenhouse },
     { name: 'Groundwater', img: Groundwater },
-    { name: 'NaturalArea', img: NaturalArea },
+    { name: 'Natural area', img: NaturalArea },
   ];
 
   const lineImgDict = [
@@ -92,7 +87,6 @@ export default function SwipeableTemporaryDrawer() {
   ];
 
   const selectOrDeselect = (id) => {
-    console.log('change bg');
     const layers = selected.includes(id)
       ? selected.filter((layerID) => id !== layerID)
       : selected.concat(id);
@@ -113,7 +107,7 @@ export default function SwipeableTemporaryDrawer() {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
       })}
       role="presentation"
-      //   onClick={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
       // onClick={setMaskVisibility}
       //   onKeyDown={toggleDrawer(anchor, false)}
     >
@@ -125,7 +119,10 @@ export default function SwipeableTemporaryDrawer() {
           boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
         }}
       >
-        <div style={{ marginLeft: '45.56%', marginTop: '45.83%' }}>
+        <div
+          onClick={() => setHeight(window.innerHeight - 100)}
+          style={{ marginLeft: '45.56%', marginTop: '45.83%' }}
+        >
           <img src={GreenLine} />
         </div>
         <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
@@ -141,7 +138,8 @@ export default function SwipeableTemporaryDrawer() {
           >
             <div onClick={() => setAllVisibility()}>
               <p>
-                Show all <img style={{ paddingLeft: '10px' }} src={Line} />{' '}
+                Show all
+                <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
               </p>
             </div>
             <div onClick={() => setAllVisibilityOff()}>
@@ -161,24 +159,26 @@ export default function SwipeableTemporaryDrawer() {
                 button
                 key={text}
               >
-                <ListItemIcon>{<img src={MapBackground} />} </ListItemIcon>
+                <ListItemIcon>
+                  {<img src={MapBackground} style={{ paddingLeft: '20px' }} />}{' '}
+                </ListItemIcon>
 
                 <ListItemText primary={text} />
-                {visibility || selected.includes(text) ? (
-                  <MdVisibilityOff
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(text)}
-                  />
-                ) : (
-                  <MdVisibility
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(text)}
-                  />
-                )}
+                <div style={{ paddingRight: '12px' }}>
+                  {visibility || selected.includes(text) ? (
+                    <MdVisibilityOff
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(text)}
+                    />
+                  ) : (
+                    <MdVisibility
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(text)}
+                    />
+                  )}
+                </div>
               </ListItem>
             ))}
             <div
@@ -204,7 +204,9 @@ export default function SwipeableTemporaryDrawer() {
                 button
                 key={item.name}
               >
-                <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
+                <ListItemIcon>
+                  {<img src={item.img} style={{ paddingLeft: '20px' }} />}
+                </ListItemIcon>
                 <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
                 {item.name === 'Farm Site Boundary' ? (
                   <ListItemText
@@ -214,22 +216,21 @@ export default function SwipeableTemporaryDrawer() {
                 ) : (
                   <ListItemText />
                 )}
-
-                {visibility || selected.includes(item.name) ? (
-                  <MdVisibilityOff
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(item.name)}
-                  />
-                ) : (
-                  <MdVisibility
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(item.name)}
-                  />
-                )}
+                <div style={{ paddingRight: '12px' }}>
+                  {visibility || selected.includes(item.name) ? (
+                    <MdVisibilityOff
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(item.name)}
+                    />
+                  ) : (
+                    <MdVisibility
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(item.name)}
+                    />
+                  )}
+                </div>
               </ListItem>
             ))}
             <div
@@ -255,23 +256,25 @@ export default function SwipeableTemporaryDrawer() {
                 button
                 key={item.name}
               >
-                <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
+                <ListItemIcon>
+                  {<img src={item.img} style={{ paddingLeft: '20px' }} />}
+                </ListItemIcon>
                 <ListItemText primary={item.name} />
-                {visibility || selected.includes(item.name) ? (
-                  <MdVisibilityOff
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(item.name)}
-                  />
-                ) : (
-                  <MdVisibility
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(item.name)}
-                  />
-                )}
+                <div style={{ paddingRight: '12px' }}>
+                  {visibility || selected.includes(item.name) ? (
+                    <MdVisibilityOff
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(item.name)}
+                    />
+                  ) : (
+                    <MdVisibility
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(item.name)}
+                    />
+                  )}
+                </div>
               </ListItem>
             ))}
             <div
@@ -297,23 +300,25 @@ export default function SwipeableTemporaryDrawer() {
                 button
                 key={item.name}
               >
-                <ListItemIcon>{<img src={item.img} />}</ListItemIcon>
+                <ListItemIcon>
+                  {<img src={item.img} style={{ paddingLeft: '20px' }} />}
+                </ListItemIcon>
                 <ListItemText primary={item.name} />
-                {visibility || selected.includes(item.name) ? (
-                  <MdVisibilityOff
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(item.name)}
-                  />
-                ) : (
-                  <MdVisibility
-                    size={24}
-                    color={'#66738A'}
-                    className={styles.visibilityIcon}
-                    onClick={() => selectOrDeselect(item.name)}
-                  />
-                )}
+                <div style={{ paddingRight: '12px' }}>
+                  {visibility || selected.includes(item.name) ? (
+                    <MdVisibilityOff
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(item.name)}
+                    />
+                  ) : (
+                    <MdVisibility
+                      size={24}
+                      color={'#66738A'}
+                      onClick={() => selectOrDeselect(item.name)}
+                    />
+                  )}
+                </div>
               </ListItem>
             ))}
           </List>
@@ -324,8 +329,8 @@ export default function SwipeableTemporaryDrawer() {
   );
 
   return (
-    <div ref={parentRef}>
-      {['left', 'right', 'top', 'bottom'].map((anchor) => (
+    <div>
+      {['bottom'].map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <div>

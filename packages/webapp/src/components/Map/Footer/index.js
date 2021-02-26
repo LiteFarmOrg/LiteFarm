@@ -5,7 +5,7 @@ import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
 import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.svg';
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 
-export default function PureMapFooter({ className, style, isAdmin }) {
+export default function PureMapFooter({ className, style, isAdmin, setShowFilter }) {
   return (
     <div className={[styles.container, className].join(' ')} style={style}>
       {isAdmin && (
@@ -14,7 +14,7 @@ export default function PureMapFooter({ className, style, isAdmin }) {
         </button>
       )}
       <button className={styles.button}>
-        <FilterLogo />
+        <FilterLogo onClick={() => setShowFilter(true)} />
       </button>
       <button className={styles.button}>
         <ExportLogo />

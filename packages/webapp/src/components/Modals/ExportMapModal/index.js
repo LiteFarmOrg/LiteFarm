@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 import { Main, Title } from '../../Typography';
 import Button from '../../Form/Button';
 
-export function PureExportMapModal({ onClick }) {
+export function PureExportMapModal({ onClickDownload, onClickShare }) {
   const { t } = useTranslation();
 
   return (
@@ -16,11 +16,11 @@ export function PureExportMapModal({ onClick }) {
         {t('FARM_MAP.EXPORT_MODAL.TITLE')}
       </Title>
       <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
-      <Button color='secondary' className={styles.button}>
+      <Button color='secondary' className={styles.button} onClick={onClickDownload}>
         <DownloadIcon className={styles.svg} />
         <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
       </Button>
-      <Button color='secondary' className={styles.button}>
+      <Button color='secondary' className={styles.button} onClick={onClickShare}>
         <ShareIcon className={styles.svg} />
         <div>{t('FARM_MAP.EXPORT_MODAL.SHARE')}</div>
       </Button>
@@ -28,10 +28,14 @@ export function PureExportMapModal({ onClick }) {
   );
 }
 
-export default function ExportMapModal({ onClick, dismissModal }) {
+export default function ExportMapModal({ onClickDownload, onClickShare, dismissModal }) {
   return (
     <Modal dismissModal={dismissModal}>
-      <PureExportMapModal onClick={onClick} dismissModal={dismissModal} />
+      <PureExportMapModal
+        onClickDownload={onClickDownload}
+        onClickShare={onClickShare}
+        dismissModal={dismissModal}
+      />
     </Modal>
   );
 }

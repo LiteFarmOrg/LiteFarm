@@ -7,7 +7,12 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import PureMapHeader from './Header';
 import PureMapFooter from './Footer';
 
-export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
+export default function PureMap({
+  isAdmin,
+  farmName,
+  handleGoogleMapApi,
+  center,
+}) {
   const { t } = useTranslation();
 
   const getMapOptions = (maps) => {

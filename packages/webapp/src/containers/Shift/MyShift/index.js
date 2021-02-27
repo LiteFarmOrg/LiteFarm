@@ -4,7 +4,6 @@ import styles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { deleteShift } from '../actions';
 import moment from 'moment';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 import { selectedShiftSelector, taskTypeSelector } from './selectors';
 import ConfirmModal from '../../../components/Modals/Confirm';
@@ -13,6 +12,7 @@ import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../../fieldSlice';
 import { getDurationString } from './../../../util/index';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
+import DropdownButton from '../../../components/Form/DropDownButton';
 
 class MyShift extends Component {
   constructor(props) {
@@ -141,6 +141,10 @@ class MyShift extends Component {
     }
     const { farm } = this.props;
     let dropDown = 0;
+    const options = [
+      { text: this.props.t('common:DELETE'), onClick: () => this.handleShiftDelete() },
+    ];
+
     return (
       <div className={styles.logContainer}>
         <PageTitle backUrl="/shift" title={this.props.t('SHIFT.MY_SHIFT.TITLE')} />
@@ -150,21 +154,7 @@ class MyShift extends Component {
             {(Number(farm.role_id) === 1 ||
               Number(farm.role_id) === 2 ||
               Number(farm.role_id) === 5) && (
-              <DropdownButton
-                style={{
-                  background: '#EFEFEF',
-                  color: '#4D4D4D',
-                  border: 'none',
-                }}
-                title={'Action'}
-                key={dropDown}
-                id={`dropdown-basic-${dropDown}`}
-              >
-                {/*<MenuItem eventKey="0" onClick={()=>this.editShift()}>Edit</MenuItem>*/}
-                <Dropdown.Item eventKey="1" onClick={() => this.handleShiftDelete()}>
-                  {this.props.t('common:DELETE')}
-                </Dropdown.Item>
-              </DropdownButton>
+              <DropdownButton options={options}>{this.props.t('LOG_COMMON.ACTION')}</DropdownButton>
             )}
           </div>
           {this.props.users.is_admin && (

@@ -1,18 +1,11 @@
 extends ./template
 block content
     p
-        | It looks like one of the administrators at
-        span=`${t('RESTORE_ACCESS.RESPONSE')}`
-
+        span=`${t('RESTORE_ACCESS.ADMIN')} `
         strong #{farm}
-        |  has renewed your access to their farm on
-        |         LiteFarm.
-        |         Welcome back!
-        span=`${t('RESTORE_ACCESS.RESPONSE')}`
-
-    p You can log back in by clicking below:
-    span=`${t('RESTORE_ACCESS.RESPONSE')}`
+        span=` ${t('RESTORE_ACCESS.RESTORED')}`
+    p=`${t('RESTORE_ACCESS.CLICK_BELOW')}:`
     .button-aligner
         a#email-button(href=`${buttonLink}` target='_blank')
-            button.button Log in span=`${t('RESTORE_ACCESS.RESPONSE')}`
+            button.button=`${t('COMMON.LOG_IN')}`
 

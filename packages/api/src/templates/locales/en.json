@@ -40,13 +40,11 @@
   "ACCEPT_INVITE_CONFIRMATION": {
     "CONGRATS": "Congrats on becoming the newest",
     "AT": "at",
-    "CLICK_BELOW": "You can log-in (on any device) using the button below",
-    "RESPONSE": "ACCEPT_INVITE_CONFIRMATION.RESPONSE"
+    "CLICK_BELOW": "You can log-in (on any device) using the button below"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
-    "CLICK_BELOW": "You can also log-in (on any device) using the button below",
-    "RESPONSE": "CREATE_ACCOUNT_CONFIRMATION.RESPONSE"
+    "CLICK_BELOW": "You can also log-in (on any device) using the button below"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recently, while joining",
@@ -61,16 +59,11 @@
     "DELETE": "Request that we delete your data",
     "TO_REQUEST": "To request any of these actions, send an email to",
     "SUPPORT": "with your request and we'll take care of you.",
-    "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below:",
+    "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below",
     "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system."
   },
   "COMMON": {
     "JOIN": "Join",
-    "LOG_IN": "Log In",
-    "Join": "COMMON.Join"
-  },
-  "INVITED_YOU": {
-    "RESPONSE": "INVITED_YOU.RESPONSE",
-    "INVITED_YOU": "INVITED_YOU.INVITED_YOU"
+    "LOG_IN": "Log In"
   }
 }

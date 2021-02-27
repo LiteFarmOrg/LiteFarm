@@ -20,10 +20,6 @@
     "YOU_CAN_ACCEPT": "le invitan a registrar su finca en Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puedes conocer más sobre Litefarm en",
     "INVITED_YOU": "Puedes aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo"
   },
-  "INVITED_YOU": {
-    "RESPONSE": "INVITED_YOU.RESPONSE",
-    "INVITED_YOU": "INVITED_YOU.INVITED_YOU"
-  },
   "COMMON": {
     "JOIN": "Unete",
     "LOG_IN": "Iniciar Sesión"
@@ -34,12 +30,40 @@
     "IGNORE": "Si no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta."
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
-    "RESPONSE": "CREATE_ACCOUNT_CONFIRMATION.RESPONSE"
+    "WELCOME": "Bienvenido/a a Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de Litefarm en",
+    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo"
   },
   "ACCEPT_INVITE_CONFIRMATION": {
-    "RESPONSE": "ACCEPT_INVITE_CONFIRMATION.RESPONSE"
+    "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
+    "AT": "en",
+    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo"
   },
   "PASSWORD_RESET_CONFIRMATION": {
-    "UPDATED": "Hemos actualizado su clave en Litefarm. Haga clic abajo en `Iniciar Sesión` para acceder a su cuenta."
+    "UPDATED": "Hemos actualizado tu clave en Litefarm. Haz click en `Iniciar Sesion` abajo para acceder a tu cuenta."
+  },
+  "REVOKE_ACCESS": {
+    "ADMIN": "Al parece desde",
+    "REVOKE": "han revocado el acceso a su finca en Litefarm. Si ésto resulta inesperado, por favor contacte a algún administrador para resolver el problema."
+  },
+  "RESTORE_ACCESS": {
+    "ADMIN": "Al parecer desde",
+    "RESTORED": "han renovado su acceso a su finca. Bienvenido/a nuevamente!",
+    "CLICK_BELOW": "Inicie sesión haciendo clic abajo"
+  },
+  "WITHHOLD_CONSENT": {
+    "RECENT": "Recientemente, mientra formaba parte de",
+    "WITHHOLD": "en Litefarm, Ud. decidió retirar su consentimiento acerca de la politica de privacidad de Litefarm. Este es su absoluto derecho. Sin embargo, ésto también significa que no podrá volver a acceder a este programa. Lo lamentamos mucho.",
+    "DEACTIVATE": "Hemos desactivado su participación en",
+    "HOWEVER": "Sin embargo, todavia contamos con la información básica que Ud. compartió con nosotros al momento de crear su cuenta. Si estaba asociado/a a otra finca(s), también contamos con la información que Ud. ingresó trabajando en esas fincas.",
+    "RIGHT": "Ud. tiene los siguientes derechos acerca de la información proporcionada",
+    "COPY": "Conocer qué datos tenemos sobre Ud., y solicitar una copia de ellos",
+    "UPDATE": "Actualizar o corregir cualquier información que tengamos sobre Ud.",
+    "STOP": "Solicitar que dejemos de recolectar su información (acaba de solicitar ésto)",
+    "TRANSFER": "Pedir que le transfiramos su información",
+    "DELETE": "Pedir que eliminemos su información por completo",
+    "TO_REQUEST": "Para solicitar cualquiera de las acciones descritas, por favor envíenos un correo electrónico con su solicitud a",
+    "SUPPORT": "y la procesaremos.",
+    "OTHERWISE": "De otra manera, si Ud. luego decide reincorporarse a nuestro programa (desde cualquier dispositivo electrónico) puede hacerlo en cualquier momento aceptando nuestra política de privacidad. Para ésto, haga clic en el botón de abajo",
+    "RESTORE": "Si así lo hace, podrá acceder al programa Litefarm nuevamente."
   }
 }

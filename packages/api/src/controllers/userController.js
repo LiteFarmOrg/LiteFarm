@@ -246,7 +246,6 @@ const userController = {
     const sender = 'system@litefarm.org';
     const template_path = emails.INVITATION;
     template_path.subjectReplacements = farm;
-    console.log(user);
     sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference },
       user.email, sender, `/callback/?invite_token=${token}`);
   },

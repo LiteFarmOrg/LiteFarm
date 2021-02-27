@@ -1,47 +1,27 @@
 extends ./template
 block content
     p
-        | Recently, while joining
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=`${t('WITHHOLD_CONSENT.RECENT')} `
         strong #{farm}
-        |  on the LiteFarm application, you decided to withhold
-        |         your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you
-        |         won&apos;t be able to access the application. We&apos;re very sorry about this.
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=` ${t('WITHHOLD_CONSENT.WITHHOLD')}`
     p
-        | We&apos;ve de-activated your association to
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=`${t('WITHHOLD_CONSENT.DEACTIVATE')} `
         strong #{farm}
-        | . However, we still have the basic
-        |         information you shared with us while setting up your user account. If you&apos;re associated with other
-        |         farms, we also have any information you entered while working with those farms as well.
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-    p  You have the following rights regarding your data:
-    p=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=`. ${t('WITHHOLD_CONSENT.HOWEVER')}`
+    p=`${t('WITHHOLD_CONSENT.RIGHT')}`
     ul
-        li To know what data we have about you and request a copy of it
-        li=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-        li To update or correct any data we have about you
-        li=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-        li Request that we stop collecting your data (you&apos;ve just done this)
-        li=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-        li Request a transfer of your data
-        li=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-        li Request that we delete your data
-        li=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-
+        li=`${t('WITHHOLD_CONSENT.COPY')}`
+        li=`${t('WITHHOLD_CONSENT.UPDATE')}`
+        li=`${t('WITHHOLD_CONSENT.STOP')}`
+        li=`${t('WITHHOLD_CONSENT.TRANSFER')}`
+        li=`${t('WITHHOLD_CONSENT.DELETE')}`
     p
-        | To request any of these actions, send an email to
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=`${t('WITHHOLD_CONSENT.TO_REQUEST')} `
         a(href='mailto:data@litefarm.org') data@litefarm.org
-        |  with your request and we&apos;ll take care of you.
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=` ${t('WITHHOLD_CONSENT.SUPPORT')}`
     p
-        | Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy
-        | policy using the button below:
-        span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+        span=`${t('WITHHOLD_CONSENT.OTHERWISE')}:`
     .button-aligner
         a#email-button(href=`${buttonLink}` target='_blank')
-            button.button Log In span=`${t('WITHHOLD_CONSENT.RESPONSE')}`
-    p If you do so, you&apos;ll once again be able to access the LiteFarm system.
-    p=`${t('WITHHOLD_CONSENT.RESPONSE')}`
+            button.button=`${t('COMMON.LOG_IN')}`
+    p=`${t('WITHHOLD_CONSENT.RESTORE')}`

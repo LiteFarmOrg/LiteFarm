@@ -35,105 +35,22 @@ const emails = {
   HELP_REQUEST_EMAIL: { path: 'help_request_email' },
 };
 
-class sendEmailTemplate {
-  static async sendEmail(template_path, replacements, email, sender = 'system@litefarm.org', joinRelativeURL = null, language = 'en', attachments = []) {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      service: 'gmail',
-      auth: {
-        type: 'OAuth2',
-        clientId: credentials.LiteFarm_Service_Gmail.client_id,
-        clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
-      },
-    });
-    const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
-    const subject = addReplacements(template_path, subjectTranslation[language.substring(0, 2)][subjectKey]);
-    const filePath = path.join(__dirname, `../templates/${language}/${template_path.path}`);
-    const html = await fs.readFile(filePath, 'utf8');
-
-    // this compiles the html file, but template itself is a function
-    const template = handlebars.compile(html);
-
-    // after this the template is converted to strings
-    let htmlToSend = template({
-      ...replacements,
-      url: sendEmailTemplate.homeUrl('https://beta.litefarm.org'),
-      year: new Date().getFullYear(),
-    });
-
-    // this changes the join button href for invite a user email
-    const html_templates = [
-      'invitation_to_farm_email',
-      'send_confirmation_email',
-      'withheld_consent_email',
-      'restoration_of_access_to_farm_email',
-      'welcome_email',
-      'password_reset_email',
-      'reset_password_confirmation',
-      'help_request_email',
-    ];
-    if (html_templates.includes(template_path.path)) {
-      // using JSDOM to dynamically set the href for the Join button
-      const dom = new JSDOM(htmlToSend);
-
-      if (joinRelativeURL) {
-        dom.window.document.getElementById('email-button').setAttribute('href', `${sendEmailTemplate.homeUrl()}${joinRelativeURL}`);
-      } else {
-        const $button = dom.window.document.getElementById('email-button');
-        if ($button) {
-          const url = `${sendEmailTemplate.homeUrl()}/?email=${encodeURIComponent(email)}`;
-          dom.window.document.getElementById('email-button').setAttribute('href', url);
-        }
-      }
-      // this exports the dom back to a string
-      htmlToSend = dom.serialize();
-    }
-
-    const mailOptions = {
-      from: 'LiteFarm <' + sender + '>',
-      to: email,
-      subject,
-      html: htmlToSend,
-      auth: {
-        user: 'system@litefarm.org',
-        refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
-      },
-    };
-
-    if (template_path === emails.HELP_REQUEST_EMAIL) {
-      mailOptions.cc = 'support@litefarm.org';
-      if (attachments.length && attachments[0]) {
-        mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
-      }
-    }
-    transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        return console.log(error);
-      }
-      console.log('Message sent: ' + info.response);
-    });
-
-  }
-
-  static homeUrl(defaultUrl = 'http://localhost:3000') {
-    const environment = process.env.NODE_ENV || 'development';
-    let homeUrl = defaultUrl;
-    if (environment === 'integration') {
-      homeUrl = 'https://beta.litefarm.org';
-    } else if (environment === 'production') {
-      homeUrl = 'https://app.litefarm.org';
-    }
-    return homeUrl;
-  }
-}
-
 function addReplacements(template, subject) {
   if (subject.includes('??') && template.subjectReplacements) {
     return subject.replace('??', template.subjectReplacements);
   }
   return subject;
+}
+
+function homeUrl(defaultUrl = 'http://localhost:3000') {
+  const environment = process.env.NODE_ENV || 'development';
+  let homeUrl = defaultUrl;
+  if (environment === 'integration') {
+    homeUrl = 'https://beta.litefarm.org';
+  } else if (environment === 'production') {
+    homeUrl = 'https://app.litefarm.org';
+  }
+  return homeUrl;
 }
 
 function sendEmail(template_path, replacements, email_to, sender = 'system@litefarm.org', buttonLink = null, language = 'en', attachments = []) {
@@ -193,18 +110,8 @@ function sendEmail(template_path, replacements, email_to, sender = 'system@litef
 }
 
 module.exports = {
-  sendEmailTemplate,
   emails,
   sendEmail,
 };
 
-function homeUrl(defaultUrl = 'http://localhost:3000') {
-  const environment = process.env.NODE_ENV || 'development';
-  let homeUrl = defaultUrl;
-  if (environment === 'integration') {
-    homeUrl = 'https://beta.litefarm.org';
-  } else if (environment === 'production') {
-    homeUrl = 'https://app.litefarm.org';
-  }
-  return homeUrl;
-}
+

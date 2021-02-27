@@ -81,6 +81,18 @@
   "EXPIRED_TOKEN": {
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
+  "FARM_MAP": {
+    "SPOTLIGHT": {
+      "ADD": "MISSING",
+      "ADD_TITLE": "MISSING",
+      "EXPORT": "MISSING",
+      "EXPORT_TITLE": "MISSING",
+      "FILTER": "MISSING",
+      "FILTER_TITLE": "MISSING",
+      "HERE_YOU_CAN": "MISSING"
+    },
+    "TITLE": "MISSING"
+  },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
     "EDIT_FIELD": {
@@ -381,25 +393,21 @@
     "TITLE": "Registro de Trabalho de Campo"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_TYPE": {
-      "INPUT_LABEL": "Nome customizado para o uso da colheita",
-      "TITLE": "Adicione um uso para colheita"
-    },
     "ADD_CUSTOM_USE_TYPE": "Adicione um uso",
+    "CROP": "Choose a crop",
+    "CROP_PLACEHOLDER": "Select a crop",
+    "FIELD": "Choose a field",
+    "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "Quanto da colheita será destinado para cada propósito?",
-    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar",
     "HARVEST_ALLOCATION_TITLE": "Registro de colheita (passo 3 de 3)",
     "HARVEST_QUANTITY": "Quantidade de Colheita",
     "HARVEST_USE": "Uso da colheita",
     "HARVEST_USE_TYPE_SUBTITLE": "Como a colheita sera utilizada/destinada?",
     "HARVEST_USE_TYPE_TITLE": "Registro de colheita (passo 2 de 3)",
-    "FIELD": "Choose a field",
-    "CROP": "Choose a crop",
-    "FIELD_PLACEHOLDER": "Select a field",
-    "CROP_PLACEHOLDER": "Select a crop",
     "QUANTITY": "Quantidade",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Registro de Colheita (passo 1 de 3)",
-    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Quantidade para alocar"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Taxa de Fluxo",
@@ -468,9 +476,6 @@
     "TITLE": "Registro de dados do solo",
     "TOTAL_CARBON": "Carbono Total"
   },
-  "LOGIN": {
-    "TITLE": "Tudo que você precisa para administrar sua fazenda, no seu bolso."
-  },
   "MY_FARM": {
     "FARM_INFO": "Informação da fazenda",
     "FARM_MAP": "Mapa de fazenda/sitio",
@@ -485,17 +490,6 @@
       "PROFILE": "Aqui você encontrará :, • Suas informações, • Dicas úteis, • O botão de logout",
       "PROFILE_TITLE": "Seu Perfil"
     }
-  },
-  "NEW_FINANCES": {
-    "BALANCE": "Saldo",
-    "EXPENSES": "Despesas",
-    "SALE": {
-      "DETAILED_HISTORY": "História Detalhada",
-      "SUMMARY": "Resumo"
-    },
-    "SALES": "Sales",
-    "SUMMARY_REPORT": "Relatório resumido para",
-    "TITLE": "Finanças"
   },
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Em breve!"
@@ -609,7 +603,6 @@
       "CUSTOMER_NAME": "Nome do Cliente",
       "CUSTOMER_NAME_REQUIRED": "Nome do Cliente é necessário",
       "DATE": "Data",
-      "NEW": "MISSING",
       "TABLE_HEADERS": {
         "CROPS": "Cultivos",
         "QUANTITY": "Quantidade",
@@ -778,18 +771,14 @@
     "TITLE": "Turnos"
   },
   "SIGNUP": {
-    "DIDNT_WORK": "Não funcionou.",
     "EMAIL_INVALID": "MISSING",
     "ENTER_EMAIL": "MISSING",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",
-    "OOPS": "Opa!",
     "PASSWORD_ERROR": "Senha incorreta",
-    "PLEASE_SIGNUP": "Por favor inscreva-se.",
     "SIGN_IN": "Conecte-se",
     "SSO_ERROR": "Faça login clicando no botão do Google acima",
-    "TITLE": "Inscrever-se",
     "WELCOME_BACK": "MISSING",
     "WRONG_BROWSER": "LiteFarm não é otimizado para este navegador.",
     "WRONG_BROWSER_BOTTOM": "Faça login usando o Chrome."
@@ -829,6 +818,5 @@
   },
   "WELCOME_SCREEN": {
     "BUTTON": "Vamos começar"
-  },
-  "LOGIN_BUTTON": "Login ou Cadastre-se"
+  }
 }

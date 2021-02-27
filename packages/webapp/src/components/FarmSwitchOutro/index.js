@@ -2,14 +2,11 @@ import styles from './styles.module.scss';
 import { ReactComponent as OutroImg } from '../../assets/images/farm-switch-outro/outro.svg';
 import Button from '../Form/Button';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
 import { useTranslation } from 'react-i18next';
 
-export default function FarmSwitchPureOutroSplash({ onFinish }) {
+export default function FarmSwitchPureOutroSplash({ onFinish, farm_name }) {
+  //TODO move selector to container
   const { t } = useTranslation();
-  const userFarm = useSelector(userFarmSelector);
-  const newFarm = userFarm.farm_name;
   const descriptionTop = t('SWITCH_OUTRO.DESCRIPTION_TOP');
   const descriptionBottom = t('SWITCH_OUTRO.DESCRIPTION_BOTTOM');
 
@@ -22,7 +19,7 @@ export default function FarmSwitchPureOutroSplash({ onFinish }) {
 
       <div className={styles.descriptionTop}>{descriptionTop}</div>
       <div className={styles.descriptionBottom}>{descriptionBottom}</div>
-      <div className={styles.bold}>{newFarm}</div>
+      <div className={styles.bold}>{farm_name}</div>
       <Button
         className={styles.bottomContainer}
         children={t('SWITCH_OUTRO.BUTTON')}

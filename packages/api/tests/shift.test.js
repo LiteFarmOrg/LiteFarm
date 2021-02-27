@@ -8,7 +8,7 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 
-describe('Shift tests', () => {
+xdescribe('Shift tests', () => {
   let middleware;
   beforeAll(() => {
     middleware = require('../src/middleware/acl/checkJwt');

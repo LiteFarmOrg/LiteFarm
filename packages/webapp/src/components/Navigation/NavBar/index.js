@@ -1,76 +1,97 @@
-import styles from './styles.module.scss';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactJoyride, { STATUS } from 'react-joyride';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../../ProfileFloater';
-import MyFarmIcon from '../../../assets/images/my-farm.svg';
-import NotifIcon from '../../../assets/images/notif.svg';
+import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
+import { ReactComponent as NotifIcon } from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
-import ProfilePicture from '../../../assets/images/navbar/defaultpfp.png';
+import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
 import PureMyFarmFloater from '../../MyFarmFloater';
 import PureNotificationFloater from '../../NotificationFloater';
-import clsx from 'clsx';
 import { logout } from '../../../util/jwt';
 import { useTranslation } from 'react-i18next';
+import SmallerLogo from '../../../assets/images/smaller_logo.svg';
+import SmallLogo from '../../../assets/images/small_logo.svg';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import { BiMenu } from 'react-icons/all';
+import { colors } from '../../../assets/theme';
+import { ClickAwayListener, SwipeableDrawer } from '@material-ui/core';
+import SlideMenu from './slideMenu';
+import PropTypes from 'prop-types';
+
+const useStyles = makeStyles((theme) => ({
+  menuButton: {
+    position: 'absolute',
+    padding: 0,
+    left: '24px',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+  icons: {
+    display: 'flex',
+    position: 'absolute',
+    right: '8px',
+  },
+  appBar: {
+    background:
+      'linear-gradient(96.68deg,#78c99e -4.29%,#c7efd3 24.32%,#e3f8ec 35.52%,#e3f8ec 64.28%,#c7efd3 80.81%,#78c99e 125.09%)',
+    boxShadow: 'none',
+    minHeight: '54px',
+    [theme.breakpoints.up('md')]: {
+      minHeight: '72px',
+    },
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexGrow: 1,
+    alignItems: 'center',
+    [theme.breakpoints.up('md')]: {
+      justifyContent: 'center',
+    },
+  },
+  notificationButton: {
+    transform: 'translateY(1px)',
+  },
+  profileButton: {
+    transform: 'translateY(-2px)',
+  },
+  iconButton: {
+    margin: theme.spacing(1),
+    padding: 0,
+  },
+  burgerMenu: {
+    fontSize: '32px',
+    color: colors.teal700,
+    [theme.breakpoints.up('md')]: {
+      fontSize: '40px',
+    },
+  },
+  green: {
+    color: colors.teal700,
+  },
+  p: {
+    marginBottom: '16px',
+  },
+  black: {
+    color: colors.grey900,
+  },
+}));
 
 export default function PureNavBar({
-  logo,
-  children,
   showSpotLight,
   resetSpotlight,
-  changeInteraction,
-  isOneTooltipOpen,
   showSwitchFarm,
-  tooltipInteraction,
   history,
+  setDefaultDateRange,
+  showFinances,
+  defaultOpenFloater,
 }) {
-  const resetSpotlightStatus = (data) => {
-    const { action, status } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
-      resetSpotlight();
-    }
-  };
-  //PureMyFarmFloater
-  const farmInfoClick = () => {
-    history.push({
-      pathname: '/Profile',
-      state: 'farm',
-    });
-    changeInteraction('myFarm');
-  };
-  const farmMapClick = () => {
-    history.push('/Field');
-    changeInteraction('myFarm');
-  };
-  const peopleClick = () => {
-    history.push({
-      pathname: '/Profile',
-      state: 'people',
-    });
-    changeInteraction('myFarm');
-  };
-
-  //PureProfileFloater
-  const helpClick = () => {
-    history.push('/help');
-    changeInteraction('profile');
-  };
-  const switchFarmClick = () => {
-    history.push('/farm_selection');
-    changeInteraction('profile');
-  };
-  const logOutClick = () => {
-    logout();
-    changeInteraction('profile');
-  };
-  const myInfoClick = () => {
-    history.push('/Profile');
-    changeInteraction('profile');
-  };
-
-  // Pure Notification Floater
-  const notificationTeaserClick = () => {
-    changeInteraction('notification');
-  };
+  const classes = useStyles();
   const { t } = useTranslation([
     'translation',
     'crop',
@@ -85,16 +106,89 @@ export default function PureNavBar({
     'harvest_uses',
     'soil',
   ]);
+  //Drawer
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const closeDrawer = () => setIsDrawerOpen(false);
+  const burgerMenuOnClick = () => setIsDrawerOpen((prev) => !prev);
+  const [manageOpen, setManageOpen] = useState(true);
+  const toggleManage = () => {
+    setManageOpen(!manageOpen);
+  };
+
+  //Floater
+  const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
+  const [FARM, NOTIFICATION, PROFILE] = ['farm', 'notification', 'profile'];
+  const isFarmFloaterOpen = openFloater === FARM;
+  const isNotificationFloaterOpen = openFloater === NOTIFICATION;
+  const isProfileFloaterOpen = openFloater === PROFILE;
+  const closeFloater = () => setOpenFloater(null);
+  const farmButtonOnClick = () => setOpenFloater(isFarmFloaterOpen ? null : FARM);
+  const notificationButtonOnClick = () =>
+    setOpenFloater(isNotificationFloaterOpen ? null : NOTIFICATION);
+  const profileButtonOnClick = () => setOpenFloater(isProfileFloaterOpen ? null : PROFILE);
+  const onClickAway = () => {
+    setOpenFloater(null);
+  };
+
+  const farmInfoClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: 'farm',
+    });
+    closeFloater();
+  };
+  const farmMapClick = () => {
+    history.push('/map');
+    closeFloater();
+  };
+  const peopleClick = () => {
+    history.push({
+      pathname: '/Profile',
+      state: 'people',
+    });
+    closeFloater();
+  };
+
+  //PureProfileFloater
+  const helpClick = () => {
+    history.push('/help');
+    closeFloater();
+  };
+  const switchFarmClick = () => {
+    history.push('/farm_selection');
+    closeFloater();
+  };
+  const logOutClick = () => {
+    logout();
+    closeFloater();
+  };
+  const myInfoClick = () => {
+    history.push('/Profile');
+    closeFloater();
+  };
+
+  // Pure Notification Floater
+  const notificationTeaserClick = () => {
+    closeFloater();
+  };
+
+  //Spotlight
+  const resetSpotlightStatus = (data) => {
+    const { action, status } = data;
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === 'close') {
+      resetSpotlight();
+    }
+  };
   const farmSpotlight = t('NAVIGATION.SPOTLIGHT.FARM');
   const notificationsSpotlight = t('NAVIGATION.SPOTLIGHT.NOTIFICATION');
   const myProfileSpotlight = t('NAVIGATION.SPOTLIGHT.PROFILE');
   const steps = [
     {
       target: '#firstStep',
-      title: returnContent(t('NAVIGATION.SPOTLIGHT.FARM_TITLE'), true),
-      content: returnContent(farmSpotlight, false),
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.FARM_TITLE'), true, classes),
+      content: returnContent(farmSpotlight, false, classes),
       locale: {
-        next: returnNextButton(t('common:NEXT')),
+        next: returnNextButton(t('common:NEXT'), classes),
       },
       showCloseButton: false,
       disableBeacon: true,
@@ -107,10 +201,10 @@ export default function PureNavBar({
     },
     {
       target: '#secondStep',
-      title: returnContent(t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'), true),
-      content: returnContent(notificationsSpotlight, false),
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.NOTIFICATION_TITLE'), true, classes),
+      content: returnContent(notificationsSpotlight, false, classes),
       locale: {
-        next: returnNextButton(t('common:NEXT')),
+        next: returnNextButton(t('common:NEXT'), classes),
       },
       showCloseButton: false,
       placement: 'right-start',
@@ -122,10 +216,10 @@ export default function PureNavBar({
     },
     {
       target: '#thirdStep',
-      title: returnContent(t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'), true),
-      content: returnContent(myProfileSpotlight, false),
+      title: returnContent(t('NAVIGATION.SPOTLIGHT.PROFILE_TITLE'), true, classes),
+      content: returnContent(myProfileSpotlight, false, classes),
       locale: {
-        last: returnNextButton(t('common:GOT_IT')),
+        last: returnNextButton(t('common:GOT_IT'), classes),
       },
       placement: 'right-start',
       showCloseButton: false,
@@ -133,19 +227,104 @@ export default function PureNavBar({
         options: {
           width: 210,
         },
+        tooltip: {
+          transform: 'translateX(-12px)',
+        },
       },
       floaterProps: {
         styles: {
           floater: {
-            marginRight: '12px',
+            marginRight: '0',
           },
         },
       },
     },
   ];
   return (
-    <nav className={styles.navBar}>
-      <div className={styles.actionItemContainer}>
+    <AppBar position="sticky" className={classes.appBar}>
+      <Toolbar className={classes.toolbar}>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="open drawer"
+          onClick={burgerMenuOnClick}
+        >
+          <BiMenu className={classes.burgerMenu} />
+        </IconButton>
+        <SwipeableDrawer
+          anchor={'left'}
+          open={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          onOpen={() => setIsDrawerOpen(true)}
+        >
+          <SlideMenu
+            history={history}
+            manageOpen={manageOpen}
+            closeDrawer={closeDrawer}
+            toggleManage={toggleManage}
+            setIsDrawerOpen={setIsDrawerOpen}
+            setDefaultDateRange={setDefaultDateRange}
+            showFinances={showFinances}
+          />
+        </SwipeableDrawer>
+        <Logo history={history} />
+        <ClickAwayListener onClickAway={onClickAway}>
+          <div className={classes.icons}>
+            <PureMyFarmFloater
+              openProfile={isFarmFloaterOpen}
+              farmInfoClick={farmInfoClick}
+              farmMapClick={farmMapClick}
+              peopleClick={peopleClick}
+            >
+              <IconButton
+                aria-label="farm-icon"
+                color="inherit"
+                id="firstStep"
+                className={classes.iconButton}
+                onClick={farmButtonOnClick}
+              >
+                <MyFarmIcon />
+              </IconButton>
+            </PureMyFarmFloater>
+            <PureNotificationFloater
+              openProfile={isNotificationFloaterOpen}
+              notificationTeaserClick={notificationTeaserClick}
+            >
+              <IconButton
+                aria-label="notification icon"
+                color="inherit"
+                id="secondStep"
+                onClick={notificationButtonOnClick}
+                className={classes.iconButton}
+                classes={{ root: classes.notificationButton }}
+              >
+                <NotifIcon />
+              </IconButton>
+            </PureNotificationFloater>
+
+            <PureProfileFloater
+              showSwitchFarm={showSwitchFarm}
+              openProfile={isProfileFloaterOpen}
+              helpClick={helpClick}
+              myInfoClick={myInfoClick}
+              logOutClick={logOutClick}
+              switchFarmClick={switchFarmClick}
+            >
+              <IconButton
+                edge="end"
+                aria-label="profile icon"
+                color="inherit"
+                onClick={profileButtonOnClick}
+                id="thirdStep"
+                className={classes.iconButton}
+                classes={{ root: classes.profileButton }}
+              >
+                <ProfilePicture />
+              </IconButton>
+            </PureProfileFloater>
+          </div>
+        </ClickAwayListener>
         {showSpotLight && (
           <ReactJoyride
             steps={steps}
@@ -165,7 +344,7 @@ export default function PureNavBar({
                 //width of modal
                 width: 270,
                 //zindex of modal
-                zIndex: 100,
+                zIndex: 1500,
               },
               buttonClose: {
                 display: 'none',
@@ -183,81 +362,22 @@ export default function PureNavBar({
             }}
           />
         )}
-        <PureMyFarmFloater
-          openProfile={tooltipInteraction['myFarm']}
-          farmInfoClick={farmInfoClick}
-          farmMapClick={farmMapClick}
-          peopleClick={peopleClick}
-        >
-          <input
-            id="firstStep"
-            type="image"
-            src={MyFarmIcon}
-            className={clsx(styles.actionItem, styles.inFloater)}
-            onClick={() => changeInteraction('myFarm')}
-          />
-        </PureMyFarmFloater>
-        <PureNotificationFloater
-          openProfile={tooltipInteraction['notification']}
-          notificationTeaserClick={notificationTeaserClick}
-        >
-          <input
-            id="secondStep"
-            type="image"
-            src={NotifIcon}
-            className={clsx(styles.actionItem, styles.inFloater)}
-            onClick={() => changeInteraction('notification')}
-          />
-        </PureNotificationFloater>
-        <PureProfileFloater
-          showSwitchFarm={showSwitchFarm}
-          openProfile={tooltipInteraction['profile']}
-          helpClick={helpClick}
-          myInfoClick={myInfoClick}
-          logOutClick={logOutClick}
-          switchFarmClick={switchFarmClick}
-        >
-          <input
-            data-testid="thirdStep"
-            id="thirdStep"
-            type="image"
-            src={ProfilePicture}
-            className={clsx(styles.profilePicture)}
-            onClick={() => changeInteraction('profile')}
-          />
-        </PureProfileFloater>
-        {isOneTooltipOpen && (
-          <div
-            style={{
-              position: 'fixed',
-              zIndex: 100000,
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.01)',
-            }}
-            onClick={() => changeInteraction('', true)}
-          />
-        )}
-      </div>
-      <div className={styles.itemContainer}>{logo}</div>
-      {children}
-    </nav>
+      </Toolbar>
+    </AppBar>
   );
 }
 
-const returnContent = (spotlightType, title) => {
+const returnContent = (spotlightType, title, classes) => {
   return spotlightType.split(',').map(function (item, key) {
     return title ? (
-      <span key={key} className={styles.green}>
-        <p align="left" className={styles.p}>
+      <span key={key} className={classes.green}>
+        <p align="left" className={classes.p}>
           {item}
         </p>
       </span>
     ) : (
       <span key={key}>
-        <p align="left" className={styles.p}>
+        <p align="left" className={classes.p}>
           {item}
         </p>
       </span>
@@ -265,6 +385,29 @@ const returnContent = (spotlightType, title) => {
   });
 };
 
-const returnNextButton = (str) => {
-  return <span className={styles.black}>{str}</span>;
+const returnNextButton = (str, classes) => {
+  return <span className={classes.black}>{str}</span>;
+};
+
+const Logo = ({ history }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  return (
+    <img
+      src={matches ? SmallLogo : SmallerLogo}
+      style={{ marginLeft: matches ? 0 : '36px', cursor: 'pointer' }}
+      alt="Logo"
+      onClick={() => history.push('/')}
+    />
+  );
+};
+
+PureNavBar.propTypes = {
+  showSpotLight: PropTypes.bool,
+  resetSpotlight: PropTypes.func,
+  showSwitchFarm: PropTypes.bool,
+  history: PropTypes.object,
+  setDefaultDateRange: PropTypes.func,
+  showFinances: PropTypes.bool,
+  defaultOpenFloater: PropTypes.oneOf(['farm', 'notification', 'profile']),
 };

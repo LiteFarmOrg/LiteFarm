@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  // background: lime;
+  height: 64px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  // margin-top: 5px;
+}
+
+.button {
+  flex-grow: 1;
+  text-align: center;
+  border: 1px solid var(--grey400);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+
+  .svg {
+    fill: var(--grey600);
+  }
+}
+
+.button:hover, .spotlighted {
+  border-top: 8px solid var(--teal700);
+  padding-bottom: 8px;
+
+  .svg {
+    fill: var(--teal700);
+  }
+}
+
+.spotlightTitle {
+  color: var(--teal700);
+}
+
+.spotlightText {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.spotlightButton {
+  color: var(--grey900);
+}

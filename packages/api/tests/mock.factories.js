@@ -98,27 +98,61 @@ function fakeFarmDataSchedule() {
   };
 }
 
-async function fieldFactory({
-  promisedStation = weather_stationFactory(),
-  promisedFarm = farmFactory(),
-} = {}, field = fakeField()) {
-  const [station, farm, user] = await Promise.all([promisedStation, promisedFarm, usersFactory()]);
-  const [{ station_id }] = station;
+async function locationFactory({ promisedFarm = farmFactory()} = {}, location = fakeLocation()){
+  const [farm, user] = await Promise.all([promisedFarm, usersFactory()]);
   const [{ farm_id }] = farm;
   const [{ user_id }] = user;
   const base = baseProperties(user_id);
-  return knex('field').insert({ station_id, farm_id, ...field, ...base }).returning('*');
+  return knex('location').insert({ farm_id, ...base, ...location}).returning('*');
 }
 
-
-function fakeField() {
+function fakeLocation() {
   return {
-    field_name: faker.random.arrayElement(['Test Field', 'Awesome Field', 'Nice Field']),
-    area: faker.random.number(2000),
+    name: faker.random.arrayElement(['Location1', 'Nice Location', 'Fence', 'AreaLocation']),
+    notes: faker.lorem.word(3)
+  }
+}
+
+async function areaFactory({
+  promisedLocation = locationFactory()
+} ={} , area = fakeArea()) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  const { type, ...realArea} = area;
+  const [{ figure_id }] = await figureFactory(location_id, type);
+  return knex('area').insert({ figure_id , ...realArea})
+}
+
+function figureFactory(location_id, type) {
+  return knex('figure').insert({ location_id, type}).returning('*');
+}
+
+function fakeArea() {
+  return {
+    total_area: faker.random.number(2000),
     grid_points: JSON.stringify([{
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }]),
+    type: faker.random.arrayElement([ 'barn', 'greenhouse', 'residence'])
+  };
+}
+
+async function fieldFactory({
+  promisedStation = weather_stationFactory(),
+  promisedLocation = locationFactory()
+} = {}, field = fakeField()) {
+  const [station, location] = await Promise.all([promisedStation, promisedLocation]);
+  const [{ station_id }] = station;
+  const [{ location_id }] = location;
+  await areaFactory({ promisedLocation: location });
+  return knex('field').insert({ field_id: location_id, station_id, ...field  }).returning('*');
+}
+
+function fakeField() {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    transition_date: faker.date.future(),
   };
 }
 
@@ -262,14 +296,14 @@ function fakeExpense() {
 }
 
 async function fieldCropFactory({
-  promisedField = fieldFactory(),
+  promisedLocation = locationFactory(),
   promisedCrop = cropFactory(),
 } = {}, fieldCrop = fakeFieldCrop()) {
-  const [field, crop] = await Promise.all([promisedField, promisedCrop]);
-  const [{ field_id, created_by_user_id }] = field;
+  const [field, crop] = await Promise.all([promisedLocation, promisedCrop]);
+  const [{ location_id, created_by_user_id }] = field;
   const [{ crop_id }] = crop;
   const base = baseProperties(created_by_user_id);
-  return knex('fieldCrop').insert({ field_id, crop_id, ...fieldCrop, ...base }).returning('*');
+  return knex('fieldCrop').insert({ field_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
 
 }
 
@@ -649,11 +683,11 @@ function fakeWaterBalance() {
   };
 }
 
-async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() } = {}, waterBalance = fakeWaterBalance()) {
-  const [fieldCrop] = await Promise.all([promisedFieldCrop]);
-  const [{ field_id, crop_id }] = fieldCrop;
-  return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
-}
+// async function waterBalanceFactory({ promisedFieldCrop = fieldCropFactory() } = {}, waterBalance = fakeWaterBalance()) {
+//   const [fieldCrop] = await Promise.all([promisedFieldCrop]);
+//   const [{ field_id, crop_id }] = fieldCrop;
+//   return knex('waterBalance').insert({ field_id, crop_id, ...waterBalance }).returning('*');
+// }
 
 function fakeNitrogenSchedule() {
   return {
@@ -784,7 +818,7 @@ module.exports = {
   fakeTaskType, taskTypeFactory,
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
-  fakeWaterBalance, waterBalanceFactory,
+  fakeWaterBalance,
   fakeCropSale, cropSaleFactory,
   farmExpenseTypeFactory, fakeExpenseType,
   farmExpenseFactory, fakeExpense,

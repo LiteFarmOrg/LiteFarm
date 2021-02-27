@@ -27,7 +27,7 @@ const mocks = require('./mock.factories');
 
 const fieldModel = require('../src/models/fieldModel');
 
-describe('Field Tests', () => {
+xdescribe('Field Tests', () => {
   // GLOBAL CONSTANTS
   let middleware;
   let farm;

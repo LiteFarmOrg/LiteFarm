@@ -1,0 +1,45 @@
+{
+  "HELP_REQUEST": {
+    "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda lo/la contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
+    "TYPE_HEADER": "Tipo de soporte",
+    "MESSAGE_HEADER": "Mensaje",
+    "CONTACT_METHOD_HEADER": "Metodo de contacto preferido"
+  },
+  "TEMPLATE": {
+    "DEAR": "Querido",
+    "CHEERS": "Saludos",
+    "LITEFARM_TEAM": "El equipo de LiteFarm",
+    "NO_RESPONSE": "Por favor no responda a este correo electrónico.",
+    "GET_IN_TOUCH": "To get in touch with us, click",
+    "HELP": "help",
+    "OR": "or",
+    "CONTACT": "contact us"
+  },
+  "INVITE": {
+    "GREAT_FOLK": "Las personas de",
+    "YOU_CAN_ACCEPT": "le invitan a registrar su finca en Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puedes conocer más sobre Litefarm en",
+    "INVITED_YOU": "Puedes aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo"
+  },
+  "INVITED_YOU": {
+    "RESPONSE": "INVITED_YOU.RESPONSE",
+    "INVITED_YOU": "INVITED_YOU.INVITED_YOU"
+  },
+  "COMMON": {
+    "JOIN": "Unete",
+    "LOG_IN": "Iniciar Sesión"
+  },
+  "PASSWORD_RESET_REQUEST": {
+    "DID_YOU_FORGET": "Olvidó su clave en Litefarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
+    "RESET": "Cambiar Clave",
+    "IGNORE": "Si no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta."
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "RESPONSE": "CREATE_ACCOUNT_CONFIRMATION.RESPONSE"
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "RESPONSE": "ACCEPT_INVITE_CONFIRMATION.RESPONSE"
+  },
+  "PASSWORD_RESET_CONFIRMATION": {
+    "UPDATED": "Hemos actualizado su clave en Litefarm. Haga clic abajo en `Iniciar Sesión` para acceder a su cuenta."
+  }
+}

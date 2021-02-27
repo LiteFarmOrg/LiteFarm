@@ -9,15 +9,12 @@
   background: #C7EFD3;
 }
 
-img {
+#logo {
+  height: 48px;
   display: block;
   margin: auto;
   padding: 0px 28px;
   background: white;
-}
-
-#logo {
-  height: 48px;
 }
 
 .main-container {

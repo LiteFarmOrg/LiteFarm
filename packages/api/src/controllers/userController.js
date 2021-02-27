@@ -23,7 +23,7 @@ const farmModel = require('../models/farmModel');
 const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 
 
 const userController = {
@@ -68,11 +68,12 @@ const userController = {
           const template_path = emails.WELCOME;
           const replacements = {
             first_name: userResult.first_name,
+            locale: language_preference,
           };
           const sender = 'system@litefarm.org';
           console.log('template_path:', template_path);
           if (userResult.email && template_path) {
-            await sendEmailTemplate.sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
+            sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
@@ -107,6 +108,7 @@ const userController = {
         phone_number,
       } = req.body;
       const { type: wageType, amount: wageAmount } = wage || {};
+      wage.amount = wageAmount ? wageAmount : 0;
       const email = reqEmail && reqEmail.toLowerCase();
       /* Start of input validation */
       const requiredProps = {
@@ -150,7 +152,7 @@ const userController = {
         .where('user_id', created_user_id).andWhere('farm_id', farm_id).first();
 
       if (userExistOnThisFarm) {
-        res.status(409).send({ error: 'User already exists on this farm' });
+        res.status(400).send({ error: 'User already exists on this farm' });
         return;
       }
       const { farm_name } = await farmModel.query().where('farm_id', farm_id).first();
@@ -194,7 +196,16 @@ const userController = {
         await trx.commit();
         res.status(201).send({ ...user, ...userFarm });
         try {
-          await this.createTokenSendEmail({ email, first_name, last_name, gender, birth_year }, userFarm, farm_name);
+          const { language_preference } = await userModel.query().findById(req.user.user_id);
+
+          await this.createTokenSendEmail({
+            email,
+            first_name,
+            last_name,
+            gender,
+            birth_year,
+            language_preference,
+          }, userFarm, farm_name);
         } catch (e) {
           console.error('Failed to send email', e);
         }
@@ -235,7 +246,8 @@ const userController = {
     const sender = 'system@litefarm.org';
     const template_path = emails.INVITATION;
     template_path.subjectReplacements = farm;
-    await sendEmailTemplate.sendEmail(template_path, { first_name: user.first_name, farm },
+    console.log(user);
+    sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference },
       user.email, sender, `/callback/?invite_token=${token}`);
   },
 
@@ -358,6 +370,7 @@ const userController = {
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
+          locale: rows[0].language_preference,
         };
         const sender = 'help@litefarm.org';
         const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({
@@ -369,7 +382,7 @@ const userController = {
           //send email informing user their access revoked (unless user is no account worker - no email)
           try {
             if (rows[0].email) {
-              await sendEmailTemplate.sendEmail(
+              sendEmail(
                 template_path,
                 replacements,
                 rows[0].email,

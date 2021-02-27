@@ -16,7 +16,7 @@
 const baseController = require('../controllers/baseController');
 const userModel = require('../models/userModel');
 const passwordModel = require('../models/passwordModel');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 
@@ -68,9 +68,10 @@ const passwordResetController = {
         const template_path = emails.PASSWORD_RESET;
         const replacements = {
           first_name: userData.first_name,
+          locale: userData.language_preference,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`, userData.language_preference);
+        sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`, userData.language_preference);
 
         return res.status(200).send('Email successfully sent');
       } catch (error) {
@@ -106,9 +107,10 @@ const passwordResetController = {
         const template_path = emails.PASSWORD_RESET_CONFIRMATION;
         const replacements = {
           first_name,
+          locale: language_preference,
         };
         const sender = 'system@litefarm.org';
-        await sendEmailTemplate.sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, language_preference);
+        sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, language_preference);
         await userModel.query().findById(user_id).patch({ status_id: 1 });
 
         return res.status(200).send({ id_token });

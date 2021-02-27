@@ -1,0 +1,46 @@
+{
+  "TEMPLATE": {
+    "DEAR": "Dear",
+    "CHEERS": "Cheers",
+    "LITEFARM_TEAM": "The LiteFarm team",
+    "NO_RESPONSE": "Please do not reply to this email.",
+    "GET_IN_TOUCH": "To get in touch with us, click",
+    "HELP": "help",
+    "OR": "or",
+    "CONTACT": "contact us"
+  },
+  "HELP_REQUEST": {
+    "RESPONSE": "Thanks for reaching out. Someone on our support team will be in touch within 48 hours. A summary of your request is shown below.",
+    "TYPE_HEADER": "Type of support",
+    "MESSAGE_HEADER": "Message",
+    "CONTACT_METHOD_HEADER": "Preferred contact method"
+  },
+  "INVITE": {
+    "GREAT_FOLK": "INVITE.GREAT_FOLK",
+    "YOU_CAN_ACCEPT": "INVITE.YOU_CAN_ACCEPT",
+    "INVITED_YOU": "INVITE.INVITED_YOU"
+  },
+  "INVITED_YOU": {
+    "RESPONSE": "INVITED_YOU.RESPONSE",
+    "INVITED_YOU": "INVITED_YOU.INVITED_YOU"
+  },
+  "COMMON": {
+    "Join": "COMMON.Join",
+    "JOIN": "COMMON.JOIN",
+    "LOG_IN": "COMMON.LOG_IN"
+  },
+  "PASSWORD_RESET_REQUEST": {
+    "DID_YOU_FORGET": "PASSWORD_RESET_REQUEST.DID_YOU_FORGET",
+    "RESET": "PASSWORD_RESET_REQUEST.RESET",
+    "IGNORE": "PASSWORD_RESET_REQUEST.IGNORE"
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "RESPONSE": "CREATE_ACCOUNT_CONFIRMATION.RESPONSE"
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "RESPONSE": "ACCEPT_INVITE_CONFIRMATION.RESPONSE"
+  },
+  "PASSWORD_RESET_CONFIRMATION": {
+    "UPDATED": "PASSWORD_RESET_CONFIRMATION.UPDATED"
+  }
+}

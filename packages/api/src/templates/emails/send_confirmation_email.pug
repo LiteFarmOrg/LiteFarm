@@ -1,0 +1,16 @@
+extends ./template
+block content
+    p
+        | Congrats on becoming the newest
+        span=`${t('ACCEPT_INVITE_CONFIRMATION.RESPONSE')}`
+
+        strong #{role}
+        |  at
+        span=`${t('ACCEPT_INVITE_CONFIRMATION.RESPONSE')}`
+        strong #{farm}
+        | !
+    p You can log-in (on any device) using the button below:
+    p=`${t('ACCEPT_INVITE_CONFIRMATION.RESPONSE')}`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button Log In

@@ -70,14 +70,14 @@ class userFarm extends Model {
         created_at: { type: 'string' },
         consent_version: { type: 'string' },
         wage: {
-          type : 'object',
+          type: ['object', null],
           required: ['type', 'amount'],
           properties: {
             type: {
               type: 'string',
               enum: ['hourly', 'annually'],
             },
-            amount:{ type: 'number' },
+            amount: { type: 'number' },
           },
         },
         step_one: { type: ['boolean', 'null'] },

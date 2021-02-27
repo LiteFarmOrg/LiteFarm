@@ -1,0 +1,12 @@
+extends ./template
+block content
+    p
+        | Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms.
+        | You can read more about LiteFarm at
+        span=`${t('CREATE_ACCOUNT_CONFIRMATION.RESPONSE')}`
+        a(href='https://litefarm.org') litefarm.org
+    p You can also log-in (on any device) using the button below:
+    p=`${t('CREATE_ACCOUNT_CONFIRMATION.RESPONSE')}`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button Log In

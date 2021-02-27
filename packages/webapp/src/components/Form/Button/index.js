@@ -12,6 +12,7 @@ const Button = ({
   className,
   onClick,
   type,
+  inputRef,
   ...props
 }) => {
   return (
@@ -26,6 +27,7 @@ const Button = ({
       )}
       onClick={onClick}
       type={type}
+      ref={inputRef}
       {...props}
     >
       {children}
@@ -37,11 +39,15 @@ Button.propTypes = {
   color: PropTypes.oneOf(['primary', 'secondary', 'none']),
   disabled: PropTypes.bool,
   fullLength: PropTypes.bool,
-  children: PropTypes.string,
+  children: PropTypes.node,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
   sm: PropTypes.bool,
   className: PropTypes.string,
+  inputRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
 };
 
 export default Button;

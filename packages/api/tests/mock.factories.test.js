@@ -18,11 +18,16 @@ describe('Factories tests', () => {
   })
 
   afterEach( async (done) => {
-     await tableCleanup(knex);
+     try {
+       await tableCleanup(knex);
+     } catch(e){
+       console.log(e);
+     }
      done();
   })
 
   afterAll(async (done) => {
+    await tableCleanup(knex);
     await knex.destroy();
     done();
   });

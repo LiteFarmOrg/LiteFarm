@@ -30,7 +30,7 @@ let faker = require('faker');
 const moment = require('moment');
 const insigntController = require('../src/controllers/insightController');
 
-describe('insights test', () => {
+xdescribe('insights test', () => {
   let middleware;
   const emptyNutrients = { energy: 0, lipid: 0, protein: 0, vitc: 0, vita_rae: 0 };
 

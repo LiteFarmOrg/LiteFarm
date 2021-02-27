@@ -26,7 +26,7 @@ const mocks = require('./mock.factories');
 
 const fieldCropModel = require('../src/models/fieldCropModel');
 
-describe('FieldCrop Tests', () => {
+xdescribe('FieldCrop Tests', () => {
   let middleware;
   let owner;
   let field;

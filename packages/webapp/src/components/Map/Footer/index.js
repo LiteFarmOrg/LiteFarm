@@ -14,6 +14,10 @@ export default function PureMapFooter({
   isAdmin,
   showSpotlight,
   resetSpotlight,
+  onClickAdd,
+  onClickFilter,
+  onClickExport,
+  showModal,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null)
@@ -127,13 +131,13 @@ export default function PureMapFooter({
         className={clsx(container, className)}
         style={style}
       >
-        {isAdmin && <button className={clsx(button, stepSpotlighted === 0 && spotlighted)} id="mapFirstStep">
+        {isAdmin && <button className={clsx(button, stepSpotlighted === 0 && spotlighted)} id="mapFirstStep" onClick={onClickAdd}>
           <AddLogo className={svg} />
         </button>}
-        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
+        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep" onClick={onClickFilter}>
           <FilterLogo className={svg} />
         </button>
-        <button className={clsx(button, stepSpotlighted === 2 && spotlighted)} id="mapThirdStep">
+        <button className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)} id="mapThirdStep" onClick={onClickExport}>
           <ExportLogo className={svg} />
         </button>
       </div>
@@ -147,6 +151,10 @@ PureMapFooter.prototype = {
   isAdmin: PropTypes.bool,
   showSpotlight: PropTypes.bool,
   resetSpotlight: PropTypes.func,
+  onClickAdd: PropTypes.func,
+  onClickFilter: PropTypes.func,
+  onClickExport: PropTypes.func,
+  showModal: PropTypes.bool,
 };
 
 const TitleContent = (text) => {

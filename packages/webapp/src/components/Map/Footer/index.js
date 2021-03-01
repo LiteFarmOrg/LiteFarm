@@ -141,6 +141,7 @@ export default function PureMapFooter({
 
   const toggleDrawer = (anchor, open) => () => {
     setState({ ...state, [anchor]: open });
+    if (!open) setHeight(window.innerHeight / 2);
   };
 
   const areaImgDict = [
@@ -196,7 +197,6 @@ export default function PureMapFooter({
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'bottom',
       })}
-      style={{ paddingBottom: '20px' }}
       role="presentation"
     >
       <div
@@ -495,7 +495,6 @@ export default function PureMapFooter({
                     onClose={toggleDrawer(anchor, false)}
                     onOpen={toggleDrawer(anchor, true)}
                     PaperProps={{
-                      elevation: 0,
                       style: { backgroundColor: 'transparent' },
                       square: false,
                     }}

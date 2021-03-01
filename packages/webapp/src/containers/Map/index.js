@@ -79,7 +79,6 @@ export default function Map() {
   const mapWrapperRef = useRef();
 
   const handleDownload = () => {
-    console.log('download clicked');
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const link = document.createElement('a');
       link.download = `${new Date().toISOString()}.png`;
@@ -89,7 +88,12 @@ export default function Map() {
   };
 
   const handleShare = () => {
-    console.log('share clicked');
+    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
+      const link = document.createElement('a');
+      link.download = `${new Date().toISOString()}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   };
 
   const handleDismiss = () => {

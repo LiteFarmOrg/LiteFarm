@@ -54,59 +54,62 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
 }
 
 function sendEmail(template_path, replacements, email_to, sender = 'system@litefarm.org', buttonLink = null, language = 'en', attachments = []) {
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      clientId: credentials.LiteFarm_Service_Gmail.client_id,
-      clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
-    },
-  });
-  const emailRenderer = new EmailTemplates({
-    views: {
-      root: path.join(__dirname, 'emails'),
-    },
-    i18n: {
-      locales: ['en', 'es', 'fr', 'pt'],
-      directory: path.join(__dirname, 'locales'),
-      objectNotation: true,
-    },
-  });
-  replacements.url = homeUrl();
-  replacements.year = new Date().getFullYear();
-  replacements.buttonLink = buttonLink ? `${homeUrl()}${buttonLink}` : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
-  replacements.imgBaseUrl = homeUrl('https://beta.litefarm.org');
-  emailRenderer.render(template_path, replacements).then((html) => {
-    const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
-    const subject = addReplacements(template_path, subjectTranslation[replacements?.locale?.substring(0, 2)][subjectKey]);
-    const mailOptions = {
-      from: 'LiteFarm <' + sender + '>',
-      to: email_to,
-      subject,
-      html,
+  try {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      service: 'gmail',
       auth: {
-        user: 'system@litefarm.org',
-        refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
+        type: 'OAuth2',
+        clientId: credentials.LiteFarm_Service_Gmail.client_id,
+        clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
       },
-    };
-
-    if (template_path === emails.HELP_REQUEST_EMAIL) {
-      mailOptions.cc = 'support@litefarm.org';
-      if (attachments.length && attachments[0]) {
-        mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
-      }
-    }
-    transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        return console.log(error);
-      }
-      console.log('Message sent: ' + info.response);
     });
-  });
+    const emailRenderer = new EmailTemplates({
+      views: {
+        root: path.join(__dirname, 'emails'),
+      },
+      i18n: {
+        locales: ['en', 'es', 'fr', 'pt'],
+        directory: path.join(__dirname, 'locales'),
+        objectNotation: true,
+      },
+    });
+    replacements.url = homeUrl();
+    replacements.year = new Date().getFullYear();
+    replacements.buttonLink = buttonLink ? `${homeUrl()}${buttonLink}` : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
+    replacements.imgBaseUrl = homeUrl('https://beta.litefarm.org');
+    emailRenderer.render(template_path, replacements).then((html) => {
+      const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
+      const subject = addReplacements(template_path, subjectTranslation[replacements && replacements.locale && replacements.locale.substring(0, 2)][subjectKey]);
+      const mailOptions = {
+        from: 'LiteFarm <' + sender + '>',
+        to: email_to,
+        subject,
+        html,
+        auth: {
+          user: 'system@litefarm.org',
+          refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
+        },
+      };
 
+      if (template_path === emails.HELP_REQUEST_EMAIL) {
+        mailOptions.cc = 'support@litefarm.org';
+        if (attachments.length && attachments[0]) {
+          mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
+        }
+      }
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = {

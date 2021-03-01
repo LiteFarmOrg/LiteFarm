@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -120,20 +120,20 @@ export default function MapFilter({ setRoadview }) {
           backgroundColor: 'white',
           borderRadius: '16px 16px 0px 0px',
           boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
+          position: 'relative',
         }}
       >
-        {/* <div height 100%><div height = calc(100%-some px) overflowY = scroll></div></div> */}
-        <div style={{ height: '100%' }}>
-          <div
-            style={{
-              marginLeft: '45.56%',
-              marginTop: '45.83%',
-              height: 'calc(100%-some px)',
-              overFlowY: 'scroll',
-            }}
-          >
-            <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 75)} />
-          </div>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '4px 0',
+            position: 'fixed',
+            zIndex: '1500',
+          }}
+        >
+          <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 75)} />
         </div>
         <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
           <Semibold>Filter your map</Semibold>

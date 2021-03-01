@@ -41,7 +41,7 @@ const diseaseController = {
         const data = req.body;
         data.disease_name_translation_key = data.disease_common_name;
         data.disease_group_translation_key = data.disease_group;
-        const result = await baseController.postWithResponse(diseaseModel, data, trx, { user_id });
+        const result = await baseController.postWithResponse(diseaseModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -58,7 +58,7 @@ const diseaseController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(diseaseModel, req.params.disease_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(diseaseModel, req.params.disease_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

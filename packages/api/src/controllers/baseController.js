@@ -23,26 +23,26 @@ const baseController = {
     return await model.query().skipUndefined();
   },
 
-  async post(model, data, transaction, context = {}) {
+  async post(model, data, req, { trx, context = {} } = {}) {
     data = removeAdditionalProperties(model, data);
-    return await model.query(transaction).context(context).insert(data);
+    return await model.query(trx).context({ user_id: req.user.user_id, ...context }).insert(data);
   },
 
   // send back the resource that was just created
-  async postWithResponse(model, data, transaction, context = {}) {
+  async postWithResponse(model, data, req, { trx, context = {} } = {}) {
     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
-    return model.query(transaction).context(context)
+    return model.query(trx).context({ user_id: req.user.user_id, ...context })
       .insert(removeAdditionalProperties(model, data)).returning('*');
   },
 
-  async postRelated(model, subModel, data, context, transaction) {
+  async postRelated(model, subModel, data, req, { context = {}, trx } = {}) {
     if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
 
     if (!lodash.isEmpty(data)) {
       return await model
-        .$relatedQuery(subModel.tableName, transaction).context(context)
+        .$relatedQuery(subModel.tableName, trx).context({ user_id: req.user.user_id, ...context })
         .insert(data);
     } else {
       return;
@@ -51,7 +51,7 @@ const baseController = {
 
   // creates a relation between two tables in the database. If there is a many to many relation,
   // the join table is updated with a new tuple
-  async relateModels(model, subModel, data, transaction) {
+  async relateModels(model, subModel, data, trx) {
     if (!Array.isArray(data)) { //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
@@ -59,11 +59,11 @@ const baseController = {
     data.map((d) => Object.keys(d).map((k) => ids.push(d[k])));
     if (!lodash.isEmpty(data)) {
       // unrelate first so that any objects not in array are deleted
-      await model.$relatedQuery(subModel.tableName, transaction).unrelate();
+      await model.$relatedQuery(subModel.tableName, trx).unrelate();
       for (const id of ids) {
         // then relate new objects in array
         await model
-          .$relatedQuery(subModel.tableName, transaction)
+          .$relatedQuery(subModel.tableName, trx)
           .relate(id);
       }
       return;
@@ -72,20 +72,20 @@ const baseController = {
     }
   },
 
-  async put(model, id, data, transaction = null, context = {}) {
+  async put(model, id, data, req, { trx = null, context = {} } = {}) {
     // sometime id can be read as a string instead
     // obtain attributes from model
     const resource = removeAdditionalProperties(model, data);
     // put to database
     const table_id = model.idColumn;
     // check if path id matches id provided from body
-    return await model.query(transaction).context(context)
+    return await model.query(trx).context({ user_id: req.user.user_id, ...context })
       .where(table_id, id).update(resource).returning('*');
   },
 
-  async delete(model, id, transaction = null, context = {}) {
+  async delete(model, id, req, { trx = null, context = {} } = {}) {
     const table_id = model.idColumn;
-    return await model.query(transaction).context(context).where(table_id, id).delete();
+    return await model.query(trx).context({ user_id: req.user.user_id, ...context }).where(table_id, id).delete();
   },
 
   async getIndividual(model, id) {
@@ -113,10 +113,10 @@ const baseController = {
     return data;
   },
 
-  async updateIndividualById(model, id, updatedLog, transaction = null, context = {}) {
+  async updateIndividualById(model, id, updatedLog, req, { trx = null, context = {} } = {}) {
     updatedLog = removeAdditionalProperties(model, updatedLog);
     if (!lodash.isEmpty(updatedLog)) {
-      return await model.query(transaction).context(context)
+      return await model.query(trx).context({ user_id: req.user.user_id, ...context })
         .patchAndFetchById(id, updatedLog);
     }
 
@@ -128,14 +128,14 @@ const baseController = {
 
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
-  async upsertGraph(model, data, transaction, context = {}) {
-    return await model.query(transaction).context(context).upsertGraph(data, { insertMissing: true });
+  async upsertGraph(model, data, req, { trx, context = {} } = {}) {
+    return await model.query(trx).context({ user_id: req.user.user_id, ...context }).upsertGraph(data, { insertMissing: true });
   },
 
   // fetch an object and all of its related objects
   // see http://vincit.github.io/objection.js/#eager-loading
-  async eager(model, subModel, transaction) {
-    return await model.query(transaction).eager(subModel);
+  async eager(model, subModel, trx) {
+    return await model.query(trx).eager(subModel);
   },
 };
 
@@ -153,4 +153,4 @@ function removeAdditionalProperties(model, data) {
 
 
 module.exports = baseController;
-//export transaction;
+//export trx;

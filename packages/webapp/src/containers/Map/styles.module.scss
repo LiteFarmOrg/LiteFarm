@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  // height: 100vh;
   min-height: 100%;
   align-items: stretch;
+  flex: 1;
 }
 
 .mapHeader {
@@ -12,9 +12,8 @@
 }
 
 .mapContainer {
-  // flex: 1;
   position: relative;
-  min-height: 500px;
+  min-height: 152px;
   order: 2;
   flex-grow: 1;
   display: flex;

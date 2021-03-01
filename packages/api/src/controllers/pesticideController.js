@@ -40,7 +40,7 @@ const pesticideController = {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(pesticideModel, req.body, trx, { user_id });
+        const result = await baseController.postWithResponse(pesticideModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -57,7 +57,7 @@ const pesticideController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(pesticideModel, req.params.pesticide_id, trx, req.user);
+        const isDeleted = await baseController.delete(pesticideModel, req.params.pesticide_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

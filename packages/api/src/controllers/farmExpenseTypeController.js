@@ -26,7 +26,7 @@ const farmExpenseTypeController = {
         const user_id = req.user.user_id;
         const data = req.body;
         data.expense_translation_key = data.expense_name;
-        const result = await baseController.postWithResponse(expenseTypeModel, data, trx, { user_id });
+        const result = await baseController.postWithResponse(expenseTypeModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -73,7 +73,7 @@ const farmExpenseTypeController = {
         res.sendStatus(403);
       }
       try {
-        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -86,10 +86,10 @@ const farmExpenseTypeController = {
           error,
         });
       }
-    }
+    };
   },
 
 
-}
+};
 
 module.exports = farmExpenseTypeController;

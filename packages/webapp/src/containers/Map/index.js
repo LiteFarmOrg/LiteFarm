@@ -1,20 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
-import PureMapHeader from '../../components/Map/Header';
-import PureMapFooter from '../../components/Map/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
+import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
+import { fieldsSelector } from '../fieldSlice';
+
+import PureMapHeader from '../../components/Map/Header';
+import PureMapFooter from '../../components/Map/Footer';
+import CustomZoom from '../../components/Map/CustomZoom';
+// import CustomNorthify from '../../components/Map/CustomNorthify';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
+  const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
@@ -25,9 +31,6 @@ export default function Map() {
 
   const getMapOptions = (maps) => {
     return {
-      streetViewControl: false,
-      scaleControl: true,
-      fullscreenControl: false,
       styles: [
         {
           featureType: 'poi.business',
@@ -44,21 +47,46 @@ export default function Map() {
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
-      mapTypeControl: true,
+
       mapTypeId: maps.MapTypeId.SATELLITE,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
         mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
       },
-      zoomControl: true,
+
       clickableIcons: false,
+      streetViewControl: false,
+      scaleControl: false,
+      mapTypeControl: false,
+      panControl: false,
+      zoomControl: false,
+      rotateControl: false,
+      fullscreenControl: false,
     };
   };
 
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
+
+    const zoomControlDiv = document.createElement('div');
+    ReactDOM.render(
+      <CustomZoom
+        style={{ margin: '12px' }}
+        onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
+        onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
+      />,
+      zoomControlDiv,
+    );
+    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
+
+    // const northifyControlDiv = document.createElement('div');
+    // ReactDOM.render(<CustomNorthify onClick={() => console.log('hi')} />, northifyControlDiv);
+    // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(northifyControlDiv);
+
+    // let farmBounds = new maps.LatLngBounds();
+    // TODO: FILL IN HANDLE GOOGLE MAP API
   };
 
   const resetSpotlight = () => {
@@ -79,6 +107,14 @@ export default function Map() {
 
   const mapWrapperRef = useRef();
 
+  const handleDismiss = () => {
+    setShowModal(false);
+  };
+
+  const handleShowVideo = () => {
+    console.log('show video clicked');
+  };
+
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const link = document.createElement('a');
@@ -97,13 +133,13 @@ export default function Map() {
     setShowModal(false);
   };
 
-  const handleDismiss = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className={styles.pageWrapper}>
-      <PureMapHeader className={styles.mapHeader} farmName={farm_name} />
+      <PureMapHeader
+        className={styles.mapHeader}
+        farmName={farm_name}
+        showVideo={handleShowVideo}
+      />
       <div className={styles.mapContainer}>
         <div className={styles.workaround} ref={mapWrapperRef}>
           <GoogleMap

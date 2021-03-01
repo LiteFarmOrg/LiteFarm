@@ -65,12 +65,7 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
           ></GoogleMap>
         </div>
       </div>
-      <PureMapFooter
-        className={styles.mapFooter}
-        isAdmin={isAdmin}
-        setRoadview={setRoadview}
-        roadview={roadview}
-      />
+      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} setRoadview={setRoadview} />
     </div>
   );
 }

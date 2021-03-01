@@ -33,7 +33,7 @@ import Line from '../../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { Box } from '@material-ui/core';
 
-export default function PureMapFooter({ className, style, isAdmin, setRoadview, roadview }) {
+export default function PureMapFooter({ className, style, isAdmin, setRoadview }) {
   const [state, setState] = React.useState({
     bottom: false,
   });
@@ -84,6 +84,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview, 
   ];
 
   const selectOrDeselect = (id) => {
+    setVisibility(false);
     const layers = selected.includes(id)
       ? selected.filter((layerID) => id !== layerID)
       : selected.concat(id);
@@ -91,11 +92,22 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview, 
   };
 
   const setAllVisibility = () => {
+    setSelected([]);
     setVisibility(false);
   };
 
   const setAllVisibilityOff = () => {
     setVisibility(true);
+    areaImgDict.map((item) => {
+      selected.push(item.name);
+    });
+    lineImgDict.map((item) => {
+      selected.push(item.name);
+    });
+    pointImgDict.map((item) => {
+      selected.push(item.name);
+    });
+    selected.push('Map background');
   };
 
   const list = (anchor) => (
@@ -127,13 +139,23 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview, 
               flexDirection: 'row',
             }}
           >
-            <div onClick={() => setAllVisibility()}>
+            <div
+              onClick={() => {
+                setAllVisibility();
+                setRoadview(true);
+              }}
+            >
               <p>
                 Show all
                 <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
               </p>
             </div>
-            <div onClick={() => setAllVisibilityOff()}>
+            <div
+              onClick={() => {
+                setAllVisibilityOff();
+                setRoadview(false);
+              }}
+            >
               <p>Hide all</p>
             </div>
           </div>

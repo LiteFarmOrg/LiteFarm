@@ -14,6 +14,7 @@ import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import CustomZoom from '../../components/Map/CustomZoom';
 // import CustomNorthify from '../../components/Map/CustomNorthify';
+import MapFilter from '../../components/MapFilter';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -23,6 +24,7 @@ export default function Map() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   let [roadview, setRoadview] = useState(false);
+  const [showMapFilter, setShowMapFilter] = useState(false);
 
   useEffect(() => {
     // setCenter(grid_points);
@@ -107,6 +109,7 @@ export default function Map() {
 
   const handleClickFilter = () => {
     setShowModal(false);
+    setShowMapFilter(true);
   };
 
   const handleClickExport = () => {
@@ -153,6 +156,7 @@ export default function Map() {
           ></GoogleMap>
         </div>
       </div>
+      {showMapFilter && <MapFilter setRoadview={setRoadview} />}
       <PureMapFooter
         className={styles.mapFooter}
         isAdmin={is_admin}
@@ -162,8 +166,6 @@ export default function Map() {
         onClickFilter={handleClickFilter}
         onClickExport={handleClickExport}
         showModal={showModal}
-        setRoadview={setRoadview}
-        roadview={roadview}
       />
       {showModal && (
         <ExportMapModal

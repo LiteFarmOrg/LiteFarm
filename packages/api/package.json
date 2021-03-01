@@ -29,13 +29,6 @@
     "fix-lint": "eslint src --fix",
     "precommit": ""
   },
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "node",
-    "eslintConfig": {
-      "parser": "@babel/eslint-parser"
-    }
-  },
   "author": "LiteFarm",
   "license": "ISC",
   "repository": {

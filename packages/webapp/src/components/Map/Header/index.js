@@ -26,7 +26,7 @@ export default function PureMapHeader({
         type="image"
         src={VideoLogo}
         className={styles.button}
-        onClick={() => showVideo()}
+        onClick={showVideo}
       />
     </div>
   );

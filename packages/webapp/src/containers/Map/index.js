@@ -9,10 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
+import { fieldsSelector } from '../fieldSlice';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
+  const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
@@ -57,6 +59,9 @@ export default function Map() {
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
+
+    // let farmBounds = new maps.LatLngBounds();
+    // TODO: FILL IN HANDLE GOOGLE MAP API
   }
 
   const resetSpotlight = () => {
@@ -75,6 +80,14 @@ export default function Map() {
     setShowModal(!showModal);
   }
 
+  const handleDismiss = () => {
+    setShowModal(false);
+  }
+
+  const handleShowVideo = () => {
+    console.log("show video clicked");
+  }
+
   const handleDownload = () => {
     console.log('download clicked');
   }
@@ -83,15 +96,12 @@ export default function Map() {
     console.log('share clicked');
   }
 
-  const handleDismiss = () => {
-    setShowModal(false);
-  }
-
   return (
     <div className={styles.pageWrapper}>
       <PureMapHeader
         className={styles.mapHeader}
         farmName={farm_name}
+        showVideo={handleShowVideo}
       />
       <div className={styles.mapContainer}>
         <div className={styles.workaround}>

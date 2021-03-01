@@ -13,10 +13,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
 
   .svg {
     stroke: var(--grey600);
   }
+}
+
+.zoomIn:hover, .zoomOut:hover {
+  .svg {
+    stroke: var(--grey900);
+  }
+}
+
+.zoomIn:active, .zoomOut:active {
+  background: var(--grey200);
 }
 
 .zoomIn {

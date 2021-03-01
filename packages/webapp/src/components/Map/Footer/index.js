@@ -196,6 +196,7 @@ export default function PureMapFooter({
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'bottom',
       })}
+      style={{ paddingBottom: '20px' }}
       role="presentation"
     >
       <div
@@ -258,7 +259,7 @@ export default function PureMapFooter({
                 </ListItemIcon>
 
                 <ListItemText primary={text} />
-                <div style={{ marginRight: '40px' }}>
+                <div style={{ paddingRight: '24px' }}>
                   {visibility || selected.includes(text) ? (
                     <MdVisibilityOff
                       size={24}
@@ -316,7 +317,7 @@ export default function PureMapFooter({
                 ) : (
                   <ListItemText />
                 )}
-                <div style={{ marginRight: '40px' }}>
+                <div style={{ paddingRight: '24px' }}>
                   {visibility || selected.includes(item.name) ? (
                     <MdVisibilityOff
                       size={24}
@@ -360,7 +361,7 @@ export default function PureMapFooter({
                   {<img src={item.img} style={{ paddingLeft: '20px' }} />}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
-                <div style={{ marginRight: '40px' }}>
+                <div style={{ paddingRight: '24px' }}>
                   {visibility || selected.includes(item.name) ? (
                     <MdVisibilityOff
                       size={24}
@@ -404,7 +405,7 @@ export default function PureMapFooter({
                   {<img src={item.img} style={{ paddingLeft: '20px' }} />}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
-                <div style={{ marginRight: '40px' }}>
+                <div style={{ paddingRight: '24px' }}>
                   {visibility || selected.includes(item.name) ? (
                     <MdVisibilityOff
                       size={24}

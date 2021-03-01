@@ -26,8 +26,7 @@ const cropController = {
         const data = req.body;
         data.user_added = true;
         data.crop_translation_key = data.crop_common_name;
-        const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(cropModel, data, trx, { user_id });
+        const result = await baseController.postWithResponse(cropModel, data, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -121,7 +120,7 @@ const cropController = {
         const user_id = req.user.user_id;
         const data = req.body;
         data.crop_translation_key = data.crop_common_name;
-        const updated = await baseController.put(cropModel, req.params.crop_id, data, trx, { user_id });
+        const updated = await baseController.put(cropModel, req.params.crop_id, data, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);

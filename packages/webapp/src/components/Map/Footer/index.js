@@ -107,7 +107,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview, 
     pointImgDict.map((item) => {
       selected.push(item.name);
     });
-    selected.push('Map background');
+    selected.push('Satellite background');
   };
 
   const list = (anchor) => (
@@ -162,7 +162,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview, 
         </div>
         <div>
           <List>
-            {['Map background'].map((text) => (
+            {['Satellite background'].map((text) => (
               <ListItem
                 style={
                   selected.includes(text)

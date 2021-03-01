@@ -13,6 +13,7 @@ import { fieldsSelector } from '../fieldSlice';
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import CustomZoom from '../../components/Map/CustomZoom';
+// import CustomNorthify from '../../components/Map/CustomNorthify';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -56,6 +57,13 @@ export default function Map() {
       },
       zoomControl: true,
       clickableIcons: false,
+      streetViewControl: false,
+      scaleControl: false,
+      mapTypeControl: false,
+      panControl: false,
+      zoomControl: false,
+      rotateControl: false,
+      fullscreenControl: false
     };
   };
 
@@ -64,11 +72,15 @@ export default function Map() {
     console.log(maps);
 
     const zoomControlDiv = document.createElement('div');
-    ReactDOM.render(<CustomZoom onClickZoomIn={() => console.log('hi')} />, zoomControlDiv);
+    ReactDOM.render(<CustomZoom
+      style={{margin: '12px'}}
+      onClickZoomIn={() => map.setZoom(map.getZoom() + 1)}
+      onClickZoomOut={() => map.setZoom(map.getZoom() - 1)}
+    />, zoomControlDiv);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
     // const northifyControlDiv = document.createElement('div');
-    // ReactDOM.render(<CustomZoom onClick={() => console.log('hi')} />, northifyControlDiv);
+    // ReactDOM.render(<CustomNorthify onClick={() => console.log('hi')} />, northifyControlDiv);
     // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(northifyControlDiv);
 
     // let farmBounds = new maps.LatLngBounds();

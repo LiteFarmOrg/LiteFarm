@@ -55,7 +55,6 @@ export default function Map() {
         position: maps.ControlPosition.BOTTOM_CENTER,
         mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
       },
-      zoomControl: true,
       clickableIcons: false,
       streetViewControl: false,
       scaleControl: false,
@@ -79,9 +78,9 @@ export default function Map() {
     />, zoomControlDiv);
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
-    // const northifyControlDiv = document.createElement('div');
-    // ReactDOM.render(<CustomNorthify onClick={() => console.log('hi')} />, northifyControlDiv);
-    // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(northifyControlDiv);
+    // const compassControlDiv = document.createElement('div');
+    // ReactDOM.render(<CustomNorthify onClick={() => console.log('hi')} />, compassControlDiv);
+    // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // let farmBounds = new maps.LatLngBounds();
     // TODO: FILL IN HANDLE GOOGLE MAP API

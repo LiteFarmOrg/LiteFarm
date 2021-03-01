@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
@@ -6,7 +6,6 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import PureMapHeader from './Header';
 import PureMapFooter from './Footer';
-import MapFilter from '../MapFilter';
 
 export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
   const { t } = useTranslation();
@@ -17,28 +16,39 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
       streetViewControl: false,
       scaleControl: true,
       fullscreenControl: false,
-      styles: [
-        {
-          featureType: 'poi.business',
-          elementType: 'labels',
-          stylers: [
+      styles: !roadview
+        ? [
             {
-              visibility: 'off',
+              featureType: 'poi.business',
+              elementType: 'labels',
+              stylers: [
+                {
+                  visibility: 'off',
+                },
+              ],
+            },
+          ]
+        : [
+            {
+              featureType: 'all',
+              stylers: [
+                {
+                  visibility: 'off',
+                },
+              ],
             },
           ],
-        },
-      ],
       gestureHandling: 'greedy',
       disableDoubleClickZoom: true,
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
-      mapTypeControl: true,
-      mapTypeId: roadview ? maps.MapTypeId.ROADMAP : maps.MapTypeId.SATELLITE,
+      mapTypeControl: !roadview ? true : false,
+      mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
-        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
       },
       zoomControl: true,
       clickableIcons: false,

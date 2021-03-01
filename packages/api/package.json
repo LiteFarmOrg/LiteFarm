@@ -32,7 +32,9 @@
   "jest": {
     "verbose": true,
     "testEnvironment": "node",
-    "babelConfig": true
+    "eslintConfig": {
+      "parser": "@babel/eslint-parser"
+    }
   },
   "author": "LiteFarm",
   "license": "ISC",

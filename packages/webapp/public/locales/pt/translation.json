@@ -82,6 +82,12 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "EXPORT_MODAL": {
+      "BODY": "MISSING",
+      "DOWNLOAD": "MISSING",
+      "SHARE": "MISSING",
+      "TITLE": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",

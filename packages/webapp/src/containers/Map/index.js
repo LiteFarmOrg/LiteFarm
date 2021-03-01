@@ -8,12 +8,14 @@ import PureMapFooter from '../../components/Map/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
+import ExportMapModal from '../../components/Modals/ExportMapModal';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // setCenter(grid_points);
@@ -61,6 +63,30 @@ export default function Map() {
     dispatch(endMapSpotlight(farm_id));
   }
 
+  const handleClickAdd = () => {
+    setShowModal(false);
+  }
+
+  const handleClickFilter = () => {
+    setShowModal(false);
+  }
+
+  const handleClickExport = () => {
+    setShowModal(!showModal);
+  }
+
+  const handleDownload = () => {
+    console.log('download clicked');
+  }
+
+  const handleShare = () => {
+    console.log('share clicked');
+  }
+
+  const handleDismiss = () => {
+    setShowModal(false);
+  }
+
   return (
     <div className={styles.pageWrapper}>
       <PureMapHeader
@@ -90,7 +116,16 @@ export default function Map() {
         isAdmin={is_admin}
         showSpotlight={showMapSpotlight}
         resetSpotlight={resetSpotlight}
+        onClickAdd={handleClickAdd}
+        onClickFilter={handleClickFilter}
+        onClickExport={handleClickExport}
+        showModal={showModal}
       />
+      {showModal && <ExportMapModal
+        onClickDownload={handleDownload}
+        onClickShare={handleShare}
+        dismissModal={handleDismiss}
+      />}
     </div>
   )
 }

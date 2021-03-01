@@ -82,6 +82,12 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "EXPORT_MODAL": {
+      "BODY": "How do you want to export your farm map?",
+      "DOWNLOAD": "Download",
+      "SHARE": "Share",
+      "TITLE": "Export your farm map"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",

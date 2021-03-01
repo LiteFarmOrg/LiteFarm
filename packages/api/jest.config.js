@@ -59,10 +59,6 @@ module.exports = {
 
   // A set of global variables that need to be available in all test environments
   globals: {
-    'parserOptions': {
-      'ecmaVersion': 2019,
-    },
-    'parser': '@babel/eslint-parser',
     'ts-jest': {
       babelConfig: true,
       tsConfig: {

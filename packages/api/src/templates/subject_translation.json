@@ -8,7 +8,8 @@
     "WELCOME": "Welcome to LiteFarm!",
     "PASSWORD_RESET": "Password Reset Request",
     "PASSWORD_RESET_CONFIRMATION": "Your LiteFarm password has been changed",
-    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help"
+    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help",
+    "MAP_EXPORT_EMAIL": "Here’s your farm map for ?? on LiteFarm"
   },
   "es": {
     "INVITATION": "Has sido invitado a unirte a ?? en LiteFarm!",
@@ -19,7 +20,8 @@
     "WELCOME": "Bienvenido a LiteFarm!",
     "PASSWORD_RESET": "Solicitud de recuperacion de clave",
     "PASSWORD_RESET_CONFIRMATION": "Tu clave en litefarm ha cambiado",
-    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help"
+    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help",
+    "MAP_EXPORT_EMAIL": "Here’s your farm map for ?? on LiteFarm"
   },
   "pt": {
     "INVITATION": "You’ve been invited to join ?? on LiteFarm!",
@@ -30,7 +32,8 @@
     "WELCOME": "Welcome to LiteFarm!",
     "PASSWORD_RESET": "Password Reset Request",
     "PASSWORD_RESET_CONFIRMATION": "Your LiteFarm password has been changed",
-    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help"
+    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help",
+    "MAP_EXPORT_EMAIL": "Here’s your farm map for ?? on LiteFarm"
   },
   "fr": {
     "INVITATION": "You’ve been invited to join ?? on LiteFarm!",
@@ -41,6 +44,7 @@
     "WELCOME": "Welcome to LiteFarm!",
     "PASSWORD_RESET": "Password Reset Request",
     "PASSWORD_RESET_CONFIRMATION": "Your LiteFarm password has been changed",
-    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help"
+    "HELP_REQUEST_EMAIL": "Your LiteFarm request for help",
+    "MAP_EXPORT_EMAIL": "Here’s your farm map for ?? on LiteFarm"
   }
 }

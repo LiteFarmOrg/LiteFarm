@@ -10,6 +10,7 @@ import { userFarmSelector } from '../../containers/userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import html2canvas from 'html2canvas';
+import { sendMapToEmail } from './saga';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -85,15 +86,15 @@ export default function Map() {
       link.href = canvas.toDataURL();
       link.click();
     });
+    setShowModal(false);
   };
 
   const handleShare = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
-      const link = document.createElement('a');
-      link.download = `${new Date().toISOString()}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+      const fileDataURL = canvas.toDataURL();
+      dispatch(sendMapToEmail(fileDataURL));
     });
+    setShowModal(false);
   };
 
   const handleDismiss = () => {

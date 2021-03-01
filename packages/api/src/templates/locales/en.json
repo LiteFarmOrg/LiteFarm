@@ -62,6 +62,11 @@
     "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below",
     "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system."
   },
+  "EXPORT_MAP": {
+    "EXPORT": "Here’s the farm map export for",
+    "REQUESTED": "that you requested on LiteFarm.",
+    "GREETING": "Have a great day!"
+  },
   "COMMON": {
     "JOIN": "Join",
     "LOG_IN": "Log In"

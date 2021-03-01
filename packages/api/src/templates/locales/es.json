@@ -65,5 +65,10 @@
     "SUPPORT": "y la procesaremos.",
     "OTHERWISE": "De otra manera, si Ud. luego decide reincorporarse a nuestro programa (desde cualquier dispositivo electrónico) puede hacerlo en cualquier momento aceptando nuestra política de privacidad. Para ésto, haga clic en el botón de abajo",
     "RESTORE": "Si así lo hace, podrá acceder al programa Litefarm nuevamente."
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "EXPORT_MAP.EXPORT",
+    "REQUESTED": "EXPORT_MAP.REQUESTED",
+    "GREETING": "EXPORT_MAP.GREETING"
   }
 }

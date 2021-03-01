@@ -65,5 +65,10 @@
   "COMMON": {
     "JOIN": "Join",
     "LOG_IN": "Log In"
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "EXPORT_MAP.EXPORT",
+    "REQUESTED": "EXPORT_MAP.REQUESTED",
+    "GREETING": "EXPORT_MAP.GREETING"
   }
 }

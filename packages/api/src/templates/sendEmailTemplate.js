@@ -33,6 +33,7 @@ const emails = {
   PASSWORD_RESET: { path: 'password_reset_email' },
   PASSWORD_RESET_CONFIRMATION: { path: 'reset_password_confirmation' },
   HELP_REQUEST_EMAIL: { path: 'help_request_email' },
+  MAP_EXPORT_EMAIL: { subjectReplacements: '', path: 'map_export_email' },
 };
 
 function addReplacements(template, subject) {
@@ -53,6 +54,17 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
   return homeUrl;
 }
 
+const emailRenderer = new EmailTemplates({
+  views: {
+    root: path.join(__dirname, 'emails'),
+  },
+  i18n: {
+    locales: ['en', 'es', 'fr', 'pt'],
+    directory: path.join(__dirname, 'locales'),
+    objectNotation: true,
+  },
+});
+
 function sendEmail(template_path, replacements, email_to, sender = 'system@litefarm.org', buttonLink = null, language = 'en', attachments = []) {
   try {
     const transporter = nodemailer.createTransport({
@@ -64,16 +76,6 @@ function sendEmail(template_path, replacements, email_to, sender = 'system@litef
         type: 'OAuth2',
         clientId: credentials.LiteFarm_Service_Gmail.client_id,
         clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
-      },
-    });
-    const emailRenderer = new EmailTemplates({
-      views: {
-        root: path.join(__dirname, 'emails'),
-      },
-      i18n: {
-        locales: ['en', 'es', 'fr', 'pt'],
-        directory: path.join(__dirname, 'locales'),
-        objectNotation: true,
       },
     });
     replacements.url = homeUrl();
@@ -93,12 +95,12 @@ function sendEmail(template_path, replacements, email_to, sender = 'system@litef
           refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
         },
       };
-
-      if (template_path === emails.HELP_REQUEST_EMAIL) {
-        mailOptions.cc = 'support@litefarm.org';
-        if (attachments.length && attachments[0]) {
-          mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
+      if (attachments.length && attachments[0] && [emails.HELP_REQUEST_EMAIL.path, emails.MAP_EXPORT_EMAIL.path].includes(template_path.path)) {
+        if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
+          mailOptions.cc = 'support@litefarm.org';
         }
+        mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
+
       }
       transporter.sendMail(mailOptions, function(error, info) {
         if (error) {

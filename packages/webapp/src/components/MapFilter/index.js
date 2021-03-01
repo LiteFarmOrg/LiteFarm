@@ -122,8 +122,18 @@ export default function MapFilter({ setRoadview }) {
           boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
         }}
       >
-        <div style={{ marginLeft: '45.56%', marginTop: '45.83%', position: 'fixed' }}>
-          <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 75)} />
+        {/* <div height 100%><div height = calc(100%-some px) overflowY = scroll></div></div> */}
+        <div style={{ height: '100%' }}>
+          <div
+            style={{
+              marginLeft: '45.56%',
+              marginTop: '45.83%',
+              height: 'calc(100%-some px)',
+              overFlowY: 'scroll',
+            }}
+          >
+            <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 75)} />
+          </div>
         </div>
         <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
           <Semibold>Filter your map</Semibold>

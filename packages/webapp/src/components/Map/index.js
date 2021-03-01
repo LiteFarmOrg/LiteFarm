@@ -9,7 +9,7 @@ import PureMapFooter from './Footer';
 
 export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
   const { t } = useTranslation();
-  let [roadview, setRoadview] = useState(true);
+  let [roadview, setRoadview] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -43,7 +43,7 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
-      mapTypeControl: !roadview ? true : false,
+      mapTypeControl: true,
       mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
@@ -75,7 +75,12 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
           ></GoogleMap>
         </div>
       </div>
-      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} setRoadview={setRoadview} />
+      <PureMapFooter
+        className={styles.mapFooter}
+        isAdmin={isAdmin}
+        setRoadview={setRoadview}
+        roadview={roadview}
+      />
     </div>
   );
 }

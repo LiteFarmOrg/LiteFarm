@@ -33,7 +33,7 @@ import Line from '../../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { Box } from '@material-ui/core';
 
-export default function PureMapFooter({ className, style, isAdmin, setRoadview }) {
+export default function PureMapFooter({ className, style, isAdmin, setRoadview, roadview }) {
   const [state, setState] = React.useState({
     bottom: false,
   });
@@ -126,7 +126,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview }
         }}
       >
         <div style={{ marginLeft: '45.56%', marginTop: '45.83%' }}>
-          <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 100)} />
+          <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 75)} />
         </div>
         <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
           <Semibold>Filter your map</Semibold>
@@ -142,7 +142,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview }
             <div
               onClick={() => {
                 setAllVisibility();
-                setRoadview(true);
+                setRoadview(false);
               }}
             >
               <p>
@@ -153,7 +153,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview }
             <div
               onClick={() => {
                 setAllVisibilityOff();
-                setRoadview(false);
+                setRoadview(true);
               }}
             >
               <p>Hide all</p>
@@ -184,7 +184,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview }
                       color={'#66738A'}
                       onClick={() => {
                         selectOrDeselect(text);
-                        setRoadview(true);
+                        setRoadview(false);
                       }}
                     />
                   ) : (
@@ -193,7 +193,7 @@ export default function PureMapFooter({ className, style, isAdmin, setRoadview }
                       color={'#66738A'}
                       onClick={() => {
                         selectOrDeselect(text);
-                        setRoadview(false);
+                        setRoadview(true);
                       }}
                     />
                   )}

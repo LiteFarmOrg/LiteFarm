@@ -31,7 +31,8 @@
   },
   "jest": {
     "verbose": true,
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "babelConfig": true
   },
   "author": "LiteFarm",
   "license": "ISC",

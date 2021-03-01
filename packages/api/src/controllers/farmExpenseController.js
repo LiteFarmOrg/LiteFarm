@@ -28,9 +28,8 @@ const farmExpenseController = {
           res.status(400).send('needs to be an array of expense items');
         }
         const resultArray = [];
-        const user_id = req.user.user_id;
         for (const e of expenses) {
-          const result = await baseController.post(farmExpenseModel, e, trx, { user_id });
+          const result = await baseController.post(farmExpenseModel, e, req, { trx });
           resultArray.push(result);
         }
         await trx.commit();
@@ -98,7 +97,7 @@ const farmExpenseController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(farmExpenseModel, req.params.farm_expense_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

@@ -24,7 +24,7 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(yieldModel, req.body, trx);
+        const result = await baseController.postWithResponse(yieldModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -41,7 +41,7 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(yieldModel, req.params.yield_id, trx);
+        const isDeleted = await baseController.delete(yieldModel, req.params.yield_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -61,7 +61,7 @@ const YieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(yieldModel, req.params.id, req.body, trx);
+        const updated = await baseController.put(yieldModel, req.params.id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);

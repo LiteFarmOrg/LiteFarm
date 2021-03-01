@@ -26,7 +26,7 @@ const fieldController = {
     return async (req, res, next) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await fieldController.postWithResponse(req, trx);
+        const result = await this.postWithResponse(req, trx);
         if (result.field_name.length === 0 || Object.keys(result.grid_points).length < 3) {
           await trx.rollback();
           return res.sendStatus(403);
@@ -50,7 +50,7 @@ const fieldController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(fieldModel, req.params.field_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -71,7 +71,7 @@ const fieldController = {
       const trx = await transaction.start(Model.knex());
       try {
         const user_id = req.user.user_id;
-        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, trx, { user_id });
+        const updated = await baseController.put(fieldModel, req.params.field_id, req.body, req, { trx });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -122,7 +122,7 @@ const fieldController = {
     const id_column = fieldModel.idColumn;
     req.body[id_column] = uuidv4();
     const user_id = req.user.user_id;
-    return await baseController.postWithResponse(fieldModel, req.body, trx, { user_id });
+    return await baseController.postWithResponse(fieldModel, req.body, req, { trx });
   },
 
   mapFieldToStation(req, res) {

@@ -31,7 +31,7 @@ const shiftController = {
         }
         const tasks = body.tasks;
         const user_id = req.user.user_id;
-        const shift_result = await baseController.postWithResponse(shiftModel, body, trx, { user_id });
+        const shift_result = await baseController.postWithResponse(shiftModel, body, req, { trx });
         const shift_id = shift_result.shift_id;
         shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
         await trx.commit();
@@ -62,8 +62,8 @@ const shiftController = {
           temp.user_id = sUser.value;
           temp.wage_at_moment = sUser.wage;
           temp.mood = sUser.mood;
-          const user_id = req.user.user_id
-          const shift_result = await baseController.postWithResponse(shiftModel, temp, trx, { user_id });
+          const user_id = req.user.user_id;
+          const shift_result = await baseController.postWithResponse(shiftModel, temp, req, { trx });
           const shift_id = shift_result.shift_id;
           shift_result.tasks = await shiftController.insertTasks(tasks, trx, shift_id);
         }
@@ -85,7 +85,7 @@ const shiftController = {
       try {
         const sID = (req.params.shift_id).toString();
         const isShiftTaskDeleted = await shiftTaskModel.query(trx).context({ user_id: req.user.user_id }).where('shift_id', sID).delete();
-        const isShiftDeleted = await baseController.delete(shiftModel, sID, trx, { user_id: req.user.user_id });
+        const isShiftDeleted = await baseController.delete(shiftModel, sID, req, { trx });
         await trx.commit();
         if (isShiftDeleted && isShiftTaskDeleted) {
           res.sendStatus(200);
@@ -132,7 +132,7 @@ const shiftController = {
           res.status(400).send('missing tasks');
         }
         const user_id = req.user.user_id;
-        const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, trx, { user_id });
+        const updatedShift = await baseController.put(shiftModel, req.params.shift_id, req.body, req, { trx });
         if (!updatedShift.length) {
           res.sendStatus(404).send('can not find shift');
         }
@@ -195,6 +195,8 @@ const shiftController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
+        const { user_id } = req.headers;
+        const role = req.role;
         const data = await knex.select([
           'taskType.task_name', 'taskType.task_translation_key', 'shiftTask.task_id', 'shiftTask.shift_id', 'shiftTask.is_field',
           'shiftTask.field_id', 'shiftTask.field_crop_id', 'field.field_name', 'crop.crop_id', 'crop.crop_translation_key',

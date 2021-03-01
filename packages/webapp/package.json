@@ -17,6 +17,7 @@
     "dotenv": "^8.2.0",
     "google-map-react": "^2.1.9",
     "history": "^4.10.1",
+    "html2canvas": "^1.0.0-rc.7",
     "i18next": "^19.8.7",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-xhr-backend": "^3.2.2",

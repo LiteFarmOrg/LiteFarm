@@ -22,7 +22,7 @@ const shiftTaskController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(shiftTaskModel, req.body, trx);
+        const result = await baseController.postWithResponse(shiftTaskModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -39,7 +39,7 @@ const shiftTaskController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(shiftTaskModel, req, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(shiftTaskModel, req, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

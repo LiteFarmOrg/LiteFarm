@@ -310,7 +310,7 @@ const insightController = {
       const body = req.body;
       trx = await transaction.start(Model.knex());
       try {
-        const waterBalanceResult = await baseController.postWithResponse(waterBalanceModel, body, trx);
+        const waterBalanceResult = await baseController.postWithResponse(waterBalanceModel, body, req, { trx });
         await trx.commit();
         res.status(201).send(waterBalanceResult);
       } catch (error) {
@@ -326,7 +326,7 @@ const insightController = {
       const body = req.body;
       trx = await transaction.start(Model.knex());
       try {
-        const nitrogenScheduleResult = await baseController.postWithResponse(nitrogenScheduleModel, body, trx);
+        const nitrogenScheduleResult = await baseController.postWithResponse(nitrogenScheduleModel, body, req, { trx });
         await trx.commit();
         res.status(201).send(nitrogenScheduleResult);
       } catch (error) {
@@ -340,7 +340,7 @@ const insightController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(nitrogenScheduleModel, req.params.nitrogen_schedule_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -355,7 +355,7 @@ const insightController = {
       }
     };
   },
-}
+};
 
 
 module.exports = insightController;

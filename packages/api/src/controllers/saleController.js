@@ -26,7 +26,7 @@ const SaleController = {
       const { user_id } = req.user;
       try {
         // post to sale and crop sale table
-        const result = await baseController.upsertGraph(saleModel, req.body, trx, { user_id });
+        const result = await baseController.upsertGraph(saleModel, req.body, req, { trx });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -120,7 +120,7 @@ const SaleController = {
       const { user_id } = req.user;
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, trx, { user_id });
+        const isDeleted = await baseController.delete(saleModel, req.params.sale_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

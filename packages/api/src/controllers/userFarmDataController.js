@@ -26,7 +26,7 @@ const userFarmDataController = {
         const user_id = req.body.user_id;
         const data = { farm_id, user_id };
         await farmDataScheduleModel.transaction(async trx => {
-          await baseController.post(farmDataScheduleModel, data, trx);
+          await baseController.post(farmDataScheduleModel, data, req, { trx });
         });
         res.sendStatus(200);
       } catch (error) {

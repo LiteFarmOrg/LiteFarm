@@ -45,7 +45,7 @@ const farmController = {
           units,
         }
         const user_id = req.user.user_id;
-        const result = await baseController.postWithResponse(farmModel, infoBody, trx, { user_id });
+        const result = await baseController.postWithResponse(farmModel, infoBody, req, { trx });
         // update user with new farm
         const new_user = await farmController.getUser(req, trx);
         const userFarm = await farmController.insertUserFarm(new_user[0], result.farm_id, trx);
@@ -102,7 +102,7 @@ const farmController = {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(farmModel, req.params.farm_id, trx, { user_id: req.user.user_id });
+        const isDeleted = await baseController.delete(farmModel, req.params.farm_id, req, { trx });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);
@@ -129,7 +129,7 @@ const farmController = {
           delete req.body.country;
         }
         const user_id = req.user.user_id;
-        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, trx, { user_id });
+        const updated = await baseController.put(farmModel, req.params.farm_id, req.body, req, { trx });
 
         await trx.commit();
         if (!updated.length) {

@@ -9,7 +9,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Semibold } from '../../components/Typography';
-import GreenLine from '../../assets/images/farmMapFilter/Green_Drawer_Line.svg';
 import MapBackground from '../../assets/images/farmMapFilter/MapBackground.svg';
 import Barn from '../../assets/images/farmMapFilter/Barn.svg';
 import CeremonialArea from '../../assets/images/farmMapFilter/CA.svg';
@@ -28,6 +27,23 @@ import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import Line from '../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { Box } from '@material-ui/core';
+import { colors } from '../../assets/theme';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+    overflow: 'hidden',
+  },
+  fullList: {
+    width: 'auto',
+  },
+  greenbar: {
+    height: '4px',
+    width: '36px',
+    backgroundColor: colors.teal700,
+    borderRadius: '2px',
+  },
+});
 
 export default function MapFilter({ setRoadview }) {
   const [state, setState] = React.useState({
@@ -37,16 +53,6 @@ export default function MapFilter({ setRoadview }) {
   let [height, setHeight] = useState(0);
   let [visibility, setVisibility] = useState(false);
   const [selected, setSelected] = useState([]);
-
-  const useStyles = makeStyles({
-    list: {
-      width: 250,
-      height: height,
-    },
-    fullList: {
-      width: 'auto',
-    },
-  });
 
   const classes = useStyles();
 
@@ -113,6 +119,7 @@ export default function MapFilter({ setRoadview }) {
         [classes.fullList]: anchor === 'bottom',
       })}
       role="presentation"
+      style={{ height }}
     >
       <div
         style={{
@@ -120,54 +127,54 @@ export default function MapFilter({ setRoadview }) {
           backgroundColor: 'white',
           borderRadius: '16px 16px 0px 0px',
           boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
-          position: 'relative',
         }}
       >
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '4px 0',
-            position: 'fixed',
-            zIndex: '1500',
-          }}
-        >
-          <img src={GreenLine} onClick={() => setHeight(window.innerHeight - 75)} />
-        </div>
-        <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
-          <Semibold>Filter your map</Semibold>
+        <div style={{ height: '90px' }}>
           <div
             style={{
-              textDecoration: 'underline',
-              color: '#AA5F04',
-              fontSize: '14px',
+              width: '100%',
               display: 'flex',
-              flexDirection: 'row',
+              justifyContent: 'center',
+              padding: '4px 0',
             }}
           >
+            <div className={classes.greenbar} />
+          </div>
+          <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
+            <Semibold>Filter your map</Semibold>
             <div
-              onClick={() => {
-                setAllVisibility();
-                setRoadview(false);
+              style={{
+                textDecoration: 'underline',
+                color: '#AA5F04',
+                fontSize: '14px',
+                display: 'flex',
+                flexDirection: 'row',
               }}
             >
-              <p>
-                Show all
-                <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
-              </p>
-            </div>
-            <div
-              onClick={() => {
-                setAllVisibilityOff();
-                setRoadview(true);
-              }}
-            >
-              <p>Hide all</p>
+              <div
+                onClick={() => {
+                  setAllVisibility();
+                  setRoadview(false);
+                }}
+              >
+                <p>
+                  Show all
+                  <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
+                </p>
+              </div>
+              <div
+                onClick={() => {
+                  setAllVisibilityOff();
+                  setRoadview(true);
+                }}
+              >
+                <p>Hide all</p>
+              </div>
             </div>
           </div>
         </div>
-        <div>
+
+        <div style={{ overflowY: 'scroll', height: `${height - 90}px` }}>
           <List>
             {['Satellite background'].map((text) => (
               <ListItem

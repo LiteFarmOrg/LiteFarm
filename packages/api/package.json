@@ -29,6 +29,10 @@
     "fix-lint": "eslint src --fix",
     "precommit": ""
   },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
+  },
   "author": "LiteFarm",
   "license": "ISC",
   "repository": {

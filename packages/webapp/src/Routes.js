@@ -35,7 +35,6 @@ const IntroSlide = React.lazy(() => import('./containers/IntroSlide'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
 const Log = React.lazy(() => import('./containers/Log'));
 const NewLog = React.lazy(() => import('./containers/Log/NewLog'));
-const MapFilter = React.lazy(() => import('./components/MapFilter'));
 const FertilizingLog = React.lazy(() => import('./containers/Log/FertilizingLog'));
 const PestControlLog = React.lazy(() => import('./containers/Log/PestControlLog'));
 const FieldWorkLog = React.lazy(() => import('./containers/Log/FieldWorkLog'));
@@ -166,7 +165,6 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
-            <Route path="/map_filter" exact component={MapFilter} />
             <Route path="/fertilizing_log" exact component={FertilizingLog} />
             <Route path="/pest_control_log" exact component={PestControlLog} />
             <Route path="/field_work_log" exact component={FieldWorkLog} />
@@ -256,7 +254,6 @@ const Routes = () => {
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
-            <Route path="/map_filter" exact component={MapFilter} />
             <Route path="/fertilizing_log" exact component={FertilizingLog} />
             <Route path="/pest_control_log" exact component={PestControlLog} />
             <Route path="/field_work_log" exact component={FieldWorkLog} />
@@ -349,7 +346,6 @@ const Routes = () => {
 
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
-            <Route path="/map_filter" exact component={MapFilter} />
             <Route path="/fertilizing_log" exact component={FertilizingLog} />
             <Route path="/pest_control_log" exact component={PestControlLog} />
             <Route path="/field_work_log" exact component={FieldWorkLog} />

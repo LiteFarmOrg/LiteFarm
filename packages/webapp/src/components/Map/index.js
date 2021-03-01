@@ -10,17 +10,7 @@ import MapFilter from '../MapFilter';
 
 export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
   const { t } = useTranslation();
-  const [showFilter, setShowFilter] = useState(false);
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  const onFilter = () => {
-    setShowFilter(true);
-  };
+  let [roadview, setRoadview] = useState(true);
 
   const getMapOptions = (maps) => {
     return {
@@ -44,7 +34,7 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
       maxZoom: 80,
       tilt: 0,
       mapTypeControl: true,
-      mapTypeId: maps.MapTypeId.SATELLITE,
+      mapTypeId: roadview ? maps.MapTypeId.ROADMAP : maps.MapTypeId.SATELLITE,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
@@ -75,8 +65,12 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
           ></GoogleMap>
         </div>
       </div>
-      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} setShowFilter={onFilter} />
-      {showFilter && <MapFilter />}
+      <PureMapFooter
+        className={styles.mapFooter}
+        isAdmin={isAdmin}
+        setRoadview={setRoadview}
+        roadview={roadview}
+      />
     </div>
   );
 }

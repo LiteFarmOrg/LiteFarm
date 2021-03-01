@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
-import PureMapHeader from '../../components/Map/Header';
-import PureMapFooter from '../../components/Map/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../../containers/userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import { fieldsSelector } from '../fieldSlice';
+
+import PureMapHeader from '../../components/Map/Header';
+import PureMapFooter from '../../components/Map/Footer';
+import CustomZoom from '../../components/Map/CustomZoom';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -59,6 +62,14 @@ export default function Map() {
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
+
+    const zoomControlDiv = document.createElement('div');
+    ReactDOM.render(<CustomZoom onClickZoomIn={() => console.log('hi')} />, zoomControlDiv);
+    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
+
+    // const northifyControlDiv = document.createElement('div');
+    // ReactDOM.render(<CustomZoom onClick={() => console.log('hi')} />, northifyControlDiv);
+    // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(northifyControlDiv);
 
     // let farmBounds = new maps.LatLngBounds();
     // TODO: FILL IN HANDLE GOOGLE MAP API

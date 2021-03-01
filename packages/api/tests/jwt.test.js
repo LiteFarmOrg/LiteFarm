@@ -390,10 +390,10 @@ describe('JWT Tests', () => {
       });
       googleUser = fakeGoogleTokenContent();
       checkGoogleJwt.mockImplementation(async (req, res, next) => {
-        req.user = {...googleUser};
+        req.user = { ...googleUser };
         return next();
       });
-      emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
+      emailMiddleware.sendEmail.mockClear();
       invitationToken = undefined;
       reqBody = fakeReqBody();
       done();

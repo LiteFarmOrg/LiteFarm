@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (fieldModel.js) is part of LiteFarm.
+ *  This file (harvestLogModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -14,39 +14,34 @@
  */
 
 const Model = require('objection').Model;
-const baseModel = require('./baseModel');
 
-class Field extends baseModel {
+class Point extends Model {
   static get tableName() {
-    return 'field';
+    return 'point';
   }
 
   static get idColumn() {
-    return 'field_id';
+    return 'figure_id';
   }
 
-  // Optional JSON schema. This is not the database schema! Nothing is generated
-  // based on this. This is only used for validation. Whenever a model instance
-  // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['field_id'],
+      required: ['poin'],
+
       properties: {
-        field_id: { type: 'string' },
-        organic_status: { type: 'string' },
-        station_id: { type: 'string' },
-        transition_date: { type: 'date' },
+        figure_id: { type: 'string' },
+        line_points: {
+          type: 'object',
+          properties: {
+            lat: { type: 'number' },
+            lng: { type: 'number' },
+          },
+        },
       },
       additionalProperties: false,
     };
   }
-
-  static get relationMappings() {
-    // Import models here to prevent require loops.
-    return {
-    };
-  }
 }
 
-module.exports = Field;
+module.exports = Point;

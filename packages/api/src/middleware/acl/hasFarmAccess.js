@@ -19,6 +19,7 @@ const entitiesGetters = {
   activity_id: fromActivity,
   sale_id: fromSale,
   shift_id: fromShift,
+  location_id: fromLocation,
   survey_id: fromOrganicCertifierSurvey,
 }
 const userFarmModel = require('../../models/userFarmModel');
@@ -71,6 +72,10 @@ async function fromNitrogenSchedule(nitrogenScheduleId) {
 
 async function fromDisease(disease_id) {
   return knex('disease').where({ disease_id }).first();
+}
+
+async function fromLocation(location_id) {
+  return knex('location').where({ location_id }).first();
 }
 
 async function fromCrop(cropId) {

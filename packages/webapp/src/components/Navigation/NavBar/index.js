@@ -395,7 +395,7 @@ const Logo = ({ history }) => {
   return (
     <img
       src={matches ? SmallLogo : SmallerLogo}
-      style={{ marginLeft: matches ? 0 : '60px', cursor: 'pointer' }}
+      style={{ marginLeft: matches ? 0 : '36px', cursor: 'pointer' }}
       alt="Logo"
       onClick={() => history.push('/')}
     />

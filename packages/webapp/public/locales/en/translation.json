@@ -82,6 +82,21 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "EXPORT_MODAL": {
+      "BODY": "How do you want to export your farm map?",
+      "DOWNLOAD": "Download",
+      "SHARE": "Share",
+      "TITLE": "Export your farm map"
+    },
+    "SPOTLIGHT": {
+      "ADD": "Add locations to your map",
+      "ADD_TITLE": "Add to your map",
+      "EXPORT": "Download or share your map",
+      "EXPORT_TITLE": "Export your map",
+      "FILTER": "Change what locations you see on your map",
+      "FILTER_TITLE": "Filter your map",
+      "HERE_YOU_CAN": "Here you can:"
+    },
     "TITLE": "Farm map"
   },
   "FIELDS": {
@@ -384,25 +399,21 @@
     "TITLE": "Field Work Log"
   },
   "LOG_HARVEST": {
-    "ADD_CUSTOM_TYPE": {
-      "INPUT_LABEL": "Name of the custom harvest use",
-      "TITLE": "Add a harvest use"
-    },
     "ADD_CUSTOM_USE_TYPE": "Add custom use",
+    "CROP": "Choose a crop",
+    "CROP_PLACEHOLDER": "Select a crop",
+    "FIELD": "Choose a field",
+    "FIELD_PLACEHOLDER": "Select a field",
     "HARVEST_ALLOCATION_SUBTITLE": "About how much of the harvest will be used for each purpose?",
-    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate",
     "HARVEST_ALLOCATION_TITLE": "Harvest Log (step 3)",
     "HARVEST_QUANTITY": "Harvest Quantity",
     "HARVEST_USE": "Harvest Use",
     "HARVEST_USE_TYPE_SUBTITLE": "How will the harvest be used?",
     "HARVEST_USE_TYPE_TITLE": "Harvest Log (step 2)",
-    "FIELD": "Choose a field",
-    "CROP": "Choose a crop",
-    "FIELD_PLACEHOLDER": "Select a field",
-    "CROP_PLACEHOLDER": "Select a crop",
     "QUANTITY": "Quantity",
+    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places",
     "TITLE": "Harvest Log (step 1)",
-    "QUANTITY_ERROR": "Quantity must be up to 2 decimal places"
+    "HARVEST_ALLOCATION_SUBTITLE_TWO": "Amount to allocate"
   },
   "LOG_IRRIGATION": {
     "FLOW_RATE": "Flow Rate",
@@ -471,9 +482,6 @@
     "TITLE": "Soil Data Log",
     "TOTAL_CARBON": "Total Carbon"
   },
-  "LOGIN": {
-    "TITLE": "Everything you need for managing your farm, in your pocket."
-  },
   "MY_FARM": {
     "FARM_INFO": "Farm info",
     "FARM_MAP": "Farm map",
@@ -488,17 +496,6 @@
       "PROFILE": "Here you will find:, • Your info, • Helpful tips, • The log out button",
       "PROFILE_TITLE": "This is your profile"
     }
-  },
-  "NEW_FINANCES": {
-    "BALANCE": "Balance",
-    "EXPENSES": "Expenses",
-    "SALE": {
-      "DETAILED_HISTORY": "Detailed History",
-      "SUMMARY": "Summary"
-    },
-    "SALES": "Sales",
-    "SUMMARY_REPORT": "Summary Report for",
-    "TITLE": "Finances"
   },
   "NOTIFICATION": {
     "NOTIFICATION_TEASER": "Coming Soon!"
@@ -612,7 +609,6 @@
       "CUSTOMER_NAME": "Customer Name",
       "CUSTOMER_NAME_REQUIRED": "Required",
       "DATE": "Date",
-      "NEW": "MISSING",
       "TABLE_HEADERS": {
         "CROPS": "Crops",
         "QUANTITY": "Quantity",
@@ -781,18 +777,14 @@
     "TITLE": "Shifts"
   },
   "SIGNUP": {
-    "DIDNT_WORK": "That didn't work.",
     "EMAIL_INVALID": "Email is invalid",
     "ENTER_EMAIL": "Enter your email address",
     "EXPIRED_ERROR": "We've updated our infrastructure and you'll need to reset your password. Check your inbox to proceed.",
     "GOOGLE_BUTTON": "CONTINUE WITH GOOGLE",
     "INVITED_ERROR": "We've updated our infrastructure and you'll need to check your inbox for a farm invitation to proceed.",
-    "OOPS": "Oops!",
     "PASSWORD_ERROR": "Password incorrect",
-    "PLEASE_SIGNUP": "Please, sign up.",
     "SIGN_IN": "Sign In",
     "SSO_ERROR": "Please login by clicking the Google button above",
-    "TITLE": "Sign Up",
     "WELCOME_BACK": "Welcome back",
     "WRONG_BROWSER": "LiteFarm is not optimized for this browser.",
     "WRONG_BROWSER_BOTTOM": "Please login using Chrome."
@@ -832,6 +824,5 @@
   },
   "WELCOME_SCREEN": {
     "BUTTON": "Let's get started"
-  },
-  "LOGIN_BUTTON": "Log In or Sign Up"
+  }
 }

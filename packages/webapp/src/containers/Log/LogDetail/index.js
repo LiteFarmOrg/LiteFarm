@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import moment from 'moment';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
 import history from '../../../history';
 
 import { diseaseSelector, pesticideSelector } from '../PestControlLog/selectors';
@@ -19,6 +18,7 @@ import { fieldsSelector } from '../../fieldSlice';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { Semibold } from '../../../components/Typography';
 import { canEdit, canEditStepOne, canEditStepThree, canEditStepTwo } from '../Utility/logSlice';
+import DropdownButton from '../../../components/Form/DropDownButton';
 
 class LogDetail extends Component {
   constructor(props) {
@@ -160,6 +160,13 @@ class LogDetail extends Component {
     let { selectedLog, farm } = this.props;
     const language = localStorage.getItem('litefarm_lang');
     let { quantity_unit, space_unit, rate_unit, ratePerMin } = this.state;
+    const options = [
+      {
+        text: this.props.t('common:EDIT'),
+        onClick: () => this.editLog(selectedLog.activity_kind),
+      },
+      { text: this.props.t('common:DELETE'), onClick: () => this.confirmDelete() },
+    ];
 
     let months = [
       'January',
@@ -226,26 +233,8 @@ class LogDetail extends Component {
                 Number(farm.role_id) === 2 ||
                 Number(farm.role_id) === 5 ||
                 Number(farm.role_id) === 3) && (
-                <DropdownButton
-                  style={{
-                    background: '#EFEFEF',
-                    color: '#4D4D4D',
-                    border: 'none',
-                  }}
-                  title={this.props.t('LOG_COMMON.ACTION')}
-                  key={dropDown}
-                  id={`dropdown-basic-${dropDown}`}
-                >
-                  <Dropdown.Item
-                    eventKey="0"
-                    onClick={() => this.editLog(selectedLog.activity_kind)}
-                  >
-                    {this.props.t('common:EDIT')}
-                  </Dropdown.Item>
-
-                  <Dropdown.Item eventKey="1" onClick={() => this.confirmDelete()}>
-                    {this.props.t('common:DELETE')}
-                  </Dropdown.Item>
+                <DropdownButton options={options}>
+                  {this.props.t('LOG_COMMON.ACTION')}
                 </DropdownButton>
               )}
             </div>

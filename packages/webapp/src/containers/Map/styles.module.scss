@@ -1,0 +1,33 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100%;
+  align-items: stretch;
+  flex: 1;
+}
+
+.mapHeader {
+  order: 1;
+}
+
+.mapContainer {
+  position: relative;
+  min-height: 152px;
+  order: 2;
+  flex-grow: 1;
+  display: flex;
+}
+
+.workaround {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.mapFooter {
+  order: 3;
+  z-index: 101;
+}

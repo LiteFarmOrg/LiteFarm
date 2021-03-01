@@ -12,6 +12,7 @@ export default function FarmSwitchOutroFloater({ children, onFinish }) {
       hideArrow
       component={<FarmSwitchOutro onFinish={onFinish} farm_name={farm_name} />}
       placement={'center'}
+      styles={{ floater: { zIndex: 1500 } }}
     >
       {children}
     </Floater>

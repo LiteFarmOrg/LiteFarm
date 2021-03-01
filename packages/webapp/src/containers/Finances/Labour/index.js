@@ -3,7 +3,6 @@ import moment from 'moment';
 import PageTitle from '../../../components/PageTitle';
 import connect from 'react-redux/es/connect/connect';
 import defaultStyles from '../styles.module.scss';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
 import styles from './styles.module.scss';
 import Employee from './Employee';
 import Crop from './Crop';
@@ -15,6 +14,7 @@ import { withTranslation } from 'react-i18next';
 import { currentFieldCropsSelector } from '../../fieldCropSlice';
 import { Main } from '../../../components/Typography';
 import grabCurrencySymbol from '../../../util/grabCurrencySymbol';
+import DropdownButton from '../../../components/Form/DropDownButton';
 
 class Labour extends Component {
   constructor(props) {
@@ -68,6 +68,15 @@ class Labour extends Component {
     const { dropDownTitle, dButtonStyle } = this.state;
     const { farm } = this.props;
     const symbol = grabCurrencySymbol(farm);
+    const options = [
+      {
+        text: this.props.t('SALE.LABOUR.EMPLOYEES'),
+        onClick: () => this.sortBy('EMPLOYEES'),
+      },
+      { text: this.props.t('SALE.LABOUR.CROPS'), onClick: () => this.sortBy('CROPS') },
+      { text: this.props.t('SALE.LABOUR.TASKS'), onClick: () => this.sortBy('TASKS') },
+    ];
+
     return (
       <div className={defaultStyles.financesContainer}>
         <PageTitle backUrl="/Finances" title={this.props.t('SALE.LABOUR.TITLE')} />
@@ -75,21 +84,8 @@ class Labour extends Component {
         <div className={styles.topButtonContainer}>
           <Main>{this.props.t('SALE.LABOUR.BY')}</Main>
           <div className={styles.dropDownContainer}>
-            <DropdownButton
-              variant={'default'}
-              title={this.props.t(`SALE.LABOUR.${dropDownTitle}`)}
-              key={i}
-              id={`dropdown-basic-${i}`}
-            >
-              <Dropdown.Item eventKey="1" onClick={() => this.sortBy('EMPLOYEES')}>
-                {this.props.t('SALE.LABOUR.EMPLOYEES')}
-              </Dropdown.Item>
-              <Dropdown.Item eventKey="2" onClick={() => this.sortBy('CROPS')}>
-                {this.props.t('SALE.LABOUR.CROPS')}
-              </Dropdown.Item>
-              <Dropdown.Item eventKey="3" onClick={() => this.sortBy('TASKS')}>
-                {this.props.t('SALE.LABOUR.TASKS')}
-              </Dropdown.Item>
+            <DropdownButton options={options}>
+              {this.props.t(`SALE.LABOUR.${dropDownTitle}`)}
             </DropdownButton>
           </div>
         </div>

@@ -14,7 +14,7 @@ export default function PureMapHeader({ className, style, farmName, showVideo })
         {' | '}
         <span className={styles.farmMap}>{t('FARM_MAP.TITLE')}</span>
       </div>
-      <input type="image" src={VideoLogo} className={styles.button} onClick={() => showVideo()} />
+      <input type="image" src={VideoLogo} className={styles.button} onClick={showVideo} />
     </div>
   );
 }
@@ -22,5 +22,6 @@ export default function PureMapHeader({ className, style, farmName, showVideo })
 PureMapHeader.prototype = {
   className: PropTypes.string,
   style: PropTypes.object,
+  farmName: PropTypes.string,
   showVideo: PropTypes.func,
 };

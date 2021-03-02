@@ -55,6 +55,7 @@ const pesticideRoutes = require('./routes/pesticideRoute');
 const yieldRoutes = require('./routes/yieldRoute');
 const priceRoutes = require('./routes/priceRoute');
 const insightRoutes = require('./routes/insightRoute');
+const locationRoute = require('./routes/locationRoute');
 const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
@@ -101,6 +102,7 @@ app.use(bodyParser.json())
   .use(checkJwt)
 
   // routes
+  .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
   .use('/field', fieldRoutes)

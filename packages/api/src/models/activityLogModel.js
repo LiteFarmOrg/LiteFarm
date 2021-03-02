@@ -162,8 +162,8 @@ class activityLogModel extends BaseModel {
         },
 
       },
-      field:{
-        modelClass:require('./fieldModel'),
+      location: {
+        modelClass:require('./locationModel'),
         relation:Model.ManyToManyRelation,
         join:{
           from: 'activityLog.activity_id',
@@ -172,9 +172,8 @@ class activityLogModel extends BaseModel {
             from: 'activityFields.activity_id',
             to: 'activityFields.field_id',
           },
-          to: 'field.field_id',
+          to: 'location.location_id',
         },
-
       },
       ...this.baseRelationMappings('activityLog'),
     };

@@ -1,0 +1,22 @@
+extends ./template
+block content
+    .support-container
+        .support-content
+            span=`${t('HELP_REQUEST.RESPONSE')}`
+    .support-container
+        .support-header
+            span=`${t('HELP_REQUEST.TYPE_HEADER')}:`
+        .support-content
+            | #{support_type}
+    .support-container
+        .support-header
+            span=`${t('HELP_REQUEST.MESSAGE_HEADER')}:`
+        .support-content
+            | #{message}
+    .support-container
+        .support-header
+            span=`${t('HELP_REQUEST.CONTACT_METHOD_HEADER')}:`
+        .support-content
+            | #{contact_method}
+        .support-content
+            | #{contact}

@@ -4,17 +4,9 @@ import styles from './styles.module.scss';
 import { ReactComponent as ZoomInLogo } from '../../../assets/images/map/zoomIn.svg';
 import { ReactComponent as ZoomOutLogo } from '../../../assets/images/map/zoomOut.svg';
 
-export default function CustomZoom({
-  className,
-  style,
-  onClickZoomIn,
-  onClickZoomOut,
-}) {
+export default function CustomZoom({ className, style, onClickZoomIn, onClickZoomOut }) {
   return (
-    <div
-      className={[styles.container, className].join(' ')}
-      style={style}
-    >
+    <div className={[styles.container, className].join(' ')} style={style}>
       <button className={styles.zoomIn} onClick={onClickZoomIn}>
         <ZoomInLogo className={styles.svg} />
       </button>

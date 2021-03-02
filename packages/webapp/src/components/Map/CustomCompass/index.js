@@ -3,16 +3,9 @@ import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as NorthLogo } from '../../../assets/images/map/north.svg';
 
-export default function CustomCompass({
-  className,
-  style,
-  onClick,
-}) {
+export default function CustomCompass({ className, style, onClick }) {
   return (
-    <div
-      className={[styles.container, className].join(' ')}
-      style={style}
-    >
+    <div className={[styles.container, className].join(' ')} style={style}>
       <NorthLogo className={styles.svg} />
     </div>
   );

@@ -55,6 +55,7 @@ import newFieldSaga from './containers/Field/NewField/saga';
 import editFieldSaga from './containers/Field/EditField/saga';
 import inviteSaga from './containers/InvitedUserCreateAccount/saga';
 import weatherSaga from './containers/WeatherBoard/saga';
+import mapSaga from './containers/Map/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
 
@@ -120,6 +121,7 @@ sagaMiddleware.run(callbackSaga);
 sagaMiddleware.run(inviteSaga);
 sagaMiddleware.run(weatherSaga);
 sagaMiddleware.run(inviteUserSaga);
+sagaMiddleware.run(mapSaga);
 
 const persistor = persistStore(store);
 

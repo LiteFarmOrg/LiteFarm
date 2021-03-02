@@ -25,7 +25,7 @@ const roleModel = require('../models/roleModel');
 const shiftModel = require('../models/shiftModel');
 const userFarmStatusEnum = require('../common/enums/userFarmStatus');
 const { transaction, Model } = require('objection');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 const { v4: uuidv4 } = require('uuid');
 const { createToken } = require('../util/jwt');
 
@@ -167,6 +167,7 @@ const userFarmController = {
           const replacements = {
             first_name: userFarm.first_name,
             farm: userFarm.farm_name,
+            locale: userFarm.language_preference,
           };
           if (has_consent === false) {
             template_path = emails.WITHHELD_CONSENT;
@@ -175,7 +176,7 @@ const userFarmController = {
             template_path.subjectReplacements = userFarm.farm_name;
             replacements['role'] = userFarm.role;
           }
-          return await sendEmailTemplate.sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
+          return sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
         } catch (e) {
           console.log(e);
         }
@@ -296,6 +297,7 @@ const userFarmController = {
         const replacements = {
           first_name: targetUser.first_name,
           farm: targetUser.farm_name,
+          locale: targetUser.language_preference,
         };
         const sender = 'system@litefarm.org';
 
@@ -323,7 +325,7 @@ const userFarmController = {
           try {
             console.log('template_path:', template_path);
             if (targetUser.email && template_path) {
-              await sendEmailTemplate.sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
+              sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
             }
           } catch (e) {
             console.log('Failed to send email: ', e);

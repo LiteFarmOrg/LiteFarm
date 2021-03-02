@@ -47,7 +47,7 @@ describe('Sign Up Tests', () => {
   });
 
   beforeEach(() => {
-    emailMiddleware.sendEmailTemplate.sendEmail.mockClear();
+    emailMiddleware.sendEmail.mockClear();
   })
 
   // FUNCTIONS
@@ -133,7 +133,7 @@ describe('Sign Up Tests', () => {
         expect(res.status).toBe(200);
         expect(res.body.exists).toBe(false);
         expect(res.body.invited).toBe(true);
-        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalled();
+        expect(emailMiddleware.sendEmail).toHaveBeenCalled();
         done();
       })
     })
@@ -148,7 +148,7 @@ describe('Sign Up Tests', () => {
         expect(res.status).toBe(200);
         expect(res.body.exists).toBe(false);
         expect(res.body.invited).toBe(true);
-        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(4);
+        expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(4);
         done();
       })
     })
@@ -160,7 +160,7 @@ describe('Sign Up Tests', () => {
         expect(res.status).toBe(200);
         expect(res.body.exists).toBe(false);
         expect(res.body.expired).toBe(true);
-        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(1);
+        expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(1);
         done();
       })
     })
@@ -173,7 +173,7 @@ describe('Sign Up Tests', () => {
           expect(res2.status).toBe(200);
           expect(res2.body.exists).toBe(false);
           expect(res2.body.expired).toBe(true);
-          expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(2);
+          expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(2);
           done();
         })
       })
@@ -185,7 +185,7 @@ describe('Sign Up Tests', () => {
       const [userFarm1] = await mocks.userFarmFactory({promisedUser: [user]});
       getRequest({email: user.email}, (err, res) => {
         expect(res.status).toBe(400);
-        expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(0);
+        expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(0);
         done();
       })
     })
@@ -209,7 +209,7 @@ describe('Sign Up Tests', () => {
               expect(emailTokenRow.times_sent).toBe(3);
               expect(res.body.exists).toBe(false);
               expect(res.body.invited).toBe(true);
-              expect(emailMiddleware.sendEmailTemplate.sendEmail).toHaveBeenCalledTimes(3);
+              expect(emailMiddleware.sendEmail).toHaveBeenCalledTimes(3);
               done();
             })
           })

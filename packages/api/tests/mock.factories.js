@@ -179,13 +179,14 @@ async function lineFactory({ promisedLocation = locationFactory()} = {}, line = 
   const [{ location_id }] = location;
   const { type, ...realLine} = line;
   const [{ figure_id }] = await figureFactory(location_id, lineType ? lineType : type);
-  return knex('line').insert({ figure_id , ...realLine })
+  return knex('line').insert({ figure_id , ...realLine }).returning('*')
 }
 
 function fakeLine() {
   return {
     length: faker.random.number(),
     width: faker.random.number(),
+    type: faker.random.arrayElement(['fence', 'creek']),
     line_points: JSON.stringify([{
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),

@@ -170,7 +170,7 @@ class activityLogModel extends BaseModel {
           through: {
             modelClass: require('./activityFieldsModel'),
             from: 'activityFields.activity_id',
-            to: 'activityFields.field_id',
+            to: 'activityFields.location_id',
           },
           to: 'location.location_id',
         },

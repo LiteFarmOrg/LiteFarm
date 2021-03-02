@@ -29,11 +29,11 @@ class FieldCrop extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_id', 'field_id', 'area_used', 'estimated_production', 'estimated_revenue'],
+      required: ['crop_id', 'location_id', 'area_used', 'estimated_production', 'estimated_revenue'],
       properties: {
         field_crop_id: { type: 'integer' },
         crop_id: { type: 'integer' },
-        field_id: { type: 'string' },
+        location_id: { type: 'string' },
         variety: { type: 'string' },
         start_date: { type: 'date-time' },
         end_date: { type: 'date-time' },
@@ -57,8 +57,8 @@ class FieldCrop extends baseModel {
         // to a module that exports one.
         modelClass: require('./fieldModel.js'),
         join: {
-          from: 'fieldCrop.field_id',
-          to: 'field.farm_id',
+          from: 'fieldCrop.location_id',
+          to: 'location.farm_id',
         },
 
       },

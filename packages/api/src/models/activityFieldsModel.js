@@ -27,11 +27,11 @@ class ActivityFields extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['field_id'],
+      required: ['location_id'],
 
       properties: {
         activity_id: { type: 'integer' },
-        field_id: { type: 'string' },
+        location_id: { type: 'string' },
         additionalProperties: false,
       },
     };

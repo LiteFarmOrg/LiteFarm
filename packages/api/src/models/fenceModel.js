@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (harvestLogModel.js) is part of LiteFarm.
+ *  This file (fieldModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,33 +15,31 @@
 
 const Model = require('objection').Model;
 
-class Point extends Model {
+class Fence extends Model {
   static get tableName() {
-    return 'point';
+    return 'fence';
   }
 
   static get idColumn() {
-    return 'figure_id';
+    return 'location_id';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['point'],
-
+      required: ['location_id'],
       properties: {
-        figure_id: { type: 'string' },
-        point: {
-          type: 'object',
-          properties: {
-            lat: { type: 'number' },
-            lng: { type: 'number' },
-          },
-        },
+        location_id: { type: 'string' },
+        pressure_treated: { type: 'boolean' },
       },
       additionalProperties: false,
     };
   }
+
+  static get relationMappings() {
+    // Import models here to prevent require loops.
+    return {};
+  }
 }
 
-module.exports = Point;
+module.exports = Fence;

@@ -13,7 +13,8 @@
     "RESPONSE": "Thanks for reaching out. Someone on our support team will be in touch within 48 hours. A summary of your request is shown below.",
     "TYPE_HEADER": "Type of support",
     "MESSAGE_HEADER": "Message",
-    "CONTACT_METHOD_HEADER": "Preferred contact method"
+    "CONTACT_METHOD_HEADER": "Preferred contact method",
+    "SUBJECT": "Your LiteFarm request for help"
   },
   "INVITE": {
     "GREAT_FOLK": "The great folks at",

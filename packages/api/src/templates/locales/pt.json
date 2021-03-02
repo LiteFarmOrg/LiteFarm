@@ -13,7 +13,8 @@
     "RESPONSE": "Obrigado por nos contatar. Alguém do nosso time de suporte entrará em contato dentro de 48 horas. Um resumo do seu pedido está mostrado abaixo.",
     "TYPE_HEADER": "Type of support",
     "MESSAGE_HEADER": "Message",
-    "CONTACT_METHOD_HEADER": "Preferred contact method"
+    "CONTACT_METHOD_HEADER": "Preferred contact method",
+    "SUBJECT": "Your LiteFarm request for help"
   },
   "INVITE": {
     "GREAT_FOLK": "The great folks at",

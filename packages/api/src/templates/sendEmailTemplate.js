@@ -15,13 +15,9 @@
 
 const nodemailer = require('nodemailer');
 const credentials = require('../credentials');
-const handlebars = require('handlebars');
 const subjectTranslation = require('./subject_translation.json');
-const fs = require('fs-extra');
 const path = require('path');
-const jsdom = require('jsdom');
 const EmailTemplates = require('email-templates');
-const { JSDOM } = jsdom;
 
 const emails = {
   INVITATION: { subjectReplacements: '', path: 'invitation_to_farm_email' },
@@ -54,7 +50,7 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
   return homeUrl;
 }
 
-const emailRenderer = new EmailTemplates({
+const emailTransporter = new EmailTemplates({
   views: {
     root: path.join(__dirname, 'emails'),
   },
@@ -62,6 +58,17 @@ const emailRenderer = new EmailTemplates({
     locales: ['en', 'es', 'fr', 'pt'],
     directory: path.join(__dirname, 'locales'),
     objectNotation: true,
+  },
+  transport: {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      clientId: credentials.LiteFarm_Service_Gmail.client_id,
+      clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
+    },
   },
 });
 
@@ -82,13 +89,10 @@ function sendEmail(template_path, replacements, email_to, sender = 'system@litef
     replacements.year = new Date().getFullYear();
     replacements.buttonLink = buttonLink ? `${homeUrl()}${buttonLink}` : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
     replacements.imgBaseUrl = homeUrl('https://beta.litefarm.org');
-    emailRenderer.render(template_path, replacements).then((html) => {
-      const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
-      const subject = addReplacements(template_path, subjectTranslation[replacements && replacements.locale && replacements.locale.substring(0, 2)][subjectKey]);
+    emailTransporter.render(template_path, replacements).then((html) => {
       const mailOptions = {
         from: 'LiteFarm <' + sender + '>',
         to: email_to,
-        subject,
         html,
         auth: {
           user: 'system@litefarm.org',

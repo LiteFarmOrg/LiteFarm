@@ -3,7 +3,8 @@
     "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda lo/la contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
     "TYPE_HEADER": "Tipo de soporte",
     "MESSAGE_HEADER": "Mensaje",
-    "CONTACT_METHOD_HEADER": "Metodo de contacto preferido"
+    "CONTACT_METHOD_HEADER": "Metodo de contacto preferido",
+    "SUBJECT": "Your LiteFarm request for help"
   },
   "TEMPLATE": {
     "DEAR": "Querido",

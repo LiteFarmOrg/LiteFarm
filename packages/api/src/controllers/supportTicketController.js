@@ -16,7 +16,7 @@
 const baseController = require('../controllers/baseController');
 const supportTicketModel = require('../models/supportTicketModel');
 const userModel = require('../models/userModel');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 
 const supportTicketController = {
   // Disabled
@@ -53,10 +53,11 @@ const supportTicketController = {
           message: result.message,
           contact_method: capitalize(result.contact_method),
           contact: result[result.contact_method],
+          locale: user.language_preference,
         };
         const email = data.contact_method === 'email' && data.email;
-        await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
-        email && email !== user.email && await sendEmailTemplate.sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, data.attachments);
+        sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
+        email && email !== user.email && sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, data.attachments);
         res.status(201).send(result);
       } catch (error) {
         console.log(error);

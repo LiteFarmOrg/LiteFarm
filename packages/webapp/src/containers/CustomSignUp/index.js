@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PureCustomSignUp from '../../components/CustomSignUp';
 import {
+  customCreateUser,
   customLoginWithPassword,
   customSignUp,
-  customCreateUser,
   sendResetPasswordEmail,
 } from './saga';
 import history from '../../history';
@@ -13,12 +13,13 @@ import Spinner from '../../components/Spinner';
 import { useTranslation } from 'react-i18next';
 import GoogleLoginButton from '../GoogleLoginButton';
 import {
+  CREATE_USER_ACCOUNT,
   CUSTOM_SIGN_UP,
   ENTER_PASSWORD_PAGE,
-  CREATE_USER_ACCOUNT,
   inlineErrors,
 } from './constants';
 import { isChrome } from '../../util';
+
 const ResetPassword = React.lazy(() => import('../ResetPassword'));
 const PureEnterPasswordPage = React.lazy(() => import('../../components/Signup/EnterPasswordPage'));
 const PureCreateUserAccount = React.lazy(() => import('../../components/CreateUserAccount'));
@@ -53,7 +54,7 @@ function CustomSignUp() {
   const showPureEnterPasswordPage = componentToShow === ENTER_PASSWORD_PAGE;
   const showPureCreateUserAccount = componentToShow === CREATE_USER_ACCOUNT;
   const showPureCustomSignUp = !showPureCreateUserAccount && !showPureEnterPasswordPage;
-  const { t, i18n } = useTranslation();
+  const { t, i18n, ready } = useTranslation(['translation', 'common'], { useSuspense: false });
 
   const forgotPassword = () => {
     dispatch(sendResetPasswordEmail(email));
@@ -65,7 +66,7 @@ function CustomSignUp() {
   useEffect(() => {
     const params = new URLSearchParams(history.location.search.substring(1));
     setValue(EMAIL, user?.email || params.get('email'));
-  }, [user, setValue]);
+  }, [user, setValue, ready]);
 
   useEffect(() => {
     if (
@@ -125,7 +126,7 @@ function CustomSignUp() {
   const errorMessage = history.location.state?.error;
   return (
     <>
-      <Suspense fallback={Spinner}>
+      <Suspense fallback={<Spinner />}>
         <Hidden isVisible={showPureEnterPasswordPage}>
           <PureEnterPasswordPage
             onLogin={onLogin}

@@ -20,7 +20,7 @@ export default function PureMapFooter({
   showModal,
 }) {
   const { t } = useTranslation();
-  const [stepSpotlighted, setStepSpotlighted] = useState(null)
+  const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
   const resetSpotlightStatus = (data) => {
     const { action, status, lifecycle } = data;
@@ -127,17 +127,28 @@ export default function PureMapFooter({
           }}
         />
       )}
-      <div
-        className={clsx(container, className)}
-        style={style}
-      >
-        {isAdmin && <button className={clsx(button, stepSpotlighted === 0 && spotlighted)} id="mapFirstStep" onClick={onClickAdd}>
-          <AddLogo className={svg} />
-        </button>}
-        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep" onClick={onClickFilter}>
+      <div className={clsx(container, className)} style={style}>
+        {isAdmin && (
+          <button
+            className={clsx(button, stepSpotlighted === 0 && spotlighted)}
+            id="mapFirstStep"
+            onClick={onClickAdd}
+          >
+            <AddLogo className={svg} />
+          </button>
+        )}
+        <button
+          className={clsx(button, stepSpotlighted === 1 && spotlighted)}
+          id="mapSecondStep"
+          onClick={onClickFilter}
+        >
           <FilterLogo className={svg} />
         </button>
-        <button className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)} id="mapThirdStep" onClick={onClickExport}>
+        <button
+          className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)}
+          id="mapThirdStep"
+          onClick={onClickExport}
+        >
           <ExportLogo className={svg} />
         </button>
       </div>
@@ -160,19 +171,19 @@ PureMapFooter.prototype = {
 const TitleContent = (text) => {
   return (
     <span className={styles.spotlightTitle}>
-      <p align='left' className={styles.spotlightText}>
+      <p align="left" className={styles.spotlightText}>
         {text}
       </p>
     </span>
-  )
+  );
 };
 
 const BodyContent = (text) => {
   const { t } = useTranslation();
   return (
     <>
-      <p align='left'>{t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')}</p>
-      <ul style={{paddingInlineStart: "20px"}}>
+      <p align="left">{t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')}</p>
+      <ul style={{ paddingInlineStart: '20px' }}>
         {text.split(',').map(function (item, key) {
           return (
             <li key={key} className={styles.spotlightText}>
@@ -182,7 +193,7 @@ const BodyContent = (text) => {
         })}
       </ul>
     </>
-  )
+  );
 };
 
 const NextButtonContent = (text) => {

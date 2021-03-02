@@ -46,7 +46,7 @@ function OnboardingFlow({
   const { certifiers, interested } = useSelector(certifierSurveySelector, shallowEqual);
   const hasUserFarms = useSelector(userFarmLengthSelector);
   return (
-    <Suspense fallback={Spinner}>
+    <Suspense fallback={<Spinner />}>
       <Switch>
         <Route path="/farm_selection" exact component={() => <ChooseFarm />} />
         <Route path="/welcome" exact component={WelcomeScreen} />

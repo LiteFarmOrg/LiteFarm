@@ -109,7 +109,7 @@ export default function Map() {
 
   const handleClickFilter = () => {
     setShowModal(false);
-    setShowMapFilter(true);
+    setShowMapFilter(!showMapFilter);
   };
 
   const handleClickExport = () => {
@@ -156,6 +156,7 @@ export default function Map() {
           ></GoogleMap>
         </div>
       </div>
+
       {showMapFilter && <MapFilter setRoadview={setRoadview} />}
       <PureMapFooter
         className={styles.mapFooter}

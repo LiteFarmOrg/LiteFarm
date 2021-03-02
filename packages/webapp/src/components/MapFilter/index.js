@@ -28,6 +28,7 @@ import Line from '../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { Box } from '@material-ui/core';
 import { colors } from '../../assets/theme';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
   list: {
@@ -50,6 +51,8 @@ export default function MapFilter({ setRoadview }) {
     bottom: false,
   });
 
+  const { t } = useTranslation();
+
   let [height, setHeight] = useState(0);
   let [visibility, setVisibility] = useState(false);
   const [selected, setSelected] = useState([]);
@@ -66,24 +69,24 @@ export default function MapFilter({ setRoadview }) {
   };
 
   const areaImgDict = [
-    { name: 'Barn', img: Barn },
-    { name: 'Ceremonial Area', img: CeremonialArea },
-    { name: 'Farm Site Boundary', img: FarmSiteBoundary },
-    { name: 'Field', img: Field },
-    { name: 'Greenhouse', img: Greenhouse },
-    { name: 'Groundwater', img: Groundwater },
-    { name: 'Natural area', img: NaturalArea },
+    { name: t('FARM_MAP.MAP_FILTER.BARN'), img: Barn },
+    { name: t('FARM_MAP.MAP_FILTER.CA'), img: CeremonialArea },
+    { name: t('FARM_MAP.MAP_FILTER.FSB'), img: FarmSiteBoundary },
+    { name: t('FARM_MAP.MAP_FILTER.FIELD'), img: Field },
+    { name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'), img: Greenhouse },
+    { name: t('FARM_MAP.MAP_FILTER.GROUNDWATER'), img: Groundwater },
+    { name: t('FARM_MAP.MAP_FILTER.NA'), img: NaturalArea },
   ];
 
   const lineImgDict = [
-    { name: 'Buffer Zone', img: BufferZone },
-    { name: 'Creek', img: Creek },
-    { name: 'Fence', img: Fence },
+    { name: t('FARM_MAP.MAP_FILTER.BZ'), img: BufferZone },
+    { name: t('FARM_MAP.MAP_FILTER.CREEK'), img: Creek },
+    { name: t('FARM_MAP.MAP_FILTER.FENCE'), img: Fence },
   ];
 
   const pointImgDict = [
-    { name: 'Gate', img: Gate },
-    { name: 'Water Valve', img: WaterValve },
+    { name: t('FARM_MAP.MAP_FILTER.GATE'), img: Gate },
+    { name: t('FARM_MAP.MAP_FILTER.WV'), img: WaterValve },
   ];
 
   const selectOrDeselect = (id) => {
@@ -140,8 +143,8 @@ export default function MapFilter({ setRoadview }) {
           >
             <div className={classes.greenbar} onClick={() => setHeight(window.innerHeight - 75)} />
           </div>
-          <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
-            <Semibold>Filter your map</Semibold>
+          <div style={{ marginLeft: '24px', paddingTop: '10px' }}>
+            <Semibold>{t('FARM_MAP.MAP_FILTER.TITLE')}</Semibold>
             <div
               style={{
                 textDecoration: 'underline',
@@ -158,7 +161,7 @@ export default function MapFilter({ setRoadview }) {
                 }}
               >
                 <p>
-                  Show all
+                  {t('FARM_MAP.MAP_FILTER.SHOW_ALL')}
                   <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
                 </p>
               </div>
@@ -168,7 +171,7 @@ export default function MapFilter({ setRoadview }) {
                   setRoadview(true);
                 }}
               >
-                <p>Hide all</p>
+                <p>{t('FARM_MAP.MAP_FILTER.HIDE_ALL')}</p>
               </div>
             </div>
           </div>
@@ -176,7 +179,7 @@ export default function MapFilter({ setRoadview }) {
 
         <div style={{ overflowY: 'scroll', height: `${height - 90 - 64}px` }}>
           <List>
-            {['Satellite background'].map((text) => (
+            {[t('FARM_MAP.MAP_FILTER.SATELLITE')].map((text) => (
               <ListItem
                 style={
                   selected.includes(text)
@@ -224,7 +227,8 @@ export default function MapFilter({ setRoadview }) {
               }}
             >
               <p>
-                Areas <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
+                {t('FARM_MAP.MAP_FILTER.AREAS')}{' '}
+                <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
               </p>
             </div>
             {areaImgDict.map((item) => (
@@ -276,7 +280,8 @@ export default function MapFilter({ setRoadview }) {
               }}
             >
               <p>
-                Lines <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
+                {t('FARM_MAP.MAP_FILTER.LINES')}{' '}
+                <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
               </p>
             </div>
             {lineImgDict.map((item) => (
@@ -320,7 +325,8 @@ export default function MapFilter({ setRoadview }) {
               }}
             >
               <p>
-                Points <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
+                {t('FARM_MAP.MAP_FILTER.POINTS')}{' '}
+                <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
               </p>
             </div>
             {pointImgDict.map((item) => (

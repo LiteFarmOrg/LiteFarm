@@ -97,7 +97,28 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map"
+    "TITLE": "Farm map",
+    "MAP_FILTER": {
+      "TITLE": "Filter your map",
+      "SHOW_ALL": "Show all",
+      "HIDE_ALL": "Hide all",
+      "SATELLITE": "Satelitte background",
+      "AREAS": "Areas",
+      "POINTS": "Points",
+      "LINES": "Lines",
+      "BARN": "Barn",
+      "CA": "Ceremonial area",
+      "FSB": "Farm site boundary",
+      "FIELD": "Field",
+      "GREENHOUSE": "Greenhouse",
+      "GROUNDWATER": "Groundwater",
+      "NA": "Natural area",
+      "BZ": "Buffer zone",
+      "CREEK": "Creek",
+      "FENCE": "Fence",
+      "GATE": "Gate",
+      "WV": "Water valve"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",

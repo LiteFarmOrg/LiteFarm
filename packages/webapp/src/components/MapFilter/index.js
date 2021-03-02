@@ -174,7 +174,7 @@ export default function MapFilter({ setRoadview }) {
           </div>
         </div>
 
-        <div style={{ overflowY: 'scroll', height: `${height - 90}px` }}>
+        <div style={{ overflowY: 'scroll', height: `${height - 90 - 64}px` }}>
           <List>
             {['Satellite background'].map((text) => (
               <ListItem

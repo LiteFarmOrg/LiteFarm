@@ -130,7 +130,14 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
               padding: '4px 0',
             }}
           >
-            <div className={classes.greenbar} onClick={() => setHeight(window.innerHeight - 75)} />
+            <div
+              className={classes.greenbar}
+              onClick={() => {
+                height === window.innerHeight / 2
+                  ? setHeight(window.innerHeight - 75)
+                  : setHeight(window.innerHeight / 2);
+              }}
+            />
           </div>
           <div style={{ marginLeft: '24px', paddingTop: '10px' }}>
             <Semibold>{t('FARM_MAP.MAP_FILTER.TITLE')}</Semibold>

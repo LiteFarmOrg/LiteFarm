@@ -23,7 +23,7 @@ export default function Map() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   let [roadview, setRoadview] = useState(false);
-  const [showMapFilter, setShowMapFilter] = useState(false);
+  const [showMapFilter, setShowMapFilter] = useState(true);
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
@@ -108,9 +108,7 @@ export default function Map() {
   };
 
   const handleClickFilter = () => {
-    console.log('click');
     setShowMapFilter(!showMapFilter);
-    console.log(showMapFilter);
   };
 
   const handleClickExport = () => {
@@ -138,9 +136,7 @@ export default function Map() {
   });
 
   const toggleDrawer = (anchor, open) => () => {
-    console.log('toggle drawer');
     setState({ ...state, [anchor]: open });
-    console.log(state);
     if (!open) setHeight(window.innerHeight / 2);
   };
 

@@ -108,8 +108,9 @@ export default function Map() {
   };
 
   const handleClickFilter = () => {
-    setShowModal(false);
+    console.log('click');
     setShowMapFilter(!showMapFilter);
+    console.log(showMapFilter);
   };
 
   const handleClickExport = () => {
@@ -137,7 +138,9 @@ export default function Map() {
   });
 
   const toggleDrawer = (anchor, open) => () => {
+    console.log('toggle drawer');
     setState({ ...state, [anchor]: open });
+    console.log(state);
     if (!open) setHeight(window.innerHeight / 2);
   };
 
@@ -179,6 +182,9 @@ export default function Map() {
         height={height}
         state={state}
         toggleDrawer={toggleDrawer}
+        setRoadview={setRoadview}
+        setShowMapFilter={setShowMapFilter}
+        showMapFilter={showMapFilter}
       />
       {showModal && (
         <ExportMapModal

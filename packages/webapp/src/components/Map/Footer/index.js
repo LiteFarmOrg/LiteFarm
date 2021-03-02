@@ -23,6 +23,9 @@ export default function PureMapFooter({
   height,
   state,
   toggleDrawer,
+  setRoadview,
+  setShowMapFilter,
+  showMapFilter,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -151,8 +154,12 @@ export default function PureMapFooter({
           <div>
             {['bottom'].map((anchor) => (
               <React.Fragment key={anchor}>
-                <FilterLogo className={svg} onClick={toggleDrawer(anchor, true)} />
+                <FilterLogo
+                  className={svg}
+                  onClick={showMapFilter ? toggleDrawer(anchor, true) : toggleDrawer(anchor, false)}
+                />
                 <MapFilter
+                  setRoadview={setRoadview}
                   anchor={anchor}
                   setHeight={setHeight}
                   height={height}

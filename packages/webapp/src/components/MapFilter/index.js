@@ -138,7 +138,7 @@ export default function MapFilter({ setRoadview }) {
               padding: '4px 0',
             }}
           >
-            <div className={classes.greenbar} />
+            <div className={classes.greenbar} onClick={() => setHeight(window.innerHeight - 75)} />
           </div>
           <div style={{ marginLeft: '6.67%', paddingTop: '10px' }}>
             <Semibold>Filter your map</Semibold>

@@ -46,14 +46,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MapFilter({ setRoadview }) {
-  const [state, setState] = React.useState({
-    bottom: false,
-  });
-
+export default function MapFilter({ setRoadview, anchor, setHeight, height, state, toggleDrawer }) {
   const { t } = useTranslation();
 
-  let [height, setHeight] = useState(0);
   let [visibility, setVisibility] = useState(false);
   const [selected, setSelected] = useState([]);
 
@@ -62,11 +57,6 @@ export default function MapFilter({ setRoadview }) {
   useEffect(() => {
     setHeight(window.innerHeight / 2);
   }, []);
-
-  const toggleDrawer = (anchor, open) => () => {
-    setState({ ...state, [anchor]: open });
-    if (!open) setHeight(window.innerHeight / 2);
-  };
 
   const areaImgDict = [
     { name: t('FARM_MAP.MAP_FILTER.BARN'), img: Barn },
@@ -369,28 +359,21 @@ export default function MapFilter({ setRoadview }) {
 
   return (
     <div>
-      {['bottom'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <div>
-            <Drawer
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
-              onOpen={toggleDrawer(anchor, true)}
-              PaperProps={{
-                style: { backgroundColor: 'transparent' },
-                square: false,
-              }}
-              ModalProps={{
-                classes: { paddingBottom: '20px' },
-              }}
-            >
-              {list(anchor)}
-            </Drawer>
-          </div>
-        </React.Fragment>
-      ))}
+      <Drawer
+        anchor={anchor}
+        open={state[anchor]}
+        onClose={toggleDrawer(anchor, false)}
+        onOpen={toggleDrawer(anchor, true)}
+        PaperProps={{
+          style: { backgroundColor: 'transparent' },
+          square: false,
+        }}
+        ModalProps={{
+          classes: { paddingBottom: '20px' },
+        }}
+      >
+        {list(anchor)}
+      </Drawer>
     </div>
   );
 }

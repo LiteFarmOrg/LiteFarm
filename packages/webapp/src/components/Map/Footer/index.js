@@ -7,6 +7,7 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import MapFilter from '../../MapFilter';
 
 export default function PureMapFooter({
   className,
@@ -18,6 +19,10 @@ export default function PureMapFooter({
   onClickFilter,
   onClickExport,
   showModal,
+  setHeight,
+  height,
+  state,
+  toggleDrawer,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -142,7 +147,21 @@ export default function PureMapFooter({
           id="mapSecondStep"
           onClick={onClickFilter}
         >
-          <FilterLogo className={svg} />
+          {' '}
+          <div>
+            {['bottom'].map((anchor) => (
+              <React.Fragment key={anchor}>
+                <FilterLogo className={svg} onClick={toggleDrawer(anchor, true)} />
+                <MapFilter
+                  anchor={anchor}
+                  setHeight={setHeight}
+                  height={height}
+                  state={state}
+                  toggleDrawer={toggleDrawer}
+                />
+              </React.Fragment>
+            ))}
+          </div>
         </button>
         <button
           className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)}

@@ -14,7 +14,6 @@ import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import CustomZoom from '../../components/Map/CustomZoom';
 // import CustomNorthify from '../../components/Map/CustomNorthify';
-import MapFilter from '../../components/MapFilter';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -25,6 +24,7 @@ export default function Map() {
   const [showModal, setShowModal] = useState(false);
   let [roadview, setRoadview] = useState(false);
   const [showMapFilter, setShowMapFilter] = useState(false);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     // setCenter(grid_points);
@@ -132,6 +132,15 @@ export default function Map() {
     console.log('share clicked');
   };
 
+  const [state, setState] = React.useState({
+    bottom: false,
+  });
+
+  const toggleDrawer = (anchor, open) => () => {
+    setState({ ...state, [anchor]: open });
+    if (!open) setHeight(window.innerHeight / 2);
+  };
+
   return (
     <div className={styles.pageWrapper}>
       <PureMapHeader
@@ -157,7 +166,6 @@ export default function Map() {
         </div>
       </div>
 
-      {showMapFilter && <MapFilter setRoadview={setRoadview} />}
       <PureMapFooter
         className={styles.mapFooter}
         isAdmin={is_admin}
@@ -167,6 +175,10 @@ export default function Map() {
         onClickFilter={handleClickFilter}
         onClickExport={handleClickExport}
         showModal={showModal}
+        setHeight={setHeight}
+        height={height}
+        state={state}
+        toggleDrawer={toggleDrawer}
       />
       {showModal && (
         <ExportMapModal

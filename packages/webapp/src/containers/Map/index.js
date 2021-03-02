@@ -15,7 +15,7 @@ import { fieldsSelector } from '../fieldSlice';
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import CustomZoom from '../../components/Map/CustomZoom';
-// import CustomNorthify from '../../components/Map/CustomNorthify';
+import CustomCompass from '../../components/Map/CustomCompass';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -81,9 +81,9 @@ export default function Map() {
     );
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
-    // const northifyControlDiv = document.createElement('div');
-    // ReactDOM.render(<CustomNorthify onClick={() => console.log('hi')} />, northifyControlDiv);
-    // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(northifyControlDiv);
+    const compassControlDiv = document.createElement('div');
+    ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
+    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // let farmBounds = new maps.LatLngBounds();
     // TODO: FILL IN HANDLE GOOGLE MAP API

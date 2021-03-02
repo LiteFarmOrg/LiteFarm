@@ -27,7 +27,7 @@ class Line extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['grid_points', 'total_area'],
+      required: ['line_points', 'length', 'width'],
 
       properties: {
         figure_id: { type: 'string' },

@@ -14,15 +14,14 @@
  */
 
 const Model = require('objection').Model;
-const baseModel = require('./baseModel');
 
-class Field extends baseModel {
+class Field extends Model {
   static get tableName() {
     return 'field';
   }
 
   static get idColumn() {
-    return 'field_id';
+    return 'location_id';
   }
 
   // Optional JSON schema. This is not the database schema! Nothing is generated
@@ -31,11 +30,11 @@ class Field extends baseModel {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['field_id'],
+      required: ['location_id'],
       properties: {
-        field_id: { type: 'string' },
-        organic_status: { type: 'string' },
-        station_id: { type: 'string' },
+        location_id: { type: 'string' },
+        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
+        station_id: { type: 'number' },
         transition_date: { type: 'date' },
       },
       additionalProperties: false,

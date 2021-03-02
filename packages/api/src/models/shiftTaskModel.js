@@ -36,7 +36,7 @@ class ShiftTask extends baseModel {
         task_id: { type: 'number' },
         field_crop_id: { type: 'integer' },
         is_field: { type: 'boolean' },
-        field_id: { type: 'string' },
+        location_id: { type: 'string' },
         duration: { type: 'number' },
         ...this.baseProperties,
       },

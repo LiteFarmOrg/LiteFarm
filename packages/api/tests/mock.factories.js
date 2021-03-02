@@ -146,7 +146,7 @@ async function fieldFactory({
   const [{ station_id }] = station;
   const [{ location_id }] = location;
   await areaFactory({ promisedLocation: location }, fakeArea(), 'field');
-  return knex('field').insert({ field_id: location_id, station_id, ...field  }).returning('*');
+  return knex('field').insert({ location_id: location_id, station_id, ...field  }).returning('*');
 }
 
 function fakeField() {
@@ -336,7 +336,7 @@ async function fieldCropFactory({
   const [{ location_id, created_by_user_id }] = field;
   const [{ crop_id }] = crop;
   const base = baseProperties(created_by_user_id);
-  return knex('fieldCrop').insert({ field_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
+  return knex('fieldCrop').insert({ location_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
 
 }
 
@@ -420,8 +420,8 @@ async function activityFieldsFactory({
 } = {}) {
   const [activityLog, field] = await Promise.all([promisedActivityLog, promisedField]);
   const [{ activity_id }] = activityLog;
-  const [{ field_id }] = field;
-  return knex('activityFields').insert({ activity_id, field_id }).returning('*');
+  const [{ location_id }] = field;
+  return knex('activityFields').insert({ activity_id, location_id }).returning('*');
 }
 
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
@@ -670,12 +670,12 @@ async function shiftTaskFactory({
   const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
   const [{ field_crop_id }] = fieldCrop;
-  const [{ field_id }] = field;
+  const [{ location_id }] = field;
   const [{ task_id }] = task;
   const [{ user_id }] = user;
   return knex('shiftTask').insert({
     shift_id,
-    field_id,
+    location_id,
     field_crop_id,
     task_id, ...shiftTask, ...baseProperties(user_id),
   }).returning('*');

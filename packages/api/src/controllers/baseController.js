@@ -25,13 +25,13 @@ const baseController = {
 
   async post(model, data, req, { trx, context = {} } = {}) {
     data = removeAdditionalProperties(model, data);
-    return await model.query(trx).context({ user_id: req.user.user_id, ...context }).insert(data);
+    return await model.query(trx).context({ user_id: req.user && req.user.user_id, ...context }).insert(data);
   },
 
   // send back the resource that was just created
   async postWithResponse(model, data, req, { trx, context = {} } = {}) {
     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
-    return model.query(trx).context({ user_id: req.user.user_id, ...context })
+    return model.query(trx).context({ user_id: req.user && req.user.user_id, ...context })
       .insert(removeAdditionalProperties(model, data)).returning('*');
   },
 
@@ -42,7 +42,7 @@ const baseController = {
 
     if (!lodash.isEmpty(data)) {
       return await model
-        .$relatedQuery(subModel.tableName, trx).context({ user_id: req.user.user_id, ...context })
+        .$relatedQuery(subModel.tableName, trx).context({ user_id: req.user && req.user.user_id, ...context })
         .insert(data);
     } else {
       return;
@@ -79,13 +79,13 @@ const baseController = {
     // put to database
     const table_id = model.idColumn;
     // check if path id matches id provided from body
-    return await model.query(trx).context({ user_id: req.user.user_id, ...context })
+    return await model.query(trx).context({ user_id: req.user && req.user.user_id, ...context })
       .where(table_id, id).update(resource).returning('*');
   },
 
   async delete(model, id, req, { trx = null, context = {} } = {}) {
     const table_id = model.idColumn;
-    return await model.query(trx).context({ user_id: req.user.user_id, ...context }).where(table_id, id).delete();
+    return await model.query(trx).context({ user_id: req.user && req.user.user_id, ...context }).where(table_id, id).delete();
   },
 
   async getIndividual(model, id) {
@@ -116,7 +116,7 @@ const baseController = {
   async updateIndividualById(model, id, updatedLog, req, { trx = null, context = {} } = {}) {
     updatedLog = removeAdditionalProperties(model, updatedLog);
     if (!lodash.isEmpty(updatedLog)) {
-      return await model.query(trx).context({ user_id: req.user.user_id, ...context })
+      return await model.query(trx).context({ user_id: req.user && req.user.user_id, ...context })
         .patchAndFetchById(id, updatedLog);
     }
 
@@ -129,7 +129,7 @@ const baseController = {
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
   async upsertGraph(model, data, req, { trx, context = {} } = {}) {
-    return await model.query(trx).context({ user_id: req.user.user_id, ...context }).upsertGraph(data, { insertMissing: true });
+    return await model.query(trx).context({ user_id: req.user && req.user.user_id, ...context }).upsertGraph(data, { insertMissing: true });
   },
 
   // fetch an object and all of its related objects

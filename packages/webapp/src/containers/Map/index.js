@@ -96,10 +96,6 @@ export default function Map() {
     setShowModal(false);
   };
 
-  const handleClickExport = () => {
-    setShowModal(!showModal);
-  };
-
   const mapWrapperRef = useRef();
 
   const handleDismiss = () => {
@@ -158,8 +154,8 @@ export default function Map() {
         showSpotlight={showMapSpotlight}
         resetSpotlight={resetSpotlight}
         onClickAdd={handleClickAdd}
-        onClickExport={handleClickExport}
         showModal={showModal}
+        setShowModal={setShowModal}
         setRoadview={setRoadview}
       />
       {showModal && (

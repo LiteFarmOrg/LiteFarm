@@ -16,7 +16,7 @@ export default function PureMapFooter({
   showSpotlight,
   resetSpotlight,
   onClickAdd,
-  onClickExport,
+  setShowModal,
   showModal,
   setRoadview,
 }) {
@@ -26,7 +26,14 @@ export default function PureMapFooter({
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
     if (open) setHeight(window.innerHeight / 2);
+    setShowModal(false);
   };
+
+  const onClickExport = () => {
+    setShowModal(!showModal);
+    setDrawerOpen(false);
+  };
+
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
   const resetSpotlightStatus = (data) => {
@@ -183,6 +190,7 @@ PureMapFooter.prototype = {
   onClickFilter: PropTypes.func,
   onClickExport: PropTypes.func,
   showModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
 };
 
 const TitleContent = (text) => {

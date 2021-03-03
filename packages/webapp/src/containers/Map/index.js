@@ -98,10 +98,14 @@ export default function Map() {
 
   const handleClickAdd = () => {
     setShowModal(false);
+    setAnchorState({ bottom: false });
+    setShowMapFilter(false);
   };
 
   const handleClickExport = () => {
     setShowModal(!showModal);
+    setAnchorState({ bottom: false });
+    setShowMapFilter(false);
   };
 
   const mapWrapperRef = useRef();
@@ -128,10 +132,11 @@ export default function Map() {
   });
 
   const toggleDrawer = (anchor, open) => () => {
+    console.log(showMapFilter);
+    setShowModal(false);
     setShowMapFilter(!showMapFilter);
     setAnchorState({ ...anchorState, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
-    console.log('toggle drawer');
   };
 
   const handleShare = () => {

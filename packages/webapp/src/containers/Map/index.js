@@ -57,12 +57,6 @@ export default function Map() {
         position: maps.ControlPosition.BOTTOM_CENTER,
         mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
       },
-      // mapTypeId: maps.MapTypeId.SATELLITE,
-      // mapTypeControlOptions: {
-      //   style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      //   position: maps.ControlPosition.BOTTOM_CENTER,
-      //   mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
-      // },
       zoomControl: true,
       clickableIcons: false,
       streetViewControl: false,
@@ -106,10 +100,6 @@ export default function Map() {
     setShowModal(false);
   };
 
-  const handleClickFilter = () => {
-    setShowMapFilter(!showMapFilter);
-  };
-
   const handleClickExport = () => {
     setShowModal(!showModal);
   };
@@ -138,9 +128,9 @@ export default function Map() {
   });
 
   const toggleDrawer = (anchor, open) => () => {
+    setShowMapFilter(!showMapFilter);
     setState({ ...state, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
-    setShowModal(false);
   };
 
   const handleShare = () => {
@@ -182,7 +172,6 @@ export default function Map() {
         showSpotlight={showMapSpotlight}
         resetSpotlight={resetSpotlight}
         onClickAdd={handleClickAdd}
-        onClickFilter={handleClickFilter}
         onClickExport={handleClickExport}
         showModal={showModal}
         setHeight={setHeight}
@@ -190,7 +179,6 @@ export default function Map() {
         state={state}
         toggleDrawer={toggleDrawer}
         setRoadview={setRoadview}
-        setShowMapFilter={setShowMapFilter}
         showMapFilter={showMapFilter}
       />
       {showModal && (

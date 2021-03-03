@@ -16,7 +16,6 @@ export default function PureMapFooter({
   showSpotlight,
   resetSpotlight,
   onClickAdd,
-  onClickFilter,
   onClickExport,
   showModal,
   setHeight,
@@ -24,7 +23,6 @@ export default function PureMapFooter({
   state,
   toggleDrawer,
   setRoadview,
-  setShowMapFilter,
   showMapFilter,
 }) {
   const { t } = useTranslation();
@@ -145,11 +143,7 @@ export default function PureMapFooter({
             <AddLogo className={svg} />
           </button>
         )}
-        <button
-          className={clsx(button, stepSpotlighted === 1 && spotlighted)}
-          id="mapSecondStep"
-          onClick={onClickFilter}
-        >
+        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
           {' '}
           <div>
             {['bottom'].map((anchor) => (

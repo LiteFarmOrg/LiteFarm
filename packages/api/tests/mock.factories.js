@@ -134,7 +134,7 @@ function fakeArea() {
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
     }]),
-    type: faker.random.arrayElement([ 'barn', 'greenhouse', 'residence'])
+    perimeter: faker.random.number(),
   };
 }
 
@@ -865,4 +865,5 @@ module.exports = {
   fakePriceInsightForTests,
   fakeOrganicCertifierSurvey, organicCertifierSurveyFactory,
   fakeSupportTicket, supportTicketFactory,
+  fakeArea
 };

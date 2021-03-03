@@ -25,9 +25,26 @@ describe('Location tests', () => {
     done();
   });
 
+  function postLocation(data, { user_id, farm_id }, callback) {
+    chai.request(server).post('/location')
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback)
+  }
+
   function getLocationsInFarm({ user_id, farm_id}, farm, callback) {
     chai.request(server)
       .get(`/location/farm/${farm}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback);
+  }
+
+  function deleteLocation({user_id, farm_id}, location, callback){
+    chai.request(server)
+      .delete(`/location/${location}`)
       .set('user_id', user_id)
       .set('farm_id', farm_id)
       .end(callback);
@@ -109,6 +126,61 @@ describe('Location tests', () => {
       });
     })
   });
+
+  describe('DELETE /location ', () => {
+    let user, farm;
+    beforeEach(async () => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      farm = farm_id;
+      user = user_id;
+    })
+
+    test('should delete field', async (done) => {
+      const [[field1], [field2]] = await appendFieldToFarm(farm, 2);
+      deleteLocation({user_id: user, farm_id: farm}, field1.location_id, async (err, res) => {
+        expect(res.status).toBe(200);
+        const location = await knex('location').where({ location_id: field1.location_id }).first();
+        const location2 = await knex('location').where({ location_id: field2.location_id }).first();
+        expect(location.deleted).toBeTruthy();
+        expect(location2.deleted).toBeFalsy();
+        done();
+      });
+    })
+  })
+
+
+  describe('POST /location', () => {
+    let user, farm;
+    beforeEach(async () => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      farm = farm_id;
+      user = user_id;
+    });
+
+    test('should create a location', (done) => {
+      postLocation({
+        ...mocks.fakeLocation(),
+        farm_id: farm,
+        figure: {
+          type: 'barn',
+          area: {
+            ...mocks.fakeArea(),
+            grid_points: [{
+              lat: 12.222,
+              lng: 120.222
+            }]
+          }
+        },
+        barn: {
+          wash_and_pack: false,
+          cold_storage: true
+        }
+      }, {user_id: user, farm_id: farm}, (err, res) => {
+        expect(res.status).toBe(200);
+        done();
+      })
+    })
+  })
 
 
 });

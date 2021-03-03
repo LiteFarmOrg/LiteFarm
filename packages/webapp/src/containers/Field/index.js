@@ -25,7 +25,7 @@ import { convertFromMetric, getUnit, roundToTwoDecimal } from '../../util';
 import { BsChevronDown, BsChevronRight } from 'react-icons/all';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { getFields } from '../saga';
+import { getLocations } from '../saga';
 import { fieldsSelector, fieldStatusSelector } from '../fieldSlice';
 import { currentFieldCropsSelector } from '../fieldCropSlice';
 import { Semibold, Title } from '../../components/Typography';
@@ -64,7 +64,7 @@ class Field extends Component {
   componentDidMount() {
     this.setState({ center: this.props.farm.grid_points });
     const { dispatch } = this.props;
-    dispatch(getFields());
+    dispatch(getLocations());
     var visArray = [];
     if (this.props.fields) {
       for (var i = 0; i < this.props.fields.length; i++) {

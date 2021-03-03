@@ -11,6 +11,12 @@ export function onLoadingFail(state, { payload: error }) {
   state.loaded = true;
 }
 
+export function onLoadingSuccess(state) {
+  state.loading = false;
+  state.error = null;
+  state.loaded = true;
+}
+
 const adminRoles = [1, 2, 5];
 
 export const initialState = {

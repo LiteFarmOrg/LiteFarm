@@ -7,7 +7,7 @@ import { Button, Card, Modal } from 'react-bootstrap';
 import { CENTER, DEFAULT_ZOOM, FARM_BOUNDS, GMAPS_API_KEY } from '../constants';
 import NewFieldCropModal from '../../../components/Forms/NewFieldCropModal/';
 import { deleteField, deleteFieldCrop, getExpiredFieldCrops } from '../saga';
-import { getFieldCropsByDate, getFields } from '../../saga';
+import { getFieldCropsByDate, getLocations } from '../../saga';
 import PageTitle from '../../../components/PageTitle';
 import ConfirmModal from '../../../components/Modals/Confirm';
 import { toastr } from 'react-redux-toastr';
@@ -86,7 +86,7 @@ class EditField extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getFields());
+    this.props.dispatch(getLocations());
     this.props.dispatch(getFieldCropsByDate());
     this.props.dispatch(getExpiredFieldCrops());
     const urlVars = window.location.search.substring(1).split('&');

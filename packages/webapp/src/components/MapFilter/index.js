@@ -42,6 +42,7 @@ const useStyles = makeStyles({
     width: '36px',
     backgroundColor: colors.teal700,
     borderRadius: '2px',
+    marginTop: '16px',
   },
 });
 

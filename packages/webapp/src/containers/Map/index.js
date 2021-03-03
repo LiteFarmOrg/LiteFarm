@@ -131,6 +131,7 @@ export default function Map() {
     setShowMapFilter(!showMapFilter);
     setState({ ...state, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
+    console.log('toggle drawer');
   };
 
   const handleShare = () => {

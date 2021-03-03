@@ -21,20 +21,17 @@ import history from '../../history';
 import moment from 'moment';
 import { taskTypeSelector } from './StepOne/selectors';
 import { shiftsSelector } from './selectors';
-import { getAllShifts, getShifts, getTaskTypes, setSelectedShift } from './actions';
-import ReactTable from 'react-table';
+import { getAllShifts, getTaskTypes, setSelectedShift } from './actions';
 import DropDown from '../../components/Inputs/DropDown';
 import { LocalForm } from 'react-redux-form';
-import DateContainer, { FromToDateContainer } from '../../components/Inputs/DateContainer';
+import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import { BsCaretRight } from 'react-icons/bs';
 import { userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
-import { getFieldCrops, getFields } from '../saga';
+import { getFieldCrops, getLocations } from '../saga';
 import { getDurationString } from '../../util';
-import clsx from 'clsx';
 import Table from '../../components/Table';
 import { Semibold, Title } from '../../components/Typography';
-import { setEndDate, setStartDate } from '../Log/actions';
 
 class Shift extends Component {
   constructor(props) {
@@ -52,7 +49,7 @@ class Shift extends Component {
   componentDidMount() {
     const { dispatch, users } = this.props;
     dispatch(getFieldCrops());
-    dispatch(getFields());
+    dispatch(getLocations());
     dispatch(getTaskTypes());
     dispatch(getAllShifts());
     //TODO: fix getShiftByUserEndPoint

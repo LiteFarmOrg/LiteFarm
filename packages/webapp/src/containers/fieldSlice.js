@@ -1,31 +1,29 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
+import { pick } from '../util';
 
-const addOneField = (state, { payload }) => {
-  const { field_name, grid_points, field_id, farm_id, area, station_id } = payload;
-  state.loading = false;
-  state.error = null;
-  state.loaded = true;
-  fieldAdapter.upsertOne(state, { field_name, grid_points, field_id, farm_id, area, station_id });
+const getFieldFromLocationObject = (location) => {
+  return {
+    ...pick(location.figure, ['figure_id', 'type', 'location_id']),
+    ...pick(location.figure.area, ['total_area', 'grid_points', 'perimeter']),
+    ...pick(location.field, [
+      'station_id',
+      'organic_status',
+      'transition_date',
+      'main_color',
+      'hover_color',
+      'line_type',
+    ]),
+  };
 };
 
-const updateOneField = (state, { payload }) => {
-  const { field_name, grid_points, field_id, farm_id, area, station_id } = payload;
-  state.loading = false;
-  state.error = null;
-  fieldAdapter.updateOne(state, { field_name, grid_points, field_id, farm_id, area, station_id });
-};
-
-const addManyField = (state, { payload: fields }) => {
-  state.loading = false;
-  state.error = null;
-  state.loaded = true;
-  fieldAdapter.upsertMany(state, fields);
+const upsertOneFieldWithLocation = (state, { payload }) => {
+  fieldAdapter.upsertOne(state, getFieldFromLocationObject(payload));
 };
 
 const fieldAdapter = createEntityAdapter({
-  selectId: (field) => field.field_id,
+  selectId: (field) => field.location_id,
 });
 
 const fieldSlice = createSlice({
@@ -39,24 +37,17 @@ const fieldSlice = createSlice({
   reducers: {
     onLoadingFieldStart: onLoadingStart,
     onLoadingFieldFail: onLoadingFail,
-    getFieldsSuccess: addManyField,
-    postFieldSuccess: addOneField,
-    putFieldSuccess(state, { payload: field }) {
-      fieldAdapter.updateOne(state, { changes: field, id: field.field_id });
-    },
-    selectFieldSuccess(state, { payload: field_id }) {
-      state.field_id = field_id;
-    },
+    onLoadingFieldSuccess: onLoadingSuccess,
+    addOneField: upsertOneFieldWithLocation,
     deleteFieldSuccess: fieldAdapter.removeOne,
   },
 });
 export const {
-  getFieldsSuccess,
-  postFieldSuccess,
-  putFieldSuccess,
+  addOneField,
   onLoadingFieldStart,
   onLoadingFieldFail,
   deleteFieldSuccess,
+  onLoadingFieldSuccess,
 } = fieldSlice.actions;
 export default fieldSlice.reducer;
 

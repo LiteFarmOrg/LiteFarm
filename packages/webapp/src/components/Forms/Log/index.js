@@ -1,12 +1,12 @@
 import React from 'react';
-import { Fieldset, Control, actions, Errors } from 'react-redux-form';
+import { actions, Control, Errors, Fieldset } from 'react-redux-form';
 import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.module.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { Alert } from 'react-bootstrap';
 import { fieldsSelector } from '../../../containers/fieldSlice';
-import { getFieldCrops, getFields } from '../../../containers/saga';
+import { getFieldCrops, getLocations } from '../../../containers/saga';
 import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 import TextArea from '../../Form/TextArea';
@@ -16,7 +16,7 @@ class DefaultLogForm extends React.Component {
     super(props);
     const { selectedFields, selectedCrops, dispatch, parent, model } = this.props;
     dispatch(getFieldCrops());
-    dispatch(getFields());
+    dispatch(getLocations());
 
     let selectedCropsMap = {};
     // this is only called if DefaultLogForm is in an edit form

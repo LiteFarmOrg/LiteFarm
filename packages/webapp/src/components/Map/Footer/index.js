@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Joyride, { STATUS, ACTIONS, LIFECYCLE } from 'react-joyride';
+import Joyride, { ACTIONS, LIFECYCLE, STATUS } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
@@ -146,7 +146,6 @@ export default function PureMapFooter({
         <button
           className={clsx(button, stepSpotlighted === 1 && spotlighted)}
           id="mapSecondStep"
-          style={{ zIndex: showMapFilter ? 20000 : 0 }}
           onClick={showMapFilter ? toggleDrawer('bottom', true) : toggleDrawer('bottom', false)}
         >
           {' '}

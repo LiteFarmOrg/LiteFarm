@@ -65,7 +65,8 @@ const loginController = {
             reason_for_failure: 'password_mismatch',
           });
           return res.sendStatus(401);
-        };
+        }
+        ;
 
         const id_token = await createToken('access', { user_id: userData.user_id });
         return res.status(200).send({
@@ -201,7 +202,7 @@ const loginController = {
       }
     };
   },
-}
+};
 
 async function sendMissingInvitations(user) {
   const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
@@ -238,8 +239,10 @@ async function sendPasswordReset(data) {
     locale: data.language_preference,
   };
   const sender = 'system@litefarm.org';
-  sendEmail(template_path, replacements, data.email, sender,
-    `/callback/?reset_token=${token}`, data.language_preference);
+  sendEmail(template_path, replacements, data.email, {
+    sender,
+    buttonLink: `/callback/?reset_token=${token}`,
+  });
 }
 
 module.exports = loginController;

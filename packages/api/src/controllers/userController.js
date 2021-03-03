@@ -73,7 +73,7 @@ const userController = {
           const sender = 'system@litefarm.org';
           console.log('template_path:', template_path);
           if (userResult.email && template_path) {
-            sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
+            sendEmail(template_path, replacements, userResult.email, { sender });
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
@@ -246,7 +246,7 @@ const userController = {
     const sender = 'system@litefarm.org';
     const template_path = emails.INVITATION;
     sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
-      user.email, sender, `/callback/?invite_token=${token}`);
+      user.email, { sender, buttonLink: `/callback/?invite_token=${token}` });
   },
 
   addPseudoUser() {
@@ -384,9 +384,7 @@ const userController = {
                 template_path,
                 replacements,
                 rows[0].email,
-                sender,
-                null,
-                rows[0].language_preference,
+                { sender },
               );
             }
           } catch (e) {
@@ -543,6 +541,6 @@ const userController = {
       }
     };
   },
-}
+};
 
 module.exports = userController;

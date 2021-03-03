@@ -18,16 +18,16 @@ const path = require('path');
 const EmailTemplates = require('email-templates');
 
 const emails = {
-  INVITATION: { subjectReplacements: '', path: 'invitation_to_farm_email' },
-  CONFIRMATION: { subjectReplacements: '', path: 'send_confirmation_email' },
+  INVITATION: { path: 'invitation_to_farm_email' },
+  CONFIRMATION: { path: 'send_confirmation_email' },
   WITHHELD_CONSENT: { path: 'withheld_consent_email' },
-  ACCESS_RESTORE: { subjectReplacements: '', path: 'restoration_of_access_to_farm_email' },
-  ACCESS_REVOKE: { subjectReplacements: '', path: 'revocation_of_access_to_farm_email' },
+  ACCESS_RESTORE: { path: 'restoration_of_access_to_farm_email' },
+  ACCESS_REVOKE: { path: 'revocation_of_access_to_farm_email' },
   WELCOME: { path: 'welcome_email' },
   PASSWORD_RESET: { path: 'password_reset_email' },
   PASSWORD_RESET_CONFIRMATION: { path: 'reset_password_confirmation' },
   HELP_REQUEST_EMAIL: { path: 'help_request_email' },
-  MAP_EXPORT_EMAIL: { subjectReplacements: '', path: 'map_export_email' },
+  MAP_EXPORT_EMAIL: { path: 'map_export_email' },
 };
 
 function homeUrl(defaultUrl = 'http://localhost:3000') {
@@ -68,7 +68,11 @@ const emailTransporter = new EmailTemplates({
   },
 });
 
-function sendEmail(template_path, replacements, email_to, sender = 'system@litefarm.org', buttonLink = null, language = 'en', attachments = []) {
+function sendEmail(template_path, replacements, email_to, {
+  sender = 'system@litefarm.org',
+  buttonLink = null,
+  attachments = [],
+}) {
   try {
     replacements.url = homeUrl();
     replacements.year = new Date().getFullYear();

@@ -176,7 +176,7 @@ const userFarmController = {
             template_path = emails.CONFIRMATION;
             replacements['role'] = userFarm.role;
           }
-          return sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
+          return sendEmail(template_path, replacements, userFarm.email, { sender });
         } catch (e) {
           console.log(e);
         }
@@ -324,7 +324,7 @@ const userFarmController = {
           try {
             console.log('template_path:', template_path);
             if (targetUser.email && template_path) {
-              sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
+              sendEmail(template_path, replacements, targetUser.email, { sender });
             }
           } catch (e) {
             console.log('Failed to send email: ', e);

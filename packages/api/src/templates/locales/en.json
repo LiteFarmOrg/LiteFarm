@@ -1,0 +1,74 @@
+{
+  "TEMPLATE": {
+    "DEAR": "Dear",
+    "CHEERS": "Cheers",
+    "LITEFARM_TEAM": "The LiteFarm team",
+    "NO_RESPONSE": "Please do not reply to this email.",
+    "GET_IN_TOUCH": "To get in touch with us, click",
+    "HELP": "help",
+    "OR": "or",
+    "CONTACT": "contact us"
+  },
+  "HELP_REQUEST": {
+    "RESPONSE": "Thanks for reaching out. Someone on our support team will be in touch within 48 hours. A summary of your request is shown below.",
+    "TYPE_HEADER": "Type of support",
+    "MESSAGE_HEADER": "Message",
+    "CONTACT_METHOD_HEADER": "Preferred contact method"
+  },
+  "INVITE": {
+    "GREAT_FOLK": "The great folks at",
+    "INVITED_YOU": "have invited you to join their team on LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
+    "YOU_CAN_ACCEPT": "You can accept this invitation (on any device) using the button below"
+  },
+  "PASSWORD_RESET_REQUEST": {
+    "DID_YOU_FORGET": "Did you forget your LiteFarm password? Not a problem! Click the \"Reset\" button below and your access will soon be restored.",
+    "RESET": "Reset Password",
+    "IGNORE": "If you didn't ask us to send you this email, you can ignore it. No changes have been made to your account."
+  },
+  "PASSWORD_RESET_CONFIRMATION": {
+    "UPDATED": "We’ve updated your LiteFarm password. Click ‘Log In’ below to access your account."
+  },
+  "RESTORE_ACCESS": {
+    "ADMIN": "It looks like one of the administrators at",
+    "RESTORED": "has renewed your access to their farm on LiteFarm. Welcome back!",
+    "CLICK_BELOW": "You can log back in by clicking below"
+  },
+  "REVOKE_ACCESS": {
+    "ADMIN": "It looks like one of the administrators at",
+    "REVOKE": "has revoked your access to their farm on LiteFarm. If this comes as a surprise, you should reach out to your contact there to fix the problem."
+  },
+  "ACCEPT_INVITE_CONFIRMATION": {
+    "CONGRATS": "Congrats on becoming the newest",
+    "AT": "at",
+    "CLICK_BELOW": "You can log-in (on any device) using the button below"
+  },
+  "CREATE_ACCOUNT_CONFIRMATION": {
+    "WELCOME": "Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
+    "CLICK_BELOW": "You can also log-in (on any device) using the button below"
+  },
+  "WITHHOLD_CONSENT": {
+    "RECENT": "Recently, while joining",
+    "WITHHOLD": "on the LiteFarm application, you decided to withhold your consent regarding the LiteFarm privacy policy. This is absolutely your right, however, it means you won't be able to access the application. We're very sorry about this.",
+    "DEACTIVATE": "We've de-activated your association to",
+    "HOWEVER": "However, we still have the basic information you shared with us while setting up your user account. If you're associated with other farms, we also have any information you entered while working with those farms as well.",
+    "RIGHT": "You have the following rights regarding your data",
+    "COPY": "To know what data we have about you and request a copy of it",
+    "UPDATE": "To update or correct any data we have about you",
+    "STOP": "Request that we stop collecting your data (you've just done this)",
+    "TRANSFER": "Request a transfer of your data",
+    "DELETE": "Request that we delete your data",
+    "TO_REQUEST": "To request any of these actions, send an email to",
+    "SUPPORT": "with your request and we'll take care of you.",
+    "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below",
+    "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system."
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "Here’s the farm map export for",
+    "REQUESTED": "that you requested on LiteFarm.",
+    "GREETING": "Have a great day!"
+  },
+  "COMMON": {
+    "JOIN": "Join",
+    "LOG_IN": "Log In"
+  }
+}

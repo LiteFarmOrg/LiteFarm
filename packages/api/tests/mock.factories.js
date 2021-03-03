@@ -115,11 +115,11 @@ function fakeLocation() {
 
 async function areaFactory({
   promisedLocation = locationFactory()
-} ={} , area = fakeArea()) {
+} ={} , area = fakeArea(), areaType) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
   const { type, ...realArea} = area;
-  const [{ figure_id }] = await figureFactory(location_id, type);
+  const [{ figure_id }] = await figureFactory(location_id, areaType ? areaType : type);
   return knex('area').insert({ figure_id , ...realArea})
 }
 
@@ -145,8 +145,8 @@ async function fieldFactory({
   const [station, location] = await Promise.all([promisedStation, promisedLocation]);
   const [{ station_id }] = station;
   const [{ location_id }] = location;
-  await areaFactory({ promisedLocation: location });
-  return knex('field').insert({ field_id: location_id, station_id, ...field  }).returning('*');
+  await areaFactory({ promisedLocation: location }, fakeArea(), 'field');
+  return knex('field').insert({ location_id: location_id, station_id, ...field  }).returning('*');
 }
 
 function fakeField() {
@@ -172,6 +172,39 @@ function fakePriceInsightForTests() {
     long: faker.address.latitude(),
     startdate: '2021-10-10',
   };
+}
+
+async function lineFactory({ promisedLocation = locationFactory()} = {}, line = fakeLine(), lineType) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  const { type, ...realLine} = line;
+  const [{ figure_id }] = await figureFactory(location_id, lineType ? lineType : type);
+  return knex('line').insert({ figure_id , ...realLine }).returning('*')
+}
+
+function fakeLine() {
+  return {
+    length: faker.random.number(),
+    width: faker.random.number(),
+    type: faker.random.arrayElement(['fence', 'creek']),
+    line_points: JSON.stringify([{
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }])
+  }
+}
+
+async function fenceFactory({ promisedLocation = locationFactory() } = {}, fence = fakeFence()) {
+  const [location] = await Promise.all([promisedLocation]);
+  const [{ location_id }] = location;
+  await lineFactory({ promisedLocation: location }, fakeLine(), 'fence');
+  return knex('fence').insert({ location_id, ...fence  }).returning('*');
+}
+
+function fakeFence() {
+  return {
+    pressure_treated: faker.random.boolean()
+  }
 }
 
 async function cropFactory({ promisedFarm = farmFactory(), createdUser = usersFactory() } = {}, crop = fakeCrop()) {
@@ -303,7 +336,7 @@ async function fieldCropFactory({
   const [{ location_id, created_by_user_id }] = field;
   const [{ crop_id }] = crop;
   const base = baseProperties(created_by_user_id);
-  return knex('fieldCrop').insert({ field_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
+  return knex('fieldCrop').insert({ location_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
 
 }
 
@@ -387,8 +420,8 @@ async function activityFieldsFactory({
 } = {}) {
   const [activityLog, field] = await Promise.all([promisedActivityLog, promisedField]);
   const [{ activity_id }] = activityLog;
-  const [{ field_id }] = field;
-  return knex('activityFields').insert({ activity_id, field_id }).returning('*');
+  const [{ location_id }] = field;
+  return knex('activityFields').insert({ activity_id, location_id }).returning('*');
 }
 
 async function pesticideFactory({ promisedFarm = farmFactory() } = {}, pesticide = fakePesticide()) {
@@ -637,12 +670,12 @@ async function shiftTaskFactory({
   const [shift, fieldCrop, field, task, user] = await Promise.all([promisedShift, promisedFieldCrop, promisedField, promisedTaskType, promisedUser]);
   const [{ shift_id }] = shift;
   const [{ field_crop_id }] = fieldCrop;
-  const [{ field_id }] = field;
+  const [{ location_id }] = field;
   const [{ task_id }] = task;
   const [{ user_id }] = user;
   return knex('shiftTask').insert({
     shift_id,
-    field_id,
+    location_id,
     field_crop_id,
     task_id, ...shiftTask, ...baseProperties(user_id),
   }).returning('*');
@@ -815,6 +848,7 @@ module.exports = {
   shiftFactory, fakeShift,
   shiftTaskFactory, fakeShiftTask,
   saleFactory, fakeSale,
+  locationFactory, fakeLocation,
   fakeTaskType, taskTypeFactory,
   yieldFactory, fakeYield,
   priceFactory, fakePrice,
@@ -823,6 +857,8 @@ module.exports = {
   farmExpenseTypeFactory, fakeExpenseType,
   farmExpenseFactory, fakeExpense,
   fakeFieldForTests,
+  fakeFence, fenceFactory,
+  fakeLine, lineFactory,
   activityCropsFactory, activityFieldsFactory,
   fakeNitrogenSchedule, nitrogenScheduleFactory,
   fakeFarmDataSchedule, farmDataScheduleFactory,

@@ -1,5 +1,5 @@
 import React from 'react';
-import decorators, { componentDecoratorsWithoutPadding } from '../../config/decorators';
+import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import CustomZoom from '../../../../components/Map/CustomZoom/';
 
 export default {

@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../../containers/userFarmSlice';
+import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
+import html2canvas from 'html2canvas';
+import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import CustomZoom from '../../components/Map/CustomZoom';
-// import CustomNorthify from '../../components/Map/CustomNorthify';
+import CustomCompass from '../../components/Map/CustomCompass';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -32,9 +34,6 @@ export default function Map() {
 
   const getMapOptions = (maps) => {
     return {
-      streetViewControl: false,
-      scaleControl: true,
-      fullscreenControl: false,
       styles: [
         {
           featureType: 'poi.business',
@@ -91,9 +90,9 @@ export default function Map() {
     );
     map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(zoomControlDiv);
 
-    // const northifyControlDiv = document.createElement('div');
-    // ReactDOM.render(<CustomNorthify onClick={() => console.log('hi')} />, northifyControlDiv);
-    // map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(northifyControlDiv);
+    const compassControlDiv = document.createElement('div');
+    ReactDOM.render(<CustomCompass style={{ marginRight: '12px' }} />, compassControlDiv);
+    map.controls[maps.ControlPosition.RIGHT_BOTTOM].push(compassControlDiv);
 
     // let farmBounds = new maps.LatLngBounds();
     // TODO: FILL IN HANDLE GOOGLE MAP API
@@ -115,6 +114,8 @@ export default function Map() {
     setShowModal(!showModal);
   };
 
+  const mapWrapperRef = useRef();
+
   const handleDismiss = () => {
     setShowModal(false);
   };
@@ -127,10 +128,6 @@ export default function Map() {
     console.log('download clicked');
   };
 
-  const handleShare = () => {
-    console.log('share clicked');
-  };
-
   const [state, setState] = React.useState({
     bottom: false,
   });
@@ -138,6 +135,21 @@ export default function Map() {
   const toggleDrawer = (anchor, open) => () => {
     setState({ ...state, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
+    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
+      const link = document.createElement('a');
+      link.download = `${new Date().toISOString()}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+    setShowModal(false);
+  };
+
+  const handleShare = () => {
+    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
+      const fileDataURL = canvas.toDataURL();
+      dispatch(sendMapToEmail(fileDataURL));
+    });
+    setShowModal(false);
   };
 
   return (
@@ -148,7 +160,7 @@ export default function Map() {
         showVideo={handleShowVideo}
       />
       <div className={styles.mapContainer}>
-        <div className={styles.workaround}>
+        <div className={styles.workaround} ref={mapWrapperRef}>
           <GoogleMap
             style={{ flexGrow: 1 }}
             bootstrapURLKeys={{

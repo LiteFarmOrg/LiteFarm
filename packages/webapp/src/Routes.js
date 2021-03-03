@@ -125,7 +125,7 @@ const Routes = () => {
     // TODO check every step
     if (isInvitationFlow) {
       return (
-        <Suspense fallback={Spinner}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route
@@ -142,7 +142,7 @@ const Routes = () => {
       return <OnboardingFlow {...userFarm} />;
     } else if (!has_consent) {
       return (
-        <Suspense fallback={Spinner}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route
@@ -156,7 +156,7 @@ const Routes = () => {
       );
     } else if (role_id === 1) {
       return (
-        <Suspense fallback={Spinner}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
@@ -245,7 +245,7 @@ const Routes = () => {
       );
     } else if (role_id === 2 || role_id === 5) {
       return (
-        <Suspense fallback={Spinner}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
@@ -333,7 +333,7 @@ const Routes = () => {
       );
     } else {
       return (
-        <Suspense fallback={Spinner}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
@@ -402,7 +402,7 @@ const Routes = () => {
     }
   } else if (!isAuthenticated()) {
     return (
-      <Suspense fallback={Spinner}>
+      <Suspense fallback={<Spinner />}>
         <Switch>
           <Route path="/callback" component={Callback} />
           <Route path="/accept_invitation/sign_up" component={InviteSignUp} />

@@ -117,7 +117,7 @@ export default function PureMapFooter({
               //width of modal
               width: 270,
               //zindex of modal
-              zIndex: 100,
+              zIndex: 1500,
             },
             buttonClose: {
               display: 'none',

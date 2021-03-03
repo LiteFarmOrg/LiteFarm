@@ -14,55 +14,36 @@
  */
 
 const Model = require('objection').Model;
-const baseModel = require('./baseModel');
 
-class Field extends baseModel {
+class Field extends Model {
   static get tableName() {
     return 'field';
   }
 
   static get idColumn() {
-    return 'field_id';
+    return 'location_id';
   }
+
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['farm_id', 'grid_points'],
+      required: ['location_id'],
       properties: {
-        field_id: { type: 'string' },
-        farm_id: { type: 'string' },
-        field_name: { type: 'string' },
-        area: { type: 'number' },
+        location_id: { type: 'string' },
+        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
         station_id: { type: 'number' },
-        grid_points: { type: 'array',
-          properties: {
-            lat: { type: 'number' },
-            lng: { type: 'number' },
-          },
-        },
-        ...this.baseProperties,
+        transition_date: { type: 'date' },
       },
       additionalProperties: false,
     };
   }
+
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      fieldCrop:{
-        relation: Model.HasManyRelation,
-        // The related model. This can be either a Model
-        // subclass constructor or an absolute file path
-        // to a module that exports one.
-        modelClass: require('./fieldCropModel.js'),
-        join: {
-          from: 'field.field_id',
-          to: 'fieldCrop.field_id',
-        },
-        ...this.baseRelationMappings('field'),
-      },
     };
   }
 }

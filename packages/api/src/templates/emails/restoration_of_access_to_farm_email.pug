@@ -1,0 +1,11 @@
+extends ./template
+block content
+    p
+        span=`${t('RESTORE_ACCESS.ADMIN')} `
+        strong #{farm}
+        span=` ${t('RESTORE_ACCESS.RESTORED')}`
+    p=`${t('RESTORE_ACCESS.CLICK_BELOW')}:`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button=`${t('COMMON.LOG_IN')}`
+

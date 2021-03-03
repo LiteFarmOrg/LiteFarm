@@ -19,7 +19,7 @@ const passwordModel = require('../models/passwordModel');
 const userFarmModel = require('../models/userFarmModel');
 const bcrypt = require('bcryptjs');
 const userController = require('./userController');
-const { sendEmailTemplate, emails } = require('../templates/sendEmailTemplate');
+const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
 const parser = require('ua-parser-js');
 const userLogModel = require('../models/userLogModel');
 
@@ -235,9 +235,10 @@ async function sendPasswordReset(data) {
   const template_path = emails.PASSWORD_RESET;
   const replacements = {
     first_name: data.first_name,
+    locale: data.language_preference,
   };
   const sender = 'system@litefarm.org';
-  await sendEmailTemplate.sendEmail(template_path, replacements, data.email, sender,
+  sendEmail(template_path, replacements, data.email, sender,
     `/callback/?reset_token=${token}`, data.language_preference);
 }
 

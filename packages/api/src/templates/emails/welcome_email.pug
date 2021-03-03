@@ -1,0 +1,9 @@
+extends ./template
+block content
+    p
+        span=`${t('CREATE_ACCOUNT_CONFIRMATION.WELCOME')} `
+        a(href='https://litefarm.org') litefarm.org
+    p=`${t('CREATE_ACCOUNT_CONFIRMATION.CLICK_BELOW')}:`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button=`${t('COMMON.LOG_IN')}`

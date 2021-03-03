@@ -55,6 +55,7 @@ const pesticideRoutes = require('./routes/pesticideRoute');
 const yieldRoutes = require('./routes/yieldRoute');
 const priceRoutes = require('./routes/priceRoute');
 const insightRoutes = require('./routes/insightRoute');
+const locationRoute = require('./routes/locationRoute');
 const statsRoutes = require('./routes/statsRoute');
 const userFarmDataRoute = require('./routes/userFarmDataRoute');
 const userFarmRoute = require('./routes/userFarmRoute');
@@ -67,6 +68,7 @@ const nitrogenBalanceScheduler = require('./jobs/nitrogenBalance/nitrogenBalance
 const farmDataScheduler = require('./jobs/sendFarmData/sendFarmData');
 const userLogRoute = require('./routes/userLogRoute');
 const supportTicketRoute = require('./routes/supportTicketRoute');
+const exportRoute = require('./routes/exportRoute');
 
 // register API
 const router = promiseRouter();
@@ -101,6 +103,7 @@ app.use(bodyParser.json())
   .use(checkJwt)
 
   // routes
+  .use('/location', locationRoute)
   .use('/userLog', userLogRoute)
   .use('/crop', cropRoutes)
   .use('/field', fieldRoutes)
@@ -129,6 +132,7 @@ app.use(bodyParser.json())
   .use('/roles', rolesRoutes)
   .use('/organic_certifier_survey', organicCertifierSurveyRoutes)
   .use('/support_ticket', supportTicketRoute)
+  .use('/export', exportRoute)
 
   // handle errors
   .use((req, res, next) => {

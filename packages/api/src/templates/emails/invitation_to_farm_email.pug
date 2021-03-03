@@ -1,0 +1,12 @@
+extends ./template
+block content
+    p
+        span=`${t('INVITE.GREAT_FOLK')} `
+        strong #{farm}
+        span=` ${t('INVITE.INVITED_YOU')} `
+        a(href='https://litefarm.org') litefarm.org
+        | .
+    p=`${t('INVITE.YOU_CAN_ACCEPT')}:`
+    .button-aligner
+        a#email-button(href=`${buttonLink}` target='_blank')
+            button.button=`${t('COMMON.JOIN')}`

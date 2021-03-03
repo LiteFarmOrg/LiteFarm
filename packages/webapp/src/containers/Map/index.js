@@ -24,6 +24,9 @@ export default function Map() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
+  let [roadview, setRoadview] = useState(false);
+  const [showMapFilter, setShowMapFilter] = useState(true);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     // setCenter(grid_points);
@@ -47,14 +50,14 @@ export default function Map() {
       minZoom: 1,
       maxZoom: 80,
       tilt: 0,
-
-      mapTypeId: maps.MapTypeId.SATELLITE,
+      mapTypeControl: true,
+      mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
-        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
       },
-
+      zoomControl: true,
       clickableIcons: false,
       streetViewControl: false,
       scaleControl: false,
@@ -97,10 +100,6 @@ export default function Map() {
     setShowModal(false);
   };
 
-  const handleClickFilter = () => {
-    setShowModal(false);
-  };
-
   const handleClickExport = () => {
     setShowModal(!showModal);
   };
@@ -122,7 +121,16 @@ export default function Map() {
       link.href = canvas.toDataURL();
       link.click();
     });
-    setShowModal(false);
+  };
+
+  const [state, setState] = React.useState({
+    bottom: false,
+  });
+
+  const toggleDrawer = (anchor, open) => () => {
+    setShowMapFilter(!showMapFilter);
+    setState({ ...state, [anchor]: open });
+    if (!open) setHeight(window.innerHeight / 2);
   };
 
   const handleShare = () => {
@@ -157,15 +165,21 @@ export default function Map() {
           ></GoogleMap>
         </div>
       </div>
+
       <PureMapFooter
         className={styles.mapFooter}
         isAdmin={is_admin}
         showSpotlight={showMapSpotlight}
         resetSpotlight={resetSpotlight}
         onClickAdd={handleClickAdd}
-        onClickFilter={handleClickFilter}
         onClickExport={handleClickExport}
         showModal={showModal}
+        setHeight={setHeight}
+        height={height}
+        state={state}
+        toggleDrawer={toggleDrawer}
+        setRoadview={setRoadview}
+        showMapFilter={showMapFilter}
       />
       {showModal && (
         <ExportMapModal

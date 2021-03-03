@@ -12,15 +12,13 @@ export function PureExportMapModal({ onClickDownload, onClickShare }) {
 
   return (
     <div className={styles.container}>
-      <Title>
-        {t('FARM_MAP.EXPORT_MODAL.TITLE')}
-      </Title>
+      <Title>{t('FARM_MAP.EXPORT_MODAL.TITLE')}</Title>
       <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
-      <Button color='secondary' className={styles.button} onClick={onClickDownload}>
+      <Button color="secondary" className={styles.button} onClick={onClickDownload}>
         <DownloadIcon className={styles.svg} />
         <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
       </Button>
-      <Button color='secondary' className={styles.button} onClick={onClickShare}>
+      <Button color="secondary" className={styles.button} onClick={onClickShare}>
         <ShareIcon className={styles.svg} />
         <div>{t('FARM_MAP.EXPORT_MODAL.SHARE')}</div>
       </Button>

@@ -132,7 +132,6 @@ export default function Map() {
   });
 
   const toggleDrawer = (anchor, open) => () => {
-    console.log(showMapFilter);
     setShowModal(false);
     setShowMapFilter(!showMapFilter);
     setAnchorState({ ...anchorState, [anchor]: open });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Joyride, { STATUS, ACTIONS, LIFECYCLE } from 'react-joyride';
+import Joyride, { ACTIONS, LIFECYCLE, STATUS } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
@@ -20,7 +20,7 @@ export default function PureMapFooter({
   showModal,
   setHeight,
   height,
-  state,
+  anchorState,
   toggleDrawer,
   setRoadview,
   showMapFilter,
@@ -143,7 +143,10 @@ export default function PureMapFooter({
             <AddLogo className={svg} />
           </button>
         )}
-        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
+        <button
+          className={clsx(button, (stepSpotlighted === 1 || !showMapFilter) && spotlighted)}
+          id="mapSecondStep"
+        >
           {' '}
           <div>
             {['bottom'].map((anchor) => (
@@ -157,7 +160,7 @@ export default function PureMapFooter({
                   anchor={anchor}
                   setHeight={setHeight}
                   height={height}
-                  state={state}
+                  anchorState={anchorState}
                   toggleDrawer={toggleDrawer}
                 />
               </React.Fragment>

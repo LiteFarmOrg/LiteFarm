@@ -99,13 +99,13 @@ export default function Map() {
   const handleClickAdd = () => {
     setShowModal(false);
     setAnchorState({ bottom: false });
-    setShowMapFilter(false);
+    setShowMapFilter(true);
   };
 
   const handleClickExport = () => {
     setShowModal(!showModal);
     setAnchorState({ bottom: false });
-    setShowMapFilter(false);
+    setShowMapFilter(true);
   };
 
   const mapWrapperRef = useRef();

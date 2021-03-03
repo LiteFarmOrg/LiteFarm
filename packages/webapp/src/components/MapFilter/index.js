@@ -45,7 +45,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MapFilter({ setRoadview, anchor, setHeight, height, state, toggleDrawer }) {
+export default function MapFilter({
+  setRoadview,
+  anchor,
+  setHeight,
+  height,
+  anchorState,
+  toggleDrawer,
+}) {
   const { t } = useTranslation();
 
   let [visibility, setVisibility] = useState(false);
@@ -367,7 +374,7 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
     <div>
       <Drawer
         anchor={anchor}
-        open={state[anchor]}
+        open={anchorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
         onOpen={toggleDrawer(anchor, true)}
         PaperProps={{

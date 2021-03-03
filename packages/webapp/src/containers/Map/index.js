@@ -98,10 +98,14 @@ export default function Map() {
 
   const handleClickAdd = () => {
     setShowModal(false);
+    setAnchorState({ bottom: false });
+    setShowMapFilter(true);
   };
 
   const handleClickExport = () => {
     setShowModal(!showModal);
+    setAnchorState({ bottom: false });
+    setShowMapFilter(true);
   };
 
   const mapWrapperRef = useRef();
@@ -123,13 +127,14 @@ export default function Map() {
     });
   };
 
-  const [state, setState] = React.useState({
+  const [anchorState, setAnchorState] = React.useState({
     bottom: false,
   });
 
   const toggleDrawer = (anchor, open) => () => {
+    setShowModal(false);
     setShowMapFilter(!showMapFilter);
-    setState({ ...state, [anchor]: open });
+    setAnchorState({ ...anchorState, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
   };
 
@@ -176,7 +181,7 @@ export default function Map() {
         showModal={showModal}
         setHeight={setHeight}
         height={height}
-        state={state}
+        anchorState={anchorState}
         toggleDrawer={toggleDrawer}
         setRoadview={setRoadview}
         showMapFilter={showMapFilter}

@@ -18,6 +18,7 @@ import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 
 import { drawArea } from './mapDrawer';
+import { getLocations } from '../saga';
 
 export default function Map() {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
@@ -28,20 +29,6 @@ export default function Map() {
   const [showModal, setShowModal] = useState(false);
   const [stateMap, setMap] = useState(null);
 
-  const samplePointsArea = [
-    {
-      lat: 40.1371877000039,
-      lng: -74.97223955717772,
-    },
-    {
-      lat: 40.13827038563383,
-      lng: -74.9651585253784,
-    },
-    {
-      lat: 40.13292240695948,
-      lng: -74.97069460478514,
-    },
-  ];
   const samplePointsLine = [
     {
       lat: 40.1381877000039,
@@ -62,7 +49,7 @@ export default function Map() {
   }
 
   useEffect(() => {
-    // setCenter(grid_points);
+    dispatch(getLocations());
   }, []);
 
   const getMapOptions = (maps) => {
@@ -157,7 +144,10 @@ export default function Map() {
     // polygon.setMap(map);
     // polyline.setMap(map);
     // marker.setMap(map);
-    drawArea(map, maps, mapBounds, 'field', samplePointsArea);
+
+    for (const field of fields) {
+      drawArea(map, maps, mapBounds, 'field', field.grid_points);
+    }
 
     // ADDING ONCLICK TO DRAWING
     // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);

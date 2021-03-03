@@ -45,7 +45,9 @@ const drawArea = (map, maps, mapBounds, areaType, points) => {
   });
 
   // draw dotted outline
-  let borderPoints = points;
+  let borderPoints = points.map((point) => ({
+    ...point    
+  }));
   borderPoints.push(points[0]);
 
   const lineSymbol = {

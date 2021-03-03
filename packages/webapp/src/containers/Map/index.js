@@ -25,8 +25,6 @@ export default function Map() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   let [roadview, setRoadview] = useState(false);
-  const [showMapFilter, setShowMapFilter] = useState(true);
-  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     // setCenter(grid_points);
@@ -61,9 +59,7 @@ export default function Map() {
       clickableIcons: false,
       streetViewControl: false,
       scaleControl: false,
-      mapTypeControl: false,
       panControl: false,
-      zoomControl: false,
       rotateControl: false,
       fullscreenControl: false,
     };
@@ -123,17 +119,6 @@ export default function Map() {
     });
   };
 
-  const [state, setState] = React.useState({
-    bottom: false,
-  });
-
-  const toggleDrawer = (anchor, open) => () => {
-    setShowMapFilter(!showMapFilter);
-    setState({ ...state, [anchor]: open });
-    if (!open) setHeight(window.innerHeight / 2);
-    console.log('toggle drawer');
-  };
-
   const handleShare = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const fileDataURL = canvas.toDataURL();
@@ -175,12 +160,7 @@ export default function Map() {
         onClickAdd={handleClickAdd}
         onClickExport={handleClickExport}
         showModal={showModal}
-        setHeight={setHeight}
-        height={height}
-        state={state}
-        toggleDrawer={toggleDrawer}
         setRoadview={setRoadview}
-        showMapFilter={showMapFilter}
       />
       {showModal && (
         <ExportMapModal

@@ -18,14 +18,16 @@ export default function PureMapFooter({
   onClickAdd,
   onClickExport,
   showModal,
-  setHeight,
-  height,
-  state,
-  toggleDrawer,
   setRoadview,
-  showMapFilter,
 }) {
   const { t } = useTranslation();
+  const [height, setHeight] = useState(0);
+  const [isDrawerOpen, setDrawerOpen] = useState(true);
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+    if (open) setHeight(window.innerHeight / 2);
+    console.log('toggle drawer', open);
+  };
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
   const resetSpotlightStatus = (data) => {
@@ -146,26 +148,23 @@ export default function PureMapFooter({
         <button
           className={clsx(button, stepSpotlighted === 1 && spotlighted)}
           id="mapSecondStep"
-          onClick={showMapFilter ? toggleDrawer('bottom', true) : toggleDrawer('bottom', false)}
+          onClick={() => {
+            console.log('button');
+            // !isDrawerOpen && toggleDrawer(!isDrawerOpen)()
+          }}
         >
           {' '}
           <div>
-            {['bottom'].map((anchor) => (
-              <React.Fragment key={anchor}>
-                <FilterLogo
-                  className={svg}
-                  // onClick={showMapFilter ? toggleDrawer(anchor, true) : toggleDrawer(anchor, false)}
-                />
-                <MapFilter
-                  setRoadview={setRoadview}
-                  anchor={anchor}
-                  setHeight={setHeight}
-                  height={height}
-                  state={state}
-                  toggleDrawer={toggleDrawer}
-                />
-              </React.Fragment>
-            ))}
+            <React.Fragment>
+              <FilterLogo className={svg} />
+              <MapFilter
+                setRoadview={setRoadview}
+                setHeight={setHeight}
+                height={height}
+                isDrawerOpen={isDrawerOpen}
+                toggleDrawer={toggleDrawer}
+              />
+            </React.Fragment>
           </div>
         </button>
         <button

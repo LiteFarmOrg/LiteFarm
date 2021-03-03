@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MapFilter({ setRoadview, anchor, setHeight, height, state, toggleDrawer }) {
+export default function MapFilter({ setRoadview, setHeight, height, isDrawerOpen, toggleDrawer }) {
   const { t } = useTranslation();
 
   let [visibility, setVisibility] = useState(false);
@@ -53,9 +53,6 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
 
   const classes = useStyles();
   const mapText = t('FARM_MAP.MAP_FILTER.SATELLITE');
-  useEffect(() => {
-    setHeight(window.innerHeight / 2);
-  }, []);
 
   const areaImgDict = [
     { name: t('FARM_MAP.MAP_FILTER.BARN'), img: Barn },
@@ -105,280 +102,274 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
     selected.push('Satellite background');
   };
 
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'bottom',
-      })}
-      role="presentation"
-      style={{ height }}
-    >
-      <div
-        style={{
-          elevation: 0,
-          backgroundColor: 'white',
-          borderRadius: '16px 16px 0px 0px',
-          boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
-        }}
-      >
-        <div style={{ height: '90px' }}>
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '4px 0',
-            }}
-          >
-            <div
-              className={classes.greenbar}
-              onClick={() => {
-                height === window.innerHeight / 2
-                  ? setHeight(window.innerHeight - 75)
-                  : setHeight(window.innerHeight / 2);
-              }}
-            />
-          </div>
-          <div style={{ marginLeft: '24px', paddingTop: '10px' }}>
-            <Semibold>{t('FARM_MAP.MAP_FILTER.TITLE')}</Semibold>
-            <div
-              style={{
-                textDecoration: 'underline',
-                color: '#AA5F04',
-                fontSize: '14px',
-                display: 'flex',
-                flexDirection: 'row',
-              }}
-            >
-              <div
-                onClick={() => {
-                  setAllVisibility();
-                  setRoadview(false);
-                }}
-              >
-                <p>
-                  {t('FARM_MAP.MAP_FILTER.SHOW_ALL')}
-                  <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
-                </p>
-              </div>
-              <div
-                onClick={() => {
-                  setAllVisibilityOff();
-                  setRoadview(true);
-                }}
-              >
-                <p>{t('FARM_MAP.MAP_FILTER.HIDE_ALL')}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ overflowY: 'scroll', height: `${height - 90 - 64}px` }}>
-          <List>
-            {
-              <ListItem
-                style={
-                  selected.includes(mapText)
-                    ? { backgroundColor: '#F3F6FB' }
-                    : { backgroundColor: 'white' }
-                }
-                button
-                key={mapText}
-              >
-                <ListItemIcon>
-                  {<img src={MapBackground} style={{ paddingLeft: '20px' }} />}{' '}
-                </ListItemIcon>
-
-                <ListItemText primary={mapText} />
-                <div style={{ paddingRight: '24px' }}>
-                  {visibility || selected.includes(mapText) ? (
-                    <MdVisibilityOff
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => {
-                        selectOrDeselect(mapText);
-                        setRoadview(false);
-                      }}
-                    />
-                  ) : (
-                    <MdVisibility
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => {
-                        selectOrDeselect(mapText);
-                        setRoadview(true);
-                      }}
-                    />
-                  )}
-                </div>
-              </ListItem>
-            }
-            <div
-              style={{
-                marginLeft: '24px',
-                color: '#66738A',
-                fontSize: '14px',
-                fontWeight: '600',
-                paddingTop: '10px',
-              }}
-            >
-              <p>
-                {t('FARM_MAP.MAP_FILTER.AREAS')}{' '}
-                <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
-              </p>
-            </div>
-            {areaImgDict.map((item) => (
-              <ListItem
-                style={
-                  selected.includes(item.name)
-                    ? { backgroundColor: '#F3F6FB' }
-                    : { backgroundColor: 'white' }
-                }
-                button
-                key={item.name}
-              >
-                <ListItemIcon>
-                  {<img src={item.img} style={{ paddingLeft: '20px' }} />}
-                </ListItemIcon>
-                <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
-                {item.name === t('FARM_MAP.MAP_FILTER.FSB') ? (
-                  <ListItemText
-                    secondaryTypographyProps={{ align: 'left' }}
-                    secondary={<img src={Leaf} />}
-                  />
-                ) : (
-                  <ListItemText />
-                )}
-                <div style={{ paddingRight: '24px' }}>
-                  {visibility || selected.includes(item.name) ? (
-                    <MdVisibilityOff
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => selectOrDeselect(item.name)}
-                    />
-                  ) : (
-                    <MdVisibility
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => selectOrDeselect(item.name)}
-                    />
-                  )}
-                </div>
-              </ListItem>
-            ))}
-            <div
-              style={{
-                marginLeft: '24px',
-                color: '#66738A',
-                fontSize: '14px',
-                fontWeight: '600',
-                paddingTop: '10px',
-              }}
-            >
-              <p>
-                {t('FARM_MAP.MAP_FILTER.LINES')}{' '}
-                <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
-              </p>
-            </div>
-            {lineImgDict.map((item) => (
-              <ListItem
-                style={
-                  selected.includes(item.name)
-                    ? { backgroundColor: '#F3F6FB' }
-                    : { backgroundColor: 'white' }
-                }
-                button
-                key={item.name}
-              >
-                <ListItemIcon>
-                  {<img src={item.img} style={{ paddingLeft: '20px' }} />}
-                </ListItemIcon>
-                <ListItemText primary={item.name} />
-                <div style={{ paddingRight: '24px' }}>
-                  {visibility || selected.includes(item.name) ? (
-                    <MdVisibilityOff
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => selectOrDeselect(item.name)}
-                    />
-                  ) : (
-                    <MdVisibility
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => selectOrDeselect(item.name)}
-                    />
-                  )}
-                </div>
-              </ListItem>
-            ))}
-            <div
-              style={{
-                marginLeft: '24px',
-                color: '#66738A',
-                fontSize: '14px',
-                fontWeight: '600',
-                paddingTop: '10px',
-              }}
-            >
-              <p>
-                {t('FARM_MAP.MAP_FILTER.POINTS')}{' '}
-                <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
-              </p>
-            </div>
-            {pointImgDict.map((item) => (
-              <ListItem
-                style={
-                  selected.includes(item.name)
-                    ? { backgroundColor: '#F3F6FB' }
-                    : { backgroundColor: 'white' }
-                }
-                button
-                key={item.name}
-              >
-                <ListItemIcon>
-                  {<img src={item.img} style={{ paddingLeft: '20px' }} />}
-                </ListItemIcon>
-                <ListItemText primary={item.name} />
-                <div style={{ paddingRight: '24px' }}>
-                  {visibility || selected.includes(item.name) ? (
-                    <MdVisibilityOff
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => selectOrDeselect(item.name)}
-                    />
-                  ) : (
-                    <MdVisibility
-                      size={24}
-                      color={'#66738A'}
-                      onClick={() => selectOrDeselect(item.name)}
-                    />
-                  )}
-                </div>
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      </div>
-      <Divider />
-    </div>
-  );
-
   return (
     <div>
       <Drawer
-        anchor={anchor}
-        open={state[anchor]}
-        onClose={toggleDrawer(anchor, false)}
-        onOpen={toggleDrawer(anchor, true)}
+        anchor={'bottom'}
+        open={isDrawerOpen}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
         PaperProps={{
-          style: { backgroundColor: 'transparent' },
+          style: { backgroundColor: 'transparent', maxWidth: '1024px', margin: 'auto' },
           square: false,
         }}
         ModalProps={{
           classes: { paddingBottom: '20px' },
         }}
       >
-        {list(anchor)}
+        <div
+          className={clsx(classes.list, classes.fullList)}
+          role="presentation"
+          style={{ height }}
+        >
+          <div
+            style={{
+              elevation: 0,
+              backgroundColor: 'white',
+              borderRadius: '16px 16px 0px 0px',
+              boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
+            }}
+          >
+            <div style={{ height: '90px' }}>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  padding: '4px 0',
+                }}
+              >
+                <div
+                  className={classes.greenbar}
+                  onClick={() => {
+                    height === window.innerHeight / 2
+                      ? setHeight(window.innerHeight - 75)
+                      : setHeight(window.innerHeight / 2);
+                  }}
+                />
+              </div>
+              <div style={{ marginLeft: '24px', paddingTop: '10px' }}>
+                <Semibold>{t('FARM_MAP.MAP_FILTER.TITLE')}</Semibold>
+                <div
+                  style={{
+                    textDecoration: 'underline',
+                    color: '#AA5F04',
+                    fontSize: '14px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <div
+                    onClick={() => {
+                      setAllVisibility();
+                      setRoadview(false);
+                    }}
+                  >
+                    <p>
+                      {t('FARM_MAP.MAP_FILTER.SHOW_ALL')}
+                      <img style={{ paddingLeft: '6px', paddingRight: '6px' }} src={Line} />{' '}
+                    </p>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setAllVisibilityOff();
+                      setRoadview(true);
+                    }}
+                  >
+                    <p>{t('FARM_MAP.MAP_FILTER.HIDE_ALL')}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ overflowY: 'scroll', height: `${height - 90 - 64}px` }}>
+              <List>
+                {
+                  <ListItem
+                    style={
+                      selected.includes(mapText)
+                        ? { backgroundColor: '#F3F6FB' }
+                        : { backgroundColor: 'white' }
+                    }
+                    button
+                    key={mapText}
+                  >
+                    <ListItemIcon>
+                      {<img src={MapBackground} style={{ paddingLeft: '20px' }} />}{' '}
+                    </ListItemIcon>
+
+                    <ListItemText primary={mapText} />
+                    <div style={{ paddingRight: '24px' }}>
+                      {visibility || selected.includes(mapText) ? (
+                        <MdVisibilityOff
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => {
+                            selectOrDeselect(mapText);
+                            setRoadview(false);
+                          }}
+                        />
+                      ) : (
+                        <MdVisibility
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => {
+                            selectOrDeselect(mapText);
+                            setRoadview(true);
+                          }}
+                        />
+                      )}
+                    </div>
+                  </ListItem>
+                }
+                <div
+                  style={{
+                    marginLeft: '24px',
+                    color: '#66738A',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    paddingTop: '10px',
+                  }}
+                >
+                  <p>
+                    {t('FARM_MAP.MAP_FILTER.AREAS')}{' '}
+                    <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
+                  </p>
+                </div>
+                {areaImgDict.map((item) => (
+                  <ListItem
+                    style={
+                      selected.includes(item.name)
+                        ? { backgroundColor: '#F3F6FB' }
+                        : { backgroundColor: 'white' }
+                    }
+                    button
+                    key={item.name}
+                  >
+                    <ListItemIcon>
+                      {<img src={item.img} style={{ paddingLeft: '20px' }} />}
+                    </ListItemIcon>
+                    <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
+                    {item.name === t('FARM_MAP.MAP_FILTER.FSB') ? (
+                      <ListItemText
+                        secondaryTypographyProps={{ align: 'left' }}
+                        secondary={<img src={Leaf} />}
+                      />
+                    ) : (
+                      <ListItemText />
+                    )}
+                    <div style={{ paddingRight: '24px' }}>
+                      {visibility || selected.includes(item.name) ? (
+                        <MdVisibilityOff
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => selectOrDeselect(item.name)}
+                        />
+                      ) : (
+                        <MdVisibility
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => selectOrDeselect(item.name)}
+                        />
+                      )}
+                    </div>
+                  </ListItem>
+                ))}
+                <div
+                  style={{
+                    marginLeft: '24px',
+                    color: '#66738A',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    paddingTop: '10px',
+                  }}
+                >
+                  <p>
+                    {t('FARM_MAP.MAP_FILTER.LINES')}{' '}
+                    <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
+                  </p>
+                </div>
+                {lineImgDict.map((item) => (
+                  <ListItem
+                    style={
+                      selected.includes(item.name)
+                        ? { backgroundColor: '#F3F6FB' }
+                        : { backgroundColor: 'white' }
+                    }
+                    button
+                    key={item.name}
+                  >
+                    <ListItemIcon>
+                      {<img src={item.img} style={{ paddingLeft: '20px' }} />}
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                    <div style={{ paddingRight: '24px' }}>
+                      {visibility || selected.includes(item.name) ? (
+                        <MdVisibilityOff
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => selectOrDeselect(item.name)}
+                        />
+                      ) : (
+                        <MdVisibility
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => selectOrDeselect(item.name)}
+                        />
+                      )}
+                    </div>
+                  </ListItem>
+                ))}
+                <div
+                  style={{
+                    marginLeft: '24px',
+                    color: '#66738A',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    paddingTop: '10px',
+                  }}
+                >
+                  <p>
+                    {t('FARM_MAP.MAP_FILTER.POINTS')}{' '}
+                    <img src={Rectangle} style={{ paddingLeft: '6px', marginRight: '24px' }} />{' '}
+                  </p>
+                </div>
+                {pointImgDict.map((item) => (
+                  <ListItem
+                    style={
+                      selected.includes(item.name)
+                        ? { backgroundColor: '#F3F6FB' }
+                        : { backgroundColor: 'white' }
+                    }
+                    button
+                    key={item.name}
+                  >
+                    <ListItemIcon>
+                      {<img src={item.img} style={{ paddingLeft: '20px' }} />}
+                    </ListItemIcon>
+                    <ListItemText primary={item.name} />
+                    <div style={{ paddingRight: '24px' }}>
+                      {visibility || selected.includes(item.name) ? (
+                        <MdVisibilityOff
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => selectOrDeselect(item.name)}
+                        />
+                      ) : (
+                        <MdVisibility
+                          size={24}
+                          color={'#66738A'}
+                          onClick={() => selectOrDeselect(item.name)}
+                        />
+                      )}
+                    </div>
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          </div>
+          <Divider />
+        </div>
       </Drawer>
     </div>
   );

@@ -10,6 +10,7 @@ import {
   naturalAreaColour,
   residenceColour,
 } from './styles.module.scss';
+import { TREE_ICON } from './constants';
 
 const areaColour = {
   'barn': barnColour,
@@ -22,12 +23,14 @@ const areaColour = {
   'residence': residenceColour,
 }
 
-const drawArea = (map, maps, mapBounds, areaType, points) => {
+const drawArea = (map, maps, mapBounds, areaType, area) => {
+  console.log(area);
+  const { grid_points: points, field_name } = area;
   points.forEach((point) => {
     mapBounds.extend(point);
   });
 
-  var polygon = new maps.Polygon({
+  const polygon = new maps.Polygon({
     paths: points,
     strokeColor: defaultColour,
     // strokeOpacity: 0.8,
@@ -57,7 +60,7 @@ const drawArea = (map, maps, mapBounds, areaType, points) => {
     strokeWeight: 2,
     scale: 1,
   };
-  var polyline = new maps.Polyline({
+  const polyline = new maps.Polyline({
     path: borderPoints,
     strokeOpacity: 0,
     icons: [
@@ -69,6 +72,29 @@ const drawArea = (map, maps, mapBounds, areaType, points) => {
     ],
   });
   polyline.setMap(map);
+
+  // add area name label
+  let fieldIcon = {
+    path: TREE_ICON,
+    fillColor: areaColour[areaType],
+    fillOpacity: 0,
+    strokeWeight: 0,
+    scale: 0.5,
+  };
+  maps.Polygon.prototype.getPolygonBounds = function () {
+    var bounds = new maps.LatLngBounds();
+    this.getPath().forEach(function (element, index) {
+      bounds.extend(element);
+    });
+    return bounds;
+  };
+  const fieldMarker = new maps.Marker({
+    position: polygon.getPolygonBounds().getCenter(),
+    map: map,
+    icon: fieldIcon,
+    label: { text: field_name, color: 'white' },
+  });
+  fieldMarker.setMap(map);
 }
 
 export {

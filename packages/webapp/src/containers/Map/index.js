@@ -146,7 +146,7 @@ export default function Map() {
     // marker.setMap(map);
 
     for (const field of fields) {
-      drawArea(map, maps, mapBounds, 'field', field.grid_points);
+      drawArea(map, maps, mapBounds, 'field', field);
     }
 
     // ADDING ONCLICK TO DRAWING

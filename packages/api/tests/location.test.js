@@ -8,6 +8,53 @@ jest.mock('jsdom');
 jest.mock('../src/middleware/acl/checkJwt');
 const mocks = require('./mock.factories');
 
+const assetDict = {
+  barn: 'area',
+  greenhouse: 'area',
+  field: 'area',
+  natural_area: 'area',
+  ceremonial_area: 'area',
+  residence: 'area',
+  ground_water: 'area',
+  creek: 'line',
+  fence: 'line',
+  buffer_zone: 'line',
+  gate: 'point',
+  water_valve: 'point',
+}
+const assetMock = {
+  barn: mocks.fakeArea,
+  greenhouse: mocks.fakeArea,
+  field: mocks.fakeArea,
+  natural_area: mocks.fakeArea,
+  ceremonial_area: mocks.fakeArea,
+  residence: mocks.fakeArea,
+  ground_water: mocks.fakeArea,
+  creek: mocks.fakeLine,
+  fence: mocks.fakeLine,
+  buffer_zone: mocks.fakeLine,
+  gate: mocks.fakePoint,
+  water_valve: mocks.fakePoint,
+}
+
+const assetSpecificMock = {
+  barn: mocks.fakeBarn,
+  greenhouse: mocks.fakeGreenhouse,
+  field: mocks.fakeField,
+  natural_area: () => ({}),
+  ceremonial_area: () => ({}),
+  residence: () => ({}),
+  ground_water: mocks.fakeGroundWater,
+  creek: mocks.fakeCreek,
+  fence: mocks.fakeFence,
+  buffer_zone: () => ({}),
+  gate: () => ({}),
+  water_valve: mocks.fakeWaterValve,
+}
+
+
+
+
 describe('Location tests', () => {
   let middleware;
   beforeAll(() => {
@@ -25,6 +72,14 @@ describe('Location tests', () => {
     done();
   });
 
+  function putLocation(data, { user_id, farm_id }, location, callback) {
+    chai.request(server).put(`/location/${location}`)
+      .set('Content-Type', 'application/json')
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .send(data)
+      .end(callback)
+  }
   function postLocation(data, { user_id, farm_id }, callback) {
     chai.request(server).post('/location')
       .set('Content-Type', 'application/json')
@@ -151,35 +206,88 @@ describe('Location tests', () => {
 
   describe('POST /location', () => {
     let user, farm;
+
     beforeEach(async () => {
       let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
       farm = farm_id;
       user = user_id;
     });
 
-    test('should create a location', (done) => {
-      postLocation({
+    function locationData(asset) {
+      return {
         ...mocks.fakeLocation(),
-        farm_id: farm,
         figure: {
-          type: 'barn',
-          area: {
-            ...mocks.fakeArea(),
-            grid_points: [{
-              lat: 12.222,
-              lng: 120.222
-            }]
-          }
+          type: asset,
+          [assetDict[asset]]: assetMock[asset](false)
         },
-        barn: {
-          wash_and_pack: false,
-          cold_storage: true
-        }
-      }, {user_id: user, farm_id: farm}, (err, res) => {
+        [asset]: assetSpecificMock[asset]()
+      }
+    }
+
+    test('should create a location', (done) => {
+      const data = locationData('barn');
+      postLocation({...data, farm_id: farm},
+        {user_id: user, farm_id: farm}, (err, res) => {
         expect(res.status).toBe(200);
         done();
       })
     })
+
+    Object.keys(assetDict).map((asset) => {
+        test(`should create a ${asset}`, (done) => {
+          const data = locationData(asset);
+          postLocation({...data, farm_id: farm},
+            {user_id: user, farm_id: farm}, (err, res) => {
+              expect(res.status).toBe(200);
+              expect(res.body.name).toBe(data.name);
+              expect(res.body.figure.type).toBe(asset);
+              expect(res.body[asset]).toBeDefined();
+              done();
+          })
+      })
+    })
+  });
+
+  describe('PUT /location' , () => {
+    let user, farm;
+
+    beforeEach(async () => {
+      let [{ user_id, farm_id }] = await mocks.userFarmFactory({}, { status: 'Active', role_id: 1 });
+      farm = farm_id;
+      user = user_id;
+    });
+
+
+
+    test('should update a field', async (done) => {
+      const location = await mocks.locationFactory({promisedFarm: [{ farm_id: farm }]})
+      const area = await mocks.areaFactory({ promisedLocation: location});
+      const field = await mocks.fieldFactory({ promisedLocation: location, promisedArea: area });
+      const [{ location_id, created_by_user_id, updated_by_user_id, created_at, updated_at,  ...locationData }] = location;
+      const [{station_id, ...fieldData}] = field;
+      const data = {
+        ...locationData,
+        name: 'Test Name323',
+        figure: {
+          type: 'field',
+          location_id: location_id,
+          figure_id: area[0].figure_id,
+          area: area[0]
+        },
+        field: {
+          ...fieldData,
+          organic_status: 'Non-Organic'
+        }
+      }
+      putLocation(data, {user_id: user, farm_id: farm}, location[0].location_id, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.name).toBe('Test Name323');
+        expect(res.body.figure.type).toBe('field');
+        expect(res.body.field.organic_status).toBe('Non-Organic');
+        done();
+      })
+    })
+
   })
 
 

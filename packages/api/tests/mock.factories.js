@@ -120,32 +120,35 @@ async function areaFactory({
   const [{ location_id }] = location;
   const { type, ...realArea} = area;
   const [{ figure_id }] = await figureFactory(location_id, areaType ? areaType : type);
-  return knex('area').insert({ figure_id , ...realArea})
+  return knex('area').insert({ figure_id , ...realArea}).returning('*');
 }
 
 function figureFactory(location_id, type) {
   return knex('figure').insert({ location_id, type}).returning('*');
 }
 
-function fakeArea() {
+function fakeArea(stringify= true) {
   return {
     total_area: faker.random.number(2000),
-    grid_points: JSON.stringify([{
+    grid_points: stringify ? JSON.stringify([{
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
-    }]),
+    }]) : [{
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }],
     perimeter: faker.random.number(),
   };
 }
 
 async function fieldFactory({
   promisedStation = weather_stationFactory(),
-  promisedLocation = locationFactory()
+  promisedLocation = locationFactory(),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field')
 } = {}, field = fakeField()) {
   const [station, location] = await Promise.all([promisedStation, promisedLocation]);
   const [{ station_id }] = station;
   const [{ location_id }] = location;
-  await areaFactory({ promisedLocation: location }, fakeArea(), 'field');
   return knex('field').insert({ location_id: location_id, station_id, ...field  }).returning('*');
 }
 
@@ -182,15 +185,17 @@ async function lineFactory({ promisedLocation = locationFactory()} = {}, line = 
   return knex('line').insert({ figure_id , ...realLine }).returning('*')
 }
 
-function fakeLine() {
+function fakeLine(stringify = true) {
   return {
     length: faker.random.number(),
     width: faker.random.number(),
-    type: faker.random.arrayElement(['fence', 'creek']),
-    line_points: JSON.stringify([{
+    line_points: stringify ? JSON.stringify([{
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
-    }])
+    }]) : [{
+      lat: faker.address.latitude(),
+      lng: faker.address.longitude(),
+    }]
   }
 }
 
@@ -820,6 +825,48 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
   }).returning('*');
 }
 
+function fakeBarn() {
+  return {
+    wash_and_pack: faker.random.boolean(),
+    cold_storage: faker.random.boolean()
+  }
+}
+
+function fakeGreenhouse() {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+  }
+}
+
+function fakeCreek() {
+  return {
+    used_for_irrigation: faker.random.boolean(),
+    includes_riparian_buffer: faker.random.boolean(),
+    buffer_width: faker.random.number(),
+  }
+}
+
+function fakeWaterValve(){
+  return {
+      source: faker.random.arrayElement(['Municipal water', 'Surface water', 'Groundwater', 'Rain water']),
+  }
+}
+
+function fakeGroundWater(){
+  return {
+    used_for_irrigation: faker.random.boolean()
+  }
+}
+
+function fakePoint() {
+  return {
+    point: {
+      lat: Number(faker.address.latitude()),
+      lng: Number(faker.address.longitude())
+    }
+  }
+}
+
 
 module.exports = {
   weather_stationFactory, fakeStation,
@@ -865,5 +912,7 @@ module.exports = {
   fakePriceInsightForTests,
   fakeOrganicCertifierSurvey, organicCertifierSurveyFactory,
   fakeSupportTicket, supportTicketFactory,
-  fakeArea
+  fakeArea, areaFactory,
+  fakeBarn, fakeWaterValve, fakeCreek, fakeGreenhouse,
+  fakeGroundWater, fakePoint
 };

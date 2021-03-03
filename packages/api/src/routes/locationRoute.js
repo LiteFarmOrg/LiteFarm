@@ -15,7 +15,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { getLocationsByFarm, deleteLocation, createLocation } = require('../controllers/locationController');
+const { getLocationsByFarm, deleteLocation,
+  createLocation, updateLocation } = require('../controllers/locationController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 
@@ -25,6 +26,8 @@ router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['
 router.delete('/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['delete:fields']),
   deleteLocation());
 
-router.post('/', createLocation)
+router.post('/', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fields']), createLocation);
+
+router.put('/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:fields']), updateLocation);
 
 module.exports = router;

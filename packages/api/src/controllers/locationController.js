@@ -37,12 +37,25 @@ const LocationController = {
   async createLocation(req, res, next) {
     const trx = await transaction.start(Model.knex());
     try {
-      const result = await LocationModel.query().context({ user_id: req.user.user_id }).upsertGraph(req.body, req, { trx })
+      const result = await LocationModel.query().context({ user_id: req.user.user_id }).upsertGraph(
+        req.body, { noUpdate: true }, { trx });
       trx.commit();
       res.status(200).send(result);
     } catch (error) {
       trx.rollback();
-      console.log(error);
+      res.status(400).send({ error });
+    }
+  },
+
+  async updateLocation(req, res, next) {
+    const trx = await transaction.start(Model.knex());
+    try {
+      const result = await LocationModel.query().context({ user_id: req.user.user_id }).upsertGraph(
+        { ...req.body, location_id: req.params.location_id }, { noInsert: true }, { trx });
+      trx.commit();
+      res.status(200).send(result);
+    } catch (error) {
+      trx.rollback();
       res.status(400).send({ error });
     }
   }

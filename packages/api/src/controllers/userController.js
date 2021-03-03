@@ -245,8 +245,7 @@ const userController = {
   async sendTokenEmail(farm, user, token) {
     const sender = 'system@litefarm.org';
     const template_path = emails.INVITATION;
-    template_path.subjectReplacements = farm;
-    sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference },
+    sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
       user.email, sender, `/callback/?invite_token=${token}`);
   },
 
@@ -365,11 +364,11 @@ const userController = {
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        template_path.subjectReplacements = rows[0].farm_name;
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
           locale: rows[0].language_preference,
+          farm_name: rows[0].farm_name,
         };
         const sender = 'help@litefarm.org';
         const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({

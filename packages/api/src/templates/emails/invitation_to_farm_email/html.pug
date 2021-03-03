@@ -1,8 +1,8 @@
-extends ./template
+extends ../template
 block content
     p
         span=`${t('INVITE.GREAT_FOLK')} `
-        strong #{farm}
+        strong #{farm_name}
         span=` ${t('INVITE.INVITED_YOU')} `
         a(href='https://litefarm.org') litefarm.org
         | .

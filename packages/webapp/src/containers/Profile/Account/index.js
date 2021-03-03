@@ -54,7 +54,6 @@ class Account extends Component {
     const newUser = {
       ...updated_user,
       user_id,
-      farm_id,
       language_preference,
     };
     newUser.user_address = newUser.user_address ? newUser.user_address : '';

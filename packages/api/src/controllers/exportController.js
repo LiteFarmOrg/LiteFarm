@@ -31,7 +31,6 @@ const exportController = {
           farm_name,
         };
         const template_path = emails.MAP_EXPORT_EMAIL;
-        template_path.subjectReplacements = farm_name;
         sendEmail(template_path, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
         res.sendStatus(200);
       } catch (error) {

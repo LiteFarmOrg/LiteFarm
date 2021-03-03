@@ -41,11 +41,13 @@
   "ACCEPT_INVITE_CONFIRMATION": {
     "CONGRATS": "Parabéns por ser o mais novo",
     "AT": "em",
-    "CLICK_BELOW": "Você pode fazer login (em qualquer dispositivo) usando o botão abaixo"
+    "CLICK_BELOW": "Você pode fazer login (em qualquer dispositivo) usando o botão abaixo",
+    "SUBJECT": "ACCEPT_INVITE_CONFIRMATION.SUBJECT"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Bem-vindo(a) ao LiteFarm! LiteFarm LiteFarm é um software de código aberto e uma ferramenta para ajudar agricultoras a manejar seus sítios. Você pode ler mais sobre o LiteFarm em",
-    "CLICK_BELOW": "Você também pode entrar (em qualquer dispositivo) clicando no botão abaixo"
+    "CLICK_BELOW": "Você também pode entrar (em qualquer dispositivo) clicando no botão abaixo",
+    "SUBJECT": "CREATE_ACCOUNT_CONFIRMATION.SUBJECT"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recentemente, ao iniciar o processo de cadastro junto a(ao)",

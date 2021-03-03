@@ -32,12 +32,14 @@
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Bienvenido/a a Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de Litefarm en",
-    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo"
+    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
+    "SUBJECT": "CREATE_ACCOUNT_CONFIRMATION.SUBJECT"
   },
   "ACCEPT_INVITE_CONFIRMATION": {
     "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
     "AT": "en",
-    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo"
+    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo",
+    "SUBJECT": "ACCEPT_INVITE_CONFIRMATION.SUBJECT"
   },
   "PASSWORD_RESET_CONFIRMATION": {
     "UPDATED": "Hemos actualizado tu clave en Litefarm. Haz click en `Iniciar Sesion` abajo para acceder a tu cuenta."

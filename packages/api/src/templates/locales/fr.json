@@ -41,11 +41,13 @@
   "ACCEPT_INVITE_CONFIRMATION": {
     "CONGRATS": "Congrats on becoming the newest",
     "AT": "at",
-    "CLICK_BELOW": "You can log-in (on any device) using the button below"
+    "CLICK_BELOW": "You can log-in (on any device) using the button below",
+    "SUBJECT": "ACCEPT_INVITE_CONFIRMATION.SUBJECT"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
-    "CLICK_BELOW": "You can also log-in (on any device) using the button below"
+    "CLICK_BELOW": "You can also log-in (on any device) using the button below",
+    "SUBJECT": "CREATE_ACCOUNT_CONFIRMATION.SUBJECT"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recently, while joining",

@@ -123,13 +123,13 @@ export default function Map() {
     });
   };
 
-  const [state, setState] = React.useState({
+  const [anchorState, setAnchorState] = React.useState({
     bottom: false,
   });
 
   const toggleDrawer = (anchor, open) => () => {
     setShowMapFilter(!showMapFilter);
-    setState({ ...state, [anchor]: open });
+    setAnchorState({ ...anchorState, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
     console.log('toggle drawer');
   };
@@ -177,7 +177,7 @@ export default function Map() {
         showModal={showModal}
         setHeight={setHeight}
         height={height}
-        state={state}
+        anchorState={anchorState}
         toggleDrawer={toggleDrawer}
         setRoadview={setRoadview}
         showMapFilter={showMapFilter}

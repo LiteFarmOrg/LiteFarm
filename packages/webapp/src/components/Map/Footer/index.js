@@ -20,7 +20,7 @@ export default function PureMapFooter({
   showModal,
   setHeight,
   height,
-  state,
+  anchorState,
   toggleDrawer,
   setRoadview,
   showMapFilter,
@@ -157,7 +157,7 @@ export default function PureMapFooter({
                   anchor={anchor}
                   setHeight={setHeight}
                   height={height}
-                  state={state}
+                  anchorState={anchorState}
                   toggleDrawer={toggleDrawer}
                 />
               </React.Fragment>

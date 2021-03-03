@@ -143,18 +143,14 @@ export default function PureMapFooter({
             <AddLogo className={svg} />
           </button>
         )}
-        <button
-          className={clsx(button, stepSpotlighted === 1 && spotlighted)}
-          id="mapSecondStep"
-          onClick={showMapFilter ? toggleDrawer('bottom', true) : toggleDrawer('bottom', false)}
-        >
+        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
           {' '}
           <div>
             {['bottom'].map((anchor) => (
               <React.Fragment key={anchor}>
                 <FilterLogo
                   className={svg}
-                  // onClick={showMapFilter ? toggleDrawer(anchor, true) : toggleDrawer(anchor, false)}
+                  onClick={showMapFilter ? toggleDrawer(anchor, true) : toggleDrawer(anchor, false)}
                 />
                 <MapFilter
                   setRoadview={setRoadview}

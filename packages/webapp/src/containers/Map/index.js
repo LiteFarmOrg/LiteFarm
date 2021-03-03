@@ -17,7 +17,7 @@ import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 
-import { drawArea } from './mapDrawer';
+import { drawArea, drawLine, drawPoint } from './mapDrawer';
 import { getLocations } from '../saga';
 
 export default function Map() {
@@ -114,45 +114,18 @@ export default function Map() {
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
 
-    // samplePointsArea.forEach((grid_point) => {
-    //   mapBounds.extend(grid_point);
-    // });
-    // samplePointsLine.forEach((grid_point) => {
-    //   mapBounds.extend(grid_point);
-    // });
-    // // creates the polygon to be displayed on the map
-    // var polygon = new maps.Polygon({
-    //   paths: samplePointsArea,
-    //   strokeColor: primaryColour,
-    //   strokeOpacity: 0.8,
-    //   strokeWeight: 3,
-    //   fillColor: primaryColour,
-    //   fillOpacity: 0.35,
-    // });
-    // var polyline = new maps.Polyline({
-    //   path: samplePointsLine,
-    //   strokeColor: primaryColour,
-    //   strokeOpacity: 0.8,
-    //   strokeWeight: 3,
-    //   fillColor: primaryColour,
-    //   fillOpacity: 0.35,
-    // });
-    // var marker = new maps.Marker({
-    //   position: samplePoint,
-    //   title: "end it please",
-    // })
-    // polygon.setMap(map);
-    // polyline.setMap(map);
-    // marker.setMap(map);
+    if (fields && fields.length >= 1) {
+      for (const field of fields) {
+        drawArea(map, maps, mapBounds, 'field', field);
+      }
+      // drawLine(map, maps, mapBounds, 'example', {grid_points: samplePointsLine, name: "example line"});
+      // drawPoint(map, maps, mapBounds, 'example', {grid_point: samplePoint, name: "example point"});
 
-    for (const field of fields) {
-      drawArea(map, maps, mapBounds, 'field', field);
+      // ADDING ONCLICK TO DRAWING
+      // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
+
+      map.fitBounds(mapBounds);
     }
-
-    // ADDING ONCLICK TO DRAWING
-    // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
-
-    map.fitBounds(mapBounds);
   }
 
   const resetSpotlight = () => {

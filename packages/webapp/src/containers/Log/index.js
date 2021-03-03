@@ -22,7 +22,7 @@ import { LocalForm } from 'react-redux-form';
 import { FromToDateContainer } from '../../components/Inputs/DateContainer';
 import moment from 'moment';
 import { getLogs, setEndDate, setSelectedLog, setStartDate } from './actions';
-import { getFieldCropsByDate, getFields } from '../saga';
+import { getFieldCropsByDate, getLocations } from '../saga';
 import { logSelector, startEndDateSelector } from './selectors';
 import DropDown from '../../components/Inputs/DropDown';
 import Table from '../../components/Table';
@@ -51,7 +51,7 @@ class Log extends Component {
     this.onEndDateChange = this.onEndDateChange.bind(this);
     const { dispatch } = this.props;
     dispatch(getFieldCropsByDate());
-    dispatch(getFields());
+    dispatch(getLocations());
     dispatch(getLogs());
     //TODO fatch userFarm
     dispatch(getPesticides());

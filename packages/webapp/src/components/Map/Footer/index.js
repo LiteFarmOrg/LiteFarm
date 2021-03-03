@@ -146,7 +146,7 @@ export default function PureMapFooter({
           </button>
         )}
         <button
-          className={clsx(button, stepSpotlighted === 1 && spotlighted)}
+          className={clsx(button, (stepSpotlighted === 1 || !showMapFilter) && spotlighted)}
           id="mapSecondStep"
           onClick={() => {
             console.log('button');

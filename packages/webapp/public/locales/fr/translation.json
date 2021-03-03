@@ -97,7 +97,28 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "TITLE": "MISSING",
+    "MAP_FILTER": {
+      "TITLE": "MISSING",
+      "SHOW_ALL": "MISSING",
+      "HIDE_ALL": "MISSING",
+      "SATELLITE": "MISSING",
+      "AREAS": "MISSING",
+      "POINTS": "MISSING",
+      "LINES": "MISSING",
+      "BARN": "MISSING",
+      "CA": "MISSING",
+      "FSB": "MISSING",
+      "FIELD": "MISSING",
+      "GREENHOUSE": "MISSING",
+      "GROUNDWATER": "MISSING",
+      "NA": "MISSING",
+      "BZ": "MISSING",
+      "CREEK": "MISSING",
+      "FENCE": "MISSING",
+      "GATE": "MISSING",
+      "WV": "MISSING"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",

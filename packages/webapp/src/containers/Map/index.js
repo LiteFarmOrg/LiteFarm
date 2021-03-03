@@ -125,7 +125,12 @@ export default function Map() {
   };
 
   const handleDownload = () => {
-    console.log('download clicked');
+    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
+      const link = document.createElement('a');
+      link.download = `${new Date().toISOString()}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    });
   };
 
   const [state, setState] = React.useState({
@@ -135,12 +140,6 @@ export default function Map() {
   const toggleDrawer = (anchor, open) => () => {
     setState({ ...state, [anchor]: open });
     if (!open) setHeight(window.innerHeight / 2);
-    html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
-      const link = document.createElement('a');
-      link.download = `${new Date().toISOString()}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
-    });
     setShowModal(false);
   };
 

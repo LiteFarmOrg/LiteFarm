@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Joyride, { STATUS, ACTIONS, LIFECYCLE } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
 import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.svg';
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
-import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import MapFilter from '../../MapFilter';
 
 export default function PureMapFooter({
   className,
@@ -15,9 +16,14 @@ export default function PureMapFooter({
   showSpotlight,
   resetSpotlight,
   onClickAdd,
-  onClickFilter,
   onClickExport,
   showModal,
+  setHeight,
+  height,
+  state,
+  toggleDrawer,
+  setRoadview,
+  showMapFilter,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -137,12 +143,26 @@ export default function PureMapFooter({
             <AddLogo className={svg} />
           </button>
         )}
-        <button
-          className={clsx(button, stepSpotlighted === 1 && spotlighted)}
-          id="mapSecondStep"
-          onClick={onClickFilter}
-        >
-          <FilterLogo className={svg} />
+        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
+          {' '}
+          <div>
+            {['bottom'].map((anchor) => (
+              <React.Fragment key={anchor}>
+                <FilterLogo
+                  className={svg}
+                  onClick={showMapFilter ? toggleDrawer(anchor, true) : toggleDrawer(anchor, false)}
+                />
+                <MapFilter
+                  setRoadview={setRoadview}
+                  anchor={anchor}
+                  setHeight={setHeight}
+                  height={height}
+                  state={state}
+                  toggleDrawer={toggleDrawer}
+                />
+              </React.Fragment>
+            ))}
+          </div>
         </button>
         <button
           className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)}

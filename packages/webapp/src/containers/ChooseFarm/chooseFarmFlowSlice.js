@@ -38,7 +38,12 @@ const chooseFarmFlowSlice = createSlice({
       updateFarmState(state, { farm_id, showMapSpotlight: false });
     },
     startInvitationFlowWithSpotLight: (state, { payload: farm_id }) => {
-      updateFarmState(state, { farm_id, isInvitationFlow: true, showSpotLight: true, showMapSpotlight: true });
+      updateFarmState(state, {
+        farm_id,
+        isInvitationFlow: true,
+        showSpotLight: true,
+        showMapSpotlight: true,
+      });
     },
     startSwitchFarmModal: (state, { payload: farm_id }) => {
       updateFarmState(state, { farm_id, showSwitchFarmModal: true });

@@ -7,13 +7,9 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import PureMapHeader from './Header';
 import PureMapFooter from './Footer';
 
-export default function PureMap({
-  isAdmin,
-  farmName,
-  handleGoogleMapApi,
-  center,
-}) {
+export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center }) {
   const { t } = useTranslation();
+  let [roadview, setRoadview] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -37,11 +33,11 @@ export default function PureMap({
       maxZoom: 80,
       tilt: 0,
       mapTypeControl: true,
-      mapTypeId: maps.MapTypeId.SATELLITE,
+      mapTypeId: !roadview ? maps.MapTypeId.SATELLITE : maps.MapTypeId.ROADMAP,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.BOTTOM_CENTER,
-        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE],
       },
       zoomControl: true,
       clickableIcons: false,
@@ -68,7 +64,12 @@ export default function PureMap({
           ></GoogleMap>
         </div>
       </div>
-      <PureMapFooter className={styles.mapFooter} isAdmin={isAdmin} />
+      <PureMapFooter
+        className={styles.mapFooter}
+        isAdmin={isAdmin}
+        setRoadview={setRoadview}
+        roadview={roadview}
+      />
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
-import ExportMapModal from '../../components/Modals/ExportMapModal';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';

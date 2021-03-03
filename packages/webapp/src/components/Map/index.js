@@ -27,28 +27,6 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
           ],
         },
       ],
-      // styles: !roadview
-      //   ? [
-      //       {
-      //         featureType: 'poi.business',
-      //         elementType: 'labels',
-      //         stylers: [
-      //           {
-      //             visibility: 'off',
-      //           },
-      //         ],
-      //       },
-      //     ]
-      //   : [
-      //       {
-      //         featureType: 'all',
-      //         stylers: [
-      //           {
-      //             visibility: 'off',
-      //           },
-      //         ],
-      //       },
-      //     ],
       gestureHandling: 'greedy',
       disableDoubleClickZoom: true,
       minZoom: 1,

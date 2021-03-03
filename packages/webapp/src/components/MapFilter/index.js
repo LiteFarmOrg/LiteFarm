@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Semibold } from '../../components/Typography';
+import { Semibold } from '../Typography';
 import MapBackground from '../../assets/images/farmMapFilter/MapBackground.svg';
 import Barn from '../../assets/images/farmMapFilter/Barn.svg';
 import CeremonialArea from '../../assets/images/farmMapFilter/CA.svg';
@@ -52,7 +52,7 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
   const [selected, setSelected] = useState([]);
 
   const classes = useStyles();
-
+  const mapText = t('FARM_MAP.MAP_FILTER.SATELLITE');
   useEffect(() => {
     setHeight(window.innerHeight / 2);
   }, []);
@@ -175,28 +175,28 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
 
         <div style={{ overflowY: 'scroll', height: `${height - 90 - 64}px` }}>
           <List>
-            {[t('FARM_MAP.MAP_FILTER.SATELLITE')].map((text) => (
+            {
               <ListItem
                 style={
-                  selected.includes(text)
+                  selected.includes(mapText)
                     ? { backgroundColor: '#F3F6FB' }
                     : { backgroundColor: 'white' }
                 }
                 button
-                key={text}
+                key={mapText}
               >
                 <ListItemIcon>
                   {<img src={MapBackground} style={{ paddingLeft: '20px' }} />}{' '}
                 </ListItemIcon>
 
-                <ListItemText primary={text} />
+                <ListItemText primary={mapText} />
                 <div style={{ paddingRight: '24px' }}>
-                  {visibility || selected.includes(text) ? (
+                  {visibility || selected.includes(mapText) ? (
                     <MdVisibilityOff
                       size={24}
                       color={'#66738A'}
                       onClick={() => {
-                        selectOrDeselect(text);
+                        selectOrDeselect(mapText);
                         setRoadview(false);
                       }}
                     />
@@ -205,14 +205,14 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
                       size={24}
                       color={'#66738A'}
                       onClick={() => {
-                        selectOrDeselect(text);
+                        selectOrDeselect(mapText);
                         setRoadview(true);
                       }}
                     />
                   )}
                 </div>
               </ListItem>
-            ))}
+            }
             <div
               style={{
                 marginLeft: '24px',
@@ -241,7 +241,7 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
                   {<img src={item.img} style={{ paddingLeft: '20px' }} />}
                 </ListItemIcon>
                 <Box style={{ paddingRight: '5px' }}>{item.name}</Box>
-                {item.name === 'Farm Site Boundary' ? (
+                {item.name === t('FARM_MAP.MAP_FILTER.FSB') ? (
                   <ListItemText
                     secondaryTypographyProps={{ align: 'left' }}
                     secondary={<img src={Leaf} />}

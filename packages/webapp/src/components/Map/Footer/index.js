@@ -22,11 +22,10 @@ export default function PureMapFooter({
 }) {
   const { t } = useTranslation();
   const [height, setHeight] = useState(0);
-  const [isDrawerOpen, setDrawerOpen] = useState(true);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
     if (open) setHeight(window.innerHeight / 2);
-    console.log('toggle drawer', open);
   };
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
@@ -146,25 +145,13 @@ export default function PureMapFooter({
           </button>
         )}
         <button
-          className={clsx(button, (stepSpotlighted === 1 || !showMapFilter) && spotlighted)}
+          className={clsx(button, (stepSpotlighted === 1 || isDrawerOpen) && spotlighted)}
           id="mapSecondStep"
-          onClick={() => {
-            console.log('button');
-            // !isDrawerOpen && toggleDrawer(!isDrawerOpen)()
-          }}
+          onClick={toggleDrawer(!isDrawerOpen)}
         >
           {' '}
           <div>
-            <React.Fragment>
-              <FilterLogo className={svg} />
-              <MapFilter
-                setRoadview={setRoadview}
-                setHeight={setHeight}
-                height={height}
-                isDrawerOpen={isDrawerOpen}
-                toggleDrawer={toggleDrawer}
-              />
-            </React.Fragment>
+            <FilterLogo className={svg} />
           </div>
         </button>
         <button
@@ -175,6 +162,13 @@ export default function PureMapFooter({
           <ExportLogo className={svg} />
         </button>
       </div>
+      <MapFilter
+        setRoadview={setRoadview}
+        setHeight={setHeight}
+        height={height}
+        isDrawerOpen={isDrawerOpen}
+        toggleDrawer={toggleDrawer}
+      />
     </>
   );
 }

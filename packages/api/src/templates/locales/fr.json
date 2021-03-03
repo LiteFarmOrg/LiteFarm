@@ -19,35 +19,43 @@
   "INVITE": {
     "GREAT_FOLK": "The great folks at",
     "INVITED_YOU": "have invited you to join their team on LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
-    "YOU_CAN_ACCEPT": "You can accept this invitation (on any device) using the button below"
+    "YOU_CAN_ACCEPT": "You can accept this invitation (on any device) using the button below",
+    "SUBJECT0": "You’ve been invited to join",
+    "SUBJECT1": "on LiteFarm!"
   },
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Did you forget your LiteFarm password? Not a problem! Click the \"Reset\" button below and your access will soon be restored.",
     "RESET": "Reset Password",
-    "IGNORE": "If you didn't ask us to send you this email, you can ignore it. No changes have been made to your account."
+    "IGNORE": "If you didn't ask us to send you this email, you can ignore it. No changes have been made to your account.",
+    "SUBJECT": "Password Reset Request"
   },
   "PASSWORD_RESET_CONFIRMATION": {
-    "UPDATED": "We’ve updated your LiteFarm password. Click ‘Log In’ below to access your account."
+    "UPDATED": "We’ve updated your LiteFarm password. Click ‘Log In’ below to access your account.",
+    "SUBJECT": "Your LiteFarm password has been changed"
   },
   "RESTORE_ACCESS": {
     "ADMIN": "It looks like one of the administrators at",
     "RESTORED": "has renewed your access to their farm on LiteFarm. Welcome back!",
-    "CLICK_BELOW": "You can log back in by clicking below"
+    "CLICK_BELOW": "You can log back in by clicking below",
+    "SUBJECT0": "Your access to",
+    "SUBJECT1": "has been restored!"
   },
   "REVOKE_ACCESS": {
     "ADMIN": "It looks like one of the administrators at",
-    "REVOKE": "has revoked your access to their farm on LiteFarm. If this comes as a surprise, you should reach out to your contact there to fix the problem."
+    "REVOKE": "has revoked your access to their farm on LiteFarm. If this comes as a surprise, you should reach out to your contact there to fix the problem.",
+    "SUBJECT0": "You've lost access to",
+    "SUBJECT1": "on LiteFarm!"
   },
   "ACCEPT_INVITE_CONFIRMATION": {
     "CONGRATS": "Congrats on becoming the newest",
     "AT": "at",
     "CLICK_BELOW": "You can log-in (on any device) using the button below",
-    "SUBJECT": "ACCEPT_INVITE_CONFIRMATION.SUBJECT"
+    "SUBJECT": "You've successfully joined"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Welcome to LiteFarm! LiteFarm is an open-source software tool for helping farmers manage their farms. You can read more about LiteFarm at",
     "CLICK_BELOW": "You can also log-in (on any device) using the button below",
-    "SUBJECT": "CREATE_ACCOUNT_CONFIRMATION.SUBJECT"
+    "SUBJECT": "Welcome to LiteFarm!"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recently, while joining",
@@ -63,15 +71,18 @@
     "TO_REQUEST": "To request any of these actions, send an email to",
     "SUPPORT": "with your request and we'll take care of you.",
     "OTHERWISE": "Otherwise, if you change your mind, you can log-in (on any device) at any time and accept our privacy policy using the button below",
-    "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system."
+    "RESTORE": "If you do so, you'll once again be able to access the LiteFarm system.",
+    "SUBJECT": "You didnt agree with the LiteFarm privacy policy – here are your options"
+  },
+  "EXPORT_MAP": {
+    "EXPORT": "Here’s the farm map export for",
+    "REQUESTED": "that you requested on LiteFarm.",
+    "GREETING": "Have a great day!",
+    "SUBJECT0": "Here’s your farm map for",
+    "SUBJECT1": "on LiteFarm"
   },
   "COMMON": {
     "JOIN": "Join",
     "LOG_IN": "Log In"
-  },
-  "EXPORT_MAP": {
-    "EXPORT": "EXPORT_MAP.EXPORT",
-    "REQUESTED": "EXPORT_MAP.REQUESTED",
-    "GREETING": "EXPORT_MAP.GREETING"
   }
 }

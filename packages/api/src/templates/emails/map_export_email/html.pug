@@ -1,0 +1,8 @@
+extends ../template
+block content
+    p
+        span=`${t('EXPORT_MAP.EXPORT')} `
+        strong #{farm_name}
+        span=` ${t('EXPORT_MAP.REQUESTED')}`
+    p=`${t('EXPORT_MAP.GREETING')}`
+

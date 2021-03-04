@@ -1,10 +1,10 @@
-extends ./template
+extends ../template
 block content
     p
         span=`${t('ACCEPT_INVITE_CONFIRMATION.CONGRATS')} `
         strong #{role}
         span=` ${t('ACCEPT_INVITE_CONFIRMATION.AT')} `
-        strong #{farm}
+        strong #{farm_name}
         | !
     p=`${t('ACCEPT_INVITE_CONFIRMATION.CLICK_BELOW')}:`
     .button-aligner

@@ -3,7 +3,8 @@
     "RESPONSE": "Gracias por contactarnos. Alguien de nuestro equipo de ayuda lo/la contactará dentro de las próximas 48 horas. Puede encontrar un resumen de su solicitud más abajo.",
     "TYPE_HEADER": "Tipo de soporte",
     "MESSAGE_HEADER": "Mensaje",
-    "CONTACT_METHOD_HEADER": "Metodo de contacto preferido"
+    "CONTACT_METHOD_HEADER": "Metodo de contacto preferido",
+    "SUBJECT": "Your LiteFarm request for help"
   },
   "TEMPLATE": {
     "DEAR": "Querido",
@@ -18,7 +19,9 @@
   "INVITE": {
     "GREAT_FOLK": "Las personas de",
     "YOU_CAN_ACCEPT": "le invitan a registrar su finca en Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los agricultores y campesinos a manejar sus fincas. Puedes conocer más sobre Litefarm en",
-    "INVITED_YOU": "Puedes aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo"
+    "INVITED_YOU": "Puedes aceptar esta invitación (desde cualquier dispositivo electrónico) usando el botón de abajo",
+    "SUBJECT0": "Has sido invitado a unirte a",
+    "SUBJECT1": "en LiteFarm!"
   },
   "COMMON": {
     "JOIN": "Unete",
@@ -27,28 +30,36 @@
   "PASSWORD_RESET_REQUEST": {
     "DID_YOU_FORGET": "Olvidó su clave en Litefarm? No se preocupe! Haga clic en el botón de Cambiar y su acceso será restaurado pronto.",
     "RESET": "Cambiar Clave",
-    "IGNORE": "Si no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta."
+    "IGNORE": "Si no solicitó que le enviaramos este correo, por favor ignórelo. No habrá cambios en su cuenta.",
+    "SUBJECT": "Solicitud de recuperacion de clave"
   },
   "CREATE_ACCOUNT_CONFIRMATION": {
     "WELCOME": "Bienvenido/a a Litefarm! Litefarm es una herramienta de software de código abierto creado para ayudar a los/las agricultores y campesinos/as a manejar sus fincas. Puede conocer más acerca de Litefarm en",
-    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo"
+    "CLICK_BELOW": "También puede iniciar sesión (en cualquier dispositivo electrónico) usando el botón de abajo",
+    "SUBJECT": "Bienvenido a LiteFarm!"
   },
   "ACCEPT_INVITE_CONFIRMATION": {
     "CONGRATS": "Felicitaciones! Se ha convertido en el/la nuevo/a",
     "AT": "en",
-    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo"
+    "CLICK_BELOW": "Puede iniciar sesión (en cualquier dispositivo electrónico) haciendo clic en el botón de abajo",
+    "SUBJECT": "Te uniste exitosamente"
   },
   "PASSWORD_RESET_CONFIRMATION": {
-    "UPDATED": "Hemos actualizado tu clave en Litefarm. Haz click en `Iniciar Sesion` abajo para acceder a tu cuenta."
+    "UPDATED": "Hemos actualizado tu clave en Litefarm. Haz click en `Iniciar Sesion` abajo para acceder a tu cuenta.",
+    "SUBJECT": "Tu clave en litefarm ha cambiado"
   },
   "REVOKE_ACCESS": {
     "ADMIN": "Al parece desde",
-    "REVOKE": "han revocado el acceso a su finca en Litefarm. Si ésto resulta inesperado, por favor contacte a algún administrador para resolver el problema."
+    "REVOKE": "han revocado el acceso a su finca en Litefarm. Si ésto resulta inesperado, por favor contacte a algún administrador para resolver el problema.",
+    "SUBJECT0": "Has perdido acceso a",
+    "SUBJECT1": "en LiteFarm!"
   },
   "RESTORE_ACCESS": {
     "ADMIN": "Al parecer desde",
     "RESTORED": "han renovado su acceso a su finca. Bienvenido/a nuevamente!",
-    "CLICK_BELOW": "Inicie sesión haciendo clic abajo"
+    "CLICK_BELOW": "Inicie sesión haciendo clic abajo",
+    "SUBJECT0": "Tu acceso a",
+    "SUBJECT1": "ha sido restaurado!"
   },
   "WITHHOLD_CONSENT": {
     "RECENT": "Recientemente, mientra formaba parte de",
@@ -64,11 +75,14 @@
     "TO_REQUEST": "Para solicitar cualquiera de las acciones descritas, por favor envíenos un correo electrónico con su solicitud a",
     "SUPPORT": "y la procesaremos.",
     "OTHERWISE": "De otra manera, si Ud. luego decide reincorporarse a nuestro programa (desde cualquier dispositivo electrónico) puede hacerlo en cualquier momento aceptando nuestra política de privacidad. Para ésto, haga clic en el botón de abajo",
-    "RESTORE": "Si así lo hace, podrá acceder al programa Litefarm nuevamente."
+    "RESTORE": "Si así lo hace, podrá acceder al programa Litefarm nuevamente.",
+    "SUBJECT": "No aceptaste la politica de privacidad de Litefarm - estas son tus opciones"
   },
   "EXPORT_MAP": {
     "EXPORT": "EXPORT_MAP.EXPORT",
     "REQUESTED": "EXPORT_MAP.REQUESTED",
-    "GREETING": "EXPORT_MAP.GREETING"
+    "GREETING": "EXPORT_MAP.GREETING",
+    "SUBJECT0": "Here’s your farm map for",
+    "SUBJECT1": "on LiteFarm"
   }
 }

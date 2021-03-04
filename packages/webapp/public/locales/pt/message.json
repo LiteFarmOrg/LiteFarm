@@ -135,11 +135,6 @@
       "UPDATE": "Turno atualizado com sucesso!"
     }
   },
-  "TOKEN": {
-    "ERROR": {
-      "VERIFICATION": "A verificação do token falhou"
-    }
-  },
   "USER": {
     "ERROR": {
       "ADD": "Falha de adicionar usuário",
@@ -150,7 +145,6 @@
       "RESET_PASSWORD": "Erro ao enviar e-mail de redefinição de senha, favor entrar em contato com a LiteFarm para obter assistência.",
       "RESTORE": "Ocorreu um erro, o acesso não foi restaurado",
       "REVOKE": "Ocorreu um erro, o acesso não foi revogado",
-      "SIGNUP": "Falha na inscrição",
       "SIGNUP_UNKNOWN": "Problema desconhecido! Tente mais tarde.",
       "UPDATE": "Falha na atualização das informações do usuário"
     },

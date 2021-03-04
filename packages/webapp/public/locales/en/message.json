@@ -135,11 +135,6 @@
       "UPDATE": "Successfully updated shift!"
     }
   },
-  "TOKEN": {
-    "ERROR": {
-      "VERIFICATION": "Token verification failed"
-    }
-  },
   "USER": {
     "ERROR": {
       "ADD": "Failed to add user",
@@ -150,7 +145,6 @@
       "RESET_PASSWORD": "Error with sending password reset email, please contact LiteFarm for assistance.",
       "RESTORE": "There was an error restoring access",
       "REVOKE": "There was an error revoking access",
-      "SIGNUP": "Failed to sign up",
       "SIGNUP_UNKNOWN": "Unknown issue! Try again later.",
       "UPDATE": "Failed to update user info"
     },

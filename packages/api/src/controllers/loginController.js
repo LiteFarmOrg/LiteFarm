@@ -201,7 +201,7 @@ const loginController = {
       }
     };
   },
-}
+};
 
 async function sendMissingInvitations(user) {
   const userFarms = await userFarmModel.query().select('users.*', 'farm.farm_name', 'farm.farm_id')
@@ -238,8 +238,10 @@ async function sendPasswordReset(data) {
     locale: data.language_preference,
   };
   const sender = 'system@litefarm.org';
-  sendEmail(template_path, replacements, data.email, sender,
-    `/callback/?reset_token=${token}`, data.language_preference);
+  sendEmail(template_path, replacements, data.email, {
+    sender,
+    buttonLink: `/callback/?reset_token=${token}`,
+  });
 }
 
 module.exports = loginController;

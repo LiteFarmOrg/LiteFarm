@@ -91,6 +91,12 @@ const theme = createMuiTheme({
         body: {
           backgroundColor: '#fff',
           overflowX: 'hidden !important',
+          minHeight: '-webkit-fill-available',
+        },
+        '#root': {
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '-webkit-fill-available',
         },
         '*': {
           boxSizing: 'border-box',

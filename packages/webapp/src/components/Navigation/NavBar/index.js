@@ -80,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
   black: {
     color: colors.grey900,
   },
+  drawerRoot: {
+    zIndex: '1302 !important',
+  },
 }));
 
 export default function PureNavBar({
@@ -255,6 +258,7 @@ export default function PureNavBar({
         <SwipeableDrawer
           anchor={'left'}
           open={isDrawerOpen}
+          classes={{ root: classes.drawerRoot }}
           onClose={() => setIsDrawerOpen(false)}
           onOpen={() => setIsDrawerOpen(true)}
         >

@@ -69,7 +69,7 @@ const userController = {
           const sender = 'system@litefarm.org';
           console.log('template_path:', template_path);
           if (userResult.email && template_path) {
-            sendEmail(template_path, replacements, userResult.email, sender, null, language_preference);
+            sendEmail(template_path, replacements, userResult.email, { sender });
           }
         } catch (e) {
           console.log('Failed to send email: ', e);
@@ -241,9 +241,8 @@ const userController = {
   async sendTokenEmail(farm, user, token) {
     const sender = 'system@litefarm.org';
     const template_path = emails.INVITATION;
-    template_path.subjectReplacements = farm;
-    sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference },
-      user.email, sender, `/callback/?invite_token=${token}`);
+    sendEmail(template_path, { first_name: user.first_name, farm, locale: user.language_preference, farm_name: farm },
+      user.email, { sender, buttonLink: `/callback/?invite_token=${token}` });
   },
 
   addPseudoUser() {
@@ -361,11 +360,11 @@ const userController = {
           .leftJoin('role', 'userFarm.role_id', 'role.role_id')
           .leftJoin('users', 'userFarm.user_id', 'users.user_id')
           .leftJoin('farm', 'userFarm.farm_id', 'farm.farm_id');
-        template_path.subjectReplacements = rows[0].farm_name;
         const replacements = {
           first_name: rows[0].first_name,
           farm: rows[0].farm_name,
           locale: rows[0].language_preference,
+          farm_name: rows[0].farm_name,
         };
         const sender = 'help@litefarm.org';
         const isUserFarmPatched = await userFarmModel.query(trx).where('user_id', user_id).patch({
@@ -381,9 +380,7 @@ const userController = {
                 template_path,
                 replacements,
                 rows[0].email,
-                sender,
-                null,
-                rows[0].language_preference,
+                { sender },
               );
             }
           } catch (e) {
@@ -540,6 +537,6 @@ const userController = {
       }
     };
   },
-}
+};
 
 module.exports = userController;

@@ -8,14 +8,14 @@ function Modal({ children, dismissModal }) {
       <Floater
         autoOpen
         placement={'center'}
-        styles={{ floaterCentered: { transform: 'translate(-50%, -70%)', zIndex: 1400 } }}
+        styles={{ floaterCentered: { transform: 'translate(-50%, -70%)', zIndex: 1300 } }}
         component={children}
       />
       <div
         onClick={dismissModal}
         style={{
           position: 'fixed',
-          zIndex: 1400,
+          zIndex: 1300,
           left: 0,
           right: 0,
           top: 0,

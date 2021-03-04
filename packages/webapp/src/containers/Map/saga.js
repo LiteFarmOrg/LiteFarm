@@ -27,10 +27,13 @@ export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
 export function* sendMapToEmailSaga({ payload: fileDataURL }) {
   try {
+    const { farm_name } = yield select(userFarmSelector);
     const formData = new FormData();
     const fileFetchRes = yield call(fetch, fileDataURL);
     const fileBuffer = yield fileFetchRes.arrayBuffer();
-    const file = new File([fileBuffer], `${new Date().toISOString()}.png`, { type: 'image/png' });
+    const file = new File([fileBuffer], `${farm_name}-${new Date().toISOString()}.png`, {
+      type: 'image/png',
+    });
     formData.append('_file_', file);
     const { farm_id } = yield select(userFarmSelector);
     yield call(axios.post, sendMapToEmailUrl(farm_id), formData, {

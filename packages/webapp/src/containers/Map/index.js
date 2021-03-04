@@ -121,10 +121,11 @@ export default function Map() {
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const link = document.createElement('a');
-      link.download = `${new Date().toISOString()}.png`;
+      link.download = `${farm_name}-${new Date().toISOString()}.png`;
       link.href = canvas.toDataURL();
       link.click();
     });
+    setShowModal(false);
   };
 
   const [anchorState, setAnchorState] = React.useState({

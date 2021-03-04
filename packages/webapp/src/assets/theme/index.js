@@ -92,10 +92,6 @@ const theme = createMuiTheme({
           backgroundColor: '#fff',
           overflowX: 'hidden !important',
         },
-        '#root': {
-          display: 'flex',
-          flexDirection: 'column',
-        },
         '*': {
           boxSizing: 'border-box',
           margin: 0,

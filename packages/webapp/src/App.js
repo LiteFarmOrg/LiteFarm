@@ -13,42 +13,49 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import './locales/i18n';
 
-class App extends Component {
-  render() {
-    return (
-      <>
+function App() {
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  useEffect(() => {
+    const handleResize = () => {
+      if (windowHeight !== window.innerHeight) {
+        setWindowHeight(window.innerHeight);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return (_) => window.removeEventListener('resize', handleResize);
+  });
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          height: `${windowHeight}px`,
+        }}
+      >
+        <NavBar history={history} />
         <div
+          className="app"
           style={{
+            width: '100%',
+            maxWidth: '1024px',
+            flex: '1',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            minHeight: '100%',
-            flexGrow: 1,
           }}
         >
-          <NavBar history={history} />
-          <div
-            className="app"
-            style={{
-              width: '100%',
-              maxWidth: '1024px',
-              flex: '1',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            <Routes />
-          </div>
+          <Routes />
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
 
 export default App;

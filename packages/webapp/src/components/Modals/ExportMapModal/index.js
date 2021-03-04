@@ -41,7 +41,7 @@ export function PureExportMapModal({
       <Title>{t('FARM_MAP.EXPORT_MODAL.TITLE')}</Title>
       <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
       <Button color="secondary" className={styles.button} onClick={onClickDownload}>
-        <DownloadIcon className={styles.svg} />
+        <DownloadIcon className={styles.downloadSvg} />
         <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
       </Button>
       <Button
@@ -50,7 +50,7 @@ export function PureExportMapModal({
         className={styles.button}
         onClick={onClickEmail}
       >
-        <AiOutlineMail className={styles.svg} />
+        <AiOutlineMail className={styles.mailSvg} />
         <div>
           {isEmailing
             ? `${t('FARM_MAP.EXPORT_MODAL.EMAILING')}...`

@@ -34,9 +34,15 @@
   justify-content: center;
   align-items: center;
 
-  .svg {
+  .downloadSvg {
     stroke: var(--labels);
     margin-right: 4px;
+  }
+
+  .mailSvg {
+    stroke: var(--labels);
+    margin-right: 8px;
+    font-size: 18px;
   }
 }
 

@@ -5,10 +5,18 @@
   min-height: 100%;
   align-items: stretch;
   flex: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .mapHeader {
   order: 1;
+  z-index: 1;
+  background: white;
+  position: absolute;
+  left: 0;
+  width: 100%;
 }
 
 .mapContainer {

@@ -148,11 +148,14 @@ export default function Map() {
 
   return (
     <div className={styles.pageWrapper}>
-      <PureMapHeader
-        className={styles.mapHeader}
-        farmName={farm_name}
-        showVideo={handleShowVideo}
-      />
+      {showMapFilter && (
+        <PureMapHeader
+          className={styles.mapHeader}
+          farmName={farm_name}
+          showVideo={handleShowVideo}
+        />
+      )}
+
       <div className={styles.mapContainer}>
         <div className={styles.workaround} ref={mapWrapperRef}>
           <GoogleMap

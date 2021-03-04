@@ -65,8 +65,7 @@ const loginController = {
             reason_for_failure: 'password_mismatch',
           });
           return res.sendStatus(401);
-        }
-        ;
+        };
 
         const id_token = await createToken('access', { user_id: userData.user_id });
         return res.status(200).send({

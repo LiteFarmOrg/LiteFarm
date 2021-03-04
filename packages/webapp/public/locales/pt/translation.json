@@ -85,8 +85,31 @@
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
-      "SHARE": "MISSING",
+      "DOWNLOADING": "MISSING",
+      "EMAIL_TO_ME": "MISSING",
+      "EMAILING": "MISSING",
       "TITLE": "MISSING"
+    },
+    "MAP_FILTER": {
+      "AREAS": "Areas",
+      "BARN": "Barn",
+      "BZ": "Buffer zone",
+      "CA": "Ceremonial area",
+      "CREEK": "Creek",
+      "FENCE": "Fence",
+      "FIELD": "Field",
+      "FSB": "Farm site boundary",
+      "GATE": "Gate",
+      "GREENHOUSE": "Greenhouse",
+      "GROUNDWATER": "Groundwater",
+      "HIDE_ALL": "Hide all",
+      "LINES": "Lines",
+      "NA": "Natural area",
+      "POINTS": "Points",
+      "SATELLITE": "Satellite background",
+      "SHOW_ALL": "Show all",
+      "TITLE": "Filter your map",
+      "WV": "Water valve"
     },
     "SPOTLIGHT": {
       "ADD": "MISSING",
@@ -97,28 +120,7 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING",
-    "MAP_FILTER": {
-      "TITLE": "Filter your map",
-      "SHOW_ALL": "Show all",
-      "HIDE_ALL": "Hide all",
-      "SATELLITE": "Satellite background",
-      "AREAS": "Areas",
-      "POINTS": "Points",
-      "LINES": "Lines",
-      "BARN": "Barn",
-      "CA": "Ceremonial area",
-      "FSB": "Farm site boundary",
-      "FIELD": "Field",
-      "GREENHOUSE": "Greenhouse",
-      "GROUNDWATER": "Groundwater",
-      "NA": "Natural area",
-      "BZ": "Buffer zone",
-      "CREEK": "Creek",
-      "FENCE": "Fence",
-      "GATE": "Gate",
-      "WV": "Water valve"
-    }
+    "TITLE": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -480,7 +482,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

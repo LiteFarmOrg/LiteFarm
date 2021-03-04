@@ -1,26 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ModalComponent, Modal } from '../';
+import { Modal } from '../';
 import { ReactComponent as DownloadIcon } from '../../../assets/images/map/download.svg';
-import { ReactComponent as ShareIcon } from '../../../assets/images/map/share.svg';
+import { AiOutlineMail } from 'react-icons/all';
 import styles from './styles.module.scss';
 import { Main, Title } from '../../Typography';
 import Button from '../../Form/Button';
 
-export function PureExportMapModal({ onClickDownload, onClickShare }) {
+export function PureExportMapModal({
+  onClickDownload: download,
+  onClickShare: share,
+  dismissModal,
+}) {
   const { t } = useTranslation();
+  const [isEmailing, setEmailing] = useState();
+  const onClickEmail = () => {
+    share();
+    setEmailing(true);
+  };
+  useEffect(() => {
+    let timer;
+    if (isEmailing) {
+      timer = setTimeout(() => {
+        if (isEmailing) {
+          setEmailing(false);
+          dismissModal();
+        }
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [isEmailing]);
+
+  const [isDownloading, setDownloading] = useState();
+  const onClickDownload = () => {
+    download();
+    setDownloading(true);
+  };
+  useEffect(() => {
+    let timer;
+    if (isDownloading) {
+      timer = setTimeout(() => {
+        if (isDownloading) {
+          setEmailing(false);
+          dismissModal();
+        }
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [isDownloading]);
 
   return (
     <div className={styles.container}>
       <Title>{t('FARM_MAP.EXPORT_MODAL.TITLE')}</Title>
       <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
-      <Button color="secondary" className={styles.button} onClick={onClickDownload}>
+      <Button
+        color="secondary"
+        disabled={isDownloading}
+        className={styles.button}
+        onClick={onClickDownload}
+      >
         <DownloadIcon className={styles.svg} />
-        <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
+        <div>
+          {isDownloading
+            ? `${t('FARM_MAP.EXPORT_MODAL.DOWNLOADING')}...`
+            : t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}
+        </div>
       </Button>
-      <Button color="secondary" className={styles.button} onClick={onClickShare}>
-        <ShareIcon className={styles.svg} />
-        <div>{t('FARM_MAP.EXPORT_MODAL.SHARE')}</div>
+      <Button
+        color="secondary"
+        disabled={isEmailing}
+        className={styles.button}
+        onClick={onClickEmail}
+      >
+        <AiOutlineMail className={styles.svg} />
+        <div>
+          {isEmailing
+            ? `${t('FARM_MAP.EXPORT_MODAL.EMAILING')}...`
+            : t('FARM_MAP.EXPORT_MODAL.EMAIL_TO_ME')}
+        </div>
       </Button>
     </div>
   );

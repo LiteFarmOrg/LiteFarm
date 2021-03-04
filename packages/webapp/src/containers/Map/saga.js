@@ -31,7 +31,7 @@ export function* sendMapToEmailSaga({ payload: fileDataURL }) {
     const formData = new FormData();
     const fileFetchRes = yield call(fetch, fileDataURL);
     const fileBuffer = yield fileFetchRes.arrayBuffer();
-    const file = new File([fileBuffer], `${farm_name}-${new Date().toISOString()}.png`, {
+    const file = new File([fileBuffer], `${farm_name}-export-${new Date().toISOString()}.png`, {
       type: 'image/png',
     });
     formData.append('_file_', file);

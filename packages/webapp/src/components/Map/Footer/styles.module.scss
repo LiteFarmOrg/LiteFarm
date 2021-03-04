@@ -42,5 +42,9 @@
 }
 
 .spotlightButton {
+  font-weight: 600;
   color: var(--grey900);
+}
+button:focus {
+  outline: none;
 }

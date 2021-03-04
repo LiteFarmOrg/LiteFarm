@@ -96,7 +96,7 @@ export default function PureMapFooter({
   const { container, button, svg, spotlighted } = styles;
   return (
     <>
-      {showSpotlight && (
+      {(
         <Joyride
           steps={steps}
           continuous
@@ -125,6 +125,12 @@ export default function PureMapFooter({
             },
             tooltip: {
               padding: '20px',
+            },
+            buttonNext: {
+              order: -1,
+              minWidth: '81px',
+              minHeight: '32px',
+              boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)'
             },
             tooltipContent: {
               padding: '4px 0 0 0',

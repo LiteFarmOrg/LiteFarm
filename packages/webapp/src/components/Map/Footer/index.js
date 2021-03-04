@@ -96,7 +96,7 @@ export default function PureMapFooter({
   const { container, button, svg, spotlighted } = styles;
   return (
     <>
-      {(
+      {showSpotlight && (
         <Joyride
           steps={steps}
           continuous
@@ -136,7 +136,11 @@ export default function PureMapFooter({
               padding: '4px 0 0 0',
               marginBottom: '20px',
             },
+            spotlight: {
+              borderRadius: 0,
+            }
           }}
+          spotlightPadding={0}
         />
       )}
       <div className={clsx(container, className)} style={style}>

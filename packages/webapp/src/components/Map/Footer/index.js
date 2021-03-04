@@ -126,11 +126,21 @@ export default function PureMapFooter({
             tooltip: {
               padding: '20px',
             },
+            buttonNext: {
+              order: -1,
+              minWidth: '81px',
+              minHeight: '32px',
+              boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)'
+            },
             tooltipContent: {
               padding: '4px 0 0 0',
               marginBottom: '20px',
             },
+            spotlight: {
+              borderRadius: 0,
+            }
           }}
+          spotlightPadding={0}
         />
       )}
       <div className={clsx(container, className)} style={style}>

@@ -33,6 +33,7 @@
 
 .spotlightTitle {
   color: var(--teal700);
+  font-weight: 600;
 }
 
 .spotlightText {
@@ -41,5 +42,9 @@
 }
 
 .spotlightButton {
+  font-weight: 600;
   color: var(--grey900);
+}
+button:focus {
+  outline: none;
 }

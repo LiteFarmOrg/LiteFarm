@@ -31,40 +31,18 @@ export function PureExportMapModal({
     return () => clearTimeout(timer);
   }, [isEmailing]);
 
-  const [isDownloading, setDownloading] = useState();
   const onClickDownload = () => {
     download();
-    setDownloading(true);
+    dismissModal();
   };
-  useEffect(() => {
-    let timer;
-    if (isDownloading) {
-      timer = setTimeout(() => {
-        if (isDownloading) {
-          setEmailing(false);
-          dismissModal();
-        }
-      }, 3000);
-    }
-    return () => clearTimeout(timer);
-  }, [isDownloading]);
 
   return (
     <div className={styles.container}>
       <Title>{t('FARM_MAP.EXPORT_MODAL.TITLE')}</Title>
       <Main>{t('FARM_MAP.EXPORT_MODAL.BODY')}</Main>
-      <Button
-        color="secondary"
-        disabled={isDownloading}
-        className={styles.button}
-        onClick={onClickDownload}
-      >
+      <Button color="secondary" className={styles.button} onClick={onClickDownload}>
         <DownloadIcon className={styles.svg} />
-        <div>
-          {isDownloading
-            ? `${t('FARM_MAP.EXPORT_MODAL.DOWNLOADING')}...`
-            : t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}
-        </div>
+        <div>{t('FARM_MAP.EXPORT_MODAL.DOWNLOAD')}</div>
       </Button>
       <Button
         color="secondary"

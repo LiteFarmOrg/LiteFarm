@@ -91,12 +91,13 @@ const theme = createMuiTheme({
         body: {
           backgroundColor: '#fff',
           overflowX: 'hidden !important',
-          minHeight: '-webkit-fill-available',
+          display: 'flex',
+          flexDirection: 'column',
         },
         '#root': {
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '-webkit-fill-available',
+          flexGrow: 1,
         },
         '*': {
           boxSizing: 'border-box',

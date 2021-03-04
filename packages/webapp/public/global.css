@@ -23,14 +23,6 @@
     --addition: #FFB800;
 }
 
-body {
-    overflow-x: hidden;
-}
-
-html, body {
-    height: 100%
-}
-
 /*button{*/
 /*    -webkit-appearance: none;*/
 /*}*/

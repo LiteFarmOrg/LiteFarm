@@ -71,7 +71,9 @@ const passwordResetController = {
           locale: userData.language_preference,
         };
         const sender = 'system@litefarm.org';
-        sendEmail(template_path, replacements, email, sender, `/callback/?reset_token=${token}`, userData.language_preference);
+        sendEmail(template_path, replacements, email, {
+          sender, buttonLink: `/callback/?reset_token=${token}`,
+        });
 
         return res.status(200).send('Email successfully sent');
       } catch (error) {
@@ -110,7 +112,9 @@ const passwordResetController = {
           locale: language_preference,
         };
         const sender = 'system@litefarm.org';
-        sendEmail(template_path, replacements, email, sender, `/?email=${encodeURIComponent(email)}`, language_preference);
+        sendEmail(template_path, replacements, email, {
+          sender, buttonLink: `/?email=${encodeURIComponent(email)}`,
+        });
         await userModel.query().findById(user_id).patch({ status_id: 1 });
 
         return res.status(200).send({ id_token });
@@ -121,6 +125,6 @@ const passwordResetController = {
       }
     };
   },
-}
+};
 
 module.exports = passwordResetController;

@@ -56,8 +56,14 @@ const supportTicketController = {
           locale: user.language_preference,
         };
         const email = data.contact_method === 'email' && data.email;
-        sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, 'system@litefarm.org', null, user.language_preference, [req.file]);
-        email && email !== user.email && sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, 'system@litefarm.org', null, user.language_preference, data.attachments);
+        sendEmail(emails.HELP_REQUEST_EMAIL, replacements, user.email, {
+          sender: 'system@litefarm.org',
+          attachments: [req.file],
+        });
+        email && email !== user.email && sendEmail(emails.HELP_REQUEST_EMAIL, replacements, email, {
+          sender: 'system@litefarm.org',
+          attachments: [req.file],
+        });
         res.status(201).send(result);
       } catch (error) {
         console.log(error);
@@ -84,7 +90,7 @@ const supportTicketController = {
       }
     };
   },
-}
+};
 
 const capitalize = string => {
   return string[0].toUpperCase() + string.slice(1);

@@ -98,7 +98,7 @@ export function* updateUserSaga({ payload: user }) {
   }
   try {
     const result = yield call(axios.put, userUrl + '/' + user_id, data, header);
-    yield put(putUserSuccess(user));
+    yield put(putUserSuccess({ ...user, farm_id }));
     i18n.changeLanguage(user.language_preference);
     localStorage.setItem('litefarm_lang', user.language_preference);
     toastr.success(i18n.t('message:USER.SUCCESS.UPDATE'));

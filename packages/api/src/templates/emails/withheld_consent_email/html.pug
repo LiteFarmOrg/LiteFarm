@@ -1,12 +1,12 @@
-extends ./template
+extends ../template
 block content
     p
         span=`${t('WITHHOLD_CONSENT.RECENT')} `
-        strong #{farm}
+        strong #{farm_name}
         span=` ${t('WITHHOLD_CONSENT.WITHHOLD')}`
     p
         span=`${t('WITHHOLD_CONSENT.DEACTIVATE')} `
-        strong #{farm}
+        strong #{farm_name}
         span=`. ${t('WITHHOLD_CONSENT.HOWEVER')}`
     p=`${t('WITHHOLD_CONSENT.RIGHT')}`
     ul

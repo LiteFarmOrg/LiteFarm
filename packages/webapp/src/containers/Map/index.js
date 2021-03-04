@@ -119,7 +119,7 @@ export default function Map() {
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const link = document.createElement('a');
-      link.download = `${new Date().toISOString()}.png`;
+      link.download = `${farm_name}-export-${new Date().toISOString()}.png`;
       link.href = canvas.toDataURL();
       link.click();
     });
@@ -141,56 +141,57 @@ export default function Map() {
       const fileDataURL = canvas.toDataURL();
       dispatch(sendMapToEmail(fileDataURL));
     });
-    setShowModal(false);
   };
 
   return (
-    <div className={styles.pageWrapper}>
+    <>
       <PureMapHeader
         className={styles.mapHeader}
         farmName={farm_name}
         showVideo={handleShowVideo}
       />
-      <div className={styles.mapContainer}>
-        <div className={styles.workaround} ref={mapWrapperRef}>
-          <GoogleMap
-            style={{ flexGrow: 1 }}
-            bootstrapURLKeys={{
-              key: GMAPS_API_KEY,
-              libraries: ['drawing', 'geometry', 'places'],
-              language: localStorage.getItem('litefarm_lang'),
-            }}
-            defaultCenter={grid_points}
-            defaultZoom={DEFAULT_ZOOM}
-            yesIWantToUseGoogleMapApiInternals
-            onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
-            options={getMapOptions}
-          ></GoogleMap>
+      <div className={styles.pageWrapper}>
+        <div className={styles.mapContainer}>
+          <div className={styles.workaround} ref={mapWrapperRef}>
+            <GoogleMap
+              style={{ flexGrow: 1 }}
+              bootstrapURLKeys={{
+                key: GMAPS_API_KEY,
+                libraries: ['drawing', 'geometry', 'places'],
+                language: localStorage.getItem('litefarm_lang'),
+              }}
+              defaultCenter={grid_points}
+              defaultZoom={DEFAULT_ZOOM}
+              yesIWantToUseGoogleMapApiInternals
+              onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
+              options={getMapOptions}
+            ></GoogleMap>
+          </div>
         </div>
-      </div>
 
-      <PureMapFooter
-        className={styles.mapFooter}
-        isAdmin={is_admin}
-        showSpotlight={showMapSpotlight}
-        resetSpotlight={resetSpotlight}
-        onClickAdd={handleClickAdd}
-        onClickExport={handleClickExport}
-        showModal={showModal}
-        setHeight={setHeight}
-        height={height}
-        anchorState={anchorState}
-        toggleDrawer={toggleDrawer}
-        setRoadview={setRoadview}
-        showMapFilter={showMapFilter}
-      />
-      {showModal && (
-        <ExportMapModal
-          onClickDownload={handleDownload}
-          onClickShare={handleShare}
-          dismissModal={handleDismiss}
+        <PureMapFooter
+          className={styles.mapFooter}
+          isAdmin={is_admin}
+          showSpotlight={showMapSpotlight}
+          resetSpotlight={resetSpotlight}
+          onClickAdd={handleClickAdd}
+          onClickExport={handleClickExport}
+          showModal={showModal}
+          setHeight={setHeight}
+          height={height}
+          anchorState={anchorState}
+          toggleDrawer={toggleDrawer}
+          setRoadview={setRoadview}
+          showMapFilter={showMapFilter}
         />
-      )}
-    </div>
+        {showModal && (
+          <ExportMapModal
+            onClickDownload={handleDownload}
+            onClickShare={handleShare}
+            dismissModal={handleDismiss}
+          />
+        )}
+      </div>
+    </>
   );
 }

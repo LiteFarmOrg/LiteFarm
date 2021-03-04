@@ -85,8 +85,31 @@
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
       "DOWNLOAD": "Descargar",
-      "SHARE": "Compartir",
+      "DOWNLOADING": "MISSING",
+      "EMAIL_TO_ME": "MISSING",
+      "EMAILING": "MISSING",
       "TITLE": "Exporta tu mapa"
+    },
+    "MAP_FILTER": {
+      "AREAS": "Areas",
+      "BARN": "Granero",
+      "BZ": "Zona delimitada",
+      "CA": "Area ceremonial",
+      "CREEK": "Arroyo",
+      "FENCE": "Valla",
+      "FIELD": "Campo",
+      "FSB": "Limites de granja",
+      "GATE": "Puerta",
+      "GREENHOUSE": "Invernadero",
+      "GROUNDWATER": "Agua en el suelo",
+      "HIDE_ALL": "Esconde todo",
+      "LINES": "Lineas",
+      "NA": "Area natural",
+      "POINTS": "Puntos",
+      "SATELLITE": "Imagen de Satelite",
+      "SHOW_ALL": "Muestra todo",
+      "TITLE": "Filtra tu mapa",
+      "WV": "Valvula de agua"
     },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
@@ -97,28 +120,7 @@
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
     },
-    "TITLE": "Mapa de granja",
-    "MAP_FILTER": {
-      "TITLE": "Filtra tu mapa",
-      "SHOW_ALL": "Muestra todo",
-      "HIDE_ALL": "Esconde todo",
-      "SATELLITE": "Imagen de Satelite",
-      "AREAS": "Areas",
-      "POINTS": "Puntos",
-      "LINES": "Lineas",
-      "BARN": "Granero",
-      "CA": "Area ceremonial",
-      "FSB": "Limites de granja",
-      "FIELD": "Campo",
-      "GREENHOUSE": "Invernadero",
-      "GROUNDWATER": "Agua en el suelo",
-      "NA": "Area natural",
-      "BZ": "Zona delimitada",
-      "CREEK": "Arroyo",
-      "FENCE": "Valla",
-      "GATE": "Puerta",
-      "WV": "Valvula de agua"
-    }
+    "TITLE": "Mapa de granja"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",
@@ -480,7 +482,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "Campo",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

@@ -85,8 +85,31 @@
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
-      "SHARE": "Share",
+      "DOWNLOADING": "Downloading",
+      "EMAIL_TO_ME": "Email to me",
+      "EMAILING": "Emailing",
       "TITLE": "Export your farm map"
+    },
+    "MAP_FILTER": {
+      "AREAS": "Areas",
+      "BARN": "Barn",
+      "BZ": "Buffer zone",
+      "CA": "Ceremonial area",
+      "CREEK": "Creek",
+      "FENCE": "Fence",
+      "FIELD": "Field",
+      "FSB": "Farm site boundary",
+      "GATE": "Gate",
+      "GREENHOUSE": "Greenhouse",
+      "GROUNDWATER": "Groundwater",
+      "HIDE_ALL": "Hide all",
+      "LINES": "Lines",
+      "NA": "Natural area",
+      "POINTS": "Points",
+      "SATELLITE": "Satellite background",
+      "SHOW_ALL": "Show all",
+      "TITLE": "Filter your map",
+      "WV": "Water valve"
     },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
@@ -97,28 +120,7 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map",
-    "MAP_FILTER": {
-      "TITLE": "Filter your map",
-      "SHOW_ALL": "Show all",
-      "HIDE_ALL": "Hide all",
-      "SATELLITE": "Satellite background",
-      "AREAS": "Areas",
-      "POINTS": "Points",
-      "LINES": "Lines",
-      "BARN": "Barn",
-      "CA": "Ceremonial area",
-      "FSB": "Farm site boundary",
-      "FIELD": "Field",
-      "GREENHOUSE": "Greenhouse",
-      "GROUNDWATER": "Groundwater",
-      "NA": "Natural area",
-      "BZ": "Buffer zone",
-      "CREEK": "Creek",
-      "FENCE": "Fence",
-      "GATE": "Gate",
-      "WV": "Water valve"
-    }
+    "TITLE": "Farm map"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",
@@ -480,7 +482,6 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
-    "FIELD": "Field",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

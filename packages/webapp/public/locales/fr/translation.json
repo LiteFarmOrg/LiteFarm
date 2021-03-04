@@ -85,8 +85,31 @@
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
-      "SHARE": "MISSING",
+      "DOWNLOADING": "MISSING",
+      "EMAIL_TO_ME": "MISSING",
+      "EMAILING": "MISSING",
       "TITLE": "MISSING"
+    },
+    "MAP_FILTER": {
+      "AREAS": "MISSING",
+      "BARN": "MISSING",
+      "BZ": "MISSING",
+      "CA": "MISSING",
+      "CREEK": "MISSING",
+      "FENCE": "MISSING",
+      "FIELD": "MISSING",
+      "FSB": "MISSING",
+      "GATE": "MISSING",
+      "GREENHOUSE": "MISSING",
+      "GROUNDWATER": "MISSING",
+      "HIDE_ALL": "MISSING",
+      "LINES": "MISSING",
+      "NA": "MISSING",
+      "POINTS": "MISSING",
+      "SATELLITE": "MISSING",
+      "SHOW_ALL": "MISSING",
+      "TITLE": "MISSING",
+      "WV": "MISSING"
     },
     "SPOTLIGHT": {
       "ADD": "MISSING",
@@ -97,28 +120,7 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING",
-    "MAP_FILTER": {
-      "TITLE": "MISSING",
-      "SHOW_ALL": "MISSING",
-      "HIDE_ALL": "MISSING",
-      "SATELLITE": "MISSING",
-      "AREAS": "MISSING",
-      "POINTS": "MISSING",
-      "LINES": "MISSING",
-      "BARN": "MISSING",
-      "CA": "MISSING",
-      "FSB": "MISSING",
-      "FIELD": "MISSING",
-      "GREENHOUSE": "MISSING",
-      "GROUNDWATER": "MISSING",
-      "NA": "MISSING",
-      "BZ": "MISSING",
-      "CREEK": "MISSING",
-      "FENCE": "MISSING",
-      "GATE": "MISSING",
-      "WV": "MISSING"
-    }
+    "TITLE": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",
@@ -480,7 +482,6 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",

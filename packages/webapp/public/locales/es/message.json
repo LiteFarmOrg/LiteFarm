@@ -135,11 +135,6 @@
       "UPDATE": "Turno agregado exitosamente!"
     }
   },
-  "TOKEN": {
-    "ERROR": {
-      "VERIFICATION": "No se pudo verificar la prueba"
-    }
-  },
   "USER": {
     "ERROR": {
       "ADD": "No se pudo agregar usuario",
@@ -150,7 +145,6 @@
       "RESET_PASSWORD": "Error al enviar email para cambiar contraseña. Por favor contacte LiteFarm por asistencia.",
       "RESTORE": "Hubo un error al restaurar acceso",
       "REVOKE": "Hubo un error al revocar acceso",
-      "SIGNUP": "No se pudo registrar",
       "SIGNUP_UNKNOWN": "Problema desconocido! Reintente más tarde.",
       "UPDATE": "No se pudo actualizar información del(a) usuario"
     },

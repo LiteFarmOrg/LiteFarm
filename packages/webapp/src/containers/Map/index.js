@@ -51,7 +51,6 @@ export default function Map() {
   };
   let [roadview, setRoadview] = useState(false);
   const [showMapFilter, setShowMapFilter] = useState(true);
-  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     dispatch(getLocations());
@@ -174,7 +173,6 @@ export default function Map() {
     setShowModal(false);
     setShowMapFilter(!showMapFilter);
     setAnchorState({ ...anchorState, [anchor]: open });
-    if (!open) setHeight(window.innerHeight / 2);
   };
 
   const handleShare = () => {
@@ -220,8 +218,6 @@ export default function Map() {
           onClickAdd={handleClickAdd}
           onClickExport={handleClickExport}
           showModal={showModal}
-          setHeight={setHeight}
-          height={height}
           anchorState={anchorState}
           toggleDrawer={toggleDrawer}
           setRoadview={setRoadview}

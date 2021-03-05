@@ -4,6 +4,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../../ProfileFloater';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
+import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
+import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
 import { ReactComponent as NotifIcon } from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
@@ -93,6 +95,7 @@ export default function PureNavBar({
   setDefaultDateRange,
   showFinances,
   defaultOpenFloater,
+  selectedLanguage,
 }) {
   const classes = useStyles();
   const { t } = useTranslation([
@@ -288,7 +291,13 @@ export default function PureNavBar({
                 className={classes.iconButton}
                 onClick={farmButtonOnClick}
               >
-                <MyFarmIcon />
+                {selectedLanguage === 'en' ? (
+                  <MyFarmIcon />
+                ) : selectedLanguage === 'es' ? (
+                  <MyFarmIconSpan />
+                ) : (
+                  <MyFarmIconPort />
+                )}
               </IconButton>
             </PureMyFarmFloater>
             <PureNotificationFloater

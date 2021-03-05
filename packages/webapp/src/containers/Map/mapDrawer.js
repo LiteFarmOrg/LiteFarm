@@ -13,6 +13,8 @@ import {
   fenceColour,
 } from './styles.module.scss';
 
+import { ENVIRONMENT } from './constants'
+
 // Area Drawing
 const areaStyles = {
   'barn': {
@@ -128,11 +130,6 @@ const drawArea = (map, maps, mapBounds, areaType, area) => {
 
 // Line Drawing
 const lineStyles = {
-  'example': {
-    colour: primaryColour,
-    dashScale: 1,
-    dashLength: '6px',
-  },
   'creek': {
     colour: creekColour,
     dashScale: 0.7,
@@ -194,12 +191,23 @@ const drawLine = (map, maps, mapBounds, lineType, line) => {
 }
 
 // Point Drawing
+// const assetURL = process.env
+const assetUrlDict = {
+  development: 'http://localhost:3000',
+  integration: 'http://beta.litefarm.org',
+  production: 'http://app.litefarm.org'
+}
+const assetURL = assetUrlDict[ENVIRONMENT];
 const icons = {
-  'example': "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-  'gate': "",
-  'waterValve': "",
+  'gate': `${assetURL}/gate.png`,
+  'waterValve': `${assetURL}/water-valve.png`,
+}
+const hoverIcons = {
+  'gate': `${assetURL}/gate-hover.png`,
+  'waterValve': `${assetURL}/water-valve-hover.png`,
 }
 const drawPoint = (map, maps, mapBounds, pointType, point) => {
+  console.log(process.env);
   const { grid_point, name } = point;
   mapBounds.extend(grid_point);
 
@@ -208,6 +216,13 @@ const drawPoint = (map, maps, mapBounds, pointType, point) => {
     icon: icons[pointType],
   });
   marker.setMap(map);
+
+  maps.event.addListener(marker, "mouseover", function() {
+    this.setOptions({ icon: hoverIcons[pointType] });
+  });
+  maps.event.addListener(marker, "mouseout", function() {
+    this.setOptions({ icon: icons[pointType] });
+  });
 }
 
 export {

@@ -119,7 +119,7 @@ export default function Map() {
 
     if (fields && fields.length >= 1) {
       for (const field of fields) {
-        drawArea(map, maps, mapBounds, 'field', field);
+        drawArea(map, maps, mapBounds, field);
       }
       // drawLine(map, maps, mapBounds, 'example', {grid_points: samplePointsLine, name: "example line"});
       // drawPoint(map, maps, mapBounds, 'example', {grid_point: samplePoint, name: "example point"});

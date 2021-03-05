@@ -58,9 +58,9 @@ const areaStyles = {
     dashLength: '12px',
   },
 }
-const drawArea = (map, maps, mapBounds, areaType, area) => {
-  const { grid_points: points, field_name } = area;
-  const { colour, dashScale, dashLength } = areaStyles[areaType];
+const drawArea = (map, maps, mapBounds, area) => {
+  const { grid_points: points, name, type } = area;
+  const { colour, dashScale, dashLength } = areaStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -123,7 +123,7 @@ const drawArea = (map, maps, mapBounds, areaType, area) => {
     position: polygon.getPolygonBounds().getCenter(),
     map: map,
     icon: lineSymbol,
-    label: { text: field_name, color: 'white' },
+    label: { text: name, color: 'white' },
   });
   fieldMarker.setMap(map);
 }

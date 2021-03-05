@@ -23,14 +23,18 @@
   order: 2;
   flex-grow: 1;
   display: flex;
+  // flex-flow: row nowrap;
 }
 
 .workaround {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  // position: absolute;
+  // left: 0;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
+  // box-sizing: border-box;
+  // width: 100%;
+  // flex: none;
 }
 
 .mapFooter {
@@ -51,4 +55,17 @@
   residenceColour: #085D50; // teal-700
   creekColour: #0669E1; // blue-700
   fenceColour: #66738A; // grey-600
+}
+
+.drawingBar {
+  // box-sizing: border-box;
+  // width: 100%;
+  // flex: none;
+  // margin-left: -100%;
+  // z-index: 2000;
+  width: 100%;
+  position: fixed;
+  top: 72px;
+  align-self: center;
+  z-index: 10;
 }

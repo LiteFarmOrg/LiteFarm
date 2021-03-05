@@ -16,6 +16,7 @@ import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
+import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
@@ -30,6 +31,7 @@ export default function Map() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [stateMap, setMap] = useState(null);
+  const [drawingState, setDrawingState] = useState(null);
 
   const samplePointsLine = [
     {
@@ -139,9 +141,11 @@ export default function Map() {
     setShowModal(false);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
+    setDrawingState('field');
   };
 
   const handleClickExport = () => {
+    setDrawingState(null);
     setShowModal(!showModal);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
@@ -184,9 +188,12 @@ export default function Map() {
     });
   };
 
+  const [isDrawing, setIsDrawing] = useState(false);
+
+
   return (
     <>
-      {showMapFilter && (
+      {(showMapFilter && !drawingState) && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -195,7 +202,7 @@ export default function Map() {
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
         <div className={styles.mapContainer}>
-          <div className={styles.workaround} ref={mapWrapperRef}>
+          <div ref={mapWrapperRef}>
             <GoogleMap
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{
@@ -210,9 +217,14 @@ export default function Map() {
               options={getMapOptions}
             ></GoogleMap>
           </div>
+          {drawingState && <div className={styles.drawingBar}>
+            <DrawingManager
+              onClickBack={() => {setDrawingState(null)}}
+            />
+          </div>}
         </div>
 
-        <PureMapFooter
+        {!drawingState && <PureMapFooter
           className={styles.mapFooter}
           isAdmin={is_admin}
           showSpotlight={showMapSpotlight}
@@ -226,7 +238,7 @@ export default function Map() {
           toggleDrawer={toggleDrawer}
           setRoadview={setRoadview}
           showMapFilter={showMapFilter}
-        />
+        />}
         {showModal && (
           <ExportMapModal
             onClickDownload={handleDownload}

@@ -103,7 +103,7 @@ const userFarmController = {
         const user_id = req.headers.user_id;
         const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
         let rows;
-        if (userFarm.role_id == 3) {
+        if (userFarm.role_id === 3) {
           rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
             'users.first_name',
             'users.last_name',

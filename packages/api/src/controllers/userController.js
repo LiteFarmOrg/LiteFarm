@@ -39,10 +39,6 @@ const userController = {
         language_preference,
       };
 
-      // const validEmailRegex = RegExp(/^$|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-      // if (!validEmailRegex.test(email)) {
-      //   userData.email = `${email.substring(0, email.length - 9)}@${email.substring(email.length - 9)}`
-      // }
 
       const trx = await transaction.start(Model.knex());
       try {

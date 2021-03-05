@@ -5,6 +5,8 @@ import { pick } from '../util';
 
 const getFieldFromLocationObject = (location) => {
   return {
+    farm_id: location.farm_id,
+    name: location.name,
     ...pick(location.figure, ['figure_id', 'type', 'location_id']),
     ...pick(location.figure.area, ['total_area', 'grid_points', 'perimeter']),
     ...pick(location.field, [

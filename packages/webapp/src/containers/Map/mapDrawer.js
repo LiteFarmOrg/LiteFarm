@@ -1,66 +1,10 @@
-import {
-  primaryColour,
-  defaultColour,
-  barnColour,
-  ceremonialSiteColour,
-  farmBoundColour,
-  fieldColour,
-  greenhouseColour,
-  groundwaterColour,
-  naturalAreaColour,
-  residenceColour,
-  creekColour,
-  fenceColour,
-} from './styles.module.scss';
-
-import { ENVIRONMENT } from './constants'
+import { defaultColour } from './styles.module.scss';
+import { areaStyles, lineStyles, icons, hoverIcons } from './mapStyles';
 
 // Area Drawing
-const areaStyles = {
-  'barn': {
-    colour: barnColour,
-    dashScale: 2,
-    dashLength: '14px',
-  },
-  'ceremonial': {
-    colour: ceremonialSiteColour,
-    dashScale: 1.5,
-    dashLength: '8px',
-  },
-  'farmBound': {
-    colour: farmBoundColour,
-    dashScale: 1,
-    dashLength: '1px',
-  },
-  'field': {
-    colour: fieldColour,
-    dashScale: 1,
-    dashLength: '6px',
-  },
-  'greenhouse': {
-    colour: greenhouseColour,
-    dashScale: 1,
-    dashLength: '8px',
-  },
-  'groundwater': {
-    colour: groundwaterColour,
-    dashScale: 0.7,
-    dashLength: '6px',
-  },
-  'natural': {
-    colour: naturalAreaColour,
-    dashScale: 0.7,
-    dashLength: '12px',
-  },
-  'residence': {
-    colour: residenceColour,
-    dashScale: 0,
-    dashLength: '12px',
-  },
-}
-const drawArea = (map, maps, mapBounds, areaType, area) => {
-  const { grid_points: points, field_name } = area;
-  const { colour, dashScale, dashLength } = areaStyles[areaType];
+const drawArea = (map, maps, mapBounds, area) => {
+  const { grid_points: points, name, type } = area;
+  const { colour, dashScale, dashLength } = areaStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -80,9 +24,6 @@ const drawArea = (map, maps, mapBounds, areaType, area) => {
   });
   maps.event.addListener(polygon, "mouseout", function() {
     this.setOptions({ fillOpacity: 0.5 });
-  });
-  maps.event.addListener(polygon, "click", function() {
-    console.log("clicked area");
   });
 
   // draw dotted outline
@@ -123,27 +64,22 @@ const drawArea = (map, maps, mapBounds, areaType, area) => {
     position: polygon.getPolygonBounds().getCenter(),
     map: map,
     icon: lineSymbol,
-    label: { text: field_name, color: 'white' },
+    label: { text: name, color: 'white' },
   });
   fieldMarker.setMap(map);
+
+  maps.event.addListener(polygon, "click", function() {
+    console.log("clicked area");
+    this.setMap(null);
+    polyline.setMap(null);
+    fieldMarker.setMap(null);
+  });
 }
 
 // Line Drawing
-const lineStyles = {
-  'creek': {
-    colour: creekColour,
-    dashScale: 0.7,
-    dashLength: '6px',
-  },
-  'fence': {
-    colour: fenceColour,
-    dashScale: 1,
-    dashLength: '6px',
-  },
-}
-const drawLine = (map, maps, mapBounds, lineType, line) => {
-  const { grid_points: points, name } = line;
-  const { colour, dashScale, dashLength } = lineStyles[lineType];
+const drawLine = (map, maps, mapBounds, line) => {
+  const { grid_points: points, name, type } = line;
+  const { colour, dashScale, dashLength } = lineStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -191,37 +127,21 @@ const drawLine = (map, maps, mapBounds, lineType, line) => {
 }
 
 // Point Drawing
-// const assetURL = process.env
-const assetUrlDict = {
-  development: 'http://localhost:3000',
-  integration: 'http://beta.litefarm.org',
-  production: 'http://app.litefarm.org'
-}
-const assetURL = assetUrlDict[ENVIRONMENT];
-const icons = {
-  'gate': `${assetURL}/gate.png`,
-  'waterValve': `${assetURL}/water-valve.png`,
-}
-const hoverIcons = {
-  'gate': `${assetURL}/gate-hover.png`,
-  'waterValve': `${assetURL}/water-valve-hover.png`,
-}
-const drawPoint = (map, maps, mapBounds, pointType, point) => {
-  console.log(process.env);
-  const { grid_point, name } = point;
+const drawPoint = (map, maps, mapBounds, point) => {
+  const { grid_point, name, type } = point;
   mapBounds.extend(grid_point);
 
   var marker = new maps.Marker({
     position: grid_point,
-    icon: icons[pointType],
+    icon: icons[type],
   });
   marker.setMap(map);
 
   maps.event.addListener(marker, "mouseover", function() {
-    this.setOptions({ icon: hoverIcons[pointType] });
+    this.setOptions({ icon: hoverIcons[type] });
   });
   maps.event.addListener(marker, "mouseout", function() {
-    this.setOptions({ icon: icons[pointType] });
+    this.setOptions({ icon: icons[type] });
   });
 }
 

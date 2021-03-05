@@ -13,35 +13,22 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const nodemailer = require('nodemailer');
 const credentials = require('../credentials');
-const handlebars = require('handlebars');
-const subjectTranslation = require('./subject_translation.json');
-const fs = require('fs-extra');
 const path = require('path');
-const jsdom = require('jsdom');
 const EmailTemplates = require('email-templates');
-const { JSDOM } = jsdom;
 
 const emails = {
-  INVITATION: { subjectReplacements: '', path: 'invitation_to_farm_email' },
-  CONFIRMATION: { subjectReplacements: '', path: 'send_confirmation_email' },
+  INVITATION: { path: 'invitation_to_farm_email' },
+  CONFIRMATION: { path: 'send_confirmation_email' },
   WITHHELD_CONSENT: { path: 'withheld_consent_email' },
-  ACCESS_RESTORE: { subjectReplacements: '', path: 'restoration_of_access_to_farm_email' },
-  ACCESS_REVOKE: { subjectReplacements: '', path: 'revocation_of_access_to_farm_email' },
+  ACCESS_RESTORE: { path: 'restoration_of_access_to_farm_email' },
+  ACCESS_REVOKE: { path: 'revocation_of_access_to_farm_email' },
   WELCOME: { path: 'welcome_email' },
   PASSWORD_RESET: { path: 'password_reset_email' },
   PASSWORD_RESET_CONFIRMATION: { path: 'reset_password_confirmation' },
   HELP_REQUEST_EMAIL: { path: 'help_request_email' },
-  MAP_EXPORT_EMAIL: { subjectReplacements: '', path: 'map_export_email' },
+  MAP_EXPORT_EMAIL: { path: 'map_export_email' },
 };
-
-function addReplacements(template, subject) {
-  if (subject.includes('??') && template.subjectReplacements) {
-    return subject.replace('??', template.subjectReplacements);
-  }
-  return subject;
-}
 
 function homeUrl(defaultUrl = 'http://localhost:3000') {
   const environment = process.env.NODE_ENV || 'development';
@@ -54,7 +41,7 @@ function homeUrl(defaultUrl = 'http://localhost:3000') {
   return homeUrl;
 }
 
-const emailRenderer = new EmailTemplates({
+const emailTransporter = new EmailTemplates({
   views: {
     root: path.join(__dirname, 'emails'),
   },
@@ -63,52 +50,52 @@ const emailRenderer = new EmailTemplates({
     directory: path.join(__dirname, 'locales'),
     objectNotation: true,
   },
+  send: true,
+  preview: true,
+  subjectPrefix: process.env.NODE_ENV === 'production' ? false : '[Development] ',
+  transport: {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      clientId: credentials.LiteFarm_Service_Gmail.client_id,
+      clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
+      user: 'system@litefarm.org',
+      refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
+    },
+  },
 });
 
-function sendEmail(template_path, replacements, email_to, sender = 'system@litefarm.org', buttonLink = null, language = 'en', attachments = []) {
+function sendEmail(template_path, replacements, email_to, {
+  sender = 'system@litefarm.org',
+  buttonLink = null,
+  attachments = [],
+}) {
   try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      service: 'gmail',
-      auth: {
-        type: 'OAuth2',
-        clientId: credentials.LiteFarm_Service_Gmail.client_id,
-        clientSecret: credentials.LiteFarm_Service_Gmail.client_secret,
-      },
-    });
     replacements.url = homeUrl();
     replacements.year = new Date().getFullYear();
     replacements.buttonLink = buttonLink ? `${homeUrl()}${buttonLink}` : `${homeUrl()}/?email=${encodeURIComponent(email_to)}`;
     replacements.imgBaseUrl = homeUrl('https://beta.litefarm.org');
-    emailRenderer.render(template_path, replacements).then((html) => {
-      const subjectKey = Object.keys(emails).find((k) => emails[k].path === template_path.path);
-      const subject = addReplacements(template_path, subjectTranslation[replacements && replacements.locale && replacements.locale.substring(0, 2)][subjectKey]);
-      const mailOptions = {
+    const mailOptions = {
+      message: {
         from: 'LiteFarm <' + sender + '>',
         to: email_to,
-        subject,
-        html,
-        auth: {
-          user: 'system@litefarm.org',
-          refreshToken: credentials.LiteFarm_Service_Gmail.refresh_token,
-        },
-      };
-      if (attachments.length && attachments[0] && [emails.HELP_REQUEST_EMAIL.path, emails.MAP_EXPORT_EMAIL.path].includes(template_path.path)) {
-        if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
-          mailOptions.cc = 'support@litefarm.org';
-        }
-        mailOptions.attachments = attachments.map(file => ({ filename: file.originalname, content: file.buffer }));
-
+      },
+      template: template_path,
+      locals: replacements,
+    };
+    if (attachments.length && attachments[0] && [emails.HELP_REQUEST_EMAIL.path, emails.MAP_EXPORT_EMAIL.path].includes(template_path.path)) {
+      if (template_path.path === emails.HELP_REQUEST_EMAIL.path) {
+        mailOptions.message.cc = 'support@litefarm.org';
       }
-      transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-          return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-      });
-    });
+      mailOptions.message.attachments = attachments.map(file => ({
+        filename: file.originalname,
+        content: file.buffer,
+      }));
+    }
+    emailTransporter.send(mailOptions).then(console.log).catch(console.error);
   } catch (error) {
     console.log(error);
   }

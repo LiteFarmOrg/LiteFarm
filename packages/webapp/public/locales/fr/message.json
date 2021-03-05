@@ -135,11 +135,6 @@
       "UPDATE": "MISSING"
     }
   },
-  "TOKEN": {
-    "ERROR": {
-      "VERIFICATION": "MISSING"
-    }
-  },
   "USER": {
     "ERROR": {
       "ADD": "MISSING",
@@ -150,7 +145,6 @@
       "RESET_PASSWORD": "MISSING",
       "RESTORE": "MISSING",
       "REVOKE": "MISSING",
-      "SIGNUP": "MISSING",
       "SIGNUP_UNKNOWN": "MISSING",
       "UPDATE": "MISSING"
     },

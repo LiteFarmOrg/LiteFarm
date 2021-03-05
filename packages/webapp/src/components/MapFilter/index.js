@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -25,7 +24,7 @@ import Rectangle from '../../assets/images/farmMapFilter/Rectangle.svg';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import Line from '../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
-import { Box } from '@material-ui/core';
+import { Box, SwipeableDrawer } from '@material-ui/core';
 import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
 
@@ -42,10 +41,24 @@ const useStyles = makeStyles({
     width: '36px',
     backgroundColor: colors.teal700,
     borderRadius: '2px',
+    marginTop: '16px',
+  },
+  MuiDrawer: {
+    backgroundColor: colors.teal700,
+  },
+  BackdropProps: {
+    background: 'transparent',
   },
 });
 
-export default function MapFilter({ setRoadview, anchor, setHeight, height, state, toggleDrawer }) {
+export default function MapFilter({
+  setRoadview,
+  anchor,
+  setHeight,
+  height,
+  anchorState,
+  toggleDrawer,
+}) {
   const { t } = useTranslation();
 
   let [visibility, setVisibility] = useState(false);
@@ -365,9 +378,9 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
 
   return (
     <div>
-      <Drawer
+      <SwipeableDrawer
         anchor={anchor}
-        open={state[anchor]}
+        open={anchorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
         onOpen={toggleDrawer(anchor, true)}
         PaperProps={{
@@ -376,10 +389,15 @@ export default function MapFilter({ setRoadview, anchor, setHeight, height, stat
         }}
         ModalProps={{
           classes: { paddingBottom: '20px' },
+          BackdropProps: {
+            classes: {
+              root: classes.BackdropProps,
+            },
+          },
         }}
       >
         {list(anchor)}
-      </Drawer>
+      </SwipeableDrawer>
     </div>
   );
 }

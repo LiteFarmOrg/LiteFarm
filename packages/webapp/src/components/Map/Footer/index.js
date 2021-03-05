@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Joyride, { STATUS, ACTIONS, LIFECYCLE } from 'react-joyride';
+import Joyride, { ACTIONS, LIFECYCLE, STATUS } from 'react-joyride';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { ReactComponent as AddLogo } from '../../../assets/images/map/add.svg';
@@ -20,7 +20,7 @@ export default function PureMapFooter({
   showModal,
   setHeight,
   height,
-  state,
+  anchorState,
   toggleDrawer,
   setRoadview,
   showMapFilter,
@@ -126,11 +126,21 @@ export default function PureMapFooter({
             tooltip: {
               padding: '20px',
             },
+            buttonNext: {
+              order: -1,
+              minWidth: '81px',
+              minHeight: '32px',
+              boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)'
+            },
             tooltipContent: {
               padding: '4px 0 0 0',
               marginBottom: '20px',
             },
+            spotlight: {
+              borderRadius: 0,
+            }
           }}
+          spotlightPadding={0}
         />
       )}
       <div className={clsx(container, className)} style={style}>
@@ -143,7 +153,10 @@ export default function PureMapFooter({
             <AddLogo className={svg} />
           </button>
         )}
-        <button className={clsx(button, stepSpotlighted === 1 && spotlighted)} id="mapSecondStep">
+        <button
+          className={clsx(button, (stepSpotlighted === 1 || !showMapFilter) && spotlighted)}
+          id="mapSecondStep"
+        >
           {' '}
           <div>
             {['bottom'].map((anchor) => (
@@ -157,7 +170,7 @@ export default function PureMapFooter({
                   anchor={anchor}
                   setHeight={setHeight}
                   height={height}
-                  state={state}
+                  anchorState={anchorState}
                   toggleDrawer={toggleDrawer}
                 />
               </React.Fragment>

@@ -2,13 +2,19 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100%;
   align-items: stretch;
-  flex: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .mapHeader {
   order: 1;
+  z-index: 1;
+  background: white;
+  position: absolute;
+  left: 0;
+  width: 100%;
 }
 
 .mapContainer {
@@ -30,4 +36,19 @@
 .mapFooter {
   order: 3;
   z-index: 101;
+}
+
+:export {
+  primaryColour: #349289;
+  defaultColour: #FFFFFF;
+  barnColour: #D02620; // red-700
+  ceremonialSiteColour: #028577; // teal-700
+  farmBoundColour: #8F26F0; // purple-700
+  fieldColour: #AA5F04; // brown-700
+  greenhouseColour: #037A0F; // bright green-700
+  groundwaterColour: #0669E1; // blue-700
+  naturalAreaColour: #FFB800; // yellow-700
+  residenceColour: #085D50; // teal-700
+  creekColour: #0669E1; // blue-700
+  fenceColour: #66738A; // grey-600
 }

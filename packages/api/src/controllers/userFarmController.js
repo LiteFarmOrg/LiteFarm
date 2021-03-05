@@ -103,7 +103,7 @@ const userFarmController = {
         const user_id = req.headers.user_id;
         const [userFarm] = await userFarmModel.query().select('role_id').where('farm_id', farm_id).andWhere('user_id', user_id);
         let rows;
-        if (userFarm.role_id == 3) {
+        if (userFarm.role_id === 3) {
           rows = await userFarmModel.query().context({ user_id: req.user.user_id }).select(
             'users.first_name',
             'users.last_name',
@@ -168,15 +168,15 @@ const userFarmController = {
             first_name: userFarm.first_name,
             farm: userFarm.farm_name,
             locale: userFarm.language_preference,
+            farm_name: userFarm.farm_name,
           };
           if (has_consent === false) {
             template_path = emails.WITHHELD_CONSENT;
           } else {
             template_path = emails.CONFIRMATION;
-            template_path.subjectReplacements = userFarm.farm_name;
             replacements['role'] = userFarm.role;
           }
-          return sendEmail(template_path, replacements, userFarm.email, sender, null, userFarm.language_preference);
+          return sendEmail(template_path, replacements, userFarm.email, { sender });
         } catch (e) {
           console.log(e);
         }
@@ -298,6 +298,7 @@ const userFarmController = {
           first_name: targetUser.first_name,
           farm: targetUser.farm_name,
           locale: targetUser.language_preference,
+          farm_name: targetUser.farm_name,
         };
         const sender = 'system@litefarm.org';
 
@@ -311,10 +312,8 @@ const userFarmController = {
         // check if access is revoked or restored: update email info based on this
         if (currentStatus === 'Active' || currentStatus === 'Invited') {
           template_path = emails.ACCESS_REVOKE;
-          template_path.subjectReplacements = targetUser.farm_name;
         } else if (currentStatus === 'Inactive') {
           template_path = emails.ACCESS_RESTORE;
-          template_path.subjectReplacements = targetUser.farm_name;
         }
         const isPatched = await userFarmModel.query().where('farm_id', farm_id).andWhere('user_id', user_id)
           .patch({
@@ -325,7 +324,7 @@ const userFarmController = {
           try {
             console.log('template_path:', template_path);
             if (targetUser.email && template_path) {
-              sendEmail(template_path, replacements, targetUser.email, sender, null, targetUser.language_preference);
+              sendEmail(template_path, replacements, targetUser.email, { sender });
             }
           } catch (e) {
             console.log('Failed to send email: ', e);

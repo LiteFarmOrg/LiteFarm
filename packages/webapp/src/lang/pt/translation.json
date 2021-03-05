@@ -49,10 +49,10 @@
     "FORGOT": "Esqueceu sua senha?",
     "HINT": "MISSING",
     "LABEL": "Senha",
-    "ONE_NUMBER": "MISSING",
-    "ONE_SPECIAL_CHARACTER": "MISSING",
-    "ONE_UPPER_CASE": "MISSING",
-    "TOO_SHORT": "MISSING"
+    "ONE_NUMBER": "pelo menos um número",
+    "ONE_SPECIAL_CHARACTER": "pelo menos um caractere especial",
+    "ONE_UPPER_CASE": "pelo menos uma letra maiúscula",
+    "TOO_SHORT": "pelo menos 8 caracteres"
   },
   "EXPENSE": {
     "ADD_EXPENSE": {
@@ -179,7 +179,7 @@
     "WHATSAPP_NUMBER_LABEL": "Número do WhatsApp"
   },
   "HOME": {
-    "GREETING": "Good day, "
+    "GREETING": "Olá, "
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
@@ -509,7 +509,7 @@
     },
     "PARTNERS": {
       "CERTIFIER_NAME_ERROR": "Certificate name is required",
-      "CERTIFIER_NAME_INFO": "Our forms are accepted by most certifiers.",
+      "CERTIFIER_NAME_INFO": "Nossos formulários são aceitos pela maioria dos certificadores.",
       "CERTIFIER_NAME_LABEL": "Certifier’s name",
       "SELECT_CERTIFIER": "Selecione o seu certificador",
       "THROUGH_APP": "em todo o aplicativo!",
@@ -517,7 +517,7 @@
     },
     "WARNING": "Está funcionalidade ainda está sendo desenvolvida no aplicativo e pode não estar pronta nesta estação. Porém, clicando 'Sim' irá ativá-la quando estiver pronta."
   },
-  "OUTRO": "E, por fim, vamos mostrar algumas coisas importantes!",
+  "OUTRO": "Por fim, vamos mostrar algumas coisas importantes!",
   "PASSWORD_RESET_SUCCESS_MODAL": {
     "BUTTON": "Ótimo!",
     "DESCRIPTION": "Sua senha foi atualizada. Redirecionando você para suas fazendas em 10 segundos ...",
@@ -526,7 +526,7 @@
   "PASSWORD_RESET": {
     "BUTTON": "Reenviar link",
     "BUTTON_SENDING": "Enviando...",
-    "DESCRIPTION_BOTTOM": "or favor verifique seu email.",
+    "DESCRIPTION_BOTTOM": "Por favor verifique seu e-mail.",
     "DESCRIPTION_TOP": "Um link foi enviado.",
     "NEW_ACCOUNT_BUTTON": "Atualizar",
     "NEW_ACCOUNT_TITLE": "Defina sua nova senha",
@@ -735,7 +735,7 @@
       "MINUTES": "Minutos",
       "MOOD": "Como você se sentiu durante este turno?",
       "NAME_TASK": "Nome da tarefa personalizada",
-      "NEUTRAL": "Neutral",
+      "NEUTRAL": "Neutro",
       "NEW_SHIFT_TITLE_1": "Novo turno (Etapa 1)",
       "NEW_SHIFT_TITLE_2": "Novo turno (Etapa 1)",
       "NO_WAGE_SET": "Você não tem um salário definido, seu custo de trabalho para este turno é predefinido como 0, você pode alterá-lo en ",
@@ -779,8 +779,8 @@
   },
   "SIGNUP": {
     "DIDNT_WORK": "Não funcionou.",
-    "EMAIL_INVALID": "MISSING",
-    "ENTER_EMAIL": "MISSING",
+    "EMAIL_INVALID": "Email inválido",
+    "ENTER_EMAIL": "Digite seu endereço de email",
     "EXPIRED_ERROR": "NÃO EXISTE",
     "GOOGLE_BUTTON": "CONTINUE COM O GOOGLE",
     "INVITED_ERROR": "NÃO EXISTE",

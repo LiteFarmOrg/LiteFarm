@@ -13,23 +13,13 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import './locales/i18n';
 
 function App() {
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-  useEffect(() => {
-    const handleResize = () => {
-      if (windowHeight !== window.innerHeight) {
-        setWindowHeight(window.innerHeight);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return (_) => window.removeEventListener('resize', handleResize);
-  });
   return (
     <>
       <div
@@ -37,7 +27,7 @@ function App() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          height: `${windowHeight}px`,
+          minHeight: '100vh',
         }}
       >
         <NavBar history={history} />

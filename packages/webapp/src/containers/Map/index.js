@@ -16,11 +16,13 @@ import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
+import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 
-import { drawArea, drawLine, drawPoint } from './mapDrawer';
+import { drawArea } from './mapDrawer';
 import { getLocations } from '../saga';
 
 export default function Map() {
+  const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const fields = useSelector(fieldsSelector);
@@ -46,7 +48,7 @@ export default function Map() {
   const samplePoint = {
     lat: 40.13592240695948,
     lng: -74.97369460478514,
-  }
+  };
   let [roadview, setRoadview] = useState(false);
   const [showMapFilter, setShowMapFilter] = useState(true);
   const [height, setHeight] = useState(0);
@@ -127,7 +129,7 @@ export default function Map() {
 
       map.fitBounds(mapBounds);
     }
-  }
+  };
 
   const resetSpotlight = () => {
     dispatch(endMapSpotlight(farm_id));
@@ -184,14 +186,14 @@ export default function Map() {
 
   return (
     <>
-    {showMapFilter && (
-      <PureMapHeader
-        className={styles.mapHeader}
-        farmName={farm_name}
-        showVideo={handleShowVideo}
-      />
-     )}
-      <div className={styles.pageWrapper}>
+      {showMapFilter && (
+        <PureMapHeader
+          className={styles.mapHeader}
+          farmName={farm_name}
+          showVideo={handleShowVideo}
+        />
+      )}
+      <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
         <div className={styles.mapContainer}>
           <div className={styles.workaround} ref={mapWrapperRef}>
             <GoogleMap

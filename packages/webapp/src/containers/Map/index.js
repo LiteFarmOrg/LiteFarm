@@ -184,11 +184,13 @@ export default function Map() {
 
   return (
     <>
+    {showMapFilter && (
       <PureMapHeader
         className={styles.mapHeader}
         farmName={farm_name}
         showVideo={handleShowVideo}
       />
+     )}
       <div className={styles.pageWrapper}>
         <div className={styles.mapContainer}>
           <div className={styles.workaround} ref={mapWrapperRef}>

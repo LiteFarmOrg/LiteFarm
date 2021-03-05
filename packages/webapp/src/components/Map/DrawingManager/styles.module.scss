@@ -13,6 +13,7 @@
   border-radius: 4px;
   border: 1px solid var(--grey500);
   padding: 3px 0px 3px 7px;
+  pointer-events: auto;
 
   .svg {
     stroke: var(--teal700);
@@ -28,4 +29,5 @@
   display: inline;
   margin: 0 6px;
   min-width: 96px;
+  pointer-events: auto;
 }

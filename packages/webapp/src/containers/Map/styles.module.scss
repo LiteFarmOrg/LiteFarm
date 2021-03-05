@@ -68,4 +68,11 @@
   top: 72px;
   align-self: center;
   z-index: 10;
+  pointer-events: none;
+}
+
+@media (max-width: 960px) {
+  .drawingBar {
+    top: 56px;
+  }
 }

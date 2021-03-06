@@ -95,7 +95,6 @@ export default function PureNavBar({
   setDefaultDateRange,
   showFinances,
   defaultOpenFloater,
-  selectedLanguage,
 }) {
   const classes = useStyles();
   const { t } = useTranslation([
@@ -120,6 +119,7 @@ export default function PureNavBar({
   const toggleManage = () => {
     setManageOpen(!manageOpen);
   };
+  const selectedLanguage = localStorage.getItem('litefarm_lang');
 
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);

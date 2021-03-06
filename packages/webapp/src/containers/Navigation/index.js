@@ -31,7 +31,6 @@ const NavBar = (props) => {
   const resetSpotlight = () => {
     dispatch(endSpotLight(farm.farm_id));
   };
-  const selectedLanguage = localStorage.getItem('litefarm_lang');
 
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
@@ -42,7 +41,6 @@ const NavBar = (props) => {
         history={history}
         setDefaultDateRange={() => dispatch(setDefaultDateRange())}
         showFinances={isAdmin}
-        selectedLanguage={selectedLanguage}
       />
     </Suspense>
   ) : (

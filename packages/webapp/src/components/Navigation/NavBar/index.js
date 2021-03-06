@@ -291,12 +291,12 @@ export default function PureNavBar({
                 className={classes.iconButton}
                 onClick={farmButtonOnClick}
               >
-                {selectedLanguage === 'en' ? (
-                  <MyFarmIcon />
+                {selectedLanguage === 'pt' ? (
+                  <MyFarmIconPort />
                 ) : selectedLanguage === 'es' ? (
                   <MyFarmIconSpan />
                 ) : (
-                  <MyFarmIconPort />
+                  <MyFarmIcon />
                 )}
               </IconButton>
             </PureMyFarmFloater>

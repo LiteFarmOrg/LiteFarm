@@ -31,6 +31,7 @@ const NavBar = (props) => {
   const resetSpotlight = () => {
     dispatch(endSpotLight(farm.farm_id));
   };
+
   return isFarmSelected ? (
     <Suspense fallback={<NoFarmNavBar />}>
       <PureNavBar

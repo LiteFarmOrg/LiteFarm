@@ -1,10 +1,10 @@
 import React from 'react';
 import FarmSiteBoundary from '../../components/AreaDetails/FarmSiteBoundary';
-import { componentDecorators } from '../Pages/config/decorators';
+import decorator from '../Pages/config/decorators';
 
 export default {
   title: 'Components/Area/FarmSiteBoundary',
-  decorators: componentDecorators,
+  decorators: decorator,
   component: FarmSiteBoundary,
 };
 

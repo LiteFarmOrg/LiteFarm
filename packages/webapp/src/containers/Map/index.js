@@ -18,6 +18,7 @@ import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
+import useDrawingManager from './useDrawingManager';
 
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
 import { icons } from './mapStyles';
@@ -33,19 +34,21 @@ export default function Map() {
   const [showModal, setShowModal] = useState(false);
 
   const [stateMap, setMap] = useState(null);
-  const [drawingManager, setDrawingManager] = useState(null);
-  const [supportedDrawingModes, setDrawingModes] = useState(null);
-  const [drawLocationType, setDrawLocationType] = useState(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [drawingToConfirm, setDrawingToConfirm] = useState(null);
 
-  // const [drawingState, setDrawingState] = useState({
-  //   type: null, // string
-  //   isActive: false, // bool
-  //   supportedDrawingModes: null, // obj
-  //   drawingManager: null, // drawingManager
-  //   drawingToCheck: null, // overlay
-  // });
+  // drawingState: obj
+  //   type: string
+  //   isActive: bool
+  //   supportDrawingModes: obj
+  //   drawingManager: drawingManager
+  //   drawingToCheck: overlay
+  // initDrawingState(drawingManager, supportDrawingModes): func
+  // startDrawing(type): func
+  // finishDrawing(): func
+  // redoDrawing: func
+  // TODO: undoDrawing: func
+  // const [drawingState, drawingFunctions] = useDrawingManager();
+  // destructure drawingState to {type, isActive, etc.} to access different state values
+  const [drawingState, {initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer}] = useDrawingManager();
 
 
   const samplePointsLine = [
@@ -147,14 +150,13 @@ export default function Map() {
       var position = marker.getPosition();
       console.log(position);
       // drawingManager.setDrawingMode();
+      // NOTE: CAN THIS LINE BE PUT IN HOOK?
       this.setDrawingMode();
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
-      setIsDrawing(false);
-      setDrawingToConfirm(drawing);
+      finishDrawing(drawing);
     });
-    setDrawingManager(drawingManagerInit);
-    setDrawingModes({
+    initDrawingState(drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
       POLYLINE: maps.drawing.OverlayType.POLYLINE,
       MARKER: maps.drawing.OverlayType.MARKER,
@@ -201,19 +203,24 @@ export default function Map() {
     setShowModal(false);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
+    
+    // startDrawing('gate') // point
+    // startDrawing('field') // area
+    startDrawing('gate');
 
-    setDrawLocationType('gate');
-    setIsDrawing(true);
-    drawingManager.setOptions({
-      markerOptions: {
-        icon: icons['gate'],
-      },
-    });
-    drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
+    // setDrawLocationType('gate');
+    // setIsDrawing(true);
+    // drawingManager.setOptions({
+    //   markerOptions: {
+    //     icon: icons['gate'],
+    //   },
+    // });
+    // drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
   };
 
   const handleClickExport = () => {
-    setDrawLocationType(null);
+    // get this in the custom hook
+    // setDrawLocationType(null);
     setShowModal(!showModal);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
@@ -238,7 +245,7 @@ export default function Map() {
     });
   };
 
-  const [anchorState, setAnchorState] = React.useState({
+  const [anchorState, setAnchorState] = useState({
     bottom: false,
   });
 
@@ -259,7 +266,7 @@ export default function Map() {
 
   return (
     <>
-      {(showMapFilter && !drawLocationType) && (
+      {(showMapFilter && !drawingState.type) && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -283,36 +290,26 @@ export default function Map() {
               options={getMapOptions}
             ></GoogleMap>
           </div>
-          {drawLocationType && <div className={styles.drawingBar}>
+          {drawingState.type && <div className={styles.drawingBar}>
             <DrawingManager
-              drawingType={drawLocationType}
-              isDrawing={isDrawing}
+              drawingType={drawingState.type}
+              isDrawing={drawingState.isActive}
               onClickBack={() => {
-                setIsDrawing(false);
-                // delete current drawings
-                drawingToConfirm?.overlay.setMap(null);
-                setDrawingToConfirm(null);
-                // close drawer
-                setDrawLocationType(null);
-                drawingManager.setDrawingMode();
+                resetDrawing();
+                closeDrawer();
               }}
               onClickTryAgain={() => {
-                setIsDrawing(true);
-                // delete current drawings
-                drawingToConfirm?.overlay.setMap(null);
-                setDrawingToConfirm(null);
-                // restore drawer (point/marker)
-                setDrawLocationType('gate');
-                drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
+                resetDrawing();
+                startDrawing(drawingState.type);
               }}
               onClickConfirm={() => {
-                console.log(drawingToConfirm);
+                console.log(drawingState.drawingToCheck);
               }}
             />
           </div>}
         </div>
 
-        {!drawLocationType && <PureMapFooter
+        {!drawingState.type && <PureMapFooter
           className={styles.mapFooter}
           isAdmin={is_admin}
           showSpotlight={showMapSpotlight}

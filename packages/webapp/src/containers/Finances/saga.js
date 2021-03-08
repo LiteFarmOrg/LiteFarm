@@ -13,46 +13,47 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import { GET_SALES, ADD_OR_UPDATE_SALE, GET_SHIFT_FINANCE, GET_DEFAULT_EXPENSE_TYPE, GET_EXPENSE, DELETE_SALE, ADD_EXPENSES, DELETE_EXPENSES, ADD_REMOVE_EXPENSE, UPDATE_SALE} from "./constants";
-import { setSalesInState, setShifts, setExpense, setDefaultExpenseType} from './actions';
-import { put, takeEvery, call } from 'redux-saga/effects';
+import {
+  ADD_EXPENSES,
+  ADD_OR_UPDATE_SALE,
+  ADD_REMOVE_EXPENSE,
+  DELETE_EXPENSES,
+  DELETE_SALE,
+  GET_DEFAULT_EXPENSE_TYPE,
+  GET_EXPENSE,
+  GET_SALES,
+  GET_SHIFT_FINANCE,
+  TEMP_DELETE_EXPENSE,
+  TEMP_EDIT_EXPENSE,
+  UPDATE_SALE,
+} from './constants';
+import { setDefaultExpenseType, setExpense, setSalesInState, setShifts } from './actions';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from './../../apiConfig';
-import {toastr} from "react-redux-toastr";
-const axios = require('axios');
+import { toastr } from 'react-redux-toastr';
+import { loginSelector } from '../userFarmSlice';
+import { axios, getHeader } from '../saga';
+import i18n from '../../lang/i18n';
 
 export function* getSales() {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, salesURL + '/' + farm_id, header);
     if (result) {
       yield put(setSalesInState(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch fields from database')
+  } catch (e) {
+    console.log('failed to fetch fields from database');
   }
 }
 
 export function* addSale(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   const addOrUpdateSuccess = action.sale.sale_id ? 'updated' : 'added';
   const addOrUpdateFail = action.sale.sale_id ? 'update' : 'add';
@@ -65,216 +66,202 @@ export function* addSale(action) {
         yield put(setSalesInState(result.data));
       }
     }
-  } catch(e) {
+  } catch (e) {
     console.log(`failed to ${addOrUpdateFail} sale`);
     toastr.error(`Failed to ${addOrUpdateFail} new Sale`);
   }
 }
 
 export function* updateSaleSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { sale } = action;
+  let { sale_id } = sale;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  delete sale.sale_id;
 
   try {
-    const result = yield call(axios.patch, salesURL, action.sale, header);
+    const result = yield call(axios.patch, `${salesURL}/${sale_id}`, sale, header);
     if (result) {
-      toastr.success(`Successfully updated sale!`);
+      toastr.success(i18n.t('message:SALE.SUCCESS.UPDATE'));
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);
       if (result) {
         yield put(setSalesInState(result.data));
       }
     }
-  } catch(e) {
+  } catch (e) {
     console.log(`failed to update sale`);
-    toastr.error(`Failed to update  Sale`);
+    toastr.error(i18n.t('message:SALE.ERROR.UPDATE'));
   }
 }
 
-
 export function* deleteSale(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { salesURL } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.delete, salesURL + "/" + action.sale.id, header);
+    const result = yield call(axios.delete, salesURL + '/' + action.sale.id, header);
     if (result) {
       const result = yield call(axios.get, salesURL + '/' + farm_id, header);
-      if(result) {
+      if (result) {
         yield put(setSalesInState(result.data));
       }
-      toastr.success(`Successfully deleted Sale!`);
+      toastr.success(i18n.t('message:SALE.SUCCESS.DELETE'));
     }
-  } catch(e) {
+  } catch (e) {
     console.log(`failed to delete sale`);
-    toastr.error(`Failed to delete new Sale`);
+    toastr.error(i18n.t('message:SALE.ERROR.DELETE'));
   }
 }
 
 export function* getShiftsSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { farmShiftUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, farmShiftUrl + farm_id, header);
     if (result) {
       yield put(setShifts(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch shifts from database')
-
+  } catch (e) {
+    console.log('failed to fetch shifts from database');
   }
 }
 
 export function* getExpenseSaga() {
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
     if (result) {
       yield put(setExpense(result.data));
     }
-  } catch(e) {
-    if(e.response.status === 404) {
+  } catch (e) {
+    if (e.response.status === 404) {
       yield put(setExpense([]));
     }
-    console.log('failed to fetch expenses from database')
+    console.log('failed to fetch expenses from database');
   }
 }
 
 export function* getDefaultExpenseTypeSaga() {
   const { expenseTypeDefaultUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.get, expenseTypeDefaultUrl, header);
     if (result) {
       yield put(setDefaultExpenseType(result.data));
     }
-  } catch(e) {
-    console.log('failed to fetch expenses from database')
+  } catch (e) {
+    console.log('failed to fetch expenses from database');
   }
 }
 
 export function* addExpensesSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     const result = yield call(axios.post, expenseUrl + '/farm/' + farm_id, action.expenses, header);
     if (result) {
-      toastr.success(`Successfully added new expenses!`);
+      toastr.success(i18n.t('message:EXPENSE.SUCCESS.ADD'));
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
-  } catch(e) {
-    toastr.error(`Failed to add new expenses`);
+  } catch (e) {
+    toastr.error(i18n.t('message:EXPENSE.ERROR.ADD'));
+  }
+}
+
+export function* tempDeleteExpenseSaga(action) {
+  const { expenseUrl } = apiConfig;
+  const { expense_id } = action;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(axios.delete, `${expenseUrl}/${expense_id}`, header);
+    if (result) {
+      toastr.success(i18n.t('message:EXPENSE.SUCCESS.DELETE'));
+      const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
+      if (result) {
+        yield put(setExpense(result.data));
+      }
+    }
+  } catch (e) {
+    toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
   }
 }
 
 export function* deleteExpensesSaga(action) {
-  let farm_id = localStorage.getItem('farm_id');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
-    const result = yield call(axios.put, expenseUrl , action.ids, header);
+    const result = yield call(axios.put, expenseUrl, action.ids, header);
     if (result) {
-      toastr.success(`Successfully deleted expenses!`);
+      toastr.success(i18n.t('message:EXPENSE.SUCCESS.DELETE'));
       const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
       if (result) {
         yield put(setExpense(result.data));
       }
     }
-  } catch(e) {
-    toastr.error(`Failed to delete expenses`);
+  } catch (e) {
+    toastr.error(i18n.t('message:EXPENSE.ERROR.DELETE'));
   }
 }
 
 export function* addRemoveExpenseSaga(action) {
-  console.log("add remove expenses saga")
-  let farm_id = localStorage.getItem('farm_id');
+  console.log('add remove expenses saga');
   const { expenseUrl } = apiConfig;
-  const header = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
-      user_id: localStorage.getItem('user_id'),
-      farm_id: localStorage.getItem('farm_id'),
-    },
-  };
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
 
   try {
     let addRemoveObj = action.addRemoveObj;
     let result = yield call(axios.put, expenseUrl, addRemoveObj.remove, header);
     if (result) {
-       result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
-      if(result){
-        toastr.success(`Successfully updated expenses!`);
-        const result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
+      result = yield call(axios.post, expenseUrl, addRemoveObj.add, header);
+      if (result) {
+        toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
+        result = yield call(axios.get, expenseUrl + '/farm/' + farm_id, header);
         if (result) {
           yield put(setExpense(result.data));
         }
       }
     }
-  } catch(e) {
-    toastr.error(`Failed to update expenses`);
+  } catch (e) {
+    toastr.error(i18n.t('message:EXPENSE.ERROR.UPDATE'));
+  }
+}
+
+export function* tempEditExpenseSaga(action) {
+  const { expenseUrl } = apiConfig;
+  const { expense_id, data } = action;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+  try {
+    let result = yield call(axios.patch, `${expenseUrl}/${expense_id}`, data, header);
+    if (result) {
+      toastr.success(i18n.t('message:EXPENSE.SUCCESS.UPDATE'));
+      result = yield call(axios.get, `${expenseUrl}/farm/${farm_id}`, header);
+      if (result) {
+        yield put(setExpense(result.data));
+      }
+    }
+  } catch (e) {
+    toastr.error(i18n.t('message:EXPENSE.ERROR.UPDATE'));
   }
 }
 
@@ -287,6 +274,8 @@ export default function* financeSaga() {
   yield takeEvery(ADD_EXPENSES, addExpensesSaga);
   yield takeEvery(DELETE_SALE, deleteSale);
   yield takeEvery(DELETE_EXPENSES, deleteExpensesSaga);
+  yield takeEvery(TEMP_DELETE_EXPENSE, tempDeleteExpenseSaga);
   yield takeEvery(ADD_REMOVE_EXPENSE, addRemoveExpenseSaga);
   yield takeEvery(UPDATE_SALE, updateSaleSaga);
+  yield takeEvery(TEMP_EDIT_EXPENSE, tempEditExpenseSaga);
 }

@@ -13,22 +13,18 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const { Model } = require('objection');
-const knex = Model.knex();
+const userFarmModel = require('../../models/userFarmModel');
 
 const getScopes = async (user_id, farm_id) => {
   // essential to fetch the most updated userFarm info to know user's most updated granted access
-  const dataPoints = await knex.raw(
-    `SELECT uf.role_id, p.name
-      FROM "userFarm" uf, "rolePermissions" rp, "permissions" p
-      WHERE uf.farm_id = ?
-      and uf.user_id = ?
-      and uf.role_id = rp.role_id
-      and rp.permission_id = p.permission_id
-      and uf.status = 'Active'`, [farm_id, user_id]
-  );
+  const dataPoints = await userFarmModel.query().distinct('permissions.name', 'userFarm.role_id')
+    .join('rolePermissions', 'userFarm.role_id', 'rolePermissions.role_id')
+    .join('permissions', 'permissions.permission_id', 'rolePermissions.permission_id')
+    .where('userFarm.farm_id', farm_id)
+    .where('userFarm.user_id', user_id)
+    .where('userFarm.status', 'Active');
 
-  return dataPoints.rows;
+  return dataPoints;
 };
 
 /**
@@ -42,22 +38,23 @@ const checkScope = (expectedScopes) => {
   }
 
   return async (req, res, next) => {
-    if (expectedScopes.length === 0){
+    if (expectedScopes.length === 0) {
       return next();
     }
-    //TODO user_id should comes from token. const user_id = req.user.sub.split('|')[1];
+    //TODO user_id should comes from token. const user_id = req.user.user_id
     const { headers } = req;
-    const { user_id, farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
+    const { user_id } = req.user;
+    const { farm_id } = headers; // these are the minimum props needed for most endpoints' authorization
 
     if (!user_id) return res.status(400).send('Missing user_id in headers');
     if (!farm_id) return res.status(400).send('Missing farm_id in headers');
 
     const scopes = await getScopes(user_id, farm_id);
 
-    const allowed = expectedScopes.some(function(expectedScope){
+    const allowed = expectedScopes.some(function(expectedScope) {
       return scopes.find(permission => permission.name === expectedScope);
     });
-    if(scopes.length) {
+    if (scopes.length) {
       req.role = scopes[0].role_id
     }
     return allowed ?

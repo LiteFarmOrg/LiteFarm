@@ -17,18 +17,18 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const moment = require('moment')
+const bcrypt = require('bcryptjs');
 chai.use(chaiHttp);
 const server = require('./../src/server');
-const Knex = require('knex')
-const environment = process.env.TEAMCITY_DOCKER_NETWORK ? 'pipeline' : 'test';
-const config = require('../knexfile')[environment];
-const knex = Knex(config);
+const { Model } = require('objection');
+const knex = Model.knex();
 const { tableCleanup } = require('./testEnvironment')
 jest.mock('jsdom')
 jest.mock('../src/middleware/acl/checkJwt')
 const mocks = require('./mock.factories');
 
 const userModel = require('../src/models/userModel');
+const passwordModel = require('../src/models/passwordModel');
 const userFarmModel = require('../src/models/userFarmModel');
 
 describe('User Tests', () => {
@@ -39,6 +39,12 @@ describe('User Tests', () => {
 
   beforeAll(() => {
     token = global.token;
+  });
+
+  afterAll(async (done) => {
+    await tableCleanup(knex);
+    await knex.destroy();
+    done();
   });
 
   afterAll((done) => {
@@ -82,7 +88,7 @@ describe('User Tests', () => {
 
   function validate(expected, res, status, received = undefined) {
     expect(res.status).toBe(status);
-    received = received ? received : res.body[0];
+    received = received ? received : (res.body[0] || res.body);
     expect(Object.keys(received).length).toBeGreaterThan(0);
     for (const key of Object.keys(received)) {
       if (expected[key] && typeof expected[key] === 'string' || typeof expected[key] === 'number') {
@@ -111,15 +117,10 @@ describe('User Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next()
     });
   })
-
-  afterAll(async (done) => {
-    await tableCleanup(knex);
-    done();
-  });
 
   describe('Get && put user', () => {
 
@@ -165,6 +166,8 @@ describe('User Tests', () => {
         test('Owner should get user by user id', async (done) => {
           getRequest({ user_id: owner.user_id }, (err, res) => {
             validate({ ...owner, ...ownerFarm }, res, 200);
+            expect(res.body.gender).toBe(owner.gender);
+            expect(res.body.birth_year).toBe(owner.birth_year);
             done();
           });
         })
@@ -228,6 +231,7 @@ describe('User Tests', () => {
 
         test('should edit and the area_used field by owner', async (done) => {
           sampleData = fakeUser(owner.user_id);
+          sampleData.email = owner.email;
           putRequest(sampleData, { user_id: owner.user_id }, async (err, res) => {
             const resUser = await userModel.query().findById(owner.user_id);
             validate(sampleData, res, 200, resUser);
@@ -236,7 +240,8 @@ describe('User Tests', () => {
         });
 
         test('should edit and the area_used field by manager', async (done) => {
-          sampleData = fakeUser(manager.user_id);
+          sampleData = fakeUser(manager.user_id);          sampleData.email = owner.email;
+          sampleData.email = manager.email;
           putRequest(sampleData, { user_id: manager.user_id }, async (err, res) => {
             const resUser = await userModel.query().findById(manager.user_id);
             validate(sampleData, res, 200, resUser);
@@ -246,6 +251,7 @@ describe('User Tests', () => {
 
         test('should edit and the area_used field by worker', async (done) => {
           sampleData = fakeUser(worker.user_id);
+          sampleData.email = worker.email;
           putRequest(sampleData, { user_id: worker.user_id }, async (err, res) => {
             const resUser = await userModel.query().findById(worker.user_id);
             validate(sampleData, res, 200, resUser);
@@ -288,9 +294,9 @@ describe('User Tests', () => {
       beforeEach(async () => {
         const fakeuser = mocks.fakeUser();
         const fakeuserfarm = mocks.fakeUserFarm();
-        const user_id = fakeuser.first_name+fakeuser.last_name;
+        const user_id = fakeuser.user_id;
         sampleData = {
-          email: `${user_id}@pseudo.com`,
+          email: `${user_id}@pseudo.com`.toLowerCase(),
           first_name: fakeuser.first_name,
           'last_name': fakeuser.last_name,
           'farm_id': farm.farm_id,
@@ -322,9 +328,22 @@ describe('User Tests', () => {
 
       test('Should post then get a valid user', async (done) => {
         const fakeUser = mocks.fakeUser();
+
+        // don't need user_id or phone number when signing up user
+        delete fakeUser.user_id;
+        delete fakeUser.phone_number;
+
+        const password = "test password"
+        fakeUser.password = password;
         postUserRequest(fakeUser, { user_id: manager.user_id }, async (err, res) => {
-          const resUser = await userModel.query().findById(fakeUser.user_id);
-          validate(fakeUser,res,201, resUser);
+          const user_id = res.body.user.user_id;
+          const userSecret = await passwordModel.query().select('*').where('user_id', user_id).first();
+          const resUser = await userModel.query().select('*').where('user_id', user_id).first();
+          validate(fakeUser, res, 201, resUser);
+          expect(userSecret.password_hash).not.toBe(password);
+          // check that the saved hash corresponds to the pw provided
+          const isMatch = await bcrypt.compare(password, userSecret.password_hash);
+          expect(isMatch).toBe(true);
           done();
         })
       });
@@ -379,5 +398,7 @@ describe('User Tests', () => {
     });
 
   })
+
+
 
 });

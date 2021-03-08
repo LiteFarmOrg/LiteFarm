@@ -23,7 +23,10 @@ class farmExpenseTypeController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const result = await baseController.postWithResponse(expenseTypeModel, req.body, trx);
+        const user_id = req.user.user_id
+        const data = req.body;
+        data.expense_translation_key = data.expense_name;
+        const result = await baseController.postWithResponse(expenseTypeModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -70,7 +73,7 @@ class farmExpenseTypeController extends baseController {
         res.sendStatus(403);
       }
       try {
-        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, trx);
+        const isDeleted = await baseController.delete(expenseTypeModel, req.params.expense_type_id, trx, { user_id: req.user.user_id });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

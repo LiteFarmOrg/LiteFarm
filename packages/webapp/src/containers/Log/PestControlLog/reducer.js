@@ -1,11 +1,8 @@
-import {
-  SET_DISEASES,
-  SET_PESTICIDES
-} from './constants';
+import { SET_DISEASES, SET_PESTICIDES } from './constants';
 
 const initialState = {
   pesticides: null,
-  diseases: null
+  diseases: null,
 };
 
 function pestControlReducer(state = initialState, action) {
@@ -19,7 +16,7 @@ function pestControlReducer(state = initialState, action) {
         pesticides: action.pesticides,
       });
     default:
-      return state
+      return state;
   }
 }
 

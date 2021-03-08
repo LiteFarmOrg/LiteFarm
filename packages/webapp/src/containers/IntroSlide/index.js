@@ -16,7 +16,7 @@
 import React, { Suspense } from 'react';
 import Carousel from 'nuka-carousel';
 import LoadingIndicator from '../../components/Callback/index';
-import logo from '../../assets/images/logo2x.png'
+import logo from '../../assets/images/logo2x.png';
 import slide0 from '../../assets/images/introSliders/0.png';
 import slide1 from '../../assets/images/introSliders/1.png';
 import slide2 from '../../assets/images/introSliders/2.png';
@@ -33,13 +33,13 @@ import planCrops from '../../assets/videos/PlanCrops.mp4';
 import log from '../../assets/videos/Log.mp4';
 import field from '../../assets/videos/Field.mp4';
 //
-import styles from './styles.scss'
-import {Button} from 'react-bootstrap';
+import styles from './styles.scss';
+import { Button } from 'react-bootstrap';
 import history from '../../history';
 import ReactPlayer from 'react-player';
-import {connect} from 'react-redux';
-import {farmSelector} from '../selector';
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { connect } from 'react-redux';
+import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { userFarmSelector } from '../userFarmSlice';
 
 class IntroSlide extends React.Component {
   constructor(props) {
@@ -53,16 +53,16 @@ class IntroSlide extends React.Component {
   toggleVideo(index) {
     const { videoShown } = this.state;
     // create a copy of the current videoShown array
-    const updatedVideoShown = videoShown.map(videoIsVisible => videoIsVisible);
+    const updatedVideoShown = videoShown.map((videoIsVisible) => videoIsVisible);
     updatedVideoShown[index] = !videoShown[index];
     this.setState({ videoShown: updatedVideoShown });
   }
 
   redirectFinish() {
     const { farm } = this.props;
-    (farm && farm.has_consent)
+    farm && farm.has_consent
       ? history.push('/home')
-      : history.push('/consent', { role_id: farm.role_id })
+      : history.push('/consent', { role_id: farm.role_id });
   }
 
   render() {
@@ -71,62 +71,72 @@ class IntroSlide extends React.Component {
         image: slide0,
         title: 'Add your team',
         videoPath: profile,
-        description: 'First you\'ll want to add your team to the LiteFarm app. This is easy to do in the Profile section of the app.'
+        description:
+          "First you'll want to add your team to the LiteFarm app. This is easy to do in the Profile section of the app.",
       },
       {
         image: slide1,
         title: 'Design your fields',
         videoPath: field,
-        description: 'Next you want to add your fields and your planned crops for those fields. This is needed so you can use the rest of the app.'
+        description:
+          'Next you want to add your fields and your planned crops for those fields. This is needed so you can use the rest of the app.',
       },
       {
         image: slide3,
         title: 'Plan your crops',
         videoPath: planCrops,
-        description: 'Plan your crops by adding them to your fields in Fields.'
+        description: 'Plan your crops by adding them to your fields in Fields.',
       },
       {
         image: slide2,
         title: 'Add logs',
         videoPath: log,
-        description: 'Once you have fields and crops planned you can log management activities for each crop and field, such as inputs, harvests and more, in Logs.'
+        description:
+          'Once you have fields and crops planned you can log management activities for each crop and field, such as inputs, harvests and more, in Logs.',
       },
       {
         image: slide6,
         title: 'Track your labour',
         videoPath: shift,
-        description: 'You can track the cost of labour by crop and activity type using Shifts.'
+        description: 'You can track the cost of labour by crop and activity type using Shifts.',
       },
       {
         image: slide4,
         title: 'Check profits',
         videoPath: finances,
-        description: 'Add sales, expenses, and track cost of production by crop in Finances.'
+        description: 'Add sales, expenses, and track cost of production by crop in Finances.',
       },
       {
         image: slide5,
         title: 'Gather Insights',
         videoPath: insights,
-        description: 'You can use the insights feature of the app to explore the biodiversity of your farm, your irrigation needs, and much more.'
+        description:
+          'You can use the insights feature of the app to explore the biodiversity of your farm, your irrigation needs, and much more.',
       },
     ];
     return (
-      <div style={{"height": '100vh'}}>
-        <Carousel wrapAround heightMode={'max'}
+      <div style={{ height: '100vh' }}>
+        <Carousel
+          wrapAround
+          heightMode={'max'}
           slideIndex={this.state.slideIndex}
-          renderCenterRightControls={({nextSlide}) => (<a onClick={nextSlide} className={styles.nextSlide}>
-            <BsChevronRight />
-          </a>)
-          }
-          renderCenterLeftControls={({previousSlide}) => (<a onClick={previousSlide} className={styles.nextSlide}>
-            <BsChevronLeft />
-          </a>)}
+          renderCenterRightControls={({ nextSlide }) => (
+            <a onClick={nextSlide} className={styles.nextSlide}>
+              <BsChevronRight />
+            </a>
+          )}
+          renderCenterLeftControls={({ previousSlide }) => (
+            <a onClick={previousSlide} className={styles.nextSlide}>
+              <BsChevronLeft />
+            </a>
+          )}
         >
           <div className={styles.slideContainer}>
             <img src={logo} alt="" />
             <h3>Welcome to LiteFarm!</h3>
             <div className={styles.descriptionGreen}>
-              In the next few pages, we’ll get you set up with everything you need to know to start using the app.
+              In the next few pages, we’ll get you set up with everything you need to know to start
+              using the app.
             </div>
           </div>
           {slides.map((slide, index) => {
@@ -147,16 +157,19 @@ class IntroSlide extends React.Component {
                   </div>
                 </Suspense>
                 <h3>{slide.title}</h3>
-                <div className={styles.description}>
-                  {slide.description}
-                </div>
-                <Button className={styles.finishSlide} onClick={() => this.toggleVideo(index)}>Play Demo</Button>
-              </div>)
+                <div className={styles.description}>{slide.description}</div>
+                <Button className={styles.finishSlide} onClick={() => this.toggleVideo(index)}>
+                  Play Demo
+                </Button>
+              </div>
+            );
           })}
           <div className={styles.slideContainer}>
-            <img src={logo} alt=""/>
+            <img src={logo} alt="" />
             <h3>You're ready to use the app!</h3>
-            <Button onClick={() => this.redirectFinish()} className={styles.finishSlide}>Finish</Button>
+            <Button onClick={() => this.redirectFinish()} className={styles.finishSlide}>
+              Finish
+            </Button>
           </div>
         </Carousel>
       </div>
@@ -166,8 +179,8 @@ class IntroSlide extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    farm: farmSelector(state),
-  }
+    farm: userFarmSelector(state),
+  };
 };
 
 export default connect(mapStateToProps)(IntroSlide);

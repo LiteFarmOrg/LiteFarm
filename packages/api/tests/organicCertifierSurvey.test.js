@@ -76,6 +76,12 @@ describe('organicCertifierSurvey Tests', () => {
       .end(callback)
   }
 
+  function deleteRequest({user_id = owner.user_id, farm_id = farm.farm_id, survey_id}, callback) {
+    chai.request(server).delete(`/organic_certifier_survey/${survey_id}`)
+      .set('user_id', user_id)
+      .set('farm_id', farm_id)
+      .end(callback)
+  }
   function fakeUserFarm(role = 1) {
     return ({ ...mocks.fakeUserFarm(), role_id: role });
   }
@@ -93,7 +99,7 @@ describe('organicCertifierSurvey Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next()
     });
   })
@@ -185,6 +191,91 @@ describe('organicCertifierSurvey Tests', () => {
 
   })
 
+  describe('Delete certifier survey', function () {
+    let organicCertifierSurvey;
+    beforeEach(async () => {
+      [organicCertifierSurvey] = await mocks.organicCertifierSurveyFactory({ promisedUserFarm: [ownerFarm] });
+    })
+
+    describe('Delete certifier survey authorization tests',()=>{
+      let worker;
+      let manager;
+      let extensionOfficer;
+      let unAuthorizedUser;
+      let farmunAuthorizedUser;
+
+      beforeEach(async () => {
+        [worker] = await mocks.usersFactory();
+        const [workerFarm] = await mocks.userFarmFactory({
+          promisedUser: [worker],
+          promisedFarm: [farm],
+        }, fakeUserFarm(3));
+        [manager] = await mocks.usersFactory();
+        const [managerFarm] = await mocks.userFarmFactory({
+          promisedUser: [manager],
+          promisedFarm: [farm],
+        }, fakeUserFarm(2));
+        [extensionOfficer] = await mocks.userFarmFactory();
+        const [extensionOfficerFarm] = await mocks.userFarmFactory({
+          promisedUser: [extensionOfficer],
+          promisedFarm: [farm],
+        }, fakeUserFarm(5));
+
+        [unAuthorizedUser] = await mocks.usersFactory();
+        [farmunAuthorizedUser] = await mocks.farmFactory();
+        const [ownerFarmunAuthorizedUser] = await mocks.userFarmFactory({
+          promisedUser: [unAuthorizedUser],
+          promisedFarm: [farmunAuthorizedUser],
+        }, fakeUserFarm(1));
+      })
+
+      test('Owner should delete a certifier survey', async (done) => {
+        deleteRequest({survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const SurveyRes = await organicCertifierSurveyModel.query().context({showHidden: true}).where('survey_id',organicCertifierSurvey.survey_id);
+          expect(SurveyRes.length).toBe(1);
+          expect(SurveyRes[0].deleted).toBe(true);
+          done();
+        })
+      });
+
+      test('Manager should delete a certifier survey', async (done) => {
+        deleteRequest({user_id:manager.user_id, survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const SurveyRes = await organicCertifierSurveyModel.query().context({showHidden: true}).where('survey_id',organicCertifierSurvey.survey_id);
+          expect(SurveyRes.length).toBe(1);
+          expect(SurveyRes[0].deleted).toBe(true);
+          done();
+        })
+      });
+
+      test('should return 403 if an unauthorized user tries to delete a certifier survey', async (done) => {
+        deleteRequest({user_id:unAuthorizedUser.user_id, survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
+      test('should return 403 if a worker tries to delete a certifier survey', async (done) => {
+        deleteRequest({user_id: worker.user_id, survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
+      test('Circumvent authorization by modifying farm_id', async (done) => {
+        deleteRequest({user_id:unAuthorizedUser.user_id, farm_id: farmunAuthorizedUser.farm_id, survey_id: organicCertifierSurvey.survey_id}, async (err, res) => {
+          expect(res.status).toBe(403);
+          done();
+        })
+      });
+
+
+    })
+
+
+  })
+
   describe('Post organic certifier survey', () => {
     let fakeOrganicCertifierSurvey;
 
@@ -233,10 +324,10 @@ describe('organicCertifierSurvey Tests', () => {
         }, fakeUserFarm(1));
       })
 
-      test('Owner patch certifiers', async (done) => {
+      test('Owner post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, {}, async (err, res) => {
           expect(res.status).toBe(201);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -244,10 +335,10 @@ describe('organicCertifierSurvey Tests', () => {
         })
       });
 
-      test('Manager patch certifiers', async (done) => {
+      test('Manager post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, { user_id: manager.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(manager.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -255,10 +346,10 @@ describe('organicCertifierSurvey Tests', () => {
         })
       });
 
-      test('Extension officer patch certifiers', async (done) => {
+      test('Extension officer post certifiers', async (done) => {
         postRequest(fakeOrganicCertifierSurvey, { user_id: extensionOfficer.user_id }, async (err, res) => {
           expect(res.status).toBe(201);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(extensionOfficer.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -313,7 +404,7 @@ describe('organicCertifierSurvey Tests', () => {
     test('Owner should patch interested', async (done) => {
       patchInterestedRequest({ interested: false }, { survey_id: organicCertifierSurvey.survey_id }, async (err, res) => {
         expect(res.status).toBe(200);
-        const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+        const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
         expect(organicCertifierSurveys.length).toBe(1);
         expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
         expect(organicCertifierSurveys[0].interested).toBe(false);
@@ -357,7 +448,7 @@ describe('organicCertifierSurvey Tests', () => {
       test('Owner should patch certifiers', async (done) => {
         patchCertifierRequest(fakeOrganicCertifierSurvey, { survey_id: organicCertifierSurvey.survey_id }, async (err, res) => {
           expect(res.status).toBe(200);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].certifiers).toEqual(fakeOrganicCertifierSurvey.certifiers);
@@ -371,7 +462,7 @@ describe('organicCertifierSurvey Tests', () => {
           survey_id: organicCertifierSurvey.survey_id,
         }, async (err, res) => {
           expect(res.status).toBe(200);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].updated_by_user_id).toBe(manager.user_id);
@@ -386,7 +477,7 @@ describe('organicCertifierSurvey Tests', () => {
           survey_id: organicCertifierSurvey.survey_id,
         }, async (err, res) => {
           expect(res.status).toBe(200);
-          const organicCertifierSurveys = await organicCertifierSurveyModel.query().where('farm_id', farm.farm_id);
+          const organicCertifierSurveys = await organicCertifierSurveyModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
           expect(organicCertifierSurveys.length).toBe(1);
           expect(organicCertifierSurveys[0].created_by_user_id).toBe(owner.user_id);
           expect(organicCertifierSurveys[0].updated_by_user_id).toBe(extensionOfficer.user_id);

@@ -1,24 +1,24 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (log.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-describe('log', function() {
+describe('log', function () {
   beforeEach(() => {
     // set up stub requests
     cy.server();
-    cy.route("/user/**", 'fx:user');
-    cy.route("/farm/**", 'fx:farm');
+    cy.route('/user/**', 'fx:user');
+    cy.route('/farm/**', 'fx:farm');
     cy.route('**/field_crop/farm/**', 'fx:fieldCropByFarm');
     cy.route('**/field/**', 'fx:fields');
     cy.route('/log**', 'fx:logs');
@@ -40,9 +40,11 @@ describe('log', function() {
     cy.contains('Log').should('be.visible').click();
   });
 
-  it('renders summary page', function() {
+  it('renders summary page', function () {
     // renders all logs
-    cy.get('[class="glyphicon glyphicon-glyphicon glyphicon-menu-right"]').its('length').should('eq', 9);
+    cy.get('[class="glyphicon glyphicon-glyphicon glyphicon-menu-right"]')
+      .its('length')
+      .should('eq', 9);
     cy.contains('Pest Control');
     cy.contains('Harvest');
     cy.contains('Seeding');
@@ -56,11 +58,15 @@ describe('log', function() {
     // check filters
     cy.contains('All').click({ force: true });
     cy.contains('Harvest').should('be.visible').click();
-    cy.get('[class="glyphicon glyphicon-glyphicon glyphicon-menu-right"]').its('length').should('eq', 1);
+    cy.get('[class="glyphicon glyphicon-glyphicon glyphicon-menu-right"]')
+      .its('length')
+      .should('eq', 1);
 
     cy.contains('All Crops').click();
     cy.contains('Apple').should('be.visible').click();
-    cy.get('[class="glyphicon glyphicon-glyphicon glyphicon-menu-right"]').its('length').should('eq', 1);
+    cy.get('[class="glyphicon glyphicon-glyphicon glyphicon-menu-right"]')
+      .its('length')
+      .should('eq', 1);
 
     cy.contains('All Fields').click();
     cy.contains('UBC Farm 1').should('be.visible').click();
@@ -240,7 +246,7 @@ describe('log', function() {
   //   cy.get('[name="logReducer.forms.fertLog.n_percentage"]').should('have.value', '');
   // });
 
-  it('adds pesticide', function() {
+  it('adds pesticide', function () {
     cy.contains('Add New Log').should('be.visible').click();
     cy.contains('Pest Control').click();
 
@@ -252,10 +258,13 @@ describe('log', function() {
 
     // check if form is reset
     cy.contains('Add a Custom Product').should('be.visible').click();
-    cy.get('[name="logReducer.forms.pestControlLog.custom_pesticide_name"]').should('have.value', '');
+    cy.get('[name="logReducer.forms.pestControlLog.custom_pesticide_name"]').should(
+      'have.value',
+      '',
+    );
   });
 
-  it('adds disease', function() {
+  it('adds disease', function () {
     cy.contains('Add New Log').should('be.visible').click();
     cy.contains('Pest Control').click();
 
@@ -267,7 +276,10 @@ describe('log', function() {
 
     // check if form is reset
     cy.contains('Add a Target').should('be.visible').click();
-    cy.get('[name="logReducer.forms.pestControlLog.custom_disease_common_name"]').should('have.value', '');
+    cy.get('[name="logReducer.forms.pestControlLog.custom_disease_common_name"]').should(
+      'have.value',
+      '',
+    );
   });
 
   // TODO: uncomment when tests for logs are updated

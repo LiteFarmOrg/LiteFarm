@@ -1,10 +1,17 @@
 {
-  "extends": "react-app",
+  "extends": [
+    "react-app",
+//    "eslint:recommended",
+//    "plugin:react/recommended",
+    "prettier"
+//    "prettier/react"
+  ],
   "rules": {
-    "no-unused-vars": "error",
+    "no-unused-vars": "warn",
     "eqeqeq": "error",
     "jsx-a11y/accessible-emoji": "off",
-    "radix": "off"
+    "radix": "off",
+    "react/prop-types": "warn"
   },
   "globals": {
     "cy": true,

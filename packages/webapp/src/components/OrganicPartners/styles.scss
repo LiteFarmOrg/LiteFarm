@@ -1,42 +1,26 @@
-@import "../../assets/mixin";
-.title{
+@import '../../assets/mixin';
+.title {
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
   line-height: 32px;
   margin-bottom: 20px;
 }
-.paragraph{
-  @include paragraph-font();
-  margin-bottom: 24px;
-}
 
-.container{
+.container {
   margin-bottom: 32px;
 }
-.leaf{
+.leaf {
   color: var(--brandColor);
 }
-.svg{
-  margin-bottom: 16px;
+.svg {
+  margin: 0 auto 16px auto;
 }
-.svgtitle{
+.svgtitle {
   font-size: 20px;
   line-height: 32px;
   color: var(--green700);
   display: block;
   text-align: center;
   margin-bottom: 8px;
-}
-.checkboxLabel{
-  @include input-label-font();
-  margin-bottom: 8px;
-}
-
-.firstCheckboxContainer{
-  margin-bottom: 16px;
-}
-
-.secondCheckboxContainer{
-  margin-bottom: 12px;
 }

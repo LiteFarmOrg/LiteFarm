@@ -17,9 +17,8 @@ let URI;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const REACT_APP_ENV = process.env.REACT_APP_ENV || 'development';
 
-
 if (NODE_ENV === 'development') {
-  URI = 'http://localhost:5000';
+  URI = window.location.href.replace(/3000.*/, '5000');
 } else if (NODE_ENV === 'production') {
   if (REACT_APP_ENV === 'production') {
     URI = 'https://litefarm-api-production.herokuapp.com';
@@ -31,8 +30,8 @@ if (NODE_ENV === 'development') {
 const apiConfig = {
   userUrl: `${URI}/user`,
   pseudoUserUrl: `${URI}/user/pseudo`,
-  farm: `${URI}/farm`,
-  createUserUrl: `${URI}/create_user`,
+  farmUrl: `${URI}/farm`,
+  inviteUserUrl: `${URI}/user/invite`,
   fieldURL: `${URI}/field`,
   cropURL: `${URI}/crop`,
   logURL: `${URI}/log`,
@@ -57,6 +56,8 @@ const apiConfig = {
   // userFarm: URI + '/user_farm',
   rolesUrl: URI + '/roles',
   signUpUrl: `${URI}/sign_up`,
+  loginUrl: `${URI}/login`,
+  resetPasswordUrl: `${URI}/password_reset`,
   url: URI,
 };
 

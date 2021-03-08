@@ -1,25 +1,25 @@
-.varietyCheck{
+.varietyCheck {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
-  input{
+  input {
     width: 10%;
   }
 }
 
-.cropTemplate{
+.cropTemplate {
   display: flex;
   width: 100%;
   margin-bottom: 12px;
   flex-direction: column;
 }
 
-.nutrientInput{
+.nutrientInput {
   margin-bottom: 8px;
 }
 
-.nutrientLabel{
+.nutrientLabel {
   font-weight: normal;
   margin: 0 0 5px;
   display: flex;
@@ -27,9 +27,9 @@
   justify-content: space-between;
 }
 
-.cropGroupTitle{
+.cropGroupTitle {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
 }

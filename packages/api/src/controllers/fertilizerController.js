@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (fertilizerController.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -22,7 +22,7 @@ class fertilizerController extends baseController {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await fertilizerModel.query().whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
+        const rows = await fertilizerModel.query().context({ user_id: req.user.user_id }).whereNotDeleted().where('farm_id', null).orWhere({ farm_id, deleted: false });
         if (!rows.length) {
           res.sendStatus(404)
         }
@@ -44,11 +44,14 @@ class fertilizerController extends baseController {
       try {
         const farm_id = req.params.farm_id;
         const body_farm_id = req.body.farm_id;
+        const data = req.body;
+        data.fertilizer_translation_key = data.fertilizer_type;
         // another check for farm_id after ACL
         if(farm_id !== body_farm_id){
           res.status(400).send({ error: 'farm_id does not match in params and body' });
         }
-        const result = await baseController.postWithResponse(fertilizerModel, req.body, trx);
+        const user_id = req.user.user_id
+        const result = await baseController.postWithResponse(fertilizerModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
@@ -65,7 +68,7 @@ class fertilizerController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, trx);
+        const isDeleted = await baseController.delete(fertilizerModel, req.params.fertilizer_id, trx, { user_id: req.user.user_id });
         await trx.commit();
         if (isDeleted) {
           res.sendStatus(200);

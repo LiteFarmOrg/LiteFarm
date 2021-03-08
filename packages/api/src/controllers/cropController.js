@@ -15,7 +15,7 @@
 
 const baseController = require('../controllers/baseController');
 const cropModel = require('../models/cropModel');
-const { transaction, Model } = require('objection');
+const { transaction, Model, UniqueViolationError } = require('objection');
 
 class cropController extends baseController {
   constructor() {
@@ -26,16 +26,34 @@ class cropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        req.body.user_added = true;
-        const result = await baseController.postWithResponse(cropModel, req.body, trx);
+        const data = req.body;
+        data.user_added = true;
+        data.crop_translation_key = data.crop_common_name;
+        const user_id = req.user.user_id
+        const result = await baseController.postWithResponse(cropModel, data, trx, { user_id });
         await trx.commit();
         res.status(201).send(result);
       } catch (error) {
+        let violationError = false;
+        if (error instanceof UniqueViolationError) {
+          violationError = true;
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+
+        }
+
         //handle more exceptions
-        await trx.rollback();
-        res.status(400).json({
-          error,
-        });
+        else {
+          await trx.rollback();
+          res.status(400).json({
+            error,
+            violationError,
+          });
+        }
+
       }
     };
   }
@@ -109,7 +127,10 @@ class cropController extends baseController {
     return async (req, res) => {
       const trx = await transaction.start(Model.knex());
       try {
-        const updated = await baseController.put(cropModel, req.params.crop_id, req.body, trx);
+        const user_id = req.user.user_id
+        const data = req.body;
+        data.crop_translation_key = data.crop_common_name;
+        const updated = await baseController.put(cropModel, req.params.crop_id, data, trx, { user_id });
         await trx.commit();
         if (!updated.length) {
           res.sendStatus(404);
@@ -120,6 +141,7 @@ class cropController extends baseController {
 
       }
       catch (error) {
+        console.log(error);
         await trx.rollback();
         res.status(400).json({
           error,
@@ -136,7 +158,7 @@ class cropController extends baseController {
   static async del(req, trx){
     const id = req.params.crop_id;
     const table_id = cropModel.idColumn;
-    return await cropModel.query(trx).where(table_id, id).andWhere('user_added', true).delete()
+    return await cropModel.query(trx).context({ user_id: req.user.user_id }).where(table_id, id).andWhere('user_added', true).delete()
   }
 }
 

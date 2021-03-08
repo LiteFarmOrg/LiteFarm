@@ -108,7 +108,7 @@ describe('Disease Tests', () => {
     middleware = require('../src/middleware/acl/checkJwt');
     middleware.mockImplementation((req, res, next) => {
       req.user = {};
-      req.user.sub = '|' + req.get('user_id');
+      req.user.user_id = req.get('user_id');
       next();
     });
   });
@@ -127,7 +127,10 @@ describe('Disease Tests', () => {
     });
 
     test('Should fail to get deleted disease', async (done) => {
-      await diseaseModel.query().findById(disease.disease_id).delete();
+      await diseaseModel.query().context({
+        showHidden: true,
+        user_id: owner.user_id,
+      }).findById(disease.disease_id).delete();
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.length).toBe(0);
@@ -136,7 +139,7 @@ describe('Disease Tests', () => {
     });
 
     test('Should get seeded disease', async (done) => {
-      let [seededDisease] = await knex('disease').insert({ ...mocks.fakeDisease(), farm_id: null }).returning('*');
+      let [seededDisease] = await mocks.diseaseFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeDisease());
       getRequest({ user_id: owner.user_id }, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body[1].disease_id).toBe(seededDisease.disease_id);
@@ -179,7 +182,7 @@ describe('Disease Tests', () => {
 
     describe('Delete disease tests', function () {
       test('should return 403 if user tries to delete a seeded disease', async (done) => {
-        let [seedDisease] = await knex('disease').insert({ ...mocks.fakeDisease(), farm_id: null }).returning('*');
+        let [seedDisease] = await mocks.diseaseFactory( {promisedFarm: [{farm_id: null}]}, mocks.fakeDisease());
         deleteRequest({ disease_id: seedDisease.disease_id }, async (err, res) => {
           expect(res.status).toBe(403);
           done();
@@ -189,7 +192,7 @@ describe('Disease Tests', () => {
         test('Owner should delete a disease', async (done) => {
           deleteRequest({ disease_id: disease.disease_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
+            const deletedDisease = await diseaseModel.query().context({showHidden: true}).where('disease_id', disease.disease_id);
             expect(deletedDisease.length).toBe(1);
             expect(deletedDisease[0].deleted).toBe(true);
             done();
@@ -199,7 +202,7 @@ describe('Disease Tests', () => {
         test('Manager should delete a disease', async (done) => {
           deleteRequest({ user_id: manager.user_id, disease_id: disease.disease_id }, async (err, res) => {
             expect(res.status).toBe(200);
-            const deletedDisease = await diseaseModel.query().where('disease_id', disease.disease_id);
+            const deletedDisease = await diseaseModel.query().context({showHidden: true}).where('disease_id', disease.disease_id);
             expect(deletedDisease.length).toBe(1);
             expect(deletedDisease[0].deleted).toBe(true);
             done();
@@ -209,7 +212,7 @@ describe('Disease Tests', () => {
         test('Return 403 if farm worker tries to delete disease', async (done) => {
           deleteRequest({ user_id: worker.user_id, disease_id: disease.disease_id }, async (err, res) => {
             expect(res.status).toBe(403);
-            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            const diseaseNotDeleted = await diseaseModel.query().context({showHidden: true}).where('disease_id', disease.disease_id);
             expect(diseaseNotDeleted.length).toBe(1);
             expect(diseaseNotDeleted[0].deleted).toBe(false);
             done();
@@ -219,7 +222,7 @@ describe('Disease Tests', () => {
         test('Return 403 if unauthorized tries to delete disease', async (done) => {
           deleteRequest({ user_id: unauthorizedUser.user_id, disease_id: disease.disease_id }, async (err, res) => {
             expect(res.status).toBe(403);
-            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            const diseaseNotDeleted = await diseaseModel.query().context({showHidden: true}).where('disease_id', disease.disease_id);
             expect(diseaseNotDeleted.length).toBe(1);
             expect(diseaseNotDeleted[0].deleted).toBe(false);
             done();
@@ -233,7 +236,7 @@ describe('Disease Tests', () => {
             disease_id: disease.disease_id,
           }, async (err, res) => {
             expect(res.status).toBe(403);
-            const diseaseNotDeleted = await diseaseModel.query().where('disease_id', disease.disease_id);
+            const diseaseNotDeleted = await diseaseModel.query().context({showHidden: true}).where('disease_id', disease.disease_id);
             expect(diseaseNotDeleted.length).toBe(1);
             expect(diseaseNotDeleted[0].deleted).toBe(false);
             done();
@@ -262,7 +265,7 @@ describe('Disease Tests', () => {
     test('Owner should successfully add disease', async (done) => {
       addRequest(diseaseToAdd, { user_id: owner.user_id }, async (err, res) => {
         expect(res.status).toBe(201);
-        const addedDisease = await diseaseModel.query().where('farm_id', farm.farm_id);
+        const addedDisease = await diseaseModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
         expect(addedDisease.length).toBe(1);
         expect(addedDisease[0].disease_scientific_name).toBe(diseaseToAdd.disease_scientific_name);
         expect(addedDisease[0].disease_common_name).toBe(diseaseToAdd.disease_common_name);
@@ -274,7 +277,7 @@ describe('Disease Tests', () => {
     test('Manager should successfully add disease', async (done) => {
       addRequest(diseaseToAdd, { user_id: manager.user_id }, async (err, res) => {
         expect(res.status).toBe(201);
-        const addedDisease = await diseaseModel.query().where('farm_id', farm.farm_id);
+        const addedDisease = await diseaseModel.query().context({showHidden: true}).where('farm_id', farm.farm_id);
         expect(addedDisease.length).toBe(1);
         expect(addedDisease[0].disease_scientific_name).toBe(diseaseToAdd.disease_scientific_name);
         expect(addedDisease[0].disease_common_name).toBe(diseaseToAdd.disease_common_name);

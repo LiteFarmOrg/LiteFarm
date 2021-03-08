@@ -7,7 +7,7 @@ import clsx from 'clsx';
 const propTypes = {
   todayData: PropTypes.object.isRequired,
   unit: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired
+  lang: PropTypes.string.isRequired,
 };
 
 const TodayForecast = (props) => {
@@ -18,17 +18,25 @@ const TodayForecast = (props) => {
   return (
     <div className={styles.today}>
       <div className={styles.date}>{todayData.date}</div>
-      <div className={styles.hr}/>
-      <div className={styles.current}>{todayData.temperature.current} {units.temp}</div>
-      <div className={styles.range}>{todayData.temperature.max} / {todayData.temperature.min} {units.temp}</div>
+      <div className={styles.hr} />
+      <div className={styles.current}>
+        {todayData.temperature.current} {units.temp}
+      </div>
+      <div className={styles.range}>
+        {todayData.temperature.max} / {todayData.temperature.min} {units.temp}
+      </div>
       <div className={styles.desc}>
-        <i className={clsx(styles.wicon, "wi", todayIcon)}/>
+        <i className={clsx(styles.wicon, 'wi', todayIcon)} />
         &nbsp;{todayData.description}
       </div>
-      <div className={styles.hr}/>
+      <div className={styles.hr} />
       <div className={styles.info}>
-        <div>{langs.Wind}: <b>{todayData.wind}</b> {units.speed}</div>
-        <div>{langs.Humidity}: <b>{todayData.humidity}</b> %</div>
+        <div>
+          {langs.Wind}: <b>{todayData.wind}</b> {units.speed}
+        </div>
+        <div>
+          {langs.Humidity}: <b>{todayData.humidity}</b> %
+        </div>
       </div>
     </div>
   );

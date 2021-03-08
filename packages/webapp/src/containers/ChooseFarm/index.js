@@ -13,177 +13,164 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import styles from './styles.scss';
-import { getFarms } from './actions';
-import { userFarmSelector } from './selectors';
-import ProceedFooter from '../../components/proceedCancelFooter';
+import React, { useEffect, useState } from 'react';
 import history from '../../history';
-import Auth from '../../Auth/Auth.js';
-// import workerConsentForm from '../ConsentForm/Versions/WorkerConsentForm.docx';
-// import ownerConsentForm from '../ConsentForm/Versions/OwnerConsentForm.docx';
-import { getUserInfo, setFarmInState } from '../actions';
-import { toastr } from 'react-redux-toastr';
-// import axios from 'axios';
-import { ListGroup, ListGroupItem } from 'react-bootstrap'
+import {
+  selectFarmSuccess,
+  deselectFarmSuccess,
+  loginSelector,
+  userFarmEntitiesSelector,
+} from '../userFarmSlice';
+import { userFarmsByUserSelector, userFarmStatusSelector } from '../userFarmSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import PureChooseFarmScreen from '../../components/ChooseFarm';
+import { getUserFarms, patchUserFarmStatusWithIDToken } from './saga';
+import { useTranslation } from 'react-i18next';
+import Spinner from '../../components/Spinner';
+import { startSwitchFarmModal } from './chooseFarmFlowSlice';
 
-// const mammoth = require('mammoth');
+function ChooseFarm() {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-class ChooseFarm extends Component {
+  const [selectedFarmId, setFarmId] = useState();
+  const { farm_id: currentFarmId, user_id } = useSelector(loginSelector);
+  const [filter, setFilter] = useState();
+  const userFarmEntities = useSelector(userFarmEntitiesSelector);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected_farm_id: null,
-      disable_proceed: true,
-    };
-  }
+  useEffect(() => {
+    dispatch(getUserFarms());
+  }, []);
 
-  componentDidMount() {
-    this.props.dispatch(getFarms());
-  }
-
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.farms !== prevProps.farms) {
-      if (this.props.farms && this.props.farms.length === 1) {
-        this.selectSingleFarm(this.props.farms[0]);
-      } else if (this.props.farms && this.props.farms.length === 1) {
-        history.push('/add_farm');
-      }
+  const farms = useSelector(userFarmsByUserSelector);
+  useEffect(() => {
+    if (farms?.length === 1 && ['Invited', 'Active'].includes(farms[0].status)) {
+      setFarmId(farms[0].farm_id);
     }
-  }
+  }, [farms]);
+  // TODO: move redirect to login with google saga
+  const { loaded } = useSelector(userFarmStatusSelector);
+  useEffect(() => {
+    loaded && farms.length === 0 && history.push('/welcome');
+  }, [farms, loaded]);
 
-  selectSingleFarm = (farm) => {
-    const { status } = farm;
-    this.setState({
-      selected_farm_id: farm.farm_id,
-      disable_proceed: status === 'Inactive',
-    });
+  const onGoBack = () => {
+    history.goBack();
   };
 
-  cancelFunc = () => {
-    const auth = new Auth();
-    auth.logout();
-  };
-
-  proceedFunc = async () => {
-    console.log('proceed');
-    const { selected_farm_id } = this.state;
-    const { farms } = this.props;
-
-    if (selected_farm_id) {
-      localStorage.setItem('farm_id', selected_farm_id);
-
-      const currentFarm = farms.find(farm => farm.farm_id === selected_farm_id);
-      if (!currentFarm) {
-        toastr.error('Cannot find information associated with selected farm');
-        return;
+  const onProceed = () => {
+    const farm = userFarmEntities[selectedFarmId][user_id];
+    if (farm.status === 'Active') {
+      dispatch(selectFarmSuccess({ farm_id: selectedFarmId }));
+      if (currentFarmId) {
+        dispatch(startSwitchFarmModal(selectedFarmId));
       }
-
-      // const { role_id, has_consent } = currentFarm;
-
-      // Get latest consent version
-      // const { consent_version: lastAgreedVersion } = currentFarm;
-      // const consentForm = role_id === 3 ? workerConsentForm : ownerConsentForm;
-      // const header = {
-      //   responseType: 'arraybuffer',
-      // };
-      // const response = await axios.get(consentForm, header);
-      // const htmlString = await mammoth.convertToHtml({ arrayBuffer: response.data });
-      // const html = htmlString.value;
-      // // Extract version string in the format of <p>Version: 1.0</p>
-      // const versionTagMatches = html.match(/^<p>\s*Version\s*[0-9]\.[0-9]\s*\:\s*<\/p>/g);
-      // if (!versionTagMatches || !versionTagMatches.length) {
-      //   toastr.error('No version information found');
-      // }
-      // // Extract version number
-      // const versionNumberMatches = versionTagMatches[0].match(/[0-9]\.[0-9]/);
-      // if (!versionNumberMatches || !versionNumberMatches.length) {
-      //   toastr.error('No version number found');
-      // }
-      // const latestVersion = versionNumberMatches[0];
-      this.props.dispatch(getUserInfo(false));
-
-      // Need consent if at least one of the following criteria is met:
-      // 1. User has not explicitly clicked agree or disagree (i.e. null)
-      // 2. User has explicitly clicked disagree (i.e. false)
-      // 3. User has explicitly clicked agree BUT consent form version has updated since then
-      // const need_new_consent = !has_consent || (lastAgreedVersion !== latestVersion);
-
-      // if (need_new_consent) {
-      //   history.push('/consent', { role_id });
-      // } else {
-        this.props.dispatch(setFarmInState(currentFarm));
-        history.push('/home');
-      // }
+      history.push({ pathname: '/' });
+    } else {
+      dispatch(patchUserFarmStatusWithIDToken(farm));
     }
   };
 
-  setSelectedFarm = ({ farm_id, status }) => {
-    this.setState({
-      selected_farm_id: farm_id,
-      disable_proceed: status !== 'Active',
-    })
+  const onSelectFarm = (farm_id) => {
+    setFarmId(farm_id);
   };
 
-  createFarm = () => {
+  const onCreateFarm = () => {
+    dispatch(deselectFarmSuccess());
     history.push('/add_farm');
   };
 
-  render() {
-    const { farms } = this.props;
-    let { disable_proceed } = this.state;
+  const onFilterChange = (e) => {
+    setFilter(e.target.value.toLowerCase());
+  };
 
-    return <div className={styles.basicContainer}>
+  useEffect(() => {
+    const { farm_id } = history.location.state || {};
+    if (farm_id) {
+      setFarmId(farm_id);
+    }
+  }, []);
 
-      <div className={styles.titleContainer}>
-        <h3>Choose your farm</h3>
-      </div>
-
-      <ListGroup className={styles.inputWrapper}>
-        {
-          farms && farms.length &&
-
-          farms.map((farm) => {
-            const { farm_id, farm_name, status } = farm;
-            return (
-              <ListGroupItem
-                key={farm_id}
-                href={`farm_selection#${farm_name}`}
-                value={farm_id}
-                disabled={status !== 'Active'}
-                onClick={() => this.setSelectedFarm(farm)}
-                className={styles.farmSelection}
-              >
-                {farm_name}
-              </ListGroupItem>
-            );
-          })
-
-        }
-      </ListGroup>
-
-      <div className={styles.createContainer} onClick={() => this.createFarm()}>
-        <span>+</span> &nbsp;Create new farm
-      </div>
-      <ProceedFooter cancelFunc={this.cancelFunc} proceedFunc={this.proceedFunc} disableProceed={disable_proceed}/>
-    </div>
-  }
-
+  return loaded && farms.length ? (
+    <PureChooseFarmScreen
+      farms={getFormattedFarms({
+        filter,
+        farms,
+        currentFarmId,
+        selectedFarmId,
+      })}
+      onGoBack={onGoBack}
+      onProceed={onProceed}
+      onSelectFarm={onSelectFarm}
+      onCreateFarm={onCreateFarm}
+      isOnBoarding={!currentFarmId}
+      onFilterChange={onFilterChange}
+      isSearchable={farms.length > 5}
+      disabled={!selectedFarmId}
+      title={currentFarmId ? t('CHOOSE_FARM.SWITCH_TITLE') : t('CHOOSE_FARM.CHOOSE_TITLE')}
+    />
+  ) : (
+    <Spinner />
+  );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatch,
+const getFormattedFarms = ({ filter, farms, currentFarmId, selectedFarmId }) => {
+  const farmOrderByStatus = {
+    Active: 1,
+    Invited: 2,
+    Inactive: 3,
+  };
+  const filteredFarms = filter
+    ? farms.filter(
+        (farm) =>
+          (farm.owner_name && farm.owner_name.toLowerCase().includes(filter)) ||
+          farm.farm_name.toLowerCase().includes(filter) ||
+          farm.address.toLowerCase().includes(filter) ||
+          farm.farm_id === currentFarmId,
+      )
+    : farms;
+
+  const sortedFarm = filteredFarms.sort((farm1, farm2) => {
+    if (farm1.status !== farm2.status) {
+      return farmOrderByStatus[farm1.status] - farmOrderByStatus[farm2.status];
+    } else if (farm1.farm_id !== currentFarmId && farm2.farm_id !== currentFarmId) {
+      return farm1.farm_name.localeCompare(farm2.farm_name);
+    } else {
+      return farm1.farm_id === currentFarmId ? -1 : 1;
+    }
+  });
+
+  return sortedFarm.map((farm) => {
+    const newFarm = {};
+    newFarm.farm_id = farm.farm_id;
+    newFarm.address = getAddress(farm, newFarm);
+    newFarm.farmName = farm.farm_name;
+    newFarm.ownerName = farm.owner_name;
+    newFarm.color = getColor(farm, selectedFarmId, currentFarmId);
+    return newFarm;
+  });
+};
+
+const getAddress = (farm, newFarm) => {
+  const { address } = farm;
+  const isCoordinate = /-?\d*\.\d*, -?\d*\.\d*/.test(address);
+  if (isCoordinate) {
+    return [farm.grid_points.lat.toFixed(5), farm.grid_points.lng.toFixed(5)];
+  } else {
+    newFarm.fullAddress = address?.replace(/(.*), .*/, '$1');
+    const addressArray = address?.split(', ');
+    return addressArray?.splice(0, addressArray.length - 1);
   }
 };
 
-const mapStateToProps = (state) => {
-  return {
-    farms: userFarmSelector(state),
-  }
+const getColor = (farm, selectedFarmId, currentFarmId) => {
+  if (farm.farm_id === currentFarmId || farm.status === 'Inactive') {
+    return 'disabled';
+  } else if (farm.farm_id === selectedFarmId) {
+    return farm.status === 'Invited' ? 'blueActive' : 'active';
+  } else if (farm.status === 'Invited') {
+    return 'blue';
+  } else return 'secondary';
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChooseFarm);
+export default ChooseFarm;

@@ -1,33 +1,25 @@
 import React from 'react';
 import WeatherBoard from '../../containers/WeatherBoard';
+import decorators from '../Pages/config/decorators';
 
 export default {
   title: 'Components/WeatherBoard/WeatherBoardWrapper',
   component: WeatherBoard,
+  decorators,
 };
 
 const Template = (args) => <WeatherBoard {...args} />;
 
 export const English = Template.bind({});
 
-English.args = {
-  lon: -82.287712,
-  lat: 35.451058,
-  lang: 'en',
-  measurement: 'imperial'
-}
+English.args = {};
 
 export const Espanol = Template.bind({});
-Espanol.args = {
-  lon: 41.135856,
-  lat: 37.895650,
-  lang: 'es',
-  measurement: 'metric'
-}
+Espanol.args = {};
 
-
-
-
-
-
-
+English.parameters = {
+  chromatic: { disable: true },
+};
+Espanol.parameters = {
+  chromatic: { disable: true },
+};

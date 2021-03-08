@@ -1,30 +1,30 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (profile.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-describe('profile', function() {
+describe('profile', function () {
   beforeEach(() => {
     // set up stub requests
     cy.server();
-    cy.route("**/user/farm/**", 'fx:user');
-    cy.route("/user/**", 'fx:user');
-    cy.route("/farm/**", 'fx:farm');
-    cy.route("PUT", "**/farm/**", 'fx:farm');
-    cy.route("PUT", "**/user/**", 'fx:user');
-    cy.route("POST", "**/token", 'OK');
-    cy.route("PATCH", "**/roles", 'OK');
-    cy.route("DELETE", "**/roles", 'OK');
+    cy.route('**/user/farm/**', 'fx:user');
+    cy.route('/user/**', 'fx:user');
+    cy.route('/farm/**', 'fx:farm');
+    cy.route('PUT', '**/farm/**', 'fx:farm');
+    cy.route('PUT', '**/user/**', 'fx:user');
+    cy.route('POST', '**/token', 'OK');
+    cy.route('PATCH', '**/roles', 'OK');
+    cy.route('DELETE', '**/roles', 'OK');
 
     cy.viewport(360, 640);
     cy.visit('http://localhost:3000');
@@ -33,7 +33,7 @@ describe('profile', function() {
     cy.login();
   });
 
-  it('renders personal information tab', function() {
+  it('renders personal information tab', function () {
     cy.get('.bm-burger-button').click();
     cy.contains('Profile').should('be.visible').click();
 
@@ -50,14 +50,17 @@ describe('profile', function() {
     cy.get('[name="profileForms.userInfo.first_name"]').should('have.value', 'Cypress');
     cy.get('[name="profileForms.userInfo.last_name"]').should('have.value', 'Runner');
     cy.get('[name="profileForms.userInfo.email"]').should('be.disabled');
-    cy.get('[name="profileForms.userInfo.email"]').should('have.value', 'cypressrunner@litefarm.co');
+    cy.get('[name="profileForms.userInfo.email"]').should(
+      'have.value',
+      'cypressrunner@litefarm.co',
+    );
 
     cy.contains('Save').click();
     cy.contains('Successfully updated user info!').should('be.visible');
     cy.get('.close-toastr').click();
   });
 
-  it('renders people tab', function() {
+  it('renders people tab', function () {
     cy.get('.bm-burger-button').click();
     cy.contains('Profile').should('be.visible').click();
     cy.contains('People').click();
@@ -94,7 +97,7 @@ describe('profile', function() {
     // cy.get('a img:visible').click();
   });
 
-  it('renders farm tab', function() {
+  it('renders farm tab', function () {
     cy.get('.bm-burger-button').click();
     cy.contains('Profile').should('be.visible').click();
     cy.contains('Farm').click();
@@ -111,5 +114,5 @@ describe('profile', function() {
     cy.wait(500);
     cy.contains('Successfully updated farm info!').should('be.visible');
     cy.get('.close-toastr').click();
-  })
+  });
 });

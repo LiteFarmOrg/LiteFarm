@@ -1,61 +1,56 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { farmSelector, userInfoSelector } from "../selector";
-import { getSeason } from "./utils/season";
-import { toastr } from "react-redux-toastr";
-import { getUserInfo } from "../actions";
-import WeatherBoard from "../../containers/WeatherBoard";
-import PureHome from "../../components/Home";
-// import Auth from '../../Auth/Auth';
-//TODO Auth0 breaks storybook
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSeason } from './utils/season';
+import WeatherBoard from '../../containers/WeatherBoard';
+import PureHome from '../../components/Home';
+import { userFarmSelector, userFarmStatusSelector } from '../userFarmSlice';
+import { useTranslation } from 'react-i18next';
+import FarmSwitchOutro from '../FarmSwitchOutro';
+import RequestConfirmationComponent from '../../components/Modals/RequestConfirmationModal';
+import { showHelpRequestModalSelector, dismissHelpRequestModal } from './homeSlice';
+import {
+  chooseFarmFlowSelector,
+  endSwitchFarmModal,
+  switchFarmSelector,
+} from '../ChooseFarm/chooseFarmFlowSlice';
+
 export default function Home() {
-  // const auth = new Auth();
-  const farm = useSelector(farmSelector);
-  const user = useSelector(userInfoSelector);
-  // const dispatch = useDispatch();
-  const imgUrl = getSeason(farm?.grid_points?.lat);
-  const detectBrowser = () => {
-    // ripped off stackoverflow: https://stackoverflow.com/questions/4565112/javascript-how-to-find-out-if-the-user-browser-is-chrome
-    const isChromium = window.chrome;
-    const winNav = window.navigator;
-    const vendorName = winNav.vendor;
-    const isOpera = typeof window.opr !== "undefined";
-    const isIEedge = winNav.userAgent.indexOf("Edge") > -1;
-    const isIOSChrome = winNav.userAgent.match("CriOS");
+  const { t } = useTranslation();
+  const userFarm = useSelector(userFarmSelector);
+  const imgUrl = getSeason(userFarm?.grid_points?.lat);
+  const { showSpotLight } = useSelector(chooseFarmFlowSelector);
+  const dispatch = useDispatch();
+  const showSwitchFarmModal = useSelector(switchFarmSelector);
+  const dismissPopup = () => dispatch(endSwitchFarmModal(userFarm.farm_id));
 
-    if (isIOSChrome) {
-      // is Google Chrome on IOS
-    } else if(
-      isChromium !== null &&
-      typeof isChromium !== "undefined" &&
-      vendorName === "Google Inc." &&
-      isOpera === false &&
-      isIEedge === false
-    ) {
-      // is Google Chrome
-    } else {
-      toastr.warning('Warning: The app is designed for Chrome, some layouts could be misplaced.')
-      // not Google Chrome
-    }
-  }
-  useEffect(()=>{
-    //TODO potential bug
+  const showHelpRequestModal = useSelector(showHelpRequestModalSelector);
+  const showRequestConfirmationModalOnClick = () => dispatch(dismissHelpRequestModal());
+  return (
+    <PureHome greeting={t('HOME.GREETING')} first_name={userFarm?.first_name} imgUrl={imgUrl}>
+      {userFarm ? <WeatherBoard /> : null}
+      {showSwitchFarmModal && !showSpotLight && <FarmSwitchOutro onFinish={dismissPopup} />}
 
-    // if (auth.isAuthenticated()) {
-    //   dispatch(getUserInfo(true));
-    //
-    // }
-    detectBrowser();
-  },[user?.user_id])
+      {showSwitchFarmModal && !showSpotLight && (
+        <div
+          onClick={dismissPopup}
+          style={{
+            position: 'fixed',
+            zIndex: 100,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(25, 25, 40, 0.8)',
+          }}
+        />
+      )}
 
-
-
-  return <PureHome title={`Good day, ${user?.first_name}`}
-                                 imgUrl={imgUrl}>
-    {farm && user? <WeatherBoard lon={farm.grid_points.lng}
-                                 lat={farm.grid_points.lat}
-                                 lang={'en'}
-                                 measurement={farm.units.measurement}/>: null}
-
-  </PureHome>
+      {showHelpRequestModal && (
+        <RequestConfirmationComponent
+          onClick={showRequestConfirmationModalOnClick}
+          dismissModal={showRequestConfirmationModalOnClick}
+        />
+      )}
+    </PureHome>
+  );
 }

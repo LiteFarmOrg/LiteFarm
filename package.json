@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "husky": "^4.3.5",
     "lerna": "^2.11.0"
   },
   "scripts": {
@@ -8,6 +9,11 @@
     "preinstall": "npx npm-force-resolutions",
     "start": "lerna run start",
     "bootstrap": "lerna bootstrap"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
+    }
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -21,6 +27,8 @@
     "minimist": "^1.2.5",
     "yargs-parser": "^20.2.1",
     "mem": "^7.0.0-1",
-    "dot-prop": "^5.3.0"
+    "dot-prop": "^5.3.0",
+    "axios": "^0.21.1",
+    "ini": "^1.3.8"
   }
 }

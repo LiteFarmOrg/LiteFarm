@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (insightHelpers.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -41,7 +41,7 @@ exports.getNutritionalData = (cropNutritionData) => {
     'Vitamin C': { label: 'Vitamin C', val: 0, percentage: 0 },
     'Vitamin A': { label: 'Vitamin A', val: 0, percentage: 0 },
   };
-  const expectedIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 750, 'Vitamin C': 90, 'Vitamin A': 900 };
+  const expectedDailyIntake = { 'Calories': 2500, 'Protein': 52, 'Fat': 750, 'Vitamin C': 90, 'Vitamin A': 900 };
 
   cropNutritionData.map((item) => {
     const percentRefuse = item.percentrefuse || 0;
@@ -56,7 +56,7 @@ exports.getNutritionalData = (cropNutritionData) => {
   // now normalize the data values
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data[key]['val'] = Math.round(data[key]['val'] / (expectedIntake[key] / MEALS_PER_DAY))
+      data[key]['val'] = Math.round(data[key]['val'] / (expectedDailyIntake[key] / MEALS_PER_DAY))
     }
   }
 
@@ -218,7 +218,7 @@ exports.getLabourHappiness = (data) => {
   // parse by shift_id first in order to do the algorithm discussed with Zia on the whiteboard
   data.map((element) => {
     const currentValueMood = element['mood'] ? mappingTypes[element['mood']] : 0;
-    const taskObject = { taskName: element['task_name'], duration: element['duration'] };
+    const taskObject = { taskName: element['task_translation_key'], duration: element['duration'] };
     if (!(element['shift_id'] in tasks)) {
       tasks[element['shift_id']] = { mood: currentValueMood, tasks: [taskObject] };
     } else {
@@ -418,30 +418,33 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
   const farmIDs = new Set();
   // tally the running total as well as separate the data into different months
   data.map((element) => {
-    if (!(element['crop_common_name'] in organizeByNameThenByDate)) {
-      organizeByNameThenByDate[element['crop_common_name']] = {}
+    if (!(element['crop_translation_key'] in organizeByNameThenByDate)) {
+      organizeByNameThenByDate[element['crop_translation_key']] = {}
     }
-    if (!(element['year_month'] in organizeByNameThenByDate[element['crop_common_name']])) {
-      organizeByNameThenByDate[element['crop_common_name']][element['year_month']] = {
-        'crop_price': 0,
+    if (!(element['year_month'] in organizeByNameThenByDate[element['crop_translation_key']])) {
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']] = {
+        'crop_price_total': 0,
+        'sale_quant_total': 0,
         'network_price': 0,
       }
     }
     if (element['farm_id'] === myFarmID) {
-      organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['crop_price'] = element['sale_value'] / element['sale_quant'];
-      if (Array.isArray(organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'])) {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'].push(element)
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['crop_price_total'] += element['sale_value'];
+      organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['sale_quant_total'] +=  element['sale_quant'];
+
+      if (Array.isArray(organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'])) {
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'].push(element)
       } else {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'] = [ element ];
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'] = [ element ];
       }
     }
     else {
       // first total up all network prices in an array and then grab the mean after
       farmIDs.add(element['farm_id']);
-      if (Array.isArray(organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'])) {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'].push(element)
+      if (Array.isArray(organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'])) {
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'].push(element)
       } else {
-        organizeByNameThenByDate[element['crop_common_name']][element['year_month']]['network_price'] = [ element ]
+        organizeByNameThenByDate[element['crop_translation_key']][element['year_month']]['network_price'] = [ element ]
       }
     }
   });
@@ -454,10 +457,10 @@ exports.formatPricesNearbyData = (myFarmID, data) => {
         runningNetworkQuantity += sale['sale_quant'];
         runningNetworkValue += sale['sale_value'];
       });
-      const networkPrice = runningNetworkQuantity / runningNetworkValue;
+      const networkPrice =  runningNetworkValue / runningNetworkQuantity;
       const cropData = {
         crop_date: date,
-        crop_price: roundToTwoDecimal(organizeByNameThenByDate[crop_name][date]['crop_price']),
+        crop_price: roundToTwoDecimal(organizeByNameThenByDate[crop_name][date]['crop_price_total']/(organizeByNameThenByDate[crop_name][date]['sale_quant_total'] || 1)),
         network_price: roundToTwoDecimal(networkPrice),
       };
       if (crop_name in organizeByMonthAndYear) {
@@ -561,7 +564,7 @@ exports.formatPreviousDate = (date, mode) => {
 //:::                                                                         :::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-exports.distance = (lat1, lon1, lat2, lon2, unit) => {
+exports.distance = (lat1, lon1, lat2, lon2, unit='KM') => {
   if ((lat1 === lat2) && (lon1 === lon2)) {
     return 0;
   } else {
@@ -576,10 +579,10 @@ exports.distance = (lat1, lon1, lat2, lon2, unit) => {
     dist = Math.acos(dist);
     dist = dist * 180 / Math.PI;
     dist = dist * 60 * 1.1515;
-    if (unit === 'K') {
+    if (unit === 'KM') {
       dist = dist * 1.609344
     }
-    if (unit === 'N') {
+    if (unit === 'MILE') {
       dist = dist * 0.8684
     }
     return dist;

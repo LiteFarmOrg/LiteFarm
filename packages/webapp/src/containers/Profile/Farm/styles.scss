@@ -1,54 +1,62 @@
-.formContainer{
-  margin-top: 5%;
-  label{
+.formContainer {
+  label {
     font-family: 'Avenir', sans-serif;
     font-weight: normal;
+    min-width: 120px;
+    width: 40%;
+    margin-bottom: 0;
   }
-  input{
-    width: 50%;
+  input {
+    flex-grow: 1;
     height: 30px;
-    border: 1px solid #C3C0C0;
+    border: 1px solid #c3c0c0;
     border-radius: 3px;
-    padding: 0 3%;
+    min-width: 0;
+    padding-left: 8px;
+  }
+  input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
   select {
-    background: #EFEFEF;
+    background: #efefef;
     border: none;
     padding: 2px;
   }
 }
-.labelContainer{
+.labelContainer {
   display: flex;
+  align-items: center;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 3%;
-  label{
-    min-width: 64px;
-  }
-  input{
-    min-width:80%;
-  }
-}
-
-.selectContainer{
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: flex-start;
-  margin-bottom: 3%;
-  label{
+  margin-top: 24px;
+  height: 30px;
+  label {
     min-width: 64px;
   }
 }
 
-.phoneContainer{
+.selectContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 3%;
-  label{
+  margin-top: 24px;
+  label {
+    min-width: 64px;
+  }
+}
+
+.phoneContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 24px;
+  label {
     min-width: 64px;
   }
   //select {
@@ -60,30 +68,29 @@
   //}
 }
 
-
-@media only screen and (max-width: 800px) {
-  .formContainer{
-    margin-top: 5%;
-    label{
+@media only screen and (max-width: 421px) {
+  .formContainer {
+    label {
+      min-width: 88px;
       font-family: 'Avenir', sans-serif;
       font-weight: normal;
     }
-    input{
-      width: 80%;
+    input {
       height: 30px;
+      flex-grow: 1;
     }
   }
 }
 
-.greenTextButton{
-  color:#00756A;
+.greenTextButton {
+  color: #00756a;
   width: 100%;
   font-size: 18px;
   text-align: left;
 }
-.requestContainer{
+.requestContainer {
   width: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;

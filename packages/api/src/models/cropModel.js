@@ -1,12 +1,12 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (cropModel.js) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
@@ -14,9 +14,9 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const BaseModel = require('./baseModel');
 
-class Crop extends softDelete({ columnName: 'deleted' })(Model) {
+class Crop extends BaseModel {
   static get tableName() {
     return 'crop';
   }
@@ -30,7 +30,7 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['crop_common_name', 'crop_group', 'crop_subgroup', 'farm_id'],
+      required: ['crop_common_name', 'farm_id'],
 
       properties: {
         crop_id: { type: 'integer' },
@@ -39,12 +39,12 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
         crop_genus: { type: 'string', minLength: 1, maxLength: 255 },
         crop_specie: { type: 'string', minLength: 1, maxLength: 255 },
         crop_group: {
-          type: 'string',
+          type: 'string, null',
           enum:  ['Other crops', 'Fruit and nuts', 'Beverage and spice crops', 'Potatoes and yams'
             , 'Vegetables and melons', 'Cereals', 'Leguminous crops', 'Sugar crops', 'Oilseed crops'],
         },
         crop_subgroup: {
-          type: 'string',
+          type: 'string, null',
           enum: ['Fibre crops', 'Grasses and other fodder crops', 'Nuts',
             'Temporary spice crops', 'Pome fruits and stone fruits', 'Other crops',
             'High starch Root/tuber crops', 'Leafy or stem vegetables',
@@ -57,7 +57,6 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
             'Grapes', 'Flower crops', 'Mushrooms and truffles', 'Rubber', 'Sugar crops (other)',
             'Tobacco'],
         },
-        deleted: { type: 'boolean' },
         max_rooting_depth: { type : 'number' },
         depletion_fraction: { type : 'number' },
         initial_kc: { type : 'number' },
@@ -97,6 +96,8 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
         nutrient_notes: { type : 'string' },
         refuse: { type : 'string' },
         nutrient_credits: { type : 'number' },
+        crop_translation_key: { type: 'string' },
+        ...this.baseProperties,
       },
       additionalProperties: false,
     };
@@ -126,6 +127,7 @@ class Crop extends softDelete({ columnName: 'deleted' })(Model) {
           to: 'price.crop_id',
         },
       },
+      ...this.baseRelationMappings('crop'),
     }
   }
 }

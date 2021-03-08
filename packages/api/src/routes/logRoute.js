@@ -18,12 +18,28 @@ const express = require('express');
 const router = express.Router();
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
+const isCreator = require('../middleware/acl/isCreator');
+const conditionallyApplyMiddleware = require('../middleware/acl/conditionally.apply');
 
 router.post('/', hasFarmAccess({ body: 'fields' }), checkScope(['add:logs']), logController.logController.addLog());
 //TODO get log by id specification
 router.get('/:activity_id', hasFarmAccess({ mixed: 'activity_id' }), checkScope(['get:logs']), logController.logController.getLogByActivityId());
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:logs']), logController.logController.getLogByFarmId());
-router.put('/:activity_id', hasFarmAccess({ mixed: 'activity_id' }), checkScope(['edit:logs']), logController.logController.putLog());
-router.delete('/:activity_id', hasFarmAccess({ mixed: 'activity_id' }), checkScope(['delete:logs']), logController.logController.deleteLog());
+router.get('/harvest_use_types/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:logs']), logController.logController.getHarvestUseTypesByFarmID());
+router.post('/harvest_use_types/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['add:harvest_use']), logController.logController.addHarvestUseType())
+
+router.put('/:activity_id', checkScope(['edit:logs']),
+  (req, res, next) => conditionallyApplyMiddleware(
+    req.role === 3,
+    isCreator({ params: 'activity_id' }),
+    hasFarmAccess({ mixed: 'activity_id' }),
+  )(req, res, next), logController.logController.putLog());
+
+router.delete('/:activity_id', checkScope(['delete:logs']),
+  (req, res, next) => conditionallyApplyMiddleware(
+    req.role === 3,
+    isCreator({ params: 'activity_id' }),
+    hasFarmAccess({ mixed: 'activity_id' }),
+  )(req, res, next), logController.logController.deleteLog());
 
 module.exports = router;

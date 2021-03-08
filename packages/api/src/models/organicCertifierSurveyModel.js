@@ -14,34 +14,15 @@
  */
 
 const Model = require('objection').Model;
+const BaseModel = require('./baseModel');
 
-class organicCertifierSurveyModel extends Model {
+class organicCertifierSurveyModel extends BaseModel {
   static get tableName() {
     return 'organicCertifierSurvey';
   }
 
   static get idColumn() {
     return 'survey_id'
-  }
-
-  $beforeInsert(context) {
-    const user_id = context.user_id;
-    if (user_id) {
-      this.created_by_user_id = user_id;
-      this.updated_by_user_id = user_id;
-      delete this.user_id;
-    }
-    this.created_at = new Date().toISOString();
-    this.updated_at = this.created_at;
-  }
-
-  $beforeUpdate(opt, context) {
-    const user_id = context.user_id;
-    if (user_id) {
-      this.updated_by_user_id = user_id;
-      delete this.user_id;
-    }
-    this.updated_at = new Date().toISOString();
   }
 
   static get jsonSchema() {
@@ -51,10 +32,6 @@ class organicCertifierSurveyModel extends Model {
       properties: {
         survey_id: { type: 'string' },
         farm_id: { type: 'string' },
-        created_by_user_id: { type: 'string' },
-        updated_by_user_id: { type: 'string' },
-        created_at: { type: 'date-time' },
-        updated_at: { type: 'date-time' },
         interested: { type: 'boolean' },
         certifiers: {
           type: 'array',
@@ -62,6 +39,7 @@ class organicCertifierSurveyModel extends Model {
             type: 'string',
           },
         },
+        ...super.baseProperties,
       },
       additionalProperties: false,
     };
@@ -69,25 +47,9 @@ class organicCertifierSurveyModel extends Model {
 
   static get relationMappings() {
     return {
-      createdByUser: {
-        modelClass: require('./userModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'organicCertifierSurvey.created_by_user_id',
-          to: 'users.user_id',
-        },
-      },
-      updatedByUser: {
-        modelClass: require('./userModel'),
-        relation: Model.HasOneRelation,
-        join: {
-          from: 'organicCertifierSurvey.updated_by_user_id',
-          to: 'users.user_id',
-        },
-      },
       userFarm:{
         modelClass: require('./userFarmModel'),
-        relation: Model.HasOneRelation,
+        relation: Model.BelongsToOneRelation,
         join: {
           from: ['organicCertifierSurvey.updated_by_user_id', 'organicCertifierSurvey.farm_id'],
           to: ['userFarm.user_id', 'userFarm.farm_id'],
@@ -95,12 +57,13 @@ class organicCertifierSurveyModel extends Model {
       },
       farm: {
         modelClass: require('./farmModel'),
-        relation: Model.HasOneRelation,
+        relation: Model.BelongsToOneRelation,
         join: {
           from: 'organicCertifierSurvey.farm_id',
           to: 'farm.farm_id',
         },
       },
+      ...this.baseRelationMappings('organicCertifierSurvey'),
     }
   }
 }

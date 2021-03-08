@@ -1,11 +1,10 @@
-@import "../../../assets/colors";
-@import "../../../assets/mixin";
+@import '../../../assets/colors';
+@import '../../../assets/mixin';
 .container {
   display: inline-block;
   position: relative;
   padding-left: 24px;
   cursor: pointer;
-  font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -39,7 +38,7 @@
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
-  content: "";
+  content: '';
   position: absolute;
   display: none;
 }
@@ -60,16 +59,14 @@
 }
 
 .label {
-  @include checkbox-label-font();
   transform: translateY(-4px);
-  margin-bottom: 0;
 }
 
-.disabled{
+.disabled {
   cursor: auto;
 }
 
-.disabled .checkmark{
+.disabled .checkmark {
   background-color: var(--btnDisabled);
   border: none;
 }

@@ -1,36 +1,31 @@
-import React  from "react";
-import { connect } from 'react-redux';
-import { farmSelector } from '../selector';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import { finishOnboarding } from './actions';
-import PureOutroSplash from "../../components/Outro";
+import PureOutroSplash from '../../components/Outro';
+import { certifierSurveySelector } from '../OrganicCertifierSurvey/slice';
+import { getCertifiers } from '../OrganicCertifierSurvey/saga';
+import { patchOutroStep } from './saga';
+import { loginSelector } from '../userFarmSlice';
+import { startSpotLight } from '../ChooseFarm/chooseFarmFlowSlice';
 
-function Outro({ farm, dispatch }) {
-
-  const redirectFinish = () => {
-    if (farm) {
-      // TODO replace with Brandon's Splotlight component
-      dispatch(finishOnboarding())
-      history.push('/home')
+function Outro() {
+  const userFarm = useSelector(loginSelector);
+  const dispatch = useDispatch();
+  const onGoBack = () => {
+    history.push(survey.interested ? '/organic_partners' : '/interested_in_organic');
+  };
+  const onContinue = () => {
+    dispatch(patchOutroStep());
+    dispatch(startSpotLight(userFarm.farm_id));
+  };
+  const survey = useSelector(certifierSurveySelector);
+  useEffect(() => {
+    if (!survey.survey_id) {
+      dispatch(getCertifiers());
     }
-    // TODO: add else case wih Jimmy's organic farm
-  }
+  }, []);
 
-
-  return (
-    <PureOutroSplash redirectFinish={redirectFinish} />
-  )
-
+  return <PureOutroSplash onGoBack={onGoBack} onContinue={onContinue} />;
 }
 
-const mapStateToProps = (state) => {
-  return {
-    farm: farmSelector(state),
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Outro);
+export default Outro;

@@ -1,0 +1,99 @@
+.underlined {
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration-line: underline;
+  color: var(--iconActive);
+  margin-bottom: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 32px;
+  margin-bottom: 20px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.semibold {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.label {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--labels);
+  font-size: 14px;
+  line-height: 16px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin-bottom: 4px;
+}
+
+.smLabel {
+  font-style: normal;
+  font-weight: normal;
+  color: var(--labels);
+  font-size: 11px;
+  line-height: 15.5px;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin-bottom: 4px;
+}
+
+.error {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--error);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin-bottom: 0;
+}
+
+.info {
+  margin-top: 4px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--iconDefault);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.main {
+  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--fontColor);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+
+.text {
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--fontColor);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+}
+//Used to style react router Link component
+.link {
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration-line: underline;
+  color: var(--iconActive);
+  font-family: 'Open Sans', 'SansSerif', serif;
+}

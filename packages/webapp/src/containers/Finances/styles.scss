@@ -1,41 +1,41 @@
-/* 
- *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>   
+/*
+ *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  *  This file (styles.scss) is part of LiteFarm.
- *  
+ *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  LiteFarm is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-.financesContainer{
+.financesContainer {
   width: 100%;
   max-width: 1024px;
   min-height: 100vh;
   height: auto;
-  padding: 60px 5% 50px 5%;
-  display:flex;
+  padding: 24px 24px 50px 24px;
+  display: flex;
   flex-direction: column;
 }
 
-.topContainer{
+.topContainer {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
 }
 
-.buttonContainer{
+.buttonContainer {
   width: 100%;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  button{
+  button {
     width: 90%;
     margin: 0.25em;
   }
@@ -49,52 +49,55 @@
 
 .dateContainer {
   label {
-    line-height: 4.5rem;
-    font-size: 1.8rem;
-    width: 75px;
-    font-weight: 300;
+    font-style: normal;
+    font-weight: normal;
+    color: var(--labels);
+    font-size: 14px;
+    line-height: 16px;
+    font-family: 'Open Sans', 'SansSerif', serif;
+    margin-bottom: 4px;
   }
   padding-top: 10px;
   width: 100%;
   margin: 0 0 18px;
 }
 
-.date{
+.date {
   input {
     font-size: 1.8rem;
-    border: 1px solid #D3D3D3;
+    border: 1px solid #d3d3d3;
     width: 125px;
     border-radius: 5px;
-    background-color: hsl(0,0%,98%);
+    background-color: hsl(0, 0%, 98%);
   }
   display: flex;
   flex-direction: row;
   align-items: center;
-  ::placeholder{
-    color:#00756A;
+  ::placeholder {
+    color: #00756a;
   }
 }
 
-.balanceTitle{
+.balanceTitle {
   display: inline;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   font-size: 18px;
   letter-spacing: 0.131836px;
-  color: #5B6370;
+  color: #5b6370;
 }
 
-.greyBox{
+.greyBox {
   width: 100%;
   padding: 3% 10%;
-  background: #F3F3F3;
+  background: #f3f3f3;
   border-radius: 4px;
   display: flex;
   flex-direction: column;
 }
 
-.balanceDetail{
+.balanceDetail {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -103,38 +106,37 @@
   font-size: 14px;
 }
 
-
-.dropDownContainer{
+.dropDownContainer {
   width: 100%;
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.rangeContainer{
-  display:flex;
+.rangeContainer {
+  display: flex;
   flex-direction: column;
   width: 100%;
-  input{
+  input {
     text-align: center;
   }
-  h5{
+  h5 {
     text-align: center;
   }
   margin-bottom: 20px;
 }
 
-.dateText{
+.dateText {
   font-size: 20px;
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 
-.tipButton{
-  color: #00756A;
+.tipButton {
+  color: #00756a;
   font-size: 14px;
 }
 
@@ -144,19 +146,16 @@
 
 .rightDiv {
   display: inline;
-  float:right;
+  float: right;
 }
 
 .expenseContainer {
-
 }
 
 .salesContainer {
-
 }
 
 .balanceContainer {
-
 }
 
 .table {
@@ -169,10 +168,10 @@
       border: none;
     }
     :global(.rt-thead) {
-      background-color: #CBCDD5;
+      background-color: #cbcdd5;
     }
     :global(.rt-th) {
-      border:none;
+      border: none;
     }
   }
 }

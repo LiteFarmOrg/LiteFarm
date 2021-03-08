@@ -14,10 +14,10 @@
  */
 
 const Model = require('objection').Model;
-const softDelete = require('objection-soft-delete');
+const BaseModel = require('./baseModel');
 
 // const FertilizerLogModel = require('./fertilizerLogModel');
-class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
+class activityLogModel extends BaseModel {
   static get tableName() {
     return 'activityLog';
   }
@@ -36,12 +36,12 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
 
       properties: {
         activity_id: { type: 'integer' },
-        deleted: { type: 'boolean' },
         activity_kind: { type: 'string', enum:['fertilizing', 'pestControl', 'scouting', 'irrigation', 'harvest', 'seeding', 'fieldWork', 'weatherData', 'soilData', 'other'] },
         date: { type: 'date-time' },
         notes: { type: 'string' },
         action_needed: { type: 'boolean' },
         user_id: { type: 'string' },
+        ...super.baseProperties,
       },
       additionalProperties: false,
     };
@@ -126,6 +126,17 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
           to: 'harvestLog.activity_id',
         },
       },
+      harvestUse:{
+        relation: Model.HasManyRelation,
+        // The related model. This can be either a Model
+        // subclass constructor or an absolute file path
+        // to a module that exports one.
+        modelClass: require('./harvestUseModel'),
+        join: {
+          from: 'activityLog.activity_id',
+          to: 'harvestUse.activity_id',
+        },
+      },
       seedLog:{
         relation: Model.HasOneRelation,
         // The related model. This can be either a Model
@@ -165,6 +176,7 @@ class activityLogModel extends softDelete({ columnName: 'deleted' })(Model) {
         },
 
       },
+      ...this.baseRelationMappings('activityLog'),
     };
   }
 }

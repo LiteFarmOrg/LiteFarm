@@ -23,25 +23,26 @@ class baseController {
     return await model.query().skipUndefined()
   }
 
-  static async post(model, data, transaction) {
+  static async post(model, data, transaction, context = {}) {
     data = removeAdditionalProperties(model, data);
-    return await model.query(transaction).insert(data);
+    return await model.query(transaction).context(context).insert(data);
   }
 
   // send back the resource that was just created
-  static async postWithResponse(model, data, transaction) {
+  static async postWithResponse(model, data, transaction, context = {}) {
     // TODO: replace removeAdditionalProperties. Additional properties should trigger an error.
-    return await model.query(transaction).insert(removeAdditionalProperties(model, data)).returning('*');
+    return model.query(transaction).context(context)
+      .insert(removeAdditionalProperties(model, data)).returning('*');
   }
 
-  static async postRelated(model, subModel, data, transaction){
+  static async postRelated(model, subModel, data, context, transaction){
     if(!Array.isArray(data)){ //if data is not an array
       data = removeAdditionalProperties(subModel, data);
     }
 
     if(!lodash.isEmpty(data)){
       return await model
-        .$relatedQuery(subModel.tableName, transaction)
+        .$relatedQuery(subModel.tableName, transaction).context(context)
         .insert(data);
     }else{
       return;
@@ -71,19 +72,20 @@ class baseController {
     }
   }
 
-  static async put(model, id, data, transaction=null) {
+  static async put(model, id, data, transaction=null, context = {}) {
     // sometime id can be read as a string instead
     // obtain attributes from model
     const resource = removeAdditionalProperties(model, data);
     // put to database
     const table_id = model.idColumn;
     // check if path id matches id provided from body
-    return await model.query(transaction).where(table_id, id).update(resource).returning('*');
+    return await model.query(transaction).context(context)
+      .where(table_id, id).update(resource).returning('*');
   }
 
-  static async delete(model, id, transaction=null) {
+  static async delete(model, id, transaction=null, context = {}) {
     const table_id = model.idColumn;
-    return await model.query(transaction).where(table_id, id).delete()
+    return await model.query(transaction).context(context).where(table_id, id).delete()
   }
 
   static async getIndividual(model, id) {
@@ -110,10 +112,10 @@ class baseController {
     return data;
   }
 
-  static async updateIndividualById(model, id, updatedLog, transaction=null){
+  static async updateIndividualById(model, id, updatedLog, transaction=null, context = {}){
     updatedLog = removeAdditionalProperties(model, updatedLog);
     if(!lodash.isEmpty(updatedLog)){
-      return await model.query(transaction)
+      return await model.query(transaction).context(context)
         .patchAndFetchById(id, updatedLog);
     }
 
@@ -124,8 +126,8 @@ class baseController {
 
   // insert object and insert, update, or delete related objects
   // see http://vincit.github.io/objection.js/#graph-upserts
-  static async upsertGraph(model, data, transaction) {
-    return await model.query(transaction).upsertGraph(data, { insertMissing: true });
+  static async upsertGraph(model, data, transaction, context = {}) {
+    return await model.query(transaction).context(context).upsertGraph(data, { insertMissing: true });
   }
 
   // fetch an object and all of its related objects

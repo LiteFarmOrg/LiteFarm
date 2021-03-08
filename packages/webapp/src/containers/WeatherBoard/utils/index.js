@@ -1,6 +1,8 @@
 import moment from 'moment';
+import 'moment/locale/pt';
+import 'moment/locale/es';
+import 'moment/locale/fr';
 import { icons } from './icons';
-import { langText } from './lang';
 
 const index = {
   getIcon(icon) {
@@ -16,26 +18,22 @@ const index = {
   getUnits(measurement) {
     if (measurement === 'metric') {
       return {
-        temp: 'ºC',
-        speed: 'km/h',
+        tempUnit: 'ºC',
+        speedUnit: 'km/h',
       };
     } else if (measurement === 'imperial') {
       return {
-        temp: 'ºF',
-        speed: 'mph',
+        tempUnit: 'ºF',
+        speedUnit: 'mph',
       };
     }
-    return { temp: '', speed: '' };
+    return { tempUnit: '', speedUnit: '' };
   },
   formatDate(lang, dte) {
     if (dte && moment(dte).isValid()) {
-      moment.locale(lang);
-      return moment.unix(dte).format('ddd D MMMM');
+      return moment.unix(dte).locale(lang).format('ddd D MMMM');
     }
     return '';
-  },
-  getLangs(lang) {
-    return langText[lang] === undefined ? langText.en : langText[lang];
   },
 };
 

@@ -23,8 +23,8 @@ const METRIC = 'metric';
 // returns the current root URI of litefarm
 export const getCurrentRootURI = () => {
   const splitURI = window.location.href.split('/');
-  return splitURI[0] + '//' + splitURI[2]
-}
+  return splitURI[0] + '//' + splitURI[2];
+};
 // returns a unit of measurement based on farm config
 export const getUnit = (farm, metricUnit, imperialUnit) => {
   return farm && farm.units && farm.units.measurement === 'metric' ? metricUnit : imperialUnit;
@@ -34,7 +34,7 @@ export const getUnit = (farm, metricUnit, imperialUnit) => {
 export const convertToMetric = (value, currentUnit, metricUnit, inverse) => {
   if (inverse) {
     const inverted = 1 / value;
-    return 1 / (convert(inverted).from(currentUnit).to(metricUnit));
+    return 1 / convert(inverted).from(currentUnit).to(metricUnit);
   }
   return convert(value).from(currentUnit).to(metricUnit);
 };
@@ -43,7 +43,7 @@ export const convertToMetric = (value, currentUnit, metricUnit, inverse) => {
 export const convertFromMetric = (value, currentUnit, metricUnit, inverse) => {
   if (inverse) {
     const inverted = 1 / value;
-    return 1 / (convert(inverted).from(metricUnit).to(currentUnit));
+    return 1 / convert(inverted).from(metricUnit).to(currentUnit);
   }
   return convert(value).from(metricUnit).to(currentUnit);
 };
@@ -53,26 +53,71 @@ export const roundToFourDecimal = (value) => {
 };
 
 export const roundToTwoDecimal = (value) => {
-  return Math.round(value * 100) / 100
+  return Math.floor(value * 100) / 100;
 };
 
 export function grabCurrencySymbol(currency = getCurrencyFromStore()) {
-  if (currency && (currency in commonCurrency)) {
+  if (currency && currency in commonCurrency) {
     return commonCurrency[currency]['symbol_native'];
   } else {
-    return '$'
+    return '$';
   }
 }
 
-const getConvertedString = (value, measurement, convertUnitMetric, convertUnitImperial, metricSymbol, imperialSymbol) => {
-  return measurement === METRIC ? `${value} ${metricSymbol ? metricSymbol : convertUnitMetric}` :
-    `${Math.round(convert(value).from(convertUnitMetric).to(convertUnitImperial))} ${imperialSymbol ? imperialSymbol : convertUnitImperial}`;
-}
+const getConvertedString = (
+  value,
+  measurement,
+  convertUnitMetric,
+  convertUnitImperial,
+  metricSymbol,
+  imperialSymbol,
+) => {
+  return measurement === METRIC
+    ? `${value} ${metricSymbol ? metricSymbol : convertUnitMetric}`
+    : `${Math.round(convert(value).from(convertUnitMetric).to(convertUnitImperial))} ${
+        imperialSymbol ? imperialSymbol : convertUnitImperial
+      }`;
+};
+
+export const getFirstNameLastName = (fullName) => {
+  const nameArray = fullName.split(/ (.+)/);
+  return { first_name: nameArray[0], last_name: nameArray[1] || '' };
+};
 
 export const getFormatedTemperature = (temperature, measurement = getMeasurementFromStore()) => {
-  return getConvertedString(temperature,measurement,'C','F', 'ºC', '°F');
-}
+  return getConvertedString(temperature, measurement, 'C', 'F', 'ºC', '°F');
+};
 
 export const getDistance = (distance, measurement = getMeasurementFromStore()) => {
   return getConvertedString(distance, measurement, 'km', 'mi');
-}
+};
+
+export const getMassUnit = (measurement = getMeasurementFromStore()) => {
+  return measurement === METRIC ? 'kg' : 'lb';
+};
+
+export const getMass = (massInKg, measurement = getMeasurementFromStore()) =>
+  measurement === METRIC ? massInKg : convert(massInKg).from('kg').to('lb');
+
+export const getDurationString = (timeInMinutes) => {
+  const hours = parseInt(timeInMinutes / 60, 10);
+  const minutes = timeInMinutes - hours * 60;
+  return `${hours > 0 ? `${hours}h ` : ''}${minutes > 0 ? `${minutes}m` : ''}`;
+};
+
+export const isChrome = () => {
+  const isChromium = window.chrome;
+  const winNav = window.navigator;
+  const vendorName = winNav.vendor;
+  const isOpera = typeof window.opr !== 'undefined';
+  const isIEedge = winNav.userAgent.indexOf('Edge') > -1;
+  const isIOSChrome = winNav.userAgent.match('CriOS');
+  const isChrome =
+    (isChromium !== null &&
+      typeof isChromium !== 'undefined' &&
+      vendorName === 'Google Inc.' &&
+      isOpera === false &&
+      isIEedge === false) ||
+    isIOSChrome;
+  return isChrome;
+};

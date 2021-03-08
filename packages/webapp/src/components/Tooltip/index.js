@@ -1,63 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
-
+import { Text } from '../Typography';
+import Floater from 'react-floater';
 
 const OverlayTooltip = ({
   children = 'LiteFarm',
   content = 'LiteFarm',
+  placement,
+  offset,
+  eventDelay,
+  style,
+  autoOpen,
+  ...props
 }) => {
   return (
     <>
-      <style type="text/css">
-        {`.tooltip .arrow::before {
-            border-bottom-color: var(--iconDefault);
-            border-width: 0 10px 10px;
-          }
-
-          .tooltip-inner {
-            background-color: var(--iconDefault);
-            padding: 12px 16px;
-            font-size: 14px;
-            line-height: 24px;
-            color: var(--tooltipFont);
-            box-shadow: 2px 6px 12px rgba(102, 115, 138, 0.2);
-            border-radius: 4px;
-            text-align: left;
-            max-width: 264px;
-          }
-
-          .tooltip {
-            margin-top: 12px;
-          }
-          .arrow {
-            transform: translateX(16px) !important;
-          }
-`}
-      </style>
-      <OverlayTrigger
-        placement={'bottom-start'}
-        overlay={
-          <Tooltip id={'toolkit-bottom'}>
-            {content}
-          </Tooltip>
+      <Floater
+        placement={placement}
+        component={
+          <TooltipComponent style={style}>
+            {' '}
+            <Text>{content}</Text>
+          </TooltipComponent>
         }
+        styles={{
+          floater: { filter: 'none' },
+          arrow: { color: 'var(--grey400)', spread: 20, length: 10 },
+        }}
+        event="hover"
+        offset={offset}
+        eventDelay={eventDelay}
+        autoOpen={autoOpen}
+        {...props}
       >
         {children}
-      </OverlayTrigger>
+      </Floater>
     </>
   );
 };
 
-OverlayTooltip.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  content: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+export function TooltipComponent({ children, style }) {
+  return (
+    <div
+      style={{
+        backgroundColor: 'var(--grey400)',
+        padding: '12px 16px',
+        boxShadow: '2px 6px 12px rgba(102, 115, 138, 0.2)',
+        borderRadius: '4px',
+        textAlign: 'left',
+        maxWidth: '264px',
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
 }
+
+OverlayTooltip.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  placement: PropTypes.string,
+  offset: PropTypes.number,
+  eventDelay: PropTypes.number,
+  style: PropTypes.objectOf(PropTypes.string),
+  autoOpen: PropTypes.bool,
+};
+TooltipComponent.prototype = {
+  style: PropTypes.objectOf(PropTypes.string),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+};
 
 export default OverlayTooltip;

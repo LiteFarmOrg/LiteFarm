@@ -15,17 +15,22 @@ const Template = (args) => <Layout {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  buttonGroup: (<Button fullLength/>),
+  buttonGroup: <Button fullLength />,
 };
 
 export const SVG = Template.bind({});
 SVG.args = {
-  buttonGroup: (<Button fullLength/>),
-  children: <Svg svg={signup2} alt={'Welcome to LiteFarm'}/>,
+  buttonGroup: <Button fullLength />,
+  children: <Svg svg={signup2} alt={'Welcome to LiteFarm'} />,
   isSVG: true,
 };
 
 export const TwoButton = Template.bind({});
 TwoButton.args = {
-  buttonGroup: (<><Button fullLength/><Button fullLength/></>),
+  buttonGroup: (
+    <>
+      <Button fullLength />
+      <Button fullLength />
+    </>
+  ),
 };

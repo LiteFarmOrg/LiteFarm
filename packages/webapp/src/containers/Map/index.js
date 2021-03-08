@@ -38,8 +38,15 @@ export default function Map() {
   const [drawingState, setDrawingState] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToConfirm, setDrawingToConfirm] = useState(null);
-  // const drawingManager;
-  // const supportedDrawingModes;
+
+  // const [drawingState, setDrawingState] = useState({
+  //   type: null, // string
+  //   isActive: false, // bool
+  //   supportedDrawingModes: null, // obj
+  //   drawingManager: null, // drawingManager
+  //   drawingToCheck: null, // overlay
+  // });
+
 
   const samplePointsLine = [
     {
@@ -108,7 +115,7 @@ export default function Map() {
 
     setMap(map);
 
-    // create drawing manager
+    // Create drawing manager
     let drawingManagerInit = new maps.drawing.DrawingManager({
       drawingMode: null,
       drawingControl: false,
@@ -278,15 +285,28 @@ export default function Map() {
           </div>
           {drawingState && <div className={styles.drawingBar}>
             <DrawingManager
-              drawingState={drawingState}
+              drawingType={drawingState}
               isDrawing={isDrawing}
               onClickBack={() => {
-                setDrawingState(null);
                 setIsDrawing(false);
-                // needs to delete current drawings
+                // delete current drawings
                 drawingToConfirm?.overlay.setMap(null);
                 setDrawingToConfirm(null);
+                // close drawer
+                setDrawingState(null);
                 drawingManager.setDrawingMode();
+              }}
+              onClickTryAgain={() => {
+                setIsDrawing(true);
+                // delete current drawings
+                drawingToConfirm?.overlay.setMap(null);
+                setDrawingToConfirm(null);
+                // restore drawer (point/marker)
+                setDrawingState('gate');
+                drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
+              }}
+              onClickConfirm={() => {
+                console.log(drawingToConfirm);
               }}
             />
           </div>}

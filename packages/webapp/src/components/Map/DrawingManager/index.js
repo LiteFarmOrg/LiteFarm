@@ -8,13 +8,15 @@ import Button from '../../Form/Button';
 export default function PureDrawingManager({
   className,
   style,
-  onClickBack,
   isDrawing,
-  drawingState,
+  drawingType,
+  onClickBack,
+  onClickTryAgain,
+  onClickConfirm,
 }) {
   const { t } = useTranslation();
 
-  if (isAreaOrLine(drawingState)) return (
+  if (isAreaOrLine(drawingType)) return (
     <div className={[styles.container, className].join(' ')} style={style}>
       <button onClick={onClickBack} className={styles.backButton}>
         <BackIcon className={styles.svg} />
@@ -31,14 +33,14 @@ export default function PureDrawingManager({
     </div>
   );
 
-  if (isPoint) return (
+  if (isPoint(drawingType)) return (
     <div className={[styles.container, className].join(' ')} style={style}>
       <button onClick={onClickBack} className={styles.backButton}>
         <BackIcon className={styles.svg} />
       </button>
       {!isDrawing && <div>
-          <Button onClick={() => {console.log('try again clicked')}} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.TRY_AGAIN')}</Button>
-          <Button onClick={() => {console.log('confirm clicked')}} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
+          <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.TRY_AGAIN')}</Button>
+          <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
         </div>}
       <div className={styles.flexFill} />
     </div>

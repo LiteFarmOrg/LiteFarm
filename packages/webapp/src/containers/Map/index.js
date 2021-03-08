@@ -216,8 +216,8 @@ export default function Map() {
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
     
-    startDrawing('gate') // point
-    // startDrawing('field') // area
+    // startDrawing('gate') // point
+    startDrawing('field') // area
 
     // setDrawLocationType('gate');
     // setIsDrawing(true);
@@ -306,7 +306,7 @@ export default function Map() {
               drawingType={drawingState.type}
               isDrawing={drawingState.isActive}
               onClickBack={() => {
-                resetDrawing();
+                resetDrawing(true);
                 closeDrawer();
               }}
               onClickTryAgain={() => {

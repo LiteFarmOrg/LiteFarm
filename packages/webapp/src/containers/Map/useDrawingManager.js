@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { icons } from './mapStyles';
 
 export default function useDrawingManager() {
@@ -8,29 +8,14 @@ export default function useDrawingManager() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToCheck, setDrawingToCheck] = useState(null);
 
-  // TODO: refactor if possible
-  const getDrawingMode = (type) => {
-    switch (type) {
-      case 'barn':
-      case 'ceremonial':
-      case 'farmBound':
-      case 'field':
-      case 'greenhouse':
-      case 'groundwater':
-      case 'naturalArea':
-      case 'residence':
-        return supportedDrawingModes.POLYGON;
-      case 'creek':
-      case 'fence':
-        return supportedDrawingModes.POLYLINE;
-      case 'gate':
-      case 'waterValve':
-        return supportedDrawingModes.MARKER;
-      default:
-        console.log("invalid location type");
-        return null;
+  const [onBackPressed, setOnBackPressed] = useState(false);
+
+  useEffect(() => {
+    if (onBackPressed) {
+      drawingToCheck?.overlay.setMap(null);
+      setOnBackPressed(false);
     }
-  }
+  }, [drawingToCheck, onBackPressed]);
 
   const initDrawingState = (drawingManagerInit, drawingModes) => {
     setDrawingManager(drawingManagerInit);
@@ -40,13 +25,8 @@ export default function useDrawingManager() {
   const startDrawing = (type) => {
     setDrawLocationType(type);
     setIsDrawing(true);
-    // drawingManager.setOptions({
-    //   markerOptions: {
-    //     icon: icons['gate'],
-    //   },
-    // });
     drawingManager.setOptions(drawOptions[type]);
-    drawingManager.setDrawingMode(getDrawingMode(type));
+    drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
   }
 
   const finishDrawing = (drawing) => {
@@ -54,7 +34,8 @@ export default function useDrawingManager() {
     setDrawingToCheck(drawing);
   }
 
-  const resetDrawing = () => {
+  const resetDrawing = (wasBackPressed = false) => {
+    setOnBackPressed(wasBackPressed);
     drawingToCheck?.overlay.setMap(null);
     setDrawingToCheck(null);
   }
@@ -117,5 +98,28 @@ const drawOptions = {
       icon: icons['gate'],
       // draggable: true,
     },
+  }
+}
+
+const getDrawingMode = (type, supportedDrawingModes) => {
+  switch (type) {
+    case 'barn':
+    case 'ceremonial':
+    case 'farmBound':
+    case 'field':
+    case 'greenhouse':
+    case 'groundwater':
+    case 'naturalArea':
+    case 'residence':
+      return supportedDrawingModes.POLYGON;
+    case 'creek':
+    case 'fence':
+      return supportedDrawingModes.POLYLINE;
+    case 'gate':
+    case 'waterValve':
+      return supportedDrawingModes.MARKER;
+    default:
+      console.log("invalid location type");
+      return null;
   }
 }

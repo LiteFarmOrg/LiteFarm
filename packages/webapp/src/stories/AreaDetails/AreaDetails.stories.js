@@ -13,8 +13,8 @@ const Template = (args) => <AreaDetails {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   title: 'Area Details',
-  onBack: (data) => console.log(data),
   name: 'Area asset name',
+  onBack: (data) => console.log(data),
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

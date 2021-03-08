@@ -116,6 +116,10 @@
       "PERIMETER": "Perimeter",
       "NOTES": "Notes"
     },
+    "FARM_SITE_BOUNDARY": {
+      "TITLE": "Add farm site boundary",
+      "NAME": "Farm site boundary name"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",

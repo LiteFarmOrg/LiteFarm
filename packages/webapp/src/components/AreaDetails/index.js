@@ -4,7 +4,7 @@ import Button from '../Form/Button';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 
-export default function PureAreaDetails({ title, name, onBack }) {
+export default function AreaDetails({ title, name, onBack }) {
   const { t } = useTranslation();
 
   return (

@@ -1,19 +1,16 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PureAreaDetails from '..//AreaDetails';
+import AreaDetails from '../AreaDetails';
 
-export default function PureFarmSiteBoundary({ title, name }) {
+export default function PureFarmSiteBoundary({ onGoBack }) {
   const { t } = useTranslation();
-  const onBack = () => {
-    console.log('back');
-  };
 
   return (
     <div>
-      <PureAreaDetails
-        title={'Add farm site boundary'}
-        onBack={onBack}
-        name={'Farm site boundary name'}
+      <AreaDetails
+        title={t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')}
+        name={t('FARM_MAP.FARM_SITE_BOUNDARY.NAME')}
+        onBack={onGoBack}
       />
     </div>
   );

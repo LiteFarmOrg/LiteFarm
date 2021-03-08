@@ -116,6 +116,10 @@
       "PERIMETER": "MISSING",
       "NOTES": "MISSING"
     },
+    "FARM_SITE_BOUNDARY": {
+      "TITLE": "MISSING",
+      "NAME": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
       "ADD_TITLE": "Añade a tu mapa",

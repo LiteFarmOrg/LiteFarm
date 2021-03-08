@@ -101,6 +101,7 @@ const LogDetail = React.lazy(() => import('./containers/Log/LogDetail'));
 const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
+const FarmSiteBoundary = React.lazy(() => import('./containers/FarmSiteBoundary'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -194,6 +195,7 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
+            <Route path="/farm_site_boundary" exact component={FarmSiteBoundary} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/insights" exact component={Insights} />
@@ -284,6 +286,7 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
+            <Route path="/farm_site_boundary" exact component={FarmSiteBoundary} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/sales_summary" exact component={SalesSummary} />
             <Route path="/add_sale" exact component={AddSale} />
@@ -343,7 +346,7 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/map" exact component={Map} />
-
+            <Route path="/farm_site_boundary" exact component={FarmSiteBoundary} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
             <Route path="/fertilizing_log" exact component={FertilizingLog} />

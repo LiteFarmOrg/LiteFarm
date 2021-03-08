@@ -116,6 +116,10 @@
       "PERIMETER": "Perimeter",
       "NOTES": "Notes"
     },
+    "FARM_SITE_BOUNDARY": {
+      "TITLE": "Add farm site boundary",
+      "NAME": "Farm site boundary name"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",

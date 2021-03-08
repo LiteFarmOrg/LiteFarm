@@ -116,6 +116,10 @@
       "PERIMETER": "MISSING",
       "NOTES": "MISSING"
     },
+    "FARM_SITE_BOUNDARY": {
+      "TITLE": "MISSING",
+      "NAME": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",

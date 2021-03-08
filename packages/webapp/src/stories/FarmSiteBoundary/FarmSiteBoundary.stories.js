@@ -11,7 +11,7 @@ export default {
 const Template = (args) => <FarmSiteBoundary {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = { onGoBack: (data) => console.log(data) };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

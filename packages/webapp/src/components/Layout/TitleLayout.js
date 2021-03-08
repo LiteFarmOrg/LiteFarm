@@ -5,7 +5,7 @@ import React from 'react';
 
 function TitleLayout({ buttonGroup, title, onGoBack = null, children }) {
   return (
-    <Layout buttonGroup={buttonGroup} classes={{ footer: { position: 'relative', flexGrow: 1 } }}>
+    <Layout buttonGroup={buttonGroup} classes={{ footer: { position: 'relative' } }}>
       <Title style={{ marginTop: '12px' }}>
         {onGoBack && (
           <IoIosArrowBack style={{ cursor: 'pointer', marginBottom: -3 }} onClick={onGoBack} />

@@ -118,7 +118,11 @@
     },
     "FARM_SITE_BOUNDARY": {
       "TITLE": "Add farm site boundary",
-      "NAME": "Farm site boundary name"
+      "NAME": "Farm site boundary"
+    },
+    "FIELD": {
+      "TITLE": "Add field",
+      "NAME": "Field"
     },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",

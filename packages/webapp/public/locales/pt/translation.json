@@ -120,6 +120,10 @@
       "TITLE": "Add farm site boundary",
       "NAME": "Farm site boundary name"
     },
+    "FIELD": {
+      "TITLE": "Add field",
+      "NAME": "Field"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",

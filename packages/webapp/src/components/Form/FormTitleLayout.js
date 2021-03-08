@@ -9,6 +9,7 @@ const FormTitleLayout = ({
   buttonGroup,
   onSubmit,
   onGoBack = null,
+  title,
 }) => {
   return (
     <form onSubmit={onSubmit} className={styles.form}>
@@ -17,6 +18,7 @@ const FormTitleLayout = ({
         children={children}
         classes={classes}
         onGoBack={onGoBack}
+        title={title}
       />
     </form>
   );
@@ -31,6 +33,7 @@ FormTitleLayout.propTypes = {
   }),
   onSubmit: PropTypes.func,
   onGoBack: PropTypes.func,
+  title: PropTypes.string,
 };
 
 export default FormTitleLayout;

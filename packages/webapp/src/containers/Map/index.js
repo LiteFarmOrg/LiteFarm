@@ -118,6 +118,14 @@ export default function Map() {
 
     setMap(map);
 
+    maps.Polygon.prototype.getPolygonBounds = function () {
+      var bounds = new maps.LatLngBounds();
+      this.getPath().forEach(function (element, index) {
+        bounds.extend(element);
+      });
+      return bounds;
+    };
+
     // Create drawing manager
     let drawingManagerInit = new maps.drawing.DrawingManager({
       drawingMode: null,
@@ -150,11 +158,15 @@ export default function Map() {
       var position = marker.getPosition();
       console.log(position);
       // drawingManager.setDrawingMode();
-      // NOTE: CAN THIS LINE BE PUT IN HOOK?
-      this.setDrawingMode();
+    });
+    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+      var path = polygon.getPath();
+      console.log(path);
+      // drawingManager.setDrawingMode();
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
+      this.setDrawingMode();
     });
     initDrawingState(drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
@@ -204,9 +216,8 @@ export default function Map() {
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
     
-    // startDrawing('gate') // point
+    startDrawing('gate') // point
     // startDrawing('field') // area
-    startDrawing('gate');
 
     // setDrawLocationType('gate');
     // setIsDrawing(true);
@@ -303,7 +314,10 @@ export default function Map() {
                 startDrawing(drawingState.type);
               }}
               onClickConfirm={() => {
-                console.log(drawingState.drawingToCheck);
+                if (drawingState.type === 'field')
+                  console.log(drawingState.drawingToCheck.overlay.getPolygonBounds());
+                if (drawingState.type === 'gate')
+                  console.log(drawingState.drawingToCheck.overlay.getPosition());
               }}
             />
           </div>}

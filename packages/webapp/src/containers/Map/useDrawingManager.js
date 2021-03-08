@@ -14,7 +14,7 @@ export default function useDrawingManager() {
       case 'barn':
       case 'ceremonial':
       case 'farmBound':
-      case 'fields':
+      case 'field':
       case 'greenhouse':
       case 'groundwater':
       case 'naturalArea':
@@ -101,11 +101,21 @@ export default function useDrawingManager() {
 
 const drawOptions = {
   'field': {
-
+    polygonOptions: {
+      strokeWeight: 2,
+      fillOpacity: 0.2,
+      editable: true,
+      draggable: true,
+      fillColor: '#FFB800',
+      strokeColor: '#FFB800',
+      geodesic: true,
+      suppressUndo: true, // !!!
+    },
   },
   'gate': {
     markerOptions: {
       icon: icons['gate'],
+      // draggable: true,
     },
   }
 }

@@ -111,6 +111,11 @@
       "TITLE": "MISSING",
       "WV": "MISSING"
     },
+    "AREA_DETAILS": {
+      "TOTAL_AREA": "MISSING",
+      "PERIMETER": "MISSING",
+      "NOTES": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",

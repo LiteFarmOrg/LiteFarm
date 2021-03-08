@@ -26,17 +26,22 @@ export default function PureAreaDetails({ title, name, onBack }) {
       <Input label={name} type="text" optional style={{ marginBottom: '24px' }} />
       <div>
         <Input
-          label={'Total area'}
+          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
           type="text"
           style={{ marginBottom: '24px', width: '50%', float: 'left' }}
         />
         <Input
-          label={'Perimeter'}
+          label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
           type="text"
           style={{ marginBottom: '24px', width: '50%', paddingLeft: '10px' }}
         />
       </div>
-      <Input label={'Notes'} type="text" optional style={{ marginBottom: '24px' }} />
+      <Input
+        label={t('FARM_MAP.AREA_DETAILS.NOTES')}
+        type="text"
+        optional
+        style={{ marginBottom: '24px' }}
+      />
     </TitleLayout>
   );
 }

@@ -111,6 +111,11 @@
       "TITLE": "Filtra tu mapa",
       "WV": "Valvula de agua"
     },
+    "AREA_DETAILS": {
+      "TOTAL_AREA": "MISSING",
+      "PERIMETER": "MISSING",
+      "NOTES": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
       "ADD_TITLE": "Añade a tu mapa",

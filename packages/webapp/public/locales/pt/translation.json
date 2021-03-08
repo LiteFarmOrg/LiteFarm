@@ -111,6 +111,11 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
+    "AREA_DETAILS": {
+      "TOTAL_AREA": "Total area",
+      "PERIMETER": "Perimeter",
+      "NOTES": "Notes"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",

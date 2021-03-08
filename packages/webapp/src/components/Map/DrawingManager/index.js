@@ -10,10 +10,11 @@ export default function PureDrawingManager({
   style,
   onClickBack,
   isDrawing,
+  drawingState,
 }) {
   const { t } = useTranslation();
 
-  return (
+  if (isAreaOrLine(drawingState)) return (
     <div className={[styles.container, className].join(' ')} style={style}>
       <button onClick={onClickBack} className={styles.backButton}>
         <BackIcon className={styles.svg} />
@@ -29,6 +30,19 @@ export default function PureDrawingManager({
       <div className={styles.flexFill} />
     </div>
   );
+
+  if (isPoint) return (
+    <div className={[styles.container, className].join(' ')} style={style}>
+      <button onClick={onClickBack} className={styles.backButton}>
+        <BackIcon className={styles.svg} />
+      </button>
+      {!isDrawing && <div>
+          <Button onClick={() => {console.log('try again clicked')}} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.TRY_AGAIN')}</Button>
+          <Button onClick={() => {console.log('confirm clicked')}} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
+        </div>}
+      <div className={styles.flexFill} />
+    </div>
+  );
 }
 
 PureDrawingManager.prototype = {
@@ -37,3 +51,25 @@ PureDrawingManager.prototype = {
   farmName: PropTypes.string,
   showVideo: PropTypes.func,
 };
+
+const isAreaOrLine = (drawingState) => {
+  return [
+    'barn',
+    'ceremonial',
+    'farmBound',
+    'field',
+    'greenhouse',
+    'groundwater',
+    'natural',
+    'residence',
+    'creek',
+    'fence',
+  ].includes(drawingState);
+}
+
+const isPoint = (drawingState) => {
+  return [
+    'gate',
+    'waterValve',
+  ].includes(drawingState);
+}

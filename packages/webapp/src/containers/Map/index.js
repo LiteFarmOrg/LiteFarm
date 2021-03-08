@@ -20,6 +20,7 @@ import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
+import { icons } from './mapStyles';
 import { getLocations } from '../saga';
 
 export default function Map() {
@@ -30,8 +31,15 @@ export default function Map() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
+
   const [stateMap, setMap] = useState(null);
+  const [drawingManager, setDrawingManager] = useState(null);
+  const [supportedDrawingModes, setDrawingModes] = useState(null);
   const [drawingState, setDrawingState] = useState(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [drawingToConfirm, setDrawingToConfirm] = useState(null);
+  // const drawingManager;
+  // const supportedDrawingModes;
 
   const samplePointsLine = [
     {
@@ -100,6 +108,51 @@ export default function Map() {
 
     setMap(map);
 
+    // create drawing manager
+    let drawingManagerInit = new maps.drawing.DrawingManager({
+      drawingMode: null,
+      drawingControl: false,
+      drawingControlOptions: {
+        position: maps.ControlPosition.TOP_CENTER,
+        drawingModes: [
+          maps.drawing.OverlayType.POLYGON,
+          maps.drawing.OverlayType.POLYLINE,
+          maps.drawing.OverlayType.MARKER,
+        ],
+      },
+      map: map,
+    });
+
+    // set polygon drawing styles (maybe set them later according to selected area?)
+    // drawingManagerInit.setOptions({
+    //   polygonOptions: {
+    //     strokeWeight: 2,
+    //     fillOpacity: 0.2,
+    //     editable: true,
+    //     draggable: true,
+    //     fillColor: '#FFB800',
+    //     strokeColor: '#FFB800',
+    //     geodesic: true,
+    //     suppressUndo: true,
+    //   },
+    // });
+    maps.event.addListener(drawingManagerInit, 'markercomplete', function(marker) {
+      var position = marker.getPosition();
+      console.log(position);
+      // drawingManager.setDrawingMode();
+      this.setDrawingMode();
+    });
+    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
+      setIsDrawing(false);
+      setDrawingToConfirm(drawing);
+    });
+    setDrawingManager(drawingManagerInit);
+    setDrawingModes({
+      POLYGON: maps.drawing.OverlayType.POLYGON,
+      POLYLINE: maps.drawing.OverlayType.POLYLINE,
+      MARKER: maps.drawing.OverlayType.MARKER,
+    });
+
     // Adding custom map components
     const zoomControlDiv = document.createElement('div');
     ReactDOM.render(
@@ -141,7 +194,15 @@ export default function Map() {
     setShowModal(false);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
-    setDrawingState('field');
+
+    setDrawingState('gate');
+    setIsDrawing(true);
+    drawingManager.setOptions({
+      markerOptions: {
+        icon: icons['gate'],
+      },
+    });
+    drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
   };
 
   const handleClickExport = () => {
@@ -188,8 +249,6 @@ export default function Map() {
     });
   };
 
-  const [isDrawing, setIsDrawing] = useState(false);
-
 
   return (
     <>
@@ -219,7 +278,16 @@ export default function Map() {
           </div>
           {drawingState && <div className={styles.drawingBar}>
             <DrawingManager
-              onClickBack={() => {setDrawingState(null)}}
+              drawingState={drawingState}
+              isDrawing={isDrawing}
+              onClickBack={() => {
+                setDrawingState(null);
+                setIsDrawing(false);
+                // needs to delete current drawings
+                drawingToConfirm?.overlay.setMap(null);
+                setDrawingToConfirm(null);
+                drawingManager.setDrawingMode();
+              }}
             />
           </div>}
         </div>

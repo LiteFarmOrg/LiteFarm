@@ -10,8 +10,38 @@ export default {
 
 const Template = (args) => <DrawingManager {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {};
-Primary.parameters = {
+export const DrawingArea = Template.bind({});
+DrawingArea.args = {
+  drawingState: 'field',
+  isDrawing: true,
+};
+DrawingArea.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};
+
+export const DrewArea = Template.bind({});
+DrewArea.args = {
+  drawingState: 'field',
+  isDrawing: false,
+};
+DrewArea.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};
+
+export const DrawingPoint = Template.bind({});
+DrawingPoint.args = {
+  drawingState: 'gate',
+  isDrawing: true,
+};
+DrawingPoint.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};
+
+export const DrewPoint = Template.bind({});
+DrewPoint.args = {
+  drawingState: 'gate',
+  isDrawing: false,
+};
+DrewPoint.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

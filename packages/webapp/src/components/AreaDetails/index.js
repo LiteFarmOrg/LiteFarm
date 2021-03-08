@@ -5,7 +5,7 @@ import Input from '../Form/Input';
 import { useForm } from 'react-hook-form';
 import FormTitleLayout from '../Form/FormTitleLayout';
 
-export default function AreaDetails({ title, name, onBack }) {
+export default function AreaDetails({ title, name, onBack, isField }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',

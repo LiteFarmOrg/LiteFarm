@@ -1,10 +1,10 @@
 import React from 'react';
 import TitleLayout from '../../components/Layout/TitleLayout';
-import { componentDecorators } from '../Pages/config/decorators';
+import decorator from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/Layout/TitleLayout',
-  decorators: componentDecorators,
+  title: 'Layout/TitleLayout',
+  decorators: decorator,
   component: TitleLayout,
 };
 

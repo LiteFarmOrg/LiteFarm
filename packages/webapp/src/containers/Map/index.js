@@ -18,7 +18,7 @@ import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 
-import { drawArea } from './mapDrawer';
+import { drawArea, drawLine, drawPoint } from './mapDrawer';
 import { getLocations } from '../saga';
 
 export default function Map() {
@@ -119,10 +119,10 @@ export default function Map() {
 
     if (fields && fields.length >= 1) {
       for (const field of fields) {
-        drawArea(map, maps, mapBounds, 'field', field);
+        drawArea(map, maps, mapBounds, field);
       }
-      // drawLine(map, maps, mapBounds, 'example', {grid_points: samplePointsLine, name: "example line"});
-      // drawPoint(map, maps, mapBounds, 'example', {grid_point: samplePoint, name: "example point"});
+      // drawLine(map, maps, mapBounds, {grid_points: samplePointsLine, name: "example line", type: 'creek'});
+      // drawPoint(map, maps, mapBounds, {grid_point: samplePoint, name: "example point", type: 'waterValve'});
 
       // ADDING ONCLICK TO DRAWING
       // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);

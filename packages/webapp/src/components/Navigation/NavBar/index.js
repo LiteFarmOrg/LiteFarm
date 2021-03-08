@@ -4,6 +4,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PureProfileFloater from '../../ProfileFloater';
 import { ReactComponent as MyFarmIcon } from '../../../assets/images/my-farm.svg';
+import { ReactComponent as MyFarmIconSpan } from '../../../assets/images/my-farm-es.svg';
+import { ReactComponent as MyFarmIconPort } from '../../../assets/images/my-farm-pt.svg';
 import { ReactComponent as NotifIcon } from '../../../assets/images/notif.svg';
 // TODO: use profile picture stored in db
 import { ReactComponent as ProfilePicture } from '../../../assets/images/navbar/defaultpfp.svg';
@@ -117,6 +119,7 @@ export default function PureNavBar({
   const toggleManage = () => {
     setManageOpen(!manageOpen);
   };
+  const selectedLanguage = localStorage.getItem('litefarm_lang');
 
   //Floater
   const [openFloater, setOpenFloater] = useState(defaultOpenFloater);
@@ -288,7 +291,13 @@ export default function PureNavBar({
                 className={classes.iconButton}
                 onClick={farmButtonOnClick}
               >
-                <MyFarmIcon />
+                {selectedLanguage === 'pt' ? (
+                  <MyFarmIconPort />
+                ) : selectedLanguage === 'es' ? (
+                  <MyFarmIconSpan />
+                ) : (
+                  <MyFarmIcon />
+                )}
               </IconButton>
             </PureMyFarmFloater>
             <PureNotificationFloater

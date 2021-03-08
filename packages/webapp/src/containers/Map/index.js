@@ -35,7 +35,7 @@ export default function Map() {
   const [stateMap, setMap] = useState(null);
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
-  const [drawingState, setDrawingState] = useState(null);
+  const [drawLocationType, setDrawLocationType] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToConfirm, setDrawingToConfirm] = useState(null);
 
@@ -202,7 +202,7 @@ export default function Map() {
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
 
-    setDrawingState('gate');
+    setDrawLocationType('gate');
     setIsDrawing(true);
     drawingManager.setOptions({
       markerOptions: {
@@ -213,7 +213,7 @@ export default function Map() {
   };
 
   const handleClickExport = () => {
-    setDrawingState(null);
+    setDrawLocationType(null);
     setShowModal(!showModal);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
@@ -259,7 +259,7 @@ export default function Map() {
 
   return (
     <>
-      {(showMapFilter && !drawingState) && (
+      {(showMapFilter && !drawLocationType) && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -283,9 +283,9 @@ export default function Map() {
               options={getMapOptions}
             ></GoogleMap>
           </div>
-          {drawingState && <div className={styles.drawingBar}>
+          {drawLocationType && <div className={styles.drawingBar}>
             <DrawingManager
-              drawingType={drawingState}
+              drawingType={drawLocationType}
               isDrawing={isDrawing}
               onClickBack={() => {
                 setIsDrawing(false);
@@ -293,7 +293,7 @@ export default function Map() {
                 drawingToConfirm?.overlay.setMap(null);
                 setDrawingToConfirm(null);
                 // close drawer
-                setDrawingState(null);
+                setDrawLocationType(null);
                 drawingManager.setDrawingMode();
               }}
               onClickTryAgain={() => {
@@ -302,7 +302,7 @@ export default function Map() {
                 drawingToConfirm?.overlay.setMap(null);
                 setDrawingToConfirm(null);
                 // restore drawer (point/marker)
-                setDrawingState('gate');
+                setDrawLocationType('gate');
                 drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
               }}
               onClickConfirm={() => {
@@ -312,7 +312,7 @@ export default function Map() {
           </div>}
         </div>
 
-        {!drawingState && <PureMapFooter
+        {!drawLocationType && <PureMapFooter
           className={styles.mapFooter}
           isAdmin={is_admin}
           showSpotlight={showMapSpotlight}

@@ -30,6 +30,7 @@ class Location extends baseModel {
       type: 'object',
       required: ['farm_id', 'name'],
       properties: {
+        location_id: { type: 'string' },
         farm_id: { type: 'string' },
         name: { type: 'string' },
         notes: { type: 'string' },
@@ -156,14 +157,6 @@ class Location extends baseModel {
           to: 'water_valve.location_id',
         },
       },
-
-
-
-
-
-
-
-
       ...this.baseRelationMappings('location'),
     };
   }

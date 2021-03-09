@@ -12,7 +12,6 @@ const Template = (args) => <PointDetails {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  title: 'Point Details',
   name: 'Point asset name',
   onBack: (data) => console.log(data),
 };

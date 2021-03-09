@@ -12,7 +12,6 @@ const Template = (args) => <AreaDetails {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  title: 'Area Details',
   name: 'Area asset name',
   onBack: (data) => console.log(data),
 };

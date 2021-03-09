@@ -7,10 +7,10 @@ export default function AreaDetails({ name, children }) {
 
   return (
     <div>
-      <Input label={name} type="text" optional style={{ marginBottom: '30px' }} />
+      <Input label={name + ' name'} type="text" optional style={{ marginBottom: '40px' }} />
 
       {children}
-      <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '30px' }} />
+      <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '40px' }} />
     </div>
   );
 }

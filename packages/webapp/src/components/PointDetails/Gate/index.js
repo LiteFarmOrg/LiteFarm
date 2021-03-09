@@ -30,20 +30,7 @@ export default function PureGate({ onGoBack }) {
         </>
       }
     >
-      <PointDetails
-        name={t('FARM_MAP.GATE.NAME')}
-        onBack={onGoBack}
-        buttonGroup={
-          <>
-            <Button onClick={onGoBack} color={'secondary'} fullLength>
-              {t('common:CANCEL')}
-            </Button>
-            <Button type={'submit'} fullLength>
-              {t('common:SAVE')}
-            </Button>
-          </>
-        }
-      />
+      <PointDetails name={t('FARM_MAP.GATE.NAME')} onBack={onGoBack} />
     </FormTitleLayout>
   );
 }

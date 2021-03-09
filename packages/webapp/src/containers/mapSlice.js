@@ -6,7 +6,9 @@ const mapLocationReducer = createSlice({
   name: 'mapLocationReducer',
   initialState,
   reducers: {
-    setLocationData: (state, { payload: location }) => location,
+    setLocationData: (state, { payload: location }) => {
+      Object.assign(state, location);
+    },
     resetLocationData: (state) => initialState,
   },
 });

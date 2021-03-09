@@ -322,13 +322,7 @@ export default function Map() {
                 resetDrawing();
                 startDrawing(drawingState.type);
               }}
-              onClickConfirm={() => {
-                console.log(getOverlayInfo());
-                // if (drawingState.type === 'field')
-                //   console.log(drawingState.drawingToCheck.overlay.getPolygonBounds());
-                // if (drawingState.type === 'gate')
-                //   console.log(drawingState.drawingToCheck.overlay.getPosition());
-              }}
+              onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
             />
           </div>}
         </div>

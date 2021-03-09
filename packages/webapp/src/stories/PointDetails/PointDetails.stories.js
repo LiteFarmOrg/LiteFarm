@@ -1,19 +1,19 @@
 import React from 'react';
-import AreaDetails from '../../components/AreaDetails';
+import PointDetails from '../../components/PointDetails';
 import decorator from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/Area/AreaDetails',
+  title: 'Components/Point/PointDetails',
   decorators: decorator,
-  component: AreaDetails,
+  component: PointDetails,
 };
 
-const Template = (args) => <AreaDetails {...args} />;
+const Template = (args) => <PointDetails {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  title: 'Area Details',
-  name: 'Area asset name',
+  title: 'Point Details',
+  name: 'Point asset name',
   onBack: (data) => console.log(data),
 };
 Primary.parameters = {

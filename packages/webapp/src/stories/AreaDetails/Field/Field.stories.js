@@ -1,6 +1,6 @@
 import React from 'react';
-import Field from '../../components/AreaDetails/Field';
-import decorator from '../Pages/config/decorators';
+import Field from '../../../components/AreaDetails/Field';
+import decorator from '../../Pages/config/decorators';
 
 export default {
   title: 'Components/Area/Field',

@@ -113,8 +113,7 @@
     },
     "AREA_DETAILS": {
       "TOTAL_AREA": "MISSING",
-      "PERIMETER": "MISSING",
-      "NOTES": "MISSING"
+      "PERIMETER": "MISSING"
     },
     "FARM_SITE_BOUNDARY": {
       "TITLE": "MISSING",
@@ -128,6 +127,20 @@
       "ORGANIC": "MISSING",
       "TRANSITIONING": "MISSING",
       "DATE": "MISSING"
+    },
+    "GATE": {
+      "TITLE": "MISSING",
+      "NAME": "MISSING"
+    },
+    "WATER_VALVE": {
+      "TITLE": "MISSING",
+      "NAME": "MISSING",
+      "WATER_VALVE_TYPE": "MISSING",
+      "MUNICIPAL_WATER": "MISSING",
+      "SURFACE_WATER": "MISSING",
+      "GROUNDWATER": "MISSING",
+      "RAIN_WATER": "MISSING",
+      "MAX_FLOW_RATE": "MISSING"
     },
     "SPOTLIGHT": {
       "ADD": "MISSING",

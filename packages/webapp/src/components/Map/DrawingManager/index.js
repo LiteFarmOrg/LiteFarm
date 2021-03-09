@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as BackIcon } from '../../../assets/images/map/back.svg';
 import Button from '../../Form/Button';
+import { isArea, isLine, isPoint } from '../../../containers/Map/util';
 
 export default function PureDrawingManager({
   className,
@@ -67,25 +68,3 @@ PureDrawingManager.prototype = {
   farmName: PropTypes.string,
   showVideo: PropTypes.func,
 };
-
-const isAreaOrLine = (drawingState) => {
-  return [
-    'barn',
-    'ceremonial',
-    'farmBound',
-    'field',
-    'greenhouse',
-    'groundwater',
-    'natural',
-    'residence',
-    'creek',
-    'fence',
-  ].includes(drawingState);
-}
-
-const isPoint = (drawingState) => {
-  return [
-    'gate',
-    'waterValve',
-  ].includes(drawingState);
-}

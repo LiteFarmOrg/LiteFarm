@@ -10,6 +10,7 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
+import { setLocationData, resetLocationData } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
@@ -21,7 +22,6 @@ import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
-import { icons } from './mapStyles';
 import { getLocations } from '../saga';
 
 export default function Map() {
@@ -48,7 +48,14 @@ export default function Map() {
   // TODO: undoDrawing: func
   // const [drawingState, drawingFunctions] = useDrawingManager();
   // destructure drawingState to {type, isActive, etc.} to access different state values
-  const [drawingState, {initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer}] = useDrawingManager();
+  const [drawingState, {
+    initDrawingState,
+    startDrawing,
+    finishDrawing,
+    resetDrawing,
+    closeDrawer,
+    setOverlayInfo,
+  }] = useDrawingManager();
 
 
   const samplePointsLine = [
@@ -155,14 +162,23 @@ export default function Map() {
     //   },
     // });
     maps.event.addListener(drawingManagerInit, 'markercomplete', function(marker) {
-      var position = marker.getPosition();
-      console.log(position);
-      // drawingManager.setDrawingMode();
+      const point = marker.getPosition();
+      setOverlayInfo({ point });
     });
+    // maps.event.addListener(drawingManagerInit, 'polylinecomplete', function(polyline) {
+    //   const line_points = polyline.getPath();
+    //   const length = Math.round(maps.geometry.spherical.computeLength(grid_points));
+    //   const width = ???;
+    //   setOverlayInfo({ line_points, length, width });
+    // });
     maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
-      var path = polygon.getPath();
-      console.log(path);
-      // drawingManager.setDrawingMode();
+      let grid_points = polygon.getPath();
+      const area = Math.round(maps.geometry.spherical.computeArea(grid_points));
+      const perimeter = Math.round(maps.geometry.spherical.computeLength(grid_points));
+      grid_points = grid_points.getArray().map((vertex) => {
+        return { lat: vertex.lat(), lng: vertex.lng() };
+      });
+      setOverlayInfo({ grid_points, area, perimeter });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
@@ -306,6 +322,7 @@ export default function Map() {
                 startDrawing(drawingState.type);
               }}
               onClickConfirm={() => {
+                console.log(drawingState.overlayInfo);
                 // if (drawingState.type === 'field')
                 //   console.log(drawingState.drawingToCheck.overlay.getPolygonBounds());
                 // if (drawingState.type === 'gate')

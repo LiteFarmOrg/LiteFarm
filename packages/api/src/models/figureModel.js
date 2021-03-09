@@ -35,6 +35,7 @@ class Figure extends Model {
             'residence', 'ground_water', 'natural_area', 'greenhouse', 'barn', 'field'],
         },
         location_id: { type: 'string' },
+        figure_id: { type: 'string' },
       },
       additionalProperties: false,
     };

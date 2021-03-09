@@ -31,7 +31,10 @@
   },
   "jest": {
     "verbose": true,
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "transform": {
+      "\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
   },
   "author": "LiteFarm",
   "license": "ISC",
@@ -83,6 +86,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/eslint-parser": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.8",
     "chromatic": "^5.5.0",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.0.0",

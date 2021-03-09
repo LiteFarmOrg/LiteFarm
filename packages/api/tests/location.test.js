@@ -304,22 +304,53 @@ describe('Location tests', () => {
       const validData = locationData(locations.BARN);
       const pointFigure = locationData(locations.GATE);
       const data = { ...validData, figure: pointFigure.figure };
-      postLocation({...data, farm_id: farm}, locations.BARN,
-        {user_id: user, farm_id: farm}, (err, res) => {
+      postLocation({ ...data, farm_id: farm }, locations.BARN,
+        { user_id: user, farm_id: farm }, (err, res) => {
           expect(res.status).toBe(400);
           done();
-        })
-    })
+        });
+    });
+
+    test('should fail to create a barn without area', (done) => {
+      const validData = locationData(locations.BARN);
+      delete validData.figure.area;
+      postLocation({ ...validData, farm_id: farm }, locations.BARN,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+    });
+
+    test('should fail to create a location without asset', (done) => {
+      const validData = locationData(locations.BARN);
+      delete validData.barn;
+      postLocation({ ...validData, farm_id: farm }, locations.BARN,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+    });
+
+    test('should fail to create a location without figure or asset', (done) => {
+      const validData = locationData(locations.BARN);
+      delete validData.barn;
+      delete validData.figure;
+      postLocation({ ...validData, farm_id: farm }, locations.BARN,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(500);
+          done();
+        });
+    });
 
     test('should fail to add  a user through the location graph', (done) => {
       const validData = locationData(locations.BARN);
-      const data = { ...validData, createdByUser: { first_name: 'Hacker', last_name: '1', email: 'maso@alas.com' }};
-      postLocation({...data, farm_id: farm}, locations.BARN,
-        {user_id: user, farm_id: farm}, async (err, res) => {
-          const user = await knex('users').where({email: data.createdByUser.email}).first();
+      const data = { ...validData, createdByUser: { first_name: 'Hacker', last_name: '1', email: 'maso@alas.com' } };
+      postLocation({ ...data, farm_id: farm }, locations.BARN,
+        { user_id: user, farm_id: farm }, async (err, res) => {
+          const user = await knex('users').where({ email: data.createdByUser.email }).first();
           expect(user).toBeUndefined();
           done();
-        })
+        });
     })
 
     test('should fail to modify  a user through the location graph', (done) => {

@@ -122,7 +122,12 @@
     },
     "FIELD": {
       "TITLE": "Add field",
-      "NAME": "Field"
+      "NAME": "Field",
+      "FIELD_TYPE": "What type of field is this?",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TRANSITIONING": "Transitioning",
+      "DATE": "Eligible transition date"
     },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",

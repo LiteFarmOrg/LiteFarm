@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PureFarmSiteBoundary from '../../components/AreaDetails/FarmSiteBoundary';
+import PureFarmSiteBoundary from '../../../components/AreaDetails/FarmSiteBoundary';
 
 function FarmSiteBoundary() {
   const { t } = useTranslation();

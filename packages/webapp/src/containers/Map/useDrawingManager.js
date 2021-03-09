@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { icons } from './mapStyles';
+import { areaStyles, icons } from './mapStyles';
 
 export default function useDrawingManager() {
   const [drawingManager, setDrawingManager] = useState(null);
@@ -25,7 +25,7 @@ export default function useDrawingManager() {
   const startDrawing = (type) => {
     setDrawLocationType(type);
     setIsDrawing(true);
-    drawingManager.setOptions(drawOptions[type]);
+    drawingManager.setOptions(getDrawingOptions(type));
     drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
   }
 
@@ -80,24 +80,65 @@ export default function useDrawingManager() {
 //   drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
 // }
 
-const drawOptions = {
-  'field': {
-    polygonOptions: {
-      strokeWeight: 2,
-      fillOpacity: 0.2,
-      editable: true,
-      draggable: true,
-      fillColor: '#FFB800',
-      strokeColor: '#FFB800',
-      geodesic: true,
-      suppressUndo: true, // !!!
-    },
-  },
-  'gate': {
-    markerOptions: {
-      icon: icons['gate'],
-      // draggable: true,
-    },
+// const drawOptions = {
+//   'field': {
+//     polygonOptions: {
+//       strokeWeight: 2,
+//       fillOpacity: 0.2,
+//       editable: true,
+//       draggable: true,
+//       fillColor: areaStyles[],
+//       strokeColor: '#FFB800',
+//       geodesic: true,
+//       suppressUndo: true, // !!!
+//     },
+//   },
+//   'gate': {
+//     markerOptions: {
+//       icon: icons['gate'],
+//       // draggable: true,
+//     },
+//   }
+// }
+
+const getDrawingOptions = (type) => {
+  switch (type) {
+    case 'barn':
+    case 'ceremonial':
+    case 'farmBound':
+    case 'field':
+    case 'greenhouse':
+    case 'groundwater':
+    case 'naturalArea':
+    case 'residence':
+      return {
+        polygonOptions: {
+          strokeWeight: 2,
+          fillOpacity: 0.3,
+          editable: true,
+          draggable: true,
+          fillColor: areaStyles[type].colour,
+          strokeColor: areaStyles[type].colour,
+          geodesic: true,
+          suppressUndo: true, // !!!
+        },
+      };
+    case 'creek':
+    case 'fence':
+      console.log('line draw options not implemented');
+      return {};
+    case 'gate':
+    case 'waterValve':
+      console.log('checking type: ', icons[type]);
+      return {
+        markerOptions: {
+          icon: icons[type],
+          // draggable: true,
+        },
+      };
+    default:
+      console.log("invalid location type");
+      return null;
   }
 }
 

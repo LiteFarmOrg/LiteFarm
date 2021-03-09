@@ -217,16 +217,8 @@ export default function Map() {
     setShowMapFilter(true);
     
     // startDrawing('gate') // point
-    startDrawing('field') // area
-
-    // setDrawLocationType('gate');
-    // setIsDrawing(true);
-    // drawingManager.setOptions({
-    //   markerOptions: {
-    //     icon: icons['gate'],
-    //   },
-    // });
-    // drawingManager.setDrawingMode(supportedDrawingModes.MARKER);
+    startDrawing('groundwater') // area
+    // startDrawing('waterValve')
   };
 
   const handleClickExport = () => {
@@ -314,10 +306,10 @@ export default function Map() {
                 startDrawing(drawingState.type);
               }}
               onClickConfirm={() => {
-                if (drawingState.type === 'field')
-                  console.log(drawingState.drawingToCheck.overlay.getPolygonBounds());
-                if (drawingState.type === 'gate')
-                  console.log(drawingState.drawingToCheck.overlay.getPosition());
+                // if (drawingState.type === 'field')
+                //   console.log(drawingState.drawingToCheck.overlay.getPolygonBounds());
+                // if (drawingState.type === 'gate')
+                //   console.log(drawingState.drawingToCheck.overlay.getPosition());
               }}
             />
           </div>}

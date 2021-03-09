@@ -25,7 +25,7 @@ export const getLocationObjectFromBarn = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    natural_area: pick(data, barnProperties),
+    barn: pick(data, barnProperties),
     ...pick(data, locationProperties),
   };
 };

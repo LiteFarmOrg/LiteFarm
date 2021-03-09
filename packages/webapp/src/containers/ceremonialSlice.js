@@ -23,7 +23,7 @@ export const getLocationObjectFromCeremonial = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    natural_area: pick(data, ceremonialProperties),
+    ceremonial_area: pick(data, ceremonialProperties),
     ...pick(data, locationProperties),
   };
 };

@@ -24,7 +24,7 @@ export const getLocationObjectFromGreenHouse = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    natural_area: pick(data, greenHouseProperties),
+    greenhouse: pick(data, greenHouseProperties),
     ...pick(data, locationProperties),
   };
 };

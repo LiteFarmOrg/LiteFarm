@@ -27,7 +27,7 @@ export const getLocationObjectFromField = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    natural_area: pick(data, fieldProperties),
+    field: pick(data, fieldProperties),
     ...pick(data, locationProperties),
   };
 };

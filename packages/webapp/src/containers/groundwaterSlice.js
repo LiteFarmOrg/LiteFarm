@@ -25,7 +25,7 @@ export const getLocationObjectFromGroundwater = (data) => {
       ...pick(data, figureProperties),
       area: pick(data, areaProperties),
     },
-    natural_area: pick(data, groundwaterProperties),
+    ground_water: pick(data, groundwaterProperties),
     ...pick(data, locationProperties),
   };
 };

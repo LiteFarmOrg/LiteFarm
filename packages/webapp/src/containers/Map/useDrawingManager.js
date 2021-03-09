@@ -59,16 +59,18 @@ export default function useDrawingManager() {
       const grid_points = path.map((vertex) => {
         return { lat: vertex.lat(), lng: vertex.lng() };
       });
-      return { grid_points, area, perimeter };
+      return { type: drawLocationType, grid_points, area, perimeter };
     };
     // if (isLine(drawLocationType)) return {
     //   length: overlay.getDistance(), //not a real method
     //   width: overlay.getWidth(), //not a real method
     //   line_points: overlay.getPath(),
     // }
-    if (isPoint(drawLocationType)) return {
-      point: overlay.getPosition(),
-    }
+    if (isPoint(drawLocationType)) {
+      const position = overlay.getPosition();
+      const point = { lat: position.lat(), lng: position.lng() };
+      return { type: drawLocationType, point };
+    };
   }
 
   const drawingState = {
@@ -112,7 +114,7 @@ const getDrawingOptions = (type) => {
   if (isPoint(type)) return {
     markerOptions: {
       icon: icons[type],
-      // draggable: true,
+      draggable: true,
     },
   };
 

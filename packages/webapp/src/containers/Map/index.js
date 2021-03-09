@@ -35,19 +35,6 @@ export default function Map() {
 
   const [stateMap, setMap] = useState(null);
 
-  // drawingState: obj
-  //   type: string
-  //   isActive: bool
-  //   supportDrawingModes: obj
-  //   drawingManager: drawingManager
-  //   drawingToCheck: overlay
-  // initDrawingState(drawingManager, supportDrawingModes): func
-  // startDrawing(type): func
-  // finishDrawing(): func
-  // redoDrawing: func
-  // TODO: undoDrawing: func
-  // const [drawingState, drawingFunctions] = useDrawingManager();
-  // destructure drawingState to {type, isActive, etc.} to access different state values
   const [drawingState, {
     initDrawingState,
     startDrawing,
@@ -148,39 +135,6 @@ export default function Map() {
       map: map,
     });
 
-    // set polygon drawing styles (maybe set them later according to selected area?)
-    // drawingManagerInit.setOptions({
-    //   polygonOptions: {
-    //     strokeWeight: 2,
-    //     fillOpacity: 0.2,
-    //     editable: true,
-    //     draggable: true,
-    //     fillColor: '#FFB800',
-    //     strokeColor: '#FFB800',
-    //     geodesic: true,
-    //     suppressUndo: true,
-    //   },
-    // });
-
-    // maps.event.addListener(drawingManagerInit, 'markercomplete', function(marker) {
-    //   const point = marker.getPosition();
-    //   setOverlayInfo({ point });
-    // });
-    // maps.event.addListener(drawingManagerInit, 'polylinecomplete', function(polyline) {
-    //   const line_points = polyline.getPath();
-    //   const length = Math.round(maps.geometry.spherical.computeLength(grid_points));
-    //   const width = ???;
-    //   setOverlayInfo({ line_points, length, width });
-    // });
-    // maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
-    //   let grid_points = polygon.getPath();
-    //   const area = Math.round(maps.geometry.spherical.computeArea(grid_points));
-    //   const perimeter = Math.round(maps.geometry.spherical.computeLength(grid_points));
-    //   grid_points = grid_points.getArray().map((vertex) => {
-    //     return { lat: vertex.lat(), lng: vertex.lng() };
-    //   });
-    //   setOverlayInfo({ grid_points, area, perimeter });
-    // });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
@@ -235,12 +189,9 @@ export default function Map() {
     
     // startDrawing('gate') // point
     startDrawing('groundwater') // area
-    // startDrawing('waterValve')
   };
 
   const handleClickExport = () => {
-    // get this in the custom hook
-    // setDrawLocationType(null);
     setShowModal(!showModal);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);

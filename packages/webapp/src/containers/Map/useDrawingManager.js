@@ -61,10 +61,11 @@ export default function useDrawingManager() {
       });
       return { type: drawLocationType, grid_points, area, perimeter };
     };
-    // if (isLine(drawLocationType)) return {
-    //   length: overlay.getDistance(), //not a real method
-    //   width: overlay.getWidth(), //not a real method
-    //   line_points: overlay.getPath(),
+    // if (isLine(drawLocationType)) {
+    //   const line_points = polyline.getPath();
+    //   const length = Math.round(computeLength(grid_points));
+    //   const width = ???;
+    //   return { line_points, length, width };
     // }
     if (isPoint(drawLocationType)) {
       const position = overlay.getPosition();
@@ -72,6 +73,8 @@ export default function useDrawingManager() {
       return { type: drawLocationType, point };
     };
   }
+
+  // todo undo drawing
 
   const drawingState = {
     type: drawLocationType,

@@ -95,7 +95,7 @@ export const groundwatersSelector = createSelector(
 
 export const groundwaterSelector = createSelector(
   groundwaterReducerSelector,
-  ({ groundwater_id, entities }) => entities[groundwater_id],
+  ({ location_id, entities }) => entities[location_id],
 );
 
 export const groundwaterStatusSelector = createSelector(

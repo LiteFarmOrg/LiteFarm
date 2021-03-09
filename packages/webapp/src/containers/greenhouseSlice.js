@@ -94,7 +94,7 @@ export const greenhousesSelector = createSelector(
 
 export const greenhouseSelector = createSelector(
   greenhouseReducerSelector,
-  ({ greenhouse_id, entities }) => entities[greenhouse_id],
+  ({ location_id, entities }) => entities[location_id],
 );
 
 export const greenhouseStatusSelector = createSelector(

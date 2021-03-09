@@ -95,7 +95,7 @@ export const fieldsSelector = createSelector(
 
 export const fieldSelector = createSelector(
   fieldReducerSelector,
-  ({ field_id, entities }) => entities[field_id],
+  ({ location_id, entities }) => entities[location_id],
 );
 
 export const fieldStatusSelector = createSelector(

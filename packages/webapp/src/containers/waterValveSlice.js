@@ -91,7 +91,7 @@ export const waterValvesSelector = createSelector(
 
 export const waterValveSelector = createSelector(
   waterValveReducerSelector,
-  ({ waterValve_id, entities }) => entities[waterValve_id],
+  ({ WaterValve, entities }) => entities[WaterValve],
 );
 
 export const waterValveStatusSelector = createSelector(

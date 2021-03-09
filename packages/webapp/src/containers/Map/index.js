@@ -54,7 +54,7 @@ export default function Map() {
     finishDrawing,
     resetDrawing,
     closeDrawer,
-    setOverlayInfo,
+    getOverlayInfo,
   }] = useDrawingManager();
 
 
@@ -161,30 +161,31 @@ export default function Map() {
     //     suppressUndo: true,
     //   },
     // });
-    maps.event.addListener(drawingManagerInit, 'markercomplete', function(marker) {
-      const point = marker.getPosition();
-      setOverlayInfo({ point });
-    });
+
+    // maps.event.addListener(drawingManagerInit, 'markercomplete', function(marker) {
+    //   const point = marker.getPosition();
+    //   setOverlayInfo({ point });
+    // });
     // maps.event.addListener(drawingManagerInit, 'polylinecomplete', function(polyline) {
     //   const line_points = polyline.getPath();
     //   const length = Math.round(maps.geometry.spherical.computeLength(grid_points));
     //   const width = ???;
     //   setOverlayInfo({ line_points, length, width });
     // });
-    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
-      let grid_points = polygon.getPath();
-      const area = Math.round(maps.geometry.spherical.computeArea(grid_points));
-      const perimeter = Math.round(maps.geometry.spherical.computeLength(grid_points));
-      grid_points = grid_points.getArray().map((vertex) => {
-        return { lat: vertex.lat(), lng: vertex.lng() };
-      });
-      setOverlayInfo({ grid_points, area, perimeter });
-    });
+    // maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+    //   let grid_points = polygon.getPath();
+    //   const area = Math.round(maps.geometry.spherical.computeArea(grid_points));
+    //   const perimeter = Math.round(maps.geometry.spherical.computeLength(grid_points));
+    //   grid_points = grid_points.getArray().map((vertex) => {
+    //     return { lat: vertex.lat(), lng: vertex.lng() };
+    //   });
+    //   setOverlayInfo({ grid_points, area, perimeter });
+    // });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
     });
-    initDrawingState(drawingManagerInit, {
+    initDrawingState(maps, drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
       POLYLINE: maps.drawing.OverlayType.POLYLINE,
       MARKER: maps.drawing.OverlayType.MARKER,
@@ -322,7 +323,7 @@ export default function Map() {
                 startDrawing(drawingState.type);
               }}
               onClickConfirm={() => {
-                console.log(drawingState.overlayInfo);
+                console.log(getOverlayInfo());
                 // if (drawingState.type === 'field')
                 //   console.log(drawingState.drawingToCheck.overlay.getPolygonBounds());
                 // if (drawingState.type === 'gate')

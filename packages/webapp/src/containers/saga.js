@@ -28,12 +28,12 @@ import {
 } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
-import {
-  addOneField,
-  onLoadingFieldFail,
-  onLoadingFieldStart,
-  onLoadingFieldSuccess,
-} from './fieldSlice';
+import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
+import { getBarnsSuccess, onLoadingBarnFail } from './barnSlice';
+import { getNaturalAreasSuccess, onLoadingNaturalAreaFail } from './naturalAreaSlice';
+import { getCeremonialsSuccess, onLoadingCeremonialFail } from './ceremonialSlice';
+import { getGreenhousesSuccess, onLoadingGreenhouseFail } from './greenhouseSlice';
+import { getGroundwatersSuccess, onLoadingGroundwaterFail } from './groundwaterSlice';
 import {
   cropStatusSelector,
   getAllCropsSuccess,
@@ -163,33 +163,6 @@ export function* putFarmSaga({ payload: farm }) {
   }
 }
 
-export const onLoadingLocationStart = createAction('onLoadingLocationStartSaga');
-
-export function* onLoadingLocationStartSaga() {
-  yield put(onLoadingFieldStart());
-  // yield put(onLoadingBarnStart());
-  // yield put(onLoadingBarnStart());
-  // yield put(onLoadingBarnStart());
-}
-
-export const onLoadingLocationFail = createAction('onLoadingLocationFailSaga');
-
-export function* onLoadingLocationFailSaga() {
-  yield put(onLoadingFieldFail());
-  // yield put(onLoadingBarnFail());
-  // yield put(onLoadingBarnFail());
-  // yield put(onLoadingBarnFail());
-}
-
-export const onLoadingLocationSuccess = createAction('onLoadingLocationSuccessSaga');
-
-export function* onLoadingLocationSuccessSaga() {
-  yield put(onLoadingFieldSuccess());
-  // yield put(onLoadingBarnSuccess());
-  // yield put(onLoadingBarnSuccess());
-  // yield put(onLoadingBarnSuccess());
-}
-
 export const getLocations = createAction('getLocationsSaga');
 
 export function* getLocationsSaga() {
@@ -200,7 +173,6 @@ export function* getLocationsSaga() {
     const result = yield call(axios.get, getLocationsUrl(farm_id), header);
     yield put(getLocationsSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingLocationFail());
     console.log('failed to fetch fields from database');
   }
 }
@@ -208,16 +180,30 @@ export function* getLocationsSaga() {
 export const getLocationsSuccess = createAction('getLocationsSuccessSaga');
 
 export function* getLocationsSuccessSaga({ payload: locations }) {
+  const locations_by_figure_type = {};
   for (const location of locations) {
-    if (figureTypeActionMap.hasOwnProperty(location.figure.type)) {
-      yield put(figureTypeActionMap[location.figure.type](location));
+    if (!locations_by_figure_type.hasOwnProperty(location.figure.type)) {
+      locations_by_figure_type[location.figure.type] = [];
+    }
+    locations_by_figure_type[location.figure.type].push(location);
+  }
+  for (const [figure_type, locations] of Object.entries(locations_by_figure_type)) {
+    try {
+      yield put(figureTypeActionMap[figure_type].success(locations));
+    } catch (e) {
+      yield put(figureTypeActionMap[figure_type].fail(e));
+      console.log(e);
     }
   }
-  yield put(onLoadingLocationSuccess());
 }
 
 const figureTypeActionMap = {
-  field: addOneField,
+  field: { success: getFieldsSuccess, fail: onLoadingFieldFail },
+  barn: { success: getBarnsSuccess, fail: onLoadingBarnFail },
+  ceremonial_area: { success: getCeremonialsSuccess, fail: onLoadingCeremonialFail },
+  greenhouse: { success: getGreenhousesSuccess, fail: onLoadingGreenhouseFail },
+  ground_water: { success: getGroundwatersSuccess, fail: onLoadingGroundwaterFail },
+  natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
 };
 
 export const getFieldCrops = createAction('getFieldCropsSaga');
@@ -404,9 +390,6 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(selectFarmSuccess.type, fetchAllSaga);
-  yield takeLatest(onLoadingLocationFail.type, onLoadingLocationFailSaga);
-  yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
-  yield takeLatest(onLoadingLocationSuccess.type, onLoadingLocationSuccessSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

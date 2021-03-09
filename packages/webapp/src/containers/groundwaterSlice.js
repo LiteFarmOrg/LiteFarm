@@ -2,8 +2,11 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
+import { areaProperties, figureProperties, locationProperties } from './locationSlice';
 
 export const groundwaterEnum = {
+  farm_id: 'farm_id',
+  name: 'name',
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
@@ -15,19 +18,24 @@ export const groundwaterEnum = {
   user_for_irrigation: 'user_for_irrigation',
 };
 
+const groundwaterProperties = ['user_for_irrigation'];
+const getLocationFromGroundwater = (data) => {
+  return {
+    figure: {
+      ...pick(data, figureProperties),
+      area: pick(data, areaProperties),
+    },
+    natural_area: pick(data, groundwaterProperties),
+    ...pick(data, locationProperties),
+  };
+};
 const getGroundwaterFromLocationObject = (location) => {
   return {
     farm_id: location.farm_id,
     name: location.name,
-    ...pick(location.figure, ['figure_id', 'type', 'location_id']),
-    ...pick(location.figure.area, [
-      'total_area',
-      'total_area_unit',
-      'grid_points',
-      'perimeter',
-      'perimeter_unit',
-    ]),
-    ...pick(location.groundwater, ['user_for_irrigation']),
+    ...pick(location.figure, figureProperties),
+    ...pick(location.figure.area, areaProperties),
+    ...pick(location.ground_water, groundwaterProperties),
   };
 };
 

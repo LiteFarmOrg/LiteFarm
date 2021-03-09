@@ -1,9 +1,12 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { areaProperties, figureProperties, locationProperties } from './locationSlice';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
 export const fieldEnum = {
+  farm_id: 'farm_id',
+  name: 'name',
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
@@ -17,19 +20,24 @@ export const fieldEnum = {
   transition_date: 'transition_date',
 };
 
+const fieldProperties = ['station_id', 'organic_status', 'transition_date'];
+const getLocationFromField = (data) => {
+  return {
+    figure: {
+      ...pick(data, figureProperties),
+      area: pick(data, areaProperties),
+    },
+    natural_area: pick(data, fieldProperties),
+    ...pick(data, locationProperties),
+  };
+};
 const getFieldFromLocationObject = (location) => {
   return {
     farm_id: location.farm_id,
     name: location.name,
-    ...pick(location.figure, ['figure_id', 'type', 'location_id']),
-    ...pick(location.figure.area, [
-      'total_area',
-      'total_area_unit',
-      'grid_points',
-      'perimeter',
-      'perimeter_unit',
-    ]),
-    ...pick(location.field, ['station_id', 'organic_status', 'transition_date']),
+    ...pick(location.figure, figureProperties),
+    ...pick(location.figure.area, areaProperties),
+    ...pick(location.field, fieldProperties),
   };
 };
 

@@ -2,8 +2,11 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
+import { areaProperties, figureProperties, locationProperties } from './locationSlice';
 
 export const ceremonialEnum = {
+  farm_id: 'farm_id',
+  name: 'name',
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
@@ -13,20 +16,24 @@ export const ceremonialEnum = {
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',
 };
-
+const ceremonialProperties = [];
+const getLocationFromCeremonial = (data) => {
+  return {
+    figure: {
+      ...pick(data, figureProperties),
+      area: pick(data, areaProperties),
+    },
+    natural_area: pick(data, ceremonialProperties),
+    ...pick(data, locationProperties),
+  };
+};
 const getCeremonialFromLocationObject = (location) => {
   return {
     farm_id: location.farm_id,
     name: location.name,
-    ...pick(location.figure, ['figure_id', 'type', 'location_id']),
-    ...pick(location.figure.area, [
-      'total_area',
-      'total_area_unit',
-      'grid_points',
-      'perimeter',
-      'perimeter_unit',
-    ]),
-    ...pick(location.ceremonial, []),
+    ...pick(location.figure, figureProperties),
+    ...pick(location.figure.area, areaProperties),
+    ...pick(location.ceremonial_area, ceremonialProperties),
   };
 };
 

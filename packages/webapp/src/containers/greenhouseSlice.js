@@ -2,8 +2,11 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
+import { areaProperties, figureProperties, locationProperties } from './locationSlice';
 
 export const greenhouseEnum = {
+  farm_id: 'farm_id',
+  name: 'name',
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
@@ -14,20 +17,24 @@ export const greenhouseEnum = {
   perimeter_unit: 'perimeter_unit',
   organic_status: 'organic_status',
 };
-
+const greenHouseProperties = ['organic_status'];
+const getLocationFromGreenHouse = (data) => {
+  return {
+    figure: {
+      ...pick(data, figureProperties),
+      area: pick(data, areaProperties),
+    },
+    natural_area: pick(data, greenHouseProperties),
+    ...pick(data, locationProperties),
+  };
+};
 const getGreenhouseFromLocationObject = (location) => {
   return {
     farm_id: location.farm_id,
     name: location.name,
-    ...pick(location.figure, ['figure_id', 'type', 'location_id']),
-    ...pick(location.figure.area, [
-      'total_area',
-      'total_area_unit',
-      'grid_points',
-      'perimeter',
-      'perimeter_unit',
-    ]),
-    ...pick(location.greenhouse, ['organic_status']),
+    ...pick(location.figure, figureProperties),
+    ...pick(location.figure.area, areaProperties),
+    ...pick(location.greenhouse, greenHouseProperties),
   };
 };
 

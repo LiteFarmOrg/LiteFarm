@@ -17,7 +17,7 @@ export const naturalAreaEnum = {
   perimeter_unit: 'perimeter_unit',
 };
 const naturalAreaProperties = [];
-const getLocationFromNaturalArea = (data) => {
+export const getLocationObjectFromNaturalArea = (data) => {
   return {
     figure: {
       ...pick(data, figureProperties),

@@ -21,7 +21,7 @@ export const fieldEnum = {
 };
 
 const fieldProperties = ['station_id', 'organic_status', 'transition_date'];
-const getLocationFromField = (data) => {
+export const getLocationObjectFromField = (data) => {
   return {
     figure: {
       ...pick(data, figureProperties),

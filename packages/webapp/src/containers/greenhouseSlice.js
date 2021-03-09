@@ -18,7 +18,7 @@ export const greenhouseEnum = {
   organic_status: 'organic_status',
 };
 const greenHouseProperties = ['organic_status'];
-const getLocationFromGreenHouse = (data) => {
+export const getLocationObjectFromGreenHouse = (data) => {
   return {
     figure: {
       ...pick(data, figureProperties),

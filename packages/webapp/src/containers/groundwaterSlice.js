@@ -19,7 +19,7 @@ export const groundwaterEnum = {
 };
 
 const groundwaterProperties = ['user_for_irrigation'];
-const getLocationFromGroundwater = (data) => {
+export const getLocationObjectFromGroundwater = (data) => {
   return {
     figure: {
       ...pick(data, figureProperties),

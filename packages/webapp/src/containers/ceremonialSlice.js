@@ -17,7 +17,7 @@ export const ceremonialEnum = {
   perimeter_unit: 'perimeter_unit',
 };
 const ceremonialProperties = [];
-const getLocationFromCeremonial = (data) => {
+export const getLocationObjectFromCeremonial = (data) => {
   return {
     figure: {
       ...pick(data, figureProperties),

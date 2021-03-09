@@ -19,7 +19,7 @@ export const barnEnum = {
   cold_storage: 'cold_storage',
 };
 const barnProperties = ['wash_and_pack', 'cold_storage'];
-const getLocationFromBarn = (data) => {
+export const getLocationObjectFromBarn = (data) => {
   return {
     figure: {
       ...pick(data, figureProperties),

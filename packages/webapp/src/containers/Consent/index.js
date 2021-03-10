@@ -1,20 +1,30 @@
 import { useForm } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
-import ownerConsent from './Owner.Consent.md';
-import workerConsent from './Worker.Consent.md';
 import { useDispatch, useSelector } from 'react-redux';
 import PureConsent from '../../components/Consent';
 import { userFarmSelector } from '../userFarmSlice';
 import { patchConsent } from './saga';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import englishOwnerConsent from './locales/en/Owner.Consent.md';
+import englishWorkerConsent from './locales/en/Worker.Consent.md';
+import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
+import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
+import spanishOwnerConsent from './locales/es/Owner.Consent.md';
+import spanishWorkerConsent from './locales/es/Worker.Consent.md';
+const languageConsent = {
+  en: {worker: englishWorkerConsent, owner: englishOwnerConsent },
+  es: {worker: spanishWorkerConsent, owner: spanishOwnerConsent },
+  pt: {worker: portugueseWorkerConsent, owner: portugueseOwnerConsent },
+}
 
 function ConsentForm({
   goBackTo = '/role_selection',
   goForwardTo = '/interested_in_organic',
   history,
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch, setValue} = useForm();
@@ -36,10 +46,10 @@ function ConsentForm({
     dispatch(patchConsent({ has_consent: true, consent_version: consentVersion, goForwardTo }));
   };
 
-  useEffect(() => {
+  useEffect( () => {
     setValue(checkboxName, role.has_consent ?? false);
-    let consentForm = role.role_id === 3 ? workerConsent : ownerConsent;
-    fetch(consentForm)
+    const consent  = role.role_id === 3 ? languageConsent[language].worker: languageConsent[language].owner;
+    fetch(consent)
       .then((r) => r.text())
       .then((text) => {
         setConsentText(text);
@@ -58,7 +68,7 @@ function ConsentForm({
       onGoBack={goBackTo ? goBack : null}
       text={consent}
       disabled={!hasConsent}
-    ></PureConsent>
+    />
   );
 }
 

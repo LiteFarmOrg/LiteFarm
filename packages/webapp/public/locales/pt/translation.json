@@ -85,7 +85,6 @@
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
-      "DOWNLOADING": "MISSING",
       "EMAIL_TO_ME": "MISSING",
       "EMAILING": "MISSING",
       "TITLE": "MISSING"
@@ -151,7 +150,9 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "TITLE": "MISSING",
+    "TRY_AGAIN": "MISSING",
+    "UNDO": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -513,6 +514,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

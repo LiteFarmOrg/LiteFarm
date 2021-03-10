@@ -51,7 +51,7 @@ const emailTransporter = new EmailTemplates({
     objectNotation: true,
   },
   send: true,
-  preview: true,
+  preview: process.env.DEBUG === 'email-templates' || process.env.DEBUG === 'i18n:*',
   subjectPrefix: process.env.NODE_ENV === 'production' ? false : '[Development] ',
   transport: {
     host: 'smtp.gmail.com',

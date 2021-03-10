@@ -8,12 +8,14 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import englishOwnerConsent from './locales/en/Owner.Consent.md';
 import englishWorkerConsent from './locales/en/Worker.Consent.md';
+import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
+import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import spanishOwnerConsent from './locales/es/Owner.Consent.md';
 import spanishWorkerConsent from './locales/es/Worker.Consent.md';
 const languageConsent = {
   en: {worker: englishWorkerConsent, owner: englishOwnerConsent },
   es: {worker: spanishWorkerConsent, owner: spanishOwnerConsent },
-  pt: {worker: englishOwnerConsent, owner: englishWorkerConsent },
+  pt: {worker: portugueseWorkerConsent, owner: portugueseOwnerConsent },
 }
 
 function ConsentForm({

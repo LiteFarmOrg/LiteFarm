@@ -63,9 +63,12 @@ const drawArea = (map, maps, mapBounds, area) => {
 
   maps.event.addListener(polygon, "click", function() {
     console.log("clicked area");
-    this.setMap(null);
-    polyline.setMap(null);
-    fieldMarker.setMap(null);
+    // this.setMap(null);
+    // polyline.setMap(null);
+    // fieldMarker.setMap(null);
+    this.setOptions({visible: false});
+    polyline.setOptions({visible: false});
+    fieldMarker.setOptions({visible: false});
   });
 }
 
@@ -77,42 +80,52 @@ const drawLine = (map, maps, mapBounds, line) => {
     mapBounds.extend(point);
   });
 
+  // draw dotted outline
+  const lineSymbol = (c) => ({
+    path: "M 0,0 0,1",
+    strokeColor: c,
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    scale: dashScale,
+  });
   var polyline = new maps.Polyline({
     path: points,
     strokeColor: defaultColour,
     strokeOpacity: 1.0,
     strokeWeight: 2,
-    // fillColor: primaryColour,
-    // fillOpacity: 0.35,
-  });
-  polyline.setMap(map);
-
-  // draw dotted outline
-  const lineSymbol = {
-    path: "M 0,0 0,1",
-    strokeColor: colour,
-    strokeOpacity: 1,
-    strokeWeight: 2,
-    scale: dashScale,
-  };
-  const dottedPolyline = new maps.Polyline({
-    path: points,
-    strokeOpacity: 0,
     icons: [
       {
-        icon: lineSymbol,
+        icon: lineSymbol(colour),
         offset: "0",
         repeat: dashLength,
       },
     ],
   });
-  dottedPolyline.setMap(map);
+  polyline.setMap(map);
 
   maps.event.addListener(polyline, "mouseover", function() {
-    this.setOptions({ strokeColor: colour });
+    this.setOptions({
+      strokeColor: colour,
+      icons: [
+        {
+          icon: lineSymbol(defaultColour),
+          offset: "0",
+          repeat: dashLength,
+        },
+      ],
+    });
   });
   maps.event.addListener(polyline, "mouseout", function() {
-    this.setOptions({ strokeColor: defaultColour });
+    this.setOptions({
+      strokeColor: defaultColour,
+      icons: [
+        {
+          icon: lineSymbol(colour),
+          offset: "0",
+          repeat: dashLength,
+        },
+      ],
+    });
   });
   maps.event.addListener(polyline, "click", function() {
     console.log("clicked line");

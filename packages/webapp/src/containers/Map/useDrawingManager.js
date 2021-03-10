@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { areaStyles, icons } from './mapStyles';
+import { areaStyles, lineStyles, icons } from './mapStyles';
 import { isArea, isLine, isPoint } from './constants';
 
 export default function useDrawingManager() {
@@ -105,19 +105,27 @@ const getDrawingOptions = (type) => {
       fillColor: areaStyles[type].colour,
       strokeColor: areaStyles[type].colour,
       geodesic: true,
-      suppressUndo: true, // !!!
+      suppressUndo: true,
     },
   };
 
-  if (isLine(type)) {
-    console.log('line draw options not implemented');
-    return {};
-  }
+  if (isLine(type)) return {
+    polylineOptions: {
+      strokeWeight: 2,
+      editable: true,
+      draggable: true,
+      fillColor: lineStyles[type].colour,
+      strokeColor: lineStyles[type].colour,
+      geodesic: true,
+      suppressUndo: true,
+    },
+  };
 
   if (isPoint(type)) return {
     markerOptions: {
       icon: icons[type],
       draggable: true,
+      crossOnDrag: false,
     },
   };
 

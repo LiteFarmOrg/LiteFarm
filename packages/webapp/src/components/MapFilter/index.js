@@ -29,6 +29,7 @@ import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
 import { motion, useAnimation } from 'framer-motion';
 import PropTypes from 'prop-types';
+import { locationEnum } from '../../containers/Map/constants';
 
 const useStyles = makeStyles({
   fullList: {
@@ -66,57 +67,35 @@ export default function MapFilter({
 }) {
   const { t } = useTranslation();
 
-  let [visibility, setVisibility] = useState(false);
-  const [selected, setSelected] = useState([]);
-
   const classes = useStyles();
   const mapText = t('FARM_MAP.MAP_FILTER.SATELLITE');
 
   const areaImgDict = [
-    { name: t('FARM_MAP.MAP_FILTER.BARN'), img: Barn },
-    { name: t('FARM_MAP.MAP_FILTER.CA'), img: CeremonialArea },
-    { name: t('FARM_MAP.MAP_FILTER.FSB'), img: FarmSiteBoundary },
-    { name: t('FARM_MAP.MAP_FILTER.FIELD'), img: Field },
-    { name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'), img: Greenhouse },
-    { name: t('FARM_MAP.MAP_FILTER.GROUNDWATER'), img: Groundwater },
-    { name: t('FARM_MAP.MAP_FILTER.NA'), img: NaturalArea },
+    { name: t('FARM_MAP.MAP_FILTER.BARN'), img: Barn, key: locationEnum.barn },
+    { name: t('FARM_MAP.MAP_FILTER.CA'), img: CeremonialArea, key: locationEnum.ceremonial_area },
+    { name: t('FARM_MAP.MAP_FILTER.FSB'), img: FarmSiteBoundary, key: locationEnum.farmBound },
+    { name: t('FARM_MAP.MAP_FILTER.FIELD'), img: Field, key: locationEnum.field },
+    { name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'), img: Greenhouse, key: locationEnum.greenhouse },
+    {
+      name: t('FARM_MAP.MAP_FILTER.GROUNDWATER'),
+      img: Groundwater,
+      key: locationEnum.ground_water,
+    },
+    { name: t('FARM_MAP.MAP_FILTER.NA'), img: NaturalArea, key: locationEnum.natural_area },
   ];
 
   const lineImgDict = [
-    { name: t('FARM_MAP.MAP_FILTER.BZ'), img: BufferZone },
-    { name: t('FARM_MAP.MAP_FILTER.CREEK'), img: Creek },
-    { name: t('FARM_MAP.MAP_FILTER.FENCE'), img: Fence },
+    { name: t('FARM_MAP.MAP_FILTER.BZ'), img: BufferZone, key: locationEnum.buffer_zone },
+    { name: t('FARM_MAP.MAP_FILTER.CREEK'), img: Creek, key: locationEnum.creek },
+    { name: t('FARM_MAP.MAP_FILTER.FENCE'), img: Fence, key: locationEnum.fence },
   ];
 
   const pointImgDict = [
-    { name: t('FARM_MAP.MAP_FILTER.GATE'), img: Gate },
-    { name: t('FARM_MAP.MAP_FILTER.WV'), img: WaterValve },
+    { name: t('FARM_MAP.MAP_FILTER.GATE'), img: Gate, key: locationEnum.gate },
+    { name: t('FARM_MAP.MAP_FILTER.WV'), img: WaterValve, key: locationEnum.water_valve },
   ];
 
-  const selectOrDeselect = (id) => {
-    setVisibility(false);
-    const layers = selected.includes(id)
-      ? selected.filter((layerID) => id !== layerID)
-      : selected.concat(id);
-    setSelected(layers);
-  };
-
-  const setAllVisibility = () => {
-    setSelected([]);
-    setVisibility(false);
-  };
-
   const setAllVisibilityOff = () => {
-    setVisibility(true);
-    areaImgDict.map((item) => {
-      selected.push(item.name);
-    });
-    lineImgDict.map((item) => {
-      selected.push(item.name);
-    });
-    pointImgDict.map((item) => {
-      selected.push(item.name);
-    });
     selected.push('Satellite background');
   };
   const [initHeight, setInitHeight] = useState(drawerDefaultHeight);

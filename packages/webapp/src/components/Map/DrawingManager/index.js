@@ -27,7 +27,7 @@ export default function PureDrawingManager({
         <BackIcon className={styles.svg} />
       </button>
       {!isDrawing && (showZeroAreaWarning ?
-        <PureWarningBox className={styles.warningBox}>
+        <PureWarningBox className={styles.warningBox} style={{border: '1px solid var(--red700)'}}>
           <Label style={{ marginBottom: '12px' }}>
             {t('FARM_MAP.DRAWING_MANAGER.ZERO_AREA_DETECTED')}
           </Label>

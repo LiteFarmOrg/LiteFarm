@@ -13,6 +13,7 @@ import spanishWorkerConsent from './locales/es/Worker.Consent.md';
 const languageConsent = {
   en: {worker: englishWorkerConsent, owner: englishOwnerConsent },
   es: {worker: spanishWorkerConsent, owner: spanishOwnerConsent },
+  pt: {worker: englishOwnerConsent, owner: englishWorkerConsent },
 }
 
 function ConsentForm({

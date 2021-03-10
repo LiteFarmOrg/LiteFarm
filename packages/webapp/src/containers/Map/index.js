@@ -139,7 +139,6 @@ export default function Map() {
       const path = polygon.getPath();
       if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
       maps.event.addListener(polygon.getPath(), 'set_at', function() {
-        console.log(this);
         if (Math.round(maps.geometry.spherical.computeArea(this)) === 0) setZeroAreaWarning(true);
         else setZeroAreaWarning(false);
       });

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import text from '../../containers/Consent/Owner.Consent.md';
+import text from '../../containers/Consent/locales/en/Owner.Consent.md';
 import { Consent } from '../Consent/Consent.stories';
 
 const Button = lazy(() => import('../../components/Form/Button'));

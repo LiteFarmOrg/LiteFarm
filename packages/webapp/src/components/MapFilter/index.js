@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -24,9 +24,10 @@ import Rectangle from '../../assets/images/farmMapFilter/Rectangle.svg';
 import Leaf from '../../assets/images/farmMapFilter/Leaf.svg';
 import Line from '../../assets/images/farmMapFilter/Line.svg';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
-import { Box, SwipeableDrawer } from '@material-ui/core';
+import { Box, Drawer } from '@material-ui/core';
 import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
+import { motion, useAnimation } from 'framer-motion';
 
 const useStyles = makeStyles({
   list: {
@@ -49,16 +50,16 @@ const useStyles = makeStyles({
   BackdropProps: {
     background: 'transparent',
   },
+  header: {
+    '-webkit-user-select': 'none',
+    '-moz-user-select': 'none',
+    '-ms-user-select': 'none',
+    'user-select': 'none',
+    'touch-action': 'none',
+  },
 });
 
-export default function MapFilter({
-  setRoadview,
-  anchor,
-  setHeight,
-  height,
-  anchorState,
-  toggleDrawer,
-}) {
+export default function MapFilter({ setRoadview, anchor, anchorState, toggleDrawer }) {
   const { t } = useTranslation();
 
   let [visibility, setVisibility] = useState(false);
@@ -66,9 +67,6 @@ export default function MapFilter({
 
   const classes = useStyles();
   const mapText = t('FARM_MAP.MAP_FILTER.SATELLITE');
-  useEffect(() => {
-    setHeight(window.innerHeight / 2);
-  }, []);
 
   const areaImgDict = [
     { name: t('FARM_MAP.MAP_FILTER.BARN'), img: Barn },
@@ -117,6 +115,28 @@ export default function MapFilter({
     });
     selected.push('Satellite background');
   };
+  const [initHeight, setInitHeight] = useState(window.innerHeight / 2 - 156);
+  const controls = useAnimation();
+  const onPan = (event, info) =>
+    controls.start({
+      height: window.innerHeight - info.point.y - 60,
+    });
+  const onPanEnd = (event, info) => {
+    console.log(info.point.y, window.innerHeight);
+    if (info.point.y > window.innerHeight / 2) {
+      console.log('close');
+      toggleDrawer(anchor, false);
+    } else if (info.point.y < 156) {
+      console.log('full');
+      const newHeight = window.innerHeight - 156;
+      controls.start({
+        height: newHeight,
+      });
+      setInitHeight(newHeight);
+    } else {
+      setInitHeight(window.innerHeight - info.point.y - 60);
+    }
+  };
 
   const list = (anchor) => (
     <div
@@ -124,7 +144,6 @@ export default function MapFilter({
         [classes.fullList]: anchor === 'bottom',
       })}
       role="presentation"
-      style={{ height }}
     >
       <div
         style={{
@@ -134,7 +153,12 @@ export default function MapFilter({
           boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.25)',
         }}
       >
-        <div style={{ height: '90px' }}>
+        <motion.div
+          style={{ height: '90px' }}
+          className={classes.header}
+          onPan={onPan}
+          onPanEnd={onPanEnd}
+        >
           <div
             style={{
               width: '100%',
@@ -143,14 +167,7 @@ export default function MapFilter({
               padding: '4px 0',
             }}
           >
-            <div
-              className={classes.greenbar}
-              onClick={() => {
-                height === window.innerHeight / 2
-                  ? setHeight(window.innerHeight - 75)
-                  : setHeight(window.innerHeight / 2);
-              }}
-            />
+            <div className={classes.greenbar} />
           </div>
           <div style={{ marginLeft: '24px', paddingTop: '10px' }}>
             <Semibold>{t('FARM_MAP.MAP_FILTER.TITLE')}</Semibold>
@@ -184,9 +201,9 @@ export default function MapFilter({
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div style={{ overflowY: 'scroll', height: `${height - 90 - 64}px` }}>
+        <motion.div style={{ overflowY: 'scroll', height: initHeight }} animate={controls}>
           <List>
             {
               <ListItem
@@ -370,7 +387,7 @@ export default function MapFilter({
               </ListItem>
             ))}
           </List>
-        </div>
+        </motion.div>
       </div>
       <Divider />
     </div>
@@ -378,7 +395,7 @@ export default function MapFilter({
 
   return (
     <div>
-      <SwipeableDrawer
+      <Drawer
         anchor={anchor}
         open={anchorState[anchor]}
         onClose={toggleDrawer(anchor, false)}
@@ -397,7 +414,7 @@ export default function MapFilter({
         }}
       >
         {list(anchor)}
-      </SwipeableDrawer>
+      </Drawer>
     </div>
   );
 }

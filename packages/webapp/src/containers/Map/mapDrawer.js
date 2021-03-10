@@ -53,13 +53,6 @@ const drawArea = (map, maps, mapBounds, area) => {
   polyline.setMap(map);
 
   // add area name label
-  maps.Polygon.prototype.getPolygonBounds = function () {
-    var bounds = new maps.LatLngBounds();
-    this.getPath().forEach(function (element, index) {
-      bounds.extend(element);
-    });
-    return bounds;
-  };
   const fieldMarker = new maps.Marker({
     position: polygon.getPolygonBounds().getCenter(),
     map: map,

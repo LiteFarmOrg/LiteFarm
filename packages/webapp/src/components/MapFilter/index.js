@@ -28,14 +28,12 @@ import { Box, Drawer } from '@material-ui/core';
 import { colors } from '../../assets/theme';
 import { useTranslation } from 'react-i18next';
 import { motion, useAnimation } from 'framer-motion';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
-  list: {
-    width: 250,
-    overflow: 'hidden',
-  },
   fullList: {
     width: 'auto',
+    marginBottom: '60px',
   },
   greenbar: {
     height: '4px',
@@ -59,7 +57,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MapFilter({ setRoadview, anchor, anchorState, toggleDrawer }) {
+export default function MapFilter({
+  setRoadview,
+  showMapFilter,
+  setShowMapFilter,
+  onMenuItemClick,
+  drawerDefaultHeight = window.innerHeight / 2 - 156,
+}) {
   const { t } = useTranslation();
 
   let [visibility, setVisibility] = useState(false);
@@ -115,19 +119,16 @@ export default function MapFilter({ setRoadview, anchor, anchorState, toggleDraw
     });
     selected.push('Satellite background');
   };
-  const [initHeight, setInitHeight] = useState(window.innerHeight / 2 - 156);
+  const [initHeight, setInitHeight] = useState(drawerDefaultHeight);
   const controls = useAnimation();
   const onPan = (event, info) =>
     controls.start({
       height: window.innerHeight - info.point.y - 60,
     });
   const onPanEnd = (event, info) => {
-    console.log(info.point.y, window.innerHeight);
-    if (info.point.y > window.innerHeight / 2) {
-      console.log('close');
-      toggleDrawer(anchor, false);
+    if (info.point.y > window.innerHeight / 2 + 156) {
+      setShowMapFilter(false);
     } else if (info.point.y < 156) {
-      console.log('full');
       const newHeight = window.innerHeight - 156;
       controls.start({
         height: newHeight,
@@ -138,13 +139,8 @@ export default function MapFilter({ setRoadview, anchor, anchorState, toggleDraw
     }
   };
 
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'bottom',
-      })}
-      role="presentation"
-    >
+  const list = () => (
+    <div className={clsx(classes.list, classes.fullList)} role="presentation">
       <div
         style={{
           elevation: 0,
@@ -396,10 +392,10 @@ export default function MapFilter({ setRoadview, anchor, anchorState, toggleDraw
   return (
     <div>
       <Drawer
-        anchor={anchor}
-        open={anchorState[anchor]}
-        onClose={toggleDrawer(anchor, false)}
-        onOpen={toggleDrawer(anchor, true)}
+        anchor={'bottom'}
+        open={showMapFilter}
+        onClose={() => setShowMapFilter(false)}
+        onOpen={() => setShowMapFilter(true)}
         PaperProps={{
           style: { backgroundColor: 'transparent' },
           square: false,
@@ -413,8 +409,16 @@ export default function MapFilter({ setRoadview, anchor, anchorState, toggleDraw
           },
         }}
       >
-        {list(anchor)}
+        {list()}
       </Drawer>
     </div>
   );
 }
+
+MapFilter.prototype = {
+  setRoadview: PropTypes.func,
+  showMapFilter: PropTypes.bool,
+  setShowMapFilter: PropTypes.func,
+  onMenuItemClick: PropTypes.func,
+  drawerDefaultHeight: PropTypes.number,
+};

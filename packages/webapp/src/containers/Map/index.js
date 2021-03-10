@@ -10,7 +10,7 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
-import { setLocationData, resetLocationData } from '../mapSlice';
+import { setLocationData } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
@@ -21,7 +21,7 @@ import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
-import { drawArea, drawLine, drawPoint } from './mapDrawer';
+import { drawArea } from './mapDrawer';
 import { getLocations } from '../saga';
 
 export default function Map() {
@@ -31,19 +31,13 @@ export default function Map() {
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [showModal, setShowModal] = useState(false);
 
   const [stateMap, setMap] = useState(null);
 
-  const [drawingState, {
-    initDrawingState,
-    startDrawing,
-    finishDrawing,
-    resetDrawing,
-    closeDrawer,
-    getOverlayInfo,
-  }] = useDrawingManager();
-
+  const [
+    drawingState,
+    { initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer, getOverlayInfo },
+  ] = useDrawingManager();
 
   const samplePointsLine = [
     {
@@ -64,7 +58,6 @@ export default function Map() {
     lng: -74.97369460478514,
   };
   let [roadview, setRoadview] = useState(false);
-  const [showMapFilter, setShowMapFilter] = useState(true);
 
   useEffect(() => {
     dispatch(getLocations());
@@ -134,7 +127,7 @@ export default function Map() {
       map: map,
     });
 
-    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
+    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
     });
@@ -180,20 +173,25 @@ export default function Map() {
   const resetSpotlight = () => {
     dispatch(endMapSpotlight(farm_id));
   };
+  const [showMapFilter, setShowMapFilter] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClickAdd = () => {
     setShowModal(false);
-    setAnchorState({ bottom: false });
-    setShowMapFilter(true);
+    setShowMapFilter(false);
 
     // startDrawing('gate') // point
-    startDrawing('groundwater') // area
+    startDrawing('groundwater'); // area
   };
 
   const handleClickExport = () => {
     setShowModal(!showModal);
-    setAnchorState({ bottom: false });
-    setShowMapFilter(true);
+    setShowMapFilter(false);
+  };
+
+  const handleClickFilter = () => {
+    setShowModal(false);
+    setShowMapFilter(!showMapFilter);
   };
 
   const mapWrapperRef = useRef();
@@ -215,16 +213,6 @@ export default function Map() {
     });
   };
 
-  const [anchorState, setAnchorState] = useState({
-    bottom: false,
-  });
-
-  const toggleDrawer = (anchor, open) => () => {
-    setShowModal(false);
-    setShowMapFilter(!showMapFilter);
-    setAnchorState({ ...anchorState, [anchor]: open });
-  };
-
   const handleShare = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const fileDataURL = canvas.toDataURL();
@@ -232,10 +220,9 @@ export default function Map() {
     });
   };
 
-
   return (
     <>
-      {(showMapFilter && !drawingState.type) && (
+      {showMapFilter && !drawingState.type && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -259,36 +246,40 @@ export default function Map() {
               options={getMapOptions}
             />
           </div>
-          {drawingState.type && <div className={styles.drawingBar}>
-            <DrawingManager
-              drawingType={drawingState.type}
-              isDrawing={drawingState.isActive}
-              onClickBack={() => {
-                resetDrawing(true);
-                closeDrawer();
-              }}
-              onClickTryAgain={() => {
-                resetDrawing();
-                startDrawing(drawingState.type);
-              }}
-              onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
-            />
-          </div>}
+          {drawingState.type && (
+            <div className={styles.drawingBar}>
+              <DrawingManager
+                drawingType={drawingState.type}
+                isDrawing={drawingState.isActive}
+                onClickBack={() => {
+                  resetDrawing(true);
+                  closeDrawer();
+                }}
+                onClickTryAgain={() => {
+                  resetDrawing();
+                  startDrawing(drawingState.type);
+                }}
+                onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+              />
+            </div>
+          )}
         </div>
 
-        {!drawingState.type && <PureMapFooter
-          className={styles.mapFooter}
-          isAdmin={is_admin}
-          showSpotlight={showMapSpotlight}
-          resetSpotlight={resetSpotlight}
-          onClickAdd={handleClickAdd}
-          onClickExport={handleClickExport}
-          showModal={showModal}
-          anchorState={anchorState}
-          toggleDrawer={toggleDrawer}
-          setRoadview={setRoadview}
-          showMapFilter={showMapFilter}
-        />}
+        {!drawingState.type && (
+          <PureMapFooter
+            className={styles.mapFooter}
+            isAdmin={is_admin}
+            showSpotlight={showMapSpotlight}
+            resetSpotlight={resetSpotlight}
+            onClickAdd={handleClickAdd}
+            onClickExport={handleClickExport}
+            showModal={showModal}
+            setShowMapFilter={setShowMapFilter}
+            setRoadview={setRoadview}
+            showMapFilter={showMapFilter}
+            handleClickFilter={handleClickFilter}
+          />
+        )}
         {showModal && (
           <ExportMapModal
             onClickDownload={handleDownload}

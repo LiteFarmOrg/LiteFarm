@@ -236,6 +236,15 @@ export default function PureNavBar({
         tooltip: {
           transform: 'translateX(-12px)',
         },
+        buttonNext: {
+          minWidth: '81px',
+          minHeight: '32px',
+          boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
+          marginTop: '9px',
+          fontFamily: 'Open Sans, SansSerif, serif',
+          fontWeight: 600,
+          color: colors.grey900,
+        },
       },
       floaterProps: {
         styles: {

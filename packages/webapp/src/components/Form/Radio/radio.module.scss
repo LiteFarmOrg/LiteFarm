@@ -36,6 +36,11 @@
   border: solid 2px var(--checkbox);
 }
 
+.container input:checked ~ .label {
+  color: var(--grey900);
+}
+
+
 /* Create the indicator (the dot/circle - hidden when not checked) */
 .checkmark:after {
   content: '';
@@ -58,10 +63,6 @@
   background-color: var(--checkbox);
 }
 
-.label {
-  transform: translateY(-4px);
-}
-
 .disabled {
   cursor: auto;
 }
@@ -69,4 +70,15 @@
 .disabled .checkmark {
   background-color: var(--btnDisabled);
   border: none;
+}
+
+.label {
+  transform: translateY(-6px);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--grey600);
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  margin: 0;
 }

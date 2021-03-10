@@ -933,6 +933,10 @@ async function residenceFactory({ promisedLocation = locationFactory() } = {}) {
   return await baseArea({ promisedLocation }, 'residence');
 }
 
+async function farm_site_boundaryFactory({ promisedLocation = locationFactory() } = {}) {
+  return await baseArea({ promisedLocation }, 'farm_site_boundary');
+}
+
 async function buffer_zoneFactory({ promisedLocation = locationFactory(),
                                  promisedLine= lineFactory({ promisedLocation }, fakeLine())} = {}, asset){
   const [location] = await Promise.all([promisedLocation, promisedLine]);
@@ -1011,6 +1015,7 @@ module.exports = {
   fakeGreenhouse, greenhouseFactory,
   natural_areaFactory,
   ceremonial_areaFactory,
+  farm_site_boundaryFactory,
   residenceFactory,
   buffer_zoneFactory,
   gateFactory

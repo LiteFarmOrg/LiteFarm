@@ -1,5 +1,5 @@
 import React from 'react';
-import PureFarmSiteBoundary from '../../../components/AreaDetails/FarmSiteBoundary';
+import PureFarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
 
 function FarmSiteBoundary() {
   const onBack = () => {

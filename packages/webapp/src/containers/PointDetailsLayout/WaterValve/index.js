@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PureWaterValve from '../../../components/PointDetails/WaterValve';
+import PureWaterValve from '../../../components/PointDetailsLayout/WaterValve';
 
 function Gate() {
   const { t } = useTranslation();

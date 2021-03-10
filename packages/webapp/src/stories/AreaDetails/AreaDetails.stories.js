@@ -1,14 +1,14 @@
 import React from 'react';
-import AreaDetails from '../../components/AreaDetails';
+import AreaDetailsLayout from '../../components/AreaDetailsLayout';
 import decorator from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/Area/AreaDetails',
+  title: 'Components/Area/AreaDetailsLayout',
   decorators: decorator,
-  component: AreaDetails,
+  component: AreaDetailsLayout,
 };
 
-const Template = (args) => <AreaDetails {...args} />;
+const Template = (args) => <AreaDetailsLayout {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

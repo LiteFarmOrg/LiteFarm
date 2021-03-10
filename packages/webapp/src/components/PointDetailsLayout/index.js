@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 
-export default function AreaDetails({ name, children }) {
+export default function PointDetailsLayout({ name, children }) {
   const { t } = useTranslation();
 
   return (

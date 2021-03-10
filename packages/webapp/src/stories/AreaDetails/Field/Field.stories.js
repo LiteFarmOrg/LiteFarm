@@ -1,5 +1,5 @@
 import React from 'react';
-import Field from '../../../components/AreaDetails/Field';
+import Field from '../../../components/AreaDetailsLayout/Field';
 import decorator from '../../Pages/config/decorators';
 
 export default {

@@ -1,5 +1,5 @@
 import React from 'react';
-import PointDetails from '../../components/PointDetails';
+import PointDetails from '../../components/PointDetailsLayout';
 import decorator from '../Pages/config/decorators';
 
 export default {

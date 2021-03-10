@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PureField from '../../../components/AreaDetails/Field';
+import PureField from '../../../components/AreaDetailsLayout/Field';
 
 function FarmSiteBoundary() {
   const { t } = useTranslation();

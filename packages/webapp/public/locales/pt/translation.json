@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "DRAWING_MANAGER": {
+      "REDRAW": "MISSING",
+      "TRY_AGAIN": "MISSING",
+      "ZERO_AREA_DETECTED": "MISSING"
+    },
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
@@ -119,9 +124,7 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING",
-    "TRY_AGAIN": "MISSING",
-    "UNDO": "MISSING"
+    "TITLE": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",

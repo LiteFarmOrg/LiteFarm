@@ -34,6 +34,7 @@ export default function Map() {
   const [showModal, setShowModal] = useState(false);
 
   const [stateMap, setMap] = useState(null);
+  const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
 
   const [drawingState, {
     initDrawingState,
@@ -134,6 +135,10 @@ export default function Map() {
       map: map,
     });
 
+    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+      const area = Math.round(maps.geometry.spherical.computeArea(polygon.getPath()));
+      if (area === 0) setZeroAreaWarning(true);
+    });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
@@ -188,6 +193,7 @@ export default function Map() {
 
     // startDrawing('gate') // point
     startDrawing('groundwater') // area
+    // startDrawing('creek') // line
   };
 
   const handleClickExport = () => {
@@ -264,14 +270,17 @@ export default function Map() {
               drawingType={drawingState.type}
               isDrawing={drawingState.isActive}
               onClickBack={() => {
+                setZeroAreaWarning(false);
                 resetDrawing(true);
                 closeDrawer();
               }}
               onClickTryAgain={() => {
+                setZeroAreaWarning(false);
                 resetDrawing();
                 startDrawing(drawingState.type);
               }}
               onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+              showZeroAreaWarning={showZeroAreaWarning}
             />
           </div>}
         </div>

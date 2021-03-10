@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "DRAWING_MANAGER": {
+      "REDRAW": "Redraw",
+      "TRY_AGAIN": "Try again",
+      "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
+    },
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
@@ -119,9 +124,7 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map",
-    "TRY_AGAIN": "Try again",
-    "UNDO": "Undo"
+    "TITLE": "Farm map"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",

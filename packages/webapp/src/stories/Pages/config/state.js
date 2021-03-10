@@ -10027,6 +10027,7 @@ export default {
       shift_date: '2021-02-11T23:20:58.807Z',
       selectedTasks: [],
     },
+    mapLocationReducer: {},
   },
   baseReducer: {},
   logReducer: {

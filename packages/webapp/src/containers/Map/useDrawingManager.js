@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { areaStyles, icons } from './mapStyles';
-import { isArea, isLine, isPoint } from './util';
+import { isArea, isLine, isPoint } from './constants';
 
 export default function useDrawingManager() {
   const [maps, setMaps] = useState(null);

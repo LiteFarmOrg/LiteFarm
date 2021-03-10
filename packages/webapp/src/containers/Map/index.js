@@ -186,7 +186,7 @@ export default function Map() {
     setShowModal(false);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
-    
+
     // startDrawing('gate') // point
     startDrawing('groundwater') // area
   };
@@ -259,7 +259,7 @@ export default function Map() {
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
               options={getMapOptions}
-            ></GoogleMap>
+            />
           </div>
           {drawingState.type && <div className={styles.drawingBar}>
             <DrawingManager

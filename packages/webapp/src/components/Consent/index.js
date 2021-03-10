@@ -33,7 +33,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
         style={{ width: '90%', overflowY: 'scroll' }}
         className={clsx(styles.consentText, 'paraText')}
       >
-        <ReactMarkdown children={text}></ReactMarkdown>
+        <ReactMarkdown children={text}/>
       </div>
       <div
         style={{
@@ -44,7 +44,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
           marginTop: '-28px',
           zIndex: '2000',
         }}
-      ></div>
+      />
       <div>
         <Checkbox style={{ marginBottom: 0 }} {...checkboxArgs} />
       </div>

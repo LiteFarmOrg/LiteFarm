@@ -16,6 +16,7 @@
     "clsx": "^1.1.1",
     "convert-units": "^2.3.4",
     "dotenv": "^8.2.0",
+    "framer-motion": "^3.10.0",
     "google-map-react": "^2.1.9",
     "history": "^4.10.1",
     "html2canvas": "^1.0.0-rc.7",

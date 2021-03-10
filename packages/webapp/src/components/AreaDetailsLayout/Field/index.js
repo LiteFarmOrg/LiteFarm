@@ -9,7 +9,7 @@ import moment from 'moment';
 
 export default function PureField({ onGoBack }) {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, watch, errors, setValue } = useForm({
     mode: 'onTouched',
   });
   const onError = (data) => {};
@@ -18,6 +18,9 @@ export default function PureField({ onGoBack }) {
   const FIELD_TYPE = 'field_type';
   const fieldTypeSelection = watch(FIELD_TYPE, 'transitioning');
 
+  useEffect(() => {
+    setValue(FIELD_TYPE, 'nonorganic');
+  }, []);
   return (
     <AreaDetailsLayout
       name={t('FARM_MAP.FIELD.NAME')}
@@ -58,9 +61,15 @@ export default function PureField({ onGoBack }) {
               name={FIELD_TYPE}
             />
           </div>
-          {fieldTypeSelection === 'transitioning' && (
-            <DateContainer date={moment()} label={t('FARM_MAP.FIELD.DATE')} />
-          )}
+          <div>
+            {fieldTypeSelection === 'transitioning' && (
+              <DateContainer
+                style={{ marginBottom: '40px' }}
+                date={moment()}
+                label={t('FARM_MAP.FIELD.DATE')}
+              />
+            )}
+          </div>
         </div>
       }
     />

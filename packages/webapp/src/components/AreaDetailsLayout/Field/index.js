@@ -59,7 +59,7 @@ export default function PureField({ onGoBack }) {
             />
           </div>
           {fieldTypeSelection === 'transitioning' && (
-            <DateContainer date={moment()} placeholder={t('FARM_MAP.FIELD.DATE')} />
+            <DateContainer date={moment()} label={t('FARM_MAP.FIELD.DATE')} />
           )}
         </div>
       }

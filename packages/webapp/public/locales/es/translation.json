@@ -85,8 +85,8 @@
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
       "DOWNLOAD": "Descargar",
-      "EMAIL_TO_ME": "MISSING",
-      "EMAILING": "MISSING",
+      "EMAIL_TO_ME": "Enviar a mi correo",
+      "EMAILING": "Enviando",
       "TITLE": "Exporta tu mapa"
     },
     "MAP_FILTER": {
@@ -120,8 +120,8 @@
       "HERE_YOU_CAN": "Aqui puedes: "
     },
     "TITLE": "Mapa de granja",
-    "TRY_AGAIN": "MISSING",
-    "UNDO": "MISSING"
+    "TRY_AGAIN": "Intenta de nuevo",
+    "UNDO": "Deshacer"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",

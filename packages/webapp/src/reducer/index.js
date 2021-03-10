@@ -36,6 +36,7 @@ import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
 import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
+import mapLocationReducer from '../containers/mapSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -124,6 +125,7 @@ const tempStateReducer = combineReducers({
   homeReducer,
   shiftStepReducer,
   logSliceReducer,
+  mapLocationReducer,
 });
 
 // combine all reducers here and pass it to application

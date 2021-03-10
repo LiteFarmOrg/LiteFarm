@@ -85,7 +85,6 @@
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
-      "DOWNLOADING": "MISSING",
       "EMAIL_TO_ME": "MISSING",
       "EMAILING": "MISSING",
       "TITLE": "MISSING"
@@ -120,7 +119,9 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "TITLE": "MISSING",
+    "TRY_AGAIN": "MISSING",
+    "UNDO": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",
@@ -482,6 +483,7 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",

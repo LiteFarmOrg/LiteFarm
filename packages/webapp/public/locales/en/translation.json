@@ -85,7 +85,6 @@
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
-      "DOWNLOADING": "Downloading",
       "EMAIL_TO_ME": "Email to me",
       "EMAILING": "Emailing",
       "TITLE": "Export your farm map"
@@ -120,7 +119,9 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map"
+    "TITLE": "Farm map",
+    "TRY_AGAIN": "Try again",
+    "UNDO": "Undo"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",
@@ -482,6 +483,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

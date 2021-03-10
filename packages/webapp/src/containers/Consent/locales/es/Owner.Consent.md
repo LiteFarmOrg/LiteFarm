@@ -134,7 +134,7 @@ Recopilamos datos de uso (es decir, estadísticas generales sobre los(as) usuari
 &nbsp;
 
 
-** ¿Cómo utilizamos los datos? **
+**¿Cómo utilizamos los datos?**
 &nbsp;
 
 &nbsp;

@@ -1,0 +1,33 @@
+.container {
+  padding: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.backButton {
+  width: 32px;
+  height: 32px;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid var(--grey500);
+  padding: 3px 0px 3px 7px;
+  pointer-events: auto;
+
+  .svg {
+    stroke: var(--teal700);
+  }
+}
+
+.flexFill {
+  width: 32px;
+  height: 32px;
+}
+
+.drawingButton {
+  display: inline;
+  margin: 0 6px;
+  min-width: 96px;
+  pointer-events: auto;
+}

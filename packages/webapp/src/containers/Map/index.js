@@ -10,13 +10,16 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
+import { setLocationData, resetLocationData } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
+import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
+import useDrawingManager from './useDrawingManager';
 
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
 import { getLocations } from '../saga';
@@ -29,7 +32,18 @@ export default function Map() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
+
   const [stateMap, setMap] = useState(null);
+
+  const [drawingState, {
+    initDrawingState,
+    startDrawing,
+    finishDrawing,
+    resetDrawing,
+    closeDrawer,
+    getOverlayInfo,
+  }] = useDrawingManager();
+
 
   const samplePointsLine = [
     {
@@ -98,6 +112,39 @@ export default function Map() {
 
     setMap(map);
 
+    maps.Polygon.prototype.getPolygonBounds = function () {
+      var bounds = new maps.LatLngBounds();
+      this.getPath().forEach(function (element, index) {
+        bounds.extend(element);
+      });
+      return bounds;
+    };
+
+    // Create drawing manager
+    let drawingManagerInit = new maps.drawing.DrawingManager({
+      drawingMode: null,
+      drawingControl: false,
+      drawingControlOptions: {
+        position: maps.ControlPosition.TOP_CENTER,
+        drawingModes: [
+          maps.drawing.OverlayType.POLYGON,
+          maps.drawing.OverlayType.POLYLINE,
+          maps.drawing.OverlayType.MARKER,
+        ],
+      },
+      map: map,
+    });
+
+    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
+      finishDrawing(drawing);
+      this.setDrawingMode();
+    });
+    initDrawingState(maps, drawingManagerInit, {
+      POLYGON: maps.drawing.OverlayType.POLYGON,
+      POLYLINE: maps.drawing.OverlayType.POLYLINE,
+      MARKER: maps.drawing.OverlayType.MARKER,
+    });
+
     // Adding custom map components
     const zoomControlDiv = document.createElement('div');
     ReactDOM.render(
@@ -139,6 +186,9 @@ export default function Map() {
     setShowModal(false);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
+
+    // startDrawing('gate') // point
+    startDrawing('groundwater') // area
   };
 
   const handleClickExport = () => {
@@ -166,7 +216,7 @@ export default function Map() {
     });
   };
 
-  const [anchorState, setAnchorState] = React.useState({
+  const [anchorState, setAnchorState] = useState({
     bottom: false,
   });
 
@@ -184,9 +234,10 @@ export default function Map() {
     });
   };
 
+
   return (
     <>
-      {showMapFilter && (
+      {(showMapFilter && !drawingState.type) && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -195,7 +246,7 @@ export default function Map() {
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
         <div className={styles.mapContainer}>
-          <div className={styles.workaround} ref={mapWrapperRef}>
+          <div ref={mapWrapperRef}>
             <GoogleMap
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{
@@ -208,11 +259,26 @@ export default function Map() {
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
               options={getMapOptions}
-            ></GoogleMap>
+            />
           </div>
+          {drawingState.type && <div className={styles.drawingBar}>
+            <DrawingManager
+              drawingType={drawingState.type}
+              isDrawing={drawingState.isActive}
+              onClickBack={() => {
+                resetDrawing(true);
+                closeDrawer();
+              }}
+              onClickTryAgain={() => {
+                resetDrawing();
+                startDrawing(drawingState.type);
+              }}
+              onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+            />
+          </div>}
         </div>
 
-        <PureMapFooter
+        {!drawingState.type && <PureMapFooter
           className={styles.mapFooter}
           isAdmin={is_admin}
           showSpotlight={showMapSpotlight}
@@ -226,7 +292,7 @@ export default function Map() {
           toggleDrawer={toggleDrawer}
           setRoadview={setRoadview}
           showMapFilter={showMapFilter}
-        />
+        />}
         {showModal && (
           <ExportMapModal
             onClickDownload={handleDownload}

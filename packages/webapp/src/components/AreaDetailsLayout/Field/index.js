@@ -15,18 +15,8 @@ export default function PureField({ onGoBack }) {
   const onError = (data) => {};
   const onSubmit = (data) => {};
 
-  const [namesArray, setNamesArray] = useState([]);
-  const [transitioning, setTransitioning] = useState(false);
   const FIELD_TYPE = 'field_type';
   const fieldTypeSelection = watch(FIELD_TYPE, 'transitioning');
-
-  useEffect(() => {
-    setNamesArray(['areaField', 'perimeterField', 'nameField']);
-  });
-
-  // const PERIMETERFIELD = 'perimeterField';
-  // const perimeterField = watch(PERIMETERFIELD, false);
-  // const perimeterInputRegister = register();
 
   return (
     <AreaDetailsLayout
@@ -35,7 +25,6 @@ export default function PureField({ onGoBack }) {
       onBack={onGoBack}
       onSubmit={onSubmit}
       onError={onError}
-      namesArray={namesArray}
       additionalProperties={
         <div>
           <p style={{ marginBottom: '25px' }}>

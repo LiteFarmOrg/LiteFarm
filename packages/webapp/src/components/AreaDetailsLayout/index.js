@@ -12,7 +12,6 @@ export default function AreaDetailsLayout({
   onBack,
   onSubmit,
   onError,
-  namesArray,
 }) {
   const { t } = useTranslation();
 
@@ -38,12 +37,6 @@ export default function AreaDetailsLayout({
     name === 'Farm site boundary'
       ? setDisabled(!areaField || !perimeterField)
       : setDisabled(!areaField || !perimeterField || !nameField);
-    // // if (name !== 'Farm site boundary') setDisabled(!nameField)
-    // let prev = name[0];
-    // namesArray.map((name) => {
-    //   setDisabled(name || prev);
-    //   prev = name;
-    // })
   });
 
   return (

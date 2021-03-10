@@ -43,7 +43,7 @@ export default function PureField({ onGoBack }) {
           </p>
           <div>
             <Radio
-              style={{ marginBottom: '25px', color: 'green !important' }}
+              style={{ marginBottom: '25px' }}
               label={t('FARM_MAP.FIELD.NON_ORGANIC')}
               defaultChecked={true}
               inputRef={register({ required: true })}

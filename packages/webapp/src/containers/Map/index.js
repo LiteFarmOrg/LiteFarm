@@ -136,8 +136,17 @@ export default function Map() {
     });
 
     maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
-      const area = Math.round(maps.geometry.spherical.computeArea(polygon.getPath()));
-      if (area === 0) setZeroAreaWarning(true);
+      const path = polygon.getPath();
+      if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
+      maps.event.addListener(polygon.getPath(), 'set_at', function() {
+        console.log(this);
+        if (Math.round(maps.geometry.spherical.computeArea(this)) === 0) setZeroAreaWarning(true);
+        else setZeroAreaWarning(false);
+      });
+      maps.event.addListener(polygon.getPath(), 'insert_at', function() {
+        if (Math.round(maps.geometry.spherical.computeArea(this)) === 0) setZeroAreaWarning(true);
+        else setZeroAreaWarning(false);
+      });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);

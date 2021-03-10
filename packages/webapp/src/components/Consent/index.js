@@ -30,7 +30,7 @@ export default function PureConsent({ onSubmit, checkboxArgs, onGoBack, text, di
     >
       <Title style={{ marginBottom: '16px' }}>{t('CONSENT.DATA_POLICY')}</Title>
       <div
-        style={{ width: '90%', overflowY: 'scroll' }}
+        style={{ width: '100%', overflowY: 'scroll' }}
         className={clsx(styles.consentText, 'paraText')}
       >
         <ReactMarkdown children={text}/>

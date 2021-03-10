@@ -51,8 +51,6 @@ function ConsentForm({
       .then((text) => {
         setConsentText(text);
       });
-    // const consentFormText = role.role_id === 3?
-    // let consentForm = role.role_id === 3 ? workerConsent : ownerConsent;
   }, []);
 
   return (

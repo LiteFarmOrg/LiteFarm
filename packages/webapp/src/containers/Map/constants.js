@@ -7,3 +7,31 @@ export const DEFAULT_CENTER = {
 export const DEFAULT_ZOOM = 15;
 export const GMAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 export const ENVIRONMENT = process.env.NODE_ENV;
+
+
+export const isArea = (type) => {
+  return [
+    'barn',
+    'ceremonial',
+    'farmBound',
+    'field',
+    'greenhouse',
+    'groundwater',
+    'natural',
+    'residence',
+  ].includes(type);
+}
+
+export const isLine = (type) => {
+  return [
+    'creek',
+    'fence',
+  ].includes(type);
+}
+
+export const isPoint = (type) => {
+  return [
+    'gate',
+    'waterValve',
+  ].includes(type);
+}

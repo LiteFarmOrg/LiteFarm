@@ -20,12 +20,12 @@ export const areaStyles = {
     dashScale: 2,
     dashLength: '14px',
   },
-  'ceremonial': {
+  'ceremonial_area': {
     colour: ceremonialSiteColour,
     dashScale: 1.5,
     dashLength: '8px',
   },
-  'farmBound': {
+  'farm_bound': {
     colour: farmBoundColour,
     dashScale: 1,
     dashLength: '1px',
@@ -40,12 +40,12 @@ export const areaStyles = {
     dashScale: 1,
     dashLength: '8px',
   },
-  'groundwater': {
+  'ground_water': {
     colour: groundwaterColour,
     dashScale: 0.7,
     dashLength: '6px',
   },
-  'natural': {
+  'natural_area': {
     colour: naturalAreaColour,
     dashScale: 0.7,
     dashLength: '12px',
@@ -78,9 +78,9 @@ const assetUrlDict = {
 const assetURL = assetUrlDict[ENVIRONMENT];
 export const icons = {
   'gate': `${assetURL}/gate.png`,
-  'waterValve': `${assetURL}/water-valve.png`,
+  'water_valve': `${assetURL}/water-valve.png`,
 }
 export const hoverIcons = {
   'gate': `${assetURL}/gate-hover.png`,
-  'waterValve': `${assetURL}/water-valve-hover.png`,
+  'water_valve': `${assetURL}/water-valve-hover.png`,
 }

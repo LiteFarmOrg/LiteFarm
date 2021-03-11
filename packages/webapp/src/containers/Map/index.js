@@ -24,7 +24,7 @@ import useDrawingManager from './useDrawingManager';
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
 import { getLocations } from '../saga';
 
-export default function Map() {
+export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
@@ -187,7 +187,7 @@ export default function Map() {
     setShowMapFilter(true);
 
     // startDrawing('gate') // point
-    startDrawing('groundwater') // area
+    startDrawing('field') // area
   };
 
   const handleClickExport = () => {
@@ -271,7 +271,10 @@ export default function Map() {
                 resetDrawing();
                 startDrawing(drawingState.type);
               }}
-              onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+              onClickConfirm={() => {
+                dispatch(setLocationData(getOverlayInfo()));
+                history.push(`/create_location/${drawingState.type}`);
+              }}
             />
           </div>}
         </div>

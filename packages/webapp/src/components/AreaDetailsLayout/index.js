@@ -4,6 +4,8 @@ import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
 import { fieldEnum } from '../../containers/fieldSlice';
+import { useSelector } from 'react-redux';
+import { locationInfoSelector } from '../../containers/mapSlice';
 
 export default function AreaDetailsLayout({
   name,
@@ -17,9 +19,11 @@ export default function AreaDetailsLayout({
   register,
   handleSubmit,
   showPerimeter,
+  setValue,
   children,
 }) {
   const { t } = useTranslation();
+  const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
 
   return (
     <FormTitleLayout
@@ -53,6 +57,7 @@ export default function AreaDetailsLayout({
           style={{ marginBottom: '40px', width: '50%', float: 'left' }}
           name={fieldEnum.total_area}
           inputRef={register({ required: true })}
+          defaultValue={defaultArea}
         />
         {showPerimeter && (
           <Input
@@ -61,11 +66,12 @@ export default function AreaDetailsLayout({
             style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
             name={fieldEnum.perimeter}
             inputRef={register({ required: true })}
+            defaultValue={defaultPerimeter}
           />
         )}
       </div>
       {children}
-      <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '40px' }} />
+      <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '40px' }} hookFormSetValue={setValue} />
     </FormTitleLayout>
   );
 }

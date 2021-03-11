@@ -6,9 +6,13 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import DateContainer from '../../Inputs/DateContainer';
 import moment from 'moment';
+// import { useSelector } from 'react-redux';
+// import { locationInfoSelector } from '../../../containers/mapSlice';
 
 export default function PureField({ onGoBack }) {
   const { t } = useTranslation();
+  // TODO: use grid_points in endpoint call/saga. keep changes consistent with other area locations
+  // const { grid_points } = useSelector(locationInfoSelector);
   const {
     register,
     handleSubmit,
@@ -28,7 +32,6 @@ export default function PureField({ onGoBack }) {
   const fieldTypeSelection = watch(FIELD_TYPE, 'transitioning');
 
   const disabled = !isValid || !isDirty;
-  console.log(errors, isDirty, isValid);
 
   useEffect(() => {
     setValue(FIELD_TYPE, 'nonorganic');

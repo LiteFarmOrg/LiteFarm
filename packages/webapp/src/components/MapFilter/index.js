@@ -58,11 +58,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MapFilter({
-  setRoadview,
+export default function MapDrawer({
   showMapFilter,
   setShowMapFilter,
   onMenuItemClick,
+  shouldShowAssets,
   drawerDefaultHeight = window.innerHeight / 2 - 156,
 }) {
   const { t } = useTranslation();
@@ -95,9 +95,6 @@ export default function MapFilter({
     { name: t('FARM_MAP.MAP_FILTER.WV'), img: WaterValve, key: locationEnum.water_valve },
   ];
 
-  const setAllVisibilityOff = () => {
-    selected.push('Satellite background');
-  };
   const [initHeight, setInitHeight] = useState(drawerDefaultHeight);
   const controls = useAnimation();
   const onPan = (event, info) =>
@@ -157,8 +154,7 @@ export default function MapFilter({
             >
               <div
                 onClick={() => {
-                  setAllVisibility();
-                  setRoadview(false);
+                  onMenuItemClick();
                 }}
               >
                 <p>
@@ -168,8 +164,7 @@ export default function MapFilter({
               </div>
               <div
                 onClick={() => {
-                  setAllVisibilityOff();
-                  setRoadview(true);
+                  onMenuItemClick();
                 }}
               >
                 <p>{t('FARM_MAP.MAP_FILTER.HIDE_ALL')}</p>
@@ -394,8 +389,7 @@ export default function MapFilter({
   );
 }
 
-MapFilter.prototype = {
-  setRoadview: PropTypes.func,
+MapDrawer.prototype = {
   showMapFilter: PropTypes.bool,
   setShowMapFilter: PropTypes.func,
   onMenuItemClick: PropTypes.func,

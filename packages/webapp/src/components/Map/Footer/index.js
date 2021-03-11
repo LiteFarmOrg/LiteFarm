@@ -7,7 +7,7 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import MapFilter from '../../MapFilter';
+import MapDrawer from '../../MapFilter';
 
 export default function PureMapFooter({
   className,
@@ -161,7 +161,7 @@ export default function PureMapFooter({
           <ExportLogo className={svg} />
         </button>
       </div>
-      <MapFilter
+      <MapDrawer
         setRoadview={setRoadview}
         setShowMapFilter={setShowMapFilter}
         showMapFilter={showMapFilter}

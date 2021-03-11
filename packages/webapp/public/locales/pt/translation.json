@@ -90,6 +90,7 @@
       "TITLE": "MISSING"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
@@ -105,7 +106,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
-      "Residence": "MISSING",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",

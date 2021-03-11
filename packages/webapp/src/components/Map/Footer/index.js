@@ -35,7 +35,7 @@ export default function PureMapFooter({
     const { action, status, lifecycle } = data;
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === ACTIONS.CLOSE) {
       setStepSpotlighted(null);
-      resetSpotlight();
+      resetSpotlight?.();
     } else if ([ACTIONS.UPDATE].includes(action) && lifecycle === LIFECYCLE.TOOLTIP) {
       setStepSpotlighted(data.index);
     }
@@ -179,7 +179,7 @@ export default function PureMapFooter({
         setShowMapDrawer={setShowAddDrawer}
         showMapDrawer={showAddDrawer}
         drawerDefaultHeight={drawerDefaultHeight}
-        headerTitle={t('FARM_MAP.MAP_FILTER.TITLE')}
+        headerTitle={t('FARM_MAP.MAP_FILTER.ADD_TITLE')}
         onMenuItemClick={onAddMenuClick}
       />
     </>

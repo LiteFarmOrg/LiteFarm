@@ -142,7 +142,7 @@ export default function MapDrawer({
       key: locationEnum.natural_area,
     },
     {
-      name: t('FARM_MAP.MAP_FILTER.Residence'),
+      name: t('FARM_MAP.MAP_FILTER.RESIDENCE'),
       icon: () => <Residence className={classes.icon} />,
       key: locationEnum.residence,
     },

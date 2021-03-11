@@ -90,6 +90,7 @@
       "TITLE": "Exporta tu mapa"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
@@ -105,7 +106,7 @@
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
-      "Residence": "MISSING",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
       "TITLE": "Filtra tu mapa",

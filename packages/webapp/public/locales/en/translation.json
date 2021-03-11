@@ -90,6 +90,7 @@
       "TITLE": "Export your farm map"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
@@ -105,7 +106,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
-      "Residence": "Residence",
+      "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",

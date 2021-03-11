@@ -90,6 +90,7 @@
       "TITLE": "MISSING"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",
       "BARN": "MISSING",
       "BZ": "MISSING",
@@ -105,7 +106,7 @@
       "LINES": "MISSING",
       "NA": "MISSING",
       "POINTS": "MISSING",
-      "Residence": "MISSING",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "MISSING",
       "SHOW_ALL": "MISSING",
       "TITLE": "MISSING",

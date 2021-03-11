@@ -171,20 +171,20 @@ export default function Map() {
     setShowMapFilter(!showMapFilter);
   };
 
-  const handleFilterMenuClick = (asset) => {
-    if (asset === 'show_all') {
+  const handleFilterMenuClick = (locationType) => {
+    if (locationType === 'show_all') {
       dispatch(setMapFilterShowAll(farm_id));
-    } else if (asset === 'hide_all') {
+    } else if (locationType === 'hide_all') {
       dispatch(setMapFilterHideAll(farm_id));
     } else {
       const payload = {};
-      payload[asset] = !filterSettings[asset];
+      payload[locationType] = !filterSettings[locationType];
       payload.farm_id = farm_id;
       dispatch(setMapFilterSetting(payload));
     }
   };
-  const handleAddMenuClick = (asset) => {
-    startDrawing(asset);
+  const handleAddMenuClick = (locationType) => {
+    startDrawing(locationType);
   };
 
   const mapWrapperRef = useRef();

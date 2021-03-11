@@ -1,27 +1,55 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { areaProperties, figureProperties, locationProperties } from './locationSlice';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
+export const fieldEnum = {
+  farm_id: 'farm_id',
+  name: 'name',
+  figure_id: 'figure_id',
+  type: 'type',
+  location_id: 'location_id',
+  total_area: 'total_area',
+  total_area_unit: 'total_area_unit',
+  grid_points: 'grid_points',
+  perimeter: 'perimeter',
+  perimeter_unit: 'perimeter_unit',
+  station_id: 'station_id',
+  organic_status: 'organic_status',
+  transition_date: 'transition_date',
+};
+
+const fieldProperties = ['station_id', 'organic_status', 'transition_date'];
+export const getLocationObjectFromField = (data) => {
+  return {
+    figure: {
+      ...pick(data, figureProperties),
+      area: pick(data, areaProperties),
+    },
+    field: pick(data, fieldProperties),
+    ...pick(data, locationProperties),
+  };
+};
 const getFieldFromLocationObject = (location) => {
   return {
     farm_id: location.farm_id,
     name: location.name,
-    ...pick(location.figure, ['figure_id', 'type', 'location_id']),
-    ...pick(location.figure.area, ['total_area', 'grid_points', 'perimeter']),
-    ...pick(location.field, [
-      'station_id',
-      'organic_status',
-      'transition_date',
-      'main_color',
-      'hover_color',
-      'line_type',
-    ]),
+    ...pick(location.figure, figureProperties),
+    ...pick(location.figure.area, areaProperties),
+    ...pick(location.field, fieldProperties),
   };
 };
 
-const upsertOneFieldWithLocation = (state, { payload }) => {
-  fieldAdapter.upsertOne(state, getFieldFromLocationObject(payload));
+const upsertOneFieldWithLocation = (state, { payload: location }) => {
+  fieldAdapter.upsertOne(state, getFieldFromLocationObject(location));
+};
+const upsertManyFieldWithLocation = (state, { payload: locations }) => {
+  fieldAdapter.upsertMany(
+    state,
+    locations.map((location) => getFieldFromLocationObject(location)),
+  );
+  onLoadingSuccess(state);
 };
 
 const fieldAdapter = createEntityAdapter({
@@ -33,23 +61,23 @@ const fieldSlice = createSlice({
   initialState: fieldAdapter.getInitialState({
     loading: false,
     error: undefined,
-    field_id: undefined,
+    location_id: undefined,
     loaded: false,
   }),
   reducers: {
     onLoadingFieldStart: onLoadingStart,
     onLoadingFieldFail: onLoadingFail,
-    onLoadingFieldSuccess: onLoadingSuccess,
-    addOneField: upsertOneFieldWithLocation,
+    getFieldsSuccess: upsertManyFieldWithLocation,
+    postFieldSuccess: upsertOneFieldWithLocation,
     deleteFieldSuccess: fieldAdapter.removeOne,
   },
 });
 export const {
-  addOneField,
+  getFieldsSuccess,
+  postFieldSuccess,
   onLoadingFieldStart,
   onLoadingFieldFail,
   deleteFieldSuccess,
-  onLoadingFieldSuccess,
 } = fieldSlice.actions;
 export default fieldSlice.reducer;
 
@@ -67,7 +95,7 @@ export const fieldsSelector = createSelector(
 
 export const fieldSelector = createSelector(
   fieldReducerSelector,
-  ({ field_id, entities }) => entities[field_id],
+  ({ location_id, entities }) => entities[location_id],
 );
 
 export const fieldStatusSelector = createSelector(

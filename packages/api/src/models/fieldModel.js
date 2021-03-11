@@ -24,22 +24,6 @@ class Field extends Model {
     return 'location_id';
   }
 
-  static get virtualAttributes() {
-    return ['main_color', 'hover_color', 'line_type'];
-  }
-
-  get main_color() {
-    return '444444';
-  }
-
-  get hover_color() {
-    return 'ffffff';
-  }
-
-  get line_type() {
-    return 'solid';
-  }
-
   // Optional JSON schema. This is not the database schema! Nothing is generated
   // based on this. This is only used for validation. Whenever a model instance
   // is created it is checked against this schema. http://json-schema.org/.

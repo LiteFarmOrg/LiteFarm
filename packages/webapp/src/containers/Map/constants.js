@@ -10,23 +10,23 @@ export const ENVIRONMENT = process.env.NODE_ENV;
 
 export const isArea = (type) => {
   return [
-    'barn',
-    'ceremonial',
-    'farmBound',
-    'field',
-    'greenhouse',
-    'groundwater',
-    'natural',
-    'residence',
+    locationEnum.barn,
+    locationEnum.ceremonial_area,
+    locationEnum.farm_bound,
+    locationEnum.field,
+    locationEnum.greenhouse,
+    locationEnum.ground_water,
+    locationEnum.natural_area,
+    locationEnum.residence,
   ].includes(type);
 };
 
 export const isLine = (type) => {
-  return ['creek', 'fence'].includes(type);
+  return [locationEnum.creek, locationEnum.fence].includes(type);
 };
 
 export const isPoint = (type) => {
-  return ['gate', 'waterValve'].includes(type);
+  return [locationEnum.gate, locationEnum.water_valve].includes(type);
 };
 
 export const locationEnum = {
@@ -42,4 +42,5 @@ export const locationEnum = {
   gate: 'gate',
   water_valve: 'water_valve',
   farm_bound: 'farm_bound',
+  residence: 'residence',
 };

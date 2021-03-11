@@ -125,6 +125,14 @@ class Location extends baseModel {
           to: 'greenhouse.location_id',
         },
       },
+      farm_site_boundary: {
+        modelClass: require('./farmSiteBoundary'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'farm_site_boundary.location_id',
+        },
+      },
       ground_water: {
         modelClass: require('./groundWaterModel'),
         relation: Model.HasOneRelation,

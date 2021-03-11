@@ -6,8 +6,6 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import DateContainer from '../../Inputs/DateContainer';
 import moment from 'moment';
-import fieldEnum from '../../../containers/fieldSlice';
-import DatePicker from '../../DatePicker';
 
 export default function PureField({ onGoBack }) {
   const { t } = useTranslation();
@@ -19,14 +17,18 @@ export default function PureField({ onGoBack }) {
     setValue,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   const FIELD_TYPE = 'field_type';
   const fieldTypeSelection = watch(FIELD_TYPE, 'transitioning');
+
   const disabled = !isValid || !isDirty;
+  console.log(errors, isDirty, isValid);
 
   useEffect(() => {
     setValue(FIELD_TYPE, 'nonorganic');
@@ -41,10 +43,9 @@ export default function PureField({ onGoBack }) {
       register={register}
       isNameRequired={true}
       disabled={disabled}
-      register={register}
       handleSubmit={handleSubmit}
       setValue={setValue}
-      disabled={disabled}
+      showPerimeter={true}
       additionalProperties={
         <div>
           <p style={{ marginBottom: '25px' }}>

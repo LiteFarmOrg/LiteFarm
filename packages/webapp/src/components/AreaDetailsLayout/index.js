@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
-import { useForm } from 'react-hook-form';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import fieldEnum from '../../containers/fieldSlice';
+import { fieldEnum } from '../../containers/fieldSlice';
 
 export default function AreaDetailsLayout({
   name,
@@ -17,6 +16,7 @@ export default function AreaDetailsLayout({
   disabled,
   register,
   handleSubmit,
+  showPerimeter,
 }) {
   const { t } = useTranslation();
 
@@ -43,7 +43,7 @@ export default function AreaDetailsLayout({
         optional={name === 'Farm site boundary' ? true : false}
         style={{ marginBottom: '40px' }}
         name={fieldEnum.name}
-        inputRef={register({ nameRequired: isNameRequired })}
+        inputRef={register({ required: isNameRequired })}
       />
       <div>
         <Input
@@ -53,13 +53,15 @@ export default function AreaDetailsLayout({
           name={fieldEnum.total_area}
           inputRef={register({ required: true })}
         />
-        <Input
-          label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-          type="text"
-          style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
-          name={fieldEnum.perimeter}
-          inputRef={register({ required: true })}
-        />
+        {showPerimeter && (
+          <Input
+            label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
+            type="text"
+            style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
+            name={fieldEnum.perimeter}
+            inputRef={register({ required: true })}
+          />
+        )}
       </div>
       {additionalProperties}
       <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '40px' }} />

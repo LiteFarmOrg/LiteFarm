@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 
 export default function PureFarmSiteBoundary({ onGoBack }) {
   const { t } = useTranslation();
-
   const {
     register,
     handleSubmit,
@@ -14,24 +13,28 @@ export default function PureFarmSiteBoundary({ onGoBack }) {
     setValue,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
-
   const onError = (data) => {};
-  const onSubmit = (data) => {};
-  const disabled = !isValid || isDirty;
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  const disabled = !isValid || !isDirty;
+  console.log(errors, isDirty, isValid);
 
   return (
     <AreaDetailsLayout
-      title={t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')}
       name={t('FARM_MAP.FARM_SITE_BOUNDARY.NAME')}
+      title={t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')}
       onBack={onGoBack}
       onSubmit={onSubmit}
       onError={onError}
-      handleSubmit={handleSubmit}
       register={register}
-      disabled={disabled}
       isNameRequired={false}
+      disabled={disabled}
+      handleSubmit={handleSubmit}
+      setValue={setValue}
+      showPerimeter={true}
     />
   );
 }

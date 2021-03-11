@@ -15,6 +15,8 @@ export default function PureWaterValve({ onGoBack }) {
   const onError = (data) => {};
   const onSubmit = (data) => {};
 
+  const WATER_TYPE = 'water_type';
+
   return (
     <FormTitleLayout
       onGoBack={onGoBack}
@@ -43,24 +45,28 @@ export default function PureWaterValve({ onGoBack }) {
                 style={{ marginBottom: '25px' }}
                 label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
                 defaultChecked={true}
+                name={WATER_TYPE}
               />
             </div>
             <div>
               <Radio
                 style={{ marginBottom: '25px' }}
                 label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
+                name={WATER_TYPE}
               />
             </div>
             <div>
               <Radio
                 style={{ marginBottom: '25px' }}
                 label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
+                name={WATER_TYPE}
               />
             </div>
             <div>
               <Radio
                 style={{ marginBottom: '25px' }}
                 label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
+                name={WATER_TYPE}
               />
             </div>
             <Input

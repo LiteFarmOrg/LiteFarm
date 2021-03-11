@@ -8,7 +8,10 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children }) {
     <Layout buttonGroup={buttonGroup} classes={{ footer: { position: 'relative' } }}>
       <Title style={{ marginTop: '12px' }}>
         {onGoBack && (
-          <IoIosArrowBack style={{ cursor: 'pointer', marginBottom: -3 }} onClick={onGoBack} />
+          <IoIosArrowBack
+            style={{ cursor: 'pointer', marginBottom: -3, color: 'var(--teal900)' }}
+            onClick={onGoBack}
+          />
         )}{' '}
         {title}
       </Title>

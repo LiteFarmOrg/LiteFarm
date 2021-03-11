@@ -28,12 +28,41 @@ import {
 } from './userFarmSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { logUserInfoSuccess, userLogReducerSelector } from './userLogSlice';
+import { getFieldsSuccess, onLoadingFieldFail, onLoadingFieldStart } from './fieldSlice';
+import { getBarnsSuccess, onLoadingBarnFail, onLoadingBarnStart } from './barnSlice';
 import {
-  addOneField,
-  onLoadingFieldFail,
-  onLoadingFieldStart,
-  onLoadingFieldSuccess,
-} from './fieldSlice';
+  getNaturalAreasSuccess,
+  onLoadingNaturalAreaFail,
+  onLoadingNaturalAreaStart,
+} from './naturalAreaSlice';
+import {
+  getCeremonialsSuccess,
+  onLoadingCeremonialFail,
+  onLoadingCeremonialStart,
+} from './ceremonialSlice';
+import {
+  getGreenhousesSuccess,
+  onLoadingGreenhouseFail,
+  onLoadingGreenhouseStart,
+} from './greenhouseSlice';
+import {
+  getGroundwatersSuccess,
+  onLoadingGroundwaterFail,
+  onLoadingGroundwaterStart,
+} from './groundwaterSlice';
+import {
+  getBufferZonesSuccess,
+  onLoadingBufferZoneFail,
+  onLoadingBufferZoneStart,
+} from './bufferZoneSlice';
+import { getCreeksSuccess, onLoadingCreekFail, onLoadingCreekStart } from './creekSlice';
+import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
+import {
+  getWaterValvesSuccess,
+  onLoadingWaterValveFail,
+  onLoadingWaterValveStart,
+} from './waterValveSlice';
+import { getGatesSuccess, onLoadingGateFail, onLoadingGateStart } from './gateSlice';
 import {
   cropStatusSelector,
   getAllCropsSuccess,
@@ -167,40 +196,27 @@ export const onLoadingLocationStart = createAction('onLoadingLocationStartSaga')
 
 export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFieldStart());
-  // yield put(onLoadingBarnStart());
-  // yield put(onLoadingBarnStart());
-  // yield put(onLoadingBarnStart());
+  yield put(onLoadingCeremonialStart());
+  yield put(onLoadingBarnStart());
+  yield put(onLoadingGreenhouseStart());
+  yield put(onLoadingGroundwaterStart());
+  yield put(onLoadingNaturalAreaStart());
+  yield put(onLoadingBufferZoneStart());
+  yield put(onLoadingCreekStart());
+  yield put(onLoadingFenceStart());
+  yield put(onLoadingGateStart());
+  yield put(onLoadingWaterValveStart());
 }
-
-export const onLoadingLocationFail = createAction('onLoadingLocationFailSaga');
-
-export function* onLoadingLocationFailSaga() {
-  yield put(onLoadingFieldFail());
-  // yield put(onLoadingBarnFail());
-  // yield put(onLoadingBarnFail());
-  // yield put(onLoadingBarnFail());
-}
-
-export const onLoadingLocationSuccess = createAction('onLoadingLocationSuccessSaga');
-
-export function* onLoadingLocationSuccessSaga() {
-  yield put(onLoadingFieldSuccess());
-  // yield put(onLoadingBarnSuccess());
-  // yield put(onLoadingBarnSuccess());
-  // yield put(onLoadingBarnSuccess());
-}
-
 export const getLocations = createAction('getLocationsSaga');
 
 export function* getLocationsSaga() {
   let { user_id, farm_id } = yield select(loginSelector);
   const header = getHeader(user_id, farm_id);
   try {
-    yield put(onLoadingFieldStart());
+    yield put(onLoadingLocationStart());
     const result = yield call(axios.get, getLocationsUrl(farm_id), header);
     yield put(getLocationsSuccess(result.data));
   } catch (e) {
-    yield put(onLoadingLocationFail());
     console.log('failed to fetch fields from database');
   }
 }
@@ -208,16 +224,37 @@ export function* getLocationsSaga() {
 export const getLocationsSuccess = createAction('getLocationsSuccessSaga');
 
 export function* getLocationsSuccessSaga({ payload: locations }) {
+  const locations_by_figure_type = {};
   for (const location of locations) {
-    if (figureTypeActionMap.hasOwnProperty(location.figure.type)) {
-      yield put(figureTypeActionMap[location.figure.type](location));
+    if (!locations_by_figure_type.hasOwnProperty(location.figure.type)) {
+      locations_by_figure_type[location.figure.type] = [];
+    }
+    locations_by_figure_type[location.figure.type].push(location);
+  }
+  for (const figure_type in figureTypeActionMap) {
+    try {
+      yield put(
+        figureTypeActionMap[figure_type].success(locations_by_figure_type[figure_type] ?? []),
+      );
+    } catch (e) {
+      yield put(figureTypeActionMap[figure_type].fail(e));
+      console.log(e);
     }
   }
-  yield put(onLoadingLocationSuccess());
 }
 
 const figureTypeActionMap = {
-  field: addOneField,
+  field: { success: getFieldsSuccess, fail: onLoadingFieldFail },
+  barn: { success: getBarnsSuccess, fail: onLoadingBarnFail },
+  ceremonial_area: { success: getCeremonialsSuccess, fail: onLoadingCeremonialFail },
+  greenhouse: { success: getGreenhousesSuccess, fail: onLoadingGreenhouseFail },
+  ground_water: { success: getGroundwatersSuccess, fail: onLoadingGroundwaterFail },
+  natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
+  buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
+  creek: { success: getCreeksSuccess, fail: onLoadingCreekFail },
+  fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
+  gate: { success: getGatesSuccess, fail: onLoadingGateFail },
+  water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
 };
 
 export const getFieldCrops = createAction('getFieldCropsSaga');
@@ -404,9 +441,7 @@ export default function* getFarmIdSaga() {
   yield takeLatest(getFieldCrops.type, getFieldCropsSaga);
   yield takeLatest(getCrops.type, getCropsSaga);
   yield takeLatest(selectFarmSuccess.type, fetchAllSaga);
-  yield takeLatest(onLoadingLocationFail.type, onLoadingLocationFailSaga);
   yield takeLatest(onLoadingLocationStart.type, onLoadingLocationStartSaga);
-  yield takeLatest(onLoadingLocationSuccess.type, onLoadingLocationSuccessSaga);
   yield takeLatest(getLocationsSuccess.type, getLocationsSuccessSaga);
   // yield takeLatest(UPDATE_AGREEMENT, updateAgreementSaga);
 }

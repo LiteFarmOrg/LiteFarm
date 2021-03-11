@@ -18,8 +18,6 @@ export default function PureMapFooter({
   onClickAdd,
   onClickExport,
   showModal,
-  setHeight,
-  height,
   anchorState,
   toggleDrawer,
   setRoadview,
@@ -130,7 +128,7 @@ export default function PureMapFooter({
               order: -1,
               minWidth: '81px',
               minHeight: '32px',
-              boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)'
+              boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
             },
             tooltipContent: {
               padding: '4px 0 0 0',
@@ -138,7 +136,7 @@ export default function PureMapFooter({
             },
             spotlight: {
               borderRadius: 0,
-            }
+            },
           }}
           spotlightPadding={0}
         />
@@ -168,8 +166,6 @@ export default function PureMapFooter({
                 <MapFilter
                   setRoadview={setRoadview}
                   anchor={anchor}
-                  setHeight={setHeight}
-                  height={height}
                   anchorState={anchorState}
                   toggleDrawer={toggleDrawer}
                 />

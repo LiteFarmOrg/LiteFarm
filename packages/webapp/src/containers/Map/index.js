@@ -10,24 +10,40 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
+import { setLocationData, resetLocationData } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
+import DrawingManager from '../../components/Map/DrawingManager';
+import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
+import useDrawingManager from './useDrawingManager';
 
 import { drawArea, drawLine, drawPoint } from './mapDrawer';
 import { getLocations } from '../saga';
 
 export default function Map() {
+  const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
+
   const [stateMap, setMap] = useState(null);
+
+  const [drawingState, {
+    initDrawingState,
+    startDrawing,
+    finishDrawing,
+    resetDrawing,
+    closeDrawer,
+    getOverlayInfo,
+  }] = useDrawingManager();
+
 
   const samplePointsLine = [
     {
@@ -46,10 +62,9 @@ export default function Map() {
   const samplePoint = {
     lat: 40.13592240695948,
     lng: -74.97369460478514,
-  }
+  };
   let [roadview, setRoadview] = useState(false);
   const [showMapFilter, setShowMapFilter] = useState(true);
-  const [height, setHeight] = useState(0);
 
   useEffect(() => {
     dispatch(getLocations());
@@ -96,6 +111,39 @@ export default function Map() {
 
     setMap(map);
 
+    maps.Polygon.prototype.getPolygonBounds = function () {
+      var bounds = new maps.LatLngBounds();
+      this.getPath().forEach(function (element, index) {
+        bounds.extend(element);
+      });
+      return bounds;
+    };
+
+    // Create drawing manager
+    let drawingManagerInit = new maps.drawing.DrawingManager({
+      drawingMode: null,
+      drawingControl: false,
+      drawingControlOptions: {
+        position: maps.ControlPosition.TOP_CENTER,
+        drawingModes: [
+          maps.drawing.OverlayType.POLYGON,
+          maps.drawing.OverlayType.POLYLINE,
+          maps.drawing.OverlayType.MARKER,
+        ],
+      },
+      map: map,
+    });
+
+    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
+      finishDrawing(drawing);
+      this.setDrawingMode();
+    });
+    initDrawingState(maps, drawingManagerInit, {
+      POLYGON: maps.drawing.OverlayType.POLYGON,
+      POLYLINE: maps.drawing.OverlayType.POLYLINE,
+      MARKER: maps.drawing.OverlayType.MARKER,
+    });
+
     // Adding custom map components
     const zoomControlDiv = document.createElement('div');
     ReactDOM.render(
@@ -117,17 +165,17 @@ export default function Map() {
 
     if (fields && fields.length >= 1) {
       for (const field of fields) {
-        drawArea(map, maps, mapBounds, 'field', field);
+        drawArea(map, maps, mapBounds, field);
       }
-      // drawLine(map, maps, mapBounds, 'example', {grid_points: samplePointsLine, name: "example line"});
-      // drawPoint(map, maps, mapBounds, 'example', {grid_point: samplePoint, name: "example point"});
+      // drawLine(map, maps, mapBounds, {grid_points: samplePointsLine, name: "example line", type: 'creek'});
+      // drawPoint(map, maps, mapBounds, {grid_point: samplePoint, name: "example point", type: 'waterValve'});
 
       // ADDING ONCLICK TO DRAWING
       // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
 
       map.fitBounds(mapBounds);
     }
-  }
+  };
 
   const resetSpotlight = () => {
     dispatch(endMapSpotlight(farm_id));
@@ -137,6 +185,9 @@ export default function Map() {
     setShowModal(false);
     setAnchorState({ bottom: false });
     setShowMapFilter(true);
+
+    // startDrawing('gate') // point
+    startDrawing('groundwater') // area
   };
 
   const handleClickExport = () => {
@@ -164,7 +215,7 @@ export default function Map() {
     });
   };
 
-  const [anchorState, setAnchorState] = React.useState({
+  const [anchorState, setAnchorState] = useState({
     bottom: false,
   });
 
@@ -172,7 +223,6 @@ export default function Map() {
     setShowModal(false);
     setShowMapFilter(!showMapFilter);
     setAnchorState({ ...anchorState, [anchor]: open });
-    if (!open) setHeight(window.innerHeight / 2);
   };
 
   const handleShare = () => {
@@ -182,18 +232,19 @@ export default function Map() {
     });
   };
 
+
   return (
     <>
-    {showMapFilter && (
-      <PureMapHeader
-        className={styles.mapHeader}
-        farmName={farm_name}
-        showVideo={handleShowVideo}
-      />
-     )}
-      <div className={styles.pageWrapper}>
+      {(showMapFilter && !drawingState.type) && (
+        <PureMapHeader
+          className={styles.mapHeader}
+          farmName={farm_name}
+          showVideo={handleShowVideo}
+        />
+      )}
+      <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
         <div className={styles.mapContainer}>
-          <div className={styles.workaround} ref={mapWrapperRef}>
+          <div ref={mapWrapperRef}>
             <GoogleMap
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{
@@ -206,11 +257,26 @@ export default function Map() {
               yesIWantToUseGoogleMapApiInternals
               onGoogleApiLoaded={({ map, maps }) => handleGoogleMapApi(map, maps)}
               options={getMapOptions}
-            ></GoogleMap>
+            />
           </div>
+          {drawingState.type && <div className={styles.drawingBar}>
+            <DrawingManager
+              drawingType={drawingState.type}
+              isDrawing={drawingState.isActive}
+              onClickBack={() => {
+                resetDrawing(true);
+                closeDrawer();
+              }}
+              onClickTryAgain={() => {
+                resetDrawing();
+                startDrawing(drawingState.type);
+              }}
+              onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+            />
+          </div>}
         </div>
 
-        <PureMapFooter
+        {!drawingState.type && <PureMapFooter
           className={styles.mapFooter}
           isAdmin={is_admin}
           showSpotlight={showMapSpotlight}
@@ -218,13 +284,11 @@ export default function Map() {
           onClickAdd={handleClickAdd}
           onClickExport={handleClickExport}
           showModal={showModal}
-          setHeight={setHeight}
-          height={height}
           anchorState={anchorState}
           toggleDrawer={toggleDrawer}
           setRoadview={setRoadview}
           showMapFilter={showMapFilter}
-        />
+        />}
         {showModal && (
           <ExportMapModal
             onClickDownload={handleDownload}

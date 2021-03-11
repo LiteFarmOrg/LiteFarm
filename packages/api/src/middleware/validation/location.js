@@ -8,6 +8,7 @@ const figureMapping = {
   ground_water: 'area',
   natural_area: 'area',
   greenhouse: 'area',
+  farm_site_boundary: 'area',
   barn: 'area',
   field: 'area',
   buffer_zone: 'line',
@@ -25,6 +26,7 @@ const promiseMapper = {
 
 const modelMapping = {
   ceremonial_area: modelValidation('ceremonial_area'),
+  farm_site_boundary: modelValidation('farm_site_boundary'),
   residence: modelValidation('residence'),
   ground_water: modelValidation('ground_water'),
   natural_area: modelValidation('natural_area'),

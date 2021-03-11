@@ -304,7 +304,6 @@ export default function MapDrawer({
         anchor={'bottom'}
         open={showMapDrawer}
         onClose={() => setShowMapDrawer(false)}
-        onOpen={() => setShowMapDrawer(true)}
         PaperProps={{
           style: { backgroundColor: 'transparent' },
           square: false,

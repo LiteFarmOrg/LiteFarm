@@ -21,7 +21,7 @@ import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
-import { drawArea } from './mapDrawer';
+import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
 import {
   mapFilterSettingSelector,
@@ -46,25 +46,6 @@ export default function Map() {
     drawingState,
     { initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer, getOverlayInfo },
   ] = useDrawingManager();
-
-  const samplePointsLine = [
-    {
-      lat: 40.1381877000039,
-      lng: -74.97323955717772,
-    },
-    {
-      lat: 40.13927038563383,
-      lng: -74.9661585253784,
-    },
-    {
-      lat: 40.13392240695948,
-      lng: -74.97169460478514,
-    },
-  ];
-  const samplePoint = {
-    lat: 40.13592240695948,
-    lng: -74.97369460478514,
-  };
 
   useEffect(() => {
     dispatch(getLocations());
@@ -104,7 +85,7 @@ export default function Map() {
       fullscreenControl: false,
     };
   };
-
+  const { drawAssets } = useMapAssetRenderer();
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
@@ -162,19 +143,7 @@ export default function Map() {
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-
-    if (fields && fields.length >= 1) {
-      for (const field of fields) {
-        drawArea(map, maps, mapBounds, field);
-      }
-      // drawLine(map, maps, mapBounds, {grid_points: samplePointsLine, name: "example line", type: 'creek'});
-      // drawPoint(map, maps, mapBounds, {grid_point: samplePoint, name: "example point", type: 'waterValve'});
-
-      // ADDING ONCLICK TO DRAWING
-      // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
-
-      map.fitBounds(mapBounds);
-    }
+    drawAssets(map, maps, mapBounds);
   };
 
   const resetSpotlight = () => {
@@ -188,9 +157,6 @@ export default function Map() {
     setShowModal(false);
     setShowMapFilter(false);
     setShowAddDrawer(!showAddDrawer);
-
-    // startDrawing('gate') // point
-    // startDrawing('groundwater'); // area
   };
 
   const handleClickExport = () => {
@@ -217,7 +183,9 @@ export default function Map() {
       dispatch(setMapFilterSetting(payload));
     }
   };
-  const handleAddMenuClick = (asset) => {};
+  const handleAddMenuClick = (asset) => {
+    startDrawing(asset);
+  };
 
   const mapWrapperRef = useRef();
 

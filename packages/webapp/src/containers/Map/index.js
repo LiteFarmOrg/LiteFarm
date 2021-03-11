@@ -23,11 +23,14 @@ import useDrawingManager from './useDrawingManager';
 
 import { drawArea } from './mapDrawer';
 import { getLocations } from '../saga';
+import { mapFilterSettingSelector, setMapFilterSetting } from './mapFilterSettingSlice';
 
 export default function Map() {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
+  const filterSettings = useSelector(mapFilterSettingSelector);
+  const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -57,7 +60,6 @@ export default function Map() {
     lat: 40.13592240695948,
     lng: -74.97369460478514,
   };
-  let [roadview, setRoadview] = useState(false);
 
   useEffect(() => {
     dispatch(getLocations());
@@ -174,25 +176,37 @@ export default function Map() {
     dispatch(endMapSpotlight(farm_id));
   };
   const [showMapFilter, setShowMapFilter] = useState(false);
+  const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const handleClickAdd = () => {
     setShowModal(false);
     setShowMapFilter(false);
+    setShowAddDrawer(true);
 
     // startDrawing('gate') // point
-    startDrawing('groundwater'); // area
+    // startDrawing('groundwater'); // area
   };
 
   const handleClickExport = () => {
     setShowModal(!showModal);
     setShowMapFilter(false);
+    setShowAddDrawer(false);
   };
 
   const handleClickFilter = () => {
     setShowModal(false);
+    setShowAddDrawer(false);
     setShowMapFilter(!showMapFilter);
   };
+
+  const handleFilterMenuClick = (asset) => {
+    const payload = {};
+    payload[asset] = !filterSettings[asset];
+    payload.farm_id = farm_id;
+    dispatch(setMapFilterSetting(payload));
+  };
+  const handleAddMenuClick = (asset) => {};
 
   const mapWrapperRef = useRef();
 
@@ -275,9 +289,12 @@ export default function Map() {
             onClickExport={handleClickExport}
             showModal={showModal}
             setShowMapFilter={setShowMapFilter}
-            setRoadview={setRoadview}
             showMapFilter={showMapFilter}
+            setShowAddDrawer={setShowAddDrawer}
+            showAddDrawer={showAddDrawer}
             handleClickFilter={handleClickFilter}
+            filterSettings={filterSettings}
+            onFilterMenuClick={handleFilterMenuClick}
           />
         )}
         {showModal && (

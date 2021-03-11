@@ -7,7 +7,7 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import MapDrawer from '../../MapFilter';
+import MapDrawer from '../../MapDrawer';
 
 export default function PureMapFooter({
   className,
@@ -20,9 +20,13 @@ export default function PureMapFooter({
   handleClickFilter,
   showModal,
   setShowMapFilter,
-  setRoadview,
   showMapFilter,
+  setShowAddDrawer,
+  showAddDrawer,
   drawerDefaultHeight,
+  filterSettings,
+  onFilterMenuClick,
+  onAddMenuClick,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -162,10 +166,21 @@ export default function PureMapFooter({
         </button>
       </div>
       <MapDrawer
-        setRoadview={setRoadview}
-        setShowMapFilter={setShowMapFilter}
-        showMapFilter={showMapFilter}
+        key={'filter'}
+        setShowMapDrawer={setShowMapFilter}
+        showMapDrawer={showMapFilter}
         drawerDefaultHeight={drawerDefaultHeight}
+        headerTitle={t('FARM_MAP.MAP_FILTER.TITLE')}
+        filterSettings={filterSettings}
+        onMenuItemClick={onFilterMenuClick}
+      />
+      <MapDrawer
+        key={'add'}
+        setShowMapDrawer={setShowAddDrawer}
+        showMapDrawer={showAddDrawer}
+        drawerDefaultHeight={drawerDefaultHeight}
+        headerTitle={t('FARM_MAP.MAP_FILTER.TITLE')}
+        onMenuItemClick={onAddMenuClick}
       />
     </>
   );
@@ -184,6 +199,10 @@ PureMapFooter.prototype = {
   setShowMapFilter: PropTypes.func,
   showMapFilter: PropTypes.bool,
   drawerDefaultHeight: PropTypes.number,
+  filterSettings: PropTypes.func,
+  onFilterMenuClick: PropTypes.func,
+  onAddMenuClick: PropTypes.func,
+  setShowAddDrawer: PropTypes.func,
 };
 
 const TitleContent = (text) => {

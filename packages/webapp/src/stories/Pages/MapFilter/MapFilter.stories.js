@@ -1,6 +1,6 @@
 import React from 'react';
 import decorators from '../config/decorators';
-import MapFilter from '../../../components/MapFilter/';
+import MapFilter from '../../../components/MapDrawer/';
 
 export default {
   title: 'Page/MapDrawer',

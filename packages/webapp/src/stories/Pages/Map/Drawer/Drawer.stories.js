@@ -32,6 +32,10 @@ Filter.args = {
   showSpotlight: false,
   showMapFilter: true,
   drawerDefaultHeight: window.innerHeight - 156,
+  /*
+   * Map should show barns when barn:true
+   * */
+  filterSettings: { barn: true },
 };
 Filter.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

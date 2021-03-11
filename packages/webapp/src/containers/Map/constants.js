@@ -41,5 +41,5 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
-  farmBound: 'farmBound',
+  farm_bound: 'farm_bound',
 };

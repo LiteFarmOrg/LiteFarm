@@ -105,6 +105,7 @@
       "LINES": "MISSING",
       "NA": "MISSING",
       "POINTS": "MISSING",
+      "Residence": "MISSING",
       "SATELLITE": "MISSING",
       "SHOW_ALL": "MISSING",
       "TITLE": "MISSING",
@@ -120,8 +121,7 @@
       "HERE_YOU_CAN": "MISSING"
     },
     "TITLE": "MISSING",
-    "TRY_AGAIN": "MISSING",
-    "UNDO": "MISSING"
+    "TRY_AGAIN": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",
@@ -483,7 +483,6 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",

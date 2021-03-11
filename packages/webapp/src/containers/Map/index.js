@@ -23,7 +23,12 @@ import useDrawingManager from './useDrawingManager';
 
 import { drawArea } from './mapDrawer';
 import { getLocations } from '../saga';
-import { mapFilterSettingSelector, setMapFilterSetting } from './mapFilterSettingSlice';
+import {
+  mapFilterSettingSelector,
+  setMapFilterHideAll,
+  setMapFilterSetting,
+  setMapFilterShowAll,
+} from './mapFilterSettingSlice';
 
 export default function Map() {
   const windowInnerHeight = useWindowInnerHeight();
@@ -182,7 +187,7 @@ export default function Map() {
   const handleClickAdd = () => {
     setShowModal(false);
     setShowMapFilter(false);
-    setShowAddDrawer(true);
+    setShowAddDrawer(!showAddDrawer);
 
     // startDrawing('gate') // point
     // startDrawing('groundwater'); // area
@@ -201,10 +206,16 @@ export default function Map() {
   };
 
   const handleFilterMenuClick = (asset) => {
-    const payload = {};
-    payload[asset] = !filterSettings[asset];
-    payload.farm_id = farm_id;
-    dispatch(setMapFilterSetting(payload));
+    if (asset === 'show_all') {
+      dispatch(setMapFilterShowAll(farm_id));
+    } else if (asset === 'hide_all') {
+      dispatch(setMapFilterHideAll(farm_id));
+    } else {
+      const payload = {};
+      payload[asset] = !filterSettings[asset];
+      payload.farm_id = farm_id;
+      dispatch(setMapFilterSetting(payload));
+    }
   };
   const handleAddMenuClick = (asset) => {};
 
@@ -236,7 +247,7 @@ export default function Map() {
 
   return (
     <>
-      {showMapFilter && !drawingState.type && (
+      {!showMapFilter && !showAddDrawer && !drawingState.type && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -295,6 +306,7 @@ export default function Map() {
             handleClickFilter={handleClickFilter}
             filterSettings={filterSettings}
             onFilterMenuClick={handleFilterMenuClick}
+            onAddMenuClick={handleAddMenuClick}
           />
         )}
         {showModal && (

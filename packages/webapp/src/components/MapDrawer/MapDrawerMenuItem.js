@@ -4,7 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
-import { colors } from '../../assets/theme';
+import { colors, DefaultThemeProvider } from '../../assets/theme';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
@@ -13,8 +13,11 @@ const useStyles = makeStyles({
     fontSize: '42px',
     lineHeight: '16px',
   },
+  menuItem: {
+    paddingLeft: '40px',
+    paddingRight: '40px',
+  },
 });
-
 export default function MapDrawerMenuItem({
   onClick,
   isFilterMenuItem,
@@ -24,21 +27,24 @@ export default function MapDrawerMenuItem({
 }) {
   const classes = useStyles();
   return (
-    <ListItem
-      style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
-      button
-      onClick={onClick}
-    >
-      <ListItemIcon>{/*{children}*/}</ListItemIcon>
+    <DefaultThemeProvider>
+      <ListItem
+        style={{ backgroundColor: isFiltered ? '#F3F6FB' : 'white' }}
+        button
+        className={classes.menuItem}
+        onClick={onClick}
+      >
+        <ListItemIcon>{children}</ListItemIcon>
 
-      <ListItemText primary={name} />
+        <ListItemText primary={name} />
 
-      {isFilterMenuItem ? (
-        <EyeToggleIcon isFiltered={isFiltered} />
-      ) : (
-        <span className={classes.plusIcon}>+</span>
-      )}
-    </ListItem>
+        {isFilterMenuItem ? (
+          <EyeToggleIcon isFiltered={isFiltered} />
+        ) : (
+          <span className={classes.plusIcon}>+</span>
+        )}
+      </ListItem>
+    </DefaultThemeProvider>
   );
 }
 

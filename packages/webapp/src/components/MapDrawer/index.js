@@ -12,6 +12,7 @@ import { ReactComponent as Field } from '../../assets/images/farmMapFilter/Field
 import { ReactComponent as Greenhouse } from '../../assets/images/farmMapFilter/Greenhouse.svg';
 import { ReactComponent as Groundwater } from '../../assets/images/farmMapFilter/Groundwater.svg';
 import { ReactComponent as NaturalArea } from '../../assets/images/farmMapFilter/NA.svg';
+import { ReactComponent as Residence } from '../../assets/images/farmMapFilter/Residence.svg';
 import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/BufferZone.svg';
 import { ReactComponent as Creek } from '../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
@@ -39,13 +40,12 @@ const useStyles = makeStyles({
     width: '36px',
     backgroundColor: colors.teal700,
     borderRadius: '2px',
-    marginTop: '16px',
   },
   handleBarContainer: {
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    padding: '4px 0',
+    padding: '14px 0',
   },
   MuiDrawer: {
     backgroundColor: colors.teal700,
@@ -59,16 +59,15 @@ const useStyles = makeStyles({
     '-ms-user-select': 'none',
     'user-select': 'none',
     'touch-action': 'none',
-    height: '90px',
+  },
+  headerTitle: {
+    marginBottom: '16px',
   },
   headerContentContainer: {
-    marginLeft: '24px',
-    paddingTop: '10px',
+    padding: '0 24px 8px 24px',
   },
   headerTextContainer: {
     textDecoration: 'underline',
-    // color: '#AA5F04',
-    // fontSize: '14px',
     display: 'flex',
     flexDirection: 'row',
   },
@@ -83,6 +82,7 @@ const useStyles = makeStyles({
   },
   label: {
     marginLeft: '24px',
+    height: '24px',
   },
   labelDivider: {
     display: 'inline-block',
@@ -108,55 +108,60 @@ export default function MapDrawer({
   const areaImgDict = [
     {
       name: t('FARM_MAP.MAP_FILTER.BARN'),
-      icon: <Barn className={classes.icon} />,
+      icon: () => <Barn className={classes.icon} />,
       key: locationEnum.barn,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.CA'),
-      icon: <CeremonialArea className={classes.icon} />,
+      icon: () => <CeremonialArea className={classes.icon} />,
       key: locationEnum.ceremonial_area,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FSB'),
-      icon: <FarmSiteBoundary className={classes.icon} />,
+      icon: () => <FarmSiteBoundary className={classes.icon} />,
       key: locationEnum.farm_bound,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FIELD'),
-      icon: <Field className={classes.icon} />,
+      icon: () => <Field className={classes.icon} />,
       key: locationEnum.field,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'),
-      icon: <Greenhouse className={classes.icon} />,
+      icon: () => <Greenhouse className={classes.icon} />,
       key: locationEnum.greenhouse,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.GROUNDWATER'),
-      icon: Groundwater,
+      icon: () => <Groundwater className={classes.icon} />,
       key: locationEnum.ground_water,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.NA'),
-      icon: <NaturalArea className={classes.icon} />,
+      icon: () => <NaturalArea className={classes.icon} />,
       key: locationEnum.natural_area,
+    },
+    {
+      name: t('FARM_MAP.MAP_FILTER.Residence'),
+      icon: () => <Residence className={classes.icon} />,
+      key: locationEnum.residence,
     },
   ];
 
   const lineImgDict = [
     {
       name: t('FARM_MAP.MAP_FILTER.BZ'),
-      icon: <BufferZone className={classes.icon} />,
+      icon: () => <BufferZone className={classes.icon} />,
       key: locationEnum.buffer_zone,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.CREEK'),
-      icon: <Creek className={classes.icon} />,
+      icon: () => <Creek className={classes.icon} />,
       key: locationEnum.creek,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FENCE'),
-      icon: <Fence className={classes.icon} />,
+      icon: () => <Fence className={classes.icon} />,
       key: locationEnum.fence,
     },
   ];
@@ -164,12 +169,12 @@ export default function MapDrawer({
   const pointImgDict = [
     {
       name: t('FARM_MAP.MAP_FILTER.GATE'),
-      icon: <Gate className={classes.icon} />,
+      icon: () => <Gate className={classes.icon} />,
       key: locationEnum.gate,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.WV'),
-      icon: <WaterValve className={classes.icon} />,
+      icon: () => <WaterValve className={classes.icon} />,
       key: locationEnum.water_valve,
     },
   ];
@@ -178,7 +183,7 @@ export default function MapDrawer({
   const controls = useAnimation();
   const onPan = (event, info) =>
     controls.start({
-      height: window.innerHeight - info.point.y - 60,
+      height: window.innerHeight - info.point.y - 142,
     });
   const onPanEnd = (event, info) => {
     if (info.point.y > window.innerHeight / 2 + 156) {
@@ -200,12 +205,12 @@ export default function MapDrawer({
         <HandleBar classes={classes} />
 
         <div className={classes.headerContentContainer}>
-          <Semibold>{headerTitle}</Semibold>
+          <Semibold className={classes.headerTitle}>{headerTitle}</Semibold>
           {!!filterSettings && (
             <div className={classes.headerTextContainer}>
               <Underlined
                 onClick={() => {
-                  onMenuItemClick();
+                  onMenuItemClick('show_all');
                 }}
                 className={classes.underlined}
               >
@@ -214,7 +219,7 @@ export default function MapDrawer({
               <span className={classes.verticalDivider} />
               <Underlined
                 onClick={() => {
-                  onMenuItemClick();
+                  onMenuItemClick('hide_all');
                 }}
                 className={classes.underlined}
               >
@@ -251,7 +256,7 @@ export default function MapDrawer({
                 onClick={() => onMenuItemClick(key)}
                 isFiltered={filterSettings && !filterSettings?.[key]}
               >
-                {icon}
+                {icon()}
               </MapDrawerMenuItem>
             );
           })}
@@ -266,9 +271,9 @@ export default function MapDrawer({
               name={name}
               isFilterMenuItem={!!filterSettings}
               onClick={() => onMenuItemClick(key)}
-              isFiltered={!filterSettings?.[key]}
+              isFiltered={filterSettings && !filterSettings?.[key]}
             >
-              {icon}
+              {icon()}
             </MapDrawerMenuItem>
           ))}
 
@@ -282,9 +287,9 @@ export default function MapDrawer({
               name={name}
               isFilterMenuItem={!!filterSettings}
               onClick={() => onMenuItemClick(key)}
-              isFiltered={!filterSettings?.[key]}
+              isFiltered={filterSettings && !filterSettings?.[key]}
             >
-              {icon}
+              {icon()}
             </MapDrawerMenuItem>
           ))}
         </List>

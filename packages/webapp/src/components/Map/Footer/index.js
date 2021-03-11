@@ -143,7 +143,7 @@ export default function PureMapFooter({
       <div className={clsx(container, className)} style={style}>
         {isAdmin && (
           <button
-            className={clsx(button, stepSpotlighted === 0 && spotlighted)}
+            className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
             id="mapFirstStep"
             onClick={onClickAdd}
           >

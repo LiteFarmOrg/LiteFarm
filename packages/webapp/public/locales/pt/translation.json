@@ -105,6 +105,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
+      "Residence": "MISSING",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",
@@ -120,8 +121,7 @@
       "HERE_YOU_CAN": "MISSING"
     },
     "TITLE": "MISSING",
-    "TRY_AGAIN": "MISSING",
-    "UNDO": "MISSING"
+    "TRY_AGAIN": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -483,7 +483,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

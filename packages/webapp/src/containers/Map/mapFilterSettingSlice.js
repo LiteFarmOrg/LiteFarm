@@ -9,6 +9,7 @@ const initialState = {
   greenhouse: true,
   ground_water: true,
   natural_area: true,
+  residence: true,
   buffer_zone: true,
   creek: true,
   fence: true,
@@ -27,14 +28,36 @@ const mapFilterSettingSlice = createSlice({
   initialState: mapFilterSettingAdapter.getInitialState(),
   reducers: {
     setMapFilterSetting: (state, { payload }) => {
-      if (!state.hasOwnProperty(payload.farm_id)) {
-        Object.assign(state, initialState);
+      mapFilterSettingAdapter.upsertOne(
+        state,
+        !state.ids.includes(payload.farm_id) ? { ...initialState, ...payload } : payload,
+      );
+    },
+    setMapFilterShowAll: (state, { payload: farm_id }) => {
+      mapFilterSettingAdapter.upsertOne(state, {
+        farm_id,
+        ...initialState,
+        map_background: state.entities[farm_id] ? state.entities[farm_id].map_background : true,
+      });
+    },
+    setMapFilterHideAll: (state, { payload: farm_id }) => {
+      const offState = { ...initialState };
+      for (const key in offState) {
+        offState[key] = false;
       }
-      mapFilterSettingAdapter.upsertOne(state, payload);
+      mapFilterSettingAdapter.upsertOne(state, {
+        farm_id,
+        ...offState,
+        map_background: state.entities[farm_id] ? state.entities[farm_id].map_background : true,
+      });
     },
   },
 });
-export const { setMapFilterSetting } = mapFilterSettingSlice.actions;
+export const {
+  setMapFilterSetting,
+  setMapFilterShowAll,
+  setMapFilterHideAll,
+} = mapFilterSettingSlice.actions;
 export default mapFilterSettingSlice.reducer;
 
 export const mapFilterSettingReducerSelector = (state) =>

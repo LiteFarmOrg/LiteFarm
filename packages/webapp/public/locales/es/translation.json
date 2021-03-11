@@ -105,6 +105,7 @@
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
+      "Residence": "MISSING",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
       "TITLE": "Filtra tu mapa",
@@ -120,8 +121,7 @@
       "HERE_YOU_CAN": "Aqui puedes: "
     },
     "TITLE": "Mapa de granja",
-    "TRY_AGAIN": "Intenta de nuevo",
-    "UNDO": "Deshacer"
+    "TRY_AGAIN": "Intenta de nuevo"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",
@@ -483,7 +483,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

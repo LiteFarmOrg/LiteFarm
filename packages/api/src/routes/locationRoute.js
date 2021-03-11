@@ -64,7 +64,7 @@ router.post('/barn', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:barn']
 router.post('/field', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fields']),
   modelMapping['field'], createLocation('field'));
 
-router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['edit:farm_site_boundary']),
+router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'], createLocation('farm_site_boundary'));
 
 

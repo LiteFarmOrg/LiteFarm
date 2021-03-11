@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { areaStyles, lineStyles, icons } from './mapStyles';
 import { isArea, isLine, isPoint } from './constants';
+import { defaultColour } from './styles.module.scss';
 
 export default function useDrawingManager() {
   const [maps, setMaps] = useState(null);
@@ -96,29 +97,48 @@ export default function useDrawingManager() {
 }
 
 const getDrawingOptions = (type) => {
-  if (isArea(type)) return {
-    polygonOptions: {
-      strokeWeight: 2,
-      fillOpacity: 0.3,
-      editable: true,
-      draggable: true,
-      fillColor: areaStyles[type].colour,
-      strokeColor: areaStyles[type].colour,
-      geodesic: true,
-      suppressUndo: true,
-    },
+  if (isArea(type)) {
+    const { colour } = areaStyles[type];
+    return {
+      polygonOptions: {
+        strokeWeight: 2,
+        fillOpacity: 0.3,
+        editable: true,
+        draggable: true,
+        fillColor: colour,
+        strokeColor: colour,
+        geodesic: true,
+        suppressUndo: true,
+      },
+    }
   };
 
-  if (isLine(type)) return {
-    polylineOptions: {
-      strokeWeight: 2,
-      editable: true,
-      draggable: true,
-      fillColor: lineStyles[type].colour,
-      strokeColor: lineStyles[type].colour,
-      geodesic: true,
-      suppressUndo: true,
-    },
+  if (isLine(type)) {
+    const { colour, dashScale, dashLength } = lineStyles[type];
+    return {
+      polylineOptions: {
+        strokeWeight: 2,
+        editable: true,
+        draggable: true,
+        fillColor: colour,
+        strokeColor: defaultColour,
+        geodesic: true,
+        suppressUndo: true,
+        icons: [
+          {
+            icon: {
+              path: "M 0,0 0,1",
+              strokeColor: colour,
+              strokeOpacity: 1,
+              strokeWeight: 2,
+              scale: dashScale,
+            },
+            offset: "0",
+            repeat: dashLength,
+          },
+        ],
+      },
+    }
   };
 
   if (isPoint(type)) return {

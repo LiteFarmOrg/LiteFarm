@@ -136,15 +136,19 @@ export default function Map() {
     });
 
     maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+      const polygonAreaCheck = (path) => {
+        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0)
+          setZeroAreaWarning(true);
+        else
+          setZeroAreaWarning(false);
+      };
       const path = polygon.getPath();
-      if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
-      maps.event.addListener(polygon.getPath(), 'set_at', function() {
-        if (Math.round(maps.geometry.spherical.computeArea(this)) === 0) setZeroAreaWarning(true);
-        else setZeroAreaWarning(false);
+      polygonAreaCheck(path);
+      maps.event.addListener(path, 'set_at', function() {
+        polygonAreaCheck(this);
       });
-      maps.event.addListener(polygon.getPath(), 'insert_at', function() {
-        if (Math.round(maps.geometry.spherical.computeArea(this)) === 0) setZeroAreaWarning(true);
-        else setZeroAreaWarning(false);
+      maps.event.addListener(path, 'insert_at', function() {
+        polygonAreaCheck(this);
       });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
@@ -200,8 +204,8 @@ export default function Map() {
     setShowMapFilter(true);
 
     // startDrawing('gate') // point
-    startDrawing('groundwater') // area
-    // startDrawing('creek') // line
+    // startDrawing('groundwater') // area
+    startDrawing('creek') // line
   };
 
   const handleClickExport = () => {

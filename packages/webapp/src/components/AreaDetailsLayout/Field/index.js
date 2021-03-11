@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
@@ -6,10 +6,19 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import DateContainer from '../../Inputs/DateContainer';
 import moment from 'moment';
+import fieldEnum from '../../../containers/fieldSlice';
+import DatePicker from '../../DatePicker';
 
 export default function PureField({ onGoBack }) {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, errors, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    errors,
+    setValue,
+    formState: { isValid, isDirty },
+  } = useForm({
     mode: 'onTouched',
   });
   const onError = (data) => {};
@@ -17,6 +26,7 @@ export default function PureField({ onGoBack }) {
 
   const FIELD_TYPE = 'field_type';
   const fieldTypeSelection = watch(FIELD_TYPE, 'transitioning');
+  const disabled = !isValid || !isDirty;
 
   useEffect(() => {
     setValue(FIELD_TYPE, 'nonorganic');
@@ -28,6 +38,13 @@ export default function PureField({ onGoBack }) {
       onBack={onGoBack}
       onSubmit={onSubmit}
       onError={onError}
+      register={register}
+      isNameRequired={true}
+      disabled={disabled}
+      register={register}
+      handleSubmit={handleSubmit}
+      setValue={setValue}
+      disabled={disabled}
       additionalProperties={
         <div>
           <p style={{ marginBottom: '25px' }}>
@@ -62,6 +79,7 @@ export default function PureField({ onGoBack }) {
             />
           </div>
           <div>
+            {/* <DatePicker/> */}
             {fieldTypeSelection === 'transitioning' && (
               <DateContainer
                 style={{ marginBottom: '40px' }}

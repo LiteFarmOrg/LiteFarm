@@ -6,12 +6,20 @@ import { useForm } from 'react-hook-form';
 export default function PureFarmSiteBoundary({ onGoBack }) {
   const { t } = useTranslation();
 
-  const { register, handleSubmit, watch, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    errors,
+    setValue,
+    formState: { isValid, isDirty },
+  } = useForm({
     mode: 'onTouched',
   });
 
   const onError = (data) => {};
   const onSubmit = (data) => {};
+  const disabled = !isValid || isDirty;
 
   return (
     <AreaDetailsLayout
@@ -20,6 +28,10 @@ export default function PureFarmSiteBoundary({ onGoBack }) {
       onBack={onGoBack}
       onSubmit={onSubmit}
       onError={onError}
+      handleSubmit={handleSubmit}
+      register={register}
+      disabled={disabled}
+      isNameRequired={false}
     />
   );
 }

@@ -10,7 +10,6 @@ import { locationInfoSelector } from '../../containers/mapSlice';
 export default function AreaDetailsLayout({
   name,
   title,
-  additionalProperties,
   onSubmit,
   onError,
   isNameRequired,
@@ -27,14 +26,14 @@ export default function AreaDetailsLayout({
 
   const onCancel = () => {
     history.push('/map');
-  }
+  };
 
   const onBack = () => {
     history.push({
       pathname: '/map',
       isStepBack: true,
     });
-  }
+  };
 
   return (
     <FormTitleLayout
@@ -65,7 +64,7 @@ export default function AreaDetailsLayout({
       <div>
         <Input
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
-          type="text"
+          type="number"
           style={{ marginBottom: '40px', width: '50%', float: 'left' }}
           name={fieldEnum.total_area}
           inputRef={register({ required: true })}
@@ -74,7 +73,7 @@ export default function AreaDetailsLayout({
         {showPerimeter && (
           <Input
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-            type="text"
+            type="number"
             style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
             name={fieldEnum.perimeter}
             inputRef={register({ required: true })}
@@ -83,7 +82,13 @@ export default function AreaDetailsLayout({
         )}
       </div>
       {children}
-      <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '40px' }} hookFormSetValue={setValue} />
+      <Input
+        label={t('common:NOTES')}
+        type="text"
+        optional
+        style={{ marginBottom: '40px' }}
+        hookFormSetValue={setValue}
+      />
     </FormTitleLayout>
   );
 }

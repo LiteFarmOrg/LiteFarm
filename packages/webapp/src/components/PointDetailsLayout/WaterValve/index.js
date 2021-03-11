@@ -19,14 +19,14 @@ export default function PureWaterValve({ history }) {
 
   const onCancel = () => {
     history.push('/map');
-  }
+  };
 
   const onBack = () => {
     history.push({
       pathname: '/map',
       isStepBack: true,
     });
-  }
+  };
 
   return (
     <FormTitleLayout
@@ -81,7 +81,7 @@ export default function PureWaterValve({ history }) {
             </div>
             <Input
               label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
-              type="text"
+              type="number"
               optional
               style={{ marginBottom: '40px' }}
             />

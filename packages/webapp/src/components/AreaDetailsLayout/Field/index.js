@@ -46,51 +46,50 @@ export default function PureField({ onGoBack }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       showPerimeter={true}
-      additionalProperties={
+    >
+      <div>
+        <p style={{ marginBottom: '25px' }}>
+          {t('FARM_MAP.FIELD.FIELD_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
+        </p>
         <div>
-          <p style={{ marginBottom: '25px' }}>
-            {t('FARM_MAP.FIELD.FIELD_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
-          </p>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.FIELD.NON_ORGANIC')}
-              defaultChecked={true}
-              inputRef={register({ required: true })}
-              value={'nonorganic'}
-              name={FIELD_TYPE}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.FIELD.ORGANIC')}
-              inputRef={register({ required: true })}
-              value={'organic'}
-              name={FIELD_TYPE}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.FIELD.TRANSITIONING')}
-              inputRef={register({ required: true })}
-              value={'transitioning'}
-              name={FIELD_TYPE}
-            />
-          </div>
-          <div>
-            {/* <DatePicker/> */}
-            {fieldTypeSelection === 'transitioning' && (
-              <DateContainer
-                style={{ marginBottom: '40px' }}
-                date={moment()}
-                label={t('FARM_MAP.FIELD.DATE')}
-              />
-            )}
-          </div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.FIELD.NON_ORGANIC')}
+            defaultChecked={true}
+            inputRef={register({ required: true })}
+            value={'nonorganic'}
+            name={FIELD_TYPE}
+          />
         </div>
-      }
-    />
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.FIELD.ORGANIC')}
+            inputRef={register({ required: true })}
+            value={'organic'}
+            name={FIELD_TYPE}
+          />
+        </div>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.FIELD.TRANSITIONING')}
+            inputRef={register({ required: true })}
+            value={'transitioning'}
+            name={FIELD_TYPE}
+          />
+        </div>
+        <div>
+          {/* <DatePicker/> */}
+          {fieldTypeSelection === 'transitioning' && (
+            <DateContainer
+              style={{ marginBottom: '40px' }}
+              date={moment()}
+              label={t('FARM_MAP.FIELD.DATE')}
+            />
+          )}
+        </div>
+      </div>
+    </AreaDetailsLayout>
   );
 }

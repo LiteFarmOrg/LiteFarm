@@ -17,6 +17,7 @@ export default function AreaDetailsLayout({
   register,
   handleSubmit,
   showPerimeter,
+  children,
 }) {
   const { t } = useTranslation();
 
@@ -63,7 +64,7 @@ export default function AreaDetailsLayout({
           />
         )}
       </div>
-      {additionalProperties}
+      {children}
       <Input label={t('common:NOTES')} type="text" optional style={{ marginBottom: '40px' }} />
     </FormTitleLayout>
   );

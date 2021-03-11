@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
-import { useForm } from 'react-hook-form';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import fieldEnum from '../../containers/fieldSlice';
+import { fieldEnum } from '../../containers/fieldSlice';
 
 export default function AreaDetailsLayout({
   name,

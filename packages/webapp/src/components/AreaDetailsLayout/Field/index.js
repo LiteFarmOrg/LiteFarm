@@ -9,7 +9,7 @@ import moment from 'moment';
 // import { useSelector } from 'react-redux';
 // import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureField({ onGoBack }) {
+export default function PureField({ history }) {
   const { t } = useTranslation();
   // TODO: use grid_points in endpoint call/saga. keep changes consistent with other area locations
   // const { grid_points } = useSelector(locationInfoSelector);
@@ -40,7 +40,7 @@ export default function PureField({ onGoBack }) {
     <AreaDetailsLayout
       name={t('FARM_MAP.FIELD.NAME')}
       title={t('FARM_MAP.FIELD.TITLE')}
-      onBack={onGoBack}
+      history={history}
       onSubmit={onSubmit}
       onError={onError}
       register={register}

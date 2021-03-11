@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 
-export default function PureFarmSiteBoundary({ onGoBack }) {
+export default function PureFarmSiteBoundary({ history }) {
   const { t } = useTranslation();
   const {
     register,
@@ -26,7 +26,7 @@ export default function PureFarmSiteBoundary({ onGoBack }) {
     <AreaDetailsLayout
       name={t('FARM_MAP.FARM_SITE_BOUNDARY.NAME')}
       title={t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')}
-      onBack={onGoBack}
+      history={history}
       onSubmit={onSubmit}
       onError={onError}
       register={register}

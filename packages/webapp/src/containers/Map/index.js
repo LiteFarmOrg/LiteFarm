@@ -33,8 +33,6 @@ export default function Map({ history }) {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
 
-  const [stateMap, setMap] = useState(null);
-
   const [drawingState, {
     initDrawingState,
     startDrawing,
@@ -42,6 +40,7 @@ export default function Map({ history }) {
     resetDrawing,
     closeDrawer,
     getOverlayInfo,
+    reconstructOverlay,
   }] = useDrawingManager();
 
 
@@ -109,8 +108,6 @@ export default function Map({ history }) {
     console.log(map);
     console.log(maps);
 
-    setMap(map);
-
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -138,7 +135,7 @@ export default function Map({ history }) {
       finishDrawing(drawing);
       this.setDrawingMode();
     });
-    initDrawingState(maps, drawingManagerInit, {
+    initDrawingState(map, maps, drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
       POLYLINE: maps.drawing.OverlayType.POLYLINE,
       MARKER: maps.drawing.OverlayType.MARKER,
@@ -174,6 +171,10 @@ export default function Map({ history }) {
       // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
 
       map.fitBounds(mapBounds);
+    }
+
+    if (history.location.isStepBack) {
+      reconstructOverlay();
     }
   };
 

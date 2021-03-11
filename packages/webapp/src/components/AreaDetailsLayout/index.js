@@ -11,7 +11,6 @@ export default function AreaDetailsLayout({
   name,
   title,
   additionalProperties,
-  onBack,
   onSubmit,
   onError,
   isNameRequired,
@@ -20,10 +19,22 @@ export default function AreaDetailsLayout({
   handleSubmit,
   showPerimeter,
   setValue,
+  history,
   children,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
+
+  const onCancel = () => {
+    history.push('/map');
+  }
+
+  const onBack = () => {
+    history.push({
+      pathname: '/map',
+      isStepBack: true,
+    });
+  }
 
   return (
     <FormTitleLayout
@@ -33,7 +44,7 @@ export default function AreaDetailsLayout({
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         <>
-          <Button onClick={onBack} color={'secondary'} fullLength>
+          <Button onClick={onCancel} color={'secondary'} fullLength>
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} disabled={disabled} fullLength>
@@ -46,6 +57,7 @@ export default function AreaDetailsLayout({
         label={name + ' name'}
         type="text"
         optional={name === 'Farm site boundary' ? true : false}
+        hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
         name={fieldEnum.name}
         inputRef={register({ required: isNameRequired })}

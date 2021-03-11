@@ -9,7 +9,7 @@ import Radio from '../../Form/Radio';
 
 export default function PureWaterValve({ history }) {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, watch, errors, setValue } = useForm({
     mode: 'onTouched',
   });
   const onError = (data) => {};
@@ -45,49 +45,47 @@ export default function PureWaterValve({ history }) {
         </>
       }
     >
-      <PointDetails
-        name={t('FARM_MAP.WATER_VALVE.NAME')}
-        children={
+      <PointDetails name={t('FARM_MAP.WATER_VALVE.NAME')} setValue={setValue}>
+        <div>
+          <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
           <div>
-            <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
-            <div>
-              <Radio
-                style={{ marginBottom: '25px' }}
-                label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
-                defaultChecked={true}
-                name={WATER_TYPE}
-              />
-            </div>
-            <div>
-              <Radio
-                style={{ marginBottom: '25px' }}
-                label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
-                name={WATER_TYPE}
-              />
-            </div>
-            <div>
-              <Radio
-                style={{ marginBottom: '25px' }}
-                label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
-                name={WATER_TYPE}
-              />
-            </div>
-            <div>
-              <Radio
-                style={{ marginBottom: '25px' }}
-                label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
-                name={WATER_TYPE}
-              />
-            </div>
-            <Input
-              label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
-              type="number"
-              optional
-              style={{ marginBottom: '40px' }}
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
+              defaultChecked={true}
+              name={WATER_TYPE}
             />
           </div>
-        }
-      />
+          <div>
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
+              name={WATER_TYPE}
+            />
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
+              name={WATER_TYPE}
+            />
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
+              name={WATER_TYPE}
+            />
+          </div>
+          <Input
+            label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
+            type="number"
+            optional
+            style={{ marginBottom: '40px' }}
+            hookFormSetValue={setValue}
+          />
+        </div>
+      </PointDetails>
     </FormTitleLayout>
   );
 }

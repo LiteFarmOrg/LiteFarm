@@ -40,3 +40,14 @@ Filter.args = {
 Filter.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };
+
+export const Add = Template.bind({});
+Add.args = {
+  isAdmin: true,
+  showSpotlight: false,
+  showAddDrawer: true,
+  drawerDefaultHeight: window.innerHeight - 156,
+};
+Filter.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};

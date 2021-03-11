@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/all';
 import { colors, DefaultThemeProvider } from '../../assets/theme';
 import PropTypes from 'prop-types';
+import { Main } from '../Typography';
 
 const useStyles = makeStyles({
   plusIcon: {
@@ -36,7 +37,9 @@ export default function MapDrawerMenuItem({
       >
         <ListItemIcon>{children}</ListItemIcon>
 
-        <ListItemText primary={name} />
+        <ListItemText>
+          <Main>{name}</Main>
+        </ListItemText>
 
         {isFilterMenuItem ? (
           <EyeToggleIcon isFiltered={isFiltered} />

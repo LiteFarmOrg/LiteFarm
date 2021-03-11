@@ -17,7 +17,7 @@ export const isArea = (type) => {
     locationEnum.greenhouse,
     locationEnum.ground_water,
     locationEnum.natural_area,
-    locationEnum.natural_area,
+    locationEnum.residence,
   ].includes(type);
 };
 
@@ -42,4 +42,5 @@ export const locationEnum = {
   gate: 'gate',
   water_valve: 'water_valve',
   farm_bound: 'farm_bound',
+  residence: 'residence',
 };

@@ -202,8 +202,8 @@ const Routes = () => {
             <Route path="/map" exact component={Map} />
             <Route path="/create_location/farm_bound" exact component={FarmSiteBoundary} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
-            <Route path="/gate" exact component={Gate} />
-            <Route path="/water_valve" exact component={WaterValve} />
+            <Route path="/create_location/gate" exact component={Gate} />
+            <Route path="/create_location/water_valve" exact component={WaterValve} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/insights" exact component={Insights} />

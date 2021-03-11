@@ -47,16 +47,19 @@ export default function useDrawingManager() {
         type: maps.drawing.OverlayType.POLYGON,
         overlay: redrawnPolygon,
       });
-    }
-  
-    if (isLine(type)) {
+    } else if (isLine(type)) {
       console.log('line reconstruction not implemented');
-      return;
-    }
-  
-    if (isPoint(type)) {
-      console.log('point reconstruction not implemented');
-      return;
+    } else if (isPoint(type)) {
+      var redrawnMarker = new maps.Marker({
+        position: overlayData.point,
+        icon: icons[type],
+        draggable: true,
+      });
+      redrawnMarker.setMap(map);
+      setDrawingToCheck({
+        type: maps.drawing.OverlayType.MARKER,
+        overlay: redrawnMarker,
+      });
     }
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);

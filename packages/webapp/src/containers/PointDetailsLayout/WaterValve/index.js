@@ -2,17 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PureWaterValve from '../../../components/PointDetailsLayout/WaterValve';
 
-function Gate() {
+function Gate({ history }) {
   const { t } = useTranslation();
-  const onBack = () => {
-    console.log('back');
-  };
 
-  return (
-    <>
-      <PureWaterValve onGoBack={onBack} />
-    </>
-  );
+  return <PureWaterValve history={history} />;
 }
 
 export default Gate;

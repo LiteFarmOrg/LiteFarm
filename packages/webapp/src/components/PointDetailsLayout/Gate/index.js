@@ -5,7 +5,7 @@ import FormTitleLayout from '../../Form/FormTitleLayout';
 import { useForm } from 'react-hook-form';
 import Button from '../../Form/Button';
 
-export default function PureGate({ onGoBack }) {
+export default function PureGate({ history }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',
@@ -13,15 +13,26 @@ export default function PureGate({ onGoBack }) {
   const onError = (data) => {};
   const onSubmit = (data) => {};
 
+  const onCancel = () => {
+    history.push('/map');
+  }
+
+  const onBack = () => {
+    history.push({
+      pathname: '/map',
+      isStepBack: true,
+    });
+  }
+
   return (
     <FormTitleLayout
-      onGoBack={onGoBack}
+      onGoBack={onBack}
       onSubmit={handleSubmit(onSubmit, onError)}
       title={t('FARM_MAP.GATE.TITLE')}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
+          <Button onClick={onCancel} color={'secondary'} fullLength>
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} fullLength>
@@ -30,7 +41,7 @@ export default function PureGate({ onGoBack }) {
         </>
       }
     >
-      <PointDetails name={t('FARM_MAP.GATE.NAME')} onBack={onGoBack} />
+      <PointDetails name={t('FARM_MAP.GATE.NAME')} />
     </FormTitleLayout>
   );
 }

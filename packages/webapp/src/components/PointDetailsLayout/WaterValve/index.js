@@ -7,7 +7,7 @@ import Button from '../../Form/Button';
 import Input from '../../Form/Input';
 import Radio from '../../Form/Radio';
 
-export default function PureWaterValve({ onGoBack }) {
+export default function PureWaterValve({ history }) {
   const { t } = useTranslation();
   const { register, handleSubmit, watch, errors } = useForm({
     mode: 'onTouched',
@@ -17,15 +17,26 @@ export default function PureWaterValve({ onGoBack }) {
 
   const WATER_TYPE = 'water_type';
 
+  const onCancel = () => {
+    history.push('/map');
+  }
+
+  const onBack = () => {
+    history.push({
+      pathname: '/map',
+      isStepBack: true,
+    });
+  }
+
   return (
     <FormTitleLayout
-      onGoBack={onGoBack}
+      onGoBack={onBack}
       onSubmit={handleSubmit(onSubmit, onError)}
       title={t('FARM_MAP.WATER_VALVE.TITLE')}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         <>
-          <Button onClick={onGoBack} color={'secondary'} fullLength>
+          <Button onClick={onCancel} color={'secondary'} fullLength>
             {t('common:CANCEL')}
           </Button>
           <Button type={'submit'} fullLength>
@@ -36,7 +47,6 @@ export default function PureWaterValve({ onGoBack }) {
     >
       <PointDetails
         name={t('FARM_MAP.WATER_VALVE.NAME')}
-        onBack={onGoBack}
         children={
           <div>
             <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>

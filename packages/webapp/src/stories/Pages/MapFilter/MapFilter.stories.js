@@ -1,14 +1,14 @@
 import React from 'react';
 import decorators from '../config/decorators';
-import MapFilter from '../../../components/MapFilter/';
+import MapDrawer from '../../../components/MapDrawer/';
 
 export default {
-  title: 'Page/MapFilter',
+  title: 'Page/MapDrawer',
   decorators: decorators,
-  component: MapFilter,
+  component: MapDrawer,
 };
 
-const Template = (args) => <MapFilter />;
+const Template = (args) => <MapDrawer />;
 
 export const AdminMap = Template.bind({});
 AdminMap.args = {};

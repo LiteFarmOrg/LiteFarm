@@ -95,6 +95,7 @@
       "TITLE": "Exporta tu mapa"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
@@ -110,6 +111,7 @@
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
       "TITLE": "Filtra tu mapa",
@@ -486,7 +488,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

@@ -95,6 +95,7 @@
       "TITLE": "MISSING"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
@@ -110,6 +111,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",
@@ -486,7 +488,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

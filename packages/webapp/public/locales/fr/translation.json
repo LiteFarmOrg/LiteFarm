@@ -95,6 +95,7 @@
       "TITLE": "MISSING"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",
       "BARN": "MISSING",
       "BZ": "MISSING",
@@ -110,6 +111,7 @@
       "LINES": "MISSING",
       "NA": "MISSING",
       "POINTS": "MISSING",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "MISSING",
       "SHOW_ALL": "MISSING",
       "TITLE": "MISSING",
@@ -486,7 +488,6 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",

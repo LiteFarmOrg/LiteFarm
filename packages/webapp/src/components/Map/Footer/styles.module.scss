@@ -34,14 +34,23 @@
 .spotlightTitle {
   color: var(--teal700);
   font-weight: 600;
+  text-align: left;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 8px;
 }
 
 .spotlightText {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   text-align: left;
+  font-family: 'Open Sans', 'SansSerif', serif;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .spotlightButton {
+  font-family: 'Open Sans', 'SansSerif', serif;
   font-weight: 600;
   color: var(--grey900);
 }

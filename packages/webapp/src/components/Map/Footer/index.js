@@ -7,7 +7,7 @@ import { ReactComponent as FilterLogo } from '../../../assets/images/map/filter.
 import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.svg';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import MapFilter from '../../MapFilter';
+import MapDrawer from '../../MapDrawer';
 
 export default function PureMapFooter({
   className,
@@ -17,11 +17,16 @@ export default function PureMapFooter({
   resetSpotlight,
   onClickAdd,
   onClickExport,
+  handleClickFilter,
   showModal,
-  anchorState,
-  toggleDrawer,
-  setRoadview,
+  setShowMapFilter,
   showMapFilter,
+  setShowAddDrawer,
+  showAddDrawer,
+  drawerDefaultHeight,
+  filterSettings,
+  onFilterMenuClick,
+  onAddMenuClick,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -30,7 +35,7 @@ export default function PureMapFooter({
     const { action, status, lifecycle } = data;
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === ACTIONS.CLOSE) {
       setStepSpotlighted(null);
-      resetSpotlight();
+      resetSpotlight?.();
     } else if ([ACTIONS.UPDATE].includes(action) && lifecycle === LIFECYCLE.TOOLTIP) {
       setStepSpotlighted(data.index);
     }
@@ -78,14 +83,7 @@ export default function PureMapFooter({
       showCloseButton: false,
       styles: {
         options: {
-          width: 210,
-        },
-      },
-      floaterProps: {
-        styles: {
-          floater: {
-            marginRight: '12px',
-          },
+          width: 240,
         },
       },
     },
@@ -122,13 +120,14 @@ export default function PureMapFooter({
               display: 'none',
             },
             tooltip: {
-              padding: '20px',
+              padding: '16px',
             },
             buttonNext: {
               order: -1,
               minWidth: '81px',
               minHeight: '32px',
               boxShadow: '0px 2px 8px rgba(102, 115, 138, 0.3)',
+              marginTop: '9px',
             },
             tooltipContent: {
               padding: '4px 0 0 0',
@@ -144,7 +143,7 @@ export default function PureMapFooter({
       <div className={clsx(container, className)} style={style}>
         {isAdmin && (
           <button
-            className={clsx(button, stepSpotlighted === 0 && spotlighted)}
+            className={clsx(button, (stepSpotlighted === 0 || showAddDrawer) && spotlighted)}
             id="mapFirstStep"
             onClick={onClickAdd}
           >
@@ -152,26 +151,11 @@ export default function PureMapFooter({
           </button>
         )}
         <button
-          className={clsx(button, (stepSpotlighted === 1 || !showMapFilter) && spotlighted)}
+          className={clsx(button, (stepSpotlighted === 1 || showMapFilter) && spotlighted)}
           id="mapSecondStep"
+          onClick={handleClickFilter}
         >
-          {' '}
-          <div>
-            {['bottom'].map((anchor) => (
-              <React.Fragment key={anchor}>
-                <FilterLogo
-                  className={svg}
-                  onClick={showMapFilter ? toggleDrawer(anchor, true) : toggleDrawer(anchor, false)}
-                />
-                <MapFilter
-                  setRoadview={setRoadview}
-                  anchor={anchor}
-                  anchorState={anchorState}
-                  toggleDrawer={toggleDrawer}
-                />
-              </React.Fragment>
-            ))}
-          </div>
+          <FilterLogo className={svg} />
         </button>
         <button
           className={clsx(button, (stepSpotlighted === 2 || showModal) && spotlighted)}
@@ -181,6 +165,23 @@ export default function PureMapFooter({
           <ExportLogo className={svg} />
         </button>
       </div>
+      <MapDrawer
+        key={'filter'}
+        setShowMapDrawer={setShowMapFilter}
+        showMapDrawer={showMapFilter}
+        drawerDefaultHeight={drawerDefaultHeight}
+        headerTitle={t('FARM_MAP.MAP_FILTER.TITLE')}
+        filterSettings={filterSettings}
+        onMenuItemClick={onFilterMenuClick}
+      />
+      <MapDrawer
+        key={'add'}
+        setShowMapDrawer={setShowAddDrawer}
+        showMapDrawer={showAddDrawer}
+        drawerDefaultHeight={drawerDefaultHeight}
+        headerTitle={t('FARM_MAP.MAP_FILTER.ADD_TITLE')}
+        onMenuItemClick={onAddMenuClick}
+      />
     </>
   );
 }
@@ -195,15 +196,20 @@ PureMapFooter.prototype = {
   onClickFilter: PropTypes.func,
   onClickExport: PropTypes.func,
   showModal: PropTypes.bool,
+  setShowMapFilter: PropTypes.func,
+  showMapFilter: PropTypes.bool,
+  drawerDefaultHeight: PropTypes.number,
+  filterSettings: PropTypes.func,
+  onFilterMenuClick: PropTypes.func,
+  onAddMenuClick: PropTypes.func,
+  setShowAddDrawer: PropTypes.func,
 };
 
 const TitleContent = (text) => {
   return (
-    <span className={styles.spotlightTitle}>
-      <p align="left" className={styles.spotlightText}>
-        {text}
-      </p>
-    </span>
+    <p align="left" className={styles.spotlightTitle}>
+      {text}
+    </p>
   );
 };
 
@@ -211,7 +217,9 @@ const BodyContent = (text) => {
   const { t } = useTranslation();
   return (
     <>
-      <p align="left">{t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')}</p>
+      <p className={styles.spotlightText} align="left">
+        {t('FARM_MAP.SPOTLIGHT.HERE_YOU_CAN')}
+      </p>
       <ul style={{ paddingInlineStart: '20px' }}>
         {text.split(',').map(function (item, key) {
           return (

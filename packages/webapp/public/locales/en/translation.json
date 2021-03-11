@@ -90,6 +90,7 @@
       "TITLE": "Export your farm map"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
@@ -105,6 +106,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
+      "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",
@@ -120,8 +122,7 @@
       "HERE_YOU_CAN": "Here you can:"
     },
     "TITLE": "Farm map",
-    "TRY_AGAIN": "Try again",
-    "UNDO": "Undo"
+    "TRY_AGAIN": "Try again"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",
@@ -483,7 +484,6 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

@@ -294,10 +294,10 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
-            <Route path="/farm_site_boundary" exact component={FarmSiteBoundary} />
-            <Route path="/area_details_field" exact component={AreaDetailsField} />
-            <Route path="/gate" exact component={Gate} />
-            <Route path="/water_valve" exact component={WaterValve} />
+            <Route path="/create_location/farm_bound" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/field" exact component={AreaDetailsField} />
+            <Route path="/create_location/gate" exact component={Gate} />
+            <Route path="/create_location/water_valve" exact component={WaterValve} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/sales_summary" exact component={SalesSummary} />
             <Route path="/add_sale" exact component={AddSale} />
@@ -357,10 +357,10 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/map" exact component={Map} />
-            <Route path="/farm_site_boundary" exact component={FarmSiteBoundary} />
-            <Route path="/area_details_field" exact component={AreaDetailsField} />
-            <Route path="/gate" exact component={Gate} />
-            <Route path="/water_valve" exact component={WaterValve} />
+            <Route path="/create_location/farm_bound" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/field" exact component={AreaDetailsField} />
+            <Route path="/create_location/gate" exact component={Gate} />
+            <Route path="/create_location/water_valve" exact component={WaterValve} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
             <Route path="/fertilizing_log" exact component={FertilizingLog} />

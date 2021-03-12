@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "MISSING"
   },
   "FARM_MAP": {
+    "DRAWING_MANAGER": {
+      "REDRAW": "MISSING",
+      "TRY_AGAIN": "MISSING",
+      "ZERO_AREA_DETECTED": "MISSING"
+    },
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
@@ -90,6 +95,7 @@
       "TITLE": "MISSING"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",
       "BARN": "MISSING",
       "BZ": "MISSING",
@@ -105,6 +111,7 @@
       "LINES": "MISSING",
       "NA": "MISSING",
       "POINTS": "MISSING",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "MISSING",
       "SHOW_ALL": "MISSING",
       "TITLE": "MISSING",
@@ -150,9 +157,7 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING",
-    "TRY_AGAIN": "MISSING",
-    "UNDO": "MISSING"
+    "TITLE": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",
@@ -514,7 +519,6 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",

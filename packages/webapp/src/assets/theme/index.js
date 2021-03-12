@@ -1,4 +1,5 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import React from 'react';
 
 export const colors = {
   teal900: '#085d50',
@@ -32,6 +33,7 @@ export const colors = {
   cayn400: '#4fdbfa',
   blue700: '#3d8bed',
   grey1: '#333333',
+  brown700: '#AA5F04',
 };
 
 const theme = createMuiTheme({
@@ -103,3 +105,7 @@ const theme = createMuiTheme({
 });
 
 export default theme;
+const defaultTheme = createMuiTheme({});
+export const DefaultThemeProvider = ({ children }) => (
+  <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
+);

@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
+    "DRAWING_MANAGER": {
+      "REDRAW": "MISSING",
+      "TRY_AGAIN": "Intenta de nuevo",
+      "ZERO_AREA_DETECTED": "MISSING"
+    },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
       "DOWNLOAD": "Descargar",
@@ -90,6 +95,7 @@
       "TITLE": "Exporta tu mapa"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
@@ -105,6 +111,7 @@
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
       "TITLE": "Filtra tu mapa",
@@ -150,9 +157,7 @@
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
     },
-    "TITLE": "Mapa de granja",
-    "TRY_AGAIN": "Intenta de nuevo",
-    "UNDO": "Deshacer"
+    "TITLE": "Mapa de granja"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",
@@ -514,7 +519,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

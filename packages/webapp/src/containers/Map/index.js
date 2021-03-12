@@ -10,7 +10,7 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
-import { setLocationData, resetLocationData } from '../mapSlice';
+import { setLocationData } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
@@ -21,49 +21,31 @@ import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
 
-import { drawArea, drawLine, drawPoint } from './mapDrawer';
+import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
+import {
+  mapFilterSettingSelector,
+  setMapFilterHideAll,
+  setMapFilterSetting,
+  setMapFilterShowAll,
+} from './mapFilterSettingSlice';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
+  const filterSettings = useSelector(mapFilterSettingSelector);
+  const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [showModal, setShowModal] = useState(false);
 
-  const [drawingState, {
-    initDrawingState,
-    startDrawing,
-    finishDrawing,
-    resetDrawing,
-    closeDrawer,
-    getOverlayInfo,
-    reconstructOverlay,
-  }] = useDrawingManager();
+  const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
 
-
-  const samplePointsLine = [
-    {
-      lat: 40.1381877000039,
-      lng: -74.97323955717772,
-    },
-    {
-      lat: 40.13927038563383,
-      lng: -74.9661585253784,
-    },
-    {
-      lat: 40.13392240695948,
-      lng: -74.97169460478514,
-    },
-  ];
-  const samplePoint = {
-    lat: 40.13592240695948,
-    lng: -74.97369460478514,
-  };
-  let [roadview, setRoadview] = useState(false);
-  const [showMapFilter, setShowMapFilter] = useState(true);
+  const [
+    drawingState,
+    { initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer, getOverlayInfo, reconstructOverlay },
+  ] = useDrawingManager();
 
   useEffect(() => {
     dispatch(getLocations());
@@ -103,7 +85,7 @@ export default function Map({ history }) {
       fullscreenControl: false,
     };
   };
-
+  const { drawAssets } = useMapAssetRenderer();
   const handleGoogleMapApi = (map, maps) => {
     console.log(map);
     console.log(maps);
@@ -131,6 +113,22 @@ export default function Map({ history }) {
       map: map,
     });
 
+    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+      const polygonAreaCheck = (path) => {
+        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0)
+          setZeroAreaWarning(true);
+        else
+          setZeroAreaWarning(false);
+      };
+      const path = polygon.getPath();
+      polygonAreaCheck(path);
+      maps.event.addListener(path, 'set_at', function() {
+        polygonAreaCheck(this);
+      });
+      maps.event.addListener(path, 'insert_at', function() {
+        polygonAreaCheck(this);
+      });
+    });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
@@ -159,19 +157,7 @@ export default function Map({ history }) {
 
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
-
-    if (fields && fields.length >= 1) {
-      for (const field of fields) {
-        drawArea(map, maps, mapBounds, field);
-      }
-      // drawLine(map, maps, mapBounds, {grid_points: samplePointsLine, name: "example line", type: 'creek'});
-      // drawPoint(map, maps, mapBounds, {grid_point: samplePoint, name: "example point", type: 'waterValve'});
-
-      // ADDING ONCLICK TO DRAWING
-      // addListenersOnPolygonAndMarker(polygon, this.state.fields[i]);
-
-      map.fitBounds(mapBounds);
-    }
+    drawAssets(map, maps, mapBounds);
 
     if (history.location.isStepBack) {
       reconstructOverlay();
@@ -181,20 +167,42 @@ export default function Map({ history }) {
   const resetSpotlight = () => {
     dispatch(endMapSpotlight(farm_id));
   };
+  const [showMapFilter, setShowMapFilter] = useState(false);
+  const [showAddDrawer, setShowAddDrawer] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClickAdd = () => {
     setShowModal(false);
-    setAnchorState({ bottom: false });
-    setShowMapFilter(true);
-
-    // startDrawing('gate') // point
-    startDrawing('field') // area
+    setShowMapFilter(false);
+    setShowAddDrawer(!showAddDrawer);
   };
 
   const handleClickExport = () => {
     setShowModal(!showModal);
-    setAnchorState({ bottom: false });
-    setShowMapFilter(true);
+    setShowMapFilter(false);
+    setShowAddDrawer(false);
+  };
+
+  const handleClickFilter = () => {
+    setShowModal(false);
+    setShowAddDrawer(false);
+    setShowMapFilter(!showMapFilter);
+  };
+
+  const handleFilterMenuClick = (locationType) => {
+    if (locationType === 'show_all') {
+      dispatch(setMapFilterShowAll(farm_id));
+    } else if (locationType === 'hide_all') {
+      dispatch(setMapFilterHideAll(farm_id));
+    } else {
+      const payload = {};
+      payload[locationType] = !filterSettings[locationType];
+      payload.farm_id = farm_id;
+      dispatch(setMapFilterSetting(payload));
+    }
+  };
+  const handleAddMenuClick = (locationType) => {
+    startDrawing(locationType);
   };
 
   const mapWrapperRef = useRef();
@@ -216,16 +224,6 @@ export default function Map({ history }) {
     });
   };
 
-  const [anchorState, setAnchorState] = useState({
-    bottom: false,
-  });
-
-  const toggleDrawer = (anchor, open) => () => {
-    setShowModal(false);
-    setShowMapFilter(!showMapFilter);
-    setAnchorState({ ...anchorState, [anchor]: open });
-  };
-
   const handleShare = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const fileDataURL = canvas.toDataURL();
@@ -233,10 +231,9 @@ export default function Map({ history }) {
     });
   };
 
-
   return (
     <>
-      {(showMapFilter && !drawingState.type) && (
+      {!showMapFilter && !showAddDrawer && !drawingState.type && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
@@ -260,39 +257,50 @@ export default function Map({ history }) {
               options={getMapOptions}
             />
           </div>
-          {drawingState.type && <div className={styles.drawingBar}>
-            <DrawingManager
-              drawingType={drawingState.type}
-              isDrawing={drawingState.isActive}
-              onClickBack={() => {
-                resetDrawing(true);
-                closeDrawer();
-              }}
-              onClickTryAgain={() => {
-                resetDrawing();
-                startDrawing(drawingState.type);
-              }}
-              onClickConfirm={() => {
-                dispatch(setLocationData(getOverlayInfo()));
-                history.push(`/create_location/${drawingState.type}`);
-              }}
-            />
-          </div>}
+          {drawingState.type && (
+            <div className={styles.drawingBar}>
+              <DrawingManager
+                drawingType={drawingState.type}
+                isDrawing={drawingState.isActive}
+                onClickBack={() => {
+                  setZeroAreaWarning(false);
+                  resetDrawing(true);
+                  closeDrawer();
+                }}
+                onClickTryAgain={() => {
+                  setZeroAreaWarning(false);
+                  resetDrawing();
+                  startDrawing(drawingState.type);
+                }}
+                onClickConfirm={() => {
+                  dispatch(setLocationData(getOverlayInfo()));
+                  history.push(`/create_location/${drawingState.type}`);
+                }}
+                showZeroAreaWarning={showZeroAreaWarning}
+              />
+            </div>
+          )}
         </div>
 
-        {!drawingState.type && <PureMapFooter
-          className={styles.mapFooter}
-          isAdmin={is_admin}
-          showSpotlight={showMapSpotlight}
-          resetSpotlight={resetSpotlight}
-          onClickAdd={handleClickAdd}
-          onClickExport={handleClickExport}
-          showModal={showModal}
-          anchorState={anchorState}
-          toggleDrawer={toggleDrawer}
-          setRoadview={setRoadview}
-          showMapFilter={showMapFilter}
-        />}
+        {!drawingState.type && (
+          <PureMapFooter
+            className={styles.mapFooter}
+            isAdmin={is_admin}
+            showSpotlight={showMapSpotlight}
+            resetSpotlight={resetSpotlight}
+            onClickAdd={handleClickAdd}
+            onClickExport={handleClickExport}
+            showModal={showModal}
+            setShowMapFilter={setShowMapFilter}
+            showMapFilter={showMapFilter}
+            setShowAddDrawer={setShowAddDrawer}
+            showAddDrawer={showAddDrawer}
+            handleClickFilter={handleClickFilter}
+            filterSettings={filterSettings}
+            onFilterMenuClick={handleFilterMenuClick}
+            onAddMenuClick={handleAddMenuClick}
+          />
+        )}
         {showModal && (
           <ExportMapModal
             onClickDownload={handleDownload}

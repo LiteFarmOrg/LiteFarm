@@ -1,7 +1,6 @@
-import { call, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
-import { toastr } from 'react-redux-toastr';
 import { getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromField, postFieldSuccess } from '../../fieldSlice';
@@ -23,7 +22,7 @@ export function* postFieldLocationSaga({ payload: data }) {
       locationObject,
       header,
     );
-    postFieldSuccess(result.data);
+    yield put(postFieldSuccess(result.data));
   } catch (e) {
     console.log(e);
   }

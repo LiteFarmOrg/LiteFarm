@@ -20,6 +20,7 @@ export default function AreaDetailsLayout({
   setValue,
   history,
   children,
+  setNotes,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
@@ -33,6 +34,10 @@ export default function AreaDetailsLayout({
       pathname: '/map',
       isStepBack: true,
     });
+  };
+
+  const setNotesValue = (value) => {
+    setNotes(value);
   };
 
   return (
@@ -88,6 +93,7 @@ export default function AreaDetailsLayout({
         optional
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
+        onChange={(e) => setNotesValue(e.target.value)}
       />
     </FormTitleLayout>
   );

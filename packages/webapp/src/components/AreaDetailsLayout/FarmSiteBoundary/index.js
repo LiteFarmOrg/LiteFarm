@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 
-export default function PureFarmSiteBoundary({ history }) {
+export default function PureFarmSiteBoundary({ history, submitForm }) {
   const { t } = useTranslation();
   const {
     register,
@@ -13,14 +13,13 @@ export default function PureFarmSiteBoundary({ history }) {
     setValue,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onChange',
+    mode: 'onTouched',
   });
   const onError = (data) => {};
   const onSubmit = (data) => {
-    console.log(data);
+    submitForm(data);
   };
   const disabled = !isValid || !isDirty;
-  console.log(errors, isDirty, isValid);
 
   return (
     <AreaDetailsLayout

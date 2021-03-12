@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
@@ -6,13 +6,15 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import DateContainer from '../../Inputs/DateContainer';
 import moment from 'moment';
-// import { useSelector } from 'react-redux';
-// import { locationInfoSelector } from '../../../containers/mapSlice';
+import { useSelector } from 'react-redux';
+import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureField({ history }) {
+export default function PureField({ history, submitForm }) {
   const { t } = useTranslation();
-  // TODO: use grid_points in endpoint call/saga. keep changes consistent with other area locations
-  // const { grid_points } = useSelector(locationInfoSelector);
+  const { grid_points } = useSelector(locationInfoSelector);
+
+  const [date, setDate] = useState(moment());
+  const [notes, setNotes] = useState('');
   const {
     register,
     handleSubmit,
@@ -24,17 +26,26 @@ export default function PureField({ history }) {
     mode: 'onChange',
   });
   const onError = (data) => {};
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const FIELD_TYPE = 'field_type';
-  const fieldTypeSelection = watch(FIELD_TYPE, 'transitioning');
+  const fieldTypeSelection = watch(FIELD_TYPE, 'Transitional');
 
   const disabled = !isValid || !isDirty;
+  const onSubmit = (data) => {
+    const formData = {
+      name: data.name,
+      total_area: parseInt(data.total_area),
+      perimeter: parseInt(data.perimeter),
+      transition_date: date,
+      grid_points: grid_points,
+      notes: notes,
+      type: 'field',
+      organic_status: fieldTypeSelection,
+    };
+    submitForm({ formData });
+  };
 
   useEffect(() => {
-    setValue(FIELD_TYPE, 'nonorganic');
+    setValue(FIELD_TYPE, 'Non-Organic');
   }, []);
   return (
     <AreaDetailsLayout
@@ -49,6 +60,7 @@ export default function PureField({ history }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       showPerimeter={true}
+      setNotes={setNotes}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
@@ -60,7 +72,7 @@ export default function PureField({ history }) {
             label={t('FARM_MAP.FIELD.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
-            value={'nonorganic'}
+            value={'Non-Organic'}
             name={FIELD_TYPE}
           />
         </div>
@@ -69,7 +81,7 @@ export default function PureField({ history }) {
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.FIELD.ORGANIC')}
             inputRef={register({ required: true })}
-            value={'organic'}
+            value={'Organic'}
             name={FIELD_TYPE}
           />
         </div>
@@ -78,18 +90,14 @@ export default function PureField({ history }) {
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.FIELD.TRANSITIONING')}
             inputRef={register({ required: true })}
-            value={'transitioning'}
+            value={'Transitional'}
             name={FIELD_TYPE}
           />
         </div>
-        <div>
+        <div style={{ paddingBottom: '25px' }}>
           {/* <DatePicker/> */}
-          {fieldTypeSelection === 'transitioning' && (
-            <DateContainer
-              style={{ marginBottom: '40px' }}
-              date={moment()}
-              label={t('FARM_MAP.FIELD.DATE')}
-            />
+          {fieldTypeSelection === 'Transitional' && (
+            <DateContainer date={date} label={t('FARM_MAP.FIELD.DATE')} onDateChange={setDate} />
           )}
         </div>
       </div>

@@ -30,7 +30,20 @@ import userLogReducer from '../containers/userLogSlice';
 import weatherReducer from '../containers/WeatherBoard/weatherSlice';
 import chooseFarmFlowReducer from '../containers/ChooseFarm/chooseFarmFlowSlice';
 
+import barnReducer from '../containers/barnSlice';
+import ceremonialReducer from '../containers/ceremonialSlice';
+import farmSiteBoundaryReducer from '../containers/farmSiteBoundarySlice';
 import fieldReducer from '../containers/fieldSlice';
+import greenhouseReducer from '../containers/greenhouseSlice';
+import groundwaterReducer from '../containers/groundwaterSlice';
+import naturalAreaReducer from '../containers/naturalAreaSlice';
+import residenceReducer from '../containers/residenceSlice';
+import bufferZoneReducer from '../containers/bufferZoneSlice';
+import creekReducer from '../containers/creekSlice';
+import fenceReducer from '../containers/fenceSlice';
+import gateReducer from '../containers/gateSlice';
+import waterValveReducer from '../containers/waterValveSlice';
+
 import shiftStepReducer from '../containers/shiftSlice';
 import logSliceReducer from '../containers/Log/Utility/logSlice';
 import cropReducer from '../containers/cropSlice';
@@ -111,10 +124,22 @@ const entitiesReducer = combineReducers({
   // userReducer,
   certifierSurveyReducer,
   rolesReducer,
-  fieldReducer,
   cropReducer,
   fieldCropReducer,
   weatherReducer,
+  barnReducer,
+  ceremonialReducer,
+  farmSiteBoundaryReducer,
+  fieldReducer,
+  greenhouseReducer,
+  groundwaterReducer,
+  naturalAreaReducer,
+  residenceReducer,
+  bufferZoneReducer,
+  creekReducer,
+  fenceReducer,
+  gateReducer,
+  waterValveReducer,
 });
 
 const persistedStateReducer = combineReducers({

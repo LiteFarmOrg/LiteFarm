@@ -1,15 +1,16 @@
 import Layout from './index';
 import { Title } from '../Typography';
-import { IoIosArrowBack } from 'react-icons/io';
 import React from 'react';
+import BackArrow from '../../assets/images/miscs/arrow.svg';
 
 function TitleLayout({ buttonGroup, title, onGoBack = null, children }) {
   return (
     <Layout buttonGroup={buttonGroup} classes={{ footer: { position: 'relative' } }}>
       <Title style={{ marginTop: '12px' }}>
         {onGoBack && (
-          <IoIosArrowBack
-            style={{ cursor: 'pointer', marginBottom: -3, color: 'var(--teal900)' }}
+          <img
+            src={BackArrow}
+            style={{ marginBottom: '-5px', cursor: 'pointer' }}
             onClick={onGoBack}
           />
         )}{' '}

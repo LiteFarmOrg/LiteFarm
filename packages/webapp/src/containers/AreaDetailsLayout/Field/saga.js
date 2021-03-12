@@ -23,7 +23,6 @@ export function* postFieldLocationSaga({ payload: data }) {
       locationObject,
       header,
     );
-    console.log(result);
     postFieldSuccess(result.data);
   } catch (e) {
     console.log(e);

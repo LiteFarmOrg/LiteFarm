@@ -27,13 +27,6 @@ export function* postFieldLocationSaga({ payload: data }) {
     postFieldSuccess(result.data);
   } catch (e) {
     console.log(e);
-    // if (e.response.data.violationError) {
-    //   toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.VARIETY_EXISTS'));
-    //   console.log('failed to add dataCrop to database');
-    // } else {
-    //   console.log('failed to add fieldCrop to database');
-    //   toastr.error(i18n.t('message:NEW_FIELD_CROP.ERROR.GENERAL'));
-    // }
   }
 }
 

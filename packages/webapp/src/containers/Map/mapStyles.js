@@ -1,86 +1,81 @@
 import {
-  primaryColour,
-  defaultColour,
   barnColour,
   ceremonialSiteColour,
+  creekColour,
   farmBoundColour,
+  fenceColour,
   fieldColour,
   greenhouseColour,
   groundwaterColour,
   naturalAreaColour,
   residenceColour,
-  creekColour,
-  fenceColour,
 } from './styles.module.scss';
-import { ENVIRONMENT } from './constants'
+import waterValve from '../../assets/images/map/water-valve.png';
+import waterValveHover from '../../assets/images/map/water-valve-hover.png';
+import gate from '../../assets/images/map/gate.png';
+import gateHover from '../../assets/images/map/gate-hover.png';
 
 export const areaStyles = {
-  'barn': {
+  barn: {
     colour: barnColour,
     dashScale: 2,
     dashLength: '14px',
   },
-  'ceremonial_area': {
+  ceremonial_area: {
     colour: ceremonialSiteColour,
     dashScale: 1.5,
     dashLength: '8px',
   },
-  'farm_bound': {
+  farm_bound: {
     colour: farmBoundColour,
     dashScale: 1,
     dashLength: '1px',
   },
-  'field': {
+  field: {
     colour: fieldColour,
     dashScale: 1,
     dashLength: '6px',
   },
-  'greenhouse': {
+  greenhouse: {
     colour: greenhouseColour,
     dashScale: 1,
     dashLength: '8px',
   },
-  'ground_water': {
+  ground_water: {
     colour: groundwaterColour,
     dashScale: 0.7,
     dashLength: '6px',
   },
-  'natural_area': {
+  natural_area: {
     colour: naturalAreaColour,
     dashScale: 0.7,
     dashLength: '12px',
   },
-  'residence': {
+  residence: {
     colour: residenceColour,
     dashScale: 0,
     dashLength: '12px',
   },
-}
+};
 
 export const lineStyles = {
-  'creek': {
+  creek: {
     colour: creekColour,
     dashScale: 0.7,
     dashLength: '6px',
   },
-  'fence': {
+  fence: {
     colour: fenceColour,
     dashScale: 1,
     dashLength: '6px',
   },
-}
+};
 
-const assetUrlDict = {
-  development: 'http://localhost:3000',
-  integration: 'http://beta.litefarm.org',
-  production: 'http://app.litefarm.org'
-}
-const assetURL = assetUrlDict[ENVIRONMENT];
 export const icons = {
-  'gate': `${assetURL}/gate.png`,
-  'water_valve': `${assetURL}/water-valve.png`,
-}
+  gate: gate,
+  water_valve: waterValve,
+};
 export const hoverIcons = {
-  'gate': `${assetURL}/gate-hover.png`,
-  'water_valve': `${assetURL}/water-valve-hover.png`,
-}
+  gate: gateHover,
+  water_valve: waterValveHover,
+};

@@ -41,6 +41,7 @@ export default function Map() {
   const { t } = useTranslation();
 
   const [stateMap, setMap] = useState(null);
+  const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
 
   const [
     drawingState,
@@ -115,7 +116,23 @@ export default function Map() {
       map: map,
     });
 
-    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
+    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+      const polygonAreaCheck = (path) => {
+        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0)
+          setZeroAreaWarning(true);
+        else
+          setZeroAreaWarning(false);
+      };
+      const path = polygon.getPath();
+      polygonAreaCheck(path);
+      maps.event.addListener(path, 'set_at', function() {
+        polygonAreaCheck(this);
+      });
+      maps.event.addListener(path, 'insert_at', function() {
+        polygonAreaCheck(this);
+      });
+    });
+    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
     });
@@ -245,14 +262,17 @@ export default function Map() {
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
                 onClickBack={() => {
+                  setZeroAreaWarning(false);
                   resetDrawing(true);
                   closeDrawer();
                 }}
                 onClickTryAgain={() => {
+                  setZeroAreaWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
                 onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+                showZeroAreaWarning={showZeroAreaWarning}
               />
             </div>
           )}

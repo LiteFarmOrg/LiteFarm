@@ -113,23 +113,21 @@ export default function Map({ history }) {
       map: map,
     });
 
-    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function(polygon) {
+    maps.event.addListener(drawingManagerInit, 'polygoncomplete', function (polygon) {
       const polygonAreaCheck = (path) => {
-        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0)
-          setZeroAreaWarning(true);
-        else
-          setZeroAreaWarning(false);
+        if (Math.round(maps.geometry.spherical.computeArea(path)) === 0) setZeroAreaWarning(true);
+        else setZeroAreaWarning(false);
       };
       const path = polygon.getPath();
       polygonAreaCheck(path);
-      maps.event.addListener(path, 'set_at', function() {
+      maps.event.addListener(path, 'set_at', function () {
         polygonAreaCheck(this);
       });
-      maps.event.addListener(path, 'insert_at', function() {
+      maps.event.addListener(path, 'insert_at', function () {
         polygonAreaCheck(this);
       });
     });
-    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function(drawing) {
+    maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
       finishDrawing(drawing);
       this.setDrawingMode();
     });
@@ -242,7 +240,7 @@ export default function Map({ history }) {
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>
         <div className={styles.mapContainer}>
-          <div ref={mapWrapperRef}>
+          <div ref={mapWrapperRef} className={styles.mapContainer}>
             <GoogleMap
               style={{ flexGrow: 1 }}
               bootstrapURLKeys={{

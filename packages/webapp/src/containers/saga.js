@@ -41,6 +41,16 @@ import {
   onLoadingCeremonialStart,
 } from './ceremonialSlice';
 import {
+  getFarmSiteBoundarysSuccess,
+  onLoadingFarmSiteBoundaryFail,
+  onLoadingFarmSiteBoundaryStart,
+} from './farmSiteBoundarySlice';
+import {
+  getResidencesSuccess,
+  onLoadingResidenceFail,
+  onLoadingResidenceStart,
+} from './residenceSlice';
+import {
   getGreenhousesSuccess,
   onLoadingGreenhouseFail,
   onLoadingGreenhouseStart,
@@ -198,9 +208,11 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFieldStart());
   yield put(onLoadingCeremonialStart());
   yield put(onLoadingBarnStart());
+  yield put(onLoadingFarmSiteBoundaryStart());
   yield put(onLoadingGreenhouseStart());
   yield put(onLoadingGroundwaterStart());
   yield put(onLoadingNaturalAreaStart());
+  yield put(onLoadingResidenceStart());
   yield put(onLoadingBufferZoneStart());
   yield put(onLoadingCreekStart());
   yield put(onLoadingFenceStart());
@@ -247,9 +259,11 @@ const figureTypeActionMap = {
   field: { success: getFieldsSuccess, fail: onLoadingFieldFail },
   barn: { success: getBarnsSuccess, fail: onLoadingBarnFail },
   ceremonial_area: { success: getCeremonialsSuccess, fail: onLoadingCeremonialFail },
+  farm_site_boundary: { success: getFarmSiteBoundarysSuccess, fail: onLoadingFarmSiteBoundaryFail },
   greenhouse: { success: getGreenhousesSuccess, fail: onLoadingGreenhouseFail },
   ground_water: { success: getGroundwatersSuccess, fail: onLoadingGroundwaterFail },
   natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
+  residence: { success: getResidencesSuccess, fail: onLoadingResidenceFail },
   buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
   creek: { success: getCreeksSuccess, fail: onLoadingCreekFail },
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },

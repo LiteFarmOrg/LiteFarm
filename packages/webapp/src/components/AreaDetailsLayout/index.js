@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
@@ -10,7 +10,7 @@ import { locationInfoSelector } from '../../containers/mapSlice';
 export default function AreaDetailsLayout({
   name,
   title,
-  onSubmit,
+  submitForm,
   onError,
   isNameRequired,
   disabled,
@@ -20,10 +20,10 @@ export default function AreaDetailsLayout({
   setValue,
   history,
   children,
-  setNotes,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
+  const [notes, setNotes] = useState('');
 
   const onCancel = () => {
     history.push('/map');
@@ -38,6 +38,11 @@ export default function AreaDetailsLayout({
 
   const setNotesValue = (value) => {
     setNotes(value);
+  };
+
+  const onSubmit = (data) => {
+    data.notes = notes;
+    submitForm(data);
   };
 
   return (

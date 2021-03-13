@@ -44,7 +44,15 @@ export default function Map({ history }) {
 
   const [
     drawingState,
-    { initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer, getOverlayInfo, reconstructOverlay },
+    {
+      initDrawingState,
+      startDrawing,
+      finishDrawing,
+      resetDrawing,
+      closeDrawer,
+      getOverlayInfo,
+      reconstructOverlay,
+    },
   ] = useDrawingManager();
 
   useEffect(() => {
@@ -87,9 +95,6 @@ export default function Map({ history }) {
   };
   const { drawAssets } = useMapAssetRenderer();
   const handleGoogleMapApi = (map, maps) => {
-    console.log(map);
-    console.log(maps);
-
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {

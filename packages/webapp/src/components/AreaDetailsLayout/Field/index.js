@@ -14,7 +14,6 @@ export default function PureField({ history, submitForm }) {
   const { grid_points } = useSelector(locationInfoSelector);
 
   const [date, setDate] = useState(moment());
-  const [notes, setNotes] = useState('');
   const {
     register,
     handleSubmit,
@@ -37,7 +36,7 @@ export default function PureField({ history, submitForm }) {
       perimeter: parseInt(data.perimeter),
       transition_date: date,
       grid_points: grid_points,
-      notes: notes,
+      notes: data.notes,
       type: 'field',
       organic_status: fieldTypeSelection,
     };
@@ -52,7 +51,7 @@ export default function PureField({ history, submitForm }) {
       name={t('FARM_MAP.FIELD.NAME')}
       title={t('FARM_MAP.FIELD.TITLE')}
       history={history}
-      onSubmit={onSubmit}
+      submitForm={onSubmit}
       onError={onError}
       register={register}
       isNameRequired={true}
@@ -60,7 +59,6 @@ export default function PureField({ history, submitForm }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       showPerimeter={true}
-      setNotes={setNotes}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

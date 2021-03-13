@@ -14,6 +14,9 @@ export const Primary = Template.bind({});
 Primary.args = {
   name: 'Point asset name',
   onBack: (data) => console.log(data),
+  handleSubmit: (data) => console.log(data),
+  register: (data) => console.log(data),
+  title: 'Point details title',
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

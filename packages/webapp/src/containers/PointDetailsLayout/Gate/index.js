@@ -1,11 +1,19 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import PureGate from '../../../components/PointDetailsLayout/Gate';
+import { postGateLocation } from './saga';
+import { useDispatch } from 'react-redux';
+import { resetLocationData } from '../../mapSlice';
 
 function Gate({ history }) {
-  const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  return <PureGate history={history} />;
+  const submitForm = (data) => {
+    dispatch(postGateLocation(data));
+    resetLocationData();
+    history.push('/map');
+  };
+
+  return <PureGate history={history} submitForm={submitForm} />;
 }
 
 export default Gate;

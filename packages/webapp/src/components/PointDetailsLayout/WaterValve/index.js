@@ -1,91 +1,101 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetails from '..';
-import FormTitleLayout from '../../Form/FormTitleLayout';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import Button from '../../Form/Button';
-import Input from '../../Form/Input';
+import { locationInfoSelector } from '../../../containers/mapSlice';
 import Radio from '../../Form/Radio';
+import Input from '../../Form/Input';
+import { waterValveEnum } from '../../../containers/waterValveSlice';
 
-export default function PureWaterValve({ history }) {
+export default function PureWaterValve({ history, submitForm }) {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, errors, setValue } = useForm({
-    mode: 'onTouched',
+  const { point } = useSelector(locationInfoSelector);
+  const [maxFlowRate, setFlowRate] = useState(0);
+  const { handleSubmit, setValue, register, watch } = useForm({
+    mode: 'onChange',
   });
   const onError = (data) => {};
-  const onSubmit = (data) => {};
+
+  const setFlowRateValue = (flowRate) => {
+    setFlowRate(flowRate);
+  };
+  const onSubmit = (data) => {
+    const formData = {
+      name: data.name,
+      point: point,
+      notes: data.notes,
+      type: 'water_valve',
+      source: waterValveSourceSelection,
+      flow_rate: maxFlowRate,
+    };
+    submitForm({ formData });
+  };
 
   const WATER_TYPE = 'water_type';
-
-  const onCancel = () => {
-    history.push('/map');
-  };
-
-  const onBack = () => {
-    history.push({
-      pathname: '/map',
-      isStepBack: true,
-    });
-  };
+  const waterValveSourceSelection = watch(WATER_TYPE, 'Groundwater');
 
   return (
-    <FormTitleLayout
-      onGoBack={onBack}
-      onSubmit={handleSubmit(onSubmit, onError)}
+    <PointDetails
+      name={t('FARM_MAP.WATER_VALVE.NAME')}
+      pointName={waterValveEnum.name}
       title={t('FARM_MAP.WATER_VALVE.TITLE')}
-      style={{ flexGrow: 9, order: 2 }}
-      buttonGroup={
-        <>
-          <Button onClick={onCancel} color={'secondary'} fullLength>
-            {t('common:CANCEL')}
-          </Button>
-          <Button type={'submit'} fullLength>
-            {t('common:SAVE')}
-          </Button>
-        </>
-      }
+      history={history}
+      setValue={setValue}
+      submitForm={onSubmit}
+      onError={onError}
+      handleSubmit={handleSubmit}
+      register={register}
     >
-      <PointDetails name={t('FARM_MAP.WATER_VALVE.NAME')} setValue={setValue}>
+      <div>
+        <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
         <div>
-          <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
-              defaultChecked={true}
-              name={WATER_TYPE}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
-              name={WATER_TYPE}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
-              name={WATER_TYPE}
-            />
-          </div>
-          <div>
-            <Radio
-              style={{ marginBottom: '25px' }}
-              label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
-              name={WATER_TYPE}
-            />
-          </div>
-          <Input
-            label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
-            type="number"
-            optional
-            style={{ marginBottom: '40px' }}
-            hookFormSetValue={setValue}
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
+            defaultChecked={true}
+            name={waterValveEnum.source}
+            value={'Municipal water'}
+            inputRef={register({ required: false })}
           />
         </div>
-      </PointDetails>
-    </FormTitleLayout>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
+            name={waterValveEnum.source}
+            value={'Surface water'}
+            inputRef={register({ required: false })}
+          />
+        </div>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
+            name={waterValveEnum.source}
+            value={'Groundwater'}
+            inputRef={register({ required: false })}
+          />
+        </div>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
+            name={waterValveEnum.source}
+            value={'Rain water'}
+            inputRef={register({ required: false })}
+          />
+        </div>
+        <Input
+          label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
+          type="number"
+          optional
+          style={{ marginBottom: '40px' }}
+          hookFormSetValue={setValue}
+          name={waterValveEnum.flow_rate}
+          onChange={(e) => setFlowRateValue(e.target.value)}
+        />
+      </div>
+    </PointDetails>
   );
 }

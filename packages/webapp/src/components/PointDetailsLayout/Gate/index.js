@@ -1,47 +1,38 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PointDetails from '..';
-import FormTitleLayout from '../../Form/FormTitleLayout';
+import PointDetailsLayout from '..';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import Button from '../../Form/Button';
+import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureGate({ history }) {
+export default function PureGate({ history, submitForm }) {
   const { t } = useTranslation();
-  const { register, handleSubmit, watch, errors } = useForm({
-    mode: 'onTouched',
+  const { point } = useSelector(locationInfoSelector);
+  const { handleSubmit, setValue, register } = useForm({
+    mode: 'onChange',
   });
+
   const onError = (data) => {};
-  const onSubmit = (data) => {};
-
-  const onCancel = () => {
-    history.push('/map');
-  }
-
-  const onBack = () => {
-    history.push({
-      pathname: '/map',
-      isStepBack: true,
-    });
-  }
+  const onSubmit = (data) => {
+    const formData = {
+      name: data.name,
+      point: point,
+      notes: data.notes,
+      type: 'gate',
+    };
+    submitForm({ formData });
+  };
 
   return (
-    <FormTitleLayout
-      onGoBack={onBack}
-      onSubmit={handleSubmit(onSubmit, onError)}
+    <PointDetailsLayout
+      name={t('FARM_MAP.GATE.NAME')}
       title={t('FARM_MAP.GATE.TITLE')}
-      style={{ flexGrow: 9, order: 2 }}
-      buttonGroup={
-        <>
-          <Button onClick={onCancel} color={'secondary'} fullLength>
-            {t('common:CANCEL')}
-          </Button>
-          <Button type={'submit'} fullLength>
-            {t('common:SAVE')}
-          </Button>
-        </>
-      }
-    >
-      <PointDetails name={t('FARM_MAP.GATE.NAME')} />
-    </FormTitleLayout>
+      history={history}
+      submitForm={onSubmit}
+      onError={onError}
+      handleSubmit={handleSubmit}
+      setValue={setValue}
+      register={register}
+    />
   );
 }

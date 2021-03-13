@@ -2,13 +2,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
+import { locationInfoSelector } from '../../../containers/mapSlice';
+import { useSelector } from 'react-redux';
 
 export default function PureFarmSiteBoundary({ history, submitForm }) {
   const { t } = useTranslation();
+  const { grid_points } = useSelector(locationInfoSelector);
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     formState: { isValid, isDirty },
@@ -17,7 +19,15 @@ export default function PureFarmSiteBoundary({ history, submitForm }) {
   });
   const onError = (data) => {};
   const onSubmit = (data) => {
-    submitForm(data);
+    const formData = {
+      name: data.name,
+      total_area: parseInt(data.total_area),
+      perimeter: parseInt(data.perimeter),
+      grid_points: grid_points,
+      notes: data.notes,
+      type: 'farm_site_boundary',
+    };
+    submitForm({ formData });
   };
   const disabled = !isValid || !isDirty;
 
@@ -26,7 +36,7 @@ export default function PureFarmSiteBoundary({ history, submitForm }) {
       name={t('FARM_MAP.FARM_SITE_BOUNDARY.NAME')}
       title={t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')}
       history={history}
-      onSubmit={onSubmit}
+      submitForm={onSubmit}
       onError={onError}
       register={register}
       isNameRequired={false}

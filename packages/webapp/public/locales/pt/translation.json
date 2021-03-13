@@ -119,7 +119,8 @@
     },
     "AREA_DETAILS": {
       "TOTAL_AREA": "Total area",
-      "PERIMETER": "Perimeter"
+      "PERIMETER": "Perimeter",
+      "NETWORK": "Network connectivity issues."
     },
     "FARM_SITE_BOUNDARY": {
       "TITLE": "Add farm site boundary",

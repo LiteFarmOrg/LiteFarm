@@ -119,7 +119,8 @@
     },
     "AREA_DETAILS": {
       "TOTAL_AREA": "MISSING",
-      "PERIMETER": "MISSING"
+      "PERIMETER": "MISSING",
+      "NETWORK": "MISSING"
     },
     "FARM_SITE_BOUNDARY": {
       "TITLE": "MISSING",

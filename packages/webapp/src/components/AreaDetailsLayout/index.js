@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
@@ -6,6 +6,10 @@ import Button from '../Form/Button';
 import { fieldEnum } from '../../containers/fieldSlice';
 import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../../containers/mapSlice';
+import { Error } from '../Typography';
+import PureWarningBox from '../WarningBox';
+import { Label } from '../Typography';
+// import styles from './styles';
 
 export default function AreaDetailsLayout({
   name,
@@ -20,10 +24,18 @@ export default function AreaDetailsLayout({
   setValue,
   history,
   children,
+  errors,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
   const [notes, setNotes] = useState('');
+  const [isOnline, setNetwork] = useState(window.navigator.onLine);
+
+  useEffect(() => {
+    window.addEventListener('offline', () => setNetwork(window.navigator.onLine));
+    window.addEventListener('online', () => setNetwork(window.navigator.onLine));
+    console.log(isOnline);
+  });
 
   const onCancel = () => {
     history.push('/map');
@@ -62,6 +74,11 @@ export default function AreaDetailsLayout({
         </>
       }
     >
+      {!isOnline && (
+        <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
+          <Label style={{ marginBottom: '12px' }}>{t('FARM_MAP.AREA_DETAILS.NETWORK')}</Label>
+        </PureWarningBox>
+      )}
       <Input
         label={name + ' name'}
         type="text"
@@ -70,6 +87,7 @@ export default function AreaDetailsLayout({
         style={{ marginBottom: '40px' }}
         name={fieldEnum.name}
         inputRef={register({ required: isNameRequired })}
+        errors={errors[fieldEnum.name] && t('common:REQUIRED')}
       />
       <div>
         <Input
@@ -79,6 +97,8 @@ export default function AreaDetailsLayout({
           name={fieldEnum.total_area}
           inputRef={register({ required: true })}
           defaultValue={defaultArea}
+          showCross={false}
+          errors={errors[fieldEnum.total_area] && t('common:REQUIRED')}
         />
         {showPerimeter && (
           <Input
@@ -88,6 +108,8 @@ export default function AreaDetailsLayout({
             name={fieldEnum.perimeter}
             inputRef={register({ required: true })}
             defaultValue={defaultPerimeter}
+            showCross={false}
+            errors={errors[fieldEnum.perimeter] && t('common:REQUIRED')}
           />
         )}
       </div>

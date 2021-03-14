@@ -59,6 +59,7 @@ export default function PureField({ history, submitForm }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       showPerimeter={true}
+      errors={errors}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

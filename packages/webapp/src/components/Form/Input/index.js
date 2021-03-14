@@ -26,6 +26,7 @@ const Input = ({
   unit,
   name,
   hookFormSetValue,
+  showCross,
   ...props
 }) => {
   warnings(hookFormSetValue, optional);
@@ -74,7 +75,7 @@ const Input = ({
           {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
-      {showError && !unit && (
+      {showError && !unit && showCross && (
         <Cross
           onClick={onClear}
           style={{

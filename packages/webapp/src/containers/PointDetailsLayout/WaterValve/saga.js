@@ -4,6 +4,7 @@ import { loginSelector } from '../../../containers/userFarmSlice';
 import { getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromWaterValve, postWaterValveSuccess } from '../../waterValveSlice';
+import history from '../../../history';
 
 const axios = require('axios');
 export const postWaterValveLocation = createAction(`postWaterValveLocationSaga`);
@@ -23,6 +24,7 @@ export function* postWaterValveLocationSaga({ payload: data }) {
       header,
     );
     yield put(postWaterValveSuccess(result.data));
+    history.push('/map');
   } catch (e) {
     console.log(e);
   }

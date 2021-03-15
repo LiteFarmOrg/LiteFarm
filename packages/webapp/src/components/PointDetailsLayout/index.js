@@ -42,12 +42,10 @@ export default function PointDetailsLayout({
       onGoBack={onBack}
       onSubmit={handleSubmit(onSubmit, onError)}
       title={title}
+      onCancel={onCancel}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         <>
-          <Button onClick={onCancel} color={'secondary'} fullLength>
-            {t('common:CANCEL')}
-          </Button>
           <Button type={'submit'} fullLength>
             {t('common:SAVE')}
           </Button>

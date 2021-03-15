@@ -5,6 +5,7 @@ import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromGate, postGateSuccess } from '../../gateSlice';
 import history from '../../../history';
+import { resetLocationData } from '../../mapSlice';
 
 const axios = require('axios');
 export const postGateLocation = createAction(`postGateLocationSaga`);
@@ -24,6 +25,7 @@ export function* postGateLocationSaga({ payload: data }) {
       header,
     );
     yield put(postGateSuccess(result.data));
+    yield put(resetLocationData());
     history.push('/map');
   } catch (e) {
     console.log(e);

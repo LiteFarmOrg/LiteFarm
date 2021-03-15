@@ -8,11 +8,12 @@ import {
   postFarmSiteBoundarySuccess,
 } from '../../farmSiteBoundarySlice';
 import history from '../../../history';
+import { resetLocationData } from '../../mapSlice';
 
 const axios = require('axios');
 export const postFarmSiteLocation = createAction(`postFarmSiteBoundaryLocationSaga`);
 
-export function* postFarmSiteBoundaryLocationSaga({ payload: data, dispatch }) {
+export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   data.formData.farm_id = farm_id;
@@ -27,6 +28,7 @@ export function* postFarmSiteBoundaryLocationSaga({ payload: data, dispatch }) {
       header,
     );
     yield put(postFarmSiteBoundarySuccess(result.data));
+    yield put(resetLocationData());
     history.push('/map');
   } catch (e) {
     console.log(e);

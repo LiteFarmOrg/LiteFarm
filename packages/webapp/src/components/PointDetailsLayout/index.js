@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { locationProperties } from '../../containers/locationSlice';
 
 export default function PointDetailsLayout({
   name,

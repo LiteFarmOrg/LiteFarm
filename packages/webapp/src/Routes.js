@@ -200,7 +200,7 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
-            <Route path="/create_location/farm_bound" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
@@ -294,7 +294,7 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
-            <Route path="/create_location/farm_bound" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
@@ -357,7 +357,7 @@ const Routes = () => {
             <Route path="/field" exact component={Field} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/map" exact component={Map} />
-            <Route path="/create_location/farm_bound" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />

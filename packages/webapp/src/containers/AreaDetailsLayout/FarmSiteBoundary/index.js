@@ -10,8 +10,7 @@ function FarmSiteBoundary({ history }) {
 
   const submitForm = (data) => {
     dispatch(postFarmSiteLocation(data));
-    resetLocationData();
-    history.push('/map');
+    dispatch(resetLocationData());
   };
   return (
     <PureFarmSiteBoundary

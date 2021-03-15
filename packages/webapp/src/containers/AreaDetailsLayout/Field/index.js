@@ -10,8 +10,7 @@ function AreaDetailsField({ history }) {
 
   const submitForm = (data) => {
     dispatch(postFieldLocation(data));
-    resetLocationData();
-    history.push('/map');
+    dispatch(resetLocationData());
   };
 
   return <PureField history={history} submitForm={submitForm} areaType={fieldEnum} />;

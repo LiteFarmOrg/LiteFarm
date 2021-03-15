@@ -119,7 +119,7 @@ export default function MapDrawer({
     {
       name: t('FARM_MAP.MAP_FILTER.FSB'),
       icon: () => <FarmSiteBoundary className={classes.icon} />,
-      key: locationEnum.farm_bound,
+      key: locationEnum.farm_site_boundary,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FIELD'),

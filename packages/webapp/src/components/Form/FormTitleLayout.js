@@ -10,6 +10,7 @@ const FormTitleLayout = ({
   onSubmit,
   onGoBack = null,
   title,
+  onCancel,
 }) => {
   return (
     <form onSubmit={onSubmit} className={styles.form}>
@@ -19,6 +20,7 @@ const FormTitleLayout = ({
         classes={classes}
         onGoBack={onGoBack}
         title={title}
+        onCancel={onCancel}
       />
     </form>
   );

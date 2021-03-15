@@ -9,7 +9,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureField({ history, submitForm }) {
+export default function PureField({ history, submitForm, areaType }) {
   const { t } = useTranslation();
   const { grid_points } = useSelector(locationInfoSelector);
 
@@ -60,6 +60,7 @@ export default function PureField({ history, submitForm }) {
       setValue={setValue}
       showPerimeter={true}
       errors={errors}
+      areaType={areaType}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
@@ -94,7 +95,6 @@ export default function PureField({ history, submitForm }) {
           />
         </div>
         <div style={{ paddingBottom: '25px' }}>
-          {/* <DatePicker/> */}
           {fieldTypeSelection === 'Transitional' && (
             <DateContainer date={date} label={t('FARM_MAP.FIELD.DATE')} onDateChange={setDate} />
           )}

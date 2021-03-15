@@ -3,6 +3,7 @@ import PureFarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSite
 import { postFarmSiteLocation } from './saga';
 import { useDispatch } from 'react-redux';
 import { resetLocationData } from '../../mapSlice';
+import { farmSiteBoundaryEnum } from '../../farmSiteBoundarySlice';
 
 function FarmSiteBoundary({ history }) {
   const dispatch = useDispatch();
@@ -12,7 +13,13 @@ function FarmSiteBoundary({ history }) {
     resetLocationData();
     history.push('/map');
   };
-  return <PureFarmSiteBoundary history={history} submitForm={submitForm} />;
+  return (
+    <PureFarmSiteBoundary
+      history={history}
+      submitForm={submitForm}
+      areaType={farmSiteBoundaryEnum}
+    />
+  );
 }
 
 export default FarmSiteBoundary;

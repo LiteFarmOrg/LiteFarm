@@ -3,13 +3,10 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { fieldEnum } from '../../containers/fieldSlice';
 import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../../containers/mapSlice';
-import { Error } from '../Typography';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
-// import styles from './styles';
 
 export default function AreaDetailsLayout({
   name,
@@ -25,6 +22,7 @@ export default function AreaDetailsLayout({
   history,
   children,
   errors,
+  areaType,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
@@ -34,7 +32,6 @@ export default function AreaDetailsLayout({
   useEffect(() => {
     window.addEventListener('offline', () => setNetwork(window.navigator.onLine));
     window.addEventListener('online', () => setNetwork(window.navigator.onLine));
-    console.log(isOnline);
   });
 
   const onCancel = () => {
@@ -59,15 +56,13 @@ export default function AreaDetailsLayout({
 
   return (
     <FormTitleLayout
+      onCancel={onCancel}
       onGoBack={onBack}
       onSubmit={handleSubmit(onSubmit, onError)}
       title={title}
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         <>
-          <Button onClick={onCancel} color={'secondary'} fullLength>
-            {t('common:CANCEL')}
-          </Button>
           <Button type={'submit'} disabled={disabled} fullLength>
             {t('common:SAVE')}
           </Button>
@@ -85,31 +80,28 @@ export default function AreaDetailsLayout({
         optional={name === 'Farm site boundary' ? true : false}
         hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
-        name={fieldEnum.name}
+        name={areaType.name}
         inputRef={register({ required: isNameRequired })}
-        errors={errors[fieldEnum.name] && t('common:REQUIRED')}
+        errors={errors[areaType.name] && t('common:REQUIRED')}
+        showCross={false}
       />
       <div>
         <Input
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
           type="number"
           style={{ marginBottom: '40px', width: '50%', float: 'left' }}
-          name={fieldEnum.total_area}
+          name={areaType.total_area}
           inputRef={register({ required: true })}
           defaultValue={defaultArea}
-          showCross={false}
-          errors={errors[fieldEnum.total_area] && t('common:REQUIRED')}
         />
         {showPerimeter && (
           <Input
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
             type="number"
             style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
-            name={fieldEnum.perimeter}
+            name={areaType.perimeter}
             inputRef={register({ required: true })}
             defaultValue={defaultPerimeter}
-            showCross={false}
-            errors={errors[fieldEnum.perimeter] && t('common:REQUIRED')}
           />
         )}
       </div>

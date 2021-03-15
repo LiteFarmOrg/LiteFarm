@@ -43,7 +43,10 @@ function DateContainer({
         type={'date'}
         onChange={onChange}
         style={{ flexGrow: 1 }}
-        classes={{ container: { flexGrow: 1, minWidth: '150px' }, input: { minWidth: '150px' } }}
+        classes={{
+          container: { flexGrow: 0, minWidth: '150px' },
+          input: { minWidth: '150px', backgroundColor: 'white' },
+        }}
       />
     </div>
   );

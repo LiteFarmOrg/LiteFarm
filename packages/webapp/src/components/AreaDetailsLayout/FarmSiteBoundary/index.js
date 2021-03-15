@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { locationInfoSelector } from '../../../containers/mapSlice';
 import { useSelector } from 'react-redux';
 
-export default function PureFarmSiteBoundary({ history, submitForm }) {
+export default function PureFarmSiteBoundary({ history, submitForm, areaType }) {
   const { t } = useTranslation();
   const { grid_points } = useSelector(locationInfoSelector);
   const {
@@ -44,6 +44,8 @@ export default function PureFarmSiteBoundary({ history, submitForm }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       showPerimeter={true}
+      errors={errors}
+      areaType={areaType}
     />
   );
 }

@@ -8,13 +8,7 @@ import { useSelector } from 'react-redux';
 export default function PureFarmSiteBoundary({ history, submitForm, areaType }) {
   const { t } = useTranslation();
   const { grid_points } = useSelector(locationInfoSelector);
-  const {
-    register,
-    handleSubmit,
-    errors,
-    setValue,
-    formState: { isValid, isDirty },
-  } = useForm({
+  const { register, handleSubmit, errors, setValue } = useForm({
     mode: 'onTouched',
   });
   const onError = (data) => {};
@@ -29,7 +23,6 @@ export default function PureFarmSiteBoundary({ history, submitForm, areaType }) 
     };
     submitForm({ formData });
   };
-  const disabled = !isValid || !isDirty;
 
   return (
     <AreaDetailsLayout
@@ -40,7 +33,7 @@ export default function PureFarmSiteBoundary({ history, submitForm, areaType }) 
       onError={onError}
       register={register}
       isNameRequired={false}
-      disabled={disabled}
+      disabled={false}
       handleSubmit={handleSubmit}
       setValue={setValue}
       showPerimeter={true}

@@ -16,7 +16,6 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
   const onError = (data) => {};
 
   const onSubmit = (data) => {
-    console.log(data);
     const formData = {
       name: data.name,
       point: point,

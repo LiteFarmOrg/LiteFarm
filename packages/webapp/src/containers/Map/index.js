@@ -24,6 +24,7 @@ import useDrawingManager from './useDrawingManager';
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
 import {
+  availableFilterSettingsSelector,
   mapFilterSettingSelector,
   setMapFilterHideAll,
   setMapFilterSetting,
@@ -198,6 +199,9 @@ export default function Map() {
       dispatch(setMapFilterSetting(payload));
     }
   };
+
+  const availableFilterSettings = useSelector(availableFilterSettingsSelector);
+
   const handleAddMenuClick = (locationType) => {
     startDrawing(locationType);
   };
@@ -293,6 +297,7 @@ export default function Map() {
             filterSettings={filterSettings}
             onFilterMenuClick={handleFilterMenuClick}
             onAddMenuClick={handleAddMenuClick}
+            availableFilterSettings={availableFilterSettings}
           />
         )}
         {showModal && (

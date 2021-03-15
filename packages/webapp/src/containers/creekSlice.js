@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { figureProperties, lineProperties, locationProperties } from './locationSlice';
+import { figureProperties, lineProperties, locationProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';

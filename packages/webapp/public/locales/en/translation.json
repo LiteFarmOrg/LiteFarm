@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "DRAWING_MANAGER": {
+      "REDRAW": "Redraw",
+      "TRY_AGAIN": "Try again",
+      "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
+    },
     "EXPORT_MODAL": {
       "BODY": "How do you want to export your farm map?",
       "DOWNLOAD": "Download",
@@ -90,6 +95,7 @@
       "TITLE": "Export your farm map"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
@@ -105,6 +111,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
+      "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",
@@ -119,9 +126,7 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map",
-    "TRY_AGAIN": "Try again",
-    "UNDO": "Undo"
+    "TITLE": "Farm map"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",
@@ -483,7 +488,6 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

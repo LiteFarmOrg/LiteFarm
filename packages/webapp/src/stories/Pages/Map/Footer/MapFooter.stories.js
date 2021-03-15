@@ -1,10 +1,11 @@
 import React from 'react';
-import decorators from '../../config/decorators';
+import { componentDecoratorsWithoutPadding } from '../../config/decorators';
 import PureMapFooter from '../../../../components/Map/Footer/';
 
 export default {
   title: 'Components/Map/MapFooter',
   component: PureMapFooter,
+  decorators: componentDecoratorsWithoutPadding,
 };
 
 const Template = (args) => <PureMapFooter {...args} />;

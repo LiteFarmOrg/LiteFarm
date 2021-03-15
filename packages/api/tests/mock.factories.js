@@ -146,7 +146,7 @@ async function fieldFactory({
   promisedLocation = locationFactory(),
   promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
 } = {}, field = fakeField()) {
-  const [station, location] = await Promise.all([promisedStation, promisedLocation]);
+  const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
   const [{ station_id }] = station;
   const [{ location_id }] = location;
   return knex('field').insert({ location_id: location_id, station_id, ...field }).returning('*');
@@ -939,10 +939,14 @@ async function residenceFactory({ promisedLocation = locationFactory() } = {}) {
   return await baseArea({ promisedLocation }, 'residence');
 }
 
+async function farm_site_boundaryFactory({ promisedLocation = locationFactory() } = {}) {
+  return await baseArea({ promisedLocation }, 'farm_site_boundary');
+}
+
 async function buffer_zoneFactory({
-  promisedLocation = locationFactory(),
-  promisedLine = lineFactory({ promisedLocation }, fakeLine()),
-} = {}, asset) {
+    promisedLocation = locationFactory(),
+    promisedLine= lineFactory({ promisedLocation },
+    fakeLine())} = {}){
   const [location] = await Promise.all([promisedLocation, promisedLine]);
   const [{ location_id }] = location;
   return knex('buffer_zone').insert({ location_id }).returning('*');
@@ -1021,6 +1025,7 @@ module.exports = {
   fakeGreenhouse, greenhouseFactory,
   natural_areaFactory,
   ceremonial_areaFactory,
+  farm_site_boundaryFactory,
   residenceFactory,
   buffer_zoneFactory,
   gateFactory,

@@ -1,9 +1,8 @@
 import { Meta } from '@storybook/addon-docs/blocks';
-import LinkTo from '@storybook/addon-links/react';
-import HarvestLogPure1 from './refactoring-imgs/harvest-log-pure1.png';
-import HarvestLogPure2 from './refactoring-imgs/harvest-log-pure2.png';
-import HarvestLogSmart1 from './refactoring-imgs/harvest-log-smart1.png';
-import HarvestLogSmart2 from './refactoring-imgs/harvest-log-smart2.png';
+import HarvestLogPure1 from './assets/refactoring-imgs/harvest-log-pure1.png';
+import HarvestLogPure2 from './assets/refactoring-imgs/harvest-log-pure2.png';
+import HarvestLogSmart1 from './assets/refactoring-imgs/harvest-log-smart1.png';
+import HarvestLogSmart2 from './assets/refactoring-imgs/harvest-log-smart2.png';
 
 <Meta title="Docs/refactoringGuide" />
 
@@ -12,7 +11,7 @@ import HarvestLogSmart2 from './refactoring-imgs/harvest-log-smart2.png';
 ### Here is a guide for refactoring legacy code or adding new components to the codebase.
 
 
-**Pure Components vs Smart Components** 
+**Pure Components vs Smart Components**
 
 Pure components live in the `components` folder and contain only the code that renders the view of the component. Smart components live in the `containers` folder and contain the smart logic - button click, animation, retrieving data from the redux store or backend, etc - for the component. Here is an example from `HarvestLog`.
 
@@ -32,7 +31,7 @@ The component also contains the styles - in this case, the styles for the form -
 
 <img src={HarvestLogSmart2}/>
 
-**Redux Slices** 
+**Redux Slices**
 
 We use `redux slice` to create the initial state of the redux store for that component, as well as its corresponding actions, reducers, and selectors. Check out `containers/Log/Utility/logSlice` for an example.
 

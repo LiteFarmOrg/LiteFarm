@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "DRAWING_MANAGER": {
+      "REDRAW": "MISSING",
+      "TRY_AGAIN": "MISSING",
+      "ZERO_AREA_DETECTED": "MISSING"
+    },
     "EXPORT_MODAL": {
       "BODY": "MISSING",
       "DOWNLOAD": "MISSING",
@@ -90,6 +95,7 @@
       "TITLE": "MISSING"
     },
     "MAP_FILTER": {
+      "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
@@ -105,6 +111,7 @@
       "LINES": "Lines",
       "NA": "Natural area",
       "POINTS": "Points",
+      "RESIDENCE": "MISSING",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
       "TITLE": "Filter your map",
@@ -119,9 +126,7 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING",
-    "TRY_AGAIN": "MISSING",
-    "UNDO": "MISSING"
+    "TITLE": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -483,7 +488,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

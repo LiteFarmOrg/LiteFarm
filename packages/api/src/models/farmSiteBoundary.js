@@ -15,9 +15,9 @@
 
 const Model = require('objection').Model;
 
-class WaterValve extends Model {
+class FarmSiteBoundary extends Model {
   static get tableName() {
-    return 'water_valve';
+    return 'farm_site_boundary';
   }
 
   static get idColumn() {
@@ -30,9 +30,6 @@ class WaterValve extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        source: { type: 'string', enum: ['Municipal water', 'Surface water', 'Groundwater', 'Rain water'] },
-        flow_rate: { type: 'number' },
-        flow_rate_unit: { type: 'string', enum: ['l/min', 'l/hour', 'g/min', 'g/hour'] },
       },
       additionalProperties: false,
     };
@@ -44,4 +41,4 @@ class WaterValve extends Model {
   }
 }
 
-module.exports = WaterValve;
+module.exports = FarmSiteBoundary;

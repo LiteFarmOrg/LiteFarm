@@ -34,12 +34,14 @@ const useMapAssetRenderer = () => {
   const lineAssets = useSelector(lineSelector);
   const pointAssets = useSelector(pointSelector);
   const drawAssets = (map, maps, mapBounds) => {
+    let hasLocation = false;
     const newState = { ...assetGeometries };
     for (const locationType in areaAssets) {
       for (const location of areaAssets[locationType]) {
         newState[locationType]?.push(
           drawArea(map, maps, mapBounds, location, filterSettings?.[locationType]),
         );
+        hasLocation = true;
       }
     }
     for (const locationType in lineAssets) {
@@ -47,6 +49,7 @@ const useMapAssetRenderer = () => {
         newState[locationType]?.push(
           drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
         );
+        hasLocation = true;
       }
     }
     for (const locationType in pointAssets) {
@@ -54,12 +57,12 @@ const useMapAssetRenderer = () => {
         newState[locationType]?.push(
           drawPoint(map, maps, mapBounds, location, filterSettings?.[locationType]),
         );
+        hasLocation = true;
       }
     }
     setAssetGeometries(newState);
     // TODO: only fitBounds if there is at least one location in the farm
-    // if (fields.length > 0)
-    map.fitBounds(mapBounds);
+    hasLocation && map.fitBounds(mapBounds);
   };
   return { drawAssets };
 };

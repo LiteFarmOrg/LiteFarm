@@ -50,6 +50,9 @@ export default function AreaDetailsLayout({
   };
 
   const onSubmit = (data) => {
+    if (data.name === '') {
+      data.name = 'Farm site boundary';
+    }
     data.notes = notes;
     submitForm(data);
   };

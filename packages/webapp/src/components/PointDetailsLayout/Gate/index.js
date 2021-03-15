@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureGate({ history, submitForm }) {
+export default function PureGate({ history, submitForm, pointType }) {
   const { t } = useTranslation();
   const { point } = useSelector(locationInfoSelector);
   const { handleSubmit, setValue, register } = useForm({
@@ -33,6 +33,7 @@ export default function PureGate({ history, submitForm }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       register={register}
+      pointType={pointType}
     />
   );
 }

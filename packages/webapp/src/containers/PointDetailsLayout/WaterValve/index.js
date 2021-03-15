@@ -3,8 +3,9 @@ import PureWaterValve from '../../../components/PointDetailsLayout/WaterValve';
 import { postWaterValveLocation } from './saga';
 import { useDispatch } from 'react-redux';
 import { resetLocationData } from '../../mapSlice';
+import { waterValveEnum } from '../../waterValveSlice';
 
-function Gate({ history }) {
+function WaterValve({ history }) {
   const dispatch = useDispatch();
 
   const submitForm = (data) => {
@@ -13,7 +14,7 @@ function Gate({ history }) {
     history.push('/map');
   };
 
-  return <PureWaterValve history={history} submitForm={submitForm} />;
+  return <PureWaterValve history={history} submitForm={submitForm} pointType={waterValveEnum} />;
 }
 
-export default Gate;
+export default WaterValve;

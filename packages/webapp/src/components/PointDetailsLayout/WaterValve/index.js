@@ -6,28 +6,24 @@ import { useForm } from 'react-hook-form';
 import { locationInfoSelector } from '../../../containers/mapSlice';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { waterValveEnum } from '../../../containers/waterValveSlice';
 
-export default function PureWaterValve({ history, submitForm }) {
+export default function PureWaterValve({ history, submitForm, pointType }) {
   const { t } = useTranslation();
   const { point } = useSelector(locationInfoSelector);
-  const [maxFlowRate, setFlowRate] = useState(0);
   const { handleSubmit, setValue, register, watch } = useForm({
     mode: 'onChange',
   });
   const onError = (data) => {};
 
-  const setFlowRateValue = (flowRate) => {
-    setFlowRate(flowRate);
-  };
   const onSubmit = (data) => {
+    console.log(data);
     const formData = {
       name: data.name,
       point: point,
       notes: data.notes,
       type: 'water_valve',
       source: waterValveSourceSelection,
-      flow_rate: parseInt(maxFlowRate),
+      flow_rate: data.flow_rate === '' ? 0 : parseInt(data.flow_rate),
     };
     submitForm({ formData });
   };
@@ -38,7 +34,6 @@ export default function PureWaterValve({ history, submitForm }) {
   return (
     <PointDetails
       name={t('FARM_MAP.WATER_VALVE.NAME')}
-      pointName={waterValveEnum.name}
       title={t('FARM_MAP.WATER_VALVE.TITLE')}
       history={history}
       setValue={setValue}
@@ -46,6 +41,7 @@ export default function PureWaterValve({ history, submitForm }) {
       onError={onError}
       handleSubmit={handleSubmit}
       register={register}
+      pointType={pointType}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
@@ -54,7 +50,7 @@ export default function PureWaterValve({ history, submitForm }) {
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
             defaultChecked={true}
-            name={waterValveEnum.source}
+            name={pointType.source}
             value={'Municipal water'}
             inputRef={register({ required: false })}
           />
@@ -63,7 +59,7 @@ export default function PureWaterValve({ history, submitForm }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
-            name={waterValveEnum.source}
+            name={pointType.source}
             value={'Surface water'}
             inputRef={register({ required: false })}
           />
@@ -72,7 +68,7 @@ export default function PureWaterValve({ history, submitForm }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
-            name={waterValveEnum.source}
+            name={pointType.source}
             value={'Groundwater'}
             inputRef={register({ required: false })}
           />
@@ -81,7 +77,7 @@ export default function PureWaterValve({ history, submitForm }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
-            name={waterValveEnum.source}
+            name={pointType.source}
             value={'Rain water'}
             inputRef={register({ required: false })}
           />
@@ -92,8 +88,8 @@ export default function PureWaterValve({ history, submitForm }) {
           optional
           style={{ marginBottom: '40px' }}
           hookFormSetValue={setValue}
-          name={waterValveEnum.flow_rate}
-          onChange={(e) => setFlowRateValue(e.target.value)}
+          name={pointType.flow_rate}
+          inputRef={register({ required: false })}
         />
       </div>
     </PointDetails>

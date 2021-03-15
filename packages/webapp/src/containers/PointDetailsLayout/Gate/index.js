@@ -3,6 +3,7 @@ import PureGate from '../../../components/PointDetailsLayout/Gate';
 import { postGateLocation } from './saga';
 import { useDispatch } from 'react-redux';
 import { resetLocationData } from '../../mapSlice';
+import { gateEnum } from '../../gateSlice';
 
 function Gate({ history }) {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function Gate({ history }) {
     history.push('/map');
   };
 
-  return <PureGate history={history} submitForm={submitForm} />;
+  return <PureGate history={history} submitForm={submitForm} pointType={gateEnum} />;
 }
 
 export default Gate;

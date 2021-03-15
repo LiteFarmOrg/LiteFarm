@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { gateEnum } from '../../containers/gateSlice';
 import { locationProperties } from '../../containers/locationSlice';
 
 export default function PointDetailsLayout({
   name,
-  pointName,
+  pointType,
   title,
   submitForm,
   children,
@@ -62,7 +61,7 @@ export default function PointDetailsLayout({
         optional
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
-        name={pointName}
+        name={pointType.name}
         inputRef={register({ required: false })}
       />
 

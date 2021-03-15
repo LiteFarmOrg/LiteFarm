@@ -27,7 +27,7 @@ export default function PureWaterValve({ history, submitForm }) {
       notes: data.notes,
       type: 'water_valve',
       source: waterValveSourceSelection,
-      flow_rate: maxFlowRate,
+      flow_rate: parseInt(maxFlowRate),
     };
     submitForm({ formData });
   };

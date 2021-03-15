@@ -25,9 +25,9 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }
               right: 24,
               color: '#028577',
               fontWeight: 600,
-              fontSize: '14PX',
+              fontSize: '14px',
               border: 'none',
-              backgroundColor: 'white',
+              backgroundColor: 'transparent',
               paddingTop: '8px',
             }}
           >

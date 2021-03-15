@@ -8,7 +8,7 @@ function FieldDetailForm({ history }) {
   const dispatch = useDispatch();
 
   const submitForm = (data) => {
-    dispatch(postFieldLocation(data, dispatch));
+    dispatch(postFieldLocation(data));
   };
 
   return <PureField history={history} submitForm={submitForm} areaType={fieldEnum} />;

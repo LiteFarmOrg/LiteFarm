@@ -8,7 +8,7 @@ function FarmSiteBoundaryDetailForm({ history }) {
   const dispatch = useDispatch();
 
   const submitForm = (data) => {
-    dispatch(postFarmSiteLocation(data, dispatch));
+    dispatch(postFarmSiteLocation(data));
   };
   return (
     <PureFarmSiteBoundary

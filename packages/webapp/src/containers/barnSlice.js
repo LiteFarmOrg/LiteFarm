@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
-import { areaProperties, figureProperties, locationProperties } from './locationSlice';
+import { areaProperties, figureProperties, locationProperties } from './constants';
 
 export const barnEnum = {
   farm_id: 'farm_id',

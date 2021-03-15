@@ -3,8 +3,7 @@ import { areaStyles, hoverIcons, icons, lineStyles } from './mapStyles';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
-import { fieldsSelector } from '../fieldSlice';
-import { locationEnum } from './constants';
+import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
 
 const useMapAssetRenderer = () => {
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -31,19 +30,36 @@ const useMapAssetRenderer = () => {
     setPrevFilterState(filterSettings);
   }, [filterSettings]);
 
-  const fields = useSelector(fieldsSelector);
+  const areaAssets = useSelector(areaSelector);
+  const lineAssets = useSelector(lineSelector);
+  const pointAssets = useSelector(pointSelector);
   const drawAssets = (map, maps, mapBounds) => {
-    //TODO getLocationsSelector
-    for (const field of fields) {
-      const newState = { ...assetGeometries };
-      newState[locationEnum.field]?.push(
-        drawArea(map, maps, mapBounds, field, filterSettings?.[locationEnum.field]),
-      );
-      setAssetGeometries(newState);
+    const newState = { ...assetGeometries };
+    for (const locationType in areaAssets) {
+      for (const location of areaAssets[locationType]) {
+        newState[locationType]?.push(
+          drawArea(map, maps, mapBounds, location, filterSettings?.[locationType]),
+        );
+      }
     }
+    for (const locationType in lineAssets) {
+      for (const location of lineAssets[locationType]) {
+        newState[locationType]?.push(
+          drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
+        );
+      }
+    }
+    for (const locationType in pointAssets) {
+      for (const location of pointAssets[locationType]) {
+        newState[locationType]?.push(
+          drawPoint(map, maps, mapBounds, location, filterSettings?.[locationType]),
+        );
+      }
+    }
+    setAssetGeometries(newState);
     // TODO: only fitBounds if there is at least one location in the farm
-    if (fields.length > 0)
-      map.fitBounds(mapBounds);
+    // if (fields.length > 0)
+    map.fitBounds(mapBounds);
   };
   return { drawAssets };
 };
@@ -127,7 +143,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
 
   // draw dotted outline
   const lineSymbol = (c) => ({
-    path: "M 0,0 0,1",
+    path: 'M 0,0 0,1',
     strokeColor: c,
     strokeOpacity: 1,
     strokeWeight: 2,
@@ -141,7 +157,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
     icons: [
       {
         icon: lineSymbol(colour),
-        offset: "0",
+        offset: '0',
         repeat: dashLength,
       },
     ],
@@ -154,7 +170,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
       icons: [
         {
           icon: lineSymbol(defaultColour),
-          offset: "0",
+          offset: '0',
           repeat: dashLength,
         },
       ],
@@ -166,7 +182,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
       icons: [
         {
           icon: lineSymbol(colour),
-          offset: "0",
+          offset: '0',
           repeat: dashLength,
         },
       ],

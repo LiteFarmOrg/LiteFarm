@@ -11,7 +11,11 @@ export default {
 const Template = (args) => <Field {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = { onGoBack: (data) => console.log(data), title: 'Field', name: 'Field asset name' };
+Primary.args = {
+  history: (data) => console.log(data),
+  submitForm: (data) => console.log(data),
+  areaType: (data) => console.log(data),
+};
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

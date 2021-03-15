@@ -11,7 +11,7 @@ export default {
 const Template = (args) => <WaterValve {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = { pointType: (data) => console.log(data) };
+Primary.args = { pointType: (data) => {} };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

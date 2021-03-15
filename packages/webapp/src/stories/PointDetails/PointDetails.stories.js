@@ -13,11 +13,11 @@ const Template = (args) => <PointDetails {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   name: 'Point asset name',
-  pointType: (data) => console.log(data),
+  pointType: (data) => {},
   title: 'Point details title',
-  submitForm: (data) => console.log(data),
-  handleSubmit: (data) => console.log(data),
-  register: (data) => console.log(data),
+  submitForm: (data) => {},
+  handleSubmit: (data) => {},
+  register: (data) => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

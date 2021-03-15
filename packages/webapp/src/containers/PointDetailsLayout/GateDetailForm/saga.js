@@ -1,7 +1,7 @@
 import { call, select, takeEvery, put } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
-import { loginSelector } from '../../../containers/userFarmSlice';
-import { getHeader } from '../../../containers/saga';
+import { loginSelector } from '../../userFarmSlice';
+import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromGate, postGateSuccess } from '../../gateSlice';
 import history from '../../../history';
@@ -19,7 +19,7 @@ export function* postGateLocationSaga({ payload: data }) {
   try {
     const result = yield call(
       axios.post,
-      locationURL + '/' + `${locationObject.figure.type}`,
+      `${locationURL}/${locationObject.figure.type}`,
       locationObject,
       header,
     );

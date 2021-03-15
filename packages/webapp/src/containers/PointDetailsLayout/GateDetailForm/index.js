@@ -2,18 +2,18 @@ import React from 'react';
 import PureGate from '../../../components/PointDetailsLayout/Gate';
 import { postGateLocation } from './saga';
 import { useDispatch } from 'react-redux';
-import { resetLocationData } from '../../mapSlice';
 import { gateEnum } from '../../gateSlice';
+import { resetLocationData } from '../../mapSlice';
 
-function Gate({ history }) {
+function GateDetailForm({ history }) {
   const dispatch = useDispatch();
 
   const submitForm = (data) => {
-    dispatch(postGateLocation(data));
-    resetLocationData();
+    dispatch(postGateLocation(data, dispatch));
+    dispatch(resetLocationData());
   };
 
   return <PureGate history={history} submitForm={submitForm} pointType={gateEnum} />;
 }
 
-export default Gate;
+export default GateDetailForm;

@@ -2,18 +2,18 @@ import React from 'react';
 import PureField from '../../../components/AreaDetailsLayout/Field';
 import { postFieldLocation } from './saga';
 import { useDispatch } from 'react-redux';
-import { resetLocationData } from '../../mapSlice';
 import { fieldEnum } from '../../fieldSlice';
+import { resetLocationData } from '../../mapSlice';
 
-function AreaDetailsField({ history }) {
+function FieldDetailForm({ history }) {
   const dispatch = useDispatch();
 
   const submitForm = (data) => {
-    dispatch(postFieldLocation(data));
+    dispatch(postFieldLocation(data, dispatch));
     dispatch(resetLocationData());
   };
 
   return <PureField history={history} submitForm={submitForm} areaType={fieldEnum} />;
 }
 
-export default AreaDetailsField;
+export default FieldDetailForm;

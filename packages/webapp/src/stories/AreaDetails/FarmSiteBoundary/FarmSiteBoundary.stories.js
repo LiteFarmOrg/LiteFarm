@@ -12,9 +12,9 @@ const Template = (args) => <FarmSiteBoundary {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  history: (data) => console.log(data),
-  submitForm: (data) => console.log(data),
-  areaType: (data) => console.log(data),
+  history: (data) => {},
+  submitForm: (data) => {},
+  areaType: (data) => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

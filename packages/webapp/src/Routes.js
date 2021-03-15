@@ -102,11 +102,11 @@ const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const FarmSiteBoundary = React.lazy(() =>
-  import('./containers/AreaDetailsLayout/FarmSiteBoundary'),
+  import('./containers/AreaDetailsLayout/FarmSiteBoundaryDetailForm'),
 );
-const AreaDetailsField = React.lazy(() => import('./containers/AreaDetailsLayout/Field'));
-const Gate = React.lazy(() => import('./containers/PointDetailsLayout/Gate'));
-const WaterValve = React.lazy(() => import('./containers/PointDetailsLayout/WaterValve'));
+const AreaDetailsField = React.lazy(() => import('./containers/AreaDetailsLayout/FieldDetailForm'));
+const Gate = React.lazy(() => import('./containers/PointDetailsLayout/GateDetailForm'));
+const WaterValve = React.lazy(() => import('./containers/PointDetailsLayout/WaterValveDetailForm'));
 
 const Routes = () => {
   const userFarm = useSelector(

@@ -27,6 +27,7 @@ export default function PureMapFooter({
   filterSettings,
   onFilterMenuClick,
   onAddMenuClick,
+  availableFilterSettings,
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
@@ -172,6 +173,7 @@ export default function PureMapFooter({
         drawerDefaultHeight={drawerDefaultHeight}
         headerTitle={t('FARM_MAP.MAP_FILTER.TITLE')}
         filterSettings={filterSettings}
+        availableFilterSettings={availableFilterSettings}
         onMenuItemClick={onFilterMenuClick}
       />
       <MapDrawer
@@ -203,6 +205,11 @@ PureMapFooter.prototype = {
   onFilterMenuClick: PropTypes.func,
   onAddMenuClick: PropTypes.func,
   setShowAddDrawer: PropTypes.func,
+  availableFilterSettings: PropTypes.shape({
+    area: PropTypes.array,
+    point: PropTypes.array,
+    line: PropTypes.array,
+  }),
 };
 
 const TitleContent = (text) => {

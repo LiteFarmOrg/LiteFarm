@@ -11,7 +11,6 @@ function WaterValve({ history }) {
   const submitForm = (data) => {
     dispatch(postWaterValveLocation(data));
     resetLocationData();
-    history.push('/map');
   };
 
   return <PureWaterValve history={history} submitForm={submitForm} pointType={waterValveEnum} />;

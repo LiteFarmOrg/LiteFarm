@@ -1,4 +1,4 @@
-import { call, select, takeEvery, put } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
 import { getHeader } from '../../../containers/saga';
@@ -7,6 +7,7 @@ import {
   getLocationObjectFromFarmSiteBoundary,
   postFarmSiteBoundarySuccess,
 } from '../../farmSiteBoundarySlice';
+import history from '../../../history';
 
 const axios = require('axios');
 export const postFarmSiteLocation = createAction(`postFarmSiteBoundaryLocationSaga`);
@@ -26,6 +27,7 @@ export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
       header,
     );
     yield put(postFarmSiteBoundarySuccess(result.data));
+    history.push('/map');
   } catch (e) {
     console.log(e);
   }

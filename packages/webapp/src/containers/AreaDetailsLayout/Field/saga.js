@@ -1,9 +1,10 @@
-import { call, select, takeEvery, put } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
 import { getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromField, postFieldSuccess } from '../../fieldSlice';
+import history from '../../../history';
 
 const axios = require('axios');
 export const postFieldLocation = createAction(`postFieldLocationSaga`);
@@ -23,6 +24,7 @@ export function* postFieldLocationSaga({ payload: data }) {
       header,
     );
     yield put(postFieldSuccess(result.data));
+    history.push('/map');
   } catch (e) {
     console.log(e);
   }

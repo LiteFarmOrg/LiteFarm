@@ -11,7 +11,6 @@ function Gate({ history }) {
   const submitForm = (data) => {
     dispatch(postGateLocation(data));
     resetLocationData();
-    history.push('/map');
   };
 
   return <PureGate history={history} submitForm={submitForm} pointType={gateEnum} />;

@@ -56,6 +56,7 @@ const useMapAssetRenderer = () => {
       for (const location of pointAssets[locationType]) {
         newState[locationType]?.push(
           drawPoint(map, maps, mapBounds, location, filterSettings?.[locationType]),
+        );
         hasLocation = true;
       }
     }

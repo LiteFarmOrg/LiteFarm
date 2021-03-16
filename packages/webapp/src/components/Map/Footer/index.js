@@ -8,6 +8,7 @@ import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';
+import { locationEnum } from '../../../containers/Map/constants';
 
 export default function PureMapFooter({
   className,
@@ -27,7 +28,20 @@ export default function PureMapFooter({
   filterSettings,
   onFilterMenuClick,
   onAddMenuClick,
-  availableFilterSettings,
+  availableFilterSettings = {
+    area: [
+      locationEnum.barn,
+      locationEnum.ceremonial_area,
+      locationEnum.farm_site_boundary,
+      locationEnum.field,
+      locationEnum.greenhouse,
+      locationEnum.ground_water,
+      locationEnum.natural_area,
+      locationEnum.residence,
+    ],
+    line: [locationEnum.buffer_zone, locationEnum.creek, locationEnum.fence],
+    point: [locationEnum.gate, locationEnum.water_valve],
+  },
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);

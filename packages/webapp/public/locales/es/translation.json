@@ -83,9 +83,9 @@
   },
   "FARM_MAP": {
     "DRAWING_MANAGER": {
-      "REDRAW": "MISSING",
+      "REDRAW": "Repintar",
       "TRY_AGAIN": "Intenta de nuevo",
-      "ZERO_AREA_DETECTED": "MISSING"
+      "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo."
     },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
@@ -95,7 +95,7 @@
       "TITLE": "Exporta tu mapa"
     },
     "MAP_FILTER": {
-      "ADD_TITLE": "MISSING",
+      "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
@@ -111,43 +111,43 @@
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
-      "RESIDENCE": "MISSING",
+      "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
       "TITLE": "Filtra tu mapa",
       "WV": "Valvula de agua"
     },
     "AREA_DETAILS": {
-      "TOTAL_AREA": "MISSING",
-      "PERIMETER": "MISSING",
-      "NETWORK": "MISSING"
+      "TOTAL_AREA": "Area total",
+      "PERIMETER": "Perimetro",
+      "NETWORK": "Error de conexion."
     },
     "FARM_SITE_BOUNDARY": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING"
+      "TITLE": "Agregar Limites de la granja",
+      "NAME": "Limites de la granja"
     },
     "FIELD": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING",
-      "FIELD_TYPE": "MISSING",
-      "NON_ORGANIC": "MISSING",
-      "ORGANIC": "MISSING",
-      "TRANSITIONING": "MISSING",
-      "DATE": "MISSING"
+      "TITLE": "Agregar campo",
+      "NAME": "Campo",
+      "FIELD_TYPE": "Que tipo de campo es?",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "TRANSITIONING": "En transición",
+      "DATE": "Fecha de transición"
     },
     "GATE": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING"
+      "TITLE": "Agregar puerta",
+      "NAME": "Puerta"
     },
     "WATER_VALVE": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING",
-      "WATER_VALVE_TYPE": "MISSING",
-      "MUNICIPAL_WATER": "MISSING",
-      "SURFACE_WATER": "MISSING",
-      "GROUNDWATER": "MISSING",
-      "RAIN_WATER": "MISSING",
-      "MAX_FLOW_RATE": "MISSING"
+      "TITLE": "Agregar valvula de agua",
+      "NAME": "Valvula de agua",
+      "WATER_VALVE_TYPE": "Cual es la fuente?",
+      "MUNICIPAL_WATER": "Agua municipal",
+      "SURFACE_WATER": "Agua de superficie",
+      "GROUNDWATER": "Agua de pozo",
+      "RAIN_WATER": "Agua de lluvia",
+      "MAX_FLOW_RATE": "Flujo maximo"
     },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",

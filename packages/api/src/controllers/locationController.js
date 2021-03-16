@@ -12,7 +12,7 @@ const LocationController = {
           figure.[area, line, point], 
           gate, water_valve, field, buffer_zone, creek, fence, 
           ceremonial_area, residence, ground_water, natural_area,
-          greenhouse, barn
+          greenhouse, barn, farm_site_boundary
         ]`)
       return res.status(200).send(locations);
     }

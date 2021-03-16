@@ -117,6 +117,38 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
+    "AREA_DETAILS": {
+      "TOTAL_AREA": "Total area",
+      "PERIMETER": "Perimeter",
+      "NETWORK": "Network connectivity issues."
+    },
+    "FARM_SITE_BOUNDARY": {
+      "TITLE": "Add farm site boundary",
+      "NAME": "Farm site boundary"
+    },
+    "FIELD": {
+      "TITLE": "Add field",
+      "NAME": "Field",
+      "FIELD_TYPE": "What type of field is this?",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TRANSITIONING": "Transitioning",
+      "DATE": "Eligible transition date"
+    },
+    "GATE": {
+      "TITLE": "Add gate",
+      "NAME": "Gate"
+    },
+    "WATER_VALVE": {
+      "TITLE": "Add water valve",
+      "NAME": "Water valve",
+      "WATER_VALVE_TYPE": "What is the source?",
+      "MUNICIPAL_WATER": "Municipal water",
+      "SURFACE_WATER": "Surface water",
+      "GROUNDWATER": "Groundwater",
+      "RAIN_WATER": "Rain water",
+      "MAX_FLOW_RATE": "Maximum flow rate"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",

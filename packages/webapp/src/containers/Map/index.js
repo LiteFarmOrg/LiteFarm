@@ -31,7 +31,7 @@ import {
   setMapFilterShowAll,
 } from './mapFilterSettingSlice';
 
-export default function Map() {
+export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
@@ -41,12 +41,19 @@ export default function Map() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [stateMap, setMap] = useState(null);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
 
   const [
     drawingState,
-    { initDrawingState, startDrawing, finishDrawing, resetDrawing, closeDrawer, getOverlayInfo },
+    {
+      initDrawingState,
+      startDrawing,
+      finishDrawing,
+      resetDrawing,
+      closeDrawer,
+      getOverlayInfo,
+      reconstructOverlay,
+    },
   ] = useDrawingManager();
 
   useEffect(() => {
@@ -89,11 +96,6 @@ export default function Map() {
   };
   const { drawAssets } = useMapAssetRenderer();
   const handleGoogleMapApi = (map, maps) => {
-    console.log(map);
-    console.log(maps);
-
-    setMap(map);
-
     maps.Polygon.prototype.getPolygonBounds = function () {
       var bounds = new maps.LatLngBounds();
       this.getPath().forEach(function (element, index) {
@@ -135,7 +137,7 @@ export default function Map() {
       finishDrawing(drawing);
       this.setDrawingMode();
     });
-    initDrawingState(maps, drawingManagerInit, {
+    initDrawingState(map, maps, drawingManagerInit, {
       POLYGON: maps.drawing.OverlayType.POLYGON,
       POLYLINE: maps.drawing.OverlayType.POLYLINE,
       MARKER: maps.drawing.OverlayType.MARKER,
@@ -160,6 +162,10 @@ export default function Map() {
     // Drawing locations on map
     let mapBounds = new maps.LatLngBounds();
     drawAssets(map, maps, mapBounds);
+
+    if (history.location.isStepBack) {
+      reconstructOverlay();
+    }
   };
 
   const resetSpotlight = () => {
@@ -273,7 +279,10 @@ export default function Map() {
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
-                onClickConfirm={() => dispatch(setLocationData(getOverlayInfo()))}
+                onClickConfirm={() => {
+                  dispatch(setLocationData(getOverlayInfo()));
+                  history.push(`/create_location/${drawingState.type}`);
+                }}
                 showZeroAreaWarning={showZeroAreaWarning}
               />
             </div>

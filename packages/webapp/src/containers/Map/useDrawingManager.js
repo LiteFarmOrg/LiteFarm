@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { areaStyles, lineStyles, icons } from './mapStyles';
 import { isArea, isLine, isPoint } from './constants';
+import { useSelector } from 'react-redux';
+import { locationInfoSelector } from '../mapSlice';
 import { defaultColour } from './styles.module.scss';
 
 export default function useDrawingManager() {
+  const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
@@ -12,6 +15,9 @@ export default function useDrawingManager() {
   const [drawingToCheck, setDrawingToCheck] = useState(null);
 
   const [onBackPressed, setOnBackPressed] = useState(false);
+  const [onSteppedBack, setOnSteppedBack] = useState(false);
+
+  const overlayData = useSelector(locationInfoSelector);
 
   useEffect(() => {
     if (onBackPressed) {
@@ -20,7 +26,47 @@ export default function useDrawingManager() {
     }
   }, [drawingToCheck, onBackPressed]);
 
-  const initDrawingState = (maps, drawingManagerInit, drawingModes) => {
+  useEffect(() => {
+    if (!onSteppedBack) return;
+    const { type } = overlayData;
+    setDrawLocationType(type);
+    setIsDrawing(false);
+    if (isArea(type)) {
+      const redrawnPolygon = new maps.Polygon({
+        paths: overlayData.grid_points,
+        strokeWeight: 2,
+        fillOpacity: 0.3,
+        editable: true,
+        draggable: true,
+        fillColor: areaStyles[type].colour,
+        strokeColor: areaStyles[type].colour,
+        geodesic: true,
+        suppressUndo: true,
+      });
+      redrawnPolygon.setMap(map);
+      setDrawingToCheck({
+        type: maps.drawing.OverlayType.POLYGON,
+        overlay: redrawnPolygon,
+      });
+    } else if (isLine(type)) {
+      console.log('line reconstruction not implemented');
+    } else if (isPoint(type)) {
+      var redrawnMarker = new maps.Marker({
+        position: overlayData.point,
+        icon: icons[type],
+        draggable: true,
+      });
+      redrawnMarker.setMap(map);
+      setDrawingToCheck({
+        type: maps.drawing.OverlayType.MARKER,
+        overlay: redrawnMarker,
+      });
+    }
+    setOnSteppedBack(false);
+  }, [onSteppedBack, map, maps, overlayData]);
+
+  const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
+    setMap(map);
     setMaps(maps);
     setDrawingManager(drawingManagerInit);
     setDrawingModes(drawingModes);
@@ -75,6 +121,10 @@ export default function useDrawingManager() {
     };
   }
 
+  const reconstructOverlay = () => {
+    setOnSteppedBack(true);
+  }
+
   // todo undo drawing
 
   const drawingState = {
@@ -91,6 +141,7 @@ export default function useDrawingManager() {
     resetDrawing,
     closeDrawer,
     getOverlayInfo,
+    reconstructOverlay,
   }
 
   return [drawingState, drawingFunctions];

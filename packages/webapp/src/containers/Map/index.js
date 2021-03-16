@@ -210,6 +210,7 @@ export default function Map({ history }) {
   const availableFilterSettings = useSelector(availableFilterSettingsSelector);
 
   const handleAddMenuClick = (locationType) => {
+    setZeroAreaWarning(false);
     startDrawing(locationType);
   };
 

@@ -15,7 +15,7 @@
 
 .container {
   display: flex;
-  align-items: center;
+  // align-items: center;
   flex-direction: column;
   max-width: 312px;
   width: 90vw;
@@ -23,13 +23,35 @@
   background: #fafafd;
   border-radius: 7.05466px;
   position: relative;
-  padding: 16px;
+  padding: 24px;
+}
+
+.title {
+  color: var(--teal700);
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.stepList {
+  color: var(--grey600);
+  line-height: 18px;
+  margin-bottom: 8px;
+}
+
+.stepListItem {
+  // color: var(--grey600);
+  // line-height: 18px;
+  margin-bottom: 16px;
 }
 
 .instruction {
   font-size: 14px;
   line-height: 18px;
   color: var(--grey600);
+}
+
+.button {
+  max-width: 96px;
 }
 
 .image {

@@ -32,8 +32,7 @@ export default function AreaDetailsLayout({
   useEffect(() => {
     window.addEventListener('offline', () => setNetwork(window.navigator.onLine));
     window.addEventListener('online', () => setNetwork(window.navigator.onLine));
-    console.log(isNameRequired);
-  });
+  }, []);
 
   const onCancel = () => {
     history.push('/map');

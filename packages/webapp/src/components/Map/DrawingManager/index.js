@@ -34,7 +34,7 @@ export default function PureDrawingManager({
           </Label>
           <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'primary'} sm>{t('FARM_MAP.DRAWING_MANAGER.REDRAW')}</Button>
         </PureWarningBox> :
-        <div>
+        <div className={styles.buttonContainer}>
           <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.REDRAW')}</Button>
           <Button onClick={onClickAdjust} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.ADJUST')}</Button>
           <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>

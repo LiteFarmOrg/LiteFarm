@@ -1,6 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { loginSelector } from '../userFarmSlice';
+import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
 
 const initialState = {
   field: true,
@@ -15,7 +16,7 @@ const initialState = {
   fence: true,
   gate: true,
   water_valve: true,
-  farm_bound: true,
+  farm_site_boundary: true,
   map_background: true,
 };
 
@@ -69,5 +70,15 @@ export const mapFilterSettingSelector = createSelector(
   [mapFilterSettingSelectors.selectEntities, loginSelector],
   (mapFilterSettingEntities, { farm_id }) => {
     return mapFilterSettingEntities[farm_id] || initialState;
+  },
+);
+export const availableFilterSettingsSelector = createSelector(
+  [areaSelector, lineSelector, pointSelector],
+  (area, line, point) => {
+    return {
+      area: Object.keys(area).filter((key) => area[key].length),
+      line: Object.keys(line).filter((key) => line[key].length),
+      point: Object.keys(point).filter((key) => point[key].length),
+    };
   },
 );

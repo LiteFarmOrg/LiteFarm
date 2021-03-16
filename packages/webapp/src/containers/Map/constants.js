@@ -12,7 +12,7 @@ export const isArea = (type) => {
   return [
     locationEnum.barn,
     locationEnum.ceremonial_area,
-    locationEnum.farm_bound,
+    locationEnum.farm_site_boundary,
     locationEnum.field,
     locationEnum.greenhouse,
     locationEnum.ground_water,
@@ -41,6 +41,6 @@ export const locationEnum = {
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
-  farm_bound: 'farm_bound',
+  farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
 };

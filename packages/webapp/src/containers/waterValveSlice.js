@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { figureProperties, locationProperties, pointProperties } from './locationSlice';
+import { figureProperties, locationProperties, pointProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
@@ -12,9 +12,10 @@ export const waterValveEnum = {
   location_id: 'location_id',
   point: 'point',
   source: 'source',
+  flow_rate: 'flow_rate',
 };
 
-const waterValveProperties = ['source'];
+const waterValveProperties = ['source', 'flow_rate'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {
     figure: {

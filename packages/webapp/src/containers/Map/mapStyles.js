@@ -26,7 +26,7 @@ export const areaStyles = {
     dashScale: 1.5,
     dashLength: '8px',
   },
-  farm_bound: {
+  farm_site_boundary: {
     colour: farmBoundColour,
     dashScale: 1,
     dashLength: '1px',

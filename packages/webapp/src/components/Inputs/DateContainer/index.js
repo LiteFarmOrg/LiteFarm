@@ -2,8 +2,6 @@ import React from 'react';
 import Input from '../../Form/Input';
 import moment from 'moment';
 import { Text } from '../../Typography';
-import { setEndDate, setStartDate } from '../../../containers/Log/actions';
-import { LocalForm } from 'react-redux-form';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 function DateContainer({
@@ -43,7 +41,10 @@ function DateContainer({
         type={'date'}
         onChange={onChange}
         style={{ flexGrow: 1 }}
-        classes={{ container: { flexGrow: 1, minWidth: '150px' }, input: { minWidth: '150px' } }}
+        classes={{
+          container: { flexGrow: 1, minWidth: '150px' },
+          input: { minWidth: '150px', backgroundColor: 'transparent', flexGrow: 1, width: '100%' },
+        }}
       />
     </div>
   );

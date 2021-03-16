@@ -23,6 +23,7 @@ export function* loginWithGoogleSaga({ payload: google_id_token }) {
     const result = yield call(axios.post, loginUrl(), {}, header);
     const { id_token, user } = result.data;
     localStorage.setItem('id_token', id_token);
+    localStorage.setItem('litefarm_lang', user.language_preference);
     if (id_token === '') {
       history.push({
         pathname: '/',

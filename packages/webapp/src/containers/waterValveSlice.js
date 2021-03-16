@@ -12,9 +12,10 @@ export const waterValveEnum = {
   location_id: 'location_id',
   point: 'point',
   source: 'source',
+  flow_rate: 'flow_rate',
 };
 
-const waterValveProperties = ['source'];
+const waterValveProperties = ['source', 'flow_rate'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {
     figure: {

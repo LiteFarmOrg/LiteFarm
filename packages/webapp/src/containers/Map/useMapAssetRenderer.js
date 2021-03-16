@@ -44,14 +44,14 @@ const useMapAssetRenderer = () => {
         hasLocation = true;
       }
     }
-    for (const locationType in lineAssets) {
-      for (const location of lineAssets[locationType]) {
-        newState[locationType]?.push(
-          drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
-        );
-        hasLocation = true;
-      }
-    }
+    // for (const locationType in lineAssets) {
+    //   for (const location of lineAssets[locationType]) {
+    //     newState[locationType]?.push(
+    //       drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
+    //     );
+    //     hasLocation = true;
+    //   }
+    // }
     for (const locationType in pointAssets) {
       for (const location of pointAssets[locationType]) {
         newState[locationType]?.push(
@@ -201,7 +201,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
 
 // Point Drawing
 const drawPoint = (map, maps, mapBounds, point, isVisible) => {
-  const { grid_point, name, type } = point;
+  const { point: grid_point, name, type } = point;
   mapBounds.extend(grid_point);
 
   var marker = new maps.Marker({

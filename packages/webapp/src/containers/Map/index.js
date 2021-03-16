@@ -53,6 +53,7 @@ export default function Map({ history }) {
       closeDrawer,
       getOverlayInfo,
       reconstructOverlay,
+      adjustDrawing
     },
   ] = useDrawingManager();
 
@@ -279,6 +280,7 @@ export default function Map({ history }) {
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
+                onClickAdjust={() => adjustDrawing()}
                 onClickConfirm={() => {
                   dispatch(setLocationData(getOverlayInfo()));
                   history.push(`/create_location/${drawingState.type}`);

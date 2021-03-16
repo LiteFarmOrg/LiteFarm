@@ -20,41 +20,49 @@ export const areaStyles = {
     colour: barnColour,
     dashScale: 2,
     dashLength: '14px',
+    filledColour: true,
   },
   ceremonial_area: {
     colour: ceremonialSiteColour,
     dashScale: 1.5,
     dashLength: '8px',
+    filledColour: true,
   },
   farm_site_boundary: {
     colour: farmBoundColour,
     dashScale: 1,
     dashLength: '1px',
+    filledColour: false,
   },
   field: {
     colour: fieldColour,
     dashScale: 1,
     dashLength: '6px',
+    filledColour: true,
   },
   greenhouse: {
     colour: greenhouseColour,
     dashScale: 1,
     dashLength: '8px',
+    filledColour: true,
   },
   ground_water: {
     colour: groundwaterColour,
     dashScale: 0.7,
     dashLength: '6px',
+    filledColour: true,
   },
   natural_area: {
     colour: naturalAreaColour,
     dashScale: 0.7,
     dashLength: '12px',
+    filledColour: true,
   },
   residence: {
     colour: residenceColour,
     dashScale: 0,
     dashLength: '12px',
+    filledColour: true,
   },
 };
 

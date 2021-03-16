@@ -82,7 +82,13 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "Network connectivity issues.",
+      "PERIMETER": "Perimeter",
+      "TOTAL_AREA": "Total area"
+    },
     "DRAWING_MANAGER": {
+      "ADJUST": "Adjust",
       "REDRAW": "MISSING",
       "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
@@ -93,6 +99,23 @@
       "EMAIL_TO_ME": "MISSING",
       "EMAILING": "MISSING",
       "TITLE": "MISSING"
+    },
+    "FARM_SITE_BOUNDARY": {
+      "NAME": "Farm site boundary name",
+      "TITLE": "Add farm site boundary"
+    },
+    "FIELD": {
+      "DATE": "Eligible transition date",
+      "FIELD_TYPE": "What type of field is this?",
+      "NAME": "Field",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TITLE": "Add field",
+      "TRANSITIONING": "Transitioning"
+    },
+    "GATE": {
+      "NAME": "Gate",
+      "TITLE": "Add gate"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
@@ -117,38 +140,6 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
-    "AREA_DETAILS": {
-      "TOTAL_AREA": "Total area",
-      "PERIMETER": "Perimeter",
-      "NETWORK": "Network connectivity issues."
-    },
-    "FARM_SITE_BOUNDARY": {
-      "TITLE": "Add farm site boundary",
-      "NAME": "Farm site boundary name"
-    },
-    "FIELD": {
-      "TITLE": "Add field",
-      "NAME": "Field",
-      "FIELD_TYPE": "What type of field is this?",
-      "NON_ORGANIC": "Non-organic",
-      "ORGANIC": "Organic",
-      "TRANSITIONING": "Transitioning",
-      "DATE": "Eligible transition date"
-    },
-    "GATE": {
-      "TITLE": "Add gate",
-      "NAME": "Gate"
-    },
-    "WATER_VALVE": {
-      "TITLE": "Add water valve",
-      "NAME": "Water valve",
-      "WATER_VALVE_TYPE": "What is the source?",
-      "MUNICIPAL_WATER": "Municipal water",
-      "SURFACE_WATER": "Surface water",
-      "GROUNDWATER": "Groundwater",
-      "RAIN_WATER": "Rain water",
-      "MAX_FLOW_RATE": "Maximum flow rate"
-    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",
@@ -158,7 +149,17 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "TITLE": "MISSING",
+    "WATER_VALVE": {
+      "GROUNDWATER": "Groundwater",
+      "MAX_FLOW_RATE": "Maximum flow rate",
+      "MUNICIPAL_WATER": "Municipal water",
+      "NAME": "Water valve",
+      "RAIN_WATER": "Rain water",
+      "SURFACE_WATER": "Surface water",
+      "TITLE": "Add water valve",
+      "WATER_VALVE_TYPE": "What is the source?"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -520,6 +521,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

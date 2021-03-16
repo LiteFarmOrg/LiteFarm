@@ -96,6 +96,13 @@ export default function useDrawingManager() {
     drawingManager.setDrawingMode();
   }
 
+  const adjustDrawing = () => {
+    drawingToCheck.overlay.setOptions({
+      editable: !drawingToCheck.overlay.getEditable(),
+      draggable: !drawingToCheck.overlay.getDraggable(),
+    });
+  }
+
   const getOverlayInfo = () => {
     const { overlay } = drawingToCheck;
     const { computeArea, computeLength, computeDistanceBetween } = maps.geometry.spherical;
@@ -142,6 +149,7 @@ export default function useDrawingManager() {
     closeDrawer,
     getOverlayInfo,
     reconstructOverlay,
+    adjustDrawing,
   }
 
   return [drawingState, drawingFunctions];
@@ -149,13 +157,13 @@ export default function useDrawingManager() {
 
 const getDrawingOptions = (type) => {
   if (isArea(type)) {
-    const { colour } = areaStyles[type];
+    const { colour, filledColour } = areaStyles[type];
     return {
       polygonOptions: {
         strokeWeight: 2,
-        fillOpacity: 0.3,
-        editable: true,
-        draggable: true,
+        fillOpacity: filledColour ? 0.3 : 0,
+        // editable: true,
+        // draggable: true,
         fillColor: colour,
         strokeColor: colour,
         geodesic: true,

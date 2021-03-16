@@ -70,7 +70,7 @@ const useMapAssetRenderer = () => {
 // Area Drawing
 const drawArea = (map, maps, mapBounds, area, isVisible) => {
   const { grid_points: points, name, type } = area;
-  const { colour, dashScale, dashLength } = areaStyles[type];
+  const { colour, dashScale, dashLength, filledColour } = areaStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -81,7 +81,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
     // strokeOpacity: 0.8,
     strokeWeight: 2,
     fillColor: colour,
-    fillOpacity: 0.5,
+    fillOpacity: filledColour ? 0.5 : 0,
   });
   polygon.setMap(map);
 

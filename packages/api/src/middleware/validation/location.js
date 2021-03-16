@@ -1,5 +1,5 @@
 const assets = ['ceremonial_area', 'residence', 'ground_water', 'natural_area', 'greenhouse', 'barn', 'field',
-  'buffer_zone', 'creek', 'fence', 'gate', 'water_valve'];
+  'buffer_zone', 'creek', 'fence', 'gate', 'water_valve', 'farm_site_boundary'];
 const figures = ['area', 'line', 'point'];
 
 const figureMapping = {

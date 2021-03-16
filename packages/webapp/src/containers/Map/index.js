@@ -13,6 +13,7 @@ import { fieldsSelector } from '../fieldSlice';
 import { setLocationData } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
+import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
@@ -40,6 +41,7 @@ export default function Map({ history }) {
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [showSuccessHeader, setShowSuccessHeader] = useState(false);
 
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
 
@@ -58,6 +60,14 @@ export default function Map({ history }) {
 
   useEffect(() => {
     dispatch(getLocations());
+  }, []);
+
+  useEffect(() => {
+    setShowSuccessHeader(history.location.state);
+    setTimeout(() => {
+      setShowSuccessHeader(false);
+    }, 4000);
+    history.location.state = false;
   }, []);
 
   const getMapOptions = (maps) => {
@@ -222,6 +232,10 @@ export default function Map({ history }) {
     console.log('show video clicked');
   };
 
+  const handleCloseSuccessHeader = () => {
+    setShowSuccessHeader(false);
+  };
+
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const link = document.createElement('a');
@@ -240,11 +254,18 @@ export default function Map({ history }) {
 
   return (
     <>
-      {!showMapFilter && !showAddDrawer && !drawingState.type && (
+      {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
           showVideo={handleShowVideo}
+        />
+      )}
+      {showSuccessHeader && (
+        <PureMapSuccessHeader
+          className={styles.mapHeader}
+          farmName={farm_name}
+          closeSuccessHeader={handleCloseSuccessHeader}
         />
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>

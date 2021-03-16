@@ -26,7 +26,7 @@ export function* postWaterValveLocationSaga({ payload: data }) {
     );
     yield put(postWaterValveSuccess(result.data));
     yield put(resetLocationData());
-    history.push('/map');
+    history.push({ pathname: '/map', state: true });
   } catch (e) {
     console.log(e);
   }

@@ -158,7 +158,8 @@
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
     },
-    "TITLE": "Mapa de granja"
+    "TITLE": "Mapa de granja",
+    "SUCCESS_HEADER_TITLE": "MISSING"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",

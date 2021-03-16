@@ -29,7 +29,7 @@ export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
     );
     yield put(postFarmSiteBoundarySuccess(result.data));
     yield put(resetLocationData());
-    history.push('/map');
+    history.push({ pathname: '/map', state: true });
   } catch (e) {
     console.log(e);
   }

@@ -158,7 +158,8 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "TITLE": "MISSING",
+    "SUCCESS_HEADER_TITLE": "Farm site boundary successfully added"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",

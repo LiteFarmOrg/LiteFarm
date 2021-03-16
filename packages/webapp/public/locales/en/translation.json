@@ -158,7 +158,8 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map"
+    "TITLE": "Farm map",
+    "SUCCESS_HEADER_TITLE": "Farm site boundary successfully added"
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",

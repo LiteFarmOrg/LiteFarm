@@ -10,6 +10,7 @@ export const bufferZoneEnum = {
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
+  notes: 'notes',
   length: 'length',
   width: 'width',
   line_points: 'line_points',

@@ -10,6 +10,7 @@ export const greenhouseEnum = {
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
+  notes: 'notes',
   total_area: 'total_area',
   total_area_unit: 'total_area_unit',
   grid_points: 'grid_points',

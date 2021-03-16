@@ -152,6 +152,14 @@
       "HERE_YOU_CAN": "Here you can:"
     },
     "TITLE": "Farm map",
+    "TUTORIAL": {
+      "AREA": {
+        "STEP_ONE": "Click anywhere to start drawing",
+        "STEP_THREE": "Click-and-drag points to adjust the shape",
+        "STEP_TWO": "Click the initial point to close the area",
+        "TITLE": "Draw an area"
+      }
+    },
     "WATER_VALVE": {
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",

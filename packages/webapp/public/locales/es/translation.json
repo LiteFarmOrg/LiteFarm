@@ -152,6 +152,14 @@
       "HERE_YOU_CAN": "Aqui puedes: "
     },
     "TITLE": "Mapa de granja",
+    "TUTORIAL": {
+      "AREA": {
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      }
+    },
     "WATER_VALVE": {
       "GROUNDWATER": "MISSING",
       "MAX_FLOW_RATE": "MISSING",

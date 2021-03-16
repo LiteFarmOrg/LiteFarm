@@ -32,6 +32,7 @@ export default function AreaDetailsLayout({
   useEffect(() => {
     window.addEventListener('offline', () => setNetwork(window.navigator.onLine));
     window.addEventListener('online', () => setNetwork(window.navigator.onLine));
+    console.log(isNameRequired);
   });
 
   const onCancel = () => {
@@ -88,26 +89,26 @@ export default function AreaDetailsLayout({
         errors={errors[areaType.name] && t('common:REQUIRED')}
         showCross={false}
       />
-      <div>
+      <Input
+        label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+        type="number"
+        style={{ marginBottom: '40px', width: '50%', float: 'left' }}
+        name={areaType.total_area}
+        inputRef={register({ required: true })}
+        defaultValue={defaultArea}
+        errors={errors[areaType.total_area] && t('common:REQUIRED')}
+      />
+      {showPerimeter && (
         <Input
-          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+          label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
           type="number"
-          style={{ marginBottom: '40px', width: '50%', float: 'left' }}
-          name={areaType.total_area}
+          style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
+          name={areaType.perimeter}
           inputRef={register({ required: true })}
-          defaultValue={defaultArea}
+          defaultValue={defaultPerimeter}
+          errors={errors[areaType.perimeter] && t('common:REQUIRED')}
         />
-        {showPerimeter && (
-          <Input
-            label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-            type="number"
-            style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
-            name={areaType.perimeter}
-            inputRef={register({ required: true })}
-            defaultValue={defaultPerimeter}
-          />
-        )}
-      </div>
+      )}
       {children}
       <Input
         label={t('common:NOTES')}

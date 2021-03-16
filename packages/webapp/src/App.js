@@ -18,18 +18,27 @@ import NavBar from './containers/Navigation';
 import history from './history';
 import Routes from './Routes.js';
 import './locales/i18n';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  defaultHeight: {
+    minHeight: '100vh',
+  },
+  webkitHeight: {
+    minHeight: '-webkit-fill-available',
+  },
+}));
 function App() {
+  const classes = useStyles();
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          minHeight: '100vh',
-        }}
-      >
+      <div className={clsx(classes.container, classes.defaultHeight, classes.webkitHeight)}>
         <NavBar history={history} />
         <div
           className="app"

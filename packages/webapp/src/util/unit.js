@@ -1,0 +1,102 @@
+import convert from 'convert-units';
+
+const METRIC = 'metric';
+const IMPERIAL = 'imperial';
+const areaUnits = {
+  metric: {
+    units: ['mm2', 'ha'],
+    defaultUnit: 'mm2',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft2', 'ac'],
+    defaultUnit: 'ft2',
+    breakpoints: [10890],
+  },
+};
+const distanceUnits = {
+  metric: {
+    units: ['cm', 'm', 'km'],
+    defaultUnit: 'm',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['in', 'ft', 'mi'],
+    defaultUnit: 'ft',
+    breakpoints: [10, 1320],
+  },
+};
+const massUnits = {
+  metric: {
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [1, 2000],
+  },
+};
+const seedAmounts = {
+  metric: {
+    units: ['g', 'kg'],
+    defaultUnit: 'g',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['oz', 'lb'],
+    defaultUnit: 'oz',
+    breakpoints: [16],
+  },
+};
+
+const getDefaultUnit = (unitType = areaUnits, value, system, from) => {
+  let displayValue;
+  let displayUnit;
+  const defaultDisplayUnit = unitType[system].defaultUnit;
+  const defaultDisplayValue =
+    defaultDisplayUnit === from ? value : convert(value).from(from).to(defaultDisplayUnit);
+  let i = 0;
+  for (; i < unitType[system].breakpoints.length; i++) {
+    if (defaultDisplayValue < unitType[system].breakpoints[i]) {
+      displayUnit = unitType[system].units[i];
+      displayValue =
+        displayUnit === defaultDisplayUnit
+          ? defaultDisplayValue
+          : convert(value).from(from).to(displayUnit);
+      console.log(displayValue, defaultDisplayValue);
+      return { displayUnit, displayValue: Math.round(displayValue * 100) / 100 };
+    }
+  }
+  displayUnit = unitType[system].units[i];
+  displayValue =
+    displayUnit === defaultDisplayUnit
+      ? defaultDisplayValue
+      : convert(value).from(from).to(displayUnit);
+  console.log(displayValue, defaultDisplayValue);
+  return { displayUnit, displayValue: Math.round(displayValue * 100) / 100 };
+};
+
+export const getDefaultDisplayAreaUnit = (value, system = METRIC, from = 'mm2') => {
+  return getDefaultUnit(areaUnits, value, system, from);
+};
+
+const getDefaultDisplayDistanceUnit = (value, system = METRIC, from = 'm') => {
+  //TODO: If between 4 ft and 20 ft, show in feet and inches to the nearest inch
+  return getDefaultUnit(distanceUnits, value, system, from);
+};
+
+const getDefaultDisplayMassUnit = (value, system = METRIC, from = 'kg') => {
+  return getDefaultUnit(massUnits, value, system, from);
+};
+
+const getDefaultDisplaySeedCountUnit = (value, system = METRIC, from = 'kg') => {
+  return getDefaultUnit(seedAmounts, value, system, from);
+};
+
+export const defaultUnitMap = {
+  length: getDefaultDisplayDistanceUnit,
+  area: getDefaultDisplayAreaUnit,
+  mass: getDefaultDisplayMassUnit,
+};

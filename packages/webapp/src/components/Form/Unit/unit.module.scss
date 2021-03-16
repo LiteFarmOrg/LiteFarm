@@ -49,6 +49,10 @@
   border-color: var(--error);
 }
 
+.sm {
+  margin-left: 8px;
+}
+
 .input:focus:enabled ~ .pseudoInputContainer .verticleDivider {
   border-color: var(--inputActive);
 }

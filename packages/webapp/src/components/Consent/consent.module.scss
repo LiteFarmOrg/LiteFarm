@@ -2,12 +2,12 @@
   float: right;
 }
 
-.consentText {
+.consentTextContainer {
   font-family: 'Open Sans', ' SansSerif', serif;
-}
-
-:global .paraText {
-  height: calc(100vh - 270px);
+  height: 0;
+  flex-grow: 1;
+  width: 100%;
+  overflow-y: scroll
 }
 
 li {

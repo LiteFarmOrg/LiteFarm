@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '100vw',
+    overflowX: 'hidden',
+    flexGrow: 1,
   },
   defaultHeight: {
     minHeight: '100vh',

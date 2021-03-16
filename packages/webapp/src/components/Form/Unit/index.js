@@ -2,18 +2,74 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { Error, Info, Label, Underlined } from '../../Typography';
+import { Error, Info, Label } from '../../Typography';
 import { Cross } from '../../Icons';
 import { mergeRefs } from '../utils';
-import MoreInfo from '../../Tooltip/MoreInfo';
 import { useTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../Input';
 import Select from 'react-select';
+import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 
-const Input = ({
+const reactSelectStyles = {
+  ...reactSelectDefaultStyles,
+  control: (provided, state) => ({
+    display: 'flex',
+    border: `none`,
+    boxShadow: 'none',
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+    height: '48px',
+    paddingLeft: '0',
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: 'var(--fontColor)',
+    background: 'transparent',
+  }),
+  valueContainer: (provided, state) => ({
+    ...provided,
+    padding: '0',
+  }),
+  singleValue: () => ({
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: 'var(--fontColor)',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontFamily: '"Open Sans", "SansSerif", serif',
+    width: '44px',
+    overflowX: 'hidden',
+    textAlign: 'center',
+  }),
+  placeholder: () => ({
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: 'var(--iconDefault)',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontFamily: '"Open Sans", "SansSerif", serif',
+    width: '44px',
+    overflowX: 'hidden',
+  }),
+  input: () => ({
+    fontSize: '16px',
+    lineHeight: '24px',
+    color: 'var(--fontColor)',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontFamily: '"Open Sans", "SansSerif", serif',
+    width: '0',
+    margin: '0',
+    padding: '0',
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    padding: ' 14px 0 12px 0',
+  }),
+};
+const Unit = ({
   disabled = false,
-  classes = {},
-  style,
+  classes = { container: {} },
+  style = {},
   label,
   optional,
   info,
@@ -30,21 +86,12 @@ const Input = ({
   options,
   ...props
 }) => {
-  warnings(hookFormSetValue, optional);
   const { t } = useTranslation(['translation', 'common']);
   const input = useRef();
-  const onClear =
-    optional || hookFormSetValue
-      ? () => {
-          hookFormSetValue(name, undefined, { shouldValidate: true });
-          setShowError(false);
-        }
-      : () => {
-          if (input.current && input.current?.value) {
-            input.current.value = '';
-            setShowError(false);
-          }
-        };
+  const onClear = () => {
+    hookFormSetValue(name, undefined, { shouldValidate: true });
+    setShowError(false);
+  };
 
   const [showError, setShowError] = useState();
   useEffect(() => {
@@ -52,11 +99,8 @@ const Input = ({
   }, [errors]);
 
   return (
-    <div
-      className={clsx(styles.container)}
-      style={(style || classes.container) && { ...style, ...classes.container }}
-    >
-      {(label || toolTipContent || icon) && (
+    <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
+      {label && (
         <div className={styles.labelContainer}>
           <Label>
             {label}{' '}
@@ -66,8 +110,6 @@ const Input = ({
               </Label>
             )}
           </Label>
-          {toolTipContent && <MoreInfo content={toolTipContent} />}
-          {icon && <span className={styles.icon}>{icon}</span>}
         </div>
       )}
       {showError && !unit && (
@@ -81,43 +123,38 @@ const Input = ({
           }}
         />
       )}
-
-      <input
-        disabled={disabled}
-        className={clsx(
-          styles.input,
-          showError && styles.inputError,
-          isSearchBar && styles.searchBar,
-        )}
-        style={{ paddingRight: `${unit ? unit.length * 8 + 8 : 4}px`, ...classes.input }}
-        aria-invalid={showError ? 'true' : 'false'}
-        type={'number'}
-        onKeyDown={numberOnKeyDown}
-        name={name}
-        {...props}
-      />
-      <Select
-        customStyles
-        styles={{ ...styles, container: (provided, state) => ({ ...provided, ...style }) }}
-        placeholder={placeholder}
-        options={options}
-        components={{
-          ClearIndicator: ({ innerProps }) => (
-            <Underlined {...innerProps} style={{ position: 'absolute', right: 0, bottom: '-20px' }}>
-              {t('REACT_SELECT.CLEAR_ALL')}
-            </Underlined>
-          ),
-        }}
-        {...props}
-      />
-      <input ref={mergeRefs(inputRef, input)} />
+      <div className={styles.inputContainer}>
+        <input
+          disabled={disabled}
+          className={clsx(styles.input)}
+          style={{ ...classes.input }}
+          aria-invalid={showError ? 'true' : 'false'}
+          type={'number'}
+          onKeyDown={numberOnKeyDown}
+          {...props}
+        />
+        <Select
+          customStyles
+          styles={{
+            ...reactSelectStyles,
+            container: (provided, state) => ({ ...provided, ...style }),
+          }}
+          options={options}
+          isSearchable={false}
+          {...props}
+        />
+        <div className={clsx(styles.pseudoInputContainer, styles.inputError)}>
+          <div className={clsx(styles.verticleDivider, styles.inputError)} />
+        </div>
+      </div>
+      <input ref={mergeRefs(inputRef, input)} name={name} className={styles.hiddenInput} />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
   );
 };
 
-Input.propTypes = {
+Unit.propTypes = {
   disabled: PropTypes.bool,
   label: PropTypes.string,
   optional: PropTypes.bool,
@@ -147,9 +184,4 @@ Input.propTypes = {
   name: PropTypes.string,
 };
 
-export default Input;
-
-const warnings = (hookFormSetValue, optional) =>
-  !hookFormSetValue &&
-  optional &&
-  console.error('hookFormSetValue prop is required when input field is optional');
+export default Unit;

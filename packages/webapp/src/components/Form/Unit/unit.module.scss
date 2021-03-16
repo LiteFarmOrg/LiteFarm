@@ -1,17 +1,14 @@
 @import '../../../assets/colors';
 
 .input {
-  border: 1px solid var(--grey400);
-  box-sizing: border-box;
-  border-radius: 4px;
-  height: 48px;
+  flex-grow: 1;
+  border: none;
   padding-left: 8px;
   font-size: 16px;
   line-height: 24px;
   color: var(--fontColor);
-  // set lastpass fill password icon
-  background-position: calc(100% - 36px) calc(50%) !important;
   font-family: 'Open Sans', 'SansSerif', serif;
+  background: transparent;
 }
 
 .input::-webkit-inner-spin-button,
@@ -27,6 +24,13 @@
 .input:disabled {
   background-color: var(--inputDisabled);
   color: var(--grey600);
+}
+
+.input:disabled ~ .pseudoInputContainer {
+  border-color: var(--inputDefault);
+}
+
+.input:disabled ~ .pseudoInputContainer .verticleDivider {
   border-color: var(--inputDefault);
 }
 
@@ -45,44 +49,16 @@
   border-color: var(--error);
 }
 
-.input:focus:enabled {
-  outline: none;
+.input:focus:enabled ~ .pseudoInputContainer .verticleDivider {
   border-color: var(--inputActive);
 }
 
-.icon {
-  position: absolute;
-  right: 0;
-  top: -8px;
-  color: var(--iconDefault);
+.input:focus:enabled ~ .pseudoInputContainer {
+  border-color: var(--inputActive);
 }
 
-.icon > * {
-  cursor: pointer;
-}
-
-.sm {
-  margin-left: 8px;
-}
-
-.searchIcon {
-  color: var(--iconDefault);
-  position: absolute;
-  font-size: 20px;
-  transform: translate(11px, 15px);
-}
-
-.searchBar {
-  padding-left: 40px;
-}
-
-.visibilityIcon {
-  position: absolute;
-  right: 0;
-  transform: translate(-8px, 32px);
-  font-size: 22px;
-  color: var(--iconDefault);
-  cursor: pointer;
+.input:focus:enabled {
+  outline: none;
 }
 
 .labelContainer {
@@ -91,14 +67,29 @@
   height: 20px;
 }
 
-.unit {
-  font-size: 16px;
-  line-height: 20px;
-  color: var(--labels);
-  font-style: normal;
-  font-weight: normal;
-  font-family: 'Open Sans', 'SansSerif', serif;
+.hiddenInput {
+  display: none;
+}
+
+.inputContainer {
+  display: flex;
+  height: 48px;
+  position: relative;
+}
+
+.pseudoInputContainer {
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 100%;
   position: absolute;
-  right: 0;
-  transform: translate(-8px, 33px);
+  width: 100%;
+  z-index: -1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.verticleDivider {
+  width: 70px;
+  border-left: 1px solid var(--grey400);
 }

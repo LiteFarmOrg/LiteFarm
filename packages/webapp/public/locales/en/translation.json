@@ -82,6 +82,9 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "ADJUST_MODAL": {
+      "TEXT": "Drag dots to adjust the shape"
+    },
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -90,7 +93,6 @@
     "DRAWING_MANAGER": {
       "ADJUST": "Adjust",
       "REDRAW": "Redraw",
-      "TRY_AGAIN": "Try again",
       "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
     },
     "EXPORT_MODAL": {

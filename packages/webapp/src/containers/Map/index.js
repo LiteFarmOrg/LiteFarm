@@ -15,6 +15,7 @@ import { setLocationData } from '../mapSlice';
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
+import AdjustModal from '../../components/Modals/AdjustModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -53,7 +54,6 @@ export default function Map({ history }) {
       closeDrawer,
       getOverlayInfo,
       reconstructOverlay,
-      adjustDrawing
     },
   ] = useDrawingManager();
 
@@ -174,22 +174,23 @@ export default function Map({ history }) {
   };
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showAdjustModal, setShowAdjustModal] = useState(false);
 
   const handleClickAdd = () => {
-    setShowModal(false);
+    setShowExportModal(false);
     setShowMapFilter(false);
     setShowAddDrawer(!showAddDrawer);
   };
 
   const handleClickExport = () => {
-    setShowModal(!showModal);
+    setShowExportModal(!showExportModal);
     setShowMapFilter(false);
     setShowAddDrawer(false);
   };
 
   const handleClickFilter = () => {
-    setShowModal(false);
+    setShowExportModal(false);
     setShowAddDrawer(false);
     setShowMapFilter(!showMapFilter);
   };
@@ -215,10 +216,6 @@ export default function Map({ history }) {
   };
 
   const mapWrapperRef = useRef();
-
-  const handleDismiss = () => {
-    setShowModal(false);
-  };
 
   const handleShowVideo = () => {
     console.log('show video clicked');
@@ -281,7 +278,7 @@ export default function Map({ history }) {
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
-                onClickAdjust={() => adjustDrawing()}
+                onClickAdjust={() => setShowAdjustModal(true)}
                 onClickConfirm={() => {
                   dispatch(setLocationData(getOverlayInfo()));
                   history.push(`/create_location/${drawingState.type}`);
@@ -300,7 +297,7 @@ export default function Map({ history }) {
             resetSpotlight={resetSpotlight}
             onClickAdd={handleClickAdd}
             onClickExport={handleClickExport}
-            showModal={showModal}
+            showModal={showExportModal}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={setShowAddDrawer}
@@ -312,11 +309,16 @@ export default function Map({ history }) {
             availableFilterSettings={availableFilterSettings}
           />
         )}
-        {showModal && (
+        {showExportModal && (
           <ExportMapModal
             onClickDownload={handleDownload}
             onClickShare={handleShare}
-            dismissModal={handleDismiss}
+            dismissModal={() => setShowExportModal(false)}
+          />
+        )}
+        {showAdjustModal && (
+          <AdjustModal
+            dismissModal={() => setShowAdjustModal(false)}
           />
         )}
       </div>

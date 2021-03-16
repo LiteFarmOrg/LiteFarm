@@ -82,6 +82,9 @@
     "RESET_PASSWORD_LINK": "MISSING"
   },
   "FARM_MAP": {
+    "ADJUST_MODAL": {
+      "TEXT": "MISSING"
+    },
     "AREA_DETAILS": {
       "NETWORK": "MISSING.",
       "PERIMETER": "MISSING",
@@ -90,7 +93,6 @@
     "DRAWING_MANAGER": {
       "ADJUST": "MISSING",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {

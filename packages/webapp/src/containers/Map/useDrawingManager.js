@@ -96,7 +96,7 @@ export default function useDrawingManager() {
     drawingManager.setDrawingMode();
   }
 
-  const adjustDrawing = () => {
+  const toggleDrawingAdjustment = () => {
     drawingToCheck.overlay.setOptions({
       editable: !drawingToCheck.overlay.getEditable(),
       draggable: !drawingToCheck.overlay.getDraggable(),
@@ -149,7 +149,7 @@ export default function useDrawingManager() {
     closeDrawer,
     getOverlayInfo,
     reconstructOverlay,
-    adjustDrawing,
+    toggleDrawingAdjustment,
   }
 
   return [drawingState, drawingFunctions];
@@ -162,8 +162,8 @@ const getDrawingOptions = (type) => {
       polygonOptions: {
         strokeWeight: 2,
         fillOpacity: filledColour ? 0.3 : 0,
-        // editable: true,
-        // draggable: true,
+        editable: true,
+        draggable: true,
         fillColor: colour,
         strokeColor: colour,
         geodesic: true,

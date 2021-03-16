@@ -82,6 +82,9 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "ADJUST_MODAL": {
+      "TEXT": "MISSING"
+    },
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -90,7 +93,6 @@
     "DRAWING_MANAGER": {
       "ADJUST": "Adjust",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {

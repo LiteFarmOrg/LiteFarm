@@ -13,12 +13,12 @@ export default function PureFarmSiteBoundary({ history, submitForm, areaType }) 
     handleSubmit,
     errors,
     setValue,
-    formState: { isValid, isDirty },
+    formState: { isValid },
   } = useForm({
     mode: 'onChange',
   });
   const onError = (data) => {};
-  const disabled = !isValid || !isDirty;
+  const disabled = !isValid;
   const onSubmit = (data) => {
     const formData = {
       name: data.name,

@@ -89,7 +89,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
     this.setOptions({ fillOpacity: 0.8 });
   });
   maps.event.addListener(polygon, 'mouseout', function () {
-    this.setOptions({ fillOpacity: 0.5 });
+    this.setOptions({ fillOpacity: filledColour ? 0.5 : 0 });
   });
 
   // draw dotted outline

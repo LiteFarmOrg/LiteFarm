@@ -35,7 +35,7 @@ export default function useDrawingManager() {
       const redrawnPolygon = new maps.Polygon({
         paths: overlayData.grid_points,
         strokeWeight: 2,
-        fillOpacity: 0.3,
+        fillOpacity: areaStyles[type].filledColour ? 0.3 : 0,
         editable: true,
         draggable: true,
         fillColor: areaStyles[type].colour,

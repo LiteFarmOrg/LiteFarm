@@ -180,7 +180,7 @@ export default function PureMapFooter({
         key={'add'}
         setShowMapDrawer={setShowAddDrawer}
         showMapDrawer={showAddDrawer}
-        drawerDefaultHeight={drawerDefaultHeight}
+        drawerDefaultHeight={window.innerHeight - 156}
         headerTitle={t('FARM_MAP.MAP_FILTER.ADD_TITLE')}
         onMenuItemClick={onAddMenuClick}
       />

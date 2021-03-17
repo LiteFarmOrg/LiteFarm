@@ -10,6 +10,7 @@ export const gateEnum = {
   figure_id: 'figure_id',
   type: 'type',
   location_id: 'location_id',
+  notes: 'notes',
   point: 'point',
 };
 

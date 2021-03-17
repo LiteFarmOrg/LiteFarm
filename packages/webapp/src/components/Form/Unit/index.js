@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './unit.module.scss';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -14,11 +14,11 @@ import { Controller } from 'react-hook-form';
 
 const areaOptions = {
   metric: [
-    { label: 'mm2', value: 'mm2' },
+    { label: 'm2', value: 'm2' },
     { label: 'ha', value: 'ha' },
   ],
   imperial: [
-    { label: 'ft2', value: 'ft2' },
+    { label: 'sqft', value: 'ft2' },
     { label: 'ac', value: 'ac' },
   ],
 };
@@ -83,6 +83,7 @@ const reactSelectStyles = {
   valueContainer: (provided, state) => ({
     ...provided,
     padding: '0',
+    width: '44px',
   }),
   singleValue: () => ({
     fontSize: '16px',
@@ -91,9 +92,10 @@ const reactSelectStyles = {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '44px',
+    width: '52px',
     overflowX: 'hidden',
     textAlign: 'center',
+    position: 'absolute',
   }),
   placeholder: () => ({
     fontSize: '16px',
@@ -104,17 +106,6 @@ const reactSelectStyles = {
     fontFamily: '"Open Sans", "SansSerif", serif',
     width: '44px',
     overflowX: 'hidden',
-  }),
-  input: () => ({
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--fontColor)',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '0',
-    margin: '0',
-    padding: '0',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
@@ -136,9 +127,11 @@ const Unit = ({
   hookFormGetValue,
   defaultValue,
   system,
-  unitType,
+  control,
+  // unitType,
   from,
   to,
+  required,
   ...props
 }) => {
   const { t } = useTranslation(['translation', 'common']);
@@ -148,37 +141,48 @@ const Unit = ({
   };
 
   const [showError, setShowError] = useState();
-  // useEffect(() => {
-  //   setShowError(!!errors && !disabled);
-  // }, [errors]);
+  useEffect(() => {
+    setShowError(!!errors && !disabled);
+  }, [errors]);
 
-  const measureType = convert().describe(from || to).measure;
-  const options = getOptions(system, measureType);
-  const { displayUnit, displayValue } = to
-    ? {
-        displayUnit: to,
-        displayValue: convert(defaultValue).from(from).to(to),
-      }
-    : defaultUnitMap[measureType](defaultValue, system, from);
+  const { displayUnit, displayValue, options, measureType } = useMemo(() => {
+    const measureType = convert().describe(from || to).measure;
+    const options = getOptions(system, measureType);
+    return to
+      ? {
+          displayUnit: to,
+          displayValue: convert(defaultValue).from(from).to(to),
+          measureType,
+          options,
+        }
+      : {
+          ...defaultUnitMap[measureType](defaultValue, system, from),
+          measureType,
+          options,
+        };
+  }, [defaultValue, system, from, to]);
+
   const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
-  // useEffect(()=>{
-  //   for(const option of options){
-  //     if(option.value === displayUnit){
-  //       hookFormSetValue(displayUnitName, option);
-  //       break;
-  //     }
-  //   }
-  //   hookFormSetValue(name, defaultValue);
-  // },[]);
+  useEffect(() => {
+    for (const option of options) {
+      if (option.value === displayUnit) {
+        hookFormSetValue(displayUnitName, option);
+        break;
+      }
+    }
+  }, []);
 
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
-    const unit = hookFormGetValue(displayUnitName);
-    hookFormSetValue(name, convert(e.target.value).from(unit).to(from));
+    const unit = hookFormGetValue(displayUnitName).value;
+    hookFormSetValue(name, convert(e.target.value).from(unit).to(from), {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
   };
 
   const optionOnChange = (e) => {
-    setVisibleInputValue(convert(hookFormGetValue(name)).from(from).to(e.target.value));
+    setVisibleInputValue(convert(hookFormGetValue(name)).from(from).to(e.value));
   };
 
   return (
@@ -220,20 +224,34 @@ const Unit = ({
         />
 
         <Controller
-          customStyles
-          styles={reactSelectStyles}
-          isSearchable={false}
-          onChange={optionOnChange}
-          options={options}
+          control={control}
           name={displayUnitName}
-          {...props}
-          as={<Select />}
+          render={({ onChange, onBlur, value, name, ref }) => (
+            <Select
+              onBlur={onBlur}
+              onChange={(e) => {
+                optionOnChange(e);
+                onChange(e);
+              }}
+              value={value}
+              inputRef={ref}
+              customStyles
+              styles={reactSelectStyles}
+              isSearchable={false}
+              options={options}
+            />
+          )}
         />
         <div className={clsx(styles.pseudoInputContainer, styles.inputError)}>
           <div className={clsx(styles.verticleDivider, styles.inputError)} />
         </div>
       </div>
-      <input ref={register} name={name} className={styles.hiddenInput} />
+      <input
+        ref={register({ required })}
+        name={name}
+        className={styles.hiddenInput}
+        defaultValue={defaultValue}
+      />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? <Error style={classes.errors}>{errors}</Error> : null}
     </div>
@@ -253,17 +271,14 @@ Unit.propTypes = {
     info: PropTypes.object,
     errors: PropTypes.object,
   }),
-  inputRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
   style: PropTypes.object,
   hookFormSetValue: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']),
-  unitType: PropTypes.oneOf(['area', 'distance', 'mass', 'seedAmount']),
+  // unitType: PropTypes.oneOf(['area', 'distance', 'mass', 'seedAmount']),
   from: PropTypes.string,
   to: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 export default Unit;

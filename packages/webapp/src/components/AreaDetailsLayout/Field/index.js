@@ -9,7 +9,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureField({ history, submitForm, areaType }) {
+export default function PureField({ history, submitForm, areaType, system }) {
   const { t } = useTranslation();
   const { grid_points } = useSelector(locationInfoSelector);
 
@@ -20,6 +20,8 @@ export default function PureField({ history, submitForm, areaType }) {
     watch,
     errors,
     setValue,
+    getValues,
+    control,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
@@ -58,9 +60,12 @@ export default function PureField({ history, submitForm, areaType }) {
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}
+      getValues={getValues}
+      control={control}
       showPerimeter={true}
       errors={errors}
       areaType={areaType}
+      system={system}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

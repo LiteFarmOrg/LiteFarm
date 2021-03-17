@@ -9,6 +9,7 @@
   color: var(--fontColor);
   font-family: 'Open Sans', 'SansSerif', serif;
   background: transparent;
+  min-width: 0;
 }
 
 .input::-webkit-inner-spin-button,
@@ -94,6 +95,6 @@
 }
 
 .verticleDivider {
-  width: 70px;
+  width: 60px;
   border-left: 1px solid var(--grey400);
 }

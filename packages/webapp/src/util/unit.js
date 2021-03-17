@@ -4,8 +4,8 @@ const METRIC = 'metric';
 const IMPERIAL = 'imperial';
 const areaUnits = {
   metric: {
-    units: ['mm2', 'ha'],
-    defaultUnit: 'mm2',
+    units: ['m2', 'ha'],
+    defaultUnit: 'm2',
     breakpoints: [1000],
   },
   imperial: {
@@ -65,7 +65,6 @@ const getDefaultUnit = (unitType = areaUnits, value, system, from) => {
         displayUnit === defaultDisplayUnit
           ? defaultDisplayValue
           : convert(value).from(from).to(displayUnit);
-      console.log(displayValue, defaultDisplayValue);
       return { displayUnit, displayValue: Math.round(displayValue * 100) / 100 };
     }
   }
@@ -74,7 +73,6 @@ const getDefaultUnit = (unitType = areaUnits, value, system, from) => {
     displayUnit === defaultDisplayUnit
       ? defaultDisplayValue
       : convert(value).from(from).to(displayUnit);
-  console.log(displayValue, defaultDisplayValue);
   return { displayUnit, displayValue: Math.round(displayValue * 100) / 100 };
 };
 

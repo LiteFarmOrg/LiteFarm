@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../../containers/mapSlice';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
+import Unit from '../Form/Unit';
 
 export default function AreaDetailsLayout({
   name,
@@ -19,10 +20,13 @@ export default function AreaDetailsLayout({
   handleSubmit,
   showPerimeter,
   setValue,
+  getValues,
+  control,
   history,
   children,
   errors,
   areaType,
+  system,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
@@ -50,6 +54,8 @@ export default function AreaDetailsLayout({
   };
 
   const onSubmit = (data) => {
+    data[areaType.total_area_unit] = data[areaType.total_area_unit].value;
+    data[areaType.perimeter_unit] = data[areaType.perimeter_unit].value;
     if (data.name === '') {
       data.name = 'Farm site boundary';
     }
@@ -91,28 +97,42 @@ export default function AreaDetailsLayout({
       <div
         style={{
           flexDirection: 'row',
-          display: 'flex',
+          display: 'inline-flex',
           paddingBottom: '40px',
+          width: '100%',
+          gap: '16px',
         }}
       >
-        <Input
+        <Unit
+          register={register}
+          classes={{ container: { width: 'calc(50% - 8px)' } }}
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
-          type="number"
-          style={{ maxWidth: '50%', order: '1', flex: '1', paddingRight: '5px' }}
           name={areaType.total_area}
-          inputRef={register({ required: true })}
+          displayUnitName={areaType.total_area_unit}
           defaultValue={defaultArea}
           errors={errors[areaType.total_area] && t('common:REQUIRED')}
+          from={'m2'}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          control={control}
+          required
         />
         {showPerimeter && (
-          <Input
+          <Unit
+            register={register}
+            classes={{ container: { width: 'calc(50% - 8px)' } }}
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-            type="number"
-            style={{ maxWidth: '50%', order: '2', flex: '1', paddingLeft: '5px' }}
             name={areaType.perimeter}
-            inputRef={register({ required: true })}
+            displayUnitName={areaType.perimeter_unit}
             defaultValue={defaultPerimeter}
             errors={errors[areaType.perimeter] && t('common:REQUIRED')}
+            from={'m'}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            control={control}
+            required
           />
         )}
       </div>

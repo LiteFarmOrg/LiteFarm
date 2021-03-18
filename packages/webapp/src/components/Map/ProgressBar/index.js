@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -19,11 +19,11 @@ export default function ProgressBar({ closeSuccessHeader }) {
   const classes = useStyles();
   const [progress, setProgress] = React.useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress === 100) {
-          closeSuccessHeader();
+          //   closeSuccessHeader();
           return 0;
         }
         const diff = Math.random() * 28;

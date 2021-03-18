@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -9,9 +9,18 @@ import ProgressBar from '../ProgressBar';
 
 export default function PureMapSuccessHeader({ className, style, closeSuccessHeader }) {
   const { t } = useTranslation();
+  const [dismissProgressBar, setDismissProgressBar] = useState(false);
+
+  const handleClickHeader = () => {
+    setDismissProgressBar(true);
+  };
 
   return (
-    <div className={clsx(className)}>
+    <div
+      className={clsx(className)}
+      onClick={() => handleClickHeader()}
+      onMouseEnter={() => console.log('mouseover')}
+    >
       <div className={clsx(styles.container)} style={style}>
         <div className={styles.headerText}>
           <input type="image" src={Checkmark} className={styles.button} />
@@ -21,7 +30,7 @@ export default function PureMapSuccessHeader({ className, style, closeSuccessHea
           <input type="image" src={Cross} className={styles.button} onClick={closeSuccessHeader} />
         </div>
       </div>
-      <ProgressBar closeSuccessHeader={closeSuccessHeader} />
+      {!dismissProgressBar && <ProgressBar closeSuccessHeader={closeSuccessHeader} />}
     </div>
   );
 }

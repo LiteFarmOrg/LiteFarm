@@ -260,7 +260,6 @@ export default function Map({ history }) {
       {showSuccessHeader && (
         <PureMapSuccessHeader
           className={styles.mapHeader}
-          farmName={farm_name}
           closeSuccessHeader={handleCloseSuccessHeader}
         />
       )}

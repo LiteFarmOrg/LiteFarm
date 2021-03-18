@@ -1,14 +1,14 @@
 import React from 'react';
 import { componentDecoratorsWithoutPadding } from '../../config/decorators';
-import PureMapSuccessHeader from '../../../../components/Map/SuccessHeader/';
+import ProgressBar from '../../../../components/Map/ProgressBar';
 
 export default {
-  title: 'Components/Map/SuccessHeader',
-  component: PureMapSuccessHeader,
+  title: 'Components/Map/ProgressBar',
+  component: ProgressBar,
   decorators: componentDecoratorsWithoutPadding,
 };
 
-const Template = (args) => <PureMapSuccessHeader {...args} />;
+const Template = (args) => <ProgressBar {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

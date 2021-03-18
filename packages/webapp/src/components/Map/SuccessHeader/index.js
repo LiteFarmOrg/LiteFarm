@@ -11,15 +11,11 @@ export default function PureMapSuccessHeader({ className, style, closeSuccessHea
   const { t } = useTranslation();
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
 
-  const handleClickHeader = () => {
-    setDismissProgressBar(true);
-  };
-
   return (
     <div
       className={clsx(className)}
-      onClick={() => handleClickHeader()}
-      onMouseEnter={() => console.log('mouseover')}
+      onClick={() => setDismissProgressBar(true)}
+      onMouseOver={() => setDismissProgressBar(true)}
     >
       <div className={clsx(styles.container)} style={style}>
         <div className={styles.headerText}>

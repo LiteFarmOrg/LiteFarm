@@ -15,7 +15,7 @@ import { setLocationData } from '../mapSlice';
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
-import AdjustModal from '../../components/Modals/AdjustModal';
+import AdjustModal from '../../components/Modals/MapTutorialModal';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';

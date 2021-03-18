@@ -158,6 +158,13 @@
         "STEP_THREE": "MISSING",
         "STEP_TWO": "MISSING",
         "TITLE": "MISSING"
+      },
+      "LINE": {
+        "STEP_FOUR": "MISSING",
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
       }
     },
     "WATER_VALVE": {

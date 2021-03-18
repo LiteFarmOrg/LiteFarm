@@ -158,6 +158,13 @@
         "STEP_THREE": "Click-and-drag points to adjust the shape",
         "STEP_TWO": "Click the initial point to close the area",
         "TITLE": "Draw an area"
+      },
+      "LINE": {
+        "STEP_FOUR": "(For certain line types) add a width",
+        "STEP_ONE": "Click anywhere to start drawing",
+        "STEP_THREE": "Optionally, adjust your line",
+        "STEP_TWO": "Double-click to finish your line",
+        "TITLE": "Draw a line"
       }
     },
     "WATER_VALVE": {

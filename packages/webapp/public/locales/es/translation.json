@@ -82,9 +82,6 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
-    "ADJUST_MODAL": {
-      "TEXT": "MISSING"
-    },
     "AREA_DETAILS": {
       "NETWORK": "MISSING",
       "PERIMETER": "MISSING",
@@ -153,6 +150,10 @@
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
       "AREA": {
         "STEP_ONE": "MISSING",
         "STEP_THREE": "MISSING",

@@ -82,9 +82,6 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
-    "ADJUST_MODAL": {
-      "TEXT": "Drag dots to adjust the shape"
-    },
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -153,6 +150,10 @@
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "Click-and-drag points to adjust the shape",
+        "TITLE": "Adjust shape"
+      },
       "AREA": {
         "STEP_ONE": "Click anywhere to start drawing",
         "STEP_THREE": "Click-and-drag points to adjust the shape",

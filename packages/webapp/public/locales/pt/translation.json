@@ -82,9 +82,6 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
-    "ADJUST_MODAL": {
-      "TEXT": "MISSING"
-    },
     "AREA_DETAILS": {
       "NETWORK": "Network connectivity issues.",
       "PERIMETER": "Perimeter",
@@ -153,6 +150,10 @@
     },
     "TITLE": "MISSING",
     "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
       "AREA": {
         "STEP_ONE": "MISSING",
         "STEP_THREE": "MISSING",

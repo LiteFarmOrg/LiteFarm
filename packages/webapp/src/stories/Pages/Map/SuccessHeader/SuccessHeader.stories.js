@@ -3,7 +3,7 @@ import decorators, { componentDecoratorsWithoutPadding } from '../../config/deco
 import PureMapSuccessHeader from '../../../../components/Map/SuccessHeader/';
 
 export default {
-  title: 'Components/Map/MapSuccessHeader',
+  title: 'Components/Map/SuccessHeader',
   component: PureMapSuccessHeader,
   decorators: componentDecoratorsWithoutPadding,
 };
@@ -11,7 +11,9 @@ export default {
 const Template = (args) => <PureMapSuccessHeader {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  closeSuccessHeader: () => {},
+};
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

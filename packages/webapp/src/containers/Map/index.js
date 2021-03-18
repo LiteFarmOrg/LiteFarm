@@ -42,7 +42,6 @@ export default function Map({ history }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
-
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
 
   const [
@@ -64,9 +63,6 @@ export default function Map({ history }) {
 
   useEffect(() => {
     setShowSuccessHeader(history.location.state);
-    setTimeout(() => {
-      setShowSuccessHeader(false);
-    }, 4000);
     history.location.state = false;
   }, []);
 

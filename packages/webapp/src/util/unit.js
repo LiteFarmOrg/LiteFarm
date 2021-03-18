@@ -65,7 +65,7 @@ const getDefaultUnit = (unitType = areaUnits, value, system, from) => {
         displayUnit === defaultDisplayUnit
           ? defaultDisplayValue
           : convert(value).from(from).to(displayUnit);
-      return { displayUnit, displayValue: Math.round(displayValue * 100) / 100 };
+      return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
     }
   }
   displayUnit = unitType[system].units[i];
@@ -73,21 +73,23 @@ const getDefaultUnit = (unitType = areaUnits, value, system, from) => {
     displayUnit === defaultDisplayUnit
       ? defaultDisplayValue
       : convert(value).from(from).to(displayUnit);
-  return { displayUnit, displayValue: Math.round(displayValue * 100) / 100 };
+  return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
 };
 
 export const getDefaultDisplayAreaUnit = (value, system = METRIC, from = 'mm2') => {
   return getDefaultUnit(areaUnits, value, system, from);
 };
 
-const getDefaultDisplayDistanceUnit = (value, system = METRIC, from = 'm') => {
+export const getDefaultDisplayDistanceUnit = (value, system = METRIC, from = 'm') => {
   //TODO: If between 4 ft and 20 ft, show in feet and inches to the nearest inch
   return getDefaultUnit(distanceUnits, value, system, from);
 };
 
-const getDefaultDisplayMassUnit = (value, system = METRIC, from = 'kg') => {
+export const getDefaultDisplayMassUnit = (value, system = METRIC, from = 'kg') => {
   return getDefaultUnit(massUnits, value, system, from);
 };
+
+export const roundToTwoDecimal = (number) => Math.round(number * 100) / 100;
 
 const getDefaultDisplaySeedCountUnit = (value, system = METRIC, from = 'kg') => {
   return getDefaultUnit(seedAmounts, value, system, from);

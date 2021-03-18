@@ -8,6 +8,7 @@ import { locationInfoSelector } from '../../containers/mapSlice';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 import Unit from '../Form/Unit';
+import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
 
 export default function AreaDetailsLayout({
   name,
@@ -25,7 +26,6 @@ export default function AreaDetailsLayout({
   history,
   children,
   errors,
-  areaType,
   system,
 }) {
   const { t } = useTranslation();
@@ -54,8 +54,8 @@ export default function AreaDetailsLayout({
   };
 
   const onSubmit = (data) => {
-    data[areaType.total_area_unit] = data[areaType.total_area_unit].value;
-    data[areaType.perimeter_unit] = data[areaType.perimeter_unit].value;
+    data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
+    data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value;
     if (data.name === '') {
       data.name = 'Farm site boundary';
     }
@@ -89,9 +89,9 @@ export default function AreaDetailsLayout({
         optional={name === 'Farm site boundary' ? true : false}
         hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
-        name={areaType.name}
+        name={areaEnum.name}
         inputRef={register({ required: isNameRequired })}
-        errors={errors[areaType.name] && t('common:REQUIRED')}
+        errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
       />
       <div
@@ -105,12 +105,12 @@ export default function AreaDetailsLayout({
       >
         <Unit
           register={register}
-          classes={{ container: { width: 'calc(50% - 8px)' } }}
+          classes={{ container: { flexGrow: 1 } }}
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
-          name={areaType.total_area}
-          displayUnitName={areaType.total_area_unit}
+          name={areaEnum.total_area}
+          displayUnitName={areaEnum.total_area_unit}
           defaultValue={defaultArea}
-          errors={errors[areaType.total_area] && t('common:REQUIRED')}
+          errors={errors[areaEnum.total_area] && t('common:REQUIRED')}
           from={'m2'}
           system={system}
           hookFormSetValue={setValue}
@@ -121,12 +121,12 @@ export default function AreaDetailsLayout({
         {showPerimeter && (
           <Unit
             register={register}
-            classes={{ container: { width: 'calc(50% - 8px)' } }}
+            classes={{ container: { flexGrow: 1 } }}
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-            name={areaType.perimeter}
-            displayUnitName={areaType.perimeter_unit}
+            name={areaEnum.perimeter}
+            displayUnitName={areaEnum.perimeter_unit}
             defaultValue={defaultPerimeter}
-            errors={errors[areaType.perimeter] && t('common:REQUIRED')}
+            errors={errors[areaEnum.perimeter] && t('common:REQUIRED')}
             from={'m'}
             system={system}
             hookFormSetValue={setValue}

@@ -8,9 +8,11 @@
   font-size: 16px;
   line-height: 24px;
   color: var(--fontColor);
+  background-color: transparent;
   // set lastpass fill password icon
   background-position: calc(100% - 36px) calc(50%) !important;
   font-family: 'Open Sans', 'SansSerif', serif;
+  flex-grow: 1;
 }
 
 .input::-webkit-inner-spin-button,
@@ -29,8 +31,15 @@
   border-color: var(--inputDefault);
 }
 
+.input[type=date] {
+  min-width: 150px;
+  background-color: transparent;
+  width: 100%
+}
+
 .fullLength {
   width: 100%;
+  flex-grow: 1;
 }
 
 .container {

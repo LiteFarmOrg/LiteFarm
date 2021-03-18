@@ -9,7 +9,7 @@ import { numberOnKeyDown } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
-import { defaultUnitMap } from '../../../util/unit';
+import { defaultUnitMap, roundToTwoDecimal } from '../../../util/unit';
 import { Controller } from 'react-hook-form';
 
 const areaOptions = {
@@ -83,7 +83,7 @@ const reactSelectStyles = {
   valueContainer: (provided, state) => ({
     ...provided,
     padding: '0',
-    width: '44px',
+    width: '40px',
   }),
   singleValue: () => ({
     fontSize: '16px',
@@ -92,7 +92,7 @@ const reactSelectStyles = {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '52px',
+    width: '44px',
     overflowX: 'hidden',
     textAlign: 'center',
     position: 'absolute',
@@ -151,7 +151,7 @@ const Unit = ({
     return to
       ? {
           displayUnit: to,
-          displayValue: convert(defaultValue).from(from).to(to),
+          displayValue: roundToTwoDecimal(convert(defaultValue).from(from).to(to)),
           measureType,
           options,
         }
@@ -181,8 +181,22 @@ const Unit = ({
     });
   };
 
+  const inputOnBlur = (e) => {
+    if (isNaN(e.target.value)) {
+      setVisibleInputValue(0);
+      hookFormSetValue(name, 0, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    } else if (e.target.value > 1000000000) {
+      inputOnChange({ target: { value: 1000000000 } });
+    } else {
+      inputOnChange({ target: { value: roundToTwoDecimal(e.target.value) } });
+    }
+  };
+
   const optionOnChange = (e) => {
-    setVisibleInputValue(convert(hookFormGetValue(name)).from(from).to(e.value));
+    setVisibleInputValue(roundToTwoDecimal(convert(hookFormGetValue(name)).from(from).to(e.value)));
   };
 
   return (
@@ -218,7 +232,9 @@ const Unit = ({
           aria-invalid={showError ? 'true' : 'false'}
           type={'number'}
           value={visibleInputValue}
+          size={1}
           onKeyDown={numberOnKeyDown}
+          onBlur={inputOnBlur}
           onChange={inputOnChange}
           {...props}
         />

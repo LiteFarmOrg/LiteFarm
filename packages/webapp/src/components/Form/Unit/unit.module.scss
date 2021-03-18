@@ -12,6 +12,10 @@
   min-width: 0;
 }
 
+.input[type=number] {
+  width: 1px;
+}
+
 .input::-webkit-inner-spin-button,
 .input::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -25,6 +29,10 @@
 .input:disabled {
   background-color: var(--inputDisabled);
   color: var(--grey600);
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 .input:disabled ~ .pseudoInputContainer {

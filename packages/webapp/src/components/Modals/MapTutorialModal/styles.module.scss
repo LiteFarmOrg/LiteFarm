@@ -15,11 +15,9 @@
 
 .container {
   display: flex;
-  // align-items: center;
   flex-direction: column;
   max-width: 312px;
   width: 90vw;
-  // height: 320px;
   background: #fafafd;
   border-radius: 7.05466px;
   position: relative;
@@ -42,16 +40,6 @@
   margin-bottom: 16px;
 }
 
-.instruction {
-  font-size: 14px;
-  line-height: 18px;
-  color: var(--grey600);
-}
-
 .button {
   max-width: 96px;
-}
-
-.image {
-  margin: 24px;
 }

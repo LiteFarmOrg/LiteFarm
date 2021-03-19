@@ -112,6 +112,15 @@
       "TITLE": "Add field",
       "TRANSITIONING": "Transitioning"
     },
+    "GARDEN": {
+      "DATE": "Eligible transition date",
+      "GARDEN_TYPE": "What type of garden is this?",
+      "NAME": "Garden",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TITLE": "Add garden",
+      "TRANSITIONING": "Transitioning"
+    },
     "GATE": {
       "NAME": "Gate",
       "TITLE": "Add gate"

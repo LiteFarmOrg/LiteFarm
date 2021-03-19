@@ -112,6 +112,15 @@
       "TITLE": "Add field",
       "TRANSITIONING": "Transitioning"
     },
+    "GARDEN": {
+      "DATE": "MISSING",
+      "GARDEN_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
+    },
     "GATE": {
       "NAME": "Gate",
       "TITLE": "Add gate"

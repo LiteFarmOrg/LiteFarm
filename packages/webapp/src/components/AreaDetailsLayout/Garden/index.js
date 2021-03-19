@@ -37,8 +37,8 @@ export default function PureGarden({ history, submitForm, system, grid_points })
 
   return (
     <AreaDetailsLayout
-      name={t('FARM_MAP.FIELD.NAME')}
-      title={t('FARM_MAP.FIELD.TITLE')}
+      name={t('FARM_MAP.GARDEN.NAME')}
+      title={t('FARM_MAP.GARDEN.TITLE')}
       history={history}
       submitForm={onSubmit}
       onError={onError}
@@ -55,12 +55,12 @@ export default function PureGarden({ history, submitForm, system, grid_points })
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.FIELD.FIELD_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
+          {t('FARM_MAP.GARDEN.GARDEN_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
         </p>
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
-            label={t('FARM_MAP.FIELD.NON_ORGANIC')}
+            label={t('FARM_MAP.GARDEN.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
             value={'Non-Organic'}
@@ -70,7 +70,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
-            label={t('FARM_MAP.FIELD.ORGANIC')}
+            label={t('FARM_MAP.GARDEN.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
             name={gardenEnum.organic_status}
@@ -79,7 +79,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
-            label={t('FARM_MAP.FIELD.TRANSITIONING')}
+            label={t('FARM_MAP.GARDEN.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
             name={gardenEnum.organic_status}
@@ -91,7 +91,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
               type={'date'}
               name={gardenEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}
-              label={t('FARM_MAP.FIELD.DATE')}
+              label={t('FARM_MAP.GARDEN.DATE')}
               inputRef={register({ required: true })}
             />
           )}

@@ -112,6 +112,15 @@
       "TITLE": "Agregar campo",
       "TRANSITIONING": "En transición"
     },
+    "GARDEN": {
+      "DATE": "Fecha de transición",
+      "GARDEN_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "En transición"
+    },
     "GATE": {
       "NAME": "Puerta",
       "TITLE": "Agregar puerta"

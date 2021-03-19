@@ -137,8 +137,8 @@ const Unit = ({
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
-    hookFormSetValue(name, 0, { shouldValidate: true });
-    setVisibleInputValue(0);
+    hookFormSetValue(name, undefined, { shouldValidate: true });
+    setVisibleInputValue('');
     setShowError(false);
   };
 

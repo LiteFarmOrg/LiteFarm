@@ -28,7 +28,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
   };
 
   const WATER_TYPE = 'water_type';
-  const waterValveSourceSelection = watch(WATER_TYPE, 'SurfaceWater');
+  const waterValveSourceSelection = watch(WATER_TYPE);
 
   return (
     <PointDetails
@@ -68,7 +68,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
             name={pointType.source}
-            value={'SurfaceWater'}
+            value={'Groundwater'}
             inputRef={register({ required: false })}
           />
         </div>

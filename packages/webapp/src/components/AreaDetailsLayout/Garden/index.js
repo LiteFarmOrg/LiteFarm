@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { fieldEnum } from '../../../containers/fieldSlice';
+import { gardenEnum } from '../../../containers/gardenSlice';
 
-export default function PureField({ history, submitForm, system, grid_points }) {
+export default function PureGarden({ history, submitForm, system, grid_points }) {
   const { t } = useTranslation();
   const {
     register,
@@ -22,7 +22,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     mode: 'onTouched',
   });
   const onError = (data) => {};
-  const fieldTypeSelection = watch(fieldEnum.organic_status);
+  const gardenTypeSelection = watch(gardenEnum.organic_status);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
@@ -30,7 +30,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       total_area: parseInt(data.total_area),
       perimeter: parseInt(data.perimeter),
       grid_points: grid_points,
-      type: 'field',
+      type: 'garden',
     };
     submitForm({ formData });
   };
@@ -64,7 +64,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
             defaultChecked={true}
             inputRef={register({ required: true })}
             value={'Non-Organic'}
-            name={fieldEnum.organic_status}
+            name={gardenEnum.organic_status}
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
             label={t('FARM_MAP.FIELD.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
-            name={fieldEnum.organic_status}
+            name={gardenEnum.organic_status}
           />
         </div>
         <div>
@@ -82,14 +82,14 @@ export default function PureField({ history, submitForm, system, grid_points }) 
             label={t('FARM_MAP.FIELD.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
-            name={fieldEnum.organic_status}
+            name={gardenEnum.organic_status}
           />
         </div>
         <div style={{ paddingBottom: '25px' }}>
-          {fieldTypeSelection === 'Transitional' && (
+          {gardenTypeSelection === 'Transitional' && (
             <Input
               type={'date'}
-              name={fieldEnum.transition_date}
+              name={gardenEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}
               label={t('FARM_MAP.FIELD.DATE')}
               inputRef={register({ required: true })}

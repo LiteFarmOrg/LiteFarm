@@ -159,6 +159,24 @@ function fakeField() {
   };
 }
 
+async function gardenFactory({
+  promisedStation = weather_stationFactory(),
+  promisedLocation = locationFactory(),
+  promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'garden'),
+} = {}, garden = fakeGarden()) {
+  const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
+  const [{ station_id }] = station;
+  const [{ location_id }] = location;
+  return knex('garden').insert({ location_id: location_id, station_id, ...garden }).returning('*');
+}
+
+function fakeGarden() {
+  return {
+    organic_status: faker.random.arrayElement(['Non-Organic', 'Transitional', 'Organic']),
+    transition_date: faker.date.future(),
+  };
+}
+
 function fakeFieldForTests() {
   return {
     ...fakeField(), grid_points: [{
@@ -893,17 +911,17 @@ function fakeWaterValve() {
   };
 }
 
-async function ground_waterFactory({
+async function surface_waterFactory({
   promisedLocation = locationFactory(),
   promisedArea = areaFactory({ promisedLocation },
-    fakeArea(), 'ground_water'),
-} = {}, ground_water = fakeGroundWater()) {
+    fakeArea(), 'surface_water'),
+} = {}, surface_water = fakeSurfaceWater()) {
   const [location] = await Promise.all([promisedLocation, promisedArea]);
   const [{ location_id }] = location;
-  return knex('ground_water').insert({ location_id, ...ground_water }).returning('*');
+  return knex('surface_water').insert({ location_id, ...surface_water }).returning('*');
 }
 
-function fakeGroundWater() {
+function fakeSurfaceWater() {
   return {
     used_for_irrigation: faker.random.boolean(),
   };
@@ -979,6 +997,7 @@ module.exports = {
   farmFactory, fakeFarm,
   userFarmFactory, fakeUserFarm,
   fieldFactory, fakeField,
+  gardenFactory, fakeGarden,
   cropFactory, fakeCrop,
   fieldCropFactory, fakeFieldCrop,
   fertilizerFactory, fakeFertilizer,
@@ -1018,7 +1037,7 @@ module.exports = {
   fakeOrganicCertifierSurvey, organicCertifierSurveyFactory,
   fakeSupportTicket, supportTicketFactory,
   fakePoint, pointFactory,
-  fakeGroundWater, ground_waterFactory,
+  fakeSurfaceWater, surface_waterFactory,
   fakeBarn, barnFactory,
   fakeWaterValve, water_valveFactory,
   fakeCreek, creekFactory,

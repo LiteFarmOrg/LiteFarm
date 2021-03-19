@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "Error de conexion.",
+      "PERIMETER": "Perimetro",
+      "TOTAL_AREA": "Area total"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
       "TRY_AGAIN": "Intenta de nuevo",
@@ -94,6 +99,23 @@
       "EMAILING": "Enviando",
       "TITLE": "Exporta tu mapa"
     },
+    "FARM_SITE_BOUNDARY": {
+      "NAME": "Limites de la granja",
+      "TITLE": "Agregar Limites de la granja"
+    },
+    "FIELD": {
+      "DATE": "Fecha de transición",
+      "FIELD_TYPE": "Que tipo de campo es?",
+      "NAME": "Campo",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "TITLE": "Agregar campo",
+      "TRANSITIONING": "En transición"
+    },
+    "GATE": {
+      "NAME": "Puerta",
+      "TITLE": "Agregar puerta"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",
@@ -104,9 +126,9 @@
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
+      "GARDEN": "MISSING",
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
-      "GROUNDWATER": "Agua en el suelo",
       "HIDE_ALL": "Esconde todo",
       "LINES": "Lineas",
       "NA": "Area natural",
@@ -114,40 +136,9 @@
       "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
+      "SURFACE_WATER": "MISSING",
       "TITLE": "Filtra tu mapa",
       "WV": "Valvula de agua"
-    },
-    "AREA_DETAILS": {
-      "TOTAL_AREA": "Area total",
-      "PERIMETER": "Perimetro",
-      "NETWORK": "Error de conexion."
-    },
-    "FARM_SITE_BOUNDARY": {
-      "TITLE": "Agregar Limites de la granja",
-      "NAME": "Limites de la granja"
-    },
-    "FIELD": {
-      "TITLE": "Agregar campo",
-      "NAME": "Campo",
-      "FIELD_TYPE": "Que tipo de campo es?",
-      "NON_ORGANIC": "No organico",
-      "ORGANIC": "Organico",
-      "TRANSITIONING": "En transición",
-      "DATE": "Fecha de transición"
-    },
-    "GATE": {
-      "TITLE": "Agregar puerta",
-      "NAME": "Puerta"
-    },
-    "WATER_VALVE": {
-      "TITLE": "Agregar valvula de agua",
-      "NAME": "Valvula de agua",
-      "WATER_VALVE_TYPE": "Cual es la fuente?",
-      "MUNICIPAL_WATER": "Agua municipal",
-      "SURFACE_WATER": "Agua de superficie",
-      "GROUNDWATER": "Agua de pozo",
-      "RAIN_WATER": "Agua de lluvia",
-      "MAX_FLOW_RATE": "Flujo maximo"
     },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
@@ -158,7 +149,17 @@
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
     },
-    "TITLE": "Mapa de granja"
+    "TITLE": "Mapa de granja",
+    "WATER_VALVE": {
+      "GROUNDWATER": "Agua de pozo",
+      "MAX_FLOW_RATE": "Flujo maximo",
+      "MUNICIPAL_WATER": "Agua municipal",
+      "NAME": "Valvula de agua",
+      "RAIN_WATER": "Agua de lluvia",
+      "SURFACE_WATER": "Agua de superficie",
+      "TITLE": "Agregar valvula de agua",
+      "WATER_VALVE_TYPE": "Cual es la fuente?"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",

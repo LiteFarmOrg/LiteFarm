@@ -34,8 +34,9 @@ import barnReducer from '../containers/barnSlice';
 import ceremonialReducer from '../containers/ceremonialSlice';
 import farmSiteBoundaryReducer from '../containers/farmSiteBoundarySlice';
 import fieldReducer from '../containers/fieldSlice';
+import gardenReducer from '../containers/gardenSlice';
 import greenhouseReducer from '../containers/greenhouseSlice';
-import groundwaterReducer from '../containers/groundwaterSlice';
+import surfaceWaterReducer from '../containers/surfaceWaterSlice';
 import naturalAreaReducer from '../containers/naturalAreaSlice';
 import residenceReducer from '../containers/residenceSlice';
 import bufferZoneReducer from '../containers/bufferZoneSlice';
@@ -131,8 +132,9 @@ const entitiesReducer = combineReducers({
   ceremonialReducer,
   farmSiteBoundaryReducer,
   fieldReducer,
+  gardenReducer,
   greenhouseReducer,
-  groundwaterReducer,
+  surfaceWaterReducer,
   naturalAreaReducer,
   residenceReducer,
   bufferZoneReducer,

@@ -82,6 +82,11 @@
     "RESET_PASSWORD_LINK": "Send new password link."
   },
   "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "Network connectivity issues.",
+      "PERIMETER": "Perimeter",
+      "TOTAL_AREA": "Total area"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "Redraw",
       "TRY_AGAIN": "Try again",
@@ -94,6 +99,23 @@
       "EMAILING": "Emailing",
       "TITLE": "Export your farm map"
     },
+    "FARM_SITE_BOUNDARY": {
+      "NAME": "Farm site boundary",
+      "TITLE": "Add farm site boundary"
+    },
+    "FIELD": {
+      "DATE": "Eligible transition date",
+      "FIELD_TYPE": "What type of field is this?",
+      "NAME": "Field",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TITLE": "Add field",
+      "TRANSITIONING": "Transitioning"
+    },
+    "GATE": {
+      "NAME": "Gate",
+      "TITLE": "Add gate"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
@@ -104,9 +126,9 @@
       "FENCE": "Fence",
       "FIELD": "Field",
       "FSB": "Farm site boundary",
+      "GARDEN": "Garden",
       "GATE": "Gate",
       "GREENHOUSE": "Greenhouse",
-      "GROUNDWATER": "Groundwater",
       "HIDE_ALL": "Hide all",
       "LINES": "Lines",
       "NA": "Natural area",
@@ -114,40 +136,9 @@
       "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
+      "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WV": "Water valve"
-    },
-    "AREA_DETAILS": {
-      "TOTAL_AREA": "Total area",
-      "PERIMETER": "Perimeter",
-      "NETWORK": "Network connectivity issues."
-    },
-    "FARM_SITE_BOUNDARY": {
-      "TITLE": "Add farm site boundary",
-      "NAME": "Farm site boundary"
-    },
-    "FIELD": {
-      "TITLE": "Add field",
-      "NAME": "Field",
-      "FIELD_TYPE": "What type of field is this?",
-      "NON_ORGANIC": "Non-organic",
-      "ORGANIC": "Organic",
-      "TRANSITIONING": "Transitioning",
-      "DATE": "Eligible transition date"
-    },
-    "GATE": {
-      "TITLE": "Add gate",
-      "NAME": "Gate"
-    },
-    "WATER_VALVE": {
-      "TITLE": "Add water valve",
-      "NAME": "Water valve",
-      "WATER_VALVE_TYPE": "What is the source?",
-      "MUNICIPAL_WATER": "Municipal water",
-      "SURFACE_WATER": "Surface water",
-      "GROUNDWATER": "Groundwater",
-      "RAIN_WATER": "Rain water",
-      "MAX_FLOW_RATE": "Maximum flow rate"
     },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
@@ -158,7 +149,17 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
-    "TITLE": "Farm map"
+    "TITLE": "Farm map",
+    "WATER_VALVE": {
+      "GROUNDWATER": "SurfaceWater",
+      "MAX_FLOW_RATE": "Maximum flow rate",
+      "MUNICIPAL_WATER": "Municipal water",
+      "NAME": "Water valve",
+      "RAIN_WATER": "Rain water",
+      "SURFACE_WATER": "Surface water",
+      "TITLE": "Add water valve",
+      "WATER_VALVE_TYPE": "What is the source?"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Add New Field",

@@ -14,8 +14,9 @@ export const isArea = (type) => {
     locationEnum.ceremonial_area,
     locationEnum.farm_site_boundary,
     locationEnum.field,
+    locationEnum.garden,
     locationEnum.greenhouse,
-    locationEnum.ground_water,
+    locationEnum.surface_water,
     locationEnum.natural_area,
     locationEnum.residence,
   ].includes(type);
@@ -31,10 +32,11 @@ export const isPoint = (type) => {
 
 export const locationEnum = {
   field: 'field',
+  garden: 'garden',
   barn: 'barn',
   ceremonial_area: 'ceremonial_area',
   greenhouse: 'greenhouse',
-  ground_water: 'ground_water',
+  surface_water: 'surface_water',
   natural_area: 'natural_area',
   buffer_zone: 'buffer_zone',
   creek: 'creek',

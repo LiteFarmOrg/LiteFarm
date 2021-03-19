@@ -66,6 +66,7 @@ async function tableCleanup(knex) {
     DELETE FROM "shiftTask";
     DELETE FROM "shift";
     DELETE FROM "field";
+    DELETE FROM "garden";
     DELETE FROM "area";
     DELETE FROM "line";
     DELETE FROM "point";
@@ -80,7 +81,7 @@ async function tableCleanup(knex) {
     DELETE FROM "ceremonial_area";
     DELETE FROM "residence";
     DELETE FROM "farm_site_boundary";
-    DELETE FROM "ground_water";
+    DELETE FROM "surface_water";
     DELETE FROM "natural_area";
     DELETE FROM "location";
     DELETE FROM "fertilizer";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../../containers/mapSlice';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
+import Unit from '../Form/Unit';
+import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
 
 export default function AreaDetailsLayout({
   name,
@@ -19,10 +21,12 @@ export default function AreaDetailsLayout({
   handleSubmit,
   showPerimeter,
   setValue,
+  getValues,
+  control,
   history,
   children,
   errors,
-  areaType,
+  system,
 }) {
   const { t } = useTranslation();
   const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
@@ -50,6 +54,8 @@ export default function AreaDetailsLayout({
   };
 
   const onSubmit = (data) => {
+    data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
+    data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value;
     if (data.name === '') {
       data.name = 'Farm site boundary';
     }
@@ -83,28 +89,50 @@ export default function AreaDetailsLayout({
         optional={name === 'Farm site boundary' ? true : false}
         hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
-        name={areaType.name}
+        name={areaEnum.name}
         inputRef={register({ required: isNameRequired })}
-        errors={errors[areaType.name] && t('common:REQUIRED')}
+        errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
       />
-      <div>
-        <Input
+      <div
+        style={{
+          flexDirection: 'row',
+          display: 'inline-flex',
+          paddingBottom: '40px',
+          width: '100%',
+          gap: '16px',
+        }}
+      >
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1 } }}
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
-          type="number"
-          style={{ marginBottom: '40px', width: '50%', float: 'left' }}
-          name={areaType.total_area}
-          inputRef={register({ required: true })}
+          name={areaEnum.total_area}
+          displayUnitName={areaEnum.total_area_unit}
           defaultValue={defaultArea}
+          errors={errors[areaEnum.total_area] && t('common:REQUIRED')}
+          from={'m2'}
+          system={system}
+          hookFormSetValue={setValue}
+          hookFormGetValue={getValues}
+          control={control}
+          required
         />
         {showPerimeter && (
-          <Input
+          <Unit
+            register={register}
+            classes={{ container: { flexGrow: 1 } }}
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
-            type="number"
-            style={{ marginBottom: '40px', width: '50%', paddingLeft: '10px' }}
-            name={areaType.perimeter}
-            inputRef={register({ required: true })}
+            name={areaEnum.perimeter}
+            displayUnitName={areaEnum.perimeter_unit}
             defaultValue={defaultPerimeter}
+            errors={errors[areaEnum.perimeter] && t('common:REQUIRED')}
+            from={'m'}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            control={control}
+            required
           />
         )}
       </div>

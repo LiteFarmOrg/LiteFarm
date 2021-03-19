@@ -82,10 +82,15 @@
     "RESET_PASSWORD_LINK": "Envíar enlace para nueva contraseña."
   },
   "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "Error de conexion.",
+      "PERIMETER": "Perimetro",
+      "TOTAL_AREA": "Area total"
+    },
     "DRAWING_MANAGER": {
-      "REDRAW": "MISSING",
+      "REDRAW": "Repintar",
       "TRY_AGAIN": "Intenta de nuevo",
-      "ZERO_AREA_DETECTED": "MISSING"
+      "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo."
     },
     "EXPORT_MODAL": {
       "BODY": "Como quieres exportar el mapa?",
@@ -94,8 +99,34 @@
       "EMAILING": "Enviando",
       "TITLE": "Exporta tu mapa"
     },
+    "FARM_SITE_BOUNDARY": {
+      "NAME": "Limites de la granja",
+      "TITLE": "Agregar Limites de la granja"
+    },
+    "FIELD": {
+      "DATE": "Fecha de transición",
+      "FIELD_TYPE": "Que tipo de campo es?",
+      "NAME": "Campo",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "TITLE": "Agregar campo",
+      "TRANSITIONING": "En transición"
+    },
+    "GARDEN": {
+      "DATE": "Fecha de transición",
+      "GARDEN_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "En transición"
+    },
+    "GATE": {
+      "NAME": "Puerta",
+      "TITLE": "Agregar puerta"
+    },
     "MAP_FILTER": {
-      "ADD_TITLE": "MISSING",
+      "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
@@ -104,50 +135,19 @@
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
+      "GARDEN": "MISSING",
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
-      "GROUNDWATER": "Agua en el suelo",
       "HIDE_ALL": "Esconde todo",
       "LINES": "Lineas",
       "NA": "Area natural",
       "POINTS": "Puntos",
-      "RESIDENCE": "MISSING",
+      "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
+      "SURFACE_WATER": "MISSING",
       "TITLE": "Filtra tu mapa",
       "WV": "Valvula de agua"
-    },
-    "AREA_DETAILS": {
-      "TOTAL_AREA": "MISSING",
-      "PERIMETER": "MISSING",
-      "NETWORK": "MISSING"
-    },
-    "FARM_SITE_BOUNDARY": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING"
-    },
-    "FIELD": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING",
-      "FIELD_TYPE": "MISSING",
-      "NON_ORGANIC": "MISSING",
-      "ORGANIC": "MISSING",
-      "TRANSITIONING": "MISSING",
-      "DATE": "MISSING"
-    },
-    "GATE": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING"
-    },
-    "WATER_VALVE": {
-      "TITLE": "MISSING",
-      "NAME": "MISSING",
-      "WATER_VALVE_TYPE": "MISSING",
-      "MUNICIPAL_WATER": "MISSING",
-      "SURFACE_WATER": "MISSING",
-      "GROUNDWATER": "MISSING",
-      "RAIN_WATER": "MISSING",
-      "MAX_FLOW_RATE": "MISSING"
     },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
@@ -158,7 +158,17 @@
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
     },
-    "TITLE": "Mapa de granja"
+    "TITLE": "Mapa de granja",
+    "WATER_VALVE": {
+      "GROUNDWATER": "Agua de pozo",
+      "MAX_FLOW_RATE": "Flujo maximo",
+      "MUNICIPAL_WATER": "Agua municipal",
+      "NAME": "Valvula de agua",
+      "RAIN_WATER": "Agua de lluvia",
+      "SURFACE_WATER": "Agua de superficie",
+      "TITLE": "Agregar valvula de agua",
+      "WATER_VALVE_TYPE": "Cual es la fuente?"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregue nueva área",

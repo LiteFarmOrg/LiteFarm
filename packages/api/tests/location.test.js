@@ -10,18 +10,19 @@ const mocks = require('./mock.factories');
 const { figureMapping, promiseMapper } = require('./../src/middleware/validation/location')
 
 const locations = {
-  BARN:'barn',
-  GREENHOUSE:'greenhouse',
-  FIELD:'field',
-  NATURAL_AREA:'natural_area',
-  CEREMONIAL_AREA:'ceremonial_area',
-  RESIDENCE:'residence',
-  GROUNDWATER:'ground_water',
-  CREEK:'creek',
-  FENCE:'fence',
-  BUFFER_ZONE:'buffer_zone',
-  GATE:'gate',
-  WATER_VALVE:'water_valve',
+  BARN: 'barn',
+  GREENHOUSE: 'greenhouse',
+  FIELD: 'field',
+  GARDEN: 'garden',
+  NATURAL_AREA: 'natural_area',
+  CEREMONIAL_AREA: 'ceremonial_area',
+  RESIDENCE: 'residence',
+  SURFACEWATER: 'surface_water',
+  CREEK: 'creek',
+  FENCE: 'fence',
+  BUFFER_ZONE: 'buffer_zone',
+  GATE: 'gate',
+  WATER_VALVE: 'water_valve',
 }
 
 const figureToPromise = {
@@ -34,11 +35,12 @@ const assetMock = {
   barn: mocks.fakeArea,
   greenhouse: mocks.fakeArea,
   field: mocks.fakeArea,
+  garden: mocks.fakeArea,
   farm_site_boundary: mocks.fakeArea,
   natural_area: mocks.fakeArea,
   ceremonial_area: mocks.fakeArea,
   residence: mocks.fakeArea,
-  ground_water: mocks.fakeArea,
+  surface_water: mocks.fakeArea,
   creek: mocks.fakeLine,
   fence: mocks.fakeLine,
   buffer_zone: mocks.fakeLine,
@@ -50,11 +52,12 @@ const assetSpecificMock = {
   barn: mocks.fakeBarn,
   greenhouse: mocks.fakeGreenhouse,
   field: mocks.fakeField,
+  garden: mocks.fakeGarden,
   farm_site_boundary: () => ({}),
   natural_area: () => ({}),
   ceremonial_area: () => ({}),
   residence: () => ({}),
-  ground_water: mocks.fakeGroundWater,
+  surface_water: mocks.fakeSurfaceWater,
   creek: mocks.fakeCreek,
   fence: mocks.fakeFence,
   buffer_zone: () => ({}),
@@ -389,14 +392,24 @@ describe('Location tests', () => {
       user = user_id;
     });
 
-    Object.keys(figureMapping).filter(a => a!== 'field').map((asset) => {
+    Object.keys(figureMapping).filter(a => !['field', 'garden'].includes(a)).map((asset) => {
       test(`should modify a ${asset}`, async (done) => {
-        const location = await mocks.locationFactory({promisedFarm: [{ farm_id: farm }]})
+        const location = await mocks.locationFactory({ promisedFarm: [{ farm_id: farm }] });
         const typeOfFigure = figureMapping[asset];
-        const figure  = await mocks[`${typeOfFigure}Factory`]({ promisedLocation: location });
+        const figure = await mocks[`${typeOfFigure}Factory`]({ promisedLocation: location });
         const promise = promiseMapper[typeOfFigure];
-        const [assetToModify]  = await mocks[`${asset}Factory`]({ promisedLocation: location, [promise]: figureToPromise[typeOfFigure] });
-        const [{ location_id, created_by_user_id, updated_by_user_id, created_at, updated_at,  ...locationData }] = location;
+        const [assetToModify] = await mocks[`${asset}Factory`]({
+          promisedLocation: location,
+          [promise]: figureToPromise[typeOfFigure],
+        });
+        const [{
+          location_id,
+          created_by_user_id,
+          updated_by_user_id,
+          created_at,
+          updated_at,
+          ...locationData
+        }] = location;
         const newFigureData = assetMock[asset](false);
         const data = {
           ...locationData,
@@ -443,14 +456,50 @@ describe('Location tests', () => {
           organic_status: 'Non-Organic'
         }
       }
-      putLocation(data, {user_id: user, farm_id: farm}, locations.FIELD, location[0].location_id, (err, res) => {
+      putLocation(data, { user_id: user, farm_id: farm }, locations.FIELD, location[0].location_id, (err, res) => {
         expect(res.status).toBe(200);
         expect(res.body.name).toBe('Test Name323');
         expect(res.body.figure.type).toBe(locations.FIELD);
         expect(res.body.field.organic_status).toBe('Non-Organic');
         done();
-      })
+      });
     })
+
+    test('should update a garden', async (done) => {
+      const location = await mocks.locationFactory({ promisedFarm: [{ farm_id: farm }] });
+      const area = await mocks.areaFactory({ promisedLocation: location });
+      const garden = await mocks.gardenFactory({ promisedLocation: location, promisedArea: area });
+      const [{
+        location_id,
+        created_by_user_id,
+        updated_by_user_id,
+        created_at,
+        updated_at,
+        ...locationData
+      }] = location;
+      const [{ station_id, ...gardenData }] = garden;
+      const data = {
+        ...locationData,
+        name: 'Test Name323',
+        figure: {
+          type: locations.GARDEN,
+          location_id: location_id,
+          figure_id: area[0].figure_id,
+          area: area[0],
+        },
+        garden: {
+          ...gardenData,
+          organic_status: 'Non-Organic',
+        },
+      };
+      putLocation(data, { user_id: user, farm_id: farm }, locations.GARDEN, location[0].location_id, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.name).toBe('Test Name323');
+        expect(res.body.figure.type).toBe(locations.GARDEN);
+        expect(res.body.garden.organic_status).toBe('Non-Organic');
+        done();
+      });
+    });
 
   })
 

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { fieldEnum } from '../../../containers/fieldSlice';
+import { gardenEnum } from '../../../containers/gardenSlice';
 
-export default function PureField({ history, submitForm, system, grid_points }) {
+export default function PureGarden({ history, submitForm, system, grid_points }) {
   const { t } = useTranslation();
   const {
     register,
@@ -22,21 +22,21 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     mode: 'onTouched',
   });
   const onError = (data) => {};
-  const fieldTypeSelection = watch(fieldEnum.organic_status);
+  const gardenTypeSelection = watch(gardenEnum.organic_status);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
       ...data,
       grid_points: grid_points,
-      type: 'field',
+      type: 'garden',
     };
     submitForm({ formData });
   };
 
   return (
     <AreaDetailsLayout
-      name={t('FARM_MAP.FIELD.NAME')}
-      title={t('FARM_MAP.FIELD.TITLE')}
+      name={t('FARM_MAP.GARDEN.NAME')}
+      title={t('FARM_MAP.GARDEN.TITLE')}
       history={history}
       submitForm={onSubmit}
       onError={onError}
@@ -53,43 +53,43 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.FIELD.FIELD_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
+          {t('FARM_MAP.GARDEN.GARDEN_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
         </p>
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
-            label={t('FARM_MAP.FIELD.NON_ORGANIC')}
+            label={t('FARM_MAP.GARDEN.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
             value={'Non-Organic'}
-            name={fieldEnum.organic_status}
+            name={gardenEnum.organic_status}
           />
         </div>
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
-            label={t('FARM_MAP.FIELD.ORGANIC')}
+            label={t('FARM_MAP.GARDEN.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
-            name={fieldEnum.organic_status}
+            name={gardenEnum.organic_status}
           />
         </div>
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
-            label={t('FARM_MAP.FIELD.TRANSITIONING')}
+            label={t('FARM_MAP.GARDEN.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
-            name={fieldEnum.organic_status}
+            name={gardenEnum.organic_status}
           />
         </div>
         <div style={{ paddingBottom: '25px' }}>
-          {fieldTypeSelection === 'Transitional' && (
+          {gardenTypeSelection === 'Transitional' && (
             <Input
               type={'date'}
-              name={fieldEnum.transition_date}
+              name={gardenEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}
-              label={t('FARM_MAP.FIELD.DATE')}
+              label={t('FARM_MAP.GARDEN.DATE')}
               inputRef={register({ required: true })}
             />
           )}

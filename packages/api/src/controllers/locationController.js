@@ -10,8 +10,8 @@ const LocationController = {
         .where({ farm_id })
         .withGraphJoined(`[
           figure.[area, line, point], 
-          gate, water_valve, field, buffer_zone, creek, fence, 
-          ceremonial_area, residence, ground_water, natural_area,
+          gate, water_valve, field, garden, buffer_zone, creek, fence, 
+          ceremonial_area, residence, surface_water, natural_area,
           greenhouse, barn, farm_site_boundary
         ]`)
       return res.status(200).send(locations);

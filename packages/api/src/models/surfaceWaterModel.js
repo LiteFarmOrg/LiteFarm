@@ -15,9 +15,9 @@
 
 const Model = require('objection').Model;
 
-class GroundWater extends Model {
+class SurfaceWater extends Model {
   static get tableName() {
-    return 'ground_water';
+    return 'surface_water';
   }
 
   static get idColumn() {
@@ -42,4 +42,4 @@ class GroundWater extends Model {
   }
 }
 
-module.exports = GroundWater;
+module.exports = SurfaceWater;

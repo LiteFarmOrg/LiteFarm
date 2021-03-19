@@ -158,6 +158,6 @@
   "MAP": {
     "SUCCESS_POST": " successfully saved",
     "SUCCESS_PATCH": " successfully updated",
-    "SUCCESS_DEL": " successfully deleted"
+    "SUCCESS_DEL": " successfully removed"
   }
 }

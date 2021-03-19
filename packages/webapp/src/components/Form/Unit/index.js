@@ -184,7 +184,6 @@ const Unit = ({
   };
 
   const inputOnBlur = (e) => {
-    console.log(e.target.value);
     if (isNaN(e.target.value)) {
       hookFormSetError(name, {
         message: t('UNIT.INVALID_NUMBER'),

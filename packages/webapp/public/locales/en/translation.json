@@ -160,7 +160,7 @@
     },
     "TITLE": "Farm map",
     "WATER_VALVE": {
-      "GROUNDWATER": "SurfaceWater",
+      "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
       "NAME": "Water valve",

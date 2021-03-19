@@ -10,10 +10,18 @@ import Input from '../../Form/Input';
 export default function PureWaterValve({ history, submitForm, pointType }) {
   const { t } = useTranslation();
   const { point } = useSelector(locationInfoSelector);
-  const { handleSubmit, setValue, register, watch } = useForm({
+  const {
+    handleSubmit,
+    setValue,
+    register,
+    watch,
+    errors,
+    formState: { isValid, isDirty },
+  } = useForm({
     mode: 'onChange',
   });
   const onError = (data) => {};
+  const disabled = !isValid || !isDirty;
 
   const onSubmit = (data) => {
     const formData = {
@@ -40,7 +48,8 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
       onError={onError}
       handleSubmit={handleSubmit}
       register={register}
-      pointType={pointType}
+      errors={errors}
+      disabled={disabled}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>

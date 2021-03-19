@@ -8,14 +8,13 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     getValues,
-    control,
     formState: { isValid, isDirty },
+    control,
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -36,7 +35,6 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={false}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}

@@ -15,7 +15,6 @@ export default function AreaDetailsLayout({
   title,
   submitForm,
   onError,
-  isNameRequired,
   disabled,
   register,
   handleSubmit,
@@ -86,11 +85,9 @@ export default function AreaDetailsLayout({
       <Input
         label={name + ' name'}
         type="text"
-        optional={name === 'Farm site boundary' ? true : false}
-        hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
         name={areaEnum.name}
-        inputRef={register({ required: isNameRequired })}
+        inputRef={register({ required: true })}
         errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
       />

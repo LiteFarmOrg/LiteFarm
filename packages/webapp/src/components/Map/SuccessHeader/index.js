@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
-import { useTranslation } from 'react-i18next';
 import Cross from '../../../assets/images/map/cross.svg';
 import Checkmark from '../../../assets/images/map/checkmark.svg';
 import clsx from 'clsx';
 import ProgressBar from '../ProgressBar';
 
 export default function PureMapSuccessHeader({ className, closeSuccessHeader, title }) {
-  const { t } = useTranslation();
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
 
   return (
@@ -33,7 +31,7 @@ export default function PureMapSuccessHeader({ className, closeSuccessHeader, ti
 
 PureMapSuccessHeader.prototype = {
   className: PropTypes.string,
-  style: PropTypes.object,
+  title: PropTypes.string,
   farmName: PropTypes.string,
   closeSuccessHeader: PropTypes.func,
 };

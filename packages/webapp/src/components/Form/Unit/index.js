@@ -263,7 +263,7 @@ const Unit = ({
         </div>
       </div>
       <input
-        ref={register({ required })}
+        ref={register({ required, valueAsNumber: true })}
         name={name}
         className={styles.hiddenInput}
         defaultValue={defaultValue}

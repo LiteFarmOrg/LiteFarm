@@ -27,8 +27,6 @@ export default function PureGarden({ history, submitForm, system, grid_points })
   const onSubmit = (data) => {
     const formData = {
       ...data,
-      total_area: parseInt(data.total_area),
-      perimeter: parseInt(data.perimeter),
       grid_points: grid_points,
       type: 'garden',
     };

@@ -3,12 +3,15 @@ import PureFarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSite
 import { postFarmSiteLocation } from './saga';
 import { useDispatch } from 'react-redux';
 import { farmSiteBoundaryEnum } from '../../farmSiteBoundarySlice';
+import { useTranslation } from 'react-i18next';
 
 function FarmSiteBoundaryDetailForm({ history }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const submitForm = (data) => {
-    dispatch(postFarmSiteLocation(data));
+    const message = `${t('FARM_MAP.MAP_FILTER.FSB')}${t('message:MAP.SUCCESS_POST')}`;
+    dispatch(postFarmSiteLocation({ form: data, message: message }));
   };
   return (
     <PureFarmSiteBoundary

@@ -62,8 +62,7 @@ export default function Map({ history }) {
   }, []);
 
   useEffect(() => {
-    setShowSuccessHeader(history.location.state);
-    history.location.state = false;
+    if (history.location.state) setShowSuccessHeader(true);
   }, []);
 
   const getMapOptions = (maps) => {
@@ -261,6 +260,7 @@ export default function Map({ history }) {
         <PureMapSuccessHeader
           className={styles.mapHeader}
           closeSuccessHeader={handleCloseSuccessHeader}
+          title={history.location.state}
         />
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>

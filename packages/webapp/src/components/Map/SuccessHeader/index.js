@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import Checkmark from '../../../assets/images/map/checkmark.svg';
 import clsx from 'clsx';
 import ProgressBar from '../ProgressBar';
 
-export default function PureMapSuccessHeader({ className, style, closeSuccessHeader }) {
+export default function PureMapSuccessHeader({ className, closeSuccessHeader, title }) {
   const { t } = useTranslation();
   const [dismissProgressBar, setDismissProgressBar] = useState(false);
 
@@ -17,10 +17,10 @@ export default function PureMapSuccessHeader({ className, style, closeSuccessHea
       onClick={() => setDismissProgressBar(true)}
       onMouseOver={() => setDismissProgressBar(true)}
     >
-      <div className={clsx(styles.container)} style={style}>
+      <div className={clsx(styles.container)}>
         <div className={styles.headerText}>
           <input type="image" src={Checkmark} className={styles.button} />
-          <span style={{ paddingLeft: '10px' }}>{t('FARM_MAP.SUCCESS_HEADER_TITLE')}</span>
+          <span style={{ paddingLeft: '10px' }}>{title}</span>
         </div>
         <div style={{ paddingTop: '5px' }}>
           <input type="image" src={Cross} className={styles.button} onClick={closeSuccessHeader} />

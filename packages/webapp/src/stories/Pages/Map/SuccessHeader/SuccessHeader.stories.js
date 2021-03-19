@@ -13,6 +13,7 @@ const Template = (args) => <PureMapSuccessHeader {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   closeSuccessHeader: () => {},
+  title: 'Farm site boundary successfully saved',
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

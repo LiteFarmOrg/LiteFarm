@@ -11,11 +11,13 @@ const axios = require('axios');
 export const postGateLocation = createAction(`postGateLocationSaga`);
 
 export function* postGateLocationSaga({ payload: data }) {
+  const formData = data.form.formData;
+  const message = data.message;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  data.formData.farm_id = farm_id;
+  formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromGate(data.formData);
+  const locationObject = getLocationObjectFromGate(formData);
 
   try {
     const result = yield call(
@@ -26,7 +28,7 @@ export function* postGateLocationSaga({ payload: data }) {
     );
     yield put(postGateSuccess(result.data));
     yield put(resetLocationData());
-    history.push({ pathname: '/map', state: true });
+    history.push({ pathname: '/map', state: message });
   } catch (e) {
     console.log(e);
   }

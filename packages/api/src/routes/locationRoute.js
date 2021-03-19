@@ -49,8 +49,8 @@ router.post('/ceremonial_area', hasFarmAccess({ body: 'farm_id' }), checkScope([
 router.post('/residence', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:residence']),
   modelMapping['residence'], createLocation('residence'));
 
-router.post('/ground_water', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:ground_water']),
-  modelMapping['ground_water'], createLocation('ground_water'));
+router.post('/surface_water', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:surface_water']),
+  modelMapping['surface_water'], createLocation('surface_water'));
 
 router.post('/natural_area', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:natural_area']),
   modelMapping['natural_area'], createLocation('natural_area'));
@@ -64,12 +64,18 @@ router.post('/barn', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:barn']
 router.post('/field', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:fields']),
   modelMapping['field'], createLocation('field'));
 
+router.post('/garden', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:garden']),
+  modelMapping['garden'], createLocation('garden'));
+
 router.post('/farm_site_boundary', hasFarmAccess({ body: 'farm_id' }), checkScope(['add:farm_site_boundary']),
   modelMapping['farm_site_boundary'], createLocation('farm_site_boundary'));
 
 
 router.put('/field/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:fields']),
   modelMapping['field'], updateLocation('field'));
+
+router.put('/garden/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:garden']),
+  modelMapping['garden'], updateLocation('garden'));
 
 router.put('/barn/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:barn']),
   modelMapping['barn'], updateLocation('barn'));
@@ -95,8 +101,8 @@ router.put('/ceremonial_area/:location_id', hasFarmAccess({ params: 'location_id
 router.put('/residence/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:residence']),
   modelMapping['residence'], updateLocation('residence'));
 
-router.put('/ground_water/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:ground_water']),
-  modelMapping['ground_water'], updateLocation('ground_water'));
+router.put('/surface_water/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:surface_water']),
+  modelMapping['surface_water'], updateLocation('surface_water'));
 
 router.put('/natural_area/:location_id', hasFarmAccess({ params: 'location_id' }), checkScope(['edit:natural_area']),
   modelMapping['natural_area'], updateLocation('natural_area'));

@@ -105,6 +105,7 @@ const FarmSiteBoundary = React.lazy(() =>
   import('./containers/AreaDetailsLayout/FarmSiteBoundaryDetailForm'),
 );
 const AreaDetailsField = React.lazy(() => import('./containers/AreaDetailsLayout/FieldDetailForm'));
+const Garden = React.lazy(() => import('./containers/AreaDetailsLayout/GardenDetailForm'));
 const Gate = React.lazy(() => import('./containers/PointDetailsLayout/GateDetailForm'));
 const WaterValve = React.lazy(() => import('./containers/PointDetailsLayout/WaterValveDetailForm'));
 
@@ -198,6 +199,7 @@ const Routes = () => {
             <Route path="/edit_shift_one" exact component={EditShiftOne} />
             <Route path="/edit_shift_two" exact component={EditShiftTwo} />
             <Route path="/field" exact component={Field} />
+            <Route path="/create_location/garden" exact component={Garden} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
             <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
@@ -292,6 +294,7 @@ const Routes = () => {
             <Route path="/edit_shift_one" exact component={EditShiftOne} />
             <Route path="/edit_shift_two" exact component={EditShiftTwo} />
             <Route path="/field" exact component={Field} />
+            <Route path="/create_location/garden" exact component={Garden} />
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
             <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
@@ -355,6 +358,7 @@ const Routes = () => {
             <Route path="/intro" exact component={IntroSlide} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/field" exact component={Field} />
+            <Route path="/create_location/garden" exact component={Garden} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/map" exact component={Map} />
             <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />

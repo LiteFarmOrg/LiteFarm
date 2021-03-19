@@ -251,6 +251,11 @@ export const userFarmEntitiesSelector = createSelector(
   ({ byFarmIdUserId }) => byFarmIdUserId,
 );
 
+export const measurementSelector = createSelector(
+  userFarmSelector,
+  (userFarm) => userFarm.units.measurement,
+);
+
 const getUserFarmsByUser = (byFarmIdUserId, user_id) => {
   let userFarms = [];
   for (let by_user of Object.values(byFarmIdUserId)) {

@@ -8,7 +8,7 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }
   const { t } = useTranslation();
   return (
     <Layout buttonGroup={buttonGroup} classes={{ footer: { position: 'relative' } }}>
-      <Title style={{ marginTop: '12px' }}>
+      <Title style={{ marginTop: '12px', position: 'relative' }}>
         {onGoBack && (
           <img
             src={BackArrow}
@@ -22,7 +22,7 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }
             onClick={onCancel}
             style={{
               position: 'absolute',
-              right: 24,
+              right: 0,
               color: '#028577',
               fontWeight: 600,
               fontSize: '14px',

@@ -888,6 +888,10 @@
     "PREVIOUS_TEXT": "MISSING",
     "ROWS_TEXT": "MISSING"
   },
+  "UNIT": {
+    "INVALID_NUMBER": "MISSING",
+    "MAXIMUM": "MISSING"
+  },
   "WEATHER": {
     "HUMIDITY": "Umidade",
     "WIND": "Vento"

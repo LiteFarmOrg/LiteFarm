@@ -187,16 +187,16 @@ const Unit = ({
     console.log(e.target.value);
     if (isNaN(e.target.value)) {
       hookFormSetError(name, {
-        message: 'Invalid number',
+        message: t('UNIT.INVALID_NUMBER'),
       });
-    } else if (e.target.value === '') {
+    } else if (required && e.target.value === '') {
       hookFormSetError(name, {
-        message: 'Required',
+        message: t('common:REQUIRED'),
       });
     } else if (e.target.value > 1000000000) {
       hookFormSetError(name, {
         type: 'manual',
-        message: 'Maximum value exceeded',
+        message: t('UNIT.MAXIMUM'),
       });
     } else {
       inputOnChange({ target: { value: roundToTwoDecimal(e.target.value) } });

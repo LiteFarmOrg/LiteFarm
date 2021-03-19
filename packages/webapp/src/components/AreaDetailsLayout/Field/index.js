@@ -16,6 +16,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     errors,
     setValue,
     getValues,
+    setError,
     control,
     formState: { isValid, isDirty },
   } = useForm({
@@ -46,6 +47,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      setError={setError}
       control={control}
       showPerimeter={true}
       errors={errors}

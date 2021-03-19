@@ -83,7 +83,7 @@ const reactSelectStyles = {
   valueContainer: (provided, state) => ({
     ...provided,
     padding: '0',
-    width: '40px',
+    width: '41px',
   }),
   singleValue: () => ({
     fontSize: '16px',
@@ -92,7 +92,7 @@ const reactSelectStyles = {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '44px',
+    width: '50px',
     overflowX: 'hidden',
     textAlign: 'center',
     position: 'absolute',
@@ -109,7 +109,7 @@ const reactSelectStyles = {
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
-    padding: ' 14px 0 12px 0',
+    padding: ' 14px 4px 12px 0',
   }),
 };
 const Unit = ({
@@ -125,6 +125,7 @@ const Unit = ({
   displayUnitName,
   hookFormSetValue,
   hookFormGetValue,
+  hookFormSetError,
   defaultValue,
   system,
   control,
@@ -137,6 +138,7 @@ const Unit = ({
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
     hookFormSetValue(name, undefined, { shouldValidate: true });
+    setVisibleInputValue('');
     setShowError(false);
   };
 
@@ -183,13 +185,18 @@ const Unit = ({
 
   const inputOnBlur = (e) => {
     if (isNaN(e.target.value)) {
-      setVisibleInputValue(0);
-      hookFormSetValue(name, 0, {
-        shouldValidate: true,
-        shouldDirty: true,
+      hookFormSetError(name, {
+        message: t('UNIT.INVALID_NUMBER'),
+      });
+    } else if (required && e.target.value === '') {
+      hookFormSetError(name, {
+        message: t('common:REQUIRED'),
       });
     } else if (e.target.value > 1000000000) {
-      inputOnChange({ target: { value: 1000000000 } });
+      hookFormSetError(name, {
+        type: 'manual',
+        message: t('UNIT.MAXIMUM'),
+      });
     } else {
       inputOnChange({ target: { value: roundToTwoDecimal(e.target.value) } });
     }
@@ -219,15 +226,21 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: 'translate(-17px, 13px)',
+            transform: 'translate(-61px, 23px)',
+            lineHeight: '40px',
             cursor: 'pointer',
+            zIndex: 1,
+            width: '37px',
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: 'white',
           }}
         />
       )}
       <div className={styles.inputContainer}>
         <input
           disabled={disabled}
-          className={clsx(styles.input)}
+          className={clsx(styles.input, errors)}
           style={{ ...classes.input }}
           aria-invalid={showError ? 'true' : 'false'}
           type={'number'}
@@ -269,7 +282,11 @@ const Unit = ({
         defaultValue={defaultValue}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
-      {showError ? <Error style={classes.errors}>{errors}</Error> : null}
+      {showError ? (
+        <div style={{ position: 'relative', height: '20px' }}>
+          <Error style={{ position: 'absolute', ...classes.errors }}>{errors?.message}</Error>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -289,6 +306,8 @@ Unit.propTypes = {
   }),
   style: PropTypes.object,
   hookFormSetValue: PropTypes.func,
+  hookFormGetValue: PropTypes.func,
+  hookFormSetError: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']),
   // unitType: PropTypes.oneOf(['area', 'distance', 'mass', 'seedAmount']),

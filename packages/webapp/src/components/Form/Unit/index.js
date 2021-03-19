@@ -258,8 +258,8 @@ const Unit = ({
             />
           )}
         />
-        <div className={clsx(styles.pseudoInputContainer, styles.inputError)}>
-          <div className={clsx(styles.verticleDivider, styles.inputError)} />
+        <div className={clsx(styles.pseudoInputContainer, errors && styles.inputError)}>
+          <div className={clsx(styles.verticleDivider, errors && styles.inputError)} />
         </div>
       </div>
       <input

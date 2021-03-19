@@ -112,6 +112,15 @@
       "TITLE": "MISSING",
       "TRANSITIONING": "MISSING"
     },
+    "GARDEN": {
+      "DATE": "MISSING",
+      "GARDEN_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
+    },
     "GATE": {
       "NAME": "MISSING",
       "TITLE": "MISSING"
@@ -126,9 +135,9 @@
       "FENCE": "MISSING",
       "FIELD": "MISSING",
       "FSB": "MISSING",
+      "GARDEN": "MISSING",
       "GATE": "MISSING",
       "GREENHOUSE": "MISSING",
-      "GROUNDWATER": "MISSING",
       "HIDE_ALL": "MISSING",
       "LINES": "MISSING",
       "NA": "MISSING",
@@ -136,6 +145,7 @@
       "RESIDENCE": "MISSING",
       "SATELLITE": "MISSING",
       "SHOW_ALL": "MISSING",
+      "SURFACE_WATER": "MISSING",
       "TITLE": "MISSING",
       "WV": "MISSING"
     },

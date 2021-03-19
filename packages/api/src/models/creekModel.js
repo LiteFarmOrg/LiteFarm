@@ -33,6 +33,7 @@ class Creek extends Model {
         used_for_irrigation: { type: 'boolean' },
         includes_riparian_buffer: { type: 'boolean' },
         buffer_width: { type: 'number' },
+        buffer_width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
       },
       additionalProperties: false,
     };

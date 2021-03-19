@@ -4,7 +4,7 @@ import { ceremonialsSelector, ceremonialStatusSelector } from './ceremonialSlice
 import { farmSiteBoundarysSelector, farmSiteBoundaryStatusSelector } from './farmSiteBoundarySlice';
 import { fieldsSelector, fieldStatusSelector } from './fieldSlice';
 import { greenhousesSelector, greenhouseStatusSelector } from './greenhouseSlice';
-import { groundwatersSelector, groundwaterStatusSelector } from './groundwaterSlice';
+import { surfaceWatersSelector, surfaceWaterStatusSelector } from './surfaceWaterSlice';
 import { naturalAreasSelector, naturalAreaStatusSelector } from './naturalAreaSlice';
 import { residencesSelector, residenceStatusSelector } from './residenceSlice';
 import { locationEnum } from './Map/constants';
@@ -13,6 +13,7 @@ import { creeksSelector, creekStatusSelector } from './creekSlice';
 import { fencesSelector, fenceStatusSelector } from './fenceSlice';
 import { gatesSelector, gateStatusSelector } from './gateSlice';
 import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
+import { gardensSelector } from './gardenSlice';
 
 export const areaSelector = createSelector(
   [
@@ -20,8 +21,9 @@ export const areaSelector = createSelector(
     ceremonialsSelector,
     farmSiteBoundarysSelector,
     fieldsSelector,
+    gardensSelector,
     greenhousesSelector,
-    groundwatersSelector,
+    surfaceWatersSelector,
     naturalAreasSelector,
     residencesSelector,
   ],
@@ -30,8 +32,9 @@ export const areaSelector = createSelector(
     ceremonials,
     farmSiteBoundaries,
     fields,
+    gardens,
     greenhouses,
-    groundwaters,
+    surfaceWaters,
     naturalAreas,
     residences,
   ) => {
@@ -40,8 +43,9 @@ export const areaSelector = createSelector(
     result[locationEnum.ceremonial_area] = ceremonials;
     result[locationEnum.farm_site_boundary] = farmSiteBoundaries;
     result[locationEnum.field] = fields;
+    result[locationEnum.garden] = gardens;
     result[locationEnum.greenhouse] = greenhouses;
-    result[locationEnum.ground_water] = groundwaters;
+    result[locationEnum.surface_water] = surfaceWaters;
     result[locationEnum.natural_area] = naturalAreas;
     result[locationEnum.residence] = residences;
     return result;
@@ -54,7 +58,7 @@ export const areaStatusSelector = createSelector(
     farmSiteBoundaryStatusSelector,
     fieldStatusSelector,
     greenhouseStatusSelector,
-    groundwaterStatusSelector,
+    surfaceWaterStatusSelector,
     naturalAreaStatusSelector,
     residenceStatusSelector,
   ],
@@ -64,7 +68,7 @@ export const areaStatusSelector = createSelector(
     farmSiteBoundarieStatus,
     fieldStatus,
     greenhouseStatus,
-    groundwaterStatus,
+    surfaceWaterStatus,
     naturalAreaStatus,
     residenceStatus,
   ) => {
@@ -75,7 +79,7 @@ export const areaStatusSelector = createSelector(
         farmSiteBoundarieStatus.loading ||
         fieldStatus.loading ||
         greenhouseStatus.loading ||
-        groundwaterStatus.loading ||
+        surfaceWaterStatus.loading ||
         naturalAreaStatus.loading ||
         residenceStatus.loading,
       loaded:
@@ -84,7 +88,7 @@ export const areaStatusSelector = createSelector(
         farmSiteBoundarieStatus.loaded &&
         fieldStatus.loaded &&
         greenhouseStatus.loaded &&
-        groundwaterStatus.loaded &&
+        surfaceWaterStatus.loaded &&
         naturalAreaStatus.loaded &&
         residenceStatus.loaded,
       error:
@@ -93,7 +97,7 @@ export const areaStatusSelector = createSelector(
         farmSiteBoundarieStatus.error ||
         fieldStatus.error ||
         greenhouseStatus.error ||
-        groundwaterStatus.error ||
+        surfaceWaterStatus.error ||
         naturalAreaStatus.error ||
         residenceStatus.error,
     };

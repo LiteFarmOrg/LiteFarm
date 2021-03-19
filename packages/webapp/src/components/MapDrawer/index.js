@@ -9,8 +9,9 @@ import { ReactComponent as Barn } from '../../assets/images/farmMapFilter/Barn.s
 import { ReactComponent as CeremonialArea } from '../../assets/images/farmMapFilter/CA.svg';
 import { ReactComponent as FarmSiteBoundary } from '../../assets/images/farmMapFilter/FSB.svg';
 import { ReactComponent as Field } from '../../assets/images/farmMapFilter/Field.svg';
+import { ReactComponent as Garden } from '../../assets/images/farmMapFilter/Garden.svg';
 import { ReactComponent as Greenhouse } from '../../assets/images/farmMapFilter/Greenhouse.svg';
-import { ReactComponent as Groundwater } from '../../assets/images/farmMapFilter/Groundwater.svg';
+import { ReactComponent as SurfaceWater } from '../../assets/images/farmMapFilter/SurfaceWater.svg';
 import { ReactComponent as NaturalArea } from '../../assets/images/farmMapFilter/NA.svg';
 import { ReactComponent as Residence } from '../../assets/images/farmMapFilter/Residence.svg';
 import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/BufferZone.svg';
@@ -128,14 +129,19 @@ export default function MapDrawer({
       key: locationEnum.field,
     },
     {
+      name: t('FARM_MAP.MAP_FILTER.GARDEN'),
+      icon: () => <Garden className={classes.icon} />,
+      key: locationEnum.garden,
+    },
+    {
       name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'),
       icon: () => <Greenhouse className={classes.icon} />,
       key: locationEnum.greenhouse,
     },
     {
-      name: t('FARM_MAP.MAP_FILTER.GROUNDWATER'),
-      icon: () => <Groundwater className={classes.icon} />,
-      key: locationEnum.ground_water,
+      name: t('FARM_MAP.MAP_FILTER.SURFACE_WATER'),
+      icon: () => <SurfaceWater className={classes.icon} />,
+      key: locationEnum.surface_water,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.NA'),

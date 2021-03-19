@@ -112,6 +112,15 @@
       "TITLE": "Add field",
       "TRANSITIONING": "Transitioning"
     },
+    "GARDEN": {
+      "DATE": "Eligible transition date",
+      "GARDEN_TYPE": "What type of garden is this?",
+      "NAME": "Garden",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TITLE": "Add garden",
+      "TRANSITIONING": "Transitioning"
+    },
     "GATE": {
       "NAME": "Gate",
       "TITLE": "Add gate"
@@ -126,9 +135,9 @@
       "FENCE": "Fence",
       "FIELD": "Field",
       "FSB": "Farm site boundary",
+      "GARDEN": "Garden",
       "GATE": "Gate",
       "GREENHOUSE": "Greenhouse",
-      "GROUNDWATER": "Groundwater",
       "HIDE_ALL": "Hide all",
       "LINES": "Lines",
       "NA": "Natural area",
@@ -136,6 +145,7 @@
       "RESIDENCE": "Residence",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
+      "SURFACE_WATER": "Surface water",
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
@@ -169,7 +179,7 @@
       }
     },
     "WATER_VALVE": {
-      "GROUNDWATER": "Groundwater",
+      "GROUNDWATER": "SurfaceWater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
       "NAME": "Water valve",

@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
- *  This file (harvestLogModel.js) is part of LiteFarm.
+ *  This file (gardenModel.js) is part of LiteFarm.
  *
  *  LiteFarm is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,37 +15,36 @@
 
 const Model = require('objection').Model;
 
-class Line extends Model {
+class Garden extends Model {
   static get tableName() {
-    return 'line';
+    return 'garden';
   }
 
   static get idColumn() {
-    return 'figure_id';
+    return 'location_id';
   }
 
+  // Optional JSON schema. This is not the database schema! Nothing is generated
+  // based on this. This is only used for validation. Whenever a model instance
+  // is created it is checked against this schema. http://json-schema.org/.
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['line_points', 'length', 'width'],
-
+      required: ['location_id'],
       properties: {
-        figure_id: { type: 'string' },
-        line_points: {
-          type: 'array',
-          properties: {
-            lat: { type: 'number' },
-            lng: { type: 'number' },
-          },
-        },
-        length: { type: 'number' },
-        length_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
-        width: { type: 'number' },
-        width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
+        location_id: { type: 'string' },
+        organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
+        station_id: { type: 'number' },
+        transition_date: { type: 'date' },
       },
       additionalProperties: false,
     };
   }
+
+  static get relationMappings() {
+    // Import models here to prevent require loops.
+    return {};
+  }
 }
 
-module.exports = Line;
+module.exports = Garden;

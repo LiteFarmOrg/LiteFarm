@@ -5,10 +5,11 @@ import {
   farmBoundColour,
   fenceColour,
   fieldColour,
+  gardenColour,
   greenhouseColour,
-  groundwaterColour,
   naturalAreaColour,
   residenceColour,
+  surfaceWaterColour,
 } from './styles.module.scss';
 import waterValve from '../../assets/images/map/water-valve.png';
 import waterValveHover from '../../assets/images/map/water-valve-hover.png';
@@ -40,14 +41,19 @@ export const areaStyles = {
     dashLength: '6px',
     filledColour: true,
   },
+  garden: {
+    colour: gardenColour,
+    dashScale: 1,
+    dashLength: '6px',
+  },
   greenhouse: {
     colour: greenhouseColour,
     dashScale: 1,
     dashLength: '8px',
     filledColour: true,
   },
-  ground_water: {
-    colour: groundwaterColour,
+  surface_water: {
+    colour: surfaceWaterColour,
     dashScale: 0.7,
     dashLength: '6px',
     filledColour: true,

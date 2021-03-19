@@ -5,10 +5,11 @@ import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
 
 const initialState = {
   field: true,
+  garden: true,
   barn: true,
   ceremonial_area: true,
   greenhouse: true,
-  ground_water: true,
+  surface_water: true,
   natural_area: true,
   residence: true,
   buffer_zone: true,

@@ -29,7 +29,7 @@ export function* postWaterValveLocationSaga({ payload: data }) {
     yield put(postWaterValveSuccess(result.data));
     yield put(resetLocationData());
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_POST')]),
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.WV'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
     yield put(showSuccessHeader(true));
     history.push({ pathname: '/map' });

@@ -199,7 +199,7 @@
         "ESTIMATED_PRODUCTION": "Produção Estimada",
         "ESTIMATED_REVENUE": "Receita Estimada",
         "ESTIMATED_YIELD_PLACEHOLDER": "Rendimento Estimado",
-        "FIELD_SIZE": "tamanho do campo",
+        "FIELD_SIZE": "Tamanho do campo",
         "GENUS": "Gênero",
         "HOW_MUCH_FIELD": "Quanto do campo você deseja usar?",
         "NEW_CROP": "MISSING",
@@ -875,7 +875,7 @@
   },
   "SWITCH_OUTRO": {
     "BUTTON": "Vamos Lá!",
-    "DESCRIPTION_BOTTOM": " suas informações foram salvas com sucesso.",
+    "DESCRIPTION_BOTTOM": "suas informações foram salvas com sucesso.",
     "DESCRIPTION_TOP": "A porteira foi trancada,",
     "TITLE": "Mudar de sítio/fazenda"
   },

@@ -10,9 +10,15 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
-import { setLocationData } from '../mapSlice';
+import {
+  setLocationData,
+  setSuccessMessageSelector,
+  setShowSuccessHeaderSelector,
+  canShowSuccessHeader,
+} from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
+import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import CustomZoom from '../../components/Map/CustomZoom';
@@ -40,8 +46,10 @@ export default function Map({ history }) {
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const showHeader = useSelector(setShowSuccessHeaderSelector);
+  const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
+  const successMessage = useSelector(setSuccessMessageSelector);
 
   const [
     drawingState,
@@ -58,6 +66,10 @@ export default function Map({ history }) {
 
   useEffect(() => {
     dispatch(getLocations());
+  }, []);
+
+  useEffect(() => {
+    if (showHeader) setShowSuccessHeader(true);
   }, []);
 
   const getMapOptions = (maps) => {
@@ -222,6 +234,11 @@ export default function Map({ history }) {
     console.log('show video clicked');
   };
 
+  const handleCloseSuccessHeader = () => {
+    dispatch(canShowSuccessHeader(false));
+    setShowSuccessHeader(false);
+  };
+
   const handleDownload = () => {
     html2canvas(mapWrapperRef.current, { useCORS: true }).then((canvas) => {
       const link = document.createElement('a');
@@ -240,11 +257,18 @@ export default function Map({ history }) {
 
   return (
     <>
-      {!showMapFilter && !showAddDrawer && !drawingState.type && (
+      {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
         <PureMapHeader
           className={styles.mapHeader}
           farmName={farm_name}
           showVideo={handleShowVideo}
+        />
+      )}
+      {showSuccessHeader && (
+        <PureMapSuccessHeader
+          className={styles.mapHeader}
+          closeSuccessHeader={handleCloseSuccessHeader}
+          title={successMessage}
         />
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>

@@ -10,7 +10,11 @@ import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFar
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
-import { setLocationData } from '../mapSlice';
+import {
+  setLocationData,
+  setSuccessMessageSelector,
+  setShowSuccessHeaderSelector,
+} from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
@@ -41,8 +45,10 @@ export default function Map({ history }) {
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const showHeader = useSelector(setShowSuccessHeaderSelector);
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
+  const successMessage = useSelector(setSuccessMessageSelector);
 
   const [
     drawingState,
@@ -62,7 +68,7 @@ export default function Map({ history }) {
   }, []);
 
   useEffect(() => {
-    if (history.location.state) setShowSuccessHeader(true);
+    if (showHeader) setShowSuccessHeader(true);
   }, []);
 
   const getMapOptions = (maps) => {
@@ -260,7 +266,7 @@ export default function Map({ history }) {
         <PureMapSuccessHeader
           className={styles.mapHeader}
           closeSuccessHeader={handleCloseSuccessHeader}
-          title={history.location.state}
+          title={successMessage}
         />
       )}
       <div className={styles.pageWrapper} style={{ height: windowInnerHeight }}>

@@ -10,8 +10,7 @@ function GateDetailForm({ history }) {
   const { t } = useTranslation();
 
   const submitForm = (data) => {
-    const message = `${t('FARM_MAP.MAP_FILTER.GATE')}${t('message:MAP.SUCCESS_POST')}`;
-    dispatch(postGateLocation({ form: data, message: message }));
+    dispatch(postGateLocation(data));
   };
 
   return <PureGate history={history} submitForm={submitForm} pointType={gateEnum} />;

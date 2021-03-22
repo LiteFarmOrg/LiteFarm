@@ -5,14 +5,14 @@ import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromWaterValve, postWaterValveSuccess } from '../../waterValveSlice';
 import history from '../../../history';
-import { resetLocationData } from '../../mapSlice';
+import { resetLocationData, setSuccessMessage, showSuccessHeader } from '../../mapSlice';
+import i18n from '../../../locales/i18n';
 
 const axios = require('axios');
 export const postWaterValveLocation = createAction(`postWaterValveLocationSaga`);
 
 export function* postWaterValveLocationSaga({ payload: data }) {
-  const formData = data.form.formData;
-  const message = data.message;
+  const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
@@ -28,7 +28,11 @@ export function* postWaterValveLocationSaga({ payload: data }) {
     );
     yield put(postWaterValveSuccess(result.data));
     yield put(resetLocationData());
-    history.push({ pathname: '/map', state: message });
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_POST')]),
+    );
+    yield put(showSuccessHeader(true));
+    history.push({ pathname: '/map' });
   } catch (e) {
     console.log(e);
   }

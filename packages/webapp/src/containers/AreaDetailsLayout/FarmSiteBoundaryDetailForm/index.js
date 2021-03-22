@@ -10,6 +10,7 @@ function FarmSiteBoundaryDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
+
   const submitForm = (data) => {
     dispatch(postFarmSiteLocation(data));
   };

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
   successMessage: null,
-  showSuccessHeader: false,
+  canShowSuccessHeader: false,
 };
 
 const mapLocationReducer = createSlice({
@@ -15,8 +15,8 @@ const mapLocationReducer = createSlice({
     setSuccessMessage: (state, { payload: [locationType, action] }) => {
       state.successMessage = `${locationType}${action}`;
     },
-    showSuccessHeader: (state, { payload: showHeader }) => {
-      state.showSuccessHeader = showHeader;
+    canShowSuccessHeader: (state, { payload: showHeader }) => {
+      state.canShowSuccessHeader = showHeader;
     },
     resetLocationData: (state) => initialState,
   },
@@ -25,7 +25,7 @@ const mapLocationReducer = createSlice({
 export const {
   setLocationData,
   setSuccessMessage,
-  showSuccessHeader,
+  canShowSuccessHeader,
   resetLocationData,
 } = mapLocationReducer.actions;
 export default mapLocationReducer.reducer;
@@ -33,4 +33,4 @@ export const locationInfoSelector = (state) => state?.tempStateReducer[mapLocati
 export const setSuccessMessageSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].successMessage;
 export const setShowSuccessHeaderSelector = (state) =>
-  state?.tempStateReducer[mapLocationReducer.name].showSuccessHeader;
+  state?.tempStateReducer[mapLocationReducer.name].canShowSuccessHeader;

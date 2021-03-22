@@ -4,7 +4,7 @@ import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromField, postFieldSuccess } from '../../fieldSlice';
-import { resetLocationData, setSuccessMessage, showSuccessHeader } from '../../mapSlice';
+import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
 
@@ -31,7 +31,7 @@ export function* postFieldLocationSaga({ payload: data }) {
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FIELD'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
-    yield put(showSuccessHeader(true));
+    yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
     console.log(e);

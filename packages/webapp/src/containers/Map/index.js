@@ -14,6 +14,7 @@ import {
   setLocationData,
   setSuccessMessageSelector,
   setShowSuccessHeaderSelector,
+  canShowSuccessHeader,
 } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
@@ -234,6 +235,7 @@ export default function Map({ history }) {
   };
 
   const handleCloseSuccessHeader = () => {
+    dispatch(canShowSuccessHeader(false));
     setShowSuccessHeader(false);
   };
 

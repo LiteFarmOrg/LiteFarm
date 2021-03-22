@@ -5,7 +5,7 @@ import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromGate, postGateSuccess } from '../../gateSlice';
 import history from '../../../history';
-import { resetLocationData, setSuccessMessage, showSuccessHeader } from '../../mapSlice';
+import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 
 const axios = require('axios');
@@ -31,7 +31,7 @@ export function* postGateLocationSaga({ payload: data }) {
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_POST')]),
     );
-    yield put(showSuccessHeader(true));
+    yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
     console.log(e);

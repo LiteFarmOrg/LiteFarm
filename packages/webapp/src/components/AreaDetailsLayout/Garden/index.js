@@ -20,7 +20,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
     control,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);

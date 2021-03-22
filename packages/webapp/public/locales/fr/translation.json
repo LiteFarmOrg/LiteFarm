@@ -125,6 +125,29 @@
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
+    "BARN": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WASH_PACK": "MISSING",
+      "COLD_STORAGE": "MISSING"
+    },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "SURFACE_WATER": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "IRRIGATION": "MISSING"
+    },
+    "RESIDENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",

@@ -1,20 +1,19 @@
 import React from 'react';
-import PureGarden from '../../../components/AreaDetailsLayout/Garden';
-import { postGardenLocation } from './saga';
+import PureResidence from '../../../components/AreaDetailsLayout/Residence';
+// import { postFarmSiteLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
-function GardenDetailForm({ history }) {
+function ResidenceDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
-    dispatch(postGardenLocation(data));
+    // dispatch(postFarmSiteLocation(data));
   };
-
   return (
-    <PureGarden
+    <PureResidence
       history={history}
       submitForm={submitForm}
       system={system}
@@ -23,4 +22,4 @@ function GardenDetailForm({ history }) {
   );
 }
 
-export default GardenDetailForm;
+export default ResidenceDetailForm;

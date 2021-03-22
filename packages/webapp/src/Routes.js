@@ -108,6 +108,17 @@ const AreaDetailsField = React.lazy(() => import('./containers/AreaDetailsLayout
 const Garden = React.lazy(() => import('./containers/AreaDetailsLayout/GardenDetailForm'));
 const Gate = React.lazy(() => import('./containers/PointDetailsLayout/GateDetailForm'));
 const WaterValve = React.lazy(() => import('./containers/PointDetailsLayout/WaterValveDetailForm'));
+const Barn = React.lazy(() => import('./containers/AreaDetailsLayout/BarnDetailForm'));
+const NaturalArea = React.lazy(() =>
+  import('./containers/AreaDetailsLayout/NaturalAreaDetailForm'),
+);
+const SurfaceWater = React.lazy(() =>
+  import('./containers/AreaDetailsLayout/SurfaceWaterDetailForm'),
+);
+const Residence = React.lazy(() => import('./containers/AreaDetailsLayout/ResidenceDetailForm'));
+const CeremonialArea = React.lazy(() =>
+  import('./containers/AreaDetailsLayout/CeremonialAreaDetailForm'),
+);
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -203,6 +214,11 @@ const Routes = () => {
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
             <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/barn" exact component={Barn} />
+            <Route path="/create_location/natural_area" exact component={NaturalArea} />
+            <Route path="/create_location/surface_water" exact component={SurfaceWater} />
+            <Route path="/create_location/residence" exact component={Residence} />
+            <Route path="/create_location/ceremonial_area" exact component={CeremonialArea} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
@@ -298,6 +314,11 @@ const Routes = () => {
             <Route path="/new_field" exact component={NewField} />
             <Route path="/map" exact component={Map} />
             <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
+            <Route path="/create_location/barn" exact component={Barn} />
+            <Route path="/create_location/natural_area" exact component={NaturalArea} />
+            <Route path="/create_location/surface_water" exact component={SurfaceWater} />
+            <Route path="/create_location/residence" exact component={Residence} />
+            <Route path="/create_location/ceremonial_area" exact component={CeremonialArea} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
@@ -358,13 +379,8 @@ const Routes = () => {
             <Route path="/intro" exact component={IntroSlide} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/field" exact component={Field} />
-            <Route path="/create_location/garden" exact component={Garden} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/map" exact component={Map} />
-            <Route path="/create_location/farm_site_boundary" exact component={FarmSiteBoundary} />
-            <Route path="/create_location/field" exact component={AreaDetailsField} />
-            <Route path="/create_location/gate" exact component={Gate} />
-            <Route path="/create_location/water_valve" exact component={WaterValve} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
             <Route path="/fertilizing_log" exact component={FertilizingLog} />

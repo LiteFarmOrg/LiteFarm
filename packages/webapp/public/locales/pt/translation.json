@@ -125,6 +125,29 @@
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
+    "BARN": {
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?",
+      "COLD_STORAGE": "Does this barn have cold storage?"
+    },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "SURFACE_WATER": {
+      "NAME": "Surface water",
+      "TITLE": "Add surface water",
+      "IRRIGATION": "Is this area used for irrigation?"
+    },
+    "RESIDENCE": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "Areas",

@@ -125,6 +125,29 @@
       "NAME": "Puerta",
       "TITLE": "Agregar puerta"
     },
+    "BARN": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WASH_PACK": "MISSING",
+      "COLD_STORAGE": "MISSING"
+    },
+    "NATURAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "SURFACE_WATER": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "IRRIGATION": "MISSING"
+    },
+    "RESIDENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",

@@ -134,7 +134,7 @@ export default function Map({ history }) {
       });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
-      finishDrawing(drawing);
+      finishDrawing(drawing, maps, map);
       this.setDrawingMode();
     });
     initDrawingState(map, maps, drawingManagerInit, {

@@ -60,9 +60,9 @@ export default function PointDetailsLayout({
         label={name + ' name'}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={inputName}
+        name={gateEnum.name}
         inputRef={register({ required: true })}
-        errors={errors[inputName] && t('common:REQUIRED')}
+        errors={errors[gateEnum.name] && t('common:REQUIRED')}
       />
 
       {children}

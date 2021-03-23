@@ -148,6 +148,18 @@
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
+    "GREENHOUSE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "DATE": "MISSING",
+      "GREENHOUSE_TYPE": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TRANSITIONING": "MISSING",
+      "SUPPLEMENTAL_LIGHTING": "MISSING",
+      "CO2_ENRICHMENT": "MISSING",
+      "GREENHOUSE_HEATED": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",

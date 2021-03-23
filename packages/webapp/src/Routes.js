@@ -119,6 +119,7 @@ const Residence = React.lazy(() => import('./containers/AreaDetailsLayout/Reside
 const CeremonialArea = React.lazy(() =>
   import('./containers/AreaDetailsLayout/CeremonialAreaDetailForm'),
 );
+const Greenhouse = React.lazy(() => import('./containers/AreaDetailsLayout/GreenhouseDetailForm'));
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -219,6 +220,7 @@ const Routes = () => {
             <Route path="/create_location/surface_water" exact component={SurfaceWater} />
             <Route path="/create_location/residence" exact component={Residence} />
             <Route path="/create_location/ceremonial_area" exact component={CeremonialArea} />
+            <Route path="/create_location/greenhouse" exact component={Greenhouse} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
@@ -319,6 +321,7 @@ const Routes = () => {
             <Route path="/create_location/surface_water" exact component={SurfaceWater} />
             <Route path="/create_location/residence" exact component={Residence} />
             <Route path="/create_location/ceremonial_area" exact component={CeremonialArea} />
+            <Route path="/create_location/greenhouse" exact component={Greenhouse} />
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />

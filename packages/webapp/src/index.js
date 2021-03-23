@@ -36,6 +36,7 @@ import waterValveSaga from './containers/PointDetailsLayout/WaterValveDetailForm
 import naturalAreaSaga from './containers/AreaDetailsLayout/NaturalAreaDetailForm/saga';
 import barnSaga from './containers/AreaDetailsLayout/BarnDetailForm/saga';
 import surfaceWaterSaga from './containers/AreaDetailsLayout/SurfaceWaterDetailForm/saga';
+import greenhouseSaga from './containers/AreaDetailsLayout/GreenhouseDetailForm/saga';
 import ceremonialSaga from './containers/AreaDetailsLayout/CeremonialAreaDetailForm/saga';
 import residenceSaga from './containers/AreaDetailsLayout/ResidenceDetailForm/saga';
 import farmSiteBoundarySaga from './containers/AreaDetailsLayout/FarmSiteBoundaryDetailForm/saga';
@@ -118,6 +119,7 @@ sagaMiddleware.run(gateSaga);
 sagaMiddleware.run(barnSaga);
 sagaMiddleware.run(surfaceWaterSaga);
 sagaMiddleware.run(naturalAreaSaga);
+sagaMiddleware.run(greenhouseSaga);
 sagaMiddleware.run(residenceSaga);
 sagaMiddleware.run(ceremonialSaga);
 sagaMiddleware.run(waterValveSaga);

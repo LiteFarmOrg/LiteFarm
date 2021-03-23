@@ -148,6 +148,18 @@
       "NAME": "Residence",
       "TITLE": "Add residence"
     },
+    "GREENHOUSE": {
+      "NAME": "Greenhouse",
+      "TITLE": "Add greenhouse",
+      "DATE": "Eligible transition date",
+      "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TRANSITIONING": "Transitioning",
+      "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",

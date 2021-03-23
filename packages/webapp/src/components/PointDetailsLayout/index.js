@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
+import { gateEnum } from '../../containers/gateSlice';
 
 export default function PointDetailsLayout({
   name,
-  pointType,
   title,
   submitForm,
   children,
@@ -15,6 +15,8 @@ export default function PointDetailsLayout({
   history,
   onError,
   register,
+  disabled,
+  errors,
 }) {
   const { t } = useTranslation();
   const [notes, setNotes] = useState('');
@@ -46,7 +48,7 @@ export default function PointDetailsLayout({
       style={{ flexGrow: 9, order: 2 }}
       buttonGroup={
         <>
-          <Button type={'submit'} fullLength>
+          <Button type={'submit'} disabled={disabled} fullLength>
             {t('common:SAVE')}
           </Button>
         </>
@@ -55,11 +57,10 @@ export default function PointDetailsLayout({
       <Input
         label={name + ' name'}
         type="text"
-        optional
         style={{ marginBottom: '40px' }}
-        hookFormSetValue={setValue}
-        name={pointType.name}
-        inputRef={register({ required: false })}
+        name={gateEnum.name}
+        inputRef={register({ required: true })}
+        errors={errors[gateEnum.name] && t('common:REQUIRED')}
       />
 
       {children}

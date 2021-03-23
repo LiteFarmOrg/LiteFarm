@@ -9,7 +9,7 @@ import { locationInfoSelector } from '../../mapSlice';
 function FieldDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { grid_points } = useSelector(locationInfoSelector);
+  const { area, perimeter, grid_points } = useSelector(locationInfoSelector);
 
   const submitForm = (data) => {
     dispatch(postFieldLocation(data));
@@ -22,6 +22,8 @@ function FieldDetailForm({ history }) {
       areaType={fieldEnum}
       system={system}
       grid_points={grid_points}
+      area={area}
+      perimeter={perimeter}
     />
   );
 }

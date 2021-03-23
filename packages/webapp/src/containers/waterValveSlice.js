@@ -14,6 +14,7 @@ export const waterValveEnum = {
   point: 'point',
   source: 'source',
   flow_rate: 'flow_rate',
+  flow_rate_unit: 'flow_rate_unit',
 };
 
 const waterValveProperties = ['source', 'flow_rate'];

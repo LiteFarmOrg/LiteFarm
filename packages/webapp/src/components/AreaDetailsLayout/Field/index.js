@@ -7,7 +7,7 @@ import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { fieldEnum } from '../../../containers/fieldSlice';
 
-export default function PureField({ history, submitForm, system, grid_points }) {
+export default function PureField({ history, submitForm, system, grid_points, area, perimeter }) {
   const { t } = useTranslation();
   const {
     register,
@@ -52,6 +52,8 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

@@ -1,18 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetails from '..';
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { locationInfoSelector } from '../../../containers/mapSlice';
 import Radio from '../../Form/Radio';
-import Input from '../../Form/Input';
+import Unit from '../../Form/Unit';
+import { waterValveEnum } from '../../../containers/waterValveSlice';
+import { water_valve_flow_rate } from '../../../util/unit';
 
-export default function PureWaterValve({ history, submitForm, pointType }) {
+export default function PureWaterValve({ history, submitForm, pointType, system, point }) {
   const { t } = useTranslation();
-  const { point } = useSelector(locationInfoSelector);
-  const { handleSubmit, setValue, register, watch } = useForm({
-    mode: 'onChange',
-  });
+
+  const { handleSubmit, setValue, register, watch, getValues, setError, control, errors } = useForm(
+    {
+      mode: 'onChange',
+    },
+  );
   const onError = (data) => {};
 
   const onSubmit = (data) => {
@@ -81,14 +83,20 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
             inputRef={register({ required: false })}
           />
         </div>
-        <Input
-          label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
-          type="number"
-          optional
-          style={{ marginBottom: '40px' }}
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1, paddingBottom: '40px' } }}
+          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+          name={waterValveEnum.flow_rate}
+          displayUnitName={waterValveEnum.flow_rate_unit}
+          errors={errors[waterValveEnum.flow_rate]}
+          unitType={water_valve_flow_rate}
+          system={system}
           hookFormSetValue={setValue}
-          name={pointType.flow_rate}
-          inputRef={register({ required: false })}
+          hookFormGetValue={getValues}
+          hookFormSetError={setError}
+          control={control}
+          required
         />
       </div>
     </PointDetails>

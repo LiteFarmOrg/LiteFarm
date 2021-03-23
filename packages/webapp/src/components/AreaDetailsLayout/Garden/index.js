@@ -18,6 +18,8 @@ export default function PureGarden({ history, submitForm, system, grid_points })
     getValues,
     setError,
     control,
+    area,
+    perimeter,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onTouched',
@@ -52,6 +54,8 @@ export default function PureGarden({ history, submitForm, system, grid_points })
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

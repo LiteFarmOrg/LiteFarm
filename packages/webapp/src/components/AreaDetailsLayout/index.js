@@ -3,12 +3,11 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { useSelector } from 'react-redux';
-import { locationInfoSelector } from '../../containers/mapSlice';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 import Unit from '../Form/Unit';
 import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
+import { area_perimeter, area_total_area } from '../../util/unit';
 
 export default function AreaDetailsLayout({
   name,
@@ -28,9 +27,10 @@ export default function AreaDetailsLayout({
   children,
   errors,
   system,
+  area,
+  perimeter,
 }) {
   const { t } = useTranslation();
-  const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
   const [notes, setNotes] = useState('');
   const [isOnline, setNetwork] = useState(window.navigator.onLine);
 
@@ -110,9 +110,9 @@ export default function AreaDetailsLayout({
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
           name={areaEnum.total_area}
           displayUnitName={areaEnum.total_area_unit}
-          defaultValue={defaultArea}
+          defaultValue={area}
           errors={errors[areaEnum.total_area]}
-          from={'m2'}
+          unitType={area_total_area}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
@@ -127,9 +127,9 @@ export default function AreaDetailsLayout({
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
             name={areaEnum.perimeter}
             displayUnitName={areaEnum.perimeter_unit}
-            defaultValue={defaultPerimeter}
+            defaultValue={perimeter}
             errors={errors[areaEnum.perimeter]}
-            from={'m'}
+            unitType={area_perimeter}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}

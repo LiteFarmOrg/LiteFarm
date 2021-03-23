@@ -140,11 +140,11 @@
       "TITLE": "Add surface water",
       "IRRIGATION": "Is this area used for irrigation?"
     },
-    "RESIDENCE": {
+    "CEREMONIAL_AREA": {
       "NAME": "Ceremonial area",
       "TITLE": "Add ceremonial area"
     },
-    "CEREMONIAL_AREA": {
+    "RESIDENCE": {
       "NAME": "Residence",
       "TITLE": "Add residence"
     },

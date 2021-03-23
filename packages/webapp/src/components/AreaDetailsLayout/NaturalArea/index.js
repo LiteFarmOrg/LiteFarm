@@ -2,14 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
-import { naturalAreaEnum } from '../../../containers/naturalAreaSlice';
 
 export default function PureNaturalArea({ history, submitForm, system, grid_points }) {
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     getValues,

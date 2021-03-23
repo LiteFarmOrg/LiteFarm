@@ -1,6 +1,6 @@
 import React from 'react';
 import PureResidence from '../../../components/AreaDetailsLayout/Residence';
-// import { postFarmSiteLocation } from './saga';
+import { postResidenceLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
@@ -10,7 +10,7 @@ function ResidenceDetailForm({ history }) {
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
-    // dispatch(postFarmSiteLocation(data));
+    dispatch(postResidenceLocation(data));
   };
   return (
     <PureResidence

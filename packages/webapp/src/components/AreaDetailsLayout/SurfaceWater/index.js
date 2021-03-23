@@ -22,12 +22,14 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
     mode: 'onChange',
   });
   const onError = (data) => {};
+  const irrigation = watch(surfaceWaterEnum.user_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
       ...data,
       grid_points: grid_points,
       type: 'surface_water',
+      used_for_irrigation: irrigation !== null ? irrigation === 'true' : null,
     };
     submitForm({ formData });
   };
@@ -47,7 +49,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
       getValues={getValues}
       setError={setError}
       control={control}
-      showPerimeter={false}
+      showPerimeter={true}
       errors={errors}
       system={system}
     >
@@ -64,8 +66,8 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             label={t('common:YES')}
             inputRef={register({ required: false })}
             optional
-            // value={'Non-Organic'}
-            // name={gardenEnum.organic_status}
+            value={'Yes'}
+            name={surfaceWaterEnum.user_for_irrigation}
           />
         </div>
         <div>
@@ -73,8 +75,8 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             style={{ marginBottom: '25px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
-            // value={'Organic'}
-            // name={gardenEnum.organic_status}
+            value={'No'}
+            name={surfaceWaterEnum.user_for_irrigation}
           />
         </div>
       </div>

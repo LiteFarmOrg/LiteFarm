@@ -58,7 +58,7 @@ export default function AreaDetailsLayout({
     data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
     showPerimeter
       ? (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value)
-      : (data[areaEnum.perimeter_unit] = null);
+      : (data.perimeter = defaultPerimeter);
     if (data.name === '') {
       data.name = 'Farm site boundary';
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import PureNaturalArea from '../../../components/AreaDetailsLayout/NaturalArea';
-// import { postFarmSiteLocation } from './saga';
+import { postNaturalAreaLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
@@ -10,7 +10,7 @@ function NauralAreaDetailForm({ history }) {
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
-    // dispatch(postFarmSiteLocation(data));
+    dispatch(postNaturalAreaLocation(data));
   };
   return (
     <PureNaturalArea

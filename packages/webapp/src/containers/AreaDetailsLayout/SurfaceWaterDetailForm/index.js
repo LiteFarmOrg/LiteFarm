@@ -1,6 +1,6 @@
 import React from 'react';
 import PureSurfaceWater from '../../../components/AreaDetailsLayout/SurfaceWater';
-// import { postGardenLocation } from './saga';
+import { postSurfaceWaterLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
@@ -10,7 +10,7 @@ function SurfaceWaterDetailForm({ history }) {
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
-    // dispatch(postGardenLocation(data));
+    dispatch(postSurfaceWaterLocation(data));
   };
 
   return (

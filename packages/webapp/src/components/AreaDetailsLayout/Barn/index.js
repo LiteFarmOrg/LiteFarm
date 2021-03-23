@@ -21,6 +21,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
   } = useForm({
     mode: 'onChange',
   });
+  const washPackSelection = watch(barnEnum.wash_and_pack);
+  const coldStorage = watch(barnEnum.cold_storage);
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
@@ -28,6 +30,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
       ...data,
       grid_points: grid_points,
       type: 'barn',
+      wash_and_pack: washPackSelection !== null ? washPackSelection === 'true' : null,
+      cold_storage: coldStorage !== null ? coldStorage === 'true' : null,
     };
     submitForm({ formData });
   };
@@ -63,9 +67,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
             style={{ marginBottom: '25px' }}
             label={t('common:YES')}
             inputRef={register({ required: false })}
-            optional
-            // value={'Non-Organic'}
-            // name={gardenEnum.organic_status}
+            name={barnEnum.wash_and_pack}
+            value={true}
           />
         </div>
         <div>
@@ -73,8 +76,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
             style={{ marginBottom: '25px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
-            // value={'Organic'}
-            // name={gardenEnum.organic_status}
+            name={barnEnum.wash_and_pack}
+            value={false}
           />
         </div>
       </div>
@@ -90,9 +93,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
             style={{ marginBottom: '25px' }}
             label={t('common:YES')}
             inputRef={register({ required: false })}
-            optional
-            // value={'Non-Organic'}
-            // name={gardenEnum.organic_status}
+            name={barnEnum.cold_storage}
+            value={true}
           />
         </div>
         <div>
@@ -100,8 +102,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
             style={{ marginBottom: '25px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
-            // value={'Organic'}
-            // name={gardenEnum.organic_status}
+            name={barnEnum.cold_storage}
+            value={false}
           />
         </div>
       </div>

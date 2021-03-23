@@ -2,14 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
-import { residenceEnum } from '../../../containers/residenceSlice';
 
 export default function PureResidence({ history, submitForm, system, grid_points }) {
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     getValues,
@@ -25,7 +23,7 @@ export default function PureResidence({ history, submitForm, system, grid_points
     const formData = {
       ...data,
       grid_points: grid_points,
-      type: 'residence_details',
+      type: 'residence',
     };
     submitForm({ formData });
   };

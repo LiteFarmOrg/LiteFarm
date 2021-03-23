@@ -1,6 +1,6 @@
 import React from 'react';
 import PureCeremonialArea from '../../../components/AreaDetailsLayout/CeremonialArea';
-// import { postFarmSiteLocation } from './saga';
+import { postCeremonialLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
@@ -10,7 +10,7 @@ function CeremonialAreaDetailForm({ history }) {
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
-    // dispatch(postFarmSiteLocation(data));
+    dispatch(postCeremonialLocation(data));
   };
   return (
     <PureCeremonialArea

@@ -16,10 +16,10 @@ export const surfaceWaterEnum = {
   grid_points: 'grid_points',
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',
-  user_for_irrigation: 'user_for_irrigation',
+  used_for_irrigation: 'used_for_irrigation',
 };
 
-const surfaceWaterProperties = ['user_for_irrigation'];
+const surfaceWaterProperties = ['used_for_irrigation'];
 export const getLocationObjectFromSurfaceWater = (data) => {
   return {
     figure: {

@@ -36,7 +36,6 @@ export default function PureNaturalArea({ history, submitForm, system, grid_poin
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}

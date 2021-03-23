@@ -36,7 +36,6 @@ export default function PureCeremonialArea({ history, submitForm, system, grid_p
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}

@@ -42,7 +42,6 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}

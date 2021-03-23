@@ -44,7 +44,6 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}

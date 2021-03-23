@@ -39,6 +39,8 @@ export default function PointDetailsLayout({
     submitForm(data);
   };
 
+  const inputName = gateEnum.name;
+
   return (
     <FormTitleLayout
       onGoBack={onBack}
@@ -58,9 +60,9 @@ export default function PointDetailsLayout({
         label={name + ' name'}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={gateEnum.name}
+        name={inputName}
         inputRef={register({ required: true })}
-        errors={errors[gateEnum.name] && t('common:REQUIRED')}
+        errors={errors[inputName] && t('common:REQUIRED')}
       />
 
       {children}

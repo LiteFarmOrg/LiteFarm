@@ -20,7 +20,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     control,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
@@ -42,7 +42,6 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}

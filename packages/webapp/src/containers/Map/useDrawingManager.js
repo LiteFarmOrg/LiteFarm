@@ -96,7 +96,7 @@ export default function useDrawingManager() {
         if(i === 0  || i === path.length - 1) {
           const initialPoint = i === 0 ? point : path[i - 1];
           const nextPoint = i === 0 ? path[i + 1] : point;
-          const heading =innerMap?.geometry?.spherical?.computeHeading(initialPoint, nextPoint);
+          const heading = innerMap?.geometry?.spherical?.computeHeading(initialPoint, nextPoint);
           const {left, right} = calculatePerpendiculars(heading);
           bearings.push(heading);
           leftPoints.push(innerMap?.geometry?.spherical?.computeOffset(point, FIXED_WIDTH/2, left));
@@ -109,11 +109,16 @@ export default function useDrawingManager() {
           const angleFormed = heading - (adjustAngle(bearings[i - 1] + 180));
           const angleFormedInRadians = Math.abs(angleFormed) * Math.PI / 180;
           const distance =  FIXED_WIDTH / ( 2 * Math.sin(angleFormedInRadians / 2));
-          const leftHeading =  adjustAngle(heading - (angleFormed / 2));
-          const rightHeading =  adjustAngle(leftHeading + 180);
-          console.log(heading, leftHeading, rightHeading);
-          leftPoints.push(innerMap?.geometry?.spherical?.computeOffset(point, distance, leftHeading));
-          rightPoints.push(innerMap?.geometry?.spherical?.computeOffset(point, distance, rightHeading));
+          const heading1 =  adjustAngle(heading - (angleFormed / 2));
+          const heading2 =  adjustAngle(heading1 + 180);
+          const p1 = innerMap?.geometry?.spherical?.computeOffset(point, distance, heading1);
+          const p2 = innerMap?.geometry?.spherical?.computeOffset(point, distance, heading2);
+          const p1LeftHeading = innerMap?.geometry?.spherical?.computeHeading(leftPoints[leftPoints.length -1 ], p1);
+          const p2LeftHeading = innerMap?.geometry?.spherical?.computeHeading(leftPoints[leftPoints.length -1 ], p2);
+          // OC: This line of code says: Is the slope of line p1 more similar to the main line than line p2?
+          const isP1Left = Math.abs(Math.abs(p1LeftHeading) - Math.abs(bearings[i - 1])) <  Math.abs(Math.abs(p2LeftHeading) - Math.abs(bearings[i - 1]))
+          leftPoints.push(isP1Left ? p1 : p2);
+          rightPoints.push(isP1Left? p2 : p1);
           return heading;
         }
       }).filter((v) => v !== null);

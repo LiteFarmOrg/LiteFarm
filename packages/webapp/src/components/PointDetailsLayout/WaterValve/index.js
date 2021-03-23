@@ -36,7 +36,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
   };
 
   const WATER_TYPE = 'water_type';
-  const waterValveSourceSelection = watch(WATER_TYPE, 'SurfaceWater');
+  const waterValveSourceSelection = watch(WATER_TYPE);
 
   return (
     <PointDetails
@@ -58,7 +58,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
             defaultChecked={true}
-            name={pointType.source}
+            name={WATER_TYPE}
             value={'Municipal water'}
             inputRef={register({ required: false })}
           />
@@ -67,7 +67,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
-            name={pointType.source}
+            name={WATER_TYPE}
             value={'Surface water'}
             inputRef={register({ required: false })}
           />
@@ -76,8 +76,8 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
-            name={pointType.source}
-            value={'SurfaceWater'}
+            name={WATER_TYPE}
+            value={'Groundwater'}
             inputRef={register({ required: false })}
           />
         </div>
@@ -85,7 +85,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
-            name={pointType.source}
+            name={WATER_TYPE}
             value={'Rain water'}
             inputRef={register({ required: false })}
           />

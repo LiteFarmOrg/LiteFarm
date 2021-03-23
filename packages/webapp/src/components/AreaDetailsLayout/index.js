@@ -21,6 +21,7 @@ export default function AreaDetailsLayout({
   showPerimeter,
   setValue,
   getValues,
+  setError,
   control,
   history,
   children,
@@ -107,11 +108,12 @@ export default function AreaDetailsLayout({
           name={areaEnum.total_area}
           displayUnitName={areaEnum.total_area_unit}
           defaultValue={defaultArea}
-          errors={errors[areaEnum.total_area] && t('common:REQUIRED')}
+          errors={errors[areaEnum.total_area]}
           from={'m2'}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
+          hookFormSetError={setError}
           control={control}
           required
         />
@@ -123,11 +125,12 @@ export default function AreaDetailsLayout({
             name={areaEnum.perimeter}
             displayUnitName={areaEnum.perimeter_unit}
             defaultValue={defaultPerimeter}
-            errors={errors[areaEnum.perimeter] && t('common:REQUIRED')}
+            errors={errors[areaEnum.perimeter]}
             from={'m'}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
+            hookFormSetError={setError}
             control={control}
             required
           />

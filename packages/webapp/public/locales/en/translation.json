@@ -160,7 +160,7 @@
     },
     "TITLE": "Farm map",
     "WATER_VALVE": {
-      "GROUNDWATER": "SurfaceWater",
+      "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
       "NAME": "Water valve",
@@ -887,6 +887,10 @@
     "PAGE_TEXT": "Page",
     "PREVIOUS_TEXT": "Previous",
     "ROWS_TEXT": "rows"
+  },
+  "UNIT": {
+    "INVALID_NUMBER": "Invalid number",
+    "MAXIMUM": "Maximum value exceeded"
   },
   "WEATHER": {
     "HUMIDITY": "Humidity",

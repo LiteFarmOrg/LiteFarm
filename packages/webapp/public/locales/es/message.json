@@ -154,5 +154,10 @@
       "REVOKE": "Acceso de usuario(a) revocado!",
       "UPDATE": "Información del(a) usuario(a) actualizao exitosamente!"
     }
+  },
+  "MAP": {
+    "SUCCESS_POST": "MISSING",
+    "SUCCESS_PATCH": "MISSING",
+    "SUCCESS_DEL": "MISSING"
   }
 }

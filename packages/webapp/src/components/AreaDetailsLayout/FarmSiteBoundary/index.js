@@ -11,8 +11,9 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
     errors,
     setValue,
     getValues,
-    formState: { isValid, isDirty },
+    setError,
     control,
+    formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
   });
@@ -39,6 +40,7 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      setError={setError}
       control={control}
       showPerimeter={true}
       errors={errors}

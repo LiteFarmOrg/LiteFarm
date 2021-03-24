@@ -171,6 +171,13 @@
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
+    "WATERCOURSE": {
+      "NAME": "Watercourse",
+      "TITLE": "Add watercourse",
+      "LENGTH": "Total length",
+      "WIDTH": "Watercourse width",
+      "BUFFER": "Riparian buffer"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "Areas",

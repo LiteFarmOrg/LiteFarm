@@ -171,6 +171,13 @@
       "TITLE": "MISSING",
       "WIDTH": "MISSING"
     },
+    "WATERCOURSE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "WIDTH": "MISSING",
+      "BUFFER": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",

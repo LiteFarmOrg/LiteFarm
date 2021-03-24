@@ -1,7 +1,7 @@
 import {
   barnColour,
   ceremonialSiteColour,
-  creekColour,
+  watercourseColour,
   farmBoundColour,
   fenceColour,
   fieldColour,
@@ -65,8 +65,8 @@ export const areaStyles = {
 };
 
 export const lineStyles = {
-  creek: {
-    colour: creekColour,
+  watercourse: {
+    colour: watercourseColour,
     dashScale: 0.7,
     dashLength: '6px',
   },

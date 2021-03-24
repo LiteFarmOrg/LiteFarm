@@ -65,7 +65,11 @@ import {
   onLoadingBufferZoneFail,
   onLoadingBufferZoneStart,
 } from './bufferZoneSlice';
-import { getCreeksSuccess, onLoadingCreekFail, onLoadingCreekStart } from './creekSlice';
+import {
+  getWatercoursesSuccess,
+  onLoadingWatercourseFail,
+  onLoadingWatercourseStart,
+} from './watercourseSlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import {
   getWaterValvesSuccess,
@@ -216,7 +220,7 @@ export function* onLoadingLocationStartSaga() {
   yield put(onLoadingNaturalAreaStart());
   yield put(onLoadingResidenceStart());
   yield put(onLoadingBufferZoneStart());
-  yield put(onLoadingCreekStart());
+  yield put(onLoadingWatercourseStart());
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
@@ -268,7 +272,7 @@ const figureTypeActionMap = {
   natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
   residence: { success: getResidencesSuccess, fail: onLoadingResidenceFail },
   buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
-  creek: { success: getCreeksSuccess, fail: onLoadingCreekFail },
+  watercourse: { success: getWatercoursesSuccess, fail: onLoadingWatercourseFail },
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },

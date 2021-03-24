@@ -59,6 +59,7 @@ const apiConfig = {
   signUpUrl: `${URI}/sign_up`,
   loginUrl: `${URI}/login`,
   resetPasswordUrl: `${URI}/password_reset`,
+  spotlightUrl: `${URI}/showed_spotlight`,
   url: URI,
 };
 

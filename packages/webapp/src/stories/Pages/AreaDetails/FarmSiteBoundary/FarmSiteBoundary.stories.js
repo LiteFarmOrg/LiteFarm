@@ -1,6 +1,6 @@
 import React from 'react';
-import FarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
-import decorator from '../../Pages/config/decorators';
+import FarmSiteBoundary from '../../../../components/AreaDetailsLayout/FarmSiteBoundary';
+import decorator from '../../config/decorators';
 
 export default {
   title: 'Components/Area/FarmSiteBoundary',

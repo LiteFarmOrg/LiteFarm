@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { greenhouseEnum } from '../../../containers/greenhouseSlice';
+import { greenhouseEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
 export default function PureGreenhouse({ history, submitForm, system, grid_points }) {

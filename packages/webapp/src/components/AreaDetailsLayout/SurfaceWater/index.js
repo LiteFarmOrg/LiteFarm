@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
-import { surfaceWaterEnum } from '../../../containers/surfaceWaterSlice';
+import { surfaceWaterEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
 export default function PureSurfaceWater({ history, submitForm, system, grid_points }) {
@@ -22,7 +22,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
     mode: 'onChange',
   });
   const onError = (data) => {};
-  const irrigation = watch(surfaceWaterEnum.user_for_irrigation);
+  const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
@@ -66,7 +66,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             inputRef={register({ required: false })}
             optional
             value={'Yes'}
-            name={surfaceWaterEnum.user_for_irrigation}
+            name={surfaceWaterEnum.used_for_irrigation}
           />
         </div>
         <div>
@@ -75,7 +75,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             label={t('common:NO')}
             inputRef={register({ required: false })}
             value={'No'}
-            name={surfaceWaterEnum.user_for_irrigation}
+            name={surfaceWaterEnum.used_for_irrigation}
           />
         </div>
       </div>

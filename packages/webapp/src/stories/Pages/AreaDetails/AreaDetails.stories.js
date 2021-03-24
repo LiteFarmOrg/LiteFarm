@@ -1,6 +1,6 @@
 import React from 'react';
-import AreaDetailsLayout from '../../components/AreaDetailsLayout';
-import decorator from '../Pages/config/decorators';
+import AreaDetailsLayout from '../../../components/AreaDetailsLayout';
+import decorator from '../config/decorators';
 import { useForm } from 'react-hook-form';
 
 export default {

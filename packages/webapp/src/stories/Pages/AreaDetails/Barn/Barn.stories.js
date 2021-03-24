@@ -1,21 +1,21 @@
 import React from 'react';
-import Field from '../../../components/AreaDetailsLayout/Field';
-import decorator from '../../Pages/config/decorators';
+import Barn from '../../../../components/AreaDetailsLayout/Barn';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Field',
+  title: 'Components/Area/Barn',
   decorators: decorator,
-  component: Field,
+  component: Barn,
 };
 
-const Template = (args) => <Field {...args} />;
+const Template = (args) => <Barn {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  areaType: (data) => {},
   system: 'metric',
+  grid_points: (data) => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

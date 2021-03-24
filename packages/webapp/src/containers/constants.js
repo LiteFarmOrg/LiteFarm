@@ -150,6 +150,10 @@ export const greenhouseEnum = {
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',
   organic_status: 'organic_status',
+  transition_date: 'transition_date',
+  supplemental_lighting: 'supplemental_lighting',
+  co2_enrichment: 'co2_enrichment',
+  greenhouse_heated: 'greenhouse_heated',
 };
 export const naturalAreaEnum = {
   farm_id: 'farm_id',
@@ -190,7 +194,7 @@ export const surfaceWaterEnum = {
   grid_points: 'grid_points',
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',
-  user_for_irrigation: 'user_for_irrigation',
+  used_for_irrigation: 'used_for_irrigation',
 };
 export const waterValveEnum = {
   farm_id: 'farm_id',

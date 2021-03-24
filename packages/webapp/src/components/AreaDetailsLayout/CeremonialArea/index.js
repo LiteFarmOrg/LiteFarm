@@ -45,6 +45,6 @@ export default function PureCeremonialArea({ history, submitForm, system, grid_p
       showPerimeter={true}
       errors={errors}
       system={system}
-    ></AreaDetailsLayout>
+    />
   );
 }

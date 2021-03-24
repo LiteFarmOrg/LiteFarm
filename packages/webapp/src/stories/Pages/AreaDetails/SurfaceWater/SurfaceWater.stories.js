@@ -1,20 +1,20 @@
 import React from 'react';
-import CeremonialArea from '../../../components/AreaDetailsLayout/CeremonialArea';
-import decorator from '../../Pages/config/decorators';
+import SurfaceWater from '../../../../components/AreaDetailsLayout/SurfaceWater';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/CeremonialArea',
+  title: 'Components/Area/SurfaceWater',
   decorators: decorator,
-  component: CeremonialArea,
+  component: SurfaceWater,
 };
 
-const Template = (args) => <CeremonialArea {...args} />;
+const Template = (args) => <SurfaceWater {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
   grid_points: (data) => {},
 };
 Primary.parameters = {

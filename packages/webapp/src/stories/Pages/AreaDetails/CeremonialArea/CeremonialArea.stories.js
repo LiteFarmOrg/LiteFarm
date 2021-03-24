@@ -1,20 +1,20 @@
 import React from 'react';
-import Residence from '../../../components/AreaDetailsLayout/Residence';
-import decorator from '../../Pages/config/decorators';
+import CeremonialArea from '../../../../components/AreaDetailsLayout/CeremonialArea';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Residence',
+  title: 'Components/Area/CeremonialArea',
   decorators: decorator,
-  component: Residence,
+  component: CeremonialArea,
 };
 
-const Template = (args) => <Residence {...args} />;
+const Template = (args) => <CeremonialArea {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
   grid_points: (data) => {},
 };
 Primary.parameters = {

@@ -1,20 +1,20 @@
 import React from 'react';
-import SurfaceWater from '../../../components/AreaDetailsLayout/SurfaceWater';
-import decorator from '../../Pages/config/decorators';
+import NaturalArea from '../../../../components/AreaDetailsLayout/NaturalArea';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/SurfaceWater',
+  title: 'Components/Area/NaturalArea',
   decorators: decorator,
-  component: SurfaceWater,
+  component: NaturalArea,
 };
 
-const Template = (args) => <SurfaceWater {...args} />;
+const Template = (args) => <NaturalArea {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
   grid_points: (data) => {},
 };
 Primary.parameters = {

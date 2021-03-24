@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
-import { barnEnum } from '../../../containers/barnSlice';
+import { barnEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
 export default function PureBarn({ history, submitForm, system, grid_points }) {

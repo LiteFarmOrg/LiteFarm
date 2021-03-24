@@ -6,7 +6,14 @@ import Radio from '../../Form/Radio';
 import { surfaceWaterEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
-export default function PureSurfaceWater({ history, submitForm, system, grid_points }) {
+export default function PureSurfaceWater({
+  history,
+  submitForm,
+  system,
+  grid_points,
+  area,
+  perimeter,
+}) {
   const { t } = useTranslation();
   const {
     register,
@@ -51,6 +58,8 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
@@ -65,7 +74,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             label={t('common:YES')}
             inputRef={register({ required: false })}
             optional
-            value={'Yes'}
+            value={true}
             name={surfaceWaterEnum.used_for_irrigation}
           />
         </div>
@@ -74,7 +83,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             style={{ marginBottom: '25px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
-            value={'No'}
+            value={false}
             name={surfaceWaterEnum.used_for_irrigation}
           />
         </div>

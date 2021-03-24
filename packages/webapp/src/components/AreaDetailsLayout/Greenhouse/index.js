@@ -8,7 +8,14 @@ import Input from '../../Form/Input';
 import { greenhouseEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
-export default function PureGreenhouse({ history, submitForm, system, grid_points }) {
+export default function PureGreenhouse({
+  history,
+  submitForm,
+  system,
+  grid_points,
+  area,
+  perimeter,
+}) {
   const { t } = useTranslation();
   const {
     register,
@@ -67,6 +74,8 @@ export default function PureGreenhouse({ history, submitForm, system, grid_point
       showPerimeter={false}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

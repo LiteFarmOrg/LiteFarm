@@ -3,7 +3,7 @@ import Barn from '../../../../components/AreaDetailsLayout/Barn';
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Barn',
+  title: 'Form/Area/Barn',
   decorators: decorator,
   component: Barn,
 };

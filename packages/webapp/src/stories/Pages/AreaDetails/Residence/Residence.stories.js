@@ -3,7 +3,7 @@ import Residence from '../../../../components/AreaDetailsLayout/Residence';
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Residence',
+  title: 'Form/Area/Residence',
   decorators: decorator,
   component: Residence,
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import PureFarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
 import { postFarmSiteLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { farmSiteBoundaryEnum } from '../../constants';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
@@ -19,7 +18,6 @@ function FarmSiteBoundaryDetailForm({ history }) {
       submitForm={submitForm}
       system={system}
       grid_points={grid_points}
-      areaType={farmSiteBoundaryEnum}
       area={area}
       perimeter={perimeter}
     />

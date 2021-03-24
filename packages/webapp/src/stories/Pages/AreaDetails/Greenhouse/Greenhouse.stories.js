@@ -3,7 +3,7 @@ import Greenhouse from '../../../../components/AreaDetailsLayout/Greenhouse';
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Greenhouse',
+  title: 'Form/Area/Greenhouse',
   decorators: decorator,
   component: Greenhouse,
 };

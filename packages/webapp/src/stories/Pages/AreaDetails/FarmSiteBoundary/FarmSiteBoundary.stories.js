@@ -3,7 +3,7 @@ import FarmSiteBoundary from '../../../../components/AreaDetailsLayout/FarmSiteB
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/FarmSiteBoundary',
+  title: 'Form/Area/FarmSiteBoundary',
   decorators: decorator,
   component: FarmSiteBoundary,
 };

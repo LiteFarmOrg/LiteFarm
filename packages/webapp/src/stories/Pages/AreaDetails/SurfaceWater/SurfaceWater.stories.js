@@ -3,7 +3,7 @@ import SurfaceWater from '../../../../components/AreaDetailsLayout/SurfaceWater'
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/SurfaceWater',
+  title: 'Form/Area/SurfaceWater',
   decorators: decorator,
   component: SurfaceWater,
 };

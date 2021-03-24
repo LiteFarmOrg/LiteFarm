@@ -3,7 +3,7 @@ import Field from '../../../../components/AreaDetailsLayout/Field';
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Field',
+  title: 'Form/Area/Field',
   decorators: decorator,
   component: Field,
 };

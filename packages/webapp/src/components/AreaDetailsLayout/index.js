@@ -57,7 +57,7 @@ export default function AreaDetailsLayout({
     data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
     showPerimeter
       ? (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value)
-      : (data.perimeter = perimeter);
+      : (data[areaEnum.perimeter] = perimeter);
     data.notes = notes;
     submitForm(data);
   };

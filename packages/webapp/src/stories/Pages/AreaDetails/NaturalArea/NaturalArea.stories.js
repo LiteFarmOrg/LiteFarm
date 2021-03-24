@@ -3,7 +3,7 @@ import NaturalArea from '../../../../components/AreaDetailsLayout/NaturalArea';
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/NaturalArea',
+  title: 'Form/Area/NaturalArea',
   decorators: decorator,
   component: NaturalArea,
 };

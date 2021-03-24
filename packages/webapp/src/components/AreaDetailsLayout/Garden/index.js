@@ -7,7 +7,7 @@ import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { gardenEnum } from '../../../containers/constants';
 
-export default function PureGarden({ history, submitForm, system, grid_points }) {
+export default function PureGarden({ history, submitForm, system, grid_points, area, perimeter }) {
   const { t } = useTranslation();
   const {
     register,
@@ -18,8 +18,6 @@ export default function PureGarden({ history, submitForm, system, grid_points })
     getValues,
     setError,
     control,
-    area,
-    perimeter,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',

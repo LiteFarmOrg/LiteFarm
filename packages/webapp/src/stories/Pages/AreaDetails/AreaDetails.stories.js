@@ -4,7 +4,7 @@ import decorator from '../config/decorators';
 import { useForm } from 'react-hook-form';
 
 export default {
-  title: 'Components/Area/AreaDetailsLayout',
+  title: 'Form/Area/AreaDetailsLayout',
   decorators: decorator,
   component: AreaDetailsLayout,
 };

@@ -3,7 +3,7 @@ import CeremonialArea from '../../../../components/AreaDetailsLayout/CeremonialA
 import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/CeremonialArea',
+  title: 'Form/Area/CeremonialArea',
   decorators: decorator,
   component: CeremonialArea,
 };

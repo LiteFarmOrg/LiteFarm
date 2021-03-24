@@ -6,7 +6,7 @@ import Radio from '../../Form/Radio';
 import { barnEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
-export default function PureBarn({ history, submitForm, system, grid_points }) {
+export default function PureBarn({ history, submitForm, system, grid_points, area, perimeter }) {
   const { t } = useTranslation();
   const {
     register,
@@ -53,6 +53,8 @@ export default function PureBarn({ history, submitForm, system, grid_points }) {
       showPerimeter={false}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>

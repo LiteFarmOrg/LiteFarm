@@ -67,6 +67,10 @@ const getOptions = (system, type) => {
 
 const reactSelectStyles = {
   ...reactSelectDefaultStyles,
+  container: (provided, state) => ({
+    ...provided,
+    zIndex: 1,
+  }),
   control: (provided, state) => ({
     display: 'flex',
     border: `none`,

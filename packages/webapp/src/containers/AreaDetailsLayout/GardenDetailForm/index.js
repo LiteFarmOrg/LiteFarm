@@ -2,7 +2,6 @@ import React from 'react';
 import PureGarden from '../../../components/AreaDetailsLayout/Garden';
 import { postGardenLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { gardenEnum } from '../../gardenSlice';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
@@ -18,7 +17,6 @@ function GardenDetailForm({ history }) {
     <PureGarden
       history={history}
       submitForm={submitForm}
-      areaType={gardenEnum}
       system={system}
       grid_points={grid_points}
     />

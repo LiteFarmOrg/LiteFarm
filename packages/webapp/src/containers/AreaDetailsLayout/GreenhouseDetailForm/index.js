@@ -1,21 +1,21 @@
 import React from 'react';
-import PureField from '../../../components/AreaDetailsLayout/Field';
-import { postFieldLocation } from './saga';
+import PureGreenhouse from '../../../components/AreaDetailsLayout/Greenhouse';
+import { postGreenhouseLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
-function FieldDetailForm({ history }) {
+function GreenhouseDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
 
   const submitForm = (data) => {
-    dispatch(postFieldLocation(data));
+    dispatch(postGreenhouseLocation(data));
   };
 
   return (
-    <PureField
+    <PureGreenhouse
       history={history}
       submitForm={submitForm}
       system={system}
@@ -24,4 +24,4 @@ function FieldDetailForm({ history }) {
   );
 }
 
-export default FieldDetailForm;
+export default GreenhouseDetailForm;

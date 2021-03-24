@@ -1,21 +1,19 @@
 import React from 'react';
-import PureField from '../../../components/AreaDetailsLayout/Field';
-import { postFieldLocation } from './saga';
+import PureNaturalArea from '../../../components/AreaDetailsLayout/NaturalArea';
+import { postNaturalAreaLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
-function FieldDetailForm({ history }) {
+function NauralAreaDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
-
   const submitForm = (data) => {
-    dispatch(postFieldLocation(data));
+    dispatch(postNaturalAreaLocation(data));
   };
-
   return (
-    <PureField
+    <PureNaturalArea
       history={history}
       submitForm={submitForm}
       system={system}
@@ -24,4 +22,4 @@ function FieldDetailForm({ history }) {
   );
 }
 
-export default FieldDetailForm;
+export default NauralAreaDetailForm;

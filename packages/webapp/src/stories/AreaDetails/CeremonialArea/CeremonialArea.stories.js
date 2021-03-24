@@ -1,14 +1,14 @@
 import React from 'react';
-import FarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
+import CeremonialArea from '../../../components/AreaDetailsLayout/CeremonialArea';
 import decorator from '../../Pages/config/decorators';
 
 export default {
-  title: 'Components/Area/FarmSiteBoundary',
+  title: 'Components/Area/CeremonialArea',
   decorators: decorator,
-  component: FarmSiteBoundary,
+  component: CeremonialArea,
 };
 
-const Template = (args) => <FarmSiteBoundary {...args} />;
+const Template = (args) => <CeremonialArea {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

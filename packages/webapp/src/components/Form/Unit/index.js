@@ -57,7 +57,7 @@ const reactSelectStyles = {
   valueContainer: (provided, state) => ({
     ...provided,
     padding: '0',
-    width: '41px',
+    width: '36px',
   }),
   singleValue: () => ({
     fontSize: '16px',
@@ -66,7 +66,7 @@ const reactSelectStyles = {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '50px',
+    width: '40px',
     overflowX: 'hidden',
     textAlign: 'center',
     position: 'absolute',
@@ -175,7 +175,6 @@ const Unit = ({
       roundToTwoDecimal(convert(hookFormGetValue(name)).from(databaseUnit).to(e.value)),
     );
   };
-  console.log({ defaultValue, inputValue: hookFormGetValue(name) });
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (

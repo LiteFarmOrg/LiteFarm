@@ -2,7 +2,7 @@ import React from 'react';
 import PureWaterValve from '../../../components/PointDetailsLayout/WaterValve';
 import { postWaterValveLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { waterValveEnum } from '../../waterValveSlice';
+import { waterValveEnum } from '../../constants';
 import { locationInfoSelector } from '../../mapSlice';
 import { measurementSelector } from '../../userFarmSlice';
 

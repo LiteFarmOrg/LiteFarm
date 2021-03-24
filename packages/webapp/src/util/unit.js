@@ -52,6 +52,34 @@ export const water_valve_flow_rate = {
   databaseUnit: databaseUnit.volumeFlowRate,
 };
 
+export const line_length = {
+  metric: {
+    units: ['m', 'km'],
+    defaultUnit: 'm',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft', 'mi'],
+    defaultUnit: 'ft',
+    breakpoints: [1320],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const line_width = {
+  metric: {
+    units: ['cm', 'm', 'km'],
+    defaultUnit: 'm',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['in', 'ft', 'mi'],
+    defaultUnit: 'ft',
+    breakpoints: [20, 1320],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
 const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
@@ -91,7 +119,7 @@ const distanceUnits = {
   imperial: {
     units: ['in', 'ft', 'mi'],
     defaultUnit: 'ft',
-    breakpoints: [10, 1320],
+    breakpoints: [20, 1320],
   },
   databaseUnit: databaseUnit.length,
 };

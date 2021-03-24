@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { fieldEnum } from '../../../containers/fieldSlice';
+import { fieldEnum } from '../../../containers/constants';
 
 export default function PureField({ history, submitForm, system, grid_points, area, perimeter }) {
   const { t } = useTranslation();

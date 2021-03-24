@@ -2,7 +2,7 @@ import React from 'react';
 import PureField from '../../../components/AreaDetailsLayout/Field';
 import { postFieldLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { fieldEnum } from '../../fieldSlice';
+import { fieldEnum } from '../../constants';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 

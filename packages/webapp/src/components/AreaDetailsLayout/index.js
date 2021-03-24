@@ -6,7 +6,7 @@ import Button from '../Form/Button';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 import Unit from '../Form/Unit';
-import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
+import { fieldEnum as areaEnum } from '../../containers/constants';
 import { area_perimeter, area_total_area } from '../../util/unit';
 
 export default function AreaDetailsLayout({

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { gardenEnum } from '../../../containers/gardenSlice';
+import { gardenEnum } from '../../../containers/constants';
 
 export default function PureGarden({ history, submitForm, system, grid_points }) {
   const { t } = useTranslation();

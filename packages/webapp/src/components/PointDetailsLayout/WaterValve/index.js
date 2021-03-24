@@ -4,7 +4,7 @@ import PointDetails from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
 import Unit from '../../Form/Unit';
-import { waterValveEnum } from '../../../containers/waterValveSlice';
+import { waterValveEnum } from '../../../containers/constants';
 import { water_valve_flow_rate } from '../../../util/unit';
 
 export default function PureWaterValve({ history, submitForm, pointType, system, point }) {

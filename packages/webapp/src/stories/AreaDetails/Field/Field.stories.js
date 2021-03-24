@@ -15,6 +15,7 @@ Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
   areaType: (data) => {},
+  system: 'metric',
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

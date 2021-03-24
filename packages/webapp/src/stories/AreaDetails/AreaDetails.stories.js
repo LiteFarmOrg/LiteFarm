@@ -1,6 +1,7 @@
 import React from 'react';
 import AreaDetailsLayout from '../../components/AreaDetailsLayout';
 import decorator from '../Pages/config/decorators';
+import { useForm } from 'react-hook-form';
 
 export default {
   title: 'Components/Area/AreaDetailsLayout',
@@ -8,7 +9,23 @@ export default {
   component: AreaDetailsLayout,
 };
 
-const Template = (args) => <AreaDetailsLayout {...args} />;
+const Template = (args) => {
+  const { register, errors, setValue, getValues, setError, control, handleSubmit } = useForm({
+    mode: 'onChange',
+  });
+  return (
+    <AreaDetailsLayout
+      {...args}
+      register={register}
+      control={control}
+      setError={setError}
+      errors={errors}
+      setValue={setValue}
+      getValues={getValues}
+      handleSubmit={handleSubmit}
+    />
+  );
+};
 
 export const Primary = Template.bind({});
 Primary.args = {
@@ -25,6 +42,7 @@ Primary.args = {
   history: (data) => {},
   errors: (data) => {},
   areaType: (data) => {},
+  system: 'metric',
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

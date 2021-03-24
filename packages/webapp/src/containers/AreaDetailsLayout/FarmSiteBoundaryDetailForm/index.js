@@ -2,7 +2,7 @@ import React from 'react';
 import PureFarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
 import { postFarmSiteLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { farmSiteBoundaryEnum } from '../../farmSiteBoundarySlice';
+import { farmSiteBoundaryEnum } from '../../constants';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PureGarden from '../../../components/AreaDetailsLayout/Garden';
 import { postGardenLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { gardenEnum } from '../../gardenSlice';
+import { gardenEnum } from '../../constants';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 

@@ -10,12 +10,21 @@ import { water_valve_flow_rate } from '../../../util/unit';
 export default function PureWaterValve({ history, submitForm, pointType, system, point }) {
   const { t } = useTranslation();
 
-  const { handleSubmit, setValue, register, watch, getValues, setError, control, errors } = useForm(
-    {
-      mode: 'onChange',
-    },
-  );
+  const {
+    handleSubmit,
+    setValue,
+    register,
+    watch,
+    getValues,
+    setError,
+    control,
+    errors,
+    formState: { isValid, isDirty },
+  } = useForm({
+    mode: 'onChange',
+  });
   const onError = (data) => {};
+  const disabled = !isValid || !isDirty;
 
   const onSubmit = (data) => {
     const formData = {
@@ -42,7 +51,8 @@ export default function PureWaterValve({ history, submitForm, pointType, system,
       onError={onError}
       handleSubmit={handleSubmit}
       register={register}
-      pointType={pointType}
+      errors={errors}
+      disabled={disabled}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>

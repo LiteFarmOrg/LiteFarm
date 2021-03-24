@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { gateEnum } from '../../containers/gateSlice';
+import { gateEnum } from '../../containers/constants';
 
 export default function PointDetailsLayout({
   name,

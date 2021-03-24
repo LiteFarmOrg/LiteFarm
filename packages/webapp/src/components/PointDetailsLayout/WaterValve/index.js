@@ -7,7 +7,7 @@ import Unit from '../../Form/Unit';
 import { waterValveEnum } from '../../../containers/constants';
 import { water_valve_flow_rate } from '../../../util/unit';
 
-export default function PureWaterValve({ history, submitForm, pointType, system, point }) {
+export default function PureWaterValve({ history, submitForm, system, point }) {
   const { t } = useTranslation();
 
   const {
@@ -95,8 +95,9 @@ export default function PureWaterValve({ history, submitForm, pointType, system,
         </div>
         <Unit
           register={register}
+          optional
           classes={{ container: { flexGrow: 1, paddingBottom: '40px' } }}
-          label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
+          label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
           name={waterValveEnum.flow_rate}
           displayUnitName={waterValveEnum.flow_rate_unit}
           errors={errors[waterValveEnum.flow_rate]}

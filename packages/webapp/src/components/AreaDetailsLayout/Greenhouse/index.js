@@ -6,6 +6,7 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { greenhouseEnum } from '../../../containers/greenhouseSlice';
+import { Label } from '../../Typography';
 
 export default function PureGreenhouse({ history, submitForm, system, grid_points }) {
   const { t } = useTranslation();
@@ -63,7 +64,7 @@ export default function PureGreenhouse({ history, submitForm, system, grid_point
       getValues={getValues}
       setError={setError}
       control={control}
-      showPerimeter={true}
+      showPerimeter={false}
       errors={errors}
       system={system}
     >
@@ -117,6 +118,9 @@ export default function PureGreenhouse({ history, submitForm, system, grid_point
               <p style={{ marginBottom: '25px' }}>
                 {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}{' '}
                 <img src={Leaf} style={{ paddingLeft: '7px' }} />
+                <Label style={{ paddingLeft: '10px' }} sm>
+                  ({t('common:OPTIONAL')})
+                </Label>
               </p>
               <div>
                 <Radio
@@ -139,6 +143,9 @@ export default function PureGreenhouse({ history, submitForm, system, grid_point
               <p style={{ marginBottom: '25px' }}>
                 {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}{' '}
                 <img src={Leaf} style={{ paddingLeft: '7px' }} />
+                <Label style={{ paddingLeft: '10px' }} sm>
+                  ({t('common:OPTIONAL')})
+                </Label>
               </p>
               <div>
                 <Radio
@@ -161,6 +168,9 @@ export default function PureGreenhouse({ history, submitForm, system, grid_point
               <p style={{ marginBottom: '25px' }}>
                 {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}{' '}
                 <img src={Leaf} style={{ paddingLeft: '7px' }} />
+                <Label style={{ paddingLeft: '10px' }} sm>
+                  ({t('common:OPTIONAL')})
+                </Label>
               </p>
               <div>
                 <Radio

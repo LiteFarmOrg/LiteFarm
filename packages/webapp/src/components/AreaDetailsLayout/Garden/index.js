@@ -84,7 +84,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
             name={gardenEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {gardenTypeSelection === 'Transitional' && (
             <Input
               type={'date'}

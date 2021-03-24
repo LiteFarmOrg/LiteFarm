@@ -160,6 +160,12 @@
       "CO2_ENRICHMENT": "Is there CO2 enrichment?",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?"
     },
+    "FENCE": {
+      "NAME": "Fence",
+      "TITLE": "Add fence",
+      "LENGTH": "Total length",
+      "PRESSURE_TREATED": "Is this fence pressure treated?"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "Areas",

@@ -8,7 +8,7 @@ import { locationInfoSelector } from '../../mapSlice';
 function FenceDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { grid_points } = useSelector(locationInfoSelector);
+  //   const { line_points, length } = useSelector(locationInfoSelector);
 
   const submitForm = (data) => {
     // dispatch(postFieldLocation(data));
@@ -19,7 +19,8 @@ function FenceDetailForm({ history }) {
       history={history}
       submitForm={submitForm}
       system={system}
-      grid_points={grid_points}
+      //   line_points={line_points}
+      //   length={length}
     />
   );
 }

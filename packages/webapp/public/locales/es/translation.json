@@ -160,6 +160,12 @@
       "CO2_ENRICHMENT": "MISSING",
       "GREENHOUSE_HEATED": "MISSING"
     },
+    "FENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "PRESSURE_TREATED": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",

@@ -120,7 +120,7 @@ const CeremonialArea = React.lazy(() =>
   import('./containers/AreaDetailsLayout/CeremonialAreaDetailForm'),
 );
 const Greenhouse = React.lazy(() => import('./containers/AreaDetailsLayout/GreenhouseDetailForm'));
-const Fence = React.lazy(() => import('./containers/LineDetailsLayout/LineDetailForm'));
+const Fence = React.lazy(() => import('./containers/LineDetailsLayout/FenceDetailForm'));
 
 const Routes = () => {
   const userFarm = useSelector(

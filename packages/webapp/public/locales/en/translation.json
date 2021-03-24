@@ -163,6 +163,7 @@
     "FENCE": {
       "NAME": "Fence",
       "TITLE": "Add fence",
+      "LENGTH": "Total length",
       "PRESSURE_TREATED": "Is this fence pressure treated?"
     },
     "MAP_FILTER": {

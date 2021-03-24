@@ -3,11 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-// import { useSelector } from 'react-redux';
-// import { locationInfoSelector } from '../../containers/mapSlice';
-// import PureWarningBox from '../WarningBox';
-// import { Label } from '../Typography';
-// import Unit from '../Form/Unit';
 import { fenceEnum as lineEnum } from '../../containers/fenceSlice';
 
 export default function LineDetailsLayout({

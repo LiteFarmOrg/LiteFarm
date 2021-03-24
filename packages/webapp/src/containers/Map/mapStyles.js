@@ -69,6 +69,12 @@ export const lineStyles = {
     colour: creekColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: creekColour,
+      strokeWeight: 2,
+      fillColor: creekColour,
+      fillOpacity: 0.3
+    }
   },
   fence: {
     colour: fenceColour,

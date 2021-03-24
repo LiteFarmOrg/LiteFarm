@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { areaStyles, lineStyles, icons } from './mapStyles';
-import { isArea, isLine, isPoint } from './constants';
+import { isArea, isLine, isPoint, locationEnum } from './constants';
 import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../mapSlice';
 import { defaultColour } from './styles.module.scss';
@@ -10,6 +10,7 @@ export default function useDrawingManager() {
   const [maps, setMaps] = useState(null);
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
+  const [widthPolygon, setWidthPolygon] = useState(null);
   const [drawLocationType, setDrawLocationType] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToCheck, setDrawingToCheck] = useState(null);
@@ -25,6 +26,28 @@ export default function useDrawingManager() {
       setOnBackPressed(false);
     }
   }, [drawingToCheck, onBackPressed]);
+
+  useEffect(() => {
+    if (drawingToCheck?.type === 'polyline'
+      && [locationEnum.creek, locationEnum.buffer_zone].includes(drawLocationType)) {
+      const { overlay } = drawingToCheck;
+      const FIXED_WIDTH = 30;
+      const path = overlay.getPath().getArray();
+      const {leftPoints, rightPoints} = path.reduce(linePathPolygonConstructor, {
+        leftPoints: [], rightPoints:[], bearings: [], width: FIXED_WIDTH
+      });
+      const polyPath = leftPoints.concat(rightPoints.reverse());
+      widthPolygon !== null && widthPolygon.setMap(null);
+      const linePolygon = new maps.Polygon({
+        paths: polyPath,
+        ...lineStyles[drawLocationType].polyStyles
+      });
+      linePolygon.setMap(map);
+      setWidthPolygon(linePolygon);
+    } else if(widthPolygon !== null){
+      widthPolygon.setMap(null);
+    }
+  }, [drawingToCheck]);
 
   useEffect(() => {
     if (!onSteppedBack) return;
@@ -79,65 +102,56 @@ export default function useDrawingManager() {
     drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
   }
 
-  const finishDrawing = (drawing, innerMap, globalMap) => {
+  const finishDrawing = (drawing, innerMap) => {
     setIsDrawing(false);
     setDrawingToCheck(drawing);
     if (drawing.type === 'polyline') {
-      const FIXED_WIDTH = 30;
-      const { overlay } = drawing;
-      const path = overlay.getPath().getArray();
-      let leftPoints = [];
-      let rightPoints = [];
-      let bearings = [];
-      const linePoints = path.map((vertex) => {
-        return { lat: vertex.lat(), lng: vertex.lng() };
-      })
-      const headings = path.map((point, i, arr) => {
-        if(i === 0  || i === path.length - 1) {
-          const initialPoint = i === 0 ? point : path[i - 1];
-          const nextPoint = i === 0 ? path[i + 1] : point;
-          const heading = innerMap?.geometry?.spherical?.computeHeading(initialPoint, nextPoint);
-          const {left, right} = calculatePerpendiculars(heading);
-          bearings.push(heading);
-          leftPoints.push(innerMap?.geometry?.spherical?.computeOffset(point, FIXED_WIDTH/2, left));
-          rightPoints.push(innerMap?.geometry?.spherical?.computeOffset(point, FIXED_WIDTH/2, right));
-          return heading;
-        } else {
-          const heading = innerMap?.geometry?.spherical?.computeHeading(point, path[i + 1]);
-          bearings.push(heading);
-          // OC: 180 is added to get the angle from the perspective of the 2nd point.
-          const angleFormed = heading - (adjustAngle(bearings[i - 1] + 180));
-          const angleFormedInRadians = Math.abs(angleFormed) * Math.PI / 180;
-          const distance =  FIXED_WIDTH / ( 2 * Math.sin(angleFormedInRadians / 2));
-          const heading1 =  adjustAngle(heading - (angleFormed / 2));
-          const heading2 =  adjustAngle(heading1 + 180);
-          const p1 = innerMap?.geometry?.spherical?.computeOffset(point, distance, heading1);
-          const p2 = innerMap?.geometry?.spherical?.computeOffset(point, distance, heading2);
-          const p1LeftHeading = innerMap?.geometry?.spherical?.computeHeading(leftPoints[leftPoints.length -1 ], p1);
-          const p2LeftHeading = innerMap?.geometry?.spherical?.computeHeading(leftPoints[leftPoints.length -1 ], p2);
-          // OC: This line of code says: Is the slope of line p1 more similar to the main line than line p2?
-          const isP1Left = Math.abs(Math.abs(p1LeftHeading) - Math.abs(bearings[i - 1])) <  Math.abs(Math.abs(p2LeftHeading) - Math.abs(bearings[i - 1]))
-          leftPoints.push(isP1Left ? p1 : p2);
-          rightPoints.push(isP1Left? p2 : p1);
-          return heading;
-        }
-      }).filter((v) => v !== null);
-      const polyPath = leftPoints.concat(rightPoints.reverse());
-      const bermudaTriangle = new innerMap.Polygon({
-        paths: polyPath,
-        strokeColor: "#FF0000",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#FF0000",
-        fillOpacity: 0.35,
-      });
-      bermudaTriangle.setMap(globalMap);
-
-      console.log(leftPoints, rightPoints);
-      console.log(headings);
-      console.log(bearings);
+      addLineListeners(drawing, innerMap);
     }
   }
+  const addLineListeners = (drawing, innerMap) => {
+    const { overlay } = drawing;
+    innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
+      setDrawingToCheck({ ...drawing });
+    })
+    innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
+      setDrawingToCheck({ ...drawing });
+    })
+  }
+
+  const linePathPolygonConstructor = (innerState, point, i, path) => {
+    const { bearings, leftPoints, rightPoints, width } = innerState;
+    const {geometry:{ spherical: { computeHeading, computeOffset}}} = maps;
+    if (i === 0 || i === path.length - 1) {
+      const initialPoint = i === 0 ? point : path[i - 1];
+      const nextPoint = i === 0 ? path[i + 1] : point;
+      const heading = computeHeading(initialPoint, nextPoint);
+      const { left, right } = calculatePerpendiculars(heading);
+      bearings.push(heading);
+      leftPoints.push(computeOffset(point, width / 2, left));
+      rightPoints.push(computeOffset(point, width / 2, right));
+    } else {
+      const heading = computeHeading(point, path[i + 1]);
+      bearings.push(heading);
+      // OC: 180 is added to get the angle from the perspective of the 2nd point.
+      const angleFormed = heading - (adjustAngle(bearings[i - 1] + 180));
+      const angleFormedInRadians = Math.abs(angleFormed) * Math.PI / 180;
+      const distance = width / (2 * Math.sin(angleFormedInRadians / 2));
+      const heading1 = adjustAngle(heading - (angleFormed / 2));
+      const heading2 = adjustAngle(heading1 + 180);
+      const p1 = computeOffset(point, distance, heading1);
+      const p2 = computeOffset(point, distance, heading2);
+      const p1LeftHeading = computeHeading(leftPoints[leftPoints.length - 1], p1);
+      const p2LeftHeading = computeHeading(leftPoints[leftPoints.length - 1], p2);
+      // OC: This line of code says: Is the slope of line p1 (m1) closest to the main line than the slope of line p2 (m2)?
+      // Or Δmp1 < Δmp2
+      const isP1Left = Math.abs(Math.abs(p1LeftHeading) - Math.abs(bearings[i - 1])) < Math.abs(Math.abs(p2LeftHeading) - Math.abs(bearings[i - 1]));
+      leftPoints.push(isP1Left ? p1 : p2);
+      rightPoints.push(isP1Left ? p2 : p1);
+    }
+    return  { bearings, leftPoints, rightPoints, width };
+  }
+
 
   const calculatePerpendiculars = (bearing) => {
     const left = adjustAngle(bearing - 90);
@@ -168,6 +182,10 @@ export default function useDrawingManager() {
     drawingManager.setDrawingMode();
   }
 
+  const getVertices = (vertex) => ({
+     lat: vertex.lat(), lng: vertex.lng()
+  })
+
   const getOverlayInfo = () => {
     const { overlay } = drawingToCheck;
     const { computeArea, computeLength, computeDistanceBetween } = maps.geometry.spherical;
@@ -175,26 +193,20 @@ export default function useDrawingManager() {
       const path = overlay.getPath().getArray();
       const perimeter = Math.round(computeLength(path) + computeDistanceBetween(path[0], path[path.length - 1]));
       const area = Math.round(computeArea(path));
-      const grid_points = path.map((vertex) => {
-        return { lat: vertex.lat(), lng: vertex.lng() };
-      });
+      const grid_points = path.map(getVertices);
       return { type: drawLocationType, grid_points, area, perimeter };
     }
-    // console.log('overlay', drawLocationType);
-    // if (isLine(drawLocationType)) {
-    //   const line_points = maps.polyline.getPath();
-    //   const length = Math.round(computeLength(line_points));
-    //   console.log(line_points)
-    //   console.log(length);
-    //   // const width = ???;
-    //   return { line_points, length };
-    // }
+    if (isLine(drawLocationType)) {
+      const line_points = maps.polyline.getPath().getArray().map(getVertices);
+      const length = Math.round(computeLength(line_points));
+      // const width = ???;
+      return { line_points, length };
+    }
     if (isPoint(drawLocationType)) {
       const position = overlay.getPosition();
       const point = { lat: position.lat(), lng: position.lng() };
       return { type: drawLocationType, point };
-    }
-    ;
+    };
   }
 
   const reconstructOverlay = () => {
@@ -238,8 +250,7 @@ const getDrawingOptions = (type) => {
         suppressUndo: true,
       },
     }
-  }
-  ;
+  };
 
   if (isLine(type)) {
     const { colour, dashScale, dashLength } = lineStyles[type];
@@ -268,7 +279,6 @@ const getDrawingOptions = (type) => {
       },
     }
   }
-  ;
 
   if (isPoint(type)) return {
     markerOptions: {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -39,6 +39,7 @@ export default function Map({ history }) {
   const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
+  const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.creek];
   const { t } = useTranslation();
 
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
@@ -238,6 +239,14 @@ export default function Map({ history }) {
     });
   };
 
+  const handleConfirm = () => {
+    if(!lineTypesWithWidth.includes(drawingState.type)) {
+      dispatch(setLocationData(getOverlayInfo()));
+      history.push(`/create_location/${drawingState.type}`);
+    }
+
+  }
+
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && (
@@ -269,6 +278,7 @@ export default function Map({ history }) {
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
+                showLineModal={true}
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);
@@ -279,10 +289,7 @@ export default function Map({ history }) {
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
-                onClickConfirm={() => {
-                  dispatch(setLocationData(getOverlayInfo()));
-                  history.push(`/create_location/${drawingState.type}`);
-                }}
+                onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}
               />
             </div>

@@ -23,7 +23,7 @@ export const isArea = (type) => {
 };
 
 export const isLine = (type) => {
-  return [locationEnum.watercourse, locationEnum.fence].includes(type);
+  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
 };
 
 export const isPoint = (type) => {

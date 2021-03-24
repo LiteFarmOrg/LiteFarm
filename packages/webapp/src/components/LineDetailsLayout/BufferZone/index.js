@@ -54,6 +54,7 @@ export default function PureBufferZone({ history, submitForm, system }) {
           <Input
             style={{ marginBottom: '40px' }}
             type={'number'}
+            disabled
             name={bufferZoneEnum.width}
             //   defaultValue={new Date().toLocaleDateString('en-CA')}
             label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}

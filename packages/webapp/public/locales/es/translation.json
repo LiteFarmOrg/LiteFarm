@@ -166,6 +166,11 @@
       "LENGTH": "MISSING",
       "PRESSURE_TREATED": "MISSING"
     },
+    "BUFFER_ZONE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",

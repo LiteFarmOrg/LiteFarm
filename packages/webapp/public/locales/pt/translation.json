@@ -166,6 +166,11 @@
       "LENGTH": "Total length",
       "PRESSURE_TREATED": "Is this fence pressure treated?"
     },
+    "BUFFER_ZONE": {
+      "NAME": "Buffer zone",
+      "TITLE": "Add buffer zone",
+      "WIDTH": "Buffer zone width"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "Areas",

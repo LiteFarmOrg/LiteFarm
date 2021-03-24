@@ -22,7 +22,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
     perimeter,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
@@ -44,7 +44,6 @@ export default function PureGarden({ history, submitForm, system, grid_points })
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}
@@ -89,7 +88,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
             name={gardenEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {gardenTypeSelection === 'Transitional' && (
             <Input
               type={'date'}

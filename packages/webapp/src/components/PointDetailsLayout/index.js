@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { gateEnum } from '../../containers/constants';
+import { gateEnum as pointEnum } from '../../containers/constants';
 
 export default function PointDetailsLayout({
   name,
@@ -58,9 +58,9 @@ export default function PointDetailsLayout({
         label={name + ' name'}
         type="text"
         style={{ marginBottom: '40px' }}
-        name={gateEnum.name}
+        name={pointEnum.name}
         inputRef={register({ required: true })}
-        errors={errors[gateEnum.name] && t('common:REQUIRED')}
+        errors={errors[pointEnum.name] && t('common:REQUIRED')}
       />
 
       {children}

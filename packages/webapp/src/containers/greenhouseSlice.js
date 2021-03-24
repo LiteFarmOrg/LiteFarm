@@ -4,7 +4,13 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const greenHouseProperties = ['organic_status'];
+const greenHouseProperties = [
+  'organic_status',
+  'transition_date',
+  'supplemental_lighting',
+  'co2_enrichment',
+  'greenhouse_heated',
+];
 export const getLocationObjectFromGreenHouse = (data) => {
   return {
     figure: {

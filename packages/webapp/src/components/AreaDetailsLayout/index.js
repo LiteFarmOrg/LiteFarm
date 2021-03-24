@@ -55,10 +55,9 @@ export default function AreaDetailsLayout({
 
   const onSubmit = (data) => {
     data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
-    data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value;
-    if (data.name === '') {
-      data.name = 'Farm site boundary';
-    }
+    showPerimeter
+      ? (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value)
+      : (data.perimeter = defaultPerimeter);
     data.notes = notes;
     submitForm(data);
   };

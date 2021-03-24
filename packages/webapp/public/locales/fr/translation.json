@@ -125,6 +125,41 @@
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
+    "BARN": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WASH_PACK": "MISSING",
+      "COLD_STORAGE": "MISSING"
+    },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "SURFACE_WATER": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "IRRIGATION": "MISSING"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "RESIDENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "GREENHOUSE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "DATE": "MISSING",
+      "GREENHOUSE_TYPE": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TRANSITIONING": "MISSING",
+      "SUPPLEMENTAL_LIGHTING": "MISSING",
+      "CO2_ENRICHMENT": "MISSING",
+      "GREENHOUSE_HEATED": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",

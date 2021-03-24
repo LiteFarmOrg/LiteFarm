@@ -30,7 +30,7 @@ class SurfaceWater extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        used_for_irrigation: { type: 'boolean' },
+        used_for_irrigation: { type: ['boolean', null] },
       },
       additionalProperties: false,
     };

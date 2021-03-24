@@ -1,29 +1,27 @@
 import React from 'react';
-import PureGarden from '../../../components/AreaDetailsLayout/Garden';
-import { postGardenLocation } from './saga';
+import PureGreenhouse from '../../../components/AreaDetailsLayout/Greenhouse';
+import { postGreenhouseLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { gardenEnum } from '../../constants';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
-function GardenDetailForm({ history }) {
+function GreenhouseDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { area, perimeter, grid_points } = useSelector(locationInfoSelector);
+  const { grid_points } = useSelector(locationInfoSelector);
+
   const submitForm = (data) => {
-    dispatch(postGardenLocation(data));
+    dispatch(postGreenhouseLocation(data));
   };
 
   return (
-    <PureGarden
+    <PureGreenhouse
       history={history}
       submitForm={submitForm}
       system={system}
       grid_points={grid_points}
-      area={area}
-      perimeter={perimeter}
     />
   );
 }
 
-export default GardenDetailForm;
+export default GreenhouseDetailForm;

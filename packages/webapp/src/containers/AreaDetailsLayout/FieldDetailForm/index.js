@@ -19,7 +19,6 @@ function FieldDetailForm({ history }) {
     <PureField
       history={history}
       submitForm={submitForm}
-      areaType={fieldEnum}
       system={system}
       grid_points={grid_points}
       area={area}

@@ -86,7 +86,7 @@ export default function PureField({ history, submitForm, system, grid_points, ar
             name={fieldEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {fieldTypeSelection === 'Transitional' && (
             <Input
               type={'date'}

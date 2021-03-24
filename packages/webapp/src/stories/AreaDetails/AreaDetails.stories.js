@@ -29,17 +29,20 @@ const Template = (args) => {
 
 export const Primary = Template.bind({});
 Primary.args = {
-  name: 'Area asset name',
-  title: 'Area asset title',
+  name: 'Field',
+  title: 'Add field',
   submitForm: (data) => {},
   onError: (data) => {},
-  isNameRequired: true,
   disabled: false,
   register: (data) => {},
   handleSubmit: (data) => {},
   showPerimeter: true,
   setValue: (data) => {},
+  getValues: (data) => {},
+  setError: (data) => {},
+  control: (data) => {},
   history: (data) => {},
+  children: (data) => {},
   errors: (data) => {},
   areaType: (data) => {},
   system: 'metric',

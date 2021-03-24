@@ -1,14 +1,14 @@
 import React from 'react';
-import FarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
+import Residence from '../../../components/AreaDetailsLayout/Residence';
 import decorator from '../../Pages/config/decorators';
 
 export default {
-  title: 'Components/Area/FarmSiteBoundary',
+  title: 'Components/Area/Residence',
   decorators: decorator,
-  component: FarmSiteBoundary,
+  component: Residence,
 };
 
-const Template = (args) => <FarmSiteBoundary {...args} />;
+const Template = (args) => <Residence {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

@@ -1,21 +1,19 @@
 import React from 'react';
-import PureField from '../../../components/AreaDetailsLayout/Field';
-import { postFieldLocation } from './saga';
+import PureResidence from '../../../components/AreaDetailsLayout/Residence';
+import { postResidenceLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
 
-function FieldDetailForm({ history }) {
+function ResidenceDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const { grid_points } = useSelector(locationInfoSelector);
-
   const submitForm = (data) => {
-    dispatch(postFieldLocation(data));
+    dispatch(postResidenceLocation(data));
   };
-
   return (
-    <PureField
+    <PureResidence
       history={history}
       submitForm={submitForm}
       system={system}
@@ -24,4 +22,4 @@ function FieldDetailForm({ history }) {
   );
 }
 
-export default FieldDetailForm;
+export default ResidenceDetailForm;

@@ -1,14 +1,14 @@
 import React from 'react';
-import FarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
+import SurfaceWater from '../../../components/AreaDetailsLayout/SurfaceWater';
 import decorator from '../../Pages/config/decorators';
 
 export default {
-  title: 'Components/Area/FarmSiteBoundary',
+  title: 'Components/Area/SurfaceWater',
   decorators: decorator,
-  component: FarmSiteBoundary,
+  component: SurfaceWater,
 };
 
-const Template = (args) => <FarmSiteBoundary {...args} />;
+const Template = (args) => <SurfaceWater {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {

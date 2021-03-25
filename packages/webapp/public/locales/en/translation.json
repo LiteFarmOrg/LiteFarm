@@ -87,6 +87,16 @@
       "PERIMETER": "Perimeter",
       "TOTAL_AREA": "Total area"
     },
+    "BARN": {
+      "COLD_STORAGE": "Does this barn have cold storage?",
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
+    },
     "DRAWING_MANAGER": {
       "ADJUST": "Adjust",
       "REDRAW": "Redraw",
@@ -125,40 +135,17 @@
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
-    "BARN": {
-      "NAME": "Barn",
-      "TITLE": "Add barn",
-      "WASH_PACK": "Does this barn have a wash and pack station?",
-      "COLD_STORAGE": "Does this barn have cold storage?"
-    },
-    "NATURAL_AREA": {
-      "NAME": "Natural area",
-      "TITLE": "Add natural area"
-    },
-    "SURFACE_WATER": {
-      "NAME": "Surface water",
-      "TITLE": "Add surface water",
-      "IRRIGATION": "Is this area used for irrigation?"
-    },
-    "CEREMONIAL_AREA": {
-      "NAME": "Ceremonial area",
-      "TITLE": "Add ceremonial area"
-    },
-    "RESIDENCE": {
-      "NAME": "Residence",
-      "TITLE": "Add residence"
-    },
     "GREENHOUSE": {
-      "NAME": "Greenhouse",
-      "TITLE": "Add greenhouse",
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
       "DATE": "Eligible transition date",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NAME": "Greenhouse",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
-      "TRANSITIONING": "Transitioning",
       "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
-      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
-      "GREENHOUSE_HEATED": "Is the greenhouse heated?"
+      "TITLE": "Add greenhouse",
+      "TRANSITIONING": "Transitioning"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
@@ -184,6 +171,14 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",
@@ -192,6 +187,11 @@
       "FILTER": "Change what locations you see on your map",
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
+    },
+    "SURFACE_WATER": {
+      "IRRIGATION": "Is this area used for irrigation?",
+      "NAME": "Surface water",
+      "TITLE": "Add surface water"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {

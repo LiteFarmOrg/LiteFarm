@@ -59,7 +59,7 @@ export default function PureBufferZone({ history, submitForm, system }) {
             defaultValue={100}
             unit={'m'}
             label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
-            inputRef={register({ required: true })}
+            inputRef={register({ required: false })}
           />
         </div>
       </div>

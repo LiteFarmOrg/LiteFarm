@@ -74,7 +74,7 @@ export default function PureWatercourse({ history, submitForm, system }) {
             defaultValue={100}
             unit={'m'}
             label={t('FARM_MAP.WATERCOURSE.WIDTH')}
-            inputRef={register({ required: true })}
+            inputRef={register({ required: false })}
           />
         </div>
         <div>
@@ -86,7 +86,7 @@ export default function PureWatercourse({ history, submitForm, system }) {
             defaultValue={100}
             unit={'m'}
             label={t('FARM_MAP.WATERCOURSE.BUFFER')}
-            inputRef={register({ required: true })}
+            inputRef={register({ required: false })}
           />
         </div>
         <div>

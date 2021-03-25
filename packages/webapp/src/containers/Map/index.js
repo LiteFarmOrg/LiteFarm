@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea, isLine } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -24,6 +24,7 @@ import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import AdjustModal from '../../components/Modals/MapTutorialModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
+import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -194,6 +195,7 @@ export default function Map({ history }) {
   const [showExportModal, setShowExportModal] = useState(false);
   const [showAdjustModal, setShowAdjustModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
+  const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
 
   const handleClickAdd = () => {
     setShowExportModal(false);
@@ -232,6 +234,8 @@ export default function Map({ history }) {
     setZeroAreaWarning(false);
     if (isArea(locationType) && !showedSpotlight.draw_area) {
       setShowDrawAreaSpotlightModal(true);
+    } else if (isLine(locationType) && !showedSpotlight.draw_line) {
+      setShowDrawLineSpotlightModal(true);
     }
     startDrawing(locationType);
   };
@@ -379,6 +383,14 @@ export default function Map({ history }) {
             dismissModal={() => {
               setShowDrawAreaSpotlightModal(false);
               dispatch(setSpotlightToShown('draw_area'));
+            }}
+          />
+        )}
+        {showDrawLineSpotlightModal && (
+          <DrawLineModal
+            dismissModal={() => {
+              setShowDrawLineSpotlightModal(false);
+              dispatch(setSpotlightToShown('draw_line'));
             }}
           />
         )}

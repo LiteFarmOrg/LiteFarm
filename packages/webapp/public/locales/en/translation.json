@@ -154,13 +154,32 @@
       "TITLE": "Add greenhouse",
       "TRANSITIONING": "Transitioning"
     },
+    "FENCE": {
+      "NAME": "Fence",
+      "TITLE": "Add fence",
+      "LENGTH": "Total length",
+      "PRESSURE_TREATED": "Is this fence pressure treated?"
+    },
+    "BUFFER_ZONE": {
+      "NAME": "Buffer zone",
+      "TITLE": "Add buffer zone",
+      "WIDTH": "Buffer zone width"
+    },
+    "WATERCOURSE": {
+      "NAME": "Watercourse",
+      "TITLE": "Add watercourse",
+      "LENGTH": "Total length",
+      "WIDTH": "Watercourse width",
+      "BUFFER": "Riparian buffer",
+      "IRRIGATION": "Is this area used for irrigation?"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
       "CA": "Ceremonial area",
-      "CREEK": "Creek",
+      "WATERCOURSE": "Watercourse",
       "FENCE": "Fence",
       "FIELD": "Field",
       "FSB": "Farm site boundary",

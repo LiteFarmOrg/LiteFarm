@@ -22,7 +22,6 @@ export default function LineDetailsLayout({
 }) {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState();
-  const [notes, setNotes] = useState('');
 
   useEffect(() => {
     const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
@@ -52,12 +51,7 @@ export default function LineDetailsLayout({
     });
   };
 
-  const setNotesValue = (value) => {
-    setNotes(value);
-  };
-
   const onSubmit = (data) => {
-    data.notes = notes;
     submitForm(data);
   };
 
@@ -95,9 +89,10 @@ export default function LineDetailsLayout({
         label={t('common:NOTES')}
         type="text"
         optional
+        inputRef={register}
+        name={lineEnum.notes}
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
-        onChange={(e) => setNotesValue(e.target.value)}
       />
     </FormTitleLayout>
   );

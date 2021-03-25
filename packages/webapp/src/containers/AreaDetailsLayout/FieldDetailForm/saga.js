@@ -4,18 +4,20 @@ import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromField, postFieldSuccess } from '../../fieldSlice';
-import { resetLocationData } from '../../mapSlice';
+import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
+import i18n from '../../../locales/i18n';
 import history from '../../../history';
 
 const axios = require('axios');
 export const postFieldLocation = createAction(`postFieldLocationSaga`);
 
 export function* postFieldLocationSaga({ payload: data }) {
+  const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  data.formData.farm_id = farm_id;
+  formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromField(data.formData);
+  const locationObject = getLocationObjectFromField(formData);
 
   try {
     const result = yield call(
@@ -26,7 +28,11 @@ export function* postFieldLocationSaga({ payload: data }) {
     );
     yield put(postFieldSuccess(result.data));
     yield put(resetLocationData());
-    history.push('/map');
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FIELD'), i18n.t('message:MAP.SUCCESS_POST')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
   } catch (e) {
     console.log(e);
   }

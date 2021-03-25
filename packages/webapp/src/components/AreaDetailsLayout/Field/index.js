@@ -16,10 +16,11 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     errors,
     setValue,
     getValues,
+    setError,
     control,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
@@ -41,11 +42,11 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      setError={setError}
       control={control}
       showPerimeter={true}
       errors={errors}
@@ -83,7 +84,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
             name={fieldEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {fieldTypeSelection === 'Transitional' && (
             <Input
               type={'date'}

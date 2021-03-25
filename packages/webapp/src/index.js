@@ -33,6 +33,12 @@ import fieldSaga from './containers/AreaDetailsLayout/FieldDetailForm/saga';
 import gardenSaga from './containers/AreaDetailsLayout/GardenDetailForm/saga';
 import gateSaga from './containers/PointDetailsLayout/GateDetailForm/saga';
 import waterValveSaga from './containers/PointDetailsLayout/WaterValveDetailForm/saga';
+import naturalAreaSaga from './containers/AreaDetailsLayout/NaturalAreaDetailForm/saga';
+import barnSaga from './containers/AreaDetailsLayout/BarnDetailForm/saga';
+import surfaceWaterSaga from './containers/AreaDetailsLayout/SurfaceWaterDetailForm/saga';
+import greenhouseSaga from './containers/AreaDetailsLayout/GreenhouseDetailForm/saga';
+import ceremonialSaga from './containers/AreaDetailsLayout/CeremonialAreaDetailForm/saga';
+import residenceSaga from './containers/AreaDetailsLayout/ResidenceDetailForm/saga';
 import farmSiteBoundarySaga from './containers/AreaDetailsLayout/FarmSiteBoundaryDetailForm/saga';
 import pestControlSaga from './containers/Log/PestControlLog/saga';
 import shiftSaga from './containers/Shift/saga';
@@ -62,6 +68,7 @@ import weatherSaga from './containers/WeatherBoard/saga';
 import mapSaga from './containers/Map/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
+import { naturalAreaEnum } from './containers/naturalAreaSlice';
 
 // config for redux-persist
 const persistConfig = {
@@ -109,6 +116,12 @@ sagaMiddleware.run(defaultAddLogSaga);
 sagaMiddleware.run(fieldSaga);
 sagaMiddleware.run(gardenSaga);
 sagaMiddleware.run(gateSaga);
+sagaMiddleware.run(barnSaga);
+sagaMiddleware.run(surfaceWaterSaga);
+sagaMiddleware.run(naturalAreaSaga);
+sagaMiddleware.run(greenhouseSaga);
+sagaMiddleware.run(residenceSaga);
+sagaMiddleware.run(ceremonialSaga);
 sagaMiddleware.run(waterValveSaga);
 sagaMiddleware.run(farmSiteBoundarySaga);
 sagaMiddleware.run(pestControlSaga);

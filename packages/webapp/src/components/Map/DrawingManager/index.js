@@ -17,6 +17,7 @@ export default function PureDrawingManager({
   onClickBack,
   onClickTryAgain,
   onClickConfirm,
+  onClickAdjust,
   showZeroAreaWarning,
   showLineModal,
   confirmLine,
@@ -57,6 +58,7 @@ export default function PureDrawingManager({
       { showConfirmButtons &&
       <div>
         <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.TRY_AGAIN')}</Button>
+        <Button onClick={onClickAdjust} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.ADJUST')}</Button>
         <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
       </div>
       }

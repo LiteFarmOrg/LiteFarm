@@ -21,6 +21,11 @@ import {
   getUserFarmsSuccess,
   acceptInvitationSuccess,
 } from '../userFarmSlice';
+import {
+  spotlightLoading,
+  getSpotlightFlagsSuccess,
+  getSpotlightFlagsFailure,
+} from '../showedSpotlightSlice';
 import { createAction } from '@reduxjs/toolkit';
 import { loginSelector } from '../userFarmSlice';
 import { getHeader, axios } from '../saga';
@@ -60,7 +65,23 @@ export function* patchUserFarmStatusWithIDTokenSaga({ payload: userFarm }) {
   }
 }
 
+export const getSpotlightFlags = createAction('getSpotlightFlagsSaga');
+export function* getSpotlightFlagsSaga() {
+  const { spotlightUrl } = apiConfig;
+  try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id);
+    yield put(spotlightLoading());
+    const result = yield call(axios.get, spotlightUrl, header);
+    yield put(getSpotlightFlagsSuccess(result.data));
+  } catch (error) {
+    yield put(getSpotlightFlagsFailure());
+    console.log('failed to fetch task types from database');
+  }
+}
+
 export default function* chooseFarmSaga() {
   yield takeLatest(getUserFarms.type, getUserFarmsSaga);
   yield takeLatest(patchUserFarmStatusWithIDToken.type, patchUserFarmStatusWithIDTokenSaga);
+  yield takeLatest(getSpotlightFlags.type, getSpotlightFlagsSaga);
 }

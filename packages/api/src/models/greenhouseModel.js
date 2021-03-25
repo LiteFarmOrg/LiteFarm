@@ -31,6 +31,10 @@ class Greenhouse extends Model {
       properties: {
         location_id: { type: 'string' },
         organic_status: { type: 'string', enum: ['Non-Organic', 'Transitional', 'Organic'] },
+        transition_date: { type: 'date' },
+        supplemental_lighting: { type: ['boolean', null] },
+        co2_enrichment: { type: ['boolean', null] },
+        greenhouse_heated: { type: ['boolean', null] },
       },
       additionalProperties: false,
     };

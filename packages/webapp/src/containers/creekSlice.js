@@ -4,24 +4,6 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const creekEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  length: 'length',
-  width: 'width',
-  line_points: 'line_points',
-  length_unit: 'length_unit',
-  width_unit: 'width_unit',
-  includes_riparian_buffer: 'includes_riparian_buffer',
-  used_for_irrigation: 'used_for_irrigation',
-  buffer_width: 'buffer_width',
-  buffer_width_unit: 'buffer_width_unit',
-};
-
 const creekProperties = [
   'used_for_irrigation',
   'includes_riparian_buffer',

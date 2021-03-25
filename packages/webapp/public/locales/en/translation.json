@@ -87,6 +87,16 @@
       "PERIMETER": "Perimeter",
       "TOTAL_AREA": "Total area"
     },
+    "BARN": {
+      "COLD_STORAGE": "Does this barn have cold storage?",
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "Redraw",
       "TRY_AGAIN": "Try again",
@@ -129,8 +139,20 @@
       "BUFFER_ZONE_WIDTH": "Buffer zone width",
       "RIPARIAN_BUFFER": "Riparian buffer",
       "WATERCOURSE": "Watercourse",
-      "BUFFER_TITLE": "What is the width ?",
+      "BUFFER_TITLE": "What is the width?",
       "WATERCOURSE_TITLE": "What are the following widths ?"
+    },
+    "GREENHOUSE": {
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "DATE": "Eligible transition date",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?",
+      "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NAME": "Greenhouse",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
+      "TITLE": "Add greenhouse",
+      "TRANSITIONING": "Transitioning"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
@@ -156,6 +178,14 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",
@@ -164,6 +194,11 @@
       "FILTER": "Change what locations you see on your map",
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
+    },
+    "SURFACE_WATER": {
+      "IRRIGATION": "Is this area used for irrigation?",
+      "NAME": "Surface water",
+      "TITLE": "Add surface water"
     },
     "TITLE": "Farm map",
     "WATER_VALVE": {

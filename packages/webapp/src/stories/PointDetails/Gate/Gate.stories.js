@@ -3,7 +3,7 @@ import Gate from '../../../components/PointDetailsLayout/Gate';
 import decorator from '../../Pages/config/decorators';
 
 export default {
-  title: 'Components/Point/Gate',
+  title: 'Form/Point/Gate',
   decorators: decorator,
   component: Gate,
 };

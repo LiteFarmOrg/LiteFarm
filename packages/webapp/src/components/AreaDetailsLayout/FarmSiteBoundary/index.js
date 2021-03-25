@@ -3,12 +3,18 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 
-export default function PureFarmSiteBoundary({ history, submitForm, system, grid_points }) {
+export default function PureFarmSiteBoundary({
+  history,
+  submitForm,
+  system,
+  grid_points,
+  area,
+  perimeter,
+}) {
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     getValues,
@@ -16,7 +22,7 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
     control,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -37,7 +43,6 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={false}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}
@@ -47,6 +52,8 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     />
   );
 }

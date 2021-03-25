@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { gateEnum as pointEnum } from '../../containers/gateSlice';
-import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
+import { gateEnum as pointEnum } from '../../containers/constants';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 
@@ -92,7 +91,7 @@ export default function PointDetailsLayout({
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
         inputRef={register}
-        name={areaEnum.notes}
+        name={pointEnum.notes}
       />
     </FormTitleLayout>
   );

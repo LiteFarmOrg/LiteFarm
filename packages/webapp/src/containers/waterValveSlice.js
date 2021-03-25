@@ -4,18 +4,6 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const waterValveEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  point: 'point',
-  source: 'source',
-  flow_rate: 'flow_rate',
-};
-
 const waterValveProperties = ['source', 'flow_rate'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {

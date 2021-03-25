@@ -2,7 +2,15 @@ import convert from 'convert-units';
 
 const METRIC = 'metric';
 const IMPERIAL = 'imperial';
-const areaUnits = {
+
+const databaseUnit = {
+  area: 'm2',
+  length: 'm',
+  mass: 'kg',
+  volumeFlowRate: 'l/min',
+};
+
+export const area_total_area = {
   metric: {
     units: ['m2', 'ha'],
     defaultUnit: 'm2',
@@ -13,8 +21,52 @@ const areaUnits = {
     defaultUnit: 'ft2',
     breakpoints: [10890],
   },
+  databaseUnit: databaseUnit.area,
 };
-const distanceUnits = {
+
+export const area_perimeter = {
+  metric: {
+    units: ['m', 'km'],
+    defaultUnit: 'm',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft', 'mi'],
+    defaultUnit: 'ft',
+    breakpoints: [1320],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const water_valve_flow_rate = {
+  metric: {
+    units: ['l/h', 'l/min'],
+    defaultUnit: 'l/h',
+    breakpoints: [60],
+  },
+  imperial: {
+    units: ['gal/h', 'gal/min'],
+    defaultUnit: 'gal/min',
+    breakpoints: [1],
+  },
+  databaseUnit: databaseUnit.volumeFlowRate,
+};
+
+export const line_length = {
+  metric: {
+    units: ['m', 'km'],
+    defaultUnit: 'm',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft', 'mi'],
+    defaultUnit: 'ft',
+    breakpoints: [1320],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const line_width = {
   metric: {
     units: ['cm', 'm', 'km'],
     defaultUnit: 'm',
@@ -23,21 +75,11 @@ const distanceUnits = {
   imperial: {
     units: ['in', 'ft', 'mi'],
     defaultUnit: 'ft',
-    breakpoints: [10, 1320],
+    breakpoints: [20, 1320],
   },
+  databaseUnit: databaseUnit.length,
 };
-const massUnits = {
-  metric: {
-    units: ['g', 'kg', 'mt'],
-    defaultUnit: 'kg',
-    breakpoints: [1, 1000],
-  },
-  imperial: {
-    units: ['oz', 'lb', 't'],
-    defaultUnit: 'lb',
-    breakpoints: [1, 2000],
-  },
-};
+
 const seedAmounts = {
   metric: {
     units: ['g', 'kg'],
@@ -49,54 +91,95 @@ const seedAmounts = {
     defaultUnit: 'oz',
     breakpoints: [16],
   },
+  databaseUnit: databaseUnit.mass,
 };
 
-const getDefaultUnit = (unitType = areaUnits, value, system, from) => {
-  let displayValue;
-  let displayUnit;
-  const defaultDisplayUnit = unitType[system].defaultUnit;
-  const defaultDisplayValue =
-    defaultDisplayUnit === from ? value : convert(value).from(from).to(defaultDisplayUnit);
-  let i = 0;
-  for (; i < unitType[system].breakpoints.length; i++) {
-    if (defaultDisplayValue < unitType[system].breakpoints[i]) {
-      displayUnit = unitType[system].units[i];
-      displayValue =
-        displayUnit === defaultDisplayUnit
-          ? defaultDisplayValue
-          : convert(value).from(from).to(displayUnit);
-      return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
+//TODO move to storybook
+
+const areaUnits = {
+  metric: {
+    units: ['m2', 'ha'],
+    defaultUnit: 'm2',
+    breakpoints: [1000],
+  },
+  imperial: {
+    units: ['ft2', 'ac'],
+    defaultUnit: 'ft2',
+    breakpoints: [10890],
+  },
+  databaseUnit: databaseUnit.area,
+};
+
+const distanceUnits = {
+  metric: {
+    units: ['cm', 'm', 'km'],
+    defaultUnit: 'm',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['in', 'ft', 'mi'],
+    defaultUnit: 'ft',
+    breakpoints: [20, 1320],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+const massUnits = {
+  metric: {
+    units: ['g', 'kg', 'mt'],
+    defaultUnit: 'kg',
+    breakpoints: [1, 1000],
+  },
+  imperial: {
+    units: ['oz', 'lb', 't'],
+    defaultUnit: 'lb',
+    breakpoints: [1, 2000],
+  },
+  databaseUnit: databaseUnit.mass,
+};
+
+const volumeFlowRateUnits = {
+  metric: {
+    units: ['l/h', 'l/min'],
+    defaultUnit: 'l/h',
+    breakpoints: [60],
+  },
+  imperial: {
+    units: ['gal/h', 'gal/min'],
+    defaultUnit: 'gal/min',
+    breakpoints: [1],
+  },
+  databaseUnit: databaseUnit.volumeFlowRate,
+};
+
+export const getDefaultUnit = (unitType = area_total_area, value, system, unit) => {
+  if (value) {
+    let displayValue;
+    let displayUnit;
+    const defaultDisplayUnit = unitType[system].defaultUnit;
+    const from = unit ?? unitType.databaseUnit;
+    const defaultDisplayValue =
+      defaultDisplayUnit === from ? value : convert(value).from(from).to(defaultDisplayUnit);
+    let i = 0;
+    for (; i < unitType[system].breakpoints.length; i++) {
+      if (defaultDisplayValue < unitType[system].breakpoints[i]) {
+        displayUnit = unitType[system].units[i];
+        displayValue =
+          displayUnit === defaultDisplayUnit
+            ? defaultDisplayValue
+            : convert(value).from(from).to(displayUnit);
+        return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
+      }
     }
+    displayUnit = unitType[system].units[i];
+    displayValue =
+      displayUnit === defaultDisplayUnit
+        ? defaultDisplayValue
+        : convert(value).from(from).to(displayUnit);
+    return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
+  } else {
+    return { displayUnit: unitType[system].defaultUnit, displayValue: undefined };
   }
-  displayUnit = unitType[system].units[i];
-  displayValue =
-    displayUnit === defaultDisplayUnit
-      ? defaultDisplayValue
-      : convert(value).from(from).to(displayUnit);
-  return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
-};
-
-export const getDefaultDisplayAreaUnit = (value, system = METRIC, from = 'mm2') => {
-  return getDefaultUnit(areaUnits, value, system, from);
-};
-
-export const getDefaultDisplayDistanceUnit = (value, system = METRIC, from = 'm') => {
-  //TODO: If between 4 ft and 20 ft, show in feet and inches to the nearest inch
-  return getDefaultUnit(distanceUnits, value, system, from);
-};
-
-export const getDefaultDisplayMassUnit = (value, system = METRIC, from = 'kg') => {
-  return getDefaultUnit(massUnits, value, system, from);
 };
 
 export const roundToTwoDecimal = (number) => Math.round(number * 100) / 100;
-
-const getDefaultDisplaySeedCountUnit = (value, system = METRIC, from = 'kg') => {
-  return getDefaultUnit(seedAmounts, value, system, from);
-};
-
-export const defaultUnitMap = {
-  length: getDefaultDisplayDistanceUnit,
-  area: getDefaultDisplayAreaUnit,
-  mass: getDefaultDisplayMassUnit,
-};

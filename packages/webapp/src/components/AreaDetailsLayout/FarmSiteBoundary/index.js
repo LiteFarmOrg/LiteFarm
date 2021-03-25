@@ -3,7 +3,14 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 
-export default function PureFarmSiteBoundary({ history, submitForm, system, grid_points }) {
+export default function PureFarmSiteBoundary({
+  history,
+  submitForm,
+  system,
+  grid_points,
+  area,
+  perimeter,
+}) {
   const { t } = useTranslation();
   const {
     register,
@@ -45,6 +52,8 @@ export default function PureFarmSiteBoundary({ history, submitForm, system, grid
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     />
   );
 }

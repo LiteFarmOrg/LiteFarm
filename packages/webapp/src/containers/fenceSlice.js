@@ -4,21 +4,6 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const fenceEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  length: 'length',
-  width: 'width',
-  line_points: 'line_points',
-  length_unit: 'length_unit',
-  width_unit: 'width_unit',
-  pressure_treated: 'pressure_treated',
-};
-
 const fenceProperties = ['pressure_treated'];
 export const getLocationObjectFromFence = (data) => {
   return {

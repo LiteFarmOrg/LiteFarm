@@ -4,24 +4,6 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-export const greenhouseEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  total_area: 'total_area',
-  total_area_unit: 'total_area_unit',
-  grid_points: 'grid_points',
-  perimeter: 'perimeter',
-  perimeter_unit: 'perimeter_unit',
-  organic_status: 'organic_status',
-  transition_date: 'transition_date',
-  supplemental_lighting: 'supplemental_lighting',
-  co2_enrichment: 'co2_enrichment',
-  greenhouse_heated: 'greenhouse_heated',
-};
 const greenHouseProperties = [
   'organic_status',
   'transition_date',

@@ -1,9 +1,9 @@
 import React from 'react';
-import Residence from '../../../components/AreaDetailsLayout/Residence';
-import decorator from '../../Pages/config/decorators';
+import Residence from '../../../../components/AreaDetailsLayout/Residence';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Residence',
+  title: 'Form/Area/Residence',
   decorators: decorator,
   component: Residence,
 };
@@ -14,7 +14,7 @@ export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
   grid_points: (data) => {},
 };
 Primary.parameters = {

@@ -1,51 +1,106 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
-import TitleLayout from "../../Layout/TitleLayout";
-import Unit from "../../Form/Unit";
-import { fieldEnum as areaEnum } from "../../../containers/fieldSlice";
+import { locationEnum } from '../../../containers/Map/constants';
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { measurementSelector } from "../../../containers/userFarmSlice";
-import Button from "../../Form/Button";
-import { Title } from "../../Typography";
+import { Main} from "../../Typography";
 import BackArrow from "../../../assets/images/miscs/arrow.svg";
+import { useTranslation } from "react-i18next";
+import Button from "../../Form/Button";
+import Input from "../../Form/Input";
+import convert from 'convert-units';
 
-export default function PureLineBox({ children, className, ...props }) {
-  const { register, handleSubmit, watch, errors, setValue, getValues, setError, control, formState: { isValid, isDirty },
+const distanceOptions = {
+  metric: 'm',
+  imperial: 'ft'
+};
+
+export default function PureLineBox({ typeOfLine, system, confirmLine, updateWidth, onClickTryAgain,
+                                      onClickBack, ...props }) {
+  const { register, handleSubmit, errors, formState: { isValid },
   } = useForm({
     mode: 'onChange',
   });
-  const system = useSelector(measurementSelector);
+  const [widthValue, setWidthValue] = useState('');
+  const [riparianValue, setRiparianValue] = useState('');
+  const { t } = useTranslation();
+  const widthName = 'width_display';
+  const riparianBuffer = 'buffer_width_display';
+  const widthLabel = typeOfLine === locationEnum.creek ? t('FARM_MAP.LINE_DETAILS.WATERCOURSE'): t('FARM_MAP.LINE_DETAILS.BUFFER_ZONE_WIDTH');
+  const title = typeOfLine === locationEnum.creek ? t('FARM_MAP.LINE_DETAILS.WATERCOURSE_TITLE'): t('FARM_MAP.LINE_DETAILS.BUFFER_TITLE');
+
+  const transformToMeters = (value, updateFunction) => {
+    if(distanceOptions[system] !== 'm') {
+      const meterValue = convert(value).from(distanceOptions[system]).to('m')
+      updateFunction(meterValue);
+    } else {
+      updateFunction(Number(value));
+    }
+  }
+
+  const onSubmit = (data) => {
+    const submitData = {
+      ...data,
+      width: widthValue,
+      buffer_width: riparianValue
+    }
+    confirmLine(submitData);
+  }
+
+  useEffect(() => {
+    updateWidth(widthValue + riparianValue);
+  }, [widthValue, riparianValue])
+
   return (
-    <div className={clsx(styles.box, className)} {...props}>
+    <div className={clsx(styles.box)} {...props}>
       <div style={{flexOrder: 1}}>
         <div style={{display: 'flex', flexDirection: 'row'}}>
-          <img
+          <img onClick={onClickBack}
             src={BackArrow}
-            style={{ cursor: 'pointer', flexOrder: 1}}
+            style={{ cursor: 'pointer', flexOrder: 1, paddingBottom:'24px'}}
           />
-          <div style={{flexOrder: 2, flexGrow: '5', marginTop: '15px'}}>
-            <Title> What's the width ? </Title>
+          <div style={{flexOrder: 2, flexGrow: '5', paddingBottom: '24px'}}>
+            <Main>{title}</Main>
           </div>
         </div>
       </div>
-        <Unit
-          register={register}
-          classes={{ container: { flexGrow: 1 } }}
-          label={'Buffer zone Width'}
-          name={'width'}
-          displayUnitName={areaEnum.perimeter_unit}
-          // defaultValue={defaultArea}
-          errors={'Possible error'}
-          from={'m'}
-          system={system}
-          hookFormSetValue={setValue}
-          hookFormGetValue={getValues}
-          hookFormSetError={setError}
-          control={control}
-          required
-        />
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div style={{ minWidth: typeOfLine === locationEnum.creek ? '48%' : '100%'}}>
+          <Input
+            label={widthLabel}
+            type="number"
+            onChange={(e) => {
+              transformToMeters(e.target.value, setWidthValue);
+            }}
+            unit={distanceOptions[system]}
+            name={widthName}
+            inputRef={register({ required: true })}
+            errors={errors[widthName] && t('common:REQUIRED')}
+          />
+        </div>
+        {
+          typeOfLine === locationEnum.creek &&
+          <div style={{ flexOrder: 2, minWidth: '48%',  marginLeft: '16px'}} >
+            <Input
+              label={t('FARM_MAP.LINE_DETAILS.RIPARIAN_BUFFER')}
+              type="number"
+              unit={distanceOptions[system]}
+              onChange={(e) => {
+                transformToMeters(e.target.value, setRiparianValue);
+              }}
+              name={riparianBuffer}
+              inputRef={register({ required: true })}
+              errors={errors[riparianBuffer] && t('common:REQUIRED')}
+            />
+          </div>
+        }
+      </div>
+      <div style={{ flexOrder: 3, paddingTop: '20px'}}>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <Button  color={'secondary'} onClick={onClickTryAgain} sm>{t('FARM_MAP.DRAWING_MANAGER.REDRAW')}</Button>
+          <Button onClick={handleSubmit(onSubmit)} disabled={!isValid} color={'primary'} sm>{t('common:CONFIRM')}</Button>
+        </div>
+      </div>
     </div>
   );
 }

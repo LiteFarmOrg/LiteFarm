@@ -19,17 +19,21 @@ export default function PureDrawingManager({
   onClickConfirm,
   showZeroAreaWarning,
   showLineModal,
-  setWidth,
-  confirmLine
+  confirmLine,
+  updateLineWidth,
+  system,
+  typeOfLine
 }) {
   const { t } = useTranslation();
   const showConfirmButtons = !showZeroAreaWarning && !showLineModal && !isDrawing;
   // ASSUMING AREA CANNOT IMPLEMENT UNDO (reset drawing)
   return (
     <div className={clsx(styles.container, className)} style={style}>
-      <button onClick={onClickBack} className={styles.backButton}>
-        <BackIcon className={styles.svg} />
-      </button>
+      { !showLineModal &&
+        <button onClick={onClickBack} className={styles.backButton}>
+          <BackIcon className={styles.svg} />
+        </button>
+      }
       {!isDrawing &&
         <>
           { showZeroAreaWarning  &&
@@ -43,7 +47,8 @@ export default function PureDrawingManager({
           {
            showLineModal &&
            <>
-             <PureLineBox  />
+             <PureLineBox system={system}  confirmLine={confirmLine} updateWidth={updateLineWidth}
+                          onClickTryAgain={onClickTryAgain} onClickBack={onClickBack} typeOfLine={typeOfLine} />
            </>
           }
         </>
@@ -54,7 +59,9 @@ export default function PureDrawingManager({
         <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
       </div>
       }
-      <div className={styles.flexFill} />
+      { !showLineModal &&
+        <div className={styles.flexFill} />
+      }
     </div>
   );
 }
@@ -65,4 +72,8 @@ PureDrawingManager.prototype = {
   farmName: PropTypes.string,
   showVideo: PropTypes.func,
   showZeroAreaWarning: PropTypes.bool,
+  showLineModal: PropTypes.bool,
+  confirmLine: PropTypes.func,
+  updateLineWidth: PropTypes.func,
+  system: PropTypes.string
 };

@@ -11,6 +11,7 @@ export default function useDrawingManager() {
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
   const [widthPolygon, setWidthPolygon] = useState(null);
+  const [lineWidth, setLineWidth] = useState(8);
   const [drawLocationType, setDrawLocationType] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToCheck, setDrawingToCheck] = useState(null);
@@ -31,10 +32,9 @@ export default function useDrawingManager() {
     if (drawingToCheck?.type === 'polyline'
       && [locationEnum.creek, locationEnum.buffer_zone].includes(drawLocationType)) {
       const { overlay } = drawingToCheck;
-      const FIXED_WIDTH = 30;
       const path = overlay.getPath().getArray();
       const {leftPoints, rightPoints} = path.reduce(linePathPolygonConstructor, {
-        leftPoints: [], rightPoints:[], bearings: [], width: FIXED_WIDTH
+        leftPoints: [], rightPoints:[], bearings: [], width: lineWidth
       });
       const polyPath = leftPoints.concat(rightPoints.reverse());
       widthPolygon !== null && widthPolygon.setMap(null);
@@ -47,7 +47,7 @@ export default function useDrawingManager() {
     } else if(widthPolygon !== null){
       widthPolygon.setMap(null);
     }
-  }, [drawingToCheck]);
+  }, [drawingToCheck, lineWidth]);
 
   useEffect(() => {
     if (!onSteppedBack) return;
@@ -57,14 +57,7 @@ export default function useDrawingManager() {
     if (isArea(type)) {
       const redrawnPolygon = new maps.Polygon({
         paths: overlayData.grid_points,
-        strokeWeight: 2,
-        fillOpacity: 0.3,
-        editable: true,
-        draggable: true,
-        fillColor: areaStyles[type].colour,
-        strokeColor: areaStyles[type].colour,
-        geodesic: true,
-        suppressUndo: true,
+        ...getDrawingOptions(type).polygonOptions
       });
       redrawnPolygon.setMap(map);
       setDrawingToCheck({
@@ -72,7 +65,16 @@ export default function useDrawingManager() {
         overlay: redrawnPolygon,
       });
     } else if (isLine(type)) {
-      console.log('line reconstruction not implemented');
+      setLineWidth(overlayData.width);
+      const redrawnLine = new maps.Polyline({
+        path: overlayData.line_points,
+        ...getDrawingOptions(type).polylineOptions
+      })
+      redrawnLine.setMap(map);
+      setDrawingToCheck({
+        type: maps.drawing.OverlayType.POLYLINE,
+        overlay: redrawnLine
+      })
     } else if (isPoint(type)) {
       let redrawnMarker = new maps.Marker({
         position: overlayData.point,
@@ -199,8 +201,7 @@ export default function useDrawingManager() {
     if (isLine(drawLocationType)) {
       const line_points = maps.polyline.getPath().getArray().map(getVertices);
       const length = Math.round(computeLength(line_points));
-      // const width = ???;
-      return { line_points, length };
+      return { type: drawLocationType, line_points, length };
     }
     if (isPoint(drawLocationType)) {
       const position = overlay.getPosition();
@@ -230,6 +231,7 @@ export default function useDrawingManager() {
     closeDrawer,
     getOverlayInfo,
     reconstructOverlay,
+    setLineWidth
   }
 
   return [drawingState, drawingFunctions];
@@ -250,7 +252,7 @@ const getDrawingOptions = (type) => {
         suppressUndo: true,
       },
     }
-  };
+  }
 
   if (isLine(type)) {
     const { colour, dashScale, dashLength } = lineStyles[type];

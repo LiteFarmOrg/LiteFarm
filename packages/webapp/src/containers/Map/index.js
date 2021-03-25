@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../userFarmSlice';
+import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
@@ -39,6 +39,8 @@ export default function Map({ history }) {
   const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
+  const system = useSelector(measurementSelector);
+
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.creek];
   const { t } = useTranslation();
 
@@ -54,6 +56,7 @@ export default function Map({ history }) {
       closeDrawer,
       getOverlayInfo,
       reconstructOverlay,
+      setLineWidth
     },
   ] = useDrawingManager();
 
@@ -244,7 +247,12 @@ export default function Map({ history }) {
       dispatch(setLocationData(getOverlayInfo()));
       history.push(`/create_location/${drawingState.type}`);
     }
+  }
 
+  const handleLineConfirm = (lineData) => {
+    const data = {...getOverlayInfo(), ...lineData};
+    dispatch(setLocationData(data));
+    history.push(`/create_location/${drawingState.type}`);
   }
 
   return (
@@ -278,7 +286,7 @@ export default function Map({ history }) {
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
-                showLineModal={true}
+                showLineModal={lineTypesWithWidth.includes(drawingState.type) && !drawingState.isActive}
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);
@@ -291,6 +299,10 @@ export default function Map({ history }) {
                 }}
                 onClickConfirm={handleConfirm}
                 showZeroAreaWarning={showZeroAreaWarning}
+                confirmLine={handleLineConfirm}
+                updateLineWidth={setLineWidth}
+                system={system}
+                typeOfLine={drawingState.type}
               />
             </div>
           )}

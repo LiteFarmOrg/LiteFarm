@@ -14,14 +14,21 @@
  */
 
 import { createAction } from '@reduxjs/toolkit';
-import { call, select, takeLatest } from 'redux-saga/effects';
+import { put, call, select, takeLatest } from 'redux-saga/effects';
 import { url } from '../../apiConfig';
 import { toastr } from 'react-redux-toastr';
 import i18n from '../../locales/i18n';
-import { axios } from '../saga';
+import { getHeader, axios } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
+import {
+  spotlightLoading,
+  patchSpotlightFlagsSuccess,
+  patchSpotlightFlagsFailure,
+} from '../showedSpotlightSlice';
+import { loginSelector } from '../userFarmSlice';
 
 const sendMapToEmailUrl = (farm_id) => `${url}/export/map/farm/${farm_id}`;
+const showedSpotlightUrl = () => `${url}/showed_spotlight`;
 
 export const sendMapToEmail = createAction(`sendMapToEmailSaga`);
 
@@ -48,6 +55,27 @@ export function* sendMapToEmailSaga({ payload: fileDataURL }) {
   }
 }
 
+export const setSpotlightToShown = createAction(`setSpotlightToShownSaga`);
+export function* setSpotlightToShownSaga({ payload: spotlight }) {
+  try {
+    const { user_id } = yield select(loginSelector);
+    const header = getHeader(user_id);
+    let patchContent = {};
+    patchContent[spotlight] = true;
+    patchContent[`${spotlight}_end`] = new Date().toISOString();
+    console.log(patchContent);
+    yield put(spotlightLoading());
+    const result = yield call(axios.patch, showedSpotlightUrl(), patchContent, header);
+    if (result) {
+      yield put(patchSpotlightFlagsSuccess(patchContent));
+    }
+  } catch (error) {
+    yield put(patchSpotlightFlagsFailure());
+    console.log('failed to fetch task types from database');
+  }
+}
+
 export default function* supportSaga() {
   yield takeLatest(sendMapToEmail.type, sendMapToEmailSaga);
+  yield takeLatest(setSpotlightToShown.type, setSpotlightToShownSaga);
 }

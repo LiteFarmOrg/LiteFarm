@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail } from './saga';
+import { sendMapToEmail, setSpotlightToShown } from './saga';
 import { fieldsSelector } from '../fieldSlice';
 import {
   setLocationData,
@@ -16,11 +16,14 @@ import {
   setShowSuccessHeaderSelector,
   canShowSuccessHeader,
 } from '../mapSlice';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
+import AdjustModal from '../../components/Modals/MapTutorialModal';
+import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -42,6 +45,7 @@ export default function Map({ history }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
+  const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
@@ -180,27 +184,26 @@ export default function Map({ history }) {
     }
   };
 
-  const resetSpotlight = () => {
-    dispatch(endMapSpotlight(farm_id));
-  };
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showAdjustModal, setShowAdjustModal] = useState(false);
+  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
 
   const handleClickAdd = () => {
-    setShowModal(false);
+    setShowExportModal(false);
     setShowMapFilter(false);
     setShowAddDrawer(!showAddDrawer);
   };
 
   const handleClickExport = () => {
-    setShowModal(!showModal);
+    setShowExportModal(!showExportModal);
     setShowMapFilter(false);
     setShowAddDrawer(false);
   };
 
   const handleClickFilter = () => {
-    setShowModal(false);
+    setShowExportModal(false);
     setShowAddDrawer(false);
     setShowMapFilter(!showMapFilter);
   };
@@ -221,14 +224,14 @@ export default function Map({ history }) {
   const availableFilterSettings = useSelector(availableFilterSettingsSelector);
 
   const handleAddMenuClick = (locationType) => {
+    setZeroAreaWarning(false);
+    if (isArea(locationType) && !showedSpotlight.draw_area) {
+      setShowDrawAreaSpotlightModal(true);
+    }
     startDrawing(locationType);
   };
 
   const mapWrapperRef = useRef();
-
-  const handleDismiss = () => {
-    setShowModal(false);
-  };
 
   const handleShowVideo = () => {
     console.log('show video clicked');
@@ -303,6 +306,7 @@ export default function Map({ history }) {
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
+                onClickAdjust={() => setShowAdjustModal(true)}
                 onClickConfirm={() => {
                   dispatch(setLocationData(getOverlayInfo()));
                   history.push(`/create_location/${drawingState.type}`);
@@ -317,11 +321,11 @@ export default function Map({ history }) {
           <PureMapFooter
             className={styles.mapFooter}
             isAdmin={is_admin}
-            showSpotlight={showMapSpotlight}
-            resetSpotlight={resetSpotlight}
+            showSpotlight={!showedSpotlight.map}
+            resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
             onClickAdd={handleClickAdd}
             onClickExport={handleClickExport}
-            showModal={showModal}
+            showModal={showExportModal}
             setShowMapFilter={setShowMapFilter}
             showMapFilter={showMapFilter}
             setShowAddDrawer={setShowAddDrawer}
@@ -333,11 +337,24 @@ export default function Map({ history }) {
             availableFilterSettings={availableFilterSettings}
           />
         )}
-        {showModal && (
+        {showExportModal && (
           <ExportMapModal
             onClickDownload={handleDownload}
             onClickShare={handleShare}
-            dismissModal={handleDismiss}
+            dismissModal={() => setShowExportModal(false)}
+          />
+        )}
+        {showAdjustModal && (
+          <AdjustModal
+            dismissModal={() => setShowAdjustModal(false)}
+          />
+        )}
+        {showDrawAreaSpotlightModal && (
+          <DrawAreaModal
+            dismissModal={() => {
+              setShowDrawAreaSpotlightModal(false);
+              dispatch(setSpotlightToShown('draw_area'));
+            }}
           />
         )}
       </div>

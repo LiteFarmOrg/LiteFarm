@@ -35,7 +35,7 @@ export default function useDrawingManager() {
       const redrawnPolygon = new maps.Polygon({
         paths: overlayData.grid_points,
         strokeWeight: 2,
-        fillOpacity: 0.3,
+        fillOpacity: areaStyles[type].filledColour ? 0.3 : 0,
         editable: true,
         draggable: true,
         fillColor: areaStyles[type].colour,
@@ -96,6 +96,13 @@ export default function useDrawingManager() {
     drawingManager.setDrawingMode();
   }
 
+  const toggleDrawingAdjustment = () => {
+    drawingToCheck.overlay.setOptions({
+      editable: !drawingToCheck.overlay.getEditable(),
+      draggable: !drawingToCheck.overlay.getDraggable(),
+    });
+  }
+
   const getOverlayInfo = () => {
     const { overlay } = drawingToCheck;
     const { computeArea, computeLength, computeDistanceBetween } = maps.geometry.spherical;
@@ -142,6 +149,7 @@ export default function useDrawingManager() {
     closeDrawer,
     getOverlayInfo,
     reconstructOverlay,
+    toggleDrawingAdjustment,
   }
 
   return [drawingState, drawingFunctions];
@@ -149,11 +157,11 @@ export default function useDrawingManager() {
 
 const getDrawingOptions = (type) => {
   if (isArea(type)) {
-    const { colour } = areaStyles[type];
+    const { colour, filledColour } = areaStyles[type];
     return {
       polygonOptions: {
         strokeWeight: 2,
-        fillOpacity: 0.3,
+        fillOpacity: filledColour ? 0.3 : 0,
         editable: true,
         draggable: true,
         fillColor: colour,

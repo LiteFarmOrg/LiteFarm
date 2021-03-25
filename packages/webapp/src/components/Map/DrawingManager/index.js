@@ -16,6 +16,7 @@ export default function PureDrawingManager({
   onClickBack,
   onClickTryAgain,
   onClickConfirm,
+  onClickAdjust,
   showZeroAreaWarning,
 }) {
   const { t } = useTranslation();
@@ -33,8 +34,9 @@ export default function PureDrawingManager({
           </Label>
           <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'primary'} sm>{t('FARM_MAP.DRAWING_MANAGER.REDRAW')}</Button>
         </PureWarningBox> :
-        <div>
-          <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.TRY_AGAIN')}</Button>
+        <div className={styles.buttonContainer}>
+          <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.REDRAW')}</Button>
+          <Button onClick={onClickAdjust} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.ADJUST')}</Button>
           <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
         </div>
       )}

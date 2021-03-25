@@ -98,8 +98,8 @@
       "TITLE": "Add ceremonial area"
     },
     "DRAWING_MANAGER": {
+      "ADJUST": "Adjust",
       "REDRAW": "Redraw",
-      "TRY_AGAIN": "Try again",
       "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
     },
     "EXPORT_MODAL": {
@@ -220,6 +220,25 @@
       "TITLE": "Add surface water"
     },
     "TITLE": "Farm map",
+    "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "Click-and-drag points to adjust the shape",
+        "TITLE": "Adjust shape"
+      },
+      "AREA": {
+        "STEP_ONE": "Click anywhere to start drawing",
+        "STEP_THREE": "Click-and-drag points to adjust the shape",
+        "STEP_TWO": "Click the initial point to close the area",
+        "TITLE": "Draw an area"
+      },
+      "LINE": {
+        "STEP_FOUR": "(For certain line types) add a width",
+        "STEP_ONE": "Click anywhere to start drawing",
+        "STEP_THREE": "Optionally, adjust your line",
+        "STEP_TWO": "Double-click to finish your line",
+        "TITLE": "Draw a line"
+      }
+    },
     "WATER_VALVE": {
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
@@ -591,6 +610,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

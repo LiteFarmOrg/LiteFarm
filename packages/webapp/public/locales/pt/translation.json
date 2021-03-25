@@ -98,8 +98,8 @@
       "TITLE": "Add residence"
     },
     "DRAWING_MANAGER": {
+      "ADJUST": "Adjust",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -213,6 +213,25 @@
       "TITLE": "Add surface water"
     },
     "TITLE": "MISSING",
+    "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "AREA": {
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "LINE": {
+        "STEP_FOUR": "MISSING",
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      }
+    },
     "WATER_VALVE": {
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
@@ -584,6 +603,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

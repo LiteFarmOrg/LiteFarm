@@ -52,6 +52,7 @@ import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
+import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -142,6 +143,7 @@ const entitiesReducer = combineReducers({
   fenceReducer,
   gateReducer,
   waterValveReducer,
+  showedSpotlightReducer,
 });
 
 const persistedStateReducer = combineReducers({

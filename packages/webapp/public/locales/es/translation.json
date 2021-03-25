@@ -87,6 +87,16 @@
       "PERIMETER": "Perimetro",
       "TOTAL_AREA": "Area total"
     },
+    "BARN": {
+      "COLD_STORAGE": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WASH_PACK": "MISSING"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
       "TRY_AGAIN": "Intenta de nuevo",
@@ -125,40 +135,17 @@
       "NAME": "Puerta",
       "TITLE": "Agregar puerta"
     },
-    "BARN": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WASH_PACK": "MISSING",
-      "COLD_STORAGE": "MISSING"
-    },
-    "NATURAL_AREA": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
-    },
-    "SURFACE_WATER": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "IRRIGATION": "MISSING"
-    },
-    "CEREMONIAL_AREA": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
-    },
-    "RESIDENCE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
-    },
     "GREENHOUSE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
+      "CO2_ENRICHMENT": "MISSING",
       "DATE": "MISSING",
+      "GREENHOUSE_HEATED": "MISSING",
       "GREENHOUSE_TYPE": "MISSING",
+      "NAME": "MISSING",
       "NON_ORGANIC": "MISSING",
       "ORGANIC": "MISSING",
-      "TRANSITIONING": "MISSING",
       "SUPPLEMENTAL_LIGHTING": "MISSING",
-      "CO2_ENRICHMENT": "MISSING",
-      "GREENHOUSE_HEATED": "MISSING"
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
@@ -184,6 +171,14 @@
       "TITLE": "Filtra tu mapa",
       "WV": "Valvula de agua"
     },
+    "NATURAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "RESIDENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
       "ADD_TITLE": "Añade a tu mapa",
@@ -192,6 +187,11 @@
       "FILTER": "Cambia que se ve en el mapa",
       "FILTER_TITLE": "Filtra tu mapa",
       "HERE_YOU_CAN": "Aqui puedes: "
+    },
+    "SURFACE_WATER": {
+      "IRRIGATION": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "WATER_VALVE": {

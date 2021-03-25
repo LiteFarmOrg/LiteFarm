@@ -14,7 +14,7 @@ import {
   setLocationData,
   setSuccessMessageSelector,
   setShowSuccessHeaderSelector,
-  canShowSuccessHeader,
+  canShowSuccessHeader, locationInfoSelector, resetLocationData,
 } from '../mapSlice';
 
 import PureMapHeader from '../../components/Map/Header';
@@ -46,6 +46,7 @@ export default function Map({ history }) {
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
+  const overlayData = useSelector(locationInfoSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -316,9 +317,11 @@ export default function Map({ history }) {
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);
+                  dispatch(resetLocationData());
                   closeDrawer();
                 }}
                 onClickTryAgain={() => {
+                  dispatch(resetLocationData());
                   setZeroAreaWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
@@ -328,6 +331,7 @@ export default function Map({ history }) {
                 confirmLine={handleLineConfirm}
                 updateLineWidth={setLineWidth}
                 system={system}
+                lineData={overlayData}
                 typeOfLine={drawingState.type}
               />
             </div>

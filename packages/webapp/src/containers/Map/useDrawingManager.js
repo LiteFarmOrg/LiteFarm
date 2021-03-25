@@ -30,7 +30,7 @@ export default function useDrawingManager() {
 
   useEffect(() => {
     if (drawingToCheck?.type === 'polyline'
-      && [locationEnum.creek, locationEnum.buffer_zone].includes(drawLocationType)) {
+      && [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType)) {
       const { overlay } = drawingToCheck;
       const path = overlay.getPath().getArray();
       const {leftPoints, rightPoints} = path.reduce(linePathPolygonConstructor, {
@@ -71,6 +71,7 @@ export default function useDrawingManager() {
         ...getDrawingOptions(type).polylineOptions
       })
       redrawnLine.setMap(map);
+      console.log(overlayData);
       setDrawingToCheck({
         type: maps.drawing.OverlayType.POLYLINE,
         overlay: redrawnLine
@@ -208,7 +209,7 @@ export default function useDrawingManager() {
       const position = overlay.getPosition();
       const point = { lat: position.lat(), lng: position.lng() };
       return { type: drawLocationType, point };
-    };
+    }
   }
 
   const reconstructOverlay = () => {

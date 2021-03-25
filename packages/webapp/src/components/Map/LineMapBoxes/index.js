@@ -22,13 +22,16 @@ export default function PureLineBox({
   updateWidth,
   onClickTryAgain,
   onClickBack,
+  locationData,
   ...props
 }) {
   const {
     register,
     handleSubmit,
     errors,
+    setValue,
     formState: { isValid },
+    trigger
   } = useForm({
     mode: 'onChange',
   });
@@ -67,6 +70,16 @@ export default function PureLineBox({
   useEffect(() => {
     updateWidth(widthValue + riparianValue);
   }, [widthValue, riparianValue]);
+
+  useEffect( () => {
+    if(locationData.width) {
+      setValue(widthName, locationData[widthName]);
+      setValue(riparianBuffer, locationData[riparianBuffer]);
+      setWidthValue(locationData?.width);
+      setRiparianValue(locationData?.buffer_width);
+      trigger();
+    }
+  }, [])
 
   return (
     <div className={clsx(styles.box)} {...props}>

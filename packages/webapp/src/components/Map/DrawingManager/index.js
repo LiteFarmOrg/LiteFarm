@@ -22,7 +22,8 @@ export default function PureDrawingManager({
   confirmLine,
   updateLineWidth,
   system,
-  typeOfLine
+  typeOfLine,
+  lineData
 }) {
   const { t } = useTranslation();
   const showConfirmButtons = !showZeroAreaWarning && !showLineModal && !isDrawing;
@@ -47,7 +48,7 @@ export default function PureDrawingManager({
           {
            showLineModal &&
            <>
-             <PureLineBox system={system}  confirmLine={confirmLine} updateWidth={updateLineWidth}
+             <PureLineBox system={system}  confirmLine={confirmLine} updateWidth={updateLineWidth} locationData={lineData}
                           onClickTryAgain={onClickTryAgain} onClickBack={onClickBack} typeOfLine={typeOfLine} />
            </>
           }

@@ -147,13 +147,32 @@
       "TITLE": "MISSING",
       "TRANSITIONING": "MISSING"
     },
+    "FENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "PRESSURE_TREATED": "MISSING"
+    },
+    "BUFFER_ZONE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
+    },
+    "WATERCOURSE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "WIDTH": "MISSING",
+      "BUFFER": "MISSING",
+      "IRRIGATION": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",
       "BARN": "MISSING",
       "BZ": "MISSING",
       "CA": "MISSING",
-      "CREEK": "MISSING",
+      "WATERCOURSE": "MISSING",
       "FENCE": "MISSING",
       "FIELD": "MISSING",
       "FSB": "MISSING",

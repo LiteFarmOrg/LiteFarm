@@ -40,7 +40,7 @@ export default function PureMapFooter({
       locationEnum.natural_area,
       locationEnum.residence,
     ],
-    line: [locationEnum.buffer_zone, locationEnum.creek, locationEnum.fence],
+    line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
     point: [locationEnum.gate, locationEnum.water_valve],
   },
 }) {

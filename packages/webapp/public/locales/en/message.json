@@ -92,6 +92,10 @@
       "LOGIN_FAIL": "Failed to login user info"
     }
   },
+  "MAP": {
+    "FAIL_POST": "Failed to add new",
+    "SUCCESS_POST": " successfully saved"
+  },
   "NEW_FIELD_CROP": {
     "ERROR": {
       "GENERAL": "failed to add fieldCrop to database",
@@ -154,10 +158,5 @@
       "REVOKE": "User access revoked!",
       "UPDATE": "Successfully updated user info!"
     }
-  },
-  "MAP": {
-    "SUCCESS_POST": " successfully saved",
-    "SUCCESS_PATCH": " successfully updated",
-    "SUCCESS_DEL": " successfully removed"
   }
 }

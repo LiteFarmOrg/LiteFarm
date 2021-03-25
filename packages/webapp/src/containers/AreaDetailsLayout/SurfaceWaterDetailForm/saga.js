@@ -7,7 +7,7 @@ import {
   getLocationObjectFromSurfaceWater,
   postSurfaceWaterSuccess,
 } from '../../surfaceWaterSlice';
-import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
+import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
 
@@ -40,6 +40,14 @@ export function* postSurfaceWaterLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
+          .toLowerCase()}`,
+      },
+    });
     console.log(e);
   }
 }

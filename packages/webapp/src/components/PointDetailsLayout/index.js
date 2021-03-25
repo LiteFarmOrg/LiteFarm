@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
 import { gateEnum as pointEnum } from '../../containers/gateSlice';
+import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
+import PureWarningBox from '../WarningBox';
+import { Label } from '../Typography';
 
 export default function PointDetailsLayout({
   name,
@@ -19,7 +22,24 @@ export default function PointDetailsLayout({
   errors,
 }) {
   const { t } = useTranslation();
-  const [notes, setNotes] = useState('');
+  const [errorMessage, setErrorMessage] = useState();
+
+  useEffect(() => {
+    const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
+    const handleOnline = () => setErrorMessage(null);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+    return () => {
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error) {
+      setErrorMessage(history?.location?.state?.error);
+    }
+  }, [history?.location?.state?.error]);
   const onCancel = () => {
     history.push('/map');
   };
@@ -30,12 +50,8 @@ export default function PointDetailsLayout({
       isStepBack: true,
     });
   };
-  const setNotesValue = (value) => {
-    setNotes(value);
-  };
 
   const onSubmit = (data) => {
-    data.notes = notes;
     submitForm(data);
   };
 
@@ -54,6 +70,11 @@ export default function PointDetailsLayout({
         </>
       }
     >
+      {errorMessage && (
+        <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
+          <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
+        </PureWarningBox>
+      )}
       <Input
         label={name + ' name'}
         type="text"
@@ -70,7 +91,8 @@ export default function PointDetailsLayout({
         optional
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
-        onChange={(e) => setNotesValue(e.target.value)}
+        inputRef={register}
+        name={areaEnum.notes}
       />
     </FormTitleLayout>
   );

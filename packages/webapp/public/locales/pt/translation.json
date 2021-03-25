@@ -87,6 +87,16 @@
       "PERIMETER": "Perimeter",
       "TOTAL_AREA": "Total area"
     },
+    "BARN": {
+      "COLD_STORAGE": "Does this barn have cold storage?",
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "MISSING",
       "TRY_AGAIN": "MISSING",
@@ -125,40 +135,17 @@
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
-    "BARN": {
-      "NAME": "Barn",
-      "TITLE": "Add barn",
-      "WASH_PACK": "Does this barn have a wash and pack station?",
-      "COLD_STORAGE": "Does this barn have cold storage?"
-    },
-    "NATURAL_AREA": {
-      "NAME": "Natural area",
-      "TITLE": "Add natural area"
-    },
-    "SURFACE_WATER": {
-      "NAME": "Surface water",
-      "TITLE": "Add surface water",
-      "IRRIGATION": "Is this area used for irrigation?"
-    },
-    "CEREMONIAL_AREA": {
-      "NAME": "Residence",
-      "TITLE": "Add residence"
-    },
-    "RESIDENCE": {
-      "NAME": "Ceremonial area",
-      "TITLE": "Add ceremonial area"
-    },
     "GREENHOUSE": {
-      "NAME": "Greenhouse",
-      "TITLE": "Add greenhouse",
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
       "DATE": "Eligible transition date",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NAME": "Greenhouse",
       "NON_ORGANIC": "Non-organic",
       "ORGANIC": "Organic",
-      "TRANSITIONING": "Transitioning",
       "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
-      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
-      "GREENHOUSE_HEATED": "Is the greenhouse heated?"
+      "TITLE": "Add greenhouse",
+      "TRANSITIONING": "Transitioning"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
@@ -184,6 +171,14 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",
@@ -192,6 +187,11 @@
       "FILTER": "MISSING",
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
+    },
+    "SURFACE_WATER": {
+      "IRRIGATION": "Is this area used for irrigation?",
+      "NAME": "Surface water",
+      "TITLE": "Add surface water"
     },
     "TITLE": "MISSING",
     "WATER_VALVE": {

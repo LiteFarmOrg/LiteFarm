@@ -92,6 +92,10 @@
       "LOGIN_FAIL": "MISSING"
     }
   },
+  "MAP": {
+    "FAIL_POST": "MISSING",
+    "SUCCESS_POST": "MISSING"
+  },
   "NEW_FIELD_CROP": {
     "ERROR": {
       "GENERAL": "MISSING",
@@ -154,10 +158,5 @@
       "REVOKE": "MISSING",
       "UPDATE": "MISSING"
     }
-  },
-  "MAP": {
-    "SUCCESS_POST": "MISSING",
-    "SUCCESS_PATCH": "MISSING",
-    "SUCCESS_DEL": "MISSING"
   }
 }

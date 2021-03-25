@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { ReactComponent as AdjustAreaImg } from '../../../../assets/images/map/adjustArea.svg';
 import styles from './styles.module.scss';
 
-export default function AdjustDrawingModal({ dismissModal }) {
+export default function AdjustAreaModal({ dismissModal }) {
   const { t } = useTranslation();
 
   return (
@@ -21,6 +21,6 @@ export default function AdjustDrawingModal({ dismissModal }) {
   );
 }
 
-AdjustDrawingModal.prototype = {
+AdjustAreaModal.prototype = {
   dismissModal: PropTypes.func,
 };

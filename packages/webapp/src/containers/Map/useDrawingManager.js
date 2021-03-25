@@ -3,6 +3,7 @@ import { areaStyles, lineStyles, icons } from './mapStyles';
 import { isArea, isLine, isPoint, locationEnum } from './constants';
 import { useSelector } from 'react-redux';
 import { locationInfoSelector } from '../mapSlice';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 
 export default function useDrawingManager() {
@@ -19,7 +20,10 @@ export default function useDrawingManager() {
   const [onBackPressed, setOnBackPressed] = useState(false);
   const [onSteppedBack, setOnSteppedBack] = useState(false);
 
+  const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
+
   const overlayData = useSelector(locationInfoSelector);
+  const showedSpotlight = useSelector(showedSpotlightSelector);
 
   useEffect(() => {
     if (onBackPressed) {
@@ -91,6 +95,13 @@ export default function useDrawingManager() {
     }
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);
+
+  useEffect(() => {
+    if (drawingToCheck) {
+      if (isArea(drawLocationType) && !showedSpotlight.adjust_area)
+        setShowAdjustAreaSpotlightModal(true);
+    }
+  }, [drawingToCheck, drawLocationType, showedSpotlight.adjust_area])
 
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);
@@ -232,6 +243,7 @@ export default function useDrawingManager() {
     supportedDrawingModes,
     drawingManager,
     drawingToCheck,
+    showAdjustAreaSpotlightModal,
   }
   const drawingFunctions = {
     initDrawingState,
@@ -242,7 +254,8 @@ export default function useDrawingManager() {
     getOverlayInfo,
     reconstructOverlay,
     toggleDrawingAdjustment,
-    setLineWidth
+    setLineWidth,
+    setShowAdjustAreaSpotlightModal,
   }
 
   return [drawingState, drawingFunctions];

@@ -93,6 +93,11 @@
       "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
     },
+    "BUFFER_ZONE": {
+      "NAME": "Buffer zone",
+      "TITLE": "Add buffer zone",
+      "WIDTH": "Buffer zone width"
+    },
     "CEREMONIAL_AREA": {
       "NAME": "Residence",
       "TITLE": "Add residence"
@@ -100,6 +105,7 @@
     "DRAWING_MANAGER": {
       "ADJUST": "Adjust",
       "REDRAW": "MISSING",
+      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -112,6 +118,12 @@
     "FARM_SITE_BOUNDARY": {
       "NAME": "Farm site boundary name",
       "TITLE": "Add farm site boundary"
+    },
+    "FENCE": {
+      "LENGTH": "Total length",
+      "NAME": "Fence",
+      "PRESSURE_TREATED": "Is this fence pressure treated?",
+      "TITLE": "Add fence"
     },
     "FIELD": {
       "DATE": "Eligible transition date",
@@ -147,24 +159,12 @@
       "TITLE": "Add greenhouse",
       "TRANSITIONING": "Transitioning"
     },
-    "FENCE": {
-      "NAME": "Fence",
-      "TITLE": "Add fence",
-      "LENGTH": "Total length",
-      "PRESSURE_TREATED": "Is this fence pressure treated?"
-    },
-    "BUFFER_ZONE": {
-      "NAME": "Buffer zone",
-      "TITLE": "Add buffer zone",
-      "WIDTH": "Buffer zone width"
-    },
-    "WATERCOURSE": {
-      "NAME": "Watercourse",
-      "TITLE": "Add watercourse",
-      "LENGTH": "Total length",
-      "WIDTH": "Watercourse width",
-      "BUFFER": "Riparian buffer",
-      "IRRIGATION": "Is this area used for irrigation?"
+    "LINE_DETAILS": {
+      "BUFFER_TITLE": "MISSING",
+      "BUFFER_ZONE_WIDTH": "MISSING",
+      "RIPARIAN_BUFFER": "MISSING",
+      "WATERCOURSE": "MISSING",
+      "WATERCOURSE_TITLE": "MISSING"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
@@ -172,7 +172,6 @@
       "BARN": "Barn",
       "BZ": "Buffer zone",
       "CA": "Ceremonial area",
-      "WATERCOURSE": "Watercourse",
       "FENCE": "Fence",
       "FIELD": "Field",
       "FSB": "Farm site boundary",
@@ -188,6 +187,7 @@
       "SHOW_ALL": "Show all",
       "SURFACE_WATER": "MISSING",
       "TITLE": "Filter your map",
+      "WATERCOURSE": "Watercourse",
       "WV": "Water valve"
     },
     "NATURAL_AREA": {
@@ -241,6 +241,14 @@
       "SURFACE_WATER": "Surface water",
       "TITLE": "Add water valve",
       "WATER_VALVE_TYPE": "What is the source?"
+    },
+    "WATERCOURSE": {
+      "BUFFER": "Riparian buffer",
+      "IRRIGATION": "Is this area used for irrigation?",
+      "LENGTH": "Total length",
+      "NAME": "Watercourse",
+      "TITLE": "Add watercourse",
+      "WIDTH": "Watercourse width"
     }
   },
   "FIELDS": {

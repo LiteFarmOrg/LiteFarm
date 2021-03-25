@@ -25,6 +25,7 @@ import ExportMapModal from '../../components/Modals/ExportMapModal';
 import AdjustModal from '../../components/Modals/MapTutorialModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
+import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -71,6 +72,7 @@ export default function Map({ history }) {
       getOverlayInfo,
       reconstructOverlay,
       setLineWidth,
+      setShowAdjustAreaSpotlightModal,
     },
   ] = useDrawingManager();
 
@@ -81,6 +83,13 @@ export default function Map({ history }) {
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, []);
+
+  const [showMapFilter, setShowMapFilter] = useState(false);
+  const [showAddDrawer, setShowAddDrawer] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showAdjustModal, setShowAdjustModal] = useState(false);
+  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
+  const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -190,13 +199,6 @@ export default function Map({ history }) {
     }
   };
 
-  const [showMapFilter, setShowMapFilter] = useState(false);
-  const [showAddDrawer, setShowAddDrawer] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [showAdjustModal, setShowAdjustModal] = useState(false);
-  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
-  const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
-
   const handleClickAdd = () => {
     setShowExportModal(false);
     setShowMapFilter(false);
@@ -280,6 +282,7 @@ export default function Map({ history }) {
     history.push(`/create_location/${drawingState.type}`);
   };
 
+  const { showAdjustAreaSpotlightModal } = drawingState;
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
@@ -391,6 +394,14 @@ export default function Map({ history }) {
             dismissModal={() => {
               setShowDrawLineSpotlightModal(false);
               dispatch(setSpotlightToShown('draw_line'));
+            }}
+          />
+        )}
+        {showAdjustAreaSpotlightModal && (
+          <AdjustAreaModal
+            dismissModal={() => {
+              setShowAdjustAreaSpotlightModal(false);
+              dispatch(setSpotlightToShown('adjust_area'));
             }}
           />
         )}

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
-import { sendMapToEmail } from './saga';
+import { sendMapToEmail, setSpotlightToShown } from './saga';
 import { fieldsSelector } from '../fieldSlice';
 import { setLocationData } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
@@ -296,7 +296,7 @@ export default function Map({ history }) {
             className={styles.mapFooter}
             isAdmin={is_admin}
             showSpotlight={!showedSpotlight.map}
-            resetSpotlight={resetSpotlight}
+            resetSpotlight={() => dispatch(setSpotlightToShown('map'))}
             onClickAdd={handleClickAdd}
             onClickExport={handleClickExport}
             showModal={showExportModal}

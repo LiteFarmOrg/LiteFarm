@@ -71,11 +71,11 @@ export const lineStyles = {
     dashScale: 0.7,
     dashLength: '6px',
     polyStyles: {
-      strokeColor: creekColour,
+      strokeColor: watercourseColour,
       strokeWeight: 2,
-      fillColor: creekColour,
-      fillOpacity: 0.3
-    }
+      fillColor: watercourseColour,
+      fillOpacity: 0.3,
+    },
   },
   fence: {
     colour: fenceColour,

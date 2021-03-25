@@ -3,10 +3,14 @@ import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
-import { bufferZoneEnum } from '../../../containers/bufferZoneSlice';
+import { bufferZoneEnum } from '../../../containers/constants';
+import { locationInfoSelector } from '../../../containers/mapSlice';
+import { useSelector } from 'react-redux';
 
 export default function PureBufferZone({ history, submitForm, system }) {
   const { t } = useTranslation();
+  const { width, width_display } = useSelector(locationInfoSelector);
+  const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
@@ -56,8 +60,8 @@ export default function PureBufferZone({ history, submitForm, system }) {
             type={'number'}
             disabled
             name={bufferZoneEnum.width}
-            defaultValue={100}
-            unit={'m'}
+            defaultValue={width_display}
+            unit={unit}
             label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
             inputRef={register({ required: false })}
           />

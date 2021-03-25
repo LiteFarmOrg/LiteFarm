@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { fenceEnum } from '../../../containers/fenceSlice';
+import { fenceEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
 export default function PureFence({ history, submitForm, system }) {

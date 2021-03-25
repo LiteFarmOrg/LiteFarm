@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas';
 import { sendMapToEmail } from './saga';
 import { fieldsSelector } from '../fieldSlice';
 import { setLocationData } from '../mapSlice';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
 import PureMapHeader from '../../components/Map/Header';
 import PureMapFooter from '../../components/Map/Footer';
@@ -37,6 +38,7 @@ export default function Map({ history }) {
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
   const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
+  const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
@@ -293,7 +295,7 @@ export default function Map({ history }) {
           <PureMapFooter
             className={styles.mapFooter}
             isAdmin={is_admin}
-            showSpotlight={showMapSpotlight}
+            showSpotlight={!showedSpotlight.map}
             resetSpotlight={resetSpotlight}
             onClickAdd={handleClickAdd}
             onClickExport={handleClickExport}

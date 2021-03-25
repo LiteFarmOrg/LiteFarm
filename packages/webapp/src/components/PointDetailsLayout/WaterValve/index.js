@@ -28,12 +28,10 @@ export default function PureWaterValve({ history, submitForm, system, point }) {
 
   const onSubmit = (data) => {
     const formData = {
-      name: data.name,
+      ...data,
       point: point,
-      notes: data.notes,
       type: 'water_valve',
       source: waterValveSourceSelection,
-      flow_rate: data.flow_rate === '' ? 0 : parseInt(data.flow_rate),
     };
     submitForm({ formData });
   };

@@ -160,6 +160,9 @@ const Unit = ({
       hookFormSetError(name, {
         message: t('common:REQUIRED'),
       });
+    } else if (e.target.value === '') {
+      hookFormSetValue(name, undefined, { shouldValidate: true });
+      setVisibleInputValue('');
     } else if (e.target.value > 1000000000) {
       hookFormSetError(name, {
         type: 'manual',

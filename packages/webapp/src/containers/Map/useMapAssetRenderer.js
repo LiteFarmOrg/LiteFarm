@@ -50,6 +50,7 @@ const useMapAssetRenderer = () => {
         );
       });
     })
+
     setAssetGeometries(newState);
     // TODO: only fitBounds if there is at least one location in the farm
     hasLocation && map.fitBounds(mapBounds);

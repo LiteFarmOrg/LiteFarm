@@ -1,9 +1,9 @@
 import React from 'react';
-import FarmSiteBoundary from '../../../components/AreaDetailsLayout/FarmSiteBoundary';
-import decorator from '../../Pages/config/decorators';
+import FarmSiteBoundary from '../../../../components/AreaDetailsLayout/FarmSiteBoundary';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/FarmSiteBoundary',
+  title: 'Form/Area/FarmSiteBoundary',
   decorators: decorator,
   component: FarmSiteBoundary,
 };
@@ -15,6 +15,7 @@ Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
   areaType: (data) => {},
+  system: 'metric',
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

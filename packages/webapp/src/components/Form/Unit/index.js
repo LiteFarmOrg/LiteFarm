@@ -9,60 +9,34 @@ import { numberOnKeyDown } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
-import { defaultUnitMap, roundToTwoDecimal } from '../../../util/unit';
+import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import { Controller } from 'react-hook-form';
 
-const areaOptions = {
-  metric: [
-    { label: 'm2', value: 'm2' },
-    { label: 'ha', value: 'ha' },
-  ],
-  imperial: [
-    { label: 'sqft', value: 'ft2' },
-    { label: 'ac', value: 'ac' },
-  ],
+const unitOptionMap = {
+  m2: { label: 'm2', value: 'm2' },
+  ha: { label: 'ha', value: 'ha' },
+  ft2: { label: 'sqft', value: 'ft2' },
+  ac: { label: 'ac', value: 'ac' },
+  cm: { label: 'cm', value: 'cm' },
+  m: { label: 'm', value: 'm' },
+  km: { label: 'km', value: 'km' },
+  in: { label: 'in', value: 'in' },
+  ft: { label: 'ft', value: 'ft' },
+  mi: { label: 'mi', value: 'mi' },
+  'l/min': { label: 'l/m', value: 'l/min' },
+  'l/h': { label: 'l/h', value: 'l/h' },
+  'gal/min': { label: 'g/m', value: 'gal/min' },
+  'gal/h': { label: 'g/h', value: 'gal/h' },
+  g: { label: 'g', value: 'g' },
+  kg: { label: 'kg', value: 'kg' },
+  mt: { label: 'mt', value: 'mt' },
+  oz: { label: 'oz', value: 'oz' },
+  lb: { label: 'lb', value: 'lb' },
+  t: { label: 't', value: 't' },
 };
-const distanceOptions = {
-  metric: [
-    { label: 'cm', value: 'cm' },
-    { label: 'm', value: 'm' },
-    { label: 'km', value: 'km' },
-  ],
-  imperial: [
-    { label: 'in', value: 'in' },
-    { label: 'ft', value: 'ft' },
-    { label: 'mi', value: 'mi' },
-  ],
-};
-const massOptions = {
-  metric: [
-    { label: 'g', value: 'g' },
-    { label: 'kg', value: 'kg' },
-    { label: 'mt', value: 'mt' },
-  ],
-  imperial: [
-    { label: 'oz', value: 'oz' },
-    { label: 'lb', value: 'lb' },
-    { label: 't', value: 't' },
-  ],
-};
-const seedOptions = {
-  metric: [
-    { label: 'g', value: 'g' },
-    { label: 'kg', value: 'kg' },
-  ],
-  imperial: [
-    { label: 'oz', value: 'oz' },
-    { label: 'lb', value: 'lb' },
-  ],
-};
-const unitTypeOptionMap = {
-  length: distanceOptions,
-  area: areaOptions,
-  mass: massOptions,
-};
-const getOptions = (system, type) => {
-  return unitTypeOptionMap[type][system];
+
+const getOptions = (unitType = area_total_area, system) => {
+  return unitType[system].units.map((unit) => unitOptionMap[unit]);
 };
 
 const reactSelectStyles = {
@@ -87,7 +61,7 @@ const reactSelectStyles = {
   valueContainer: (provided, state) => ({
     ...provided,
     padding: '0',
-    width: '41px',
+    width: '36px',
   }),
   singleValue: () => ({
     fontSize: '16px',
@@ -96,20 +70,13 @@ const reactSelectStyles = {
     fontStyle: 'normal',
     fontWeight: 'normal',
     fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '50px',
+    width: '40px',
     overflowX: 'hidden',
     textAlign: 'center',
     position: 'absolute',
   }),
   placeholder: () => ({
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--iconDefault)',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '44px',
-    overflowX: 'hidden',
+    display: 'none',
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
@@ -133,8 +100,8 @@ const Unit = ({
   defaultValue,
   system,
   control,
-  // unitType,
-  from,
+  unitType = area_total_area,
+  from: defaultValueUnit,
   to,
   required,
   ...props
@@ -151,22 +118,23 @@ const Unit = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const { displayUnit, displayValue, options, measureType } = useMemo(() => {
-    const measureType = convert().describe(from || to).measure;
-    const options = getOptions(system, measureType);
+  const { displayUnit, displayValue, options, databaseUnit } = useMemo(() => {
+    const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
+    const options = getOptions(unitType, system);
     return to
       ? {
           displayUnit: to,
-          displayValue: roundToTwoDecimal(convert(defaultValue).from(from).to(to)),
-          measureType,
+          displayValue:
+            defaultValue && roundToTwoDecimal(convert(defaultValue).from(databaseUnit).to(to)),
           options,
+          databaseUnit,
         }
       : {
-          ...defaultUnitMap[measureType](defaultValue, system, from),
-          measureType,
+          ...getDefaultUnit(unitType, defaultValue, system, databaseUnit),
           options,
+          databaseUnit,
         };
-  }, [defaultValue, system, from, to]);
+  }, [unitType, defaultValue, system, defaultValueUnit, to]);
 
   const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
   useEffect(() => {
@@ -181,7 +149,7 @@ const Unit = ({
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     const unit = hookFormGetValue(displayUnitName).value;
-    hookFormSetValue(name, convert(e.target.value).from(unit).to(from), {
+    hookFormSetValue(name, convert(e.target.value).from(unit).to(databaseUnit), {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -196,6 +164,9 @@ const Unit = ({
       hookFormSetError(name, {
         message: t('common:REQUIRED'),
       });
+    } else if (e.target.value === '') {
+      hookFormSetValue(name, undefined, { shouldValidate: true });
+      setVisibleInputValue('');
     } else if (e.target.value > 1000000000) {
       hookFormSetError(name, {
         type: 'manual',
@@ -207,9 +178,10 @@ const Unit = ({
   };
 
   const optionOnChange = (e) => {
-    setVisibleInputValue(roundToTwoDecimal(convert(hookFormGetValue(name)).from(from).to(e.value)));
+    setVisibleInputValue(
+      roundToTwoDecimal(convert(hookFormGetValue(name)).from(databaseUnit).to(e.value)),
+    );
   };
-
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
@@ -314,7 +286,14 @@ Unit.propTypes = {
   hookFormSetError: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']),
-  // unitType: PropTypes.oneOf(['area', 'distance', 'mass', 'seedAmount']),
+  unitType: PropTypes.shape({
+    metric: PropTypes.object,
+    imperial: PropTypes.object,
+    databaseUnit: PropTypes.string,
+  }),
+  /*
+  Unit name from must
+  */
   from: PropTypes.string,
   to: PropTypes.string,
   required: PropTypes.bool,

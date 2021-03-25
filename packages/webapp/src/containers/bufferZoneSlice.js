@@ -4,20 +4,6 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const bufferZoneEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  notes: 'notes',
-  length: 'length',
-  width: 'width',
-  line_points: 'line_points',
-  length_unit: 'length_unit',
-  width_unit: 'width_unit',
-};
-
 const bufferZoneProperties = [];
 export const getLocationObjectFromBufferZone = (data) => {
   return {

@@ -34,6 +34,7 @@ export default function PureMapFooter({
       locationEnum.ceremonial_area,
       locationEnum.farm_site_boundary,
       locationEnum.field,
+      locationEnum.garden,
       locationEnum.greenhouse,
       locationEnum.surface_water,
       locationEnum.natural_area,

@@ -3,10 +3,17 @@ import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
-import { surfaceWaterEnum } from '../../../containers/surfaceWaterSlice';
+import { surfaceWaterEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
-export default function PureSurfaceWater({ history, submitForm, system, grid_points }) {
+export default function PureSurfaceWater({
+  history,
+  submitForm,
+  system,
+  grid_points,
+  area,
+  perimeter,
+}) {
   const { t } = useTranslation();
   const {
     register,
@@ -22,7 +29,7 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
     mode: 'onChange',
   });
   const onError = (data) => {};
-  const irrigation = watch(surfaceWaterEnum.user_for_irrigation);
+  const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
@@ -51,6 +58,8 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
@@ -65,8 +74,8 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             label={t('common:YES')}
             inputRef={register({ required: false })}
             optional
-            value={'Yes'}
-            name={surfaceWaterEnum.user_for_irrigation}
+            value={true}
+            name={surfaceWaterEnum.used_for_irrigation}
           />
         </div>
         <div>
@@ -74,8 +83,8 @@ export default function PureSurfaceWater({ history, submitForm, system, grid_poi
             style={{ marginBottom: '25px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
-            value={'No'}
-            name={surfaceWaterEnum.user_for_irrigation}
+            value={false}
+            name={surfaceWaterEnum.used_for_irrigation}
           />
         </div>
       </div>

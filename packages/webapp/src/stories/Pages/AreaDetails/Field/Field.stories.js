@@ -1,9 +1,9 @@
 import React from 'react';
-import Field from '../../../components/AreaDetailsLayout/Field';
-import decorator from '../../Pages/config/decorators';
+import Field from '../../../../components/AreaDetailsLayout/Field';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Field',
+  title: 'Form/Area/Field',
   decorators: decorator,
   component: Field,
 };
@@ -15,6 +15,7 @@ Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
   areaType: (data) => {},
+  system: 'metric',
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

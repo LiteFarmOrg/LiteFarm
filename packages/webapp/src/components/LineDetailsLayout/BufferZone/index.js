@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
-import { bufferZoneEnum } from '../../../containers/bufferZoneSlice';
+import { bufferZoneEnum } from '../../../containers/constants';
 
 export default function PureBufferZone({ history, submitForm, system }) {
   const { t } = useTranslation();

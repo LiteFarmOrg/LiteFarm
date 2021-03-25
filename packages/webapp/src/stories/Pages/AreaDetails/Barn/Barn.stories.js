@@ -1,20 +1,20 @@
 import React from 'react';
-import Greenhouse from '../../../components/AreaDetailsLayout/Greenhouse';
-import decorator from '../../Pages/config/decorators';
+import Barn from '../../../../components/AreaDetailsLayout/Barn';
+import decorator from '../../config/decorators';
 
 export default {
-  title: 'Components/Area/Greenhouse',
+  title: 'Form/Area/Barn',
   decorators: decorator,
-  component: Greenhouse,
+  component: Barn,
 };
 
-const Template = (args) => <Greenhouse {...args} />;
+const Template = (args) => <Barn {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
   grid_points: (data) => {},
 };
 Primary.parameters = {

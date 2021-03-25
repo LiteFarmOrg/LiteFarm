@@ -8,13 +8,20 @@ import { locationInfoSelector } from '../../mapSlice';
 function BarnDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { grid_points } = useSelector(locationInfoSelector);
+  const { area, perimeter, grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
     dispatch(postBarnLocation(data));
   };
 
   return (
-    <PureBarn history={history} submitForm={submitForm} system={system} grid_points={grid_points} />
+    <PureBarn
+      history={history}
+      submitForm={submitForm}
+      system={system}
+      grid_points={grid_points}
+      area={area}
+      perimeter={perimeter}
+    />
   );
 }
 

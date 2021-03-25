@@ -3,7 +3,7 @@ import PointDetails from '../../components/PointDetailsLayout';
 import decorator from '../Pages/config/decorators';
 
 export default {
-  title: 'Components/Point/PointDetails',
+  title: 'Form/Point/PointDetails',
   decorators: decorator,
   component: PointDetails,
 };

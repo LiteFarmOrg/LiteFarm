@@ -44,14 +44,14 @@ const useMapAssetRenderer = () => {
         hasLocation = true;
       }
     }
-    // for (const locationType in lineAssets) {
-    //   for (const location of lineAssets[locationType]) {
-    //     newState[locationType]?.push(
-    //       drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
-    //     );
-    //     hasLocation = true;
-    //   }
-    // }
+    for (const locationType in lineAssets) {
+      for (const location of lineAssets[locationType]) {
+        newState[locationType]?.push(
+          drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
+        );
+        hasLocation = true;
+      }
+    }
     for (const locationType in pointAssets) {
       for (const location of pointAssets[locationType]) {
         newState[locationType]?.push(

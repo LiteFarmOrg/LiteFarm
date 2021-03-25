@@ -8,8 +8,7 @@ import { locationInfoSelector } from '../../mapSlice';
 function FarmSiteBoundaryDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { grid_points } = useSelector(locationInfoSelector);
-
+  const { area, perimeter, grid_points } = useSelector(locationInfoSelector);
   const submitForm = (data) => {
     dispatch(postFarmSiteLocation(data));
   };
@@ -19,6 +18,8 @@ function FarmSiteBoundaryDetailForm({ history }) {
       submitForm={submitForm}
       system={system}
       grid_points={grid_points}
+      area={area}
+      perimeter={perimeter}
     />
   );
 }

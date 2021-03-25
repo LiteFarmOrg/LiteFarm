@@ -15,7 +15,7 @@ import { ReactComponent as SurfaceWater } from '../../assets/images/farmMapFilte
 import { ReactComponent as NaturalArea } from '../../assets/images/farmMapFilter/NA.svg';
 import { ReactComponent as Residence } from '../../assets/images/farmMapFilter/Residence.svg';
 import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/BufferZone.svg';
-import { ReactComponent as Creek } from '../../assets/images/farmMapFilter/Creek.svg';
+import { ReactComponent as Watercourse } from '../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
@@ -162,9 +162,9 @@ export default function MapDrawer({
       key: locationEnum.buffer_zone,
     },
     {
-      name: t('FARM_MAP.MAP_FILTER.CREEK'),
-      icon: () => <Creek className={classes.icon} />,
-      key: locationEnum.creek,
+      name: t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
+      icon: () => <Watercourse className={classes.icon} />,
+      key: locationEnum.watercourse,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FENCE'),

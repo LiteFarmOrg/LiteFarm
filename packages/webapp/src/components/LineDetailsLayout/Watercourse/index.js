@@ -4,6 +4,8 @@ import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
 import { watercourseEnum } from '../../../containers/watercourseSlice';
+import Radio from '../../Form/Radio';
+import { Label } from '../../Typography';
 
 export default function PureWatercourse({ history, submitForm, system }) {
   const { t } = useTranslation();
@@ -57,7 +59,8 @@ export default function PureWatercourse({ history, submitForm, system }) {
             style={{ marginBottom: '40px' }}
             type={'number'}
             name={watercourseEnum.length}
-            //   defaultValue={new Date().toLocaleDateString('en-CA')}
+            defaultValue={100}
+            unit={'m'}
             label={t('FARM_MAP.WATERCOURSE.LENGTH')}
             inputRef={register({ required: true })}
           />
@@ -68,7 +71,8 @@ export default function PureWatercourse({ history, submitForm, system }) {
             type={'number'}
             disabled
             name={watercourseEnum.width}
-            //   defaultValue={new Date().toLocaleDateString('en-CA')}
+            defaultValue={100}
+            unit={'m'}
             label={t('FARM_MAP.WATERCOURSE.WIDTH')}
             inputRef={register({ required: true })}
           />
@@ -79,10 +83,37 @@ export default function PureWatercourse({ history, submitForm, system }) {
             type={'number'}
             disabled
             name={watercourseEnum.includes_riparian_buffer}
-            //   defaultValue={new Date().toLocaleDateString('en-CA')}
+            defaultValue={100}
+            unit={'m'}
             label={t('FARM_MAP.WATERCOURSE.BUFFER')}
             inputRef={register({ required: true })}
           />
+        </div>
+        <div>
+          <p style={{ marginBottom: '25px' }}>
+            {t('FARM_MAP.WATERCOURSE.IRRIGATION')}
+            <Label style={{ paddingLeft: '10px' }} sm>
+              ({t('common:OPTIONAL')})
+            </Label>
+          </p>
+          <div>
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('common:YES')}
+              inputRef={register({ required: false })}
+              value={'Yes'}
+              name={watercourseEnum.used_for_irrigation}
+            />
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('common:NO')}
+              inputRef={register({ required: false })}
+              value={'No'}
+              name={watercourseEnum.used_for_irrigation}
+            />
+          </div>
         </div>
       </div>
     </LineDetailsLayout>

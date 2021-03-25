@@ -59,7 +59,8 @@ export default function PureFence({ history, submitForm, system }) {
             style={{ marginBottom: '40px' }}
             type={'number'}
             name={fenceEnum.length}
-            //   defaultValue={new Date().toLocaleDateString('en-CA')}
+            defaultValue={100}
+            unit={'m'}
             label={t('FARM_MAP.FENCE.LENGTH')}
             inputRef={register({ required: true })}
           />

@@ -176,7 +176,8 @@
       "TITLE": "Add watercourse",
       "LENGTH": "Total length",
       "WIDTH": "Watercourse width",
-      "BUFFER": "Riparian buffer"
+      "BUFFER": "Riparian buffer",
+      "IRRIGATION": "Is this area used for irrigation?"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",

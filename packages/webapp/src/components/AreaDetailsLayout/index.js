@@ -31,12 +31,24 @@ export default function AreaDetailsLayout({
 }) {
   const { t } = useTranslation();
   const [notes, setNotes] = useState('');
-  const [isOnline, setNetwork] = useState(window.navigator.onLine);
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
-    window.addEventListener('offline', () => setNetwork(window.navigator.onLine));
-    window.addEventListener('online', () => setNetwork(window.navigator.onLine));
+    const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
+    const handleOnline = () => setErrorMessage(null);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+    return () => {
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
+    };
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error) {
+      setErrorMessage(history?.location?.state?.error);
+    }
+  }, [history?.location?.state?.error]);
 
   const onCancel = () => {
     history.push('/map');
@@ -47,10 +59,6 @@ export default function AreaDetailsLayout({
       pathname: '/map',
       isStepBack: true,
     });
-  };
-
-  const setNotesValue = (value) => {
-    setNotes(value);
   };
 
   const onSubmit = (data) => {
@@ -77,9 +85,9 @@ export default function AreaDetailsLayout({
         </>
       }
     >
-      {!isOnline && (
+      {errorMessage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
-          <Label style={{ marginBottom: '12px' }}>{t('FARM_MAP.AREA_DETAILS.NETWORK')}</Label>
+          <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
         </PureWarningBox>
       )}
       <Input
@@ -140,9 +148,10 @@ export default function AreaDetailsLayout({
         label={t('common:NOTES')}
         type="text"
         optional
+        inputRef={register}
+        name={areaEnum.notes}
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
-        onChange={(e) => setNotesValue(e.target.value)}
       />
     </FormTitleLayout>
   );

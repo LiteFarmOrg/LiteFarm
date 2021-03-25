@@ -87,6 +87,16 @@
       "PERIMETER": "MISSING",
       "TOTAL_AREA": "MISSING"
     },
+    "BARN": {
+      "COLD_STORAGE": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WASH_PACK": "MISSING"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "DRAWING_MANAGER": {
       "REDRAW": "MISSING",
       "TRY_AGAIN": "MISSING",
@@ -125,40 +135,17 @@
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
-    "BARN": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WASH_PACK": "MISSING",
-      "COLD_STORAGE": "MISSING"
-    },
-    "NATURAL_AREA": {
-      "NAME": "Natural area",
-      "TITLE": "Add natural area"
-    },
-    "SURFACE_WATER": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "IRRIGATION": "MISSING"
-    },
-    "CEREMONIAL_AREA": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
-    },
-    "RESIDENCE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
-    },
     "GREENHOUSE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
+      "CO2_ENRICHMENT": "MISSING",
       "DATE": "MISSING",
+      "GREENHOUSE_HEATED": "MISSING",
       "GREENHOUSE_TYPE": "MISSING",
+      "NAME": "MISSING",
       "NON_ORGANIC": "MISSING",
       "ORGANIC": "MISSING",
-      "TRANSITIONING": "MISSING",
       "SUPPLEMENTAL_LIGHTING": "MISSING",
-      "CO2_ENRICHMENT": "MISSING",
-      "GREENHOUSE_HEATED": "MISSING"
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
@@ -184,6 +171,14 @@
       "TITLE": "MISSING",
       "WV": "MISSING"
     },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "SPOTLIGHT": {
       "ADD": "MISSING",
       "ADD_TITLE": "MISSING",
@@ -192,6 +187,11 @@
       "FILTER": "MISSING",
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
+    },
+    "SURFACE_WATER": {
+      "IRRIGATION": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
     },
     "TITLE": "MISSING",
     "WATER_VALVE": {

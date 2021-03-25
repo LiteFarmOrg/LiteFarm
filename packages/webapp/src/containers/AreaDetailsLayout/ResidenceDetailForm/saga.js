@@ -4,7 +4,7 @@ import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromResidence, postResidenceSuccess } from '../../residenceSlice';
-import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
+import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
 
@@ -37,6 +37,14 @@ export function* postResidenceLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.RESIDENCE')
+          .toLowerCase()}`,
+      },
+    });
     console.log(e);
   }
 }

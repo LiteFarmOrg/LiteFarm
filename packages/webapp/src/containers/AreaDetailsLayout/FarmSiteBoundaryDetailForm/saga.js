@@ -8,7 +8,7 @@ import {
   postFarmSiteBoundarySuccess,
 } from '../../farmSiteBoundarySlice';
 import history from '../../../history';
-import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
+import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 
 const axios = require('axios');
@@ -37,6 +37,14 @@ export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.FSB')
+          .toLowerCase()}`,
+      },
+    });
     console.log(e);
   }
 }

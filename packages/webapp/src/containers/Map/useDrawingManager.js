@@ -199,8 +199,9 @@ export default function useDrawingManager() {
       return { type: drawLocationType, grid_points, area, perimeter };
     }
     if (isLine(drawLocationType)) {
-      const line_points = maps.polyline.getPath().getArray().map(getVertices);
-      const length = Math.round(computeLength(line_points));
+      const path = overlay.getPath();
+      const line_points = path.getArray().map(getVertices);
+      const length = Math.round(computeLength(path));
       return { type: drawLocationType, line_points, length };
     }
     if (isPoint(drawLocationType)) {

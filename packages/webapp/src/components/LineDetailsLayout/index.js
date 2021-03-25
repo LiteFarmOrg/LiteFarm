@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { fenceEnum as lineEnum } from '../../containers/fenceSlice';
+import { fenceEnum as lineEnum } from '../../containers/constants';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 

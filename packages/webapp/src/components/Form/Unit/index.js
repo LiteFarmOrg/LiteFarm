@@ -41,6 +41,10 @@ const getOptions = (unitType = area_total_area, system) => {
 
 const reactSelectStyles = {
   ...reactSelectDefaultStyles,
+  container: (provided, state) => ({
+    ...provided,
+    zIndex: 1,
+  }),
   control: (provided, state) => ({
     display: 'flex',
     border: `none`,

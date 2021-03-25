@@ -78,6 +78,12 @@ export const lineStyles = {
     colour: watercourseColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: watercourseColour,
+      strokeWeight: 2,
+      fillColor: watercourseColour,
+      fillOpacity: 0.3,
+    },
   },
   fence: {
     colour: fenceColour,
@@ -88,6 +94,12 @@ export const lineStyles = {
     colour: bufferZoneColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: bufferZoneColour,
+      strokeWeight: 2,
+      fillColor: bufferZoneColour,
+      fillOpacity: 0.3,
+    }
   },
 };
 

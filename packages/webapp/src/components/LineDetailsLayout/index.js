@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
 import { fenceEnum as lineEnum } from '../../containers/fenceSlice';
+import PureWarningBox from '../WarningBox';
+import { Label } from '../Typography';
 
 export default function LineDetailsLayout({
   name,
@@ -19,7 +21,25 @@ export default function LineDetailsLayout({
   errors,
 }) {
   const { t } = useTranslation();
+  const [errorMessage, setErrorMessage] = useState();
   const [notes, setNotes] = useState('');
+
+  useEffect(() => {
+    const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
+    const handleOnline = () => setErrorMessage(null);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+    return () => {
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error) {
+      setErrorMessage(history?.location?.state?.error);
+    }
+  }, [history?.location?.state?.error]);
 
   const onCancel = () => {
     history.push('/map');
@@ -56,6 +76,11 @@ export default function LineDetailsLayout({
         </>
       }
     >
+      {errorMessage && (
+        <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
+          <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
+        </PureWarningBox>
+      )}
       <Input
         label={name + ' name'}
         type="text"

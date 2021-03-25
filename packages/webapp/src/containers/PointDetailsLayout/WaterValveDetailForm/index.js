@@ -2,7 +2,6 @@ import React from 'react';
 import PureWaterValve from '../../../components/PointDetailsLayout/WaterValve';
 import { postWaterValveLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { waterValveEnum } from '../../constants';
 import { locationInfoSelector } from '../../mapSlice';
 import { measurementSelector } from '../../userFarmSlice';
 
@@ -15,15 +14,7 @@ function WaterValveDetailForm({ history }) {
     dispatch(postWaterValveLocation(data));
   };
 
-  return (
-    <PureWaterValve
-      history={history}
-      submitForm={submitForm}
-      pointType={waterValveEnum}
-      point={point}
-      system={system}
-    />
-  );
+  return <PureWaterValve history={history} submitForm={submitForm} point={point} system={system} />;
 }
 
 export default WaterValveDetailForm;

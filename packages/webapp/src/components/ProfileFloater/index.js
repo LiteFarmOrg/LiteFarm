@@ -23,7 +23,7 @@ export function PureProfileFloaterComponent({
         minWidth: '138px',
         backgroundColor: 'white',
         borderRadius: '4px',
-        transform: 'translateX(-12px)',
+        marginRight: '12px',
       }}
     >
       <ListOption

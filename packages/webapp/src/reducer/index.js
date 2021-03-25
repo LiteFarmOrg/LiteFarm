@@ -40,7 +40,7 @@ import surfaceWaterReducer from '../containers/surfaceWaterSlice';
 import naturalAreaReducer from '../containers/naturalAreaSlice';
 import residenceReducer from '../containers/residenceSlice';
 import bufferZoneReducer from '../containers/bufferZoneSlice';
-import creekReducer from '../containers/creekSlice';
+import watercourseReducer from '../containers/watercourseSlice';
 import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
@@ -138,7 +138,7 @@ const entitiesReducer = combineReducers({
   naturalAreaReducer,
   residenceReducer,
   bufferZoneReducer,
-  creekReducer,
+  watercourseReducer,
   fenceReducer,
   gateReducer,
   waterValveReducer,

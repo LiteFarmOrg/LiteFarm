@@ -47,7 +47,7 @@ export default function Map({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
 
-  const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.creek];
+  const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
   const showHeader = useSelector(setShowSuccessHeaderSelector);
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
@@ -64,7 +64,7 @@ export default function Map({ history }) {
       closeDrawer,
       getOverlayInfo,
       reconstructOverlay,
-      setLineWidth
+      setLineWidth,
     },
   ] = useDrawingManager();
 
@@ -260,17 +260,17 @@ export default function Map({ history }) {
   };
 
   const handleConfirm = () => {
-    if(!lineTypesWithWidth.includes(drawingState.type)) {
+    if (!lineTypesWithWidth.includes(drawingState.type)) {
       dispatch(setLocationData(getOverlayInfo()));
       history.push(`/create_location/${drawingState.type}`);
     }
-  }
+  };
 
   const handleLineConfirm = (lineData) => {
-    const data = {...getOverlayInfo(), ...lineData};
+    const data = { ...getOverlayInfo(), ...lineData };
     dispatch(setLocationData(data));
     history.push(`/create_location/${drawingState.type}`);
-  }
+  };
 
   return (
     <>
@@ -310,7 +310,9 @@ export default function Map({ history }) {
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
-                showLineModal={lineTypesWithWidth.includes(drawingState.type) && !drawingState.isActive}
+                showLineModal={
+                  lineTypesWithWidth.includes(drawingState.type) && !drawingState.isActive
+                }
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);

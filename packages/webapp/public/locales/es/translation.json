@@ -147,13 +147,32 @@
       "TITLE": "MISSING",
       "TRANSITIONING": "MISSING"
     },
+    "FENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "PRESSURE_TREATED": "MISSING"
+    },
+    "BUFFER_ZONE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
+    },
+    "WATERCOURSE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "WIDTH": "MISSING",
+      "BUFFER": "MISSING",
+      "IRRIGATION": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
       "AREAS": "Areas",
       "BARN": "Granero",
       "BZ": "Zona delimitada",
       "CA": "Area ceremonial",
-      "CREEK": "Arroyo",
+      "WATERCOURSE": "MISSING",
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",

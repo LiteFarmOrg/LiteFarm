@@ -120,6 +120,11 @@ const CeremonialArea = React.lazy(() =>
   import('./containers/AreaDetailsLayout/CeremonialAreaDetailForm'),
 );
 const Greenhouse = React.lazy(() => import('./containers/AreaDetailsLayout/GreenhouseDetailForm'));
+const Fence = React.lazy(() => import('./containers/LineDetailsLayout/FenceDetailForm'));
+const BufferZone = React.lazy(() => import('./containers/LineDetailsLayout/BufferZoneDetailForm'));
+const Watercourse = React.lazy(() =>
+  import('./containers/LineDetailsLayout/WatercourseDetailForm'),
+);
 
 const Routes = () => {
   const userFarm = useSelector(
@@ -224,6 +229,9 @@ const Routes = () => {
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
+            <Route path="/create_location/fence" exact component={Fence} />
+            <Route path="/create_location/buffer_zone" exact component={BufferZone} />
+            <Route path="/create_location/watercourse" exact component={Watercourse} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/edit_field" exact component={EditField} />
             <Route path="/insights" exact component={Insights} />
@@ -325,6 +333,9 @@ const Routes = () => {
             <Route path="/create_location/field" exact component={AreaDetailsField} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
+            <Route path="/create_location/fence" exact component={Fence} />
+            <Route path="/create_location/buffer_zone" exact component={BufferZone} />
+            <Route path="/create_location/watercourse" exact component={Watercourse} />
             <Route path="/finances" exact component={Finances} />
             <Route path="/sales_summary" exact component={SalesSummary} />
             <Route path="/add_sale" exact component={AddSale} />

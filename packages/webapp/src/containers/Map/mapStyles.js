@@ -86,6 +86,12 @@ export const lineStyles = {
     colour: bufferZoneColour,
     dashScale: 0.7,
     dashLength: '6px',
+    polyStyles: {
+      strokeColor: bufferZoneColour,
+      strokeWeight: 2,
+      fillColor: bufferZoneColour,
+      fillOpacity: 0.3,
+    }
   },
 };
 

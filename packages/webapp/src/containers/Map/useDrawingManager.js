@@ -33,6 +33,7 @@ export default function useDrawingManager() {
       && [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType)) {
       const { overlay } = drawingToCheck;
       const path = overlay.getPath().getArray();
+      console.log(path);
       const {leftPoints, rightPoints} = path.reduce(linePathPolygonConstructor, {
         leftPoints: [], rightPoints:[], bearings: [], width: lineWidth
       });

@@ -106,7 +106,7 @@ export default function PureWaterValve({ history, submitForm, pointType, system,
           hookFormGetValue={getValues}
           hookFormSetError={setError}
           control={control}
-          required
+          optional
         />
       </div>
     </PointDetails>

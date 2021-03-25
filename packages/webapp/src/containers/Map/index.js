@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -23,6 +23,7 @@ import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
 import AdjustModal from '../../components/Modals/MapTutorialModal';
+import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -183,13 +184,11 @@ export default function Map({ history }) {
     }
   };
 
-  const resetSpotlight = () => {
-    dispatch(endMapSpotlight(farm_id));
-  };
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showAdjustModal, setShowAdjustModal] = useState(false);
+  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
 
   const handleClickAdd = () => {
     setShowExportModal(false);
@@ -226,6 +225,9 @@ export default function Map({ history }) {
 
   const handleAddMenuClick = (locationType) => {
     setZeroAreaWarning(false);
+    if (isArea(locationType) && !showedSpotlight.draw_area) {
+      setShowDrawAreaSpotlightModal(true);
+    }
     startDrawing(locationType);
   };
 
@@ -345,6 +347,14 @@ export default function Map({ history }) {
         {showAdjustModal && (
           <AdjustModal
             dismissModal={() => setShowAdjustModal(false)}
+          />
+        )}
+        {showDrawAreaSpotlightModal && (
+          <DrawAreaModal
+            dismissModal={() => {
+              setShowDrawAreaSpotlightModal(false);
+              dispatch(setSpotlightToShown('draw_area'));
+            }}
           />
         )}
       </div>

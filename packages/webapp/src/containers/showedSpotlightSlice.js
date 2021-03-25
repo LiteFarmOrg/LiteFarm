@@ -28,12 +28,23 @@ const showedSpotlightSlice = createSlice({
     getSpotlightFlagsFailure: (state, action) => {
       state.loading = false;
     },
+    patchSpotlightFlagsSuccess: (state, { payload }) => {
+      if (state.loading) {
+        state.loading = false;
+        Object.assign(state, payload);
+      }
+    },
+    patchSpotlightFlagsFailure: (state, action) => {
+      state.loading = false;
+    },
   },
 });
 export const {
   spotlightLoading,
   getSpotlightFlagsSuccess,
   getSpotlightFlagsFailure,
+  patchSpotlightFlagsSuccess,
+  patchSpotlightFlagsFailure,
 } = showedSpotlightSlice.actions;
 export default showedSpotlightSlice.reducer;
 export const showedSpotlightSelector = (state) => state?.entitiesReducer[showedSpotlightSlice.name];

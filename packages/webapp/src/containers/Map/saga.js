@@ -22,8 +22,8 @@ import { getHeader, axios } from '../saga';
 import { userFarmSelector } from '../userFarmSlice';
 import {
   spotlightLoading,
-  getSpotlightFlagsSuccess,
-  getSpotlightFlagsFailure,
+  patchSpotlightFlagsSuccess,
+  patchSpotlightFlagsFailure,
 } from '../showedSpotlightSlice';
 import { loginSelector } from '../userFarmSlice';
 
@@ -57,16 +57,20 @@ export function* sendMapToEmailSaga({ payload: fileDataURL }) {
 
 export const setSpotlightToShown = createAction(`setSpotlightToShownSaga`);
 export function* setSpotlightToShownSaga({ payload: spotlight }) {
-  console.log(spotlight);
   try {
     const { user_id } = yield select(loginSelector);
     const header = getHeader(user_id);
+    let patchContent = {};
+    patchContent[spotlight] = true;
+    patchContent[`${spotlight}_end`] = new Date();
+    console.log(patchContent);
     yield put(spotlightLoading());
-    // const result = yield call(axios.get, showedSpotlightUrl, header);
-    // yield put(getSpotlightFlagsSuccess(result.data));
-    yield put(getSpotlightFlagsFailure());
+    const result = yield call(axios.patch, showedSpotlightUrl(), patchContent, header);
+    if (result) {
+      yield put(patchSpotlightFlagsSuccess(patchContent));
+    }
   } catch (error) {
-    yield put(getSpotlightFlagsFailure());
+    yield put(patchSpotlightFlagsFailure());
     console.log('failed to fetch task types from database');
   }
 }

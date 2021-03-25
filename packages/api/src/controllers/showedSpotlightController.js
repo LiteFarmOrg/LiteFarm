@@ -17,7 +17,7 @@ const baseController = require('../controllers/baseController');
 const showedSpotlightModel = require('../models/showedSpotlightModel');
 const { transaction, Model } = require('objection');
 
-const pesticideController = {
+const showedSpotlightController = {
   getSpotlightFlags() {
     return async (req, res) => {
       try {
@@ -41,22 +41,50 @@ const pesticideController = {
   },
   updateSpotlightFlags() {
     return async (req, res) => {
-      // const trx = await transaction.start(Model.knex());
-      // try {
-      //   const user_id = req.user.user_id;
-      //   const result = await baseController.postWithResponse(pesticideModel, req.body, req, { trx });
-      //   await trx.commit();
-      //   res.status(201).send(result);
-      // } catch (error) {
-      //   //handle more exceptions
-      //   await trx.rollback();
-      //   res.status(400).json({
-      //     error,
-      //   });
-      // }
-      return res.status(400).send("not implemented");
+      const trx = await transaction.start(Model.knex());
+      const { user_id } = req.user;
+      const {
+        map,
+        map_end,
+        draw_area,
+        draw_area_end,
+        draw_line,
+        draw_line_end,
+        drop_point,
+        drop_point_end,
+        adjust_area,
+        adjust_area_end,
+        adjust_line,
+        adjust_line_end,
+      } = req.body;
+      try {
+        const isPatched = await showedSpotlightModel.query(trx).where('user_id', user_id).patch({
+          map,
+          map_end,
+          draw_area,
+          draw_area_end,
+          draw_line,
+          draw_line_end,
+          drop_point,
+          drop_point_end,
+          adjust_area,
+          adjust_area_end,
+          adjust_line,
+          adjust_line_end,
+        });
+        if (isPatched) {
+          await trx.commit();
+          return res.sendStatus(200);
+        } else {
+          await trx.rollback();
+          return res.sendStatus(404);
+        }
+      } catch (error) {
+        await trx.rollback();
+        return res.status(400).send(error);
+      }
     };
   },
 }
 
-module.exports = pesticideController;
+module.exports = showedSpotlightController;

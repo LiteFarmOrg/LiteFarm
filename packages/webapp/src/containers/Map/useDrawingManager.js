@@ -100,8 +100,10 @@ export default function useDrawingManager() {
     if (drawingToCheck) {
       if (isArea(drawLocationType) && !showedSpotlight.adjust_area)
         setShowAdjustAreaSpotlightModal(true);
+    } else {
+      setShowAdjustAreaSpotlightModal(false);
     }
-  }, [drawingToCheck, drawLocationType, showedSpotlight.adjust_area])
+  }, [drawingToCheck])
 
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);

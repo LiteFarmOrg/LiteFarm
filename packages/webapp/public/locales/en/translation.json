@@ -135,6 +135,13 @@
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
+    "LINE_DETAILS": {
+      "BUFFER_ZONE_WIDTH": "Buffer zone width",
+      "RIPARIAN_BUFFER": "Riparian buffer",
+      "WATERCOURSE": "Watercourse",
+      "BUFFER_TITLE": "What is the width?",
+      "WATERCOURSE_TITLE": "What are the following widths ?"
+    },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Is there CO2 enrichment?",
       "DATE": "Eligible transition date",

@@ -5,11 +5,15 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { fenceEnum } from '../../../containers/fenceSlice';
+import { fenceEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
+import { locationInfoSelector } from '../../../containers/mapSlice';
+import { useSelector } from 'react-redux';
 
 export default function PureFence({ history, submitForm, system }) {
   const { t } = useTranslation();
+  const { length } = useSelector(locationInfoSelector);
+  const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
@@ -59,8 +63,8 @@ export default function PureFence({ history, submitForm, system }) {
             style={{ marginBottom: '40px' }}
             type={'number'}
             name={fenceEnum.length}
-            defaultValue={100}
-            unit={'m'}
+            defaultValue={length}
+            unit={unit}
             label={t('FARM_MAP.FENCE.LENGTH')}
             inputRef={register({ required: true })}
           />

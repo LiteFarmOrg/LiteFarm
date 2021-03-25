@@ -6,9 +6,15 @@ import Input from '../../Form/Input';
 import { watercourseEnum } from '../../../containers/watercourseSlice';
 import Radio from '../../Form/Radio';
 import { Label } from '../../Typography';
+import { locationInfoSelector } from '../../../containers/mapSlice';
+import { useSelector } from 'react-redux';
 
 export default function PureWatercourse({ history, submitForm, system }) {
   const { t } = useTranslation();
+  const { width, width_display, buffer_width, buffer_width_display, length } = useSelector(
+    locationInfoSelector,
+  );
+  const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
@@ -59,8 +65,8 @@ export default function PureWatercourse({ history, submitForm, system }) {
             style={{ marginBottom: '40px' }}
             type={'number'}
             name={watercourseEnum.length}
-            defaultValue={100}
-            unit={'m'}
+            defaultValue={length}
+            unit={unit}
             label={t('FARM_MAP.WATERCOURSE.LENGTH')}
             inputRef={register({ required: true })}
           />
@@ -71,8 +77,8 @@ export default function PureWatercourse({ history, submitForm, system }) {
             type={'number'}
             disabled
             name={watercourseEnum.width}
-            defaultValue={100}
-            unit={'m'}
+            defaultValue={width_display}
+            unit={unit}
             label={t('FARM_MAP.WATERCOURSE.WIDTH')}
             inputRef={register({ required: false })}
           />
@@ -83,8 +89,8 @@ export default function PureWatercourse({ history, submitForm, system }) {
             type={'number'}
             disabled
             name={watercourseEnum.includes_riparian_buffer}
-            defaultValue={100}
-            unit={'m'}
+            defaultValue={buffer_width_display}
+            unit={unit}
             label={t('FARM_MAP.WATERCOURSE.BUFFER')}
             inputRef={register({ required: false })}
           />

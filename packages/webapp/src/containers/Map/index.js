@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { userFarmSelector } from '../userFarmSlice';
+import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
@@ -14,7 +14,7 @@ import {
   setLocationData,
   setSuccessMessageSelector,
   setShowSuccessHeaderSelector,
-  canShowSuccessHeader,
+  canShowSuccessHeader, locationInfoSelector, resetLocationData,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -49,6 +49,10 @@ export default function Map({ history }) {
   const roadview = !filterSettings.map_background;
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
+  const system = useSelector(measurementSelector);
+  const overlayData = useSelector(locationInfoSelector);
+
+  const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
   const showHeader = useSelector(setShowSuccessHeaderSelector);
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
@@ -65,6 +69,7 @@ export default function Map({ history }) {
       closeDrawer,
       getOverlayInfo,
       reconstructOverlay,
+      setLineWidth,
     },
   ] = useDrawingManager();
 
@@ -150,7 +155,7 @@ export default function Map({ history }) {
       });
     });
     maps.event.addListener(drawingManagerInit, 'overlaycomplete', function (drawing) {
-      finishDrawing(drawing);
+      finishDrawing(drawing, maps, map);
       this.setDrawingMode();
     });
     initDrawingState(map, maps, drawingManagerInit, {
@@ -258,6 +263,19 @@ export default function Map({ history }) {
     });
   };
 
+  const handleConfirm = () => {
+    if (!lineTypesWithWidth.includes(drawingState.type)) {
+      dispatch(setLocationData(getOverlayInfo()));
+      history.push(`/create_location/${drawingState.type}`);
+    }
+  };
+
+  const handleLineConfirm = (lineData) => {
+    const data = { ...getOverlayInfo(), ...lineData };
+    dispatch(setLocationData(data));
+    history.push(`/create_location/${drawingState.type}`);
+  };
+
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
@@ -296,22 +314,29 @@ export default function Map({ history }) {
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
+                showLineModal={
+                  lineTypesWithWidth.includes(drawingState.type) && !drawingState.isActive
+                }
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);
+                  dispatch(resetLocationData());
                   closeDrawer();
                 }}
                 onClickTryAgain={() => {
+                  dispatch(resetLocationData());
                   setZeroAreaWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
                 }}
+                onClickConfirm={handleConfirm}
                 onClickAdjust={() => setShowAdjustModal(true)}
-                onClickConfirm={() => {
-                  dispatch(setLocationData(getOverlayInfo()));
-                  history.push(`/create_location/${drawingState.type}`);
-                }}
                 showZeroAreaWarning={showZeroAreaWarning}
+                confirmLine={handleLineConfirm}
+                updateLineWidth={setLineWidth}
+                system={system}
+                lineData={overlayData}
+                typeOfLine={drawingState.type}
               />
             </div>
           )}

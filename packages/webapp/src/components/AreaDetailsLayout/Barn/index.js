@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
 import { barnEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
+import useHookFormPersist from '../../../containers/hooks/useHookFormPersist';
 
 export default function PureBarn({ history, submitForm, system, grid_points, area, perimeter }) {
   const { t } = useTranslation();
@@ -21,6 +22,7 @@ export default function PureBarn({ history, submitForm, system, grid_points, are
   } = useForm({
     mode: 'onChange',
   });
+  const { persistedData } = useHookFormPersist(watch(), setValue);
   const washPackSelection = watch(barnEnum.wash_and_pack);
   const coldStorage = watch(barnEnum.cold_storage);
   const onError = (data) => {};

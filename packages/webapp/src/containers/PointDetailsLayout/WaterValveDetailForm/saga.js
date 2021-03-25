@@ -1,11 +1,11 @@
-import { call, select, takeEvery, put } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromWaterValve, postWaterValveSuccess } from '../../waterValveSlice';
 import history from '../../../history';
-import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
+import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 
 const axios = require('axios');
@@ -34,6 +34,14 @@ export function* postWaterValveLocationSaga({ payload: data }) {
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
   } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_POST')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.WV')
+          .toLowerCase()}`,
+      },
+    });
     console.log(e);
   }
 }

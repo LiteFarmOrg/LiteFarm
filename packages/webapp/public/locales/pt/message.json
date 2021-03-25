@@ -92,6 +92,10 @@
       "LOGIN_FAIL": "Falha no login das informações do usuário"
     }
   },
+  "MAP": {
+    "FAIL_POST": "MISSING",
+    "SUCCESS_POST": " successfully saved"
+  },
   "NEW_FIELD_CROP": {
     "ERROR": {
       "GENERAL": "Falha ao adicionar cultivo de campo ao banco de dados",
@@ -154,10 +158,5 @@
       "REVOKE": "Acesso do usuário revogado!",
       "UPDATE": "Informações do usuário atualizadas com sucesso!"
     }
-  },
-  "MAP": {
-    "SUCCESS_POST": " successfully saved",
-    "SUCCESS_PATCH": " successfully updated",
-    "SUCCESS_DEL": " successfully removed"
   }
 }

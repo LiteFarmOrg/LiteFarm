@@ -62,7 +62,7 @@ export function* setSpotlightToShownSaga({ payload: spotlight }) {
     const header = getHeader(user_id);
     let patchContent = {};
     patchContent[spotlight] = true;
-    patchContent[`${spotlight}_end`] = new Date();
+    patchContent[`${spotlight}_end`] = new Date().toISOString();
     console.log(patchContent);
     yield put(spotlightLoading());
     const result = yield call(axios.patch, showedSpotlightUrl(), patchContent, header);

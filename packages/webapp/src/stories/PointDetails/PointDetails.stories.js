@@ -12,12 +12,17 @@ const Template = (args) => <PointDetails {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  name: 'Point asset name',
-  pointType: (data) => {},
-  title: 'Point details title',
+  name: 'Gate',
+  title: 'Add gate',
   submitForm: (data) => {},
+  children: (data) => {},
+  setValue: (data) => {},
   handleSubmit: (data) => {},
+  history: (data) => {},
+  onError: (data) => {},
   register: (data) => {},
+  disabled: false,
+  errors: (data) => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

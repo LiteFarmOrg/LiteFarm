@@ -15,13 +15,13 @@ export default function AreaDetailsLayout({
   title,
   submitForm,
   onError,
-  isNameRequired,
   disabled,
   register,
   handleSubmit,
   showPerimeter,
   setValue,
   getValues,
+  setError,
   control,
   history,
   children,
@@ -55,10 +55,9 @@ export default function AreaDetailsLayout({
 
   const onSubmit = (data) => {
     data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
-    data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value;
-    if (data.name === '') {
-      data.name = 'Farm site boundary';
-    }
+    showPerimeter
+      ? (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value)
+      : (data.perimeter = defaultPerimeter);
     data.notes = notes;
     submitForm(data);
   };
@@ -86,11 +85,9 @@ export default function AreaDetailsLayout({
       <Input
         label={name + ' name'}
         type="text"
-        optional={name === 'Farm site boundary' ? true : false}
-        hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
         name={areaEnum.name}
-        inputRef={register({ required: isNameRequired })}
+        inputRef={register({ required: true })}
         errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
       />
@@ -110,11 +107,12 @@ export default function AreaDetailsLayout({
           name={areaEnum.total_area}
           displayUnitName={areaEnum.total_area_unit}
           defaultValue={defaultArea}
-          errors={errors[areaEnum.total_area] && t('common:REQUIRED')}
+          errors={errors[areaEnum.total_area]}
           from={'m2'}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
+          hookFormSetError={setError}
           control={control}
           required
         />
@@ -126,11 +124,12 @@ export default function AreaDetailsLayout({
             name={areaEnum.perimeter}
             displayUnitName={areaEnum.perimeter_unit}
             defaultValue={defaultPerimeter}
-            errors={errors[areaEnum.perimeter] && t('common:REQUIRED')}
+            errors={errors[areaEnum.perimeter]}
             from={'m'}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
+            hookFormSetError={setError}
             control={control}
             required
           />

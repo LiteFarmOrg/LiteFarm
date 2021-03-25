@@ -125,6 +125,41 @@
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
+    "BARN": {
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?",
+      "COLD_STORAGE": "Does this barn have cold storage?"
+    },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "SURFACE_WATER": {
+      "NAME": "Surface water",
+      "TITLE": "Add surface water",
+      "IRRIGATION": "Is this area used for irrigation?"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
+    "RESIDENCE": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
+    },
+    "GREENHOUSE": {
+      "NAME": "Greenhouse",
+      "TITLE": "Add greenhouse",
+      "DATE": "Eligible transition date",
+      "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TRANSITIONING": "Transitioning",
+      "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
@@ -179,7 +214,7 @@
       }
     },
     "WATER_VALVE": {
-      "GROUNDWATER": "SurfaceWater",
+      "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
       "NAME": "Water valve",
@@ -907,6 +942,10 @@
     "PAGE_TEXT": "MISSING",
     "PREVIOUS_TEXT": "MISSING",
     "ROWS_TEXT": "MISSING"
+  },
+  "UNIT": {
+    "INVALID_NUMBER": "MISSING",
+    "MAXIMUM": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

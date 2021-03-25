@@ -5,17 +5,19 @@ import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromWaterValve, postWaterValveSuccess } from '../../waterValveSlice';
 import history from '../../../history';
-import { resetLocationData } from '../../mapSlice';
+import { resetLocationData, setSuccessMessage, canShowSuccessHeader } from '../../mapSlice';
+import i18n from '../../../locales/i18n';
 
 const axios = require('axios');
 export const postWaterValveLocation = createAction(`postWaterValveLocationSaga`);
 
 export function* postWaterValveLocationSaga({ payload: data }) {
+  const formData = data.formData;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
-  data.formData.farm_id = farm_id;
+  formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromWaterValve(data.formData);
+  const locationObject = getLocationObjectFromWaterValve(formData);
 
   try {
     const result = yield call(
@@ -26,7 +28,11 @@ export function* postWaterValveLocationSaga({ payload: data }) {
     );
     yield put(postWaterValveSuccess(result.data));
     yield put(resetLocationData());
-    history.push('/map');
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.WV'), i18n.t('message:MAP.SUCCESS_POST')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
   } catch (e) {
     console.log(e);
   }

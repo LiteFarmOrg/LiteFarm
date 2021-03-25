@@ -17,8 +17,18 @@ export const greenhouseEnum = {
   perimeter: 'perimeter',
   perimeter_unit: 'perimeter_unit',
   organic_status: 'organic_status',
+  transition_date: 'transition_date',
+  supplemental_lighting: 'supplemental_lighting',
+  co2_enrichment: 'co2_enrichment',
+  greenhouse_heated: 'greenhouse_heated',
 };
-const greenHouseProperties = ['organic_status'];
+const greenHouseProperties = [
+  'organic_status',
+  'transition_date',
+  'supplemental_lighting',
+  'co2_enrichment',
+  'greenhouse_heated',
+];
 export const getLocationObjectFromGreenHouse = (data) => {
   return {
     figure: {

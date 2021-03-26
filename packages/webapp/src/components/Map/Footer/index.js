@@ -8,6 +8,7 @@ import { ReactComponent as ExportLogo } from '../../../assets/images/map/export.
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import MapDrawer from '../../MapDrawer';
+import { locationEnum } from '../../../containers/Map/constants';
 
 export default function PureMapFooter({
   className,
@@ -27,15 +28,32 @@ export default function PureMapFooter({
   filterSettings,
   onFilterMenuClick,
   onAddMenuClick,
+  availableFilterSettings = {
+    area: [
+      locationEnum.barn,
+      locationEnum.ceremonial_area,
+      locationEnum.farm_site_boundary,
+      locationEnum.field,
+      locationEnum.garden,
+      locationEnum.greenhouse,
+      locationEnum.surface_water,
+      locationEnum.natural_area,
+      locationEnum.residence,
+    ],
+    line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
+    point: [locationEnum.gate, locationEnum.water_valve],
+  },
 }) {
   const { t } = useTranslation();
   const [stepSpotlighted, setStepSpotlighted] = useState(null);
 
   const resetSpotlightStatus = (data) => {
     const { action, status, lifecycle } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === ACTIONS.CLOSE) {
+    const CLICK_OUT = action === ACTIONS.CLOSE && lifecycle === LIFECYCLE.COMPLETE;
+    const FINISH = action === ACTIONS.NEXT && lifecycle === LIFECYCLE.INIT;
+    if (CLICK_OUT || FINISH) {
       setStepSpotlighted(null);
-      resetSpotlight?.();
+      resetSpotlight();
     } else if ([ACTIONS.UPDATE].includes(action) && lifecycle === LIFECYCLE.TOOLTIP) {
       setStepSpotlighted(data.index);
     }
@@ -172,13 +190,14 @@ export default function PureMapFooter({
         drawerDefaultHeight={drawerDefaultHeight}
         headerTitle={t('FARM_MAP.MAP_FILTER.TITLE')}
         filterSettings={filterSettings}
+        availableFilterSettings={availableFilterSettings}
         onMenuItemClick={onFilterMenuClick}
       />
       <MapDrawer
         key={'add'}
         setShowMapDrawer={setShowAddDrawer}
         showMapDrawer={showAddDrawer}
-        drawerDefaultHeight={drawerDefaultHeight}
+        drawerDefaultHeight={window.innerHeight - 156}
         headerTitle={t('FARM_MAP.MAP_FILTER.ADD_TITLE')}
         onMenuItemClick={onAddMenuClick}
       />
@@ -203,6 +222,11 @@ PureMapFooter.prototype = {
   onFilterMenuClick: PropTypes.func,
   onAddMenuClick: PropTypes.func,
   setShowAddDrawer: PropTypes.func,
+  availableFilterSettings: PropTypes.shape({
+    area: PropTypes.array,
+    point: PropTypes.array,
+    line: PropTypes.array,
+  }),
 };
 
 const TitleContent = (text) => {

@@ -56,16 +56,20 @@ import {
   onLoadingGreenhouseStart,
 } from './greenhouseSlice';
 import {
-  getGroundwatersSuccess,
-  onLoadingGroundwaterFail,
-  onLoadingGroundwaterStart,
-} from './groundwaterSlice';
+  getSurfaceWatersSuccess,
+  onLoadingSurfaceWaterFail,
+  onLoadingSurfaceWaterStart,
+} from './surfaceWaterSlice';
 import {
   getBufferZonesSuccess,
   onLoadingBufferZoneFail,
   onLoadingBufferZoneStart,
 } from './bufferZoneSlice';
-import { getCreeksSuccess, onLoadingCreekFail, onLoadingCreekStart } from './creekSlice';
+import {
+  getWatercoursesSuccess,
+  onLoadingWatercourseFail,
+  onLoadingWatercourseStart,
+} from './watercourseSlice';
 import { getFencesSuccess, onLoadingFenceFail, onLoadingFenceStart } from './fenceSlice';
 import {
   getWaterValvesSuccess,
@@ -91,6 +95,7 @@ import { getAllShifts } from './Shift/actions';
 import { getExpense, getSales } from './Finances/actions';
 import { getRolesSuccess, rolesStatusSelector } from './Profile/People/slice';
 import { logout } from '../util/jwt';
+import { getGardensSuccess, onLoadingGardenFail, onLoadingGardenStart } from './gardenSlice';
 
 const logUserInfoUrl = () => `${url}/userLog`;
 const getCropsByFarmIdUrl = (farm_id) => `${url}/crop/farm/${farm_id}`;
@@ -206,15 +211,16 @@ export const onLoadingLocationStart = createAction('onLoadingLocationStartSaga')
 
 export function* onLoadingLocationStartSaga() {
   yield put(onLoadingFieldStart());
+  yield put(onLoadingGardenStart());
   yield put(onLoadingCeremonialStart());
   yield put(onLoadingBarnStart());
   yield put(onLoadingFarmSiteBoundaryStart());
   yield put(onLoadingGreenhouseStart());
-  yield put(onLoadingGroundwaterStart());
+  yield put(onLoadingSurfaceWaterStart());
   yield put(onLoadingNaturalAreaStart());
   yield put(onLoadingResidenceStart());
   yield put(onLoadingBufferZoneStart());
-  yield put(onLoadingCreekStart());
+  yield put(onLoadingWatercourseStart());
   yield put(onLoadingFenceStart());
   yield put(onLoadingGateStart());
   yield put(onLoadingWaterValveStart());
@@ -257,15 +263,16 @@ export function* getLocationsSuccessSaga({ payload: locations }) {
 
 const figureTypeActionMap = {
   field: { success: getFieldsSuccess, fail: onLoadingFieldFail },
+  garden: { success: getGardensSuccess, fail: onLoadingGardenFail },
   barn: { success: getBarnsSuccess, fail: onLoadingBarnFail },
   ceremonial_area: { success: getCeremonialsSuccess, fail: onLoadingCeremonialFail },
   farm_site_boundary: { success: getFarmSiteBoundarysSuccess, fail: onLoadingFarmSiteBoundaryFail },
   greenhouse: { success: getGreenhousesSuccess, fail: onLoadingGreenhouseFail },
-  ground_water: { success: getGroundwatersSuccess, fail: onLoadingGroundwaterFail },
+  surface_water: { success: getSurfaceWatersSuccess, fail: onLoadingSurfaceWaterFail },
   natural_area: { success: getNaturalAreasSuccess, fail: onLoadingNaturalAreaFail },
   residence: { success: getResidencesSuccess, fail: onLoadingResidenceFail },
   buffer_zone: { success: getBufferZonesSuccess, fail: onLoadingBufferZoneFail },
-  creek: { success: getCreeksSuccess, fail: onLoadingCreekFail },
+  watercourse: { success: getWatercoursesSuccess, fail: onLoadingWatercourseFail },
   fence: { success: getFencesSuccess, fail: onLoadingFenceFail },
   gate: { success: getGatesSuccess, fail: onLoadingGateFail },
   water_valve: { success: getWaterValvesSuccess, fail: onLoadingWaterValveFail },
@@ -284,7 +291,7 @@ export function* getFieldCropsSaga() {
     yield put(getFieldCropsSuccess(result.data));
     yield put(getCropsSuccess(result.data.map((fieldCrop) => fieldCrop.crop)));
   } catch (e) {
-    yield put(onLoadingFieldCropFail());
+    yield put(onLoadingFieldCropFail(e));
     console.log('failed to fetch field crops from db');
   }
 }

@@ -1,17 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { figureProperties, locationProperties, pointProperties } from './locationSlice';
+import { figureProperties, locationProperties, pointProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
-
-export const gateEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  point: 'point',
-};
 
 const gateProperties = [];
 export const getLocationObjectFromGate = (data) => {

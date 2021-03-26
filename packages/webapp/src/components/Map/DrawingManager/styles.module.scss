@@ -27,7 +27,7 @@
 
 .drawingButton {
   display: inline;
-  margin: 0 6px;
+  margin: 0 6px 12px 6px;
   min-width: 96px;
   pointer-events: auto;
 }
@@ -36,4 +36,11 @@
   padding: 12px 15%;
   width: 50%;
   min-width: 204px;
+  pointer-events: auto;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

@@ -12,17 +12,18 @@ export const isArea = (type) => {
   return [
     locationEnum.barn,
     locationEnum.ceremonial_area,
-    locationEnum.farm_bound,
+    locationEnum.farm_site_boundary,
     locationEnum.field,
+    locationEnum.garden,
     locationEnum.greenhouse,
-    locationEnum.ground_water,
+    locationEnum.surface_water,
     locationEnum.natural_area,
     locationEnum.residence,
   ].includes(type);
 };
 
 export const isLine = (type) => {
-  return [locationEnum.creek, locationEnum.fence].includes(type);
+  return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
 };
 
 export const isPoint = (type) => {
@@ -31,16 +32,17 @@ export const isPoint = (type) => {
 
 export const locationEnum = {
   field: 'field',
+  garden: 'garden',
   barn: 'barn',
   ceremonial_area: 'ceremonial_area',
   greenhouse: 'greenhouse',
-  ground_water: 'ground_water',
+  surface_water: 'surface_water',
   natural_area: 'natural_area',
   buffer_zone: 'buffer_zone',
-  creek: 'creek',
+  watercourse: 'watercourse',
   fence: 'fence',
   gate: 'gate',
   water_valve: 'water_valve',
-  farm_bound: 'farm_bound',
+  farm_site_boundary: 'farm_site_boundary',
   residence: 'residence',
 };

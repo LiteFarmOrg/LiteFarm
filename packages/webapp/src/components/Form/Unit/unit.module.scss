@@ -1,0 +1,110 @@
+@import '../../../assets/colors';
+
+.input {
+  flex-grow: 1;
+  border: none;
+  padding-left: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--fontColor);
+  font-family: 'Open Sans', 'SansSerif', serif;
+  background: transparent;
+  min-width: 0;
+  z-index: 1;
+}
+
+.input[type=number] {
+  width: 1px;
+}
+
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input ::placeholder {
+  color: var(--grey500);
+}
+
+.input:disabled {
+  background-color: var(--inputDisabled);
+  color: var(--grey600);
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.input:disabled ~ .pseudoInputContainer {
+  border-color: var(--inputDefault);
+}
+
+.input:disabled ~ .pseudoInputContainer .verticleDivider {
+  border-color: var(--inputDefault);
+}
+
+.fullLength {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  position: relative;
+  flex-grow: 1;
+}
+
+.sm {
+  margin-left: 8px;
+}
+
+.input:focus:enabled ~ .pseudoInputContainer .verticleDivider {
+  border-color: var(--inputActive);
+}
+
+.input:focus:enabled ~ .pseudoInputContainer {
+  border-color: var(--inputActive);
+}
+
+.input:focus:enabled {
+  outline: none;
+}
+
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.inputContainer {
+  display: flex;
+  height: 48px;
+  position: relative;
+}
+
+.pseudoInputContainer {
+  border: 1px solid var(--grey400);
+  box-sizing: border-box;
+  border-radius: 4px;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.verticleDivider {
+  width: 60px;
+  border-left: 1px solid var(--grey400);
+}
+
+.inputError {
+  border-color: var(--error);
+}

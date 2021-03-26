@@ -39,7 +39,9 @@ class Area extends Model {
           },
         },
         total_area: { type: 'number' },
+        total_area_unit: { type: 'string', enum: ['m2', 'ha', 'ft2', 'ac'] },
         perimeter: { type: 'number' },
+        perimeter_unit: { type: 'string', enum: ['m', 'km', 'ft', 'mi'] },
       },
       additionalProperties: false,
     };

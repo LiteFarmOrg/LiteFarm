@@ -39,7 +39,9 @@ class Line extends Model {
           },
         },
         length: { type: 'number' },
+        length_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
         width: { type: 'number' },
+        width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
       },
       additionalProperties: false,
     };

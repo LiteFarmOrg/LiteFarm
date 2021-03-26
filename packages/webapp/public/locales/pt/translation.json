@@ -82,9 +82,24 @@
     "RESET_PASSWORD_LINK": "Enviar novo link de senha/password"
   },
   "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "Network connectivity issues.",
+      "PERIMETER": "Perimeter",
+      "TOTAL_AREA": "Total area"
+    },
+    "BARN": {
+      "COLD_STORAGE": "Does this barn have cold storage?",
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
     "DRAWING_MANAGER": {
+      "ADJUST": "Adjust",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -94,19 +109,76 @@
       "EMAILING": "MISSING",
       "TITLE": "MISSING"
     },
+    "FARM_SITE_BOUNDARY": {
+      "NAME": "Farm site boundary name",
+      "TITLE": "Add farm site boundary"
+    },
+    "FIELD": {
+      "DATE": "Eligible transition date",
+      "FIELD_TYPE": "What type of field is this?",
+      "NAME": "Field",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "TITLE": "Add field",
+      "TRANSITIONING": "Transitioning"
+    },
+    "GARDEN": {
+      "DATE": "MISSING",
+      "GARDEN_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
+    },
+    "GATE": {
+      "NAME": "Gate",
+      "TITLE": "Add gate"
+    },
+    "GREENHOUSE": {
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "DATE": "Eligible transition date",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?",
+      "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NAME": "Greenhouse",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
+      "TITLE": "Add greenhouse",
+      "TRANSITIONING": "Transitioning"
+    },
+    "FENCE": {
+      "NAME": "Fence",
+      "TITLE": "Add fence",
+      "LENGTH": "Total length",
+      "PRESSURE_TREATED": "Is this fence pressure treated?"
+    },
+    "BUFFER_ZONE": {
+      "NAME": "Buffer zone",
+      "TITLE": "Add buffer zone",
+      "WIDTH": "Buffer zone width"
+    },
+    "WATERCOURSE": {
+      "NAME": "Watercourse",
+      "TITLE": "Add watercourse",
+      "LENGTH": "Total length",
+      "WIDTH": "Watercourse width",
+      "BUFFER": "Riparian buffer",
+      "IRRIGATION": "Is this area used for irrigation?"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
       "CA": "Ceremonial area",
-      "CREEK": "Creek",
+      "WATERCOURSE": "Watercourse",
       "FENCE": "Fence",
       "FIELD": "Field",
       "FSB": "Farm site boundary",
+      "GARDEN": "MISSING",
       "GATE": "Gate",
       "GREENHOUSE": "Greenhouse",
-      "GROUNDWATER": "Groundwater",
       "HIDE_ALL": "Hide all",
       "LINES": "Lines",
       "NA": "Natural area",
@@ -114,8 +186,17 @@
       "RESIDENCE": "MISSING",
       "SATELLITE": "Satellite background",
       "SHOW_ALL": "Show all",
+      "SURFACE_WATER": "MISSING",
       "TITLE": "Filter your map",
       "WV": "Water valve"
+    },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
     },
     "SPOTLIGHT": {
       "ADD": "MISSING",
@@ -126,7 +207,41 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "SURFACE_WATER": {
+      "IRRIGATION": "Is this area used for irrigation?",
+      "NAME": "Surface water",
+      "TITLE": "Add surface water"
+    },
+    "TITLE": "MISSING",
+    "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "AREA": {
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "LINE": {
+        "STEP_FOUR": "MISSING",
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      }
+    },
+    "WATER_VALVE": {
+      "GROUNDWATER": "Groundwater",
+      "MAX_FLOW_RATE": "Maximum flow rate",
+      "MUNICIPAL_WATER": "Municipal water",
+      "NAME": "Water valve",
+      "RAIN_WATER": "Rain water",
+      "SURFACE_WATER": "Surface water",
+      "TITLE": "Add water valve",
+      "WATER_VALVE_TYPE": "What is the source?"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "Agregar Campo Novo",
@@ -488,6 +603,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",
@@ -845,6 +961,10 @@
     "PAGE_TEXT": "MISSING",
     "PREVIOUS_TEXT": "MISSING",
     "ROWS_TEXT": "MISSING"
+  },
+  "UNIT": {
+    "INVALID_NUMBER": "MISSING",
+    "MAXIMUM": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "Umidade",

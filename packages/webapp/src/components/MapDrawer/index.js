@@ -9,12 +9,13 @@ import { ReactComponent as Barn } from '../../assets/images/farmMapFilter/Barn.s
 import { ReactComponent as CeremonialArea } from '../../assets/images/farmMapFilter/CA.svg';
 import { ReactComponent as FarmSiteBoundary } from '../../assets/images/farmMapFilter/FSB.svg';
 import { ReactComponent as Field } from '../../assets/images/farmMapFilter/Field.svg';
+import { ReactComponent as Garden } from '../../assets/images/farmMapFilter/Garden.svg';
 import { ReactComponent as Greenhouse } from '../../assets/images/farmMapFilter/Greenhouse.svg';
-import { ReactComponent as Groundwater } from '../../assets/images/farmMapFilter/Groundwater.svg';
+import { ReactComponent as SurfaceWater } from '../../assets/images/farmMapFilter/SurfaceWater.svg';
 import { ReactComponent as NaturalArea } from '../../assets/images/farmMapFilter/NA.svg';
 import { ReactComponent as Residence } from '../../assets/images/farmMapFilter/Residence.svg';
 import { ReactComponent as BufferZone } from '../../assets/images/farmMapFilter/BufferZone.svg';
-import { ReactComponent as Creek } from '../../assets/images/farmMapFilter/Creek.svg';
+import { ReactComponent as Watercourse } from '../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../assets/images/farmMapFilter/Fence.svg';
 import { ReactComponent as Gate } from '../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../assets/images/farmMapFilter/WaterValve.svg';
@@ -98,6 +99,7 @@ export default function MapDrawer({
   setShowMapDrawer,
   onMenuItemClick,
   filterSettings,
+  availableFilterSettings,
   drawerDefaultHeight = window.innerHeight / 2 - 156,
   headerTitle,
 }) {
@@ -105,7 +107,7 @@ export default function MapDrawer({
 
   const classes = useStyles();
 
-  const areaImgDict = [
+  let areaImgDict = [
     {
       name: t('FARM_MAP.MAP_FILTER.BARN'),
       icon: () => <Barn className={classes.icon} />,
@@ -119,7 +121,7 @@ export default function MapDrawer({
     {
       name: t('FARM_MAP.MAP_FILTER.FSB'),
       icon: () => <FarmSiteBoundary className={classes.icon} />,
-      key: locationEnum.farm_bound,
+      key: locationEnum.farm_site_boundary,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FIELD'),
@@ -127,14 +129,19 @@ export default function MapDrawer({
       key: locationEnum.field,
     },
     {
+      name: t('FARM_MAP.MAP_FILTER.GARDEN'),
+      icon: () => <Garden className={classes.icon} />,
+      key: locationEnum.garden,
+    },
+    {
       name: t('FARM_MAP.MAP_FILTER.GREENHOUSE'),
       icon: () => <Greenhouse className={classes.icon} />,
       key: locationEnum.greenhouse,
     },
     {
-      name: t('FARM_MAP.MAP_FILTER.GROUNDWATER'),
-      icon: () => <Groundwater className={classes.icon} />,
-      key: locationEnum.ground_water,
+      name: t('FARM_MAP.MAP_FILTER.SURFACE_WATER'),
+      icon: () => <SurfaceWater className={classes.icon} />,
+      key: locationEnum.surface_water,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.NA'),
@@ -148,16 +155,16 @@ export default function MapDrawer({
     },
   ];
 
-  const lineImgDict = [
+  let lineImgDict = [
     {
       name: t('FARM_MAP.MAP_FILTER.BZ'),
       icon: () => <BufferZone className={classes.icon} />,
       key: locationEnum.buffer_zone,
     },
     {
-      name: t('FARM_MAP.MAP_FILTER.CREEK'),
-      icon: () => <Creek className={classes.icon} />,
-      key: locationEnum.creek,
+      name: t('FARM_MAP.MAP_FILTER.WATERCOURSE'),
+      icon: () => <Watercourse className={classes.icon} />,
+      key: locationEnum.watercourse,
     },
     {
       name: t('FARM_MAP.MAP_FILTER.FENCE'),
@@ -166,7 +173,7 @@ export default function MapDrawer({
     },
   ];
 
-  const pointImgDict = [
+  let pointImgDict = [
     {
       name: t('FARM_MAP.MAP_FILTER.GATE'),
       icon: () => <Gate className={classes.icon} />,
@@ -178,6 +185,12 @@ export default function MapDrawer({
       key: locationEnum.water_valve,
     },
   ];
+
+  if (availableFilterSettings) {
+    areaImgDict = areaImgDict.filter(({ key }) => availableFilterSettings.area.includes(key));
+    lineImgDict = lineImgDict.filter(({ key }) => availableFilterSettings.line.includes(key));
+    pointImgDict = pointImgDict.filter(({ key }) => availableFilterSettings.point.includes(key));
+  }
 
   const [initHeight, setInitHeight] = useState(drawerDefaultHeight);
   const controls = useAnimation();
@@ -243,10 +256,12 @@ export default function MapDrawer({
             </MapDrawerMenuItem>
           )}
 
-          <Label className={classes.label}>
-            {t('FARM_MAP.MAP_FILTER.AREAS')}
-            <span className={classes.labelDivider} />
-          </Label>
+          {!!areaImgDict.length && (
+            <Label className={classes.label}>
+              {t('FARM_MAP.MAP_FILTER.AREAS')}
+              <span className={classes.labelDivider} />
+            </Label>
+          )}
           {areaImgDict.map(({ key, name, icon }) => {
             return (
               <MapDrawerMenuItem
@@ -261,10 +276,12 @@ export default function MapDrawer({
             );
           })}
 
-          <Label className={classes.label}>
-            {t('FARM_MAP.MAP_FILTER.LINES')}
-            <span className={classes.labelDivider} />
-          </Label>
+          {!!lineImgDict.length && (
+            <Label className={classes.label}>
+              {t('FARM_MAP.MAP_FILTER.LINES')}
+              <span className={classes.labelDivider} />
+            </Label>
+          )}
           {lineImgDict.map(({ key, name, icon }) => (
             <MapDrawerMenuItem
               key={key}
@@ -277,10 +294,12 @@ export default function MapDrawer({
             </MapDrawerMenuItem>
           ))}
 
-          <Label className={classes.label}>
-            {t('FARM_MAP.MAP_FILTER.POINTS')}
-            <span className={classes.labelDivider} />
-          </Label>
+          {!!pointImgDict.length && (
+            <Label className={classes.label}>
+              {t('FARM_MAP.MAP_FILTER.POINTS')}
+              <span className={classes.labelDivider} />
+            </Label>
+          )}
           {pointImgDict.map(({ key, name, icon }) => (
             <MapDrawerMenuItem
               key={key}
@@ -338,4 +357,9 @@ MapDrawer.prototype = {
   drawerDefaultHeight: PropTypes.number,
   filterSettings: PropTypes.object,
   headerTitle: PropTypes.string,
+  availableFilterSettings: PropTypes.shape({
+    area: PropTypes.array,
+    point: PropTypes.array,
+    line: PropTypes.array,
+  }),
 };

@@ -24,6 +24,7 @@ const { transaction, Model } = require('objection');
 const bcrypt = require('bcryptjs');
 const { createToken } = require('../util/jwt');
 const { sendEmailTemplate, emails, sendEmail } = require('../templates/sendEmailTemplate');
+const showedSpotlightModel = require('../models/showedSpotlightModel');
 
 
 const userController = {
@@ -49,11 +50,14 @@ const userController = {
         // persist user data
         const userResult = await baseController.post(userModel, userData, req, { trx });
 
+        const { user_id } = userResult
+
         const pwData = {
-          user_id: userResult.user_id,
+          user_id,
           password_hash,
         };
         const pwResult = await baseController.post(passwordModel, pwData, req, { trx });
+        const ssResult = await baseController.post(showedSpotlightModel, { user_id }, req, { trx });
         await trx.commit();
 
         // generate token, set to last a week

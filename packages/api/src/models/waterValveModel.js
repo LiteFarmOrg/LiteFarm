@@ -31,6 +31,8 @@ class WaterValve extends Model {
       properties: {
         location_id: { type: 'string' },
         source: { type: 'string', enum: ['Municipal water', 'Surface water', 'Groundwater', 'Rain water'] },
+        flow_rate: { type: ['number', null] },
+        flow_rate_unit: { type: 'string', enum: ['l/min', 'l/h', 'gal/min', 'gal/h'] },
       },
       additionalProperties: false,
     };
@@ -38,8 +40,7 @@ class WaterValve extends Model {
 
   static get relationMappings() {
     // Import models here to prevent require loops.
-    return {
-    };
+    return {};
   }
 }
 

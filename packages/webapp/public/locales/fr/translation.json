@@ -82,9 +82,24 @@
     "RESET_PASSWORD_LINK": "MISSING"
   },
   "FARM_MAP": {
+    "AREA_DETAILS": {
+      "NETWORK": "MISSING.",
+      "PERIMETER": "MISSING",
+      "TOTAL_AREA": "MISSING"
+    },
+    "BARN": {
+      "COLD_STORAGE": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WASH_PACK": "MISSING"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
     "DRAWING_MANAGER": {
+      "ADJUST": "MISSING",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -94,19 +109,76 @@
       "EMAILING": "MISSING",
       "TITLE": "MISSING"
     },
+    "FARM_SITE_BOUNDARY": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "FIELD": {
+      "DATE": "MISSING",
+      "FIELD_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
+    },
+    "GARDEN": {
+      "DATE": "MISSING",
+      "GARDEN_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
+    },
+    "GATE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "GREENHOUSE": {
+      "CO2_ENRICHMENT": "MISSING",
+      "DATE": "MISSING",
+      "GREENHOUSE_HEATED": "MISSING",
+      "GREENHOUSE_TYPE": "MISSING",
+      "NAME": "MISSING",
+      "NON_ORGANIC": "MISSING",
+      "ORGANIC": "MISSING",
+      "SUPPLEMENTAL_LIGHTING": "MISSING",
+      "TITLE": "MISSING",
+      "TRANSITIONING": "MISSING"
+    },
+    "FENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "PRESSURE_TREATED": "MISSING"
+    },
+    "BUFFER_ZONE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
+    },
+    "WATERCOURSE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "LENGTH": "MISSING",
+      "WIDTH": "MISSING",
+      "BUFFER": "MISSING",
+      "IRRIGATION": "MISSING"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
       "AREAS": "MISSING",
       "BARN": "MISSING",
       "BZ": "MISSING",
       "CA": "MISSING",
-      "CREEK": "MISSING",
+      "WATERCOURSE": "MISSING",
       "FENCE": "MISSING",
       "FIELD": "MISSING",
       "FSB": "MISSING",
+      "GARDEN": "MISSING",
       "GATE": "MISSING",
       "GREENHOUSE": "MISSING",
-      "GROUNDWATER": "MISSING",
       "HIDE_ALL": "MISSING",
       "LINES": "MISSING",
       "NA": "MISSING",
@@ -114,8 +186,17 @@
       "RESIDENCE": "MISSING",
       "SATELLITE": "MISSING",
       "SHOW_ALL": "MISSING",
+      "SURFACE_WATER": "MISSING",
       "TITLE": "MISSING",
       "WV": "MISSING"
+    },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
     },
     "SPOTLIGHT": {
       "ADD": "MISSING",
@@ -126,7 +207,41 @@
       "FILTER_TITLE": "MISSING",
       "HERE_YOU_CAN": "MISSING"
     },
-    "TITLE": "MISSING"
+    "SURFACE_WATER": {
+      "IRRIGATION": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "TITLE": "MISSING",
+    "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "AREA": {
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "LINE": {
+        "STEP_FOUR": "MISSING",
+        "STEP_ONE": "MISSING",
+        "STEP_THREE": "MISSING",
+        "STEP_TWO": "MISSING",
+        "TITLE": "MISSING"
+      }
+    },
+    "WATER_VALVE": {
+      "GROUNDWATER": "MISSING",
+      "MAX_FLOW_RATE": "MISSING",
+      "MUNICIPAL_WATER": "MISSING",
+      "NAME": "MISSING",
+      "RAIN_WATER": "MISSING",
+      "SURFACE_WATER": "MISSING",
+      "TITLE": "MISSING",
+      "WATER_VALVE_TYPE": "MISSING"
+    }
   },
   "FIELDS": {
     "ADD_NEW_FIELD": "MISSING",
@@ -488,6 +603,7 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",
@@ -845,6 +961,10 @@
     "PAGE_TEXT": "MISSING",
     "PREVIOUS_TEXT": "MISSING",
     "ROWS_TEXT": "MISSING"
+  },
+  "UNIT": {
+    "INVALID_NUMBER": "MISSING",
+    "MAXIMUM": "MISSING"
   },
   "WEATHER": {
     "HUMIDITY": "MISSING",

@@ -1,20 +1,10 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { figureProperties, locationProperties, pointProperties } from './locationSlice';
+import { figureProperties, locationProperties, pointProperties } from './constants';
 import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from './userFarmSlice';
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-export const waterValveEnum = {
-  farm_id: 'farm_id',
-  name: 'name',
-  figure_id: 'figure_id',
-  type: 'type',
-  location_id: 'location_id',
-  point: 'point',
-  source: 'source',
-};
-
-const waterValveProperties = ['source'];
+const waterValveProperties = ['source', 'flow_rate'];
 export const getLocationObjectFromWaterValve = (data) => {
   return {
     figure: {

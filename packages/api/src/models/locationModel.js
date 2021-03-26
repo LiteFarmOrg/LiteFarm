@@ -69,6 +69,14 @@ class Location extends baseModel {
           to: 'field.location_id',
         },
       },
+      garden: {
+        modelClass: require('./gardenModel'),
+        relation: Model.HasOneRelation,
+        join: {
+          from: 'location.location_id',
+          to: 'garden.location_id',
+        },
+      },
       barn: {
         modelClass: require('./barnModel'),
         relation: Model.HasOneRelation,
@@ -133,12 +141,12 @@ class Location extends baseModel {
           to: 'farm_site_boundary.location_id',
         },
       },
-      ground_water: {
-        modelClass: require('./groundWaterModel'),
+      surface_water: {
+        modelClass: require('./surfaceWaterModel'),
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
-          to: 'ground_water.location_id',
+          to: 'surface_water.location_id',
         },
       },
       natural_area: {

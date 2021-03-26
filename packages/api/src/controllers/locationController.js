@@ -10,25 +10,22 @@ const LocationController = {
         .where({ farm_id })
         .withGraphJoined(`[
           figure.[area, line, point], 
-          gate, water_valve, field, buffer_zone, creek, fence, 
-          ceremonial_area, residence, ground_water, natural_area,
-          greenhouse, barn
+          gate, water_valve, field, garden, buffer_zone, creek, fence, 
+          ceremonial_area, residence, surface_water, natural_area,
+          greenhouse, barn, farm_site_boundary
         ]`)
-      res.status(200).send(locations);
+      return res.status(200).send(locations);
     }
   },
 
   deleteLocation() {
     return async (req, res, next) => {
       const { location_id } = req.params;
-      const trx = await transaction.start(Model.knex());
       try {
-        const isDeleted = await baseController.delete(LocationModel, location_id, req, { trx });
-        trx.commit();
-        res.sendStatus(isDeleted ? 200 : 400);
+        const isDeleted = await baseController.delete(LocationModel, location_id, req);
+        return res.sendStatus(isDeleted ? 200 : 400);
       } catch (error) {
-        trx.rollback();
-        res.status(400).json({
+        return res.status(400).json({
           error,
         });
       }
@@ -38,19 +35,18 @@ const LocationController = {
   createLocation(asset) {
     const nonModifiable = getNonModifiable(asset);
     return async (req, res, next) => {
-      const trx = await transaction.start(Model.knex());
       try {
         // OC: the "noInsert" rule will not fail if a relationship is present in the graph.
         // it will just ignore the insert on it. This is just a 2nd layer of protection
         // after the validation middleware.
-        const result = await LocationModel.query().context({ user_id: req.user.user_id }).upsertGraph(
-          req.body, { noUpdate: true, noDelete: true, noInsert: nonModifiable }, { trx });
-        trx.commit();
-        res.status(200).send(result);
+        await LocationModel.transaction(async trx => {
+          const result = await LocationModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+            req.body, { noUpdate: true, noDelete: true, noInsert: nonModifiable });
+          return res.status(200).send(result);
+        });
       } catch (error) {
-        trx.rollback();
         console.log(error);
-        res.status(400).send({ error });
+        return res.status(400).send({ error });
       }
     }
   },
@@ -58,17 +54,16 @@ const LocationController = {
   updateLocation(asset) {
     const nonModifiable = getNonModifiable(asset);
     return async (req, res, next) => {
-      const trx = await transaction.start(Model.knex());
       try {
-        const result = await LocationModel.query().context({ user_id: req.user.user_id }).upsertGraph(
-          { ...req.body, location_id: req.params.location_id },
-          { noInsert: true, noDelete: true, noUpdate: nonModifiable }, { trx });
-        trx.commit();
-        res.status(200).send(result);
+        await LocationModel.transaction(async trx => {
+          const result = await LocationModel.query(trx).context({ user_id: req.user.user_id }).upsertGraph(
+            { ...req.body, location_id: req.params.location_id },
+            { noInsert: true, noDelete: true, noUpdate: nonModifiable });
+          return res.status(200).send(result);
+        });
       } catch (error) {
         console.log(error);
-        trx.rollback();
-        res.status(400).send({ error });
+        return res.status(400).send({ error });
       }
     }
   },

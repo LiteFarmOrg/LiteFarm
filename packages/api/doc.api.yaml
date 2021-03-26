@@ -3,8 +3,8 @@ info:
   title: Litefarm
   description: 'REST documentation for Litefarm API. (last update March 4th)'
   contact:
-    email: litefarm@litefarm.org
-  version: 1.0.0
+    email: support@litefarm.org
+  version: 1.0.1
 servers:
   - url: http://beta.litefarm.org/
   - url: http://app.litefarm.org/
@@ -54,6 +54,8 @@ tags:
     description: userFarm data relation operations
   - name: yield
     description: yield related operations
+  - name: location
+    description: Locations on your farm
 paths:
   /user:
     post:
@@ -491,7 +493,6 @@ paths:
     get:
       tags:
         - userFarm
-        - TBR
       summary: Gets all role permissions From Auth0????....
       operationId: Auth0RolePermission
       responses:
@@ -911,7 +912,6 @@ paths:
     put:
       tags:
         - expense
-        - TBR
       summary: Update an existing farm expense. (Its actually deleting, also, no id provided in params? )
       operationId: putFarmExpense
       requestBody:
@@ -1417,7 +1417,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets People fed by farmId
       operationId: getPeopleFedByFarmId
       parameters:
@@ -1448,7 +1447,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets Soil data by farmId
       operationId: getSoilDataByFarmId
       parameters:
@@ -1479,7 +1477,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets Labour happines data by farmId
       operationId: getLabourHappinessByFarmId
       parameters:
@@ -1510,7 +1507,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets Biodiversity data by farmId
       operationId: getBioDiversityByFarmId
       parameters:
@@ -1541,7 +1537,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets Nearby farm prices data by farmId
       operationId: getPriceDistanceByFarmId
       parameters:
@@ -1572,7 +1567,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets water balance data by farmId
       operationId: getWaterBalanceByFarmId
       parameters:
@@ -1603,7 +1597,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets water balance schedule by farmId
       operationId: getWaterBalanceScheduleByFarmId
       parameters:
@@ -1636,7 +1629,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets Nitrogen balance data by farmId
       operationId: getNitrogenBalanceByFarmId
       parameters:
@@ -1667,7 +1659,6 @@ paths:
       tags:
         - insight
         - farm
-        - TBR
       summary: Gets Nitrogen balance schedule by farmId
       operationId: getNitrogenBalanceScheduleByFarmId
       parameters:
@@ -1704,7 +1695,6 @@ paths:
     post:
       tags:
         - insight
-        - TBR
       summary: Create water balance
       operationId: postWaterBalance
       requestBody:
@@ -1727,7 +1717,6 @@ paths:
     post:
       tags:
         - insight
-        - TBR
       summary: Create water balance schedule
       operationId: postWaterBalanceSchedule
       requestBody:
@@ -1766,7 +1755,6 @@ paths:
     post:
       tags:
         - insight
-        - TBR
       summary: Create nitrogen balance schedule
       operationId: postNitrogenBalanceSchedule
       requestBody:
@@ -1817,7 +1805,6 @@ paths:
     delete:
       tags:
         - insight
-        - TBR
       summary: Delete nitrogen schedule
       operationId: deleteNitrogenScheduleById
       parameters:
@@ -1833,6 +1820,293 @@ paths:
           description: Bad Request.
         403:
           description: No access to this farm, or permission to delete nitrogen schedule.
+  /location/farm/{farmId}:
+    get:
+      tags:
+        - farm
+        - location
+      summary: Get all locations  within a farm
+      operationId: getLocationsByFarmId
+      parameters:
+        - name: farmId
+          required: true
+          in: path
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: retrieves a list of locations linked to the corresponding farm
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetLocation'
+        403:
+          description: No access to this farm, or permission to get locations.
+        400:
+          description: Bad Request.
+  /location/gate:
+    post:
+      tags:
+        - location
+      summary: Create a gate
+      operationId: postGate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the gate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/water_valve:
+    post:
+      tags:
+        - location
+      summary: Create a water valve
+      operationId: postWaterValve
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the water valve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/buffer_zone:
+    post:
+      tags:
+        - location
+      summary: Created the buffer zone
+      operationId: postBufferZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the buffer zone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/creek:
+    post:
+      tags:
+        - location
+      summary: Create a creek
+      operationId: postCreek
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the creek
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/fence:
+    post:
+      tags:
+        - location
+      summary: Create a fence
+      operationId: postFence
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the fence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/ceremonial_area:
+    post:
+      tags:
+        - location
+      summary: Create a Ceremonial Area
+      operationId: postCeremonial
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the ceremonial area
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/residence:
+    post:
+      tags:
+        - location
+      summary: Create a residence
+      operationId: postResidence
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the residence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/ground_water:
+    post:
+      tags:
+        - location
+      summary: Create a ground water area
+      operationId: postGroundWater
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the ground water area
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/natural_area:
+    post:
+      tags:
+        - location
+      summary: Create a natural area
+      operationId: postNaturalArea
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the natural area
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/greenhouse:
+    post:
+      tags:
+        - location
+      summary: Create a greenhouse
+      operationId: postGreenhouse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the greenhouse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/barn:
+    post:
+      tags:
+        - location
+      summary: Create a barn
+      operationId: postBarn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the barn
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/field:
+    post:
+      tags:
+        - location
+      summary: Create a field
+      operationId: postFieldLocation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
+  /location/farm_site_boundary:
+    post:
+      tags:
+        - location
+      summary: Create a farm site boundary
+      operationId: postFarmSiteBoundary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Location'
+      responses:
+        200:
+          description: Created the farm site boundary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        403:
+          description: No permission to create assets on the map
   /log:
     post:
       tags:
@@ -1970,7 +2244,6 @@ paths:
   /notification/user/user_id:
     get:
       tags:
-        - TBR
       summary: Currently Not operative
       responses:
         404:
@@ -1984,7 +2257,6 @@ paths:
           schema:
             type: number
       tags:
-        - TBR
       summary: Currently Not operative
       responses:
         404:
@@ -1992,7 +2264,6 @@ paths:
   /notification_setting/{notificationId}:
     put:
       tags:
-        - TBR
       parameters:
         - name: notificationId
           in: path
@@ -2534,7 +2805,6 @@ paths:
     patch:
       tags:
         - signup
-        - TBR
       parameters:
         - name: userId
           in: path
@@ -2599,7 +2869,6 @@ paths:
     get:
       tags:
         - farm
-        - TBR
       summary: Get all farm stats?  Open to anyone?
       operationId: getFarmStats
       responses:
@@ -2908,6 +3177,51 @@ components:
               format: date
         sandbox_bool:
           type: boolean
+    Figure:
+      type: object
+      properties:
+        type:
+          type: string
+        figure_type:
+          type: object
+          description: Object schema being sent will be the property name, so if you send area properties, property name should be area
+          oneOf:
+            - $ref: '#/components/schemas/Area'
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/Line'
+    GetFigure:
+      type: object
+      properties:
+        type:
+          type: string
+        figure_type:
+          type: object
+          description: Object schema being sent will be the property name, so if you receive area properties, property name will be area
+          anyOf:
+            - $ref: '#/components/schemas/Area'
+            - $ref: '#/components/schemas/Point'
+            - $ref: '#/components/schemas/Line'
+    GetLocation:
+      type: object
+      properties:
+        figure_type:
+          $ref: '#/components/schemas/GetFigure'
+        location_type:
+          type: object
+          anyOf:
+            - $ref: '#/components/schemas/FarmSiteBoundary'
+            - $ref: '#/components/schemas/Residence'
+            - $ref: '#/components/schemas/FieldLocation'
+            - $ref: '#/components/schemas/Barn'
+            - $ref: '#/components/schemas/Greenhouse'
+            - $ref: '#/components/schemas/CeremonialArea'
+            - $ref: '#/components/schemas/NaturalArea'
+            - $ref: '#/components/schemas/GroundWater'
+            - $ref: '#/components/schemas/Creek'
+            - $ref: '#/components/schemas/Fence'
+            - $ref: '#/components/schemas/BufferZone'
+            - $ref: '#/components/schemas/Gate'
+            - $ref: '#/components/schemas/WaterValve'
     LatLong:
       type: object
       properties:
@@ -2915,6 +3229,136 @@ components:
           type: number
         lng:
           type: number
+    Location:
+      type: object
+      properties:
+        name:
+          type: string
+        notes:
+          type: string
+        farm_id:
+          type: string
+          format: uuid
+        figure:
+          $ref: '#/components/schemas/Figure'
+        location_type:
+          type: object
+          description: Object schema being sent will be the property name, so if you send a field, "location_type" should be replaced with "field"
+          oneOf:
+            - $ref: '#/components/schemas/FarmSiteBoundary'
+            - $ref: '#/components/schemas/Residence'
+            - $ref: '#/components/schemas/FieldLocation'
+            - $ref: '#/components/schemas/Barn'
+            - $ref: '#/components/schemas/Greenhouse'
+            - $ref: '#/components/schemas/CeremonialArea'
+            - $ref: '#/components/schemas/NaturalArea'
+            - $ref: '#/components/schemas/GroundWater'
+            - $ref: '#/components/schemas/Creek'
+            - $ref: '#/components/schemas/Fence'
+            - $ref: '#/components/schemas/BufferZone'
+            - $ref: '#/components/schemas/Gate'
+            - $ref: '#/components/schemas/WaterValve'
+    FarmSiteBoundary:
+      type: object
+    Residence:
+      type: object
+    FieldLocation:
+      type: object
+      properties:
+        organic_status:
+          type: string
+          enum: [Non-Organic, Transitioning, Organic]
+        transition_date:
+          type: date
+          description: will only be filled out in the case of a transitioning field
+    Barn:
+      type: object
+      properties:
+        wash_and_pack:
+          type: boolean
+        cold_storage:
+          type: boolean
+    Greenhouse:
+      type: object
+      properties:
+        organic_status:
+          type: string
+          enum: [ Non-Organic, Transitioning, Organic ]
+    CeremonialArea:
+      type: object
+    NaturalArea:
+      type: object
+    GroundWater:
+      type: object
+      properties:
+        used_for_irrigation:
+          type: boolean
+    Creek:
+      type: object
+      properties:
+        used_for_irrigation:
+          type: boolean
+        includes_riparian_buffer:
+          type: boolean
+        buffer_width:
+          type: number
+    Fence:
+       type: object
+       properties:
+         pressure_treated:
+           type: boolean
+    BufferZone:
+      type: object
+    Gate:
+      type: object
+    WaterValve:
+      type: object
+      properties:
+        source:
+          type: string
+          enum: ['Municipal water', 'Surface water', 'Groundwater', 'Rain water']
+    Area:
+      type: object
+      properties:
+        grid_points:
+          type: array
+          items:
+            type: object
+            properties:
+              lat:
+                type: number
+              lng:
+                type: number
+        total_area:
+          type: number
+        perimeter:
+          type: number
+    Line:
+      type: object
+      properties:
+        grid_points:
+          type: array
+          items:
+            type: object
+            properties:
+              lat:
+                type: number
+              lng:
+                type: number
+        lenght:
+          type: number
+        width:
+          type: number
+    Point:
+      type: object
+      properties:
+        point:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
     UserFarm:
       type: object
       properties:

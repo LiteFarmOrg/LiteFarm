@@ -23,6 +23,14 @@ export default function useHookFormPersist(prevPathname, getValues, setValue) {
     for (const key in formData) {
       setValue(key, formData[key], { shouldValidate: true, shouldDirty: true });
     }
+    const initiatedField = Object.keys(getValues());
+    const setHiddenValues = setTimeout(() => {
+      for (const key in formData) {
+        !initiatedField.includes(key) &&
+          setValue(key, formData[key], { shouldValidate: true, shouldDirty: true });
+      }
+    }, 100);
+    return () => clearTimeout(setHiddenValues);
   }, []);
 
   return { persistedData: formData };

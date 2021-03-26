@@ -7,7 +7,7 @@ import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { fieldEnum } from '../../../containers/constants';
 
-export default function PureField({ history, submitForm, system, grid_points, area, perimeter }) {
+export default function PureField({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
   const {
     register,
@@ -22,13 +22,19 @@ export default function PureField({ history, submitForm, system, grid_points, ar
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { grid_points, total_area, perimeter },
+  } = useHookFormPersist('/map', getValues, setValue);
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
+      grid_points,
+      total_area,
+      perimeter,
       ...data,
-      grid_points: grid_points,
+
       type: 'field',
     };
     submitForm({ formData });
@@ -46,12 +52,13 @@ export default function PureField({ history, submitForm, system, grid_points, ar
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      watch={watch}
       setError={setError}
       control={control}
       showPerimeter={true}
       errors={errors}
       system={system}
-      area={area}
+      total_area={total_area}
       perimeter={perimeter}
     >
       <div>

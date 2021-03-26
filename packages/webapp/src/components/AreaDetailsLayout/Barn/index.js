@@ -54,11 +54,11 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      watch={watch}
       setError={setError}
       control={control}
       showPerimeter={false}
       errors={errors}
-      watch={watch}
       system={system}
       total_area={total_area}
       perimeter={perimeter}

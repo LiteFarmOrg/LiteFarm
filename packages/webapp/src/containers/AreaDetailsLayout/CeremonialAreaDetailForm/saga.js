@@ -7,6 +7,7 @@ import { getLocationObjectFromCeremonial, postCeremonialSuccess } from '../../ce
 import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
+import { resetAndLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const axios = require('axios');
 export const postCeremonialLocation = createAction(`postCeremonialLocationSaga`);
@@ -27,6 +28,7 @@ export function* postCeremonialLocationSaga({ payload: data }) {
       header,
     );
     yield put(postCeremonialSuccess(result.data));
+    yield put(resetAndLockFormData());
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );

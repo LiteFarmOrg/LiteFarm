@@ -10,6 +10,7 @@ import {
 import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
+import { resetAndLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const axios = require('axios');
 export const postSurfaceWaterLocation = createAction(`postSurfaceWaterLocationSaga`);
@@ -37,6 +38,7 @@ export function* postSurfaceWaterLocationSaga({ payload: data }) {
       ]),
     );
     yield put(canShowSuccessHeader(true));
+    yield put(resetAndLockFormData());
     history.push({ pathname: '/map' });
   } catch (e) {
     history.push({

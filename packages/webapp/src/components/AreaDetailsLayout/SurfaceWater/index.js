@@ -6,14 +6,7 @@ import Radio from '../../Form/Radio';
 import { surfaceWaterEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
-export default function PureSurfaceWater({
-  history,
-  submitForm,
-  system,
-  grid_points,
-  area,
-  perimeter,
-}) {
+export default function PureSurfaceWater({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
   const {
     register,
@@ -28,13 +21,19 @@ export default function PureSurfaceWater({
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { grid_points, total_area, perimeter },
+  } = useHookFormPersist('/map', getValues, setValue);
   const onError = (data) => {};
   const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
+      grid_points,
+      total_area,
+      perimeter,
       ...data,
-      grid_points: grid_points,
+
       type: 'surface_water',
       used_for_irrigation: irrigation !== null ? irrigation === 'true' : null,
     };
@@ -53,12 +52,13 @@ export default function PureSurfaceWater({
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      watch={watch}
       setError={setError}
       control={control}
       showPerimeter={true}
       errors={errors}
       system={system}
-      area={area}
+      total_area={total_area}
       perimeter={perimeter}
     >
       <div>

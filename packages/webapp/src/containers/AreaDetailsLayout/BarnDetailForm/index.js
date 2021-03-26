@@ -3,12 +3,12 @@ import PureBarn from '../../../components/AreaDetailsLayout/Barn';
 import { postBarnLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
-import { locationInfoSelector } from '../../mapSlice';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
 
 function BarnDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { area, perimeter, grid_points } = useSelector(locationInfoSelector);
+
   const submitForm = (data) => {
     dispatch(postBarnLocation(data));
   };
@@ -18,9 +18,7 @@ function BarnDetailForm({ history }) {
       history={history}
       submitForm={submitForm}
       system={system}
-      grid_points={grid_points}
-      area={area}
-      perimeter={perimeter}
+      useHookFormPersist={useHookFormPersist}
     />
   );
 }

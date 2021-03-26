@@ -178,7 +178,7 @@ export const getDefaultUnit = (unitType = area_total_area, value, system, unit) 
         : convert(value).from(from).to(displayUnit);
     return { displayUnit, displayValue: roundToTwoDecimal(displayValue) };
   } else {
-    return { displayUnit: unitType[system].defaultUnit, displayValue: undefined };
+    return { displayUnit: unitType[system].defaultUnit, displayValue: '' };
   }
 };
 

@@ -4,6 +4,7 @@ import { postBarnLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
 
 function BarnDetailForm({ history }) {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function BarnDetailForm({ history }) {
       submitForm={submitForm}
       system={system}
       grid_points={grid_points}
+      useHookFormPersist={useHookFormPersist}
       area={area}
       perimeter={perimeter}
     />

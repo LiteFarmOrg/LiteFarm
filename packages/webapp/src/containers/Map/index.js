@@ -3,18 +3,17 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, locationEnum } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
-import { chooseFarmFlowSelector, endMapSpotlight } from '../ChooseFarm/chooseFarmFlowSlice';
+import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
 import { fieldsSelector } from '../fieldSlice';
 import {
-  setLocationData,
-  setSuccessMessageSelector,
+  canShowSuccessHeader,
   setShowSuccessHeaderSelector,
-  canShowSuccessHeader, locationInfoSelector, resetLocationData,
+  setSuccessMessageSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -39,6 +38,11 @@ import {
   setMapFilterSetting,
   setMapFilterShowAll,
 } from './mapFilterSettingSlice';
+import {
+  hookFormPersistSelector,
+  resetAndUnLockFormData,
+  upsertFormData,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
@@ -50,7 +54,7 @@ export default function Map({ history }) {
   const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const overlayData = useSelector(locationInfoSelector);
+  const overlayData = useSelector(hookFormPersistSelector);
 
   const lineTypesWithWidth = [locationEnum.buffer_zone, locationEnum.watercourse];
   const { t } = useTranslation();
@@ -58,6 +62,12 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
+
+  useEffect(() => {
+    if (!history.location.isStepBack) {
+      dispatch(resetAndUnLockFormData());
+    }
+  }, []);
 
   const [
     drawingState,
@@ -265,14 +275,15 @@ export default function Map({ history }) {
 
   const handleConfirm = () => {
     if (!lineTypesWithWidth.includes(drawingState.type)) {
-      dispatch(setLocationData(getOverlayInfo()));
+      const locationData = getOverlayInfo();
+      dispatch(upsertFormData(locationData));
       history.push(`/create_location/${drawingState.type}`);
     }
   };
 
   const handleLineConfirm = (lineData) => {
     const data = { ...getOverlayInfo(), ...lineData };
-    dispatch(setLocationData(data));
+    dispatch(upsertFormData(data));
     history.push(`/create_location/${drawingState.type}`);
   };
 
@@ -320,11 +331,10 @@ export default function Map({ history }) {
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);
-                  dispatch(resetLocationData());
+                  dispatch(resetAndUnLockFormData());
                   closeDrawer();
                 }}
                 onClickTryAgain={() => {
-                  dispatch(resetLocationData());
                   setZeroAreaWarning(false);
                   resetDrawing();
                   startDrawing(drawingState.type);
@@ -369,11 +379,7 @@ export default function Map({ history }) {
             dismissModal={() => setShowExportModal(false)}
           />
         )}
-        {showAdjustModal && (
-          <AdjustModal
-            dismissModal={() => setShowAdjustModal(false)}
-          />
-        )}
+        {showAdjustModal && <AdjustModal dismissModal={() => setShowAdjustModal(false)} />}
         {showDrawAreaSpotlightModal && (
           <DrawAreaModal
             dismissModal={() => {

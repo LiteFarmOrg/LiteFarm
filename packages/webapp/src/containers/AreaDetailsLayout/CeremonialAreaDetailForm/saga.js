@@ -4,7 +4,7 @@ import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromCeremonial, postCeremonialSuccess } from '../../ceremonialSlice';
-import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
 
@@ -27,7 +27,6 @@ export function* postCeremonialLocationSaga({ payload: data }) {
       header,
     );
     yield put(postCeremonialSuccess(result.data));
-    yield put(resetLocationData());
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_POST')]),
     );

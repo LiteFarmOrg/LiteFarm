@@ -22,15 +22,15 @@ export default function AreaDetailsLayout({
   getValues,
   setError,
   control,
+  watch,
   history,
   children,
   errors,
   system,
-  area,
+  total_area,
   perimeter,
 }) {
   const { t } = useTranslation();
-  const [notes, setNotes] = useState('');
   const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
@@ -63,10 +63,8 @@ export default function AreaDetailsLayout({
 
   const onSubmit = (data) => {
     data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
-    showPerimeter
-      ? (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value)
-      : (data[areaEnum.perimeter] = perimeter);
-    data.notes = notes;
+    showPerimeter && (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value);
+
     submitForm(data);
   };
 
@@ -114,15 +112,16 @@ export default function AreaDetailsLayout({
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
           name={areaEnum.total_area}
           displayUnitName={areaEnum.total_area_unit}
-          defaultValue={area}
           errors={errors[areaEnum.total_area]}
           unitType={area_total_area}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
           hookFormSetError={setError}
+          hookFromWatch={watch}
           control={control}
           required
+          defaultValue={total_area}
         />
         {showPerimeter && (
           <Unit
@@ -131,15 +130,16 @@ export default function AreaDetailsLayout({
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
             name={areaEnum.perimeter}
             displayUnitName={areaEnum.perimeter_unit}
-            defaultValue={perimeter}
             errors={errors[areaEnum.perimeter]}
             unitType={area_perimeter}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
             hookFormSetError={setError}
+            hookFromWatch={watch}
             control={control}
             required
+            defaultValue={perimeter}
           />
         )}
       </div>

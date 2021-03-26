@@ -97,6 +97,7 @@ const Unit = ({
   hookFormSetValue,
   hookFormGetValue,
   hookFormSetError,
+  hookFromWatch,
   defaultValue,
   system,
   control,
@@ -108,7 +109,7 @@ const Unit = ({
 }) => {
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
-    hookFormSetValue(name, undefined, { shouldValidate: true });
+    hookFormSetValue(name, undefined);
     setVisibleInputValue('');
     setShowError(false);
   };
@@ -121,47 +122,55 @@ const Unit = ({
   const { displayUnit, displayValue, options, databaseUnit } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
+    const value = hookFormGetValue(name) ?? defaultValue;
     return to
       ? {
           displayUnit: to,
-          displayValue:
-            defaultValue && roundToTwoDecimal(convert(defaultValue).from(databaseUnit).to(to)),
+          displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
           options,
           databaseUnit,
         }
       : {
-          ...getDefaultUnit(unitType, defaultValue, system, databaseUnit),
+          ...getDefaultUnit(unitType, value, system, databaseUnit),
           options,
           databaseUnit,
         };
   }, [unitType, defaultValue, system, defaultValueUnit, to]);
 
+  const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
+  useEffect(() => {
+    if (hookFormUnit && hookFormValue !== undefined) {
+      setVisibleInputValue(
+        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+      );
+    }
+  }, [hookFormUnit]);
+
   const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
   useEffect(() => {
-    for (const option of options) {
-      if (option.value === displayUnit) {
-        hookFormSetValue(displayUnitName, option);
-        break;
+    if (!hookFormGetValue(displayUnitName)) {
+      for (const option of options) {
+        if (option.value === displayUnit) {
+          hookFormSetValue(displayUnitName, option);
+          break;
+        }
       }
     }
   }, []);
 
+  const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
-    const unit = hookFormGetValue(displayUnitName).value;
-    hookFormSetValue(name, convert(e.target.value).from(unit).to(databaseUnit), {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
   };
-
   const inputOnBlur = (e) => {
     if (isNaN(e.target.value)) {
       hookFormSetError(name, {
+        type: 'manual',
         message: t('UNIT.INVALID_NUMBER'),
       });
     } else if (required && e.target.value === '') {
       hookFormSetError(name, {
+        type: 'manual',
         message: t('common:REQUIRED'),
       });
     } else if (e.target.value === '') {
@@ -173,15 +182,20 @@ const Unit = ({
         message: t('UNIT.MAXIMUM'),
       });
     } else {
-      inputOnChange({ target: { value: roundToTwoDecimal(e.target.value) } });
+      hookFormSetValue(name, convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
     }
   };
+  useEffect(() => {
+    if (hookFormValue !== undefined && databaseUnit && hookFormUnit) {
+      setVisibleInputValue(
+        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+      );
+    }
+  }, [hookFormValue]);
 
-  const optionOnChange = (e) => {
-    setVisibleInputValue(
-      roundToTwoDecimal(convert(hookFormGetValue(name)).from(databaseUnit).to(e.value)),
-    );
-  };
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
       {label && (
@@ -205,7 +219,7 @@ const Unit = ({
             transform: 'translate(-61px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',
-            zIndex: 1,
+            zIndex: 2,
             width: '37px',
             display: 'flex',
             justifyContent: 'center',
@@ -235,7 +249,6 @@ const Unit = ({
             <Select
               onBlur={onBlur}
               onChange={(e) => {
-                optionOnChange(e);
                 onChange(e);
               }}
               value={value}
@@ -255,7 +268,7 @@ const Unit = ({
         ref={register({ required, valueAsNumber: true })}
         name={name}
         className={styles.hiddenInput}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || hookFormValue}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
@@ -272,7 +285,7 @@ Unit.propTypes = {
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,
-  errors: PropTypes.string,
+  errors: PropTypes.object,
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,
@@ -284,6 +297,7 @@ Unit.propTypes = {
   hookFormSetValue: PropTypes.func,
   hookFormGetValue: PropTypes.func,
   hookFormSetError: PropTypes.func,
+  hookFromWatch: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']),
   unitType: PropTypes.shape({

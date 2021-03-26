@@ -40,6 +40,7 @@ import greenhouseSaga from './containers/AreaDetailsLayout/GreenhouseDetailForm/
 import ceremonialSaga from './containers/AreaDetailsLayout/CeremonialAreaDetailForm/saga';
 import residenceSaga from './containers/AreaDetailsLayout/ResidenceDetailForm/saga';
 import farmSiteBoundarySaga from './containers/AreaDetailsLayout/FarmSiteBoundaryDetailForm/saga';
+import fenceSaga from './containers/LineDetailsLayout/FenceDetailForm/saga';
 import pestControlSaga from './containers/Log/PestControlLog/saga';
 import shiftSaga from './containers/Shift/saga';
 import financeSaga from './containers/Finances/saga';
@@ -124,6 +125,7 @@ sagaMiddleware.run(residenceSaga);
 sagaMiddleware.run(ceremonialSaga);
 sagaMiddleware.run(waterValveSaga);
 sagaMiddleware.run(farmSiteBoundarySaga);
+sagaMiddleware.run(fenceSaga);
 sagaMiddleware.run(pestControlSaga);
 sagaMiddleware.run(shiftSaga);
 sagaMiddleware.run(financeSaga);

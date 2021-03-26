@@ -8,6 +8,8 @@ import Radio from '../../Form/Radio';
 import { Label } from '../../Typography';
 import { locationInfoSelector } from '../../../containers/mapSlice';
 import { useSelector } from 'react-redux';
+import { line_width } from '../../../util/unit';
+import Unit from '../../Form/Unit';
 
 export default function PureWatercourse({ history, submitForm, system }) {
   const { t } = useTranslation();
@@ -61,14 +63,22 @@ export default function PureWatercourse({ history, submitForm, system }) {
     >
       <div>
         <div>
-          <Input
+          <Unit
             style={{ marginBottom: '40px' }}
-            type={'number'}
-            name={watercourseEnum.length}
-            defaultValue={length}
-            unit={unit}
+            register={register}
+            classes={{ container: { flexGrow: 1 } }}
             label={t('FARM_MAP.WATERCOURSE.LENGTH')}
-            inputRef={register({ required: true })}
+            name={watercourseEnum.length}
+            displayUnitName={watercourseEnum.length}
+            defaultValue={length}
+            errors={errors[watercourseEnum.length]}
+            unitType={line_width}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            control={control}
+            required
           />
         </div>
         <div>

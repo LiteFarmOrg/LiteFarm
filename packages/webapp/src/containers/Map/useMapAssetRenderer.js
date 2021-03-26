@@ -35,21 +35,27 @@ const useMapAssetRenderer = () => {
   const pointAssets = useSelector(pointSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!areaAssets[assetType] ?  drawArea : !!lineAssets[assetType] ? drawLine : drawPoint;
-  }
+    return !!areaAssets[assetType] ? drawArea : !!lineAssets[assetType] ? drawLine : drawPoint;
+  };
   const drawAssets = (map, maps, mapBounds) => {
     let hasLocation = false;
     const newState = { ...assetGeometries };
-    const assets = {...areaAssets, ...lineAssets, ...pointAssets};
+    const assets = { ...areaAssets, ...lineAssets, ...pointAssets };
     const assetsWithLocations = Object.keys(assets).filter((type) => assets[type].length > 0);
     hasLocation = assetsWithLocations.length > 0;
     assetsWithLocations.forEach((locationType) => {
       assets[locationType].forEach((location) => {
         newState[locationType]?.push(
-          assetFunctionMap(locationType)(map, maps, mapBounds, location, filterSettings?.[locationType]),
+          assetFunctionMap(locationType)(
+            map,
+            maps,
+            mapBounds,
+            location,
+            filterSettings?.[locationType],
+          ),
         );
       });
-    })
+    });
 
     setAssetGeometries(newState);
     // TODO: only fitBounds if there is at least one location in the farm

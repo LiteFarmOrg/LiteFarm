@@ -18,7 +18,6 @@ export function* postWatercourseLocationSaga({ payload: data }) {
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
   const locationObject = getLocationObjectFromWatercourse(formData);
-  console.log(locationObject);
 
   try {
     const result = yield call(
@@ -27,7 +26,6 @@ export function* postWatercourseLocationSaga({ payload: data }) {
       locationObject,
       header,
     );
-    console.log(result);
     yield put(postWatercourseSuccess(result.data));
     yield put(resetLocationData());
     yield put(

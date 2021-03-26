@@ -36,9 +36,7 @@ export default function PureWatercourse({
     mode: 'onChange',
   });
   const onError = (data) => {};
-  // const inputLength = watch(watercourseEnum.length);
-  // const inputWidth = watch(watercourseEnum.width);
-  const inputRiparianBuffer = watch(watercourseEnum.includes_riparian_buffer);
+  const usedForIrrigation = watch(watercourseEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
@@ -48,7 +46,7 @@ export default function PureWatercourse({
       type: 'watercourse',
       width: width,
       buffer_width: buffer_width,
-      used_for_irrigation: inputRiparianBuffer !== null ? inputRiparianBuffer === 'true' : null,
+      used_for_irrigation: usedForIrrigation !== null ? usedForIrrigation === 'true' : null,
     };
     submitForm({ formData });
   };
@@ -126,7 +124,7 @@ export default function PureWatercourse({
               style={{ marginBottom: '25px' }}
               label={t('common:YES')}
               inputRef={register({ required: false })}
-              value={'Yes'}
+              value={true}
               name={watercourseEnum.used_for_irrigation}
             />
           </div>
@@ -135,7 +133,7 @@ export default function PureWatercourse({
               style={{ marginBottom: '25px' }}
               label={t('common:NO')}
               inputRef={register({ required: false })}
-              value={'No'}
+              value={false}
               name={watercourseEnum.used_for_irrigation}
             />
           </div>

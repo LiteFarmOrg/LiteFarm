@@ -15,7 +15,9 @@ Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
   system: 'metric',
-  grid_points: (data) => {},
+  useHookFormPersist: () => ({
+    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
+  }),
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

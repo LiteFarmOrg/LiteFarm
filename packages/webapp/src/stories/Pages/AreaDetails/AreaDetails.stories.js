@@ -10,9 +10,11 @@ export default {
 };
 
 const Template = (args) => {
-  const { register, errors, setValue, getValues, setError, control, handleSubmit } = useForm({
-    mode: 'onChange',
-  });
+  const { register, errors, watch, setValue, getValues, setError, control, handleSubmit } = useForm(
+    {
+      mode: 'onChange',
+    },
+  );
   return (
     <AreaDetailsLayout
       {...args}
@@ -22,6 +24,7 @@ const Template = (args) => {
       errors={errors}
       setValue={setValue}
       getValues={getValues}
+      watch={watch}
       handleSubmit={handleSubmit}
     />
   );

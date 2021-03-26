@@ -1,15 +1,16 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
-import { loginSelector } from '../../../containers/userFarmSlice';
-import { getHeader } from '../../../containers/saga';
+import { loginSelector } from '../../userFarmSlice';
+import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   getLocationObjectFromFarmSiteBoundary,
   postFarmSiteBoundarySuccess,
 } from '../../farmSiteBoundarySlice';
 import history from '../../../history';
-import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
+import { resetAndLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const axios = require('axios');
 export const postFarmSiteLocation = createAction(`postFarmSiteBoundaryLocationSaga`);
@@ -30,7 +31,7 @@ export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
       header,
     );
     yield put(postFarmSiteBoundarySuccess(result.data));
-    yield put(resetLocationData());
+    yield put(resetAndLockFormData());
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.FSB'), i18n.t('message:MAP.SUCCESS_POST')]),
     );

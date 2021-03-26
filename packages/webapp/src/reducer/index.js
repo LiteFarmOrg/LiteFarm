@@ -53,6 +53,7 @@ import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
 import showedSpotlightReducer from '../containers/showedSpotlightSlice';
+import hookFormPersistReducer from '../containers/hooks/useHookFormPersist/hookFormPersistSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -157,6 +158,7 @@ const tempStateReducer = combineReducers({
   shiftStepReducer,
   logSliceReducer,
   mapLocationReducer,
+  hookFormPersistReducer,
 });
 
 // combine all reducers here and pass it to application

@@ -26,6 +26,7 @@ import AdjustModal from '../../components/Modals/MapTutorialModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
+import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -73,6 +74,7 @@ export default function Map({ history }) {
       reconstructOverlay,
       setLineWidth,
       setShowAdjustAreaSpotlightModal,
+      setShowAdjustLineSpotlightModal,
     },
   ] = useDrawingManager();
 
@@ -282,7 +284,7 @@ export default function Map({ history }) {
     history.push(`/create_location/${drawingState.type}`);
   };
 
-  const { showAdjustAreaSpotlightModal } = drawingState;
+  const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
@@ -402,6 +404,14 @@ export default function Map({ history }) {
             dismissModal={() => {
               setShowAdjustAreaSpotlightModal(false);
               dispatch(setSpotlightToShown('adjust_area'));
+            }}
+          />
+        )}
+        {showAdjustLineSpotlightModal && (
+          <AdjustLineModal
+            dismissModal={() => {
+              setShowAdjustLineSpotlightModal(false);
+              dispatch(setSpotlightToShown('adjust_line'));
             }}
           />
         )}

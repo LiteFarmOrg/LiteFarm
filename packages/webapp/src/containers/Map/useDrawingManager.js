@@ -21,6 +21,7 @@ export default function useDrawingManager() {
   const [onSteppedBack, setOnSteppedBack] = useState(false);
 
   const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
+  const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
 
   const overlayData = useSelector(locationInfoSelector);
   const showedSpotlight = useSelector(showedSpotlightSelector);
@@ -100,8 +101,11 @@ export default function useDrawingManager() {
     if (drawingToCheck) {
       if (isArea(drawLocationType) && !showedSpotlight.adjust_area)
         setShowAdjustAreaSpotlightModal(true);
+      if (isLine(drawLocationType) && !showedSpotlight.adjust_line)
+        setShowAdjustLineSpotlightModal(true);
     } else {
       setShowAdjustAreaSpotlightModal(false);
+      setShowAdjustLineSpotlightModal(false);
     }
   }, [drawingToCheck])
 
@@ -246,6 +250,7 @@ export default function useDrawingManager() {
     drawingManager,
     drawingToCheck,
     showAdjustAreaSpotlightModal,
+    showAdjustLineSpotlightModal,
   }
   const drawingFunctions = {
     initDrawingState,
@@ -258,6 +263,7 @@ export default function useDrawingManager() {
     toggleDrawingAdjustment,
     setLineWidth,
     setShowAdjustAreaSpotlightModal,
+    setShowAdjustLineSpotlightModal,
   }
 
   return [drawingState, drawingFunctions];

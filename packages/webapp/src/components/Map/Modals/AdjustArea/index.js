@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MapTutorialModal from '../../../Modals/MapTutorialModal';
 import PropTypes from 'prop-types';
-import { ReactComponent as AdjustAreaImg } from '../../../../assets/images/map/adjustArea.svg';
+// import { ReactComponent as AdjustAreaImg } from '../../../../assets/images/map/adjustArea.svg';
+import gif from '../../../../assets/images/map/adjustArea.gif';
 import styles from './styles.module.scss';
 
 export default function AdjustAreaModal({ dismissModal }) {
@@ -13,9 +14,11 @@ export default function AdjustAreaModal({ dismissModal }) {
       title={t('FARM_MAP.TUTORIAL.ADJUST_AREA.TITLE')}
       dismissModal={dismissModal}
     >
-      <div className={styles.imageContainer}>
+      {/* svg implementation */}
+      {/* <div className={styles.imageContainer}>
         <AdjustAreaImg className={styles.image} />
-      </div>
+      </div> */}
+      <img src={gif} alt="Adjust Area GIF" style={{'marginBottom': '16px'}} />
       <div className={styles.instruction}>{t('FARM_MAP.TUTORIAL.ADJUST_AREA.TEXT')}</div>
     </MapTutorialModal>
   );

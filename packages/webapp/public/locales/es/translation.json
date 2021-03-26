@@ -214,7 +214,11 @@
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
-      "ADJUST": {
+      "ADJUST_AREA": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "ADJUST_LINE": {
         "TEXT": "MISSING",
         "TITLE": "MISSING"
       },

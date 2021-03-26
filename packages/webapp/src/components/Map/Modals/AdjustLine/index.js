@@ -10,13 +10,13 @@ export default function AdjustAreaModal({ dismissModal }) {
 
   return (
     <MapTutorialModal
-      title={t('FARM_MAP.TUTORIAL.ADJUST_AREA.TITLE')}
+      title={t('FARM_MAP.TUTORIAL.ADJUST_LINE.TITLE')}
       dismissModal={dismissModal}
     >
       <div className={styles.imageContainer}>
         <AdjustAreaImg className={styles.image} />
       </div>
-      <div className={styles.instruction}>{t('FARM_MAP.TUTORIAL.ADJUST_AREA.TEXT')}</div>
+      <div className={styles.instruction}>{t('FARM_MAP.TUTORIAL.ADJUST_LINE.TEXT')}</div>
     </MapTutorialModal>
   );
 }

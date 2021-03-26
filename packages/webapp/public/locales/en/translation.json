@@ -214,9 +214,13 @@
     },
     "TITLE": "Farm map",
     "TUTORIAL": {
-      "ADJUST": {
-        "TEXT": "Click-and-drag points to adjust the shape",
-        "TITLE": "Adjust shape"
+      "ADJUST_AREA": {
+        "TEXT": "Click-and-drag points to adjust the area",
+        "TITLE": "Adjust area"
+      },
+      "ADJUST_LINE": {
+        "TEXT": "Click-and-drag points to adjust the line",
+        "TITLE": "Adjust line"
       },
       "AREA": {
         "STEP_ONE": "Click anywhere to start drawing",

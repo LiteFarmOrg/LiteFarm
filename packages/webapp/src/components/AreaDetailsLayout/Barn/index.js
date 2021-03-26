@@ -6,7 +6,7 @@ import Radio from '../../Form/Radio';
 import { barnEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 
-export default function PureBarn({ history, submitForm, system, grid_points, area, perimeter }) {
+export default function PureBarn({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
   const {
     register,
@@ -21,14 +21,20 @@ export default function PureBarn({ history, submitForm, system, grid_points, are
   } = useForm({
     mode: 'onChange',
   });
-  const washPackSelection = watch(barnEnum.wash_and_pack);
-  const coldStorage = watch(barnEnum.cold_storage);
+  const {
+    persistedData: { grid_points, total_area, perimeter },
+  } = useHookFormPersist('/map', getValues, setValue);
+
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
+    const washPackSelection = data[barnEnum.wash_and_pack];
+    const coldStorage = data[barnEnum.cold_storage];
     const formData = {
+      grid_points,
+      total_area,
+      perimeter,
       ...data,
-      grid_points: grid_points,
       type: 'barn',
       wash_and_pack: washPackSelection !== null ? washPackSelection === 'true' : null,
       cold_storage: coldStorage !== null ? coldStorage === 'true' : null,
@@ -48,12 +54,13 @@ export default function PureBarn({ history, submitForm, system, grid_points, are
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      watch={watch}
       setError={setError}
       control={control}
       showPerimeter={false}
       errors={errors}
       system={system}
-      area={area}
+      total_area={total_area}
       perimeter={perimeter}
     >
       <div>

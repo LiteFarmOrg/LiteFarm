@@ -1,31 +1,31 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetailsLayout from '..';
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { locationInfoSelector } from '../../../containers/mapSlice';
 
-export default function PureGate({ history, submitForm, pointType }) {
+export default function PureGate({ history, submitForm, useHookFormPersist }) {
   const { t } = useTranslation();
-  const { point } = useSelector(locationInfoSelector);
   const {
     handleSubmit,
     setValue,
     register,
     errors,
+    getValues,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { point, type },
+  } = useHookFormPersist('/map', getValues, setValue);
   const disabled = !isValid || !isDirty;
 
   const onError = (data) => {};
   const onSubmit = (data) => {
     const formData = {
-      name: data.name,
-      point: point,
-      notes: data.notes,
-      type: 'gate',
+      type,
+      point,
+      ...data,
     };
     submitForm({ formData });
   };

@@ -135,7 +135,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
 
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {
-  const { grid_points: points, name, type } = line;
+  const { line_points: points, name, type } = line;
   const { colour, dashScale, dashLength } = lineStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);

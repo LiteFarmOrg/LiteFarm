@@ -3,19 +3,24 @@ import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
-import { watercourseEnum } from '../../../containers/watercourseSlice';
 import Radio from '../../Form/Radio';
 import { Label } from '../../Typography';
-import { locationInfoSelector } from '../../../containers/mapSlice';
-import { useSelector } from 'react-redux';
 import { line_width } from '../../../util/unit';
 import Unit from '../../Form/Unit';
+import { watercourseEnum } from '../../../containers/constants';
 
-export default function PureWatercourse({ history, submitForm, system }) {
+export default function PureWatercourse({
+  history,
+  submitForm,
+  system,
+  width,
+  width_display,
+  buffer_width,
+  buffer_width_display,
+  length,
+  line_points,
+}) {
   const { t } = useTranslation();
-  const { width, width_display, buffer_width, buffer_width_display, length } = useSelector(
-    locationInfoSelector,
-  );
   const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
@@ -31,15 +36,19 @@ export default function PureWatercourse({ history, submitForm, system }) {
     mode: 'onChange',
   });
   const onError = (data) => {};
-  const inputLength = watch(watercourseEnum.length);
-  const inputWidth = watch(watercourseEnum.width);
+  // const inputLength = watch(watercourseEnum.length);
+  // const inputWidth = watch(watercourseEnum.width);
   const inputRiparianBuffer = watch(watercourseEnum.includes_riparian_buffer);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
+    data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
     const formData = {
       ...data,
-      //   line_points: line_points,
-      type: 'buffer_zone',
+      line_points: line_points,
+      type: 'watercourse',
+      width: width,
+      buffer_width: buffer_width,
+      used_for_irrigation: inputRiparianBuffer !== null ? inputRiparianBuffer === 'true' : null,
     };
     submitForm({ formData });
   };
@@ -69,7 +78,7 @@ export default function PureWatercourse({ history, submitForm, system }) {
             classes={{ container: { flexGrow: 1 } }}
             label={t('FARM_MAP.WATERCOURSE.LENGTH')}
             name={watercourseEnum.length}
-            displayUnitName={watercourseEnum.length}
+            displayUnitName={watercourseEnum.length_unit}
             defaultValue={length}
             errors={errors[watercourseEnum.length]}
             unitType={line_width}

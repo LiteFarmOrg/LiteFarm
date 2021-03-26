@@ -30,7 +30,7 @@ class Creek extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        used_for_irrigation: { type: 'boolean' },
+        used_for_irrigation: { type: ['boolean', null] },
         includes_riparian_buffer: { type: 'boolean' },
         buffer_width: { type: 'number' },
         buffer_width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },

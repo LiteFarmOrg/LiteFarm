@@ -25,7 +25,7 @@ export const barnEnum = {
   wash_and_pack: 'wash_and_pack',
   cold_storage: 'cold_storage',
 };
-export const creekEnum = {
+export const watercourseEnum = {
   farm_id: 'farm_id',
   name: 'name',
   figure_id: 'figure_id',

@@ -4,17 +4,20 @@ import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Input from '../../Form/Input';
 import { bufferZoneEnum } from '../../../containers/constants';
-import { locationInfoSelector } from '../../../containers/mapSlice';
-import { useSelector } from 'react-redux';
 
-export default function PureBufferZone({ history, submitForm, system }) {
+export default function PureBufferZone({
+  history,
+  submitForm,
+  system,
+  line_points,
+  width_display,
+  width,
+}) {
   const { t } = useTranslation();
-  const { width, width_display } = useSelector(locationInfoSelector);
   const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     getValues,
@@ -25,12 +28,13 @@ export default function PureBufferZone({ history, submitForm, system }) {
     mode: 'onChange',
   });
   const onError = (data) => {};
-  const inputWidth = watch(bufferZoneEnum.width);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
+    data[bufferZoneEnum.length] = 0;
     const formData = {
       ...data,
-      //   line_points: line_points,
+      line_points: line_points,
+      width: width,
       type: 'buffer_zone',
     };
     submitForm({ formData });
@@ -59,7 +63,7 @@ export default function PureBufferZone({ history, submitForm, system }) {
             style={{ marginBottom: '40px' }}
             type={'number'}
             disabled
-            name={bufferZoneEnum.width}
+            name={bufferZoneEnum.width_display}
             defaultValue={width_display}
             unit={unit}
             label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}

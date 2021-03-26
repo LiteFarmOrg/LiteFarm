@@ -9,7 +9,7 @@ import { Label } from '../../Typography';
 import { line_length } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 
-export default function PureFence({ history, submitForm, system, line_points, length, width }) {
+export default function PureFence({ history, submitForm, system, line_points, length }) {
   const { t } = useTranslation();
   const {
     register,
@@ -26,7 +26,6 @@ export default function PureFence({ history, submitForm, system, line_points, le
   });
   const onError = (data) => {};
   const isPressureTreated = watch(fenceEnum.pressure_treated);
-  const unit = watch(fenceEnum.length_unit);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[fenceEnum.length_unit] = data[fenceEnum.length_unit].value;

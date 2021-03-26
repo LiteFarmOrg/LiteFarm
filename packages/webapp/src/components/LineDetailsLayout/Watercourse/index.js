@@ -105,7 +105,6 @@ export default function PureWatercourse({
             style={{ marginBottom: '40px' }}
             type={'number'}
             disabled
-            name={watercourseEnum.includes_riparian_buffer}
             defaultValue={buffer_width_display}
             unit={unit}
             label={t('FARM_MAP.WATERCOURSE.BUFFER')}

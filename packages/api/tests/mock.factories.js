@@ -882,14 +882,14 @@ function fakeGreenhouse() {
   };
 }
 
-async function creekFactory({ promisedLocation = locationFactory() } = {}, creek = fakeCreek()) {
+async function watercourseFactory({ promisedLocation = locationFactory() } = {}, watercourse = fakeWatercourse()) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
-  await lineFactory({ promisedLocation: location }, fakeLine(), 'creek');
-  return knex('creek').insert({ location_id, ...creek }).returning('*');
+  await lineFactory({ promisedLocation: location }, fakeLine(), 'watercourse');
+  return knex('watercourse').insert({ location_id, ...watercourse }).returning('*');
 }
 
-function fakeCreek() {
+function fakeWatercourse() {
   return {
     used_for_irrigation: faker.random.boolean(),
     includes_riparian_buffer: faker.random.boolean(),
@@ -1045,7 +1045,7 @@ module.exports = {
   fakeSurfaceWater, surface_waterFactory,
   fakeBarn, barnFactory,
   fakeWaterValve, water_valveFactory,
-  fakeCreek, creekFactory,
+  fakeWatercourse, watercourseFactory,
   fakeGreenhouse, greenhouseFactory,
   natural_areaFactory,
   ceremonial_areaFactory,

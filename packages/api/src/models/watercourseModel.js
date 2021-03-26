@@ -15,9 +15,9 @@
 
 const Model = require('objection').Model;
 
-class Creek extends Model {
+class Watercourse extends Model {
   static get tableName() {
-    return 'creek';
+    return 'watercourse';
   }
 
   static get idColumn() {
@@ -45,4 +45,4 @@ class Creek extends Model {
   }
 }
 
-module.exports = Creek;
+module.exports = Watercourse;

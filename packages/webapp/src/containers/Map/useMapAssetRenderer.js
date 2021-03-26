@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
+import { locationEnum, polygonPath } from "./constants";
 
 const useMapAssetRenderer = () => {
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -135,7 +136,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
 
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {
-  const { line_points: points, name, type } = line;
+  const { line_points: points, name, type, width } = line;
   const { colour, dashScale, dashLength } = lineStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
@@ -149,7 +150,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
     strokeWeight: 2,
     scale: dashScale,
   });
-  var polyline = new maps.Polyline({
+  let polyline = new maps.Polyline({
     path: points,
     strokeColor: defaultColour,
     strokeOpacity: 1.0,
@@ -163,7 +164,14 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
     ],
   });
   polyline.setMap(map);
-
+  if([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
+    const polyPath = polygonPath(polyline.getPath().getArray(), width, maps);
+    const linePolygon = new maps.Polygon({
+      paths: polyPath,
+      ...lineStyles[type].polyStyles
+    });
+    linePolygon.setMap(map);
+  }
   maps.event.addListener(polyline, 'mouseover', function () {
     this.setOptions({
       strokeColor: colour,

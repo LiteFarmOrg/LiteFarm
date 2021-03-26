@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { fieldEnum } from '../../../containers/fieldSlice';
+import { fieldEnum } from '../../../containers/constants';
 
-export default function PureField({ history, submitForm, system, grid_points }) {
+export default function PureField({ history, submitForm, system, grid_points, area, perimeter }) {
   const { t } = useTranslation();
   const {
     register,
@@ -20,7 +20,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
     control,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
@@ -42,7 +42,6 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}
@@ -52,6 +51,8 @@ export default function PureField({ history, submitForm, system, grid_points }) 
       showPerimeter={true}
       errors={errors}
       system={system}
+      area={area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
@@ -85,7 +86,7 @@ export default function PureField({ history, submitForm, system, grid_points }) 
             name={fieldEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {fieldTypeSelection === 'Transitional' && (
             <Input
               type={'date'}

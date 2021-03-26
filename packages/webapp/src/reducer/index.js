@@ -40,7 +40,7 @@ import surfaceWaterReducer from '../containers/surfaceWaterSlice';
 import naturalAreaReducer from '../containers/naturalAreaSlice';
 import residenceReducer from '../containers/residenceSlice';
 import bufferZoneReducer from '../containers/bufferZoneSlice';
-import creekReducer from '../containers/creekSlice';
+import watercourseReducer from '../containers/watercourseSlice';
 import fenceReducer from '../containers/fenceSlice';
 import gateReducer from '../containers/gateSlice';
 import waterValveReducer from '../containers/waterValveSlice';
@@ -52,6 +52,7 @@ import fieldCropReducer from '../containers/fieldCropSlice';
 import homeReducer from '../containers/Home/homeSlice';
 import mapLocationReducer from '../containers/mapSlice';
 import mapFilterSettingReducer from '../containers/Map/mapFilterSettingSlice';
+import showedSpotlightReducer from '../containers/showedSpotlightSlice';
 // all the initial state for the forms
 const initialFarmState = {
   farm_name: '',
@@ -138,10 +139,11 @@ const entitiesReducer = combineReducers({
   naturalAreaReducer,
   residenceReducer,
   bufferZoneReducer,
-  creekReducer,
+  watercourseReducer,
   fenceReducer,
   gateReducer,
   waterValveReducer,
+  showedSpotlightReducer,
 });
 
 const persistedStateReducer = combineReducers({

@@ -1,20 +1,20 @@
 import React from 'react';
-import Field from '../../../components/AreaDetailsLayout/Field';
+import Watercourse from '../../../components/LineDetailsLayout/Watercourse';
 import decorator from '../../Pages/config/decorators';
 
 export default {
-  title: 'Components/Area/Field',
+  title: 'Components/Line/Watercourse',
   decorators: decorator,
-  component: Field,
+  component: Watercourse,
 };
 
-const Template = (args) => <Field {...args} />;
+const Template = (args) => <Watercourse {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  areaType: (data) => {},
+  system: (data) => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

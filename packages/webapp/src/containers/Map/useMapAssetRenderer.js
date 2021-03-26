@@ -33,33 +33,24 @@ const useMapAssetRenderer = () => {
   const areaAssets = useSelector(areaSelector);
   const lineAssets = useSelector(lineSelector);
   const pointAssets = useSelector(pointSelector);
+
+  const assetFunctionMap = (assetType) => {
+    return !!areaAssets[assetType] ?  drawArea : !!lineAssets[assetType] ? drawLine : drawPoint;
+  }
   const drawAssets = (map, maps, mapBounds) => {
     let hasLocation = false;
     const newState = { ...assetGeometries };
-    for (const locationType in areaAssets) {
-      for (const location of areaAssets[locationType]) {
+    const assets = {...areaAssets, ...lineAssets, ...pointAssets};
+    const assetsWithLocations = Object.keys(assets).filter((type) => assets[type].length > 0);
+    hasLocation = assetsWithLocations.length > 0;
+    assetsWithLocations.forEach((locationType) => {
+      assets[locationType].forEach((location) => {
         newState[locationType]?.push(
-          drawArea(map, maps, mapBounds, location, filterSettings?.[locationType]),
+          assetFunctionMap(locationType)(map, maps, mapBounds, location, filterSettings?.[locationType]),
         );
-        hasLocation = true;
-      }
-    }
-    // for (const locationType in lineAssets) {
-    //   for (const location of lineAssets[locationType]) {
-    //     newState[locationType]?.push(
-    //       drawLine(map, maps, mapBounds, location, filterSettings?.[locationType]),
-    //     );
-    //     hasLocation = true;
-    //   }
-    // }
-    for (const locationType in pointAssets) {
-      for (const location of pointAssets[locationType]) {
-        newState[locationType]?.push(
-          drawPoint(map, maps, mapBounds, location, filterSettings?.[locationType]),
-        );
-        hasLocation = true;
-      }
-    }
+      });
+    })
+
     setAssetGeometries(newState);
     // TODO: only fitBounds if there is at least one location in the farm
     hasLocation && map.fitBounds(mapBounds);
@@ -70,7 +61,7 @@ const useMapAssetRenderer = () => {
 // Area Drawing
 const drawArea = (map, maps, mapBounds, area, isVisible) => {
   const { grid_points: points, name, type } = area;
-  const { colour, dashScale, dashLength } = areaStyles[type];
+  const { colour, dashScale, dashLength, filledColour } = areaStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -81,7 +72,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
     // strokeOpacity: 0.8,
     strokeWeight: 2,
     fillColor: colour,
-    fillOpacity: 0.5,
+    fillOpacity: filledColour ? 0.5 : 0,
   });
   polygon.setMap(map);
 
@@ -89,7 +80,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
     this.setOptions({ fillOpacity: 0.8 });
   });
   maps.event.addListener(polygon, 'mouseout', function () {
-    this.setOptions({ fillOpacity: 0.5 });
+    this.setOptions({ fillOpacity: filledColour ? 0.5 : 0 });
   });
 
   // draw dotted outline

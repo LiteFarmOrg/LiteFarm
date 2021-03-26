@@ -10,6 +10,7 @@
   font-family: 'Open Sans', 'SansSerif', serif;
   background: transparent;
   min-width: 0;
+  z-index: 1;
 }
 
 .input[type=number] {
@@ -52,6 +53,7 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
+  flex-grow: 1;
 }
 
 .sm {
@@ -93,7 +95,7 @@
   height: 100%;
   position: absolute;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
   display: flex;
   justify-content: flex-end;
 }

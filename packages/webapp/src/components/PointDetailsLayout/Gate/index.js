@@ -8,9 +8,16 @@ import { locationInfoSelector } from '../../../containers/mapSlice';
 export default function PureGate({ history, submitForm, pointType }) {
   const { t } = useTranslation();
   const { point } = useSelector(locationInfoSelector);
-  const { handleSubmit, setValue, register } = useForm({
+  const {
+    handleSubmit,
+    setValue,
+    register,
+    errors,
+    formState: { isValid, isDirty },
+  } = useForm({
     mode: 'onChange',
   });
+  const disabled = !isValid || !isDirty;
 
   const onError = (data) => {};
   const onSubmit = (data) => {
@@ -33,7 +40,8 @@ export default function PureGate({ history, submitForm, pointType }) {
       handleSubmit={handleSubmit}
       setValue={setValue}
       register={register}
-      pointType={pointType}
+      disabled={disabled}
+      errors={errors}
     />
   );
 }

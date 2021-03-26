@@ -9,7 +9,7 @@ import { naturalAreasSelector, naturalAreaStatusSelector } from './naturalAreaSl
 import { residencesSelector, residenceStatusSelector } from './residenceSlice';
 import { locationEnum } from './Map/constants';
 import { bufferZonesSelector, bufferZoneStatusSelector } from './bufferZoneSlice';
-import { creeksSelector, creekStatusSelector } from './creekSlice';
+import { watercoursesSelector, watercourseStatusSelector } from './watercourseSlice';
 import { fencesSelector, fenceStatusSelector } from './fenceSlice';
 import { gatesSelector, gateStatusSelector } from './gateSlice';
 import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
@@ -105,22 +105,22 @@ export const areaStatusSelector = createSelector(
 );
 
 export const lineSelector = createSelector(
-  [bufferZonesSelector, creeksSelector, fencesSelector],
-  (bufferZones, creeks, fences) => {
+  [bufferZonesSelector, watercoursesSelector, fencesSelector],
+  (bufferZones, watercourses, fences) => {
     const result = {};
     result[locationEnum.buffer_zone] = bufferZones;
-    result[locationEnum.creek] = creeks;
+    result[locationEnum.watercourse] = watercourses;
     result[locationEnum.fence] = fences;
     return result;
   },
 );
 export const lineStatusSelector = createSelector(
-  [bufferZoneStatusSelector, creekStatusSelector, fenceStatusSelector],
-  (bufferZoneStatus, creekStatus, fenceStatus) => {
+  [bufferZoneStatusSelector, watercourseStatusSelector, fenceStatusSelector],
+  (bufferZoneStatus, watercourseStatus, fenceStatus) => {
     return {
-      loading: bufferZoneStatus.loading || creekStatus.loading || fenceStatus.loading,
-      loaded: bufferZoneStatus.loaded && creekStatus.loaded && fenceStatus.loaded,
-      error: bufferZoneStatus.error || creekStatus.error || fenceStatus.error,
+      loading: bufferZoneStatus.loading || watercourseStatus.loading || fenceStatus.loading,
+      loaded: bufferZoneStatus.loaded && watercourseStatus.loaded && fenceStatus.loaded,
+      error: bufferZoneStatus.error || watercourseStatus.error || fenceStatus.error,
     };
   },
 );

@@ -87,9 +87,19 @@
       "PERIMETER": "Perimeter",
       "TOTAL_AREA": "Total area"
     },
+    "BARN": {
+      "COLD_STORAGE": "Does this barn have cold storage?",
+      "NAME": "Barn",
+      "TITLE": "Add barn",
+      "WASH_PACK": "Does this barn have a wash and pack station?"
+    },
+    "CEREMONIAL_AREA": {
+      "NAME": "Ceremonial area",
+      "TITLE": "Add ceremonial area"
+    },
     "DRAWING_MANAGER": {
+      "ADJUST": "Adjust",
       "REDRAW": "Redraw",
-      "TRY_AGAIN": "Try again",
       "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
     },
     "EXPORT_MODAL": {
@@ -125,13 +135,51 @@
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
+    "LINE_DETAILS": {
+      "BUFFER_ZONE_WIDTH": "Buffer zone width",
+      "RIPARIAN_BUFFER": "Riparian buffer",
+      "WATERCOURSE": "Watercourse",
+      "BUFFER_TITLE": "What is the width?",
+      "WATERCOURSE_TITLE": "What are the following widths ?"
+    },
+    "GREENHOUSE": {
+      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "DATE": "Eligible transition date",
+      "GREENHOUSE_HEATED": "Is the greenhouse heated?",
+      "GREENHOUSE_TYPE": "What type of greenhouse is this?",
+      "NAME": "Greenhouse",
+      "NON_ORGANIC": "Non-organic",
+      "ORGANIC": "Organic",
+      "SUPPLEMENTAL_LIGHTING": "Is there supplemental lighting?",
+      "TITLE": "Add greenhouse",
+      "TRANSITIONING": "Transitioning"
+    },
+    "FENCE": {
+      "NAME": "Fence",
+      "TITLE": "Add fence",
+      "LENGTH": "Total length",
+      "PRESSURE_TREATED": "Is this fence pressure treated?"
+    },
+    "BUFFER_ZONE": {
+      "NAME": "Buffer zone",
+      "TITLE": "Add buffer zone",
+      "WIDTH": "Buffer zone width"
+    },
+    "WATERCOURSE": {
+      "NAME": "Watercourse",
+      "TITLE": "Add watercourse",
+      "LENGTH": "Total length",
+      "WIDTH": "Watercourse width",
+      "BUFFER": "Riparian buffer",
+      "IRRIGATION": "Is this area used for irrigation?"
+    },
     "MAP_FILTER": {
       "ADD_TITLE": "Add to your map",
       "AREAS": "Areas",
       "BARN": "Barn",
       "BZ": "Buffer zone",
       "CA": "Ceremonial area",
-      "CREEK": "Creek",
+      "WATERCOURSE": "Watercourse",
       "FENCE": "Fence",
       "FIELD": "Field",
       "FSB": "Farm site boundary",
@@ -149,6 +197,14 @@
       "TITLE": "Filter your map",
       "WV": "Water valve"
     },
+    "NATURAL_AREA": {
+      "NAME": "Natural area",
+      "TITLE": "Add natural area"
+    },
+    "RESIDENCE": {
+      "NAME": "Residence",
+      "TITLE": "Add residence"
+    },
     "SPOTLIGHT": {
       "ADD": "Add locations to your map",
       "ADD_TITLE": "Add to your map",
@@ -158,7 +214,31 @@
       "FILTER_TITLE": "Filter your map",
       "HERE_YOU_CAN": "Here you can:"
     },
+    "SURFACE_WATER": {
+      "IRRIGATION": "Is this area used for irrigation?",
+      "NAME": "Surface water",
+      "TITLE": "Add surface water"
+    },
     "TITLE": "Farm map",
+    "TUTORIAL": {
+      "ADJUST": {
+        "TEXT": "Click-and-drag points to adjust the shape",
+        "TITLE": "Adjust shape"
+      },
+      "AREA": {
+        "STEP_ONE": "Click anywhere to start drawing",
+        "STEP_THREE": "Click-and-drag points to adjust the shape",
+        "STEP_TWO": "Click the initial point to close the area",
+        "TITLE": "Draw an area"
+      },
+      "LINE": {
+        "STEP_FOUR": "(For certain line types) add a width",
+        "STEP_ONE": "Click anywhere to start drawing",
+        "STEP_THREE": "Optionally, adjust your line",
+        "STEP_TWO": "Double-click to finish your line",
+        "TITLE": "Draw a line"
+      }
+    },
     "WATER_VALVE": {
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
@@ -530,6 +610,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

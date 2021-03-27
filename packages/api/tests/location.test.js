@@ -193,6 +193,16 @@ describe('Location tests', () => {
         done();
       });
     })
+
+    test('should not get deleted locations' , async (done) => {
+      const [locations] = await appendFieldToFarm(farm, 2);
+      await knex('location').where( { location_id: locations[0].location_id }).update({ deleted: true });
+      getLocationsInFarm({ user_id: user, farm_id: farm}, farm, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        done();
+      })
+    })
   });
 
   xdescribe('DELETE /location ', () => {

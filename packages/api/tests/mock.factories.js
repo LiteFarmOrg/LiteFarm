@@ -892,7 +892,6 @@ async function watercourseFactory({ promisedLocation = locationFactory() } = {},
 function fakeWatercourse() {
   return {
     used_for_irrigation: faker.random.boolean(),
-    includes_riparian_buffer: faker.random.boolean(),
     buffer_width: faker.random.number(),
   };
 }

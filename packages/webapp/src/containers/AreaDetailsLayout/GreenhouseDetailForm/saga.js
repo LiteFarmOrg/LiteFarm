@@ -4,9 +4,10 @@ import { loginSelector } from '../../userFarmSlice';
 import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromGreenHouse, postGreenhouseSuccess } from '../../greenhouseSlice';
-import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
 import history from '../../../history';
+import { resetAndLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const axios = require('axios');
 export const postGreenhouseLocation = createAction(`postGreenhouseLocationSaga`);
@@ -27,7 +28,7 @@ export function* postGreenhouseLocationSaga({ payload: data }) {
       header,
     );
     yield put(postGreenhouseSuccess(result.data));
-    yield put(resetLocationData());
+    yield put(resetAndLockFormData());
     yield put(
       setSuccessMessage([
         i18n.t('FARM_MAP.MAP_FILTER.GREENHOUSE'),

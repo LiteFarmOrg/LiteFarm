@@ -5,8 +5,9 @@ import { getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromGate, postGateSuccess } from '../../gateSlice';
 import history from '../../../history';
-import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
+import { resetAndLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const axios = require('axios');
 export const postGateLocation = createAction(`postGateLocationSaga`);
@@ -27,7 +28,7 @@ export function* postGateLocationSaga({ payload: data }) {
       header,
     );
     yield put(postGateSuccess(result.data));
-    yield put(resetLocationData());
+    yield put(resetAndLockFormData());
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_POST')]),
     );

@@ -93,6 +93,11 @@
       "TITLE": "MISSING",
       "WASH_PACK": "MISSING"
     },
+    "BUFFER_ZONE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "NAME": "MISSING",
       "TITLE": "MISSING"
@@ -100,6 +105,7 @@
     "DRAWING_MANAGER": {
       "ADJUST": "MISSING",
       "REDRAW": "MISSING",
+      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -111,6 +117,12 @@
     },
     "FARM_SITE_BOUNDARY": {
       "NAME": "MISSING",
+      "TITLE": "MISSING"
+    },
+    "FENCE": {
+      "LENGTH": "MISSING",
+      "NAME": "MISSING",
+      "PRESSURE_TREATED": "MISSING",
       "TITLE": "MISSING"
     },
     "FIELD": {
@@ -147,24 +159,12 @@
       "TITLE": "MISSING",
       "TRANSITIONING": "MISSING"
     },
-    "FENCE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "LENGTH": "MISSING",
-      "PRESSURE_TREATED": "MISSING"
-    },
-    "BUFFER_ZONE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WIDTH": "MISSING"
-    },
-    "WATERCOURSE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "LENGTH": "MISSING",
-      "WIDTH": "MISSING",
-      "BUFFER": "MISSING",
-      "IRRIGATION": "MISSING"
+    "LINE_DETAILS": {
+      "BUFFER_TITLE": "MISSING",
+      "BUFFER_ZONE_WIDTH": "MISSING",
+      "RIPARIAN_BUFFER": "MISSING",
+      "WATERCOURSE": "MISSING",
+      "WATERCOURSE_TITLE": "MISSING"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "MISSING",
@@ -172,7 +172,6 @@
       "BARN": "MISSING",
       "BZ": "MISSING",
       "CA": "MISSING",
-      "WATERCOURSE": "MISSING",
       "FENCE": "MISSING",
       "FIELD": "MISSING",
       "FSB": "MISSING",
@@ -188,6 +187,7 @@
       "SHOW_ALL": "MISSING",
       "SURFACE_WATER": "MISSING",
       "TITLE": "MISSING",
+      "WATERCOURSE": "MISSING",
       "WV": "MISSING"
     },
     "NATURAL_AREA": {
@@ -214,7 +214,11 @@
     },
     "TITLE": "MISSING",
     "TUTORIAL": {
-      "ADJUST": {
+      "ADJUST_AREA": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "ADJUST_LINE": {
         "TEXT": "MISSING",
         "TITLE": "MISSING"
       },
@@ -241,6 +245,14 @@
       "SURFACE_WATER": "MISSING",
       "TITLE": "MISSING",
       "WATER_VALVE_TYPE": "MISSING"
+    },
+    "WATERCOURSE": {
+      "BUFFER": "MISSING",
+      "IRRIGATION": "MISSING",
+      "LENGTH": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
     }
   },
   "FIELDS": {

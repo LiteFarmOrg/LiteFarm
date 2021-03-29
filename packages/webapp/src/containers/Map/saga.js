@@ -63,15 +63,15 @@ export function* setSpotlightToShownSaga({ payload: spotlight }) {
     let patchContent = {};
     patchContent[spotlight] = true;
     patchContent[`${spotlight}_end`] = new Date().toISOString();
-    console.log(patchContent);
     yield put(spotlightLoading());
     const result = yield call(axios.patch, showedSpotlightUrl(), patchContent, header);
     if (result) {
+      delete patchContent[`${spotlight}_end`];
       yield put(patchSpotlightFlagsSuccess(patchContent));
     }
   } catch (error) {
     yield put(patchSpotlightFlagsFailure());
-    console.log('failed to fetch task types from database');
+    console.log('failed to patch spotlight flags');
   }
 }
 

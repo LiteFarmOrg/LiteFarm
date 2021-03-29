@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { areaStyles, icons, lineStyles } from './mapStyles';
 import { isArea, isLine, isPoint, locationEnum } from './constants';
 import { useSelector } from 'react-redux';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
 import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
@@ -20,6 +21,10 @@ export default function useDrawingManager() {
   const [onBackPressed, setOnBackPressed] = useState(false);
   const [onSteppedBack, setOnSteppedBack] = useState(false);
 
+  const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
+  const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
+
+  const showedSpotlight = useSelector(showedSpotlightSelector);
   const overlayData = useSelector(hookFormPersistSelector);
 
   useEffect(() => {
@@ -97,6 +102,18 @@ export default function useDrawingManager() {
     }
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);
+
+  useEffect(() => {
+    if (drawingToCheck) {
+      if (isArea(drawLocationType) && !showedSpotlight.adjust_area)
+        setShowAdjustAreaSpotlightModal(true);
+      if (isLine(drawLocationType) && !showedSpotlight.adjust_line)
+        setShowAdjustLineSpotlightModal(true);
+    } else {
+      setShowAdjustAreaSpotlightModal(false);
+      setShowAdjustLineSpotlightModal(false);
+    }
+  }, [drawingToCheck])
 
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);
@@ -248,7 +265,10 @@ export default function useDrawingManager() {
     supportedDrawingModes,
     drawingManager,
     drawingToCheck,
+    showAdjustAreaSpotlightModal,
+    showAdjustLineSpotlightModal,
   };
+
   const drawingFunctions = {
     initDrawingState,
     startDrawing,
@@ -259,6 +279,8 @@ export default function useDrawingManager() {
     reconstructOverlay,
     toggleDrawingAdjustment,
     setLineWidth,
+    setShowAdjustAreaSpotlightModal,
+    setShowAdjustLineSpotlightModal,
   };
 
   return [drawingState, drawingFunctions];

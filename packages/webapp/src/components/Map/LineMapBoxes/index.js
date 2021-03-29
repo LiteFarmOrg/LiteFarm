@@ -52,9 +52,6 @@ export default function PureLineBox({
       : t('FARM_MAP.LINE_DETAILS.BUFFER_TITLE');
 
   const onSubmit = (data) => {
-    console.log(data);
-    // data[watercourseEnum.width_unit]= data[watercourseEnum.width_unit]?.value;
-    // data[watercourseEnum.buffer_width_unit]= data[watercourseEnum.buffer_width_unit]?.value;
     confirmLine(data);
   };
 
@@ -85,7 +82,7 @@ export default function PureLineBox({
         <div style={{ minWidth: typeOfLine === locationEnum.watercourse ? '48%' : '100%' }}>
           <Unit
             register={register}
-            classes={{ container: { flexGrow: 1 } }}
+            classes={{ container: { flexGrow: 1 }, errors: { position: 'relative' } }}
             label={widthLabel}
             name={watercourseEnum.width}
             displayUnitName={watercourseEnum.width_unit}
@@ -100,13 +97,14 @@ export default function PureLineBox({
             required
             defaultValue={widthValue}
             to={locationData[watercourseEnum.width_unit]?.value}
+            mode={'onChange'}
           />
         </div>
         {typeOfLine === locationEnum.watercourse && (
           <div style={{ flexOrder: 2, minWidth: '48%', marginLeft: '16px' }}>
             <Unit
               register={register}
-              classes={{ container: { flexGrow: 1 } }}
+              classes={{ container: { flexGrow: 1 }, errors: { position: 'relative' } }}
               label={t('FARM_MAP.LINE_DETAILS.RIPARIAN_BUFFER')}
               name={watercourseEnum.buffer_width}
               displayUnitName={watercourseEnum.buffer_width_unit}
@@ -121,6 +119,7 @@ export default function PureLineBox({
               required
               defaultValue={bufferWidthValue}
               to={locationData[watercourseEnum.buffer_width_unit]?.value}
+              mode={'onChange'}
             />
           </div>
         )}

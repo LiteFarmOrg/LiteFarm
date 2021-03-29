@@ -113,6 +113,7 @@ const Unit = ({
   from: defaultValueUnit,
   to,
   required,
+  mode = 'onBlur',
   ...props
 }) => {
   const reactSelectStyles = useReactSelectStyles(disabled);
@@ -173,6 +174,7 @@ const Unit = ({
   const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
+    mode === 'onChange' && inputOnBlur(e);
   };
   const inputOnBlur = (e) => {
     if (isNaN(e.target.value)) {
@@ -249,7 +251,7 @@ const Unit = ({
           value={visibleInputValue}
           size={1}
           onKeyDown={numberOnKeyDown}
-          onBlur={inputOnBlur}
+          onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
           onChange={inputOnChange}
           {...props}
         />
@@ -297,9 +299,7 @@ const Unit = ({
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
       {showError ? (
-        <div style={{ position: 'relative', height: '20px' }}>
-          <Error style={{ position: 'absolute', ...classes.errors }}>{errors?.message}</Error>
-        </div>
+        <Error style={{ position: 'relative', ...classes.errors }}>{errors?.message}</Error>
       ) : null}
     </div>
   );
@@ -325,6 +325,7 @@ Unit.propTypes = {
   hookFromWatch: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']),
+  mode: PropTypes.oneOf(['onBlur', 'onChange']),
   unitType: PropTypes.shape({
     metric: PropTypes.object,
     imperial: PropTypes.object,

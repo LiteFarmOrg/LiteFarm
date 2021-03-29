@@ -93,6 +93,11 @@
       "TITLE": "MISSING",
       "WASH_PACK": "MISSING"
     },
+    "BUFFER_ZONE": {
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
+    },
     "CEREMONIAL_AREA": {
       "NAME": "MISSING",
       "TITLE": "MISSING"
@@ -100,6 +105,7 @@
     "DRAWING_MANAGER": {
       "ADJUST": "MISSING",
       "REDRAW": "Repintar",
+      "TRY_AGAIN": "Intenta de nuevo",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo."
     },
     "EXPORT_MODAL": {
@@ -112,6 +118,12 @@
     "FARM_SITE_BOUNDARY": {
       "NAME": "Limites de la granja",
       "TITLE": "Agregar Limites de la granja"
+    },
+    "FENCE": {
+      "LENGTH": "MISSING",
+      "NAME": "MISSING",
+      "PRESSURE_TREATED": "MISSING",
+      "TITLE": "MISSING"
     },
     "FIELD": {
       "DATE": "Fecha de transición",
@@ -147,24 +159,12 @@
       "TITLE": "MISSING",
       "TRANSITIONING": "MISSING"
     },
-    "FENCE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "LENGTH": "MISSING",
-      "PRESSURE_TREATED": "MISSING"
-    },
-    "BUFFER_ZONE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WIDTH": "MISSING"
-    },
-    "WATERCOURSE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "LENGTH": "MISSING",
-      "WIDTH": "MISSING",
-      "BUFFER": "MISSING",
-      "IRRIGATION": "MISSING"
+    "LINE_DETAILS": {
+      "BUFFER_TITLE": "MISSING",
+      "BUFFER_ZONE_WIDTH": "MISSING",
+      "RIPARIAN_BUFFER": "MISSING",
+      "WATERCOURSE": "MISSING",
+      "WATERCOURSE_TITLE": "MISSING"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
@@ -172,7 +172,6 @@
       "BARN": "Granero",
       "BZ": "Zona delimitada",
       "CA": "Area ceremonial",
-      "WATERCOURSE": "MISSING",
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
@@ -188,6 +187,7 @@
       "SHOW_ALL": "Muestra todo",
       "SURFACE_WATER": "MISSING",
       "TITLE": "Filtra tu mapa",
+      "WATERCOURSE": "MISSING",
       "WV": "Valvula de agua"
     },
     "NATURAL_AREA": {
@@ -214,7 +214,11 @@
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
-      "ADJUST": {
+      "ADJUST_AREA": {
+        "TEXT": "MISSING",
+        "TITLE": "MISSING"
+      },
+      "ADJUST_LINE": {
         "TEXT": "MISSING",
         "TITLE": "MISSING"
       },
@@ -241,6 +245,14 @@
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Agregar valvula de agua",
       "WATER_VALVE_TYPE": "Cual es la fuente?"
+    },
+    "WATERCOURSE": {
+      "BUFFER": "MISSING",
+      "IRRIGATION": "MISSING",
+      "LENGTH": "MISSING",
+      "NAME": "MISSING",
+      "TITLE": "MISSING",
+      "WIDTH": "MISSING"
     }
   },
   "FIELDS": {

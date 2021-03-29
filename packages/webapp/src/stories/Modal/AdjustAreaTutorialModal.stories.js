@@ -1,14 +1,14 @@
 import React from 'react';
 import { componentDecorators } from '../Pages/config/decorators';
-import AdjustDrawingModal from '../../components/Map/Modals/AdjustDrawing';
+import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
 
 export default {
-  title: 'Components/Modals/AdjustDrawingModal',
+  title: 'Components/Modals/AdjustAreaModal',
   decorators: componentDecorators,
-  component: AdjustDrawingModal,
+  component: AdjustAreaModal,
 };
 
-const Template = (args) => <AdjustDrawingModal {...args} />;
+const Template = (args) => <AdjustAreaModal {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

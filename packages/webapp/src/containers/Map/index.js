@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './styles.module.scss';
 import GoogleMap from 'google-map-react';
-import { DEFAULT_ZOOM, GMAPS_API_KEY, isArea, locationEnum } from './constants';
+import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea, isLine } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
 import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
@@ -21,8 +21,10 @@ import PureMapHeader from '../../components/Map/Header';
 import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
-import AdjustModal from '../../components/Modals/MapTutorialModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
+import DrawLineModal from '../../components/Map/Modals/DrawLine';
+import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
+import AdjustLineModal from '../../components/Map/Modals/AdjustLine';
 import CustomZoom from '../../components/Map/CustomZoom';
 import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
@@ -80,6 +82,8 @@ export default function Map({ history }) {
       getOverlayInfo,
       reconstructOverlay,
       setLineWidth,
+      setShowAdjustAreaSpotlightModal,
+      setShowAdjustLineSpotlightModal,
     },
   ] = useDrawingManager();
 
@@ -90,6 +94,12 @@ export default function Map({ history }) {
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, []);
+
+  const [showMapFilter, setShowMapFilter] = useState(false);
+  const [showAddDrawer, setShowAddDrawer] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
+  const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
 
   const getMapOptions = (maps) => {
     return {
@@ -199,12 +209,6 @@ export default function Map({ history }) {
     }
   };
 
-  const [showMapFilter, setShowMapFilter] = useState(false);
-  const [showAddDrawer, setShowAddDrawer] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [showAdjustModal, setShowAdjustModal] = useState(false);
-  const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
-
   const handleClickAdd = () => {
     setShowExportModal(false);
     setShowMapFilter(false);
@@ -242,6 +246,8 @@ export default function Map({ history }) {
     setZeroAreaWarning(false);
     if (isArea(locationType) && !showedSpotlight.draw_area) {
       setShowDrawAreaSpotlightModal(true);
+    } else if (isLine(locationType) && !showedSpotlight.draw_line) {
+      setShowDrawLineSpotlightModal(true);
     }
     startDrawing(locationType);
   };
@@ -287,6 +293,7 @@ export default function Map({ history }) {
     history.push(`/create_location/${drawingState.type}`);
   };
 
+  const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
   return (
     <>
       {!showMapFilter && !showAddDrawer && !drawingState.type && !showSuccessHeader && (
@@ -340,7 +347,6 @@ export default function Map({ history }) {
                   startDrawing(drawingState.type);
                 }}
                 onClickConfirm={handleConfirm}
-                onClickAdjust={() => setShowAdjustModal(true)}
                 showZeroAreaWarning={showZeroAreaWarning}
                 confirmLine={handleLineConfirm}
                 updateLineWidth={setLineWidth}
@@ -379,12 +385,35 @@ export default function Map({ history }) {
             dismissModal={() => setShowExportModal(false)}
           />
         )}
-        {showAdjustModal && <AdjustModal dismissModal={() => setShowAdjustModal(false)} />}
         {showDrawAreaSpotlightModal && (
           <DrawAreaModal
             dismissModal={() => {
               setShowDrawAreaSpotlightModal(false);
               dispatch(setSpotlightToShown('draw_area'));
+            }}
+          />
+        )}
+        {showDrawLineSpotlightModal && (
+          <DrawLineModal
+            dismissModal={() => {
+              setShowDrawLineSpotlightModal(false);
+              dispatch(setSpotlightToShown('draw_line'));
+            }}
+          />
+        )}
+        {showAdjustAreaSpotlightModal && (
+          <AdjustAreaModal
+            dismissModal={() => {
+              setShowAdjustAreaSpotlightModal(false);
+              dispatch(setSpotlightToShown('adjust_area'));
+            }}
+          />
+        )}
+        {showAdjustLineSpotlightModal && (
+          <AdjustLineModal
+            dismissModal={() => {
+              setShowAdjustLineSpotlightModal(false);
+              dispatch(setSpotlightToShown('adjust_line'));
             }}
           />
         )}

@@ -39,49 +39,57 @@ const getOptions = (unitType = area_total_area, system) => {
   return unitType[system].units.map((unit) => unitOptionMap[unit]);
 };
 
-const reactSelectStyles = {
-  ...reactSelectDefaultStyles,
-  container: (provided, state) => ({
-    ...provided,
-    zIndex: 1,
-  }),
-  control: (provided, state) => ({
-    display: 'flex',
-    border: `none`,
-    boxShadow: 'none',
-    boxSizing: 'border-box',
-    borderRadius: '4px',
-    height: '48px',
-    paddingLeft: '0',
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--fontColor)',
-    background: 'transparent',
-  }),
-  valueContainer: (provided, state) => ({
-    ...provided,
-    padding: '0',
-    width: '36px',
-  }),
-  singleValue: () => ({
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--fontColor)',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '40px',
-    overflowX: 'hidden',
-    textAlign: 'center',
-    position: 'absolute',
-  }),
-  placeholder: () => ({
-    display: 'none',
-  }),
-  dropdownIndicator: (provided, state) => ({
-    ...provided,
-    padding: ' 14px 4px 12px 0',
-  }),
+const useReactSelectStyles = (disabled) => {
+  return useMemo(
+    () => ({
+      ...reactSelectDefaultStyles,
+      container: (provided, state) => ({
+        ...provided,
+        zIndex: 1,
+      }),
+      control: (provided, state) => ({
+        display: 'flex',
+        border: `none`,
+        boxShadow: 'none',
+        boxSizing: 'border-box',
+        borderRadius: '4px',
+        height: '48px',
+        paddingLeft: '0',
+        fontSize: '16px',
+        lineHeight: '24px',
+        color: 'var(--fontColor)',
+        background: 'transparent',
+      }),
+      valueContainer: (provided, state) => ({
+        ...provided,
+        padding: '0',
+        width: '42px',
+        justifyContent: 'center',
+      }),
+      singleValue: () => ({
+        fontSize: '16px',
+        lineHeight: '24px',
+        color: disabled ? 'var(--grey600)' : 'var(--fontColor)',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontFamily: '"Open Sans", "SansSerif", serif',
+        width: '42px',
+        overflowX: 'hidden',
+        textAlign: 'center',
+        position: 'absolute',
+      }),
+      placeholder: () => ({
+        display: 'none',
+      }),
+      dropdownIndicator: (provided, state) => ({
+        ...provided,
+        display: state.isDisabled ? 'none' : 'flex',
+        padding: ' 14px 0 12px 0',
+        transform: 'translateX(-4px)',
+      }),
+    }),
+    [disabled],
+  );
 };
 const Unit = ({
   disabled = false,
@@ -107,6 +115,7 @@ const Unit = ({
   required,
   ...props
 }) => {
+  const reactSelectStyles = useReactSelectStyles(disabled);
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
     hookFormSetValue(name, undefined);
@@ -119,21 +128,24 @@ const Unit = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const { displayUnit, displayValue, options, databaseUnit } = useMemo(() => {
+  const { displayUnit, displayValue, options, databaseUnit, isSelectDisabled } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
     const value = hookFormGetValue(name) ?? defaultValue;
+    const isSelectDisabled = options.length <= 1;
     return to
       ? {
           displayUnit: to,
           displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
           options,
           databaseUnit,
+          isSelectDisabled,
         }
       : {
           ...getDefaultUnit(unitType, value, system, databaseUnit),
           options,
           databaseUnit,
+          isSelectDisabled,
         };
   }, [unitType, defaultValue, system, defaultValueUnit, to]);
 
@@ -216,7 +228,7 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: 'translate(-61px, 23px)',
+            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-61px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',
             zIndex: 2,
@@ -257,11 +269,24 @@ const Unit = ({
               styles={reactSelectStyles}
               isSearchable={false}
               options={options}
+              isDisabled={isSelectDisabled}
             />
           )}
         />
-        <div className={clsx(styles.pseudoInputContainer, errors && styles.inputError)}>
-          <div className={clsx(styles.verticleDivider, errors && styles.inputError)} />
+        <div
+          className={clsx(
+            styles.pseudoInputContainer,
+            errors && styles.inputError,
+            isSelectDisabled && disabled && styles.disableBackground,
+          )}
+        >
+          <div
+            className={clsx(
+              styles.verticleDivider,
+              errors && styles.inputError,
+              isSelectDisabled && styles.none,
+            )}
+          />
         </div>
       </div>
       <input

@@ -9,7 +9,7 @@ import { Label } from '../../Typography';
 import { line_length } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 
-export default function PureFence({ history, submitForm, system, line_points, length }) {
+export default function PureFence({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
   const {
     register,
@@ -24,6 +24,9 @@ export default function PureFence({ history, submitForm, system, line_points, le
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { line_points, length },
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
   const isPressureTreated = watch(fenceEnum.pressure_treated);
   const disabled = !isValid || !isDirty;
@@ -72,6 +75,7 @@ export default function PureFence({ history, submitForm, system, line_points, le
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
             hookFormSetError={setError}
+            hookFromWatch={watch}
             control={control}
             required
           />

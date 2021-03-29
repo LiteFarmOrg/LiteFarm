@@ -4,6 +4,7 @@ import { postWatercourseLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../userFarmSlice';
 import { locationInfoSelector } from '../../mapSlice';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
 
 function WatercourseDetailForm({ history }) {
   const dispatch = useDispatch();
@@ -26,12 +27,7 @@ function WatercourseDetailForm({ history }) {
       history={history}
       submitForm={submitForm}
       system={system}
-      line_points={line_points}
-      length={length}
-      width={width}
-      width_display={width_display}
-      buffer_width={buffer_width}
-      buffer_width_display={buffer_width_display}
+      useHookFormPersist={useHookFormPersist}
     />
   );
 }

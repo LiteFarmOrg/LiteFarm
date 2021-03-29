@@ -5,8 +5,9 @@ import { getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromBufferZone, postBufferZoneSuccess } from '../../bufferZoneSlice';
 import history from '../../../history';
-import { canShowSuccessHeader, resetLocationData, setSuccessMessage } from '../../mapSlice';
+import { canShowSuccessHeader, setSuccessMessage } from '../../mapSlice';
 import i18n from '../../../locales/i18n';
+import { resetAndLockFormData } from '../../hooks/useHookFormPersist/hookFormPersistSlice';
 
 const axios = require('axios');
 export const postBufferZoneLocation = createAction(`postBufferZoneLocationSaga`);
@@ -27,7 +28,7 @@ export function* postBufferZoneLocationSaga({ payload: data }) {
       header,
     );
     yield put(postBufferZoneSuccess(result.data));
-    yield put(resetLocationData());
+    yield put(resetAndLockFormData());
     yield put(
       setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BZ'), i18n.t('message:MAP.SUCCESS_POST')]),
     );

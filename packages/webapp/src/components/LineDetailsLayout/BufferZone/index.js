@@ -2,19 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
-import Input from '../../Form/Input';
 import { bufferZoneEnum } from '../../../containers/constants';
+import Unit from '../../Form/Unit';
+import { line_width } from '../../../util/unit';
 
-export default function PureBufferZone({
-  history,
-  submitForm,
-  system,
-  line_points,
-  width_display,
-  width,
-}) {
+export default function PureBufferZone({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
-  const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
@@ -23,20 +16,26 @@ export default function PureBufferZone({
     getValues,
     setError,
     control,
+    watch,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { line_points, width },
+  } = useHookFormPersist(['/map'], getValues, setValue);
+
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[bufferZoneEnum.length] = 0;
     const formData = {
+      line_points,
+      width,
       ...data,
-      line_points: line_points,
-      width: width,
       type: 'buffer_zone',
     };
+    formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit].value;
     submitForm({ formData });
   };
 
@@ -56,18 +55,26 @@ export default function PureBufferZone({
       control={control}
       errors={errors}
       system={system}
+      width={width}
     >
       <div>
         <div>
-          <Input
-            style={{ marginBottom: '40px' }}
-            type={'number'}
-            disabled
-            name={bufferZoneEnum.width_display}
-            defaultValue={width_display}
-            unit={unit}
+          <Unit
+            register={register}
+            classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
             label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
-            inputRef={register({ required: false })}
+            name={bufferZoneEnum.width}
+            displayUnitName={bufferZoneEnum.width_unit}
+            errors={errors[bufferZoneEnum.width]}
+            unitType={line_width}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            disabled
+            defaultValue={width}
           />
         </div>
       </div>

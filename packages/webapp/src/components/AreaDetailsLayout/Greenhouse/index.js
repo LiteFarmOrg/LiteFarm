@@ -25,7 +25,7 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
   });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist('/map', getValues, setValue);
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
 
   const greenhouseTypeSelection = watch(greenhouseEnum.organic_status);

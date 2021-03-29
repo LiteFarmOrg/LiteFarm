@@ -68,14 +68,28 @@ export const line_length = {
 
 export const line_width = {
   metric: {
-    units: ['cm', 'm', 'km'],
+    units: ['m'],
     defaultUnit: 'm',
-    breakpoints: [1, 1000],
+    breakpoints: [],
   },
   imperial: {
-    units: ['in', 'ft', 'mi'],
+    units: ['ft'],
     defaultUnit: 'ft',
-    breakpoints: [20, 1320],
+    breakpoints: [],
+  },
+  databaseUnit: databaseUnit.length,
+};
+
+export const watercourse_width = {
+  metric: {
+    units: ['m'],
+    defaultUnit: 'm',
+    breakpoints: [],
+  },
+  imperial: {
+    units: ['ft'],
+    defaultUnit: 'ft',
+    breakpoints: [],
   },
   databaseUnit: databaseUnit.length,
 };

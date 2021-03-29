@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
+import { locationEnum, polygonPath } from "./constants";
 
 const useMapAssetRenderer = () => {
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -35,21 +36,27 @@ const useMapAssetRenderer = () => {
   const pointAssets = useSelector(pointSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!areaAssets[assetType] ?  drawArea : !!lineAssets[assetType] ? drawLine : drawPoint;
-  }
+    return !!areaAssets[assetType] ? drawArea : !!lineAssets[assetType] ? drawLine : drawPoint;
+  };
   const drawAssets = (map, maps, mapBounds) => {
     let hasLocation = false;
     const newState = { ...assetGeometries };
-    const assets = {...areaAssets, ...lineAssets, ...pointAssets};
+    const assets = { ...areaAssets, ...lineAssets, ...pointAssets };
     const assetsWithLocations = Object.keys(assets).filter((type) => assets[type].length > 0);
     hasLocation = assetsWithLocations.length > 0;
     assetsWithLocations.forEach((locationType) => {
       assets[locationType].forEach((location) => {
         newState[locationType]?.push(
-          assetFunctionMap(locationType)(map, maps, mapBounds, location, filterSettings?.[locationType]),
+          assetFunctionMap(locationType)(
+            map,
+            maps,
+            mapBounds,
+            location,
+            filterSettings?.[locationType],
+          ),
         );
       });
-    })
+    });
 
     setAssetGeometries(newState);
     // TODO: only fitBounds if there is at least one location in the farm
@@ -129,7 +136,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
 
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {
-  const { grid_points: points, name, type } = line;
+  const { line_points: points, name, type, width } = line;
   const { colour, dashScale, dashLength } = lineStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
@@ -143,7 +150,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
     strokeWeight: 2,
     scale: dashScale,
   });
-  var polyline = new maps.Polyline({
+  let polyline = new maps.Polyline({
     path: points,
     strokeColor: defaultColour,
     strokeOpacity: 1.0,
@@ -157,7 +164,14 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
     ],
   });
   polyline.setMap(map);
-
+  if([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
+    const polyPath = polygonPath(polyline.getPath().getArray(), width, maps);
+    const linePolygon = new maps.Polygon({
+      paths: polyPath,
+      ...lineStyles[type].polyStyles
+    });
+    linePolygon.setMap(map);
+  }
   maps.event.addListener(polyline, 'mouseover', function () {
     this.setOptions({
       strokeColor: colour,

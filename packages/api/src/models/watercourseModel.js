@@ -15,9 +15,9 @@
 
 const Model = require('objection').Model;
 
-class Creek extends Model {
+class Watercourse extends Model {
   static get tableName() {
-    return 'creek';
+    return 'watercourse';
   }
 
   static get idColumn() {
@@ -30,8 +30,7 @@ class Creek extends Model {
       required: ['location_id'],
       properties: {
         location_id: { type: 'string' },
-        used_for_irrigation: { type: 'boolean' },
-        includes_riparian_buffer: { type: 'boolean' },
+        used_for_irrigation: { type: ['boolean', null] },
         buffer_width: { type: 'number' },
         buffer_width_unit: { type: 'string', enum: ['cm', 'm', 'km', 'in', 'ft', 'mi'] },
       },
@@ -45,4 +44,4 @@ class Creek extends Model {
   }
 }
 
-module.exports = Creek;
+module.exports = Watercourse;

@@ -2,18 +2,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
-import Input from '../../Form/Input';
-import { watercourseEnum } from '../../../containers/watercourseSlice';
 import Radio from '../../Form/Radio';
 import { Label } from '../../Typography';
-import { locationInfoSelector } from '../../../containers/mapSlice';
-import { useSelector } from 'react-redux';
+import { line_length, line_width, watercourse_width } from '../../../util/unit';
+import Unit from '../../Form/Unit';
+import { watercourseEnum } from '../../../containers/constants';
 
-export default function PureWatercourse({ history, submitForm, system }) {
+export default function PureWatercourse({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
-  const { width, width_display, buffer_width, buffer_width_display, length } = useSelector(
-    locationInfoSelector,
-  );
   const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
@@ -28,17 +24,32 @@ export default function PureWatercourse({ history, submitForm, system }) {
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: {
+      line_points,
+      length,
+      width,
+
+      buffer_width,
+    },
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
-  const inputLength = watch(watercourseEnum.length);
-  const inputWidth = watch(watercourseEnum.width);
-  const inputRiparianBuffer = watch(watercourseEnum.includes_riparian_buffer);
+  const usedForIrrigation = watch(watercourseEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
+    data[watercourseEnum.length_unit] = data[watercourseEnum.length_unit].value;
     const formData = {
+      line_points,
+      length,
+      width,
+      buffer_width,
       ...data,
-      //   line_points: line_points,
-      type: 'buffer_zone',
+      type: 'watercourse',
+      used_for_irrigation: usedForIrrigation !== null ? usedForIrrigation === 'true' : null,
     };
+    formData[watercourseEnum.length_unit] = formData[watercourseEnum.length_unit].value;
+    formData[watercourseEnum.width_unit] = formData[watercourseEnum.width_unit].value;
+    formData[watercourseEnum.buffer_width_unit] = formData[watercourseEnum.buffer_width_unit].value;
     submitForm({ formData });
   };
 
@@ -61,38 +72,61 @@ export default function PureWatercourse({ history, submitForm, system }) {
     >
       <div>
         <div>
-          <Input
-            style={{ marginBottom: '40px' }}
-            type={'number'}
-            name={watercourseEnum.length}
-            defaultValue={length}
-            unit={unit}
+          <Unit
+            style={{ marginBottom: '40px', zIndex: 2 }}
+            register={register}
+            classes={{ container: { flexGrow: 1 } }}
             label={t('FARM_MAP.WATERCOURSE.LENGTH')}
-            inputRef={register({ required: true })}
+            name={watercourseEnum.length}
+            displayUnitName={watercourseEnum.length_unit}
+            defaultValue={length}
+            errors={errors[watercourseEnum.length]}
+            unitType={line_length}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            required
           />
         </div>
         <div>
-          <Input
-            style={{ marginBottom: '40px' }}
-            type={'number'}
-            disabled
-            name={watercourseEnum.width}
-            defaultValue={width_display}
-            unit={unit}
+          <Unit
+            register={register}
+            classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
             label={t('FARM_MAP.WATERCOURSE.WIDTH')}
-            inputRef={register({ required: false })}
+            name={watercourseEnum.width}
+            displayUnitName={watercourseEnum.width_unit}
+            errors={errors[watercourseEnum.width]}
+            unitType={line_width}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            disabled
+            defaultValue={width}
           />
         </div>
         <div>
-          <Input
-            style={{ marginBottom: '40px' }}
-            type={'number'}
-            disabled
-            name={watercourseEnum.includes_riparian_buffer}
-            defaultValue={buffer_width_display}
-            unit={unit}
+          <Unit
+            register={register}
+            classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
             label={t('FARM_MAP.WATERCOURSE.BUFFER')}
-            inputRef={register({ required: false })}
+            name={watercourseEnum.buffer_width}
+            displayUnitName={watercourseEnum.buffer_width_unit}
+            errors={errors[watercourseEnum.buffer_width]}
+            unitType={watercourse_width}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            disabled
+            defaultValue={buffer_width}
           />
         </div>
         <div>
@@ -107,7 +141,7 @@ export default function PureWatercourse({ history, submitForm, system }) {
               style={{ marginBottom: '25px' }}
               label={t('common:YES')}
               inputRef={register({ required: false })}
-              value={'Yes'}
+              value={true}
               name={watercourseEnum.used_for_irrigation}
             />
           </div>
@@ -116,7 +150,7 @@ export default function PureWatercourse({ history, submitForm, system }) {
               style={{ marginBottom: '25px' }}
               label={t('common:NO')}
               inputRef={register({ required: false })}
-              value={'No'}
+              value={false}
               name={watercourseEnum.used_for_irrigation}
             />
           </div>

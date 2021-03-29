@@ -24,7 +24,7 @@ export default function PureField({ history, submitForm, system, useHookFormPers
   });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist('/map', getValues, setValue);
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
   const disabled = !isValid || !isDirty;

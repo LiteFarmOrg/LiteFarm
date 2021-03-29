@@ -24,7 +24,7 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
   });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist('/map', getValues, setValue);
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
   const disabled = !isValid || !isDirty;

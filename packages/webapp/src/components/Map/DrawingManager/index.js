@@ -56,7 +56,7 @@ export default function PureDrawingManager({
       }
       { showConfirmButtons &&
       <div>
-        <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.TRY_AGAIN')}</Button>
+        <Button onClick={onClickTryAgain} className={styles.drawingButton} color={'secondary'} sm>{t('FARM_MAP.DRAWING_MANAGER.REDRAW')}</Button>
         <Button onClick={onClickConfirm} className={styles.drawingButton} color={'primary'} sm>{t('common:CONFIRM')}</Button>
       </div>
       }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
+import { locationEnum, isNoFillArea } from './constants';
 
 const useMapAssetRenderer = () => {
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -35,7 +36,9 @@ const useMapAssetRenderer = () => {
   const pointAssets = useSelector(pointSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!areaAssets[assetType] ?  drawArea : !!lineAssets[assetType] ? drawLine : drawPoint;
+    return !!areaAssets[assetType] ?
+      isNoFillArea(assetType) ? drawNoFillArea : drawArea :
+      !!lineAssets[assetType] ? drawLine : drawPoint;
   }
   const drawAssets = (map, maps, mapBounds) => {
     let hasLocation = false;
@@ -61,7 +64,7 @@ const useMapAssetRenderer = () => {
 // Area Drawing
 const drawArea = (map, maps, mapBounds, area, isVisible) => {
   const { grid_points: points, name, type } = area;
-  const { colour, dashScale, dashLength, filledColour } = areaStyles[type];
+  const { colour, dashScale, dashLength } = areaStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
   });
@@ -72,7 +75,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
     // strokeOpacity: 0.8,
     strokeWeight: 2,
     fillColor: colour,
-    fillOpacity: filledColour ? 0.5 : 0,
+    fillOpacity: 0.5,
   });
   polygon.setMap(map);
 
@@ -80,7 +83,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
     this.setOptions({ fillOpacity: 0.8 });
   });
   maps.event.addListener(polygon, 'mouseout', function () {
-    this.setOptions({ fillOpacity: filledColour ? 0.5 : 0 });
+    this.setOptions({ fillOpacity: 0.5 });
   });
 
   // draw dotted outline
@@ -126,6 +129,37 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
   polyline.setOptions({ visible: isVisible });
   return { polygon, polyline, marker };
 };
+
+const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
+  const { grid_points, name, type } = area;
+  let points = [...grid_points];
+  const { colour, hoverColour } = areaStyles[type];
+  points.forEach((point) => {
+    mapBounds.extend(point);
+  });
+
+  points.push(points[0]);
+
+  const polyline = new maps.Polyline({
+    path: points,
+    strokeColor: colour,
+    strokeWeight: 2,
+  });
+  polyline.setMap(map);
+
+  maps.event.addListener(polyline, 'mouseover', function () {
+    this.setOptions({ strokeColor: hoverColour });
+  });
+  maps.event.addListener(polyline, 'mouseout', function () {
+    this.setOptions({ strokeColor: colour });
+  });
+  maps.event.addListener(polyline, 'click', function () {
+    console.log('clicked no fill area');
+  });
+
+  polyline.setOptions({ visible: isVisible });
+  return { polyline };
+}
 
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {

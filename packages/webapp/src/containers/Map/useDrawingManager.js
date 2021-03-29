@@ -288,11 +288,11 @@ export default function useDrawingManager() {
 
 const getDrawingOptions = (type) => {
   if (isArea(type)) {
-    const { colour, filledColour } = areaStyles[type];
+    const { colour } = areaStyles[type];
     return {
       polygonOptions: {
         strokeWeight: 2,
-        fillOpacity: filledColour ? 0.3 : 0,
+        fillOpacity: 0.3,
         editable: true,
         draggable: true,
         fillColor: colour,

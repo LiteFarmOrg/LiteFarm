@@ -21,7 +21,6 @@ import PureMapHeader from '../../components/Map/Header';
 import PureMapSuccessHeader from '../../components/Map/SuccessHeader';
 import PureMapFooter from '../../components/Map/Footer';
 import ExportMapModal from '../../components/Modals/ExportMapModal';
-import AdjustModal from '../../components/Modals/MapTutorialModal';
 import DrawAreaModal from '../../components/Map/Modals/DrawArea';
 import DrawLineModal from '../../components/Map/Modals/DrawLine';
 import AdjustAreaModal from '../../components/Map/Modals/AdjustArea';
@@ -99,7 +98,6 @@ export default function Map({ history }) {
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
-  const [showAdjustModal, setShowAdjustModal] = useState(false);
   const [showDrawAreaSpotlightModal, setShowDrawAreaSpotlightModal] = useState(false);
   const [showDrawLineSpotlightModal, setShowDrawLineSpotlightModal] = useState(false);
 
@@ -349,7 +347,6 @@ export default function Map({ history }) {
                   startDrawing(drawingState.type);
                 }}
                 onClickConfirm={handleConfirm}
-                onClickAdjust={() => setShowAdjustModal(true)}
                 showZeroAreaWarning={showZeroAreaWarning}
                 confirmLine={handleLineConfirm}
                 updateLineWidth={setLineWidth}
@@ -388,7 +385,6 @@ export default function Map({ history }) {
             dismissModal={() => setShowExportModal(false)}
           />
         )}
-        {showAdjustModal && <AdjustModal dismissModal={() => setShowAdjustModal(false)} />}
         {showDrawAreaSpotlightModal && (
           <DrawAreaModal
             dismissModal={() => {

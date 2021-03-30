@@ -49,7 +49,6 @@ const OtherLog = React.lazy(() => import('./containers/Log/OtherLog'));
 const EditFertilizingLog = React.lazy(() => import('./containers/Log/EditLog/fertilizing'));
 const EditPestControlLog = React.lazy(() => import('./containers/Log/EditLog/pestControl'));
 const EditFieldWorkLog = React.lazy(() => import('./containers/Log/EditLog/fieldWork'));
-const EditHarvestLog = React.lazy(() => import('./containers/Log/EditLog/harvest'));
 const EditIrrigationLog = React.lazy(() => import('./containers/Log/EditLog/irrigation'));
 const EditScoutingLog = React.lazy(() => import('./containers/Log/EditLog/scouting'));
 const EditSeedingLog = React.lazy(() => import('./containers/Log/EditLog/seeding'));
@@ -82,7 +81,6 @@ const Prices = React.lazy(() => import('./containers/Insights/Prices'));
 const WaterBalance = React.lazy(() => import('./containers/Insights/WaterBalance'));
 const Erosion = React.lazy(() => import('./containers/Insights/Erosion'));
 const NitrogenBalance = React.lazy(() => import('./containers/Insights/NitrogenBalance'));
-const ContactForm = React.lazy(() => import('./containers/Contact'));
 const SalesSummary = React.lazy(() => import('./containers/Finances/SalesSummary'));
 const AddSale = React.lazy(() => import('./containers/Finances/AddSale'));
 const EditSale = React.lazy(() => import('./containers/Finances/EditSale'));
@@ -204,7 +202,6 @@ const Routes = () => {
             <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
             <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
             <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/harvest_log/edit" exact component={EditHarvestLog} />
             <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
             <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
             <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
@@ -260,7 +257,6 @@ const Routes = () => {
             {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
             <Route path="/edit_expense" exact component={TempEditExpense} />
 
-            {/*<Route path="/contact" exact component={ContactForm}/>*/}
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             {/*<Route path="/callback" render={(props) => {*/}
@@ -308,7 +304,6 @@ const Routes = () => {
             <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
             <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
             <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/harvest_log/edit" exact component={EditHarvestLog} />
             <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
             <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
             <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
@@ -353,7 +348,6 @@ const Routes = () => {
             {/* <Route path="/edit_add_expense" exact component={EditAddExpense} /> */}
             <Route path="/edit_expense" exact component={TempEditExpense} />
 
-            <Route path="/contact" exact component={ContactForm} />
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             <Route path="/edit_field" exact component={EditField} />
@@ -366,7 +360,6 @@ const Routes = () => {
             <Route path="/insights/waterbalance" exact component={WaterBalance} />
             <Route path="/insights/erosion" exact component={Erosion} />
             <Route path="/insights/nitrogenbalance" exact component={NitrogenBalance} />
-            {/*<Route path="/contact" exact component={ContactForm}/>*/}
             <Route path="/farm_selection" exact component={ChooseFarm} />
             {/*<Route path="/callback" render={(props) => {*/}
             {/*  handleAuthentication(props, dispatchLoginSuccess);*/}
@@ -412,7 +405,6 @@ const Routes = () => {
             <Route path="/fertilizing_log/edit" exact component={EditFertilizingLog} />
             <Route path="/pest_control_log/edit" exact component={EditPestControlLog} />
             <Route path="/field_work_log/edit" exact component={EditFieldWorkLog} />
-            <Route path="/harvest_log/edit" exact component={EditHarvestLog} />
             <Route path="/irrigation_log/edit" exact component={EditIrrigationLog} />
             <Route path="/scouting_log/edit" exact component={EditScoutingLog} />
             <Route path="/soil_data_log/edit" exact component={EditSoilDataLog} />
@@ -423,7 +415,6 @@ const Routes = () => {
             <Route path="/my_shift" exact component={MyShift} />
             <Route path="/edit_shift_one" exact component={EditShiftOne} />
             <Route path="/edit_shift_two" exact component={EditShiftTwo} />
-            {/*<Route path="/contact" exact component={ContactForm}/>*/}
             <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             {/*<Route path="/callback" render={(props) => {*/}

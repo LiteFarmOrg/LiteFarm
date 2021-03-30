@@ -61,7 +61,7 @@ export default function PureMyFarmFloater({
       placement={'bottom-end'}
       open={openProfile}
       styles={{
-        floater: { zIndex: 1500 },
+        floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
       }}
     >
       {children}

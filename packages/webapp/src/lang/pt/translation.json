@@ -203,11 +203,11 @@
     },
     "NITROGEN_BALANCE": {
       "CHOOSE_A_FREQUENCY": "Escolha uma frequência",
-      "CHOOSE_FREQUENCY": "\nEscolha uma frequência...",
+      "CHOOSE_FREQUENCY": "Escolha uma frequência...",
       "COUNT_MONTHS": "{{count}} mês",
       "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
-      "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.\n",
+      "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
       "HEADER": "cada {{frequency}} mês: {{refreshDate}}",
       "INFO_1": "O balanço de nitrogênio informa se você aplicou muito ou pouco fertilizante. Esta informação depende dos seus registros de colheita, registros de fertilização e dos créditos de nitrogênio das leguminosas. Você pode receber o balanço no intervalo de tempo desejado.",
       "INFO_2": "Clique no botão excluir para redefinir sua programação.",

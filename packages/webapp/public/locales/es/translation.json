@@ -114,11 +114,11 @@
     },
     "GARDEN": {
       "DATE": "Fecha de transición",
-      "GARDEN_TYPE": "MISSING",
-      "NAME": "MISSING",
+      "GARDEN_TYPE": "Tipo de Jardin",
+      "NAME": "Jardin",
       "NON_ORGANIC": "No organico",
       "ORGANIC": "Organico",
-      "TITLE": "MISSING",
+      "TITLE": "Agregar Jardin",
       "TRANSITIONING": "En transición"
     },
     "GATE": {
@@ -135,7 +135,7 @@
       "FENCE": "Valla",
       "FIELD": "Campo",
       "FSB": "Limites de granja",
-      "GARDEN": "MISSING",
+      "GARDEN": "Jardin",
       "GATE": "Puerta",
       "GREENHOUSE": "Invernadero",
       "HIDE_ALL": "Esconde todo",
@@ -145,7 +145,7 @@
       "RESIDENCE": "Residencia",
       "SATELLITE": "Imagen de Satelite",
       "SHOW_ALL": "Muestra todo",
-      "SURFACE_WATER": "MISSING",
+      "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra tu mapa",
       "WV": "Valvula de agua"
     },
@@ -462,6 +462,7 @@
   },
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Agregar fertilizante",
+    "FERTILIZER_TYPE": "Tipo de fertilizante",
     "FERTILIZING_QUANTITY": "Cantidad de fertilizante",
     "SELECT_TEMPLATE": "Seleccionar Plantilla",
     "TITLE": "Registro de fertilizante"

@@ -22,6 +22,12 @@ export const isArea = (type) => {
   ].includes(type);
 };
 
+export const isNoFillArea = (type) => {
+  return [
+    locationEnum.farm_site_boundary,
+  ].includes(type);
+}
+
 export const isLine = (type) => {
   return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
 };

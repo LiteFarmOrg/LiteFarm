@@ -42,7 +42,6 @@ const useMapAssetRenderer = () => {
     let hasLocation = false;
     const newState = { ...assetGeometries };
     const assets = { ...areaAssets, ...lineAssets, ...pointAssets };
-    console.log(lineAssets);
     const assetsWithLocations = Object.keys(assets).filter((type) => assets[type].length > 0);
     hasLocation = assetsWithLocations.length > 0;
     assetsWithLocations.forEach((locationType) => {
@@ -137,7 +136,6 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
 
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {
-  console.log(line);
   const { line_points: points, name, type, width } = line;
   const realWidth = type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
   const { colour, dashScale, dashLength } = lineStyles[type];

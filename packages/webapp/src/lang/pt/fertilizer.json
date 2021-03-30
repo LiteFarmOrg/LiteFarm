@@ -11,17 +11,18 @@
   "CHICKEN-LAYER": "Esterco de galinha poedeira",
   "DAIRY-_SOLID_DRY": "Laticínio- sólido (seco)",
   "DAIRY-_SOLID_MOIST": "Laticínio- sólido (úmido)",
+  "DAIRY-_LIQUID_THICK_SLURRY": "Líquido lácteo (pasta espessa)",
   "DAIRY-_LIQUID_MEDIUM_SLURRY": "Laticínio- líquido (pastoso)",
   "DAIRY-_LIQUID_QUITE_WATERY": "Laticínio- líquido (aguado)",
   "DAIRY-_LIQUID_VERY_WATERY": "Laticínio- líquido (bem aguado)",
   "GOAT_DAIRY": "Cabra (laticínio)",
-  "HOG-_LIQUID": "Porco- líquido",
-  "HOG-_SOLID": "Porco- sólido",
+  "HOG-_LIQUID": "Esterco suíno  (líquido)",
+  "HOG-_SOLID": "Esterco suíno  (sólido)",
   "HORSE": "Cavalo",
   "MINK": "Vison-americano",
   "SHEEP": "Ovelha",
   "TURKEY_MANURE_AGED_>7_WEEKS_OUT_OF_BARN": "Esterco de peru (curtido >7 semanas)",
   "TURKEY_MANURE_FRESH_FROM_BARN_<7_WEEKS": "Esterco de peru (fresco <7 semanas)",
   "BIOSOLIDS-_ANAEROBICALLY_DIGESTED_&_DEWATERED": "Biosólidos- digestão anaeróbica e desidratados",
-  "OTHER": "Other"
+  "OTHER": "Outro"
 }

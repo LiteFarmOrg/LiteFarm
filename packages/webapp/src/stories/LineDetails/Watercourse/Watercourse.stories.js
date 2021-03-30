@@ -14,7 +14,13 @@ export const Primary = Template.bind({});
 Primary.args = {
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
+  width: 10,
+  width_display: 10,
+  buffer_width: 12,
+  buffer_width_display: 12,
+  length: 3,
+  line_points: (data) => {},
 };
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

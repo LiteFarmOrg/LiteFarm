@@ -25,7 +25,7 @@ export const barnEnum = {
   wash_and_pack: 'wash_and_pack',
   cold_storage: 'cold_storage',
 };
-export const creekEnum = {
+export const watercourseEnum = {
   farm_id: 'farm_id',
   name: 'name',
   figure_id: 'figure_id',
@@ -37,7 +37,6 @@ export const creekEnum = {
   line_points: 'line_points',
   length_unit: 'length_unit',
   width_unit: 'width_unit',
-  includes_riparian_buffer: 'includes_riparian_buffer',
   used_for_irrigation: 'used_for_irrigation',
   buffer_width: 'buffer_width',
   buffer_width_unit: 'buffer_width_unit',

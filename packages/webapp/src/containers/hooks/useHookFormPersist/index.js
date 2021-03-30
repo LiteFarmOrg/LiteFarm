@@ -7,12 +7,12 @@ import {
 import { useEffect, useLayoutEffect } from 'react';
 import history from '../../../history';
 
-export default function useHookFormPersist(prevPathname, getValues, setValue) {
+export default function useHookFormPersist(prevPathname = [], getValues, setValue) {
   const dispatch = useDispatch();
   const formData = useSelector(hookFormPersistSelector);
   useLayoutEffect(() => {
     return () => {
-      if (history.location.pathname === prevPathname) {
+      if (prevPathname.includes(history.location.pathname)) {
         dispatch(hookFormPersistUnMount(getValues()));
       } else {
         dispatch(resetAndUnLockFormData());

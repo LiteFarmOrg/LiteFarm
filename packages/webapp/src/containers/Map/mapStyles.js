@@ -81,7 +81,7 @@ export const lineStyles = {
   },
   fence: {
     colour: fenceColour,
-    dashScale: 1,
+    dashScale: 0.7,
     dashLength: '6px',
   },
   buffer_zone: {

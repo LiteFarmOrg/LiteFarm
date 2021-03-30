@@ -547,6 +547,7 @@
   },
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Add a Fertilizer",
+    "FERTILIZER_TYPE": "Fertilizer Type",
     "FERTILIZING_QUANTITY": "Fertilizer Quantity",
     "SELECT_TEMPLATE": "Select product template",
     "TITLE": "Fertilizing Log"

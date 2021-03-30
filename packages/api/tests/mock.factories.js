@@ -138,6 +138,8 @@ function fakeArea(stringify = true) {
       lng: faker.address.longitude(),
     }],
     perimeter: faker.random.number(),
+    total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
+    perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
   };
 }
 
@@ -880,17 +882,16 @@ function fakeGreenhouse() {
   };
 }
 
-async function creekFactory({ promisedLocation = locationFactory() } = {}, creek = fakeCreek()) {
+async function watercourseFactory({ promisedLocation = locationFactory() } = {}, watercourse = fakeWatercourse()) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
-  await lineFactory({ promisedLocation: location }, fakeLine(), 'creek');
-  return knex('creek').insert({ location_id, ...creek }).returning('*');
+  await lineFactory({ promisedLocation: location }, fakeLine(), 'watercourse');
+  return knex('watercourse').insert({ location_id, ...watercourse }).returning('*');
 }
 
-function fakeCreek() {
+function fakeWatercourse() {
   return {
     used_for_irrigation: faker.random.boolean(),
-    includes_riparian_buffer: faker.random.boolean(),
     buffer_width: faker.random.number(),
   };
 }
@@ -908,6 +909,9 @@ async function water_valveFactory({
 function fakeWaterValve() {
   return {
     source: faker.random.arrayElement(['Municipal water', 'Surface water', 'Groundwater', 'Rain water']),
+    flow_rate_unit: faker.random.arrayElement(['l/min', 'l/h', 'gal/min', 'gal/h']),
+    flow_rate: faker.random.number(1000),
+
   };
 }
 
@@ -1040,7 +1044,7 @@ module.exports = {
   fakeSurfaceWater, surface_waterFactory,
   fakeBarn, barnFactory,
   fakeWaterValve, water_valveFactory,
-  fakeCreek, creekFactory,
+  fakeWatercourse, watercourseFactory,
   fakeGreenhouse, greenhouseFactory,
   natural_areaFactory,
   ceremonial_areaFactory,

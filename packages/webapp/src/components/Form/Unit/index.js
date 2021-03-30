@@ -9,108 +9,87 @@ import { numberOnKeyDown } from '../Input';
 import Select from 'react-select';
 import { styles as reactSelectDefaultStyles } from '../ReactSelect';
 import convert from 'convert-units';
-import { defaultUnitMap, roundToTwoDecimal } from '../../../util/unit';
+import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import { Controller } from 'react-hook-form';
 
-const areaOptions = {
-  metric: [
-    { label: 'm2', value: 'm2' },
-    { label: 'ha', value: 'ha' },
-  ],
-  imperial: [
-    { label: 'sqft', value: 'ft2' },
-    { label: 'ac', value: 'ac' },
-  ],
-};
-const distanceOptions = {
-  metric: [
-    { label: 'cm', value: 'cm' },
-    { label: 'm', value: 'm' },
-    { label: 'km', value: 'km' },
-  ],
-  imperial: [
-    { label: 'in', value: 'in' },
-    { label: 'ft', value: 'ft' },
-    { label: 'mi', value: 'mi' },
-  ],
-};
-const massOptions = {
-  metric: [
-    { label: 'g', value: 'g' },
-    { label: 'kg', value: 'kg' },
-    { label: 'mt', value: 'mt' },
-  ],
-  imperial: [
-    { label: 'oz', value: 'oz' },
-    { label: 'lb', value: 'lb' },
-    { label: 't', value: 't' },
-  ],
-};
-const seedOptions = {
-  metric: [
-    { label: 'g', value: 'g' },
-    { label: 'kg', value: 'kg' },
-  ],
-  imperial: [
-    { label: 'oz', value: 'oz' },
-    { label: 'lb', value: 'lb' },
-  ],
-};
-const unitTypeOptionMap = {
-  length: distanceOptions,
-  area: areaOptions,
-  mass: massOptions,
-};
-const getOptions = (system, type) => {
-  return unitTypeOptionMap[type][system];
+const unitOptionMap = {
+  m2: { label: 'm2', value: 'm2' },
+  ha: { label: 'ha', value: 'ha' },
+  ft2: { label: 'sqft', value: 'ft2' },
+  ac: { label: 'ac', value: 'ac' },
+  cm: { label: 'cm', value: 'cm' },
+  m: { label: 'm', value: 'm' },
+  km: { label: 'km', value: 'km' },
+  in: { label: 'in', value: 'in' },
+  ft: { label: 'ft', value: 'ft' },
+  mi: { label: 'mi', value: 'mi' },
+  'l/min': { label: 'l/m', value: 'l/min' },
+  'l/h': { label: 'l/h', value: 'l/h' },
+  'gal/min': { label: 'g/m', value: 'gal/min' },
+  'gal/h': { label: 'g/h', value: 'gal/h' },
+  g: { label: 'g', value: 'g' },
+  kg: { label: 'kg', value: 'kg' },
+  mt: { label: 'mt', value: 'mt' },
+  oz: { label: 'oz', value: 'oz' },
+  lb: { label: 'lb', value: 'lb' },
+  t: { label: 't', value: 't' },
 };
 
-const reactSelectStyles = {
-  ...reactSelectDefaultStyles,
-  control: (provided, state) => ({
-    display: 'flex',
-    border: `none`,
-    boxShadow: 'none',
-    boxSizing: 'border-box',
-    borderRadius: '4px',
-    height: '48px',
-    paddingLeft: '0',
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--fontColor)',
-    background: 'transparent',
-  }),
-  valueContainer: (provided, state) => ({
-    ...provided,
-    padding: '0',
-    width: '40px',
-  }),
-  singleValue: () => ({
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--fontColor)',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '44px',
-    overflowX: 'hidden',
-    textAlign: 'center',
-    position: 'absolute',
-  }),
-  placeholder: () => ({
-    fontSize: '16px',
-    lineHeight: '24px',
-    color: 'var(--iconDefault)',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontFamily: '"Open Sans", "SansSerif", serif',
-    width: '44px',
-    overflowX: 'hidden',
-  }),
-  dropdownIndicator: (provided, state) => ({
-    ...provided,
-    padding: ' 14px 0 12px 0',
-  }),
+const getOptions = (unitType = area_total_area, system) => {
+  return unitType[system].units.map((unit) => unitOptionMap[unit]);
+};
+
+const useReactSelectStyles = (disabled) => {
+  return useMemo(
+    () => ({
+      ...reactSelectDefaultStyles,
+      container: (provided, state) => ({
+        ...provided,
+        zIndex: 1,
+      }),
+      control: (provided, state) => ({
+        display: 'flex',
+        border: `none`,
+        boxShadow: 'none',
+        boxSizing: 'border-box',
+        borderRadius: '4px',
+        height: '48px',
+        paddingLeft: '0',
+        fontSize: '16px',
+        lineHeight: '24px',
+        color: 'var(--fontColor)',
+        background: 'transparent',
+      }),
+      valueContainer: (provided, state) => ({
+        ...provided,
+        padding: '0',
+        width: '42px',
+        justifyContent: 'center',
+      }),
+      singleValue: () => ({
+        fontSize: '16px',
+        lineHeight: '24px',
+        color: disabled ? 'var(--grey600)' : 'var(--fontColor)',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        fontFamily: '"Open Sans", "SansSerif", serif',
+        width: '42px',
+        overflowX: 'hidden',
+        textAlign: 'center',
+        position: 'absolute',
+      }),
+      placeholder: () => ({
+        display: 'none',
+      }),
+      dropdownIndicator: (provided, state) => ({
+        ...provided,
+        display: state.isDisabled ? 'none' : 'flex',
+        padding: ' 14px 0 12px 0',
+        transform: 'translateX(-4px)',
+      }),
+    }),
+    [disabled],
+  );
 };
 const Unit = ({
   disabled = false,
@@ -125,18 +104,23 @@ const Unit = ({
   displayUnitName,
   hookFormSetValue,
   hookFormGetValue,
+  hookFormSetError,
+  hookFromWatch,
   defaultValue,
   system,
   control,
-  // unitType,
-  from,
+  unitType = area_total_area,
+  from: defaultValueUnit,
   to,
   required,
+  mode = 'onBlur',
   ...props
 }) => {
+  const reactSelectStyles = useReactSelectStyles(disabled);
   const { t } = useTranslation(['translation', 'common']);
   const onClear = () => {
-    hookFormSetValue(name, undefined, { shouldValidate: true });
+    hookFormSetValue(name, undefined);
+    setVisibleInputValue('');
     setShowError(false);
   };
 
@@ -145,59 +129,86 @@ const Unit = ({
     setShowError(!!errors && !disabled);
   }, [errors]);
 
-  const { displayUnit, displayValue, options, measureType } = useMemo(() => {
-    const measureType = convert().describe(from || to).measure;
-    const options = getOptions(system, measureType);
+  const { displayUnit, displayValue, options, databaseUnit, isSelectDisabled } = useMemo(() => {
+    const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
+    const options = getOptions(unitType, system);
+    const value = hookFormGetValue(name) ?? defaultValue;
+    const isSelectDisabled = options.length <= 1;
     return to
       ? {
           displayUnit: to,
-          displayValue: roundToTwoDecimal(convert(defaultValue).from(from).to(to)),
-          measureType,
+          displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
           options,
+          databaseUnit,
+          isSelectDisabled,
         }
       : {
-          ...defaultUnitMap[measureType](defaultValue, system, from),
-          measureType,
+          ...getDefaultUnit(unitType, value, system, databaseUnit),
           options,
+          databaseUnit,
+          isSelectDisabled,
         };
-  }, [defaultValue, system, from, to]);
+  }, [unitType, defaultValue, system, defaultValueUnit, to]);
+
+  const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
+  useEffect(() => {
+    if (hookFormUnit && hookFormValue !== undefined) {
+      setVisibleInputValue(
+        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+      );
+    }
+  }, [hookFormUnit]);
 
   const [visibleInputValue, setVisibleInputValue] = useState(displayValue);
   useEffect(() => {
-    for (const option of options) {
-      if (option.value === displayUnit) {
-        hookFormSetValue(displayUnitName, option);
-        break;
+    if (!hookFormGetValue(displayUnitName)) {
+      for (const option of options) {
+        if (option.value === displayUnit) {
+          hookFormSetValue(displayUnitName, option);
+          break;
+        }
       }
     }
   }, []);
 
+  const hookFormValue = hookFromWatch(name, defaultValue);
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
-    const unit = hookFormGetValue(displayUnitName).value;
-    hookFormSetValue(name, convert(e.target.value).from(unit).to(from), {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
+    mode === 'onChange' && inputOnBlur(e);
   };
-
   const inputOnBlur = (e) => {
     if (isNaN(e.target.value)) {
-      setVisibleInputValue(0);
-      hookFormSetValue(name, 0, {
+      hookFormSetError(name, {
+        type: 'manual',
+        message: t('UNIT.INVALID_NUMBER'),
+      });
+    } else if (required && e.target.value === '') {
+      hookFormSetError(name, {
+        type: 'manual',
+        message: t('common:REQUIRED'),
+      });
+    } else if (e.target.value === '') {
+      hookFormSetValue(name, undefined, { shouldValidate: true });
+      setVisibleInputValue('');
+    } else if (e.target.value > 1000000000) {
+      hookFormSetError(name, {
+        type: 'manual',
+        message: t('UNIT.MAXIMUM'),
+      });
+    } else {
+      hookFormSetValue(name, convert(e.target.value).from(hookFormUnit).to(databaseUnit), {
         shouldValidate: true,
         shouldDirty: true,
       });
-    } else if (e.target.value > 1000000000) {
-      inputOnChange({ target: { value: 1000000000 } });
-    } else {
-      inputOnChange({ target: { value: roundToTwoDecimal(e.target.value) } });
     }
   };
-
-  const optionOnChange = (e) => {
-    setVisibleInputValue(roundToTwoDecimal(convert(hookFormGetValue(name)).from(from).to(e.value)));
-  };
+  useEffect(() => {
+    if (hookFormValue !== undefined && databaseUnit && hookFormUnit) {
+      setVisibleInputValue(
+        roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
+      );
+    }
+  }, [hookFormValue]);
 
   return (
     <div className={clsx(styles.container)} style={{ ...style, ...classes.container }}>
@@ -219,22 +230,28 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: 'translate(-17px, 13px)',
+            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-61px, 23px)',
+            lineHeight: '40px',
             cursor: 'pointer',
+            zIndex: 2,
+            width: '37px',
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: 'white',
           }}
         />
       )}
       <div className={styles.inputContainer}>
         <input
           disabled={disabled}
-          className={clsx(styles.input)}
+          className={clsx(styles.input, errors)}
           style={{ ...classes.input }}
           aria-invalid={showError ? 'true' : 'false'}
           type={'number'}
           value={visibleInputValue}
           size={1}
           onKeyDown={numberOnKeyDown}
-          onBlur={inputOnBlur}
+          onBlur={mode === 'onBlur' ? inputOnBlur : undefined}
           onChange={inputOnChange}
           {...props}
         />
@@ -246,7 +263,6 @@ const Unit = ({
             <Select
               onBlur={onBlur}
               onChange={(e) => {
-                optionOnChange(e);
                 onChange(e);
               }}
               value={value}
@@ -255,21 +271,36 @@ const Unit = ({
               styles={reactSelectStyles}
               isSearchable={false}
               options={options}
+              isDisabled={isSelectDisabled}
             />
           )}
         />
-        <div className={clsx(styles.pseudoInputContainer, styles.inputError)}>
-          <div className={clsx(styles.verticleDivider, styles.inputError)} />
+        <div
+          className={clsx(
+            styles.pseudoInputContainer,
+            errors && styles.inputError,
+            isSelectDisabled && disabled && styles.disableBackground,
+          )}
+        >
+          <div
+            className={clsx(
+              styles.verticleDivider,
+              errors && styles.inputError,
+              isSelectDisabled && styles.none,
+            )}
+          />
         </div>
       </div>
       <input
         ref={register({ required, valueAsNumber: true })}
         name={name}
         className={styles.hiddenInput}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || hookFormValue}
       />
       {info && !showError && <Info style={classes.info}>{info}</Info>}
-      {showError ? <Error style={classes.errors}>{errors}</Error> : null}
+      {showError ? (
+        <Error style={{ position: 'relative', ...classes.errors }}>{errors?.message}</Error>
+      ) : null}
     </div>
   );
 };
@@ -279,7 +310,7 @@ Unit.propTypes = {
   label: PropTypes.string,
   optional: PropTypes.bool,
   info: PropTypes.string,
-  errors: PropTypes.string,
+  errors: PropTypes.object,
   classes: PropTypes.exact({
     input: PropTypes.object,
     label: PropTypes.object,
@@ -289,9 +320,20 @@ Unit.propTypes = {
   }),
   style: PropTypes.object,
   hookFormSetValue: PropTypes.func,
+  hookFormGetValue: PropTypes.func,
+  hookFormSetError: PropTypes.func,
+  hookFromWatch: PropTypes.func,
   name: PropTypes.string,
   system: PropTypes.oneOf(['imperial', 'metric']),
-  // unitType: PropTypes.oneOf(['area', 'distance', 'mass', 'seedAmount']),
+  mode: PropTypes.oneOf(['onBlur', 'onChange']),
+  unitType: PropTypes.shape({
+    metric: PropTypes.object,
+    imperial: PropTypes.object,
+    databaseUnit: PropTypes.string,
+  }),
+  /*
+  Unit name from must
+  */
   from: PropTypes.string,
   to: PropTypes.string,
   required: PropTypes.bool,

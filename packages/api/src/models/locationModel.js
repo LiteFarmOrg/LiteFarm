@@ -101,12 +101,12 @@ class Location extends baseModel {
           to: 'ceremonial_area.location_id',
         },
       },
-      creek: {
-        modelClass: require('./creekModel'),
+      watercourse: {
+        modelClass: require('./watercourseModel'),
         relation: Model.HasOneRelation,
         join: {
           from: 'location.location_id',
-          to: 'creek.location_id',
+          to: 'watercourse.location_id',
         },
       },
       fence: {

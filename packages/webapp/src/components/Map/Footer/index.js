@@ -34,12 +34,13 @@ export default function PureMapFooter({
       locationEnum.ceremonial_area,
       locationEnum.farm_site_boundary,
       locationEnum.field,
+      locationEnum.garden,
       locationEnum.greenhouse,
       locationEnum.surface_water,
       locationEnum.natural_area,
       locationEnum.residence,
     ],
-    line: [locationEnum.buffer_zone, locationEnum.creek, locationEnum.fence],
+    line: [locationEnum.buffer_zone, locationEnum.watercourse, locationEnum.fence],
     point: [locationEnum.gate, locationEnum.water_valve],
   },
 }) {
@@ -48,9 +49,11 @@ export default function PureMapFooter({
 
   const resetSpotlightStatus = (data) => {
     const { action, status, lifecycle } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status) || action === ACTIONS.CLOSE) {
+    const CLICK_OUT = action === ACTIONS.CLOSE && lifecycle === LIFECYCLE.COMPLETE;
+    const FINISH = action === ACTIONS.NEXT && lifecycle === LIFECYCLE.INIT;
+    if (CLICK_OUT || FINISH) {
       setStepSpotlighted(null);
-      resetSpotlight?.();
+      resetSpotlight();
     } else if ([ACTIONS.UPDATE].includes(action) && lifecycle === LIFECYCLE.TOOLTIP) {
       setStepSpotlighted(data.index);
     }

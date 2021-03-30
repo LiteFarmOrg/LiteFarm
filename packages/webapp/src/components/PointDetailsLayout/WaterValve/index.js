@@ -1,34 +1,42 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetails from '..';
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { locationInfoSelector } from '../../../containers/mapSlice';
 import Radio from '../../Form/Radio';
-import Input from '../../Form/Input';
+import Unit from '../../Form/Unit';
+import { waterValveEnum } from '../../../containers/constants';
+import { water_valve_flow_rate } from '../../../util/unit';
 
-export default function PureWaterValve({ history, submitForm, pointType }) {
+export default function PureWaterValve({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
-  const { point } = useSelector(locationInfoSelector);
-  const { handleSubmit, setValue, register, watch } = useForm({
+
+  const {
+    handleSubmit,
+    setValue,
+    register,
+    watch,
+    getValues,
+    setError,
+    control,
+    errors,
+    formState: { isValid, isDirty },
+  } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { point, type },
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
+  const disabled = !isValid || !isDirty;
 
   const onSubmit = (data) => {
     const formData = {
-      name: data.name,
-      point: point,
-      notes: data.notes,
-      type: 'water_valve',
-      source: waterValveSourceSelection,
-      flow_rate: data.flow_rate === '' ? 0 : parseInt(data.flow_rate),
+      type,
+      point,
+      ...data,
     };
     submitForm({ formData });
   };
-
-  const WATER_TYPE = 'water_type';
-  const waterValveSourceSelection = watch(WATER_TYPE, 'SurfaceWater');
 
   return (
     <PointDetails
@@ -40,7 +48,8 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
       onError={onError}
       handleSubmit={handleSubmit}
       register={register}
-      pointType={pointType}
+      errors={errors}
+      disabled={disabled}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
@@ -49,7 +58,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
             defaultChecked={true}
-            name={pointType.source}
+            name={waterValveEnum.source}
             value={'Municipal water'}
             inputRef={register({ required: false })}
           />
@@ -58,7 +67,7 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
-            name={pointType.source}
+            name={waterValveEnum.source}
             value={'Surface water'}
             inputRef={register({ required: false })}
           />
@@ -67,8 +76,8 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
-            name={pointType.source}
-            value={'SurfaceWater'}
+            name={waterValveEnum.source}
+            value={'Groundwater'}
             inputRef={register({ required: false })}
           />
         </div>
@@ -76,19 +85,26 @@ export default function PureWaterValve({ history, submitForm, pointType }) {
           <Radio
             style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
-            name={pointType.source}
+            name={waterValveEnum.source}
             value={'Rain water'}
             inputRef={register({ required: false })}
           />
         </div>
-        <Input
+        <Unit
+          register={register}
+          classes={{ container: { flexGrow: 1, paddingBottom: '40px' } }}
           label={t('FARM_MAP.WATER_VALVE.MAX_FLOW_RATE')}
-          type="number"
-          optional
-          style={{ marginBottom: '40px' }}
+          name={waterValveEnum.flow_rate}
+          displayUnitName={waterValveEnum.flow_rate_unit}
+          errors={errors[waterValveEnum.flow_rate]}
+          unitType={water_valve_flow_rate}
+          system={system}
           hookFormSetValue={setValue}
-          name={pointType.flow_rate}
-          inputRef={register({ required: false })}
+          hookFormGetValue={getValues}
+          hookFormSetError={setError}
+          hookFromWatch={watch}
+          control={control}
+          optional
         />
       </div>
     </PointDetails>

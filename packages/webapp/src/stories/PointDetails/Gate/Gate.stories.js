@@ -3,7 +3,7 @@ import Gate from '../../../components/PointDetailsLayout/Gate';
 import decorator from '../../Pages/config/decorators';
 
 export default {
-  title: 'Components/Point/Gate',
+  title: 'Form/Point/Gate',
   decorators: decorator,
   component: Gate,
 };
@@ -11,7 +11,11 @@ export default {
 const Template = (args) => <Gate {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = { pointType: (data) => {} };
+Primary.args = {
+  useHookFormPersist: () => ({
+    persistedData: { point: {}, type: 'type' },
+  }),
+};
 Primary.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

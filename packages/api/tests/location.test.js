@@ -18,7 +18,7 @@ const locations = {
   CEREMONIAL_AREA: 'ceremonial_area',
   RESIDENCE: 'residence',
   SURFACEWATER: 'surface_water',
-  CREEK: 'creek',
+  WATERCOURSE: 'watercourse',
   FENCE: 'fence',
   BUFFER_ZONE: 'buffer_zone',
   GATE: 'gate',
@@ -41,7 +41,7 @@ const assetMock = {
   ceremonial_area: mocks.fakeArea,
   residence: mocks.fakeArea,
   surface_water: mocks.fakeArea,
-  creek: mocks.fakeLine,
+  watercourse: mocks.fakeLine,
   fence: mocks.fakeLine,
   buffer_zone: mocks.fakeLine,
   gate: mocks.fakePoint,
@@ -58,7 +58,7 @@ const assetSpecificMock = {
   ceremonial_area: () => ({}),
   residence: () => ({}),
   surface_water: mocks.fakeSurfaceWater,
-  creek: mocks.fakeCreek,
+  watercourse: mocks.fakeWatercourse,
   fence: mocks.fakeFence,
   buffer_zone: () => ({}),
   gate: () => ({}),
@@ -192,6 +192,16 @@ describe('Location tests', () => {
         expect(typeSum.fence).toBe(1);
         done();
       });
+    })
+
+    test('should not get deleted locations' , async (done) => {
+      const [locations] = await appendFieldToFarm(farm, 2);
+      await knex('location').where( { location_id: locations[0].location_id }).update({ deleted: true });
+      getLocationsInFarm({ user_id: user, farm_id: farm}, farm, (err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.length).toBe(1);
+        done();
+      })
     })
   });
 

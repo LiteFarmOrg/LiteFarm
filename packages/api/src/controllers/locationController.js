@@ -1,16 +1,16 @@
 const LocationModel = require('../models/locationModel');
 const baseController = require('./baseController');
 const { figureMapping, assets, figures } = require('../middleware/validation/location');
-const { transaction, Model } = require('objection');
+
 const LocationController = {
   getLocationsByFarm() {
     return async (req, res, next) => {
       const { farm_id } = req.params;
       const locations = await LocationModel.query()
-        .where({ farm_id })
+        .where({ farm_id }).andWhere({ deleted: false })
         .withGraphJoined(`[
           figure.[area, line, point], 
-          gate, water_valve, field, garden, buffer_zone, creek, fence, 
+          gate, water_valve, field, garden, buffer_zone, watercourse, fence, 
           ceremonial_area, residence, surface_water, natural_area,
           greenhouse, barn, farm_site_boundary
         ]`)
@@ -75,7 +75,7 @@ function getNonModifiable(asset) {
   const figure = figureMapping[asset];
   const nonModifiableFigures = figures.filter((f) => f !== figure);
   const nonModifiableAssets = assets.filter(a => a !== asset);
-  return ['createdByUser', 'updatedByUser'].concat(nonModifiableFigures, nonModifiableAssets);
+  return [ 'createdByUser', 'updatedByUser' ].concat(nonModifiableFigures, nonModifiableAssets);
 }
 
 module.exports = LocationController;

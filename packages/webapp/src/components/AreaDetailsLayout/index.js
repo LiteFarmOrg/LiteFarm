@@ -3,40 +3,52 @@ import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
 import Button from '../Form/Button';
-import { useSelector } from 'react-redux';
-import { locationInfoSelector } from '../../containers/mapSlice';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 import Unit from '../Form/Unit';
-import { fieldEnum as areaEnum } from '../../containers/fieldSlice';
+import { fieldEnum as areaEnum } from '../../containers/constants';
+import { area_perimeter, area_total_area } from '../../util/unit';
 
 export default function AreaDetailsLayout({
   name,
   title,
   submitForm,
   onError,
-  isNameRequired,
   disabled,
   register,
   handleSubmit,
   showPerimeter,
   setValue,
   getValues,
+  setError,
   control,
+  watch,
   history,
   children,
   errors,
   system,
+  total_area,
+  perimeter,
 }) {
   const { t } = useTranslation();
-  const { area: defaultArea, perimeter: defaultPerimeter } = useSelector(locationInfoSelector);
-  const [notes, setNotes] = useState('');
-  const [isOnline, setNetwork] = useState(window.navigator.onLine);
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
-    window.addEventListener('offline', () => setNetwork(window.navigator.onLine));
-    window.addEventListener('online', () => setNetwork(window.navigator.onLine));
+    const handleOffline = () => setErrorMessage(t('FARM_MAP.AREA_DETAILS.NETWORK'));
+    const handleOnline = () => setErrorMessage(null);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline);
+    return () => {
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', handleOnline);
+    };
   }, []);
+
+  useEffect(() => {
+    if (history?.location?.state?.error) {
+      setErrorMessage(history?.location?.state?.error);
+    }
+  }, [history?.location?.state?.error]);
 
   const onCancel = () => {
     history.push('/map');
@@ -49,17 +61,10 @@ export default function AreaDetailsLayout({
     });
   };
 
-  const setNotesValue = (value) => {
-    setNotes(value);
-  };
-
   const onSubmit = (data) => {
     data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
-    data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value;
-    if (data.name === '') {
-      data.name = 'Farm site boundary';
-    }
-    data.notes = notes;
+    showPerimeter && (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value);
+
     submitForm(data);
   };
 
@@ -78,19 +83,17 @@ export default function AreaDetailsLayout({
         </>
       }
     >
-      {!isOnline && (
+      {errorMessage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
-          <Label style={{ marginBottom: '12px' }}>{t('FARM_MAP.AREA_DETAILS.NETWORK')}</Label>
+          <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
         </PureWarningBox>
       )}
       <Input
         label={name + ' name'}
         type="text"
-        optional={name === 'Farm site boundary' ? true : false}
-        hookFormSetValue={name === 'Farm site boundary' ? setValue : null}
         style={{ marginBottom: '40px' }}
         name={areaEnum.name}
-        inputRef={register({ required: isNameRequired })}
+        inputRef={register({ required: true })}
         errors={errors[areaEnum.name] && t('common:REQUIRED')}
         showCross={false}
       />
@@ -109,14 +112,16 @@ export default function AreaDetailsLayout({
           label={t('FARM_MAP.AREA_DETAILS.TOTAL_AREA')}
           name={areaEnum.total_area}
           displayUnitName={areaEnum.total_area_unit}
-          defaultValue={defaultArea}
-          errors={errors[areaEnum.total_area] && t('common:REQUIRED')}
-          from={'m2'}
+          errors={errors[areaEnum.total_area]}
+          unitType={area_total_area}
           system={system}
           hookFormSetValue={setValue}
           hookFormGetValue={getValues}
+          hookFormSetError={setError}
+          hookFromWatch={watch}
           control={control}
           required
+          defaultValue={total_area}
         />
         {showPerimeter && (
           <Unit
@@ -125,14 +130,16 @@ export default function AreaDetailsLayout({
             label={t('FARM_MAP.AREA_DETAILS.PERIMETER')}
             name={areaEnum.perimeter}
             displayUnitName={areaEnum.perimeter_unit}
-            defaultValue={defaultPerimeter}
-            errors={errors[areaEnum.perimeter] && t('common:REQUIRED')}
-            from={'m'}
+            errors={errors[areaEnum.perimeter]}
+            unitType={area_perimeter}
             system={system}
             hookFormSetValue={setValue}
             hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
             control={control}
             required
+            defaultValue={perimeter}
           />
         )}
       </div>
@@ -141,9 +148,10 @@ export default function AreaDetailsLayout({
         label={t('common:NOTES')}
         type="text"
         optional
+        inputRef={register}
+        name={areaEnum.notes}
         style={{ marginBottom: '40px' }}
         hookFormSetValue={setValue}
-        onChange={(e) => setNotesValue(e.target.value)}
       />
     </FormTitleLayout>
   );

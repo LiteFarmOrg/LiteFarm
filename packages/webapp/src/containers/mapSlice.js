@@ -1,18 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const initialState = {};
+export const initialState = {
+  successMessage: null,
+  canShowSuccessHeader: false,
+};
 
 const mapLocationReducer = createSlice({
   name: 'mapLocationReducer',
   initialState,
   reducers: {
-    setLocationData: (state, { payload: location }) => {
-      Object.assign(state, location);
+    setSuccessMessage: (state, { payload: [locationType, action] }) => {
+      state.successMessage = `${locationType}${action}`;
     },
-    resetLocationData: (state) => initialState,
+    canShowSuccessHeader: (state, { payload: showHeader }) => {
+      state.canShowSuccessHeader = showHeader;
+    },
   },
 });
 
-export const { setLocationData, resetLocationData } = mapLocationReducer.actions;
+export const { setSuccessMessage, canShowSuccessHeader } = mapLocationReducer.actions;
 export default mapLocationReducer.reducer;
 export const locationInfoSelector = (state) => state?.tempStateReducer[mapLocationReducer.name];
+export const setSuccessMessageSelector = (state) =>
+  state?.tempStateReducer[mapLocationReducer.name].successMessage;
+export const setShowSuccessHeaderSelector = (state) =>
+  state?.tempStateReducer[mapLocationReducer.name].canShowSuccessHeader;

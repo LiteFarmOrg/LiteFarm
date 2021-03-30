@@ -32,7 +32,7 @@ class Figure extends Model {
       properties: {
         type: {
           type: 'string',
-          enum: ['gate', 'water_valve', 'farm_site_boundary', 'field', 'garden', 'buffer_zone', 'creek', 'fence', 'ceremonial_area',
+          enum: ['gate', 'water_valve', 'farm_site_boundary', 'field', 'garden', 'buffer_zone', 'watercourse', 'fence', 'ceremonial_area',
             'residence', 'surface_water', 'natural_area', 'greenhouse', 'barn'],
         },
         location_id: { type: 'string' },

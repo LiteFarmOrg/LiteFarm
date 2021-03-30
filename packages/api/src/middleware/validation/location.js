@@ -1,5 +1,5 @@
 const assets = ['ceremonial_area', 'residence', 'surface_water', 'natural_area', 'greenhouse', 'barn', 'field',
-  'garden', 'buffer_zone', 'creek', 'fence', 'gate', 'water_valve', 'farm_site_boundary'];
+  'garden', 'buffer_zone', 'watercourse', 'fence', 'gate', 'water_valve', 'farm_site_boundary'];
 const figures = ['area', 'line', 'point'];
 
 const figureMapping = {
@@ -13,7 +13,7 @@ const figureMapping = {
   field: 'area',
   garden: 'area',
   buffer_zone: 'line',
-  creek: 'line',
+  watercourse: 'line',
   fence: 'line',
   gate: 'point',
   water_valve: 'point',
@@ -36,7 +36,7 @@ const modelMapping = {
   field: modelValidation('field'),
   garden: modelValidation('garden'),
   buffer_zone: modelValidation('buffer_zone'),
-  creek: modelValidation('creek'),
+  watercourse: modelValidation('watercourse'),
   fence: modelValidation('fence'),
   gate: modelValidation('gate'),
   water_valve: modelValidation('water_valve'),

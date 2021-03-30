@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { areaStyles, lineStyles, icons } from './mapStyles';
-import { isArea, isLine, isPoint } from './constants';
+import { polygonPath, isArea, isLine, isPoint, locationEnum } from './constants';
 import { useSelector } from 'react-redux';
-import { locationInfoSelector } from '../mapSlice';
+import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
+import { fieldEnum } from '../constants';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function useDrawingManager() {
   const [map, setMap] = useState(null);
   const [maps, setMaps] = useState(null);
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
+  const [widthPolygon, setWidthPolygon] = useState(null);
+  const [lineWidth, setLineWidth] = useState(8);
   const [drawLocationType, setDrawLocationType] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToCheck, setDrawingToCheck] = useState(null);
@@ -17,7 +21,11 @@ export default function useDrawingManager() {
   const [onBackPressed, setOnBackPressed] = useState(false);
   const [onSteppedBack, setOnSteppedBack] = useState(false);
 
-  const overlayData = useSelector(locationInfoSelector);
+  const [showAdjustAreaSpotlightModal, setShowAdjustAreaSpotlightModal] = useState(false);
+  const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
+
+  const showedSpotlight = useSelector(showedSpotlightSelector);
+  const overlayData = useSelector(hookFormPersistSelector);
 
   useEffect(() => {
     if (onBackPressed) {
@@ -27,6 +35,26 @@ export default function useDrawingManager() {
   }, [drawingToCheck, onBackPressed]);
 
   useEffect(() => {
+    if (
+      drawingToCheck?.type === 'polyline' &&
+      [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType)
+    ) {
+      const { overlay } = drawingToCheck;
+      const path = overlay.getPath().getArray();
+      const polyPath = polygonPath(path, Number(lineWidth), maps);
+      widthPolygon !== null && widthPolygon.setMap(null);
+      const linePolygon = new maps.Polygon({
+        paths: polyPath,
+        ...lineStyles[drawLocationType].polyStyles,
+      });
+      linePolygon.setMap(map);
+      setWidthPolygon(linePolygon);
+    } else if (widthPolygon !== null) {
+      widthPolygon.setMap(null);
+    }
+  }, [drawingToCheck, lineWidth]);
+
+  useEffect(() => {
     if (!onSteppedBack) return;
     const { type } = overlayData;
     setDrawLocationType(type);
@@ -34,14 +62,7 @@ export default function useDrawingManager() {
     if (isArea(type)) {
       const redrawnPolygon = new maps.Polygon({
         paths: overlayData.grid_points,
-        strokeWeight: 2,
-        fillOpacity: 0.3,
-        editable: true,
-        draggable: true,
-        fillColor: areaStyles[type].colour,
-        strokeColor: areaStyles[type].colour,
-        geodesic: true,
-        suppressUndo: true,
+        ...getDrawingOptions(type).polygonOptions,
       });
       redrawnPolygon.setMap(map);
       setDrawingToCheck({
@@ -49,9 +70,20 @@ export default function useDrawingManager() {
         overlay: redrawnPolygon,
       });
     } else if (isLine(type)) {
-      console.log('line reconstruction not implemented');
+      setLineWidth(overlayData.width);
+      const redrawnLine = new maps.Polyline({
+        path: overlayData.line_points,
+        ...getDrawingOptions(type).polylineOptions
+      })
+      const overlay = {
+        type: maps.drawing.OverlayType.POLYLINE,
+        overlay: redrawnLine
+      };
+      redrawnLine.setMap(map);
+      addLineListeners( overlay, maps);
+      setDrawingToCheck(overlay)
     } else if (isPoint(type)) {
-      var redrawnMarker = new maps.Marker({
+      let redrawnMarker = new maps.Marker({
         position: overlayData.point,
         icon: icons[type],
         draggable: true,
@@ -65,65 +97,104 @@ export default function useDrawingManager() {
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);
 
+  useEffect(() => {
+    if (drawingToCheck) {
+      if (isArea(drawLocationType) && !showedSpotlight.adjust_area)
+        setShowAdjustAreaSpotlightModal(true);
+      if (isLine(drawLocationType) && !showedSpotlight.adjust_line)
+        setShowAdjustLineSpotlightModal(true);
+    } else {
+      setShowAdjustAreaSpotlightModal(false);
+      setShowAdjustLineSpotlightModal(false);
+    }
+  }, [drawingToCheck])
+
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);
     setMaps(maps);
     setDrawingManager(drawingManagerInit);
     setDrawingModes(drawingModes);
-  }
+  };
 
   const startDrawing = (type) => {
     setDrawLocationType(type);
     setIsDrawing(true);
     drawingManager.setOptions(getDrawingOptions(type));
     drawingManager.setDrawingMode(getDrawingMode(type, supportedDrawingModes));
-  }
+  };
 
-  const finishDrawing = (drawing) => {
+  const finishDrawing = (drawing, innerMap) => {
     setIsDrawing(false);
     setDrawingToCheck(drawing);
-  }
+    if (drawing.type === 'polyline') {
+      addLineListeners(drawing, innerMap);
+    }
+  };
+  const addLineListeners = (drawing, innerMap) => {
+    const { overlay } = drawing;
+    innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
+      setDrawingToCheck({ ...drawing });
+    });
+    innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
+      setDrawingToCheck({ ...drawing });
+    });
+  };
 
   const resetDrawing = (wasBackPressed = false) => {
     setOnBackPressed(wasBackPressed);
     drawingToCheck?.overlay.setMap(null);
     setDrawingToCheck(null);
-  }
+  };
 
   const closeDrawer = () => {
     setIsDrawing(false);
     setDrawLocationType(null);
     drawingManager.setDrawingMode();
-  }
+  };
+
+  const getVertices = (vertex) => ({
+    lat: vertex.lat(),
+    lng: vertex.lng(),
+  });
+
+  const toggleDrawingAdjustment = () => {
+    drawingToCheck.overlay.setOptions({
+      editable: !drawingToCheck.overlay.getEditable(),
+      draggable: !drawingToCheck.overlay.getDraggable(),
+    });
+  };
 
   const getOverlayInfo = () => {
     const { overlay } = drawingToCheck;
     const { computeArea, computeLength, computeDistanceBetween } = maps.geometry.spherical;
     if (isArea(drawLocationType)) {
       const path = overlay.getPath().getArray();
-      const perimeter = Math.round(computeLength(path) + computeDistanceBetween(path[0], path[path.length-1]));
+      const perimeter = Math.round(
+        computeLength(path) + computeDistanceBetween(path[0], path[path.length - 1]),
+      );
       const area = Math.round(computeArea(path));
-      const grid_points = path.map((vertex) => {
-        return { lat: vertex.lat(), lng: vertex.lng() };
-      });
-      return { type: drawLocationType, grid_points, area, perimeter };
-    };
-    // if (isLine(drawLocationType)) {
-    //   const line_points = polyline.getPath();
-    //   const length = Math.round(computeLength(grid_points));
-    //   const width = ???;
-    //   return { line_points, length, width };
-    // }
+      const grid_points = path.map(getVertices);
+      const result = { type: drawLocationType, grid_points };
+      result[fieldEnum.total_area] = area;
+      result[fieldEnum.perimeter] = perimeter;
+      return result;
+    }
+    if (isLine(drawLocationType)) {
+      const path = overlay.getPath();
+      const line_points = path.getArray().map(getVertices);
+      const length = Math.round(computeLength(path));
+      return { type: drawLocationType, line_points, length };
+    }
     if (isPoint(drawLocationType)) {
       const position = overlay.getPosition();
       const point = { lat: position.lat(), lng: position.lng() };
       return { type: drawLocationType, point };
-    };
-  }
+    }
+  };
 
   const reconstructOverlay = () => {
     setOnSteppedBack(true);
-  }
+  };
 
   // todo undo drawing
 
@@ -133,7 +204,10 @@ export default function useDrawingManager() {
     supportedDrawingModes,
     drawingManager,
     drawingToCheck,
-  }
+    showAdjustAreaSpotlightModal,
+    showAdjustLineSpotlightModal,
+  };
+
   const drawingFunctions = {
     initDrawingState,
     startDrawing,
@@ -142,18 +216,22 @@ export default function useDrawingManager() {
     closeDrawer,
     getOverlayInfo,
     reconstructOverlay,
-  }
+    toggleDrawingAdjustment,
+    setLineWidth,
+    setShowAdjustAreaSpotlightModal,
+    setShowAdjustLineSpotlightModal,
+  };
 
   return [drawingState, drawingFunctions];
 }
 
 const getDrawingOptions = (type) => {
   if (isArea(type)) {
-    const { colour } = areaStyles[type];
+    const { colour, filledColour } = areaStyles[type];
     return {
       polygonOptions: {
         strokeWeight: 2,
-        fillOpacity: 0.3,
+        fillOpacity: filledColour ? 0.3 : 0,
         editable: true,
         draggable: true,
         fillColor: colour,
@@ -161,8 +239,8 @@ const getDrawingOptions = (type) => {
         geodesic: true,
         suppressUndo: true,
       },
-    }
-  };
+    };
+  }
 
   if (isLine(type)) {
     const { colour, dashScale, dashLength } = lineStyles[type];
@@ -178,37 +256,38 @@ const getDrawingOptions = (type) => {
         icons: [
           {
             icon: {
-              path: "M 0,0 0,1",
+              path: 'M 0,0 0,1',
               strokeColor: colour,
               strokeOpacity: 1,
               strokeWeight: 2,
               scale: dashScale,
             },
-            offset: "0",
+            offset: '0',
             repeat: dashLength,
           },
         ],
       },
-    }
-  };
+    };
+  }
 
-  if (isPoint(type)) return {
-    markerOptions: {
-      icon: icons[type],
-      draggable: true,
-      crossOnDrag: false,
-    },
-  };
+  if (isPoint(type))
+    return {
+      markerOptions: {
+        icon: icons[type],
+        draggable: true,
+        crossOnDrag: false,
+      },
+    };
 
-  console.log("invalid location type");
+  console.log('invalid location type');
   return null;
-}
+};
 
 const getDrawingMode = (type, supportedDrawingModes) => {
   if (isArea(type)) return supportedDrawingModes.POLYGON;
   if (isLine(type)) return supportedDrawingModes.POLYLINE;
   if (isPoint(type)) return supportedDrawingModes.MARKER;
 
-  console.log("invalid location type");
+  console.log('invalid location type');
   return null;
-}
+};

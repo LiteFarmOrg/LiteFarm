@@ -2,14 +2,13 @@ import React from 'react';
 import PureGarden from '../../../components/AreaDetailsLayout/Garden';
 import { postGardenLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
-import { gardenEnum } from '../../gardenSlice';
 import { measurementSelector } from '../../userFarmSlice';
-import { locationInfoSelector } from '../../mapSlice';
+import useHookFormPersist from '../../hooks/useHookFormPersist';
 
 function GardenDetailForm({ history }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { grid_points } = useSelector(locationInfoSelector);
+
   const submitForm = (data) => {
     dispatch(postGardenLocation(data));
   };
@@ -18,9 +17,8 @@ function GardenDetailForm({ history }) {
     <PureGarden
       history={history}
       submitForm={submitForm}
-      areaType={gardenEnum}
       system={system}
-      grid_points={grid_points}
+      useHookFormPersist={useHookFormPersist}
     />
   );
 }

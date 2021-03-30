@@ -10,6 +10,7 @@
   font-family: 'Open Sans', 'SansSerif', serif;
   background: transparent;
   min-width: 0;
+  z-index: 1;
 }
 
 .input[type=number] {
@@ -33,6 +34,7 @@
   box-sizing: border-box;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+  border-right: transparent;
 }
 
 .input:disabled ~ .pseudoInputContainer {
@@ -52,10 +54,7 @@
   flex-direction: column;
   overflow: visible;
   position: relative;
-}
-
-.inputError {
-  border-color: var(--error);
+  flex-grow: 1;
 }
 
 .sm {
@@ -97,7 +96,7 @@
   height: 100%;
   position: absolute;
   width: 100%;
-  z-index: -1;
+  z-index: 0;
   display: flex;
   justify-content: flex-end;
 }
@@ -105,4 +104,20 @@
 .verticleDivider {
   width: 60px;
   border-left: 1px solid var(--grey400);
+}
+
+.inputError {
+  border-color: var(--error);
+}
+
+.flex {
+  display: flex
+}
+
+.none {
+  display: none;
+}
+
+.disableBackground {
+  background-color: var(--inputDisabled);
 }

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
-import { gardenEnum } from '../../../containers/gardenSlice';
+import { gardenEnum } from '../../../containers/constants';
 
-export default function PureGarden({ history, submitForm, system, grid_points }) {
+export default function PureGarden({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
   const {
     register,
@@ -16,18 +16,25 @@ export default function PureGarden({ history, submitForm, system, grid_points })
     errors,
     setValue,
     getValues,
+    setError,
     control,
     formState: { isValid, isDirty },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onChange',
   });
+  const {
+    persistedData: { grid_points, total_area, perimeter },
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
+      grid_points,
+      total_area,
+      perimeter,
       ...data,
-      grid_points: grid_points,
+
       type: 'garden',
     };
     submitForm({ formData });
@@ -41,15 +48,18 @@ export default function PureGarden({ history, submitForm, system, grid_points })
       submitForm={onSubmit}
       onError={onError}
       register={register}
-      isNameRequired={true}
       disabled={disabled}
       handleSubmit={handleSubmit}
       setValue={setValue}
       getValues={getValues}
+      watch={watch}
+      setError={setError}
       control={control}
       showPerimeter={true}
       errors={errors}
       system={system}
+      total_area={total_area}
+      perimeter={perimeter}
     >
       <div>
         <p style={{ marginBottom: '25px' }}>
@@ -83,7 +93,7 @@ export default function PureGarden({ history, submitForm, system, grid_points })
             name={gardenEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {gardenTypeSelection === 'Transitional' && (
             <Input
               type={'date'}

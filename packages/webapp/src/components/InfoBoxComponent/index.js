@@ -65,7 +65,7 @@ class InfoBoxComponent extends Component {
     return (
       <div>
         <button style={customStyle} className={styles.buttonContainer} onClick={this.handleShow}>
-          <BsInfoCircleFill />
+          <BsInfoCircleFill style={{ fontSize: '16px' }} />
         </button>
         <Modal open={this.state.show} onClose={this.handleClose}>
           <Paper className={styles.paper}>

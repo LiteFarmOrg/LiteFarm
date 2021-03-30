@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
-import Button from '../../Form/Button';
+import Button from '../../../Form/Button';
 import React from 'react';
-import { Title } from '../../Typography';
+import { Title } from '../../../Typography';
 import PropTypes from 'prop-types';
 
 export default function ModalComponent({

@@ -62,8 +62,6 @@ const ShiftStepOne = React.lazy(() => import('./containers/Shift/StepOne/StepOne
 const ShiftStepTwo = React.lazy(() => import('./containers/Shift/StepTwo/StepTwo'));
 const Finances = React.lazy(() => import('./containers/Finances'));
 const MyShift = React.lazy(() => import('./containers/Shift/MyShift'));
-const EditShiftOne = React.lazy(() => import('./containers/Shift/EditShiftOne'));
-const EditShiftTwo = React.lazy(() => import('./containers/Shift/EditShiftTwo'));
 const ChooseFarm = React.lazy(() => import('./containers/ChooseFarm'));
 const PasswordResetAccount = React.lazy(() => import('./containers/PasswordResetAccount'));
 const InviteSignUp = React.lazy(() => import('./containers/InviteSignUp'));
@@ -210,8 +208,6 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/edit_shift_one" exact component={EditShiftOne} />
-            <Route path="/edit_shift_two" exact component={EditShiftTwo} />
             <Route path="/field" exact component={Field} />
             <Route path="/create_location/garden" exact component={Garden} />
             <Route path="/new_field" exact component={NewField} />
@@ -312,8 +308,6 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/edit_shift_one" exact component={EditShiftOne} />
-            <Route path="/edit_shift_two" exact component={EditShiftTwo} />
             <Route path="/field" exact component={Field} />
             <Route path="/create_location/garden" exact component={Garden} />
             <Route path="/new_field" exact component={NewField} />
@@ -413,8 +407,6 @@ const Routes = () => {
             <Route path="/shift_step_one" exact component={ShiftStepOne} />
             <Route path="/shift_step_two" exact component={ShiftStepTwo} />
             <Route path="/my_shift" exact component={MyShift} />
-            <Route path="/edit_shift_one" exact component={EditShiftOne} />
-            <Route path="/edit_shift_two" exact component={EditShiftTwo} />
             <Route path="/log_detail" exact component={LogDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
             {/*<Route path="/callback" render={(props) => {*/}

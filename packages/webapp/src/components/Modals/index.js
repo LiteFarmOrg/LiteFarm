@@ -1,6 +1,6 @@
 import Floater from 'react-floater';
 import React from 'react';
-import ModalComponent from './ModalComponent';
+import ModalComponent from './ModalComponent/v1';
 
 function Modal({ children, dismissModal }) {
   return (

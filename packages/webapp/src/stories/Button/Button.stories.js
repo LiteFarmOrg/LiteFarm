@@ -70,10 +70,3 @@ InjectStyle.args = {
   label: 'Button',
   style: style,
 };
-
-export const InjectBootstrapClassName = TemplateWithText.bind({});
-InjectBootstrapClassName.args = {
-  label: 'Button',
-  color: 'none',
-  className: 'btn btn-dark',
-};

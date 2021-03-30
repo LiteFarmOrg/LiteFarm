@@ -116,8 +116,17 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
   const marker = new maps.Marker({
     position: polygon.getPolygonBounds().getCenter(),
     map: map,
-    icon: lineSymbol,
-    label: { text: name, color: 'white' },
+    icon: {
+      path: 'M 0,0 0,1',
+      strokeColor: colour,
+      strokeOpacity: 0,
+      strokeWeight: 0,
+    },
+    label: {
+      text: name,
+      color: 'white',
+      fontSize: '16px',
+    },
   });
   marker.setMap(map);
 

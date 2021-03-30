@@ -6,7 +6,7 @@
   "CONFIRM": "Confirmar",
   "CONTINUE": "Continuar",
   "DATE": "Date",
-  "DELETE": "Deletar",
+  "DELETE": "Excluir",
   "EDIT": "Editar",
   "EG": "e.g.",
   "FIELD": "Campo",
@@ -19,7 +19,7 @@
   "NAME": "Name",
   "NEW": "New",
   "NEXT": "Próximo",
-  "NO": "No",
+  "NO": "Não",
   "NOTES": "Notas",
   "OPTIONAL": "Opcional",
   "OR": "or",
@@ -34,5 +34,5 @@
   "SUBMITTING": "Enviando...",
   "TO": "Para",
   "UPDATE": "Atualizar",
-  "YES": "Yes"
+  "YES": "Sim"
 }

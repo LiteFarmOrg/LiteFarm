@@ -272,52 +272,52 @@
   },
   "INSIGHTS": {
     "BIODIVERSITY": {
-      "AMPHIBIANS": "Amphibians",
-      "BIRDS": "Birds",
-      "CROPS": "Crops",
-      "HEADER": "Number of species",
-      "INFO": "Biodiversity is great for people and the planet. We count species richness from all known records of biodiversity on your farm from the boundaries of your fields. You can increase your biodiversity count on your farm by using the https://www.inaturalist.org/app.",
-      "INSECTS": "Insects",
-      "PLANTS": "Plants",
-      "SPECIES_COUNT": "{{count}} species",
-      "SPECIES_COUNT_plural": "{{count}} species",
-      "TITLE": "Biodiversity"
+      "AMPHIBIANS": "Anfíbios",
+      "BIRDS": "Aves",
+      "CROPS": "Cultivos",
+      "HEADER": "Número de espécies",
+      "INFO": "A biodiversidade é ótima para as pessoas e para o planeta. Contabilizamos a riqueza de espécies a partir de todos os registros conhecidos sobre a biodiversidade ao redor de sua fazenda. Você pode aumentar a contagem de espécies em sua fazenda utilizando o https://www.inaturalist.org/app.",
+      "INSECTS": "Insetos",
+      "PLANTS": "Plantas",
+      "SPECIES_COUNT": "{{count}} espécies",
+      "SPECIES_COUNT_plural": "{{count}} espécies",
+      "TITLE": "Biodiversidade"
     },
-    "CURRENT": "Current",
-    "INFO": "Insights provides added data insights into what is happening on your farm. The more data you provide in the application, the more insights can be generated. See individual insights for further information.",
+    "CURRENT": "Atual",
+    "INFO": "Os relatórios fornecem informações adicionais sobre o que está acontecendo em sua fazenda. Quanto mais dados você fornecer no aplicativo, mais relatórios serão gerados. Veja os relatórios individuais para mais informações.",
     "LABOUR_HAPPINESS": {
-      "HEADER": "Tasks",
-      "INFO": "We estimate the impact of different tasks on labour happiness by using the satisfaction scores and labour hours spent on each task from shifts.",
-      "TITLE": "Labour Happiness"
+      "HEADER": "Tarefas",
+      "INFO": "Estimamos o impacto de diferentes tarefas na satisfação laboral usando as pontuações de satisfação e as horas de trabalho gastas em cada tarefa nos registros de turnos.",
+      "TITLE": "Satisfação laboral"
     },
     "NITROGEN_BALANCE": {
-      "CHOOSE_A_FREQUENCY": "Choose a frequency",
-      "CHOOSE_FREQUENCY": "Choose Frequency...",
-      "COUNT_MONTHS": "{{count}} month",
-      "COUNT_MONTHS_plural": "{{count}} months",
+      "CHOOSE_A_FREQUENCY": "Escolha uma frequência",
+      "CHOOSE_FREQUENCY": "Escolha uma frequência...",
+      "COUNT_MONTHS": "{{count}} mês",
+      "COUNT_MONTHS_plural": "{{count}} meses",
       "CYCLE_INDICATOR": "Your Nitrogen Balance is on a {{frequency}} months cycle and data will show on: {{refreshDate}}",
-      "FIRST_TIME": "It looks like it's your first time running this! Please select a frequency to calculate your nitrogen balance.",
-      "HEADER": "Every {{frequency}} months: {{refreshDate}}",
-      "INFO_1": "The nitrogen balance tells you if you have applied too little or too much fertilizer. It relies on your harvest logs, nitrogen credits from legumes, and fertilization logs. You can run the balance on your desired time interval.",
-      "INFO_2": "Click the delete button to reset your schedule.",
-      "SELECT_FREQUENCY": "Select Frequency",
-      "TITLE": "Nitrogen Balance"
+      "FIRST_TIME": "Parece que esta é sua primeira vez executando isso! Por favor, selecione uma frequência para calcular o seu balanço de nitrogênio.",
+      "HEADER": "cada {{frequency}} mês: {{refreshDate}}",
+      "INFO_1": "O balanço de nitrogênio informa se você aplicou muito ou pouco fertilizante. Esta informação depende dos seus registros de colheita, registros de fertilização e dos créditos de nitrogênio das leguminosas. Você pode receber o balanço no intervalo de tempo desejado",
+      "INFO_2": "Clique no botão excluir para redefinir sua programação.",
+      "SELECT_FREQUENCY": "Selecione uma frequência",
+      "TITLE": "Balanço de Nitrogênio"
     },
     "PEOPLE_FED": {
-      "CALORIES": "Calories",
-      "FAT": "Fat",
-      "HEADER": "Number of Meals",
-      "INFO": "We estimate the number of potential meals provided by your farm based on sales data, and crop composition databases. We assume that daily requirements are divided equally across three meals a day.",
-      "MEAL_COUNT": "{{count}} meal",
-      "MEAL_COUNT_plural": "{{count}} meals",
-      "MEALS": "meals",
-      "PROTEIN": "Protein",
-      "TITLE": "People Fed",
-      "VITAMIN_A": "Vitamin A",
-      "VITAMIN_C": "Vitamin C"
+      "CALORIES": "Calorias",
+      "FAT": "Gordura",
+      "HEADER": "Número de refeições",
+      "INFO": "Nós estimamos o número de refeições potencialmente fornecidas por sua fazenda com base nos dados de vendas e na composição nutricional das culturas. Assumimos que as necessidades nutricionais diárias são divididas igualmente em três refeições por dia",
+      "MEAL_COUNT": "{{count}} refeições",
+      "MEAL_COUNT_plural": "{{count}} refeições",
+      "MEALS": "refeições",
+      "PROTEIN": "Proteínas",
+      "TITLE": "Pessoas Alimentadas",
+      "VITAMIN_A": "Vitamina A",
+      "VITAMIN_C": "Vitamina C"
     },
     "PRICES": {
-      "INFO": "We show you the trajectory of your sales prices against the sales prices for the same goods within a given distance of you, collected across the LiteFarm network.",
+      "INFO": "Mostramos a trajetória comparativa entre seus preços de venda em relação aos preços de venda dos mesmos produtos encontrados a uma determinada distância de você, utilizando dados coletados na rede LiteFarm.",
       "NEARBY_FARMS": "Vindo de {{count}} fazenda para dados de vendas",
       "NEARBY_FARMS_plural": "Vindo de {{count}} fazendas para dados de vendas",
       "NETWORK_PRICE": "Preço de rede",
@@ -329,10 +329,10 @@
       "Y_TITLE": "Preço ({{currency}}/{{mass}})"
     },
     "SOIL_OM": {
-      "ALTERNATE_TITLE": "Soil OM Content",
-      "HEADER": "Soil Organic Matter",
-      "INFO": "Soil Organic Matter is needed to maintain a healthy soil environment for your crop. We populate these data from your most recent soil analysis logs. If you do not have any data we predict the potential soil organic matter for your location globally.",
-      "TITLE": "Soil OM"
+      "ALTERNATE_TITLE": "Teor de Matéria Orgânica no Solo",
+      "HEADER": "Matéria Orgânica do Solo",
+      "INFO": "A matéria orgânica do solo é necessária para manter um ambiente de solo saudável para seus cultivos. Preenchemos esses dados a partir de seus registros de análise de solo mais recentes. Se você não possui nenhum dado, nós prevemos o potencial de matéria orgânica do solo por sua localização global.",
+      "TITLE": "Matéria Orgânica do Solo"
     },
     "TITLE": "Insights",
     "UNAVAILABLE": "Unavailable",
@@ -835,7 +835,7 @@
       "FIELD_CROPS": "Campos / Culturas",
       "SUBMITTED_FOR": "Insira para",
       "TASK": "Tarefa",
-      "TITLE": "Shift Detail"
+      "TITLE": "Detalhes do turno"
     },
     "NAME": "Nome",
     "NEW_SHIFT": {

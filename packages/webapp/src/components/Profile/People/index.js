@@ -1,96 +1,125 @@
 import Input from '../../Form/Input';
-import { Controller, useForm } from 'react-hook-form';
-import { userFarmEnum } from '../../../containers/constants';
-import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo } from 'react';
+import React, { useState } from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
-import ProfileLayout from '../ProfileLayout';
+import { Tab, Tabs } from '@material-ui/core';
+import Table from '../../Table';
+import styles from './styles.module.scss';
 
-export default function PureAccount({ userFarm, onSubmit }) {
+export default function PurePeople({ users, history, isAdmin }) {
   const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { isValid, isDirty },
-  } = useForm({
-    mode: 'onChange',
-  });
-  const disabled = !isDirty || !isValid;
-
-  const options = [
-    { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'en' },
-    { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'es' },
-    { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
-    { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
+  const [searchString, setSearchString] = useState('');
+  const onChange = (e) => {
+    setSearchString(e.target.value);
+  };
+  const summaryColumns = [
+    {
+      id: 'name',
+      Header: t(`PROFILE.TABLE.HEADER_NAME`),
+      accessor: 'name',
+      minWidth: 70,
+    },
+    {
+      id: 'email',
+      Header: t(`PROFILE.TABLE.HEADER_EMAIL`),
+      accessor: 'email',
+      minWidth: 95,
+      style: { whiteSpace: 'unset' },
+    },
+    {
+      id: 'role',
+      Header: t(`PROFILE.TABLE.HEADER_ROLE`),
+      accessor: 'role',
+      minWidth: 55,
+    },
+    {
+      id: 'status',
+      Header: t(`PROFILE.TABLE.HEADER_STATUS`),
+      accessor: 'status',
+      minWidth: 55,
+    },
   ];
-  const language_preference = localStorage.getItem('litefarm_lang');
-  const defaultLanguageOption = useMemo(() => {
-    for (const option of options) {
-      if (language_preference.includes(option.value)) return option;
-    }
-  }, [language_preference]);
-  return (
-    <ProfileLayout
-      onSubmit={handleSubmit(onSubmit)}
-      buttonGroup={
-        <Button fullLength type={'submit'} disabled={disabled}>
-          {t('common:SAVE')}
-        </Button>
-      }
-    >
-      <Input
-        defaultValue={userFarm.first_name}
-        name={userFarmEnum.first_name}
-        label={t('PROFILE.ACCOUNT.FIRST_NAME')}
-        inputRef={register({ required: true })}
-      />
-      <Input
-        defaultValue={userFarm.last_name}
-        name={userFarmEnum.last_name}
-        label={t('PROFILE.ACCOUNT.LAST_NAME')}
-        inputRef={register({ required: false })}
-      />
-      <Input
-        defaultValue={userFarm.email}
-        name={userFarmEnum.email}
-        label={t('PROFILE.ACCOUNT.EMAIL')}
-        inputRef={register({ required: true })}
-      />
-      <Input
-        type={'number'}
-        defaultValue={userFarm.phone_number}
-        name={userFarmEnum.phone_number}
-        label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
-        inputRef={register({ required: false })}
-      />
-      <Input
-        defaultValue={userFarm.user_address}
-        name={userFarmEnum.user_address}
-        label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
-        inputRef={register({ required: false })}
-      />
 
-      <Controller
-        control={control}
-        name={userFarmEnum.language_preference}
-        label={t('PROFILE.ACCOUNT.LANGUAGE')}
-        options={options}
-        defaultValue={defaultLanguageOption}
-        as={<ReactSelect />}
+  const getFilteredUsers = () => {
+    const ROLE_TRANSLATIONS = {
+      Owner: t('role:OWNER'),
+      'Extension Officer': t('role:EXTENSION_OFFICER'),
+      Manager: t('role:MANAGER'),
+      Worker: t('role:WORKER'),
+      'Worker Without Account': t('role:WORKER_WITHOUT_ACCOUNT'),
+    };
+    const STATUS_TRANSLATIONS = {
+      Active: t('STATUS.ACTIVE'),
+      Inactive: t('STATUS.INACTIVE'),
+      Invited: t('STATUS.INVITED'),
+    };
+
+    const getName = (user) => {
+      const firstName = user.first_name.toLowerCase();
+      const lastName = user.last_name.toLowerCase();
+      return firstName.concat(' ', lastName);
+    };
+
+    const filteredUsers = users.filter((user) => {
+      return getName(user).includes(searchString.trim().toLowerCase());
+    });
+    return filteredUsers.map((user) => ({
+      name: getName(user),
+      user_id: user.user_id,
+      role: ROLE_TRANSLATIONS[user.role],
+      email: user.email,
+      status: STATUS_TRANSLATIONS[user.status],
+      originalStatus: user.status,
+    }));
+  };
+  const onRowEdit = (state, rowInfo, column, instance) => {
+    const isClickable = rowInfo && isAdmin && column.id === 'name';
+    const clickableStyle = {
+      whiteSpace: 'unset',
+      cursor: 'pointer',
+      textDecoration: 'underline',
+      color: '#0645AD',
+    };
+    const normalTextStyle = { whiteSpace: 'unset' };
+    return {
+      onClick: (e) => {
+        if (isClickable) {
+          history.push(`/update_user_permission/user/${rowInfo.original.user_id}`);
+        }
+      },
+      style: isClickable ? clickableStyle : normalTextStyle,
+    };
+  };
+  return (
+    <div className={styles.container}>
+      <Tabs value={0} aria-label="disabled tabs example">
+        <Tab label="Account" />
+        <Tab label="People" />
+        <Tab label="Farm" />
+      </Tabs>
+      <Input
+        value={searchString}
+        onChange={onChange}
+        isSearchBar
+        placeholder={t('PROFILE.PEOPLE.SEARCH')}
       />
-    </ProfileLayout>
+      <Table
+        columns={summaryColumns}
+        data={getFilteredUsers()}
+        showPagination={true}
+        pageSizeOptions={[5, 10, 20, 50]}
+        defaultPageSize={5}
+        className="-striped -highlight"
+        getTdProps={onRowEdit}
+      />
+      <Button onClick={() => history.push('/invite_user')} fullLength>
+        {t('PROFILE.PEOPLE.INVITE_USER')}
+      </Button>
+    </div>
   );
 }
-PureAccount.propTypes = {
-  userFarm: PropTypes.shape({
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-    email: PropTypes.string,
-    phone_number: PropTypes.string,
-    user_address: PropTypes.string,
-  }).isRequired,
-  onSubmit: PropTypes.func,
+PurePeople.propTypes = {
+  users: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.object,
 };

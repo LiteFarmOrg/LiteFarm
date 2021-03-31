@@ -103,9 +103,7 @@
       "TITLE": "MISSING"
     },
     "DRAWING_MANAGER": {
-      "ADJUST": "MISSING",
       "REDRAW": "Repintar",
-      "TRY_AGAIN": "Intenta de nuevo",
       "ZERO_AREA_DETECTED": "Campo sin area detectado. Por favor, agrega mas puntos o comienza de nuevo."
     },
     "EXPORT_MODAL": {
@@ -616,7 +614,6 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",
@@ -716,7 +713,9 @@
       "ADDRESS": "Dirección",
       "CURRENCY": "Moneda de circulación",
       "FARM_NAME": "Nombre de la finca",
+      "IMPERIAL": "MISSING",
       "MAKE_REQUEST": "Hacer solicitud",
+      "METRIC": "MISSING",
       "PHONE_NUMBER": "Número de teléfono",
       "REQUEST_DATA": "Ud. puede solicitar información para descargar y nosotros enviaremos información de la finca a su email en formato de csv.",
       "UNITS": "Unidades"
@@ -873,48 +872,30 @@
     "EDIT_SHIFT": {
       "ADD_CUSTOM_TASK": "Agregar tarea habitual",
       "ADD_TASK": "Agregar tarea",
-      "ADJUST_HOURLY_WAGE": "Adjustar salario por hora",
       "ALL": "Todo",
       "ALL_CROPS": "Todos los cultivos",
-      "ALLOCATE_ACTIVITY": "Si necesita asignar mano de obra para una actividad en toda su finca, puede asignarla a todos sus campos y nosotros haremos el resto.",
       "ASSIGN_TIME_TO_TASK": "Asignar tiempo para una tarea por",
-      "BREAK_DURATION": "Duración del descanso",
       "CHOOSE_DATE": "Elección de fecha",
       "CHOOSE_WORKERS": "Elegir trabajador",
       "CROPS_ON_THIS_FARM": "Cultivos en esta finca",
       "CROPS_ON_YOUR_FARM": "Cultivos en esta finca",
       "DID_NOT_PROVIDE_ANSWER": "No entregó respuesta",
-      "DURATION": "Duración",
       "FIELDS_ON_YOUR_FARM": "Campos en su finca",
       "HAPPY": "Feliz",
       "INDIVIDUAL_CROPS": "Cultivos individuales",
-      "MINUTES": "Minutos",
       "MOOD": "Cómo se sintió haciendo esta tarea?",
       "NAME_TASK": "Nombre de la tarea habitual",
       "NEUTRAL": "Neutral",
-      "NEW_SHIFT_TITLE_1": "Nuevo turno (Paso 1)",
-      "NEW_SHIFT_TITLE_2": "Nuevo turno (Paso 2)",
-      "NO_WAGE_SET": "No tiene un salario establecido, su costo de mano de obra para este turno está preestablecido en 0, puede cambiarlo en ",
-      "NO_WAGE_SET_LOCATION": "Perfil->Personas->Editar",
       "RATHER_NOT_SAY": "Prefiero no decirlo",
       "SAD": "Triste",
       "SELECT_CROPS": "Seleccionar cultivos",
       "SELECT_FIELDS": "Seleccionar Campos",
-      "TASKS_FOR_SHIFT": "Estas son las tareas seleccionadas para este turno",
-      "TASKS_SELECTED": "Las tareas seleccionadas para este turno aparecen destacadas abajo. Si deshace la selección de una tarea removerá la tarea del turno",
-      "TIME_ALLOCATION": "Asignación de tiempo",
-      "TITLE_1": "Editar turno (Paso 1)",
-      "TITLE_2": "Editar turno (Paso 2)",
-      "TO_ASSIGN": "Para asignar",
       "VERY_HAPPY": "Muy feliz",
       "VERY_SAD": "Muy triste",
-      "WAGE_FOR_SHIFT": "Salario para este turno",
       "WHAT_TASKS_YOU_DID": "Qué tareas hizo hoy?",
       "WORKER": "Trabajador",
-      "WORKER_MOOD": "Como se sintio el trabajador en este turno?",
-      "YOU_HAVE": "Usted tiene"
+      "WORKER_MOOD": "Como se sintio el trabajador en este turno?"
     },
-    "END_TIME": "Tiempo final",
     "MY_SHIFT": {
       "DELETE_CONFIRMATION": "Está seguro(a) que quiere eliminar este turno?",
       "DURATION": "Duración",
@@ -930,7 +911,6 @@
     },
     "SHIFT_DATE": "Fecha",
     "SHIFT_HISTORY": "Historia del turno",
-    "START_TIME": "Faltante",
     "TITLE": "Turnos"
   },
   "SIGNUP": {

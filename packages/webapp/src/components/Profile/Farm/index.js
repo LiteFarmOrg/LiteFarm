@@ -3,12 +3,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { userFarmEnum } from '../../../containers/constants';
 import ReactSelect from '../../Form/ReactSelect';
 import { useTranslation } from 'react-i18next';
-import React, { useMemo } from 'react';
+import React from 'react';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
 import ProfileLayout from '../ProfileLayout';
+import useDefaultOption from '../../Form/useDefaultOption';
 
-export default function PureAccount({ userFarm, onSubmit }) {
+export default function PureFarm({ userFarm, onSubmit }) {
   const { t } = useTranslation();
   const {
     register,
@@ -23,15 +24,10 @@ export default function PureAccount({ userFarm, onSubmit }) {
   const disabled = !isDirty || !isValid;
 
   const options = [
-    { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'metric' },
-    { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'imperial' },
+    { label: t('PROFILE.FARM.METRIC'), value: 'metric' },
+    { label: t('PROFILE.FARM.IMPERIAL'), value: 'imperial' },
   ];
-  const language_preference = localStorage.getItem('litefarm_lang');
-  const defaultMeasurementOption = useMemo(() => {
-    for (const option of options) {
-      if (language_preference.includes(option.value)) return option;
-    }
-  }, [language_preference]);
+  const defaultMeasurementOption = useDefaultOption(options, userFarm.units.measurement);
   return (
     <ProfileLayout
       onSubmit={handleSubmit(onSubmit)}
@@ -70,25 +66,25 @@ export default function PureAccount({ userFarm, onSubmit }) {
         defaultValue={defaultMeasurementOption}
         as={<ReactSelect />}
       />
-      <Controller
-        control={control}
+      <Input
+        defaultValue={userFarm.units.currency}
         name={CURRENCY}
         label={t('PROFILE.FARM.CURRENCY')}
-        options={[{ label: userFarm.units.currency, value: userFarm.units.currency }]}
-        defaultValue={{ label: userFarm.units.currency, value: userFarm.units.currency }}
-        isDisabled={true}
-        as={<ReactSelect />}
+        inputRef={register({ required: false })}
+        disabled
       />
     </ProfileLayout>
   );
 }
-PureAccount.propTypes = {
+PureFarm.propTypes = {
   userFarm: PropTypes.shape({
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-    email: PropTypes.string,
-    phone_number: PropTypes.string,
-    user_address: PropTypes.string,
+    farm_name: PropTypes.string,
+    farm_phone_number: PropTypes.string,
+    address: PropTypes.string,
+    units: PropTypes.shape({
+      measurement: PropTypes.string,
+      currency: PropTypes.string,
+    }),
   }).isRequired,
   onSubmit: PropTypes.func,
 };

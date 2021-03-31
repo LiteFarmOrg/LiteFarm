@@ -1,4 +1,4 @@
-import Input, { integerOnKeyDown } from '../../Form/Input';
+import Input from '../../Form/Input';
 import { Controller, useForm } from 'react-hook-form';
 import { userFarmEnum } from '../../../containers/constants';
 import ReactSelect from '../../Form/ReactSelect';
@@ -57,7 +57,6 @@ export default function PureAccount({ userFarm, onSubmit }) {
         defaultValue={userFarm.email}
         name={userFarmEnum.email}
         label={t('PROFILE.ACCOUNT.EMAIL')}
-        disabled
         inputRef={register({ required: true })}
       />
       <Input
@@ -66,7 +65,6 @@ export default function PureAccount({ userFarm, onSubmit }) {
         name={userFarmEnum.phone_number}
         label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
         inputRef={register({ required: false })}
-        onKeyDown={integerOnKeyDown}
       />
       <Input
         defaultValue={userFarm.user_address}

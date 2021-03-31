@@ -18,16 +18,16 @@ export default function PureAccount({ userFarm, onSubmit }) {
   } = useForm({
     mode: 'onChange',
   });
+  const MEASUREMENT = 'measurement';
+  const CURRENCY = 'currency';
   const disabled = !isDirty || !isValid;
 
   const options = [
-    { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'en' },
-    { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'es' },
-    { label: t('PROFILE.ACCOUNT.PORTUGUESE'), value: 'pt' },
-    { label: t('PROFILE.ACCOUNT.FRENCH'), value: 'fr' },
+    { label: t('PROFILE.ACCOUNT.ENGLISH'), value: 'metric' },
+    { label: t('PROFILE.ACCOUNT.SPANISH'), value: 'imperial' },
   ];
   const language_preference = localStorage.getItem('litefarm_lang');
-  const defaultLanguageOption = useMemo(() => {
+  const defaultMeasurementOption = useMemo(() => {
     for (const option of options) {
       if (language_preference.includes(option.value)) return option;
     }
@@ -42,45 +42,41 @@ export default function PureAccount({ userFarm, onSubmit }) {
       }
     >
       <Input
-        defaultValue={userFarm.first_name}
-        name={userFarmEnum.first_name}
-        label={t('PROFILE.ACCOUNT.FIRST_NAME')}
+        defaultValue={userFarm.farm_name}
+        name={userFarmEnum.farm_name}
+        label={t('PROFILE.FARM.FARM_NAME')}
         inputRef={register({ required: true })}
       />
       <Input
-        defaultValue={userFarm.last_name}
-        name={userFarmEnum.last_name}
-        label={t('PROFILE.ACCOUNT.LAST_NAME')}
+        defaultValue={userFarm.farm_phone_number}
+        name={userFarmEnum.farm_phone_number}
+        label={t('PROFILE.FARM.PHONE_NUMBER')}
         inputRef={register({ required: false })}
-      />
-      <Input
-        defaultValue={userFarm.email}
-        name={userFarmEnum.email}
-        label={t('PROFILE.ACCOUNT.EMAIL')}
-        disabled
-        inputRef={register({ required: true })}
-      />
-      <Input
         type={'number'}
-        defaultValue={userFarm.phone_number}
-        name={userFarmEnum.phone_number}
-        label={t('PROFILE.ACCOUNT.PHONE_NUMBER')}
-        inputRef={register({ required: false })}
         onKeyDown={integerOnKeyDown}
       />
       <Input
-        defaultValue={userFarm.user_address}
-        name={userFarmEnum.user_address}
-        label={t('PROFILE.ACCOUNT.USER_ADDRESS')}
+        defaultValue={userFarm.address}
+        name={userFarmEnum.address}
+        label={t('PROFILE.FARM.ADDRESS')}
         inputRef={register({ required: false })}
+        disabled
       />
-
       <Controller
         control={control}
-        name={userFarmEnum.language_preference}
-        label={t('PROFILE.ACCOUNT.LANGUAGE')}
+        name={MEASUREMENT}
+        label={t('PROFILE.FARM.UNITS')}
         options={options}
-        defaultValue={defaultLanguageOption}
+        defaultValue={defaultMeasurementOption}
+        as={<ReactSelect />}
+      />
+      <Controller
+        control={control}
+        name={CURRENCY}
+        label={t('PROFILE.FARM.CURRENCY')}
+        options={[{ label: userFarm.units.currency, value: userFarm.units.currency }]}
+        defaultValue={{ label: userFarm.units.currency, value: userFarm.units.currency }}
+        isDisabled={true}
         as={<ReactSelect />}
       />
     </ProfileLayout>

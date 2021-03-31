@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './profileLayout.module.scss';
+import styles from './styles.module.scss';
 import Footer from '../../Footer';
 import PropTypes from 'prop-types';
 import { Tab, Tabs } from '@material-ui/core';

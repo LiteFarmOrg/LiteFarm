@@ -12,9 +12,11 @@ import { useForm } from 'react-hook-form';
 import convert from 'convert-units';
 
 const UnitWithHookForm = (props) => {
-  const { register, errors, setValue, getValues, setError, control, handleSubmit } = useForm({
-    mode: 'onChange',
-  });
+  const { register, errors, setValue, getValues, watch, setError, control, handleSubmit } = useForm(
+    {
+      mode: 'onChange',
+    },
+  );
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Unit
@@ -23,6 +25,7 @@ const UnitWithHookForm = (props) => {
         hookFormSetValue={setValue}
         hookFormGetValue={getValues}
         hookFormSetError={setError}
+        hookFromWatch={watch}
         control={control}
         {...props}
       />
@@ -55,6 +58,28 @@ Disabled.args = {
   displayUnitName: fieldEnum?.total_area_unit,
   defaultValue: 999,
   unitType: area_total_area,
+  system: 'imperial',
+  required: true,
+  disabled: true,
+};
+
+export const WithOneUnit = Template.bind({});
+WithOneUnit.args = {
+  label: 'WithOneUnit',
+  name: bufferZoneEnum?.width,
+  displayUnitName: bufferZoneEnum?.width_unit,
+  unitType: line_width,
+  system: 'imperial',
+  required: true,
+};
+
+export const WithOneUnitDisabled = Template.bind({});
+WithOneUnitDisabled.args = {
+  label: 'ft',
+  name: bufferZoneEnum?.width,
+  displayUnitName: bufferZoneEnum?.width_unit,
+  unitType: line_width,
+  defaultValue: 999,
   system: 'imperial',
   required: true,
   disabled: true,

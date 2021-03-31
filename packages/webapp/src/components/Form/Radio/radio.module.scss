@@ -28,12 +28,12 @@
   width: 16px;
   background-color: white;
   border-radius: 50%;
-  border: solid 2px var(--iconDefault);
+  border: solid 2px var(--grey600);
 }
 
 /* When the radio button is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  border: solid 2px var(--checkbox);
+  border: solid 2px var(--teal700);
 }
 
 .container input:checked ~ .label {
@@ -60,23 +60,32 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--checkbox);
+  background-color: var(--teal700);
 }
 
 .disabled {
   cursor: auto;
 }
 
-.disabled .checkmark {
-  background-color: var(--btnDisabled);
-  border: none;
+.container input:disabled ~ .checkmark {
+  background-color: var(--grey200);
+  border: solid 2px var(--grey400);
+}
+
+.container input:disabled ~ .label {
+  color: var(--grey600);
+}
+
+.container input[disabled]:checked ~ .checkmark {
+  background-color: var(--teal500);
+  border: solid 2px var(--teal700);
 }
 
 .label {
   transform: translateY(-5px);
   font-size: 16px;
   line-height: 24px;
-  color: var(--grey600);
+  color: var(--grey900);
   font-style: normal;
   font-weight: normal;
   font-family: 'Open Sans', 'SansSerif', serif;

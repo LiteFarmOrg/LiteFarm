@@ -64,20 +64,20 @@ export const polygonPath = (path, width, maps) => {
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;
   const {geometry:{ spherical: { computeHeading, computeOffset}}} = maps;
-  if (i === 0 || i === path.length - 1) {
+  if ((i === 0) || i === path.length - 1 ) {
     const initialPoint = i === 0 ? point : path[i - 1];
     const nextPoint = i === 0 ? path[i + 1] : point;
-    const heading = computeHeading(initialPoint, nextPoint);
-    const { left, right } = calculatePerpendiculars(heading);
-    bearings.push(heading);
-    leftPoints.push(computeOffset(point, width / 2, left));
-    rightPoints.push(computeOffset(point, width / 2, right));
+    setPerpendiculars(initialPoint, nextPoint);
   } else {
     const heading = computeHeading(point, path[i + 1]);
     bearings.push(heading);
     // OC: 180 is added to get the angle from the perspective of the 2nd point.
     const angleFormed = heading - (adjustAngle(bearings[i - 1] + 180));
     const angleFormedInRadians = Math.abs(angleFormed) * Math.PI / 180;
+    if(Math.sin(angleFormedInRadians/2) < 0.03 ) {
+      setPerpendiculars(path[i-1], point);
+      return { bearings, leftPoints, rightPoints, width, maps }
+    }
     const distance = width / (2 * Math.sin(angleFormedInRadians / 2));
     const heading1 = adjustAngle(heading - (angleFormed / 2));
     const heading2 = adjustAngle(heading1 + 180);
@@ -91,9 +91,21 @@ const linePathPolygonConstructor = (innerState, point, i, path) => {
     leftPoints.push(isP1Left ? p1 : p2);
     rightPoints.push(isP1Left ? p2 : p1);
   }
+
+  function setPerpendiculars(initialPoint, nextPoint){
+    const heading = computeHeading(initialPoint, nextPoint);
+    const { left, right } = calculatePerpendiculars(heading);
+    bearings.push(heading);
+    leftPoints.push(computeOffset(point, width / 2, left));
+    rightPoints.push(computeOffset(point, width / 2, right));
+  }
+
   return  { bearings, leftPoints, rightPoints, width, maps };
 }
 
+function areTheSamePoint(p1, p2) {
+  return p1.lat() === p2.lat() && p1.lng() === p2.lng();
+}
 const calculatePerpendiculars = (bearing) => {
   const left = adjustAngle(bearing - 90);
   const right = adjustAngle(bearing + 90);

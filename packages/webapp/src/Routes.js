@@ -31,7 +31,6 @@ import { chooseFarmFlowSelector } from './containers/ChooseFarm/chooseFarmFlowSl
 const Home = React.lazy(() => import('./containers/Home'));
 const HelpRequest = React.lazy(() => import('./containers/Help'));
 const Profile = React.lazy(() => import('./containers/Profile'));
-const IntroSlide = React.lazy(() => import('./containers/IntroSlide'));
 const ConsentForm = React.lazy(() => import('./containers/Consent'));
 const Log = React.lazy(() => import('./containers/Log'));
 const NewLog = React.lazy(() => import('./containers/Log/NewLog'));
@@ -181,7 +180,6 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/intro" exact component={IntroSlide} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
@@ -280,7 +278,6 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/intro" exact component={IntroSlide} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />
@@ -377,7 +374,6 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/home" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/intro" exact component={IntroSlide} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/field" exact component={Field} />
             <Route path="/edit_field" exact component={EditField} />

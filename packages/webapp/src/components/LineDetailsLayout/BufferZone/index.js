@@ -27,7 +27,6 @@ export default function PureBufferZone({ history, submitForm, system, useHookFor
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
-    data[bufferZoneEnum.length] = 0;
     const formData = {
       length,
       line_points,

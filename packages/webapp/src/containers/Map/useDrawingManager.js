@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { areaStyles, lineStyles, icons } from './mapStyles';
-import { polygonPath, isArea, isLine, isPoint, locationEnum } from './constants';
-import { useSelector, useDispatch } from 'react-redux';
+import { areaStyles, icons, lineStyles } from './mapStyles';
+import { isArea, isLine, isPoint, locationEnum, polygonPath } from './constants';
+import { useDispatch, useSelector } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
-import {
-  hookFormPersistSelector,
-  upsertFormData,
-} from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function useDrawingManager() {
   const [map, setMap] = useState(null);
@@ -136,7 +133,6 @@ export default function useDrawingManager() {
   };
   const addLineListeners = (drawing, innerMap) => {
     const { overlay } = drawing;
-    dispatch(upsertFormData({ width: 0, buffer_width: 0 }));
     innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
       setDrawingToCheck({ ...drawing });
     });

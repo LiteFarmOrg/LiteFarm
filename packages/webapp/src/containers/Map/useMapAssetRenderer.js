@@ -120,7 +120,6 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
 
   // add area name label
   const marker = new maps.Marker({
-    // position: polygon.getPolygonBounds().getCenter(),
     position: polygon.getAveragePoint(),
     map: map,
     icon: {

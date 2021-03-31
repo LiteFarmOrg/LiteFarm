@@ -36,10 +36,14 @@ const useMapAssetRenderer = () => {
   const pointAssets = useSelector(pointSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!areaAssets[assetType] ?
-      isNoFillArea(assetType) ? drawNoFillArea : drawArea :
-      !!lineAssets[assetType] ? drawLine : drawPoint;
-  }
+    return !!areaAssets[assetType]
+      ? isNoFillArea(assetType)
+        ? drawNoFillArea
+        : drawArea
+      : !!lineAssets[assetType]
+      ? drawLine
+      : drawPoint;
+  };
   const drawAssets = (map, maps, mapBounds) => {
     let hasLocation = false;
     const newState = { ...assetGeometries };
@@ -120,7 +124,7 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
 
   // add area name label
   const marker = new maps.Marker({
-    position: polygon.getPolygonBounds().getCenter(),
+    position: polygon.getAveragePoint(),
     map: map,
     icon: {
       path: 'M 0,0 0,1',
@@ -174,12 +178,13 @@ const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
 
   polyline.setOptions({ visible: isVisible });
   return { polyline };
-}
+};
 
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {
   const { line_points: points, name, type, width } = line;
-  const realWidth = type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
+  const realWidth =
+    type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
   const { colour, dashScale, dashLength } = lineStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
@@ -207,11 +212,11 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
     ],
   });
   polyline.setMap(map);
-  if([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
+  if ([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
     const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
     const linePolygon = new maps.Polygon({
       paths: polyPath,
-      ...lineStyles[type].polyStyles
+      ...lineStyles[type].polyStyles,
     });
     linePolygon.setMap(map);
   }

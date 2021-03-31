@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { areaStyles, icons, lineStyles } from './mapStyles';
-import { isArea, isLine, isPoint, locationEnum, polygonPath } from './constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { areaStyles, lineStyles, icons } from './mapStyles';
+import { polygonPath, isArea, isLine, isPoint, locationEnum } from './constants';
+import { useSelector, useDispatch } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
-import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  hookFormPersistSelector,
+  upsertFormData,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function useDrawingManager() {
   const [map, setMap] = useState(null);
@@ -25,7 +28,6 @@ export default function useDrawingManager() {
   const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
 
   const showedSpotlight = useSelector(showedSpotlightSelector);
-  const dispatch = useDispatch();
   const overlayData = useSelector(hookFormPersistSelector);
 
   useEffect(() => {

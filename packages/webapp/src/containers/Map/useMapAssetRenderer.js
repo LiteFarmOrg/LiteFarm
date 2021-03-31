@@ -179,6 +179,7 @@ const drawNoFillArea = (map, maps, mapBounds, area, isVisible) => {
 // Line Drawing
 const drawLine = (map, maps, mapBounds, line, isVisible) => {
   const { line_points: points, name, type, width } = line;
+  const realWidth = type === locationEnum.watercourse ? Number(line.buffer_width) + Number(width) : Number(width);
   const { colour, dashScale, dashLength } = lineStyles[type];
   points.forEach((point) => {
     mapBounds.extend(point);
@@ -207,7 +208,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
   });
   polyline.setMap(map);
   if([locationEnum.watercourse, locationEnum.buffer_zone].includes(type)) {
-    const polyPath = polygonPath(polyline.getPath().getArray(), width, maps);
+    const polyPath = polygonPath(polyline.getPath().getArray(), realWidth, maps);
     const linePolygon = new maps.Polygon({
       paths: polyPath,
       ...lineStyles[type].polyStyles

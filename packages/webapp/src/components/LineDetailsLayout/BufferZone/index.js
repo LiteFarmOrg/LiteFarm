@@ -22,14 +22,14 @@ export default function PureBufferZone({ history, submitForm, system, useHookFor
     mode: 'onChange',
   });
   const {
-    persistedData: { line_points, width },
+    persistedData: { line_points, width, length },
   } = useHookFormPersist(['/map'], getValues, setValue);
-
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     data[bufferZoneEnum.length] = 0;
     const formData = {
+      length,
       line_points,
       width,
       ...data,

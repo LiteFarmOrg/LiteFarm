@@ -77,10 +77,8 @@ export default function PureSurfaceWater({ history, submitForm, system, useHookF
             value={true}
             name={surfaceWaterEnum.used_for_irrigation}
           />
-        </div>
-        <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '25px', marginLeft: '40px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
             value={false}

@@ -62,12 +62,14 @@ export default function PureSurfaceWater({ history, submitForm, system, useHookF
       perimeter={perimeter}
     >
       <div>
-        <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
-          <Label style={{ paddingLeft: '10px' }} sm>
-            ({t('common:OPTIONAL')})
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block'}}>
+            {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
           </Label>
-        </p>
+          <Label style={{display: 'inline-block'}} sm>
+            {t('common:OPTIONAL')}
+          </Label>
+        </div>
         <div>
           <Radio
             style={{ marginBottom: '25px' }}

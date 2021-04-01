@@ -6,6 +6,7 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { fieldEnum } from '../../../containers/constants';
+import { Label } from "../../Typography";
 
 export default function PureField({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -62,12 +63,15 @@ export default function PureField({ history, submitForm, system, useHookFormPers
       perimeter={perimeter}
     >
       <div>
-        <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.FIELD.FIELD_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
-        </p>
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px'}}>
+            {t('FARM_MAP.FIELD.FIELD_TYPE')}
+          </Label>
+          <img src={Leaf} style={{ display: 'inline-block' }} />
+        </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.FIELD.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
@@ -77,7 +81,7 @@ export default function PureField({ history, submitForm, system, useHookFormPers
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.FIELD.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
@@ -86,16 +90,17 @@ export default function PureField({ history, submitForm, system, useHookFormPers
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.FIELD.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
             name={fieldEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '40px' }}>
+        <div style={{ paddingBottom: '20px' }}>
           {fieldTypeSelection === 'Transitional' && (
             <Input
+              style={{ paddingBottom: '16px'}}
               type={'date'}
               name={fieldEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}

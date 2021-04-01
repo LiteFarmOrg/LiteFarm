@@ -130,24 +130,23 @@ export default function PureWatercourse({ history, submitForm, system, useHookFo
           />
         </div>
         <div>
-          <p style={{ marginBottom: '25px' }}>
-            {t('FARM_MAP.WATERCOURSE.IRRIGATION')}
-            <Label style={{ paddingLeft: '10px' }} sm>
-              ({t('common:OPTIONAL')})
+          <div style={{ marginBottom: '20px'}}>
+            <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize:'16px'}}>
+              {t('FARM_MAP.WATERCOURSE.IRRIGATION')}
             </Label>
-          </p>
-          <div>
+            <Label style={{display: 'inline-block'}} sm>
+              {t('common:OPTIONAL')}
+            </Label>
+          </div>
+          <div style={{marginBottom: '16px'}}>
             <Radio
-              style={{ marginBottom: '25px' }}
               label={t('common:YES')}
               inputRef={register({ required: false })}
               value={true}
               name={watercourseEnum.used_for_irrigation}
             />
-          </div>
-          <div>
             <Radio
-              style={{ marginBottom: '25px' }}
+              style={{ marginLeft: '40px' }}
               label={t('common:NO')}
               inputRef={register({ required: false })}
               value={false}

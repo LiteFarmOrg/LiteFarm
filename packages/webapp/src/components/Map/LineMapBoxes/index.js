@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { locationEnum } from '../../../containers/Map/constants';
@@ -61,7 +61,11 @@ export default function PureLineBox({
     locationData[watercourseEnum.buffer_width],
   );
   useEffect(() => {
-    updateWidth(widthValue + bufferWidthValue);
+    if(!isNaN(widthValue) && !isNaN(bufferWidthValue) && !!widthValue) {
+      const buffer = bufferWidthValue ? bufferWidthValue : 0;
+      const width = widthValue ? widthValue : 0;
+      updateWidth(width +  buffer);
+    }
   }, [widthValue, bufferWidthValue]);
 
   return (

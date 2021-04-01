@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
-import { Label } from '../../Typography';
 import { line_length, line_width, watercourse_width } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import { watercourseEnum } from '../../../containers/constants';
@@ -130,12 +129,6 @@ export default function PureWatercourse({ history, submitForm, system, useHookFo
           />
         </div>
         <div>
-          <p style={{ marginBottom: '25px' }}>
-            {t('FARM_MAP.WATERCOURSE.IRRIGATION')}
-            <Label style={{ paddingLeft: '10px' }} sm>
-              ({t('common:OPTIONAL')})
-            </Label>
-          </p>
           <div>
             <Radio
               style={{ marginBottom: '25px' }}
@@ -143,11 +136,11 @@ export default function PureWatercourse({ history, submitForm, system, useHookFo
               inputRef={register({ required: false })}
               value={true}
               name={watercourseEnum.used_for_irrigation}
+              text={t('FARM_MAP.WATERCOURSE.IRRIGATION')}
+              optional={t('common:OPTIONAL')}
             />
-          </div>
-          <div>
             <Radio
-              style={{ marginBottom: '25px' }}
+              style={{ marginBottom: '40px', marginLeft: '40px' }}
               label={t('common:NO')}
               inputRef={register({ required: false })}
               value={false}

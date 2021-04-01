@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import clsx from 'clsx';
 import { locationEnum } from '../../../containers/Map/constants';
@@ -7,8 +7,9 @@ import { Main } from '../../Typography';
 import BackArrow from '../../../assets/images/miscs/arrow.svg';
 import { useTranslation } from 'react-i18next';
 import Button from '../../Form/Button';
-import Input from '../../Form/Input';
-import convert from 'convert-units';
+import { watercourseEnum } from '../../../containers/constants';
+import Unit from '../../Form/Unit';
+import { line_width } from '../../../util/unit';
 
 const distanceOptions = {
   metric: 'm',
@@ -30,16 +31,17 @@ export default function PureLineBox({
     handleSubmit,
     errors,
     setValue,
-    formState: { isValid },
-    trigger
+    getValues,
+    setError,
+    control,
+    watch,
+    formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
   });
-  const [widthValue, setWidthValue] = useState('');
-  const [riparianValue, setRiparianValue] = useState('');
+
   const { t } = useTranslation();
-  const widthName = 'width_display';
-  const riparianBuffer = 'buffer_width_display';
+
   const widthLabel =
     typeOfLine === locationEnum.watercourse
       ? t('FARM_MAP.LINE_DETAILS.WATERCOURSE')
@@ -49,37 +51,18 @@ export default function PureLineBox({
       ? t('FARM_MAP.LINE_DETAILS.WATERCOURSE_TITLE')
       : t('FARM_MAP.LINE_DETAILS.BUFFER_TITLE');
 
-  const transformToMeters = (value, updateFunction) => {
-    if (distanceOptions[system] !== 'm') {
-      const meterValue = convert(value).from(distanceOptions[system]).to('m');
-      updateFunction(meterValue);
-    } else {
-      updateFunction(Number(value));
-    }
-  };
-
   const onSubmit = (data) => {
-    const submitData = {
-      ...data,
-      width: widthValue,
-      buffer_width: riparianValue,
-    };
-    confirmLine(submitData);
+    confirmLine(data);
   };
 
+  const widthValue = watch(watercourseEnum.width, locationData[watercourseEnum.width]);
+  const bufferWidthValue = watch(
+    watercourseEnum.buffer_width,
+    locationData[watercourseEnum.buffer_width],
+  );
   useEffect(() => {
-    updateWidth(widthValue + riparianValue);
-  }, [widthValue, riparianValue]);
-
-  useEffect( () => {
-    if(locationData.width) {
-      setValue(widthName, locationData[widthName]);
-      setValue(riparianBuffer, locationData[riparianBuffer]);
-      setWidthValue(locationData?.width);
-      setRiparianValue(locationData?.buffer_width);
-      trigger();
-    }
-  }, [])
+    updateWidth((widthValue || 0) + (bufferWidthValue || 0));
+  }, [widthValue, bufferWidthValue]);
 
   return (
     <div className={clsx(styles.box)} {...props}>
@@ -97,30 +80,46 @@ export default function PureLineBox({
       </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div style={{ minWidth: typeOfLine === locationEnum.watercourse ? '48%' : '100%' }}>
-          <Input
+          <Unit
+            register={register}
+            classes={{ container: { flexGrow: 1 }, errors: { position: 'relative' } }}
             label={widthLabel}
-            type="number"
-            onChange={(e) => {
-              transformToMeters(e.target.value, setWidthValue);
-            }}
-            unit={distanceOptions[system]}
-            name={widthName}
-            inputRef={register({ required: true })}
-            errors={errors[widthName] && t('common:REQUIRED')}
+            name={watercourseEnum.width}
+            displayUnitName={watercourseEnum.width_unit}
+            errors={errors[watercourseEnum.width]}
+            unitType={line_width}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            required
+            defaultValue={locationData[watercourseEnum.width]}
+            to={locationData[watercourseEnum.width_unit]?.value}
+            mode={'onChange'}
           />
         </div>
         {typeOfLine === locationEnum.watercourse && (
           <div style={{ flexOrder: 2, minWidth: '48%', marginLeft: '16px' }}>
-            <Input
+            <Unit
+              register={register}
+              classes={{ container: { flexGrow: 1 }, errors: { position: 'relative' } }}
               label={t('FARM_MAP.LINE_DETAILS.RIPARIAN_BUFFER')}
-              type="number"
-              unit={distanceOptions[system]}
-              onChange={(e) => {
-                transformToMeters(e.target.value, setRiparianValue);
-              }}
-              name={riparianBuffer}
-              inputRef={register({ required: true })}
-              errors={errors[riparianBuffer] && t('common:REQUIRED')}
+              name={watercourseEnum.buffer_width}
+              displayUnitName={watercourseEnum.buffer_width_unit}
+              errors={errors[watercourseEnum.buffer_width]}
+              unitType={line_width}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
+              defaultValue={locationData[watercourseEnum.buffer_width]}
+              to={locationData[watercourseEnum.buffer_width_unit]?.value}
+              mode={'onChange'}
             />
           </div>
         )}

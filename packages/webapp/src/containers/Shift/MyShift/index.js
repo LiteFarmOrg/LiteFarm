@@ -154,7 +154,7 @@ class MyShift extends Component {
             {(Number(farm.role_id) === 1 ||
               Number(farm.role_id) === 2 ||
               Number(farm.role_id) === 5) && (
-              <DropdownButton options={options}>{this.props.t('LOG_COMMON.ACTION')}</DropdownButton>
+              <DropdownButton options={options}>{this.props.t('SHIFT.ACTION')}</DropdownButton>
             )}
           </div>
           {this.props.users.is_admin && (

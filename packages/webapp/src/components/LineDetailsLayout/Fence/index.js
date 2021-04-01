@@ -4,16 +4,13 @@ import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
-import Input from '../../Form/Input';
 import { fenceEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
-import { locationInfoSelector } from '../../../containers/mapSlice';
-import { useSelector } from 'react-redux';
+import { line_length } from '../../../util/unit';
+import Unit from '../../Form/Unit';
 
-export default function PureFence({ history, submitForm, system }) {
+export default function PureFence({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
-  const { length } = useSelector(locationInfoSelector);
-  const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
@@ -27,14 +24,19 @@ export default function PureFence({ history, submitForm, system }) {
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { line_points, length },
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
   const isPressureTreated = watch(fenceEnum.pressure_treated);
-  const inputLength = watch(fenceEnum.length);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
+    data[fenceEnum.length_unit] = data[fenceEnum.length_unit].value;
+    data[fenceEnum.width] = 0;
     const formData = {
       ...data,
-      //   line_points: line_points,
+      line_points: line_points,
+      pressure_treated: isPressureTreated !== null ? isPressureTreated === 'true' : null,
       type: 'fence',
     };
     submitForm({ formData });
@@ -59,38 +61,47 @@ export default function PureFence({ history, submitForm, system }) {
     >
       <div>
         <div>
-          <Input
+          <Unit
             style={{ marginBottom: '40px' }}
-            type={'number'}
-            name={fenceEnum.length}
-            defaultValue={length}
-            unit={unit}
+            register={register}
+            classes={{ container: { flexGrow: 1 } }}
             label={t('FARM_MAP.FENCE.LENGTH')}
-            inputRef={register({ required: true })}
+            name={fenceEnum.length}
+            displayUnitName={fenceEnum.length_unit}
+            defaultValue={length}
+            errors={errors[fenceEnum.length]}
+            unitType={line_length}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            required
           />
         </div>
         <div>
-          <p style={{ marginBottom: '25px' }}>
-            {t('FARM_MAP.FENCE.PRESSURE_TREATED')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
-            <Label style={{ paddingLeft: '10px' }} sm>
-              ({t('common:OPTIONAL')})
+          <div style={{ marginBottom: '20px'}}>
+            <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize:'16px'}}>
+              {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
             </Label>
-          </p>
-          <div>
+            <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+            <Label style={{display: 'inline-block'}} sm>
+              {t('common:OPTIONAL')}
+            </Label>
+          </div>
+          <div style={{marginBottom: '16px'}}>
             <Radio
-              style={{ marginBottom: '25px' }}
               label={t('common:YES')}
               inputRef={register({ required: false })}
-              value={'Yes'}
+              value={true}
               name={fenceEnum.pressure_treated}
             />
-          </div>
-          <div>
             <Radio
-              style={{ marginBottom: '40px' }}
+              style={{ marginLeft: '40px' }}
               label={t('common:NO')}
               inputRef={register({ required: false })}
-              value={'No'}
+              value={false}
               name={fenceEnum.pressure_treated}
             />
           </div>

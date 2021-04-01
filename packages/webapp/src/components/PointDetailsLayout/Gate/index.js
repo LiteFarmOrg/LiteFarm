@@ -17,7 +17,7 @@ export default function PureGate({ history, submitForm, useHookFormPersist }) {
   });
   const {
     persistedData: { point, type },
-  } = useHookFormPersist('/map', getValues, setValue);
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const disabled = !isValid || !isDirty;
 
   const onError = (data) => {};

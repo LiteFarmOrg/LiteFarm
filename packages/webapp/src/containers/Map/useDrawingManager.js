@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { areaStyles, icons, lineStyles } from './mapStyles';
-import { isArea, isLine, isPoint, locationEnum } from './constants';
-import { useSelector } from 'react-redux';
+import { areaStyles, lineStyles, icons } from './mapStyles';
+import { polygonPath, isArea, isLine, isPoint, locationEnum } from './constants';
+import { useSelector, useDispatch } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
@@ -41,14 +41,7 @@ export default function useDrawingManager() {
     ) {
       const { overlay } = drawingToCheck;
       const path = overlay.getPath().getArray();
-      console.log(path);
-      const { leftPoints, rightPoints } = path.reduce(linePathPolygonConstructor, {
-        leftPoints: [],
-        rightPoints: [],
-        bearings: [],
-        width: lineWidth,
-      });
-      const polyPath = leftPoints.concat(rightPoints.reverse());
+      const polyPath = polygonPath(path, Number(lineWidth), maps);
       widthPolygon !== null && widthPolygon.setMap(null);
       const linePolygon = new maps.Polygon({
         paths: polyPath,
@@ -63,6 +56,7 @@ export default function useDrawingManager() {
 
   useEffect(() => {
     if (!onSteppedBack) return;
+    let bounds;
     const { type } = overlayData;
     setDrawLocationType(type);
     setIsDrawing(false);
@@ -76,18 +70,21 @@ export default function useDrawingManager() {
         type: maps.drawing.OverlayType.POLYGON,
         overlay: redrawnPolygon,
       });
+      bounds = getBounds(maps, overlayData.grid_points)
     } else if (isLine(type)) {
       setLineWidth(overlayData.width);
       const redrawnLine = new maps.Polyline({
         path: overlayData.line_points,
         ...getDrawingOptions(type).polylineOptions,
       });
-      redrawnLine.setMap(map);
-      console.log(overlayData);
-      setDrawingToCheck({
+      const overlay = {
         type: maps.drawing.OverlayType.POLYLINE,
         overlay: redrawnLine,
-      });
+      };
+      redrawnLine.setMap(map);
+      addLineListeners(overlay, maps);
+      bounds = getBounds(maps, overlayData.line_points)
+      setDrawingToCheck(overlay);
     } else if (isPoint(type)) {
       let redrawnMarker = new maps.Marker({
         position: overlayData.point,
@@ -99,7 +96,9 @@ export default function useDrawingManager() {
         type: maps.drawing.OverlayType.MARKER,
         overlay: redrawnMarker,
       });
+      bounds = getBounds(maps, [overlayData.point])
     }
+    map.fitBounds(bounds);
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);
 
@@ -113,7 +112,7 @@ export default function useDrawingManager() {
       setShowAdjustAreaSpotlightModal(false);
       setShowAdjustLineSpotlightModal(false);
     }
-  }, [drawingToCheck])
+  }, [drawingToCheck]);
 
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);
@@ -144,61 +143,6 @@ export default function useDrawingManager() {
     innerMap.event.addListener(overlay.getPath(), 'insert_at', (redrawnLine) => {
       setDrawingToCheck({ ...drawing });
     });
-  };
-
-  const linePathPolygonConstructor = (innerState, point, i, path) => {
-    const { bearings, leftPoints, rightPoints, width } = innerState;
-    const {
-      geometry: {
-        spherical: { computeHeading, computeOffset },
-      },
-    } = maps;
-    if (i === 0 || i === path.length - 1) {
-      const initialPoint = i === 0 ? point : path[i - 1];
-      const nextPoint = i === 0 ? path[i + 1] : point;
-      const heading = computeHeading(initialPoint, nextPoint);
-      const { left, right } = calculatePerpendiculars(heading);
-      bearings.push(heading);
-      leftPoints.push(computeOffset(point, width / 2, left));
-      rightPoints.push(computeOffset(point, width / 2, right));
-    } else {
-      const heading = computeHeading(point, path[i + 1]);
-      bearings.push(heading);
-      // OC: 180 is added to get the angle from the perspective of the 2nd point.
-      const angleFormed = heading - adjustAngle(bearings[i - 1] + 180);
-      const angleFormedInRadians = (Math.abs(angleFormed) * Math.PI) / 180;
-      const distance = width / (2 * Math.sin(angleFormedInRadians / 2));
-      const heading1 = adjustAngle(heading - angleFormed / 2);
-      const heading2 = adjustAngle(heading1 + 180);
-      const p1 = computeOffset(point, distance, heading1);
-      const p2 = computeOffset(point, distance, heading2);
-      const p1LeftHeading = computeHeading(leftPoints[leftPoints.length - 1], p1);
-      const p2LeftHeading = computeHeading(leftPoints[leftPoints.length - 1], p2);
-      // OC: This line of code says: Is the slope of line p1 (m1) closest to the main line than the slope of line p2 (m2)?
-      // Or Δmp1 < Δmp2
-      const isP1Left =
-        Math.abs(Math.abs(p1LeftHeading) - Math.abs(bearings[i - 1])) <
-        Math.abs(Math.abs(p2LeftHeading) - Math.abs(bearings[i - 1]));
-      leftPoints.push(isP1Left ? p1 : p2);
-      rightPoints.push(isP1Left ? p2 : p1);
-    }
-    return { bearings, leftPoints, rightPoints, width };
-  };
-
-  const calculatePerpendiculars = (bearing) => {
-    const left = adjustAngle(bearing - 90);
-    const right = adjustAngle(bearing + 90);
-
-    return { left, right };
-  };
-
-  const adjustAngle = (currentAngle) => {
-    if (Math.abs(currentAngle) > 180) {
-      let angle = 360 - Math.abs(currentAngle);
-      angle = currentAngle >= 0 ? angle * -1 : angle;
-      return angle;
-    }
-    return currentAngle;
   };
 
   const resetDrawing = (wasBackPressed = false) => {
@@ -288,13 +232,12 @@ export default function useDrawingManager() {
 
 const getDrawingOptions = (type) => {
   if (isArea(type)) {
-    const { colour, filledColour } = areaStyles[type];
+    const { colour } = areaStyles[type];
     return {
       polygonOptions: {
         strokeWeight: 2,
-        fillOpacity: filledColour ? 0.3 : 0,
+        fillOpacity: 0.3,
         editable: true,
-        draggable: true,
         fillColor: colour,
         strokeColor: colour,
         geodesic: true,
@@ -309,7 +252,6 @@ const getDrawingOptions = (type) => {
       polylineOptions: {
         strokeWeight: 2,
         editable: true,
-        draggable: true,
         fillColor: colour,
         strokeColor: defaultColour,
         geodesic: true,
@@ -351,4 +293,12 @@ const getDrawingMode = (type, supportedDrawingModes) => {
 
   console.log('invalid location type');
   return null;
+};
+
+const getBounds = function(maps, path) {
+  let bounds = new maps.LatLngBounds();
+  path.forEach(function(item, index) {
+    bounds.extend(new maps.LatLng(item.lat, item.lng));
+  });
+  return bounds;
 };

@@ -345,7 +345,7 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.fcInfo}>
-                  <div style={{ marginBottom: '10px' }}>Fertilizer Type</div>
+                  <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}</div>
                   <div className={styles.innerList}>
                     {this.getFertName(selectedLog.fertilizerLog.fertilizer_id)}
                   </div>
@@ -442,7 +442,7 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.innerInfo}>
-                  <div>Type</div>
+                  <div>{this.props.t('LOG_DETAIL.TYPE')}</div>
                   <span>{regularName}</span>
                 </div>
               </div>

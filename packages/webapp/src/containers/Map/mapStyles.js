@@ -4,6 +4,7 @@ import {
   watercourseColour,
   bufferZoneColour,
   farmBoundColour,
+  farmBoundHoverColour,
   fenceColour,
   fieldColour,
   gardenColour,
@@ -22,25 +23,22 @@ export const areaStyles = {
     colour: barnColour,
     dashScale: 2,
     dashLength: '14px',
-    filledColour: true,
   },
   ceremonial_area: {
     colour: ceremonialSiteColour,
     dashScale: 1.5,
     dashLength: '8px',
-    filledColour: true,
   },
   farm_site_boundary: {
     colour: farmBoundColour,
+    hoverColour: farmBoundHoverColour,
     dashScale: 1,
     dashLength: '1px',
-    filledColour: false,
   },
   field: {
     colour: fieldColour,
     dashScale: 1,
     dashLength: '6px',
-    filledColour: true,
   },
   garden: {
     colour: gardenColour,
@@ -51,25 +49,21 @@ export const areaStyles = {
     colour: greenhouseColour,
     dashScale: 1,
     dashLength: '8px',
-    filledColour: true,
   },
   surface_water: {
     colour: surfaceWaterColour,
     dashScale: 0.7,
     dashLength: '6px',
-    filledColour: true,
   },
   natural_area: {
     colour: naturalAreaColour,
     dashScale: 0.7,
     dashLength: '12px',
-    filledColour: true,
   },
   residence: {
     colour: residenceColour,
     dashScale: 0,
     dashLength: '12px',
-    filledColour: true,
   },
 };
 
@@ -87,7 +81,7 @@ export const lineStyles = {
   },
   fence: {
     colour: fenceColour,
-    dashScale: 1,
+    dashScale: 0.7,
     dashLength: '6px',
   },
   buffer_zone: {

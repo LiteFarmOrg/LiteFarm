@@ -2,37 +2,39 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import LineDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
-import Input from '../../Form/Input';
 import { bufferZoneEnum } from '../../../containers/constants';
-import { locationInfoSelector } from '../../../containers/mapSlice';
-import { useSelector } from 'react-redux';
+import Unit from '../../Form/Unit';
+import { line_width } from '../../../util/unit';
 
-export default function PureBufferZone({ history, submitForm, system }) {
+export default function PureBufferZone({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
-  const { width, width_display } = useSelector(locationInfoSelector);
-  const unit = system === 'metric' ? 'm' : 'ft';
   const {
     register,
     handleSubmit,
-    watch,
     errors,
     setValue,
     getValues,
     setError,
     control,
+    watch,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
   });
+  const {
+    persistedData: { line_points, width, length },
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
-  const inputWidth = watch(bufferZoneEnum.width);
   const disabled = !isValid || !isDirty;
   const onSubmit = (data) => {
     const formData = {
+      length,
+      line_points,
+      width,
       ...data,
-      //   line_points: line_points,
       type: 'buffer_zone',
     };
+    formData[bufferZoneEnum.width_unit] = formData[bufferZoneEnum.width_unit].value;
     submitForm({ formData });
   };
 
@@ -52,18 +54,26 @@ export default function PureBufferZone({ history, submitForm, system }) {
       control={control}
       errors={errors}
       system={system}
+      width={width}
     >
       <div>
         <div>
-          <Input
-            style={{ marginBottom: '40px' }}
-            type={'number'}
-            disabled
-            name={bufferZoneEnum.width}
-            defaultValue={width_display}
-            unit={unit}
+          <Unit
+            register={register}
+            classes={{ container: { flexGrow: 1, marginBottom: '40px' } }}
             label={t('FARM_MAP.BUFFER_ZONE.WIDTH')}
-            inputRef={register({ required: false })}
+            name={bufferZoneEnum.width}
+            displayUnitName={bufferZoneEnum.width_unit}
+            errors={errors[bufferZoneEnum.width]}
+            unitType={line_width}
+            system={system}
+            hookFormSetValue={setValue}
+            hookFormGetValue={getValues}
+            hookFormSetError={setError}
+            hookFromWatch={watch}
+            control={control}
+            disabled
+            defaultValue={width}
           />
         </div>
       </div>

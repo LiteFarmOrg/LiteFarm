@@ -23,7 +23,7 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
   });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist('/map', getValues, setValue);
+  } = useHookFormPersist(['/map'], getValues, setValue);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -64,24 +64,23 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
       perimeter={perimeter}
     >
       <div>
-        <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.BARN.WASH_PACK')}
-          <Label style={{ paddingLeft: '10px' }} sm>
-            ({t('common:OPTIONAL')})
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block'}}>
+            {t('FARM_MAP.BARN.WASH_PACK')}
           </Label>
-        </p>
+          <Label style={{ display: 'inline-block' }} sm>
+            {t('common:OPTIONAL')}
+          </Label>
+        </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
             label={t('common:YES')}
             inputRef={register({ required: false })}
             name={barnEnum.wash_and_pack}
             value={true}
           />
-        </div>
-        <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginLeft: '40px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
             name={barnEnum.wash_and_pack}
@@ -89,25 +88,24 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
           />
         </div>
       </div>
-      <div>
-        <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.BARN.COLD_STORAGE')}
-          <Label style={{ paddingLeft: '10px' }} sm>
-            ({t('common:OPTIONAL')})
+      <div >
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{  paddingRight: '10px', display: 'inline-block' }}>
+            {t('FARM_MAP.BARN.COLD_STORAGE')}
           </Label>
-        </p>
-        <div>
+          <Label style={{display: 'inline-block'}} sm>
+            {t('common:OPTIONAL')}
+          </Label>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
           <Radio
-            style={{ marginBottom: '25px' }}
             label={t('common:YES')}
             inputRef={register({ required: false })}
             name={barnEnum.cold_storage}
             value={true}
           />
-        </div>
-        <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginLeft: '40px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
             name={barnEnum.cold_storage}

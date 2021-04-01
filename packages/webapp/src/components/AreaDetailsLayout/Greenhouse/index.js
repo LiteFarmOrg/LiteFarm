@@ -25,7 +25,7 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
   });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist('/map', getValues, setValue);
+  } = useHookFormPersist(['/map'], getValues, setValue);
   const onError = (data) => {};
 
   const greenhouseTypeSelection = watch(greenhouseEnum.organic_status);
@@ -78,13 +78,15 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
       perimeter={perimeter}
     >
       <div>
-        <p style={{ marginBottom: '25px' }}>
-          {t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}{' '}
-          <img src={Leaf} style={{ paddingLeft: '7px' }} />
-        </p>
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px'}}>
+            {t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
+          </Label>
+          <img src={Leaf} style={{ display: 'inline-block' }} />
+        </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.GREENHOUSE.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
@@ -94,7 +96,7 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.GREENHOUSE.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
@@ -103,16 +105,17 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.GREENHOUSE.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
             name={greenhouseEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div style={{ paddingBottom: greenhouseTypeSelection === 'Organic' ? '9px' : '20px' }}>
           {greenhouseTypeSelection === 'Transitional' && (
             <Input
+              style={{ marginBottom: '16px' }}
               type={'date'}
               name={greenhouseEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}
@@ -121,78 +124,75 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
             />
           )}
         </div>
-        <div style={{ paddingBottom: '25px' }}>
+        <div>
           {greenhouseTypeSelection === 'Organic' && (
             <div>
-              <p style={{ marginBottom: '25px' }}>
-                {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}{' '}
-                <img src={Leaf} style={{ paddingLeft: '7px' }} />
-                <Label style={{ paddingLeft: '10px' }} sm>
-                  ({t('common:OPTIONAL')})
+              <div style={{ marginBottom: '20px'}}>
+                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px'}}>
+                  {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
                 </Label>
-              </p>
-              <div>
+                <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+                <Label style={{display: 'inline-block'}} sm>
+                  {t('common:OPTIONAL')}
+                </Label>
+              </div>
+              <div >
                 <Radio
-                  style={{ marginBottom: '25px' }}
                   label={t('common:YES')}
                   inputRef={register({ required: false })}
                   value={true}
                   name={greenhouseEnum.supplemental_lighting}
                 />
-              </div>
-              <div>
                 <Radio
-                  style={{ marginBottom: '25px' }}
+                  style={{ marginLeft: '40px' }}
                   label={t('common:NO')}
                   inputRef={register({ required: false })}
                   value={false}
                   name={greenhouseEnum.supplemental_lighting}
                 />
               </div>
-              <p style={{ marginBottom: '25px' }}>
-                {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}{' '}
-                <img src={Leaf} style={{ paddingLeft: '7px' }} />
-                <Label style={{ paddingLeft: '10px' }} sm>
-                  ({t('common:OPTIONAL')})
+              <div style={{ marginBottom: '20px'}}>
+                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px'}}>
+                  {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
                 </Label>
-              </p>
-              <div>
+                <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+                <Label style={{display: 'inline-block'}} sm>
+                  {t('common:OPTIONAL')}
+                </Label>
+              </div>
+              <div >
                 <Radio
-                  style={{ marginBottom: '25px' }}
                   label={t('common:YES')}
                   inputRef={register({ required: false })}
                   value={true}
                   name={greenhouseEnum.co2_enrichment}
                 />
-              </div>
-              <div>
                 <Radio
-                  style={{ marginBottom: '25px' }}
+                  style={{ marginLeft: '40px' }}
                   label={t('common:NO')}
                   inputRef={register({ required: false })}
                   value={false}
                   name={greenhouseEnum.co2_enrichment}
                 />
               </div>
-              <p style={{ marginBottom: '25px' }}>
-                {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}{' '}
-                <img src={Leaf} style={{ paddingLeft: '7px' }} />
-                <Label style={{ paddingLeft: '10px' }} sm>
-                  ({t('common:OPTIONAL')})
+              <div style={{ marginBottom: '20px'}}>
+                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px'}}>
+                  {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
                 </Label>
-              </p>
-              <div>
+                <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+                <Label style={{display: 'inline-block'}} sm>
+                  {t('common:OPTIONAL')}
+                </Label>
+              </div>
+              <div style={{ marginBottom: '16px'}}>
                 <Radio
-                  style={{ marginBottom: '25px' }}
                   label={t('common:YES')}
                   inputRef={register({ required: false })}
                   value={true}
                   name={greenhouseEnum.greenhouse_heated}
                 />
-              </div>
-              <div>
                 <Radio
-                  style={{ marginBottom: '25px' }}
+                  style={{ marginLeft: '40px' }}
                   label={t('common:NO')}
                   inputRef={register({ required: false })}
                   value={false}

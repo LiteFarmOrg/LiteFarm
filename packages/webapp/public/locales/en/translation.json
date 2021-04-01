@@ -148,7 +148,7 @@
       "TITLE": "Add gate"
     },
     "GREENHOUSE": {
-      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
       "DATE": "Eligible transition date",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
@@ -547,6 +547,7 @@
   },
   "LOG_FERTILIZING": {
     "ADD_FERTILIZER": "Add a Fertilizer",
+    "FERTILIZER_TYPE": "Fertilizer Type",
     "FERTILIZING_QUANTITY": "Fertilizer Quantity",
     "SELECT_TEMPLATE": "Select product template",
     "TITLE": "Fertilizing Log"

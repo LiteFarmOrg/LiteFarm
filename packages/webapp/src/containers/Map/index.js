@@ -144,6 +144,16 @@ export default function Map({ history }) {
       });
       return bounds;
     };
+    maps.Polygon.prototype.getAveragePoint = function () {
+      const latLngArray = this.getPath().getArray();
+      let latSum = 0;
+      let lngSum = 0;
+      for (const latLng of latLngArray) {
+        latSum += latLng.lat();
+        lngSum += latLng.lng();
+      }
+      return new maps.LatLng(latSum / latLngArray.length, lngSum / latLngArray.length);
+    };
 
     // Create drawing manager
     let drawingManagerInit = new maps.drawing.DrawingManager({

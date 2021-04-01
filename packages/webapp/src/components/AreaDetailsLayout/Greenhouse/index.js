@@ -6,6 +6,7 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { greenhouseEnum } from '../../../containers/constants';
+import { Label } from '../../Typography';
 
 export default function PureGreenhouse({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -77,107 +78,130 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
       perimeter={perimeter}
     >
       <div>
-        <Radio
-          style={{ marginBottom: '12px' }}
-          label={t('FARM_MAP.GREENHOUSE.NON_ORGANIC')}
-          defaultChecked={true}
-          inputRef={register({ required: true })}
-          value={'Non-Organic'}
-          name={greenhouseEnum.organic_status}
-          text={t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
-        />
-      </div>
-      <div>
-        <Radio
-          style={{ marginBottom: '12px' }}
-          label={t('FARM_MAP.GREENHOUSE.ORGANIC')}
-          inputRef={register({ required: true })}
-          value={'Organic'}
-          name={greenhouseEnum.organic_status}
-        />
-      </div>
-      <div>
-        <Radio
-          style={{ marginBottom: '12px' }}
-          label={t('FARM_MAP.GREENHOUSE.TRANSITIONING')}
-          inputRef={register({ required: true })}
-          value={'Transitional'}
-          name={greenhouseEnum.organic_status}
-        />
-      </div>
-      <div style={{ paddingBottom: greenhouseTypeSelection === 'Organic' ? '9px' : '20px' }}>
-        {greenhouseTypeSelection === 'Transitional' && (
-          <Input
-            type={'date'}
-            name={greenhouseEnum.transition_date}
-            defaultValue={new Date().toLocaleDateString('en-CA')}
-            label={t('FARM_MAP.GREENHOUSE.DATE')}
+        <p style={{ marginBottom: '25px' }}>
+          {t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}{' '}
+          <img src={Leaf} style={{ paddingLeft: '7px' }} />
+        </p>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.GREENHOUSE.NON_ORGANIC')}
+            defaultChecked={true}
             inputRef={register({ required: true })}
-            style={{ paddingBottom: '20px', paddingTop: '16px' }}
+            value={'Non-Organic'}
+            name={greenhouseEnum.organic_status}
           />
-        )}
-      </div>
-      <div>
-        {greenhouseTypeSelection === 'Organic' && (
-          <div>
+        </div>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.GREENHOUSE.ORGANIC')}
+            inputRef={register({ required: true })}
+            value={'Organic'}
+            name={greenhouseEnum.organic_status}
+          />
+        </div>
+        <div>
+          <Radio
+            style={{ marginBottom: '25px' }}
+            label={t('FARM_MAP.GREENHOUSE.TRANSITIONING')}
+            inputRef={register({ required: true })}
+            value={'Transitional'}
+            name={greenhouseEnum.organic_status}
+          />
+        </div>
+        <div style={{ paddingBottom: '25px' }}>
+          {greenhouseTypeSelection === 'Transitional' && (
+            <Input
+              type={'date'}
+              name={greenhouseEnum.transition_date}
+              defaultValue={new Date().toLocaleDateString('en-CA')}
+              label={t('FARM_MAP.GREENHOUSE.DATE')}
+              inputRef={register({ required: true })}
+            />
+          )}
+        </div>
+        <div style={{ paddingBottom: '25px' }}>
+          {greenhouseTypeSelection === 'Organic' && (
             <div>
-              <Radio
-                style={{ marginBottom: '12px' }}
-                label={t('common:YES')}
-                inputRef={register({ required: false })}
-                value={true}
-                name={greenhouseEnum.supplemental_lighting}
-                text={t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
-                img={Leaf}
-              />
-              <Radio
-                style={{ marginBottom: '25px', marginLeft: '40px' }}
-                label={t('common:NO')}
-                inputRef={register({ required: false })}
-                value={false}
-                name={greenhouseEnum.supplemental_lighting}
-              />
+              <p style={{ marginBottom: '25px' }}>
+                {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}{' '}
+                <img src={Leaf} style={{ paddingLeft: '7px' }} />
+                <Label style={{ paddingLeft: '10px' }} sm>
+                  ({t('common:OPTIONAL')})
+                </Label>
+              </p>
+              <div>
+                <Radio
+                  style={{ marginBottom: '25px' }}
+                  label={t('common:YES')}
+                  inputRef={register({ required: false })}
+                  value={true}
+                  name={greenhouseEnum.supplemental_lighting}
+                />
+              </div>
+              <div>
+                <Radio
+                  style={{ marginBottom: '25px' }}
+                  label={t('common:NO')}
+                  inputRef={register({ required: false })}
+                  value={false}
+                  name={greenhouseEnum.supplemental_lighting}
+                />
+              </div>
+              <p style={{ marginBottom: '25px' }}>
+                {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}{' '}
+                <img src={Leaf} style={{ paddingLeft: '7px' }} />
+                <Label style={{ paddingLeft: '10px' }} sm>
+                  ({t('common:OPTIONAL')})
+                </Label>
+              </p>
+              <div>
+                <Radio
+                  style={{ marginBottom: '25px' }}
+                  label={t('common:YES')}
+                  inputRef={register({ required: false })}
+                  value={true}
+                  name={greenhouseEnum.co2_enrichment}
+                />
+              </div>
+              <div>
+                <Radio
+                  style={{ marginBottom: '25px' }}
+                  label={t('common:NO')}
+                  inputRef={register({ required: false })}
+                  value={false}
+                  name={greenhouseEnum.co2_enrichment}
+                />
+              </div>
+              <p style={{ marginBottom: '25px' }}>
+                {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}{' '}
+                <img src={Leaf} style={{ paddingLeft: '7px' }} />
+                <Label style={{ paddingLeft: '10px' }} sm>
+                  ({t('common:OPTIONAL')})
+                </Label>
+              </p>
+              <div>
+                <Radio
+                  style={{ marginBottom: '25px' }}
+                  label={t('common:YES')}
+                  inputRef={register({ required: false })}
+                  value={true}
+                  name={greenhouseEnum.greenhouse_heated}
+                />
+              </div>
+              <div>
+                <Radio
+                  style={{ marginBottom: '25px' }}
+                  label={t('common:NO')}
+                  inputRef={register({ required: false })}
+                  value={false}
+                  name={greenhouseEnum.greenhouse_heated}
+                />
+              </div>
             </div>
-            <div>
-              <Radio
-                style={{ marginBottom: '12px' }}
-                label={t('common:YES')}
-                inputRef={register({ required: false })}
-                value={true}
-                defaultChecked={true}
-                name={greenhouseEnum.co2_enrichment}
-                text={t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
-                img={Leaf}
-              />
-              <Radio
-                style={{ marginBottom: '25px', marginLeft: '40px' }}
-                label={t('common:NO')}
-                inputRef={register({ required: false })}
-                value={false}
-                name={greenhouseEnum.co2_enrichment}
-              />
-            </div>
-            <div>
-              <Radio
-                style={{ marginBottom: '12px' }}
-                label={t('common:YES')}
-                inputRef={register({ required: false })}
-                value={true}
-                name={greenhouseEnum.greenhouse_heated}
-                text={t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
-                img={Leaf}
-                defaultChecked={true}
-              />
-              <Radio
-                style={{ marginBottom: '40px', marginLeft: '40px' }}
-                label={t('common:NO')}
-                inputRef={register({ required: false })}
-                value={false}
-                name={greenhouseEnum.greenhouse_heated}
-              />
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </AreaDetailsLayout>
   );

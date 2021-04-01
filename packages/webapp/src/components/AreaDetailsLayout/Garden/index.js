@@ -62,21 +62,22 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
       perimeter={perimeter}
     >
       <div>
+        <p style={{ marginBottom: '25px' }}>
+          {t('FARM_MAP.GARDEN.GARDEN_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
+        </p>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.GARDEN.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
             value={'Non-Organic'}
             name={gardenEnum.organic_status}
-            text={t('FARM_MAP.GARDEN.GARDEN_TYPE')}
-            img={Leaf}
           />
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.GARDEN.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
@@ -85,14 +86,14 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.GARDEN.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
             name={gardenEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '20px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {gardenTypeSelection === 'Transitional' && (
             <Input
               type={'date'}
@@ -100,7 +101,6 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
               defaultValue={new Date().toLocaleDateString('en-CA')}
               label={t('FARM_MAP.GARDEN.DATE')}
               inputRef={register({ required: true })}
-              style={{ paddingBottom: '20px', paddingTop: '16px' }}
             />
           )}
         </div>

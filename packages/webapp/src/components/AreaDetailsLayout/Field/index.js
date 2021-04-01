@@ -62,21 +62,22 @@ export default function PureField({ history, submitForm, system, useHookFormPers
       perimeter={perimeter}
     >
       <div>
+        <p style={{ marginBottom: '25px' }}>
+          {t('FARM_MAP.FIELD.FIELD_TYPE')} <img src={Leaf} style={{ paddingLeft: '7px' }} />
+        </p>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.FIELD.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
             value={'Non-Organic'}
             name={fieldEnum.organic_status}
-            text={t('FARM_MAP.FIELD.FIELD_TYPE')}
-            img={Leaf}
           />
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.FIELD.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
@@ -85,14 +86,14 @@ export default function PureField({ history, submitForm, system, useHookFormPers
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '25px' }}
             label={t('FARM_MAP.FIELD.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
             name={fieldEnum.organic_status}
           />
         </div>
-        <div style={{ paddingBottom: '20px' }}>
+        <div style={{ paddingBottom: '40px' }}>
           {fieldTypeSelection === 'Transitional' && (
             <Input
               type={'date'}
@@ -100,7 +101,6 @@ export default function PureField({ history, submitForm, system, useHookFormPers
               defaultValue={new Date().toLocaleDateString('en-CA')}
               label={t('FARM_MAP.FIELD.DATE')}
               inputRef={register({ required: true })}
-              style={{ paddingBottom: '20px', paddingTop: '16px' }}
             />
           )}
         </div>

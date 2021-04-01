@@ -218,7 +218,7 @@ const Unit = ({
             {label}{' '}
             {optional && (
               <Label sm className={styles.sm}>
-                {t('common:OPTIONAL')}
+                ({t('common:OPTIONAL')})
               </Label>
             )}
           </Label>

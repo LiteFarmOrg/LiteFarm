@@ -29,7 +29,6 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }
               border: 'none',
               backgroundColor: 'transparent',
               paddingTop: '8px',
-              fontFamily: 'Open Sans',
             }}
           >
             {t('common:CANCEL')}

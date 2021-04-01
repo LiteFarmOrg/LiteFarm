@@ -5,10 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
-import {
-  hookFormPersistSelector,
-  upsertFormData,
-} from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import { hookFormPersistSelector } from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function useDrawingManager() {
   const [map, setMap] = useState(null);
@@ -59,6 +56,7 @@ export default function useDrawingManager() {
 
   useEffect(() => {
     if (!onSteppedBack) return;
+    let bounds;
     const { type } = overlayData;
     setDrawLocationType(type);
     setIsDrawing(false);
@@ -72,6 +70,7 @@ export default function useDrawingManager() {
         type: maps.drawing.OverlayType.POLYGON,
         overlay: redrawnPolygon,
       });
+      bounds = getBounds(maps, overlayData.grid_points)
     } else if (isLine(type)) {
       setLineWidth(overlayData.width);
       const redrawnLine = new maps.Polyline({
@@ -84,6 +83,7 @@ export default function useDrawingManager() {
       };
       redrawnLine.setMap(map);
       addLineListeners(overlay, maps);
+      bounds = getBounds(maps, overlayData.line_points)
       setDrawingToCheck(overlay);
     } else if (isPoint(type)) {
       let redrawnMarker = new maps.Marker({
@@ -96,7 +96,9 @@ export default function useDrawingManager() {
         type: maps.drawing.OverlayType.MARKER,
         overlay: redrawnMarker,
       });
+      bounds = getBounds(maps, [overlayData.point])
     }
+    map.fitBounds(bounds);
     setOnSteppedBack(false);
   }, [onSteppedBack, map, maps, overlayData]);
 
@@ -291,4 +293,12 @@ const getDrawingMode = (type, supportedDrawingModes) => {
 
   console.log('invalid location type');
   return null;
+};
+
+const getBounds = function(maps, path) {
+  let bounds = new maps.LatLngBounds();
+  path.forEach(function(item, index) {
+    bounds.extend(new maps.LatLng(item.lat, item.lng));
+  });
+  return bounds;
 };

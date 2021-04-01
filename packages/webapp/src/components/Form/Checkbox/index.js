@@ -19,10 +19,10 @@ const Checkbox = ({
       className={clsx(styles.container, disabled && styles.disabled)}
       style={(style || classes.container) && { ...style, ...classes.container }}
     >
+      <input type={'checkbox'} ref={inputRef} {...props} disabled={disabled} />
       <Main className={clsx(styles.label)} style={classes.label}>
         {label}
       </Main>
-      <input type={'checkbox'} ref={inputRef} {...props} disabled={disabled} />
       <span className={clsx(styles.checkmark)} style={classes.checkbox} />
       {errors ? (
         <Error className={clsx(styles.error)} style={classes.error}>

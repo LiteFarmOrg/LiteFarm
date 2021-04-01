@@ -66,10 +66,10 @@ const useReactSelectStyles = (disabled) => {
         width: '42px',
         justifyContent: 'center',
       }),
-      singleValue: () => ({
+      singleValue: (provided, state) => ({
         fontSize: '16px',
         lineHeight: '24px',
-        color: disabled ? 'var(--grey600)' : 'var(--fontColor)',
+        color: state.isDisabled ? 'var(--grey600)' : 'var(--fontColor)',
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontFamily: '"Open Sans", "SansSerif", serif',

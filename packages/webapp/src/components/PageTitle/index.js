@@ -43,7 +43,7 @@ class PageTitle extends Component {
               history.push(backUrl);
             }}
           >
-            <BsChevronLeft />
+            <BsChevronLeft style={{ fontSize: '20px' }} />
           </button>
           <div className={styles.titleTextContainer}>{title}</div>
           {rightIcon && (

@@ -1,9 +1,14 @@
 /* eslint-disable radix */
 import React, { Component } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
 import { createFrequencyNitrogenBalance } from '../../../containers/Insights/actions';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import Button from '../../Form/Button';
+import { Modal, Paper } from '@material-ui/core';
+import { Semibold } from '../../Typography';
+import styles from './styles.module.scss';
+import { colors } from '../../../assets/theme';
+import ReactSelect from '../../Form/ReactSelect';
 
 class FrequencySelectorComponent extends Component {
   constructor(props) {
@@ -22,50 +27,55 @@ class FrequencySelectorComponent extends Component {
 
   render() {
     const { t } = this.props;
+    const options = [
+      { value: 'select Frequency', label: t('INSIGHTS.NITROGEN_BALANCE.SELECT_FREQUENCY') },
+      ...this.state.durations.map((value, index) => {
+        return {
+          value: value,
+          label: t('INSIGHTS.NITROGEN_BALANCE.COUNT_MONTHS', { count: value }),
+        };
+      }),
+    ];
     return (
       <div>
-        <Button variant="primary" onClick={this.handleShow}>
-          {t("INSIGHTS.NITROGEN_BALANCE.CHOOSE_FREQUENCY")}
+        <Button color="primary" sm onClick={this.handleShow}>
+          {t('INSIGHTS.NITROGEN_BALANCE.CHOOSE_FREQUENCY')}
         </Button>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{t("INSIGHTS.NITROGEN_BALANCE.CHOOSE_A_FREQUENCY")}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form.Control
-              as="select"
-              placeholder={t("INSIGHTS.NITROGEN_BALANCE.SELECT_FREQUENCY")}
-              value={this.state.value}
-              onChange={(e) => this.handleChange(e)}
+        <Modal open={this.state.show} onClose={this.handleClose}>
+          <Paper className={styles.paper}>
+            <Semibold
+              style={{
+                color: colors.teal700,
+                marginBottom: '20px',
+              }}
             >
-              <option key={'select Frequency'} value={'select Frequency'}>
-                {t("INSIGHTS.NITROGEN_BALANCE.SELECT_FREQUENCY")}
-              </option>
-              {this.state.durations.map((value, index) => {
-                return (
-                  <option key={'freq-' + index} value={value}>
-                    {t("INSIGHTS.NITROGEN_BALANCE.COUNT_MONTHS", { count: value })}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              {t("common:CLOSE")}
-            </Button>
-            <Button variant="primary" onClick={this.handleSave}>
-              {t("common:SAVE")}
-            </Button>
-          </Modal.Footer>
+              {t('INSIGHTS.NITROGEN_BALANCE.CHOOSE_A_FREQUENCY')}
+            </Semibold>
+
+            <ReactSelect
+              style={{ marginBottom: '20px' }}
+              placeholder={t('INSIGHTS.NITROGEN_BALANCE.SELECT_FREQUENCY')}
+              options={options}
+              onChange={(e) => this.handleChange(e)}
+            />
+
+            <footer className={styles.footer}>
+              <Button color="secondary" sm onClick={this.handleClose}>
+                {t('common:CLOSE')}
+              </Button>
+              <Button color="primary" sm onClick={this.handleSave}>
+                {t('common:SAVE')}
+              </Button>
+            </footer>
+          </Paper>
         </Modal>
       </div>
     );
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ value: event.value });
   }
 
   handleSave() {

@@ -21,7 +21,7 @@ export const colors = {
   grey200: '#f3f6fb',
   grey100: '#fafafd',
   overlay: 'rgba(36, 39, 48, 0.5)',
-  red700: '#ec4c47',
+  red700: '#D02620',
   red400: '#f58282',
   orange700: '#ffa73f',
   orange400: '#ffc888',
@@ -31,7 +31,7 @@ export const colors = {
   brightGreen400: '#a6f7ae',
   cyan700: '#03a6ca',
   cayn400: '#4fdbfa',
-  blue700: '#3d8bed',
+  blue700: '#0669E1',
   grey1: '#333333',
   brown700: '#AA5F04',
 };

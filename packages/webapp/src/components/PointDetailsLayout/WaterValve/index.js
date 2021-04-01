@@ -6,6 +6,7 @@ import Radio from '../../Form/Radio';
 import Unit from '../../Form/Unit';
 import { waterValveEnum } from '../../../containers/constants';
 import { water_valve_flow_rate } from '../../../util/unit';
+import { Label } from "../../Typography";
 
 export default function PureWaterValve({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -52,10 +53,10 @@ export default function PureWaterValve({ history, submitForm, system, useHookFor
       disabled={disabled}
     >
       <div>
-        <p style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</p>
+        <Label style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</Label>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.WATER_VALVE.MUNICIPAL_WATER')}
             defaultChecked={true}
             name={waterValveEnum.source}
@@ -65,7 +66,7 @@ export default function PureWaterValve({ history, submitForm, system, useHookFor
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.WATER_VALVE.SURFACE_WATER')}
             name={waterValveEnum.source}
             value={'Surface water'}
@@ -74,7 +75,7 @@ export default function PureWaterValve({ history, submitForm, system, useHookFor
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.WATER_VALVE.GROUNDWATER')}
             name={waterValveEnum.source}
             value={'Groundwater'}
@@ -83,7 +84,7 @@ export default function PureWaterValve({ history, submitForm, system, useHookFor
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '25px' }}
+            style={{ marginBottom: '30px' }}
             label={t('FARM_MAP.WATER_VALVE.RAIN_WATER')}
             name={waterValveEnum.source}
             value={'Rain water'}

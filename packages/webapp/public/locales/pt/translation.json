@@ -146,7 +146,7 @@
       "TITLE": "Add gate"
     },
     "GREENHOUSE": {
-      "CO2_ENRICHMENT": "Is there CO2 enrichment?",
+      "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
       "DATE": "Eligible transition date",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",

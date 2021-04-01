@@ -13,9 +13,9 @@ import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../uti
 import { Controller } from 'react-hook-form';
 
 const unitOptionMap = {
-  m2: { label: 'm2', value: 'm2' },
+  m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },
-  ft2: { label: 'sqft', value: 'ft2' },
+  ft2: { label: 'ft²', value: 'ft2' },
   ac: { label: 'ac', value: 'ac' },
   cm: { label: 'cm', value: 'cm' },
   m: { label: 'm', value: 'm' },
@@ -171,7 +171,7 @@ const Unit = ({
     }
   }, []);
 
-  const hookFormValue = hookFromWatch(name, defaultValue);
+  const hookFormValue = hookFromWatch(name, defaultValue) || undefined;
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);

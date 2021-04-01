@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { areaStyles, lineStyles, icons } from './mapStyles';
 import { polygonPath, isArea, isLine, isPoint, locationEnum } from './constants';
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 import { defaultColour } from './styles.module.scss';
 import { fieldEnum } from '../constants';
-import { hookFormPersistSelector, upsertFormData } from '../hooks/useHookFormPersist/hookFormPersistSlice';
+import {
+  hookFormPersistSelector,
+  upsertFormData,
+} from '../hooks/useHookFormPersist/hookFormPersistSlice';
 
 export default function useDrawingManager() {
   const [map, setMap] = useState(null);
@@ -25,7 +28,6 @@ export default function useDrawingManager() {
   const [showAdjustLineSpotlightModal, setShowAdjustLineSpotlightModal] = useState(false);
 
   const showedSpotlight = useSelector(showedSpotlightSelector);
-  const dispatch  = useDispatch();
   const overlayData = useSelector(hookFormPersistSelector);
 
   useEffect(() => {
@@ -74,15 +76,15 @@ export default function useDrawingManager() {
       setLineWidth(overlayData.width);
       const redrawnLine = new maps.Polyline({
         path: overlayData.line_points,
-        ...getDrawingOptions(type).polylineOptions
-      })
+        ...getDrawingOptions(type).polylineOptions,
+      });
       const overlay = {
         type: maps.drawing.OverlayType.POLYLINE,
-        overlay: redrawnLine
+        overlay: redrawnLine,
       };
       redrawnLine.setMap(map);
-      addLineListeners( overlay, maps);
-      setDrawingToCheck(overlay)
+      addLineListeners(overlay, maps);
+      setDrawingToCheck(overlay);
     } else if (isPoint(type)) {
       let redrawnMarker = new maps.Marker({
         position: overlayData.point,
@@ -108,7 +110,7 @@ export default function useDrawingManager() {
       setShowAdjustAreaSpotlightModal(false);
       setShowAdjustLineSpotlightModal(false);
     }
-  }, [drawingToCheck])
+  }, [drawingToCheck]);
 
   const initDrawingState = (map, maps, drawingManagerInit, drawingModes) => {
     setMap(map);
@@ -133,7 +135,6 @@ export default function useDrawingManager() {
   };
   const addLineListeners = (drawing, innerMap) => {
     const { overlay } = drawing;
-    dispatch(upsertFormData({width: 0 , buffer_width: 0}))
     innerMap.event.addListener(overlay.getPath(), 'set_at', (redrawnLine) => {
       setDrawingToCheck({ ...drawing });
     });
@@ -235,7 +236,6 @@ const getDrawingOptions = (type) => {
         strokeWeight: 2,
         fillOpacity: 0.3,
         editable: true,
-        draggable: true,
         fillColor: colour,
         strokeColor: colour,
         geodesic: true,
@@ -250,7 +250,6 @@ const getDrawingOptions = (type) => {
       polylineOptions: {
         strokeWeight: 2,
         editable: true,
-        draggable: true,
         fillColor: colour,
         strokeColor: defaultColour,
         geodesic: true,

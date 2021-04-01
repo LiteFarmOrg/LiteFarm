@@ -4,6 +4,7 @@ import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
 import { barnEnum } from '../../../containers/constants';
+import { Label } from '../../Typography';
 
 export default function PureBarn({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -63,40 +64,54 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
       perimeter={perimeter}
     >
       <div>
-        <Radio
-          style={{ marginBottom: '25px' }}
-          label={t('common:YES')}
-          inputRef={register({ required: false })}
-          name={barnEnum.wash_and_pack}
-          value={true}
-          text={t('FARM_MAP.BARN.WASH_PACK')}
-          optional={t('common:OPTIONAL')}
-        />
-        <Radio
-          style={{ marginBottom: '25px', marginLeft: '40px' }}
-          label={t('common:NO')}
-          inputRef={register({ required: false })}
-          name={barnEnum.wash_and_pack}
-          value={false}
-        />
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block'}}>
+            {t('FARM_MAP.BARN.WASH_PACK')}
+          </Label>
+          <Label style={{ display: 'inline-block' }} sm>
+            {t('common:OPTIONAL')}
+          </Label>
+        </div>
+        <div>
+          <Radio
+            label={t('common:YES')}
+            inputRef={register({ required: false })}
+            name={barnEnum.wash_and_pack}
+            value={true}
+          />
+          <Radio
+            style={{ marginLeft: '40px' }}
+            label={t('common:NO')}
+            inputRef={register({ required: false })}
+            name={barnEnum.wash_and_pack}
+            value={false}
+          />
+        </div>
       </div>
-      <div>
-        <Radio
-          style={{ marginBottom: '25px' }}
-          label={t('common:YES')}
-          inputRef={register({ required: false })}
-          name={barnEnum.cold_storage}
-          value={true}
-          text={t('FARM_MAP.BARN.COLD_STORAGE')}
-          optional={t('common:OPTIONAL')}
-        />
-        <Radio
-          style={{ marginBottom: '40px', marginLeft: '40px' }}
-          label={t('common:NO')}
-          inputRef={register({ required: false })}
-          name={barnEnum.cold_storage}
-          value={false}
-        />
+      <div >
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{  paddingRight: '10px', display: 'inline-block' }}>
+            {t('FARM_MAP.BARN.COLD_STORAGE')}
+          </Label>
+          <Label style={{display: 'inline-block'}} sm>
+            {t('common:OPTIONAL')}
+          </Label>
+        </div>
+        <div style={{ marginBottom: '16px' }}>
+          <Radio
+            label={t('common:YES')}
+            inputRef={register({ required: false })}
+            name={barnEnum.cold_storage}
+            value={true}
+          />
+          <Radio
+            style={{ marginLeft: '40px' }}
+            label={t('common:NO')}
+            inputRef={register({ required: false })}
+            name={barnEnum.cold_storage}
+            value={false}
+          />
+        </div>
       </div>
     </AreaDetailsLayout>
   );

@@ -4,6 +4,7 @@ import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
 import { surfaceWaterEnum } from '../../../containers/constants';
+import { Label } from '../../Typography';
 
 export default function PureSurfaceWater({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -61,6 +62,14 @@ export default function PureSurfaceWater({ history, submitForm, system, useHookF
       perimeter={perimeter}
     >
       <div>
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block'}}>
+            {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
+          </Label>
+          <Label style={{display: 'inline-block'}} sm>
+            {t('common:OPTIONAL')}
+          </Label>
+        </div>
         <div>
           <Radio
             style={{ marginBottom: '25px' }}
@@ -69,11 +78,9 @@ export default function PureSurfaceWater({ history, submitForm, system, useHookF
             optional
             value={true}
             name={surfaceWaterEnum.used_for_irrigation}
-            text={t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
-            optional={t('common:OPTIONAL')}
           />
           <Radio
-            style={{ marginBottom: '40px', marginLeft: '40px' }}
+            style={{ marginBottom: '25px', marginLeft: '40px' }}
             label={t('common:NO')}
             inputRef={register({ required: false })}
             value={false}

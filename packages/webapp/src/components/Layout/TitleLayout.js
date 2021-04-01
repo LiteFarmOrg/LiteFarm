@@ -26,10 +26,10 @@ function TitleLayout({ buttonGroup, title, onGoBack = null, children, onCancel }
               color: '#028577',
               fontWeight: 600,
               fontSize: '14px',
+              fontFamily: 'Open Sans',
               border: 'none',
               backgroundColor: 'transparent',
               paddingTop: '8px',
-              fontFamily: 'Open Sans',
             }}
           >
             {t('common:CANCEL')}

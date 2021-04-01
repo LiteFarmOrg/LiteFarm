@@ -81,23 +81,28 @@ export default function PureFence({ history, submitForm, system, useHookFormPers
           />
         </div>
         <div>
-          <div>
+          <div style={{ marginBottom: '20px'}}>
+            <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize:'16px'}}>
+              {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
+            </Label>
+            <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+            <Label style={{display: 'inline-block'}} sm>
+              {t('common:OPTIONAL')}
+            </Label>
+          </div>
+          <div style={{marginBottom: '16px'}}>
             <Radio
-              style={{ marginBottom: '25px' }}
               label={t('common:YES')}
               inputRef={register({ required: false })}
               value={true}
               name={fenceEnum.pressure_treated}
-              text={t('FARM_MAP.FENCE.PRESSURE_TREATED')}
-              img={Leaf}
             />
             <Radio
-              style={{ marginBottom: '40px', marginLeft: '40px' }}
+              style={{ marginLeft: '40px' }}
               label={t('common:NO')}
               inputRef={register({ required: false })}
               value={false}
               name={fenceEnum.pressure_treated}
-              defaultChecked={true}
             />
           </div>
         </div>

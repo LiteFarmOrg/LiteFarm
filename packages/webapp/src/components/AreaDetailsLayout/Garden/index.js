@@ -6,6 +6,7 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { gardenEnum } from '../../../containers/constants';
+import { Label } from "../../Typography";
 
 export default function PureGarden({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -62,21 +63,25 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
       perimeter={perimeter}
     >
       <div>
+        <div style={{ marginBottom: '20px'}}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
+            {t('FARM_MAP.GARDEN.GARDEN_TYPE')}
+          </Label>
+          <img src={Leaf} style={{ display: 'inline-block' }} />
+        </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.GARDEN.NON_ORGANIC')}
             defaultChecked={true}
             inputRef={register({ required: true })}
             value={'Non-Organic'}
             name={gardenEnum.organic_status}
-            text={t('FARM_MAP.GARDEN.GARDEN_TYPE')}
-            img={Leaf}
           />
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.GARDEN.ORGANIC')}
             inputRef={register({ required: true })}
             value={'Organic'}
@@ -85,7 +90,7 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
         </div>
         <div>
           <Radio
-            style={{ marginBottom: '12px' }}
+            style={{ marginBottom: '16px' }}
             label={t('FARM_MAP.GARDEN.TRANSITIONING')}
             inputRef={register({ required: true })}
             value={'Transitional'}
@@ -95,12 +100,12 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
         <div style={{ paddingBottom: '20px' }}>
           {gardenTypeSelection === 'Transitional' && (
             <Input
+              style={{ paddingBottom: '16px' }}
               type={'date'}
               name={gardenEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}
               label={t('FARM_MAP.GARDEN.DATE')}
               inputRef={register({ required: true })}
-              style={{ paddingBottom: '20px', paddingTop: '16px' }}
             />
           )}
         </div>

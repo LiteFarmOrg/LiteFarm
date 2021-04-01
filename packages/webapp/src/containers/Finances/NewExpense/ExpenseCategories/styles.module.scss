@@ -7,7 +7,6 @@
 .circleImg {
   display: block;
   margin: 0 auto;
-  padding-top: 1.5em;
 }
 
 .typeName {
@@ -29,4 +28,9 @@
   background: white;
   box-shadow: 0 -5px 5px -5px #333;
   border-radius: 10px;
+}
+
+.greenCircle {
+  display: flex;
+  align-items: center;
 }

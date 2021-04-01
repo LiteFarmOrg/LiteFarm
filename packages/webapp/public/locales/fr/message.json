@@ -4,14 +4,6 @@
       "FAILED_UPLOAD": "MISSING"
     }
   },
-  "CONTACT": {
-    "ERROR": {
-      "SUBMIT_CONTACT_FORM": "MISSING"
-    },
-    "SUCCESS": {
-      "SUBMIT_CONTACT_FORM": "MISSING"
-    }
-  },
   "CROP": {
     "ERROR": {
       "DELETE": "MISSING",
@@ -119,19 +111,13 @@
   "SHIFT": {
     "ERROR": {
       "ADD": "MISSING",
-      "ASSIGN_ALL_CROPS": "MISSING",
-      "ASSIGN_ALL_MINUTES": "MISSING",
-      "BREAK_>_WORK": "MISSING",
       "CROP_FIELDS_EACH": "MISSING",
       "DELETE": "MISSING",
       "DURATION_FOR_CROPS": "MISSING",
-      "ONE_TASK": "MISSING",
       "ONLY_INTEGERS_DURATIONS": "MISSING",
       "REQUIRED_TASK": "MISSING",
       "SUBMIT_SHIFT": "MISSING",
-      "UPDATE": "MISSING",
-      "USER_FOR_SHIFT": "MISSING",
-      "VALID_START_END": "MISSING"
+      "UPDATE": "MISSING"
     },
     "SUCCESS": {
       "ADD": "MISSING",

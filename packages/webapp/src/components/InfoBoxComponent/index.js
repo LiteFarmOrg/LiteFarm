@@ -14,10 +14,13 @@
  */
 
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
 import styles from '../PageTitle/styles.module.scss';
 import { BsInfoCircleFill } from 'react-icons/bs';
 import { withTranslation } from 'react-i18next';
+import Button from '../Form/Button';
+import { Modal, Paper } from '@material-ui/core';
+import { Info, Semibold } from '../Typography';
+import { colors } from '../../assets/theme';
 
 class InfoBoxComponent extends Component {
   constructor(props) {
@@ -62,39 +65,41 @@ class InfoBoxComponent extends Component {
     return (
       <div>
         <button style={customStyle} className={styles.buttonContainer} onClick={this.handleShow}>
-          <BsInfoCircleFill />
+          <BsInfoCircleFill style={{ fontSize: '16px' }} />
         </button>
+        <Modal open={this.state.show} onClose={this.handleClose}>
+          <Paper className={styles.paper}>
+            <Semibold style={{ color: colors.teal700, marginBottom: '20px' }}>{title}</Semibold>
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{title}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>{body}</Modal.Body>
-          <Modal.Footer>
-            {showDelete && (
-              <Button
-                variant="danger"
-                onClick={() => {
-                  this.handleDelete(deleteHandler);
-                }}
-              >
-                {this.props.t('common:DELETE')}
+            <Info style={{ color: colors.grey600, marginBottom: '20px' }}>{body}</Info>
+            <footer>
+              {showDelete && (
+                <Button
+                  onClick={() => {
+                    this.handleDelete(deleteHandler);
+                  }}
+                  color={'secondary'}
+                  sm
+                >
+                  {this.props.t('common:DELETE')}
+                </Button>
+              )}
+              {showSave && (
+                <Button
+                  color={'primary'}
+                  onClick={() => {
+                    this.handleSave(saveHandler);
+                  }}
+                  sm
+                >
+                  {this.props.t('common:SAVE_CHANGES')}
+                </Button>
+              )}
+              <Button variant="primary" onClick={this.handleClose} sm>
+                {this.props.t('common:CLOSE')}
               </Button>
-            )}
-            {showSave && (
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.handleSave(saveHandler);
-                }}
-              >
-                {this.props.t('common:SAVE_CHANGES')}
-              </Button>
-            )}
-            <Button variant="secondary" onClick={this.handleClose}>
-              {this.props.t('common:CLOSE')}
-            </Button>
-          </Modal.Footer>
+            </footer>
+          </Paper>
         </Modal>
       </div>
     );

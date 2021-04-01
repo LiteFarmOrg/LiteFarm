@@ -49,6 +49,7 @@ export default function PureMap({ isAdmin, farmName, handleGoogleMapApi, center 
       <PureMapHeader className={styles.mapHeader} farmName={farmName} />
       <div className={styles.mapContainer}>
         <div className={styles.workaround}>
+          {/*TODO: move to container*/}
           <GoogleMap
             style={{ flexGrow: 1 }}
             bootstrapURLKeys={{

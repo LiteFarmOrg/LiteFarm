@@ -2,7 +2,7 @@ import styles from './styles.module.scss';
 import Popup from 'reactjs-popup';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
+// TODO: to deprecate
 const ConfirmModal = ({ open, onClose, onConfirm, message, option }) => {
   const { t } = useTranslation(['translation', 'common']);
   return (

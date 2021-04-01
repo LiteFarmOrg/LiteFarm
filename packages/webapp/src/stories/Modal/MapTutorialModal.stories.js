@@ -13,12 +13,18 @@ const Template = (args) => <MapTutorialModal {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   title: 'Tutorial title',
-  steps: [
-    'Step 1',
-    'Step 2',
-    'Step 3',
-  ]
+  steps: ['Step 1', 'Step 2', 'Step 3'],
 };
 Primary.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};
+
+export const NoBullet = Template.bind({});
+NoBullet.args = {
+  title: 'Tutorial title',
+  steps: ['Step 1', 'Step 2', 'Step 3'],
+  hasNoBullet: true,
+};
+NoBullet.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };

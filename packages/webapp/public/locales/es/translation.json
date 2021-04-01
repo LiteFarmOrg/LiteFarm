@@ -88,19 +88,19 @@
       "TOTAL_AREA": "Area total"
     },
     "BARN": {
-      "COLD_STORAGE": "MISSING",
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WASH_PACK": "MISSING"
+      "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
+      "NAME": "Granero",
+      "TITLE": "Agregar Granero",
+      "WASH_PACK": "Tiene este granero una estacion de lavado y empacado?"
     },
     "BUFFER_ZONE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WIDTH": "MISSING"
+      "NAME": "Zona delimitante",
+      "TITLE": "Agregar zona delimitante",
+      "WIDTH": "Ancho de la zona delimitante"
     },
     "CEREMONIAL_AREA": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
+      "NAME": "Area ceremonial",
+      "TITLE": "Agregar area ceremonial"
     },
     "DRAWING_MANAGER": {
       "REDRAW": "Repintar",
@@ -118,10 +118,10 @@
       "TITLE": "Agregar Limites de la granja"
     },
     "FENCE": {
-      "LENGTH": "MISSING",
-      "NAME": "MISSING",
-      "PRESSURE_TREATED": "MISSING",
-      "TITLE": "MISSING"
+      "LENGTH": "Longitud del cerco",
+      "NAME": "Cercado",
+      "PRESSURE_TREATED": "Esta este cercado tratado con presion?",
+      "TITLE": "Agregar Cerco"
     },
     "FIELD": {
       "DATE": "Fecha de transición",
@@ -146,23 +146,23 @@
       "TITLE": "Agregar puerta"
     },
     "GREENHOUSE": {
-      "CO2_ENRICHMENT": "MISSING",
-      "DATE": "MISSING",
-      "GREENHOUSE_HEATED": "MISSING",
-      "GREENHOUSE_TYPE": "MISSING",
-      "NAME": "MISSING",
-      "NON_ORGANIC": "MISSING",
-      "ORGANIC": "MISSING",
-      "SUPPLEMENTAL_LIGHTING": "MISSING",
-      "TITLE": "MISSING",
-      "TRANSITIONING": "MISSING"
+      "CO2_ENRICHMENT": "Hay enriquecimiento de CO₂?",
+      "DATE": "Fecha de transicion",
+      "GREENHOUSE_HEATED": "Esta el invernadero calentado?",
+      "GREENHOUSE_TYPE": "Que tipo de invernadero es?",
+      "NAME": "Invernadero",
+      "NON_ORGANIC": "No organico",
+      "ORGANIC": "Organico",
+      "SUPPLEMENTAL_LIGHTING": "Tiene luz suplementaria?",
+      "TITLE": "Agregar invernadero",
+      "TRANSITIONING": "En transicion"
     },
     "LINE_DETAILS": {
-      "BUFFER_TITLE": "MISSING",
-      "BUFFER_ZONE_WIDTH": "MISSING",
-      "RIPARIAN_BUFFER": "MISSING",
-      "WATERCOURSE": "MISSING",
-      "WATERCOURSE_TITLE": "MISSING"
+      "BUFFER_TITLE": "Cual es el ancho?",
+      "BUFFER_ZONE_WIDTH": "Ancho de la zona delimitante",
+      "RIPARIAN_BUFFER": "Zona de proteccion",
+      "WATERCOURSE": "Arroyo",
+      "WATERCOURSE_TITLE": "Cuales son los siguientes anchos?"
     },
     "MAP_FILTER": {
       "ADD_TITLE": "Agregar a tu mapa",
@@ -185,16 +185,16 @@
       "SHOW_ALL": "Muestra todo",
       "SURFACE_WATER": "Agua de superficie",
       "TITLE": "Filtra tu mapa",
-      "WATERCOURSE": "MISSING",
+      "WATERCOURSE": "Arroyo",
       "WV": "Valvula de agua"
     },
     "NATURAL_AREA": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
+      "NAME": "Area natural",
+      "TITLE": "Agregar area natural"
     },
     "RESIDENCE": {
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
+      "NAME": "Residencia",
+      "TITLE": "Agregar residencia"
     },
     "SPOTLIGHT": {
       "ADD": "Añade ubicaciones a tu mapa",
@@ -206,32 +206,32 @@
       "HERE_YOU_CAN": "Aqui puedes: "
     },
     "SURFACE_WATER": {
-      "IRRIGATION": "MISSING",
-      "NAME": "MISSING",
-      "TITLE": "MISSING"
+      "IRRIGATION": "Es esta area usada para riego?",
+      "NAME": "Agua de superficie",
+      "TITLE": "Agregar agua de superficie"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
       "ADJUST_AREA": {
-        "TEXT": "MISSING",
-        "TITLE": "MISSING"
+        "TEXT": "Clickea y arrastra los puntos para ajustar el area",
+        "TITLE": "Ajustar area"
       },
       "ADJUST_LINE": {
-        "TEXT": "MISSING",
-        "TITLE": "MISSING"
+        "TEXT": "Clickea y arrastra los puntos para ajustar la linea",
+        "TITLE": "Ajustar linea"
       },
       "AREA": {
-        "STEP_ONE": "MISSING",
-        "STEP_THREE": "MISSING",
-        "STEP_TWO": "MISSING",
-        "TITLE": "MISSING"
+        "STEP_ONE": "Clickea donde quieras para empezar a dibujar",
+        "STEP_THREE": "Clickea y arrastra los puntos para ajustar la figura",
+        "STEP_TWO": "Clickea el punto inicial para cerrar el area",
+        "TITLE": "Dibuja un area"
       },
       "LINE": {
-        "STEP_FOUR": "MISSING",
-        "STEP_ONE": "MISSING",
-        "STEP_THREE": "MISSING",
-        "STEP_TWO": "MISSING",
-        "TITLE": "MISSING"
+        "STEP_FOUR": "(Para algunas lineas) agrega un ancho",
+        "STEP_ONE": "Clickea donde quieras para empezar a dibujar",
+        "STEP_THREE": "Opcionalmente, ajusta tu linea",
+        "STEP_TWO": "Haz doble click en el ultimo punto para finalizar",
+        "TITLE": "Dibuja una linea"
       }
     },
     "WATER_VALVE": {
@@ -245,12 +245,12 @@
       "WATER_VALVE_TYPE": "Cual es la fuente?"
     },
     "WATERCOURSE": {
-      "BUFFER": "MISSING",
-      "IRRIGATION": "MISSING",
-      "LENGTH": "MISSING",
-      "NAME": "MISSING",
-      "TITLE": "MISSING",
-      "WIDTH": "MISSING"
+      "BUFFER": "Zona de proteccion",
+      "IRRIGATION": "Es usado para riego?",
+      "LENGTH": "Longitud total",
+      "NAME": "Arroyo",
+      "TITLE": "Agregar arroyo",
+      "WIDTH": "Ancho de arroyo"
     }
   },
   "FIELDS": {
@@ -956,8 +956,8 @@
     "ROWS_TEXT": "filas"
   },
   "UNIT": {
-    "INVALID_NUMBER": "MISSING",
-    "MAXIMUM": "MISSING"
+    "INVALID_NUMBER": "Numero invalido",
+    "MAXIMUM": "Valor maximo excedido"
   },
   "WEATHER": {
     "HUMIDITY": "Humedad",

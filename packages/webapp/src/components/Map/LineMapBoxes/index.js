@@ -61,11 +61,7 @@ export default function PureLineBox({
     locationData[watercourseEnum.buffer_width],
   );
   useEffect(() => {
-    if(!isNaN(widthValue) && !isNaN(bufferWidthValue) && !!widthValue) {
-      const buffer = bufferWidthValue ? bufferWidthValue : 0;
-      const width = widthValue ? widthValue : 0;
-      updateWidth(width +  buffer);
-    }
+    updateWidth(widthValue || 0 + bufferWidthValue || 0);
   }, [widthValue, bufferWidthValue]);
 
   return (
@@ -99,7 +95,7 @@ export default function PureLineBox({
             hookFromWatch={watch}
             control={control}
             required
-            defaultValue={widthValue}
+            defaultValue={locationData[watercourseEnum.width]}
             to={locationData[watercourseEnum.width_unit]?.value}
             mode={'onChange'}
           />
@@ -121,7 +117,7 @@ export default function PureLineBox({
               hookFromWatch={watch}
               control={control}
               required
-              defaultValue={bufferWidthValue}
+              defaultValue={locationData[watercourseEnum.buffer_width]}
               to={locationData[watercourseEnum.buffer_width_unit]?.value}
               mode={'onChange'}
             />

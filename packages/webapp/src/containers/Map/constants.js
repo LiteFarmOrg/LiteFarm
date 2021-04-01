@@ -23,10 +23,8 @@ export const isArea = (type) => {
 };
 
 export const isNoFillArea = (type) => {
-  return [
-    locationEnum.farm_site_boundary,
-  ].includes(type);
-}
+  return [locationEnum.farm_site_boundary].includes(type);
+};
 
 export const isLine = (type) => {
   return [locationEnum.watercourse, locationEnum.fence, locationEnum.buffer_zone].includes(type);
@@ -54,17 +52,24 @@ export const locationEnum = {
 };
 
 export const polygonPath = (path, width, maps) => {
-  const {leftPoints, rightPoints} = path.reduce(linePathPolygonConstructor, {
-    leftPoints: [], rightPoints:[], bearings: [], width, maps
+  const { leftPoints, rightPoints } = path.reduce(linePathPolygonConstructor, {
+    leftPoints: [],
+    rightPoints: [],
+    bearings: [],
+    width,
+    maps,
   });
   return leftPoints.concat(rightPoints.reverse());
-}
-
+};
 
 const linePathPolygonConstructor = (innerState, point, i, path) => {
   const { bearings, leftPoints, rightPoints, width, maps } = innerState;
-  const {geometry:{ spherical: { computeHeading, computeOffset}}} = maps;
-  if ((i === 0) || i === path.length - 1 ) {
+  const {
+    geometry: {
+      spherical: { computeHeading, computeOffset },
+    },
+  } = maps;
+  if (i === 0 || i === path.length - 1) {
     const initialPoint = i === 0 ? point : path[i - 1];
     const nextPoint = i === 0 ? path[i + 1] : point;
     setPerpendiculars(initialPoint, nextPoint);
@@ -72,14 +77,14 @@ const linePathPolygonConstructor = (innerState, point, i, path) => {
     const heading = computeHeading(point, path[i + 1]);
     bearings.push(heading);
     // OC: 180 is added to get the angle from the perspective of the 2nd point.
-    const angleFormed = heading - (adjustAngle(bearings[i - 1] + 180));
-    const angleFormedInRadians = Math.abs(angleFormed) * Math.PI / 180;
-    if(Math.sin(angleFormedInRadians/2) < 0.03 ) {
-      setPerpendiculars(path[i-1], point);
-      return { bearings, leftPoints, rightPoints, width, maps }
+    const angleFormed = heading - adjustAngle(bearings[i - 1] + 180);
+    const angleFormedInRadians = (Math.abs(angleFormed) * Math.PI) / 180;
+    if (Math.sin(angleFormedInRadians / 2) < 0.03) {
+      setPerpendiculars(path[i - 1], point);
+      return { bearings, leftPoints, rightPoints, width, maps };
     }
     const distance = width / (2 * Math.sin(angleFormedInRadians / 2));
-    const heading1 = adjustAngle(heading - (angleFormed / 2));
+    const heading1 = adjustAngle(heading - angleFormed / 2);
     const heading2 = adjustAngle(heading1 + 180);
     const p1 = computeOffset(point, distance, heading1);
     const p2 = computeOffset(point, distance, heading2);
@@ -87,12 +92,14 @@ const linePathPolygonConstructor = (innerState, point, i, path) => {
     const p2LeftHeading = computeHeading(leftPoints[leftPoints.length - 1], p2);
     // OC: This line of code says: Is the slope of line p1 (m1) closest to the main line than the slope of line p2 (m2)?
     // Or Δmp1 < Δmp2
-    const isP1Left = Math.abs(Math.abs(p1LeftHeading) - Math.abs(bearings[i - 1])) < Math.abs(Math.abs(p2LeftHeading) - Math.abs(bearings[i - 1]));
+    const isP1Left =
+      Math.abs(Math.abs(p1LeftHeading) - Math.abs(bearings[i - 1])) <
+      Math.abs(Math.abs(p2LeftHeading) - Math.abs(bearings[i - 1]));
     leftPoints.push(isP1Left ? p1 : p2);
     rightPoints.push(isP1Left ? p2 : p1);
   }
 
-  function setPerpendiculars(initialPoint, nextPoint){
+  function setPerpendiculars(initialPoint, nextPoint) {
     const heading = computeHeading(initialPoint, nextPoint);
     const { left, right } = calculatePerpendiculars(heading);
     bearings.push(heading);
@@ -100,8 +107,8 @@ const linePathPolygonConstructor = (innerState, point, i, path) => {
     rightPoints.push(computeOffset(point, width / 2, right));
   }
 
-  return  { bearings, leftPoints, rightPoints, width, maps };
-}
+  return { bearings, leftPoints, rightPoints, width, maps };
+};
 
 function areTheSamePoint(p1, p2) {
   return p1.lat() === p2.lat() && p1.lng() === p2.lng();
@@ -111,13 +118,13 @@ const calculatePerpendiculars = (bearing) => {
   const right = adjustAngle(bearing + 90);
 
   return { left, right };
-}
+};
 
 const adjustAngle = (currentAngle) => {
   if (Math.abs(currentAngle) > 180) {
     let angle = 360 - Math.abs(currentAngle);
-    angle = currentAngle >= 0 ? angle * (-1) : angle;
+    angle = currentAngle >= 0 ? angle * -1 : angle;
     return angle;
   }
   return currentAngle;
-}
+};

@@ -66,8 +66,8 @@ const Input = ({
           <Label>
             {label}{' '}
             {optional && (
-              <Label sm className={styles.sm}>
-                ({t('common:OPTIONAL')})
+              <Label sm className={styles.sm} style={{ marginLeft: '4px' }}>
+                {t('common:OPTIONAL')}
               </Label>
             )}
           </Label>

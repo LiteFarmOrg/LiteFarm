@@ -171,7 +171,7 @@ const Unit = ({
     }
   }, []);
 
-  const hookFormValue = hookFromWatch(name, defaultValue);
+  const hookFormValue = hookFromWatch(name, defaultValue) || undefined;
   const inputOnChange = (e) => {
     setVisibleInputValue(e.target.value);
     mode === 'onChange' && inputOnBlur(e);

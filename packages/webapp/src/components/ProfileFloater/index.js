@@ -23,7 +23,7 @@ export function PureProfileFloaterComponent({
         minWidth: '138px',
         backgroundColor: 'white',
         borderRadius: '4px',
-        marginRight: '12px',
+        transform: 'translateX(-12px)',
       }}
     >
       <ListOption
@@ -73,7 +73,7 @@ export default function PureProfileFloater({
       placement={'bottom-end'}
       open={openProfile}
       styles={{
-        floater: { zIndex: 1500 },
+        floater: { zIndex: 1500, display: openProfile ? 'initial' : 'none' },
       }}
     >
       {children}

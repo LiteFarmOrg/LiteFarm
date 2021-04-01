@@ -61,7 +61,7 @@ export default function PureLineBox({
     locationData[watercourseEnum.buffer_width],
   );
   useEffect(() => {
-    updateWidth(widthValue || 0 + bufferWidthValue || 0);
+    updateWidth((widthValue || 0) + (bufferWidthValue || 0));
   }, [widthValue, bufferWidthValue]);
 
   return (

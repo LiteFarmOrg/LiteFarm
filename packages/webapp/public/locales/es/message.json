@@ -4,14 +4,6 @@
       "FAILED_UPLOAD": "No se pudo subir los archivos adjuntos"
     }
   },
-  "CONTACT": {
-    "ERROR": {
-      "SUBMIT_CONTACT_FORM": "Error, Ud. no pudo enviar un formulario de contacto"
-    },
-    "SUCCESS": {
-      "SUBMIT_CONTACT_FORM": "Formulario de contacto enviado!"
-    }
-  },
   "CROP": {
     "ERROR": {
       "DELETE": "No se pudo borrar campo de cultivo",
@@ -119,19 +111,13 @@
   "SHIFT": {
     "ERROR": {
       "ADD": "No se pudo agregar nuevo turno",
-      "ASSIGN_ALL_CROPS": "Por favor asigne cultivos o campos para cada tarea",
-      "ASSIGN_ALL_MINUTES": "Por favor asigne todos los minutos de trabajo disponibles",
-      "BREAK_>_WORK": "Duración del descanso > Duración del trabajo",
       "CROP_FIELDS_EACH": "Por favor asigne cultivos o campos para cada tarea",
       "DELETE": "No se pudo borrar el turno",
       "DURATION_FOR_CROPS": "Por favor asigne una duración para cada cultvo.",
-      "ONE_TASK": "Por favor seleccione al menos una tarea.",
       "ONLY_INTEGERS_DURATIONS": "Por favor asigne sólo numeros durationes",
       "REQUIRED_TASK": "Se requiere un nombre para la tarea",
       "SUBMIT_SHIFT": "No se pudo enviar turno con cultivos. Este es un problema de LiteFarm.",
-      "UPDATE": "No se pudo actualizar turno",
-      "USER_FOR_SHIFT": "Por favor seleccione un usuario para este turno",
-      "VALID_START_END": "Por favor ingrese una duración comienzo-final válida"
+      "UPDATE": "No se pudo actualizar turno"
     },
     "SUCCESS": {
       "ADD": "Nuevo turno agregado exitosamente!",

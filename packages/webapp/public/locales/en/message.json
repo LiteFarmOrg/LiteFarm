@@ -4,14 +4,6 @@
       "FAILED_UPLOAD": "Failed to upload attachments"
     }
   },
-  "CONTACT": {
-    "ERROR": {
-      "SUBMIT_CONTACT_FORM": "Error, Could Not Submit A Contact Form"
-    },
-    "SUCCESS": {
-      "SUBMIT_CONTACT_FORM": "Submitted Contact Form!"
-    }
-  },
   "CROP": {
     "ERROR": {
       "DELETE": "Failed To Delete Field Crop",
@@ -119,19 +111,13 @@
   "SHIFT": {
     "ERROR": {
       "ADD": "Failed to add new shift",
-      "ASSIGN_ALL_CROPS": "Please assign crops or fields for each task",
-      "ASSIGN_ALL_MINUTES": "Please assign all your available work minutes",
-      "BREAK_>_WORK": "Break duration > work duration 😂",
       "CROP_FIELDS_EACH": "Please assign crops or fields for each task",
       "DELETE": "Failed to delete the shift :(",
       "DURATION_FOR_CROPS": "Please assign a duration for each crop.",
-      "ONE_TASK": "Please select at least one task.",
       "ONLY_INTEGERS_DURATIONS": "Please assign only numbers to durations",
       "REQUIRED_TASK": "A task name is required",
       "SUBMIT_SHIFT": "Submit shift with crops failed. Litefarm's issue.",
-      "UPDATE": "Failed to update shift",
-      "USER_FOR_SHIFT": "Please select a user for this shift",
-      "VALID_START_END": "Please enter a valid start-end duration"
+      "UPDATE": "Failed to update shift"
     },
     "SUCCESS": {
       "ADD": "Successfully added new shift!",

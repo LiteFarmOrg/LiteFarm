@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  width: calc(100vw - 48px);
+  background: #fafafd;
+  border-radius: 7.05466px;
+  position: relative;
+  padding: 24px;
+
+  svg {
+    font-size: 20px;
+  }
+}
+
+.buttonGroup {
+  margin-top: 20px;
+}

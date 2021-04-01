@@ -105,7 +105,7 @@ const ReactSelect = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <>
+    <div>
       {(label || toolTipContent || icon) && (
         <div
           style={{
@@ -133,7 +133,7 @@ const ReactSelect = ({
         }}
         {...props}
       />
-    </>
+    </div>
   );
 };
 

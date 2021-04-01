@@ -4,14 +4,6 @@
       "FAILED_UPLOAD": "Anexos não carregados"
     }
   },
-  "CONTACT": {
-    "ERROR": {
-      "SUBMIT_CONTACT_FORM": "Erro, não foi possível enviar um formulário de contato"
-    },
-    "SUCCESS": {
-      "SUBMIT_CONTACT_FORM": "Formulário de contato enviado!"
-    }
-  },
   "CROP": {
     "ERROR": {
       "DELETE": "Falha na exclusão do cultivo de campo",
@@ -119,19 +111,13 @@
   "SHIFT": {
     "ERROR": {
       "ADD": "Falha de adicionar novo turno",
-      "ASSIGN_ALL_CROPS": "Favor de atribuar culturas ou campos para cada tarefa",
-      "ASSIGN_ALL_MINUTES": "Favor de atribuar todos os seus minutos de trabalho disponíveis",
-      "BREAK_>_WORK": "Duração do intervalo> duração do trabalho 😂",
       "CROP_FIELDS_EACH": "Favor de atribuar culturas ou campos para cada tarefa",
       "DELETE": "Falha na exclusão do turno :(",
       "DURATION_FOR_CROPS": "Favor de atribuir uma duração para cada cultivo de campo.",
-      "ONE_TASK": "Favor de selecionar pelo menos uma tarefa.",
       "ONLY_INTEGERS_DURATIONS": "Favor de atribuir apenas números às durações",
       "REQUIRED_TASK": "Um nome de tarefa é obrigatório",
       "SUBMIT_SHIFT": "Falha no envio de turno. Favor de enviar um pedido de ajuda a Litefarm para obter assistência.",
-      "UPDATE": "Falha na actualização do turno",
-      "USER_FOR_SHIFT": "Favor de selecionar um usuário para este turno",
-      "VALID_START_END": "Favor de inserir uma duração válida de início-fim"
+      "UPDATE": "Falha na actualização do turno"
     },
     "SUCCESS": {
       "ADD": "Novo turno adicionado com sucesso!",

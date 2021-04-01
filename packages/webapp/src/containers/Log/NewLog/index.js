@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
-import { Col, Container, Row } from 'react-bootstrap';
 import fertImg from '../../../assets/images/log/fertilizing.png';
 import fieldImg from '../../../assets/images/log/field_work.png';
 import harvestImg from '../../../assets/images/log/harvest.png';
@@ -21,6 +20,7 @@ import {
   setSelectedUseTypes,
 } from '../actions';
 import { canEdit, resetHarvestLog } from '../Utility/logSlice';
+import { Grid } from '@material-ui/core';
 
 class NewLog extends Component {
   componentDidMount() {
@@ -36,139 +36,144 @@ class NewLog extends Component {
       <div className={styles.logContainer}>
         <PageTitle title={this.props.t('LOG_COMMON.NEW_LOG')} backUrl="/log" />
         <h4>{this.props.t('LOG_COMMON.WHAT_LOG')}</h4>
-        <Container
-          fluid={true}
+        <Grid
+          container
+          spacing={3}
           style={{
             marginLeft: 0,
             marginRight: 0,
-            padding: '0 3%',
-            marginTop: '5%',
+            marginTop: '24px',
           }}
         >
-          <Row className="show-grid">
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/fertilizing_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={fertImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.FERTILIZING')}</div>
-              </div>
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/pest_control_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={pestImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.PEST')}</div>
-              </div>
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/harvest_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={harvestImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.HARVEST')}</div>
-              </div>
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/seeding_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={seedImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.SEEDING')}</div>
-              </div>
-            </Col>
-          </Row>
-          <Row className="show-grid">
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/field_work_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={fieldImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.FIELD_WORK')}</div>
-              </div>
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/soil_data_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={soilImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.SOIL_DATA')}</div>
-              </div>
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/irrigation_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={irrigationImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.IRRIGATION')}</div>
-              </div>
-            </Col>
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/scouting_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={scoutImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.SCOUTING')}</div>
-              </div>
-            </Col>
-          </Row>
-          <Row className="show-grid">
-            <Col
-              xs={6}
-              md={3}
-              className={styles.col}
-              onClick={() => {
-                history.push('/other_log');
-              }}
-            >
-              <div className={styles.typeContainer}>
-                <img src={otherImg} alt="" />
-                <div>{this.props.t('LOG_COMMON.OTHER')}</div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/fertilizing_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={fertImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.FERTILIZING')}</div>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/pest_control_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={pestImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.PEST')}</div>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/harvest_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={harvestImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.HARVEST')}</div>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/seeding_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={seedImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.SEEDING')}</div>
+            </div>
+          </Grid>
+
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/field_work_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={fieldImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.FIELD_WORK')}</div>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/soil_data_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={soilImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.SOIL_DATA')}</div>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/irrigation_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={irrigationImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.IRRIGATION')}</div>
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/scouting_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={scoutImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.SCOUTING')}</div>
+            </div>
+          </Grid>
+
+          <Grid
+            item
+            xs={6}
+            md={3}
+            className={styles.col}
+            onClick={() => {
+              history.push('/other_log');
+            }}
+          >
+            <div className={styles.typeContainer}>
+              <img src={otherImg} alt="" />
+              <div>{this.props.t('LOG_COMMON.OTHER')}</div>
+            </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }

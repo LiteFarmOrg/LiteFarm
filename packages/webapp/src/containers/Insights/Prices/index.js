@@ -4,7 +4,6 @@ import insightStyles from '../styles.module.scss';
 import PageTitle from '../../../components/PageTitle';
 import { pricesDistanceSelector, pricesSelector } from '../selectors';
 import PriceCropContainer from '../../../components/Insights/PriceCropContainer';
-import { Button, Collapse } from 'react-bootstrap';
 import { getPricesWithDistanceData, setPricesDistance } from '../actions';
 import PriceDistanceComponent from '../../../components/Insights/PriceDistanceComponent';
 import styles from './styles.module.scss';
@@ -84,19 +83,17 @@ class Prices extends Component {
         />
         {this.props.pricesDistance && (
           <div style={{ marginBottom: '8px' }}>
-            <div style={{ float: 'left' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Text style={{ fontWeight: 'bold' }}>
                 {t('INSIGHTS.PRICES.SALES_FROM_DISTANCE_AWAY', {
                   distance: distanceToDisplay,
                   unit,
                 })}
               </Text>
-            </div>
-            <div style={{ float: 'right' }}>
               <PriceDistanceComponent handleOpenCollapse={this.handleOpenCollapse} />
             </div>
-            <div style={{ float: 'left' }}>
-              <Collapse in={this.state.open}>
+            <div>
+              {this.state.open && (
                 <div>
                   <Text>
                     {t('INSIGHTS.PRICES.NEARBY_FARMS', {
@@ -106,13 +103,13 @@ class Prices extends Component {
                   {distances.map((distance, index) => {
                     if (distanceToDisplay === distance) {
                       return (
-                        <Button className={styles.distanceButton} key={'active-button-' + index}>
+                        <button className={styles.distanceButton} key={'active-button-' + index}>
                           {distance} {unit}
-                        </Button>
+                        </button>
                       );
                     } else {
                       return (
-                        <Button
+                        <button
                           onClick={() => {
                             this.handleChange(isImperial ? distance * MILE_TO_KILOMETER : distance);
                           }}
@@ -120,12 +117,12 @@ class Prices extends Component {
                           key={'button-' + index}
                         >
                           {distance} {unit}
-                        </Button>
+                        </button>
                       );
                     }
                   })}
                 </div>
-              </Collapse>
+              )}
             </div>
           </div>
         )}

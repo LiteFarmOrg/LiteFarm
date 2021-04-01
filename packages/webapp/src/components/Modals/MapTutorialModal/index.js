@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '../';
 import styles from './styles.module.scss';
-import { Main, Title } from '../../Typography';
+import { Title } from '../../Typography';
 import Button from '../../Form/Button';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
-export default function MapTutorialModal({
-  title,
-  steps,
-  dismissModal,
-  children,
-}) {
+export default function MapTutorialModal({ title, steps, dismissModal, children, hasNoBullet }) {
   const { t } = useTranslation();
 
   return (
@@ -19,8 +15,10 @@ export default function MapTutorialModal({
       <div className={styles.container}>
         <Title className={styles.title}>{title}</Title>
         {steps?.length && (
-          <ol className={styles.stepList}>
-            {steps.map((step) => <li className={styles.stepListItem}>{step}</li>)}
+          <ol className={clsx(styles.stepList, hasNoBullet && styles.noBullet)}>
+            {steps.map((step) => (
+              <li className={styles.stepListItem}>{step}</li>
+            ))}
           </ol>
         )}
         {children}
@@ -36,4 +34,5 @@ MapTutorialModal.prototype = {
   title: PropTypes.string,
   steps: PropTypes.array,
   dismissModal: PropTypes.func,
+  hasNoBullet: PropTypes.bool,
 };

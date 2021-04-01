@@ -6,7 +6,7 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { gardenEnum } from '../../../containers/constants';
-import { Label } from "../../Typography";
+import { Label } from '../../Typography';
 
 export default function PureGarden({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -63,8 +63,15 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
       perimeter={perimeter}
     >
       <div>
-        <div style={{ marginBottom: '20px'}}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <Label
+            style={{
+              paddingRight: '10px',
+              fontSize: '16px',
+              lineHeight: '20px',
+              display: 'inline-block',
+            }}
+          >
             {t('FARM_MAP.GARDEN.GARDEN_TYPE')}
           </Label>
           <img src={Leaf} style={{ display: 'inline-block' }} />
@@ -106,6 +113,7 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
               defaultValue={new Date().toLocaleDateString('en-CA')}
               label={t('FARM_MAP.GARDEN.DATE')}
               inputRef={register({ required: true })}
+              style={{ paddingTop: '16px', paddingBottom: '20px' }}
             />
           )}
         </div>

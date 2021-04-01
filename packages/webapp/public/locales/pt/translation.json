@@ -103,9 +103,7 @@
       "TITLE": "Add residence"
     },
     "DRAWING_MANAGER": {
-      "ADJUST": "Adjust",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -616,7 +614,6 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

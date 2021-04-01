@@ -103,9 +103,7 @@
       "TITLE": "Add ceremonial area"
     },
     "DRAWING_MANAGER": {
-      "ADJUST": "Adjust",
       "REDRAW": "Redraw",
-      "TRY_AGAIN": "Try again",
       "ZERO_AREA_DETECTED": "Field with no area detected. Please add more points to current drawing or draw again."
     },
     "EXPORT_MODAL": {
@@ -616,7 +614,6 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

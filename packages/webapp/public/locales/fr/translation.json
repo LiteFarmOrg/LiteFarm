@@ -103,9 +103,7 @@
       "TITLE": "MISSING"
     },
     "DRAWING_MANAGER": {
-      "ADJUST": "MISSING",
       "REDRAW": "MISSING",
-      "TRY_AGAIN": "MISSING",
       "ZERO_AREA_DETECTED": "MISSING"
     },
     "EXPORT_MODAL": {
@@ -616,7 +614,6 @@
     "TITLE": "MISSING"
   },
   "LOG_SEEDING": {
-    "FIELD": "MISSING",
     "RATE": "MISSING",
     "SEED_SPACING": "MISSING",
     "SEEDING_DEPTH": "MISSING",

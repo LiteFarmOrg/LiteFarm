@@ -236,7 +236,6 @@ const getDrawingOptions = (type) => {
         strokeWeight: 2,
         fillOpacity: 0.3,
         editable: true,
-        draggable: true,
         fillColor: colour,
         strokeColor: colour,
         geodesic: true,
@@ -251,7 +250,6 @@ const getDrawingOptions = (type) => {
       polylineOptions: {
         strokeWeight: 2,
         editable: true,
-        draggable: true,
         fillColor: colour,
         strokeColor: defaultColour,
         geodesic: true,

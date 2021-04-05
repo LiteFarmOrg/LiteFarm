@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
-import { locationEnum, isNoFillArea, polygonPath } from './constants';
+import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
 
 const useMapAssetRenderer = () => {
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -36,11 +36,11 @@ const useMapAssetRenderer = () => {
   const pointAssets = useSelector(pointSelector);
 
   const assetFunctionMap = (assetType) => {
-    return !!areaAssets[assetType]
+    return !!isArea(assetType)
       ? isNoFillArea(assetType)
         ? drawNoFillArea
         : drawArea
-      : !!lineAssets[assetType]
+      : !!isLine(assetType)
       ? drawLine
       : drawPoint;
   };
@@ -48,20 +48,36 @@ const useMapAssetRenderer = () => {
     let hasLocation = false;
     const newState = { ...assetGeometries };
     const assets = { ...areaAssets, ...lineAssets, ...pointAssets };
-    const assetsWithLocations = Object.keys(assets).filter((type) => assets[type].length > 0);
+    const assetsWithLocations = Object.keys(assets).filter(
+      (type) =>
+        (assets[type].type !== undefined && assets[type].type.length) > 0 ||
+        assets[type].length > 0,
+    );
     hasLocation = assetsWithLocations.length > 0;
-    assetsWithLocations.forEach((locationType) => {
-      assets[locationType].forEach((location) => {
-        newState[locationType]?.push(
-          assetFunctionMap(locationType)(
-            map,
-            maps,
-            mapBounds,
-            location,
-            filterSettings?.[locationType],
-          ),
-        );
-      });
+
+    assetsWithLocations.forEach((idx) => {
+      const locationType = assets[idx].type !== undefined ? assets[idx].type : idx;
+      assets[idx].type === undefined
+        ? assets[locationType].forEach((location) => {
+            newState[locationType]?.push(
+              assetFunctionMap(locationType)(
+                map,
+                maps,
+                mapBounds,
+                location,
+                filterSettings?.[locationType],
+              ),
+            );
+          })
+        : newState[locationType]?.push(
+            assetFunctionMap(locationType)(
+              map,
+              maps,
+              mapBounds,
+              assets[idx].type !== undefined ? assets[idx] : assets['buffer_zone'][0],
+              filterSettings?.[locationType],
+            ),
+          );
     });
 
     setAssetGeometries(newState);
@@ -268,6 +284,10 @@ const drawPoint = (map, maps, mapBounds, point, isVisible) => {
   });
   maps.event.addListener(marker, 'mouseout', function () {
     this.setOptions({ icon: icons[type] });
+  });
+
+  maps.event.addListener(marker, 'click', function () {
+    console.log('clicked point');
   });
 
   marker.setOptions({ visible: isVisible });

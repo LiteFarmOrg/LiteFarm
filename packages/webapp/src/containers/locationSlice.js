@@ -38,17 +38,18 @@ export const areaSelector = createSelector(
     naturalAreas,
     residences,
   ) => {
-    const result = {};
-    result[locationEnum.barn] = barns;
-    result[locationEnum.ceremonial_area] = ceremonials;
-    result[locationEnum.farm_site_boundary] = farmSiteBoundaries;
-    result[locationEnum.field] = fields;
-    result[locationEnum.garden] = gardens;
-    result[locationEnum.greenhouse] = greenhouses;
-    result[locationEnum.surface_water] = surfaceWaters;
-    result[locationEnum.natural_area] = naturalAreas;
-    result[locationEnum.residence] = residences;
-    return result;
+    const result = [
+      ...barns,
+      ...ceremonials,
+      ...farmSiteBoundaries,
+      ...fields,
+      ...gardens,
+      ...greenhouses,
+      ...surfaceWaters,
+      ...naturalAreas,
+      ...residences,
+    ];
+    return result.sort((a, b) => b.total_area - a.total_area);
   },
 );
 export const areaStatusSelector = createSelector(

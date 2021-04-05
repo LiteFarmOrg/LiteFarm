@@ -101,40 +101,21 @@ const FieldCropController = {
     return async (req, res) => {
       try {
         const farm_id = req.params.farm_id;
-        const rows = await FieldCropController.getByForeignKey(farm_id);
-        if (!rows.length) {
-          res.status(200).send(rows);
-        } else {
-          res.status(200).send(rows);
-        }
+        const fieldCrops = await fieldCropModel.query().whereNotDeleted()
+          .withGraphJoined(`location.[
+          figure.[area, line], 
+           field, garden, buffer_zone,
+          greenhouse
+        ]`)
+          .where('location.farm_id', farm_id);
+        return res.status(200).send(fieldCrops);
       } catch (error) {
-        //handle more exceptions
-        res.status(400).json({
+        console.log(error);
+        return res.status(400).json({
           error,
         });
       }
     };
-  },
-
-  async getByForeignKey(farm_id) {
-
-    const fieldCrops = await fieldCropModel.query().whereNotDeleted().select('*').from('fieldCrop').join('field', function() {
-      this.on('fieldCrop.field_id', '=', 'field.field_id');
-    }).where('field.farm_id', farm_id)
-      .join('crop', function() {
-        this.on('fieldCrop.crop_id', '=', 'crop.crop_id');
-      });
-
-    for (const fieldCrop of fieldCrops) {
-      //TODO investigate what this loop does and replace $loadRelated with $fetchGraph
-      await fieldCrop.$loadRelated('crop.[price(getFarm), yield(getFarm)]', {
-        getFarm: (builder) => {
-          builder.where('farm_id', farm_id);
-        },
-      });
-    }
-
-    return fieldCrops;
   },
 
   getFieldCropsByDate() {

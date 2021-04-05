@@ -3,7 +3,6 @@ const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
-  field_id: fromLocation,
   field_crop_id: fromFieldCrop,
   crop_id: fromCrop,
   pesticide_id: fromPesticide,

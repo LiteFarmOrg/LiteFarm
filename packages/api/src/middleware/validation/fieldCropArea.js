@@ -13,23 +13,26 @@
  *  GNU General Public License for more details, see <https://www.gnu.org/licenses/>.
  */
 
-const fieldModel = require('../../models/fieldModel');
+const locationModel = require('../../models/locationModel');
 const fieldCropModel = require('../../models/fieldCropModel');
 
 async function validateFieldCropArea(req, res, next) {
-  let field;
-  if(req.body.field_id){
-    field = await fieldModel.query().select('area').findById(req.body.field_id);
-  }else{
-    const fieldCropQuery = fieldCropModel.query().where({ field_crop_id: req.params.field_crop_id });
-    field = await fieldModel.query().select('area').findById(fieldCropQuery.field_id);
+  let location;
+  if (req.body.location_id) {
+    location = await locationModel.query()
+      .whereNotDeleted().findById(req.body.location_id)
+      .withGraphJoined('figure.[area, line]');
+  } else {
+    const fieldCrop = await fieldCropModel.query().whereNotDeleted().findById(req.params.field_crop_id)
+      .withGraphFetched(`[location.[
+          figure.[area, line]]]`);
+    location = fieldCrop?.location;
   }
 
-
-  if(field.area < req.body.area_used){
+  if (location?.figure?.area?.total_area && location?.figure?.area?.total_area < req.body.area_used) {
     return res.status(400).send('Area needed is greater than the field\'s area');
-  } else{
-    next();
+  } else {
+    return next();
   }
 }
 

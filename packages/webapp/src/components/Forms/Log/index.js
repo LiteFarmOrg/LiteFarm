@@ -4,12 +4,13 @@ import DropDown from '../../Inputs/DropDown';
 import styles from '../../../containers/Log/styles.module.scss';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Alert } from 'react-bootstrap';
 import { fieldsSelector } from '../../../containers/fieldSlice';
 import { getFieldCrops, getLocations } from '../../../containers/saga';
 import { currentFieldCropsSelector } from '../../../containers/fieldCropSlice';
 import { withTranslation } from 'react-i18next';
 import TextArea from '../../Form/TextArea';
+import { Label } from '../../Typography';
+import PureWarningBox from '../../WarningBox';
 
 class DefaultLogForm extends React.Component {
   constructor(props) {
@@ -226,7 +227,10 @@ class DefaultLogForm extends React.Component {
     return (
       <Fieldset model={model}>
         {displayLiveCropMessage && (
-          <Alert variant="warning">{this.props.t('LOG_COMMON.WARNING')}</Alert>
+          // <Alert variant="warning">{this.props.t('LOG_COMMON.WARNING')}</Alert>
+          <PureWarningBox style={{ marginBottom: '12px' }}>
+            <Label>{this.props.t('LOG_COMMON.WARNING')}</Label>
+          </PureWarningBox>
         )}
         <div className={styles.defaultFormDropDown}>
           <label>{this.props.t('LOG_COMMON.FIELD')}</label>

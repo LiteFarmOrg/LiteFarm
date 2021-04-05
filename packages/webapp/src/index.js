@@ -48,7 +48,6 @@ import shiftSaga from './containers/Shift/saga';
 import financeSaga from './containers/Finances/saga';
 import cropSaga from './components/Forms/NewCropModal/saga';
 import insightSaga from './containers/Insights/saga';
-import contactSaga from './containers/Contact/saga';
 import farmDataSaga from './containers/Profile/Farm/saga';
 import chooseFarmSaga from './containers/ChooseFarm/saga';
 import supportSaga from './containers/Help/saga';
@@ -71,7 +70,6 @@ import weatherSaga from './containers/WeatherBoard/saga';
 import mapSaga from './containers/Map/saga';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './assets/theme';
-import { naturalAreaEnum } from './containers/naturalAreaSlice';
 
 // config for redux-persist
 const persistConfig = {
@@ -135,7 +133,6 @@ sagaMiddleware.run(shiftSaga);
 sagaMiddleware.run(financeSaga);
 sagaMiddleware.run(cropSaga);
 sagaMiddleware.run(insightSaga);
-sagaMiddleware.run(contactSaga);
 sagaMiddleware.run(farmDataSaga);
 sagaMiddleware.run(chooseFarmSaga);
 sagaMiddleware.run(certifierSurveySaga);

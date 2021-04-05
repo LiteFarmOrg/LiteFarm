@@ -64,8 +64,15 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
       perimeter={perimeter}
     >
       <div>
-        <div style={{ marginBottom: '20px'}}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block'}}>
+        <div style={{ marginBottom: '20px' }}>
+          <Label
+            style={{
+              paddingRight: '10px',
+              fontSize: '16px',
+              lineHeight: '20px',
+              display: 'inline-block',
+            }}
+          >
             {t('FARM_MAP.BARN.WASH_PACK')}
           </Label>
           <Label style={{ display: 'inline-block' }} sm>
@@ -88,12 +95,19 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
           />
         </div>
       </div>
-      <div >
-        <div style={{ marginBottom: '20px'}}>
-          <Label style={{  paddingRight: '10px', display: 'inline-block' }}>
+      <div>
+        <div style={{ marginBottom: '20px' }}>
+          <Label
+            style={{
+              paddingRight: '10px',
+              fontSize: '16px',
+              lineHeight: '20px',
+              display: 'inline-block',
+            }}
+          >
             {t('FARM_MAP.BARN.COLD_STORAGE')}
           </Label>
-          <Label style={{display: 'inline-block'}} sm>
+          <Label style={{ display: 'inline-block' }} sm>
             {t('common:OPTIONAL')}
           </Label>
         </div>

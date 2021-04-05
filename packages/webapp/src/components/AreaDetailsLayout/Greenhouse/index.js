@@ -78,8 +78,8 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
       perimeter={perimeter}
     >
       <div>
-        <div style={{ marginBottom: '20px'}}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px'}}>
+        <div style={{ marginBottom: '20px' }}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
             {t('FARM_MAP.GREENHOUSE.GREENHOUSE_TYPE')}
           </Label>
           <img src={Leaf} style={{ display: 'inline-block' }} />
@@ -121,22 +121,23 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
               defaultValue={new Date().toLocaleDateString('en-CA')}
               label={t('FARM_MAP.GREENHOUSE.DATE')}
               inputRef={register({ required: true })}
+              style={{ paddingTop: '16px', paddingBottom: '20px' }}
             />
           )}
         </div>
         <div>
           {greenhouseTypeSelection === 'Organic' && (
             <div>
-              <div style={{ marginBottom: '20px'}}>
-                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px'}}>
+              <div style={{ marginBottom: '20px' }}>
+                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
                   {t('FARM_MAP.GREENHOUSE.SUPPLEMENTAL_LIGHTING')}
                 </Label>
                 <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-                <Label style={{display: 'inline-block'}} sm>
+                <Label style={{ display: 'inline-block' }} sm>
                   {t('common:OPTIONAL')}
                 </Label>
               </div>
-              <div >
+              <div>
                 <Radio
                   label={t('common:YES')}
                   inputRef={register({ required: false })}
@@ -151,16 +152,16 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
                   name={greenhouseEnum.supplemental_lighting}
                 />
               </div>
-              <div style={{ marginBottom: '20px'}}>
-                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px'}}>
+              <div style={{ marginBottom: '20px' }}>
+                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
                   {t('FARM_MAP.GREENHOUSE.CO2_ENRICHMENT')}
                 </Label>
                 <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-                <Label style={{display: 'inline-block'}} sm>
+                <Label style={{ display: 'inline-block' }} sm>
                   {t('common:OPTIONAL')}
                 </Label>
               </div>
-              <div >
+              <div>
                 <Radio
                   label={t('common:YES')}
                   inputRef={register({ required: false })}
@@ -175,16 +176,16 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
                   name={greenhouseEnum.co2_enrichment}
                 />
               </div>
-              <div style={{ marginBottom: '20px'}}>
-                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px'}}>
+              <div style={{ marginBottom: '20px' }}>
+                <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
                   {t('FARM_MAP.GREENHOUSE.GREENHOUSE_HEATED')}
                 </Label>
                 <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-                <Label style={{display: 'inline-block'}} sm>
+                <Label style={{ display: 'inline-block' }} sm>
                   {t('common:OPTIONAL')}
                 </Label>
               </div>
-              <div style={{ marginBottom: '16px'}}>
+              <div style={{ marginBottom: '16px' }}>
                 <Radio
                   label={t('common:YES')}
                   inputRef={register({ required: false })}

@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureResidence({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -55,6 +56,7 @@ export default function PureResidence({ history, submitForm, system, useHookForm
       system={system}
       total_area={total_area}
       perimeter={perimeter}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     />
   );
 }

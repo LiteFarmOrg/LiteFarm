@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
-import Button from '../Form/Button';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
 import Unit from '../Form/Unit';
@@ -29,6 +28,8 @@ export default function AreaDetailsLayout({
   system,
   total_area,
   perimeter,
+  buttonGroup,
+  tab,
 }) {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState();
@@ -68,21 +69,18 @@ export default function AreaDetailsLayout({
     submitForm(data);
   };
 
+  const isCreateLocationPage = history.location.pathname.includes('/create_location/');
+
   return (
     <FormTitleLayout
-      onCancel={onCancel}
+      onCancel={isCreateLocationPage && onCancel}
       onGoBack={onBack}
       onSubmit={handleSubmit(onSubmit, onError)}
       title={title}
       style={{ flexGrow: 9, order: 2 }}
-      buttonGroup={
-        <>
-          <Button type={'submit'} disabled={disabled} fullLength>
-            {t('common:SAVE')}
-          </Button>
-        </>
-      }
+      buttonGroup={buttonGroup}
     >
+      {tab}
       {errorMessage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
           <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>

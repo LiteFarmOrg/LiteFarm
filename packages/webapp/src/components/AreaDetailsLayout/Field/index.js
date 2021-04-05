@@ -6,7 +6,8 @@ import Leaf from '../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { fieldEnum } from '../../../containers/constants';
-import { Label } from "../../Typography";
+import { Label } from '../../Typography';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureField({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -61,10 +62,11 @@ export default function PureField({ history, submitForm, system, useHookFormPers
       system={system}
       total_area={total_area}
       perimeter={perimeter}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
-        <div style={{ marginBottom: '20px'}}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px'}}>
+        <div style={{ marginBottom: '20px' }}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
             {t('FARM_MAP.FIELD.FIELD_TYPE')}
           </Label>
           <img src={Leaf} style={{ display: 'inline-block' }} />
@@ -100,7 +102,7 @@ export default function PureField({ history, submitForm, system, useHookFormPers
         <div style={{ paddingBottom: '20px' }}>
           {fieldTypeSelection === 'Transitional' && (
             <Input
-              style={{ paddingBottom: '16px'}}
+              style={{ paddingBottom: '16px' }}
               type={'date'}
               name={fieldEnum.transition_date}
               defaultValue={new Date().toLocaleDateString('en-CA')}

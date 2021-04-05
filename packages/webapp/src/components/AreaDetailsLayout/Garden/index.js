@@ -7,6 +7,7 @@ import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { gardenEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureGarden({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -61,6 +62,7 @@ export default function PureGarden({ history, submitForm, system, useHookFormPer
       system={system}
       total_area={total_area}
       perimeter={perimeter}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <div style={{ marginBottom: '20px' }}>

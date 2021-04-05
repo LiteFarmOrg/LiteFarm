@@ -6,7 +6,8 @@ import Radio from '../../Form/Radio';
 import Unit from '../../Form/Unit';
 import { waterValveEnum } from '../../../containers/constants';
 import { water_valve_flow_rate } from '../../../util/unit';
-import { Label } from "../../Typography";
+import { Label } from '../../Typography';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureWaterValve({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ export default function PureWaterValve({ history, submitForm, system, useHookFor
       register={register}
       errors={errors}
       disabled={disabled}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <Label style={{ marginBottom: '25px' }}>{t('FARM_MAP.WATER_VALVE.WATER_VALVE_TYPE')}</Label>

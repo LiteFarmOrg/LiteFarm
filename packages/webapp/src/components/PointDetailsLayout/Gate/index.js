@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetailsLayout from '..';
 import { useForm } from 'react-hook-form';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureGate({ history, submitForm, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ export default function PureGate({ history, submitForm, useHookFormPersist }) {
       register={register}
       disabled={disabled}
       errors={errors}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     />
   );
 }

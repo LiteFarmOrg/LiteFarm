@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
-import Button from '../Form/Button';
 import { gateEnum as pointEnum } from '../../containers/constants';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
@@ -17,8 +16,8 @@ export default function PointDetailsLayout({
   history,
   onError,
   register,
-  disabled,
   errors,
+  buttonGroup,
 }) {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState();
@@ -53,6 +52,7 @@ export default function PointDetailsLayout({
   const onSubmit = (data) => {
     submitForm(data);
   };
+  const isCreateLocationPage = history.location.pathname.includes('/create_location/');
 
   return (
     <FormTitleLayout
@@ -61,13 +61,8 @@ export default function PointDetailsLayout({
       title={title}
       onCancel={onCancel}
       style={{ flexGrow: 9, order: 2 }}
-      buttonGroup={
-        <>
-          <Button type={'submit'} disabled={disabled} fullLength>
-            {t('common:SAVE')}
-          </Button>
-        </>
-      }
+      buttonGroup={buttonGroup}
+      isCreateLocationPage={isCreateLocationPage}
     >
       {errorMessage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>

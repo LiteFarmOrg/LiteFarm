@@ -8,6 +8,7 @@ import { fenceEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
 import { line_length } from '../../../util/unit';
 import Unit from '../../Form/Unit';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureFence({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -58,6 +59,7 @@ export default function PureFence({ history, submitForm, system, useHookFormPers
       control={control}
       errors={errors}
       system={system}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <div>
@@ -81,16 +83,16 @@ export default function PureFence({ history, submitForm, system, useHookFormPers
           />
         </div>
         <div>
-          <div style={{ marginBottom: '20px'}}>
-            <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize:'16px'}}>
+          <div style={{ marginBottom: '20px' }}>
+            <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
               {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
             </Label>
             <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-            <Label style={{display: 'inline-block'}} sm>
+            <Label style={{ display: 'inline-block' }} sm>
               {t('common:OPTIONAL')}
             </Label>
           </div>
-          <div style={{marginBottom: '16px'}}>
+          <div style={{ marginBottom: '16px' }}>
             <Radio
               label={t('common:YES')}
               inputRef={register({ required: false })}

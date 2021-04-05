@@ -7,6 +7,7 @@ import { Label } from '../../Typography';
 import { line_length, line_width, watercourse_width } from '../../../util/unit';
 import Unit from '../../Form/Unit';
 import { watercourseEnum } from '../../../containers/constants';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureWatercourse({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -69,6 +70,7 @@ export default function PureWatercourse({ history, submitForm, system, useHookFo
       control={control}
       errors={errors}
       system={system}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <div>
@@ -130,15 +132,15 @@ export default function PureWatercourse({ history, submitForm, system, useHookFo
           />
         </div>
         <div>
-          <div style={{ marginBottom: '20px'}}>
-            <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize:'16px'}}>
+          <div style={{ marginBottom: '20px' }}>
+            <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
               {t('FARM_MAP.WATERCOURSE.IRRIGATION')}
             </Label>
-            <Label style={{display: 'inline-block'}} sm>
+            <Label style={{ display: 'inline-block' }} sm>
               {t('common:OPTIONAL')}
             </Label>
           </div>
-          <div style={{marginBottom: '16px'}}>
+          <div style={{ marginBottom: '16px' }}>
             <Radio
               label={t('common:YES')}
               inputRef={register({ required: false })}

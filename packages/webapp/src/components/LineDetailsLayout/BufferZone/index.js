@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../containers/constants';
 import Unit from '../../Form/Unit';
 import { line_width } from '../../../util/unit';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureBufferZone({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -55,6 +56,7 @@ export default function PureBufferZone({ history, submitForm, system, useHookFor
       errors={errors}
       system={system}
       width={width}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <div>

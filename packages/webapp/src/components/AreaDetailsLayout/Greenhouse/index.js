@@ -7,6 +7,7 @@ import Radio from '../../Form/Radio';
 import Input from '../../Form/Input';
 import { greenhouseEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureGreenhouse({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -76,6 +77,7 @@ export default function PureGreenhouse({ history, submitForm, system, useHookFor
       system={system}
       total_area={total_area}
       perimeter={perimeter}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <div style={{ marginBottom: '20px' }}>

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
 import { barnEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureBarn({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -62,6 +63,7 @@ export default function PureBarn({ history, submitForm, system, useHookFormPersi
       system={system}
       total_area={total_area}
       perimeter={perimeter}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
         <div style={{ marginBottom: '20px' }}>

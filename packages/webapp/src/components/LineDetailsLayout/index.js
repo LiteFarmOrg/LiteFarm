@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../Form/Input';
 import FormTitleLayout from '../Form/FormTitleLayout';
-import Button from '../Form/Button';
 import { fenceEnum as lineEnum } from '../../containers/constants';
 import PureWarningBox from '../WarningBox';
 import { Label } from '../Typography';
@@ -19,6 +18,7 @@ export default function LineDetailsLayout({
   history,
   children,
   errors,
+  buttonGroup,
 }) {
   const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState();
@@ -54,21 +54,15 @@ export default function LineDetailsLayout({
   const onSubmit = (data) => {
     submitForm(data);
   };
-
+  const isCreateLocationPage = history.location.pathname.includes('/create_location/');
   return (
     <FormTitleLayout
-      onCancel={onCancel}
+      onCancel={isCreateLocationPage && onCancel}
       onGoBack={onBack}
       onSubmit={handleSubmit(onSubmit, onError)}
       title={title}
       style={{ flexGrow: 9, order: 2 }}
-      buttonGroup={
-        <>
-          <Button type={'submit'} disabled={disabled} fullLength>
-            {t('common:SAVE')}
-          </Button>
-        </>
-      }
+      buttonGroup={buttonGroup}
     >
       {errorMessage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>

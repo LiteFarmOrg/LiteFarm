@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import Radio from '../../Form/Radio';
 import { surfaceWaterEnum } from '../../../containers/constants';
 import { Label } from '../../Typography';
+import LocationButtons from '../../ButtonGroup/LocationButtons';
 
 export default function PureSurfaceWater({ history, submitForm, system, useHookFormPersist }) {
   const { t } = useTranslation();
@@ -60,13 +61,14 @@ export default function PureSurfaceWater({ history, submitForm, system, useHookF
       system={system}
       total_area={total_area}
       perimeter={perimeter}
+      buttonGroup={<LocationButtons disabled={disabled} />}
     >
       <div>
-        <div style={{ marginBottom: '20px'}}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block'}}>
+        <div style={{ marginBottom: '20px' }}>
+          <Label style={{ paddingRight: '10px', display: 'inline-block' }}>
             {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
           </Label>
-          <Label style={{display: 'inline-block'}} sm>
+          <Label style={{ display: 'inline-block' }} sm>
             {t('common:OPTIONAL')}
           </Label>
         </div>

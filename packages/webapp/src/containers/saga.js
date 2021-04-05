@@ -364,8 +364,8 @@ export function* fetchAllSaga({ payload: userFarmIds }) {
     tasks.push(call(axios.get, getLocationsUrl(farm_id), header));
     onTaskSuccess.push(getLocationsSuccess);
 
-    // tasks.push(call(axios.get, apiConfig.fieldCropURL + '/farm/' + farm_id, header));
-    // onTaskSuccess.push(getFieldCropsSuccess);
+    tasks.push(call(axios.get, apiConfig.fieldCropURL + '/farm/' + farm_id, header));
+    onTaskSuccess.push(getFieldCropsSuccess);
 
     const roleStatus = yield select(rolesStatusSelector);
     if (!roleStatus.loaded) {

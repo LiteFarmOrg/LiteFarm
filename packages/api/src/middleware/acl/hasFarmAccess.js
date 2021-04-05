@@ -3,7 +3,6 @@ const knex = Model.knex();
 const seededEntities = ['pesticide_id', 'disease_id', 'task_type_id', 'crop_id', 'fertilizer_id'];
 const entitiesGetters = {
   fertilizer_id: fromFertilizer,
-  field_id: fromField,
   field_crop_id: fromFieldCrop,
   crop_id: fromCrop,
   pesticide_id: fromPesticide,
@@ -86,10 +85,6 @@ async function fromFertilizer(fertilizerId) {
   return knex('fertilizer').where({ fertilizer_id: fertilizerId }).first();
 }
 
-async function fromField(fieldId) {
-  return knex('field').where({ field_id: fieldId }).first();
-}
-
 async function fromFields(fields) {
   if (!fields || !fields.length) {
     return {};
@@ -163,8 +158,8 @@ async function fromActivity(req) {
 }
 
 async function fromFieldCrop(fieldCropId) {
-  const { field_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
-  return fromField(field_id);
+  const { location_id } = await knex('fieldCrop').where({ field_crop_id: fieldCropId }).first();
+  return fromLocation(location_id);
 }
 
 async function fromYield(yieldId) {

@@ -16,24 +16,18 @@
 const locationModel = require('../../models/locationModel');
 const fieldCropModel = require('../../models/fieldCropModel');
 
-async function validateFieldCropArea(req, res, next) {
-  let location;
-  if (req.body.location_id) {
-    location = await locationModel.query()
-      .whereNotDeleted().findById(req.body.location_id)
-      .withGraphJoined('figure.[area, line]');
-  } else {
-    const fieldCrop = await fieldCropModel.query().whereNotDeleted().findById(req.params.field_crop_id)
-      .withGraphFetched(`[location.[
-          figure.[area, line]]]`);
-    location = fieldCrop?.location;
-  }
+async function validateLocationId(req, res, next) {
+  const location = await locationModel.query().whereNotDeleted().findById(req.body.location_id)
+    .withGraphJoined(`[
+           field, garden, buffer_zone,
+          greenhouse
+        ]`);
 
-  if (location?.figure?.area?.total_area && location?.figure?.area?.total_area < req.body.area_used) {
-    return res.status(400).send('Area needed is greater than the field\'s area');
-  } else {
+  if (location?.field || location?.garden || location?.buffer_zone || location?.greenhouse) {
     return next();
+  } else {
+    return res.status(400).send('Location must be type of field, garden, buffer_zone, or greenhouse');
   }
 }
 
-module.exports = validateFieldCropArea;
+module.exports = validateLocationId;

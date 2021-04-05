@@ -112,7 +112,20 @@ export const currentFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
     return fieldCrops.filter(
-      (fieldCrop) => new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime,
+      (fieldCrop) =>
+        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
+        new Date(fieldCrop.start_date).getTime() <= lastActiveDatetime,
+    );
+  },
+);
+
+export const futureFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) =>
+        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
+        new Date(fieldCrop.start_date).getTime() >= lastActiveDatetime,
     );
   },
 );

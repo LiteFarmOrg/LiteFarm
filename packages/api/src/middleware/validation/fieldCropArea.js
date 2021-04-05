@@ -32,7 +32,7 @@ async function validateFieldCropArea(req, res, next) {
   if (location?.figure?.area?.total_area && location?.figure?.area?.total_area < req.body.area_used) {
     return res.status(400).send('Area needed is greater than the field\'s area');
   } else {
-    next();
+    return next();
   }
 }
 

@@ -82,7 +82,7 @@ describe('FieldCrop Tests', () => {
   function fakeFieldCrop(crop) {
     const fieldCrop = mocks.fakeFieldCrop();
     const area_used = fieldCrop.area_used < field.figure.area.total_area ? fieldCrop.area_used : field.figure.area.total_area;
-    return ({ ...fieldCrop, crop_id: crop.crop_id, field_id: field.field_id, area_used });
+    return ({ ...fieldCrop, crop_id: crop.crop_id, location_id: field.location_id, area_used });
   }
 
   beforeEach(async () => {
@@ -323,15 +323,39 @@ describe('FieldCrop Tests', () => {
         });
       });
 
-      // test('should return status 400 and if location is type of watervalve', async (done) => {
-      //   fieldCrop.area_used = field.figure.area.total_area * 0.1;
-      //   putFieldCropRequest(fieldCrop, {}, async (err, res) => {
-      //     expect(res.status).toBe(200);
-      //     const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
-      //     expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
-      //     done();
-      //   })
-      // });
+      test('should be able to change location_id asset type is greenhouse', async (done) => {
+        const [greenhouse] = await mocks.greenhouseFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+        fieldCrop.location_id = greenhouse.location_id;
+        fieldCrop.area_used = 0;
+        putFieldCropRequest(fieldCrop, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
+          expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
+          done();
+        });
+      });
+
+      test('should be able to change location_id asset type is bufferzone', async (done) => {
+        const [bufferZone] = await mocks.buffer_zoneFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+        fieldCrop.location_id = bufferZone.location_id;
+        fieldCrop.area_used = 999999;
+        putFieldCropRequest(fieldCrop, {}, async (err, res) => {
+          expect(res.status).toBe(200);
+          const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
+          expect(Math.floor(newFieldCrop.area_used)).toBe(Math.floor(fieldCrop.area_used));
+          done();
+        });
+      });
+
+      test('should return 400 if asset type is residential area', async (done) => {
+        const [residence] = await mocks.residenceFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+        fieldCrop.location_id = residence.location_id;
+        fieldCrop.area_used = 999999;
+        putFieldCropRequest(fieldCrop, {}, async (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        });
+      });
 
       test('should edit and the estimated_production field', async (done) => {
         fieldCrop.area_used = field.figure.area.total_area * 0.1;
@@ -540,9 +564,22 @@ describe('FieldCrop Tests', () => {
       fieldCrop.estimated_revenue = 1;
       postFieldCropRequest(fieldCrop, {}, (err, res) => {
         expect(res.status).toBe(400);
-        expect(JSON.parse(res.error.text).error.data.area_used[0].message).toBe("should be >= 0");
-        done()
-      })
+        expect(JSON.parse(res.error.text).error.data.area_used[0].message).toBe('should be >= 0');
+        done();
+      });
+    });
+
+    test('should return 400 status if asset type is fence', async (done) => {
+      let fieldCrop = fakeFieldCrop(crop);
+      fieldCrop.estimated_revenue = 1;
+      fieldCrop.area_used = field.figure.area.total_area * 0.25;
+      fieldCrop.estimated_production = 1;
+      const [fence] = await mocks.fenceFactory({ promisedLocation: mocks.locationFactory({ promisedFarm: [farm] }) });
+      fieldCrop.location_id = fence.location_id;
+      postFieldCropRequest(fieldCrop, {}, async (err, res) => {
+        expect(res.status).toBe(400);
+        done();
+      });
     });
 
     test('Should post then get a valid fieldcrop (bed size and percentage)', async (done) => {
@@ -552,7 +589,7 @@ describe('FieldCrop Tests', () => {
       fieldCrop.estimated_production = 1;
       postFieldCropRequest(fieldCrop, {}, async (err, res) => {
         expect(res.status).toBe(201);
-        const newFieldCrop = await fieldCropModel.query().context({showHidden: true}).where('crop_id', crop.crop_id).first();
+        const newFieldCrop = await fieldCropModel.query().context({ showHidden: true }).where('crop_id', crop.crop_id).first();
         expect(newFieldCrop.field_id).toBe(field.field_id);
         done();
       })

@@ -97,28 +97,46 @@ const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const FarmSiteBoundary = React.lazy(() =>
-  import('./containers/AreaDetailsLayout/FarmSiteBoundaryDetailForm'),
+  import('./containers/LocationDetails/AreaDetailsLayout/FarmSiteBoundaryDetailForm'),
 );
-const AreaDetailsField = React.lazy(() => import('./containers/AreaDetailsLayout/FieldDetailForm'));
-const Garden = React.lazy(() => import('./containers/AreaDetailsLayout/GardenDetailForm'));
-const Gate = React.lazy(() => import('./containers/PointDetailsLayout/GateDetailForm'));
-const WaterValve = React.lazy(() => import('./containers/PointDetailsLayout/WaterValveDetailForm'));
-const Barn = React.lazy(() => import('./containers/AreaDetailsLayout/BarnDetailForm'));
+const AreaDetailsField = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetailsLayout/FieldDetailForm'),
+);
+const Garden = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetailsLayout/GardenDetailForm'),
+);
+const Gate = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetailsLayout/GateDetailForm'),
+);
+const WaterValve = React.lazy(() =>
+  import('./containers/LocationDetails/PointDetailsLayout/WaterValveDetailForm'),
+);
+const Barn = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetailsLayout/BarnDetailForm'),
+);
 const NaturalArea = React.lazy(() =>
-  import('./containers/AreaDetailsLayout/NaturalAreaDetailForm'),
+  import('./containers/LocationDetails/AreaDetailsLayout/NaturalAreaDetailForm'),
 );
 const SurfaceWater = React.lazy(() =>
-  import('./containers/AreaDetailsLayout/SurfaceWaterDetailForm'),
+  import('./containers/LocationDetails/AreaDetailsLayout/SurfaceWaterDetailForm'),
 );
-const Residence = React.lazy(() => import('./containers/AreaDetailsLayout/ResidenceDetailForm'));
+const Residence = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetailsLayout/ResidenceDetailForm'),
+);
 const CeremonialArea = React.lazy(() =>
-  import('./containers/AreaDetailsLayout/CeremonialAreaDetailForm'),
+  import('./containers/LocationDetails/AreaDetailsLayout/CeremonialAreaDetailForm'),
 );
-const Greenhouse = React.lazy(() => import('./containers/AreaDetailsLayout/GreenhouseDetailForm'));
-const Fence = React.lazy(() => import('./containers/LineDetailsLayout/FenceDetailForm'));
-const BufferZone = React.lazy(() => import('./containers/LineDetailsLayout/BufferZoneDetailForm'));
+const Greenhouse = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetailsLayout/GreenhouseDetailForm'),
+);
+const Fence = React.lazy(() =>
+  import('./containers/LocationDetails/LineDetailsLayout/FenceDetailForm'),
+);
+const BufferZone = React.lazy(() =>
+  import('./containers/LocationDetails/LineDetailsLayout/BufferZoneDetailForm'),
+);
 const Watercourse = React.lazy(() =>
-  import('./containers/LineDetailsLayout/WatercourseDetailForm'),
+  import('./containers/LocationDetails/LineDetailsLayout/WatercourseDetailForm'),
 );
 
 const Routes = () => {

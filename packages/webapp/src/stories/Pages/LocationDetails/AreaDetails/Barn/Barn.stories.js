@@ -23,3 +23,17 @@ Post.args = {
 Post.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },
 };
+
+export const View = Template.bind({});
+View.args = {
+  isViewLocationPage: true,
+  history: (data) => {},
+  submitForm: (data) => {},
+  system: 'metric',
+  useHookFormPersist: () => ({
+    persistedData: { grid_points: {}, total_area: 1, perimeter: 2, name: 'name' },
+  }),
+};
+View.parameters = {
+  chromatic: { viewports: [320, 414, 768, 1024, 1800] },
+};

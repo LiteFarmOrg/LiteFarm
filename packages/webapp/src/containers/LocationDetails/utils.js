@@ -1,9 +1,8 @@
 import { useMemo } from 'react';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
-const isViewLocationPage = (match) => match.path.includes('_detail/:location_id');
-const isEditLocationPage = (match) =>
-  /edit_.*\/:location_id\/detail/.test(match.path.includes('/create_location/'));
+const isViewLocationPage = (match) => /\w*_detail\/:location_id/.test(match.path);
+const isEditLocationPage = (match) => /edit_\w*\/:location_id/.test(match.path);
 export const useLocationPageType = (match) => {
   return useMemo(
     () => ({

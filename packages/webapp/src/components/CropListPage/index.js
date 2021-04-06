@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Input from '../Form/Input';
 import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
+import PureCropTile from '../CropTile';
 
 export default function PureCropList({
   onFilterChange,
@@ -17,7 +18,7 @@ export default function PureCropList({
     <div className={styles.container} {...props}>
       {isSearchable && (
         <Input
-          style={{ marginBottom: '16px' }}
+          style={{ marginBottom: '24px' }}
           placeholder={t('LOCATION_CROPS.INPUT_PLACEHOLDER')}
           isSearchBar={true}
           onChange={onFilterChange}
@@ -25,7 +26,7 @@ export default function PureCropList({
       )}
       <div
         style={{
-          marginBottom: '24px',
+          marginBottom: '20px',
           width: 'fit-content',
           fontSize: '16px',
           color: 'var(--iconActive)',
@@ -42,6 +43,12 @@ export default function PureCropList({
           <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
           <div className={styles.cropCount} style={{backgroundColor: '#037A0F'}}>{activeCrops.length}</div>
           <div className={styles.labelDivider} />
+        </div>
+        <div className={styles.tileContainer}>
+          <PureCropTile fieldCrop={{varietalName: 'hello'}}/>
+          <PureCropTile fieldCrop={{varietalName: 'greetings'}}/>
+          <PureCropTile fieldCrop={{varietalName: 'hi'}}/>
+          <PureCropTile fieldCrop={{varietalName: 'bye'}}/>
         </div>
         </>
       }

@@ -1,6 +1,7 @@
 .labelContainer {
   display: flex;
   align-items: center;
+  margin-bottom: 22px;
 }
 
 .label {
@@ -34,4 +35,13 @@
   color: var(--grey400);
   background-color: aqua;
   flex-grow: 2;
+}
+
+.tileContainer {
+  margin-bottom: 30px;
+  display: flex;
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  gap: 24px;
 }

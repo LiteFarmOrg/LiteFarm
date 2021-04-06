@@ -2,27 +2,18 @@ import { createSelector } from 'reselect';
 import { barnsSelector, barnStatusSelector } from './barnSlice';
 import { ceremonialsSelector, ceremonialStatusSelector } from './ceremonialSlice';
 import { farmSiteBoundarysSelector, farmSiteBoundaryStatusSelector } from './farmSiteBoundarySlice';
-import { fieldEntitiesSelector, fieldsSelector, fieldStatusSelector } from './fieldSlice';
-import {
-  greenhouseEntitiesSelector,
-  greenhousesSelector,
-  greenhouseStatusSelector,
-} from './greenhouseSlice';
+import { fieldsSelector, fieldStatusSelector } from './fieldSlice';
+import { greenhousesSelector, greenhouseStatusSelector } from './greenhouseSlice';
 import { surfaceWatersSelector, surfaceWaterStatusSelector } from './surfaceWaterSlice';
 import { naturalAreasSelector, naturalAreaStatusSelector } from './naturalAreaSlice';
 import { residencesSelector, residenceStatusSelector } from './residenceSlice';
 import { locationEnum } from './Map/constants';
-import {
-  bufferZoneEntitiesSelector,
-  bufferZonesSelector,
-  bufferZoneStatusSelector,
-} from './bufferZoneSlice';
+import { bufferZonesSelector, bufferZoneStatusSelector } from './bufferZoneSlice';
 import { watercoursesSelector, watercourseStatusSelector } from './watercourseSlice';
 import { fencesSelector, fenceStatusSelector } from './fenceSlice';
 import { gatesSelector, gateStatusSelector } from './gateSlice';
 import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
-import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
-import { fieldCropsSelector } from './fieldCropSlice';
+import { gardensSelector } from './gardenSlice';
 
 export const areaSelector = createSelector(
   [
@@ -151,42 +142,5 @@ export const pointStatusSelector = createSelector(
       loaded: gateStatus.loaded && waterValveStatus.loaded,
       error: gateStatus.error || waterValveStatus.error,
     };
-  },
-);
-
-export const cropLocationEntitiesSelector = createSelector(
-  [
-    fieldEntitiesSelector,
-    gardenEntitiesSelector,
-    greenhouseEntitiesSelector,
-    bufferZoneEntitiesSelector,
-  ],
-  (fieldEntities, gardenEntities, greenhouseEntities, bufferzoneEntities) => {
-    return { ...fieldEntities, ...gardenEntities, ...greenhouseEntities, ...bufferzoneEntities };
-  },
-);
-
-export const cropLocationStatusSelector = createSelector(
-  [fieldStatusSelector, gardenStatusSelector, greenhouseStatusSelector, bufferZoneStatusSelector],
-  (fieldStatus, gardenStatus, greenhouseStatus, bufferzoneStatus) => ({
-    loading:
-      fieldStatus.loading ||
-      gardenStatus.loading ||
-      greenhouseStatus.loading ||
-      bufferzoneStatus.loading,
-    loaded:
-      fieldStatus.loaded &&
-      gardenStatus.loaded &&
-      greenhouseStatus.loaded &&
-      bufferzoneStatus.loaded,
-    error:
-      fieldStatus.error || gardenStatus.error || greenhouseStatus.error || bufferzoneStatus.error,
-  }),
-);
-
-export const locationWithFieldCropSelector = createSelector(
-  [cropLocationEntitiesSelector, fieldCropsSelector],
-  (locationEntities, fieldCrops) => {
-    return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
   },
 );

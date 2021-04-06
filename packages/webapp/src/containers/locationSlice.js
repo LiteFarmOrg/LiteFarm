@@ -162,7 +162,7 @@ export const cropLocationEntitiesSelector = createSelector(
     bufferZoneEntitiesSelector,
   ],
   (fieldEntities, gardenEntities, greenhouseEntities, bufferzoneEntities) => {
-    return { ...fieldEntities, gardenEntities, greenhouseEntities, bufferzoneEntities };
+    return { ...fieldEntities, ...gardenEntities, ...greenhouseEntities, ...bufferzoneEntities };
   },
 );
 

@@ -158,3 +158,10 @@ export const fieldCropStatusSelector = createSelector(
     return { loading, error, loaded };
   },
 );
+
+export const locationWithFieldCropSelector = createSelector(
+  [cropLocationEntitiesSelector, fieldCropsSelector],
+  (locationEntities, fieldCrops) => {
+    return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
+  },
+);

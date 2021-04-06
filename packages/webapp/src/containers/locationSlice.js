@@ -182,10 +182,3 @@ export const cropLocationStatusSelector = createSelector(
       fieldStatus.error || gardenStatus.error || greenhouseStatus.error || bufferzoneStatus.error,
   }),
 );
-
-// export const locationWithFieldCropSelector = createSelector(
-//   [cropLocationEntitiesSelector, fieldCropsSelector],
-//   (locationEntities, fieldCrops) => {
-//     return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
-//   },
-// );

@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { mapFilterSettingSelector } from './mapFilterSettingSlice';
 import { areaSelector, lineSelector, pointSelector } from '../locationSlice';
 import { locationEnum, isNoFillArea, polygonPath, isArea, isLine } from './constants';
+import selectionHandler from './selectionHandler';
+const { getLatLng } = selectionHandler();
 
 const useMapAssetRenderer = () => {
   const filterSettings = useSelector(mapFilterSettingSelector);
@@ -18,6 +20,7 @@ const useMapAssetRenderer = () => {
   const [assetGeometries, setAssetGeometries] = useState(initAssetGeometriesState());
   //TODO get prev filter state from redux
   const [prevFilterState, setPrevFilterState] = useState(filterSettings);
+  const { getLatLng } = selectionHandler();
   useEffect(() => {
     for (const key in filterSettings) {
       if (prevFilterState?.[key] !== filterSettings?.[key]) {
@@ -45,6 +48,7 @@ const useMapAssetRenderer = () => {
       : drawPoint;
   };
   const drawAssets = (map, maps, mapBounds) => {
+    getLatLng(map, null);
     let hasLocation = false;
     const newState = { ...assetGeometries };
     const assets = { ...areaAssets, ...lineAssets, ...pointAssets };
@@ -156,9 +160,8 @@ const drawArea = (map, maps, mapBounds, area, isVisible) => {
   });
   marker.setMap(map);
 
-  maps.event.addListener(polygon, 'click', function () {
-    console.log('clicked area');
-  });
+  getLatLng(maps, polygon);
+
   marker.setOptions({ visible: isVisible });
   polygon.setOptions({ visible: isVisible });
   polyline.setOptions({ visible: isVisible });
@@ -260,9 +263,7 @@ const drawLine = (map, maps, mapBounds, line, isVisible) => {
       ],
     });
   });
-  maps.event.addListener(polyline, 'click', function () {
-    console.log('clicked line');
-  });
+  getLatLng(maps, polyline);
 
   polyline.setOptions({ visible: isVisible });
   return { polyline };
@@ -286,9 +287,7 @@ const drawPoint = (map, maps, mapBounds, point, isVisible) => {
     this.setOptions({ icon: icons[type] });
   });
 
-  maps.event.addListener(marker, 'click', function () {
-    console.log('clicked point');
-  });
+  getLatLng(maps, marker);
 
   marker.setOptions({ visible: isVisible });
   return { marker };

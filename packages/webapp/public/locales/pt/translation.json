@@ -472,6 +472,13 @@
     "IMPORTANT_THINGS": "Deixe-nos mostrar algumas coisas importantes!",
     "SUCCESSFULLY_JOINED": "Você entrou com sucesso"
   },
+  "LOCATION_CROPS": {
+    "ACTIVE_CROPS": "MISSING",
+    "ADD_NEW": "MISSING",
+    "INPUT_PLACEHOLDER": "MISSING",
+    "PAST_CROPS": "MISSING",
+    "PLANNED_CROPS": "MISSING"
+  },
   "LOG_COMMON": {
     "ACTION": "Ação",
     "ACTIVITY": "Atividade",
@@ -614,6 +621,7 @@
     "TITLE": "Registro de Observação de Pragas e Doenças"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Taxa",
     "SEED_SPACING": "Espaçamento entre sementes/mudas",
     "SEEDING_DEPTH": "Profundidade do plantio/semeadura",

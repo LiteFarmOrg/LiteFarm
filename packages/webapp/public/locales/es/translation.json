@@ -472,6 +472,13 @@
     "IMPORTANT_THINGS": "Déjenos mostrarle un par de cosas importantes!",
     "SUCCESSFULLY_JOINED": "Se ha unido de manera exitosa"
   },
+  "LOCATION_CROPS": {
+    "ACTIVE_CROPS": "MISSING",
+    "ADD_NEW": "MISSING",
+    "INPUT_PLACEHOLDER": "MISSING",
+    "PAST_CROPS": "MISSING",
+    "PLANNED_CROPS": "MISSING"
+  },
   "LOG_COMMON": {
     "ACTION": "Acción",
     "ACTIVITY": "Actividad",
@@ -614,6 +621,7 @@
     "TITLE": "Registro de exploración"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Promedio",
     "SEED_SPACING": "Espacio entre semilla",
     "SEEDING_DEPTH": "Profundidad",

@@ -1,16 +1,16 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { loginSelector, onLoadingFail, onLoadingStart } from './userFarmSlice';
 import { createSelector } from 'reselect';
-import { fieldEntitiesSelector } from './fieldSlice';
 import { cropEntitiesSelector } from './cropSlice';
 import { lastActiveDatetimeSelector } from './userLogSlice';
 import { pick } from '../util';
+import { cropLocationEntitiesSelector } from './locationSlice';
 
 const getFieldCrop = (obj) => {
   return pick(obj, [
     'field_crop_id',
     'crop_id',
-    'field_id',
+    'location_id',
     'start_date',
     'end_date',
     'area_used',
@@ -86,14 +86,14 @@ const fieldCropSelectors = fieldCropAdapter.getSelectors(
 );
 
 export const fieldCropsSelector = createSelector(
-  [fieldCropSelectors.selectAll, fieldEntitiesSelector, cropEntitiesSelector, loginSelector],
-  (fieldCrops, fieldEntities, cropEntities, { farm_id }) => {
+  [fieldCropSelectors.selectAll, cropLocationEntitiesSelector, cropEntitiesSelector, loginSelector],
+  (fieldCrops, cropLocationEntities, cropEntities, { farm_id }) => {
     const fieldCropsOfCurrentFarm = fieldCrops.filter(
-      (fieldCrop) => fieldEntities[fieldCrop.field_id]?.farm_id === farm_id,
+      (fieldCrop) => cropLocationEntities[fieldCrop.location_id]?.farm_id === farm_id,
     );
     return fieldCropsOfCurrentFarm.map((fieldCrop) => ({
       ...cropEntities[fieldCrop.crop_id],
-      ...fieldEntities[fieldCrop.field_id],
+      ...cropLocationEntities[fieldCrop.location_id],
       ...fieldCrop,
     }));
   },
@@ -112,10 +112,43 @@ export const currentFieldCropsSelector = createSelector(
   [fieldCropsSelector, lastActiveDatetimeSelector],
   (fieldCrops, lastActiveDatetime) => {
     return fieldCrops.filter(
-      (fieldCrop) => new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime,
+      (fieldCrop) =>
+        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
+        new Date(fieldCrop.start_date).getTime() <= lastActiveDatetime,
     );
   },
 );
+
+export const plannedFieldCropsSelector = createSelector(
+  [fieldCropsSelector, lastActiveDatetimeSelector],
+  (fieldCrops, lastActiveDatetime) => {
+    return fieldCrops.filter(
+      (fieldCrop) =>
+        new Date(fieldCrop.end_date).getTime() >= lastActiveDatetime &&
+        new Date(fieldCrop.start_date).getTime() >= lastActiveDatetime,
+    );
+  },
+);
+
+export const fieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, fieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
+export const expiredFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, expiredFieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
+export const currentFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, currentFieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
+
+export const plannedFieldCropsByLocationIdSelector = (location_id) =>
+  createSelector([() => location_id, plannedFieldCropsSelector], (location_id, fieldCrops) =>
+    fieldCrops.filter((fieldCrop) => fieldCrop.location_id === location_id),
+  );
 
 export const fieldCropSelector = fieldCropSelectors.selectById;
 

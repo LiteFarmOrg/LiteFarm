@@ -19,7 +19,7 @@ const fieldCropController = require('../controllers/fieldCropController');
 const checkScope = require('../middleware/acl/checkScope');
 const hasFarmAccess = require('../middleware/acl/hasFarmAccess');
 const validateFieldCropArea = require('../middleware/validation/fieldCropArea');
-
+const validateLocationId = require('../middleware/validation/fieldCropLocationId');
 router.get('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['get:field_crops']), fieldCropController.getFieldCropByID());
 
 router.get('/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:field_crops']), fieldCropController.getFieldCropByFarmID());
@@ -28,9 +28,9 @@ router.get('/farm/date/:farm_id/:date', hasFarmAccess({ params: 'farm_id' }), ch
 
 router.get('/expired/farm/:farm_id', hasFarmAccess({ params: 'farm_id' }), checkScope(['get:field_crops']), fieldCropController.getExpiredFieldCrops());
 
-router.post('/', hasFarmAccess({ body: 'field_id' }), checkScope(['add:field_crops']), validateFieldCropArea, fieldCropController.addFieldCrop());
+router.post('/', hasFarmAccess({ body: 'location_id' }), checkScope(['add:field_crops']), validateFieldCropArea, validateLocationId, fieldCropController.addFieldCrop());
 
-router.put('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['edit:field_crops']), validateFieldCropArea, fieldCropController.updateFieldCrop());
+router.put('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['edit:field_crops']), validateFieldCropArea, validateLocationId, fieldCropController.updateFieldCrop());
 
 router.delete('/:field_crop_id', hasFarmAccess({ params: 'field_crop_id' }), checkScope(['delete:field_crops']), fieldCropController.delFieldCrop());
 

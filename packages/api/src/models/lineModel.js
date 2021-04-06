@@ -32,6 +32,7 @@ class Line extends Model {
       properties: {
         figure_id: { type: 'string' },
         line_points: {
+          minItems: 2,
           type: 'array',
           properties: {
             lat: { type: 'number' },

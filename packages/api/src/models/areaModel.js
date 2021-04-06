@@ -33,6 +33,7 @@ class Area extends Model {
         figure_id: { type: 'string' },
         grid_points: {
           type: 'array',
+          minItems: 3,
           properties: {
             lat: { type: 'number' },
             lng: { type: 'number' },

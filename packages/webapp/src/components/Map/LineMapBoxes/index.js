@@ -35,6 +35,7 @@ export default function PureLineBox({
     setError,
     control,
     watch,
+    trigger,
     formState: { isValid, isDirty },
   } = useForm({
     mode: 'onChange',
@@ -60,7 +61,9 @@ export default function PureLineBox({
     watercourseEnum.buffer_width,
     locationData[watercourseEnum.buffer_width],
   );
+
   useEffect(() => {
+    trigger();
     updateWidth((widthValue || 0) + (bufferWidthValue || 0));
   }, [widthValue, bufferWidthValue]);
 

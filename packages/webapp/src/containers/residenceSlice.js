@@ -17,8 +17,7 @@ export const getLocationObjectFromResidence = (data) => {
 };
 const getResidenceFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.residence, residenceProperties),

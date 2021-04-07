@@ -17,8 +17,7 @@ export const getLocationObjectFromWaterValve = (data) => {
 };
 const getWaterValveFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.point, pointProperties),
     ...pick(location.water_valve, waterValveProperties),

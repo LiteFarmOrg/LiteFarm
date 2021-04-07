@@ -17,8 +17,7 @@ export const getLocationObjectFromFence = (data) => {
 };
 const getFenceFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.line, lineProperties),
     ...pick(location.fence, fenceProperties),

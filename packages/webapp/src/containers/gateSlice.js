@@ -17,8 +17,7 @@ export const getLocationObjectFromGate = (data) => {
 };
 const getGateFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.point, pointProperties),
     ...pick(location.gate, gateProperties),

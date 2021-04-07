@@ -132,9 +132,10 @@ const Unit = ({
   const { displayUnit, displayValue, options, databaseUnit, isSelectDisabled } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
-    const value = hookFormGetValue(name) ?? defaultValue;
+    const hookFormValue = hookFormGetValue(name);
+    const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
     const isSelectDisabled = options.length <= 1;
-    return to
+    return to && convert().describe(to)?.system === system
       ? {
           displayUnit: to,
           displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
@@ -152,10 +153,13 @@ const Unit = ({
 
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
   useEffect(() => {
+    if (convert().describe(hookFormUnit)?.system !== system) {
+      hookFormSetValue(displayUnitName, unitOptionMap[displayUnit]);
+    }
+  }, [hookFormUnit]);
+
+  useEffect(() => {
     if (hookFormUnit && hookFormValue !== undefined) {
-      if (convert().describe(hookFormUnit)?.system !== system) {
-        hookFormSetValue(displayUnitName, unitOptionMap[displayUnit]);
-      }
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );

@@ -17,8 +17,7 @@ export const getLocationObjectFromNaturalArea = (data) => {
 };
 const getNaturalAreaFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.natural_area, naturalAreaProperties),

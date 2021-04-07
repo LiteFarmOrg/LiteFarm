@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Radio from '../../../Form/Radio';
-import { barnEnum, fieldEnum as areaEnum } from '../../../../containers/constants';
+import { barnEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import LocationButtons from '../../../ButtonGroup/LocationButtons';
 import Form from '../../../Form';
-import PageTitle from '../../../PageTitle/v2';
+import LocationPageHeader from '../../LocationPageHeader';
 
 export default function PureBarn({
   history,
@@ -43,8 +43,8 @@ export default function PureBarn({
   const onSubmit = (data) => {
     const washPackSelection = data[barnEnum.wash_and_pack];
     const coldStorage = data[barnEnum.cold_storage];
-    data[areaEnum.total_area_unit] = data[areaEnum.total_area_unit].value;
-    showPerimeter && (data[areaEnum.perimeter_unit] = data[areaEnum.perimeter_unit].value);
+    data[barnEnum.total_area_unit] = data[barnEnum.total_area_unit].value;
+    showPerimeter && (data[barnEnum.perimeter_unit] = data[barnEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,
@@ -74,11 +74,12 @@ export default function PureBarn({
       buttonGroup={<LocationButtons disabled={disabled} />}
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle
+      <LocationPageHeader
         title={t('FARM_MAP.BARN.TITLE')}
-        onCancel={onCancel}
-        onGoBack={onGoBack}
-        style={{ marginBottom: '24px' }}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
       />
       <AreaDetails
         name={t('FARM_MAP.BARN.NAME')}

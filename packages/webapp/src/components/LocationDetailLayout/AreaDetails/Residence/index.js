@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import { residenceEnum } from '../../../../containers/constants';
 
 export default function PureResidence({
   history,
@@ -34,7 +35,11 @@ export default function PureResidence({
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
+  const showPerimeter = false;
   const onSubmit = (data) => {
+    data[residenceEnum.total_area_unit] = data[residenceEnum.total_area_unit].value;
+    showPerimeter &&
+      (data[residenceEnum.perimeter_unit] = data[residenceEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,

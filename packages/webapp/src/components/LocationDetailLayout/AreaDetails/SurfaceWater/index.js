@@ -38,7 +38,11 @@ export default function PureSurfaceWater({
   const onError = (data) => {};
   const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
+  const showPerimeter = false;
   const onSubmit = (data) => {
+    data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit].value;
+    showPerimeter &&
+      (data[surfaceWaterEnum.perimeter_unit] = data[surfaceWaterEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,

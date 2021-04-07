@@ -45,7 +45,11 @@ export default function PureGreenhouse({
   const greenhouseHeated = watch(greenhouseEnum.greenhouse_heated);
 
   const disabled = !isValid || !isDirty;
+  const showPerimeter = false;
   const onSubmit = (data) => {
+    data[greenhouseEnum.total_area_unit] = data[greenhouseEnum.total_area_unit].value;
+    showPerimeter &&
+      (data[greenhouseEnum.perimeter_unit] = data[greenhouseEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,

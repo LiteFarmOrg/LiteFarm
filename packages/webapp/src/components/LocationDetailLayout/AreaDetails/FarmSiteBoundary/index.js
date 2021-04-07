@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import { farmSiteBoundaryEnum } from '../../../../containers/constants';
 
 export default function PureFarmSiteBoundary({
   history,
@@ -34,7 +35,11 @@ export default function PureFarmSiteBoundary({
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
+  const showPerimeter = false;
   const onSubmit = (data) => {
+    data[farmSiteBoundaryEnum.total_area_unit] = data[farmSiteBoundaryEnum.total_area_unit].value;
+    showPerimeter &&
+      (data[farmSiteBoundaryEnum.perimeter_unit] = data[farmSiteBoundaryEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,

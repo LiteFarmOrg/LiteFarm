@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import { ceremonialEnum } from '../../../../containers/constants';
+import Form from '../../../Form';
+import PageTitle from '../../../PageTitle/v2';
 
 export default function PureCeremonialArea({
   history,
@@ -34,7 +37,11 @@ export default function PureCeremonialArea({
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
+  const showPerimeter = true;
   const onSubmit = (data) => {
+    data[ceremonialEnum.total_area_unit] = data[ceremonialEnum.total_area_unit].value;
+    showPerimeter &&
+      (data[ceremonialEnum.perimeter_unit] = data[ceremonialEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,
@@ -45,30 +52,48 @@ export default function PureCeremonialArea({
     submitForm({ formData });
   };
 
+  const onCancel = () => {
+    history.push('/map');
+  };
+
+  const onGoBack = () => {
+    isCreateLocationPage &&
+      history.push({
+        pathname: '/map',
+        isStepBack: true,
+      });
+  };
+
   return (
-    <AreaDetails
-      name={t('FARM_MAP.CEREMONIAL_AREA.NAME')}
-      title={t('FARM_MAP.CEREMONIAL_AREA.TITLE')}
-      history={history}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
-      submitForm={onSubmit}
-      onError={onError}
-      register={register}
-      disabled={disabled}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      getValues={getValues}
-      watch={watch}
-      setError={setError}
-      control={control}
-      showPerimeter={true}
-      errors={errors}
-      system={system}
-      total_area={total_area}
-      perimeter={perimeter}
+    <Form
       buttonGroup={<LocationButtons disabled={disabled} />}
-    />
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
+      <PageTitle
+        title={t('FARM_MAP.CEREMONIAL_AREA.TITLE')}
+        onCancel={onCancel}
+        onGoBack={onGoBack}
+        style={{ marginBottom: '24px' }}
+      />
+      <AreaDetails
+        name={t('FARM_MAP.CEREMONIAL_AREA.NAME')}
+        history={history}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        register={register}
+        handleSubmit={handleSubmit}
+        setValue={setValue}
+        getValues={getValues}
+        watch={watch}
+        setError={setError}
+        control={control}
+        showPerimeter={showPerimeter}
+        errors={errors}
+        system={system}
+        total_area={total_area}
+        perimeter={perimeter}
+      />
+    </Form>
   );
 }

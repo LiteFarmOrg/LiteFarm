@@ -40,7 +40,10 @@ export default function PureField({
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
   const disabled = !isValid || !isDirty;
+  const showPerimeter = false;
   const onSubmit = (data) => {
+    data[fieldEnum.total_area_unit] = data[fieldEnum.total_area_unit].value;
+    showPerimeter && (data[fieldEnum.perimeter_unit] = data[fieldEnum.perimeter_unit].value);
     const formData = {
       grid_points,
       total_area,

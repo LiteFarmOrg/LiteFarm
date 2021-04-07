@@ -36,6 +36,7 @@ export default function PureCropTilePage({
       <div className={styles.info}>
         <div className={styles.infoMain} style={{marginBottom: '2px'}}>{variety}</div>
         <div className={styles.infoBody} style={{marginBottom: '2px'}}>{t(`crop:${crop.crop_translation_key}`)}</div>
+        <div style={{flexGrow: '1'}} />
         {displayDate && <div className={styles.dateContainer}>
           <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon, isPlanned(status) && styles.plannedIcon)} />
           <div className={styles.infoBody}>{displayDate}</div>

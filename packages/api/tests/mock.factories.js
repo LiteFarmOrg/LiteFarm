@@ -130,13 +130,13 @@ function figureFactory(location_id, type) {
 function fakeArea(stringify = true) {
   return {
     total_area: faker.random.number(2000),
-    grid_points: stringify ? JSON.stringify([{
+    grid_points: stringify ? JSON.stringify([...Array(3).map(() => ({
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
-    }]) : [{
+    }))]) : [...Array(3).map(() => ({
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
-    }],
+    }))],
     perimeter: faker.random.number(),
     total_area_unit: faker.random.arrayElement(['m2', 'ha', 'ft2', 'ac']),
     perimeter_unit: faker.random.arrayElement(['m', 'km', 'ft', 'mi']),
@@ -209,13 +209,13 @@ function fakeLine(stringify = true) {
   return {
     length: faker.random.number(),
     width: faker.random.number(),
-    line_points: stringify ? JSON.stringify([{
+    line_points: stringify ? JSON.stringify([...Array(2).map(() => ({
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
-    }]) : [{
+    }))]) : [...Array(2).map(() => ({
       lat: faker.address.latitude(),
       lng: faker.address.longitude(),
-    }],
+    }))],
   };
 }
 

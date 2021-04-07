@@ -22,7 +22,6 @@ import { fencesSelector, fenceStatusSelector } from './fenceSlice';
 import { gatesSelector, gateStatusSelector } from './gateSlice';
 import { waterValvesSelector, waterValveStatusSelector } from './waterValveSlice';
 import { gardenEntitiesSelector, gardensSelector, gardenStatusSelector } from './gardenSlice';
-import { fieldCropsSelector } from './fieldCropSlice';
 
 export const areaSelector = createSelector(
   [
@@ -182,11 +181,4 @@ export const cropLocationStatusSelector = createSelector(
     error:
       fieldStatus.error || gardenStatus.error || greenhouseStatus.error || bufferzoneStatus.error,
   }),
-);
-
-export const locationWithFieldCropSelector = createSelector(
-  [cropLocationEntitiesSelector, fieldCropsSelector],
-  (locationEntities, fieldCrops) => {
-    return fieldCrops.map((fieldCrop) => locationEntities[fieldCrop.location_id]);
-  },
 );

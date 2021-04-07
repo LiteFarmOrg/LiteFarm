@@ -1,4 +1,4 @@
-FROM node:10.14.0
+FROM node:14.16.0
 
 RUN apt update && apt install -y netcat
 

@@ -14,16 +14,16 @@ const isActive = (status) => status === cropStatus.active;
 const isPast = (status) => status === cropStatus.past;
 const isPlanned = (status) => status === cropStatus.planned;
 
-export default function PureCropTilePage({ 
+export default function PureCropTile({ 
   fieldCrop,
   className,
   status,
   ...props
 }) {
   const { t } = useTranslation();
-  const { variety, crop, startDate, endDate } = fieldCrop;
+  const { variety, crop_translation_key, start_date, end_date } = fieldCrop;
   let displayDate;
-  const date = new Date(startDate);
+  const date = new Date(start_date);
   if (isPast(status)) {
     displayDate = date.getFullYear();
   } else if (isPlanned(status)) {
@@ -35,7 +35,7 @@ export default function PureCropTilePage({
       <div className={styles.img}>{"image"}</div>
       <div className={styles.info}>
         <div className={styles.infoMain} style={{marginBottom: '2px'}}>{variety}</div>
-        <div className={styles.infoBody} style={{marginBottom: '2px'}}>{t(`crop:${crop.crop_translation_key}`)}</div>
+        <div className={styles.infoBody} style={{marginBottom: '2px'}}>{t(`crop:${crop_translation_key}`)}</div>
         <div style={{flexGrow: '1'}} />
         {displayDate && <div className={styles.dateContainer}>
           <CalendarIcon className={clsx(styles.icon, isPast(status) && styles.pastIcon, isPlanned(status) && styles.plannedIcon)} />

@@ -15,10 +15,8 @@ export const Active = Template.bind({});
 Active.args = {
   fieldCrop: {
     variety: "Bolero",
-    startDate: "2020-12-25T15:02:31.440Z",
-    crop: {
-      crop_translation_key: "CARROT",
-    }
+    start_date: "2020-12-25T15:02:31.440Z",
+    crop_translation_key: "CARROT",
   },
   status: 'Active',
 };
@@ -27,10 +25,8 @@ export const Planned = Template.bind({});
 Planned.args = {
   fieldCrop: {
     variety: "Bolero",
-    startDate: "2020-12-25T15:02:31.440Z",
-    crop: {
-      crop_translation_key: "CARROT",
-    }
+    start_date: "2020-12-25T15:02:31.440Z",
+    crop_translation_key: "CARROT",
   },
   status: 'Planned',
 };
@@ -39,10 +35,8 @@ export const Past = Template.bind({});
 Past.args = {
   fieldCrop: {
     variety: "Bolero",
-    startDate: "2020-12-25T15:02:31.440Z",
-    crop: {
-      crop_translation_key: "CARROT",
-    }
+    start_date: "2020-12-25T15:02:31.440Z",
+    crop_translation_key: "CARROT",
   },
   status: 'Past',
 };

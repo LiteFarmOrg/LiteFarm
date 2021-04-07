@@ -89,6 +89,7 @@
     },
     "BARN": {
       "COLD_STORAGE": "Does this barn have cold storage?",
+      "EDIT_TITLE": "MISSING",
       "NAME": "Barn",
       "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
@@ -99,6 +100,7 @@
       "WIDTH": "Buffer zone width"
     },
     "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Residence",
       "TITLE": "Add residence"
     },
@@ -114,6 +116,7 @@
       "TITLE": "MISSING"
     },
     "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Farm site boundary name",
       "TITLE": "Add farm site boundary"
     },
@@ -135,6 +138,7 @@
     },
     "GARDEN": {
       "DATE": "MISSING",
+      "EDIT_TITLE": "MISSING",
       "GARDEN_TYPE": "MISSING",
       "NAME": "MISSING",
       "NON_ORGANIC": "MISSING",
@@ -149,6 +153,7 @@
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "MISSING",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
       "NAME": "Greenhouse",
@@ -190,10 +195,12 @@
       "WV": "Water valve"
     },
     "NATURAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Natural area",
       "TITLE": "Add natural area"
     },
     "RESIDENCE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Ceremonial area",
       "TITLE": "Add ceremonial area"
     },
@@ -207,6 +214,7 @@
       "HERE_YOU_CAN": "MISSING"
     },
     "SURFACE_WATER": {
+      "EDIT_TITLE": "MISSING",
       "IRRIGATION": "Is this area used for irrigation?",
       "NAME": "Surface water",
       "TITLE": "Add surface water"

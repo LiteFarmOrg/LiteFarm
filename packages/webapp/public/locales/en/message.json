@@ -85,10 +85,10 @@
     }
   },
   "MAP": {
-    "FAIL_POST": "Failed to add new",
     "FAIL_PATCH": "Failed to update",
-    "SUCCESS_POST": " successfully saved",
-    "SUCCESS_PATCH": " successfully updated"
+    "FAIL_POST": "Failed to add new",
+    "SUCCESS_PATCH": " successfully updated",
+    "SUCCESS_POST": " successfully saved"
   },
   "NEW_FIELD_CROP": {
     "ERROR": {

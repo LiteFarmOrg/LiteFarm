@@ -1,14 +1,14 @@
 import React from 'react';
-import Greenhouse from '../../../../../components/LocationDetailLayout/AreaDetails/Greenhouse';
+import Garden from '../../../../../components/LocationDetailLayout/AreaDetails/Garden';
 import decorator from '../../../config/decorators';
 
 export default {
-  title: 'Form/Location/Area/Greenhouse',
+  title: 'Form/Location/Area/Garden',
   decorators: decorator,
-  component: Greenhouse,
+  component: Garden,
 };
 
-const Template = (args) => <Greenhouse {...args} />;
+const Template = (args) => <Garden {...args} />;
 
 export const Post = Template.bind({});
 Post.args = {
@@ -28,7 +28,7 @@ Post.parameters = {
 export const View = Template.bind({});
 View.args = {
   isViewLocationPage: true,
-  history: { location: { pathname: '/field/location_id/details' } },
+  history: { location: { pathname: '/garden/location_id/details' } },
   match: { params: { location_id: 'location_id' } },
   submitForm: (data) => {},
   system: 'metric',

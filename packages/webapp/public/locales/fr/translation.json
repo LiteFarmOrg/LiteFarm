@@ -89,6 +89,7 @@
     },
     "BARN": {
       "COLD_STORAGE": "MISSING",
+      "EDIT_TITLE": "MISSING",
       "NAME": "MISSING",
       "TITLE": "MISSING",
       "WASH_PACK": "MISSING"
@@ -99,6 +100,7 @@
       "WIDTH": "MISSING"
     },
     "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
@@ -114,6 +116,7 @@
       "TITLE": "MISSING"
     },
     "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
@@ -135,6 +138,7 @@
     },
     "GARDEN": {
       "DATE": "MISSING",
+      "EDIT_TITLE": "MISSING",
       "GARDEN_TYPE": "MISSING",
       "NAME": "MISSING",
       "NON_ORGANIC": "MISSING",
@@ -149,6 +153,7 @@
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "MISSING",
       "DATE": "MISSING",
+      "EDIT_TITLE": "MISSING",
       "GREENHOUSE_HEATED": "MISSING",
       "GREENHOUSE_TYPE": "MISSING",
       "NAME": "MISSING",
@@ -190,10 +195,12 @@
       "WV": "MISSING"
     },
     "NATURAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Natural area",
       "TITLE": "Add natural area"
     },
     "RESIDENCE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "MISSING",
       "TITLE": "MISSING"
     },
@@ -207,6 +214,7 @@
       "HERE_YOU_CAN": "MISSING"
     },
     "SURFACE_WATER": {
+      "EDIT_TITLE": "MISSING",
       "IRRIGATION": "MISSING",
       "NAME": "MISSING",
       "TITLE": "MISSING"

@@ -89,6 +89,7 @@
     },
     "BARN": {
       "COLD_STORAGE": "Does this barn have cold storage?",
+      "EDIT_TITLE": "Edit barn",
       "NAME": "Barn",
       "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
@@ -99,6 +100,7 @@
       "WIDTH": "Buffer zone width"
     },
     "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "Edit ceremonial area",
       "NAME": "Ceremonial area",
       "TITLE": "Add ceremonial area"
     },
@@ -114,6 +116,7 @@
       "TITLE": "Export your farm map"
     },
     "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "Edit farm site boundary",
       "NAME": "Farm site boundary",
       "TITLE": "Add farm site boundary"
     },
@@ -135,6 +138,7 @@
     },
     "GARDEN": {
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "Edit garden",
       "GARDEN_TYPE": "What type of garden is this?",
       "NAME": "Garden",
       "NON_ORGANIC": "Non-organic",
@@ -149,6 +153,7 @@
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "Edit greenhouse",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
       "NAME": "Greenhouse",
@@ -190,10 +195,12 @@
       "WV": "Water valve"
     },
     "NATURAL_AREA": {
+      "EDIT_TITLE": "Edit natural area",
       "NAME": "Natural area",
       "TITLE": "Add natural area"
     },
     "RESIDENCE": {
+      "EDIT_TITLE": "Edit residence",
       "NAME": "Residence",
       "TITLE": "Add residence"
     },
@@ -207,6 +214,7 @@
       "HERE_YOU_CAN": "Here you can:"
     },
     "SURFACE_WATER": {
+      "EDIT_TITLE": "Edit surface water",
       "IRRIGATION": "Is this area used for irrigation?",
       "NAME": "Surface water",
       "TITLE": "Add surface water"

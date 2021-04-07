@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
-import { getHeader } from '../../../saga';
+import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromGreenHouse, postGreenhouseSuccess } from '../../../greenhouseSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -9,7 +9,6 @@ import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
 import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-const axios = require('axios');
 export const postGreenhouseLocation = createAction(`postGreenhouseLocationSaga`);
 
 export function* postGreenhouseLocationSaga({ payload: data }) {

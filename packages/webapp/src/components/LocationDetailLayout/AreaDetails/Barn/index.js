@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Radio from '../../../Form/Radio';
 import { barnEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 
@@ -55,18 +55,6 @@ export default function PureBarn({
       cold_storage: coldStorage !== null ? coldStorage === 'true' : null,
     };
     submitForm({ formData });
-  };
-
-  const onCancel = () => {
-    history.push('/map');
-  };
-
-  const onGoBack = () => {
-    isCreateLocationPage &&
-      history.push({
-        pathname: '/map',
-        isStepBack: true,
-      });
   };
 
   return (

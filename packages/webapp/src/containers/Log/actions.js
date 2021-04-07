@@ -14,20 +14,20 @@
  */
 
 import {
+  ADD_HARVEST_USE_TYPE,
+  GET_HARVEST_USE_TYPES,
   GET_LOGS,
+  SAVE_HARVEST_ALLOCATION_WIP,
+  SET_ALL_HARVEST_USE_TYPES,
+  SET_DEFAULT_DATE,
+  SET_DEFAULT_DATE_RANGE,
+  SET_END_DATE,
+  SET_FORM_DATA,
+  SET_FORM_VALUE,
   SET_LOGS_IN_STATE,
   SET_SELECTED_LOG,
-  GET_HARVEST_USE_TYPES,
-  SET_FORM_DATA,
-  SET_ALL_HARVEST_USE_TYPES,
   SET_SELECTED_USE_TYPES,
-  ADD_HARVEST_USE_TYPE,
-  SET_FORM_VALUE,
   SET_START_DATE,
-  SET_END_DATE,
-  SET_DEFAULT_DATE_RANGE,
-  SET_DEFAULT_DATE,
-  SAVE_HARVEST_ALLOCATION_WIP,
 } from './constants';
 
 export const getLogs = () => {
@@ -107,8 +107,8 @@ export const setEndDate = (endDate) => {
 
 export const setDefaultDateRange = () => {
   return {
-    type: SET_DEFAULT_DATE_RANGE
-  }
+    type: SET_DEFAULT_DATE_RANGE,
+  };
 };
 
 export const setDefaultDate = (defaultDate) => {

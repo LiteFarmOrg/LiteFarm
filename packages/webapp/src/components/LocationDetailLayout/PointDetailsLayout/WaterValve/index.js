@@ -7,9 +7,7 @@ import Unit from '../../../Form/Unit';
 import { waterValveEnum } from '../../../../containers/constants';
 import { water_valve_flow_rate } from '../../../../util/unit';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
-import { useLocationPageType } from '../../../../containers/LocationDetails/utils';
-import Input from '../../../Form/Input';
+import LocationButtons from '../../LocationButtons';
 
 export default function PureWaterValve({
   history,

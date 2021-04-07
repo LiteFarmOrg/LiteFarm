@@ -5,7 +5,9 @@ import { useForm } from 'react-hook-form';
 import Radio from '../../../Form/Radio';
 import { surfaceWaterEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import LocationButtons from '../../LocationButtons';
+import Form from '../../../Form';
+import LocationPageHeader from '../../LocationPageHeader';
 
 export default function PureSurfaceWater({
   history,
@@ -38,7 +40,7 @@ export default function PureSurfaceWater({
   const onError = (data) => {};
   const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
   const disabled = !isValid || !isDirty;
-  const showPerimeter = false;
+  const showPerimeter = true;
   const onSubmit = (data) => {
     data[surfaceWaterEnum.total_area_unit] = data[surfaceWaterEnum.total_area_unit].value;
     showPerimeter &&
@@ -56,59 +58,65 @@ export default function PureSurfaceWater({
   };
 
   return (
-    <AreaDetails
-      name={t('FARM_MAP.SURFACE_WATER.NAME')}
-      title={t('FARM_MAP.SURFACE_WATER.TITLE')}
-      history={history}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
-      submitForm={onSubmit}
-      onError={onError}
-      register={register}
-      disabled={disabled}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      getValues={getValues}
-      watch={watch}
-      setError={setError}
-      control={control}
-      showPerimeter={true}
-      errors={errors}
-      system={system}
-      total_area={total_area}
-      perimeter={perimeter}
+    <Form
       buttonGroup={<LocationButtons disabled={disabled} />}
+      onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block' }}>
-            {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
-          </Label>
-          <Label style={{ display: 'inline-block' }} sm>
-            {t('common:OPTIONAL')}
-          </Label>
-        </div>
+      <LocationPageHeader
+        title={t('FARM_MAP.SURFACE_WATER.TITLE')}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
+      />
+      <AreaDetails
+        name={t('FARM_MAP.SURFACE_WATER.NAME')}
+        history={history}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        register={register}
+        setValue={setValue}
+        getValues={getValues}
+        watch={watch}
+        setError={setError}
+        control={control}
+        showPerimeter={showPerimeter}
+        errors={errors}
+        system={system}
+        total_area={total_area}
+        perimeter={perimeter}
+      >
         <div>
-          <Radio
-            style={{ marginBottom: '25px' }}
-            label={t('common:YES')}
-            inputRef={register({ required: false })}
-            optional
-            value={true}
-            name={surfaceWaterEnum.used_for_irrigation}
-            disabled={isViewLocationPage}
-          />
-          <Radio
-            style={{ marginBottom: '25px', marginLeft: '40px' }}
-            label={t('common:NO')}
-            inputRef={register({ required: false })}
-            value={false}
-            name={surfaceWaterEnum.used_for_irrigation}
-            disabled={isViewLocationPage}
-          />
+          <div style={{ marginBottom: '20px' }}>
+            <Label style={{ paddingRight: '10px', display: 'inline-block' }}>
+              {t('FARM_MAP.SURFACE_WATER.IRRIGATION')}
+            </Label>
+            <Label style={{ display: 'inline-block' }} sm>
+              {t('common:OPTIONAL')}
+            </Label>
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '25px' }}
+              label={t('common:YES')}
+              inputRef={register({ required: false })}
+              optional
+              value={true}
+              name={surfaceWaterEnum.used_for_irrigation}
+              disabled={isViewLocationPage}
+            />
+            <Radio
+              style={{ marginBottom: '25px', marginLeft: '40px' }}
+              label={t('common:NO')}
+              inputRef={register({ required: false })}
+              value={false}
+              name={surfaceWaterEnum.used_for_irrigation}
+              disabled={isViewLocationPage}
+            />
+          </div>
         </div>
-      </div>
-    </AreaDetails>
+      </AreaDetails>
+    </Form>
   );
 }

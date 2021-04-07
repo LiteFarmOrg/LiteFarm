@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fieldEnum } from '../../constants';
+import { unitOptionMap } from '../../../components/Form/Unit';
 
 export const initialState = {
   formData: {},
@@ -31,6 +33,14 @@ const hookFormPersistSlice = createSlice({
     //Prevent useHookPersistUnMount from updating formData after reset
     resetAndLockFormData: (state) => resetState,
     resetAndUnLockFormData: (state) => initialState,
+
+    setAreaDetailFormData: (state, { payload }) => {
+      state.shouldUpdateFormData = true;
+      const formData = { ...payload };
+      formData[fieldEnum.total_area_unit] = unitOptionMap[payload[fieldEnum.total_area_unit]];
+      formData[fieldEnum.perimeter_unit] = unitOptionMap[payload[fieldEnum.perimeter_unit]];
+      state.formData = formData;
+    },
   },
 });
 
@@ -40,6 +50,7 @@ export const {
   resetAndLockFormData,
   hookFormPersistUnMount,
   resetAndUnLockFormData,
+  setAreaDetailFormData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

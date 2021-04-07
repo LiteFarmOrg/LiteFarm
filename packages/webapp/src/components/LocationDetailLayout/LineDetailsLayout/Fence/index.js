@@ -8,9 +8,7 @@ import { fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
-import { useLocationPageType } from '../../../../containers/LocationDetails/utils';
-import Input from '../../../Form/Input';
+import LocationButtons from '../../LocationButtons';
 
 export default function PureFence({
   history,

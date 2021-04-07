@@ -16,7 +16,7 @@ function PageTitle({ title, onGoBack, onCancel, style }) {
             <BsChevronLeft style={{ fontSize: '20px' }} />
           </button>
         )}
-        <Title style={{ marginBottom: 0, transform: 'translateY(-2px)' }}>{title}</Title>
+        <Title style={{ marginBottom: 0 }}>{title}</Title>
       </div>
       {onCancel && (
         <Semibold sm style={{ color: colors.teal700 }} onClick={onCancel}>

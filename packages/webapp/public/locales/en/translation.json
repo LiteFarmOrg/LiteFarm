@@ -125,6 +125,7 @@
     },
     "FIELD": {
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "Edit field",
       "FIELD_TYPE": "What type of field is this?",
       "NAME": "Field",
       "NON_ORGANIC": "Non-organic",
@@ -209,6 +210,10 @@
       "IRRIGATION": "Is this area used for irrigation?",
       "NAME": "Surface water",
       "TITLE": "Add surface water"
+    },
+    "TAB": {
+      "CROPS": "Crops",
+      "DETAILS": "Details"
     },
     "TITLE": "Farm map",
     "TUTORIAL": {

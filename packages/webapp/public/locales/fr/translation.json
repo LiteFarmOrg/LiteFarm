@@ -125,6 +125,7 @@
     },
     "FIELD": {
       "DATE": "MISSING",
+      "EDIT_TITLE": "MISSING",
       "FIELD_TYPE": "MISSING",
       "NAME": "MISSING",
       "NON_ORGANIC": "MISSING",
@@ -209,6 +210,10 @@
       "IRRIGATION": "MISSING",
       "NAME": "MISSING",
       "TITLE": "MISSING"
+    },
+    "TAB": {
+      "CROPS": "MISSING",
+      "DETAILS": "MISSING"
     },
     "TITLE": "MISSING",
     "TUTORIAL": {

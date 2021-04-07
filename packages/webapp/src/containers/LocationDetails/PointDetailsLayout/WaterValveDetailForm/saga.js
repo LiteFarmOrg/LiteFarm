@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
-import { getHeader } from '../../../saga';
+import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import { getLocationObjectFromWaterValve, postWaterValveSuccess } from '../../../waterValveSlice';
 import history from '../../../../history';
@@ -9,7 +9,6 @@ import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-const axios = require('axios');
 export const postWaterValveLocation = createAction(`postWaterValveLocationSaga`);
 
 export function* postWaterValveLocationSaga({ payload: data }) {

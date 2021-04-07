@@ -2,12 +2,11 @@ import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../apiConfig';
 import { loginSelector } from '../../../containers/userFarmSlice';
 import { toastr } from 'react-redux-toastr';
-import { getHeader } from '../../../containers/saga';
+import { axios, getHeader } from '../../../containers/saga';
 import { createAction } from '@reduxjs/toolkit';
 import { postCropSuccess } from '../../../containers/cropSlice';
 import i18n from '../../../locales/i18n';
 
-const axios = require('axios');
 export const postCrop = createAction(`postCropSaga`);
 
 export function* postCropSaga({ payload: crop }) {

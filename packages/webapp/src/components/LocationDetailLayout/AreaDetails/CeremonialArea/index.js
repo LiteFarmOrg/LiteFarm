@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import LocationButtons from '../../LocationButtons';
 import { ceremonialEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
-import PageTitle from '../../../PageTitle/v2';
+import LocationPageHeader from '../../LocationPageHeader';
 
 export default function PureCeremonialArea({
   history,
@@ -52,28 +52,17 @@ export default function PureCeremonialArea({
     submitForm({ formData });
   };
 
-  const onCancel = () => {
-    history.push('/map');
-  };
-
-  const onGoBack = () => {
-    isCreateLocationPage &&
-      history.push({
-        pathname: '/map',
-        isStepBack: true,
-      });
-  };
-
   return (
     <Form
       buttonGroup={<LocationButtons disabled={disabled} />}
       onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <PageTitle
+      <LocationPageHeader
         title={t('FARM_MAP.CEREMONIAL_AREA.TITLE')}
-        onCancel={onCancel}
-        onGoBack={onGoBack}
-        style={{ marginBottom: '24px' }}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
       />
       <AreaDetails
         name={t('FARM_MAP.CEREMONIAL_AREA.NAME')}

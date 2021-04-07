@@ -99,8 +99,14 @@ const Map = React.lazy(() => import('./containers/Map'));
 const FarmSiteBoundary = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm'),
 );
-const AreaDetailsField = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetails/FieldDetailForm'),
+const PostFieldForm = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetails/FieldDetailForm/PostField'),
+);
+const ViewFieldForm = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetails/FieldDetailForm/ViewField'),
+);
+const EditFieldForm = React.lazy(() =>
+  import('./containers/LocationDetails/AreaDetails/FieldDetailForm/EditField'),
 );
 const Garden = React.lazy(() =>
   import('./containers/LocationDetails/AreaDetails/GardenDetailForm'),
@@ -233,14 +239,15 @@ const Routes = () => {
             <Route path="/create_location/residence" exact component={Residence} />
             <Route path="/create_location/ceremonial_area" exact component={CeremonialArea} />
             <Route path="/create_location/greenhouse" exact component={Greenhouse} />
-            <Route path="/create_location/field" exact component={AreaDetailsField} />
+            <Route path="/create_location/field" exact component={PostFieldForm} />
+            <Route path="/field/:location_id/details" exact component={ViewFieldForm} />
+            <Route path="/field/:location_id/edit" exact component={EditFieldForm} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
             <Route path="/create_location/fence" exact component={Fence} />
             <Route path="/create_location/buffer_zone" exact component={BufferZone} />
             <Route path="/create_location/watercourse" exact component={Watercourse} />
             <Route path="/finances" exact component={Finances} />
-            <Route path="/edit_field" exact component={EditField} />
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
@@ -332,7 +339,9 @@ const Routes = () => {
             <Route path="/create_location/residence" exact component={Residence} />
             <Route path="/create_location/ceremonial_area" exact component={CeremonialArea} />
             <Route path="/create_location/greenhouse" exact component={Greenhouse} />
-            <Route path="/create_location/field" exact component={AreaDetailsField} />
+            <Route path="/create_location/field" exact component={PostFieldForm} />
+            <Route path="/field/:location_id/details" exact component={ViewFieldForm} />
+            <Route path="/field/:location_id/edit" exact component={EditFieldForm()} />
             <Route path="/create_location/gate" exact component={Gate} />
             <Route path="/create_location/water_valve" exact component={WaterValve} />
             <Route path="/create_location/fence" exact component={Fence} />
@@ -357,7 +366,7 @@ const Routes = () => {
 
             <Route path="/sale_detail" exact component={SaleDetail} />
             <Route path="/farm_selection" exact component={ChooseFarm} />
-            <Route path="/edit_field" exact component={EditField} />
+
             <Route path="/insights" exact component={Insights} />
             <Route path="/insights/peoplefed" exact component={PeopleFed} />
             <Route path="/insights/soilom" exact component={SoilOM} />
@@ -392,7 +401,7 @@ const Routes = () => {
             <Route path="/profile" exact component={Profile} />
             <Route path="/consent" exact component={ConsentForm} />
             <Route path="/field" exact component={Field} />
-            <Route path="/edit_field" exact component={EditField} />
+
             <Route path="/map" exact component={Map} />
             <Route path="/log" exact component={Log} />
             <Route path="/new_log" exact component={NewLog} />

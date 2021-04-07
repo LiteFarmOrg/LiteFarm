@@ -1,7 +1,7 @@
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
-import { getHeader } from '../../../saga';
+import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   getLocationObjectFromWatercourse,
@@ -12,7 +12,6 @@ import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-const axios = require('axios');
 export const postWatercourseLocation = createAction(`postWatercourseLocationSaga`);
 
 export function* postWatercourseLocationSaga({ payload: data }) {

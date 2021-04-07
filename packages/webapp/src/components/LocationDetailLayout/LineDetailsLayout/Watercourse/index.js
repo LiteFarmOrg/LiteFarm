@@ -7,9 +7,7 @@ import { Label } from '../../../Typography';
 import { line_length, line_width, watercourse_width } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
 import { watercourseEnum } from '../../../../containers/constants';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
-import { useLocationPageType } from '../../../../containers/LocationDetails/utils';
-import Input from '../../../Form/Input';
+import LocationButtons from '../../LocationButtons';
 
 export default function PureWatercourse({
   history,

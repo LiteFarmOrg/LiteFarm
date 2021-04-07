@@ -5,9 +5,7 @@ import { useForm } from 'react-hook-form';
 import { bufferZoneEnum } from '../../../../containers/constants';
 import Unit from '../../../Form/Unit';
 import { line_width } from '../../../../util/unit';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
-import { useLocationPageType } from '../../../../containers/LocationDetails/utils';
-import Input from '../../../Form/Input';
+import LocationButtons from '../../LocationButtons';
 
 export default function PureBufferZone({
   history,

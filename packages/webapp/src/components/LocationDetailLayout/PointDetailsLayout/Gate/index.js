@@ -2,8 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PointDetailsLayout from '../index';
 import { useForm } from 'react-hook-form';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
-import { useLocationPageType } from '../../../../containers/LocationDetails/utils';
+import LocationButtons from '../../LocationButtons';
 
 export default function PureGate({
   history,

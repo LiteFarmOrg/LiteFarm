@@ -31,7 +31,7 @@ View.args = {
   submitForm: (data) => {},
   system: 'metric',
   useHookFormPersist: () => ({
-    persistedData: { grid_points: {}, total_area: 1, perimeter: 2, name: 'name' },
+    persistedData: { grid_points: {}, total_area: 1, perimeter: 2 },
   }),
 };
 View.parameters = {

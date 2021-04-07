@@ -20,12 +20,15 @@
     background-color: black;
     height: 2px;
   }
-  p:first-child{
+
+  p:first-child {
     flex-basis: 30%;
   }
-  p:nth-child(2){
+
+  p:nth-child(2) {
     flex-basis: 35%;
   }
+
   p:last-child {
     flex-basis: 35%;
   }

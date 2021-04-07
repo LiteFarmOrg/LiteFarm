@@ -125,6 +125,7 @@
     },
     "FIELD": {
       "DATE": "Fecha de transición",
+      "EDIT_TITLE": "MISSING",
       "FIELD_TYPE": "Que tipo de campo es?",
       "NAME": "Campo",
       "NON_ORGANIC": "No organico",
@@ -209,6 +210,10 @@
       "IRRIGATION": "Es esta area usada para riego?",
       "NAME": "Agua de superficie",
       "TITLE": "Agregar agua de superficie"
+    },
+    "TAB": {
+      "CROPS": "MISSING",
+      "DETAILS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {

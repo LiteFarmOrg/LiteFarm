@@ -4,6 +4,7 @@ import React from 'react';
 export default function LocationPageHeader({
   history,
   isCreateLocationPage,
+  match,
   isViewLocationPage,
   isEditLocationPage,
   title,
@@ -18,11 +19,13 @@ export default function LocationPageHeader({
         pathname: '/map',
         isStepBack: true,
       });
+    isViewLocationPage && history.push('/map');
+    isEditLocationPage && history.push(match.url.replace('edit', 'details'));
   };
   return (
     <PageTitle
       title={title}
-      onCancel={onCancel}
+      onCancel={isCreateLocationPage && onCancel}
       onGoBack={onGoBack}
       style={{ marginBottom: '24px' }}
     />

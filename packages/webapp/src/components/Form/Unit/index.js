@@ -12,7 +12,7 @@ import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import { Controller } from 'react-hook-form';
 
-const unitOptionMap = {
+export const unitOptionMap = {
   m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },
   ft2: { label: 'ft²', value: 'ft2' },

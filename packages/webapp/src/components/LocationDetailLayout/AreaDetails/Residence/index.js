@@ -2,8 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AreaDetails from '../index';
 import { useForm } from 'react-hook-form';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import LocationButtons from '../../LocationButtons';
 import { residenceEnum } from '../../../../containers/constants';
+import Form from '../../../Form';
+import LocationPageHeader from '../../LocationPageHeader';
 
 export default function PureResidence({
   history,
@@ -52,29 +54,35 @@ export default function PureResidence({
   };
 
   return (
-    <AreaDetails
-      name={t('FARM_MAP.RESIDENCE.NAME')}
-      title={t('FARM_MAP.RESIDENCE.TITLE')}
-      history={history}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
-      submitForm={onSubmit}
-      onError={onError}
-      register={register}
-      disabled={disabled}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      getValues={getValues}
-      watch={watch}
-      setError={setError}
-      control={control}
-      showPerimeter={false}
-      errors={errors}
-      system={system}
-      total_area={total_area}
-      perimeter={perimeter}
+    <Form
       buttonGroup={<LocationButtons disabled={disabled} />}
-    />
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
+      <LocationPageHeader
+        title={t('FARM_MAP.RESIDENCE.TITLE')}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
+      />
+      <AreaDetails
+        name={t('FARM_MAP.RESIDENCE.NAME')}
+        history={history}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        register={register}
+        setValue={setValue}
+        getValues={getValues}
+        watch={watch}
+        setError={setError}
+        control={control}
+        showPerimeter={showPerimeter}
+        errors={errors}
+        system={system}
+        total_area={total_area}
+        perimeter={perimeter}
+      />
+    </Form>
   );
 }

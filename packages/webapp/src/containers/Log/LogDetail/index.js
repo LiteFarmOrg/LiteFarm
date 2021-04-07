@@ -345,7 +345,9 @@ class LogDetail extends Component {
             <div>
               <div className={styles.infoBlock}>
                 <div className={styles.fcInfo}>
-                  <div style={{ marginBottom: '10px' }}>{this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}</div>
+                  <div style={{ marginBottom: '10px' }}>
+                    {this.props.t('LOG_FERTILIZING.FERTILIZER_TYPE')}
+                  </div>
                   <div className={styles.innerList}>
                     {this.getFertName(selectedLog.fertilizerLog.fertilizer_id)}
                   </div>

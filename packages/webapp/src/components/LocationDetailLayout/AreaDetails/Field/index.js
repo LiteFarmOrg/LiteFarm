@@ -7,7 +7,10 @@ import Radio from '../../../Form/Radio';
 import Input from '../../../Form/Input';
 import { fieldEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
-import LocationButtons from '../../../ButtonGroup/LocationButtons';
+import LocationButtons from '../../LocationButtons';
+import Form from '../../../Form';
+import LocationPageHeader from '../../LocationPageHeader';
+import RouterTab from '../../../RouterTab';
 
 export default function PureField({
   history,
@@ -33,14 +36,18 @@ export default function PureField({
   } = useForm({
     mode: 'onChange',
   });
+  const persistPath =
+    (isCreateLocationPage && ['/map']) ||
+    (isEditLocationPage && []) ||
+    (isViewLocationPage && [`/field/${match.params.location_id}/edit`]);
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);
   const disabled = !isValid || !isDirty;
-  const showPerimeter = false;
+  const showPerimeter = true;
   const onSubmit = (data) => {
     data[fieldEnum.total_area_unit] = data[fieldEnum.total_area_unit].value;
     showPerimeter && (data[fieldEnum.perimeter_unit] = data[fieldEnum.perimeter_unit].value);
@@ -55,83 +62,120 @@ export default function PureField({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.FIELD.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.FIELD.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(fieldEnum.name));
+
   return (
-    <AreaDetails
-      name={t('FARM_MAP.FIELD.NAME')}
-      title={t('FARM_MAP.FIELD.TITLE')}
-      history={history}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
-      submitForm={onSubmit}
-      onError={onError}
-      register={register}
-      disabled={disabled}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      getValues={getValues}
-      watch={watch}
-      setError={setError}
-      control={control}
-      showPerimeter={true}
-      errors={errors}
-      system={system}
-      total_area={total_area}
-      perimeter={perimeter}
-      buttonGroup={<LocationButtons disabled={disabled} />}
+    <Form
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/field/${match.params.location_id}/edit`)}
+        />
+      }
+      onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
-            {t('FARM_MAP.FIELD.FIELD_TYPE')}
-          </Label>
-          <img src={Leaf} style={{ display: 'inline-block' }} />
-        </div>
+      <LocationPageHeader
+        title={title}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
+        match={match}
+      />
+      {isViewLocationPage && (
+        <RouterTab
+          classes={{ container: { margin: '6px 0 26px 0' } }}
+          history={history}
+          match={match}
+          tabs={[
+            {
+              label: t('FARM_MAP.TAB.CROPS'),
+              path: `/field/${match.params.location_id}/crops`,
+            },
+            {
+              label: t('FARM_MAP.TAB.DETAILS'),
+              path: `/field/${match.params.location_id}/details`,
+            },
+          ]}
+        />
+      )}
+      <AreaDetails
+        name={t('FARM_MAP.FIELD.NAME')}
+        history={history}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        register={register}
+        setValue={setValue}
+        getValues={getValues}
+        watch={watch}
+        setError={setError}
+        control={control}
+        showPerimeter={showPerimeter}
+        errors={errors}
+        system={system}
+        total_area={total_area}
+        perimeter={perimeter}
+      >
         <div>
-          <Radio
-            style={{ marginBottom: '16px' }}
-            label={t('FARM_MAP.FIELD.NON_ORGANIC')}
-            defaultChecked={true}
-            inputRef={register({ required: true })}
-            value={'Non-Organic'}
-            name={fieldEnum.organic_status}
-            disabled={isViewLocationPage}
-          />
-        </div>
-        <div>
-          <Radio
-            style={{ marginBottom: '16px' }}
-            label={t('FARM_MAP.FIELD.ORGANIC')}
-            inputRef={register({ required: true })}
-            value={'Organic'}
-            name={fieldEnum.organic_status}
-            disabled={isViewLocationPage}
-          />
-        </div>
-        <div>
-          <Radio
-            style={{ marginBottom: '16px' }}
-            label={t('FARM_MAP.FIELD.TRANSITIONING')}
-            inputRef={register({ required: true })}
-            value={'Transitional'}
-            name={fieldEnum.organic_status}
-            disabled={isViewLocationPage}
-          />
-        </div>
-        <div style={{ paddingBottom: '20px' }}>
-          {fieldTypeSelection === 'Transitional' && (
-            <Input
-              style={{ paddingBottom: '16px' }}
-              type={'date'}
-              name={fieldEnum.transition_date}
-              defaultValue={new Date().toLocaleDateString('en-CA')}
-              label={t('FARM_MAP.FIELD.DATE')}
+          <div style={{ marginBottom: '20px' }}>
+            <Label style={{ paddingRight: '10px', display: 'inline-block', fontSize: '16px' }}>
+              {t('FARM_MAP.FIELD.FIELD_TYPE')}
+            </Label>
+            <img src={Leaf} style={{ display: 'inline-block' }} />
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '16px' }}
+              label={t('FARM_MAP.FIELD.NON_ORGANIC')}
+              defaultChecked={true}
               inputRef={register({ required: true })}
+              value={'Non-Organic'}
+              name={fieldEnum.organic_status}
               disabled={isViewLocationPage}
             />
-          )}
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '16px' }}
+              label={t('FARM_MAP.FIELD.ORGANIC')}
+              inputRef={register({ required: true })}
+              value={'Organic'}
+              name={fieldEnum.organic_status}
+              disabled={isViewLocationPage}
+            />
+          </div>
+          <div>
+            <Radio
+              style={{ marginBottom: '16px' }}
+              label={t('FARM_MAP.FIELD.TRANSITIONING')}
+              inputRef={register({ required: true })}
+              value={'Transitional'}
+              name={fieldEnum.organic_status}
+              disabled={isViewLocationPage}
+            />
+          </div>
+          <div style={{ paddingBottom: '20px' }}>
+            {fieldTypeSelection === 'Transitional' && (
+              <Input
+                style={{ paddingBottom: '16px' }}
+                type={'date'}
+                name={fieldEnum.transition_date}
+                defaultValue={new Date().toLocaleDateString('en-CA')}
+                label={t('FARM_MAP.FIELD.DATE')}
+                inputRef={register({ required: true })}
+                disabled={isViewLocationPage}
+              />
+            )}
+          </div>
         </div>
-      </div>
-    </AreaDetails>
+      </AreaDetails>
+    </Form>
   );
 }

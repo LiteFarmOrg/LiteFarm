@@ -1,5 +1,5 @@
 import React from 'react';
-import CeremonialArea from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/CeremonialArea';
+import CeremonialArea from '../../../../../components/LocationDetailLayout/AreaDetails/CeremonialArea';
 import decorator from '../../../config/decorators';
 
 export default {

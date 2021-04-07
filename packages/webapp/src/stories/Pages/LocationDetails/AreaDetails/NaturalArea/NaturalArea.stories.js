@@ -1,5 +1,5 @@
 import React from 'react';
-import NaturalArea from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/NaturalArea';
+import NaturalArea from '../../../../../components/LocationDetailLayout/AreaDetails/NaturalArea';
 import decorator from '../../../config/decorators';
 
 export default {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Greenhouse from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/Greenhouse';
+import Greenhouse from '../../../../../components/LocationDetailLayout/AreaDetails/Greenhouse';
 import decorator from '../../../config/decorators';
 
 export default {

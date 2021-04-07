@@ -1,5 +1,5 @@
 import React from 'react';
-import SurfaceWater from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/SurfaceWater';
+import SurfaceWater from '../../../../../components/LocationDetailLayout/AreaDetails/SurfaceWater';
 import decorator from '../../../config/decorators';
 
 export default {

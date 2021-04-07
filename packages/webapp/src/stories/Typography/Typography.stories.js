@@ -33,6 +33,9 @@ const AllFontTemplate = (args) => (
   <>
     <Title style={args.style} />
     <Semibold style={args.style} />
+    <Semibold sm style={args.style}>
+      sm Semibold
+    </Semibold>
     <Label style={args.style} />
     <Label sm style={args.style}>
       Label with sm as prop

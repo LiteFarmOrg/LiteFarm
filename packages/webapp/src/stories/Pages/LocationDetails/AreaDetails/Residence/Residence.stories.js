@@ -1,5 +1,5 @@
 import React from 'react';
-import Residence from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/Residence';
+import Residence from '../../../../../components/LocationDetailLayout/AreaDetails/Residence';
 import decorator from '../../../config/decorators';
 
 export default {

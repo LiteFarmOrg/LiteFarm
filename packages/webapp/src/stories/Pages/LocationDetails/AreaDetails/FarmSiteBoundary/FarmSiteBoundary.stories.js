@@ -1,5 +1,5 @@
 import React from 'react';
-import FarmSiteBoundary from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/FarmSiteBoundary';
+import FarmSiteBoundary from '../../../../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
 import decorator from '../../../config/decorators';
 
 export default {

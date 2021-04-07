@@ -1,5 +1,5 @@
 import React from 'react';
-import Field from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/Field';
+import Field from '../../../../../components/LocationDetailLayout/AreaDetails/Field';
 import decorator from '../../../config/decorators';
 
 export default {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Barn from '../../../../../components/LocationDetailLayout/AreaDetailsLayout/Barn';
+import Barn from '../../../../../components/LocationDetailLayout/AreaDetails/Barn';
 import decorator from '../../../config/decorators';
 
 export default {

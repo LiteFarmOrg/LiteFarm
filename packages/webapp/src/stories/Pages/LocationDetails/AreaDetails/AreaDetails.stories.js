@@ -1,12 +1,12 @@
 import React from 'react';
-import AreaDetailsLayout from '../../../../components/LocationDetailLayout/AreaDetailsLayout';
+import AreaDetails from '../../../../components/LocationDetailLayout/AreaDetails';
 import decorator from '../../config/decorators';
 import { useForm } from 'react-hook-form';
 
 export default {
-  title: 'Form/Location/Area/AreaDetailsLayout',
+  title: 'Form/Location/Area/AreaDetails',
   decorators: decorator,
-  component: AreaDetailsLayout,
+  component: AreaDetails,
 };
 
 const Template = (args) => {
@@ -16,7 +16,7 @@ const Template = (args) => {
     },
   );
   return (
-    <AreaDetailsLayout
+    <AreaDetails
       {...args}
       register={register}
       control={control}

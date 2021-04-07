@@ -97,13 +97,13 @@ const SaleDetail = React.lazy(() => import('./containers/Finances/SaleDetail'));
 const ExpiredTokenScreen = React.lazy(() => import('./containers/ExpiredTokenScreen'));
 const Map = React.lazy(() => import('./containers/Map'));
 const FarmSiteBoundary = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/FarmSiteBoundaryDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/FarmSiteBoundaryDetailForm'),
 );
 const AreaDetailsField = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/FieldDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/FieldDetailForm'),
 );
 const Garden = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/GardenDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/GardenDetailForm'),
 );
 const Gate = React.lazy(() =>
   import('./containers/LocationDetails/PointDetailsLayout/GateDetailForm'),
@@ -111,23 +111,21 @@ const Gate = React.lazy(() =>
 const WaterValve = React.lazy(() =>
   import('./containers/LocationDetails/PointDetailsLayout/WaterValveDetailForm'),
 );
-const Barn = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/BarnDetailForm'),
-);
+const Barn = React.lazy(() => import('./containers/LocationDetails/AreaDetails/BarnDetailForm'));
 const NaturalArea = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/NaturalAreaDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/NaturalAreaDetailForm'),
 );
 const SurfaceWater = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/SurfaceWaterDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/SurfaceWaterDetailForm'),
 );
 const Residence = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/ResidenceDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/ResidenceDetailForm'),
 );
 const CeremonialArea = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/CeremonialAreaDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/CeremonialAreaDetailForm'),
 );
 const Greenhouse = React.lazy(() =>
-  import('./containers/LocationDetails/AreaDetailsLayout/GreenhouseDetailForm'),
+  import('./containers/LocationDetails/AreaDetails/GreenhouseDetailForm'),
 );
 const Fence = React.lazy(() =>
   import('./containers/LocationDetails/LineDetailsLayout/FenceDetailForm'),

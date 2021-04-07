@@ -59,12 +59,14 @@ const greenhouseSlice = createSlice({
     onLoadingGreenhouseFail: onLoadingFail,
     getGreenhousesSuccess: upsertManyGreenhouseWithLocation,
     postGreenhouseSuccess: upsertOneGreenhouseWithLocation,
+    editGreenhouseSuccess: upsertOneGreenhouseWithLocation,
     deleteGreenhouseSuccess: greenhouseAdapter.removeOne,
   },
 });
 export const {
   getGreenhousesSuccess,
   postGreenhouseSuccess,
+  editGreenhouseSuccess,
   onLoadingGreenhouseStart,
   onLoadingGreenhouseFail,
   deleteGreenhouseSuccess,

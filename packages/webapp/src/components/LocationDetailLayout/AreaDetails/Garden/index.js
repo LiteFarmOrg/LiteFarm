@@ -11,6 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
+import { getPersistPath } from '../../utils';
 
 export default function PureGarden({
   history,
@@ -36,9 +37,14 @@ export default function PureGarden({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('garden', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const gardenTypeSelection = watch(gardenEnum.organic_status);
@@ -58,17 +64,31 @@ export default function PureGarden({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.GARDEN.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.GARDEN.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(gardenEnum.name));
+
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/garden/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.GARDEN.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       {isViewLocationPage && (
         <RouterTab
@@ -150,7 +170,6 @@ export default function PureGarden({
           <div style={{ paddingBottom: '20px' }}>
             {gardenTypeSelection === 'Transitional' && (
               <Input
-                style={{ paddingBottom: '16px' }}
                 type={'date'}
                 name={gardenEnum.transition_date}
                 defaultValue={new Date().toLocaleDateString('en-CA')}

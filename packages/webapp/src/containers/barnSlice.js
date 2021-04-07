@@ -53,12 +53,14 @@ const barnSlice = createSlice({
     onLoadingBarnFail: onLoadingFail,
     getBarnsSuccess: upsertManyBarnWithLocation,
     postBarnSuccess: upsertOneBarnWithLocation,
+    editBarnSuccess: upsertOneBarnWithLocation,
     deleteBarnSuccess: barnAdapter.removeOne,
   },
 });
 export const {
   getBarnsSuccess,
   postBarnSuccess,
+  editBarnSuccess,
   onLoadingBarnStart,
   onLoadingBarnFail,
   deleteBarnSuccess,

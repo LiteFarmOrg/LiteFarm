@@ -6,6 +6,7 @@ import LocationButtons from '../../LocationButtons';
 import { naturalAreaEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { getPersistPath } from '../../utils';
 
 export default function PureNaturalArea({
   history,
@@ -31,9 +32,14 @@ export default function PureNaturalArea({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('natural_area', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -53,17 +59,31 @@ export default function PureNaturalArea({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.NATURAL_AREA.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.NATURAL_AREA.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(naturalAreaEnum.name));
+
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/natural_area/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.NATURAL_AREA.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       <AreaDetails
         name={t('FARM_MAP.NATURAL_AREA.NAME')}

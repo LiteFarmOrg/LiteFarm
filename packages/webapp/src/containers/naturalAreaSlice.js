@@ -53,12 +53,14 @@ const naturalAreaSlice = createSlice({
     onLoadingNaturalAreaFail: onLoadingFail,
     getNaturalAreasSuccess: upsertManyNaturalAreaWithLocation,
     postNaturalAreaSuccess: upsertOneNaturalAreaWithLocation,
+    editNaturalAreaSuccess: upsertOneNaturalAreaWithLocation,
     deleteNaturalAreaSuccess: naturalAreaAdapter.removeOne,
   },
 });
 export const {
   getNaturalAreasSuccess,
   postNaturalAreaSuccess,
+  editNaturalAreaSuccess,
   onLoadingNaturalAreaStart,
   onLoadingNaturalAreaFail,
   deleteNaturalAreaSuccess,

@@ -6,6 +6,7 @@ import LocationButtons from '../../LocationButtons';
 import { farmSiteBoundaryEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { getPersistPath } from '../../utils';
 
 export default function PureFarmSiteBoundary({
   history,
@@ -31,9 +32,14 @@ export default function PureFarmSiteBoundary({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('farm_site_boundary', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -53,17 +59,31 @@ export default function PureFarmSiteBoundary({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.FARM_SITE_BOUNDARY.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(farmSiteBoundaryEnum.name));
+
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/farm_site_boundary/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.FARM_SITE_BOUNDARY.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       <AreaDetails
         name={t('FARM_MAP.FARM_SITE_BOUNDARY.NAME')}

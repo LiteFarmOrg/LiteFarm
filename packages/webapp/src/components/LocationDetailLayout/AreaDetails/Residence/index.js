@@ -6,6 +6,7 @@ import LocationButtons from '../../LocationButtons';
 import { residenceEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { getPersistPath } from '../../utils';
 
 export default function PureResidence({
   history,
@@ -31,9 +32,14 @@ export default function PureResidence({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('residence', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -53,17 +59,31 @@ export default function PureResidence({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.RESIDENCE.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.RESIDENCE.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(residenceEnum.name));
+
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/residence/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.RESIDENCE.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       <AreaDetails
         name={t('FARM_MAP.RESIDENCE.NAME')}

@@ -53,12 +53,14 @@ const ceremonialSlice = createSlice({
     onLoadingCeremonialFail: onLoadingFail,
     getCeremonialsSuccess: upsertManyCeremonialWithLocation,
     postCeremonialSuccess: upsertOneCeremonialWithLocation,
+    editCeremonialSuccess: upsertOneCeremonialWithLocation,
     deleteCeremonialSuccess: ceremonialAdapter.removeOne,
   },
 });
 export const {
   getCeremonialsSuccess,
   postCeremonialSuccess,
+  editCeremonialSuccess,
   onLoadingCeremonialStart,
   onLoadingCeremonialFail,
   deleteCeremonialSuccess,

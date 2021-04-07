@@ -4,18 +4,15 @@ import { postFarmSiteLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
-import { useLocationPageType } from '../../utils';
 
-function FarmSiteBoundaryDetailForm({ history, match }) {
+function PostFarmSiteBoundaryDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
 
   const submitForm = (data) => {
     dispatch(postFarmSiteLocation(data));
   };
+
   return (
     <PureFarmSiteBoundary
       history={history}
@@ -23,11 +20,9 @@ function FarmSiteBoundaryDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
+      isCreateLocationPage={true}
     />
   );
 }
 
-export default FarmSiteBoundaryDetailForm;
+export default PostFarmSiteBoundaryDetailForm;

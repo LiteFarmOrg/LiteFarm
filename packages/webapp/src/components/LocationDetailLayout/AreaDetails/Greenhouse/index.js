@@ -11,6 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
+import { getPersistPath } from '../../utils';
 
 export default function PureGreenhouse({
   history,
@@ -36,9 +37,14 @@ export default function PureGreenhouse({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('greenhouse', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
 
@@ -73,18 +79,30 @@ export default function PureGreenhouse({
     };
     submitForm({ formData });
   };
-
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.GREENHOUSE.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.GREENHOUSE.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(greenhouseEnum.name));
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/greenhouse/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.GREENHOUSE.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       {isViewLocationPage && (
         <RouterTab

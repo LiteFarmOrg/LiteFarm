@@ -53,12 +53,14 @@ const residenceSlice = createSlice({
     onLoadingResidenceFail: onLoadingFail,
     getResidencesSuccess: upsertManyResidenceWithLocation,
     postResidenceSuccess: upsertOneResidenceWithLocation,
+    editResidenceSuccess: upsertOneResidenceWithLocation,
     deleteResidenceSuccess: residenceAdapter.removeOne,
   },
 });
 export const {
   getResidencesSuccess,
   postResidenceSuccess,
+  editResidenceSuccess,
   onLoadingResidenceStart,
   onLoadingResidenceFail,
   deleteResidenceSuccess,

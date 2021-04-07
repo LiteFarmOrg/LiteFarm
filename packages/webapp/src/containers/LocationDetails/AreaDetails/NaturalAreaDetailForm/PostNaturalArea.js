@@ -4,18 +4,15 @@ import { postNaturalAreaLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
-import { useLocationPageType } from '../../utils';
 
-function NauralAreaDetailForm({ history, match }) {
+function PostNaturalAreaDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
-  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
-    match,
-  );
 
   const submitForm = (data) => {
     dispatch(postNaturalAreaLocation(data));
   };
+
   return (
     <PureNaturalArea
       history={history}
@@ -23,11 +20,9 @@ function NauralAreaDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
+      isCreateLocationPage={true}
     />
   );
 }
 
-export default NauralAreaDetailForm;
+export default PostNaturalAreaDetailForm;

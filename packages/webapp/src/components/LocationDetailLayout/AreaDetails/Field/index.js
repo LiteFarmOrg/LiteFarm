@@ -11,6 +11,7 @@ import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
 import RouterTab from '../../../RouterTab';
+import { getPersistPath } from '../../utils';
 
 export default function PureField({
   history,
@@ -36,13 +37,14 @@ export default function PureField({
   } = useForm({
     mode: 'onChange',
   });
-  const persistPath =
-    (isCreateLocationPage && ['/map']) ||
-    (isEditLocationPage && []) ||
-    (isViewLocationPage && [`/field/${match.params.location_id}/edit`]);
+  const persistedPath = getPersistPath('field', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistPath, getValues, setValue, !isEditLocationPage);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);

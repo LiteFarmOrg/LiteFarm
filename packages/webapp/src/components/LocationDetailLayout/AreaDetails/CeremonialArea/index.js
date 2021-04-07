@@ -6,6 +6,7 @@ import LocationButtons from '../../LocationButtons';
 import { ceremonialEnum } from '../../../../containers/constants';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { getPersistPath } from '../../utils';
 
 export default function PureCeremonialArea({
   history,
@@ -31,9 +32,14 @@ export default function PureCeremonialArea({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('ceremonial_area', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;
@@ -51,18 +57,30 @@ export default function PureCeremonialArea({
     };
     submitForm({ formData });
   };
-
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.CEREMONIAL_AREA.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.CEREMONIAL_AREA.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(ceremonialEnum.name));
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/ceremonial_area/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.CEREMONIAL_AREA.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       <AreaDetails
         name={t('FARM_MAP.CEREMONIAL_AREA.NAME')}

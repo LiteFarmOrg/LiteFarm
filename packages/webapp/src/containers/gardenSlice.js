@@ -53,12 +53,14 @@ const gardenSlice = createSlice({
     onLoadingGardenFail: onLoadingFail,
     getGardensSuccess: upsertManyGardenWithLocation,
     postGardenSuccess: upsertOneGardenWithLocation,
+    editGardenSuccess: upsertOneGardenWithLocation,
     deleteGardenSuccess: gardenAdapter.removeOne,
   },
 });
 export const {
   getGardensSuccess,
   postGardenSuccess,
+  editGardenSuccess,
   onLoadingGardenStart,
   onLoadingGardenFail,
   deleteGardenSuccess,

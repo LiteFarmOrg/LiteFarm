@@ -53,12 +53,14 @@ const farmSiteBoundarySlice = createSlice({
     onLoadingFarmSiteBoundaryFail: onLoadingFail,
     getFarmSiteBoundarysSuccess: upsertManyFarmSiteBoundaryWithLocation,
     postFarmSiteBoundarySuccess: upsertOneFarmSiteBoundaryWithLocation,
+    editFarmSiteBoundarySuccess: upsertOneFarmSiteBoundaryWithLocation,
     deleteFarmSiteBoundarySuccess: farmSiteBoundaryAdapter.removeOne,
   },
 });
 export const {
   getFarmSiteBoundarysSuccess,
   postFarmSiteBoundarySuccess,
+  editFarmSiteBoundarySuccess,
   onLoadingFarmSiteBoundaryStart,
   onLoadingFarmSiteBoundaryFail,
   deleteFarmSiteBoundarySuccess,

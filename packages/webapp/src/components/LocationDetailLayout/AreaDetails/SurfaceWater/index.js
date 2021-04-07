@@ -8,6 +8,7 @@ import { Label } from '../../../Typography';
 import LocationButtons from '../../LocationButtons';
 import Form from '../../../Form';
 import LocationPageHeader from '../../LocationPageHeader';
+import { getPersistPath } from '../../utils';
 
 export default function PureSurfaceWater({
   history,
@@ -33,9 +34,14 @@ export default function PureSurfaceWater({
   } = useForm({
     mode: 'onChange',
   });
+  const persistedPath = getPersistPath('surface_water', match, {
+    isCreateLocationPage,
+    isViewLocationPage,
+    isEditLocationPage,
+  });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(['/map'], getValues, setValue);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
 
   const onError = (data) => {};
   const irrigation = watch(surfaceWaterEnum.used_for_irrigation);
@@ -57,17 +63,31 @@ export default function PureSurfaceWater({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.SURFACE_WATER.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.SURFACE_WATER.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(surfaceWaterEnum.name));
+
   return (
     <Form
-      buttonGroup={<LocationButtons disabled={disabled} />}
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/surface_water/${match.params.location_id}/edit`)}
+        />
+      }
       onSubmit={handleSubmit(onSubmit, onError)}
     >
       <LocationPageHeader
-        title={t('FARM_MAP.SURFACE_WATER.TITLE')}
+        title={title}
         isCreateLocationPage={isCreateLocationPage}
         isViewLocationPage={isViewLocationPage}
         isEditLocationPage={isEditLocationPage}
         history={history}
+        match={match}
       />
       <AreaDetails
         name={t('FARM_MAP.SURFACE_WATER.NAME')}

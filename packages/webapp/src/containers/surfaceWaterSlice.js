@@ -53,12 +53,14 @@ const surfaceWaterSlice = createSlice({
     onLoadingSurfaceWaterFail: onLoadingFail,
     getSurfaceWatersSuccess: upsertManySurfaceWaterWithLocation,
     postSurfaceWaterSuccess: upsertOneSurfaceWaterWithLocation,
+    editSurfaceWaterSuccess: upsertOneSurfaceWaterWithLocation,
     deleteSurfaceWaterSuccess: surfaceWaterAdapter.removeOne,
   },
 });
 export const {
   getSurfaceWatersSuccess,
   postSurfaceWaterSuccess,
+  editSurfaceWaterSuccess,
   onLoadingSurfaceWaterStart,
   onLoadingSurfaceWaterFail,
   deleteSurfaceWaterSuccess,

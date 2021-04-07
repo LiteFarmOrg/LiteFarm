@@ -20,7 +20,7 @@ Active.args = {
       crop_translation_key: "CARROT",
     }
   },
-  status: 'Current',
+  status: 'Active',
 };
 
 export const Planned = Template.bind({});

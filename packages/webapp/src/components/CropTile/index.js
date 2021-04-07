@@ -5,12 +5,12 @@ import { ReactComponent as CalendarIcon } from '../../assets/images/fieldCrops/c
 import { useTranslation } from 'react-i18next';
 
 const cropStatus = {
-  current: "Current",
+  active: "Active",
   past: "Past",
   planned: "Planned",
 }
 
-const isCurrent = (status) => status === cropStatus.current;
+const isActive = (status) => status === cropStatus.active;
 const isPast = (status) => status === cropStatus.past;
 const isPlanned = (status) => status === cropStatus.planned;
 

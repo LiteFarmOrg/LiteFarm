@@ -11,6 +11,8 @@ export default function PureCropList({
   onFilterChange,
   onAddCrop,
   activeCrops,
+  pastCrops,
+  plannedCrops,
   ...props
 }) {
   const isSearchable = true;
@@ -47,23 +49,34 @@ export default function PureCropList({
           <div className={styles.labelDivider} />
         </div>
         <div className={styles.tileContainer}>
-          <PureCropTile fieldCrop={{variety: 'hello'}}/>
-          <PureCropTile fieldCrop={{variety: 'greetings'}}/>
-          <PureCropTile fieldCrop={{variety: 'hi'}}/>
-          <PureCropTile fieldCrop={{variety: 'bye'}}/>
+          {activeCrops.map((fc) => <PureCropTile fieldCrop={fc} status={'Active'}/>)}
         </div>
         </>
       }
-      <div className={styles.labelContainer}>
-        <div className={styles.label}>{t('LOCATION_CROPS.PLANNED_CROPS')}</div>
-        <div className={styles.cropCount} style={{backgroundColor: '#7E4C0E'}}>{60}</div>
-        <div className={styles.labelDivider} />
-      </div>
-      <div className={styles.labelContainer}>
-        <div className={styles.label}>{t('LOCATION_CROPS.PAST_CROPS')}</div>
-        <div className={styles.cropCount} style={{backgroundColor: '#085D50'}}>{25}</div>
-        <div className={styles.labelDivider} />
-      </div>
+      {plannedCrops.length &&
+        <>
+        <div className={styles.labelContainer}>
+          <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
+          <div className={styles.cropCount} style={{backgroundColor: '#7E4C0E'}}>{plannedCrops.length}</div>
+          <div className={styles.labelDivider} />
+        </div>
+        <div className={styles.tileContainer}>
+          {plannedCrops.map((fc) => <PureCropTile fieldCrop={fc} status={'Planned'}/>)}
+        </div>
+        </>
+      }
+      {pastCrops.length &&
+        <>
+        <div className={styles.labelContainer}>
+          <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
+          <div className={styles.cropCount} style={{backgroundColor: '#085D50'}}>{pastCrops.length}</div>
+          <div className={styles.labelDivider} />
+        </div>
+        <div className={styles.tileContainer}>
+          {pastCrops.map((fc) => <PureCropTile fieldCrop={fc} status={'Past'}/>)}
+        </div>
+        </>
+      }
     </div>
   );
 }

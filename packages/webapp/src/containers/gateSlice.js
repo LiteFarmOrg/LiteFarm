@@ -77,10 +77,8 @@ export const gatesSelector = createSelector(
   },
 );
 
-export const gateSelector = createSelector(
-  gateReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const gateSelector = (location_id) =>
+  createSelector(gateEntitiesSelector, (entities) => entities[location_id]);
 
 export const gateStatusSelector = createSelector(
   [gateReducerSelector],

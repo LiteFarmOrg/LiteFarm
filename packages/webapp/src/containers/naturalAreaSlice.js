@@ -81,10 +81,8 @@ export const naturalAreasSelector = createSelector(
   },
 );
 
-export const naturalAreaSelector = createSelector(
-  naturalAreaReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const naturalAreaSelector = (location_id) =>
+  createSelector(naturalAreaEntitiesSelector, (entities) => entities[location_id]);
 
 export const naturalAreaStatusSelector = createSelector(
   [naturalAreaReducerSelector],

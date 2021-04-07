@@ -87,10 +87,8 @@ export const greenhousesSelector = createSelector(
   },
 );
 
-export const greenhouseSelector = createSelector(
-  greenhouseReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const greenhouseSelector = (location_id) =>
+  createSelector(greenhouseEntitiesSelector, (entities) => entities[location_id]);
 
 export const greenhouseStatusSelector = createSelector(
   [greenhouseReducerSelector],

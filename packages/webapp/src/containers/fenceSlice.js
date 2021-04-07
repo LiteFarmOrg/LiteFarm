@@ -77,10 +77,8 @@ export const fencesSelector = createSelector(
   },
 );
 
-export const fenceSelector = createSelector(
-  fenceReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const fenceSelector = (location_id) =>
+  createSelector(fenceEntitiesSelector, (entities) => entities[location_id]);
 
 export const fenceStatusSelector = createSelector(
   [fenceReducerSelector],

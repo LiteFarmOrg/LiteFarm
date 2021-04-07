@@ -81,10 +81,8 @@ export const ceremonialsSelector = createSelector(
   },
 );
 
-export const ceremonialSelector = createSelector(
-  ceremonialReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const ceremonialSelector = (location_id) =>
+  createSelector(ceremonialEntitiesSelector, (entities) => entities[location_id]);
 
 export const ceremonialStatusSelector = createSelector(
   [ceremonialReducerSelector],

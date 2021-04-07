@@ -81,10 +81,8 @@ export const gardensSelector = createSelector(
   },
 );
 
-export const gardenSelector = createSelector(
-  gardenReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const gardenSelector = (location_id) =>
+  createSelector(gardenEntitiesSelector, (entities) => entities[location_id]);
 
 export const gardenStatusSelector = createSelector(
   [gardenReducerSelector],

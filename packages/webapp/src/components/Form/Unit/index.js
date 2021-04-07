@@ -153,6 +153,9 @@ const Unit = ({
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
   useEffect(() => {
     if (hookFormUnit && hookFormValue !== undefined) {
+      if (convert().describe(hookFormUnit)?.system !== system) {
+        hookFormSetValue(displayUnitName, unitOptionMap[displayUnit]);
+      }
       setVisibleInputValue(
         roundToTwoDecimal(convert(hookFormValue).from(databaseUnit).to(hookFormUnit)),
       );
@@ -331,9 +334,6 @@ Unit.propTypes = {
     imperial: PropTypes.object,
     databaseUnit: PropTypes.string,
   }),
-  /*
-  Unit name from must
-  */
   from: PropTypes.string,
   to: PropTypes.string,
   required: PropTypes.bool,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PureFarmSiteBoundary from '../../../../components/LocationDetailLayout/AreaDetails/FarmSiteBoundary';
-import { postFarmSiteLocation } from './saga';
+import { postFarmSiteBoundaryLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
@@ -10,7 +10,7 @@ function PostFarmSiteBoundaryDetailForm({ history, match }) {
   const system = useSelector(measurementSelector);
 
   const submitForm = (data) => {
-    dispatch(postFarmSiteLocation(data));
+    dispatch(postFarmSiteBoundaryLocation(data));
   };
 
   return (

@@ -13,7 +13,7 @@ import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import { resetAndLockFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 
-export const postFarmSiteLocation = createAction(`postFarmSiteBoundaryLocationSaga`);
+export const postFarmSiteBoundaryLocation = createAction(`postFarmSiteBoundaryLocationSaga`);
 
 export function* postFarmSiteBoundaryLocationSaga({ payload: data }) {
   const formData = data.formData;

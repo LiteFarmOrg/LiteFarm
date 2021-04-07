@@ -102,10 +102,8 @@ export const watercoursesSelector = createSelector(
   },
 );
 
-export const watercourseSelector = createSelector(
-  watercourseReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const watercourseSelector = (location_id) =>
+  createSelector(watercourseEntitiesSelector, (entities) => entities[location_id]);
 
 export const watercourseStatusSelector = createSelector(
   [watercourseReducerSelector],

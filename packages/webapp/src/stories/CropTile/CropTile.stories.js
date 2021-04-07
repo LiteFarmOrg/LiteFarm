@@ -14,25 +14,35 @@ const Template = (args) => <div style={{height: "140px"}}>
 export const Active = Template.bind({});
 Active.args = {
   fieldCrop: {
-    varietalName: "Bolero",
-    type: "Carrot",
-  }
+    variety: "Bolero",
+    startDate: "2020-12-25T15:02:31.440Z",
+    crop: {
+      crop_translation_key: "CARROT",
+    }
+  },
+  status: 'Current',
 };
 
 export const Planned = Template.bind({});
 Planned.args = {
   fieldCrop: {
-    varietalName: "Bolero",
-    type: "Carrot",
-    date: "May 8",
-  }
+    variety: "Bolero",
+    startDate: "2020-12-25T15:02:31.440Z",
+    crop: {
+      crop_translation_key: "CARROT",
+    }
+  },
+  status: 'Planned',
 };
 
 export const Past = Template.bind({});
 Past.args = {
   fieldCrop: {
-    varietalName: "Bolero",
-    type: "Carrot",
-    date: "2020",
-  }
+    variety: "Bolero",
+    startDate: "2020-12-25T15:02:31.440Z",
+    crop: {
+      crop_translation_key: "CARROT",
+    }
+  },
+  status: 'Past',
 };

@@ -5,6 +5,7 @@ import Input from '../Form/Input';
 import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PureCropTile from '../CropTile';
+import { useSelector } from 'react-redux';
 
 export default function PureCropList({
   onFilterChange,
@@ -14,6 +15,7 @@ export default function PureCropList({
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
+  // const { idk } = useSelector();
   return (
     <div className={styles.container} {...props}>
       {isSearchable && (
@@ -45,10 +47,10 @@ export default function PureCropList({
           <div className={styles.labelDivider} />
         </div>
         <div className={styles.tileContainer}>
-          <PureCropTile fieldCrop={{varietalName: 'hello'}}/>
-          <PureCropTile fieldCrop={{varietalName: 'greetings'}}/>
-          <PureCropTile fieldCrop={{varietalName: 'hi'}}/>
-          <PureCropTile fieldCrop={{varietalName: 'bye'}}/>
+          <PureCropTile fieldCrop={{variety: 'hello'}}/>
+          <PureCropTile fieldCrop={{variety: 'greetings'}}/>
+          <PureCropTile fieldCrop={{variety: 'hi'}}/>
+          <PureCropTile fieldCrop={{variety: 'bye'}}/>
         </div>
         </>
       }

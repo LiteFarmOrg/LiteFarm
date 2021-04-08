@@ -209,6 +209,12 @@ const EditWatercourseForm = React.lazy(() =>
   import('./containers/LocationDetails/LineDetails/WatercourseDetailForm/EditWatercourse'),
 );
 
+// TODO: testing page only created to test filter and other interactions.
+// delete after integrating with original page
+const Testing = React.lazy(() =>
+  import('./containers/Testing'),
+);
+
 const Routes = () => {
   const userFarm = useSelector(
     userFarmSelector,
@@ -414,6 +420,7 @@ const Routes = () => {
             <Route path="/password_reset" component={PasswordResetAccount} />
             <Route path={'/expired'} component={ExpiredTokenScreen} />
             <Route path="/invite_user" exact component={InviteUser} />
+            <Route path="/testing" exact component={Testing} />
             <Redirect
               to={'/'}
               //TODO change to 404

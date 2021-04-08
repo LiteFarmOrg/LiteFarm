@@ -93,7 +93,7 @@ export const fieldCropsSelector = createSelector(
     );
     return fieldCropsOfCurrentFarm.map((fieldCrop) => ({
       ...cropEntities[fieldCrop.crop_id],
-      ...cropLocationEntities[fieldCrop.location_id],
+      location: cropLocationEntities[fieldCrop.location_id],
       ...fieldCrop,
     }));
   },

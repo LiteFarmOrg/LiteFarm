@@ -490,6 +490,13 @@
     "IMPORTANT_THINGS": "Let us show you a couple of important things!",
     "SUCCESSFULLY_JOINED": "You have successfully joined"
   },
+  "LOCATION_CROPS": {
+    "ACTIVE_CROPS": "Active crops",
+    "ADD_NEW": "Add a crop",
+    "INPUT_PLACEHOLDER": "Type to search",
+    "PAST_CROPS": "Past crops",
+    "PLANNED_CROPS": "Planned crops"
+  },
   "LOG_COMMON": {
     "ACTION": "Action",
     "ACTIVITY": "Activity",
@@ -632,6 +639,7 @@
     "TITLE": "Scouting Log"
   },
   "LOG_SEEDING": {
+    "FIELD": "MISSING",
     "RATE": "Rate",
     "SEED_SPACING": "Seed Spacing",
     "SEEDING_DEPTH": "Seeding Depth",

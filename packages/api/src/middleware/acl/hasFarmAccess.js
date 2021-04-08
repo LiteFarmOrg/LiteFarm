@@ -89,10 +89,10 @@ async function fromFields(fields) {
   if (!fields || !fields.length) {
     return {};
   }
-  const field_ids = fields ? fields.map((field) => field.field_id) : undefined;
+  const location_ids = fields ? fields.map((location) => location.location_id) : undefined;
   try {
-    const userFarms = await knex('field').join('userFarm', 'field.farm_id', 'userFarm.farm_id')
-      .whereIn('field.field_id', field_ids).distinct('field.farm_id');
+    const userFarms = await knex('location').join('userFarm', 'location.farm_id', 'userFarm.farm_id')
+      .whereIn('location.location_id', location_ids).distinct('location.farm_id');
     if (userFarms.length !== 1) return {};
     return userFarms[0];
   } catch (e) {
@@ -108,11 +108,11 @@ async function fromActivity(req) {
   if (req.body.fields) {
     const fields = [];
     let fieldCrops;
-    for (const field of req.body.fields) {
-      if (!field.field_id) {
+    for (const location of req.body.fields) {
+      if (!location.location_id) {
         return {};
       }
-      fields.push(field.field_id);
+      fields.push(location.location_id);
     }
     if (fields.length === 0) {
       return {};
@@ -129,11 +129,11 @@ async function fromActivity(req) {
     }
 
     const sameFarm = await userFarmModel.query()
-      .distinct('userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
-      .join('field', 'userFarm.farm_id', 'field.farm_id')
-      .leftJoin('fieldCrop', 'fieldCrop.field_id', 'field.field_id')
+      .distinct('userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+      .join('location', 'userFarm.farm_id', 'location.farm_id')
+      .leftJoin('fieldCrop', 'fieldCrop.location_id', 'location.location_id')
       .skipUndefined()
-      .whereIn('field.field_id', fields)
+      .whereIn('location.location_id', fields)
       .whereIn('fieldCrop.field_crop_id', fieldCrops)
       .where('userFarm.user_id', user_id)
       .where('userFarm.farm_id', farm_id)
@@ -143,9 +143,9 @@ async function fromActivity(req) {
     }
   }
   const userFarm = await userFarmModel.query()
-    .distinct('activityLog.activity_id', 'userFarm.user_id', 'userFarm.farm_id', 'field.field_id')
-    .join('field', 'userFarm.farm_id', 'field.farm_id')
-    .join('activityFields', 'activityFields.field_id', 'field.field_id')
+    .distinct('activityLog.activity_id', 'userFarm.user_id', 'userFarm.farm_id', 'location.location_id')
+    .join('location', 'userFarm.farm_id', 'location.farm_id')
+    .join('activityFields', 'activityFields.location_id', 'location.location_id')
     .join('activityLog', 'activityFields.activity_id', 'activityLog.activity_id')
     .skipUndefined()
     .where('activityLog.activity_id', activity_id)

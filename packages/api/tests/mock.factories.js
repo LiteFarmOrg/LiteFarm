@@ -114,7 +114,8 @@ function fakeLocation() {
 }
 
 async function areaFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
 } = {}, area = fakeArea(), areaType) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
@@ -145,7 +146,8 @@ function fakeArea(stringify = true) {
 
 async function fieldFactory({
   promisedStation = weather_stationFactory(),
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'field'),
 } = {}, field = fakeField()) {
   const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
@@ -163,7 +165,8 @@ function fakeField() {
 
 async function gardenFactory({
   promisedStation = weather_stationFactory(),
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedArea = areaFactory({ promisedLocation }, fakeArea(), 'garden'),
 } = {}, garden = fakeGarden()) {
   const [station, location] = await Promise.all([promisedStation, promisedLocation, promisedArea]);
@@ -197,7 +200,10 @@ function fakePriceInsightForTests() {
   };
 }
 
-async function lineFactory({ promisedLocation = locationFactory() } = {}, line = fakeLine(), lineType) {
+async function lineFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, line = fakeLine(), lineType) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
   const { type, ...realLine } = line;
@@ -219,7 +225,10 @@ function fakeLine(stringify = true) {
   };
 }
 
-async function fenceFactory({ promisedLocation = locationFactory() } = {}, fence = fakeFence()) {
+async function fenceFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, fence = fakeFence()) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
   await lineFactory({ promisedLocation: location }, fakeLine(), 'fence');
@@ -354,12 +363,14 @@ function fakeExpense() {
 }
 
 async function fieldCropFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedField = fieldFactory({ promisedFarm, promisedLocation }),
   promisedCrop = cropFactory(),
 } = {}, fieldCrop = fakeFieldCrop()) {
-  const [field, crop] = await Promise.all([promisedLocation, promisedCrop]);
-  const [{ location_id, created_by_user_id }] = field;
-  const [{ crop_id }] = crop;
+  const [location, field, crop] = await Promise.all([promisedLocation, promisedField, promisedCrop]);
+  const [{ location_id }] = field;
+  const [{ crop_id, created_by_user_id }] = crop;
   const base = baseProperties(created_by_user_id);
   return knex('fieldCrop').insert({ location_id: location_id, crop_id, ...fieldCrop, ...base }).returning('*');
 
@@ -849,7 +860,8 @@ async function organicCertifierSurveyFactory({ promisedUserFarm = userFarmFactor
 }
 
 async function barnFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedArea = areaFactory({ promisedLocation },
     fakeArea(), 'barn'),
 } = {}, barn = fakeBarn()) {
@@ -866,7 +878,8 @@ function fakeBarn() {
 }
 
 async function greenhouseFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedArea = areaFactory({ promisedLocation },
     fakeArea(), 'greenhouse'),
 } = {}, greenhouse = fakeGreenhouse()) {
@@ -882,7 +895,10 @@ function fakeGreenhouse() {
   };
 }
 
-async function watercourseFactory({ promisedLocation = locationFactory() } = {}, watercourse = fakeWatercourse()) {
+async function watercourseFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, watercourse = fakeWatercourse()) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
   await lineFactory({ promisedLocation: location }, fakeLine(), 'watercourse');
@@ -897,7 +913,8 @@ function fakeWatercourse() {
 }
 
 async function water_valveFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedPoint = pointFactory({ promisedLocation },
     fakePoint(), 'water_valve'),
 } = {}, water_valve = fakeWaterValve()) {
@@ -916,7 +933,8 @@ function fakeWaterValve() {
 }
 
 async function surface_waterFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedArea = areaFactory({ promisedLocation },
     fakeArea(), 'surface_water'),
 } = {}, surface_water = fakeSurfaceWater()) {
@@ -931,7 +949,10 @@ function fakeSurfaceWater() {
   };
 }
 
-async function pointFactory({ promisedLocation = locationFactory() } = {}, point = fakePoint(), pointType) {
+async function pointFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}, point = fakePoint(), pointType) {
   const [location] = await Promise.all([promisedLocation]);
   const [{ location_id }] = location;
   const { type, ...realPoint } = point;
@@ -940,7 +961,8 @@ async function pointFactory({ promisedLocation = locationFactory() } = {}, point
 }
 
 async function baseArea({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedArea = areaFactory({ promisedLocation },
     fakeArea()),
 } = {}, asset) {
@@ -949,33 +971,48 @@ async function baseArea({
   return knex(asset).insert({ location_id }).returning('*');
 }
 
-async function natural_areaFactory({ promisedLocation = locationFactory() } = {}) {
+async function natural_areaFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
   return await baseArea({ promisedLocation }, 'natural_area');
 }
 
-async function ceremonial_areaFactory({ promisedLocation = locationFactory() } = {}) {
+async function ceremonial_areaFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
   return await baseArea({ promisedLocation }, 'ceremonial_area');
 }
 
-async function residenceFactory({ promisedLocation = locationFactory() } = {}) {
+async function residenceFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
   return await baseArea({ promisedLocation }, 'residence');
 }
 
-async function farm_site_boundaryFactory({ promisedLocation = locationFactory() } = {}) {
+async function farm_site_boundaryFactory({
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+} = {}) {
   return await baseArea({ promisedLocation }, 'farm_site_boundary');
 }
 
 async function buffer_zoneFactory({
-    promisedLocation = locationFactory(),
-    promisedLine= lineFactory({ promisedLocation },
-    fakeLine())} = {}){
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
+  promisedLine = lineFactory({ promisedLocation },
+    fakeLine()),
+} = {}){
   const [location] = await Promise.all([promisedLocation, promisedLine]);
   const [{ location_id }] = location;
   return knex('buffer_zone').insert({ location_id }).returning('*');
 }
 
 async function gateFactory({
-  promisedLocation = locationFactory(),
+  promisedFarm = farmFactory(),
+  promisedLocation = locationFactory({ promisedFarm }),
   promisedPoint = pointFactory({ promisedLocation }, fakePoint()),
 } = {}) {
   const [location] = await Promise.all([promisedLocation, promisedPoint]);

@@ -4,6 +4,9 @@ import Input from '../Form/Input';
 import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PureCropTile from '../CropTile';
+import Layout from '../Layout';
+import RouterTab from '../RouterTab';
+import PageTitle from '../PageTitle/v2';
 
 export default function PureCropList({
   onFilterChange,
@@ -11,13 +14,31 @@ export default function PureCropList({
   activeCrops,
   pastCrops,
   plannedCrops,
-  // location_id,
-  isAdmin
+  history,
+  match,
+  isAdmin,
+  title,
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
   return (
-    <div className={styles.container}>
+    <Layout>
+      <PageTitle title={title} onGoBack={() => history.push('/map')} />
+      <RouterTab
+        classes={{ container: { margin: '30px 0 26px 0' } }}
+        history={history}
+        match={match}
+        tabs={[
+          {
+            label: t('FARM_MAP.TAB.CROPS'),
+            path: match.url,
+          },
+          {
+            label: t('FARM_MAP.TAB.DETAILS'),
+            path: match.url.replace('crops', 'details'),
+          },
+        ]}
+      />
       {isSearchable && (
         <Input
           style={{ marginBottom: '24px' }}
@@ -26,7 +47,7 @@ export default function PureCropList({
           onChange={onFilterChange}
         />
       )}
-      {isAdmin && 
+      {isAdmin && (
         <div
           style={{
             marginBottom: '20px',
@@ -40,43 +61,55 @@ export default function PureCropList({
         >
           + <Underlined>{t('LOCATION_CROPS.ADD_NEW')}</Underlined>
         </div>
-      }
-      {activeCrops.length > 0 &&
+      )}
+      {activeCrops.length > 0 && (
         <>
-        <div className={styles.labelContainer}>
-          <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
-          <div className={styles.cropCount} style={{backgroundColor: '#037A0F'}}>{activeCrops.length}</div>
-          <div className={styles.labelDivider} />
-        </div>
-        <div className={styles.tileContainer}>
-          {activeCrops.map((fc) => <PureCropTile fieldCrop={fc} status={'Active'}/>)}
-        </div>
+          <div className={styles.labelContainer}>
+            <div className={styles.label}>{t('LOCATION_CROPS.ACTIVE_CROPS')}</div>
+            <div className={styles.cropCount} style={{ backgroundColor: '#037A0F' }}>
+              {activeCrops.length}
+            </div>
+            <div className={styles.labelDivider} />
+          </div>
+          <div className={styles.tileContainer}>
+            {activeCrops.map((fc) => (
+              <PureCropTile fieldCrop={fc} status={'Active'} />
+            ))}
+          </div>
         </>
-      }
-      {plannedCrops.length > 0 &&
+      )}
+      {plannedCrops.length > 0 && (
         <>
-        <div className={styles.labelContainer}>
-          <div className={styles.label}>{t('LOCATION_CROPS.PLANNED_CROPS')}</div>
-          <div className={styles.cropCount} style={{backgroundColor: '#7E4C0E'}}>{plannedCrops.length}</div>
-          <div className={styles.labelDivider} />
-        </div>
-        <div className={styles.tileContainer}>
-          {plannedCrops.map((fc) => <PureCropTile fieldCrop={fc} status={'Planned'}/>)}
-        </div>
+          <div className={styles.labelContainer}>
+            <div className={styles.label}>{t('LOCATION_CROPS.PLANNED_CROPS')}</div>
+            <div className={styles.cropCount} style={{ backgroundColor: '#7E4C0E' }}>
+              {plannedCrops.length}
+            </div>
+            <div className={styles.labelDivider} />
+          </div>
+          <div className={styles.tileContainer}>
+            {plannedCrops.map((fc) => (
+              <PureCropTile fieldCrop={fc} status={'Planned'} />
+            ))}
+          </div>
         </>
-      }
-      {pastCrops.length > 0 &&
+      )}
+      {pastCrops.length > 0 && (
         <>
-        <div className={styles.labelContainer}>
-          <div className={styles.label}>{t('LOCATION_CROPS.PAST_CROPS')}</div>
-          <div className={styles.cropCount} style={{backgroundColor: '#085D50'}}>{pastCrops.length}</div>
-          <div className={styles.labelDivider} />
-        </div>
-        <div className={styles.tileContainer}>
-          {pastCrops.map((fc) => <PureCropTile fieldCrop={fc} status={'Past'}/>)}
-        </div>
+          <div className={styles.labelContainer}>
+            <div className={styles.label}>{t('LOCATION_CROPS.PAST_CROPS')}</div>
+            <div className={styles.cropCount} style={{ backgroundColor: '#085D50' }}>
+              {pastCrops.length}
+            </div>
+            <div className={styles.labelDivider} />
+          </div>
+          <div className={styles.tileContainer}>
+            {pastCrops.map((fc) => (
+              <PureCropTile fieldCrop={fc} status={'Past'} />
+            ))}
+          </div>
         </>
-      }
-    </div>
+      )}
+    </Layout>
   );
 }

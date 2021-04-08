@@ -10,7 +10,7 @@ export default function RouterTab({ tabs, history, classes }) {
       {tabs.map((tab) => (
         <Semibold
           className={clsx(styles.pill, isSelected(tab.path) && styles.selected)}
-          onClick={() => history.push(tab.path)}
+          onClick={() => !isSelected(tab.path) && history.push(tab.path)}
         >
           {tab.label}
         </Semibold>

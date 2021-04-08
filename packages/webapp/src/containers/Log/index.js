@@ -33,7 +33,7 @@ import { BsCaretRight } from 'react-icons/all';
 import { isAdminSelector, userFarmSelector } from '../userFarmSlice';
 import { withTranslation } from 'react-i18next';
 import { fieldsSelector } from '../fieldSlice';
-import { currentFieldCropsSelector } from '../fieldCropSlice';
+import { currentAndPlannedFieldCropsSelector } from '../fieldCropSlice';
 import { Label, Semibold, Title } from '../../components/Typography';
 import Button from '../../components/Form/Button';
 
@@ -73,7 +73,7 @@ class Log extends Component {
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
           checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
-          checkFilter(l.field[0], 'field_id', fieldFilter) &&
+          checkFilter(l.location[0], 'location_id', fieldFilter) &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
       );
@@ -201,13 +201,13 @@ class Log extends Component {
         id: 'field',
         Header: this.props.t('common:FIELD'),
         accessor: (d) => {
-          if (!d.field.length) {
+          if (!d.location.length) {
             return 'None';
           }
-          if (d.field.length > 1) {
+          if (d.location.length > 1) {
             return 'Multiple';
           } else {
-            return d.field.map((f) => f.field_name);
+            return d.location.map((f) => f.name);
           }
         },
         minWidth: 70,
@@ -340,7 +340,7 @@ class Log extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    crops: currentFieldCropsSelector(state),
+    crops: currentAndPlannedFieldCropsSelector(state),
     fields: fieldsSelector(state),
     logs: logSelector(state),
     user: userFarmSelector(state),

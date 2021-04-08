@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { bufferZoneEnum, fieldEnum, watercourseEnum } from '../../constants';
+import { bufferZoneEnum, fieldEnum, watercourseEnum, waterValveEnum } from '../../constants';
 import { unitOptionMap } from '../../../components/Form/Unit';
 
 export const initialState = {
@@ -50,6 +50,13 @@ const hookFormPersistSlice = createSlice({
         unitOptionMap[payload[watercourseEnum.buffer_width_unit]];
       state.formData = formData;
     },
+    setPointDetailFormData: (state, { payload }) => {
+      state.shouldUpdateFormData = true;
+      const formData = { ...payload };
+      formData[waterValveEnum.flow_rate_unit] =
+        unitOptionMap[payload[waterValveEnum.flow_rate_unit]];
+      state.formData = formData;
+    },
   },
 });
 
@@ -61,6 +68,7 @@ export const {
   resetAndUnLockFormData,
   setAreaDetailFormData,
   setLineDetailFormData,
+  setPointDetailFormData,
 } = hookFormPersistSlice.actions;
 export default hookFormPersistSlice.reducer;
 export const hookFormPersistSelector = (state) =>

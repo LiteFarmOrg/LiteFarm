@@ -1,9 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PointDetailsLayout from '../index';
+import PointDetails from '../index';
 import { useForm } from 'react-hook-form';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
+import { gateEnum } from '../../../../containers/constants';
+import Form from '../../../Form';
+import LocationPageHeader from '../../LocationPageHeader';
 
 export default function PureGate({
   history,
@@ -46,22 +49,43 @@ export default function PureGate({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.GATE.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.GATE.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(gateEnum.name));
+
   return (
-    <PointDetailsLayout
-      name={t('FARM_MAP.GATE.NAME')}
-      title={t('FARM_MAP.GATE.TITLE')}
-      history={history}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
-      submitForm={onSubmit}
-      onError={onError}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      register={register}
-      disabled={disabled}
-      errors={errors}
-      buttonGroup={<LocationButtons disabled={disabled} />}
-    />
+    <Form
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/gate/${match.params.location_id}/edit`)}
+        />
+      }
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
+      <LocationPageHeader
+        title={title}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
+        match={match}
+      />
+      <PointDetails
+        name={t('FARM_MAP.GATE.NAME')}
+        history={history}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        setValue={setValue}
+        register={register}
+        disabled={disabled}
+        errors={errors}
+      />
+    </Form>
   );
 }

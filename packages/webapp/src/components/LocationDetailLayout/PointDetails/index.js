@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from '../../Form/Input';
-import FormTitleLayout from '../../Form/FormTitleLayout';
 import { gateEnum as pointEnum } from '../../../containers/constants';
 import PureWarningBox from '../../WarningBox';
 import { Label } from '../../Typography';
 
 export default function PointDetailsLayout({
   name,
-  title,
-  submitForm,
+
   children,
   setValue,
-  handleSubmit,
+
   history,
-  onError,
+
   register,
   errors,
-  buttonGroup,
-  match,
+
   isCreateLocationPage,
   isViewLocationPage,
   isEditLocationPage,
@@ -42,31 +39,9 @@ export default function PointDetailsLayout({
       setErrorMessage(history?.location?.state?.error);
     }
   }, [history?.location?.state?.error]);
-  const onCancel = () => {
-    history.push('/map');
-  };
-
-  const onBack = () => {
-    history.push({
-      pathname: '/map',
-      isStepBack: true,
-    });
-  };
-
-  const onSubmit = (data) => {
-    submitForm(data);
-  };
 
   return (
-    <FormTitleLayout
-      onGoBack={onBack}
-      onSubmit={handleSubmit(onSubmit, onError)}
-      title={title}
-      onCancel={onCancel}
-      style={{ flexGrow: 9, order: 2 }}
-      buttonGroup={buttonGroup}
-      isCreateLocationPage={isCreateLocationPage}
-    >
+    <>
       {errorMessage && !isViewLocationPage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
           <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
@@ -93,6 +68,6 @@ export default function PointDetailsLayout({
         name={pointEnum.notes}
         disabled={isViewLocationPage}
       />
-    </FormTitleLayout>
+    </>
   );
 }

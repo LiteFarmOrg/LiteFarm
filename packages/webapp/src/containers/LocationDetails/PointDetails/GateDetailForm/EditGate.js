@@ -7,7 +7,7 @@ import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { gateSelector } from '../../../gateSlice';
 import {
   hookFormPersistSelector,
-  setAreaDetailFormData,
+  setPointDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getFormData, useLocationPageType } from '../../utils';
 
@@ -21,7 +21,7 @@ function EditGateDetailForm({ history, match }) {
   const gate = useSelector(gateSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    dispatch(setAreaDetailFormData(getFormData(gate)));
+    dispatch(setPointDetailFormData(getFormData(gate)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

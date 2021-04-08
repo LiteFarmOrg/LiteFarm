@@ -7,7 +7,7 @@
     "FARM_LOCATION_INPUT_INFO": "Endereço ou latitude e longitude separados por vírgula (ex.: 49.250945, -123.238492)",
     "FARM_NAME": "Nome do sítio/fazenda",
     "INVALID_FARM_LOCATION": "Localização do sítio/fazenda inválida",
-    "LOCATING": "MISSING",
+    "LOCATING": "Localizando...",
     "NO_ADDRESS": "Localização não encontrada. Tente inserir latitue e longitude",
     "TELL_US_ABOUT_YOUR_FARM": "Conte-nos sobre seu sítio/fazenda"
   },
@@ -19,13 +19,13 @@
   },
   "COMMON_ERRORS": {
     "UNIT": {
-      "NON_NEGATIVE": "MISSING",
-      "REQUIRED": "MISSING",
-      "TWO_DECIMALS": "MISSING"
+      "NON_NEGATIVE": "Deve ser um número maior que zero",
+      "REQUIRED": "Obrigatório",
+      "TWO_DECIMALS": "A quantidade deve ter até 2 casas decimais"
     }
   },
   "CONSENT": {
-    "DATA_POLICY": "MISSING",
+    "DATA_POLICY": "Nossa Política de Dados",
     "LABEL": "Aceito"
   },
   "CREATE_USER": {
@@ -41,9 +41,9 @@
     "TITLE": "Criar uma nova conta de usuário"
   },
   "DATE_RANGE": {
-    "HELP_BODY": "MISSING",
-    "HELP_TITLE": "MISSING",
-    "TITLE": "MISSING"
+    "HELP_BODY": "Selecione as datas para criar um relatório financeiro para sua fazenda para um determinado intervalo de tempo.",
+    "HELP_TITLE": "Ajuda",
+    "TITLE": "Filtrar relatório por data"
   },
   "ENTER_PASSWORD": {
     "FORGOT": "Esqueceu sua senha?",
@@ -269,7 +269,7 @@
         "CHOOSE_END_DATE": "Escolha a data de término",
         "CHOOSE_START_DATE": "Escolha a data de início",
         "CROP_COMMON_NAME": "Nome Comum",
-        "CROP_GROUP_INFO": "MISSING",
+        "CROP_GROUP_INFO": "informações do novo cultivo",
         "CROP_GROUP_SUBGROUP": "MISSING",
         "DELETE_CONFIRMATION": "Tem certeza de que deseja excluir esta cultura?",
         "EDIT_CROP_DETAIL": "Editar detalhes do cultivo",
@@ -285,14 +285,14 @@
         "FIELD_SIZE": "Tamanho do campo",
         "GENUS": "Gênero",
         "HOW_MUCH_FIELD": "Quanto do campo você deseja usar?",
-        "NEW_CROP": "MISSING",
-        "NEW_CROP_INFOBOX": "MISSING",
+        "NEW_CROP": "Novo Cultivo",
+        "NEW_CROP_INFOBOX": "Se você tiver informações sobre os detalhes de sua cultura ou variedade, como conteúdo de nutrientes ou características fisiológicas, pode editá-los aqui.",
         "NEW_CROP_VARIETY": "Novo Cultivo ou Variedade",
         "NEW_FIELD_CROP": "Novo cultivo de campo",
-        "NO_DATA": "MISSING",
+        "NO_DATA": "Sem dados",
         "NUMBER_EXPIRED": "Número de colheitas expiradas",
         "NUMBER_OF_BEDS": "Número de canteiros",
-        "NUTRIENT_LABEL": "MISSING",
+        "NUTRIENT_LABEL": "Nutrientes por porção (100g)",
         "PERCENTAGE": "Percentagem",
         "SELECT_CROP_GROUP": "MISSING",
         "SELECT_CROP_SUBGROUP": "MISSING",
@@ -302,15 +302,15 @@
         "VARIETY_NAME": "Nome da Variedade"
       },
       "DELETE_FIELD": "Apagar Campo",
-      "DELETE_FIELD_WARNING": "Are you sure you want to delete this field?",
+      "DELETE_FIELD_WARNING": "Tem certeza que deseja excluir este campo?",
       "EDIT_NAME": "Editar Nome do Campo",
       "NAME": "Nome do Campo",
       "NUMBER_CROPS": "Número de Cultivos",
-      "SELECT": "MISSING",
+      "SELECT": "Selecionar...",
       "TITLE": "Editar Campo",
       "TOTAL_AREA": "Área total",
       "VARIETY": "Variedade",
-      "DELETE_FIELD_CONFIRM": "MISSING"
+      "DELETE_FIELD_CONFIRM": "Quero excluir este campo"
     },
     "EXPLORE": "Verifique seus campos",
     "LIST": "Lista",
@@ -491,22 +491,22 @@
     "ERROR_MISSING_FIELDS": "Erro: falta campos",
     "FARM_LOG": "Registro",
     "FERTILIZING": "Adubaçao",
-    "FIELD": "MISSING",
+    "FIELD": "Campo",
     "FIELD_CROPS": "Cultivos de Campo",
     "FIELD_WORK": "Trabalho de Campo",
     "FIELDS": "Campos",
     "FROM": "De",
     "HARVEST": "colheitas",
-    "HIDE": "MISSING",
+    "HIDE": "Ocultar",
     "IRRIGATION": "Irrigação",
-    "LOG_ALL_CROPS": "MISSING",
-    "LOG_ALL_FIELDS": "MISSING",
+    "LOG_ALL_CROPS": "Todos os cultivos",
+    "LOG_ALL_FIELDS": "Todos os campos",
     "LOG_HELP": "Ajuda com o registro",
     "LOG_HELP_EXPLANATION": "Use os filtros abaixo para pesquisar seu histórico de registro. Útil para manter registros de insumos e outras atividades agrícolas para sua equipe e certificadores.",
     "LOG_HISTORY": "Histórico de registro",
     "NEW_LOG": "Registro Novo",
     "NITRATE": "Nitrato",
-    "NOTES": "MISSING",
+    "NOTES": "Notas",
     "OTHER": "Outro",
     "PEST": "Controle de pragas",
     "PHOSPHATE": "Fosfato",
@@ -519,15 +519,15 @@
     "SCOUTING": "Observação de pragas e doenças",
     "SEARCH_BY_ACTIVITY": "Pesquisar registro por atividade",
     "SEEDING": "Semeadura",
-    "SELECT_FIELD": "MISSING",
-    "SELECT_FIELD_CROP": "MISSING",
+    "SELECT_FIELD": "Selecionar Campo",
+    "SELECT_FIELD_CROP": "Selecionar Cultivo",
     "SELECT_PRODUCT": "selecione o produto",
-    "SELECT_TYPE": "MISSING",
-    "SHOW": "MISSING",
+    "SELECT_TYPE": "Selecionar Tipo",
+    "SHOW": "Mostrar",
     "SOIL_DATA": "Dados do Solo",
     "TO": "Para",
     "TYPE": "Tipo",
-    "WARNING": "MISSING",
+    "WARNING": "Para usar este tipo de registro, você deve adicionar cultivos aos campos. Você pode fazer isso navegando em Campos -> Seu campo -> Novo cultivo de campo",
     "WATER": "Água",
     "WHAT_LOG": "O que você quer registrar?"
   },
@@ -547,7 +547,7 @@
     "ADD_FERTILIZER": "Adicione um Fertilizante/adubo",
     "FERTILIZER_TYPE": "Fertilizer Type",
     "FERTILIZING_QUANTITY": "Quantidade de Fertilizante/Adubo",
-    "SELECT_TEMPLATE": "MISSING",
+    "SELECT_TEMPLATE": "Selecione produto padrão",
     "TITLE": "Registro de Adubação"
   },
   "LOG_FIELD_WORK": {
@@ -627,7 +627,7 @@
     "DEPTH": "Profundidade",
     "INORGANIC_CARBON": "Carbono Inorgânico",
     "MORE_INFO": "Mais informações",
-    "OM": "MISSING",
+    "OM": "Matéria orgânica",
     "ORGANIC_CARBON": "Carbono organico",
     "SELECT_DEPTH": "Selecione Profundidade",
     "SELECT_TEXTURE": "Selecione a textura",
@@ -713,9 +713,9 @@
       "ADDRESS": "Endereço",
       "CURRENCY": "Moeda",
       "FARM_NAME": "Nome do sítio/fazenda",
-      "IMPERIAL": "MISSING",
+      "IMPERIAL": "Imperial",
       "MAKE_REQUEST": "Fazer pedido",
-      "METRIC": "MISSING",
+      "METRIC": "Metrico",
       "PHONE_NUMBER": "Número de telefone",
       "REQUEST_DATA": "Você pode solicitar o download de seus dados e nós enviaremos os dados de seu sítio/fazenda para o seu e-mail, na forma de arquivo .csv.",
       "UNITS": "Unidades"
@@ -800,7 +800,7 @@
     },
     "FINANCES": {
       "ACTION": "Ação",
-      "ACTUAL": "MISSING",
+      "ACTUAL": "Atual",
       "ACTUAL_REVENUE_ESTIMATED": "Estimada",
       "ACTUAL_REVENUE_LABEL": "Atual",
       "ADD_NEW_EXPENSE": "Adicionar nova despesa",
@@ -840,30 +840,30 @@
       "CROPS": "Cultivos",
       "EMPLOYEES": "Funcionários",
       "TABLE": {
-        "AMOUNT": "MISSING",
-        "CROP": "MISSING",
-        "DATE": "MISSING",
-        "EMPLOYEE": "MISSING",
-        "EST_REVENUE": "MISSING",
-        "LABOUR_COST": "MISSING",
-        "TASK": "MISSING",
-        "TIME": "MISSING",
-        "TYPE": "MISSING"
+        "AMOUNT": "Valor",
+        "CROP": "Cultivo",
+        "DATE": "Data",
+        "EMPLOYEE": "Trabalhador(a)",
+        "EST_REVENUE": "Receita estimada",
+        "LABOUR_COST": "Custo laboral",
+        "TASK": "Tarefas",
+        "TIME": "Tempo",
+        "TYPE": "Tipo"
       },
       "TASKS": "Tarefas",
       "TITLE": "Trabalho"
     },
     "SUMMARY": {
-      "AMOUNT": "MISSING",
-      "CROP": "MISSING",
-      "DATE": "MISSING",
+      "AMOUNT": "Valor",
+      "CROP": "Cultivo",
+      "DATE": "Data",
       "DETAILED_HISTORY": "História Detalhada",
-      "SUBTOTAL": "MISSING",
+      "SUBTOTAL": "Subtotal",
       "SUMMARY": "Resumo",
       "TITLE": "Vendas",
       "TOTAL": "Total",
-      "TYPE": "MISSING",
-      "VALUE": "MISSING"
+      "TYPE": "Tipo",
+      "VALUE": "Valor"
     }
   },
   "SHIFT": {
@@ -888,8 +888,8 @@
       "NEUTRAL": "Neutra(o)",
       "RATHER_NOT_SAY": "Prefiro não dizer",
       "SAD": "Descontente",
-      "SELECT_CROPS": "MISSING",
-      "SELECT_FIELDS": "MISSING",
+      "SELECT_CROPS": "Selecionar Cultivo",
+      "SELECT_FIELDS": "Selecionar Campo",
       "VERY_HAPPY": "Muito contente",
       "VERY_SAD": "Muito descontente",
       "WHAT_TASKS_YOU_DID": "Que tarefas você fez hoje?",
@@ -947,10 +947,10 @@
     "TITLE": "Mudar de sítio/fazenda"
   },
   "TABLE": {
-    "LOADING_TEXT": "MISSING",
+    "LOADING_TEXT": "carregando...",
     "NEXT_TEXT": "Próxima",
     "NO_DATA_TEXT": "Nenhum usuário encontrado",
-    "OF_TEXT": "MISSING",
+    "OF_TEXT": "de",
     "PAGE_TEXT": "Página",
     "PREVIOUS_TEXT": "Anterior",
     "ROWS_TEXT": "linhas"

@@ -95,6 +95,7 @@
       "WASH_PACK": "Does this barn have a wash and pack station?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "Edit buffer zone",
       "NAME": "Buffer zone",
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
@@ -121,6 +122,7 @@
       "TITLE": "Add farm site boundary"
     },
     "FENCE": {
+      "EDIT_TITLE": "Edit fence",
       "LENGTH": "Total length",
       "NAME": "Fence",
       "PRESSURE_TREATED": "Is this fence pressure treated?",
@@ -147,6 +149,7 @@
       "TRANSITIONING": "Transitioning"
     },
     "GATE": {
+      "EDIT_TITLE": "Edit gate",
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
@@ -248,6 +251,7 @@
       }
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "Edit water valve",
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
@@ -259,6 +263,7 @@
     },
     "WATERCOURSE": {
       "BUFFER": "Riparian buffer",
+      "EDIT_TITLE": "Edit watercourse",
       "IRRIGATION": "Is this area used for irrigation?",
       "LENGTH": "Total length",
       "NAME": "Watercourse",

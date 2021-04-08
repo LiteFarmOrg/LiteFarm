@@ -15,6 +15,7 @@ export default function PureCropList({
   pastCrops,
   plannedCrops,
   // location_id,
+  isAdmin,
   ...props
 }) {
   const isSearchable = true;
@@ -33,19 +34,21 @@ export default function PureCropList({
           onChange={onFilterChange}
         />
       )}
-      <div
-        style={{
-          marginBottom: '20px',
-          width: 'fit-content',
-          fontSize: '16px',
-          color: 'var(--iconActive)',
-          lineHeight: '16px',
-          cursor: 'pointer',
-        }}
-        onClick={onAddCrop}
-      >
-        + <Underlined>{t('LOCATION_CROPS.ADD_NEW')}</Underlined>
-      </div>
+      {isAdmin && 
+        <div
+          style={{
+            marginBottom: '20px',
+            width: 'fit-content',
+            fontSize: '16px',
+            color: 'var(--iconActive)',
+            lineHeight: '16px',
+            cursor: 'pointer',
+          }}
+          onClick={onAddCrop}
+        >
+          + <Underlined>{t('LOCATION_CROPS.ADD_NEW')}</Underlined>
+        </div>
+      }
       {activeCrops.length > 0 &&
         <>
         <div className={styles.labelContainer}>

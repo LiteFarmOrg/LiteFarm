@@ -53,12 +53,14 @@ const bufferZoneSlice = createSlice({
     onLoadingBufferZoneFail: onLoadingFail,
     getBufferZonesSuccess: upsertManyBufferZoneWithLocation,
     postBufferZoneSuccess: upsertOneBufferZoneWithLocation,
+    editBufferZoneSuccess: upsertOneBufferZoneWithLocation,
     deleteBufferZoneSuccess: bufferZoneAdapter.removeOne,
   },
 });
 export const {
   getBufferZonesSuccess,
   postBufferZoneSuccess,
+  editBufferZoneSuccess,
   onLoadingBufferZoneStart,
   onLoadingBufferZoneFail,
   deleteBufferZoneSuccess,

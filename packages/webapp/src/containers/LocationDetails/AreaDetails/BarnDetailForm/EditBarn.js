@@ -9,20 +9,22 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData } from '../../utils';
+import { getFormData, useLocationPageType } from '../../utils';
 
 function EditBarnDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    dispatch(editBarnLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editBarnLocation({ ...data, ...match.params }));
   };
   const barn = useSelector(barnSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
     !formData.name && dispatch(setAreaDetailFormData(getFormData(barn)));
   }, []);
-
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
+    match,
+  );
   return (
     <PureBarn
       history={history}
@@ -30,7 +32,8 @@ function EditBarnDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isEditLocationPage
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
     />
   );
 }

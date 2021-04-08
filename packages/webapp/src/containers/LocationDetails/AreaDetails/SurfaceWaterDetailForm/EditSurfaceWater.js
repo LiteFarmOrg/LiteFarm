@@ -9,20 +9,22 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData } from '../../utils';
+import { getFormData, useLocationPageType } from '../../utils';
 
 function EditSurfaceWaterDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    dispatch(editSurfaceWaterLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editSurfaceWaterLocation({ ...data, ...match.params }));
   };
   const surfaceWater = useSelector(surfaceWaterSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
     !formData.name && dispatch(setAreaDetailFormData(getFormData(surfaceWater)));
   }, []);
-
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
+    match,
+  );
   return (
     <PureSurfaceWater
       history={history}
@@ -30,7 +32,8 @@ function EditSurfaceWaterDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isEditLocationPage
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
     />
   );
 }

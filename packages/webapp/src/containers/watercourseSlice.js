@@ -76,12 +76,14 @@ const watercourseSlice = createSlice({
     onLoadingWatercourseFail: onLoadingFail,
     getWatercoursesSuccess: upsertManyWatercourseWithLocation,
     postWatercourseSuccess: upsertOneWatercourseWithLocation,
+    editWatercourseSuccess: upsertOneWatercourseWithLocation,
     deleteWatercourseSuccess: watercourseAdapter.removeOne,
   },
 });
 export const {
   getWatercoursesSuccess,
   postWatercourseSuccess,
+  editWatercourseSuccess,
   onLoadingWatercourseStart,
   onLoadingWatercourseFail,
   deleteWatercourseSuccess,

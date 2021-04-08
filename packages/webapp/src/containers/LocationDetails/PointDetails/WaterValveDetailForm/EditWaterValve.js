@@ -1,32 +1,32 @@
 import React, { useEffect } from 'react';
-import PureNaturalArea from '../../../../components/LocationDetailLayout/AreaDetails/NaturalArea';
-import { editNaturalAreaLocation } from './saga';
+import PureWaterValve from '../../../../components/LocationDetailLayout/PointDetails/WaterValve';
+import { editWaterValveLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
-import { naturalAreaSelector } from '../../../naturalAreaSlice';
+import { waterValveSelector } from '../../../waterValveSlice';
 import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
 import { getFormData, useLocationPageType } from '../../utils';
 
-function EditNaturalAreaDetailForm({ history, match }) {
+function EditWaterValveDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editNaturalAreaLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editWaterValveLocation({ ...data, ...match.params }));
   };
-  const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
+  const waterValve = useSelector(waterValveSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(naturalArea)));
+    !formData.name && dispatch(setAreaDetailFormData(getFormData(waterValve)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,
   );
   return (
-    <PureNaturalArea
+    <PureWaterValve
       history={history}
       match={match}
       submitForm={submitForm}
@@ -38,4 +38,4 @@ function EditNaturalAreaDetailForm({ history, match }) {
   );
 }
 
-export default EditNaturalAreaDetailForm;
+export default EditWaterValveDetailForm;

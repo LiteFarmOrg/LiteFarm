@@ -9,20 +9,22 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData } from '../../utils';
+import { getFormData, useLocationPageType } from '../../utils';
 
 function EditFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    dispatch(editFieldLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editFieldLocation({ ...data, ...match.params }));
   };
   const field = useSelector(fieldSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
     !formData.name && dispatch(setAreaDetailFormData(getFormData(field)));
   }, []);
-
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
+    match,
+  );
   return (
     <PureField
       history={history}
@@ -30,7 +32,8 @@ function EditFieldDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isEditLocationPage
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
     />
   );
 }

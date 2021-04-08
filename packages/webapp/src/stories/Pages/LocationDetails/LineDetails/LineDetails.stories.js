@@ -1,5 +1,5 @@
 import React from 'react';
-import LineDetails from '../../../../components/LocationDetailLayout/LineDetailsLayout';
+import LineDetails from '../../../../components/LocationDetailLayout/LineDetails';
 import decorator from '../../config/decorators';
 
 export default {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Watercourse from '../../../../../components/LocationDetailLayout/LineDetailsLayout/Watercourse';
+import Watercourse from '../../../../../components/LocationDetailLayout/LineDetails/Watercourse';
 import decorator from '../../../config/decorators';
 
 export default {

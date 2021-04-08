@@ -9,19 +9,22 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { useLocationPageType } from '../../utils';
 
 function EditFarmSiteBoundaryDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    dispatch(editFarmSiteBoundaryLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editFarmSiteBoundaryLocation({ ...data, ...match.params }));
   };
   const farmSiteBoundary = useSelector(farmSiteBoundarySelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
     !formData.name && dispatch(setAreaDetailFormData(farmSiteBoundary));
   }, []);
-
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
+    match,
+  );
   return (
     <PureFarmSiteBoundary
       history={history}
@@ -29,7 +32,8 @@ function EditFarmSiteBoundaryDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isEditLocationPage
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
     />
   );
 }

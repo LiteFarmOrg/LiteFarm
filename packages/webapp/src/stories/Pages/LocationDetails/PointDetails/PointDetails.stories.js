@@ -1,5 +1,5 @@
 import React from 'react';
-import PointDetails from '../../../../components/LocationDetailLayout/PointDetailsLayout';
+import PointDetails from '../../../../components/LocationDetailLayout/PointDetails';
 import decorator from '../../config/decorators';
 
 export default {

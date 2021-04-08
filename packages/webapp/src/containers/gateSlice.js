@@ -52,12 +52,14 @@ const gateSlice = createSlice({
     onLoadingGateFail: onLoadingFail,
     getGatesSuccess: upsertManyGateWithLocation,
     postGateSuccess: upsertOneGateWithLocation,
+    editGateSuccess: upsertOneGateWithLocation,
     deleteGateSuccess: gateAdapter.removeOne,
   },
 });
 export const {
   getGatesSuccess,
   postGateSuccess,
+  editGateSuccess,
   onLoadingGateStart,
   onLoadingGateFail,
   deleteGateSuccess,

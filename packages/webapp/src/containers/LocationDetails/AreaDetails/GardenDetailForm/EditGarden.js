@@ -9,20 +9,22 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData } from '../../utils';
+import { getFormData, useLocationPageType } from '../../utils';
 
 function EditGardenDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    dispatch(editGardenLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editGardenLocation({ ...data, ...match.params }));
   };
   const garden = useSelector(gardenSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
     !formData.name && dispatch(setAreaDetailFormData(getFormData(garden)));
   }, []);
-
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
+    match,
+  );
   return (
     <PureGarden
       history={history}
@@ -30,7 +32,8 @@ function EditGardenDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isEditLocationPage
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
     />
   );
 }

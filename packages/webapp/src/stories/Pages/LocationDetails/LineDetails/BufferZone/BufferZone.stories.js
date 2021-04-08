@@ -1,5 +1,5 @@
 import React from 'react';
-import BufferZone from '../../../../../components/LocationDetailLayout/LineDetailsLayout/BufferZone';
+import BufferZone from '../../../../../components/LocationDetailLayout/LineDetails/BufferZone';
 import decorator from '../../../config/decorators';
 
 export default {

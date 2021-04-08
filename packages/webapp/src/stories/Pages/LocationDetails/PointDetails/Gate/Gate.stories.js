@@ -1,5 +1,5 @@
 import React from 'react';
-import Gate from '../../../../../components/LocationDetailLayout/PointDetailsLayout/Gate';
+import Gate from '../../../../../components/LocationDetailLayout/PointDetails/Gate';
 import decorator from '../../../config/decorators';
 
 export default {

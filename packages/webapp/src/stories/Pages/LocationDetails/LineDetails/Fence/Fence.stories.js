@@ -1,5 +1,5 @@
 import React from 'react';
-import Fence from '../../../../../components/LocationDetailLayout/LineDetailsLayout/Fence';
+import Fence from '../../../../../components/LocationDetailLayout/LineDetails/Fence';
 import decorator from '../../../config/decorators';
 
 export default {

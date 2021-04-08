@@ -52,12 +52,14 @@ const fenceSlice = createSlice({
     onLoadingFenceFail: onLoadingFail,
     getFencesSuccess: upsertManyFenceWithLocation,
     postFenceSuccess: upsertOneFenceWithLocation,
+    editFenceSuccess: upsertOneFenceWithLocation,
     deleteFenceSuccess: fenceAdapter.removeOne,
   },
 });
 export const {
   getFencesSuccess,
   postFenceSuccess,
+  editFenceSuccess,
   onLoadingFenceStart,
   onLoadingFenceFail,
   deleteFenceSuccess,

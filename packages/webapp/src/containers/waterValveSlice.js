@@ -52,12 +52,14 @@ const waterValveSlice = createSlice({
     onLoadingWaterValveFail: onLoadingFail,
     getWaterValvesSuccess: upsertManyWaterValveWithLocation,
     postWaterValveSuccess: upsertOneWaterValveWithLocation,
+    editWaterValveSuccess: upsertOneWaterValveWithLocation,
     deleteWaterValveSuccess: waterValveAdapter.removeOne,
   },
 });
 export const {
   getWaterValvesSuccess,
   postWaterValveSuccess,
+  editWaterValveSuccess,
   onLoadingWaterValveStart,
   onLoadingWaterValveFail,
   deleteWaterValveSuccess,

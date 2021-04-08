@@ -1,5 +1,5 @@
 import React from 'react';
-import WaterValve from '../../../../../components/LocationDetailLayout/PointDetailsLayout/WaterValve';
+import WaterValve from '../../../../../components/LocationDetailLayout/PointDetails/WaterValve';
 import decorator from '../../../config/decorators';
 
 export default {

@@ -9,20 +9,22 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
-import { getFormData } from '../../utils';
+import { getFormData, useLocationPageType } from '../../utils';
 
 function EditGreenhouseDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    dispatch(editGreenhouseLocation({ ...data, ...match.params }));
+    isEditLocationPage && dispatch(editGreenhouseLocation({ ...data, ...match.params }));
   };
   const greenhouse = useSelector(greenhouseSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
     !formData.name && dispatch(setAreaDetailFormData(getFormData(greenhouse)));
   }, []);
-
+  const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
+    match,
+  );
   return (
     <PureGreenhouse
       history={history}
@@ -30,7 +32,8 @@ function EditGreenhouseDetailForm({ history, match }) {
       submitForm={submitForm}
       system={system}
       useHookFormPersist={useHookFormPersist}
-      isEditLocationPage
+      isEditLocationPage={isEditLocationPage}
+      isViewLocationPage={isViewLocationPage}
     />
   );
 }

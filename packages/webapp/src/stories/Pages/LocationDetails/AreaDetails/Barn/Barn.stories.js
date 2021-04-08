@@ -28,7 +28,7 @@ Post.parameters = {
 export const View = Template.bind({});
 View.args = {
   isViewLocationPage: true,
-  history: { location: { pathname: '/field/location_id/details' } },
+  history: { location: { pathname: '/barn/location_id/details' } },
   match: { params: { location_id: 'location_id' } },
   submitForm: (data) => {},
   system: 'metric',

@@ -15,7 +15,10 @@ Post.args = {
   isCreateLocationPage: true,
   history: (data) => {},
   submitForm: (data) => {},
-  system: (data) => {},
+  system: 'metric',
+  useHookFormPersist: () => ({
+    persistedData: { grid_points: {}, width: 1, length: 2 },
+  }),
 };
 Post.parameters = {
   chromatic: { viewports: [320, 414, 768, 1024, 1800] },

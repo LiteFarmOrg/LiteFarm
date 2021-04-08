@@ -1,12 +1,9 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import clsx from 'clsx';
 import Input from '../Form/Input';
 import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PureCropTile from '../CropTile';
-import { useSelector } from 'react-redux';
-import { expiredFieldCropsByLocationIdSelector } from '../../containers/fieldCropSlice';
 
 export default function PureCropList({
   onFilterChange,
@@ -15,17 +12,12 @@ export default function PureCropList({
   pastCrops,
   plannedCrops,
   // location_id,
-  isAdmin,
-  ...props
+  isAdmin
 }) {
   const isSearchable = true;
   const { t } = useTranslation();
-  // const { idk } = useSelector();
-  // const location_id = "53843c3e-9189-11eb-9af2-9801a7b52f9d";
-  // const pastCrops = useSelector(expiredFieldCropsByLocationIdSelector(location_id));
-  // console.log(pastCrops);
   return (
-    <div className={styles.container} {...props}>
+    <div className={styles.container}>
       {isSearchable && (
         <Input
           style={{ marginBottom: '24px' }}

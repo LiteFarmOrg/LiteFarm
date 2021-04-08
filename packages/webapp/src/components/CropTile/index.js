@@ -18,7 +18,6 @@ export default function PureCropTile({
   fieldCrop,
   className,
   status,
-  ...props
 }) {
   const { t } = useTranslation();
   const { variety, crop_translation_key, start_date, end_date } = fieldCrop;
@@ -31,7 +30,7 @@ export default function PureCropTile({
     displayDate = `${parts[1]} ${parts[2]} '${parts[3].slice(-2)}`;
   }
   return (
-    <div className={clsx(styles.container, isPast(status) && styles.pastContainer, className)} {...props}>
+    <div className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}>
       <div className={styles.img}>{"image"}</div>
       <div className={styles.info}>
         <div className={styles.infoMain} style={{marginBottom: '2px'}}>{variety}</div>

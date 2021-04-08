@@ -22,7 +22,6 @@
   line-height: 20px;
   display: flex;
   align-items: center;
-  // text-align: center;
   justify-content: center;
   padding: 0 4px;
   margin: 0 10px;
@@ -31,10 +30,7 @@
 .labelDivider {
   display: inline-block;
   border-top: 1px solid;
-  // width: calc(100% - 80px);
-  // transform: translate(11px, -3px);
   color: var(--grey400);
-  // background-color: aqua;
   flex-grow: 2;
 }
 

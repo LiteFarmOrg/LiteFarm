@@ -1,11 +1,6 @@
 import React, { useState }  from 'react';
-// import { postWatercourseLocation } from './saga';
-import { useDispatch, useSelector } from 'react-redux';
-// import { measurementSelector } from '../../userFarmSlice';
-// import { locationInfoSelector } from '../../mapSlice';
-// import useHookFormPersist from '../../hooks/useHookFormPersist';
+import { useSelector } from 'react-redux';
 import PureCropList from '../../components/CropListPage';
-import NewFieldCropModal from '../../components/Forms/NewFieldCropModal';
 import {
   currentFieldCropsByLocationIdSelector,
   expiredFieldCropsByLocationIdSelector,
@@ -31,13 +26,6 @@ function Testing({ history }) {
 
   return (
     <>
-    {isAdmin && (
-      <NewFieldCropModal
-        handler={() => {}}
-        // field={this.state.selectedField}
-        // fieldArea={this.state.fieldArea}
-      />
-    )}
     <PureCropList
       onFilterChange={onFilterChange}
       onAddCrop={onAddCrop}

@@ -52,4 +52,5 @@ Primary.args = {
       crop_translation_key: "CARROT",
     }
   ],
+  isAdmin: true,
 };

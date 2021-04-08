@@ -85,7 +85,9 @@
     }
   },
   "MAP": {
+    "FAIL_PATCH": "MISSING",
     "FAIL_POST": "MISSING",
+    "SUCCESS_PATCH": " successfully updated",
     "SUCCESS_POST": " successfully saved"
   },
   "NEW_FIELD_CROP": {

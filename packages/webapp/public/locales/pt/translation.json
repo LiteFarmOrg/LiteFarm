@@ -89,16 +89,19 @@
     },
     "BARN": {
       "COLD_STORAGE": "Does this barn have cold storage?",
+      "EDIT_TITLE": "MISSING",
       "NAME": "Barn",
       "TITLE": "Add barn",
       "WASH_PACK": "Does this barn have a wash and pack station?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Buffer zone",
       "TITLE": "Add buffer zone",
       "WIDTH": "Buffer zone width"
     },
     "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Residence",
       "TITLE": "Add residence"
     },
@@ -114,10 +117,12 @@
       "TITLE": "MISSING"
     },
     "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Farm site boundary name",
       "TITLE": "Add farm site boundary"
     },
     "FENCE": {
+      "EDIT_TITLE": "MISSING",
       "LENGTH": "Total length",
       "NAME": "Fence",
       "PRESSURE_TREATED": "Is this fence pressure treated?",
@@ -125,6 +130,7 @@
     },
     "FIELD": {
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "MISSING",
       "FIELD_TYPE": "What type of field is this?",
       "NAME": "Field",
       "NON_ORGANIC": "Non-organic",
@@ -134,6 +140,7 @@
     },
     "GARDEN": {
       "DATE": "MISSING",
+      "EDIT_TITLE": "MISSING",
       "GARDEN_TYPE": "MISSING",
       "NAME": "MISSING",
       "NON_ORGANIC": "MISSING",
@@ -142,12 +149,14 @@
       "TRANSITIONING": "MISSING"
     },
     "GATE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Gate",
       "TITLE": "Add gate"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Is there CO₂ enrichment?",
       "DATE": "Eligible transition date",
+      "EDIT_TITLE": "MISSING",
       "GREENHOUSE_HEATED": "Is the greenhouse heated?",
       "GREENHOUSE_TYPE": "What type of greenhouse is this?",
       "NAME": "Greenhouse",
@@ -189,10 +198,12 @@
       "WV": "Water valve"
     },
     "NATURAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Natural area",
       "TITLE": "Add natural area"
     },
     "RESIDENCE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Ceremonial area",
       "TITLE": "Add ceremonial area"
     },
@@ -206,9 +217,14 @@
       "HERE_YOU_CAN": "MISSING"
     },
     "SURFACE_WATER": {
+      "EDIT_TITLE": "MISSING",
       "IRRIGATION": "Is this area used for irrigation?",
       "NAME": "Surface water",
       "TITLE": "Add surface water"
+    },
+    "TAB": {
+      "CROPS": "MISSING",
+      "DETAILS": "MISSING"
     },
     "TITLE": "MISSING",
     "TUTORIAL": {
@@ -235,6 +251,7 @@
       }
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "MISSING",
       "GROUNDWATER": "Groundwater",
       "MAX_FLOW_RATE": "Maximum flow rate",
       "MUNICIPAL_WATER": "Municipal water",
@@ -246,6 +263,7 @@
     },
     "WATERCOURSE": {
       "BUFFER": "Riparian buffer",
+      "EDIT_TITLE": "MISSING",
       "IRRIGATION": "Is this area used for irrigation?",
       "LENGTH": "Total length",
       "NAME": "Watercourse",

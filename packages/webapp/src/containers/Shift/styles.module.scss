@@ -36,14 +36,13 @@
   }
 }
 
-
 .dateContainer {
   padding-top: 1rem;
   margin-bottom: 1rem;
   max-width: 100%;
 }
-@media screen and (min-width: 500px)  {
-  .dateContainer{
+@media screen and (min-width: 500px) {
+  .dateContainer {
     width: 45%;
   }
   .pullRight {
@@ -53,8 +52,6 @@
     float: left;
   }
 }
-
-
 
 .table {
   padding-top: 20px;
@@ -270,7 +267,8 @@ input:disabled {
 .popupTitle {
   display: flex;
   flex-direction: row;
-  h3{
+
+  h3 {
     flex-grow: 1;
     font-style: normal;
     font-weight: normal;
@@ -553,8 +551,6 @@ input:disabled {
     color: #00756a;
   }
 }
-
-
 
 .filterContainer {
   display: flex;

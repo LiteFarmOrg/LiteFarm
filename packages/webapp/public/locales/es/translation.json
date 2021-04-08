@@ -89,16 +89,19 @@
     },
     "BARN": {
       "COLD_STORAGE": "Tiene este granero almaecamiento en frio?",
+      "EDIT_TITLE": "MISSING",
       "NAME": "Granero",
       "TITLE": "Agregar Granero",
       "WASH_PACK": "Tiene este granero una estacion de lavado y empacado?"
     },
     "BUFFER_ZONE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Zona delimitante",
       "TITLE": "Agregar zona delimitante",
       "WIDTH": "Ancho de la zona delimitante"
     },
     "CEREMONIAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Area ceremonial",
       "TITLE": "Agregar area ceremonial"
     },
@@ -114,10 +117,12 @@
       "TITLE": "Exporta tu mapa"
     },
     "FARM_SITE_BOUNDARY": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Limites de la granja",
       "TITLE": "Agregar Limites de la granja"
     },
     "FENCE": {
+      "EDIT_TITLE": "MISSING",
       "LENGTH": "Longitud del cerco",
       "NAME": "Cercado",
       "PRESSURE_TREATED": "Esta este cercado tratado con presion?",
@@ -125,6 +130,7 @@
     },
     "FIELD": {
       "DATE": "Fecha de transición",
+      "EDIT_TITLE": "MISSING",
       "FIELD_TYPE": "Que tipo de campo es?",
       "NAME": "Campo",
       "NON_ORGANIC": "No organico",
@@ -134,6 +140,7 @@
     },
     "GARDEN": {
       "DATE": "Fecha de transición",
+      "EDIT_TITLE": "MISSING",
       "GARDEN_TYPE": "Tipo de Jardin",
       "NAME": "Jardin",
       "NON_ORGANIC": "No organico",
@@ -142,12 +149,14 @@
       "TRANSITIONING": "En transición"
     },
     "GATE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Puerta",
       "TITLE": "Agregar puerta"
     },
     "GREENHOUSE": {
       "CO2_ENRICHMENT": "Hay enriquecimiento de CO₂?",
       "DATE": "Fecha de transicion",
+      "EDIT_TITLE": "MISSING",
       "GREENHOUSE_HEATED": "Esta el invernadero calentado?",
       "GREENHOUSE_TYPE": "Que tipo de invernadero es?",
       "NAME": "Invernadero",
@@ -189,10 +198,12 @@
       "WV": "Valvula de agua"
     },
     "NATURAL_AREA": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Area natural",
       "TITLE": "Agregar area natural"
     },
     "RESIDENCE": {
+      "EDIT_TITLE": "MISSING",
       "NAME": "Residencia",
       "TITLE": "Agregar residencia"
     },
@@ -206,9 +217,14 @@
       "HERE_YOU_CAN": "Aqui puedes: "
     },
     "SURFACE_WATER": {
+      "EDIT_TITLE": "MISSING",
       "IRRIGATION": "Es esta area usada para riego?",
       "NAME": "Agua de superficie",
       "TITLE": "Agregar agua de superficie"
+    },
+    "TAB": {
+      "CROPS": "MISSING",
+      "DETAILS": "MISSING"
     },
     "TITLE": "Mapa de granja",
     "TUTORIAL": {
@@ -235,6 +251,7 @@
       }
     },
     "WATER_VALVE": {
+      "EDIT_TITLE": "MISSING",
       "GROUNDWATER": "Agua de pozo",
       "MAX_FLOW_RATE": "Flujo maximo",
       "MUNICIPAL_WATER": "Agua municipal",
@@ -246,6 +263,7 @@
     },
     "WATERCOURSE": {
       "BUFFER": "Zona de proteccion",
+      "EDIT_TITLE": "MISSING",
       "IRRIGATION": "Es usado para riego?",
       "LENGTH": "Longitud total",
       "NAME": "Arroyo",

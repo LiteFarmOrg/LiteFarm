@@ -27,6 +27,7 @@ const watercourseProperties = [
   'includes_riparian_buffer',
   'buffer_width',
   'buffer_width_unit',
+  'location_id',
 ];
 export const getLocationObjectFromWatercourse = (data) => {
   return {
@@ -40,8 +41,7 @@ export const getLocationObjectFromWatercourse = (data) => {
 };
 const getWatercourseFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.line, lineProperties),
     ...pick(location.watercourse, watercourseProperties),
@@ -76,12 +76,14 @@ const watercourseSlice = createSlice({
     onLoadingWatercourseFail: onLoadingFail,
     getWatercoursesSuccess: upsertManyWatercourseWithLocation,
     postWatercourseSuccess: upsertOneWatercourseWithLocation,
+    editWatercourseSuccess: upsertOneWatercourseWithLocation,
     deleteWatercourseSuccess: watercourseAdapter.removeOne,
   },
 });
 export const {
   getWatercoursesSuccess,
   postWatercourseSuccess,
+  editWatercourseSuccess,
   onLoadingWatercourseStart,
   onLoadingWatercourseFail,
   deleteWatercourseSuccess,
@@ -102,10 +104,8 @@ export const watercoursesSelector = createSelector(
   },
 );
 
-export const watercourseSelector = createSelector(
-  watercourseReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const watercourseSelector = (location_id) =>
+  createSelector(watercourseEntitiesSelector, (entities) => entities[location_id]);
 
 export const watercourseStatusSelector = createSelector(
   [watercourseReducerSelector],

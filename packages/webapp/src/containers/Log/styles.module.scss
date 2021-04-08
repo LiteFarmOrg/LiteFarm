@@ -184,7 +184,6 @@ input:disabled {
     font-weight: 300;
     font-size: 18px;
   }
-
 }
 
 .inputNunit {
@@ -202,7 +201,7 @@ input:disabled {
   select {
     width: 100px;
     color: #349289;
-    border: 1px solid #D4DAE3;
+    border: 1px solid #d4dae3;
     padding: 0.5% 3%;
   }
 }
@@ -236,9 +235,11 @@ input:disabled {
   width: 100%;
   justify-content: space-between;
   margin: 15px 0;
-  div{
+
+  div {
     flex-grow: 1;
   }
+
   span {
     font-family: 'Open Sans', 'SansSerif', serif;
     //styleName: H3 - Regular 16;
@@ -264,18 +265,18 @@ input:disabled {
   width: 100%;
   justify-content: flex-start;
   align-items: center;
-h3{
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 32px;
-  margin-bottom: 20px;
-  color: var(--fontColor);
-  font-family: 'Open Sans', 'SansSerif', serif;
-  flex-grow: 1;
-  text-align: center;
-}
 
+  h3 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 32px;
+    margin-bottom: 20px;
+    color: var(--fontColor);
+    font-family: 'Open Sans', 'SansSerif', serif;
+    flex-grow: 1;
+    text-align: center;
+  }
 }
 
 .close {
@@ -301,4 +302,3 @@ h3{
   display: flex;
   justify-content: center;
 }
-

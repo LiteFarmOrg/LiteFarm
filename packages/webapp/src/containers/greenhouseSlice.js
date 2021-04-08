@@ -10,6 +10,7 @@ const greenHouseProperties = [
   'supplemental_lighting',
   'co2_enrichment',
   'greenhouse_heated',
+  'location_id',
 ];
 export const getLocationObjectFromGreenHouse = (data) => {
   return {
@@ -23,8 +24,7 @@ export const getLocationObjectFromGreenHouse = (data) => {
 };
 const getGreenhouseFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.greenhouse, greenHouseProperties),
@@ -59,12 +59,14 @@ const greenhouseSlice = createSlice({
     onLoadingGreenhouseFail: onLoadingFail,
     getGreenhousesSuccess: upsertManyGreenhouseWithLocation,
     postGreenhouseSuccess: upsertOneGreenhouseWithLocation,
+    editGreenhouseSuccess: upsertOneGreenhouseWithLocation,
     deleteGreenhouseSuccess: greenhouseAdapter.removeOne,
   },
 });
 export const {
   getGreenhousesSuccess,
   postGreenhouseSuccess,
+  editGreenhouseSuccess,
   onLoadingGreenhouseStart,
   onLoadingGreenhouseFail,
   deleteGreenhouseSuccess,
@@ -85,10 +87,8 @@ export const greenhousesSelector = createSelector(
   },
 );
 
-export const greenhouseSelector = createSelector(
-  greenhouseReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const greenhouseSelector = (location_id) =>
+  createSelector(greenhouseEntitiesSelector, (entities) => entities[location_id]);
 
 export const greenhouseStatusSelector = createSelector(
   [greenhouseReducerSelector],

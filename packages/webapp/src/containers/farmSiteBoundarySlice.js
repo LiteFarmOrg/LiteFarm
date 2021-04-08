@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const farmSiteBoundaryProperties = [];
+const farmSiteBoundaryProperties = ['location_id'];
 export const getLocationObjectFromFarmSiteBoundary = (data) => {
   return {
     figure: {
@@ -17,8 +17,8 @@ export const getLocationObjectFromFarmSiteBoundary = (data) => {
 };
 const getFarmSiteBoundaryFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
+
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.farm_site_boundary, farmSiteBoundaryProperties),
@@ -53,12 +53,14 @@ const farmSiteBoundarySlice = createSlice({
     onLoadingFarmSiteBoundaryFail: onLoadingFail,
     getFarmSiteBoundarysSuccess: upsertManyFarmSiteBoundaryWithLocation,
     postFarmSiteBoundarySuccess: upsertOneFarmSiteBoundaryWithLocation,
+    editFarmSiteBoundarySuccess: upsertOneFarmSiteBoundaryWithLocation,
     deleteFarmSiteBoundarySuccess: farmSiteBoundaryAdapter.removeOne,
   },
 });
 export const {
   getFarmSiteBoundarysSuccess,
   postFarmSiteBoundarySuccess,
+  editFarmSiteBoundarySuccess,
   onLoadingFarmSiteBoundaryStart,
   onLoadingFarmSiteBoundaryFail,
   deleteFarmSiteBoundarySuccess,
@@ -80,10 +82,8 @@ export const farmSiteBoundarysSelector = createSelector(
   },
 );
 
-export const farmSiteBoundarySelector = createSelector(
-  farmSiteBoundaryReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const farmSiteBoundarySelector = (location_id) =>
+  createSelector(farmSiteBoundaryEntitiesSelector, (entities) => entities[location_id]);
 
 export const farmSiteBoundaryStatusSelector = createSelector(
   [farmSiteBoundaryReducerSelector],

@@ -69,9 +69,10 @@
   justify-content: space-between;
   margin-bottom: 3%;
   align-items: center;
-  label{
+  label {
     min-width: 92px;
   }
+
   input {
     flex-grow: 1;
     min-width: 0;
@@ -240,7 +241,7 @@
 }
 
 .errorContainer {
-  color: #D02620;
+  color: #d02620;
   display: flex;
   align-items: center;
   margin: -0.75em auto 0.5em auto;

@@ -336,6 +336,36 @@ describe('Location tests', () => {
         });
     });
 
+    test('should fail to create a field without a name', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.name = '';
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
+    test('should fail to create a field without grid_points', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.figure.area.grid_points = [{}];
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
+    test('should fail to create a field with only 2 grid_points', (done) => {
+      const validData = locationData(locations.FIELD);
+      validData.figure.area.grid_points.pop();
+      postLocation({ ...validData, farm_id: farm }, locations.FIELD,
+        { user_id: user, farm_id: farm }, (err, res) => {
+          expect(res.status).toBe(400);
+          done();
+        })
+    })
+
     test('should fail to create a location without asset', (done) => {
       const validData = locationData(locations.BARN);
       delete validData.barn;
@@ -367,6 +397,7 @@ describe('Location tests', () => {
           done();
         });
     })
+
 
     test('should fail to modify  a user through the location graph', (done) => {
       const validData = locationData(locations.BARN);

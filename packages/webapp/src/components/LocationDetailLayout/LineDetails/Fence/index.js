@@ -4,12 +4,14 @@ import LineDetails from '../index';
 import { useForm } from 'react-hook-form';
 import Leaf from '../../../../assets/images/farmMapFilter/Leaf.svg';
 import Radio from '../../../Form/Radio';
-import { fenceEnum } from '../../../../containers/constants';
+import { bufferZoneEnum, fenceEnum } from '../../../../containers/constants';
 import { Label } from '../../../Typography';
 import { line_length } from '../../../../util/unit';
 import Unit from '../../../Form/Unit';
 import LocationButtons from '../../LocationButtons';
 import { getPersistPath } from '../../utils';
+import Form from '../../../Form';
+import LocationPageHeader from '../../LocationPageHeader';
 
 export default function PureFence({
   history,
@@ -59,78 +61,100 @@ export default function PureFence({
     submitForm({ formData });
   };
 
+  const title =
+    (isCreateLocationPage && t('FARM_MAP.FENCE.TITLE')) ||
+    (isEditLocationPage && t('FARM_MAP.FENCE.EDIT_TITLE')) ||
+    (isViewLocationPage && getValues(bufferZoneEnum.name));
+
   return (
-    <LineDetails
-      name={t('FARM_MAP.FENCE.NAME')}
-      title={t('FARM_MAP.FENCE.TITLE')}
-      history={history}
-      isCreateLocationPage={isCreateLocationPage}
-      isViewLocationPage={isViewLocationPage}
-      isEditLocationPage={isEditLocationPage}
-      submitForm={onSubmit}
-      onError={onError}
-      register={register}
-      disabled={disabled}
-      handleSubmit={handleSubmit}
-      setValue={setValue}
-      getValues={getValues}
-      setError={setError}
-      control={control}
-      errors={errors}
-      system={system}
-      buttonGroup={<LocationButtons disabled={disabled} />}
+    <Form
+      buttonGroup={
+        <LocationButtons
+          disabled={disabled}
+          isCreateLocationPage={isCreateLocationPage}
+          isViewLocationPage={isViewLocationPage}
+          isEditLocationPage={isEditLocationPage}
+          onEdit={() => history.push(`/fence/${match.params.location_id}/edit`)}
+        />
+      }
+      onSubmit={handleSubmit(onSubmit, onError)}
     >
-      <div>
+      <LocationPageHeader
+        title={title}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        history={history}
+        match={match}
+      />
+      <LineDetails
+        name={t('FARM_MAP.FENCE.NAME')}
+        history={history}
+        isCreateLocationPage={isCreateLocationPage}
+        isViewLocationPage={isViewLocationPage}
+        isEditLocationPage={isEditLocationPage}
+        register={register}
+        disabled={disabled}
+        handleSubmit={handleSubmit}
+        setValue={setValue}
+        getValues={getValues}
+        setError={setError}
+        control={control}
+        errors={errors}
+        system={system}
+      >
         <div>
-          <Unit
-            style={{ marginBottom: '40px' }}
-            register={register}
-            classes={{ container: { flexGrow: 1 } }}
-            label={t('FARM_MAP.FENCE.LENGTH')}
-            name={fenceEnum.length}
-            displayUnitName={fenceEnum.length_unit}
-            defaultValue={length}
-            errors={errors[fenceEnum.length]}
-            unitType={line_length}
-            system={system}
-            hookFormSetValue={setValue}
-            hookFormGetValue={getValues}
-            hookFormSetError={setError}
-            hookFromWatch={watch}
-            control={control}
-            required
-            disabled={isViewLocationPage}
-          />
-        </div>
-        <div>
-          <div style={{ marginBottom: '20px' }}>
-            <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
-              {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
-            </Label>
-            <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
-            <Label style={{ display: 'inline-block' }} sm>
-              {t('common:OPTIONAL')}
-            </Label>
-          </div>
-          <div style={{ marginBottom: '16px' }}>
-            <Radio
-              label={t('common:YES')}
-              inputRef={register({ required: false })}
-              value={true}
-              name={fenceEnum.pressure_treated}
-              disabled={isViewLocationPage}
-            />
-            <Radio
-              style={{ marginLeft: '40px' }}
-              label={t('common:NO')}
-              inputRef={register({ required: false })}
-              value={false}
-              name={fenceEnum.pressure_treated}
+          <div>
+            <Unit
+              style={{ marginBottom: '40px' }}
+              register={register}
+              classes={{ container: { flexGrow: 1 } }}
+              label={t('FARM_MAP.FENCE.LENGTH')}
+              name={fenceEnum.length}
+              displayUnitName={fenceEnum.length_unit}
+              defaultValue={length}
+              errors={errors[fenceEnum.length]}
+              unitType={line_length}
+              system={system}
+              hookFormSetValue={setValue}
+              hookFormGetValue={getValues}
+              hookFormSetError={setError}
+              hookFromWatch={watch}
+              control={control}
+              required
               disabled={isViewLocationPage}
             />
           </div>
+          <div>
+            <div style={{ marginBottom: '20px' }}>
+              <Label style={{ paddingRight: '7px', display: 'inline-block', fontSize: '16px' }}>
+                {t('FARM_MAP.FENCE.PRESSURE_TREATED')}
+              </Label>
+              <img src={Leaf} style={{ display: 'inline-block', paddingRight: '10px' }} />
+              <Label style={{ display: 'inline-block' }} sm>
+                {t('common:OPTIONAL')}
+              </Label>
+            </div>
+            <div style={{ marginBottom: '16px' }}>
+              <Radio
+                label={t('common:YES')}
+                inputRef={register({ required: false })}
+                value={true}
+                name={fenceEnum.pressure_treated}
+                disabled={isViewLocationPage}
+              />
+              <Radio
+                style={{ marginLeft: '40px' }}
+                label={t('common:NO')}
+                inputRef={register({ required: false })}
+                value={false}
+                name={fenceEnum.pressure_treated}
+                disabled={isViewLocationPage}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </LineDetails>
+      </LineDetails>
+    </Form>
   );
 }

@@ -15,7 +15,14 @@ function EditGreenhouseDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editGreenhouseLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editGreenhouseLocation({
+          ...data,
+          ...match.params,
+          figure_id: greenhouse.figure_id,
+        }),
+      );
   };
   const greenhouse = useSelector(greenhouseSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

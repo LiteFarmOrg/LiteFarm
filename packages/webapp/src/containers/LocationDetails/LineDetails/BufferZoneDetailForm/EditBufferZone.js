@@ -15,7 +15,14 @@ function EditBufferZoneDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editBufferZoneLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editBufferZoneLocation({
+          ...data,
+          ...match.params,
+          figure_id: bufferZone.figure_id,
+        }),
+      );
   };
   const bufferZone = useSelector(bufferZoneSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

@@ -15,7 +15,14 @@ function EditFarmSiteBoundaryDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editFarmSiteBoundaryLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editFarmSiteBoundaryLocation({
+          ...data,
+          ...match.params,
+          figure_id: farmSiteBoundary.figure_id,
+        }),
+      );
   };
   const farmSiteBoundary = useSelector(farmSiteBoundarySelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

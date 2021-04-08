@@ -15,7 +15,14 @@ function EditWatercourseDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editWatercourseLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editWatercourseLocation({
+          ...data,
+          ...match.params,
+          figure_id: watercourse.figure_id,
+        }),
+      );
   };
   const watercourse = useSelector(watercourseSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

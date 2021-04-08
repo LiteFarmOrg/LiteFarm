@@ -53,12 +53,12 @@ export function* postBufferZoneLocationSaga({ payload: data }) {
 export const editBufferZoneLocation = createAction(`editBufferZoneLocationSaga`);
 
 export function* editBufferZoneLocationSaga({ payload: data }) {
-  const { formData, location_id } = data;
+  const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromBufferZone({ ...formData, location_id });
+  const locationObject = getLocationObjectFromBufferZone({ ...formData, location_id, figure_id });
 
   try {
     const result = yield call(

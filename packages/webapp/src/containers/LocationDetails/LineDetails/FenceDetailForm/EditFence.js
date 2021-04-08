@@ -15,7 +15,8 @@ function EditFenceDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editFenceLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(editFenceLocation({ ...data, ...match.params, figure_id: fence.figure_id }));
   };
   const fence = useSelector(fenceSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

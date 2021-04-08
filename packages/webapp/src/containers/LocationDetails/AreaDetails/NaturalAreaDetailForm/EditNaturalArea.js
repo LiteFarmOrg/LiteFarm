@@ -15,7 +15,14 @@ function EditNaturalAreaDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editNaturalAreaLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editNaturalAreaLocation({
+          ...data,
+          ...match.params,
+          figure_id: naturalArea.figure_id,
+        }),
+      );
   };
   const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

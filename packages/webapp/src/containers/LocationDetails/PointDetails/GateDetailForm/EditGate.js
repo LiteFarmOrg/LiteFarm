@@ -15,7 +15,8 @@ function EditGateDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editGateLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(editGateLocation({ ...data, ...match.params, figure_id: gate.figure_id }));
   };
   const gate = useSelector(gateSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

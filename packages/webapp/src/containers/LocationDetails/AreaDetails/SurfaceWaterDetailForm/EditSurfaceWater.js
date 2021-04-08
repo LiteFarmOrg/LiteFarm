@@ -15,7 +15,14 @@ function EditSurfaceWaterDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editSurfaceWaterLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editSurfaceWaterLocation({
+          ...data,
+          ...match.params,
+          figure_id: surfaceWater.figure_id,
+        }),
+      );
   };
   const surfaceWater = useSelector(surfaceWaterSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

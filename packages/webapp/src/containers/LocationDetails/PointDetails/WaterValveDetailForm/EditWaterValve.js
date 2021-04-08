@@ -15,7 +15,14 @@ function EditWaterValveDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editWaterValveLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editWaterValveLocation({
+          ...data,
+          ...match.params,
+          figure_id: waterValve.figure_id,
+        }),
+      );
   };
   const waterValve = useSelector(waterValveSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

@@ -15,7 +15,8 @@ function EditFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editFieldLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(editFieldLocation({ ...data, ...match.params, figure_id: field.figure_id }));
   };
   const field = useSelector(fieldSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

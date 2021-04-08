@@ -49,12 +49,12 @@ export function* postGateLocationSaga({ payload: data }) {
 export const editGateLocation = createAction(`editGateLocationSaga`);
 
 export function* editGateLocationSaga({ payload: data }) {
-  const { formData, location_id } = data;
+  const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromGate({ ...formData, location_id });
+  const locationObject = getLocationObjectFromGate({ ...formData, location_id, figure_id });
 
   try {
     const result = yield call(

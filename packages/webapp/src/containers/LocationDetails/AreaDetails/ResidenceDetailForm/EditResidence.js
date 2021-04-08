@@ -15,7 +15,8 @@ function EditResidenceDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editResidenceLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(editResidenceLocation({ ...data, ...match.params, figure_id: residence.figure_id }));
   };
   const residence = useSelector(residenceSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

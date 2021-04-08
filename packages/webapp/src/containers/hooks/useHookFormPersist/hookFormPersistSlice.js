@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { bufferZoneEnum, fieldEnum } from '../../constants';
+import { bufferZoneEnum, fieldEnum, watercourseEnum } from '../../constants';
 import { unitOptionMap } from '../../../components/Form/Unit';
 
 export const initialState = {
@@ -44,9 +44,10 @@ const hookFormPersistSlice = createSlice({
     setLineDetailFormData: (state, { payload }) => {
       state.shouldUpdateFormData = true;
       const formData = { ...payload };
-      console.log(formData, unitOptionMap[payload[bufferZoneEnum.length_unit]]);
       formData[bufferZoneEnum.length_unit] = unitOptionMap[payload[bufferZoneEnum.length_unit]];
       formData[bufferZoneEnum.width_unit] = unitOptionMap[payload[bufferZoneEnum.width_unit]];
+      formData[watercourseEnum.buffer_width_unit] =
+        unitOptionMap[payload[watercourseEnum.buffer_width_unit]];
       state.formData = formData;
     },
   },

@@ -15,7 +15,14 @@ function EditCeremonialDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const submitForm = (data) => {
-    isEditLocationPage && dispatch(editCeremonialLocation({ ...data, ...match.params }));
+    isEditLocationPage &&
+      dispatch(
+        editCeremonialLocation({
+          ...data,
+          ...match.params,
+          figure_id: ceremonial.figure_id,
+        }),
+      );
   };
   const ceremonial = useSelector(ceremonialSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);

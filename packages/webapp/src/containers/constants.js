@@ -4,10 +4,18 @@ export const areaProperties = [
   'grid_points',
   'perimeter',
   'perimeter_unit',
+  'figure_id',
 ];
 export const locationProperties = ['farm_id', 'name', 'notes', 'location_id'];
-export const lineProperties = ['length', 'width', 'line_points', 'length_unit', 'width_unit'];
-export const pointProperties = ['point'];
+export const lineProperties = [
+  'length',
+  'width',
+  'line_points',
+  'length_unit',
+  'width_unit',
+  'figure_id',
+];
+export const pointProperties = ['point', 'figure_id'];
 export const figureProperties = ['figure_id', 'type', 'location_id'];
 
 export const barnEnum = {

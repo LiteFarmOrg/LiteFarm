@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { barnEnum, fieldEnum, greenhouseEnum, surfaceWaterEnum } from '../constants';
+import { barnEnum, fenceEnum, fieldEnum, greenhouseEnum, surfaceWaterEnum } from '../constants';
 
 const isCreateLocationPage = (match) => match.path.includes('/create_location/');
 const isViewLocationPage = (match) => /\w*\/:location_id\/details/.test(match.path);
@@ -45,6 +45,8 @@ export const getFormData = (location) => {
     (result[surfaceWaterEnum.used_for_irrigation] = boolToString(
       result[surfaceWaterEnum.used_for_irrigation],
     ));
+  result.hasOwnProperty(fenceEnum.pressure_treated) &&
+    (result[fenceEnum.pressure_treated] = boolToString(result[fenceEnum.pressure_treated]));
 
   return result;
 };

@@ -56,12 +56,12 @@ export function* postSurfaceWaterLocationSaga({ payload: data }) {
 export const editSurfaceWaterLocation = createAction(`editSurfaceWaterLocationSaga`);
 
 export function* editSurfaceWaterLocationSaga({ payload: data }) {
-  const { formData, location_id } = data;
+  const { formData, location_id, figure_id } = data;
   const { locationURL } = apiConfig;
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromSurfaceWater({ ...formData, location_id });
+  const locationObject = getLocationObjectFromSurfaceWater({ ...formData, location_id, figure_id });
 
   try {
     const result = yield call(

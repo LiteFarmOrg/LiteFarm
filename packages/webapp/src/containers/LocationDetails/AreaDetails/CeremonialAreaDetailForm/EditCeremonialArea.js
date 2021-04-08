@@ -20,7 +20,7 @@ function EditCeremonialDetailForm({ history, match }) {
   const ceremonial = useSelector(ceremonialSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(ceremonial));
+    dispatch(setAreaDetailFormData(ceremonial));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

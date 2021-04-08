@@ -32,7 +32,7 @@ export default function PureGate({
   });
   const {
     persistedData: { point, type },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const disabled = !isValid || !isDirty;
 

@@ -20,7 +20,7 @@ function EditFenceDetailForm({ history, match }) {
   const fence = useSelector(fenceSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setLineDetailFormData(getFormData(fence)));
+    dispatch(setLineDetailFormData(getFormData(fence)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

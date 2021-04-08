@@ -20,7 +20,7 @@ function EditBarnDetailForm({ history, match }) {
   const barn = useSelector(barnSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(barn)));
+    dispatch(setAreaDetailFormData(getFormData(barn)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

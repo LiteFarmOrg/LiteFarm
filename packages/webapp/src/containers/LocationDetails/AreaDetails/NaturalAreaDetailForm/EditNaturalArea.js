@@ -20,7 +20,7 @@ function EditNaturalAreaDetailForm({ history, match }) {
   const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(naturalArea)));
+    dispatch(setAreaDetailFormData(getFormData(naturalArea)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

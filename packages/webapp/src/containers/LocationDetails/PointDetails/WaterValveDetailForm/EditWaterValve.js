@@ -20,7 +20,7 @@ function EditWaterValveDetailForm({ history, match }) {
   const waterValve = useSelector(waterValveSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(waterValve)));
+    dispatch(setAreaDetailFormData(getFormData(waterValve)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

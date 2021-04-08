@@ -20,7 +20,7 @@ function EditGreenhouseDetailForm({ history, match }) {
   const greenhouse = useSelector(greenhouseSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(greenhouse)));
+    dispatch(setAreaDetailFormData(getFormData(greenhouse)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

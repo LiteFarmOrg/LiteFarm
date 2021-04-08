@@ -152,7 +152,6 @@ const Unit = ({
   }, [unitType, defaultValue, system, defaultValueUnit, to]);
 
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
-  console.log(hookFormUnit, hookFormGetValue(displayUnitName));
   useEffect(() => {
     if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system) {
       hookFormSetValue(displayUnitName, unitOptionMap[displayUnit]);
@@ -238,7 +237,7 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-61px, 23px)',
+            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-62px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',
             zIndex: 2,

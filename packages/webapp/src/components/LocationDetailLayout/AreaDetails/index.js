@@ -47,7 +47,7 @@ export default function AreaDetails({
 
   return (
     <>
-      {errorMessage && (
+      {errorMessage && !isViewLocationPage && (
         <PureWarningBox style={{ border: '1px solid var(--red700)', marginBottom: '48px' }}>
           <Label style={{ marginBottom: '12px' }}>{errorMessage}</Label>
         </PureWarningBox>

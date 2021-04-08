@@ -20,7 +20,7 @@ function EditWatercourseDetailForm({ history, match }) {
   const watercourse = useSelector(watercourseSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setLineDetailFormData(getFormData(watercourse)));
+    dispatch(setLineDetailFormData(getFormData(watercourse)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

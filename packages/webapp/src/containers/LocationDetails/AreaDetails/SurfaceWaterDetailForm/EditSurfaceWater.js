@@ -20,7 +20,7 @@ function EditSurfaceWaterDetailForm({ history, match }) {
   const surfaceWater = useSelector(surfaceWaterSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(surfaceWater)));
+    dispatch(setAreaDetailFormData(getFormData(surfaceWater)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

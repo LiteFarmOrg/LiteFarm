@@ -20,7 +20,7 @@ function EditGardenDetailForm({ history, match }) {
   const garden = useSelector(gardenSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(garden)));
+    dispatch(setAreaDetailFormData(getFormData(garden)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

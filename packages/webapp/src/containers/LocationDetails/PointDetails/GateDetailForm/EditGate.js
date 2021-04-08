@@ -20,7 +20,7 @@ function EditGateDetailForm({ history, match }) {
   const gate = useSelector(gateSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(getFormData(gate)));
+    dispatch(setAreaDetailFormData(getFormData(gate)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

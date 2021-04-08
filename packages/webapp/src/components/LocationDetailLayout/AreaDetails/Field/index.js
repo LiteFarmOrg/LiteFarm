@@ -44,7 +44,7 @@ export default function PureField({
   });
   const {
     persistedData: { grid_points, total_area, perimeter },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const fieldTypeSelection = watch(fieldEnum.organic_status);

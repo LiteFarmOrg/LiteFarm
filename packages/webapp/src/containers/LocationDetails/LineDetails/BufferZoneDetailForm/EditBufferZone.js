@@ -20,7 +20,7 @@ function EditBufferZoneDetailForm({ history, match }) {
   const bufferZone = useSelector(bufferZoneSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setLineDetailFormData(getFormData(bufferZone)));
+    dispatch(setLineDetailFormData(getFormData(bufferZone)));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

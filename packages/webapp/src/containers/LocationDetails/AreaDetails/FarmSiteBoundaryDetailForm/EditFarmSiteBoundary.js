@@ -20,7 +20,7 @@ function EditFarmSiteBoundaryDetailForm({ history, match }) {
   const farmSiteBoundary = useSelector(farmSiteBoundarySelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(farmSiteBoundary));
+    dispatch(setAreaDetailFormData(farmSiteBoundary));
   }, []);
   const { isCreateLocationPage, isViewLocationPage, isEditLocationPage } = useLocationPageType(
     match,

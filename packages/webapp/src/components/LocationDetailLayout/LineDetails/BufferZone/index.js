@@ -42,7 +42,7 @@ export default function PureBufferZone({
   });
   const {
     persistedData: { line_points, width, length },
-  } = useHookFormPersist(persistedPath, getValues, setValue, !isEditLocationPage);
+  } = useHookFormPersist(persistedPath, getValues, setValue, !!isCreateLocationPage);
 
   const onError = (data) => {};
   const disabled = !isValid || !isDirty;

@@ -25,6 +25,8 @@ class ScoutingLog extends Component {
     this.setDate = this.setDate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.props.dispatch(actions.reset('logReducer.forms.scoutingLog'));
+    this.portugueseTypes = ['Colheita', 'Praga', 'Doença', 'Plantas espontâneas', 'Outro'];
+    this.spanishTypes = ['Cosecha', 'Plagas', 'Enfermedades', '?', 'Otro'];
   }
 
   setDate(date) {

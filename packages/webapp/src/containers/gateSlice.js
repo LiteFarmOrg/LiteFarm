@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const gateProperties = [];
+const gateProperties = ['location_id'];
 export const getLocationObjectFromGate = (data) => {
   return {
     figure: {

@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const fieldProperties = ['station_id', 'organic_status', 'transition_date'];
+const fieldProperties = ['station_id', 'organic_status', 'transition_date', 'location_id'];
 export const getLocationObjectFromField = (data) => {
   return {
     figure: {

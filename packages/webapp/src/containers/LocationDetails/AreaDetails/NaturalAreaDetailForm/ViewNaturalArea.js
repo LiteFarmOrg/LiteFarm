@@ -5,13 +5,14 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { naturalAreaSelector } from '../../../naturalAreaSlice';
 import { setAreaDetailFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getFormData } from '../../utils';
 
 function ViewNaturalAreaDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const naturalArea = useSelector(naturalAreaSelector(match.params.location_id));
   useEffect(() => {
-    dispatch(setAreaDetailFormData(naturalArea));
+    dispatch(setAreaDetailFormData(getFormData(naturalArea)));
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const naturalAreaProperties = [];
+const naturalAreaProperties = ['location_id'];
 export const getLocationObjectFromNaturalArea = (data) => {
   return {
     figure: {

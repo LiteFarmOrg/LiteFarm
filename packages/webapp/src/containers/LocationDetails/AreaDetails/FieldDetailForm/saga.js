@@ -58,7 +58,7 @@ export function* editFieldLocationSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromField(formData);
+  const locationObject = getLocationObjectFromField({ ...formData, location_id });
 
   try {
     const result = yield call(

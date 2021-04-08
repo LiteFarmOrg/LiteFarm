@@ -9,6 +9,7 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getFormData } from '../../utils';
 
 function EditFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function EditFieldDetailForm({ history, match }) {
   const field = useSelector(fieldSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(field));
+    !formData.name && dispatch(setAreaDetailFormData(getFormData(field)));
   }, []);
 
   return (

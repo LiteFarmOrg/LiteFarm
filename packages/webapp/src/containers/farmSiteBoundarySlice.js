@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const farmSiteBoundaryProperties = [];
+const farmSiteBoundaryProperties = ['location_id'];
 export const getLocationObjectFromFarmSiteBoundary = (data) => {
   return {
     figure: {

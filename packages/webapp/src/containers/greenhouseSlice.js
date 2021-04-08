@@ -10,6 +10,7 @@ const greenHouseProperties = [
   'supplemental_lighting',
   'co2_enrichment',
   'greenhouse_heated',
+  'location_id',
 ];
 export const getLocationObjectFromGreenHouse = (data) => {
   return {

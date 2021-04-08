@@ -34,7 +34,7 @@ export default function useHookFormPersist(
         !initiatedField.includes(key) &&
           setValue(key, formData[key], { shouldValidate: true, shouldDirty });
       }
-    }, 1000);
+    }, 100);
     return () => clearTimeout(setHiddenValues);
   }, [history.location.pathname, formData]);
 

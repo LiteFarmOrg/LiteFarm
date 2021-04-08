@@ -61,7 +61,7 @@ export function* editGreenhouseLocationSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromGreenHouse(formData);
+  const locationObject = getLocationObjectFromGreenHouse({ ...formData, location_id });
 
   try {
     const result = yield call(

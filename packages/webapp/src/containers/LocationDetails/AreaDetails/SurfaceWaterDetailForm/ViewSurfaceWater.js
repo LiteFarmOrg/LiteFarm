@@ -5,13 +5,14 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { surfaceWaterSelector } from '../../../surfaceWaterSlice';
 import { setAreaDetailFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getFormData } from '../../utils';
 
 function ViewSurfaceWaterDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const surfaceWater = useSelector(surfaceWaterSelector(match.params.location_id));
   useEffect(() => {
-    dispatch(setAreaDetailFormData(surfaceWater));
+    dispatch(setAreaDetailFormData(getFormData(surfaceWater)));
   }, []);
 
   return (

@@ -5,13 +5,14 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { fieldSelector } from '../../../fieldSlice';
 import { setAreaDetailFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getFormData } from '../../utils';
 
 function ViewFieldDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const field = useSelector(fieldSelector(match.params.location_id));
   useEffect(() => {
-    dispatch(setAreaDetailFormData(field));
+    dispatch(setAreaDetailFormData(getFormData(field)));
   }, []);
 
   return (

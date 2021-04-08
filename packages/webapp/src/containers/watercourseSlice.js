@@ -27,6 +27,7 @@ const watercourseProperties = [
   'includes_riparian_buffer',
   'buffer_width',
   'buffer_width_unit',
+  'location_id',
 ];
 export const getLocationObjectFromWatercourse = (data) => {
   return {

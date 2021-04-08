@@ -9,6 +9,7 @@ import {
   hookFormPersistSelector,
   setAreaDetailFormData,
 } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getFormData } from '../../utils';
 
 function EditSurfaceWaterDetailForm({ history, match }) {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function EditSurfaceWaterDetailForm({ history, match }) {
   const surfaceWater = useSelector(surfaceWaterSelector(match.params.location_id));
   const formData = useSelector(hookFormPersistSelector);
   useEffect(() => {
-    !formData.name && dispatch(setAreaDetailFormData(surfaceWater));
+    !formData.name && dispatch(setAreaDetailFormData(getFormData(surfaceWater)));
   }, []);
 
   return (

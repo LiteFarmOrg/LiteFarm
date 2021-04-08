@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const surfaceWaterProperties = ['used_for_irrigation'];
+const surfaceWaterProperties = ['used_for_irrigation', 'location_id'];
 export const getLocationObjectFromSurfaceWater = (data) => {
   return {
     figure: {

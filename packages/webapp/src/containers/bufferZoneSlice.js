@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const bufferZoneProperties = [];
+const bufferZoneProperties = ['location_id'];
 export const getLocationObjectFromBufferZone = (data) => {
   return {
     figure: {

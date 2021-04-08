@@ -5,13 +5,14 @@ import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
 import { residenceSelector } from '../../../residenceSlice';
 import { setAreaDetailFormData } from '../../../hooks/useHookFormPersist/hookFormPersistSlice';
+import { getFormData } from '../../utils';
 
 function ViewResidenceDetailForm({ history, match }) {
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const residence = useSelector(residenceSelector(match.params.location_id));
   useEffect(() => {
-    dispatch(setAreaDetailFormData(residence));
+    dispatch(setAreaDetailFormData(getFormData(residence)));
   }, []);
 
   return (

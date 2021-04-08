@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const fenceProperties = ['pressure_treated'];
+const fenceProperties = ['pressure_treated', 'location_id'];
 export const getLocationObjectFromFence = (data) => {
   return {
     figure: {

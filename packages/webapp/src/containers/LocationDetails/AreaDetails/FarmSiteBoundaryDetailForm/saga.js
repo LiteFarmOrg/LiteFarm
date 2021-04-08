@@ -58,7 +58,7 @@ export function* editFarmSiteBoundaryLocationSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromFarmSiteBoundary(formData);
+  const locationObject = getLocationObjectFromFarmSiteBoundary({ ...formData, location_id });
 
   try {
     const result = yield call(

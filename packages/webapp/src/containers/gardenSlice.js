@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const gardenProperties = ['station_id', 'organic_status', 'transition_date'];
+const gardenProperties = ['station_id', 'organic_status', 'transition_date', 'location_id'];
 export const getLocationObjectFromGarden = (data) => {
   return {
     figure: {

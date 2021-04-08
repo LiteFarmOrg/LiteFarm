@@ -54,7 +54,7 @@ export function* editBarnLocationSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromBarn(formData);
+  const locationObject = getLocationObjectFromBarn({ ...formData, location_id });
 
   try {
     const result = yield call(

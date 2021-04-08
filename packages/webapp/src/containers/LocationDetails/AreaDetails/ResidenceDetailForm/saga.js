@@ -61,7 +61,7 @@ export function* editResidenceLocationSaga({ payload: data }) {
   let { user_id, farm_id } = yield select(loginSelector);
   formData.farm_id = farm_id;
   const header = getHeader(user_id, farm_id);
-  const locationObject = getLocationObjectFromResidence(formData);
+  const locationObject = getLocationObjectFromResidence({ ...formData, location_id });
 
   try {
     const result = yield call(

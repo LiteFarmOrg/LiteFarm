@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const ceremonialProperties = [];
+const ceremonialProperties = ['location_id'];
 export const getLocationObjectFromCeremonial = (data) => {
   return {
     figure: {

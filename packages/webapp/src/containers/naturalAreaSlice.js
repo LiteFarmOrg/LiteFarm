@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { pick } from '../util';
 import { areaProperties, figureProperties, locationProperties } from './constants';
 
-const naturalAreaProperties = [];
+const naturalAreaProperties = ['location_id'];
 export const getLocationObjectFromNaturalArea = (data) => {
   return {
     figure: {
@@ -17,8 +17,7 @@ export const getLocationObjectFromNaturalArea = (data) => {
 };
 const getNaturalAreaFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.natural_area, naturalAreaProperties),
@@ -53,12 +52,14 @@ const naturalAreaSlice = createSlice({
     onLoadingNaturalAreaFail: onLoadingFail,
     getNaturalAreasSuccess: upsertManyNaturalAreaWithLocation,
     postNaturalAreaSuccess: upsertOneNaturalAreaWithLocation,
+    editNaturalAreaSuccess: upsertOneNaturalAreaWithLocation,
     deleteNaturalAreaSuccess: naturalAreaAdapter.removeOne,
   },
 });
 export const {
   getNaturalAreasSuccess,
   postNaturalAreaSuccess,
+  editNaturalAreaSuccess,
   onLoadingNaturalAreaStart,
   onLoadingNaturalAreaFail,
   deleteNaturalAreaSuccess,
@@ -79,10 +80,8 @@ export const naturalAreasSelector = createSelector(
   },
 );
 
-export const naturalAreaSelector = createSelector(
-  naturalAreaReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const naturalAreaSelector = (location_id) =>
+  createSelector(naturalAreaEntitiesSelector, (entities) => entities[location_id]);
 
 export const naturalAreaStatusSelector = createSelector(
   [naturalAreaReducerSelector],

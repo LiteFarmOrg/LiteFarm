@@ -61,7 +61,7 @@
     "ERROR": {
       "ADD_USE_TYPE": "Falha ao adicionar uso/destino de colheita personalizado",
       "GET_TYPES": "Falha ao buscar uso/destino de colheita",
-      "REQUIRED_TASK": "A harvest use type name is required"
+      "REQUIRED_TASK": "É necessário nomear o tipo de uso da colheita"
     },
     "SUCCESS": {
       "ADD_USE_TYPE": "Uso/destino de colheita personalizado adicionado com sucesso"
@@ -85,7 +85,9 @@
     }
   },
   "MAP": {
+    "FAIL_PATCH": "MISSING",
     "FAIL_POST": "MISSING",
+    "SUCCESS_PATCH": " successfully updated",
     "SUCCESS_POST": " successfully saved"
   },
   "NEW_FIELD_CROP": {

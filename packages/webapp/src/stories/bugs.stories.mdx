@@ -30,21 +30,24 @@ import { Meta } from '@storybook/addon-docs/blocks';
 // Decorator
 export default [
   (story) => {
-    const { t, ready } = useTranslation([
-      'translation',
-      'crop',
-      'common',
-      'disease',
-      'task',
-      'expense',
-      'fertilizer',
-      'message',
-      'gender',
-      'role',
-      'harvest_uses',
-      'soil',
-    ], { useSuspense: false });
-    return ready? (story()): <div>loading</div>;
+    const { t, ready } = useTranslation(
+      [
+        'translation',
+        'crop',
+        'common',
+        'disease',
+        'task',
+        'expense',
+        'fertilizer',
+        'message',
+        'gender',
+        'role',
+        'harvest_uses',
+        'soil',
+      ],
+      { useSuspense: false },
+    );
+    return ready ? story() : <div>loading</div>;
   },
 ];
 ```

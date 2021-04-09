@@ -12,11 +12,12 @@ import portugueseOwnerConsent from './locales/pt/Owner.Consent.md';
 import portugueseWorkerConsent from './locales/pt/Worker.Consent.md';
 import spanishOwnerConsent from './locales/es/Owner.Consent.md';
 import spanishWorkerConsent from './locales/es/Worker.Consent.md';
+
 const languageConsent = {
-  en: {worker: englishWorkerConsent, owner: englishOwnerConsent },
-  es: {worker: spanishWorkerConsent, owner: spanishOwnerConsent },
-  pt: {worker: portugueseWorkerConsent, owner: portugueseOwnerConsent },
-}
+  en: { worker: englishWorkerConsent, owner: englishOwnerConsent },
+  es: { worker: spanishWorkerConsent, owner: spanishOwnerConsent },
+  pt: { worker: portugueseWorkerConsent, owner: portugueseOwnerConsent },
+};
 
 function ConsentForm({
   goBackTo = '/role_selection',
@@ -27,7 +28,7 @@ function ConsentForm({
   const language = i18n.language;
   const role = useSelector(userFarmSelector);
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors, watch, setValue} = useForm();
+  const { register, handleSubmit, errors, watch, setValue } = useForm();
   const [consentVersion] = useState('3.0');
   const [consent, setConsentText] = useState('');
   const checkboxName = 'consentCheckbox';
@@ -46,9 +47,10 @@ function ConsentForm({
     dispatch(patchConsent({ has_consent: true, consent_version: consentVersion, goForwardTo }));
   };
 
-  useEffect( () => {
+  useEffect(() => {
     setValue(checkboxName, role.has_consent ?? false);
-    const consent  = role.role_id === 3 ? languageConsent[language].worker: languageConsent[language].owner;
+    const consent =
+      role.role_id === 3 ? languageConsent[language].worker : languageConsent[language].owner;
     fetch(consent)
       .then((r) => r.text())
       .then((text) => {

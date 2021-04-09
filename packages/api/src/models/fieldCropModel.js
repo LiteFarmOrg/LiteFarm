@@ -50,15 +50,15 @@ class FieldCrop extends baseModel {
   static get relationMappings() {
     // Import models here to prevent require loops.
     return {
-      farm: {
+      location: {
         relation: Model.BelongsToOneRelation,
         // The related model. This can be either a Model
         // subclass constructor or an absolute file path
         // to a module that exports one.
-        modelClass: require('./fieldModel.js'),
+        modelClass: require('./locationModel.js'),
         join: {
           from: 'fieldCrop.location_id',
-          to: 'location.farm_id',
+          to: 'location.location_id',
         },
 
       },

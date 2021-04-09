@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const gateProperties = [];
+const gateProperties = ['location_id'];
 export const getLocationObjectFromGate = (data) => {
   return {
     figure: {
@@ -17,8 +17,7 @@ export const getLocationObjectFromGate = (data) => {
 };
 const getGateFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.point, pointProperties),
     ...pick(location.gate, gateProperties),
@@ -53,12 +52,14 @@ const gateSlice = createSlice({
     onLoadingGateFail: onLoadingFail,
     getGatesSuccess: upsertManyGateWithLocation,
     postGateSuccess: upsertOneGateWithLocation,
+    editGateSuccess: upsertOneGateWithLocation,
     deleteGateSuccess: gateAdapter.removeOne,
   },
 });
 export const {
   getGatesSuccess,
   postGateSuccess,
+  editGateSuccess,
   onLoadingGateStart,
   onLoadingGateFail,
   deleteGateSuccess,
@@ -77,10 +78,8 @@ export const gatesSelector = createSelector(
   },
 );
 
-export const gateSelector = createSelector(
-  gateReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const gateSelector = (location_id) =>
+  createSelector(gateEntitiesSelector, (entities) => entities[location_id]);
 
 export const gateStatusSelector = createSelector(
   [gateReducerSelector],

@@ -31,9 +31,9 @@ Title.propTypes = {
   style: PropTypes.object,
 };
 
-export const Semibold = ({ children = 'Semibold', className = '', style, ...props }) => {
+export const Semibold = ({ children = 'Semibold', className = '', style, sm, ...props }) => {
   return (
-    <h4 className={clsx(styles.semibold, className)} style={style} {...props}>
+    <h4 className={clsx(styles.semibold, sm && styles.sm, className)} style={style} {...props}>
       {children}
     </h4>
   );
@@ -43,6 +43,7 @@ Semibold.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   style: PropTypes.object,
+  sm: PropTypes.bool,
 };
 
 export const Label = ({ children = 'Label', className = '', sm = false, style, ...props }) => {

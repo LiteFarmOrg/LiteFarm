@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const gardenProperties = ['station_id', 'organic_status', 'transition_date'];
+const gardenProperties = ['station_id', 'organic_status', 'transition_date', 'location_id'];
 export const getLocationObjectFromGarden = (data) => {
   return {
     figure: {
@@ -17,8 +17,7 @@ export const getLocationObjectFromGarden = (data) => {
 };
 const getGardenFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.area, areaProperties),
     ...pick(location.garden, gardenProperties),
@@ -53,12 +52,14 @@ const gardenSlice = createSlice({
     onLoadingGardenFail: onLoadingFail,
     getGardensSuccess: upsertManyGardenWithLocation,
     postGardenSuccess: upsertOneGardenWithLocation,
+    editGardenSuccess: upsertOneGardenWithLocation,
     deleteGardenSuccess: gardenAdapter.removeOne,
   },
 });
 export const {
   getGardensSuccess,
   postGardenSuccess,
+  editGardenSuccess,
   onLoadingGardenStart,
   onLoadingGardenFail,
   deleteGardenSuccess,
@@ -79,10 +80,8 @@ export const gardensSelector = createSelector(
   },
 );
 
-export const gardenSelector = createSelector(
-  gardenReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const gardenSelector = (location_id) =>
+  createSelector(gardenEntitiesSelector, (entities) => entities[location_id]);
 
 export const gardenStatusSelector = createSelector(
   [gardenReducerSelector],

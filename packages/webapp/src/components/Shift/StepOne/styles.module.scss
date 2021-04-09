@@ -57,7 +57,7 @@
 .popupTitle {
   display: flex;
   flex-direction: row;
-  h3{
+  h3 {
     flex-grow: 1;
   }
   align-items: center;
@@ -73,7 +73,6 @@
   }
 }
 
-
 .buttonContainer {
   width: 100%;
   display: flex;
@@ -88,7 +87,6 @@
   }
 }
 
-
 .buttonName {
   width: 100%;
   text-align: center;
@@ -101,7 +99,7 @@
   justify-content: flex-start;
 }
 
-.matrixItem{
+.matrixItem {
   flex: 0 0 33.3333%;
   @media only screen and (max-width: 400px) {
     flex: 0 0 50%;

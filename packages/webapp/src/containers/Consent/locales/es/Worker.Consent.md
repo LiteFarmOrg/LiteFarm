@@ -1,40 +1,53 @@
 ##### Version 3.0:
+
 &nbsp;
 
 #### Formulario de Consentimiento Informado y Política de Privacidad (versión del trabajador(a) de la finca)
+
 &nbsp;
 
 Bienvenido(a) a LiteFarm! Nosotros entendemos que su privacidad y la protección de sus datos son importantes para Ud. Creamos este Formulario de Consentimiento Informado y Política de Privacidad para ayudarle a comprender cómo y cuándo recopilamos, usamos y compartimos su información, y para asegurarnos de que tenemos su consentimiento para hacerlo. Por favor considere que a través de su cuenta en la plataforma LiteFarm, como se describe en este Formulario, deberá dar su consentimiento para que recopilemos y usemos sus datos para cada finca con la que Ud. esté asociado(a). Si Ud. no está de acuerdo con nuestras prácticas como se describe en este Formulario, no podrá utilizar la plataforma LiteFarm.
 &nbsp;
 
 #### ¿Qué es Litefarm?
+
 &nbsp;
 
 LiteFarm es un proyecto de ciencia participativa desarrollado para ayudar a las comunidades agrícolas a mejorar el acceso a la tecnología agrícola digital. LiteFarm tiene como objetivo ayudar a los(as) agricultores(as) a administrar sus fincas de manera más rentable, y ambiental y socialmente sostenible. El código subyacente que sostiene LiteFarm es gratuito y abierto (GPLv3) para que los(as) científicos(as), expertos(as) y desarrolladores de todo el mundo puedan ayudar a mejorar los servicios ofrecidos a la comunidad agrícola. LiteFarm es una entidad no comercial. Nos impulsa servir a la comunidad agrícola a través del apoyo a sus decisiones agrícolas y a la investigación científica.
 &nbsp;
 
 #### ¿Quiénes integran el equipo Litefarm?
+
 &nbsp;
 
 El equipo de LiteFarm es un grupo multidisciplinario de científicos(as), investigadores(as), agricultores(as), diseñadores(as) y profesionales del software. El equipo se formó inicialmente en la Universidad de la Columbia Británica (UBC), Canadá, y ha crecido hasta incluir una red de trabajo colaborativo de individuos y organizaciones. Los principales investigadores son Dr. Zia Mehrabi and Dr. Hannah Wittman ( hannah.wittman@ubc.ca ).
 &nbsp;
 
 #### ¿Quién financia Litefarm?
+
 &nbsp;
 
-LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para conocer la lista completa, por favor visite: https://ubcfarm.ubc.ca/litefarm/. Nuestros patrocinadores no tienen voz en la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones.
-&nbsp;
+LiteFarm es financiado por el Centro de Sistemas de Alimentación Sostenibles de UBC y por otras subvenciones. Para
+conocer la lista completa, por favor visite: https://ubcfarm.ubc.ca/litefarm/. Nuestros patrocinadores no tienen voz en
+la operación y administración de LiteFarm, y no cuentan con acceso a la información personal almacenada en la
+plataforma. Nuestro modelo de financiación es actualmente impulsado por donantes y subvenciones. &nbsp;
 
 #### ¿Por qué realizamos este proyecto?
+
 &nbsp;
 
-Reconocemos las brechas en el acceso de los(as) agricultores(as) a los servicios de tecnología digital, las bajas tasas de adopción de nuevas tecnologías, y la necesidad expresada por ellos y ellas de combinar una gama de servicios de asesoramiento en una plataforma única, de uso gratuito y no comercial. Queremos desarrollar una solución que ayude a los(as) agricultores(as) a operar su negocio de una manera más económica y ecológicamente sostenible, y que además ayude a avanzar a la ciencia que estudia la sostenibilidad.
+Reconocemos las brechas en el acceso de los(as) agricultores(as) a los servicios de tecnología digital, las bajas tasas
+de adopción de nuevas tecnologías, y la necesidad expresada por ellos y ellas de combinar una gama de servicios de
+asesoramiento en una plataforma única, de uso gratuito y no comercial. Queremos desarrollar una solución que ayude a
+los(as) agricultores(as) a operar su negocio de una manera más económica y ecológicamente sostenible, y que además ayude
+a avanzar a la ciencia que estudia la sostenibilidad. &nbsp;
+
+#### ¿Qué tipo de información recopilamos?
+
 &nbsp;
 
-#### ¿Qué tipo de información recopilamos? 
-&nbsp;
-
-Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros podemos recopilar diferentes tipos de información:
+Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros podemos recopilar diferentes tipos de
+información:
 &nbsp;
 
 &nbsp;
@@ -53,7 +66,7 @@ Dependiendo de las partes de la plataforma LiteFarm que Ud. utilice, nosotros po
 - Dirección de Protocolo de Internet (IP)
 
 - Geolocalización (por ejemplo, coordenadas GPS de campos, límites de campos, etc.)
-&nbsp;
+  &nbsp;
 
 &nbsp;
 
@@ -66,7 +79,11 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Información del registro de actividad: horarios y fechas de actividad; fotos; notas.
 
-- Información del registro de control de plagas: nombre del producto; cantidad de producto aplicado; objetivo de la aplicación (es decir, nombre de la plaga o enfermedad), nombre común, nombre científico, grupo; nombre del ingrediente activo; concentración de ingrediente activo; intervalo de cosecha; intervalo de entrada; tipo de control (aspersión sistémica, aspersión foliar, fumigación, quema, control biológico, recolección manual o tratamiento térmico); campo y cultivo tratado. 
+- Información del registro de control de plagas: nombre del producto; cantidad de producto aplicado; objetivo de la
+  aplicación (es decir, nombre de la plaga o enfermedad), nombre común, nombre científico, grupo; nombre del ingrediente
+  activo; concentración de ingrediente activo; intervalo de cosecha; intervalo de entrada; tipo de control (aspersión
+  sistémica, aspersión foliar, fumigación, quema, control biológico, recolección manual o tratamiento térmico); campo y
+  cultivo tratado.
 
 - Información del registro de cosecha: campo cosechado; cosecha ya cosechada; cantidad.
 
@@ -84,8 +101,7 @@ LiteFarm utiliza la información de administración que Ud. ingresa en la aplica
 
 - Información de los turnos: fecha; duración del turno; horas de inicio y finalización; duración de la pausa; actividad de turno (preparación de la cama de cultivo, entrega, ventas, siembra, cosecha, fertilización, ventas, exploración, control de plagas, lavado y empaque, deshierbe, otras tareas personalizadas); asignación de tiempo a cada actividad (por campo o por cultivo); estado de ánimo (feliz, muy feliz, triste, muy triste, neutral)
 
-- Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate
-&nbsp;
+- Seeding log information: field seeded; crop seeded; spacing depth, length, width, and rate &nbsp;
 
 &nbsp;
 
@@ -114,8 +130,21 @@ Como describimos anteriormente, usamos sus datos de uso (es decir, información 
 
 &nbsp;
 
-Compartiremos con terceros la información que Ud. ha proporcionado sólo de manera anónima  (es decir, sin información personal) y si esto es necesario para lograr nuestros objetivos de investigación o validar los hallazgos científicos. Específicamente, en el futuro podríamos compartir datos anónimos con otros investigadores(as) con fines de investigación académica no comercial. Cualquier investigador(a) académico(a) externo que solicite el uso de los datos de LiteFarm se someterá a una revisión interna y será evaluado(a) según nuestros estándares de ética y seguridad existentes. Debido a los estándares de publicación para la reproducibilidad científica, los datos anónimos que se utilizan para la investigación académica pueden publicarse en repositorios públicos. Las copias de las divulgaciones no públicas de datos anónimos se pueden compartir con investigadores(as) académicos(as) con fines de investigación no comerciales, por tiempo limitado y bajo licencia de uso singular (no multiple). Si una investigación académica incluye el uso de fotos cargadas en LiteFarm, cualquier característica identificable que revele información personal (por ejemplo, rostros de personas) se borrará de las fotos antes de compartirlas. No compartimos ninguna información personal con servicios de análisis de terceros, como Google Analytics. A través de nuestros protocolos de seguridad, protegemos la vulnerabilidad de la información personal dentro del sitio web de LiteFarm, y utilizamos protocolos de anonimización de IP para evitar la identificación y geolocalización por parte de terceros. LiteFarm no alquilará ni venderá su información personal ni los datos recopilados a través del sitio web de LiteFarm a nadie.
-&nbsp;
+Compartiremos con terceros la información que Ud. ha proporcionado sólo de manera anónima (es decir, sin información
+personal) y si esto es necesario para lograr nuestros objetivos de investigación o validar los hallazgos científicos.
+Específicamente, en el futuro podríamos compartir datos anónimos con otros investigadores(as) con fines de investigación
+académica no comercial. Cualquier investigador(a) académico(a) externo que solicite el uso de los datos de LiteFarm se
+someterá a una revisión interna y será evaluado(a) según nuestros estándares de ética y seguridad existentes. Debido a
+los estándares de publicación para la reproducibilidad científica, los datos anónimos que se utilizan para la
+investigación académica pueden publicarse en repositorios públicos. Las copias de las divulgaciones no públicas de datos
+anónimos se pueden compartir con investigadores(as) académicos(as) con fines de investigación no comerciales, por tiempo
+limitado y bajo licencia de uso singular (no multiple). Si una investigación académica incluye el uso de fotos cargadas
+en LiteFarm, cualquier característica identificable que revele información personal (por ejemplo, rostros de personas)
+se borrará de las fotos antes de compartirlas. No compartimos ninguna información personal con servicios de análisis de
+terceros, como Google Analytics. A través de nuestros protocolos de seguridad, protegemos la vulnerabilidad de la
+información personal dentro del sitio web de LiteFarm, y utilizamos protocolos de anonimización de IP para evitar la
+identificación y geolocalización por parte de terceros. LiteFarm no alquilará ni venderá su información personal ni los
+datos recopilados a través del sitio web de LiteFarm a nadie. &nbsp;
 
 &nbsp;
 
@@ -174,8 +203,10 @@ Nuestro objetivo es conservar sus datos indefinidamente en aras de la productivi
 
 &nbsp;
 
-Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus datos; solicitar que dejemos de recopilar sus datos; solicitar  transferencia de sus datos o hacer preguntas sobre cualquier análisis que utilice sus datos. Para cualquier información o solicitud, por favour comuníquese con data@litefarm.org .
-&nbsp;
+Ud. tiene derecho a saber qué datos tenemos sobre usted, solicitar una copia de los mismos, actualizar y corregir sus
+datos; solicitar que dejemos de recopilar sus datos; solicitar transferencia de sus datos o hacer preguntas sobre
+cualquier análisis que utilice sus datos. Para cualquier información o solicitud, por favour comuníquese con
+data@litefarm.org . &nbsp;
 
 &nbsp;
 
@@ -231,7 +262,7 @@ Sobre la aplicación, comuníquese con:
 Sobre este estudio, comuníquese con la investigadora principal:
 
 - Investigadora principal: Dra. Hannah Wittman ( hannah.wittman@ubc.ca )
-&nbsp;
+  &nbsp;
 
 &nbsp;
 
@@ -263,4 +294,3 @@ Su participación en LiteFarm es completamente voluntaria. Como participante Ud.
 Al presionar más abajo Aceptar, Ud. estará indicando que ha descargado una copia de este Formulario de Consentimiento Informado y Política de Privacidad para sus propios registros y que acepta participar en este estudio.
 
 Número de Identificación (ID) de la aprobación ética otorgada al estudio UBC: H19-01482
-

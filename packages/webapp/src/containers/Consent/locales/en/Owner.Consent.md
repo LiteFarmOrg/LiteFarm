@@ -1,37 +1,49 @@
 ##### Version 3.0:
+
 &nbsp;
 
 #### Informed Consent Form and Privacy Policy (Farm Owner and Farm Manager Version)
+
 &nbsp;
 
 Welcome to LiteFarm! We understand that your privacy and the protection of your data are important to you. We created this Informed Consent Form and Privacy Policy to help you understand how and when we collect, use and share your information, and to ensure we have your consent for doing so. Please keep in mind that you will need to consent to our collection and use of your data as described in this Informed Consent Form and Privacy Policy for every farm that you are associated with via your account on the LiteFarm platform. If you do not agree with our practices as outlined in this Informed Consent Form and Privacy Policy, you will not be able to use the LiteFarm platform.
 
 &nbsp;
+
 #### What is Litefarm ?
+
 &nbsp;
 
 LiteFarm is a participatory science project developed to help improve access to digital agricultural technology for farming communities. LiteFarm aims to help farmers manage their farms in more profitable and environmentally and socially sustainable ways. The code underlying LiteFarm is free and open source (GPLv3) so that researchers, experts, and developers across the world can help to improve the services offered to the farming community. LiteFarm is a non-commercial entity. We are driven to serve the farming community through improving agricultural decision-support and research.
 
 &nbsp;
+
 #### Who is the Litefarm team?
+
 &nbsp;
 
 The LiteFarm team is a cross-disciplinary group of scientists, researchers, farmers, designers and software professionals. The team was initially formed at the University of British Columbia (UBC), and has grown to include a participatory network of individuals and organizations.The Principle Investigators are Dr. Zia Mehrabi and Dr. Hannah Wittman (hannah.wittman@ubc.ca).
 
 &nbsp;
+
 #### Who funds Litefarm?
+
 &nbsp;
 
 LiteFarm is funded by the Centre for Sustainable Food Systems at UBC and other grants. For a complete list, please visit: https://ubcfarm.ubc.ca/litefarm/. Our funders have no say in the operation and management of LiteFarm, and are unable to access any of the personal information housed on the platform. Our funding model is currently donor and grant-driven.
 
 &nbsp;
+
 #### Why are we conducting this project ?
+
 &nbsp;
 
 We recognize gaps in farmer access to digital technology services, low adoption rates, and a need expressed by farmers to combine a range of advisory services in a single, free to use, non-commercially driven platform. We want to develop a solution that both helps farmers operate their business in a more financially and ecologically sustainable way, and also helps advance the science of sustainability.
 
 &nbsp;
+
 #### What data do we collect?
+
 &nbsp;
 
 Depending on which parts of the LiteFarm platform you use, we may collect different kinds of information:
@@ -101,8 +113,7 @@ LiteFarm uses the management information that you enter into the app to generate
 
 - Worker details: number of registered workers; salary/pay
 
-- Unit details: metric or imperial
-&nbsp;
+- Unit details: metric or imperial &nbsp;
 
 &nbsp;
 
@@ -127,8 +138,8 @@ There are three primary ways that we use your data:
 
 - To generate insights about the financial, environmental, and social benefits or impacts of your management decisions: The LiteFarm platform uses the management data that you enter into the app (see “Farm management information” section above for a full list), along with built-in algorithms and some public data (e.g., local weather station information, crop coefficients, crop and fertilizer nutrient content, species occurrence data, and topographic data) to generate insights about financial, environmental, and social benefits/impacts of your management decisions.
 
-- To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your anonymized farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by PhD students as part of their graduate degrees. We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out), and you can always reach out to us to learn more about the research that your data is helping to make possible.
-&nbsp;
+- To conduct non-commercial academic research on sustainable food systems: Along with our academic collaborators, we will use your anonymized farm management data (see “Farm management information” section above for a full list) to conduct agronomic, ecological, and food-systems based academic research. Some of this research will be conducted by PhD students as part of their graduate degrees. We will rigorously evaluate every project proposal to ensure that your data is used effectively to advance knowledge on sustainable food systems, help farmers make sustainable management decisions, and impact public policy to benefit farmers. We will keep you in the loop on research projects through email (unless you would prefer to opt out),
+  and you can always reach out to us to learn more about the research that your data is helping to make possible. &nbsp;
 
 &nbsp;
 
@@ -254,7 +265,7 @@ With respect to the application, please contact:
 With respect to this study, please contact the principal investigator:
 
 - Principle Investigator: Dr. Hannah Wittman (hannah.wittman@ubc.ca)
-&nbsp;
+  &nbsp;
 
 &nbsp;
 

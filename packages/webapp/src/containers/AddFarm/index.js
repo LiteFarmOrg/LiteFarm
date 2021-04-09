@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Script from 'react-load-script';
 import GoogleMap from 'google-map-react';
 import { VscLocation } from 'react-icons/vsc';
@@ -62,7 +62,7 @@ const AddFarm = () => {
     setValue(FARMNAME, farm?.farm_name ? farm.farm_name : '');
     setValue(ADDRESS, farm?.address ? farm.address : '');
     setGridPoints(farm?.grid_points ? farm.grid_points : {});
-    setCountry( farm?.country ? farm.country : '');
+    setCountry(farm?.country ? farm.country : '');
   }, []);
 
   useEffect(() => {
@@ -319,7 +319,7 @@ function Map({ gridPoints, errors, isGettingLocation }) {
 }
 
 function MapPinWrapper() {
-  return <MapPin style={{display: 'absolute', transform: 'translate(-50%, -100%)'}} />;
+  return <MapPin style={{ display: 'absolute', transform: 'translate(-50%, -100%)' }} />;
 }
 
 export default AddFarm;

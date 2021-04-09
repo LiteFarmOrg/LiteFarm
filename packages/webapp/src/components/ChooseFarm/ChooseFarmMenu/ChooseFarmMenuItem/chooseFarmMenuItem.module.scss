@@ -38,56 +38,63 @@
   margin: 0;
 }
 .secondary {
-  h5{
+  h5 {
     color: var(--fontColor);
   }
-  p{
+
+  p {
     color: var(--grey600);
   }
 }
 .active {
-  h5{
+  h5 {
     color: var(--teal900);
   }
+
   p {
     color: var(--teal900);
   }
 }
+
 .disabled {
-  h5{
+  h5 {
     color: var(--fontColor);
   }
-  p{
+
+  p {
     color: var(--grey600);
   }
 }
-.blue{
-  h5{
+
+.blue {
+  h5 {
     color: var(--blue700);
   }
-  p{
-    color: var(--blue700);
-  }
-}
-.blueActive{
-  h5{
-    color: var(--blue700);
-  }
-  p{
+
+  p {
     color: var(--blue700);
   }
 }
-.emailIcon{
+
+.blueActive {
+  h5 {
+    color: var(--blue700);
+  }
+
+  p {
+    color: var(--blue700);
+  }
+}
+
+.emailIcon {
   transform: translate(1px, -1px);
   display: flex;
 }
-.addressContainer{
+
+.addressContainer {
   display: flex;
   flex-direction: column;
   margin: 8px 8px 8px 0;
   flex-grow: 1;
   justify-content: center;
 }
-
-
-

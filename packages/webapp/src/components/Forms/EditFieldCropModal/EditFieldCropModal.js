@@ -310,7 +310,7 @@ class EditFieldCropModal extends React.Component {
               </h4>
               {isByArea && (
                 <div>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.PERCENTAGE')}: </label>
                     <FormControl
                       data-test="percentage"
@@ -322,7 +322,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.handlePercentage(e)}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_HECTARE')}: </label>
                     <FormControl
                       type="number"
@@ -336,7 +336,7 @@ class EditFieldCropModal extends React.Component {
               )}
               {!isByArea && bed_config && (
                 <div>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.BED_LENGTH')} </label>
                     <FormControl
                       type="number"
@@ -346,7 +346,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.BED_WIDTH')}: </label>
                     <FormControl
                       type="number"
@@ -356,7 +356,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.onBedWidthChange(e)}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_OF_BEDS')}: </label>
                     <FormControl
                       type="number"
@@ -368,7 +368,7 @@ class EditFieldCropModal extends React.Component {
                   </FormGroup>
                 </div>
               )}
-              <FormGroup>
+              <FormGroup style={{ paddingBottom: '16px' }}>
                 <label>
                   {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_IN')} {this.state.area_unit_label}
                   &sup2;:{' '}

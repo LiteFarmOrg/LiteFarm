@@ -31,7 +31,7 @@ export default function PureCropTile({
   }
   return (
     <div className={clsx(styles.container, isPast(status) && styles.pastContainer, className)}>
-      <div className={styles.img}>{"image"}</div>
+      <div className={styles.img}></div>
       <div className={styles.info}>
         <div className={styles.infoMain} style={{marginBottom: '2px'}}>{variety}</div>
         <div className={styles.infoBody} style={{marginBottom: '2px'}}>{t(`crop:${crop_translation_key}`)}</div>

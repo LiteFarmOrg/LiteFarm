@@ -16,65 +16,65 @@ import { ReactComponent as Residence } from '../../../assets/images/farmMapFilte
 
 export const pointImgDict = [
   {
-    icon: () => <Gate />,
+    icon: <Gate />,
     key: locationEnum.gate,
   },
   {
-    icon: () => <WaterValve />,
+    icon: <WaterValve />,
     key: locationEnum.water_valve,
   },
 ];
 
 export const lineImgDict = [
   {
-    icon: () => <BufferZone />,
+    icon: <BufferZone />,
     key: locationEnum.buffer_zone,
   },
   {
-    icon: () => <Watercourse />,
+    icon: <Watercourse />,
     key: locationEnum.watercourse,
   },
   {
-    icon: () => <Fence />,
+    icon: <Fence />,
     key: locationEnum.fence,
   },
 ];
 
 export const areaImgDict = [
   {
-    icon: () => <Barn />,
+    icon: <Barn />,
     key: locationEnum.barn,
   },
   {
-    icon: () => <CeremonialArea />,
+    icon: <CeremonialArea />,
     key: locationEnum.ceremonial_area,
   },
   {
-    icon: () => <FarmSiteBoundary />,
+    icon: <FarmSiteBoundary />,
     key: locationEnum.farm_site_boundary,
   },
   {
-    icon: () => <Field />,
+    icon: <Field />,
     key: locationEnum.field,
   },
   {
-    icon: () => <Garden />,
+    icon: <Garden />,
     key: locationEnum.garden,
   },
   {
-    icon: () => <Greenhouse />,
+    icon: <Greenhouse />,
     key: locationEnum.greenhouse,
   },
   {
-    icon: () => <SurfaceWater />,
+    icon: <SurfaceWater />,
     key: locationEnum.surface_water,
   },
   {
-    icon: () => <NaturalArea />,
+    icon: <NaturalArea />,
     key: locationEnum.natural_area,
   },
   {
-    icon: () => <Residence />,
+    icon: <Residence />,
     key: locationEnum.residence,
   },
 ];

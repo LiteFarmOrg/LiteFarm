@@ -1,7 +1,14 @@
 import { isArea, isLine, isPoint } from './constants';
 import { useState, useEffect } from 'react';
-import { canShowSelection, locations, canShowSelectionSelector } from '../mapSlice';
+import {
+  canShowSelection,
+  locations,
+  canShowSelectionSelector,
+  resetOverlappedLocationsSelector,
+  resetOverlappedLocations,
+} from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import history from '../../history';
 
 const useSelectionHandler = () => {
   const initOverlappedLocations = {
@@ -13,13 +20,18 @@ const useSelectionHandler = () => {
   const dispatch = useDispatch();
 
   const [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
-  const showSelection = useSelector(canShowSelectionSelector);
+  //const [resetOverlappedLocations, setResetOverlappedLocations] = useState(false);
+
+  const reset = useSelector(resetOverlappedLocationsSelector);
+  console.log(reset);
 
   useEffect(() => {
-    if (!showSelection) {
-      console.log('dismiss selection');
-      setOverlappedLocations(initOverlappedLocations);
-    }
+    // if (resetOverlappedLocations) {
+    //   console.log("resetOverlappedLocations")
+    //   setOverlappedLocations({ ...initOverlappedLocations });
+    //   setResetOverlappedLocations(false)
+    //   console.log(overlappedLocations)
+    // }
     if (
       overlappedLocations.area.length > 0 ||
       overlappedLocations.line.length > 0 ||
@@ -30,19 +42,18 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
-        // TODO: Goto edit view
-        console.log('exactly 1 area');
+        history.push(`/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/edit`);
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&
         overlappedLocations.point.length === 0
       ) {
-        // TODO: Goto edit view
-        console.log('exactly 1 line');
+        history.push(`/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/edit`);
       } else {
         if (overlappedLocations.point.length === 1) {
-          // TODO: Goto edit view
-          console.log('exactly 1 point');
+          history.push(
+            `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/edit`,
+          );
         } else {
           const locationArray = [];
           overlappedLocations.point.forEach((point) => {
@@ -56,21 +67,26 @@ const useSelectionHandler = () => {
           });
           dispatch(canShowSelection(true));
           dispatch(locations(locationArray));
-          // dispatch(showSelection(false))
-          // dispatch(storeOverlappedLocations(locations))
         }
       }
     }
   }, [overlappedLocations]);
 
   const handleSelection = (latLng, locationAssets, maps, isLocationAsset) => {
-    const overlappedLocationsCopy = { ...overlappedLocations };
+    let overlappedLocationsCopy = null;
+    console.log('handle selection');
+    // console.log(resetOverlappedLocations)
+    // if (resetOverlappedLocations) {
+    //   console.log("resetOverlappedLocations")
+    // }
+
     if (isLocationAsset) {
-      if (showSelection) {
-        console.log('dispatch false');
-        dispatch(canShowSelection(false));
-        setOverlappedLocations(initOverlappedLocations);
-        console.log(overlappedLocations);
+      if (reset) {
+        console.log('need to reset');
+        dispatch(resetOverlappedLocations(false));
+        overlappedLocationsCopy = { ...initOverlappedLocations };
+      } else {
+        overlappedLocationsCopy = { ...overlappedLocations };
       }
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType)) {
@@ -113,10 +129,13 @@ const useSelectionHandler = () => {
       });
 
       setOverlappedLocations({ ...overlappedLocationsCopy });
-      console.log(overlappedLocations);
-      // setOverlappedLocations(initOverlappedLocations)
     } else {
+      console.log('clicked non area');
       dispatch(canShowSelection(false));
+      // setResetOverlappedLocations(true);
+      dispatch(resetOverlappedLocations(true));
+      console.log(resetOverlappedLocations);
+      setOverlappedLocations({ ...initOverlappedLocations });
     }
   };
 

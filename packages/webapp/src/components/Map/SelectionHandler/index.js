@@ -6,53 +6,50 @@ import { pointImgDict } from '../LocationMapping';
 import { lineImgDict } from '../LocationMapping';
 import { areaImgDict } from '../LocationMapping';
 
-export default function PureSelectionHandler({ locations }) {
-  const [icon, setIcon] = useState(null);
-  const [locationName, setLocationName] = useState(null);
-
-  const imgMapping = (assetType, locationtype, name) => {
-    assetType === 'point'
-      ? Object.keys(pointImgDict).map((item) => {
-          if (pointImgDict[item].key === locationtype) {
-            setIcon(pointImgDict[item].icon);
-            setLocationName(name);
-          }
-        })
-      : assetType === 'line'
-      ? Object.keys(lineImgDict).map((item) => {
-          if (lineImgDict[item].key === locationtype) {
-            setIcon(lineImgDict[item].icon);
-            setLocationName(name);
-          }
-        })
-      : Object.keys(areaImgDict).map((item) => {
-          if (areaImgDict[item].key === locationtype) {
-            setIcon(areaImgDict[item].icon);
-            setLocationName(name);
-          }
-        });
+export default function PureSelectionHandler({ locations, history }) {
+  const imgMapping = (assetType, locationType) => {
+    let icon = null;
+    if (assetType === 'area') {
+      Object.keys(areaImgDict).map((item) => {
+        if (areaImgDict[item].key === locationType) {
+          icon = areaImgDict[item].icon;
+        }
+      });
+    } else if (assetType === 'line') {
+      Object.keys(lineImgDict).map((item) => {
+        if (lineImgDict[item].key === locationType) {
+          icon = lineImgDict[item].icon;
+        }
+      });
+    } else {
+      Object.keys(pointImgDict).map((item) => {
+        if (pointImgDict[item].key === locationType) {
+          icon = pointImgDict[item].icon;
+        }
+      });
+    }
+    return icon;
   };
 
-  useEffect(() => {
-    locations.forEach((location) => {
-      console.log(location);
-      imgMapping(location.asset, location.type, location.name);
-    });
-  }, []);
+  const loadEditView = (location) => {
+    history.push(`/${location.type}/${location.id}/edit`);
+  };
 
-  return (
-    <div style={{ backgroundColor: 'white' }}>
-      <div style={{ float: 'left', paddingTop: '10px', paddingLeft: '10px' }}> {icon} </div>
-      <div style={{ padding: '5px 50px 25px' }}>{locationName}</div>
-    </div>
-  );
+  return locations.map((location, idx) => {
+    const { type, asset, name } = { ...location };
+    let icon = imgMapping(asset, type);
+
+    return (
+      <div
+        key={idx}
+        style={{ backgroundColor: 'white', marginBottom: '5px' }}
+        onClick={() => loadEditView(location)}
+      >
+        <div style={{ float: 'left', paddingTop: '10px', paddingLeft: '20px' }}> {icon} </div>
+        <div style={{ padding: '15px 20px 10px 70px' }}>{name}</div>
+      </div>
+    );
+  });
 }
 
-// padding: '5px 30px 7px'
-
-PureSelectionHandler.prototype = {
-  assetType: PropTypes.string,
-  locationtype: PropTypes.string,
-  locationName: PropTypes.string,
-  //   closeSuccessHeader: PropTypes.func,
-};
+// {{ padding: '17px 50px 25px' }}

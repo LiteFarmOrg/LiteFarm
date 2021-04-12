@@ -96,10 +96,6 @@ export default function Map({ history }) {
   useEffect(() => {
     dispatch(getLocations());
   }, []);
-  useEffect(() => {
-    console.log('locations');
-    console.log(locations);
-  }, [locations]);
 
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
@@ -379,7 +375,7 @@ export default function Map({ history }) {
         </div>
         {showSelection && (
           <div className={styles.selectionContainer}>
-            <PureSelectionHandler locations={locations} />
+            <PureSelectionHandler locations={locations} history={history} />
           </div>
         )}
 

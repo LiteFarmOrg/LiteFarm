@@ -169,8 +169,9 @@ if (environment === 'development' || environment === 'production' || environment
 
 if(environment === 'production'){
   const options = {
-    key: fs.readFileSync(process.env.KEY_FILE_LOCATION),
-    cert: fs.readFileSync(process.env.CERT_FILE_LOCATION),
+    key: fs.readFileSync(process.env.KEY_FILE_LOCATION, 'utf8'),
+    cert: fs.readFileSync(process.env.CERT_FILE_LOCATION, 'utf8'),
+    ca: fs.readFileSync(process.env.CA_FILE_LOCATION, 'utf8'),
   };
   https.createServer(options, app).listen(port, () => {
     // eslint-disable-next-line no-console

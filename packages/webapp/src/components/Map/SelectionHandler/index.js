@@ -1,60 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import styles from './styles.module.scss';
+import clsx from 'clsx';
 import { pointImgDict } from '../LocationMapping';
 import { lineImgDict } from '../LocationMapping';
 import { areaImgDict } from '../LocationMapping';
 
-export default function PureSelectionHandler({ locationAssetType, locationType, locationName }) {
+export default function PureSelectionHandler({ locations }) {
   const [icon, setIcon] = useState(null);
+  const [locationName, setLocationName] = useState(null);
 
-  const imgMapping = () => {
-    locationAssetType === 'Point'
+  const imgMapping = (assetType, locationtype, name) => {
+    assetType === 'point'
       ? Object.keys(pointImgDict).map((item) => {
-          if (pointImgDict[item].key === locationType) {
+          if (pointImgDict[item].key === locationtype) {
             setIcon(pointImgDict[item].icon);
-            console.log(locationType);
-            console.log(icon);
+            setLocationName(name);
           }
         })
-      : locationAssetType === 'Line'
+      : assetType === 'line'
       ? Object.keys(lineImgDict).map((item) => {
-          if (lineImgDict[item].key === locationType) {
+          if (lineImgDict[item].key === locationtype) {
             setIcon(lineImgDict[item].icon);
+            setLocationName(name);
           }
         })
       : Object.keys(areaImgDict).map((item) => {
-          if (areaImgDict[item].key === locationType) {
+          if (areaImgDict[item].key === locationtype) {
             setIcon(areaImgDict[item].icon);
+            setLocationName(name);
           }
         });
   };
 
   useEffect(() => {
-    imgMapping();
+    locations.forEach((location) => {
+      console.log(location);
+      imgMapping(location.asset, location.type, location.name);
+    });
   }, []);
 
   return (
-    <div>
-      <div style={{ float: 'left', marginLeft: '0px' }}> {icon} </div>
-      <div style={{ padding: '2px 30px' }}>{locationName}</div>
-
-      {/* <div className={clsx(styles.container)}>
-        <div className={styles.headerText}>
-          <input type="image" src={Checkmark} className={styles.button} />
-          <span style={{ paddingLeft: '10px' }}>{title}</span>
-        </div>
-        <div style={{ paddingTop: '5px' }}>
-          <input type="image" src={Cross} className={styles.button} onClick={closeSuccessHeader} />
-        </div>
-      </div>
-      {!dismissProgressBar && <ProgressBar closeSuccessHeader={closeSuccessHeader} />} */}
+    <div style={{ backgroundColor: 'white' }}>
+      <div style={{ float: 'left', paddingTop: '10px', paddingLeft: '10px' }}> {icon} </div>
+      <div style={{ padding: '5px 50px 25px' }}>{locationName}</div>
     </div>
   );
 }
 
+// padding: '5px 30px 7px'
+
 PureSelectionHandler.prototype = {
-  locationAssetType: PropTypes.string,
-  locationType: PropTypes.string,
+  assetType: PropTypes.string,
+  locationtype: PropTypes.string,
   locationName: PropTypes.string,
   //   closeSuccessHeader: PropTypes.func,
 };

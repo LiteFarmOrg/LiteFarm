@@ -24,6 +24,15 @@
   order: 2;
   flex-grow: 1;
   display: flex;
+  // z-index: -1;
+}
+
+.selectionContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
 }
 
 .mapFooter {

@@ -177,6 +177,8 @@ const useMapAssetRenderer = () => {
       location_id: area.location_id,
       location_name: area.name,
       isVisible,
+      asset: 'area',
+      type: area.type,
     };
   };
 
@@ -251,7 +253,14 @@ const useMapAssetRenderer = () => {
     });
 
     polyline.setOptions({ visible: isVisible });
-    return { polyline, location_id: line.location_id, location_name: line.name, isVisible };
+    return {
+      polyline,
+      location_id: line.location_id,
+      location_name: line.name,
+      isVisible,
+      asset: 'line',
+      type: line.type,
+    };
   };
 
   // Draw a point
@@ -278,7 +287,14 @@ const useMapAssetRenderer = () => {
     });
 
     marker.setOptions({ visible: isVisible });
-    return { marker, location_id: point.location_id, location_name: point.name, isVisible };
+    return {
+      marker,
+      location_id: point.location_id,
+      location_name: point.name,
+      isVisible,
+      asset: 'point',
+      type: point.type,
+    };
   };
   return { drawAssets, drawArea, drawPoint, drawLine };
 };

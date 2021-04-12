@@ -1,9 +1,9 @@
+import { locationEnum } from '../../../containers/Map/constants';
 import { ReactComponent as Gate } from '../../../assets/images/farmMapFilter/Gate.svg';
 import { ReactComponent as WaterValve } from '../../../assets/images/farmMapFilter/WaterValve.svg';
 import { ReactComponent as BufferZone } from '../../../assets/images/farmMapFilter/BufferZone.svg';
 import { ReactComponent as Watercourse } from '../../../assets/images/farmMapFilter/Creek.svg';
 import { ReactComponent as Fence } from '../../../assets/images/farmMapFilter/Fence.svg';
-import { locationEnum } from '../../../containers/Map/constants';
 import { ReactComponent as Barn } from '../../../assets/images/farmMapFilter/Barn.svg';
 import { ReactComponent as CeremonialArea } from '../../../assets/images/farmMapFilter/CA.svg';
 import { ReactComponent as FarmSiteBoundary } from '../../../assets/images/farmMapFilter/FSB.svg';

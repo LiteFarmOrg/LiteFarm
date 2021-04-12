@@ -14,6 +14,11 @@ import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
+  setOverlappedLocationsSelector,
+  canShowSelectionSelector,
+  canShowSelection,
+  locations,
+  locationsSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
 
@@ -30,6 +35,7 @@ import CustomCompass from '../../components/Map/CustomCompass';
 import DrawingManager from '../../components/Map/DrawingManager';
 import useWindowInnerHeight from '../hooks/useWindowInnerHeight';
 import useDrawingManager from './useDrawingManager';
+import PureSelectionHandler from '../../components/Map/SelectionHandler';
 
 import useMapAssetRenderer from './useMapAssetRenderer';
 import { getLocations } from '../saga';
@@ -49,11 +55,9 @@ import {
 export default function Map({ history }) {
   const windowInnerHeight = useWindowInnerHeight();
   const { farm_name, grid_points, is_admin, farm_id } = useSelector(userFarmSelector);
-  const { showMapSpotlight } = useSelector(chooseFarmFlowSelector);
   const filterSettings = useSelector(mapFilterSettingSelector);
   const showedSpotlight = useSelector(showedSpotlightSelector);
   const roadview = !filterSettings.map_background;
-  const fields = useSelector(fieldsSelector);
   const dispatch = useDispatch();
   const system = useSelector(measurementSelector);
   const overlayData = useSelector(hookFormPersistSelector);
@@ -64,6 +68,8 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
+  const showSelection = useSelector(canShowSelectionSelector);
+  const locations = useSelector(locationsSelector);
 
   useEffect(() => {
     if (!history.location.isStepBack) {
@@ -90,6 +96,10 @@ export default function Map({ history }) {
   useEffect(() => {
     dispatch(getLocations());
   }, []);
+  useEffect(() => {
+    console.log('locations');
+    console.log(locations);
+  }, [locations]);
 
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
@@ -367,6 +377,11 @@ export default function Map({ history }) {
             </div>
           )}
         </div>
+        {showSelection && (
+          <div className={styles.selectionContainer}>
+            <PureSelectionHandler locations={locations} />
+          </div>
+        )}
 
         {!drawingState.type && (
           <PureMapFooter

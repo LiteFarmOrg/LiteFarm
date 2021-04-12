@@ -41,5 +41,8 @@ services:
     build:
       context: ./packages/webapp
       dockerfile: prod.Dockerfile
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
     ports:
       - "80:80"

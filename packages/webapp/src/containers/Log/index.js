@@ -90,7 +90,7 @@ class Log extends Component {
         (l) =>
           checkFilter(l, 'activity_kind', activityFilter) &&
           checkFilter(l.fieldCrop[0], 'crop_id', cropFilter) &&
-          checkFilter(l.field[0], 'field_id', fieldFilter) &&
+          checkFilter(l.field[0], 'location_id', fieldFilter) &&
           l.user_id === user.user_id &&
           startDate.isBefore(l.date) &&
           (endDate.isAfter(l.date) || endDate.isSame(l.date, 'day')),
@@ -139,7 +139,7 @@ class Log extends Component {
     cropOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_CROPS') });
     let fieldOptions = (fields &&
       fields.map((f) => {
-        return { label: f.field_name, value: f.field_id };
+        return { label: f.name, value: f.location_id };
       })) || [{ value: '', label: '' }];
     fieldOptions.unshift({ value: 'all', label: this.props.t('LOG_COMMON.LOG_ALL_FIELDS') });
 

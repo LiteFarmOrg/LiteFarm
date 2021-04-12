@@ -23,7 +23,7 @@ if (NODE_ENV === 'development') {
   if (REACT_APP_ENV === 'production') {
     URI = 'https://litefarm-api-production.herokuapp.com';
   } else if (REACT_APP_ENV === 'integration') {
-    URI = 'https://litefarm-api-integration.herokuapp.com';
+    URI = 'https://api.app2.litefarm.org';
   }
 }
 

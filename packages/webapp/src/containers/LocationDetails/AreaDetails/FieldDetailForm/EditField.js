@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PureField from '../../../../components/LocationDetailLayout/AreaDetails/Field';
-import { editFieldLocation } from './saga';
+import { editFieldLocation, deleteFieldLocation } from './saga';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector } from '../../../userFarmSlice';
 import useHookFormPersist from '../../../hooks/useHookFormPersist';
@@ -48,7 +48,8 @@ function EditFieldDetailForm({ history, match }) {
   }
 
   const confirmRetire = () => {
-    console.log("confirm Retire");
+    isViewLocationPage && dispatch(deleteFieldLocation({ location_id }));
+    setShowConfirmRetireModal(false);
   }
 
   return (

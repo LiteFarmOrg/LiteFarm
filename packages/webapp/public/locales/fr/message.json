@@ -85,8 +85,10 @@
     }
   },
   "MAP": {
+    "FAIL_DELETE": "MISSING",
     "FAIL_PATCH": "MISSING",
     "FAIL_POST": "MISSING",
+    "SUCCESS_DELETE": "MISSING",
     "SUCCESS_PATCH": "MISSING",
     "SUCCESS_POST": "MISSING"
   },

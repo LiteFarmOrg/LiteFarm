@@ -30,6 +30,8 @@ services:
     build:
       context: ./packages/api
       dockerfile: prod.Dockerfile
+    volumes:
+      - /etc/letsencrypt:/usr/src/letsencrypt
     ports:
       - "5000:5000"
     environment:

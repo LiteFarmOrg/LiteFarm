@@ -14,10 +14,19 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: pg-litefarm
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ~/docker/volumes/postgres:/var/lib/postgresql/data
   backend:
     container_name: litefarm-api
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
     build:
       context: ./packages/api
       dockerfile: prod.Dockerfile

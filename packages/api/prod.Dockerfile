@@ -10,4 +10,4 @@ COPY . .
 
 RUN npm install -g nodemon
 
-CMD npm run migrate:dev:db &&  nodemon --exec npm run start:prod 
+CMD npm run migrate:dev:db &&  nodemon --exec npm run start:prod

@@ -43,6 +43,6 @@ services:
       dockerfile: prod.Dockerfile
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
-
     ports:
       - "80:80"
+      - "443:443"

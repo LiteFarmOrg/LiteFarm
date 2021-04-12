@@ -16,4 +16,4 @@ COPY --from=build /usr/src/app/build /var/www/litefarm
 
 COPY --from=build /usr/src/app/nginx.conf /etc/nginx/
 
-EXPOSE 80
+EXPOSE 80 443

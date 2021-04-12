@@ -13,7 +13,7 @@
   z-index: 1;
 }
 
-.input[type=number] {
+.input[type='number'] {
   width: 1px;
 }
 
@@ -102,7 +102,7 @@
 }
 
 .verticleDivider {
-  width: 60px;
+  width: 61px;
   border-left: 1px solid var(--grey400);
 }
 
@@ -111,7 +111,7 @@
 }
 
 .flex {
-  display: flex
+  display: flex;
 }
 
 .none {

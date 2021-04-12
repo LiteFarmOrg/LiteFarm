@@ -69,8 +69,8 @@
 .dateContainer {
   max-width: 100%;
 }
-@media screen and (min-width: 500px)  {
-  .dateContainer{
+@media screen and (min-width: 500px) {
+  .dateContainer {
     width: 45%;
   }
   .pullRight {
@@ -80,7 +80,8 @@
     float: left;
   }
 }
-.titleContainer{
+
+.titleContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const bufferZoneProperties = [];
+const bufferZoneProperties = ['location_id'];
 export const getLocationObjectFromBufferZone = (data) => {
   return {
     figure: {
@@ -17,8 +17,8 @@ export const getLocationObjectFromBufferZone = (data) => {
 };
 const getBufferZoneFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
+
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.line, lineProperties),
     ...pick(location.buffer_zone, bufferZoneProperties),
@@ -53,12 +53,14 @@ const bufferZoneSlice = createSlice({
     onLoadingBufferZoneFail: onLoadingFail,
     getBufferZonesSuccess: upsertManyBufferZoneWithLocation,
     postBufferZoneSuccess: upsertOneBufferZoneWithLocation,
+    editBufferZoneSuccess: upsertOneBufferZoneWithLocation,
     deleteBufferZoneSuccess: bufferZoneAdapter.removeOne,
   },
 });
 export const {
   getBufferZonesSuccess,
   postBufferZoneSuccess,
+  editBufferZoneSuccess,
   onLoadingBufferZoneStart,
   onLoadingBufferZoneFail,
   deleteBufferZoneSuccess,
@@ -79,10 +81,8 @@ export const bufferZonesSelector = createSelector(
   },
 );
 
-export const bufferZoneSelector = createSelector(
-  bufferZoneReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const bufferZoneSelector = (location_id) =>
+  createSelector(bufferZoneEntitiesSelector, (entities) => entities[location_id]);
 
 export const bufferZoneStatusSelector = createSelector(
   [bufferZoneReducerSelector],

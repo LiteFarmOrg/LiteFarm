@@ -1,0 +1,57 @@
+.container {
+  border: 1px solid var(--grey400);
+  border-radius: 4px;
+  width: 88px;
+  filter: drop-shadow(0px 1px 2px rgba(102, 115, 138, 0.25));
+  display: flex;
+  flex-direction: column;
+}
+
+.pastContainer {
+  border: 1px solid var(--teal700);
+}
+
+.img {
+  background-color: orange;
+  height: 72px;
+  border-radius: 4px 4px 0 0;
+}
+
+.info {
+  background-color: var(--grey100);
+  min-height: 68px;
+  padding: 8px;
+  border-radius: 0 0 4px 4px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoMain {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.infoBody {
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 16px;
+}
+
+.dateContainer {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 4px;
+}
+
+.plannedIcon {
+  fill: var(--teal700)
+}
+
+.pastIcon {
+  fill: var(--teal900)
+}

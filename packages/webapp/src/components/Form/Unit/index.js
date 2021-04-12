@@ -12,7 +12,7 @@ import convert from 'convert-units';
 import { area_total_area, getDefaultUnit, roundToTwoDecimal } from '../../../util/unit';
 import { Controller } from 'react-hook-form';
 
-const unitOptionMap = {
+export const unitOptionMap = {
   m2: { label: 'm²', value: 'm2' },
   ha: { label: 'ha', value: 'ha' },
   ft2: { label: 'ft²', value: 'ft2' },
@@ -132,9 +132,10 @@ const Unit = ({
   const { displayUnit, displayValue, options, databaseUnit, isSelectDisabled } = useMemo(() => {
     const databaseUnit = defaultValueUnit ?? unitType.databaseUnit;
     const options = getOptions(unitType, system);
-    const value = hookFormGetValue(name) ?? defaultValue;
+    const hookFormValue = hookFormGetValue(name);
+    const value = hookFormValue || (hookFormValue === 0 ? 0 : defaultValue);
     const isSelectDisabled = options.length <= 1;
-    return to
+    return to && convert().describe(to)?.system === system
       ? {
           displayUnit: to,
           displayValue: defaultValue && roundToTwoDecimal(convert(value).from(databaseUnit).to(to)),
@@ -151,6 +152,12 @@ const Unit = ({
   }, [unitType, defaultValue, system, defaultValueUnit, to]);
 
   const hookFormUnit = hookFromWatch(displayUnitName, { value: displayUnit })?.value;
+  useEffect(() => {
+    if (hookFormUnit && convert().describe(hookFormUnit)?.system !== system) {
+      hookFormSetValue(displayUnitName, unitOptionMap[displayUnit]);
+    }
+  }, [hookFormUnit]);
+
   useEffect(() => {
     if (hookFormUnit && hookFormValue !== undefined) {
       setVisibleInputValue(
@@ -230,7 +237,7 @@ const Unit = ({
           style={{
             position: 'absolute',
             right: 0,
-            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-61px, 23px)',
+            transform: isSelectDisabled ? 'translate(-1px, 23px)' : 'translate(-62px, 23px)',
             lineHeight: '40px',
             cursor: 'pointer',
             zIndex: 2,
@@ -331,9 +338,6 @@ Unit.propTypes = {
     imperial: PropTypes.object,
     databaseUnit: PropTypes.string,
   }),
-  /*
-  Unit name from must
-  */
   from: PropTypes.string,
   to: PropTypes.string,
   required: PropTypes.bool,

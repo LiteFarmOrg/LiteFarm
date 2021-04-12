@@ -1,0 +1,28 @@
+.default {
+}
+
+.selected {
+  color: var(--teal700);
+  border: 1px solid var(--teal700);
+  border-radius: 19px;
+  height: 38px;
+  background: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: var(--grey400);
+  height: 36px;
+  align-items: center;
+  border-radius: 18px;
+}
+
+.pill {
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}

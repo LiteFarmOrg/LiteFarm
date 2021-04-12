@@ -4,7 +4,7 @@ import { loginSelector, onLoadingFail, onLoadingStart, onLoadingSuccess } from '
 import { createSelector } from 'reselect';
 import { pick } from '../util';
 
-const fenceProperties = ['pressure_treated'];
+const fenceProperties = ['pressure_treated', 'location_id'];
 export const getLocationObjectFromFence = (data) => {
   return {
     figure: {
@@ -17,8 +17,7 @@ export const getLocationObjectFromFence = (data) => {
 };
 const getFenceFromLocationObject = (location) => {
   return {
-    farm_id: location.farm_id,
-    name: location.name,
+    ...pick(location, locationProperties),
     ...pick(location.figure, figureProperties),
     ...pick(location.figure.line, lineProperties),
     ...pick(location.fence, fenceProperties),
@@ -53,12 +52,14 @@ const fenceSlice = createSlice({
     onLoadingFenceFail: onLoadingFail,
     getFencesSuccess: upsertManyFenceWithLocation,
     postFenceSuccess: upsertOneFenceWithLocation,
+    editFenceSuccess: upsertOneFenceWithLocation,
     deleteFenceSuccess: fenceAdapter.removeOne,
   },
 });
 export const {
   getFencesSuccess,
   postFenceSuccess,
+  editFenceSuccess,
   onLoadingFenceStart,
   onLoadingFenceFail,
   deleteFenceSuccess,
@@ -77,10 +78,8 @@ export const fencesSelector = createSelector(
   },
 );
 
-export const fenceSelector = createSelector(
-  fenceReducerSelector,
-  ({ location_id, entities }) => entities[location_id],
-);
+export const fenceSelector = (location_id) =>
+  createSelector(fenceEntitiesSelector, (entities) => entities[location_id]);
 
 export const fenceStatusSelector = createSelector(
   [fenceReducerSelector],

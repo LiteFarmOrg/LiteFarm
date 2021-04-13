@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import Input from '../Form/Input';
-import { Underlined } from '../Typography';
 import { useTranslation } from 'react-i18next';
 import PureCropTile from '../CropTile';
 import Layout from '../Layout';
 import RouterTab from '../RouterTab';
 import PageTitle from '../PageTitle/v2';
+import NewFieldCropModal from '../Forms/NewFieldCropModal';
 
 export default function PureCropList({
   onFilterChange,
@@ -47,20 +47,29 @@ export default function PureCropList({
           onChange={onFilterChange}
         />
       )}
+      {/*{isAdmin && (*/}
+      {/*  <div*/}
+      {/*    style={{*/}
+      {/*      marginBottom: '20px',*/}
+      {/*      width: 'fit-content',*/}
+      {/*      fontSize: '16px',*/}
+      {/*      color: 'var(--iconActive)',*/}
+      {/*      lineHeight: '16px',*/}
+      {/*      cursor: 'pointer',*/}
+      {/*    }}*/}
+      {/*    onClick={onAddCrop}*/}
+      {/*  >*/}
+      {/*    + <Underlined>{t('LOCATION_CROPS.ADD_NEW')}</Underlined>*/}
+      {/*  </div>*/}
+      {/*)}*/}
+
+      {/*TODO: deprecate*/}
       {isAdmin && (
-        <div
-          style={{
-            marginBottom: '20px',
-            width: 'fit-content',
-            fontSize: '16px',
-            color: 'var(--iconActive)',
-            lineHeight: '16px',
-            cursor: 'pointer',
-          }}
-          onClick={onAddCrop}
-        >
-          + <Underlined>{t('LOCATION_CROPS.ADD_NEW')}</Underlined>
-        </div>
+        <NewFieldCropModal
+          location_id={match.params.location_id}
+          fieldArea={100}
+          handler={() => {}}
+        />
       )}
       {activeCrops.length > 0 && (
         <>
@@ -73,7 +82,12 @@ export default function PureCropList({
           </div>
           <div className={styles.tileContainer}>
             {activeCrops.map((fc) => (
-              <PureCropTile fieldCrop={fc} status={'Active'} />
+              <PureCropTile
+                history={history}
+                key={fc.field_crop_id}
+                fieldCrop={fc}
+                status={'Active'}
+              />
             ))}
           </div>
         </>
@@ -89,7 +103,12 @@ export default function PureCropList({
           </div>
           <div className={styles.tileContainer}>
             {plannedCrops.map((fc) => (
-              <PureCropTile fieldCrop={fc} status={'Planned'} />
+              <PureCropTile
+                history={history}
+                key={fc.field_crop_id}
+                fieldCrop={fc}
+                status={'Planned'}
+              />
             ))}
           </div>
         </>
@@ -105,7 +124,12 @@ export default function PureCropList({
           </div>
           <div className={styles.tileContainer}>
             {pastCrops.map((fc) => (
-              <PureCropTile fieldCrop={fc} status={'Past'} />
+              <PureCropTile
+                history={history}
+                key={fc.field_crop_id}
+                fieldCrop={fc}
+                status={'Past'}
+              />
             ))}
           </div>
         </>

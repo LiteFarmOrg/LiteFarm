@@ -14,11 +14,10 @@
  */
 
 import { toastr } from 'react-redux-toastr';
-import history from '../../history';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
-import apiConfig from '../../apiConfig';
-import { loginSelector } from '../userFarmSlice';
-import { axios, getHeader } from '../saga';
+import apiConfig from '../../../apiConfig';
+import { loginSelector } from '../../userFarmSlice';
+import { axios, getHeader } from '../../saga';
 import { createAction } from '@reduxjs/toolkit';
 import {
   deleteFieldCropSuccess,
@@ -27,9 +26,8 @@ import {
   onLoadingFieldCropStart,
   postFieldCropSuccess,
   putFieldCropSuccess,
-} from '../fieldCropSlice';
-import { deleteFieldSuccess } from '../fieldSlice';
-import i18n from '../../locales/i18n';
+} from '../../fieldCropSlice';
+import i18n from '../../../locales/i18n';
 
 const DEC = 10;
 
@@ -50,26 +48,6 @@ export function* getExpiredFieldCropsSaga() {
   }
 }
 
-export const postField = createAction(`postFieldSaga`);
-
-export function* postFieldSaga(action) {
-  const { fieldURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  const fieldData = {
-    farm_id: farm_id,
-    field_name: action.fieldName,
-    grid_points: action.gridPoints,
-    area: action.area,
-  };
-  try {
-    yield call(axios.post, fieldURL, fieldData, header);
-    history.push('/field');
-  } catch (e) {
-    console.log('failed to add field to database');
-  }
-}
 export const postFieldCrop = createAction(`postFieldCropSaga`);
 
 export function* postFieldCropSaga({ payload: fieldCrop }) {
@@ -165,23 +143,6 @@ export function* createPriceSaga({ payload: price }) {
     console.log('Error: Could not Emit Create Price Action');
   }
 }
-export const deleteField = createAction(`deleteFieldSaga`);
-
-export function* deleteFieldSaga({ payload: field_id }) {
-  const { fieldURL } = apiConfig;
-  let { user_id, farm_id } = yield select(loginSelector);
-  const header = getHeader(user_id, farm_id);
-
-  try {
-    const result = yield call(axios.delete, fieldURL + `/${field_id}`, header);
-    history.push('/field');
-    yield put(deleteFieldSuccess(field_id));
-    toastr.success(i18n.t('message:FIELD.SUCCESS.DELETE'));
-  } catch (e) {
-    console.log('Failed To Delete Field: ', e);
-    toastr.error(i18n.t('message:FIELD.ERROR.DELETE'));
-  }
-}
 
 const formatDate = (currDate) => {
   const d = currDate;
@@ -195,12 +156,11 @@ const formatDate = (currDate) => {
   return [year, month, day].join('-');
 };
 
-export default function* fieldSaga() {
+export default function* fieldCropSaga() {
   yield takeEvery(postFieldCrop.type, postFieldCropSaga);
   yield takeEvery(getExpiredFieldCrops.type, getExpiredFieldCropsSaga);
   yield takeEvery(deleteFieldCrop.type, deleteFieldCropSaga);
   yield takeEvery(createYield.type, createYieldSaga);
   yield takeEvery(createPrice.type, createPriceSaga);
   yield takeEvery(putFieldCrop.type, putFieldCropSaga);
-  yield takeEvery(deleteField.type, deleteFieldSaga);
 }

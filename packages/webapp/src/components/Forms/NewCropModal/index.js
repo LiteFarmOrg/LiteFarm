@@ -1,26 +1,30 @@
 import React from 'react';
-import { Button, Modal, FormGroup, FormControl, FormLabel, Form } from 'react-bootstrap';
+import { Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
+import Button from '../../Form/Button';
 import {
+  CROP_DICT,
   CROP_GROUPS,
   DUMMY_NEW_CROP,
   INITIAL_STATE,
-  CROP_DICT,
-  NUTRIENT_DICT,
   NUTRIENT_ARRAY,
+  NUTRIENT_DICT,
 } from './constants';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { postCrop } from './saga';
 import { getCrops } from '../../../containers/saga';
 import styles from './styles.module.scss';
-import Select from 'react-select';
 import { crop_nutrient_data } from '../../../assets/data/crop_nutrient';
 import { crop_physiology_data } from '../../../assets/data/crop_physiology';
 import InfoBoxComponent from '../../../components/InfoBoxComponent';
 import { roundToTwoDecimal } from '../../../util';
-import { cropsSelector, cropStatusSelector } from '../../../containers/cropSlice';
+import { cropsSelector } from '../../../containers/cropSlice';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../Form/Input';
+import { Dialog } from '@material-ui/core';
+import newFieldStyles from '../NewFieldCropModal/styles.module.scss';
+import { Semibold, Underlined } from '../../Typography';
+import ReactSelect from '../../Form/ReactSelect';
 
 class NewCropModal extends React.Component {
   constructor(props, context) {
@@ -319,68 +323,83 @@ class NewCropModal extends React.Component {
           </p>
         )}
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_VARIETY')}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>{this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_CROP_DETAILS')}</h4>
-            <br />
+        <Dialog
+          PaperProps={{ className: newFieldStyles.dialogContainer }}
+          fullWidth={true}
+          maxWidth={'sm'}
+          open={this.state.show}
+          onClose={this.handleClose}
+          scroll={'body'}
+        >
+          <Semibold>{this.props.t('FIELDS.EDIT_FIELD.CROP.NEW_CROP_VARIETY')}</Semibold>
 
-            <div className={styles.cropTemplate}>
-              <h4>{this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}</h4>
-              <Select
-                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}
-                options={cropOptions}
-                onChange={(selectedOption) => this.handleCropChange(selectedOption)}
-              />
+          <h4>{this.props.t('FIELDS.EDIT_FIELD.CROP.ENTER_CROP_DETAILS')}</h4>
+          <br />
+
+          <div className={styles.cropTemplate}>
+            <ReactSelect
+              label={this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}
+              placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SELECT_CROP_TEMPLATE')}
+              options={cropOptions}
+              onChange={(selectedOption) => this.handleCropChange(selectedOption)}
+            />
+          </div>
+          <div className={styles.container}>
+            <div
+              style={{
+                display: 'inline-flex',
+                flexDirection: 'column',
+                gap: '16px',
+                width: '100%',
+              }}
+            >
+              <FormGroup controlId="crop_common_name">
+                <FormControl
+                  type="text"
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME')}
+                  value={this.state.crop_common_name}
+                  onChange={(e) => {
+                    this.setState({ crop_common_name: e.target.value });
+                  }}
+                />
+              </FormGroup>
+
+              <FormGroup
+                controlId="crop_variety"
+                validationState={this.validateNotEmptyLength(this.state.variety)}
+              >
+                <FormControl
+                  type="text"
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.VARIETY_NAME')}
+                  value={this.state.variety}
+                  onChange={(e) => {
+                    this.setState({ variety: e.target.value });
+                  }}
+                />
+              </FormGroup>
+
+              <FormGroup controlId="crop_genus">
+                <FormControl
+                  type="text"
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.GENUS')}
+                  value={this.state.crop_genus}
+                  onChange={(e) => {
+                    this.setState({ crop_genus: e.target.value });
+                  }}
+                />
+              </FormGroup>
+              <FormGroup controlId="crop_specie">
+                <FormControl
+                  type="text"
+                  placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SPECIES')}
+                  value={this.state.crop_specie}
+                  onChange={(e) => {
+                    this.setState({ crop_specie: e.target.value });
+                  }}
+                />
+              </FormGroup>
             </div>
 
-            <FormGroup controlId="crop_common_name">
-              <FormControl
-                type="text"
-                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_COMMON_NAME')}
-                value={this.state.crop_common_name}
-                onChange={(e) => {
-                  this.setState({ crop_common_name: e.target.value });
-                }}
-              />
-            </FormGroup>
-
-            <FormGroup
-              controlId="crop_variety"
-              validationState={this.validateNotEmptyLength(this.state.variety)}
-            >
-              <FormControl
-                type="text"
-                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.VARIETY_NAME')}
-                value={this.state.variety}
-                onChange={(e) => {
-                  this.setState({ variety: e.target.value });
-                }}
-              />
-            </FormGroup>
-
-            <FormGroup controlId="crop_genus">
-              <FormControl
-                type="text"
-                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.GENUS')}
-                value={this.state.crop_genus}
-                onChange={(e) => {
-                  this.setState({ crop_genus: e.target.value });
-                }}
-              />
-            </FormGroup>
-            <FormGroup controlId="crop_specie">
-              <FormControl
-                type="text"
-                placeholder={this.props.t('FIELDS.EDIT_FIELD.CROP.SPECIES')}
-                value={this.state.crop_specie}
-                onChange={(e) => {
-                  this.setState({ crop_specie: e.target.value });
-                }}
-              />
-            </FormGroup>
             <span style={{ display: 'none' }}>
               <FormLabel>{this.props.t('FIELDS.EDIT_FIELD.CROP.CROP_GROUP_SUBGROUP')}</FormLabel>
               <FormGroup controlId="crop_group">
@@ -420,11 +439,13 @@ class NewCropModal extends React.Component {
                 </Form.Control>
               </FormGroup>
             </span>
-            <div className={styles.cropGroupTitle}>
+            <div
+              style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: '16px' }}
+            >
               <div onClick={() => this.expandNutrient()} style={{ marginBottom: '10px', order: 0 }}>
-                <a>{this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_CROP_DETAIL')}</a>
+                <Underlined>{this.props.t('FIELDS.EDIT_FIELD.CROP.EDIT_CROP_DETAIL')}</Underlined>
               </div>
-              <div style={{ order: 1, paddingRight: '40px' }}>
+              <div style={{ order: 1 }}>
                 <InfoBoxComponent
                   customStyle={{
                     float: 'right',
@@ -498,9 +519,15 @@ class NewCropModal extends React.Component {
                 </FormGroup>
               </div>
             )}
-          </Modal.Body>
-          <Modal.Footer>
+          </div>
+
+          <div style={{ display: 'inline-flex', gap: ' 8px', marginTop: '16px', width: '100%' }}>
+            <Button fullLength sm color={'secondary'} onClick={this.handleClose}>
+              {this.props.t('common:CLOSE')}
+            </Button>
             <Button
+              fullLength
+              sm
               onClick={() => {
                 this.handleSaveNewCrop();
                 this.props.handler();
@@ -508,9 +535,8 @@ class NewCropModal extends React.Component {
             >
               {this.props.t('common:SAVE')}
             </Button>
-            <Button onClick={this.handleClose}>{this.props.t('common:CLOSE')}</Button>
-          </Modal.Footer>
-        </Modal>
+          </div>
+        </Dialog>
       </div>
     );
   }

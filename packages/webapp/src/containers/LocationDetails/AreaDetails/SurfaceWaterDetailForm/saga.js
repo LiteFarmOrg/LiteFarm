@@ -7,6 +7,7 @@ import {
   editSurfaceWaterSuccess,
   getLocationObjectFromSurfaceWater,
   postSurfaceWaterSuccess,
+  deleteSurfaceWaterSuccess,
 } from '../../../surfaceWaterSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -93,7 +94,41 @@ export function* editSurfaceWaterLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteSurfaceWaterLocation = createAction(`deleteSurfaceWaterLocationSaga`);
+
+export function* deleteSurfaceWaterLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteSurfaceWaterSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.SURFACE_WATER'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.SURFACE_WATER')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* surfaceWaterLocationSaga() {
   yield takeLatest(postSurfaceWaterLocation.type, postSurfaceWaterLocationSaga);
   yield takeLatest(editSurfaceWaterLocation.type, editSurfaceWaterLocationSaga);
+  yield takeLatest(deleteSurfaceWaterLocation.type, deleteSurfaceWaterLocationSaga);
 }

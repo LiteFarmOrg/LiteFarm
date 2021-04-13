@@ -3,7 +3,7 @@ import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { editBarnSuccess, getLocationObjectFromBarn, postBarnSuccess } from '../../../barnSlice';
+import { editBarnSuccess, getLocationObjectFromBarn, postBarnSuccess, deleteBarnSuccess } from '../../../barnSlice';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
 import history from '../../../../history';
@@ -83,7 +83,41 @@ export function* editBarnLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteBarnLocation = createAction(`deleteBarnLocationSaga`);
+
+export function* deleteBarnLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteBarnSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.BARN'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.BARN')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* barnLocationSaga() {
   yield takeLatest(postBarnLocation.type, postBarnLocationSaga);
   yield takeLatest(editBarnLocation.type, editBarnLocationSaga);
+  yield takeLatest(deleteBarnLocation.type, deleteBarnLocationSaga);
 }

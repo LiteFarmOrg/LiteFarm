@@ -7,6 +7,7 @@ import {
   editWaterValveSuccess,
   getLocationObjectFromWaterValve,
   postWaterValveSuccess,
+  deleteWaterValveSuccess,
 } from '../../../waterValveSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -87,7 +88,41 @@ export function* editWaterValveLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteWaterValveLocation = createAction(`deleteWaterValveLocationSaga`);
+
+export function* deleteWaterValveLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteWaterValveSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.WV'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.WV')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* waterValveLocationSaga() {
   yield takeLatest(postWaterValveLocation.type, postWaterValveLocationSaga);
   yield takeLatest(editWaterValveLocation.type, editWaterValveLocationSaga);
+  yield takeLatest(deleteWaterValveLocation.type, deleteWaterValveLocationSaga);
 }

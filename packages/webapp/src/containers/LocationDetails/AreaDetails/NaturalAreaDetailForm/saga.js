@@ -104,7 +104,7 @@ export function* deleteNaturalAreaLocationSaga({ payload: data }) {
     );
     yield put(deleteNaturalAreaSuccess(location_id));
     yield put(
-      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.CA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.NA'), i18n.t('message:MAP.SUCCESS_DELETE')]),
     );
     yield put(canShowSuccessHeader(true));
     history.push({ pathname: '/map' });
@@ -113,7 +113,7 @@ export function* deleteNaturalAreaLocationSaga({ payload: data }) {
       path: history.location.pathname,
       state: {
         error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
-          .t('FARM_MAP.MAP_FILTER.CA')
+          .t('FARM_MAP.MAP_FILTER.NA')
           .toLowerCase()}`,
       },
     });

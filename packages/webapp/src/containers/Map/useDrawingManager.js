@@ -13,7 +13,7 @@ export default function useDrawingManager() {
   const [drawingManager, setDrawingManager] = useState(null);
   const [supportedDrawingModes, setDrawingModes] = useState(null);
   const [widthPolygon, setWidthPolygon] = useState(null);
-  const [lineWidth, setLineWidth] = useState(8);
+  const [lineWidth, setLineWidth] = useState(null);
   const [drawLocationType, setDrawLocationType] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingToCheck, setDrawingToCheck] = useState(null);
@@ -37,7 +37,8 @@ export default function useDrawingManager() {
   useEffect(() => {
     if (
       drawingToCheck?.type === 'polyline' &&
-      [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType)
+      [locationEnum.watercourse, locationEnum.buffer_zone].includes(drawLocationType) &&
+      !!lineWidth
     ) {
       const { overlay } = drawingToCheck;
       const path = overlay.getPath().getArray();

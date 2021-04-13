@@ -64,7 +64,15 @@ export default function Map({ history }) {
   const [showSuccessHeader, setShowSuccessHeader] = useState(false);
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
-
+  const initialLineData = {
+    [locationEnum.watercourse] :{
+      width: 4,
+      buffer_width: 4
+    },
+    [locationEnum.buffer_zone] :{
+      width: 8
+    }
+  }
   useEffect(() => {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
@@ -94,6 +102,12 @@ export default function Map({ history }) {
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, []);
+
+  useEffect(() => {
+    if(isLineWithWidth() && !drawingState.isActive) {
+      dispatch(upsertFormData(initialLineData[drawingState.type]));
+    }
+  }, [drawingState.type, drawingState.isActive])
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
@@ -290,7 +304,7 @@ export default function Map({ history }) {
   };
 
   const handleConfirm = () => {
-    if (!lineTypesWithWidth.includes(drawingState.type)) {
+    if (!isLineWithWidth()) {
       const locationData = getOverlayInfo();
       dispatch(upsertFormData(locationData));
       history.push(`/create_location/${drawingState.type}`);
@@ -302,6 +316,10 @@ export default function Map({ history }) {
     dispatch(upsertFormData(data));
     history.push(`/create_location/${drawingState.type}`);
   };
+
+  const isLineWithWidth = () => {
+    return lineTypesWithWidth.includes(drawingState.type)
+  }
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
   return (
@@ -343,7 +361,7 @@ export default function Map({ history }) {
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
                 showLineModal={
-                  lineTypesWithWidth.includes(drawingState.type) && !drawingState.isActive
+                  isLineWithWidth() && !drawingState.isActive
                 }
                 onClickBack={() => {
                   setZeroAreaWarning(false);

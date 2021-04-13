@@ -43,11 +43,7 @@ xdescribe('insights test', () => {
     });
   });
 
-  afterAll((done) => {
-    server.close(() => {
-      done();
-    });
-  });
+;
 
   afterAll(async (done) => {
     await tableCleanup(knex);

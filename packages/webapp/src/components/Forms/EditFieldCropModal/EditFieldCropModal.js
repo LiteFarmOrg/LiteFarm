@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
+import { FormControl, FormGroup } from 'react-bootstrap';
+import Button from '../../Form/Button';
 import { connect } from 'react-redux';
 import { cropsSelector } from '../../../containers/cropSlice';
 import { getCrops } from '../../../containers/saga';
 import { DEC_RADIX } from '../../../containers/Field/constants';
-import { convertFromMetric, getUnit, roundToTwoDecimal, convertToMetric } from '../../../util';
+import { convertFromMetric, convertToMetric, getUnit, roundToTwoDecimal } from '../../../util';
 import DateContainer from '../../../components/Inputs/DateContainer';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
@@ -12,6 +13,10 @@ import { userFarmSelector } from '../../../containers/userFarmSlice';
 import { createPrice, createYield, putFieldCrop } from '../../../containers/Field/saga';
 import { withTranslation } from 'react-i18next';
 import { numberOnKeyDown } from '../../Form/Input';
+import { Dialog } from '@material-ui/core';
+import newFieldStyles from '../NewFieldCropModal/styles.module.scss';
+import { Semibold } from '../../Typography';
+import styles from '../NewCropModal/styles.module.scss';
 
 class EditFieldCropModal extends React.Component {
   // props:
@@ -282,26 +287,30 @@ class EditFieldCropModal extends React.Component {
     const { isByArea, bed_config } = this.state;
     return (
       <div>
-        <Button onClick={this.handleShow} style={{ padding: '0 24px' }}>
-          {this.props.t('common:EDIT')}
-        </Button>
+        {React.cloneElement(this.props.children, { onClick: this.handleShow })}
 
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              {this.props.t('common:EDIT')} -{' '}
-              {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)},
-              {this.props.t('FIELDS.EDIT_FIELD.VARIETY')}: {this.props.cropBeingEdited.variety}
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+        <Dialog
+          PaperProps={{ className: newFieldStyles.dialogContainer }}
+          fullWidth={true}
+          maxWidth={'sm'}
+          open={this.state.show}
+          onClose={this.handleClose}
+          scroll={'body'}
+        >
+          <Semibold>
+            {this.props.t('common:EDIT')} -{' '}
+            {this.props.t(`crop:${this.props.cropBeingEdited.crop_translation_key}`)},
+            {this.props.t('FIELDS.EDIT_FIELD.VARIETY')}: {this.props.cropBeingEdited.variety}
+          </Semibold>
+
+          <div className={styles.container}>
             <FormGroup>
               <h4 style={{ textAlign: 'center' }}>
                 {this.props.t('FIELDS.EDIT_FIELD.CROP.HOW_MUCH_FIELD')}
               </h4>
               {isByArea && (
                 <div>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.PERCENTAGE')}: </label>
                     <FormControl
                       data-test="percentage"
@@ -313,7 +322,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.handlePercentage(e)}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_HECTARE')}: </label>
                     <FormControl
                       type="number"
@@ -327,7 +336,7 @@ class EditFieldCropModal extends React.Component {
               )}
               {!isByArea && bed_config && (
                 <div>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.BED_LENGTH')} </label>
                     <FormControl
                       type="number"
@@ -337,7 +346,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.onBedLenChange(e)}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.BED_WIDTH')}: </label>
                     <FormControl
                       type="number"
@@ -347,7 +356,7 @@ class EditFieldCropModal extends React.Component {
                       onChange={(e) => this.onBedWidthChange(e)}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  <FormGroup style={{ paddingBottom: '16px' }}>
                     <label>{this.props.t('FIELDS.EDIT_FIELD.CROP.NUMBER_OF_BEDS')}: </label>
                     <FormControl
                       type="number"
@@ -359,7 +368,7 @@ class EditFieldCropModal extends React.Component {
                   </FormGroup>
                 </div>
               )}
-              <FormGroup>
+              <FormGroup style={{ paddingBottom: '16px' }}>
                 <label>
                   {this.props.t('FIELDS.EDIT_FIELD.CROP.AREA_USED_IN')} {this.state.area_unit_label}
                   &sup2;:{' '}
@@ -421,9 +430,15 @@ class EditFieldCropModal extends React.Component {
                 />
               </FormGroup>
             </FormGroup>
-          </Modal.Body>
-          <Modal.Footer>
+          </div>
+
+          <div style={{ display: 'inline-flex', gap: ' 8px', marginTop: '16px', width: '100%' }}>
+            <Button fullLength color={'secondary'} sm onClick={this.handleClose}>
+              {this.props.t('common:CLOSE')}
+            </Button>
             <Button
+              sm
+              fullLength
               onClick={() => {
                 this.handleSubmitEditFieldCrop();
                 this.props.handler();
@@ -431,9 +446,8 @@ class EditFieldCropModal extends React.Component {
             >
               {this.props.t('common:SAVE')}
             </Button>
-            <Button onClick={this.handleClose}> {this.props.t('common:CLOSE')}</Button>
-          </Modal.Footer>
-        </Modal>
+          </div>
+        </Dialog>
       </div>
     );
   }

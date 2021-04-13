@@ -43,8 +43,8 @@ export default function PureSelectionHandler({ locations, history }) {
         style={{ backgroundColor: 'white', marginBottom: '5px' }}
         onClick={() => loadEditView(location)}
       >
-        <div style={{ float: 'left', paddingTop: '10px', paddingLeft: '20px' }}> {icon} </div>
-        <div style={{ padding: '15px 20px 10px 70px' }}>{name}</div>
+        <div style={{ float: 'left', paddingTop: '8px', paddingLeft: '20px' }}> {icon} </div>
+        <div style={{ padding: '12px 20px 10px 70px' }}>{name}</div>
       </div>
     );
   });

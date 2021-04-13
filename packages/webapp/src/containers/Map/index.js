@@ -97,6 +97,11 @@ export default function Map({ history }) {
     dispatch(getLocations());
   }, []);
 
+  // useEffect(() => {
+  //   console.log("show selection")
+  //   console.log(showSelection)
+  // }, [showSelection]);
+
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);
   }, []);

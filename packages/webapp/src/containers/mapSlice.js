@@ -4,6 +4,7 @@ export const initialState = {
   successMessage: null,
   canShowSuccessHeader: false,
   canShowSelection: false,
+  dismissSelectionComponent: false,
   locations: [],
   showOverlappedLocations: [],
   resetOverlappedLocations: false,
@@ -22,6 +23,9 @@ const mapLocationReducer = createSlice({
     canShowSelection: (state, { payload: showSelection }) => {
       state.canShowSelection = showSelection;
     },
+    dismissSelectionComponent: (state, { payload: dismiss }) => {
+      state.dismissSelectionComponent = dismiss;
+    },
     locations: (state, { payload: locationData }) => {
       state.locations = locationData;
     },
@@ -39,6 +43,7 @@ export const {
   canShowSuccessHeader,
   showOverlappedLocations,
   canShowSelection,
+  dismissSelectionComponent,
   locations,
   resetOverlappedLocations,
 } = mapLocationReducer.actions;
@@ -52,6 +57,8 @@ export const setOverlappedLocationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].storeOverlappedLocations;
 export const canShowSelectionSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].canShowSelection;
+export const dismissSelectionComponentSelector = (state) =>
+  state?.tempStateReducer[mapLocationReducer.name].dismissSelectionComponent;
 export const locationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].locations;
 export const resetOverlappedLocationsSelector = (state) =>

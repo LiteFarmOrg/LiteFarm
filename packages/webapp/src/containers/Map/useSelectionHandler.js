@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react';
 import {
   canShowSelection,
   locations,
-  canShowSelectionSelector,
   resetOverlappedLocationsSelector,
   resetOverlappedLocations,
+  dismissSelectionComponentSelector,
+  dismissSelectionComponent,
+  canShowSelectionSelector,
 } from '../mapSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import history from '../../history';
-import MarkerClusterer from '@googlemaps/markerclustererplus';
 
 const useSelectionHandler = () => {
   const initOverlappedLocations = {
@@ -19,27 +20,24 @@ const useSelectionHandler = () => {
   };
 
   const dispatch = useDispatch();
+  let [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
 
-  const [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
-  //const [resetOverlappedLocations, setResetOverlappedLocations] = useState(false);
-
-  const reset = useSelector(resetOverlappedLocationsSelector);
-  // console.log(reset);
+  const [dismissSelection, setDismissSelection] = useState(false);
 
   useEffect(() => {
-    // if (resetOverlappedLocations) {
-    //   console.log("resetOverlappedLocations")
-    //   setOverlappedLocations({ ...initOverlappedLocations });
-    //   setResetOverlappedLocations(false)
-    //   console.log(overlappedLocations)
-    // }
+    console.log('use effect');
+    console.log(dismissSelection);
+    if (dismissSelection) {
+      console.log('reset overlapped locations');
+      setOverlappedLocations({ ...initOverlappedLocations });
+      setDismissSelection(false);
+      return;
+    }
     if (
       overlappedLocations.area.length > 0 ||
       overlappedLocations.line.length > 0 ||
       overlappedLocations.point.length > 0
     ) {
-      console.log('overlapped locations length');
-      console.log(overlappedLocations.point.length);
       if (
         overlappedLocations.area.length === 1 &&
         overlappedLocations.line.length === 0 &&
@@ -54,7 +52,6 @@ const useSelectionHandler = () => {
         history.push(`/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/edit`);
       } else {
         if (overlappedLocations.point.length === 1) {
-          console.log('just one point');
           history.push(
             `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/edit`,
           );
@@ -74,34 +71,15 @@ const useSelectionHandler = () => {
         }
       }
     }
-  }, [overlappedLocations]);
+  }, [overlappedLocations, dismissSelection]);
 
   const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
     console.log('handle selection');
-    console.log(locationAssets);
-    // console.log(locationAssets)
-    // const markerCluster = new MarkerClusterer(maps, locationAssets.water_valve,
-    //   {
-    //     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-    //   });
+    console.log(dismissSelection);
     let overlappedLocationsCopy = null;
-    // console.log('handle selection');
-    // console.log(resetOverlappedLocations)
-    // if (resetOverlappedLocations) {
-    //   console.log("resetOverlappedLocations")
-    // }
 
     if (isLocationAsset) {
-      console.log('is location asset');
-      if (reset) {
-        console.log('reset');
-        // console.log('need to reset');
-        dispatch(resetOverlappedLocations(false));
-        overlappedLocationsCopy = { ...initOverlappedLocations };
-        console.log(overlappedLocationsCopy);
-      } else {
-        overlappedLocationsCopy = { ...overlappedLocations };
-      }
+      overlappedLocationsCopy = { ...overlappedLocations };
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType)) {
           locationAssets[locationType].forEach((area) => {
@@ -129,11 +107,8 @@ const useSelectionHandler = () => {
             }
           });
         } else if (isPoint(locationType)) {
-          console.log('is point');
           if (isLocationCluster) {
-            console.log('is location cluster');
             locationAssets[locationType].forEach((point) => {
-              console.log(point);
               overlappedLocationsCopy.point.push({
                 id: point.location_id,
                 name: point.location_name,
@@ -143,7 +118,6 @@ const useSelectionHandler = () => {
             });
           } else {
             locationAssets[locationType].forEach((point) => {
-              console.log(point);
               if (point.isVisible && latLng === point.marker.position) {
                 overlappedLocationsCopy.point.push({
                   id: point.location_id,
@@ -154,19 +128,16 @@ const useSelectionHandler = () => {
               }
             });
           }
-
-          console.log(overlappedLocationsCopy);
         }
       });
 
       setOverlappedLocations({ ...overlappedLocationsCopy });
     } else {
-      console.log('clicked non area');
+      console.log('dismiss selection component');
+      setDismissSelection(true);
       dispatch(canShowSelection(false));
-      // setResetOverlappedLocations(true);
-      dispatch(resetOverlappedLocations(true));
-      console.log(resetOverlappedLocations);
-      setOverlappedLocations({ ...initOverlappedLocations });
+      // overlappedLocations = initOverlappedLocations;
+      // setOverlappedLocations(initOverlappedLocations);
     }
   };
 

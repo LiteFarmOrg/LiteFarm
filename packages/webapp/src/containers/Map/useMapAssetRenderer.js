@@ -60,7 +60,6 @@ const useMapAssetRenderer = () => {
       markers.push(point.marker);
     });
 
-    const mcOptions = { gridSize: 40, maxZoom: 16, zoomOnClick: false, minimumClusterSize: 2 };
     const markerCluster = new MarkerClusterer(map, markers, {
       imagePath:
         'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
@@ -85,7 +84,6 @@ const useMapAssetRenderer = () => {
         });
 
         handleSelection(pointAssets.gate[0].marker.position, pointAssets, maps, true, true);
-        // cluster.center()
       }
     });
   };
@@ -157,7 +155,6 @@ const useMapAssetRenderer = () => {
     const polygon = new maps.Polygon({
       paths: points,
       strokeColor: defaultColour,
-      // strokeOpacity: 0.8,
       strokeWeight: 2,
       fillColor: colour,
       fillOpacity: 0.5,

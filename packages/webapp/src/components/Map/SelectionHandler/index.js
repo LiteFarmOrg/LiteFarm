@@ -30,7 +30,7 @@ export default function PureSelectionHandler({ locations, history }) {
   };
 
   const loadEditView = (location) => {
-    history.push(`/${location.type}/${location.id}/edit`);
+    history.push(`/${location.type}/${location.id}/details`);
   };
 
   return locations.map((location, idx) => {

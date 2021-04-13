@@ -4,10 +4,7 @@ export const initialState = {
   successMessage: null,
   canShowSuccessHeader: false,
   canShowSelection: false,
-  dismissSelectionComponent: false,
   locations: [],
-  showOverlappedLocations: [],
-  resetOverlappedLocations: false,
 };
 
 const mapLocationReducer = createSlice({
@@ -23,17 +20,8 @@ const mapLocationReducer = createSlice({
     canShowSelection: (state, { payload: showSelection }) => {
       state.canShowSelection = showSelection;
     },
-    dismissSelectionComponent: (state, { payload: dismiss }) => {
-      state.dismissSelectionComponent = dismiss;
-    },
     locations: (state, { payload: locationData }) => {
       state.locations = locationData;
-    },
-    showOverlappedLocations: (state, { payload: overlappedLocations }) => {
-      state.showOverlappedLocations = overlappedLocations;
-    },
-    resetOverlappedLocations: (state, { payload: reset }) => {
-      state.resetOverlappedLocations = reset;
     },
   },
 });
@@ -41,11 +29,8 @@ const mapLocationReducer = createSlice({
 export const {
   setSuccessMessage,
   canShowSuccessHeader,
-  showOverlappedLocations,
   canShowSelection,
-  dismissSelectionComponent,
   locations,
-  resetOverlappedLocations,
 } = mapLocationReducer.actions;
 export default mapLocationReducer.reducer;
 export const locationInfoSelector = (state) => state?.tempStateReducer[mapLocationReducer.name];
@@ -57,9 +42,5 @@ export const setOverlappedLocationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].storeOverlappedLocations;
 export const canShowSelectionSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].canShowSelection;
-export const dismissSelectionComponentSelector = (state) =>
-  state?.tempStateReducer[mapLocationReducer.name].dismissSelectionComponent;
 export const locationsSelector = (state) =>
   state?.tempStateReducer[mapLocationReducer.name].locations;
-export const resetOverlappedLocationsSelector = (state) =>
-  state?.tempStateReducer[mapLocationReducer.name].resetOverlappedLocations;

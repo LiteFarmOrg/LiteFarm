@@ -6,18 +6,13 @@ import GoogleMap from 'google-map-react';
 import { DEFAULT_ZOOM, GMAPS_API_KEY, locationEnum, isArea, isLine } from './constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { measurementSelector, userFarmSelector } from '../userFarmSlice';
-import { chooseFarmFlowSelector } from '../ChooseFarm/chooseFarmFlowSlice';
 import html2canvas from 'html2canvas';
 import { sendMapToEmail, setSpotlightToShown } from './saga';
-import { fieldsSelector } from '../fieldSlice';
 import {
   canShowSuccessHeader,
   setShowSuccessHeaderSelector,
   setSuccessMessageSelector,
-  setOverlappedLocationsSelector,
   canShowSelectionSelector,
-  canShowSelection,
-  locations,
   locationsSelector,
 } from '../mapSlice';
 import { showedSpotlightSelector } from '../showedSpotlightSlice';
@@ -96,11 +91,6 @@ export default function Map({ history }) {
   useEffect(() => {
     dispatch(getLocations());
   }, []);
-
-  // useEffect(() => {
-  //   console.log("show selection")
-  //   console.log(showSelection)
-  // }, [showSelection]);
 
   useEffect(() => {
     if (showHeader) setShowSuccessHeader(true);

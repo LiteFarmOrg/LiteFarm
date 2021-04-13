@@ -1,15 +1,7 @@
 import { isArea, isLine, isPoint } from './constants';
 import { useState, useEffect } from 'react';
-import {
-  canShowSelection,
-  locations,
-  resetOverlappedLocationsSelector,
-  resetOverlappedLocations,
-  dismissSelectionComponentSelector,
-  dismissSelectionComponent,
-  canShowSelectionSelector,
-} from '../mapSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { canShowSelection, locations } from '../mapSlice';
+import { useDispatch } from 'react-redux';
 import history from '../../history';
 
 const useSelectionHandler = () => {
@@ -23,8 +15,6 @@ const useSelectionHandler = () => {
   let [overlappedLocations, setOverlappedLocations] = useState(initOverlappedLocations);
 
   const [dismissSelection, setDismissSelection] = useState(false);
-
-  let dismiss = false;
 
   useEffect(() => {
     if (dismissSelection) {
@@ -42,17 +32,21 @@ const useSelectionHandler = () => {
         overlappedLocations.line.length === 0 &&
         overlappedLocations.point.length === 0
       ) {
-        history.push(`/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/edit`);
+        history.push(
+          `/${overlappedLocations.area[0].type}/${overlappedLocations.area[0].id}/details`,
+        );
       } else if (
         overlappedLocations.area.length === 0 &&
         overlappedLocations.line.length === 1 &&
         overlappedLocations.point.length === 0
       ) {
-        history.push(`/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/edit`);
+        history.push(
+          `/${overlappedLocations.line[0].type}/${overlappedLocations.line[0].id}/details`,
+        );
       } else {
         if (overlappedLocations.point.length === 1) {
           history.push(
-            `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/edit`,
+            `/${overlappedLocations.point[0].type}/${overlappedLocations.point[0].id}/details`,
           );
         } else {
           const locationArray = [];
@@ -73,19 +67,9 @@ const useSelectionHandler = () => {
   }, [overlappedLocations, dismissSelection]);
 
   const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
-    // console.log('handle selection');
-    // console.log(overlappedLocations)
-    console.log(dismiss);
-    console.log(initOverlappedLocations);
-    let overlappedLocationsCopy = dismiss
-      ? clone(initOverlappedLocations)
-      : clone(overlappedLocations);
+    let overlappedLocationsCopy = clone(initOverlappedLocations);
 
     if (isLocationAsset) {
-      // overlappedLocationsCopy = { ...overlappedLocations };
-      // console.log(initOverlappedLocations)
-      dismiss = false;
-
       Object.keys(locationAssets).map((locationType) => {
         if (isArea(locationType)) {
           locationAssets[locationType].forEach((area) => {
@@ -141,7 +125,6 @@ const useSelectionHandler = () => {
     } else {
       setDismissSelection(true);
       dispatch(canShowSelection(false));
-      dismiss = true;
     }
   };
 

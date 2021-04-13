@@ -28,7 +28,7 @@ const useSelectionHandler = () => {
 
   useEffect(() => {
     if (dismissSelection) {
-      setOverlappedLocations({ ...initOverlappedLocations });
+      setOverlappedLocations(clone(initOverlappedLocations));
       setDismissSelection(false);
       return;
     }
@@ -75,16 +75,11 @@ const useSelectionHandler = () => {
   const handleSelection = (latLng, locationAssets, maps, isLocationAsset, isLocationCluster) => {
     // console.log('handle selection');
     // console.log(overlappedLocations)
-    const initOverlappedLocationsCopy = {
-      area: [],
-      line: [],
-      point: [],
-    };
     console.log(dismiss);
-    let overlappedLocationsCopy = dismiss
-      ? { ...initOverlappedLocationsCopy }
-      : { ...overlappedLocations };
     console.log(initOverlappedLocations);
+    let overlappedLocationsCopy = dismiss
+      ? clone(initOverlappedLocations)
+      : clone(overlappedLocations);
 
     if (isLocationAsset) {
       // overlappedLocationsCopy = { ...overlappedLocations };
@@ -142,7 +137,7 @@ const useSelectionHandler = () => {
         }
       });
 
-      setOverlappedLocations({ ...overlappedLocationsCopy });
+      setOverlappedLocations(clone(overlappedLocationsCopy));
     } else {
       setDismissSelection(true);
       dispatch(canShowSelection(false));
@@ -152,5 +147,9 @@ const useSelectionHandler = () => {
 
   return { handleSelection };
 };
+
+function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
 
 export default useSelectionHandler;

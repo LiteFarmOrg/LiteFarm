@@ -3,7 +3,7 @@ import apiConfig from '../../../../apiConfig';
 import { loginSelector } from '../../../userFarmSlice';
 import { axios, getHeader } from '../../../saga';
 import { createAction } from '@reduxjs/toolkit';
-import { editGateSuccess, getLocationObjectFromGate, postGateSuccess } from '../../../gateSlice';
+import { editGateSuccess, getLocationObjectFromGate, postGateSuccess, deleteGateSuccess } from '../../../gateSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
 import i18n from '../../../../locales/i18n';
@@ -83,7 +83,41 @@ export function* editGateLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteGateLocation = createAction(`deleteGateLocationSaga`);
+
+export function* deleteGateLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteGateSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.GATE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.GATE')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* gateLocationSaga() {
   yield takeLatest(postGateLocation.type, postGateLocationSaga);
   yield takeLatest(editGateLocation.type, editGateLocationSaga);
+  yield takeLatest(deleteGateLocation.type, deleteGateLocationSaga);
 }

@@ -7,6 +7,7 @@ import {
   editWatercourseSuccess,
   getLocationObjectFromWatercourse,
   postWatercourseSuccess,
+  deleteWatercourseSuccess,
 } from '../../../watercourseSlice';
 import history from '../../../../history';
 import { canShowSuccessHeader, setSuccessMessage } from '../../../mapSlice';
@@ -93,7 +94,41 @@ export function* editWatercourseLocationSaga({ payload: data }) {
   }
 }
 
+export const deleteWatercourseLocation = createAction(`deleteWatercourseLocationSaga`);
+
+export function* deleteWatercourseLocationSaga({ payload: data }) {
+  const { location_id } = data;
+  const { locationURL } = apiConfig;
+  let { user_id, farm_id } = yield select(loginSelector);
+  const header = getHeader(user_id, farm_id);
+
+  try {
+    const result = yield call(
+      axios.delete,
+      `${locationURL}/${location_id}`,
+      header,
+    );
+    yield put(deleteWatercourseSuccess(location_id));
+    yield put(
+      setSuccessMessage([i18n.t('FARM_MAP.MAP_FILTER.WATERCOURSE'), i18n.t('message:MAP.SUCCESS_DELETE')]),
+    );
+    yield put(canShowSuccessHeader(true));
+    history.push({ pathname: '/map' });
+  } catch (e) {
+    history.push({
+      path: history.location.pathname,
+      state: {
+        error: `${i18n.t('message:MAP.FAIL_DELETE')} ${i18n
+          .t('FARM_MAP.MAP_FILTER.WATERCOURSE')
+          .toLowerCase()}`,
+      },
+    });
+    console.log(e);
+  }
+}
+
 export default function* watercourseLocationSaga() {
   yield takeLatest(postWatercourseLocation.type, postWatercourseLocationSaga);
   yield takeLatest(editWatercourseLocation.type, editWatercourseLocationSaga);
+  yield takeLatest(deleteWatercourseLocation.type, deleteWatercourseLocationSaga);
 }

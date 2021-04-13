@@ -21,6 +21,7 @@ export default function PureWaterValve({
   isViewLocationPage,
   isEditLocationPage,
   useHookFormPersist,
+  handleRetire,
 }) {
   const { t } = useTranslation();
 
@@ -71,6 +72,7 @@ export default function PureWaterValve({
           isViewLocationPage={isViewLocationPage}
           isEditLocationPage={isEditLocationPage}
           onEdit={() => history.push(`/water_valve/${match.params.location_id}/edit`)}
+          onRetire={handleRetire}
         />
       }
       onSubmit={handleSubmit(onSubmit, onError)}

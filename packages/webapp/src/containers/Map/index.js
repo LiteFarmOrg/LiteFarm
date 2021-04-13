@@ -65,14 +65,14 @@ export default function Map({ history }) {
   const [showZeroAreaWarning, setZeroAreaWarning] = useState(false);
   const successMessage = useSelector(setSuccessMessageSelector);
   const initialLineData = {
-    [locationEnum.watercourse] :{
+    [locationEnum.watercourse]: {
       width: 4,
-      buffer_width: 4
+      buffer_width: 4,
     },
-    [locationEnum.buffer_zone] :{
-      width: 8
-    }
-  }
+    [locationEnum.buffer_zone]: {
+      width: 8,
+    },
+  };
   useEffect(() => {
     if (!history.location.isStepBack) {
       dispatch(resetAndUnLockFormData());
@@ -104,10 +104,10 @@ export default function Map({ history }) {
   }, []);
 
   useEffect(() => {
-    if(isLineWithWidth() && !drawingState.isActive) {
+    if (isLineWithWidth() && !drawingState.isActive) {
       dispatch(upsertFormData(initialLineData[drawingState.type]));
     }
-  }, [drawingState.type, drawingState.isActive])
+  }, [drawingState.type, drawingState.isActive]);
 
   const [showMapFilter, setShowMapFilter] = useState(false);
   const [showAddDrawer, setShowAddDrawer] = useState(false);
@@ -318,8 +318,8 @@ export default function Map({ history }) {
   };
 
   const isLineWithWidth = () => {
-    return lineTypesWithWidth.includes(drawingState.type)
-  }
+    return lineTypesWithWidth.includes(drawingState.type);
+  };
 
   const { showAdjustAreaSpotlightModal, showAdjustLineSpotlightModal } = drawingState;
   return (
@@ -360,9 +360,7 @@ export default function Map({ history }) {
               <DrawingManager
                 drawingType={drawingState.type}
                 isDrawing={drawingState.isActive}
-                showLineModal={
-                  isLineWithWidth() && !drawingState.isActive
-                }
+                showLineModal={isLineWithWidth() && !drawingState.isActive}
                 onClickBack={() => {
                   setZeroAreaWarning(false);
                   resetDrawing(true);

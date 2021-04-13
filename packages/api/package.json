@@ -9,6 +9,7 @@
     "test-end2end": "jest endToEnd",
     "jest-w": "jest --watch",
     "start": "set NODE_ENV=development&& node src/server.js",
+    "start:prod": "node src/server.js",
     "nodemon": "set NODE_ENV=development&& nodemon src/server.js",
     "debug-email-template": "set NODE_ENV=development&& DEBUG=email-templates nodemon src/server.js",
     "debug-i18n": "set NODE_ENV=development&& DEBUG=i18n:* nodemon src/server.js",
